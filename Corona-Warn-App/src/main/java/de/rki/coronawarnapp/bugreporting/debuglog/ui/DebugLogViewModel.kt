@@ -65,8 +65,7 @@ class DebugLogViewModel @AssistedInject constructor(
 
     fun onToggleRecording() = launchWithProgress {
         if (debugLogger.isLogging.value) {
-            debugLogger.stop()
-            events.postValue(Event.ShowLogDeletedConfirmation)
+            events.postValue(Event.ShowLogDeletionRequest)
         } else {
             if (debugLogger.storageCheck.isLowStorage(forceCheck = true)) {
                 Timber.d("Low storage, not starting logger.")
@@ -82,6 +81,14 @@ class DebugLogViewModel @AssistedInject constructor(
                 Timber.tag("ENFClient").i("ENF Version: %d", enfVersion)
             } catch (e: Exception) {
                 Timber.tag("ENFClient").e(e, "Failed to get ENF version for debug log.")
+            }
+        }
+    }
+
+    fun stopAndDeleteDebugLog() {
+        launchWithProgress {
+            if (debugLogger.isLogging.value) {
+                debugLogger.stop()
             }
         }
     }
@@ -147,7 +154,7 @@ class DebugLogViewModel @AssistedInject constructor(
         object NavigateToPrivacyFragment : Event()
         object NavigateToUploadFragment : Event()
         object NavigateToUploadHistory : Event()
-        object ShowLogDeletedConfirmation : Event()
+        object ShowLogDeletionRequest: Event()
         object ShowLowStorageDialog : Event()
         data class ShowLocalExportError(val error: Throwable) : Event()
         data class Error(val error: Throwable) : Event()
