@@ -19,11 +19,12 @@ class VerifiedTraceLocationKtTest : BaseTestInstrumentation() {
         shouldNotThrowAny {
             val signedTraceLocation =
                 SignedEventOuterClass.SignedEvent.parseFrom(DECODED_TRACE_LOCATION.decodeBase32().toByteArray())
-            val verifiedTraceLocation = TraceLocationQRCode(traceLocation = signedTraceLocation.event).toVerifiedTraceLocation()
+            val verifiedTraceLocation =
+                TraceLocationQRCode(traceLocation = signedTraceLocation.event).toVerifiedTraceLocation()
             verifiedTraceLocation shouldBe VerifiedTraceLocation(
                 guid = "Yc48RFi/hfyXKlF4DEDs/w==",
-                start = Instant.parse("1970-01-01T00:44:47.955Z"),
-                end = Instant.parse("1970-01-01T00:44:47.991Z"),
+                start = Instant.parse("1970-02-01T02:39:15.000Z"),
+                end = Instant.parse("1970-02-01T02:39:51.000Z"),
                 defaultCheckInLengthInMinutes = 30,
                 description = "CWA Launch Party"
             )

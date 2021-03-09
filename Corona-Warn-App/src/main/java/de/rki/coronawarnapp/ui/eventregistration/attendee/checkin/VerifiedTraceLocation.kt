@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCod
 import kotlinx.parcelize.Parcelize
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
+import java.util.concurrent.TimeUnit
 
 @Parcelize
 data class VerifiedTraceLocation(
@@ -25,5 +26,8 @@ fun TraceLocationQRCode.toVerifiedTraceLocation() = with(traceLocation) {
     )
 }
 
+/**
+ * Converts time in seconds into [Instant]
+ */
 private fun Int.instant() =
-    if (this == 0) null else Instant.ofEpochMilli(this.toLong())
+    if (this == 0) null else Instant.ofEpochMilli(TimeUnit.SECONDS.toMillis(toLong()))
