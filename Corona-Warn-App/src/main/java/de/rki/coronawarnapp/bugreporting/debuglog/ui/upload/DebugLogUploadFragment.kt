@@ -34,7 +34,7 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
                 vm.onUploadLog()
             }
 
-            moreInformationView.setOnClickListener {
+            debugLogPrivacyInformation.setOnClickListener {
                 vm.onPrivacyButtonPress()
             }
 

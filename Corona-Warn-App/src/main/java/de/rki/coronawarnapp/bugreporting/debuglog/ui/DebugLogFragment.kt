@@ -49,7 +49,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                     R.string.debugging_debuglog_intro_explanation_section_two_faq_link
                 )
             }
-            moreInformationView.setOnClickListener { vm.onPrivacyButtonPress() }
+            debugLogPrivacyInformation.setOnClickListener { vm.onPrivacyButtonPress() }
         }
 
         vm.state.observe2(this) {

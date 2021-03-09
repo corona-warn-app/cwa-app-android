@@ -76,7 +76,7 @@
 
 
             <de.rki.coronawarnapp.bugreporting.MoreInformationView
-                android:id="@+id/more_information_view"
+                android:id="@+id/debug_log_privacy_information"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:focusable="true"
