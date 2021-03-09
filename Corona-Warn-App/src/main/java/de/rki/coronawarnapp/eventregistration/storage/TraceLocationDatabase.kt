@@ -24,12 +24,10 @@ abstract class TraceLocationDatabase : RoomDatabase() {
     abstract fun eventCheckInDao(): TraceLocationCheckInDao
 
     class Factory @Inject constructor(@AppContext private val context: Context) {
-        fun create(databaseName: String = EVENT_DATABASE_NAME): TraceLocationDatabase = Room
+        fun create(databaseName: String = TRACE_LOCATIONS_DATABASE_NAME): TraceLocationDatabase = Room
             .databaseBuilder(context, TraceLocationDatabase::class.java, databaseName)
             .build()
     }
-
-    companion object {
-        private const val EVENT_DATABASE_NAME = "TraceLocations_db"
-    }
 }
+
+private const val TRACE_LOCATIONS_DATABASE_NAME = "TraceLocations_db"
