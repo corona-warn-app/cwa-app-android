@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:focusable="true"
     android:clickable="true"
+    android:focusable="true"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,8 +17,8 @@
             android:id="@+id/more_information_title"
             style="@style/subtitle"
             android:layout_width="0dp"
-            android:layout_marginTop="16dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,8 +28,8 @@
             android:id="@+id/more_information_subtitle"
             style="@style/subtitleMedium"
             android:layout_width="0dp"
-            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/more_information_title"
@@ -37,8 +37,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_marginTop="12dp"
             android:layout_height="@dimen/card_divider"
+            android:layout_marginTop="12dp"
             android:background="@color/colorHairline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -106,13 +106,13 @@
             <de.rki.coronawarnapp.bugreporting.MoreInformationView
                 android:id="@+id/more_information_view"
                 android:layout_width="0dp"
-                android:layout_marginHorizontal="24dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
                 android:focusable="true"
-                app:titleText="@string/contact_diary_onboarding_legal_information"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/debug_log_history_container" />
+                app:layout_constraintTop_toBottomOf="@id/debug_log_history_container"
+                app:titleText="@string/contact_diary_onboarding_legal_information" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

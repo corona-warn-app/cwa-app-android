@@ -80,10 +80,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:focusable="true"
-                app:titleText="@string/debugging_debuglog_share_log_privacy_information"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_privacy_card" />
+                app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_privacy_card"
+                app:titleText="@string/debugging_debuglog_share_log_privacy_information" />
 
 
             <androidx.constraintlayout.widget.Guideline
