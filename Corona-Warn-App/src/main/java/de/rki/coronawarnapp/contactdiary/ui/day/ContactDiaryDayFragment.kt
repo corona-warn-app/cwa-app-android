@@ -96,7 +96,7 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
 
                 ContactDiaryDayNavigationEvents.NavigateToAddLocationFragment ->
                     findNavController().navigate(
-                        R.id.action_contactDiaryDayFragment_to_contactDiaryAddPersonFragment,
+                        R.id.action_contactDiaryDayFragment_to_contactDiaryAddLocationFragment,
                         ContactDiaryAddLocationFragmentArgs(addedAt = navArgs.selectedDay).toBundle(),
                         null,
                         FragmentNavigatorExtras(
