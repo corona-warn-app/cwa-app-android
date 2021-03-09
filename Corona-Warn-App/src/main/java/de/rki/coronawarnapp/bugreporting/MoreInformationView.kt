@@ -35,7 +35,6 @@ class MoreInformationView @JvmOverloads constructor(
 
             binding.moreInformationSubtitle.text = subtitleText
             binding.moreInformationSubtitle.isVisible = subtitleText.isNotEmpty()
-
         }
     }
 }
