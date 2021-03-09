@@ -154,7 +154,7 @@ class DebugLogViewModel @AssistedInject constructor(
         object NavigateToPrivacyFragment : Event()
         object NavigateToUploadFragment : Event()
         object NavigateToUploadHistory : Event()
-        object ShowLogDeletionRequest: Event()
+        object ShowLogDeletionRequest : Event()
         object ShowLowStorageDialog : Event()
         data class ShowLocalExportError(val error: Throwable) : Event()
         data class Error(val error: Throwable) : Event()

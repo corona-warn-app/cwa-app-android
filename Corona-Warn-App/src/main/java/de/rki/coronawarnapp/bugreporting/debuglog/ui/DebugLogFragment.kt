@@ -155,9 +155,10 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.debugging_debuglog_stop_confirmation_title)
             setMessage(R.string.debugging_debuglog_stop_confirmation_message)
-            setPositiveButton(R.string.debugging_debuglog_stop_confirmation_confirmation_button) { _, _ -> vm.stopAndDeleteDebugLog() }
+            setPositiveButton(R.string.debugging_debuglog_stop_confirmation_confirmation_button) { _, _ ->
+                vm.stopAndDeleteDebugLog()
+            }
             setNegativeButton(R.string.debugging_debuglog_stop_confirmation_discard_button) { _, _ -> /* dismiss */ }
-
         }.show()
     }
 
