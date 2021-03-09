@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettin
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -19,7 +18,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
@@ -40,15 +38,16 @@ class TestResultDonorTest : BaseTest() {
 
     private lateinit var testResultDonor: TestResultDonor
 
+    private val baseTime = Instant.ofEpochMilli(101010101)
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this, true)
-        mockkObject(LocalData)
-        every { timeStamper.nowUTC } returns Instant.now()
-        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.now()
+        every { timeStamper.nowUTC } returns baseTime
+        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns baseTime
         every { testResultDonorSettings.riskLevelAtTestRegistration } returns
             mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
-        every { submissionSettings.initialTestResultReceivedAt } returns Instant.now()
+        every { submissionSettings.initialTestResultReceivedAt } returns baseTime
 
         testResultDonor = TestResultDonor(
             testResultDonorSettings,
@@ -107,7 +106,7 @@ class TestResultDonorTest : BaseTest() {
             every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
             every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.PENDING)
 
-            val timeDayBefore = Instant.now().minus(Duration.standardDays(1))
+            val timeDayBefore = baseTime.minus(Duration.standardDays(1))
             every { submissionSettings.initialTestResultReceivedAt } returns timeDayBefore
             every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns timeDayBefore
 
@@ -116,7 +115,7 @@ class TestResultDonorTest : BaseTest() {
             with(donation.testResultMetadata) {
                 riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
                 testResult shouldBe PpaData.PPATestResult.TEST_RESULT_PENDING
-                hoursSinceTestRegistration shouldBe 23
+                hoursSinceTestRegistration shouldBe 24
                 hoursSinceHighRiskWarningAtTestRegistration shouldBe -1
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe 0
             }
@@ -128,7 +127,7 @@ class TestResultDonorTest : BaseTest() {
         runBlockingTest {
             every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
             every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.POSITIVE)
-            every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.now())
+            every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
 
             val donation = testResultDonor.beginDonation(TestRequest)
             donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
@@ -147,7 +146,7 @@ class TestResultDonorTest : BaseTest() {
         runBlockingTest {
             every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
             every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.NEGATIVE)
-            every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.now())
+            every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
 
             val donation = testResultDonor.beginDonation(TestRequest)
             donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
