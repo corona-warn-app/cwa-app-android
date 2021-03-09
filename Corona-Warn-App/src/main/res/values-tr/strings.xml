@@ -854,7 +854,7 @@
     <!-- XHED: Headline for debug log screen -->
     <string name="debugging_debuglog_title">"Hata Raporu"</string>
     <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation">"Bu seçenek, uygulama davranışını bir metin dosyasına kaydeder. Bir hata meydana gelmeden önce bu seçenek etkinleştirilirse geliştiricilerin sorunu çözmesine yardımcı olmak için bu raporu sunabilirsiniz.\nBu seçeneği etkinleştirilmiş durumda bırakırsanız yüksek depolama alanı gereklilikleri oluşacaktır. Seçeneği devre dışı bırakırsanız hata raporu silinir."</string>
+    <string name="debugging_debuglog_intro_explanation_section_one">"Bu seçenek, uygulama davranışını bir metin dosyasına kaydeder. Bir hata meydana gelmeden önce bu seçenek etkinleştirilirse geliştiricilerin sorunu çözmesine yardımcı olmak için bu raporu sunabilirsiniz.\nBu seçeneği etkinleştirilmiş durumda bırakırsanız yüksek depolama alanı gereklilikleri oluşacaktır. Seçeneği devre dışı bırakırsanız hata raporu silinir."</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
     <string name="debugging_debuglog_intro_warning">"Lütfen hata raporlarının hassas veriler içerebileceğini unutmayın (örneğin, test sonucu ya da temas güncesi girişleri). Bu nedenle bu hata raporlarını herkese açık şekilde paylaşmamanız gerekir."</string>
     <!-- XBUT: Button text to start the log recording -->
