@@ -12,6 +12,4 @@ interface TraceLocationRepository {
     fun deleteTraceLocation(event: TraceLocation)
 
     fun deleteAllTraceLocations()
-
-    fun clear()
 }

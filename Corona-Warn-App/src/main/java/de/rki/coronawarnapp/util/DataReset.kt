@@ -85,7 +85,7 @@ class DataReset @Inject constructor(
 
         statisticsProvider.clear()
 
-        traceLocationRepository.clear()
+        traceLocationRepository.deleteAllTraceLocations()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
