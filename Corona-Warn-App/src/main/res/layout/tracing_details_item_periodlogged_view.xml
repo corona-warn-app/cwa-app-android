@@ -54,11 +54,11 @@
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_body_notice"
             tools:text="@string/risk_details_information_body_period_logged_assessment_under_14_days" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
