@@ -49,7 +49,7 @@ class DebugLoggerTest : BaseIOTest() {
         every { application.cacheDir } returns cacheDir
         every { component.inject(any<DebugLogger>()) } answers {
             val logger = arg<DebugLogger>(0)
-            logger.bugCensors = Lazy { listOf(registrationTokenCensor) }
+            logger.bugCensors = Lazy { setOf(registrationTokenCensor) }
         }
 
         coEvery { registrationTokenCensor.checkLog(any()) } returns null
