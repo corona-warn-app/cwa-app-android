@@ -23,33 +23,33 @@ class VerificationKeysTest {
         every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
     }
 
-    private fun createTool() = VerificationKeys(environmentSetup)
+    private fun createTool() = SignatureValidation(environmentSetup)
 
     @Test
     fun goodBinaryAndSignature() {
         val tool = createTool()
-        tool.hasInvalidSignature(
+        tool.hasValidSignature(
             GOOD_BINARY.decodeHex().toByteArray(),
-            GOOD_SIGNATURE.decodeHex().toByteArray()
-        ) shouldBe false
+            SignatureValidation.parseTEKStyleSignature(GOOD_SIGNATURE.decodeHex().toByteArray())
+        ) shouldBe true
     }
 
     @Test
     fun badBinaryGoodSignature() {
         val tool = createTool()
-        tool.hasInvalidSignature(
+        tool.hasValidSignature(
             "123ABC".decodeHex().toByteArray(),
-            GOOD_SIGNATURE.decodeHex().toByteArray()
-        ) shouldBe true
+            SignatureValidation.parseTEKStyleSignature(GOOD_SIGNATURE.decodeHex().toByteArray())
+        ) shouldBe false
     }
 
     @Test
     fun goodBinaryBadSignature() {
         val tool = createTool()
         shouldThrow<CwaSecurityException> {
-            tool.hasInvalidSignature(
+            tool.hasValidSignature(
                 GOOD_BINARY.decodeHex().toByteArray(),
-                "123ABC".decodeHex().toByteArray()
+                SignatureValidation.parseTEKStyleSignature("123ABC".decodeHex().toByteArray())
             )
         }
     }
@@ -58,9 +58,9 @@ class VerificationKeysTest {
     fun badEverything() {
         val tool = createTool()
         shouldThrow<CwaSecurityException> {
-            tool.hasInvalidSignature(
+            tool.hasValidSignature(
                 "123ABC".decodeHex().toByteArray(),
-                "123ABC".decodeHex().toByteArray()
+                SignatureValidation.parseTEKStyleSignature("123ABC".decodeHex().toByteArray())
             )
         }
     }

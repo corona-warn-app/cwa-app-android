@@ -5,7 +5,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.statistics.Statistics
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
-import de.rki.coronawarnapp.util.security.VerificationKeys
+import de.rki.coronawarnapp.util.security.SignatureValidation
 import okhttp3.Cache
 import retrofit2.HttpException
 import timber.log.Timber
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @Reusable
 class StatisticsServer @Inject constructor(
     private val api: Lazy<StatisticsApiV1>,
-    private val verificationKeys: VerificationKeys,
+    private val signatureValidation: SignatureValidation,
     @Statistics val cache: Cache
 ) {
 
@@ -37,7 +37,12 @@ class StatisticsServer @Inject constructor(
                 throw IOException("Unknown files: ${fileMap.keys}")
             }
 
-            if (verificationKeys.hasInvalidSignature(exportBinary, exportSignature)) {
+            val hasValidSignature = signatureValidation.hasValidSignature(
+                exportBinary,
+                SignatureValidation.parseTEKStyleSignature(exportSignature)
+            )
+
+            if (!hasValidSignature) {
                 throw InvalidStatisticsSignatureException(message = "Statistics signature did not match.")
             }
 

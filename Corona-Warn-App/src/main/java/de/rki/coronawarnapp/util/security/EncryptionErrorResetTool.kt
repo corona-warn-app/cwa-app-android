@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.util.security
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import de.rki.coronawarnapp.storage.DATABASE_NAME
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.errors.causes
@@ -35,9 +34,6 @@ class EncryptionErrorResetTool @Inject constructor(
         val appbaseDir = context.filesDir.parentFile!!
         val sharedPrefsDir = File(appbaseDir, "shared_prefs")
         File(sharedPrefsDir, "${SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE}.xml")
-    }
-    private val encryptedDatabaseFile by lazy {
-        context.getDatabasePath(DATABASE_NAME)
     }
     private val prefs: SharedPreferences by lazy {
         context.getSharedPreferences("encryption_error_reset_tool", Context.MODE_PRIVATE)
@@ -116,14 +112,6 @@ class EncryptionErrorResetTool @Inject constructor(
             Timber.w("Couldn't delete %s", encryptedPreferencesFile)
             // The encrypted preferences are a prerequisite for this error case
             // If we can't delete that, we have to assume our reset approach failed.
-            return false
-        }
-
-        // The user may have encountered the error even before a database was created.
-        if (encryptedDatabaseFile.exists() && !encryptedDatabaseFile.delete()) {
-            Timber.w("Couldn't delete %s", encryptedDatabaseFile)
-            // There was a database, but we couldn't delete it
-            // The database is inaccessible without the matching preferences (which we just deleted).
             return false
         }
 
