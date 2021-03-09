@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.databinding.TracingDetailsItemRiskdetailsIncreasedVi
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox.Item
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import org.joda.time.Instant
 
 class DetailsIncreasedRiskBox(
