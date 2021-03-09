@@ -10,8 +10,8 @@
     <!--    Contact Diary graph-->
     <include app:graph="@navigation/contact_diary_nav_graph" />
     <!--    Event registration graphs-->
-    <include app:graph="@navigation/event_organizer_nav_graph" />
-    <include app:graph="@navigation/event_attendee_nav_graph" />
+    <include app:graph="@navigation/trace_location_organizer_nav_graph" />
+    <include app:graph="@navigation/trace_location_attendee_nav_graph" />
 
     <!-- Main -->
     <fragment

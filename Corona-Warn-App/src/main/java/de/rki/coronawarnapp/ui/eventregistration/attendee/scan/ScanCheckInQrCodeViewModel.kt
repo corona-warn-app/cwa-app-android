@@ -8,14 +8,14 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class ScanCheckInQrCodeViewModel @AssistedInject constructor() : CWAViewModel() {
-    val navigationEvents = SingleLiveEvent<ScanCheckInQrCodeNavigation>()
+    val events = SingleLiveEvent<ScanCheckInQrCodeNavigation>()
 
     fun onNavigateUp() {
-        navigationEvents.value = ScanCheckInQrCodeNavigation.BackNavigation
+        events.value = ScanCheckInQrCodeNavigation.BackNavigation
     }
 
     fun onScanResult(barcodeResult: BarcodeResult) {
-        navigationEvents.value = ScanCheckInQrCodeNavigation.ScanResultNavigation(
+        events.value = ScanCheckInQrCodeNavigation.ScanResultNavigation(
             barcodeResult.result.text
         )
     }

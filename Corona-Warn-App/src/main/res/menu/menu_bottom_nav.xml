@@ -7,7 +7,7 @@
         android:title="@string/bottom_nav_home_title" />
 
     <item
-        android:id="@+id/event_attendee_nav_graph"
+        android:id="@+id/trace_location_attendee_nav_graph"
         android:icon="@drawable/ic_nav_check_in"
         android:title="@string/bottom_nav_check_ins_title" />
 

@@ -27,15 +27,15 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
 
         with(binding) {
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
-            confirmButton.setOnClickListener { viewModel.onConfirmEvent() }
+            confirmButton.setOnClickListener { viewModel.onConfirmTraceLocation() }
             // TODO bind final UI
-            eventGuid.text = "GUID: %s".format(args.event.guid)
-            startTime.text = "Start time: %s".format(args.event.start)
-            endTime.text = "End time: %s".format(args.event.end)
-            description.text = "Description: %s".format(args.event.description)
+            eventGuid.text = "GUID: %s".format(args.traceLocation.guid)
+            startTime.text = "Start time: %s".format(args.traceLocation.start)
+            endTime.text = "End time: %s".format(args.traceLocation.end)
+            description.text = "Description: %s".format(args.traceLocation.description)
         }
 
-        viewModel.navigationEvents.observe2(this) { navEvent ->
+        viewModel.events.observe2(this) { navEvent ->
             when (navEvent) {
                 ConfirmCheckInNavigation.BackNavigation -> popBackStack()
                 ConfirmCheckInNavigation.ConfirmNavigation -> {

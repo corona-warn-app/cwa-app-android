@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import timber.log.Timber
 import javax.inject.Inject
 
 class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
@@ -26,7 +25,7 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
     private val viewModel: CheckInsViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentCheckInsBinding by viewBindingLazy()
 
-    // Encoded event is a one-time use data and then cleared
+    // Encoded uri is a one-time use data and then cleared
     private val uri: String?
         get() = navArgs<CheckInsFragmentArgs>().value
             .uri
@@ -51,15 +50,11 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
             }
         }
 
-        uri?.let {
-            Timber.i("onViewCreated")
-            viewModel.verifyEvent(it)
-        }
-
+        uri?.let { viewModel.verifyTraceLocation(it) }
         viewModel.navigationRoutes.observe2(this) {
             doNavigate(
                 CheckInsFragmentDirections
-                    .actionCheckInsFragmentToConfirmCheckInFragment(it.toVerifiedEvent())
+                    .actionCheckInsFragmentToConfirmCheckInFragment(it.toVerifiedTraceLocation())
             )
         }
     }

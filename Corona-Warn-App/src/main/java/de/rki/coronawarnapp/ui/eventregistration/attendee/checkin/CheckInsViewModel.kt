@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.checkin
 
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.EventQRCode
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifier
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCode
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -17,16 +17,16 @@ class CheckInsViewModel @AssistedInject constructor(
     private val qrCodeVerifier: QRCodeVerifier
 ) : CWAViewModel(dispatcherProvider) {
 
-    val navigationRoutes = SingleLiveEvent<EventQRCode>()
+    val navigationRoutes = SingleLiveEvent<TraceLocationQRCode>()
 
-    fun verifyEvent(uri: String) = launch {
+    fun verifyTraceLocation(uri: String) = launch {
         try {
             Timber.i("uri: $uri")
-            val eventQRCode = qrCodeVerifier.verify(uri)
-            Timber.i("eventQRCode: $eventQRCode")
-            navigationRoutes.postValue(eventQRCode)
+            val traceLocationQRCode = qrCodeVerifier.verify(uri)
+            Timber.i("traceLocationQRCode: $traceLocationQRCode")
+            navigationRoutes.postValue(traceLocationQRCode)
         } catch (e: Exception) {
-            Timber.d(e, "Event verification failed")
+            Timber.d(e, "TraceLocation verification failed")
             e.report(ExceptionCategory.INTERNAL)
         }
     }

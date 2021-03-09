@@ -24,12 +24,12 @@ class ConfirmCheckInViewModelTest : BaseTest() {
     @Test
     fun onClose() {
         viewModel.onClose()
-        viewModel.navigationEvents.getOrAwaitValue() shouldBe ConfirmCheckInNavigation.BackNavigation
+        viewModel.events.getOrAwaitValue() shouldBe ConfirmCheckInNavigation.BackNavigation
     }
 
     @Test
     fun onConfirmEvent() {
-        viewModel.onConfirmEvent()
-        viewModel.navigationEvents.getOrAwaitValue() shouldBe ConfirmCheckInNavigation.ConfirmNavigation
+        viewModel.onConfirmTraceLocation()
+        viewModel.events.getOrAwaitValue() shouldBe ConfirmCheckInNavigation.ConfirmNavigation
     }
 }

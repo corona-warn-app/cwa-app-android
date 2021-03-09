@@ -25,7 +25,7 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
     @Test
     fun `onNavigateUp goes back`() {
         viewModel.onNavigateUp()
-        viewModel.navigationEvents.getOrAwaitValue() shouldBe ScanCheckInQrCodeNavigation.BackNavigation
+        viewModel.events.getOrAwaitValue() shouldBe ScanCheckInQrCodeNavigation.BackNavigation
     }
 
     @Test
@@ -36,7 +36,7 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
             }
         }
         viewModel.onScanResult(mockedResult)
-        viewModel.navigationEvents.getOrAwaitValue() shouldBe
+        viewModel.events.getOrAwaitValue() shouldBe
             ScanCheckInQrCodeNavigation.ScanResultNavigation("https://coronawarn.app/E1/SOME_PATH_GOES_HERE")
     }
 }

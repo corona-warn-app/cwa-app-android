@@ -7,16 +7,19 @@ import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class DefaultQRCodeVerifier @Inject constructor() : QRCodeVerifier {
-    override suspend fun verify(uri: String): EventQRCode {
+    override suspend fun verify(uri: String): TraceLocationQRCode {
         if (!uri.isValidQRCodeUri()) {
             throw IllegalArgumentException("Invalid QRCode Uri:$uri")
         }
-        val encodedEvent = uri.substringAfterLast("/")
-        Timber.i("encodedEvent: $encodedEvent")
+        val encodedTraceLocation = uri.substringAfterLast("/")
+        Timber.i("encodedTraceLocation: $encodedTraceLocation")
         // TODO Implement verification
         //  For now just parse
-        return EventQRCode(
-            event = SignedEventOuterClass.SignedEvent.parseFrom(encodedEvent.decodeBase32().toByteArray()).event
+        return TraceLocationQRCode(
+            traceLocation = SignedEventOuterClass.SignedEvent
+                .parseFrom(
+                    encodedTraceLocation.decodeBase32().toByteArray()
+                ).event
         )
     }
 }

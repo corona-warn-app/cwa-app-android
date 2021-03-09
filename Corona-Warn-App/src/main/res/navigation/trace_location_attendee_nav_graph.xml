@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/event_attendee_nav_graph"
+    android:id="@+id/trace_location_attendee_nav_graph"
     app:startDestination="@id/checkInsFragment">
     <fragment
         android:id="@+id/confirmCheckInFragment"
@@ -10,8 +10,8 @@
         android:label="fragment_confirm_check_in"
         tools:layout="@layout/fragment_confirm_check_in">
         <argument
-            android:name="event"
-            app:argType="de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.VerifiedEvent" />
+            android:name="traceLocation"
+            app:argType="de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.VerifiedTraceLocation" />
     </fragment>
     <fragment
         android:id="@+id/scanCheckInQrCodeFragment"

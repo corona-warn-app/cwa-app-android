@@ -55,7 +55,7 @@ class ScanCheckInQrCodeFragment :
             checkInQrCodeScanViewfinderView.setCameraPreview(binding.checkInQrCodeScanPreview)
         }
 
-        viewModel.navigationEvents.observe2(this) { navEvent ->
+        viewModel.events.observe2(this) { navEvent ->
             when (navEvent) {
                 is ScanCheckInQrCodeNavigation.BackNavigation -> popBackStack()
                 is ScanCheckInQrCodeNavigation.ScanResultNavigation -> {

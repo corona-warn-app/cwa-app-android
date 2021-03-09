@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CheckInsRepository {
 
-    val allCheckIns: Flow<List<EventCheckIn>>
+    val allCheckIns: Flow<List<TraceLocationCheckIn>>
 
-    suspend fun addCheckIn(checkIn: EventCheckIn)
+    suspend fun addCheckIn(checkIn: TraceLocationCheckIn)
 }
