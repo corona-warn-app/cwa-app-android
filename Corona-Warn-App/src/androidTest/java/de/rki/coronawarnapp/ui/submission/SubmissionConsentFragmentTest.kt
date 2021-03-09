@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -11,7 +12,6 @@ import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentViewMo
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
@@ -31,6 +31,7 @@ class SubmissionConsentFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     @Rule
     @JvmField
@@ -50,17 +51,19 @@ class SubmissionConsentFragmentTest : BaseUITest() {
                 submissionRepository,
                 interoperabilityRepository,
                 TestDispatcherProvider(),
-                tekHistoryProvider
+                tekHistoryProvider,
+                analyticsKeySubmissionCollector
             )
-        setupMockViewModel(object : SubmissionConsentViewModel.Factory {
-            override fun create(): SubmissionConsentViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionConsentViewModel.Factory {
+                override fun create(): SubmissionConsentViewModel = viewModel
+            }
+        )
     }
 
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test

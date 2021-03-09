@@ -32,7 +32,8 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan),
+class SubmissionQRCodeScanFragment :
+    Fragment(R.layout.fragment_submission_qr_code_scan),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoConsentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -20,17 +21,17 @@ import javax.inject.Inject
  * [SubmissionTestResultNoConsentFragment], the test result screen that is shown to the user if they have not provided
  * consent
  */
-class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submission_test_result_positive_no_consent),
+class SubmissionTestResultNoConsentFragment :
+    Fragment(R.layout.fragment_submission_test_result_positive_no_consent),
     AutoInject {
 
+    @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionTestResultNoConsentViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionTestResultPositiveNoConsentBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.onTestOpened()
 
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -59,6 +60,8 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
 
     override fun onResume() {
         super.onResume()
+        appShortcutsHelper.removeAppShortcut()
+        viewModel.onTestOpened()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 

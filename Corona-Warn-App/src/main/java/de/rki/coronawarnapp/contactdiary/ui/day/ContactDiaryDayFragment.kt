@@ -50,7 +50,8 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
 
         binding.apply {
             contactDiaryDayViewPager.registerOnPageChangeCallback {
-                binding.contactDiaryDayFab.setText(adapter.tabs[it].fabTextResource)
+                binding.contactDiaryDayFab.text = getString(adapter.tabs[it].fabTextResource)
+                binding.contactDiaryDayFab.contentDescription = getString(adapter.tabs[it].fabTextResourceAccessibility)
             }
 
             contactDiaryDayFab.setOnClickListener {
@@ -72,15 +73,15 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 ContactDiaryDayNavigationEvents.NavigateToOverviewFragment -> popBackStack()
-                ContactDiaryDayNavigationEvents.NavigateToAddPersonBottomSheet -> doNavigate(
+                ContactDiaryDayNavigationEvents.NavigateToAddPersonFragment -> doNavigate(
                     ContactDiaryDayFragmentDirections
-                        .actionContactDiaryDayFragmentToContactDiaryPersonBottomSheetDialogFragment(
+                        .actionContactDiaryDayFragmentToContactDiaryAddPersonFragment(
                             addedAt = navArgs.selectedDay
                         )
                 )
-                ContactDiaryDayNavigationEvents.NavigateToAddLocationBottomSheet -> doNavigate(
+                ContactDiaryDayNavigationEvents.NavigateToAddLocationFragment -> doNavigate(
                     ContactDiaryDayFragmentDirections
-                        .actionContactDiaryDayFragmentToContactDiaryLocationBottomSheetDialogFragment(
+                        .actionContactDiaryDayFragmentToContactDiaryAddLocationFragment(
                             addedAt = navArgs.selectedDay
                         )
                 )

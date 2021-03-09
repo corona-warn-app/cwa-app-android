@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.risk
 
 import android.text.TextUtils
-import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.Infectiousness
 import com.google.android.gms.nearby.exposurenotification.ReportType
@@ -18,18 +17,6 @@ import kotlin.math.max
 
 @Singleton
 class DefaultRiskLevels @Inject constructor() : RiskLevels {
-
-    override fun determineRisk(
-        appConfig: ExposureWindowRiskCalculationConfig,
-        exposureWindows: List<ExposureWindow>
-    ): AggregatedRiskResult {
-        val riskResultsPerWindow =
-            exposureWindows.mapNotNull { window ->
-                calculateRisk(appConfig, window)?.let { window to it }
-            }.toMap()
-
-        return aggregateResults(appConfig, riskResultsPerWindow)
-    }
 
     private fun ExposureWindow.dropDueToMinutesAtAttenuation(
         attenuationFilters: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>
@@ -49,22 +36,28 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
     ): Int {
 
         val reportTypeOffset = when (reportType) {
-            ReportType.RECURSIVE -> transmissionRiskLevelEncoding
-                .reportTypeOffsetRecursive
-            ReportType.SELF_REPORT -> transmissionRiskLevelEncoding
-                .reportTypeOffsetSelfReport
-            ReportType.CONFIRMED_CLINICAL_DIAGNOSIS -> transmissionRiskLevelEncoding
-                .reportTypeOffsetConfirmedClinicalDiagnosis
-            ReportType.CONFIRMED_TEST -> transmissionRiskLevelEncoding
-                .reportTypeOffsetConfirmedTest
+            ReportType.RECURSIVE ->
+                transmissionRiskLevelEncoding
+                    .reportTypeOffsetRecursive
+            ReportType.SELF_REPORT ->
+                transmissionRiskLevelEncoding
+                    .reportTypeOffsetSelfReport
+            ReportType.CONFIRMED_CLINICAL_DIAGNOSIS ->
+                transmissionRiskLevelEncoding
+                    .reportTypeOffsetConfirmedClinicalDiagnosis
+            ReportType.CONFIRMED_TEST ->
+                transmissionRiskLevelEncoding
+                    .reportTypeOffsetConfirmedTest
             else -> throw UnknownReportTypeException()
         }
 
         val infectiousnessOffset = when (infectiousness) {
-            Infectiousness.HIGH -> transmissionRiskLevelEncoding
-                .infectiousnessOffsetHigh
-            else -> transmissionRiskLevelEncoding
-                .infectiousnessOffsetStandard
+            Infectiousness.HIGH ->
+                transmissionRiskLevelEncoding
+                    .infectiousnessOffsetHigh
+            else ->
+                transmissionRiskLevelEncoding
+                    .infectiousnessOffsetStandard
         }
 
         return reportTypeOffset + infectiousnessOffset
@@ -99,8 +92,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             .map { it.riskLevel }
             .firstOrNull()
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun calculateRisk(
+    override fun calculateRisk(
         appConfig: ExposureWindowRiskCalculationConfig,
         exposureWindow: ExposureWindow
     ): RiskResult? {
@@ -156,20 +148,20 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         )
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun aggregateResults(
+    override fun aggregateResults(
         appConfig: ExposureWindowRiskCalculationConfig,
-        exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
+        exposureWindowResultMap: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskResult {
-        val uniqueDatesMillisSinceEpoch = exposureWindowsAndResult.keys
+        val uniqueDatesMillisSinceEpoch = exposureWindowResultMap.keys
             .map { it.dateMillisSinceEpoch }
             .toSet()
 
         Timber.d(
-            "uniqueDates: %s", { TextUtils.join(System.lineSeparator(), uniqueDatesMillisSinceEpoch) }
+            "uniqueDates: %s",
+            { TextUtils.join(System.lineSeparator(), uniqueDatesMillisSinceEpoch) }
         )
         val exposureHistory = uniqueDatesMillisSinceEpoch.map {
-            aggregateRiskPerDate(appConfig, it, exposureWindowsAndResult)
+            aggregateRiskPerDate(appConfig, it, exposureWindowResultMap)
         }
 
         Timber.d("exposureHistory size: ${exposureHistory.size}")
@@ -177,11 +169,12 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         // 6. Determine `Total Risk`
         val totalRiskLevel =
             if (exposureHistory.any {
-                    it.riskLevel == RiskCalculationParametersOuterClass
-                        .NormalizedTimeToRiskLevelMapping
-                        .RiskLevel
-                        .HIGH
-                }) {
+                it.riskLevel == RiskCalculationParametersOuterClass
+                    .NormalizedTimeToRiskLevelMapping
+                    .RiskLevel
+                    .HIGH
+            }
+            ) {
                 RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
             } else {
                 RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW

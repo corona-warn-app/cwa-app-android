@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
@@ -16,7 +16,6 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -30,6 +29,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     private val currentSymptoms = mockFlowPreference<Symptoms?>(null)
 
     @BeforeEach
@@ -41,15 +41,11 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
         every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
-    }
-
     private fun createViewModel() = SubmissionSymptomIntroductionViewModel(
         dispatcherProvider = TestDispatcherProvider(),
         submissionRepository = submissionRepository,
-        autoSubmission = autoSubmission
+        autoSubmission = autoSubmission,
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
     )
 
     @Test

@@ -26,11 +26,16 @@ object ExternalActionHelper {
      */
     fun shareText(fragment: Fragment, text: String, title: String?) {
         try {
-            fragment.startActivity(Intent.createChooser(Intent().apply {
-                action = Intent.ACTION_SEND
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, text)
-            }, title))
+            fragment.startActivity(
+                Intent.createChooser(
+                    Intent().apply {
+                        action = Intent.ACTION_SEND
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, text)
+                    },
+                    title
+                )
+            )
         } catch (exception: Exception) {
             // catch generic exception on share
             // possibly due to bad share content format

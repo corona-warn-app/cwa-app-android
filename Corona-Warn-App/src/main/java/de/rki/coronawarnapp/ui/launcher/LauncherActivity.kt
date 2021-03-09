@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class LauncherActivity : AppCompatActivity() {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
     private val vm: LauncherActivityViewModel by cwaViewModels(
         ownerProducer = { viewModelStore },
         factoryProducer = { viewModelFactory }
@@ -28,12 +30,12 @@ class LauncherActivity : AppCompatActivity() {
         vm.events.observe(this) {
             when (it) {
                 LauncherEvent.GoToOnboarding -> {
-                    OnboardingActivity.start(this)
+                    OnboardingActivity.start(this, AppShortcutsHelper.getShortcutType(intent))
                     this.overridePendingTransition(0, 0)
                     finish()
                 }
                 LauncherEvent.GoToMainActivity -> {
-                    MainActivity.start(this)
+                    MainActivity.start(this, AppShortcutsHelper.getShortcutType(intent))
                     this.overridePendingTransition(0, 0)
                     finish()
                 }

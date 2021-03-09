@@ -6,10 +6,12 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentDirections
 import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -33,22 +35,23 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val personListAdapter = ContactDiaryPersonListAdapter() {
-            viewModel.onPersonSelectionChanged(it)
-        }
+        val personListAdapter = ContactDiaryPersonListAdapter()
 
         binding.contactDiaryPersonListRecyclerView.apply {
             adapter = personListAdapter
-            addItemDecoration(
-                MarginRecyclerViewDecoration(
-                    resources.getDimensionPixelSize(R.dimen.spacing_tiny)
-                )
-            )
+            addItemDecoration(MarginRecyclerViewDecoration(resources.getDimensionPixelSize(R.dimen.spacing_tiny)))
         }
 
         viewModel.uiList.observe2(this) {
             personListAdapter.update(it)
             binding.contactDiaryPersonListNoItemsGroup.isGone = it.isNotEmpty()
+        }
+
+        viewModel.openCommentInfo.observe2(this) {
+            doNavigate(
+                ContactDiaryDayFragmentDirections
+                    .actionContactDiaryDayFragmentToContactDiaryCommentInfoFragment()
+            )
         }
     }
 }

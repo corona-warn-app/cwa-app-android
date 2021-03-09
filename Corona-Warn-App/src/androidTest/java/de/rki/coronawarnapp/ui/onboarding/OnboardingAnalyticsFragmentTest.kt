@@ -13,7 +13,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -84,7 +83,6 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test

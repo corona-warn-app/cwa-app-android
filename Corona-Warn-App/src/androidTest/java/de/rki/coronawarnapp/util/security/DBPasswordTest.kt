@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -21,16 +20,16 @@ import kotlinx.coroutines.runBlocking
 import net.sqlcipher.database.SQLiteException
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.not
-import org.junit.After
 import org.junit.Assert.assertThat
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import testhelpers.BaseTestInstrumentation
 
 @RunWith(JUnit4::class)
-class DBPasswordTest {
+class DBPasswordTest : BaseTestInstrumentation() {
 
     @MockK lateinit var applicationComponent: ApplicationComponent
     @MockK lateinit var encryptedSharedPreferencesFactory: EncryptedPreferencesFactory
@@ -61,11 +60,6 @@ class DBPasswordTest {
 
         clearSharedPreferences()
         AppDatabase.reset(appContext)
-    }
-
-    @After
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test
@@ -128,10 +122,12 @@ class DBPasswordTest {
         from: Long,
         to: Long
     ) {
-        db.tracingIntervalDao().insertInterval(TracingIntervalEntity().apply {
-            this.from = from
-            this.to = to
-        })
+        db.tracingIntervalDao().insertInterval(
+            TracingIntervalEntity().apply {
+                this.from = from
+                this.to = to
+            }
+        )
     }
 
     private suspend fun loadFakeEntity(): TracingIntervalEntity =

@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.security.VerificationKeys
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -55,7 +54,6 @@ class AppConfigServerTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         testDir.deleteRecursively()
     }
 
@@ -71,9 +69,12 @@ class AppConfigServerTest : BaseIOTest() {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
-                "Date", "Tue, 03 Nov 2020 08:46:03 GMT",
-                "ETag", "I am an ETag :)!",
-                "Cache-Control", "public,max-age=123"
+                "Date",
+                "Tue, 03 Nov 2020 08:46:03 GMT",
+                "ETag",
+                "I am an ETag :)!",
+                "Cache-Control",
+                "public,max-age=123"
             )
         )
 
@@ -126,7 +127,8 @@ class AppConfigServerTest : BaseIOTest() {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
-                "ETag", "I am an ETag :)!"
+                "ETag",
+                "I am an ETag :)!"
             )
         )
 
@@ -160,8 +162,10 @@ class AppConfigServerTest : BaseIOTest() {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
-                "Date", "Tue, 03 Nov 2020 06:35:16 GMT",
-                "ETag", "I am an ETag :)!"
+                "Date",
+                "Tue, 03 Nov 2020 06:35:16 GMT",
+                "ETag",
+                "I am an ETag :)!"
             )
         )
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
@@ -182,8 +186,10 @@ class AppConfigServerTest : BaseIOTest() {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
-                "Date", "Tue, 03 Nov 2020 06:35:16 GMT",
-                "ETag", "I am an ETag :)!"
+                "Date",
+                "Tue, 03 Nov 2020 06:35:16 GMT",
+                "ETag",
+                "I am an ETag :)!"
             )
         )
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
@@ -204,8 +210,10 @@ class AppConfigServerTest : BaseIOTest() {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
-                "Date", "Tue, 03 Nov 2020 06:35:16 GMT",
-                "ETag", "I am an ETag :)!"
+                "Date",
+                "Tue, 03 Nov 2020 06:35:16 GMT",
+                "ETag",
+                "I am an ETag :)!"
             )
         )
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")

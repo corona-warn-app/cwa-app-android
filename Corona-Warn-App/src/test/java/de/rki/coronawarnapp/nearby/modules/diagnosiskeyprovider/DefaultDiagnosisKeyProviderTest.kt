@@ -9,7 +9,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
@@ -18,7 +17,6 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -47,11 +45,6 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         coEvery { googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>()) } returns MockGMSTask.forValue(null)
 
         coEvery { enfVersion.requireMinimumVersion(any()) } returns Unit
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createProvider() = DefaultDiagnosisKeyProvider(

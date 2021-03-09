@@ -6,10 +6,8 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -21,11 +19,6 @@ class TracingSettingsStateTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test

@@ -33,14 +33,25 @@ class NewReleaseInfoViewModel @AssistedInject constructor(
         }
     }
 
-    fun getItems(titles: Array<String>, bodies: Array<String>): List<NewReleaseInfoItem> {
-        if (titles.size != bodies.size) {
-            Timber.e("R.array.new_release_title and R.array.new_release_body must have the same size!")
+    fun getItems(
+        titles: Array<String>,
+        bodies: Array<String>,
+        linkifiedLabels: Array<String>,
+        linkTargets: Array<String>
+    ): List<NewReleaseInfoItem> {
+        if (titles.size != bodies.size || titles.size != linkifiedLabels.size || titles.size != linkTargets.size) {
+            Timber.e(
+                "R.array.new_release_title AND R.array.new_release_body AND " +
+                    "R.array.new_release_linkified_AND R.array.new_release_target_urls arrays must have the same size!"
+            )
+            return emptyList()
         }
         val items = mutableListOf<NewReleaseInfoItem>()
-        titles.indices.forEach {
-            if (it <= bodies.lastIndex) {
-                items.add(NewReleaseInfoItem(titles[it], bodies[it]))
+        titles.indices.forEach { i ->
+            if (linkifiedLabels[i].isNullOrBlank() || linkTargets[i].isNullOrBlank()) {
+                items.add(NewReleaseInfoItemText(titles[i], bodies[i]))
+            } else {
+                items.add(NewReleaseInfoItemLinked(titles[i], bodies[i], linkifiedLabels[i], linkTargets[i]))
             }
         }
         return items

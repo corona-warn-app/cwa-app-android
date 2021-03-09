@@ -7,11 +7,9 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -36,11 +34,6 @@ class EnvironmentSetupTest : BaseTest() {
                 Context.MODE_PRIVATE
             )
         } returns mockPreferences
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createEnvSetup() = EnvironmentSetup(
@@ -140,7 +133,8 @@ class EnvironmentSetupTest : BaseTest() {
             EnvironmentSetup.Type.WRU_XA,
             EnvironmentSetup.Type.LOCAL
         )
-        private const val GOOD_JSON = """
+        private const val GOOD_JSON =
+            """
             {
                 "PROD": {
                     "USE_EUR_KEY_PKGS" : true,

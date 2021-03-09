@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_dataDonationFragment"
             app:destination="@id/test_datadonation_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_deltaonboardingFragment"
+            app:destination="@id/test_deltaonboarding_fragment" />
     </fragment>
 
     <fragment
@@ -109,11 +112,17 @@
     <fragment
         android:id="@+id/playgroundFragment"
         android:name="de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment"
-        tools:layout="@layout/fragment_test_playground"
-        android:label="PlaygroundFragment" />
+        android:label="PlaygroundFragment"
+        tools:layout="@layout/fragment_test_playground" />
     <fragment
         android:id="@+id/test_datadonation_fragment"
-        tools:layout="@layout/fragment_test_datadonation"
         android:name="de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment"
-        android:label="DataDonationFragment" />
+        android:label="DataDonationFragment"
+        tools:layout="@layout/fragment_test_datadonation" />
+    <fragment
+        android:id="@+id/test_deltaonboarding_fragment"
+        android:name="de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment"
+        android:label="DeltaonboardingFragment"
+        tools:layout="@layout/fragment_test_deltaonboarding" />
+
 </navigation>

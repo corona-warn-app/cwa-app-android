@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -7,7 +8,6 @@ import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
@@ -17,7 +17,6 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -31,6 +30,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     private lateinit var currentSymptoms: FlowPreference<Symptoms?>
 
     @BeforeEach
@@ -45,17 +45,13 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
-    }
-
     private fun createViewModel(indication: Symptoms.Indication = Symptoms.Indication.POSITIVE) =
         SubmissionSymptomCalendarViewModel(
             symptomIndication = indication,
             dispatcherProvider = TestDispatcherProvider(),
             submissionRepository = submissionRepository,
-            autoSubmission = autoSubmission
+            autoSubmission = autoSubmission,
+            analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
         )
 
     @Test

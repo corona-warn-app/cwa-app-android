@@ -7,18 +7,17 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.verification.server.VerificationKeyType
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-class SubmissionServiceTest {
+class SubmissionServiceTest : BaseTest() {
 
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
@@ -37,11 +36,6 @@ class SubmissionServiceTest {
         every { appComponent.playbook } returns mockPlaybook
 
         submissionService = SubmissionService(mockPlaybook)
-    }
-
-    @AfterEach
-    fun cleanUp() {
-        clearAllMocks()
     }
 
     @Test

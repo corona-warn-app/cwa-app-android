@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -17,7 +21,8 @@ import timber.log.Timber
 class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
-    private val autoSubmission: AutoSubmission
+    private val autoSubmission: AutoSubmission,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val symptomIndicationInternal = MutableStateFlow<Symptoms.Indication?>(null)
@@ -26,8 +31,17 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     val navigation = SingleLiveEvent<NavDirections>()
 
     val showCancelDialog = SingleLiveEvent<Unit>()
-    val showUploadDialog = autoSubmission.isSubmissionRunning
-        .asLiveData(context = dispatcherProvider.Default)
+    private val mediatorShowUploadDialog = MediatorLiveData<Boolean>()
+
+    init {
+        mediatorShowUploadDialog.addSource(
+            autoSubmission.isSubmissionRunning.asLiveData(context = dispatcherProvider.Default)
+        ) { show ->
+            mediatorShowUploadDialog.postValue(show)
+        }
+    }
+
+    val showUploadDialog: LiveData<Boolean> = mediatorShowUploadDialog
 
     fun onNextClicked() {
         launch {
@@ -95,6 +109,8 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
             } catch (e: Exception) {
                 Timber.e(e, "doSubmit() failed.")
             } finally {
+                Timber.i("Hide uploading progress and navigate to HomeFragment")
+                mediatorShowUploadDialog.postValue(false)
                 navigation.postValue(
                     SubmissionSymptomIntroductionFragmentDirections
                         .actionSubmissionSymptomIntroductionFragmentToMainFragment()
@@ -105,6 +121,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS)
         autoSubmission.updateLastSubmissionUserActivity()
     }
 

@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEnti
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
+import de.rki.coronawarnapp.contactdiary.storage.internal.converters.ContactDiaryRoomConverters
+import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration1To2
 import de.rki.coronawarnapp.util.database.CommonConverters
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
@@ -24,10 +26,10 @@ import javax.inject.Inject
         ContactDiaryPersonEntity::class,
         ContactDiaryPersonEncounterEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
-@TypeConverters(CommonConverters::class)
+@TypeConverters(CommonConverters::class, ContactDiaryRoomConverters::class)
 abstract class ContactDiaryDatabase : RoomDatabase() {
 
     abstract fun locationDao(): ContactDiaryLocationDao
@@ -36,9 +38,9 @@ abstract class ContactDiaryDatabase : RoomDatabase() {
     abstract fun personEncounterDao(): ContactDiaryPersonEncounterDao
 
     class Factory @Inject constructor(@AppContext private val ctx: Context) {
-        fun create(): ContactDiaryDatabase = Room
-            .databaseBuilder(ctx, ContactDiaryDatabase::class.java, CONTACT_DIARY_DATABASE_NAME)
-            .fallbackToDestructiveMigration()
+        fun create(databaseName: String = CONTACT_DIARY_DATABASE_NAME): ContactDiaryDatabase = Room
+            .databaseBuilder(ctx, ContactDiaryDatabase::class.java, databaseName)
+            .addMigrations(ContactDiaryDatabaseMigration1To2)
             .build()
     }
 

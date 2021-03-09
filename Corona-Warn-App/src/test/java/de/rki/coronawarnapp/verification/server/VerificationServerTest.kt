@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
 import de.rki.coronawarnapp.verification.VerificationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -47,7 +46,6 @@ class VerificationServerTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         webServer.shutdown()
         testDir.deleteRecursively()
     }
@@ -73,7 +71,8 @@ class VerificationServerTest : BaseIOTest() {
         }
 
         server.retrieveRegistrationToken(
-            "testKey", VerificationKeyType.GUID
+            "testKey",
+            VerificationKeyType.GUID
         ) shouldBe "testRegistrationToken"
 
         coVerify { verificationApi.getRegistrationToken(any(), any(), any()) }
@@ -96,7 +95,8 @@ class VerificationServerTest : BaseIOTest() {
         }
 
         server.retrieveRegistrationToken(
-            "testKey", VerificationKeyType.TELETAN
+            "testKey",
+            VerificationKeyType.TELETAN
         ) shouldBe "testRegistrationToken"
 
         coVerify { verificationApi.getRegistrationToken(any(), any(), any()) }

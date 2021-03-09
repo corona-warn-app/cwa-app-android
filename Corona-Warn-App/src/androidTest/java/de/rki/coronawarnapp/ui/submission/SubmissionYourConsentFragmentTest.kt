@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentViewM
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
@@ -46,15 +45,16 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
         every { submissionRepository.hasGivenConsentToSubmission } returns flowOf()
         viewModel =
             SubmissionYourConsentViewModel(TestDispatcherProvider(), interoperabilityRepository, submissionRepository)
-        setupMockViewModel(object : SubmissionYourConsentViewModel.Factory {
-            override fun create(): SubmissionYourConsentViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionYourConsentViewModel.Factory {
+                override fun create(): SubmissionYourConsentViewModel = viewModel
+            }
+        )
     }
 
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test

@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.main.home
 
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -24,9 +24,9 @@ import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE_TELETAN
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -38,7 +38,6 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -65,6 +64,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
 
     @BeforeEach
     fun setup() {
@@ -83,11 +83,6 @@ class HomeFragmentViewModelTest : BaseTest() {
         coEvery { statisticsProvider.current } returns emptyFlow()
     }
 
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
-    }
-
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
         dispatcherProvider = TestDispatcherProvider(),
         errorResetTool = errorResetTool,
@@ -100,7 +95,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         cwaSettings = cwaSettings,
         appConfigProvider = appConfigProvider,
         statisticsProvider = statisticsProvider,
-        deadmanNotificationScheduler = deadmanNotificationScheduler
+        deadmanNotificationScheduler = deadmanNotificationScheduler,
+        appShortcutsHelper = appShortcutsHelper
     )
 
     @Test
@@ -196,16 +192,10 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { errorResetTool.isResetNoticeToBeShown } returns false andThen true
 
         with(createInstance()) {
-            showPopUpsOrNavigate()
-            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowInteropDeltaOnboarding
-
-            showPopUpsOrNavigate()
-            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowNewReleaseFragment
-
-            showPopUpsOrNavigate()
+            showPopUps()
             popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowTracingExplanation(1)
 
-            showPopUpsOrNavigate()
+            showPopUps()
             popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowErrorResetDialog
         }
     }
