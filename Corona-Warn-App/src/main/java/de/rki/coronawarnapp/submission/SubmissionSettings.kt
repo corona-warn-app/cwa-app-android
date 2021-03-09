@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.submission
 import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.Gson
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
@@ -42,19 +43,11 @@ class SubmissionSettings @Inject constructor(
     )
 
     var initialTestResultReceivedAt: Instant?
-        get() = prefs.getLong(TEST_RESULT_RECEIVED_AT, 0L).let {
-            if (it != 0L) {
-                Instant.ofEpochMilli(it)
-            } else null
-        }
+        get() = prefs.getLong(TEST_RESULT_RECEIVED_AT, 0L).toInstantOrNull()
         set(value) = prefs.edit { putLong(TEST_RESULT_RECEIVED_AT, value?.millis ?: 0L) }
 
     var devicePairingSuccessfulAt: Instant?
-        get() = prefs.getLong(TEST_PARING_SUCCESSFUL_AT, 0L).let {
-            if (it != 0L) {
-                Instant.ofEpochMilli(it)
-            } else null
-        }
+        get() = prefs.getLong(TEST_PARING_SUCCESSFUL_AT, 0L).toInstantOrNull()
         set(value) = prefs.edit { putLong(TEST_PARING_SUCCESSFUL_AT, value?.millis ?: 0L) }
 
     var isSubmissionSuccessful: Boolean

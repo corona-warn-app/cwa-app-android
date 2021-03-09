@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.storage.preferences
 import android.content.SharedPreferences
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.EncryptedPreferences
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -125,9 +126,4 @@ class EncryptedPreferencesMigration @Inject constructor(
             private const val PKEY_IS_ALLOWED_TO_SUBMIT = "preference_is_allowed_to_submit_diagnosis_keys"
         }
     }
-
-    private fun Long?.toInstantOrNull(): Instant? =
-        if (this != null && this != 0L) {
-            Instant.ofEpochMilli(this)
-        } else null
 }
