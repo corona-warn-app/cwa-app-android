@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.EncryptedPreferences
 import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -12,6 +13,7 @@ class EncryptedPreferencesMigration @Inject constructor(
     private val encryptedPreferencesHelper: EncryptedPreferencesHelper,
     private val cwaSettings: CWASettings,
     private val submissionSettings: SubmissionSettings,
+    private val onboardingSettings: OnboardingSettings,
     @EncryptedPreferences private val encryptedSharedPreferences: SharedPreferences?
 ) {
 
@@ -35,7 +37,10 @@ class EncryptedPreferencesMigration @Inject constructor(
             }
 
             OnboardingLocalData(encryptedSharedPreferences).apply {
-                // TODO: onboarding migration
+                onboardingSettings.onboardingCompletedTimestamp = onboardingCompletedTimestamp()?.let {
+                    Instant.ofEpochMilli(it)
+                }
+                onboardingSettings.isBackgroundCheckDone = isBackgroundCheckDone()
             }
 
             TracingLocalData(encryptedSharedPreferences).apply {
@@ -77,7 +82,19 @@ class EncryptedPreferencesMigration @Inject constructor(
     }
 
     private class OnboardingLocalData(private val sharedPreferences: SharedPreferences) {
-        // TODO:
+        fun onboardingCompletedTimestamp(): Long? {
+            val timestamp = sharedPreferences.getLong(PKEY_ONBOARDING_COMPLETED_TIMESTAMP, 0L)
+
+            if (timestamp == 0L) return null
+            return timestamp
+        }
+
+        fun isBackgroundCheckDone(): Boolean = sharedPreferences.getBoolean(PKEY_BACKGROUND_CHECK_DONE, false)
+
+        companion object {
+            private const val PKEY_ONBOARDING_COMPLETED_TIMESTAMP = "preference_onboarding_completed_timestamp"
+            private const val PKEY_BACKGROUND_CHECK_DONE = "preference_background_check_done"
+        }
     }
 
     private class TracingLocalData(private val sharedPreferences: SharedPreferences) {

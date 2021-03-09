@@ -29,7 +29,7 @@ import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
@@ -97,6 +97,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
+    @MockK lateinit var onboardingSettings: OnboardingSettings
 
     // MainActivity mocks
     @MockK lateinit var environmentSetup: EnvironmentSetup
@@ -126,13 +127,12 @@ class MainActivityTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, true)
-        mockkObject(LocalData)
         mockkObject(CWADebug)
         mockkObject(BackgroundWorkScheduler)
         // Common mocks
         every { CWADebug.isDeviceForTestersBuild } returns false
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.PRODUCTION
-        every { LocalData.isBackgroundCheckDone() } returns true
+        every { onboardingSettings.isBackgroundCheckDone } returns true
         every { BackgroundWorkScheduler.startWorkScheduler() } just Runs
         // Setup ViewModels
         setupActivityViewModel()
@@ -362,7 +362,8 @@ class MainActivityTest : BaseUITest() {
             environmentSetup = environmentSetup,
             backgroundModeStatus = backgroundModeStatus,
             contactDiarySettings = diarySettings,
-            backgroundNoise = backgroundNoise
+            backgroundNoise = backgroundNoise,
+            onboardingSettings = onboardingSettings
         )
     )
 
@@ -480,7 +481,9 @@ class MainProviderModule {
         }
 
     @Provides
-    fun submissionSettings(): SubmissionSettings = mockk<SubmissionSettings>(relaxed = true).apply {
-        every { isAllowedToSubmitKeys } returns true
-    }
+    fun submissionSettings(): SubmissionSettings =
+        mockk<SubmissionSettings>(relaxed = true).apply {
+            every { isAllowedToSubmitKeys } returns false
+            every { isSubmissionSuccessful } returns false
+        }
 }
