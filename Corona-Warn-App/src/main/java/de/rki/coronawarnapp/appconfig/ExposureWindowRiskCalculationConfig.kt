@@ -9,11 +9,11 @@ interface ExposureWindowRiskCalculationConfig {
     val minutesAtAttenuationWeights: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>
     val transmissionRiskLevelEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding
     val transmissionRiskLevelFilters: List<RiskCalculationParametersOuterClass.TrlFilter>
-    val transmissionRiskLevelMultiplier: Double
     val normalizedTimePerExposureWindowToRiskLevelMapping:
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
     val normalizedTimePerDayToRiskLevelMappingList:
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
+    val transmissionRiskValueMapping: List<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>
     val diagnosisKeysDataMapping: DiagnosisKeysDataMapping
 
     interface Mapper {

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
-import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
@@ -41,7 +40,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     val binding: HomeFragmentLayoutBinding by viewBindingLazy()
 
     @Inject lateinit var homeMenu: HomeMenu
-    @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
     @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog
 
     private val homeAdapter = HomeAdapter()
@@ -80,11 +78,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         vm.popupEvents.observe2(this) { event ->
             when (event) {
-                is HomeFragmentEvents.ShowTracingExplanation -> {
-                    tracingExplanationDialog.show(event.activeTracingDaysInRetentionPeriod) {
-                        vm.tracingExplanationWasShown()
-                    }
-                }
                 HomeFragmentEvents.ShowErrorResetDialog -> {
                     RecoveryByResetDialogFactory(this).showDialog(
                         detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,

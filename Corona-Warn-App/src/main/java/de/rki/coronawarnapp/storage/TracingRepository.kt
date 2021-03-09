@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.lastSubmission
 import de.rki.coronawarnapp.risk.RiskLevelTask
-import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -20,7 +19,6 @@ import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -36,7 +34,6 @@ import javax.inject.Singleton
  *
  * @see LocalData
  * @see InternalExposureNotificationClient
- * @see RiskLevelRepository
  */
 @Singleton
 class TracingRepository @Inject constructor(
@@ -48,9 +45,6 @@ class TracingRepository @Inject constructor(
     private val exposureDetectionTracker: ExposureDetectionTracker,
     private val backgroundModeStatus: BackgroundModeStatus
 ) {
-
-    private val internalActiveTracingDaysInRetentionPeriod = MutableStateFlow(0L)
-    val activeTracingDaysInRetentionPeriod: Flow<Long> = internalActiveTracingDaysInRetentionPeriod
 
     val tracingProgress: Flow<TracingProgress> = combine(
         taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() },
@@ -94,18 +88,6 @@ class TracingRepository @Inject constructor(
                     originTag = "TracingRepository.refreshDiagnosisKeys()"
                 )
             )
-        }
-    }
-
-    /**
-     * Refresh the activeTracingDaysInRetentionPeriod calculation.
-     *
-     * @see de.rki.coronawarnapp.risk.TimeVariables
-     */
-    fun refreshActiveTracingDaysInRetentionPeriod() {
-        scope.launch {
-            internalActiveTracingDaysInRetentionPeriod.value =
-                getActiveTracingDaysInRetentionPeriod()
         }
     }
 
