@@ -26,8 +26,10 @@
         android:layout_marginBottom="@dimen/spacing_small"
         app:layout_constraintBottom_toTopOf="@id/upload_action"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -45,6 +47,7 @@
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/debugging_debuglog_share_log_section_one" />
+
 
             <TextView
                 android:id="@+id/bugreporting_share_log_body_two"
@@ -71,40 +74,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_body_two" />
 
-            <View
-                android:id="@+id/bugreporting_share_log_first_divider"
+
+            <de.rki.coronawarnapp.bugreporting.MoreInformationView
+                android:id="@+id/more_information_view"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                app:titleText="@string/debugging_debuglog_share_log_privacy_information"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_privacy_card" />
 
-            <TextView
-                android:id="@+id/debug_log_share_privacy_information"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:paddingVertical="@dimen/spacing_tiny"
-                android:text="@string/debugging_debuglog_share_log_privacy_information"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_first_divider"
-                tools:text="@string/debugging_debuglog_share_log_privacy_information" />
-
-            <View
-                android:id="@+id/bugreporting_share_log_second_divider"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toBottomOf="parent"
-                bind:layout_constraintEnd_toStartOf="@id/guideline_end"
-                bind:layout_constraintStart_toStartOf="@id/guideline_start"
-                bind:layout_constraintTop_toBottomOf="@id/debug_log_share_privacy_information" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"
@@ -123,7 +103,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
     <android.widget.Button
         android:id="@+id/upload_action"
         style="@style/buttonPrimary"

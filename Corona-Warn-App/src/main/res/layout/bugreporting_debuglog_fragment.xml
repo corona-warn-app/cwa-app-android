@@ -103,43 +103,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:id="@+id/debug_log_first_divider"
+            <de.rki.coronawarnapp.bugreporting.MoreInformationView
+                android:id="@+id/more_information_view"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
                 android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:background="?android:attr/listDivider"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                app:titleText="@string/contact_diary_onboarding_legal_information"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/debug_log_history_container" />
-
-            <TextView
-                android:id="@+id/debug_log_privacy_information"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:paddingVertical="8dp"
-                android:text="@string/contact_diary_onboarding_legal_information"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/debug_log_first_divider"
-                tools:text="@string/contact_diary_onboarding_legal_information" />
-
-            <View
-                android:id="@+id/debug_log_second_divider"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginBottom="24dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/debug_log_privacy_information" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
