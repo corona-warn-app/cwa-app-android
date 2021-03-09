@@ -1,13 +1,10 @@
 package de.rki.coronawarnapp.eventregistration.storage.entity
 
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.parcelize.Parcelize
 import org.joda.time.Instant
 
-@Parcelize
 @Entity(tableName = "checkin")
 data class TraceLocationCheckInEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0L,
@@ -24,4 +21,4 @@ data class TraceLocationCheckInEntity(
     @ColumnInfo(name = "checkInEnd") val checkInEnd: Instant?,
     @ColumnInfo(name = "targetCheckInEnd") val targetCheckInEnd: Instant?,
     @ColumnInfo(name = "createJournalEntry") val createJournalEntry: Boolean
-) : Parcelable
+)
