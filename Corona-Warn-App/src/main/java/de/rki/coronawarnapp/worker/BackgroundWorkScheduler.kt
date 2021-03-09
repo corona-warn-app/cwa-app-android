@@ -87,9 +87,9 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
             WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
             notificationBody.append("[DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK] ")
         }
-        if (!submissionSettings.get().isSubmissionSuccessful) {
+        if (!submissionSettings.isSubmissionSuccessful) {
             if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
-                submissionSettings.get().registrationToken.value != null &&
+                submissionSettings.registrationToken.value != null &&
                 !LocalData.isTestResultAvailableNotificationSent()
             ) {
                 WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
