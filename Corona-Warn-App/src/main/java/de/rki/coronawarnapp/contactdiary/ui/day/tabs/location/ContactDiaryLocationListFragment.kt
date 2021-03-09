@@ -6,6 +6,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentDirections
 import de.rki.coronawarnapp.contactdiary.ui.durationpicker.ContactDiaryDurationPickerFragment
 import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryLocationListFragmentBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -51,6 +53,9 @@ class ContactDiaryLocationListFragment :
                     resources.getDimensionPixelSize(R.dimen.spacing_tiny)
                 )
             )
+            onScroll {
+                (parentFragment as? ContactDiaryDayFragment)?.onScrollChange(it)
+            }
         }
 
         viewModel.uiList.observe2(this) {

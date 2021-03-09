@@ -52,6 +52,8 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             contactDiaryDayViewPager.registerOnPageChangeCallback {
                 binding.contactDiaryDayFab.text = getString(adapter.tabs[it].fabTextResource)
                 binding.contactDiaryDayFab.contentDescription = getString(adapter.tabs[it].fabTextResourceAccessibility)
+                // Extend FAB when on page change
+                onScrollChange(true)
             }
 
             contactDiaryDayFab.setOnClickListener {
@@ -93,4 +95,9 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         super.onResume()
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
+
+    fun onScrollChange(extend: Boolean) =
+        with(binding.contactDiaryDayFab) {
+            if (extend) extend() else shrink()
+        }
 }
