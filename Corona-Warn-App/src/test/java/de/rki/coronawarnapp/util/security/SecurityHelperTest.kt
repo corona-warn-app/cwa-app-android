@@ -32,7 +32,7 @@ class SecurityHelperTest : BaseTest() {
 
         every { appComponent.errorResetTool } returns errorResetTool
         every { appComponent.encryptedPreferencesFactory } returns preferenceFactory
-        every { errorResetTool.isResetNoticeToBeShown = capture(isResetNoticeToBeShown)} answers {}
+        every { errorResetTool.isResetNoticeToBeShown = capture(isResetNoticeToBeShown) } answers {}
     }
 
     @Test
@@ -42,7 +42,6 @@ class SecurityHelperTest : BaseTest() {
 
         SecurityHelper.encryptedPreferencesProvider(appComponent) shouldBe sharedPreferences
         verify { errorResetTool wasNot Called }
-
     }
 
     @Test
