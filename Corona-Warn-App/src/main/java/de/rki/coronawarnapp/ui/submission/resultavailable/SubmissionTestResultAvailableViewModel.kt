@@ -42,43 +42,41 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
             override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
                 Timber.d("onTEKAvailable(teks.size=%d)", teks.size)
                 autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
-
+                showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
                 )
-
-                showKeysRetrievalProgress.postValue(false)
             }
 
             override fun onTEKPermissionDeclined() {
                 Timber.d("onTEKPermissionDeclined")
+                showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
                 )
-                showKeysRetrievalProgress.postValue(false)
             }
 
             override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
                 Timber.d("onTracingConsentRequired")
-                showTracingConsentDialog.postValue(onConsentResult)
                 showKeysRetrievalProgress.postValue(false)
+                showTracingConsentDialog.postValue(onConsentResult)
             }
 
             override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
                 Timber.d("onPermissionRequired")
-                showPermissionRequest.postValue(permissionRequest)
                 showKeysRetrievalProgress.postValue(false)
+                showPermissionRequest.postValue(permissionRequest)
             }
 
             override fun onError(error: Throwable) {
                 Timber.e(error, "Failed to update TEKs.")
+                showKeysRetrievalProgress.postValue(false)
                 error.report(
                     exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
                     prefix = "SubmissionTestResultAvailableViewModel"
                 )
-                showKeysRetrievalProgress.postValue(false)
             }
         }
     )
