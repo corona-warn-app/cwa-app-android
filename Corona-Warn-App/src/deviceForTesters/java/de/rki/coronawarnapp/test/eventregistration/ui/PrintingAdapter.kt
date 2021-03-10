@@ -12,7 +12,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-/**
+/** How to use
 context.getSystemService<PrintManager>()?.apply {
 print(
 "CoronaWarnApp",
