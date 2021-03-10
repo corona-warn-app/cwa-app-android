@@ -105,9 +105,7 @@ class SubmissionSettings @Inject constructor(
         }
     )
 
-    fun clear() {
-        prefs.clearAndNotify()
-    }
+    fun clear() = prefs.clearAndNotify()
 
     companion object {
         private const val TEST_REGISTRATION_TOKEN = "submission.test.token"

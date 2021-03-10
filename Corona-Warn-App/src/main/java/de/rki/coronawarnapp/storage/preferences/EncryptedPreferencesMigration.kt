@@ -31,7 +31,7 @@ class EncryptedPreferencesMigration @Inject constructor(
         if (!encryptedPreferencesHelper.isAvailable()) return
 
         val encryptedSharedPreferences = SecurityHelper.globalEncryptedSharedPreferencesInstance
-            Timber.d("EncryptedPreferencesMigration START")
+        Timber.d("EncryptedPreferencesMigration START")
         if (encryptedSharedPreferences != null) {
             Timber.d("EncryptedPreferences are available")
             SettingsLocalData(encryptedSharedPreferences).apply {

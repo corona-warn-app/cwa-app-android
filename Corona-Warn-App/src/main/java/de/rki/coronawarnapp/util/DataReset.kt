@@ -15,9 +15,11 @@ import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
+import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.security.SecurityHelper
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -44,7 +46,10 @@ class DataReset @Inject constructor(
     private val surveySettings: SurveySettings,
     private val analyticsSettings: AnalyticsSettings,
     private val analytics: Analytics,
-    private val bugReportingSettings: BugReportingSettings
+    private val bugReportingSettings: BugReportingSettings,
+    private val tracingSettings: TracingSettings,
+    private val onboardingSettings: OnboardingSettings,
+    private val submissionSettings: SubmissionSettings
 ) {
 
     private val mutex = Mutex()
@@ -70,6 +75,9 @@ class DataReset @Inject constructor(
         cwaSettings.clear()
         surveySettings.clear()
         analyticsSettings.clear()
+        tracingSettings.clear()
+        onboardingSettings.clear()
+        submissionSettings.clear()
 
         // Clear contact diary database
         contactDiaryRepository.clear()
@@ -77,8 +85,6 @@ class DataReset @Inject constructor(
         statisticsProvider.clear()
 
         bugReportingSettings.clear()
-
-        //TODO: delete all preferences
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

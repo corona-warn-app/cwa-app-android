@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.storage
 import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,6 +37,8 @@ class TracingSettings @Inject constructor(@AppContext private val context: Conte
         key = LOWERED_RISK_LEVEL,
         defaultValue = false
     )
+
+    fun clear() = prefs.clearAndNotify()
 
     companion object {
         const val TRACING_POOLING_TIMESTAMP = "tracing.pooling.timestamp"
