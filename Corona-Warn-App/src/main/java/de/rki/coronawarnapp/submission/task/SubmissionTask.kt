@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.submission.task
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInsRepository
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInsMapper
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
@@ -40,7 +40,7 @@ class SubmissionTask @Inject constructor(
     private val timeStamper: TimeStamper,
     private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
-    private val checkInsRepository: CheckInsRepository,
+    private val checkInsRepository: CheckInRepository,
     private val checkInsMapper: CheckInsMapper,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : Task<DefaultProgress, SubmissionTask.Result> {
