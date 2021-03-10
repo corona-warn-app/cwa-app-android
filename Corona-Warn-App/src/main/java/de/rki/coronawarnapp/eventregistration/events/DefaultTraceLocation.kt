@@ -20,15 +20,15 @@ data class DefaultTraceLocation(
 fun List<TraceLocationEntity>.toTraceLocations() = this.map { it.toTraceLocation() }
 
 fun TraceLocationEntity.toTraceLocation() = DefaultTraceLocation(
-    guid,
-    type,
-    description,
-    address,
-    startDate,
-    endDate,
-    defaultCheckInLengthInMinutes,
-    signature,
-    version
+    guid = guid,
+    type = type,
+    description = description,
+    address = address,
+    startDate = startDate,
+    endDate = endDate,
+    defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
+    signature = signature,
+    version = version
 )
 
 /*fun SignedEventOuterClass.SignedEvent.toHostedEvent(): TraceLocation =
