@@ -29,14 +29,12 @@ class EncryptionResetToolTest : BaseIOTest() {
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val privateFilesDir = File(testDir, "files")
     private val encryptedPrefsFile = File(testDir, "shared_prefs/shared_preferences_cwa.xml")
-    private val encryptedDatabaseFile = File(testDir, "databases/coronawarnapp-db")
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { context.filesDir } returns privateFilesDir
-        every { context.getDatabasePath("coronawarnapp-db") } returns encryptedDatabaseFile
 
         mockPreferences = MockSharedPreferences()
         every {
@@ -65,11 +63,6 @@ class EncryptionResetToolTest : BaseIOTest() {
             createNewFile()
             exists() shouldBe true
         }
-        encryptedDatabaseFile.apply {
-            parentFile!!.mkdirs()
-            createNewFile()
-            exists() shouldBe true
-        }
     }
 
     @Test
@@ -79,7 +72,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         createInstance()
 
         encryptedPrefsFile.exists() shouldBe true
-        encryptedDatabaseFile.exists() shouldBe true
         mockPreferences.dataMapPeek shouldBe emptyMap()
     }
 
@@ -107,7 +99,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         createInstance().tryResetIfNecessary(Exception())
 
         encryptedPrefsFile.exists() shouldBe true
-        encryptedDatabaseFile.exists() shouldBe true
     }
 
     /**
@@ -145,7 +136,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         ) shouldBe false
 
         encryptedPrefsFile.exists() shouldBe false
-        encryptedDatabaseFile.exists() shouldBe false
 
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe 1234567890L
@@ -189,7 +179,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         ) shouldBe true
 
         encryptedPrefsFile.exists() shouldBe false
-        encryptedDatabaseFile.exists() shouldBe false
 
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe 1234567890L
@@ -214,7 +203,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         ) shouldBe true
 
         encryptedPrefsFile.exists() shouldBe false
-        encryptedDatabaseFile.exists() shouldBe false
 
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe 1234567890L
@@ -240,7 +228,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         ) shouldBe true
 
         encryptedPrefsFile.exists() shouldBe false
-        encryptedDatabaseFile.exists() shouldBe false
 
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe 1234567890L
@@ -269,7 +256,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         ) shouldBe false
 
         encryptedPrefsFile.exists() shouldBe true
-        encryptedDatabaseFile.exists() shouldBe true
 
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe null
@@ -287,7 +273,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         ) shouldBe false
 
         encryptedPrefsFile.exists() shouldBe true
-        encryptedDatabaseFile.exists() shouldBe true
 
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe null
@@ -307,7 +292,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         ) shouldBe false
 
         encryptedPrefsFile.exists() shouldBe true
-        encryptedDatabaseFile.exists() shouldBe true
 
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe null
@@ -325,7 +309,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         ) shouldBe false
 
         encryptedPrefsFile.exists() shouldBe false
-        encryptedDatabaseFile.exists() shouldBe false
 
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe null
@@ -346,28 +329,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         ) shouldBe false
 
         encryptedPrefsFile.exists() shouldBe true
-        encryptedDatabaseFile.exists() shouldBe true
-
-        mockPreferences.dataMapPeek.apply {
-            this["ea1851.reset.performedAt"] shouldBe null
-            this["ea1851.reset.windowconsumed.160"] shouldBe true
-            this["ea1851.reset.shownotice"] shouldBe null
-        }
-    }
-
-    @Test
-    fun `the reset is considered failed if the database exists and can not be deleted`() {
-        createMockFiles()
-        encryptedDatabaseFile.delete()
-        encryptedDatabaseFile.mkdir() // Can't delete directories with children via `delete()`
-        File(encryptedDatabaseFile, "prevent deletion").createNewFile()
-
-        createInstance().tryResetIfNecessary(
-            GeneralSecurityException("decryption failed")
-        ) shouldBe false
-
-        encryptedPrefsFile.exists() shouldBe false
-        encryptedDatabaseFile.exists() shouldBe true
 
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe null

@@ -13,8 +13,8 @@ abstract class DebugLogFragmentModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(DebugLogViewModel::class)
-    abstract fun onboardingNotificationsVM(factory: DebugLogViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    abstract fun debugLogViewModel(factory: DebugLogViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
-    abstract fun debuglogFragment(): DebugLogFragment
+    abstract fun debugLogFragment(): DebugLogFragment
 }

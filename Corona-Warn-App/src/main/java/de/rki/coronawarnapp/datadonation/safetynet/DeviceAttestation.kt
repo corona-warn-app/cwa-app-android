@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.safetynet
 
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 
@@ -13,6 +14,13 @@ interface DeviceAttestation {
     suspend fun attest(request: Request): Result
 
     interface Request {
+
+        val configData: ConfigData?
+            get() = null
+
+        val checkDeviceTime: Boolean
+            get() = true
+
         /**
          * e.g. for EventSurvey, a UUID, base64 encoded.
          */

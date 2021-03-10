@@ -13,11 +13,9 @@ import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.AggregatedR
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.ExposureWindowsDao
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.Factory
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.RiskResultsDao
-import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -25,7 +23,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
@@ -46,7 +43,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
     @MockK lateinit var riskResultTables: RiskResultsDao
     @MockK lateinit var exposureWindowTables: ExposureWindowsDao
     @MockK lateinit var aggregatedRiskPerDateResultDao: AggregatedRiskPerDateResultDao
-    @MockK lateinit var riskLevelResultMigrator: RiskLevelResultMigrator
 
     @BeforeEach
     fun setup() {
@@ -57,8 +53,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
         every { database.exposureWindows() } returns exposureWindowTables
         every { database.aggregatedRiskPerDate() } returns aggregatedRiskPerDateResultDao
         every { database.clearAllTables() } just Runs
-
-        coEvery { riskLevelResultMigrator.getLegacyResults() } returns emptyList()
 
         every { riskResultTables.allEntries() } returns emptyFlow()
         every { riskResultTables.latestEntries(2) } returns emptyFlow()
@@ -79,8 +73,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         onDeletedOrphanedExposureWindows: () -> Unit = {}
     ) = object : BaseRiskLevelStorage(
         scope = scope,
-        riskResultDatabaseFactory = databaseFactory,
-        riskLevelResultMigrator = riskLevelResultMigrator
+        riskResultDatabaseFactory = databaseFactory
     ) {
         override val storedResultLimit: Int = storedResultLimit
 
@@ -130,8 +123,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest {
             val instance = createInstance()
             instance.allRiskLevelResults.first() shouldBe listOf(testRisklevelResult)
-
-            verify { riskLevelResultMigrator wasNot Called }
         }
     }
 
@@ -146,23 +137,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
             instance.allRiskLevelResults.first() shouldBe listOf(riskLevelResult)
 
             verify {
-                riskLevelResultMigrator wasNot Called
                 riskResultTables.allEntries()
             }
-        }
-    }
-
-    @Test
-    fun `riskLevelResults returns legacy results if data is empty`() {
-        coEvery { riskLevelResultMigrator.getLegacyResults() } returns listOf(mockk(), mockk())
-        every { riskResultTables.allEntries() } returns flowOf(emptyList())
-        every { exposureWindowTables.allEntries() } returns flowOf(emptyList())
-
-        runBlockingTest {
-            val instance = createInstance()
-            instance.allRiskLevelResults.first().size shouldBe 2
-
-            coVerify { riskLevelResultMigrator.getLegacyResults() }
         }
     }
 
@@ -179,24 +155,9 @@ class BaseRiskLevelStorageTest : BaseTest() {
             instance.latestRiskLevelResults.first() shouldBe listOf(riskLevelResult)
 
             verify {
-                riskLevelResultMigrator wasNot Called
                 riskResultTables.latestEntries(2)
                 exposureWindowTables.getWindowsForResult(listOf(testRiskLevelResultDao.id))
             }
-        }
-    }
-
-    @Test
-    fun `latestRiskLevelResults returns legacy results if data is empty`() {
-        coEvery { riskLevelResultMigrator.getLegacyResults() } returns listOf(mockk(), mockk())
-        every { riskResultTables.latestEntries(2) } returns flowOf(emptyList())
-        every { exposureWindowTables.allEntries() } returns flowOf(emptyList())
-
-        runBlockingTest {
-            val instance = createInstance()
-            instance.latestRiskLevelResults.first().size shouldBe 2
-
-            coVerify { riskLevelResultMigrator.getLegacyResults() }
         }
     }
 
@@ -213,23 +174,9 @@ class BaseRiskLevelStorageTest : BaseTest() {
             instance.latestAndLastSuccessful.first() shouldBe listOf(riskLevelResult)
 
             verify {
-                riskLevelResultMigrator wasNot Called
                 riskResultTables.latestAndLastSuccessful()
                 exposureWindowTables.getWindowsForResult(listOf(testRiskLevelResultDao.id))
             }
-        }
-    }
-
-    @Test
-    fun `latestAndLastSuccessful returns legacy results if data is empty`() {
-        coEvery { riskLevelResultMigrator.getLegacyResults() } returns listOf(mockk(), mockk())
-        every { riskResultTables.latestAndLastSuccessful() } returns flowOf(emptyList())
-
-        runBlockingTest {
-            val instance = createInstance()
-            instance.latestAndLastSuccessful.first().size shouldBe 2
-
-            coVerify { riskLevelResultMigrator.getLegacyResults() }
         }
     }
 

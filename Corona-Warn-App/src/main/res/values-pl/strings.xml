@@ -41,8 +41,6 @@
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -107,10 +105,6 @@
                   Risk Card
     ###################################### -->
 
-    <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"Rejestrowanie narażenia było aktywne przez %1$s z ostatnich 14 dni."</string>
-    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
-    <string name="risk_card_body_saved_days_full">"Rejestrowanie narażenia stale aktywne"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Kontakty nie zostały jeszcze sprawdzone."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -344,8 +338,6 @@
     <string name="risk_details_subtitle_period_logged">"Ten okres jest uwzględniony w obliczeniu."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna."</string>
-    <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <string name="risk_details_information_body_period_logged_assessment">"Rejestrowanie narażenia obejmuje ostatnie 14 dni. W tym czasie funkcja rejestrowania w Twoim smartfonie była aktywna przez %1$s dni. Aplikacja automatycznie usuwa starsze dzienniki, ponieważ nie są one już istotne dla zapobiegania zakażeniom."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
@@ -380,10 +372,6 @@
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Twój status ryzyka"</string>
 
-    <!-- XHED: one time risk explanation dialog title  -->
-    <string name="risk_details_explanation_dialog_title">"Informacje o funkcjonalności rejestrowania narażenia"</string>
-    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
-    <string name="risk_details_explanation_dialog_faq_body">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</string>
     <!-- XHED: risk details - deadman notification title -->
     <string name="risk_details_deadman_notification_title">"Twój status ryzyka"</string>
     <!-- YTXT: risk details - deadman notification text -->
@@ -866,7 +854,7 @@
     <!-- XHED: Headline for debug log screen -->
     <string name="debugging_debuglog_title">"Raport o błędach"</string>
     <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation">"Ta opcja umożliwia rejestrowanie zachowania aplikacji w pliku tekstowym. Jeśli zostanie ona aktywowana przed wystąpieniem błędu, będziesz mieć możliwość udostępnienia tego raportu, aby pomóc programistom rozwiązać problem.\nPozostawienie tej opcji w stanie aktywności wiąże się z dużym zapotrzebowaniem na pamięć. Jeśli ją wyłączysz, raport o błędach zostanie usunięty."</string>
+    <string name="debugging_debuglog_intro_explanation_section_one">"Ta opcja umożliwia rejestrowanie zachowania aplikacji w pliku tekstowym. Jeśli zostanie ona aktywowana przed wystąpieniem błędu, będziesz mieć możliwość udostępnienia tego raportu, aby pomóc programistom rozwiązać problem.\nPozostawienie tej opcji w stanie aktywności wiąże się z dużym zapotrzebowaniem na pamięć. Jeśli ją wyłączysz, raport o błędach zostanie usunięty."</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
     <string name="debugging_debuglog_intro_warning">"Należy pamiętać, że raporty o błędach mogą zawierać dane wrażliwe (takie jak wynik testu lub wpisy dziennika kontaktów). Z tego względu takie raporty nie powinny być udostępniane publicznie."</string>
     <!-- XBUT: Button text to start the log recording -->
