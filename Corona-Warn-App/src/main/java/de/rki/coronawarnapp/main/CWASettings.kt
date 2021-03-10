@@ -12,8 +12,6 @@ import javax.inject.Inject
 /**
  * For general app related values,
  * e.g. "Has dialog been shown", as "OnBoarding been shown?"
- * In future refactoring it should contain all values
- * from **[de.rki.coronawarnapp.storage.LocalData]** that don't fit more specific classes.
  */
 class CWASettings @Inject constructor(
     @AppContext val context: Context

@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -179,8 +178,6 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `test correct order of displaying delta onboarding, release notes and popups`() {
-
-        mockkObject(LocalData)
         every { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns false andThen true
 
         mockkObject(BuildConfigWrap)

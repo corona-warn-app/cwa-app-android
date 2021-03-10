@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingSettings
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
@@ -23,7 +23,6 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockkObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -34,7 +33,6 @@ import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
 class RiskLevelChangeDetectorTest : BaseTest() {
-
     @MockK lateinit var context: Context
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
@@ -43,16 +41,15 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: NotificationHelper
     @MockK lateinit var surveys: Surveys
+    @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var tracingSettings: TracingSettings
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        mockkObject(LocalData)
-
         every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
-        every { LocalData.submissionWasSuccessful() } returns false
+        every { submissionSettings.isSubmissionSuccessful } returns false
         every { foregroundState.isInForeground } returns flowOf(true)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = any() } just Runs
@@ -82,6 +79,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
         surveys = surveys,
+        submissionSettings = submissionSettings,
         tracingSettings = tracingSettings
     )
 
@@ -96,7 +94,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData wasNot Called
                 notificationManagerCompat wasNot Called
                 surveys wasNot Called
             }
@@ -119,7 +116,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData wasNot Called
                 notificationManagerCompat wasNot Called
                 surveys wasNot Called
             }
@@ -142,7 +138,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData.submissionWasSuccessful()
+                submissionSettings.isSubmissionSuccessful
                 foregroundState.isInForeground
                 surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
             }
@@ -165,7 +161,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData.submissionWasSuccessful()
+                submissionSettings.isSubmissionSuccessful
                 foregroundState.isInForeground
                 surveys wasNot Called
             }
@@ -189,7 +185,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData wasNot Called
                 notificationManagerCompat wasNot Called
                 surveys wasNot Called
             }

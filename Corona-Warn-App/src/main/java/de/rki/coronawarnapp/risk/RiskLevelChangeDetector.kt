@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingSettings
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
+@Suppress("LongParameterList")
 class RiskLevelChangeDetector @Inject constructor(
     @AppContext private val context: Context,
     @AppScope private val appScope: CoroutineScope,
@@ -32,6 +33,7 @@ class RiskLevelChangeDetector @Inject constructor(
     private val foregroundState: ForegroundState,
     private val notificationHelper: NotificationHelper,
     private val surveys: Surveys,
+    private val submissionSettings: SubmissionSettings,
     private val tracingSettings: TracingSettings
 ) {
 
@@ -66,7 +68,7 @@ class RiskLevelChangeDetector @Inject constructor(
 
         Timber.d("Last state was $oldRiskState and current state is $newRiskState")
 
-        if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !LocalData.submissionWasSuccessful()) {
+        if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !submissionSettings.isSubmissionSuccessful) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {

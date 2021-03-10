@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.launcher
 
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.UpdateChecker
 import io.kotest.matchers.shouldBe
@@ -32,9 +31,6 @@ class LauncherActivityViewModelTest : BaseTest() {
     @BeforeEach
     fun setupFreshViewModel() {
         MockKAnnotations.init(this)
-
-        // Still needed for isInteroperabilityShownAtLeastOnce
-        mockkObject(LocalData)
 
         every { onboardingSettings.isOnboarded } returns false
 

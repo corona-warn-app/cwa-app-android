@@ -21,6 +21,7 @@ class MainActivityViewModel @AssistedInject constructor(
     private val environmentSetup: EnvironmentSetup,
     private val backgroundModeStatus: BackgroundModeStatus,
     private val contactDiarySettings: ContactDiarySettings,
+    private val backgroundNoise: BackgroundNoise,
     private val onboardingSettings: OnboardingSettings
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
@@ -57,7 +58,7 @@ class MainActivityViewModel @AssistedInject constructor(
 
     fun doBackgroundNoiseCheck() {
         launch {
-            BackgroundNoise.getInstance().foregroundScheduleCheck()
+            backgroundNoise.foregroundScheduleCheck()
         }
     }
 

@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
 import de.rki.coronawarnapp.util.CWADebug
@@ -26,13 +26,13 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
     @MockK lateinit var diarySettings: ContactDiarySettings
+    @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var onboardingSettings: OnboardingSettings
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        mockkObject(LocalData)
         mockkObject(CWADebug)
 
         every { onboardingSettings.isOnboarded } returns true
@@ -44,6 +44,7 @@ class MainActivityViewModelTest : BaseTest() {
         environmentSetup = environmentSetup,
         backgroundModeStatus = backgroundModeStatus,
         contactDiarySettings = diarySettings,
+        backgroundNoise = backgroundNoise,
         onboardingSettings = onboardingSettings
     )
 

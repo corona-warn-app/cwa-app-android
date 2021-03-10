@@ -62,6 +62,9 @@ class SubmissionRepositoryTest : BaseTest() {
     private val testResult = TestResult.PENDING
     private val registrationData = SubmissionService.RegistrationData(registrationToken, testResult)
 
+    private val registrationTokenPreference = mockFlowPreference<String?>(null)
+    private val resultReceivedTimeStamp = Instant.ofEpochMilli(101010101)
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
@@ -71,14 +74,12 @@ class SubmissionRepositoryTest : BaseTest() {
         every { appComponent.encryptedPreferencesFactory } returns encryptedPreferencesFactory
         every { appComponent.errorResetTool } returns encryptionErrorResetTool
 
-        mockkObject(BackgroundNoise.Companion)
-        every { BackgroundNoise.getInstance() } returns backgroundNoise
         every { backgroundNoise.scheduleDummyPattern() } just Runs
 
-        mockkObject(LocalData)
-        every { LocalData.registrationToken(any()) } just Runs
-        every { LocalData.devicePairingSuccessfulTimestamp(any()) } just Runs
-        every { LocalData.initialTestResultReceivedTimestamp() } returns 1L
+        every { submissionSettings.registrationToken } returns registrationTokenPreference
+
+        every { submissionSettings.devicePairingSuccessfulAt = any() } just Runs
+        every { submissionSettings.initialTestResultReceivedAt } returns resultReceivedTimeStamp
 
         every { submissionSettings.hasGivenConsent } returns mockFlowPreference(false)
         every { submissionSettings.hasViewedTestResult } returns mockFlowPreference(false)
@@ -99,6 +100,7 @@ class SubmissionRepositoryTest : BaseTest() {
         timeStamper = timeStamper,
         tekHistoryStorage = tekHistoryStorage,
         deadmanNotificationScheduler = deadmanNotificationScheduler,
+        backgroundNoise = backgroundNoise,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         tracingSettings = tracingSettings
     )
@@ -106,32 +108,33 @@ class SubmissionRepositoryTest : BaseTest() {
     @Test
     fun removeTestFromDeviceSucceeds() = runBlockingTest {
         val submissionRepository = createInstance(scope = this)
+
         val initialPollingForTestResultTimeStampSlot = slot<Long>()
         val isTestResultAvailableNotificationSent = slot<Boolean>()
-
         every {
             tracingSettings.initialPollingForTestResultTimeStamp = capture(initialPollingForTestResultTimeStampSlot)
         } answers {}
         every {
             tracingSettings.isTestResultAvailableNotificationSent = capture(isTestResultAvailableNotificationSent)
         } answers {}
-        every { LocalData.initialTestResultReceivedTimestamp(any()) } just Runs
-        every { LocalData.isAllowedToSubmitDiagnosisKeys(any()) } just Runs
-        every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
+
+        every { submissionSettings.initialTestResultReceivedAt = any() } just Runs
+        every { submissionSettings.isAllowedToSubmitKeys = any() } just Runs
+        every { submissionSettings.isSubmissionSuccessful = any() } just Runs
         every { analyticsKeySubmissionCollector.reset() } just Runs
 
         submissionRepository.removeTestFromDevice()
 
         verify(exactly = 1) {
-            LocalData.registrationToken(null)
-            LocalData.devicePairingSuccessfulTimestamp(0L)
-            LocalData.initialTestResultReceivedTimestamp(0L)
-            LocalData.isAllowedToSubmitDiagnosisKeys(false)
-            LocalData.numberOfSuccessfulSubmissions(0)
+            registrationTokenPreference.update(any())
+            submissionSettings.devicePairingSuccessfulAt = null
+            submissionSettings.initialTestResultReceivedAt = null
+            submissionSettings.isAllowedToSubmitKeys = false
+            submissionSettings.isSubmissionSuccessful = false
         }
 
         assert(initialPollingForTestResultTimeStampSlot.captured == 0L)
-        assert(isTestResultAvailableNotificationSent.captured == false)
+        assert(!isTestResultAvailableNotificationSent.captured)
     }
 
     @Test
@@ -143,11 +146,13 @@ class SubmissionRepositoryTest : BaseTest() {
 
         submissionRepository.asyncRegisterDeviceViaGUID(guid)
 
-        verify {
-            LocalData.devicePairingSuccessfulTimestamp(any())
-            LocalData.registrationToken(registrationToken)
+        registrationTokenPreference.value shouldBe registrationToken
+        submissionRepository.testResultReceivedDateFlow.first() shouldBe resultReceivedTimeStamp.toDate()
+
+        verify(exactly = 1) {
+            registrationTokenPreference.update(any())
+            submissionSettings.devicePairingSuccessfulAt = any()
             backgroundNoise.scheduleDummyPattern()
-            submissionRepository.updateTestResult(testResult)
         }
     }
 
@@ -161,11 +166,13 @@ class SubmissionRepositoryTest : BaseTest() {
 
         submissionRepository.asyncRegisterDeviceViaTAN(tan)
 
-        coVerify {
-            LocalData.devicePairingSuccessfulTimestamp(any())
-            LocalData.registrationToken(registrationToken)
+        registrationTokenPreference.value shouldBe registrationToken
+        submissionRepository.testResultReceivedDateFlow.first() shouldBe resultReceivedTimeStamp.toDate()
+
+        verify(exactly = 1) {
+            registrationTokenPreference.update(any())
+            submissionSettings.devicePairingSuccessfulAt = any()
             backgroundNoise.scheduleDummyPattern()
-            submissionRepository.updateTestResult(testResult)
         }
     }
 
@@ -184,8 +191,10 @@ class SubmissionRepositoryTest : BaseTest() {
 
     @Test
     fun `ui state is SUBMITTED_FINAL when submission was done`() = runBlockingTest {
-        coEvery { LocalData.submissionWasSuccessful() } returns true
+        every { submissionSettings.isSubmissionSuccessful } returns true
+
         val submissionRepository = createInstance(scope = this)
+
         submissionRepository.refreshDeviceUIState()
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL)
@@ -193,9 +202,11 @@ class SubmissionRepositoryTest : BaseTest() {
 
     @Test
     fun `ui state is UNPAIRED when no token is present`() = runBlockingTest {
-        coEvery { LocalData.submissionWasSuccessful() } returns false
-        coEvery { LocalData.registrationToken() } returns null
+        every { submissionSettings.isSubmissionSuccessful } returns false
+        every { submissionSettings.registrationToken } returns mockFlowPreference(null)
+
         val submissionRepository = createInstance(scope = this)
+
         submissionRepository.refreshDeviceUIState()
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED)
@@ -203,10 +214,12 @@ class SubmissionRepositoryTest : BaseTest() {
 
     @Test
     fun `ui state is PAIRED_POSITIVE when allowed to submit`() = runBlockingTest {
-        coEvery { LocalData.submissionWasSuccessful() } returns false
-        coEvery { LocalData.registrationToken() } returns "token"
-        coEvery { LocalData.isAllowedToSubmitDiagnosisKeys() } returns true
+        every { submissionSettings.isSubmissionSuccessful } returns false
+        every { submissionSettings.registrationToken } returns mockFlowPreference("token")
+        coEvery { submissionSettings.isAllowedToSubmitKeys } returns true
+
         val submissionRepository = createInstance(scope = this)
+
         submissionRepository.refreshDeviceUIState()
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE)
@@ -214,40 +227,53 @@ class SubmissionRepositoryTest : BaseTest() {
 
     @Test
     fun `refresh when state is PAIRED_NO_RESULT`() = runBlockingTest {
-        coEvery { LocalData.submissionWasSuccessful() } returns false
-        coEvery { LocalData.registrationToken() } returns "token"
-        coEvery { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
+        every { submissionSettings.isSubmissionSuccessful } returns false
+        every { submissionSettings.registrationToken } returns mockFlowPreference("token")
+        coEvery { submissionSettings.isAllowedToSubmitKeys } returns false
         coEvery { submissionService.asyncRequestTestResult(any()) } returns TestResult.PENDING
+
         val submissionRepository = createInstance(scope = this)
+
         submissionRepository.refreshDeviceUIState()
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT)
+
         coVerify(exactly = 1) { submissionService.asyncRequestTestResult(any()) }
     }
 
     @Test
     fun `refresh when state is UNPAIRED`() = runBlockingTest {
-        coEvery { LocalData.submissionWasSuccessful() } returns false
-        coEvery { LocalData.registrationToken() } returns null
-        coEvery { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
+        every { submissionSettings.isSubmissionSuccessful } returns false
+        every { submissionSettings.registrationToken } returns mockFlowPreference(null)
+        coEvery { submissionSettings.isAllowedToSubmitKeys } returns false
         coEvery { submissionService.asyncRequestTestResult(any()) } returns TestResult.PENDING
+
         val submissionRepository = createInstance(scope = this)
+
         submissionRepository.refreshDeviceUIState()
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED)
-        coEvery { LocalData.registrationToken() } returns "token"
+
+        every { submissionSettings.registrationToken } returns mockFlowPreference("token")
+
         submissionRepository.refreshDeviceUIState()
+
         coVerify(exactly = 1) { submissionService.asyncRequestTestResult(any()) }
     }
 
     @Test
     fun `no refresh when state is SUBMITTED_FINAL`() = runBlockingTest {
-        coEvery { LocalData.submissionWasSuccessful() } returns true
+        every { submissionSettings.isSubmissionSuccessful } returns true
+
         val submissionRepository = createInstance(scope = this)
+
         submissionRepository.refreshDeviceUIState()
+
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL)
+
         submissionRepository.refreshDeviceUIState()
+
         coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
     }
 }
