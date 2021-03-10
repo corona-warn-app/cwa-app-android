@@ -50,7 +50,7 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
             }
         }
 
-        uri?.let { viewModel.verifyTraceLocation(it) }
+        uri?.let { viewModel.verifyUri(it) }
         viewModel.navigationRoutes.observe2(this) {
             doNavigate(
                 CheckInsFragmentDirections

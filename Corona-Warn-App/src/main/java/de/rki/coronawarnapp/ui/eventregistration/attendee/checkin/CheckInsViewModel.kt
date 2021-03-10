@@ -4,6 +4,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifier
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCode
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.isValidQRCodeUri
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -19,12 +20,20 @@ class CheckInsViewModel @AssistedInject constructor(
 
     val navigationRoutes = SingleLiveEvent<TraceLocationQRCode>()
 
-    fun verifyTraceLocation(uri: String) = launch {
+    fun verifyUri(uri: String) = launch {
         try {
             Timber.i("uri: $uri")
-            val traceLocationQRCode = qrCodeVerifier.verify(uri)
+            if (!uri.isValidQRCodeUri())
+                throw IllegalArgumentException("Invalid uri: $uri")
+
+            val encodedEvent = uri.substringAfterLast("/")
+            val traceLocationQRCode = qrCodeVerifier.verify(encodedEvent)
             Timber.i("traceLocationQRCode: $traceLocationQRCode")
-            navigationRoutes.postValue(traceLocationQRCode)
+            navigationRoutes.postValue(
+                TraceLocationQRCode(
+                    traceLocationQRCode.singedTraceLocation.event
+                )
+            )
         } catch (e: Exception) {
             Timber.d(e, "TraceLocation verification failed")
             e.report(ExceptionCategory.INTERNAL)
