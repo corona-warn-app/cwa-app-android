@@ -23,6 +23,8 @@ import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -138,7 +140,25 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         }
 
         vm.logUploads.observe2(this@DebugLogFragment) {
-            binding.debugLogHistoryContainer.setGone(it.logs.isEmpty())
+            val hasLogs = it.logs.isNotEmpty()
+
+            binding.debugLogHistoryContainer.setGone(!hasLogs)
+
+            val now = Instant.now()
+            val lastLog = it.logs.last().uploadedAt
+            if (hasLogs && Duration(lastLog, now).standardSeconds < 3) {
+                binding.scrollview.smoothScrollTo(0, binding.debugLogHistoryContainer.bottom)
+
+                binding.debugLogHistoryContainer.apply {
+                    postOnAnimationDelayed(
+                        {
+                            isPressed = true
+                            postOnAnimationDelayed({ isPressed = false }, 250)
+                        },
+                        250
+                    )
+                }
+            }
         }
         binding.debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
     }

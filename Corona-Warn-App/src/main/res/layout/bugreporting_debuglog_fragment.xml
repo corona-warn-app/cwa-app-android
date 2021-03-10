@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/debugging_debuglog_title" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -143,7 +143,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/log_control_container"
