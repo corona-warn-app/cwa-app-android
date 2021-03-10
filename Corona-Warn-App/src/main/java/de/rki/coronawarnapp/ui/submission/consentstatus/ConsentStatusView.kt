@@ -18,7 +18,6 @@ class ConsentStatusView @JvmOverloads constructor(
     private var titleTextView: TextView
 
     init {
-
         LayoutInflater.from(context).inflate(R.layout.view_consent_status, this, true)
 
         val outValue = TypedValue()
