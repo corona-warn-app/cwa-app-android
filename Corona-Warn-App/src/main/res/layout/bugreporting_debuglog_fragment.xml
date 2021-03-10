@@ -24,124 +24,65 @@
         android:layout_height="0dp"
         android:layout_marginBottom="12dp"
         android:clipToPadding="false"
-        android:paddingBottom="32dp"
+        android:paddingBottom="8dp"
         app:layout_constraintBottom_toTopOf="@id/log_control_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/explanation_section_one"
                 style="@style/body1"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="24dp"
-                android:padding="16dp"
-                android:text="@string/debugging_debuglog_intro_explanation_section_one"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/debugging_debuglog_intro_explanation_section_one" />
 
             <TextView
                 android:id="@+id/explanation_section_two"
                 style="@style/body1"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="24dp"
-                android:text="@string/debugging_debuglog_intro_explanation_section_two"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/explanation_section_one" />
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/debugging_debuglog_intro_explanation_section_two" />
 
             <include
                 android:id="@+id/debug_log_privacy_card"
                 layout="@layout/include_debuglog_privacy_card"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/guideline_card"
-                android:layout_marginTop="16dp"
-                android:focusable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/explanation_section_two" />
+                android:layout_marginVertical="24dp"
+                android:focusable="true" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <de.rki.coronawarnapp.util.ui.views.MoreInformationView
                 android:id="@+id/debug_log_history_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/debug_log_privacy_card">
-
-                <TextView
-                    android:id="@+id/log_history_title"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="24dp"
-                    android:text="@string/debugging_debuglog_id_history_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/log_history_body"
-                    style="@style/TextAppearance.AppCompat.Caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/debugging_debuglog_id_history_body"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/log_history_title" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:id="@+id/debug_log_first_divider"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
                 android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/debug_log_history_container" />
+                android:focusable="true"
+                android:visibility="gone"
+                app:isBottomDividerVisible="false"
+                app:subtitleText="@string/debugging_debuglog_id_history_body"
+                app:titleText="@string/debugging_debuglog_id_history_title"
+                tools:visibility="visible" />
 
-            <TextView
+            <de.rki.coronawarnapp.util.ui.views.MoreInformationView
                 android:id="@+id/debug_log_privacy_information"
-                style="@style/subtitle"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
                 android:focusable="true"
-                android:paddingVertical="8dp"
-                android:text="@string/contact_diary_onboarding_legal_information"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/debug_log_first_divider"
-                tools:text="@string/contact_diary_onboarding_legal_information" />
+                app:titleText="@string/contact_diary_onboarding_legal_information" />
 
-            <View
-                android:id="@+id/debug_log_second_divider"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginBottom="24dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/debug_log_privacy_information" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </ScrollView>
 
@@ -150,9 +91,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorSurface1"
+        android:elevation="8dp"
         android:orientation="vertical"
         android:paddingStart="24dp"
-        android:paddingTop="16dp"
+        android:paddingTop="8dp"
         android:paddingEnd="24dp"
         android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -164,27 +106,31 @@
             style="@style/headline5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:accessibilityHeading="true"
             android:focusable="true"
             android:text="@string/debugging_debuglog_current_status_title" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/debug_log_current_status_card"
-            style="@style/cardTracing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/card"
+            android:backgroundTint="@color/colorSurface2"
+            android:minHeight="64dp">
 
             <ImageView
                 android:id="@+id/debuglog_activity_indicator"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
+                android:layout_marginVertical="8dp"
+                android:layout_marginStart="16dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_debug_log_indicator_deactivated"
-                app:layout_constraintBottom_toBottomOf="@id/debuglog_status_secondary"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/debuglog_status_primary"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_debug_log_indicator_deactivated" />
 
             <TextView
@@ -193,9 +139,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toTopOf="@id/debuglog_status_secondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/debuglog_activity_indicator"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="@string/debugging_debuglog_status_not_recording" />
 
             <TextView
@@ -204,6 +154,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/debuglog_activity_indicator"
                 app:layout_constraintTop_toBottomOf="@id/debuglog_status_primary"
@@ -216,7 +169,7 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/debugging_debuglog_action_share_log"
             tools:text="@string/debugging_debuglog_action_share_log" />
 
@@ -225,7 +178,7 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/debugging_debuglog_action_local_log_store"
             tools:text="@string/debugging_debuglog_action_local_log_store" />
 
