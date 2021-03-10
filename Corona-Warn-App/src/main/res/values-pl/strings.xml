@@ -848,7 +848,7 @@
     <!-- XHED: Headline for debug log screen -->
     <string name="debugging_debuglog_title">"Raport o błędach"</string>
     <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation">"Ta opcja umożliwia rejestrowanie zachowania aplikacji w pliku tekstowym. Jeśli zostanie ona aktywowana przed wystąpieniem błędu, będziesz mieć możliwość udostępnienia tego raportu, aby pomóc programistom rozwiązać problem.\nPozostawienie tej opcji w stanie aktywności wiąże się z dużym zapotrzebowaniem na pamięć. Jeśli ją wyłączysz, raport o błędach zostanie usunięty."</string>
+    <string name="debugging_debuglog_intro_explanation_section_one">"Ta opcja umożliwia rejestrowanie zachowania aplikacji w pliku tekstowym. Jeśli zostanie ona aktywowana przed wystąpieniem błędu, będziesz mieć możliwość udostępnienia tego raportu, aby pomóc programistom rozwiązać problem.\nPozostawienie tej opcji w stanie aktywności wiąże się z dużym zapotrzebowaniem na pamięć. Jeśli ją wyłączysz, raport o błędach zostanie usunięty."</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
     <string name="debugging_debuglog_intro_warning">"Należy pamiętać, że raporty o błędach mogą zawierać dane wrażliwe (takie jak wynik testu lub wpisy dziennika kontaktów). Z tego względu takie raporty nie powinny być udostępniane publicznie."</string>
     <!-- XBUT: Button text to start the log recording -->

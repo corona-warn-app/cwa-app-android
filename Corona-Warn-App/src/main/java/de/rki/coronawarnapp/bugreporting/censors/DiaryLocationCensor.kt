@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
-import de.rki.coronawarnapp.bugreporting.debuglog.DebuggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
+import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
@@ -31,12 +30,18 @@ class DiaryLocationCensor @Inject constructor(
 
         if (locationsNow.isEmpty()) return null
 
-        var newMessage = locationsNow.fold(entry.message) { oldMsg, location ->
-            oldMsg.replace(location.locationName, "Location#${location.locationId}")
-        }
+        val newMessage = locationsNow.fold(entry.message) { orig, location ->
+            var wip = orig.replace(location.locationName, "Location#${location.locationId}/Name")
 
-        if (CWADebug.isDeviceForTestersBuild) {
-            newMessage = entry.message
+            location.emailAddress?.let {
+                wip = wip.replace(it, "Location#${location.locationId}/EMail")
+            }
+
+            location.phoneNumber?.let {
+                wip = wip.replace(it, "Location#${location.locationId}/PhoneNumber")
+            }
+
+            wip
         }
 
         return entry.copy(message = newMessage)

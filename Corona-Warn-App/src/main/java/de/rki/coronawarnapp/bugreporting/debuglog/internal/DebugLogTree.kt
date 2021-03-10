@@ -1,5 +1,6 @@
-package de.rki.coronawarnapp.bugreporting.debuglog
+package de.rki.coronawarnapp.bugreporting.debuglog.internal
 
+import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

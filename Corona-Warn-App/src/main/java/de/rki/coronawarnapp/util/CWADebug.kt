@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Build
 import androidx.annotation.VisibleForTesting
@@ -11,6 +12,9 @@ import timber.log.Timber
 
 object CWADebug {
 
+    @SuppressLint("StaticFieldLeak")
+    lateinit var debugLogger: DebugLogger
+
     fun init(application: Application) {
         if (isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
 
@@ -20,14 +24,22 @@ object CWADebug {
 
         setupExceptionHandler()
 
-        DebugLogger.init(application)
+        debugLogger = DebugLogger(context = application).also {
+            it.init()
+        }
 
         logDeviceInfos()
     }
 
     fun initAfterInjection(component: ApplicationComponent) {
-        DebugLogger.setInjectionIsReady(component)
+        debugLogger.setInjectionIsReady(component)
     }
+
+    val isLogging: Boolean
+        get() {
+            if (!this::debugLogger.isInitialized) return false
+            return debugLogger.isLogging.value
+        }
 
     val isDebugBuildOrMode: Boolean
         get() = BuildConfig.DEBUG || buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS
