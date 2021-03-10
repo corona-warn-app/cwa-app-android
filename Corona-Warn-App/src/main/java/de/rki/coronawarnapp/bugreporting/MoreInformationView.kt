@@ -43,5 +43,4 @@ class MoreInformationView @JvmOverloads constructor(
             }
         }
     }
-
 }
