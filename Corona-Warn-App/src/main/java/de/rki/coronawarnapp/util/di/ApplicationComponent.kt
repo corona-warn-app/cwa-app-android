@@ -87,6 +87,7 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val enfClient: ENFClient
 
     val encryptedPreferencesFactory: EncryptedPreferencesFactory
+
     val errorResetTool: EncryptionErrorResetTool
 
     val playbook: Playbook

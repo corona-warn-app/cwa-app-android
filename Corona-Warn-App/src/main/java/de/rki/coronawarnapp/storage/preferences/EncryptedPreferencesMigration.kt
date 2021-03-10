@@ -2,11 +2,11 @@ package de.rki.coronawarnapp.storage.preferences
 
 import android.content.SharedPreferences
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.storage.EncryptedPreferences
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
+import de.rki.coronawarnapp.util.security.SecurityHelper
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,8 +16,7 @@ class EncryptedPreferencesMigration @Inject constructor(
     private val cwaSettings: CWASettings,
     private val submissionSettings: SubmissionSettings,
     private val tracingSettings: TracingSettings,
-    private val onboardingSettings: OnboardingSettings,
-    @EncryptedPreferences private val encryptedSharedPreferences: SharedPreferences?
+    private val onboardingSettings: OnboardingSettings
 ) {
 
     fun doMigration() {
@@ -29,8 +28,11 @@ class EncryptedPreferencesMigration @Inject constructor(
     }
 
     private fun copyData() {
-        Timber.d("EncryptedPreferencesMigration START")
-        if (encryptedSharedPreferences != null && encryptedPreferencesHelper.isAvailable()) {
+        if (!encryptedPreferencesHelper.isAvailable()) return
+
+        val encryptedSharedPreferences = SecurityHelper.globalEncryptedSharedPreferencesInstance
+            Timber.d("EncryptedPreferencesMigration START")
+        if (encryptedSharedPreferences != null) {
             Timber.d("EncryptedPreferences are available")
             SettingsLocalData(encryptedSharedPreferences).apply {
                 cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()

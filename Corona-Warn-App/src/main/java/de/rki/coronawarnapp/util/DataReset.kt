@@ -56,9 +56,6 @@ class DataReset @Inject constructor(
     @SuppressLint("ApplySharedPref") // We need a commit here to ensure consistency
     suspend fun clearAllLocalData() = mutex.withLock {
         Timber.w("CWA LOCAL DATA DELETION INITIATED.")
-        // Shared Preferences Reset
-        SecurityHelper.resetSharedPrefs()
-
         // Triggers deletion of all analytics contributed data
         analytics.setAnalyticsEnabled(false)
 
@@ -80,6 +77,8 @@ class DataReset @Inject constructor(
         statisticsProvider.clear()
 
         bugReportingSettings.clear()
+
+        //TODO: delete all preferences
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
