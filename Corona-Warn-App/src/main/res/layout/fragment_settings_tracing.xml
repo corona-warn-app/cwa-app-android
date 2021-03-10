@@ -212,7 +212,7 @@
 
                     <TextView
                         android:id="@id/risk_details_period_logged_body_notice"
-                        style="@style/body1"
+                        style="@style/subtitle"
                         gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

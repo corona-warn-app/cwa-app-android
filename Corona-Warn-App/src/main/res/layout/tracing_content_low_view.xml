@@ -72,43 +72,19 @@
             app:layout_constraintTop_toBottomOf="@id/row_contact"
             tools:text="@string/risk_card_low_risk_most_recent_body_encounters_on_more_than_one_day" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/row_app_installed_under_14_days"
+        <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
+            android:id="@+id/row_days_since_installation"
             gone="@{!state.appInstalledForOverTwoWeeks()}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:icon="@drawable/ic_download"
+            android:text="@{state.getDaysSinceInstall(context)}"
+            android:textColor="@color/colorTextPrimary1InvertedStable"
+            app:compatIconTint="@color/colorStableLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/row_contact_last">
-
-            <ImageView
-                android:id="@+id/risk_card_row_installed_days_download_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_download"
-                android:layout_marginStart="@dimen/spacing_tiny"
-                app:layout_constraintBottom_toBottomOf="@id/risk_card_row_Installed_days_body"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/risk_card_row_Installed_days_body"
-                android:contentDescription="Days since installation" />
-
-            <TextView
-                android:id="@+id/risk_card_row_Installed_days_body"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:layout_marginBottom="@dimen/spacing_tiny"
-                android:layout_marginStart="24dp"
-                android:text="@{state.getDaysSinceInstall(context)}"
-                android:textColor="@color/colorTextPrimary1InvertedStable"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/risk_card_row_installed_days_download_icon"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/risk_card_body_days_since_installation"
-                tools:textColor="@color/colorStableLight" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@id/row_contact_last"
+            tools:text="@string/risk_card_body_days_since_installation" />
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_time_fetched"
@@ -120,7 +96,7 @@
             app:compatIconTint="@color/colorStableLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/row_app_installed_under_14_days"
+            app:layout_constraintTop_toBottomOf="@id/row_days_since_installation"
             tools:text="@string/risk_card_body_not_yet_fetched" />
 
         <Button
