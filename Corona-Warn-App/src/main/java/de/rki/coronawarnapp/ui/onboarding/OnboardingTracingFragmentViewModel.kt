@@ -19,8 +19,8 @@ import timber.log.Timber
 
 class OnboardingTracingFragmentViewModel @AssistedInject constructor(
     private val interoperabilityRepository: InteroperabilityRepository,
-    private val tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
-    private val dispatcherProvider: DispatcherProvider,
+    tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
+    dispatcherProvider: DispatcherProvider,
     private val tracingSettings: TracingSettings,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
