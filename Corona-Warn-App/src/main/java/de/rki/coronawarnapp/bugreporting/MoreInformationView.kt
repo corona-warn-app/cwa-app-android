@@ -30,10 +30,12 @@ class MoreInformationView @JvmOverloads constructor(
             val titleText = getText(R.styleable.MoreInformationView_titleText) ?: ""
             val subtitleText = getText(R.styleable.MoreInformationView_subtitleText) ?: ""
             val isTopDividerVisible = getBoolean(R.styleable.MoreInformationView_isTopDividerVisible, true)
+            val isBottomDividerVisible = getBoolean(R.styleable.MoreInformationView_isBottomDividerVisible, true)
 
             binding.apply {
 
                 topDivider.isVisible = isTopDividerVisible
+                bottomDivider.isVisible = isBottomDividerVisible
 
                 moreInformationTitle.text = titleText
                 moreInformationTitle.isVisible = titleText.isNotEmpty()

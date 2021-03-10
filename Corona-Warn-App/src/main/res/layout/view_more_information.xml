@@ -35,7 +35,7 @@
 
         <TextView
             android:id="@+id/more_information_subtitle"
-            style="@style/subtitleMedium"
+            style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -45,10 +45,11 @@
             tools:text="Custom Subtitle (is optional)" />
 
         <View
+            android:id="@+id/bottom_divider"
             android:layout_width="match_parent"
             android:layout_height="@dimen/card_divider"
-            android:layout_marginTop="12dp"
             android:background="@color/colorHairline"
+            android:layout_marginTop="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
