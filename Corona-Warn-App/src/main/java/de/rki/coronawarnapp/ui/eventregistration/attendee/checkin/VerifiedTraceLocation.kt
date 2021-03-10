@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkin
 
 import android.os.Parcelable
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifyResult
 import kotlinx.parcelize.Parcelize
 import okio.ByteString.Companion.toByteString
