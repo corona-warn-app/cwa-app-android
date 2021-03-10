@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.tracing.ui.homecards
 
 import android.content.Context
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.ui.homecards.NoTest
@@ -12,7 +11,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkObject
 import io.mockk.verifySequence
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -36,7 +34,6 @@ class SubmissionStateProviderTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        mockkObject(LocalData)
 
         every { submissionRepository.hasViewedTestResult } returns flow { emit(true) }
         every { submissionRepository.deviceUIStateFlow } returns flow {

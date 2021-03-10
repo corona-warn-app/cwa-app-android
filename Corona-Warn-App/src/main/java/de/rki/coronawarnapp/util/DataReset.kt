@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
@@ -57,8 +56,6 @@ class DataReset @Inject constructor(
     @SuppressLint("ApplySharedPref") // We need a commit here to ensure consistency
     suspend fun clearAllLocalData() = mutex.withLock {
         Timber.w("CWA LOCAL DATA DELETION INITIATED.")
-        // Because LocalData does not behave like a normal shared preference
-        LocalData.clear()
         // Shared Preferences Reset
         SecurityHelper.resetSharedPrefs()
 

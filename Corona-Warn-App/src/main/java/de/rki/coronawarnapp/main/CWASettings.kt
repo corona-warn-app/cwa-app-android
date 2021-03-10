@@ -12,8 +12,6 @@ import javax.inject.Inject
 /**
  * For general app related values,
  * e.g. "Has dialog been shown", as "OnBoarding been shown?"
- * In future refactoring it should contain all values
- * from **[de.rki.coronawarnapp.storage.LocalData]** that don't fit more specific classes.
  */
 class CWASettings @Inject constructor(
     @AppContext val context: Context
@@ -26,6 +24,10 @@ class CWASettings @Inject constructor(
     var wasDeviceTimeIncorrectAcknowledged: Boolean
         get() = prefs.getBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, false)
         set(value) = prefs.edit { putBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, value) }
+
+    var wasInteroperabilityShownAtLeastOnce: Boolean
+        get() = prefs.getBoolean(PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, false)
+        set(value) = prefs.edit { putBoolean(PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, value) }
 
     var firstReliableDeviceTime: Instant
         get() = Instant.ofEpochMilli(prefs.getLong(PKEY_DEVICE_TIME_FIRST_RELIABLE, 0L))
@@ -67,6 +69,7 @@ class CWASettings @Inject constructor(
 
     companion object {
         private const val PKEY_DEVICE_TIME_INCORRECT_ACK = "devicetime.incorrect.acknowledged"
+        private const val PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE = "interoperability.showed"
         private const val PKEY_DEVICE_TIME_FIRST_RELIABLE = "devicetime.correct.first"
         private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME = "devicetime.laststatechange.timestamp"
         private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE = "devicetime.laststatechange.state"

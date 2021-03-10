@@ -7,7 +7,6 @@ import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
@@ -43,7 +42,6 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
         MockKAnnotations.init(this)
 
         mockkObject(CoronaWarnApplication)
-        mockkObject(LocalData)
 
         every { CoronaWarnApplication.getAppContext() } returns context
         every { context.getSystemService(Context.NOTIFICATION_SERVICE) } returns notificationManager

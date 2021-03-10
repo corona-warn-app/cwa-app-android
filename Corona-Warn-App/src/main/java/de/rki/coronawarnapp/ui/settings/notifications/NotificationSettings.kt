@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.settings.notifications
 
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.device.ForegroundState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -27,7 +26,6 @@ class NotificationSettings @Inject constructor(
     /**
      * Toggle notifications risk updates.
      *
-     * @see LocalData
      */
     fun toggleNotificationsRiskEnabled() {
         cwaSettings.isNotificationsRiskEnabled.update { !it }
@@ -38,7 +36,6 @@ class NotificationSettings @Inject constructor(
     /**
      * Toggle notifications for test updates in shared preferences and refresh it afterwards.
      *
-     * @see LocalData
      */
     fun toggleNotificationsTestEnabled() {
         cwaSettings.isNotificationsTestEnabled.update { !it }

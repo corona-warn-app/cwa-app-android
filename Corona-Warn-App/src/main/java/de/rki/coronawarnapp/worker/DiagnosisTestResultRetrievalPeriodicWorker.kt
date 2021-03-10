@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.service.submission.SubmissionService
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.TimeStamper
@@ -32,7 +32,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     private val notificationHelper: NotificationHelper,
     private val submissionSettings: SubmissionSettings,
     private val submissionService: SubmissionService,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val tracingSettings: TracingSettings,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -81,7 +82,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     }
 
     private fun abortConditionsMet(currentMillis: Long): Boolean {
-        if (LocalData.isTestResultAvailableNotificationSent()) {
+        if (tracingSettings.isTestResultAvailableNotificationSent) {
             Timber.tag(TAG).d("$id: Notification already sent.")
             return true
         }
@@ -91,7 +92,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         }
 
         val calculateDays = TimeAndDateExtensions.calculateDays(
-            LocalData.initialPollingForTestResultTimeStamp(),
+            tracingSettings.initialPollingForTestResultTimeStamp,
             currentMillis
         )
         if (calculateDays >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS) {
@@ -105,7 +106,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
 
     private suspend fun sendTestResultAvailableNotification(testResult: TestResult) {
         testResultAvailableNotificationService.showTestResultAvailableNotification(testResult)
-        LocalData.isTestResultAvailableNotificationSent(true)
+        tracingSettings.isTestResultAvailableNotificationSent = true
     }
 
     private fun cancelRiskLevelScoreNotification() {
@@ -115,7 +116,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     }
 
     private fun stopWorker() {
-        LocalData.initialPollingForTestResultTimeStamp(0L)
+        tracingSettings.initialPollingForTestResultTimeStamp = 0L
         BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
         Timber.tag(TAG).d("$id: Background worker stopped")
     }
