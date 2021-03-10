@@ -47,7 +47,6 @@
                 android:id="@+id/qrCodeText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/qr_code_input"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 

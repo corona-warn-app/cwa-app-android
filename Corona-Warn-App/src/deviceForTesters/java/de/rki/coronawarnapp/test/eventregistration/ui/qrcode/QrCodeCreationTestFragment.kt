@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.test.eventregistration.ui.qrcode
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -21,6 +22,7 @@ class QrCodeCreationTestFragment : Fragment(R.layout.fragment_test_qrcode_creati
     private val viewModel: QrCodeCreationTestViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentTestQrcodeCreationBinding by viewBindingLazy()
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel.sharingIntent.observe2(this) {
@@ -36,6 +38,11 @@ class QrCodeCreationTestFragment : Fragment(R.layout.fragment_test_qrcode_creati
             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
 
+        binding.qrCodeText.setText(
+            "HTTPS://E.CORONAWARN.APP/C1/BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBGGC5LOMNUCAUD" +
+                "BOJ2HSGGTQ6SACIHXQ6SACKA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFF" +
+                "BU2SQCEEAJAUCJSQJ7WDM675MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI="
+        )
         binding.generateQrCode.setOnClickListener {
             viewModel.createQrCode(binding.qrCodeText.text.toString())
         }
