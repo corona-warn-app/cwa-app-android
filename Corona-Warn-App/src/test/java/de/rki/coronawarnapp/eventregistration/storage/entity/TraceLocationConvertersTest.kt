@@ -4,9 +4,9 @@ import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
-internal class EventRegistrationConvertersTest {
+internal class TraceLocationConvertersTest {
 
-    private val converter = EventRegistrationConverters()
+    private val converter = TraceLocationConverters()
 
     @Test
     fun `toTraceLocationType() should convert different integer values to correct TraceLocation Types`() {

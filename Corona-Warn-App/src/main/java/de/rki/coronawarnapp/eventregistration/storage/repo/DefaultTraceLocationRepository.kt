@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.eventregistration.storage.repo
 
 import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.eventregistration.events.toTraceLocations
-import de.rki.coronawarnapp.eventregistration.storage.EventRegistrationDatabase
+import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.toTraceLocationEntity
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -16,16 +16,16 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultTraceLocationRepository @Inject constructor(
-    eventRegistrationDatabaseFactory: EventRegistrationDatabase.Factory,
+    traceLocationDatabaseFactory: TraceLocationDatabase.Factory,
     @AppScope private val appScope: CoroutineScope
 ) : TraceLocationRepository {
 
-    private val eventRegistrationDatabase: EventRegistrationDatabase by lazy {
-        eventRegistrationDatabaseFactory.create()
+    private val traceLocationDatabase: TraceLocationDatabase by lazy {
+        traceLocationDatabaseFactory.create()
     }
 
     private val traceLocationDao: TraceLocationDao by lazy {
-        eventRegistrationDatabase.traceLocation()
+        traceLocationDatabase.traceLocationDao()
     }
 
     override val allTraceLocations: Flow<List<TraceLocation>>
