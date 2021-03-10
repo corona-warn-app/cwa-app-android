@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AnalyticsKeySubmissionDonor @Inject constructor(
-    val repository: AnalyticsKeySubmissionRepository,
+    private val repository: AnalyticsKeySubmissionRepository,
     private val timeStamper: TimeStamper
 ) : DonorModule {
 
@@ -54,7 +54,8 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
             .setSubmittedInBackground(repository.submittedInBackground)
             .setSubmittedWithTeleTAN(repository.submittedWithTeleTAN)
 
-    private fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
         return positiveTestResultReceived && (
             keysSubmitted || enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit)
             )
@@ -66,7 +67,8 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
     private val keysSubmitted: Boolean
         get() = repository.submitted
 
-    private fun enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit: Duration): Boolean =
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit: Duration): Boolean =
         timeStamper.nowUTC.minus(timeSinceTestResultToSubmit) > Instant.ofEpochMilli(repository.testResultReceivedAt)
 
     override suspend fun deleteData() {
@@ -74,7 +76,7 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
     }
 }
 
-@VisibleForTesting
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 object AnalyticsKeySubmissionNoContribution : DonorModule.Contribution {
     override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) = Unit
     override suspend fun finishDonation(successful: Boolean) = Unit

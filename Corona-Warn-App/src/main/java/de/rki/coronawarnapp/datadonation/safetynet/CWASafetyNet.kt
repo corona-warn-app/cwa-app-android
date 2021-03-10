@@ -51,26 +51,11 @@ class CWASafetyNet @Inject constructor(
             throw SafetyNetException(Type.PLAY_SERVICES_VERSION_MISMATCH, "Google Play Services too old.")
         }
 
-        appConfigProvider.getAppConfig().apply {
-            if (deviceTimeState == ConfigData.DeviceTimeState.ASSUMED_CORRECT) {
-                throw SafetyNetException(Type.DEVICE_TIME_UNVERIFIED, "Device time is unverified")
-            }
-            if (deviceTimeState == ConfigData.DeviceTimeState.INCORRECT) {
-                throw SafetyNetException(Type.DEVICE_TIME_INCORRECT, "Device time is incorrect")
-            }
-        }
-
-        val skip24hCheck = CWADebug.isDeviceForTestersBuild && testSettings.skipSafetyNetTimeCheck.value
-        val nowUTC = timeStamper.nowUTC
-        val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime
-        val timeSinceOnboarding = Duration(firstReliableTimeStamp, nowUTC)
-        Timber.d("firstReliableTimeStamp=%s, now=%s", firstReliableTimeStamp, nowUTC)
-        Timber.d("skip24hCheck=%b, timeSinceOnboarding=%dh", skip24hCheck, timeSinceOnboarding.standardHours)
-
-        if (firstReliableTimeStamp == Instant.EPOCH) {
-            throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "No first reliable timestamp available")
-        } else if (!skip24hCheck && timeSinceOnboarding < Duration.standardHours(24)) {
-            throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "Time since first reliable timestamp <24h")
+        if (request.checkDeviceTime) {
+            Timber.tag(TAG).d("Checking device time.")
+            requireCorrectDeviceTime(request.configData)
+        } else {
+            Timber.tag(TAG).d("Device time check not required.")
         }
 
         val salt = generateSalt()
@@ -103,6 +88,32 @@ class CWASafetyNet @Inject constructor(
         }
 
         return AttestationContainer(salt, report)
+    }
+
+    private suspend fun requireCorrectDeviceTime(suppliedConfig: ConfigData?) {
+        val configData = suppliedConfig ?: appConfigProvider.getAppConfig()
+
+        configData.apply {
+            if (deviceTimeState == ConfigData.DeviceTimeState.ASSUMED_CORRECT) {
+                throw SafetyNetException(Type.DEVICE_TIME_UNVERIFIED, "Device time is unverified")
+            }
+            if (deviceTimeState == ConfigData.DeviceTimeState.INCORRECT) {
+                throw SafetyNetException(Type.DEVICE_TIME_INCORRECT, "Device time is incorrect")
+            }
+        }
+
+        val skip24hCheck = CWADebug.isDeviceForTestersBuild && testSettings.skipSafetyNetTimeCheck.value
+        val nowUTC = timeStamper.nowUTC
+        val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime
+        val timeSinceOnboarding = Duration(firstReliableTimeStamp, nowUTC)
+        Timber.d("firstReliableTimeStamp=%s, now=%s", firstReliableTimeStamp, nowUTC)
+        Timber.d("skip24hCheck=%b, timeSinceOnboarding=%dh", skip24hCheck, timeSinceOnboarding.standardHours)
+
+        if (firstReliableTimeStamp == Instant.EPOCH) {
+            throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "No first reliable timestamp available")
+        } else if (!skip24hCheck && timeSinceOnboarding < Duration.standardHours(24)) {
+            throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "Time since first reliable timestamp <24h")
+        }
     }
 
     companion object {

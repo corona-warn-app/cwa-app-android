@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import okio.ByteString.Companion.toByteString
+import timber.log.Timber
 
 internal data class AttestationContainer(
     private val ourSalt: ByteArray,
@@ -16,6 +17,8 @@ internal data class AttestationContainer(
         }.build()
 
     override fun requirePass(reqs: SafetyNetRequirements) {
+        Timber.v("requirePass(%s)", reqs)
+
         if (reqs.requireBasicIntegrity && !report.basicIntegrity) {
             throw SafetyNetException(
                 Type.BASIC_INTEGRITY_REQUIRED,

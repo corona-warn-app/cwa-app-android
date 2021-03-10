@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util
 import android.annotation.SuppressLint
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -14,7 +15,6 @@ import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
-import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.di.AppContext
@@ -44,7 +44,8 @@ class DataReset @Inject constructor(
     private val statisticsProvider: StatisticsProvider,
     private val surveySettings: SurveySettings,
     private val analyticsSettings: AnalyticsSettings,
-    private val analytics: Analytics
+    private val analytics: Analytics,
+    private val bugReportingSettings: BugReportingSettings
 ) {
 
     private val mutex = Mutex()
@@ -56,8 +57,6 @@ class DataReset @Inject constructor(
     @SuppressLint("ApplySharedPref") // We need a commit here to ensure consistency
     suspend fun clearAllLocalData() = mutex.withLock {
         Timber.w("CWA LOCAL DATA DELETION INITIATED.")
-        // Database Reset
-        AppDatabase.reset(context)
         // Because LocalData does not behave like a normal shared preference
         LocalData.clear()
         // Shared Preferences Reset
@@ -82,6 +81,8 @@ class DataReset @Inject constructor(
         contactDiaryRepository.clear()
 
         statisticsProvider.clear()
+
+        bugReportingSettings.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

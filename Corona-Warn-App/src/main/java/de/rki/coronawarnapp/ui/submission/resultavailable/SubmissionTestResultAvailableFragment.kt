@@ -94,23 +94,15 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
     }
 
     private fun showCloseDialog() {
-        var dialogTitle = R.string.submission_test_result_available_close_dialog_title_consent_given
-        var dialogBody = R.string.submission_test_result_available_close_dialog_body_consent_given
-
-        if (!binding.submissionTestResultAvailableConsentStatus.consent) {
-            dialogTitle = R.string.submission_test_result_available_close_dialog_title_consent_not_given
-            dialogBody = R.string.submission_test_result_available_close_dialog_body_consent_not_given
-        }
-
         val closeDialogInstance = DialogHelper.DialogInstance(
             context = requireActivity(),
-            title = dialogTitle,
-            message = dialogBody,
+            title = R.string.submission_test_result_available_close_dialog_title_consent_given,
+            message = R.string.submission_test_result_available_close_dialog_body_consent_given,
             positiveButton = R.string.submission_test_result_available_close_dialog_continue_button,
             negativeButton = R.string.submission_test_result_available_close_dialog_cancel_button,
             cancelable = true,
-            positiveButtonFunction = { vm.onCancelConfirmed() },
-            negativeButtonFunction = { }
+            positiveButtonFunction = {},
+            negativeButtonFunction = { vm.onCancelConfirmed() }
         )
         DialogHelper.showDialog(closeDialogInstance)
     }
