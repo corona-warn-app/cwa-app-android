@@ -1,17 +1,21 @@
 package de.rki.coronawarnapp.storage.preferences
 
+import android.content.Context
 import android.content.SharedPreferences
+import android.database.sqlite.SQLiteDatabase
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
 class EncryptedPreferencesMigration @Inject constructor(
+    @AppContext private val context: Context,
     private val encryptedPreferencesHelper: EncryptedPreferencesHelper,
     private val cwaSettings: CWASettings,
     private val submissionSettings: SubmissionSettings,
@@ -24,6 +28,11 @@ class EncryptedPreferencesMigration @Inject constructor(
             copyData()
         } catch (e: Exception) {
             Timber.e(e, "Migration was not successful")
+        }
+        try {
+            dropDatabase()
+        } catch (e: Exception) {
+            Timber.e(e, "Database removing was not successful")
         }
     }
 
@@ -71,7 +80,18 @@ class EncryptedPreferencesMigration @Inject constructor(
         Timber.d("EncryptedPreferencesMigration END")
     }
 
-    // Moving LocalData methods here to prevent accidental misuse.
+    private fun dropDatabase() {
+        val file = context.getDatabasePath(TRACING_DATABASE_NAME)
+        if (file.exists()) {
+            Timber.d("EncryptedPreferencesMigration removing database $file")
+            SQLiteDatabase.deleteDatabase(file)
+        }
+    }
+
+    companion object {
+        private const val TRACING_DATABASE_NAME = "coronawarnapp-db"
+    }
+
     // TODO: delete or update LocalData, SecurityConstants, SecurityHelper after all methods are migrated
     private class SettingsLocalData(private val sharedPreferences: SharedPreferences) {
 
