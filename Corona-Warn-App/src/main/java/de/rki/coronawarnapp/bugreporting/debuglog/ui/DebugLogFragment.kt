@@ -138,7 +138,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         }
 
         vm.logUploads.observe2(this@DebugLogFragment) {
-            binding.debugLogHistoryContainer.setGone(it.logs.isEmpty())
+           binding.debugLogHistoryContainer.setGone(it.logs.isEmpty())
         }
         binding.debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
     }

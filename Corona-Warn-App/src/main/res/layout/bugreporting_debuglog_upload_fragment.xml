@@ -28,77 +28,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/bugreporting_share_log_body_one"
                 style="@style/subtitle"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
                 android:focusable="true"
                 android:text="@string/debugging_debuglog_share_log_section_one"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/debugging_debuglog_share_log_section_one" />
-
 
             <TextView
                 android:id="@+id/bugreporting_share_log_body_two"
                 style="@style/subtitle"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
                 android:focusable="true"
                 android:text="@string/debugging_debuglog_share_log_section_two"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_body_one"
                 tools:text="@string/debugging_debuglog_share_log_section_two" />
 
             <include
                 android:id="@+id/bugreporting_share_log_privacy_card"
                 layout="@layout/include_debugging_debuglog_share_privacy_card"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/guideline_card"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_body_two" />
+                android:layout_marginVertical="24dp"
+                android:focusable="true" />
 
-
-            <de.rki.coronawarnapp.bugreporting.MoreInformationView
+            <de.rki.coronawarnapp.util.ui.views.MoreInformationView
                 android:id="@+id/debug_log_privacy_information"
-                android:layout_width="0dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:focusable="true"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_privacy_card"
                 app:titleText="@string/debugging_debuglog_share_log_privacy_information" />
 
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </ScrollView>
     <android.widget.Button

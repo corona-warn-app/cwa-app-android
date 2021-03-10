@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting
+package de.rki.coronawarnapp.util.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -23,6 +23,7 @@ class MoreInformationView @JvmOverloads constructor(
 
         val outValue = TypedValue()
         getContext().theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
+        setBackgroundResource(outValue.resourceId)
         binding = ViewMoreInformationBinding.bind(this)
 
         context.withStyledAttributes(attrs, R.styleable.MoreInformationView) {
