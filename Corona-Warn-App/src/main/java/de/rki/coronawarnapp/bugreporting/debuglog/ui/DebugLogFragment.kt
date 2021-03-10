@@ -8,6 +8,7 @@ import android.text.format.Formatter
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isGone
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
@@ -147,7 +148,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
             val now = Instant.now()
             val lastLog = it.logs.last().uploadedAt
             if (hasLogs && Duration(lastLog, now).standardSeconds < 3) {
-                binding.scrollview.smoothScrollTo(0, binding.debugLogHistoryContainer.bottom)
+                binding.scrollview.fullScroll(NestedScrollView.FOCUS_DOWN)
 
                 binding.debugLogHistoryContainer.apply {
                     postOnAnimationDelayed(
