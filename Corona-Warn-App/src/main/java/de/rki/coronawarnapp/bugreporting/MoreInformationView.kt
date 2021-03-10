@@ -29,12 +29,19 @@ class MoreInformationView @JvmOverloads constructor(
 
             val titleText = getText(R.styleable.MoreInformationView_titleText) ?: ""
             val subtitleText = getText(R.styleable.MoreInformationView_subtitleText) ?: ""
+            val isTopDividerVisible = getBoolean(R.styleable.MoreInformationView_isTopDividerVisible, true)
 
-            binding.moreInformationTitle.text = titleText
-            binding.moreInformationTitle.isVisible = titleText.isNotEmpty()
+            binding.apply {
 
-            binding.moreInformationSubtitle.text = subtitleText
-            binding.moreInformationSubtitle.isVisible = subtitleText.isNotEmpty()
+                topDivider.isVisible = isTopDividerVisible
+
+                moreInformationTitle.text = titleText
+                moreInformationTitle.isVisible = titleText.isNotEmpty()
+
+                moreInformationSubtitle.text = subtitleText
+                moreInformationSubtitle.isVisible = subtitleText.isNotEmpty()
+            }
         }
     }
+
 }
