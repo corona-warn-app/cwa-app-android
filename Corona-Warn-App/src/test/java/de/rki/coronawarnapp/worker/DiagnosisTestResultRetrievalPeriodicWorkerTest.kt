@@ -62,6 +62,8 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         every { timeStamper.nowUTC } returns currentInstant
         every { tracingSettings.initialPollingForTestResultTimeStamp } returns currentInstant.millis
         every { tracingSettings.isTestResultAvailableNotificationSent } returns false
+        every { tracingSettings.initialPollingForTestResultTimeStamp = capture(slot()) } answers {}
+        every { tracingSettings.isTestResultAvailableNotificationSent = capture(slot()) } answers {}
 
         mockkObject(AppInjector)
         every { AppInjector.component } returns appComponent
@@ -217,7 +219,6 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify { submissionService.asyncRequestTestResult(registrationToken) }
-            // TODO: finish test
             coVerify(exactly = 0) {
                 testResultAvailableNotificationService.showTestResultAvailableNotification(
                     testResult

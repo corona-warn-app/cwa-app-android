@@ -29,7 +29,6 @@ import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
@@ -131,8 +130,8 @@ class SubmissionRepositoryTest : BaseTest() {
             LocalData.numberOfSuccessfulSubmissions(0)
         }
 
-        assertEquals(initialPollingForTestResultTimeStampSlot.captured, 0L)
-        assertEquals(isTestResultAvailableNotificationSent.captured, false)
+        assert(initialPollingForTestResultTimeStampSlot.captured == 0L)
+        assert(isTestResultAvailableNotificationSent.captured == false)
     }
 
     @Test

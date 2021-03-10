@@ -144,7 +144,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             coVerifySequence {
                 LocalData.submissionWasSuccessful()
                 foregroundState.isInForeground
-                // TODO: update test
                 surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
             }
         }
