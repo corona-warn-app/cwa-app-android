@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentConfrimCheckInBinding
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifyResult
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -41,20 +40,12 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in), Aut
 
         // TODO bind data to actual UI
         viewModel.verifyResult.observe2(this) {
-            when (it) {
-                is QRCodeVerifyResult.EndTimeWarning -> {
-                    // TODO
-                }
-                is QRCodeVerifyResult.StartTimeWarning -> {
-                    // TODO
-                }
-
-                is QRCodeVerifyResult.Success -> with(binding) {
-                    eventGuid.text = "GUID: %s".format(it.event.guid)
-                    startTime.text = "Start time: %s".format(it.event.start)
-                    endTime.text = "End time: %s".format(it.event.end)
-                    description.text = "Description: %s".format(it.event.description)
-                }
+            val event = it.singedTraceLocation.event
+            with(binding) {
+                eventGuid.text = "GUID: %s".format(event.guid)
+                startTime.text = "Start time: %s".format(event.start)
+                endTime.text = "End time: %s".format(event.end)
+                description.text = "Description: %s".format(event.description)
             }
         }
     }

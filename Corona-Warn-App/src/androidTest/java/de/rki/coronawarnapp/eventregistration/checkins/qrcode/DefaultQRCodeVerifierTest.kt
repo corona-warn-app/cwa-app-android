@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -22,29 +20,25 @@ import testhelpers.BaseTestInstrumentation
 class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
-    @MockK lateinit var timeStamper: TimeStamper
-
     private lateinit var qrCodeVerifier: QRCodeVerifier
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
-        qrCodeVerifier = DefaultQRCodeVerifier(
-            SignatureValidation(environmentSetup),
-            timeStamper
-        )
+        qrCodeVerifier = DefaultQRCodeVerifier(SignatureValidation(environmentSetup))
     }
 
     @Test
     fun verifyEventSuccess() = runBlockingTest {
         val time = 2687960 * 1_000L
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(time)
+        val instant = Instant.ofEpochMilli(time)
         shouldNotThrowAny {
             val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
-            verifyResult.shouldBeInstanceOf<QRCodeVerifyResult.Success>()
             verifyResult.apply {
-                event.description shouldBe "CWA Launch Party"
+                singedTraceLocation.event.description shouldBe "CWA Launch Party"
+                verifyResult.isBeforeStartTime(instant) shouldBe false
+                verifyResult.isAfterEndTime(instant) shouldBe false
             }
         }
     }
@@ -52,25 +46,27 @@ class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
     @Test
     fun verifyEventStartTimeWaning() = runBlockingTest {
         val time = 2687940 * 1_000L
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(time)
+        val instant = Instant.ofEpochMilli(time)
         shouldNotThrowAny {
             val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
-            verifyResult.shouldBeInstanceOf<QRCodeVerifyResult.StartTimeWarning>()
             verifyResult.apply {
-                event.description shouldBe "CWA Launch Party"
+                singedTraceLocation.event.description shouldBe "CWA Launch Party"
             }
+            verifyResult.isBeforeStartTime(instant) shouldBe true
+            verifyResult.isAfterEndTime(instant) shouldBe false
         }
     }
 
     @Test
     fun verifyEventEndTimeWarning() = runBlockingTest {
-        every { timeStamper.nowUTC } returns Instant.now()
+        val instant = Instant.now()
         shouldNotThrowAny {
             val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
-            verifyResult.shouldBeInstanceOf<QRCodeVerifyResult.EndTimeWarning>()
             verifyResult.apply {
-                event.description shouldBe "CWA Launch Party"
+                singedTraceLocation.event.description shouldBe "CWA Launch Party"
             }
+            verifyResult.isBeforeStartTime(instant) shouldBe false
+            verifyResult.isAfterEndTime(instant) shouldBe true
         }
     }
 
