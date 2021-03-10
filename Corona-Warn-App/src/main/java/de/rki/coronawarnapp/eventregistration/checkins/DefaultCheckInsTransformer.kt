@@ -7,9 +7,9 @@ import de.rki.coronawarnapp.server.protocols.internal.evreg.SignedEventOuterClas
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import javax.inject.Inject
 
-class DefaultCheckInsMapper @Inject constructor() :
-    CheckInsMapper {
-    override fun map(checkIns: List<CheckIn>): List<CheckInOuterClass.CheckIn> {
+class DefaultCheckInsTransformer @Inject constructor() :
+    CheckInsTransformer {
+    override fun transform(checkIns: List<CheckIn>): List<CheckInOuterClass.CheckIn> {
         return checkIns.map { checkIn ->
 
             // TODO check all fields once new Proto-buffs is merged
