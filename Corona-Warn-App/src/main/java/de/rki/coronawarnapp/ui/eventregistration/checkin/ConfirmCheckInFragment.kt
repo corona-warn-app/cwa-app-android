@@ -39,12 +39,13 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in), Aut
         }
 
         // TODO bind data to actual UI
-        viewModel.eventData.observe2(this) {
+        viewModel.verifyResult.observe2(this) {
+            val event = it.singedTraceLocation.event
             with(binding) {
-                eventGuid.text = "GUID: %s".format(it.guid)
-                startTime.text = "Start time: %s".format(it.start)
-                endTime.text = "End time: %s".format(it.end)
-                description.text = "Description: %s".format(it.description)
+                eventGuid.text = "GUID: %s".format(event.guid)
+                startTime.text = "Start time: %s".format(event.start)
+                endTime.text = "End time: %s".format(event.end)
+                description.text = "Description: %s".format(event.description)
             }
         }
     }
