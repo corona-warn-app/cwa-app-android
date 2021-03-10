@@ -1,17 +1,3 @@
-package de.rki.coronawarnapp.eventregistration.checkins
-
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import org.joda.time.DateTime
-import org.joda.time.Instant
-import javax.inject.Inject
-
-interface CheckInsRepository {
-
-    val allCheckIns: Flow<List<EventCheckIn>>
-
-    suspend fun addCheckIn(checkIn: EventCheckIn)
-}
 
 class FakeCheckInsRepository @Inject constructor() : CheckInsRepository {
     override val allCheckIns: Flow<List<EventCheckIn>>
