@@ -77,7 +77,7 @@ class LogUploadAuthApiTest : BaseTest() {
         api.authOTP(requestBody = elsPayload)
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
-            path shouldBe "/version/v1/android/log"
+            path shouldBe "/version/v1/android/els"
             body.readByteArray() shouldBe elsPayload.toByteArray()
         }
     }

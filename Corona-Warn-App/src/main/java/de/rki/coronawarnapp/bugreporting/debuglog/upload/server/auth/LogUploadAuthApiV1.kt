@@ -15,7 +15,7 @@ interface LogUploadAuthApiV1 {
         @SerializedName("errorCode") val errorCode: String?
     )
 
-    @POST("version/v1/android/log")
+    @POST("version/v1/android/els")
     suspend fun authOTP(
         @Body requestBody: ElsOtpRequestAndroid.ELSOneTimePasswordRequestAndroid
     ): AuthResponse
