@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.preferences.EncryptedPreferencesMigration
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
@@ -58,6 +59,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
     @Inject lateinit var autoSubmission: AutoSubmission
+    @Inject lateinit var onboardingSettings: OnboardingSettings
     @Inject lateinit var encryptedPreferencesMigration: EncryptedPreferencesMigration
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
@@ -91,7 +93,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             .onEach { isAppInForeground = it }
             .launchIn(GlobalScope)
 
-        if (LocalData.onboardingCompletedTimestamp() != null) {
+        if (onboardingSettings.isOnboarded) {
             if (!LocalData.isAllowedToSubmitDiagnosisKeys()) {
                 deadmanNotificationScheduler.schedulePeriodic()
             }

@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -96,6 +97,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
+    @MockK lateinit var onboardingSettings: OnboardingSettings
 
     // MainActivity mocks
     @MockK lateinit var environmentSetup: EnvironmentSetup
@@ -131,7 +133,7 @@ class MainActivityTest : BaseUITest() {
         // Common mocks
         every { CWADebug.isDeviceForTestersBuild } returns false
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.PRODUCTION
-        every { LocalData.isBackgroundCheckDone() } returns true
+        every { onboardingSettings.isBackgroundCheckDone } returns true
         every { LocalData.submissionWasSuccessful() } returns false
         every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
         every { BackgroundWorkScheduler.startWorkScheduler() } just Runs
@@ -362,7 +364,8 @@ class MainActivityTest : BaseUITest() {
             dispatcherProvider = TestDispatcherProvider(),
             environmentSetup = environmentSetup,
             backgroundModeStatus = backgroundModeStatus,
-            contactDiarySettings = diarySettings
+            contactDiarySettings = diarySettings,
+            onboardingSettings = onboardingSettings
         )
     )
 

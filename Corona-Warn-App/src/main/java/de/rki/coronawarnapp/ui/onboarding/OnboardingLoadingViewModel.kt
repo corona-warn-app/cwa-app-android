@@ -5,17 +5,21 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
-class OnboardingLoadingViewModel @AssistedInject constructor(private val cwaSettings: CWASettings) : CWAViewModel() {
+class OnboardingLoadingViewModel @AssistedInject constructor(
+    private val cwaSettings: CWASettings,
+    private val onboardingSettings: OnboardingSettings
+) : CWAViewModel() {
 
     val navigationEvents = SingleLiveEvent<OnboardingFragmentEvents>()
 
     fun navigate() {
         when {
-            !LocalData.isOnboarded() -> {
+            !onboardingSettings.isOnboarded -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowOnboarding)
             }
             !LocalData.isInteroperabilityShownAtLeastOnce -> {
