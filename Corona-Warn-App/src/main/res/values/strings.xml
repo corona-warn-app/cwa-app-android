@@ -915,6 +915,14 @@
     <string name="debugging_debuglog_status_not_recording">"Inactive"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"Current size: %1$s (uncompressed)"</string>
+
+    <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_title">"Prüfung der Echtheit und Drittlandsübermittlung"</string>
+    <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_first_section">"Um die Echtheit Ihrer App zu bestätigen, erzeugt Ihr Smartphone eine eindeutige Kennung, die Informationen über die Version Ihres Smartphones und der App enthält. Das ist erforderlich, um sicherzustellen, dass nur Nutzer Daten auf diesem Weg an den technischen Support übersenden, die tatsächlich die Corona-Warn-App nutzen und nicht manipulierte Fehlerberichte bereitstellen. Die Kennung wird dafür einmalig an Google übermittelt. Dabei kann es auch zu einer Datenübermittlung in die USA oder andere Drittländer kommen. Dort besteht möglicherweise kein dem europäischen Recht entsprechendes Datenschutzniveau und Ihre europäischen Datenschutzrechte können eventuell nicht durchgesetzt werden. Insbesondere besteht die Möglichkeit, dass Sicherheitsbehörden im Drittland, auch ohne einen konkreten Verdacht, auf die übermittelten Daten bei Google zugreifen und diese auswerten, beispielsweise indem sie Daten mit anderen Informationen verknüpfen. Dies betrifft nur die an Google übermittelte Kennung. Die Angaben aus Ihrem Fehlerbericht erhält Google nicht. Möglicherweise kann Google jedoch anhand der Kennung auf Ihre Identität schließen und nachvollziehen, dass die Echtheitsprüfung Ihres Smartphones stattgefunden hat."</string>
+    <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_second_section">"Wenn Sie mit der Drittlandsübermittlung nicht einverstanden sind, tippen Sie bitte nicht „Einverstanden und senden“ an. Sie können die App weiterhin nutzen, eine Übersendung des Fehlerberichtes über die App ist dann jedoch nicht möglich."</string>
+
     <!-- XHED: Title for native sharing dialog -->
     <string name="debugging_debuglog_sharing_dialog_title">"Share CWA Error Report"</string>
     <!-- YTXT: Dialog title if the log recording is stopped, and thus deleted. -->
