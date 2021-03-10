@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.resultready
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -16,8 +18,18 @@ class SubmissionResultReadyViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val showUploadDialog = autoSubmission.isSubmissionRunning
-        .asLiveData(context = dispatcherProvider.Default)
+    private val mediatorShowUploadDialog = MediatorLiveData<Boolean>()
+
+    init {
+        mediatorShowUploadDialog.addSource(
+            autoSubmission.isSubmissionRunning.asLiveData(context = dispatcherProvider.Default)
+        ) { show ->
+            mediatorShowUploadDialog.postValue(show)
+        }
+    }
+
+    val showUploadDialog: LiveData<Boolean> = mediatorShowUploadDialog
+
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     fun onContinueWithSymptomRecordingPressed() {
@@ -32,6 +44,8 @@ class SubmissionResultReadyViewModel @AssistedInject constructor(
             } catch (e: Exception) {
                 Timber.e(e, "greenlightSubmission() failed.")
             } finally {
+                Timber.i("Hide uploading progress and navigate to MainActivity")
+                mediatorShowUploadDialog.postValue(false)
                 routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
             }
         }

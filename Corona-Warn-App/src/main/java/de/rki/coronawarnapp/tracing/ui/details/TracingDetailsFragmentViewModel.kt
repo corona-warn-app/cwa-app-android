@@ -101,7 +101,6 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
     fun refreshData() {
         launch {
             tracingRepository.refreshRiskLevel()
-            tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         }
     }
 

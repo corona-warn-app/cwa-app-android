@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.LocalData
@@ -49,7 +48,6 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
-import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
@@ -96,15 +94,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     val popupEvents = SingleLiveEvent<HomeFragmentEvents>()
 
     fun showPopUps() {
-        launch {
-            if (!LocalData.tracingExplanationDialogWasShown()) {
-                popupEvents.postValue(
-                    ShowTracingExplanation(
-                        TimeVariables.getActiveTracingDaysInRetentionPeriod()
-                    )
-                )
-            }
-        }
         launch {
             if (errorResetTool.isResetNoticeToBeShown) {
                 popupEvents.postValue(ShowErrorResetDialog)
@@ -293,7 +282,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         launch {
             submissionRepository.refreshDeviceUIState()
             tracingRepository.refreshRiskLevel()
-            tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         }
     }
 
@@ -301,10 +289,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         launch {
             appShortcutsHelper.restoreAppShortcut()
         }
-    }
-
-    fun tracingExplanationWasShown() {
-        LocalData.tracingExplanationDialogWasShown(true)
     }
 
     private fun refreshDiagnosisKeys() {
