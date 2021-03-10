@@ -42,6 +42,7 @@ import de.rki.coronawarnapp.util.security.SecurityModule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.worker.WorkerBinder
 import de.rki.coronawarnapp.verification.VerificationModule
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import javax.inject.Singleton
 
 @Singleton
@@ -97,6 +98,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val bugReporter: BugReporter
 
     fun inject(logger: DebugLogger)
+
+    fun inject(backgroundWorkScheduler: BackgroundWorkScheduler)
 
     @Component.Factory
     interface Factory {

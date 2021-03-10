@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
 import de.rki.coronawarnapp.util.TimeStamper
@@ -29,6 +30,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockkObject
+import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
@@ -48,6 +50,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
     @MockK lateinit var operation: Operation
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var tracingSettings: TracingSettings
     @RelaxedMockK lateinit var workerParams: WorkerParameters
     private val currentInstant = Instant.ofEpochSecond(1611764225)
     private val registrationToken = "test token"
@@ -57,6 +60,8 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         MockKAnnotations.init(this)
         every { submissionSettings.hasViewedTestResult.value } returns false
         every { timeStamper.nowUTC } returns currentInstant
+        every { tracingSettings.initialPollingForTestResultTimeStamp } returns currentInstant.millis
+        every { tracingSettings.isTestResultAvailableNotificationSent } returns false
 
         mockkObject(AppInjector)
         every { AppInjector.component } returns appComponent
@@ -65,10 +70,6 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
         mockkObject(LocalData)
         every { LocalData.registrationToken() } returns registrationToken
-        every { LocalData.isTestResultAvailableNotificationSent() } returns false
-        every { LocalData.initialPollingForTestResultTimeStamp() } returns currentInstant.millis
-        every { LocalData.initialPollingForTestResultTimeStamp(any()) } just Runs
-        every { LocalData.isTestResultAvailableNotificationSent(any()) } just Runs
 
         mockkObject(BackgroundWorkScheduler)
         every { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() } returns operation
@@ -89,7 +90,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     @Test
     fun testStopWorkerWhenNotificationSent() {
         runBlockingTest {
-            every { LocalData.isTestResultAvailableNotificationSent() } returns true
+            every { tracingSettings.isTestResultAvailableNotificationSent } returns true
             val worker = createWorker()
             val result = worker.doWork()
             coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
@@ -103,7 +104,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         runBlockingTest {
             val past =
                 currentInstant - (BackgroundConstants.POLLING_VALIDITY_MAX_DAYS.toLong() + 1).daysToMilliseconds()
-            every { LocalData.initialPollingForTestResultTimeStamp() } returns past.millis
+            every { tracingSettings.initialPollingForTestResultTimeStamp } returns past.millis
             val worker = createWorker()
             val result = worker.doWork()
             coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
@@ -114,6 +115,11 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
     @Test
     fun testSendNotificationWhenPositive() {
+        val isTestResultAvailableNotificationSent = slot<Boolean>()
+        every {
+            tracingSettings.isTestResultAvailableNotificationSent = capture(isTestResultAvailableNotificationSent)
+        } answers {}
+
         runBlockingTest {
             val testResult = TestResult.POSITIVE
             coEvery { submissionService.asyncRequestTestResult(registrationToken) } returns testResult
@@ -126,7 +132,6 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify { submissionService.asyncRequestTestResult(registrationToken) }
-            coVerify { LocalData.isTestResultAvailableNotificationSent(true) }
             coVerify { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) }
             coVerify {
                 notificationHelper.cancelCurrentNotification(
@@ -134,11 +139,17 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
                 )
             }
             assert(result is ListenableWorker.Result.Success)
+            assert(isTestResultAvailableNotificationSent.captured)
         }
     }
 
     @Test
     fun testSendNotificationWhenNegative() {
+        val isTestResultAvailableNotificationSent = slot<Boolean>()
+        every {
+            tracingSettings.isTestResultAvailableNotificationSent = capture(isTestResultAvailableNotificationSent)
+        } answers {}
+
         runBlockingTest {
             val testResult = TestResult.NEGATIVE
             coEvery { submissionService.asyncRequestTestResult(registrationToken) } returns testResult
@@ -151,7 +162,6 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify { submissionService.asyncRequestTestResult(registrationToken) }
-            coVerify { LocalData.isTestResultAvailableNotificationSent(true) }
             coVerify { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) }
             coVerify {
                 notificationHelper.cancelCurrentNotification(
@@ -159,11 +169,17 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
                 )
             }
             assert(result is ListenableWorker.Result.Success)
+            assert(isTestResultAvailableNotificationSent.captured)
         }
     }
 
     @Test
     fun testSendNotificationWhenInvalid() {
+        val isTestResultAvailableNotificationSent = slot<Boolean>()
+        every {
+            tracingSettings.isTestResultAvailableNotificationSent = capture(isTestResultAvailableNotificationSent)
+        } answers {}
+
         runBlockingTest {
             val testResult = TestResult.INVALID
             coEvery { submissionService.asyncRequestTestResult(registrationToken) } returns testResult
@@ -176,7 +192,6 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify { submissionService.asyncRequestTestResult(registrationToken) }
-            coVerify { LocalData.isTestResultAvailableNotificationSent(true) }
             coVerify { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) }
             coVerify {
                 notificationHelper.cancelCurrentNotification(
@@ -184,6 +199,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
                 )
             }
             assert(result is ListenableWorker.Result.Success)
+            assert(isTestResultAvailableNotificationSent.captured)
         }
     }
 
@@ -201,7 +217,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify { submissionService.asyncRequestTestResult(registrationToken) }
-            coVerify(exactly = 0) { LocalData.isTestResultAvailableNotificationSent(true) }
+            // TODO: finish test
             coVerify(exactly = 0) {
                 testResultAvailableNotificationService.showTestResultAvailableNotification(
                     testResult
@@ -236,6 +252,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         notificationHelper,
         submissionSettings,
         submissionService,
-        timeStamper
+        timeStamper,
+        tracingSettings
     )
 }

@@ -3,12 +3,14 @@ package de.rki.coronawarnapp.storage.preferences
 import android.content.SharedPreferences
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.EncryptedPreferences
+import de.rki.coronawarnapp.storage.TracingSettings
 import timber.log.Timber
 import javax.inject.Inject
 
 class EncryptedPreferencesMigration @Inject constructor(
     private val encryptedPreferencesHelper: EncryptedPreferencesHelper,
     private val cwaSettings: CWASettings,
+    private val tracingSettings: TracingSettings,
     @EncryptedPreferences private val encryptedSharedPreferences: SharedPreferences?
 ) {
 
@@ -36,7 +38,10 @@ class EncryptedPreferencesMigration @Inject constructor(
             }
 
             TracingLocalData(encryptedSharedPreferences).apply {
-                // TODO: tracing migration
+                tracingSettings.initialPollingForTestResultTimeStamp = initialPollingForTestResultTimeStamp()
+                tracingSettings.isTestResultAvailableNotificationSent = isTestResultAvailableNotificationSent()
+                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { isUserToBeNotifiedOfLoweredRiskLevel() }
+                tracingSettings.isConsentGiven = initialTracingActivationTimestamp() != 0L
             }
 
             val submissionLocalData = SubmissionLocalData(encryptedSharedPreferences).apply {
@@ -72,7 +77,21 @@ class EncryptedPreferencesMigration @Inject constructor(
     }
 
     private class TracingLocalData(private val sharedPreferences: SharedPreferences) {
-        // TODO:
+
+        fun initialPollingForTestResultTimeStamp() = sharedPreferences.getLong(PKEY_POOLING_TEST_RESULT_STARTED, 0L)
+
+        fun isTestResultAvailableNotificationSent() = sharedPreferences.getBoolean(PKEY_TEST_RESULT_NOTIFICATION, false)
+
+        fun isUserToBeNotifiedOfLoweredRiskLevel() = sharedPreferences.getBoolean(PKEY_HAS_RISK_STATUS_LOWERED, false)
+
+        fun initialTracingActivationTimestamp(): Long = sharedPreferences.getLong(PKEY_TRACING_ACTIVATION_TIME, 0L)
+
+        companion object {
+            private const val PKEY_POOLING_TEST_RESULT_STARTED = "preference_polling_test_result_started"
+            private const val PKEY_TEST_RESULT_NOTIFICATION = "preference_test_result_notification"
+            private const val PKEY_HAS_RISK_STATUS_LOWERED = "preference_has_risk_status_lowered"
+            private const val PKEY_TRACING_ACTIVATION_TIME = "preference_initial_tracing_activation_time"
+        }
     }
 
     private class SubmissionLocalData(private val sharedPreferences: SharedPreferences) {

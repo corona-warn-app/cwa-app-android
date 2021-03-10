@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -19,8 +19,9 @@ import timber.log.Timber
 
 class OnboardingTracingFragmentViewModel @AssistedInject constructor(
     private val interoperabilityRepository: InteroperabilityRepository,
-    tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
-    dispatcherProvider: DispatcherProvider
+    private val tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
+    private val dispatcherProvider: DispatcherProvider,
+    private val tracingSettings: TracingSettings,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val countryList = interoperabilityRepository.countryList
@@ -62,8 +63,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
             try {
                 if (InternalExposureNotificationClient.asyncIsEnabled()) {
                     InternalExposureNotificationClient.asyncStop()
-                    // Reset initial activation timestamp
-                    LocalData.initialTracingActivationTimestamp(0L)
+                    tracingSettings.isConsentGiven = false
                 }
             } catch (exception: Exception) {
                 exception.report(

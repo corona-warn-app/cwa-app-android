@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
@@ -35,7 +36,8 @@ class SubmissionRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val tekHistoryStorage: TEKHistoryStorage,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    private val tracingSettings: TracingSettings
 ) {
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
@@ -185,10 +187,10 @@ class SubmissionRepository @Inject constructor(
         revokeConsentToSubmission()
         LocalData.registrationToken(null)
         LocalData.devicePairingSuccessfulTimestamp(0L)
-        LocalData.initialPollingForTestResultTimeStamp(0L)
+        tracingSettings.initialPollingForTestResultTimeStamp = 0L
         LocalData.initialTestResultReceivedTimestamp(0L)
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
-        LocalData.isTestResultAvailableNotificationSent(false)
+        tracingSettings.isTestResultAvailableNotificationSent = false
         LocalData.numberOfSuccessfulSubmissions(0)
     }
 

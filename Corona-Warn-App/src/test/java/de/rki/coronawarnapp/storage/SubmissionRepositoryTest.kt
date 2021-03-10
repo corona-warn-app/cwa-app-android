@@ -27,7 +27,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
+import io.mockk.slot
 import io.mockk.verify
+import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
@@ -53,6 +55,7 @@ class SubmissionRepositoryTest : BaseTest() {
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var tracingSettings: TracingSettings
 
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
@@ -97,17 +100,24 @@ class SubmissionRepositoryTest : BaseTest() {
         timeStamper = timeStamper,
         tekHistoryStorage = tekHistoryStorage,
         deadmanNotificationScheduler = deadmanNotificationScheduler,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        tracingSettings = tracingSettings
     )
 
     @Test
     fun removeTestFromDeviceSucceeds() = runBlockingTest {
         val submissionRepository = createInstance(scope = this)
+        val initialPollingForTestResultTimeStampSlot = slot<Long>()
+        val isTestResultAvailableNotificationSent = slot<Boolean>()
 
-        every { LocalData.initialPollingForTestResultTimeStamp(any()) } just Runs
+        every {
+            tracingSettings.initialPollingForTestResultTimeStamp = capture(initialPollingForTestResultTimeStampSlot)
+        } answers {}
+        every {
+            tracingSettings.isTestResultAvailableNotificationSent = capture(isTestResultAvailableNotificationSent)
+        } answers {}
         every { LocalData.initialTestResultReceivedTimestamp(any()) } just Runs
         every { LocalData.isAllowedToSubmitDiagnosisKeys(any()) } just Runs
-        every { LocalData.isTestResultAvailableNotificationSent(any()) } just Runs
         every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
         every { analyticsKeySubmissionCollector.reset() } just Runs
 
@@ -116,12 +126,13 @@ class SubmissionRepositoryTest : BaseTest() {
         verify(exactly = 1) {
             LocalData.registrationToken(null)
             LocalData.devicePairingSuccessfulTimestamp(0L)
-            LocalData.initialPollingForTestResultTimeStamp(0L)
             LocalData.initialTestResultReceivedTimestamp(0L)
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
-            LocalData.isTestResultAvailableNotificationSent(false)
             LocalData.numberOfSuccessfulSubmissions(0)
         }
+
+        assertEquals(initialPollingForTestResultTimeStampSlot.captured, 0L)
+        assertEquals(isTestResultAvailableNotificationSent.captured, false)
     }
 
     @Test

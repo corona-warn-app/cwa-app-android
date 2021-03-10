@@ -7,6 +7,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import timber.log.Timber
 import java.util.concurrent.ExecutionException
 
@@ -17,7 +18,11 @@ import java.util.concurrent.ExecutionException
  * @see BackgroundConstants
  * @see BackgroundWorkHelper
  */
-object BackgroundWorkScheduler {
+object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
+
+    fun init(component: ApplicationComponent) {
+        component.inject(this)
+    }
 
     /**
      * Enum class for work tags
@@ -84,10 +89,10 @@ object BackgroundWorkScheduler {
         }
         if (!LocalData.submissionWasSuccessful()) {
             if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
-                LocalData.registrationToken() != null && !LocalData.isTestResultAvailableNotificationSent()
+                LocalData.registrationToken() != null && !tracingSettings.get().isTestResultAvailableNotificationSent
             ) {
                 WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
-                LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
+                tracingSettings.get().initialPollingForTestResultTimeStamp = System.currentTimeMillis()
                 notificationBody.append("[DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER]")
             }
         }
