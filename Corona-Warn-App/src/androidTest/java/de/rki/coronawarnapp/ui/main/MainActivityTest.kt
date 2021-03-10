@@ -30,6 +30,7 @@ import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
@@ -101,6 +102,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
     @MockK lateinit var tracingStateProvider: TracingStateProvider
     @MockK lateinit var diarySettings: ContactDiarySettings
+    @MockK lateinit var tracingSettings: TracingSettings
 
     // ContactDiaryOverviewFragment mocks
     @MockK lateinit var taskController: TaskController
@@ -378,7 +380,8 @@ class MainActivityTest : BaseUITest() {
             cwaSettings = cwaSettings,
             statisticsProvider = statisticsProvider,
             deadmanNotificationScheduler = deadmanNotificationScheduler,
-            appShortcutsHelper = appShortcutsHelper
+            appShortcutsHelper = appShortcutsHelper,
+            tracingSettings = tracingSettings
         )
     )
 
