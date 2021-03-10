@@ -39,4 +39,11 @@
         <attr name="android:backgroundTint" />
         <attr name="android:foregroundTint" />
     </declare-styleable>
+
+    <declare-styleable name="MoreInformationView">
+        <attr name="isTopDividerVisible" format="boolean" />
+        <attr name="isBottomDividerVisible" format="boolean" />
+        <attr name="titleText" format="string" localization="suggested" />
+        <attr name="subtitleText" format="string" />
+    </declare-styleable>
 </resources>

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.states
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskState
@@ -25,9 +26,9 @@ class TracingStateProvider @AssistedInject constructor(
     backgroundModeStatus: BackgroundModeStatus,
     tracingRepository: TracingRepository,
     riskLevelStorage: RiskLevelStorage,
-    exposureDetectionTracker: ExposureDetectionTracker
+    exposureDetectionTracker: ExposureDetectionTracker,
+    installTimeProvider: InstallTimeProvider
 ) {
-
     val state: Flow<TracingState> = combine(
         tracingStatus.generalStatus.onEach {
             Timber.v("tracingStatus: $it")
@@ -72,7 +73,8 @@ class TracingStateProvider @AssistedInject constructor(
                 lastExposureDetectionTime = latestSubmission?.startedAt,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
-                allowManualUpdate = !isBackgroundJobEnabled
+                allowManualUpdate = !isBackgroundJobEnabled,
+                daysSinceInstallation = installTimeProvider.daysSinceInstallation
             )
             latestCalc.riskState == RiskState.INCREASED_RISK -> IncreasedRisk(
                 isInDetailsMode = isDetailsMode,

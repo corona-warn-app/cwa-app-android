@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.databinding.TracingDetailsItemPeriodloggedViewBindin
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 
 class PeriodLoggedBox(
     parent: ViewGroup,
@@ -34,15 +33,18 @@ class PeriodLoggedBox(
     }
 
     data class Item(
+        val daysSinceInstallation: Long,
         val tracingStatus: GeneralTracingStatus.Status
     ) : DetailsItem {
 
-        fun getProgressColor(context: Context) = when (tracingStatus) {
-            GeneralTracingStatus.Status.TRACING_INACTIVE,
-            GeneralTracingStatus.Status.BLUETOOTH_DISABLED,
-            GeneralTracingStatus.Status.LOCATION_DISABLED -> R.color.colorTextPrimary2
-            GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorAccentTintIcon
-        }.let { context.getColorCompat(it) }
+        fun getInstallTimePeriodLogged(context: Context): String =
+            if (daysSinceInstallation < 14L) {
+                context.getString(
+                    R.string.risk_details_information_body_period_logged_assessment_under_14_days
+                ).format(daysSinceInstallation)
+            } else context.getString(
+                R.string.risk_details_information_body_period_logged_assessment_over_14_days
+            )
 
         override val stableId: Long
             get() = Item::class.java.name.hashCode().toLong()
