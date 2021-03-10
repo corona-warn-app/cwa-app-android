@@ -923,8 +923,14 @@
     <string name="debugging_debuglog_status_additional_infos">"Current size: %1$s (uncompressed)"</string>
     <!-- XHED: Title for native sharing dialog -->
     <string name="debugging_debuglog_sharing_dialog_title">"Share CWA Error Report"</string>
+    <!-- YTXT: Dialog title if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_title">"Wollen Sie die Fehleranalyse wirklich stoppen?"</string>
     <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
-    <string name="debugging_debuglog_stop_confirmation_message">"Der Fehlerbericht wurde gelöscht. Wenn Sie eine lokale Kopie des Fehlerberichts gespeichert haben, wurde diese nicht gelöscht."</string>
+    <string name="debugging_debuglog_stop_confirmation_message">"Hierbei werden alle bereits aufgezeichneten Daten gelöscht. Wenn Sie eine lokale Kopie des Fehlerberichts gespeichert haben, wird diese nicht gelöscht."</string>
+    <!-- YTXT: Dialog confirmation button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_confirmation_button">"Analyse stoppen"</string>
+    <!-- YTXT: Dialog discard button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_discard_button">"Analyse fortführen"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">Sie brauchen mindestens 200 MB Speicherplatz, um die Fehleranalyse zu starten. Bitte geben Sie Speicherplatz frei.</string>
     <!-- XHED: Dialog title if a user has stored a debug log locally -->
