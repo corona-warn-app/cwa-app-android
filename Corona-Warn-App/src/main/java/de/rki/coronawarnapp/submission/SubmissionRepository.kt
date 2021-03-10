@@ -39,7 +39,8 @@ class SubmissionRepository @Inject constructor(
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val tracingSettings: TracingSettings
 ) {
-    private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
+    private val testResultReceivedDateFlowInternal =
+        MutableStateFlow(Date(LocalData.initialTestResultReceivedTimestamp() ?: System.currentTimeMillis()))
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
 
     private val deviceUIStateFlowInternal =

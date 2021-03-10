@@ -143,7 +143,7 @@ class SubmissionRepositoryTest : BaseTest() {
 
         submissionRepository.asyncRegisterDeviceViaGUID(guid)
 
-        verify(exactly = 1) {
+        verify {
             LocalData.devicePairingSuccessfulTimestamp(any())
             LocalData.registrationToken(registrationToken)
             backgroundNoise.scheduleDummyPattern()
@@ -161,7 +161,7 @@ class SubmissionRepositoryTest : BaseTest() {
 
         submissionRepository.asyncRegisterDeviceViaTAN(tan)
 
-        coVerify(exactly = 1) {
+        coVerify {
             LocalData.devicePairingSuccessfulTimestamp(any())
             LocalData.registrationToken(registrationToken)
             backgroundNoise.scheduleDummyPattern()

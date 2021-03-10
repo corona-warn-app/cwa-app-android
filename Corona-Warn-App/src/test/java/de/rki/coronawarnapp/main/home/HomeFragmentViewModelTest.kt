@@ -181,7 +181,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     fun `test correct order of displaying delta onboarding, release notes and popups`() {
 
         mockkObject(LocalData)
-        every { LocalData.isInteroperabilityShownAtLeastOnce } returns false andThen true
+        every { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns false andThen true
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 1120004

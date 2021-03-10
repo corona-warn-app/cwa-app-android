@@ -73,7 +73,7 @@ class LauncherActivityViewModelTest : BaseTest() {
     @Test
     fun `onboarding finished`() {
         every { onboardingSettings.isOnboarded } returns true
-        every { LocalData.isInteroperabilityShownAtLeastOnce } returns true
+        every { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns true
         every { cwaSettings.lastChangelogVersion } returns mockFlowPreference(10L)
 
         val vm = createViewModel()

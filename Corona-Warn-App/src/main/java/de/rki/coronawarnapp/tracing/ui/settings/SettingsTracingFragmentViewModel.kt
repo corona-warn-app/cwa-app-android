@@ -10,6 +10,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
@@ -31,12 +32,18 @@ import timber.log.Timber
 class SettingsTracingFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
+    installTimeProvider: InstallTimeProvider,
     private val backgroundStatus: BackgroundModeStatus,
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val loggingPeriod: LiveData<PeriodLoggedBox.Item> =
-        tracingStatus.generalStatus.map { PeriodLoggedBox.Item(it) }
+        tracingStatus.generalStatus.map {
+            PeriodLoggedBox.Item(
+                daysSinceInstallation = installTimeProvider.daysSinceInstallation,
+                tracingStatus = it
+            )
+        }
             .onEach { Timber.v("logginPeriod onEach") }
             .asLiveData(dispatcherProvider.Main)
 

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util.sharing
+package de.rki.coronawarnapp.util.files
 
 import android.app.Activity
 import android.content.Context
@@ -32,7 +32,7 @@ class FileSharing @Inject constructor(
     ): ShareIntentProvider = object : ShareIntentProvider {
         override fun get(activity: Activity): Intent {
             val builder = ShareCompat.IntentBuilder.from(activity).apply {
-                setType(determineMimeType(path))
+                setType(path.determineMimeType())
                 setStream(getFileUri(path))
                 setSubject(title)
                 chooserTitle?.let { setChooserTitle(it) }
@@ -52,11 +52,6 @@ class FileSharing @Inject constructor(
 
     interface ShareIntentProvider {
         fun get(activity: Activity): Intent
-    }
-
-    private fun determineMimeType(path: File): String = when {
-        path.name.endsWith(".zip") -> "application/zip"
-        else -> throw UnsupportedOperationException("Unsupported MIME type: $path")
     }
 
     companion object {
