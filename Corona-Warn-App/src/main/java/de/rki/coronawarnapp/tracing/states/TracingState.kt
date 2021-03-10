@@ -134,7 +134,7 @@ data class LowRisk(
         context.getString(R.string.risk_card_body_days_since_installation)
             .format(daysSinceInstallation)
 
-    fun appInstalledForOverTwoWeeks(): Boolean = daysSinceInstallation < 14
+    fun appInstalledForOverTwoWeeks(): Boolean = daysSinceInstallation < 14 && lastEncounterAt == null
 
     fun getRiskContactLast(context: Context): String? {
         if (lastEncounterAt == null) return null
