@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
+import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
@@ -50,10 +51,10 @@ class TestResultDonor @Inject constructor(
             testResultDonorSettings.testResultAtRegistration.value ?: return TestResultMetadataNoContribution
 
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
-            Duration(
+            calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
                 timestampAtRegistration
-            ).standardDays.toInt()
+            )
 
         val riskLevelAtRegistration = testResultDonorSettings.riskLevelAtTestRegistration.value
 
