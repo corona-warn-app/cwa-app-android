@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.nearby
 
 import android.app.Activity
 import com.google.android.gms.common.api.Status
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -13,7 +13,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +24,7 @@ import testhelpers.BaseTest
 
 class TracingPermissionHelperTest : BaseTest() {
     @MockK lateinit var enfClient: ENFClient
+    @MockK lateinit var tracingSettings: TracingSettings
 
     @BeforeEach
     fun setup() {
@@ -33,14 +33,14 @@ class TracingPermissionHelperTest : BaseTest() {
         coEvery { enfClient.isTracingEnabled } returns flowOf(false)
         coEvery { enfClient.setTracing(any(), any(), any(), any()) } just Runs
 
-        mockkObject(LocalData)
-        every { LocalData.initialTracingActivationTimestamp() } returns 123L
+        every { tracingSettings.isConsentGiven } returns true
     }
 
     fun createInstance(scope: CoroutineScope, callback: TracingPermissionHelper.Callback) = TracingPermissionHelper(
         callback = callback,
         scope = scope,
-        enfClient = enfClient
+        enfClient = enfClient,
+        tracingSettings = tracingSettings
     )
 
     @Test
@@ -61,7 +61,7 @@ class TracingPermissionHelperTest : BaseTest() {
 
     @Test
     fun `if consent is missing then we continue after it was given`() = runBlockingTest {
-        every { LocalData.initialTracingActivationTimestamp() } returns null
+        every { tracingSettings.isConsentGiven } returns false
 
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
         val consentCallbackSlot = slot<(Boolean) -> Unit>()
@@ -85,7 +85,7 @@ class TracingPermissionHelperTest : BaseTest() {
 
     @Test
     fun `if consent was declined then we do nothing`() = runBlockingTest {
-        every { LocalData.initialTracingActivationTimestamp() } returns null
+        every { tracingSettings.isConsentGiven } returns false
 
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
         val consentCallbackSlot = slot<(Boolean) -> Unit>()

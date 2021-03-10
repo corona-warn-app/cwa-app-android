@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
@@ -30,6 +31,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 
 class RiskLevelChangeDetectorTest : BaseTest() {
 
@@ -41,6 +43,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: NotificationHelper
     @MockK lateinit var surveys: Surveys
+    @MockK lateinit var tracingSettings: TracingSettings
 
     @BeforeEach
     fun setup() {
@@ -48,7 +51,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
         mockkObject(LocalData)
 
-        every { LocalData.isUserToBeNotifiedOfLoweredRiskLevel = any() } just Runs
+        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
         every { LocalData.submissionWasSuccessful() } returns false
         every { foregroundState.isInForeground } returns flowOf(true)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
@@ -78,7 +81,8 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         foregroundState = foregroundState,
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
-        surveys = surveys
+        surveys = surveys,
+        tracingSettings = tracingSettings
     )
 
     @Test
@@ -140,7 +144,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             coVerifySequence {
                 LocalData.submissionWasSuccessful()
                 foregroundState.isInForeground
-                LocalData.isUserToBeNotifiedOfLoweredRiskLevel = any()
                 surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
             }
         }

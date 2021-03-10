@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -30,7 +31,8 @@ class RiskLevelChangeDetector @Inject constructor(
     private val notificationManagerCompat: NotificationManagerCompat,
     private val foregroundState: ForegroundState,
     private val notificationHelper: NotificationHelper,
-    private val surveys: Surveys
+    private val surveys: Surveys,
+    private val tracingSettings: TracingSettings
 ) {
 
     fun launch() {
@@ -80,7 +82,7 @@ class RiskLevelChangeDetector @Inject constructor(
         }
 
         if (oldRiskState == RiskState.INCREASED_RISK && newRiskState == RiskState.LOW_RISK) {
-            LocalData.isUserToBeNotifiedOfLoweredRiskLevel = true
+            tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { true }
             Timber.d("Risk level changed LocalData is updated. Current Risk level is $newRiskState")
 
             surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)

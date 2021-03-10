@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
@@ -64,6 +65,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
+    @MockK lateinit var tracingSettings: TracingSettings
 
     @BeforeEach
     fun setup() {
@@ -95,7 +97,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         statisticsProvider = statisticsProvider,
         deadmanNotificationScheduler = deadmanNotificationScheduler,
-        appShortcutsHelper = appShortcutsHelper
+        appShortcutsHelper = appShortcutsHelper,
+        tracingSettings = tracingSettings
     )
 
     @Test
