@@ -17,9 +17,6 @@ import timber.log.Timber
  */
 object LocalData {
 
-    private const val PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE =
-        "preference_interoperability_is_used_at_least_once"
-
     private const val PREFERENCE_HAS_RISK_STATUS_LOWERED =
         "preference_has_risk_status_lowered"
 
@@ -300,23 +297,6 @@ object LocalData {
      ****************************************************/
 
     private fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance!!
-
-    /****************************************************
-     * INTEROPERABILITY
-     ****************************************************/
-
-    var isInteroperabilityShownAtLeastOnce: Boolean
-        get() {
-            return getSharedPreferenceInstance().getBoolean(
-                PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE,
-                false
-            )
-        }
-        set(value) {
-            getSharedPreferenceInstance().edit(true) {
-                putBoolean(PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE, value)
-            }
-        }
 
     fun clear() {
         // If you make use of a FlowPreference, you need to manually clear it here

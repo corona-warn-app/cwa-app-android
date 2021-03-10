@@ -28,6 +28,7 @@ class EncryptedPreferencesMigration @Inject constructor(
         if (encryptedSharedPreferences != null && encryptedPreferencesHelper.isAvailable()) {
             Timber.d("EncryptedPreferences are available")
             SettingsLocalData(encryptedSharedPreferences).apply {
+                cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
                 cwaSettings.isNotificationsRiskEnabled.update { isNotificationsRiskEnabled() }
                 cwaSettings.isNotificationsTestEnabled.update { isNotificationsTestEnabled() }
                 cwaSettings.numberOfRemainingSharePositiveTestResultReminders =
@@ -58,6 +59,8 @@ class EncryptedPreferencesMigration @Inject constructor(
     // TODO: delete or update LocalData, SecurityConstants, SecurityHelper after all methods are migrated
     private class SettingsLocalData(private val sharedPreferences: SharedPreferences) {
 
+        fun wasInteroperabilityShown() = sharedPreferences.getBoolean(PREFERENCE_INTEROPERABILITY_WAS_USED, false)
+
         fun isNotificationsRiskEnabled(): Boolean = sharedPreferences.getBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, true)
 
         fun isNotificationsTestEnabled(): Boolean = sharedPreferences.getBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, true)
@@ -66,6 +69,7 @@ class EncryptedPreferencesMigration @Inject constructor(
             sharedPreferences.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)
 
         companion object {
+            private const val PREFERENCE_INTEROPERABILITY_WAS_USED = "preference_interoperability_is_used_at_least_once"
             private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "preference_notifications_risk_enabled"
             private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "preference_notifications_test_enabled"
             private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT =

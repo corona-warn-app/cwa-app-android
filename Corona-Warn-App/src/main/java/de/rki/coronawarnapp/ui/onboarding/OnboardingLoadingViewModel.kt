@@ -4,7 +4,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -22,7 +21,7 @@ class OnboardingLoadingViewModel @AssistedInject constructor(
             !onboardingSettings.isOnboarded -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowOnboarding)
             }
-            !LocalData.isInteroperabilityShownAtLeastOnce -> {
+            !cwaSettings.wasInteroperabilityShownAtLeastOnce -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowInteropDeltaOnboarding)
             }
             cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE -> {
