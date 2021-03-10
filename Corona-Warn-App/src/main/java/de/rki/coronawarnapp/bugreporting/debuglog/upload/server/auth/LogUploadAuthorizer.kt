@@ -52,7 +52,13 @@ class LogUploadAuthorizer @Inject constructor(
             Timber.tag(TAG).v("Auth response received: %s", it)
         }
 
-        return LogUploadOtp(otp = otp.toString(), expirationDate = Instant.parse(authResponse.expirationDate)).also {
+        val expirationDate = if (authResponse.expirationDate.isNotEmpty()) {
+            Instant.parse(authResponse.expirationDate)
+        } else {
+            Instant.EPOCH
+        }
+
+        return LogUploadOtp(otp = otp.toString(), expirationDate = expirationDate).also {
             Timber.tag(TAG).d("%s created", it)
         }
     }
