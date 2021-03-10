@@ -141,13 +141,13 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         }
 
         vm.logUploads.observe2(this@DebugLogFragment) {
-            val hasLogs = it.logs.isNotEmpty()
+            val lastLog = it.logs.lastOrNull()?.uploadedAt
 
-            binding.debugLogHistoryContainer.setGone(!hasLogs)
+            binding.debugLogHistoryContainer.setGone(lastLog == null)
 
             val now = Instant.now()
-            val lastLog = it.logs.last().uploadedAt
-            if (hasLogs && Duration(lastLog, now).standardSeconds < 3) {
+
+            if (lastLog != null && Duration(lastLog, now).standardSeconds < 3) {
                 binding.scrollview.fullScroll(NestedScrollView.FOCUS_DOWN)
 
                 binding.debugLogHistoryContainer.apply {
