@@ -2,24 +2,41 @@ package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import de.rki.coronawarnapp.eventregistration.common.decodeBase32
 import de.rki.coronawarnapp.server.protocols.internal.evreg.SignedEventOuterClass
+import de.rki.coronawarnapp.util.security.SignatureValidation
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
-class DefaultQRCodeVerifier @Inject constructor() : QRCodeVerifier {
-    override suspend fun verify(uri: String): TraceLocationQRCode {
-        if (!uri.isValidQRCodeUri()) {
-            throw IllegalArgumentException("Invalid QRCode Uri:$uri")
+class DefaultQRCodeVerifier @Inject constructor(
+    private val signatureValidation: SignatureValidation
+) : QRCodeVerifier {
+
+    override suspend fun verify(encodedEvent: String): QRCodeVerifyResult {
+        Timber.tag(TAG).v("Verifying: %s", encodedEvent)
+
+        val signedEvent = try {
+            SignedEventOuterClass.SignedEvent.parseFrom(encodedEvent.decodeBase32().toByteArray())
+        } catch (e: Exception) {
+            throw InvalidQRCodeDataException(cause = e, message = "QR-code data could not be parsed.")
         }
-        val encodedTraceLocation = uri.substringAfterLast("/")
-        Timber.i("encodedTraceLocation: $encodedTraceLocation")
-        // TODO Implement verification
-        //  For now just parse
-        return TraceLocationQRCode(
-            traceLocation = SignedEventOuterClass.SignedEvent
-                .parseFrom(
-                    encodedTraceLocation.decodeBase32().toByteArray()
-                ).event
-        )
+        Timber.tag(TAG).d("Parsed to signed event: %s", signedEvent)
+
+        val isValid = try {
+            signatureValidation.hasValidSignature(
+                signedEvent.event.toByteArray(),
+                sequenceOf(signedEvent.signature.toByteArray())
+            )
+        } catch (e: Exception) {
+            throw InvalidQRCodeDataException(cause = e, message = "Verification failed.")
+        }
+
+        if (!isValid) {
+            throw InvalidQRCodeSignatureException(message = "QR-code did not match signature.")
+        }
+
+        return QRCodeVerifyResult(signedEvent)
+    }
+
+    companion object {
+        private const val TAG = "DefaultQRCodeVerifier"
     }
 }
