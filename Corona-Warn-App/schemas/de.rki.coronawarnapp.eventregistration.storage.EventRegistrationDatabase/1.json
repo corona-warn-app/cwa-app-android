@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "65f3afcf5d1c6bf0e15c9b721418e49e",
+    "identityHash": "5a4b44977bfb30cbe4204577dd194286",
     "entities": [
       {
         "tableName": "traceLocations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `location` TEXT NOT NULL, `startTime` TEXT, `endTime` TEXT, `defaultCheckInLength` INTEGER, `signature` TEXT NOT NULL, PRIMARY KEY(`guid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `startDate` TEXT, `endDate` TEXT, `defaultCheckInLength` INTEGER, `signature` TEXT NOT NULL, PRIMARY KEY(`guid`))",
         "fields": [
           {
             "fieldPath": "guid",
@@ -34,19 +34,19 @@
           },
           {
             "fieldPath": "address",
-            "columnName": "location",
+            "columnName": "address",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "startDate",
-            "columnName": "startTime",
+            "columnName": "startDate",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "endDate",
-            "columnName": "endTime",
+            "columnName": "endDate",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -76,7 +76,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '65f3afcf5d1c6bf0e15c9b721418e49e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5a4b44977bfb30cbe4204577dd194286')"
     ]
   }
 }

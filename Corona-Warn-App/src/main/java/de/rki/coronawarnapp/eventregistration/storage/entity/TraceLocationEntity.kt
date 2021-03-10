@@ -13,9 +13,9 @@ data class TraceLocationEntity(
     @ColumnInfo(name = "version") val version: Int,
     @ColumnInfo(name = "type") val type: TraceLocation.Type,
     @ColumnInfo(name = "description") val description: String,
-    @ColumnInfo(name = "location") val address: String,
-    @ColumnInfo(name = "startTime") val startDate: Instant?,
-    @ColumnInfo(name = "endTime") val endDate: Instant?,
+    @ColumnInfo(name = "address") val address: String,
+    @ColumnInfo(name = "startDate") val startDate: Instant?,
+    @ColumnInfo(name = "endDate") val endDate: Instant?,
     @ColumnInfo(name = "defaultCheckInLength") val defaultCheckInLengthInMinutes: Int?,
     @ColumnInfo(name = "signature") val signature: String
 
