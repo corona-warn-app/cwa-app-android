@@ -5,7 +5,6 @@ import android.text.format.DateUtils
 import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
@@ -33,8 +32,7 @@ data class IncreasedRisk(
     val lastExposureDetectionTime: Instant?,
     val lastEncounterAt: Instant?,
     val allowManualUpdate: Boolean,
-    val daysWithEncounters: Int,
-    val activeTracingDays: Int
+    val daysWithEncounters: Int
 ) : TracingState() {
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
@@ -70,16 +68,6 @@ data class IncreasedRisk(
         )
     }
 
-    fun getRiskActiveTracingDaysInRetentionPeriod(context: Context): String {
-        if (!isInDetailsMode) return ""
-
-        return if (activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays()) {
-            context.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
-        } else {
-            context.getString(R.string.risk_card_body_saved_days_full)
-        }
-    }
-
     fun getRiskContactLast(context: Context): String? {
         if (lastEncounterAt == null) return null
         // caution! lastEncounterAt is null after migration from 1.7.x -> 1.8.x
@@ -107,8 +95,7 @@ data class LowRisk(
     val lastExposureDetectionTime: Instant?,
     val lastEncounterAt: Instant?,
     val allowManualUpdate: Boolean,
-    val daysWithEncounters: Int,
-    val activeTracingDays: Int
+    val daysWithEncounters: Int
 ) : TracingState() {
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
@@ -143,13 +130,6 @@ data class LowRisk(
             daysWithEncounters
         )
     }
-
-    fun getRiskActiveTracingDaysInRetentionPeriod(context: Context): String =
-        if (activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays()) {
-            context.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
-        } else {
-            context.getString(R.string.risk_card_body_saved_days_full)
-        }
 
     fun getRiskContactLast(context: Context): String? {
         if (lastEncounterAt == null) return null

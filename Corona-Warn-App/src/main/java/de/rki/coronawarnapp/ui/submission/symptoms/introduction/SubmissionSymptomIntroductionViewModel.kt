@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
@@ -29,8 +31,17 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     val navigation = SingleLiveEvent<NavDirections>()
 
     val showCancelDialog = SingleLiveEvent<Unit>()
-    val showUploadDialog = autoSubmission.isSubmissionRunning
-        .asLiveData(context = dispatcherProvider.Default)
+    private val mediatorShowUploadDialog = MediatorLiveData<Boolean>()
+
+    init {
+        mediatorShowUploadDialog.addSource(
+            autoSubmission.isSubmissionRunning.asLiveData(context = dispatcherProvider.Default)
+        ) { show ->
+            mediatorShowUploadDialog.postValue(show)
+        }
+    }
+
+    val showUploadDialog: LiveData<Boolean> = mediatorShowUploadDialog
 
     fun onNextClicked() {
         launch {
@@ -98,6 +109,8 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
             } catch (e: Exception) {
                 Timber.e(e, "doSubmit() failed.")
             } finally {
+                Timber.i("Hide uploading progress and navigate to HomeFragment")
+                mediatorShowUploadDialog.postValue(false)
                 navigation.postValue(
                     SubmissionSymptomIntroductionFragmentDirections
                         .actionSubmissionSymptomIntroductionFragmentToMainFragment()

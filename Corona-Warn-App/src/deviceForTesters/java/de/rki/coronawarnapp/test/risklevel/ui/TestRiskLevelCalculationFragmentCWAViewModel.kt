@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTra
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
@@ -38,7 +37,6 @@ import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val handle: SavedStateHandle,
@@ -141,8 +139,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .appendLine("Matched key count: $matchedKeyCount")
         .appendLine("Days since last Exposure: $daysSinceLastExposure days")
         .appendLine("Last key submission: $lastKeySubmission")
-        .appendLine("Tracing Duration: ${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days")
-        .appendLine("Tracing Duration in last 14 days: ${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days")
         .appendLine("Last time risk level calculation $lastTimeRiskLevelCalculation")
         .toString()
 
