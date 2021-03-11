@@ -6,7 +6,7 @@ import androidx.annotation.VisibleForTesting
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
@@ -16,6 +16,7 @@ import timber.log.Timber
 class TracingPermissionHelper @AssistedInject constructor(
     @Assisted private val callback: Callback,
     private val enfClient: ENFClient,
+    private val tracingSettings: TracingSettings,
     @AppScope private val scope: CoroutineScope
 ) {
 
@@ -73,11 +74,7 @@ class TracingPermissionHelper @AssistedInject constructor(
         return true
     }
 
-    private fun isConsentGiven(): Boolean {
-        val firstTracingActivationAt = LocalData.initialTracingActivationTimestamp()
-        Timber.tag(TAG).v("isConsentGiven(): First tracing activationat: %d", firstTracingActivationAt)
-        return firstTracingActivationAt != null
-    }
+    private fun isConsentGiven(): Boolean = tracingSettings.isConsentGiven
 
     interface Callback {
         fun onUpdateTracingStatus(isTracingEnabled: Boolean)

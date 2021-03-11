@@ -53,21 +53,23 @@ class DiaryEncounterCensorTest : BaseTest() {
         val censorMe = LogLine(
             timestamp = 1,
             priority = 3,
-            message = """
+            message =
+                """
                 On A rainy day,
                 two persons Spilled coffee on each others laptops,
                 everyone disliked that.
-            """.trimIndent(),
+                """.trimIndent(),
             tag = "I'm a tag",
             throwable = null
         )
 
         instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message = """
+            message =
+                """
                     On Encounter#2/Circumstances,
                     two persons Encounter#3/Circumstances,
                     everyone disliked that.
-            """.trimIndent()
+                """.trimIndent()
         )
     }
 

@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -31,6 +32,7 @@ class OnboardingTracingFragmentTest : BaseUITest() {
 
     @MockK lateinit var interopRepo: InteroperabilityRepository
     @MockK lateinit var factory: TracingPermissionHelper.Factory
+    @MockK lateinit var tracingSettings: TracingSettings
 
     @Rule
     @JvmField
@@ -47,7 +49,8 @@ class OnboardingTracingFragmentTest : BaseUITest() {
             OnboardingTracingFragmentViewModel(
                 interoperabilityRepository = interopRepo,
                 tracingPermissionHelperFactory = factory,
-                dispatcherProvider = TestDispatcherProvider()
+                dispatcherProvider = TestDispatcherProvider(),
+                tracingSettings = tracingSettings
             )
         )
 
