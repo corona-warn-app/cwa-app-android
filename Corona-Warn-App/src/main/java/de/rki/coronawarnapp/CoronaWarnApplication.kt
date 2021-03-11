@@ -76,13 +76,13 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         CWADebug.initAfterInjection(component)
 
+        encryptedPreferencesMigration.doMigration()
+
         BackgroundWorkScheduler.init(component)
 
         Timber.plant(rollingLogHistory)
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
-
-        encryptedPreferencesMigration.doMigration()
 
         notificationHelper.createNotificationChannel()
 
