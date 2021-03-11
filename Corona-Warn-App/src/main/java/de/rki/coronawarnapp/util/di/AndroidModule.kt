@@ -76,5 +76,4 @@ class AndroidModule {
 
     @Provides
     fun applicationInfo(@AppContext context: Context): ApplicationInfo = context.applicationInfo
-
 }
