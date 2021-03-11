@@ -6,7 +6,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CancellationException
@@ -30,6 +30,7 @@ import kotlin.coroutines.suspendCoroutine
 @Singleton
 class DefaultTracingStatus @Inject constructor(
     private val client: ExposureNotificationClient,
+    private val tracingSettings: TracingSettings,
     @AppScope val scope: CoroutineScope
 ) : TracingStatus {
 
@@ -72,14 +73,15 @@ class DefaultTracingStatus @Inject constructor(
         client.start()
             .addOnSuccessListener { cont.resume(it) }
             .addOnFailureListener { cont.resumeWithException(it) }
+            .also {
+                tracingSettings.isConsentGiven = true
+            }
     }
 
     private suspend fun asyncStop() = suspendCoroutine<Void> { cont ->
         client.stop()
             .addOnSuccessListener { cont.resume(it) }
             .addOnFailureListener { cont.resumeWithException(it) }
-    }.also {
-        LocalData.lastNonActiveTracingTimestamp(System.currentTimeMillis())
     }
 
     override val isTracingEnabled: Flow<Boolean> = flow {

@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCa
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
