@@ -37,5 +37,9 @@ interface BugCensor {
             action(comment)
             return true
         }
+
+        fun LogLine.tryNewMessage(newMessage: String): LogLine? {
+            return if (newMessage != message) copy(message = newMessage) else null
+        }
     }
 }

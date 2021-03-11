@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.tryNewMessage
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.util.CWADebug
 import javax.inject.Inject
@@ -19,7 +20,7 @@ class QRCodeCensor @Inject constructor() : BugCensor {
             entry.message.replace(guid, PLACEHOLDER + guid.takeLast(4))
         }
 
-        return if (newMessage != entry.message) entry.copy(message = newMessage) else null
+        return entry.tryNewMessage(newMessage)
     }
 
     companion object {

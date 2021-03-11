@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.tryNewMessage
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -40,6 +41,6 @@ class DiaryVisitCensor @Inject constructor(
             wip
         }
 
-        return if (newMessage != entry.message) entry.copy(message = newMessage) else null
+        return entry.tryNewMessage(newMessage)
     }
 }

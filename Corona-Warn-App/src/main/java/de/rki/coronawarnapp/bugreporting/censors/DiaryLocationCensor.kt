@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.tryNewMessage
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidEmail
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
@@ -49,6 +50,6 @@ class DiaryLocationCensor @Inject constructor(
             wip
         }
 
-        return if (newMessage != entry.message) entry.copy(message = newMessage) else null
+        return entry.tryNewMessage(newMessage)
     }
 }

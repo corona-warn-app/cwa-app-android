@@ -24,7 +24,6 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.yield
 import timber.log.Timber
 import java.io.File
-import java.util.LinkedList
 
 @SuppressLint("LogNotTimber", "StaticFieldLeak")
 @Suppress("BlockingMethodInNonBlockingContext")
@@ -149,7 +148,6 @@ class DebugLogger(
         logWriter.teardown()
     }
 
-    private val times = LinkedList<Double>()
     private fun startNewLogJob(logLines: Flow<LogLine>) = scope.launch {
         try {
             logLines.collect { rawLine ->
@@ -162,15 +160,9 @@ class DebugLogger(
                 launch {
                     // Censor data sources need a moment to know what to censor
                     delay(1000)
-                    val censorStart = System.nanoTime()
                     val censoredLine = bugCensors.get().fold(rawLine) { prev, censor ->
                         censor.checkLog(prev) ?: prev
                     }
-                    val stop = System.nanoTime()
-                    val time = (stop - censorStart).toDouble()
-                    times.add(time)
-
-                    Log.i(TAG, "Avg CensorTime: ${times.average() / 1000000}ms | time ${time / 1000000}ms")
                     logWriter.write(censoredLine)
                 }
             }

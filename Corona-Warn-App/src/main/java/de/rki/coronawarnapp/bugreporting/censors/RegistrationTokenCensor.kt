@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.tryNewMessage
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.CWADebug
@@ -18,7 +19,7 @@ class RegistrationTokenCensor @Inject constructor() : BugCensor {
             entry.message.replace(token, PLACEHOLDER + token.takeLast(4))
         }
 
-        return if (newMessage != entry.message) entry.copy(message = newMessage) else null
+        return entry.tryNewMessage(newMessage)
     }
 
     companion object {
