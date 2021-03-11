@@ -4,9 +4,22 @@ package de.rki.coronawarnapp.server.protocols.internal.evreg;
 
 
 message Event {
+  // 16 random bytes
   bytes guid = 1;
-  string description = 2;
-  uint32 start = 3;
-  uint32 end = 4;
-  uint32 defaultCheckInLengthInMinutes = 5;
+  EventType type = 2;
+  // max. 150 characters
+  string description = 3;
+  // max. 150 characters
+  string address = 4;
+  // UNIX timestamp (in seconds)
+  uint64 start = 5;
+  // UNIX timestamp (in seconds)
+  uint64 end = 6;
+  uint32 defaultCheckInLengthInMinutes = 7;
+}
+
+enum EventType {
+  EVENT_TYPE_UNSPECIFIED = 0;
+  EVENT_TYPE_OTHER_EVENT = 1;
+  EVENT_TYPE_OTHER_LOCATION = 2;
 }
