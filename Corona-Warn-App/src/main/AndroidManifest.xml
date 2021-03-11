@@ -69,12 +69,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="coronawarn.app"
-                    android:pathPrefix="/"
-                    android:scheme="https" />
-
-                <data
-                    android:host="www.coronawarn.app"
+                    android:host="e.coronawarn.app"
                     android:pathPrefix="/"
                     android:scheme="https" />
             </intent-filter>

@@ -1857,6 +1857,8 @@
     <string name="bottom_nav_home_title">"Start Screen"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Journal"</string>
+    <!-- XHED: Title for BottomNav check-in screen title -->
+    <string name="bottom_nav_check_ins_title">Check In</string>
 
     <!-- ####################################
            Data Donation & Survey
@@ -1974,4 +1976,8 @@
     <string name="duration_dialog_ok_button">"OK"</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">"00:00"</string>
+
+    <!-- Scan check in QR Code-->
+    <!-- XTXT: Scan check in QR-Code  FAB text-->
+    <string name="scan_check_in_qr_code">Scan QR-Code</string>
 </resources>

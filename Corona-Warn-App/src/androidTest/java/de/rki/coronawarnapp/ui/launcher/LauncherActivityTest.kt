@@ -59,13 +59,7 @@ class LauncherActivityTest : BaseUITest() {
 
     @Test
     fun testDeepLinkLowercase() {
-        val uri = Uri.parse("https://coronawarn.app/E1/SOME_PATH_GOES_HERE")
-        launchActivity<LauncherActivity>(getIntent(uri))
-    }
-
-    @Test
-    fun testDeepLinkLowercaseWww() {
-        val uri = Uri.parse("https://www.coronawarn.app/E1/SOME_PATH_GOES_HERE")
+        val uri = Uri.parse("https://e.coronawarn.app/c1/SOME_PATH_GOES_HERE")
         launchActivity<LauncherActivity>(getIntent(uri))
     }
 

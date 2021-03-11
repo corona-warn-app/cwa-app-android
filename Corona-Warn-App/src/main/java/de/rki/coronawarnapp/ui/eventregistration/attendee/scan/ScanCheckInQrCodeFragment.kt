@@ -1,26 +1,28 @@
-package de.rki.coronawarnapp.ui.eventregistration.scan
+package de.rki.coronawarnapp.ui.eventregistration.attendee.scan
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
-import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentScanCheckInQrCodeBinding
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.CheckInsFragment
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.navUri
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class ScanCheckInQrCodeFragment :
@@ -32,6 +34,13 @@ class ScanCheckInQrCodeFragment :
 
     private val binding: FragmentScanCheckInQrCodeBinding by viewBindingLazy()
     private var showsPermissionDialog = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
+    }
 
     override fun onViewCreated(
         view: View,
@@ -46,12 +55,18 @@ class ScanCheckInQrCodeFragment :
             checkInQrCodeScanViewfinderView.setCameraPreview(binding.checkInQrCodeScanPreview)
         }
 
-        viewModel.navigationEvents.observe2(this) { navEvent ->
+        viewModel.events.observe2(this) { navEvent ->
             when (navEvent) {
-                is ScanCheckInQrCodeEvent.BackEvent -> popBackStack()
-                is ScanCheckInQrCodeEvent.ConfirmCheckInEvent -> findNavController().navigate(
-                    navEvent.url.toUri().navUri
-                )
+                is ScanCheckInQrCodeNavigation.BackNavigation -> popBackStack()
+                is ScanCheckInQrCodeNavigation.ScanResultNavigation -> {
+                    Timber.i(navEvent.uri)
+                    findNavController().navigate(
+                        CheckInsFragment.uri(navEvent.uri),
+                        NavOptions.Builder()
+                            .setPopUpTo(R.id.checkInsFragment, true)
+                            .build()
+                    )
+                }
             }
         }
     }

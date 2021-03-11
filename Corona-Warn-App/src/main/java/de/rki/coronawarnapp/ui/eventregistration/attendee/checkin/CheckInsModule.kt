@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.scan
+package de.rki.coronawarnapp.ui.eventregistration.attendee.checkin
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class ScanCheckInQrCodeModule {
+abstract class CheckInsModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(ScanCheckInQrCodeViewModel::class)
-    abstract fun scanCheckInQrCodeFragment(
-        factory: ScanCheckInQrCodeViewModel.Factory
+    @CWAViewModelKey(CheckInsViewModel::class)
+    abstract fun checkInsFragment(
+        factory: CheckInsViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

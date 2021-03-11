@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.ui.eventregistration
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.ui.eventregistration.checkin.ConfirmCheckInFragment
-import de.rki.coronawarnapp.ui.eventregistration.checkin.ConfirmCheckInModule
-import de.rki.coronawarnapp.ui.eventregistration.scan.ScanCheckInQrCodeFragment
-import de.rki.coronawarnapp.ui.eventregistration.scan.ScanCheckInQrCodeModule
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.CheckInsFragment
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.CheckInsModule
+import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInFragment
+import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInModule
+import de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeFragment
+import de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeModule
 
 @Module
 internal abstract class EventRegistrationUIModule {
@@ -15,4 +17,7 @@ internal abstract class EventRegistrationUIModule {
 
     @ContributesAndroidInjector(modules = [ConfirmCheckInModule::class])
     abstract fun confirmCheckInFragment(): ConfirmCheckInFragment
+
+    @ContributesAndroidInjector(modules = [CheckInsModule::class])
+    abstract fun checkInsFragment(): CheckInsFragment
 }

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.scan
+package de.rki.coronawarnapp.ui.eventregistration.attendee.scan
 
 import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
@@ -8,14 +8,14 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class ScanCheckInQrCodeViewModel @AssistedInject constructor() : CWAViewModel() {
-    val navigationEvents = SingleLiveEvent<ScanCheckInQrCodeEvent>()
+    val events = SingleLiveEvent<ScanCheckInQrCodeNavigation>()
 
     fun onNavigateUp() {
-        navigationEvents.value = ScanCheckInQrCodeEvent.BackEvent
+        events.value = ScanCheckInQrCodeNavigation.BackNavigation
     }
 
     fun onScanResult(barcodeResult: BarcodeResult) {
-        navigationEvents.value = ScanCheckInQrCodeEvent.ConfirmCheckInEvent(
+        events.value = ScanCheckInQrCodeNavigation.ScanResultNavigation(
             barcodeResult.result.text
         )
     }
