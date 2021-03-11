@@ -11,6 +11,19 @@ message QRCodePosterTemplateAndroid {
   float offsetY = 3;
 
   uint32 qrCodeSideLength = 4;
+
+  QRCodeTextBoxAndroid description = 5;
+
+  message QRCodeTextBoxAndroid {
+    uint32 offsetX = 1;
+    uint32 offsetY = 2;
+
+    uint32 width = 3;
+    uint32 height = 4;
+
+    uint32 fontSize = 5;
+    string fontColor = 6;
+  }
 }
 
 message QRCodePosterTemplateIOS {
@@ -21,4 +34,17 @@ message QRCodePosterTemplateIOS {
   uint32 offsetY = 3;
 
   uint32 qrCodeSideLength = 4;
+
+  QRCodeTextBoxIOS description = 5;
+
+  message QRCodeTextBoxIOS {
+    uint32 offsetX = 1;
+    uint32 offsetY = 2;
+
+    uint32 width = 3;
+    uint32 height = 4;
+
+    uint32 fontSize = 5;
+    string fontColor = 6;
+  }
 }

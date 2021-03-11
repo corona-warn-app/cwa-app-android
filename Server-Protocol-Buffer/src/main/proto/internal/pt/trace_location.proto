@@ -4,8 +4,8 @@ package de.rki.coronawarnapp.server.protocols.internal.pt;
 
 
 message TraceLocation {
-  // 16 random bytes
-  bytes guid = 1;
+  // uuid
+  string guid = 1;
   uint32 version = 2;
   TraceLocationType type = 3;
   // max. 150 characters
