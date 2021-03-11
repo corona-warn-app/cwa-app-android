@@ -35,7 +35,7 @@ class DiaryEncounterCensor @Inject constructor(
             var wip = orig
 
             withValidComment(encounter.circumstances) {
-                wip = orig.replace(it, "Encounter#${encounter.id}/Circumstances")
+                wip = wip.replace(it, "Encounter#${encounter.id}/Circumstances")
             }
 
             wip

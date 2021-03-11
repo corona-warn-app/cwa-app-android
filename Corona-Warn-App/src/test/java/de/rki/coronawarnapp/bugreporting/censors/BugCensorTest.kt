@@ -13,7 +13,8 @@ class BugCensorTest : BaseTest() {
         BugCensor.withValidName("  ") {} shouldBe false
         BugCensor.withValidName("       ") {} shouldBe false
         BugCensor.withValidName("J") {} shouldBe false
-        BugCensor.withValidName("Jo") {} shouldBe true
+        BugCensor.withValidName("Jo") {} shouldBe false
+        BugCensor.withValidName("Joe") {} shouldBe true
     }
 
     @Test

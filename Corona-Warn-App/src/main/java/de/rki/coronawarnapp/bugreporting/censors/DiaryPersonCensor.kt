@@ -37,7 +37,7 @@ class DiaryPersonCensor @Inject constructor(
             var wip = orig
 
             withValidName(person.fullName) {
-                wip = orig.replace(it, "Person#${person.personId}/Name")
+                wip = wip.replace(it, "Person#${person.personId}/Name")
             }
             withValidEmail(person.emailAddress) {
                 wip = wip.replace(it, "Person#${person.personId}/EMail")

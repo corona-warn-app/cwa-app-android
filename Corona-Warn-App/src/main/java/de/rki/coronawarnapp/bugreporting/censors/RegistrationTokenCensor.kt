@@ -18,7 +18,7 @@ class RegistrationTokenCensor @Inject constructor() : BugCensor {
             entry.message.replace(token, PLACEHOLDER + token.takeLast(4))
         }
 
-        return entry.copy(message = newMessage)
+        return if (newMessage != entry.message) entry.copy(message = newMessage) else null
     }
 
     companion object {

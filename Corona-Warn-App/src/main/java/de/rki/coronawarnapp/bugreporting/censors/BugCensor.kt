@@ -12,7 +12,7 @@ interface BugCensor {
     companion object {
         fun withValidName(name: String?, action: (String) -> Unit): Boolean {
             if (name.isNullOrBlank()) return false
-            if (name.length < 2) return false
+            if (name.length < 3) return false
             action(name)
             return true
         }

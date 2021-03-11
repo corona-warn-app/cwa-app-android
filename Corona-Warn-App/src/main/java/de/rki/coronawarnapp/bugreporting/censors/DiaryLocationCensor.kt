@@ -37,7 +37,7 @@ class DiaryLocationCensor @Inject constructor(
             var wip = orig
 
             withValidName(location.locationName) {
-                wip = orig.replace(it, "Location#${location.locationId}/Name")
+                wip = wip.replace(it, "Location#${location.locationId}/Name")
             }
             withValidEmail(location.emailAddress) {
                 wip = wip.replace(it, "Location#${location.locationId}/EMail")

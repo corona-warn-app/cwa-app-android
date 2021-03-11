@@ -34,7 +34,7 @@ class DiaryVisitCensor @Inject constructor(
             var wip = orig
 
             BugCensor.withValidComment(visit.circumstances) {
-                wip = orig.replace(it, "Visit#${visit.id}/Circumstances")
+                wip = wip.replace(it, "Visit#${visit.id}/Circumstances")
             }
 
             wip

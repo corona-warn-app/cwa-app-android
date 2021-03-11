@@ -19,7 +19,7 @@ class QRCodeCensor @Inject constructor() : BugCensor {
             entry.message.replace(guid, PLACEHOLDER + guid.takeLast(4))
         }
 
-        return entry.copy(message = newMessage)
+        return if (newMessage != entry.message) entry.copy(message = newMessage) else null
     }
 
     companion object {
