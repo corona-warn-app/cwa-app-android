@@ -28,7 +28,7 @@ class EncryptionErrorResetTool @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
     // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/android/app/ContextImpl.java;drc=3b8e8d76315f6718a982d5e6a019b3aa4f634bcd;l=626
-    private val encryptedPreferencesFile by lazy {
+    val encryptedPreferencesFile by lazy {
         val appbaseDir = context.filesDir.parentFile!!
         val sharedPrefsDir = File(appbaseDir, "shared_prefs")
         File(sharedPrefsDir, "${SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE}.xml")

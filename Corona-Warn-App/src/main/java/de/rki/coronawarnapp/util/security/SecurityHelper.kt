@@ -18,7 +18,11 @@ object SecurityHelper {
         val encryptionErrorResetTool = it.errorResetTool
         withSecurityCatch {
             try {
-                factory.create(ENCRYPTED_SHARED_PREFERENCES_FILE)
+                if (encryptionErrorResetTool.encryptedPreferencesFile.exists()) {
+                    factory.create(ENCRYPTED_SHARED_PREFERENCES_FILE)
+                } else {
+                    null
+                }
             } catch (e: Exception) {
                 encryptionErrorResetTool.isResetNoticeToBeShown = true
                 null

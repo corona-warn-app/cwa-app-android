@@ -24,8 +24,10 @@ class EncryptedPreferencesMigration @Inject constructor(
 ) {
 
     fun doMigration() {
+        Timber.d("Migration start")
         try {
             copyData()
+            cleanData()
         } catch (e: Exception) {
             Timber.e(e, "Migration was not successful")
         }
@@ -34,62 +36,55 @@ class EncryptedPreferencesMigration @Inject constructor(
         } catch (e: Exception) {
             Timber.e(e, "Database removing was not successful")
         }
+        Timber.d("Migration finish")
     }
 
     private fun copyData() {
-        if (!encryptedPreferencesHelper.isAvailable()) return
-
-        val encryptedSharedPreferences = SecurityHelper.globalEncryptedSharedPreferencesInstance
-        Timber.d("EncryptedPreferencesMigration START")
-        if (encryptedSharedPreferences != null) {
-            Timber.d("EncryptedPreferences are available")
-            SettingsLocalData(encryptedSharedPreferences).apply {
-                cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
-                cwaSettings.isNotificationsRiskEnabled.update { isNotificationsRiskEnabled() }
-                cwaSettings.isNotificationsTestEnabled.update { isNotificationsTestEnabled() }
-                cwaSettings.numberOfRemainingSharePositiveTestResultReminders =
-                    numberOfRemainingSharePositiveTestResultReminders()
-            }
-
-            OnboardingLocalData(encryptedSharedPreferences).apply {
-                onboardingSettings.onboardingCompletedTimestamp = onboardingCompletedTimestamp()?.let {
-                    Instant.ofEpochMilli(it)
-                }
-                onboardingSettings.isBackgroundCheckDone = isBackgroundCheckDone()
-            }
-
-            TracingLocalData(encryptedSharedPreferences).apply {
-                tracingSettings.initialPollingForTestResultTimeStamp = initialPollingForTestResultTimeStamp()
-                tracingSettings.isTestResultAvailableNotificationSent = isTestResultAvailableNotificationSent()
-                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { isUserToBeNotifiedOfLoweredRiskLevel() }
-                tracingSettings.isConsentGiven = initialTracingActivationTimestamp() != 0L
-            }
-
-            SubmissionLocalData(encryptedSharedPreferences).apply {
-                submissionSettings.registrationToken.update {
-                    registrationToken()
-                }
-                submissionSettings.initialTestResultReceivedAt = initialTestResultReceivedTimestamp().toInstantOrNull()
-                submissionSettings.devicePairingSuccessfulAt = devicePairingSuccessfulTimestamp().toInstantOrNull()
-                submissionSettings.isSubmissionSuccessful = numberOfSuccessfulSubmissions() >= 1
-                submissionSettings.isAllowedToSubmitKeys = isAllowedToSubmitDiagnosisKeys()
-            }
-
-            encryptedPreferencesHelper.clean()
+        val encryptedSharedPreferences = SecurityHelper.globalEncryptedSharedPreferencesInstance ?: return
+        Timber.d("EncryptedPreferences are available")
+        SettingsLocalData(encryptedSharedPreferences).apply {
+            cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
+            cwaSettings.isNotificationsRiskEnabled.update { isNotificationsRiskEnabled() }
+            cwaSettings.isNotificationsTestEnabled.update { isNotificationsTestEnabled() }
+            cwaSettings.numberOfRemainingSharePositiveTestResultReminders =
+                numberOfRemainingSharePositiveTestResultReminders()
         }
-        Timber.d("EncryptedPreferencesMigration END")
+
+        OnboardingLocalData(encryptedSharedPreferences).apply {
+            onboardingSettings.onboardingCompletedTimestamp = onboardingCompletedTimestamp()?.let {
+                Instant.ofEpochMilli(it)
+            }
+            onboardingSettings.isBackgroundCheckDone = isBackgroundCheckDone()
+        }
+
+        TracingLocalData(encryptedSharedPreferences).apply {
+            tracingSettings.initialPollingForTestResultTimeStamp = initialPollingForTestResultTimeStamp()
+            tracingSettings.isTestResultAvailableNotificationSent = isTestResultAvailableNotificationSent()
+            tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { isUserToBeNotifiedOfLoweredRiskLevel() }
+            tracingSettings.isConsentGiven = initialTracingActivationTimestamp() != 0L
+        }
+
+        SubmissionLocalData(encryptedSharedPreferences).apply {
+            submissionSettings.registrationToken.update {
+                registrationToken()
+            }
+            submissionSettings.initialTestResultReceivedAt = initialTestResultReceivedTimestamp().toInstantOrNull()
+            submissionSettings.devicePairingSuccessfulAt = devicePairingSuccessfulTimestamp().toInstantOrNull()
+            submissionSettings.isSubmissionSuccessful = numberOfSuccessfulSubmissions() >= 1
+            submissionSettings.isAllowedToSubmitKeys = isAllowedToSubmitDiagnosisKeys()
+        }
+    }
+
+    private fun cleanData() {
+        encryptedPreferencesHelper.clean()
     }
 
     private fun dropDatabase() {
-        val file = context.getDatabasePath(TRACING_DATABASE_NAME)
+        val file = context.getDatabasePath("coronawarnapp-db")
         if (file.exists()) {
-            Timber.d("EncryptedPreferencesMigration removing database $file")
+            Timber.d("Removing database $file")
             SQLiteDatabase.deleteDatabase(file)
         }
-    }
-
-    companion object {
-        private const val TRACING_DATABASE_NAME = "coronawarnapp-db"
     }
 
     private class SettingsLocalData(private val sharedPreferences: SharedPreferences) {
