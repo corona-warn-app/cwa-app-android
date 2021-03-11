@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class QrCodeCreationTestFragment : Fragment(R.layout.fragment_test_qrcode_creation), AutoInject {
@@ -32,12 +33,24 @@ class QrCodeCreationTestFragment : Fragment(R.layout.fragment_test_qrcode_creati
             binding.printPDF.isVisible = true
             binding.printPDF.setOnClickListener {
                 // Context must be an Activity context
-                context?.getSystemService<PrintManager>()?.apply {
-                    print(
+                val printingManger = context?.getSystemService<PrintManager>()
+                Timber.i("PrintingManager: $printingManger")
+                printingManger?.apply {
+                    val printingJob = print(
                         "CoronaWarnApp",
                         PrintingAdapter(fileIntent.file),
-                        PrintAttributes.Builder().build()
+                        PrintAttributes
+                            .Builder()
+                            .setMediaSize(PrintAttributes.MediaSize.ISO_A3)
+                            .build()
                     )
+
+                    Timber.i("PrintingJob:$printingJob")
+                    Timber.i("PrintingJob isBlocked:${printingJob.isBlocked}")
+                    Timber.i("PrintingJob isCancelled:${printingJob.isCancelled}")
+                    Timber.i("PrintingJob isCompleted:${printingJob.isCompleted}")
+                    Timber.i("PrintingJob isFailed:${printingJob.isFailed}")
+                    Timber.i("PrintingJob info:${printingJob.info}")
                 }
             }
             binding.sharePDF.isVisible = true
