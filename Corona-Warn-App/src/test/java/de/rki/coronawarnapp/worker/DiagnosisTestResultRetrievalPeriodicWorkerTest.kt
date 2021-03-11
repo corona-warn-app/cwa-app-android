@@ -19,9 +19,7 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.beInstanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery

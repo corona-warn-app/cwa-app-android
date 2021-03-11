@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
 import android.content.ContentResolver
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleOwner
@@ -72,4 +73,8 @@ class AndroidModule {
 
     @Provides
     fun contentResolver(@AppContext context: Context): ContentResolver = context.contentResolver
+
+    @Provides
+    fun applicationInfo(@AppContext context: Context): ApplicationInfo = context.applicationInfo
+
 }
