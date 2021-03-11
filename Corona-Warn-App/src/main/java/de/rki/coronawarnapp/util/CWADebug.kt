@@ -4,13 +4,16 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Build
 import androidx.annotation.VisibleForTesting
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.util.debug.UncaughtExceptionLogger
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import timber.log.Timber
 
 object CWADebug {
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    var debugLoggerFactory: (Application) -> DebugLogger = { DebugLogger(context = it) }
 
     @SuppressLint("StaticFieldLeak")
     lateinit var debugLogger: DebugLogger
@@ -24,15 +27,19 @@ object CWADebug {
 
         setupExceptionHandler()
 
-        debugLogger = DebugLogger(context = application).also {
-            it.init()
+        debugLogger = debugLoggerFactory(application).also {
+            // TODO Disabled until all parties are satisfied to make re-enable in prod, search for ¯\_(ツ)_/¯
+            if (isDeviceForTestersBuild) it.init()
         }
 
         logDeviceInfos()
     }
 
     fun initAfterInjection(component: ApplicationComponent) {
-        debugLogger.setInjectionIsReady(component)
+        // TODO ¯\_(ツ)_/¯
+        if (isDeviceForTestersBuild) {
+            debugLogger.setInjectionIsReady(component)
+        }
     }
 
     val isLogging: Boolean
@@ -42,12 +49,13 @@ object CWADebug {
         }
 
     val isDebugBuildOrMode: Boolean
-        get() = BuildConfig.DEBUG || buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS
+        get() = BuildConfigWrap.DEBUG || buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS
 
     val buildFlavor: BuildFlavor
-        get() = BuildFlavor.values().single { it.rawValue == BuildConfig.FLAVOR }
+        get() = BuildFlavor.values().single { it.rawValue == BuildConfigWrap.FLAVOR }
 
-    val isDeviceForTestersBuild: Boolean = buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS
+    val isDeviceForTestersBuild: Boolean
+        get() = buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS
 
     enum class BuildFlavor(val rawValue: String) {
         DEVICE("device"),
@@ -64,8 +72,8 @@ object CWADebug {
     }
 
     fun logDeviceInfos() {
-        Timber.i("CWA version: %s (%s)", BuildConfig.VERSION_CODE, BuildConfig.GIT_COMMIT_SHORT_HASH)
-        Timber.i("CWA flavor: %s (%s)", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE)
+        Timber.i("CWA version: %s (%s)", BuildConfigWrap.VERSION_CODE, BuildConfigWrap.GIT_COMMIT_SHORT_HASH)
+        Timber.i("CWA flavor: %s (%s)", BuildConfigWrap.FLAVOR, BuildConfigWrap.BUILD_TYPE)
         Timber.i("Build.FINGERPRINT: %s", Build.FINGERPRINT)
     }
 
