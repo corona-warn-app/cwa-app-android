@@ -57,7 +57,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
         setButtonOnClickListener()
         setAccessibilityDelegate()
 
-        // TODO Hidden until further clarification regarding release schedule is available
+        // TODO ¯\_(ツ)_/¯
         binding.informationDebuglog.rootLayout.isGone = !CWADebug.isDeviceForTestersBuild
     }
 
