@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.tryNewMessage
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidComment
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
@@ -42,6 +42,6 @@ class DiaryEncounterCensor @Inject constructor(
             wip
         }
 
-        return entry.tryNewMessage(newMessage)
+        return entry.toNewLogLineIfDifferent(newMessage)
     }
 }

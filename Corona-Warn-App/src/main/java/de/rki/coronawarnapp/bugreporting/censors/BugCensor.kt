@@ -38,7 +38,7 @@ interface BugCensor {
             return true
         }
 
-        fun LogLine.tryNewMessage(newMessage: String): LogLine? {
+        fun LogLine.toNewLogLineIfDifferent(newMessage: String): LogLine? {
             return if (newMessage != message) copy(message = newMessage) else null
         }
     }

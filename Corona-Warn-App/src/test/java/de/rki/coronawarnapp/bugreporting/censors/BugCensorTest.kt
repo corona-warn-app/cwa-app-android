@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.tryNewMessage
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -63,7 +63,7 @@ class BugCensorTest : BaseTest() {
             tag = "Tag",
             throwable = null
         )
-        logLine.tryNewMessage("Message") shouldBe null
-        logLine.tryNewMessage("Message ") shouldNotBe logLine
+        logLine.toNewLogLineIfDifferent("Message") shouldBe null
+        logLine.toNewLogLineIfDifferent("Message ") shouldNotBe logLine
     }
 }
