@@ -53,7 +53,8 @@ class PrintingAdapter(
     ) = try {
         FileInputStream(file).use { input ->
             FileOutputStream(destination.fileDescriptor).use { output ->
-                input.copyTo(output)
+                val bytesCopied = input.copyTo(output)
+                Timber.i("bytesCopied:$bytesCopied")
             }
         }
 
