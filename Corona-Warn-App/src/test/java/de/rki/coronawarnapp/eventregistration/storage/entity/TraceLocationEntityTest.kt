@@ -5,8 +5,9 @@ import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-internal class TraceLocationEntityTest {
+internal class TraceLocationEntityTest : BaseTest() {
 
     @Test
     fun `toTraceLocationEntity() should map to TraceLocationEntity correctly with all arguments`() {

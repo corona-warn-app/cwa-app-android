@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.eventregistration.storage.entity
 import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-internal class TraceLocationConvertersTest {
+internal class TraceLocationConvertersTest : BaseTest() {
 
     private val converter = TraceLocationConverters()
 

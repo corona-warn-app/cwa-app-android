@@ -10,8 +10,9 @@ import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Test
+import testhelpers.BaseTestInstrumentation
 
-class TraceLocationCheckInDaoTest {
+class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
 
     private val traceLocationDatabase = Room.inMemoryDatabaseBuilder(
         ApplicationProvider.getApplicationContext(),

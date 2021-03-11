@@ -4,8 +4,9 @@ import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-internal class DefaultTraceLocationKtTest {
+internal class DefaultTraceLocationKtTest : BaseTest() {
 
     @Test
     fun `toTraceLocation() should map to correct object when providing all arguments`() {

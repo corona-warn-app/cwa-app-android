@@ -9,8 +9,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
+import testhelpers.BaseTestInstrumentation
 
-class TraceLocationDaoTest {
+class TraceLocationDaoTest : BaseTestInstrumentation() {
 
     private val traceLocationDatabase = Room.inMemoryDatabaseBuilder(
         ApplicationProvider.getApplicationContext(),
