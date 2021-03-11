@@ -62,6 +62,12 @@
                   Risk Card
     ###################################### -->
 
+    <!-- XTXT: risk card - Days since installation if < 14 days -->
+    <string name="risk_card_body_days_since_installation">"Zainstalowano %s dni temu"</string>
+    <!-- XTXT: risk card - tracing active for x out of 14 days -->
+    <string name="risk_card_body_saved_days">"Rejestrowanie narażenia było aktywne przez %1$s z ostatnich 14 dni"</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">"Rejestrowanie narażenia stale aktywne"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Kontakty nie zostały jeszcze sprawdzone."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -264,7 +270,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"Jeśli to możliwe, idź do domu i w nim pozostań."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"W przypadku pytań dotyczących objawów, możliwości wykonania testu lub samoizolacji skontaktuj się z jednym z poniższych miejsc:"</string>
+    <string name="risk_details_behavior_body_contact_doctor">"W przypadku pytań dotyczących objawów, możliwości wykonania testu lub kwarantanny skontaktuj się z jednym z poniższych miejsc:"</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Regularnie myj ręce mydłem przez 20 sekund."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -279,6 +285,8 @@
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
 
+    <!-- XMSG: risk details - ventilation bullet point -->
+    <string name="risk_details_behavior_body_ventilation">"Wietrz pomieszczenia kilka razy dziennie. W tym celu maksymalnie otwórz okna na kilka minut („wentylacja szokowa”)."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Kichaj i kaszl w łokieć lub chusteczkę."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
@@ -294,7 +302,13 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Ten okres jest uwzględniony w obliczeniu."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna."</string>
+    <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna. Rejestrowanie narażenia obejmuje 14 ostatnich dni."</string>
+    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplikacja Corona-Warn-App została zainstalowana %s temu. Ryzyko zakażenia jest obliczane dla okresów, w których aktywne było rejestrowanie narażenia. Oblicza się je w przypadku kontaktowania się z innymi ludźmi przy aktywnej funkcji rejestrowania narażenia."</string>
+    <!-- XTXT: risk details - infection period logged information body, over 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Jeśli rejestrowanie narażenia było aktywne podczas kontaktowania się z innymi ludźmi, można obliczyć ryzyko zakażenia dla tego okresu."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment">"Rejestrowanie narażenia obejmuje ostatnie 14 dni. W tym czasie funkcja rejestrowania w Twoim smartfonie była aktywna przez %1$s dni. Aplikacja automatycznie usuwa starsze dzienniki, ponieważ nie są one już istotne dla zapobiegania zakażeniom."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
@@ -307,8 +321,12 @@
     <string name="risk_details_information_body_low_risk">"Masz niskie ryzyko zakażenia, ponieważ nie zarejestrowano narażenia na kontakt z osobami, u których później zdiagnozowano COVID-19, lub ponieważ Twoje kontakty trwały krótko przy zachowaniu odpowiednio dużej odległości."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Ryzyko zakażenia jest obliczane lokalnie na Twoim smartfonie na podstawie danych rejestrowania narażenia. Ta kalkulacja uwzględnia również dystans i czas trwania narażenia na kontakt z osobami, u których zdiagnozowano koronawirusa, a także ich potencjalną zakaźność. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</string>
+    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
+    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
-    <string name="risk_details_information_body_increased_risk_date">"Masz podwyższone ryzyko zakażenia, ponieważ w dniu %1$s byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</string>
+    <string name="risk_details_information_body_increased_risk_date">"Masz podwyższone ryzyko zakażenia, ponieważ byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dzień temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</item>
@@ -443,7 +461,7 @@
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Aktywuj ustawienie lokalizacji"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Aplikacja nie może ustalić lokalizacji urządzenia, której ustawienie musi być aktywowane w niektórych wersjach Androida, aby możliwe było korzystanie z technologii Bluetooth Low Energy."</string>
+    <string name="onboarding_tracing_location_body">"Aplikacja nie może ustalić lokalizacji urządzenia, której ustawienie musi być aktywowane w wersji Android 10 i wcześniejszych, aby możliwe było korzystanie z technologii Bluetooth Low Energy."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Otwórz ustawienia urządzenia"</string>
     <!-- XACT: Onboarding (test) page title -->
@@ -554,9 +572,6 @@
     <string name="onboarding_ppa_more_info_other_info_point_3_text">"Informacja o udostępnieniu wyniku testu i ostrzeżeniu innych osób."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
     <string name="onboarding_ppa_more_info_much_privacy_body">"Tych informacji nie można powiązać z Twoją osobą. Twoja tożsamość zostanie zachowana w poufności.\nInformacje zostaną przeanalizowane w celach statystycznych. Nie zostaną zapisane w profilu."</string>
-
-
-
 
 
     <!-- ####################################
@@ -808,26 +823,76 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"W ręce trzymany jest smartfon z dużą ilością tekstu na ekranie. Obok tekstu znajduje się symbol paragrafu reprezentujący impressum."</string>
 
+    <!-- ####################################
+               App Information - Bug Reporting
+    ###################################### -->
+
     <!-- XHED: Headline for debug log screen -->
-    <string name="debugging_debuglog_title">"Raport o błędach"</string>
-    <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation_section_one">"Ta opcja umożliwia rejestrowanie zachowania aplikacji w pliku tekstowym. Jeśli zostanie ona aktywowana przed wystąpieniem błędu, będziesz mieć możliwość udostępnienia tego raportu, aby pomóc programistom rozwiązać problem.\nPozostawienie tej opcji w stanie aktywności wiąże się z dużym zapotrzebowaniem na pamięć. Jeśli ją wyłączysz, raport o błędach zostanie usunięty."</string>
+    <string name="debugging_debuglog_title">"Raporty o błędach"</string>
+    <!-- XHED: Headline for current status of debug log screen -->
+    <string name="debugging_debuglog_current_status_title">"Analiza błędu"</string>
+    <!-- YTXT: Description one for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation_section_one">"Aby pomóc zespołowi pomocy technicznej aplikacji w analizie błędów, możesz zarejestrować raport o błędzie z CWA. Gdy to zrobisz, poszczególne kroki techniczne i wyniki procesów aplikacji zostaną zarejestrowane. Następnie możesz wysłać raport o błędzie do pomocy technicznej i pomóc w zidentyfikowaniu i usunięciu błędu."</string>
+    <!-- YTXT: Description two for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation_section_two">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”:\nCzęsto zadawane pytania dotyczące raportów o błędach"</string>
+    <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
+    <string name="debugging_debuglog_intro_explanation_section_two_link_label">"Często zadawane pytania dotyczące raportów o błędach"</string>
+    <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/en/faq/#error_log"</string>
+    <!-- YTXT: Title of ID History -->
+    <string name="debugging_debuglog_id_history_title">"Historia identyfikatorów"</string>
+    <!-- YTXT: Description of ID History -->
+    <string name="debugging_debuglog_id_history_body">"Identyfikatory dotychczas udostępnionych analiz błędów"</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
     <string name="debugging_debuglog_intro_warning">"Należy pamiętać, że raporty o błędach mogą zawierać dane wrażliwe (takie jak wynik testu lub wpisy dziennika kontaktów). Z tego względu takie raporty nie powinny być udostępniane publicznie."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Uruchom"</string>
     <!-- XBUT: Button text to stop the log recording -->
-    <string name="debugging_debuglog_action_stop_recording">"Usuń"</string>
+    <string name="debugging_debuglog_action_stop_recording">"Zatrzymaj i usuń"</string>
     <!-- XBUT: Button text to share the log recording -->
-    <string name="debugging_debuglog_action_share_log">"Udostępnij"</string>
+    <string name="debugging_debuglog_action_share_log">"Wyślij raport o błędzie"</string>
+    <!-- XBUT: Button text to locally store the log recording -->
+    <string name="debugging_debuglog_action_local_log_store">"Zapisz lokalnie i kontynuuj"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Nagrywanie aktywne"</string>
+    <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
+    <string name="debugging_debuglog_status_lowstorage">"Za mało pamięci"</string>
     <!-- YTXT: Status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_not_recording">"Nieaktywne"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"Bieżący rozmiar: %1$s (nieskompresowane)"</string>
-    <!-- XHED: Title for native sharing dialog -->
-    <string name="debugging_debuglog_sharing_dialog_title">"Udostępnij raport o błędach CWA"</string>
+    <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_message">"Raport o błędzie został usunięty. Jeśli zapisano lokalną kopię raportu o błędzie, nie została ona usunięta."</string>
+    <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
+    <string name="debugging_debuglog_start_low_storage_error">"Aby rozpocząć analizę błędu, potrzebujesz co najmniej 200 MB pamięci. Zwolnij pamięć."</string>
+    <!-- XHED: Dialog title if a user has stored a debug log locally -->
+    <string name="debugging_debuglog_localexport_title">"Zapisano lokalnie"</string>
+    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
+    <string name="debugging_debuglog_localexport_message">"Analiza błędu została zapisana lokalnie."</string>
+    <!-- YTXT: Dialog message if local export has failed -->
+    <string name="debugging_debuglog_localexport_error_message">"Próba zapisania raportu o błędzie nie powiodła się. Sprawdź, czy dostępna jest wystarczająca ilość pamięci."</string>
+
+    <!-- XHED: Title for debug legal screen -->
+    <string name="debugging_debuglog_legal_dialog_title">"Szczegółowe informacje na temat wysyłania raportów o błędach"</string>
+    <!-- YTXT: Section Title for debug legal screen -->
+    <string name="debugging_debuglog_legal_section_title">"Jak RKI analizuje raporty o błędach"</string>
+    <!-- YTXT: Section Body for debug legal screen -->
+    <string name="debugging_debuglog_legal_section_body">"Po zweryfikowaniu autentyczności aplikacji raport o błędzie jest wysyłany do RKI za pośrednictwem bezpiecznego połączenia. Raporty o błędach będą wykorzystywane wyłącznie do rozwiązywania problemów i korygowania błędów w ramach przyszłych aktualizacji aplikacji. Dostęp do raportów o błędach ma tylko personel pomocy technicznej. Raporty o błędach zawierają różne komunikaty o statusie i dane o zdarzeniach wyzwalanych w aplikacji, ale nie zawierają żadnych informacji, które umożliwiłyby RKI ustalenie Twojej tożsamości. Tylko jeśli podasz identyfikator raportu o błędzie w związku z kolejnymi komunikatami, możliwe będzie powiązanie komunikatu (i na przykład zawartego w nim Twojego nazwiska) z informacjami zawartymi w raporcie o błędzie (takimi jak komunikaty techniczne dotyczące obliczeń w ramach rejestrowania narażenia, wyświetlane informacje i czynności wykonane w aplikacji oraz, w stosownych przypadkach, pobrany wynik testu i losowe identyfikatory udostępniane w ramach powiadamiania innych)."</string>
+
+    <!-- XHED: Title for Bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_title">"Wyślij raport o błędzie"</string>
+    <!-- YTXT: First body section for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_section_one">"Wysłanie zarejestrowanego raportu o błędzie do pomocy technicznej RKI wymaga Twojej zgody."</string>
+    <!-- YTXT: Second body section for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_section_two">"Po wysłaniu raportu otrzymasz identyfikator raportu o błędzie. Możesz podać ten identyfikator, aby na przykład zapewnić personelowi pomocy technicznej więcej informacji i umożliwić przypisanie go do raportu o błędzie. Jeśli nie podasz identyfikatora raportu o błędzie, RKI nie będzie mieć możliwości przypisania raportu do Ciebie."</string>
+    <!-- YTXT: Privacy Information section for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_privacy_information">"Szczegółowe informacje o ryzyku związanym z przetwarzaniem i ochroną danych w USA i innych krajach trzecich"</string>
+    <!-- XBUT: Button for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_button">"Akceptuj i wyślij"</string>
+    <!-- XHED: Title for log upload history -->
+    <string name="debugging_debuglog_uploadhistory_title">"Historia identyfikatorów"</string>
+    <!-- YTXT: Description for log upload history -->
+    <string name="debugging_debuglog_uploadhistory_description">"W tym miejscu wyświetlane są identyfikatory dzienników analizy błędów."</string>
 
     <!-- ####################################
               Interoperability
@@ -1340,9 +1405,9 @@
     <!-- YTXT: Text for consent given -->
     <string name="submission_test_result_available_text_consent_given">"Dziękujemy za wyrażenie zgody na udostępnienie wyniku testu i pomoc w ostrzeganiu innych osób. \n\n"<b>"W następnym kroku udostępnij wynik testu, klikając opcję „Udostępnij”."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_given">"Czy na pewno chcesz anulować ten proces?"</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_given">"Wyświetl wynik testu"</string>
     <!-- XTXT: Close screen popup text for consent given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_given">"Ważne:\nTen proces zostanie anulowany.\nNie ostrzegłeś(-aś) jeszcze innych osób. Ukończ proces i pomóż chronić innych."</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_given">"Po zapoznaniu się z wynikiem testu możesz w razie potrzeby powiadomić innych i przerwać łańcuch zakażeń."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Zdecydowałeś(-aś) się nie udostępniać wyniku testu. Inne osoby nie zostaną ostrzeżone. \n\nW kolejnym kroku możesz zmienić zdanie i udostępnić wynik testu, aby powstrzymać rozprzestrzenianie się koronawirusa i uchronić inne osoby przed zakażeniem."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
@@ -1350,9 +1415,9 @@
     <!-- XTXT: Close screen popup text for consent NOT given -->
     <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Twoje wpisy nie zostaną zapisane."</string>
     <!-- XBUT: Close screen popup cancel button -->
-    <string name="submission_test_result_available_close_dialog_cancel_button">"Anuluj"</string>
+    <string name="submission_test_result_available_close_dialog_cancel_button">"Nie wyświetlaj"</string>
     <!-- XBUT: Close screen popup continue button -->
-    <string name="submission_test_result_available_close_dialog_continue_button">"Kontynuuj"</string>
+    <string name="submission_test_result_available_close_dialog_continue_button">"Wyświetl"</string>
 
     <!-- Submission your consent screen -->
     <!-- XHED: Your consent screen title  -->
@@ -1514,6 +1579,8 @@
     <!-- ####################################
                Generic Error Messages
         ###################################### -->
+    <!-- XHED: error dialog - headline -->
+    <string name="errors_generic_headline_short">"Błąd"</string>
     <!-- XHED: error dialog - headline -->
     <string name="errors_generic_headline">"Coś poszło nie tak."</string>
     <!-- XTXT: error dialog - short text for error reason -->
