@@ -14,5 +14,6 @@ abstract class EventRegistrationModule {
     abstract fun qrCodeVerifier(qrCodeVerifier: DefaultQRCodeVerifier): QRCodeVerifier
 
     @Binds
-    abstract fun traceLocationRepository(defaultTraceLocationRepo: DefaultTraceLocationRepository): TraceLocationRepository
+    abstract fun traceLocationRepository(defaultTraceLocationRepo: DefaultTraceLocationRepository)
+        : TraceLocationRepository
 }
