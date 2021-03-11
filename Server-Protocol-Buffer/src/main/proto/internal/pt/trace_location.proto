@@ -1,0 +1,31 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.pt;
+
+
+message TraceLocation {
+  // 16 random bytes
+  bytes guid = 1;
+  uint32 version = 2;
+  TraceLocationType type = 3;
+  // max. 150 characters
+  string description = 4;
+  // max. 150 characters
+  string address = 5;
+  // UNIX timestamp (in seconds)
+  uint64 startTimestamp = 6;
+  // UNIX timestamp (in seconds)
+  uint64 endTimestamp = 7;
+  uint32 defaultCheckInLengthInMinutes = 8;
+}
+
+message SignedTraceLocation {
+  TraceLocation location = 1;
+  bytes signature = 2;
+}
+
+enum TraceLocationType {
+  LOCATION_TYPE_UNSPECIFIED = 0;
+  LOCATION_TYPE_PERMANENT_OTHER = 1;
+  LOCATION_TYPE_TEMPORARY_OTHER = 2;
+}
