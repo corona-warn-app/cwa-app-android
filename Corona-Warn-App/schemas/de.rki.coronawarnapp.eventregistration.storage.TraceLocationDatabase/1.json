@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d91fefdb35193483b49b9c65b1b7fdd8",
+    "identityHash": "48d71b0a00d0c7fe01ffe05d5fecb512",
     "entities": [
       {
         "tableName": "checkin",
@@ -104,7 +104,7 @@
       },
       {
         "tableName": "traceLocations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `startDate` TEXT, `endDate` TEXT, `defaultCheckInLength` INTEGER, `signature` TEXT NOT NULL, PRIMARY KEY(`guid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `startDate` TEXT, `endDate` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `signature` TEXT NOT NULL, PRIMARY KEY(`guid`))",
         "fields": [
           {
             "fieldPath": "guid",
@@ -150,7 +150,7 @@
           },
           {
             "fieldPath": "defaultCheckInLengthInMinutes",
-            "columnName": "defaultCheckInLength",
+            "columnName": "defaultCheckInLengthInMinutes",
             "affinity": "INTEGER",
             "notNull": false
           },
@@ -174,7 +174,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd91fefdb35193483b49b9c65b1b7fdd8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '48d71b0a00d0c7fe01ffe05d5fecb512')"
     ]
   }
 }
