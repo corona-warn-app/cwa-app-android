@@ -19,7 +19,9 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beInstanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -84,7 +86,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val result = worker.doWork()
             coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
             verify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
-            assert(result is ListenableWorker.Result.Success)
+            result shouldBe ListenableWorker.Result.success()
         }
     }
 
@@ -96,7 +98,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val result = worker.doWork()
             coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
             verify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
-            assert(result is ListenableWorker.Result.Success)
+            result shouldBe ListenableWorker.Result.success()
         }
     }
 
@@ -139,8 +141,8 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
                     NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
                 )
             }
-            assert(result is ListenableWorker.Result.Success)
-            assert(isTestResultAvailableNotificationSent.captured)
+            result shouldBe ListenableWorker.Result.success()
+            isTestResultAvailableNotificationSent.captured shouldBe true
         }
     }
 
@@ -169,8 +171,8 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
                     NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
                 )
             }
-            assert(result is ListenableWorker.Result.Success)
-            assert(isTestResultAvailableNotificationSent.captured)
+            result shouldBe ListenableWorker.Result.success()
+            isTestResultAvailableNotificationSent.captured shouldBe true
         }
     }
 
@@ -199,8 +201,8 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
                     NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
                 )
             }
-            assert(result is ListenableWorker.Result.Success)
-            assert(isTestResultAvailableNotificationSent.captured)
+            result shouldBe ListenableWorker.Result.success()
+            isTestResultAvailableNotificationSent.captured shouldBe true
         }
     }
 
@@ -229,7 +231,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
                 )
             }
             coVerify(exactly = 0) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
-            assert(result is ListenableWorker.Result.Success)
+            result shouldBe ListenableWorker.Result.success()
         }
     }
 

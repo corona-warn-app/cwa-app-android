@@ -133,8 +133,8 @@ class SubmissionRepositoryTest : BaseTest() {
             submissionSettings.isSubmissionSuccessful = false
         }
 
-        assert(initialPollingForTestResultTimeStampSlot.captured == 0L)
-        assert(!isTestResultAvailableNotificationSent.captured)
+        initialPollingForTestResultTimeStampSlot.captured shouldBe  0L
+        isTestResultAvailableNotificationSent.captured shouldBe false
     }
 
     @Test
