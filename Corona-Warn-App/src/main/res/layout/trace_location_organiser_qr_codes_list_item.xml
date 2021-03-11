@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_box"
+    style="@style/ContactDiaryExpandableListItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_qr_code_list_item_icon"
+        android:paddingHorizontal="23dp"
+        android:paddingTop="27dp"
+        android:paddingBottom="26dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/trace_location_organiser_qr_codes_list_item_qr_code_icon_background"
+        />
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/subtitle"
+        android:textSize="13sp"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="15dp"
+        android:textAlignment="center"
+        android:background="@drawable/trace_location_organiser_qr_codes_list_item_date_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icon"
+        tools:text="21.01.2021"/>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
+
+    <TextView
+        android:id="@+id/location"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="#6D7072"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="Hauptstr. 3, 69115 Heidelberg" />
+
+    <TextView
+        android:id="@+id/duration"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        tools:text="18:00 - 21:00 Uhr" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

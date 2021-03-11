@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_deltaonboardingFragment"
             app:destination="@id/test_deltaonboarding_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_test_orginser_qr_codes_list_fragment"
+            app:destination="@id/test_orginser_qr_codes_list_fragment" />
     </fragment>
 
     <fragment
@@ -124,5 +127,10 @@
         android:name="de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment"
         android:label="DeltaonboardingFragment"
         tools:layout="@layout/fragment_test_deltaonboarding" />
+    <fragment
+        android:id="@+id/test_orginser_qr_codes_list_fragment"
+        android:name="de.rki.coronawarnapp.test.organiser.ui.TraceLocationOrganiserQrCodesListTestFragment"
+        android:label="OrganiserQrCodesListTestFragment"
+        tools:layout="@layout/trace_location_organiser_qr_codes_list_fragment" />
 
 </navigation>

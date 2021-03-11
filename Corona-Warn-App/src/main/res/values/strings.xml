@@ -1968,4 +1968,18 @@
     <string name="duration_dialog_ok_button">"OK"</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">"00:00"</string>
+
+    <!-- ####################################
+       Event Organiser
+   ###################################### -->
+
+    <!-- XHED: Event organiser qr codes list: title -->
+    <string name="trace_location_organiser_qr_list_title">"Meine QR-Codes"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_qr_list_new_qr_code_button">"QR-Code"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_qr_list_no_codes_title">"Noch keine QR Codes erstellt"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_qr_list_no_codes_subtitle">"Hier werden alle QR-Codes angezeigt, die Sie für ein Ort oder Event erstellt haben. Sie können die QR-Codes löschen, wenn diese nicht mehr verwendet werden sollen."</string>
+
 </resources>
