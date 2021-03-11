@@ -12,14 +12,8 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-/** How to use
-context.getSystemService<PrintManager>()?.apply {
-print(
-"CoronaWarnApp",
-PrintingAdapter(it),
-PrintAttributes.Builder().build()
-)
-}
+/**
+ * Printing adapter for poster PDF files
  */
 class PrintingAdapter(
     private val file: File
@@ -34,6 +28,7 @@ class PrintingAdapter(
     ) {
         if (cancellationSignal.isCanceled) {
             callback.onLayoutCancelled()
+            Timber.i("onLayoutCancelled")
             return
         }
 
@@ -41,6 +36,12 @@ class PrintingAdapter(
             .setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
             .setPageCount(PrintDocumentInfo.PAGE_COUNT_UNKNOWN)
             .build()
+        Timber.i(
+            "onLayoutFinished(info:%s, oldAttributes:%s, newAttributes:%s)",
+            info,
+            oldAttributes,
+            newAttributes
+        )
         callback.onLayoutFinished(info, oldAttributes != newAttributes)
     }
 
@@ -50,7 +51,6 @@ class PrintingAdapter(
         cancellationSignal: CancellationSignal,
         callback: WriteResultCallback
     ) = try {
-
         FileInputStream(file).use { input ->
             FileOutputStream(destination.fileDescriptor).use { output ->
                 input.copyTo(output)
@@ -58,8 +58,14 @@ class PrintingAdapter(
         }
 
         when {
-            cancellationSignal.isCanceled -> callback.onWriteCancelled()
-            else -> callback.onWriteFinished(arrayOf(PageRange.ALL_PAGES))
+            cancellationSignal.isCanceled -> {
+                Timber.i("onWriteCancelled")
+                callback.onWriteCancelled()
+            }
+            else -> {
+                Timber.i("onWriteFinished")
+                callback.onWriteFinished(arrayOf(PageRange.ALL_PAGES))
+            }
         }
     } catch (e: Exception) {
         callback.onWriteFailed(e.message)

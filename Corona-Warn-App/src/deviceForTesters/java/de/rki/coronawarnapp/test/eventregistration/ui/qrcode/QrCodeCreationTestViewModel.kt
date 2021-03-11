@@ -6,6 +6,7 @@ import android.graphics.Color.BLACK
 import android.graphics.Color.WHITE
 import android.graphics.pdf.PdfDocument
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
@@ -31,7 +32,7 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
 
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
     val errorMessage = SingleLiveEvent<String>()
-    val sharingIntent = SingleLiveEvent<FileSharing.ShareIntentProvider>()
+    val sharingIntent = SingleLiveEvent<FileSharing.FileIntentProvider>()
 
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
@@ -68,7 +69,7 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
             }
 
             sharingIntent.postValue(
-                fileSharing.getIntentProvider(file, "Scan and Help")
+                fileSharing.getFileIntentProvider(file, "Scan and Help")
             )
         } catch (e: Exception) {
             errorMessage.postValue(e.localizedMessage ?: "Creating pdf failed")
