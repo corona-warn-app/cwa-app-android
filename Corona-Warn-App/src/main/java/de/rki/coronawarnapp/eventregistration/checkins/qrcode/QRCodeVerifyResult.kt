@@ -8,8 +8,8 @@ data class QRCodeVerifyResult(
     val singedTraceLocation: SignedEventOuterClass.SignedEvent
 ) {
     fun isBeforeStartTime(now: Instant): Boolean =
-        singedTraceLocation.event.start != 0 && singedTraceLocation.event.start > now.seconds
+        singedTraceLocation.event.start != 0L && singedTraceLocation.event.start > now.seconds
 
     fun isAfterEndTime(now: Instant): Boolean =
-        singedTraceLocation.event.end != 0 && singedTraceLocation.event.end < now.seconds
+        singedTraceLocation.event.end != 0L && singedTraceLocation.event.end < now.seconds
 }

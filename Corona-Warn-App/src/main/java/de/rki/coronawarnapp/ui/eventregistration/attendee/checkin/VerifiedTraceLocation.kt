@@ -21,8 +21,8 @@ fun QRCodeVerifyResult.toVerifiedTraceLocation() =
     with(singedTraceLocation.event) {
         VerifiedTraceLocation(
             guid = guid.toByteArray().toByteString().base64(),
-            start = start.instant(),
-            end = end.instant(),
+            start = start.toInstant(),
+            end = end.toInstant(),
             description = description,
             defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes
         )
@@ -31,5 +31,5 @@ fun QRCodeVerifyResult.toVerifiedTraceLocation() =
 /**
  * Converts time in seconds into [Instant]
  */
-private fun Int.instant() =
-    if (this == 0) null else Instant.ofEpochMilli(TimeUnit.SECONDS.toMillis(toLong()))
+private fun Long.toInstant() =
+    if (this == 0L) null else Instant.ofEpochMilli(TimeUnit.SECONDS.toMillis(this))
