@@ -6,7 +6,6 @@ import android.graphics.Color.BLACK
 import android.graphics.Color.WHITE
 import android.graphics.pdf.PdfDocument
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
