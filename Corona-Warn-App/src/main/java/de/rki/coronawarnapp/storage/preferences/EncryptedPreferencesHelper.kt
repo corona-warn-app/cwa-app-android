@@ -1,21 +1,51 @@
 package de.rki.coronawarnapp.storage.preferences
 
+import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import androidx.core.content.edit
+import de.rki.coronawarnapp.exception.CwaSecurityException
+import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
+import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.security.SecurityConstants
-import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
 import java.io.File
 import javax.inject.Inject
 
-class EncryptedPreferencesHelper @Inject constructor(applicationInfo: ApplicationInfo) {
+class EncryptedPreferencesHelper @Inject constructor(
+    private val applicationInfo: ApplicationInfo,
+    factory: EncryptedPreferencesFactory,
+    encryptionErrorResetTool: EncryptionErrorResetTool
+) {
 
-    private val file = File(applicationInfo.dataDir)
-        .resolve("shared_prefs/${SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE}.xml")
+    private val encryptedPreferencesFile by lazy {
+        File(applicationInfo.dataDir)
+            .resolve("shared_prefs/${SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE}.xml")
+    }
+
+    val encryptedSharedPreferencesInstance: SharedPreferences? by lazy {
+        withSecurityCatch {
+            try {
+                if (encryptedPreferencesFile.exists()) {
+                    factory.create(SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE)
+                } else {
+                    null
+                }
+            } catch (e: Exception) {
+                encryptionErrorResetTool.isResetNoticeToBeShown = true
+                null
+            }
+        }
+    }
 
     fun clean() {
-        globalEncryptedSharedPreferencesInstance?.edit(true) {
+        encryptedSharedPreferencesInstance?.edit(true) {
             clear()
         }
-        file.delete()
+        encryptedPreferencesFile.delete()
+    }
+
+    private fun <T> withSecurityCatch(doInCatch: () -> T) = try {
+        doInCatch.invoke()
+    } catch (e: Exception) {
+        throw CwaSecurityException(e)
     }
 }

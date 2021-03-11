@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.security.SecurityHelper
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -40,7 +39,7 @@ class EncryptedPreferencesMigration @Inject constructor(
     }
 
     private fun copyData() {
-        val encryptedSharedPreferences = SecurityHelper.globalEncryptedSharedPreferencesInstance ?: return
+        val encryptedSharedPreferences = encryptedPreferencesHelper.encryptedSharedPreferencesInstance ?: return
         Timber.d("EncryptedPreferences are available")
         SettingsLocalData(encryptedSharedPreferences).apply {
             cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
