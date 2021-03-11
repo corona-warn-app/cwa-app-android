@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.tryNewMessage
+import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -49,5 +52,18 @@ class BugCensorTest : BaseTest() {
         BugCensor.withValidComment("a") {} shouldBe false
         BugCensor.withValidComment("ab") {} shouldBe false
         BugCensor.withValidComment("abc") {} shouldBe true
+    }
+
+    @Test
+    fun `loglines are only copied if the message is different`() {
+        val logLine = LogLine(
+            timestamp = 1,
+            priority = 3,
+            message = "Message",
+            tag = "Tag",
+            throwable = null
+        )
+        logLine.tryNewMessage("Message") shouldBe null
+        logLine.tryNewMessage("Message ") shouldNotBe logLine
     }
 }
