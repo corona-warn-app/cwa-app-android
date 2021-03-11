@@ -28,7 +28,7 @@ object CWADebug {
         setupExceptionHandler()
 
         debugLogger = debugLoggerFactory(application).also {
-            // TODO Disabled until all parties are satisfied to make re-enable in prod, search for ¯\_(ツ)_/¯
+            // TODO Disabled until all parties are satisfied, search for ¯\_(ツ)_/¯
             if (isDeviceForTestersBuild) it.init()
         }
 
