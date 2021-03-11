@@ -10,14 +10,13 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
 
-class TraceLocationDatabaseTest {
+class TraceLocationDaoTest {
 
     private val traceLocationDatabase = Room.inMemoryDatabaseBuilder(
         ApplicationProvider.getApplicationContext(),
         TraceLocationDatabase::class.java
     ).build()
 
-    private val checkInDao = traceLocationDatabase.eventCheckInDao()
     private val traceLocationDao = traceLocationDatabase.traceLocationDao()
 
     @After
@@ -68,14 +67,5 @@ class TraceLocationDatabaseTest {
         traceLocationDao.insert(testTraceLocation2)
         traceLocationDao.deleteAll()
         traceLocationsFlow.first() shouldBe emptyList()
-    }
-
-    @Test
-    fun eventCheckInDao() {
-        // Arrange
-
-        // Act 
-
-        // Assert
     }
 }
