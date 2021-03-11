@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.checkin
 
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifyResult
 import de.rki.coronawarnapp.eventregistration.common.decodeBase32
-import de.rki.coronawarnapp.server.protocols.internal.evreg.SignedEventOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
@@ -18,7 +18,9 @@ class VerifiedTraceLocationKtTest : BaseTestInstrumentation() {
     fun testVerifiedTraceLocationMapping() {
         shouldNotThrowAny {
             val signedTraceLocation =
-                SignedEventOuterClass.SignedEvent.parseFrom(DECODED_TRACE_LOCATION.decodeBase32().toByteArray())
+                TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+                    DECODED_TRACE_LOCATION.decodeBase32().toByteArray()
+                )
             val verifiedTraceLocation =
                 QRCodeVerifyResult(singedTraceLocation = signedTraceLocation).toVerifiedTraceLocation()
             verifiedTraceLocation shouldBe VerifiedTraceLocation(

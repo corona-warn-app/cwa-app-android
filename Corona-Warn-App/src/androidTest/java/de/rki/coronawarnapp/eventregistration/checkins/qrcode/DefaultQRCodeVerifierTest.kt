@@ -36,7 +36,7 @@ class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
         shouldNotThrowAny {
             val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
             verifyResult.apply {
-                singedTraceLocation.event.description shouldBe "CWA Launch Party"
+                singedTraceLocation.location.description shouldBe "CWA Launch Party"
                 verifyResult.isBeforeStartTime(instant) shouldBe false
                 verifyResult.isAfterEndTime(instant) shouldBe false
             }
@@ -50,7 +50,7 @@ class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
         shouldNotThrowAny {
             val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
             verifyResult.apply {
-                singedTraceLocation.event.description shouldBe "CWA Launch Party"
+                singedTraceLocation.location.description shouldBe "CWA Launch Party"
             }
             verifyResult.isBeforeStartTime(instant) shouldBe true
             verifyResult.isAfterEndTime(instant) shouldBe false
@@ -63,7 +63,7 @@ class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
         shouldNotThrowAny {
             val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
             verifyResult.apply {
-                singedTraceLocation.event.description shouldBe "CWA Launch Party"
+                singedTraceLocation.location.description shouldBe "CWA Launch Party"
             }
             verifyResult.isBeforeStartTime(instant) shouldBe false
             verifyResult.isAfterEndTime(instant) shouldBe true

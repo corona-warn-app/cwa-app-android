@@ -18,11 +18,11 @@ data class VerifiedTraceLocation(
 ) : Parcelable
 
 fun QRCodeVerifyResult.toVerifiedTraceLocation() =
-    with(singedTraceLocation.event) {
+    with(singedTraceLocation.location) {
         VerifiedTraceLocation(
             guid = guid.toByteArray().toByteString().base64(),
-            start = start.toInstant(),
-            end = end.toInstant(),
+            start = startTimestamp.toInstant(),
+            end = endTimestamp.toInstant(),
             description = description,
             defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes
         )
