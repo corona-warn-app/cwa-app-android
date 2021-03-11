@@ -92,7 +92,6 @@ class EncryptedPreferencesMigration @Inject constructor(
         private const val TRACING_DATABASE_NAME = "coronawarnapp-db"
     }
 
-    // TODO: delete or update LocalData, SecurityConstants, SecurityHelper after all methods are migrated
     private class SettingsLocalData(private val sharedPreferences: SharedPreferences) {
 
         fun wasInteroperabilityShown() = sharedPreferences.getBoolean(PREFERENCE_INTEROPERABILITY_WAS_USED, false)
