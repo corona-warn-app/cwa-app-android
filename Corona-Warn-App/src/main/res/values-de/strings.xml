@@ -900,7 +900,7 @@
     <!-- YTXT: Second body section for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_section_two">"Nach der Übersendung erhalten Sie eine Fehlerbericht-ID. Diese können Sie angeben, um dem technischen Support z.B. weitere Informationen zukommen zu lassen und dabei eine Zuordnung zu Ihrem Fehlerbericht zu ermöglichen. Wenn Sie die Fehlerbericht-ID nicht mitteilen, ist dem RKI eine Zuordnung zu Ihrer Person nicht möglich."</string>
     <!-- YTXT: Privacy Information section for bugreporting share log screen -->
-    <string name="debugging_debuglog_share_log_privacy_information">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA und anderen Drittländern."</string>
+    <string name="debugging_debuglog_share_log_privacy_information">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA und anderen Drittländern"</string>
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Einverstanden und senden"</string>
     <!-- XHED: Title for log upload history -->
