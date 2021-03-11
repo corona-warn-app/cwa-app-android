@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidEmail
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -31,19 +34,21 @@ class DiaryPersonCensor @Inject constructor(
         if (personsNow.isEmpty()) return null
 
         val newMessage = personsNow.fold(entry.message) { orig, person ->
-            var wip = orig.replace(person.fullName, "Person#${person.personId}/Name")
+            var wip = orig
 
-            person.emailAddress?.let {
+            withValidName(person.fullName) {
+                wip = orig.replace(it, "Person#${person.personId}/Name")
+            }
+            withValidEmail(person.emailAddress) {
                 wip = wip.replace(it, "Person#${person.personId}/EMail")
             }
-
-            person.phoneNumber?.let {
+            withValidPhoneNumber(person.phoneNumber) {
                 wip = wip.replace(it, "Person#${person.personId}/PhoneNumber")
             }
 
             wip
         }
 
-        return entry.copy(message = newMessage)
+        return if (newMessage != entry.message) entry.copy(message = newMessage) else null
     }
 }

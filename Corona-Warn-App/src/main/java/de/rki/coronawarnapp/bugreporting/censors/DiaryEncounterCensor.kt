@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidComment
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -31,11 +32,15 @@ class DiaryEncounterCensor @Inject constructor(
         if (encountersNow.isEmpty()) return null
 
         val newMessage = encountersNow.fold(entry.message) { orig, encounter ->
-            if (encounter.circumstances.isNullOrBlank()) return@fold orig
+            var wip = orig
 
-            orig.replace(encounter.circumstances!!, "Encounter#${encounter.id}/Circumstances")
+            withValidComment(encounter.circumstances) {
+                wip = orig.replace(it, "Encounter#${encounter.id}/Circumstances")
+            }
+
+            wip
         }
 
-        return entry.copy(message = newMessage)
+        return if (newMessage != entry.message) entry.copy(message = newMessage) else null
     }
 }

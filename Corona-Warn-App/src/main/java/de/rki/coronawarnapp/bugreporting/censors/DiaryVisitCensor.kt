@@ -31,11 +31,15 @@ class DiaryVisitCensor @Inject constructor(
         if (visitsNow.isEmpty()) return null
 
         val newMessage = visitsNow.fold(entry.message) { orig, visit ->
-            if (visit.circumstances.isNullOrBlank()) return@fold orig
+            var wip = orig
 
-            orig.replace(visit.circumstances!!, "Visit#${visit.id}/Circumstances")
+            BugCensor.withValidComment(visit.circumstances) {
+                wip = orig.replace(it, "Visit#${visit.id}/Circumstances")
+            }
+
+            wip
         }
 
-        return entry.copy(message = newMessage)
+        return if (newMessage != entry.message) entry.copy(message = newMessage) else null
     }
 }
