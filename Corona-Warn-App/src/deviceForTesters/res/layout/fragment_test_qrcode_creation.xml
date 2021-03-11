@@ -17,9 +17,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="QR Code"
-            app:layout_constraintEnd_toStartOf="@+id/printPDF"
+            app:layout_constraintEnd_toStartOf="@+id/sharePDF"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sharePDF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Share PDF"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@+id/printPDF"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/generateQrCode"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
@@ -27,11 +39,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="PDF"
-            android:visibility="gone"
+            android:text="Print PDF"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/generateQrCode"
+            app:layout_constraintStart_toEndOf="@+id/sharePDF"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
