@@ -10,10 +10,13 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.lang.Thread.sleep
+import kotlin.concurrent.thread
 
 class DiaryPersonCensorTest : BaseTest() {
 
@@ -85,5 +88,64 @@ class DiaryPersonCensorTest : BaseTest() {
             throwable = null
         )
         instance.checkLog(notCensored) shouldBe null
+    }
+
+    @Test
+    fun `if message is the same, don't copy the log line`() = runBlockingTest {
+        every { diaryRepo.people } returns flowOf(
+            listOf(
+                mockPerson(1, "Test", phone = null, mail = null),
+                mockPerson(2, "Test", phone = null, mail = null),
+                mockPerson(3, "Test", phone = null, mail = null)
+            )
+        )
+        val instance = createInstance(this)
+        val logLine = LogLine(
+            timestamp = 1,
+            priority = 3,
+            message = "Lorem ipsum",
+            tag = "I'm a tag",
+            throwable = null
+        )
+        instance.checkLog(logLine) shouldBe null
+    }
+
+    // EXPOSUREAPP-5670 / EXPOSUREAPP-5691
+    @Test
+    fun `replacement doesn't cause recursion`() {
+        every { diaryRepo.people } returns flowOf(
+            listOf(
+                mockPerson(1, "Test", phone = "", mail = ""),
+                mockPerson(2, "Test", phone = "", mail = ""),
+                mockPerson(3, "Test", phone = "", mail = "")
+            )
+        )
+
+        val logLine = LogLine(
+            timestamp = 1,
+            priority = 3,
+            message = "Lorem ipsum",
+            tag = "I'm a tag",
+            throwable = null
+        )
+
+        var isFinished = false
+
+        thread {
+            sleep(500)
+            if (isFinished) return@thread
+            Runtime.getRuntime().exit(1)
+        }
+
+        runBlocking {
+            val instance = createInstance(this)
+
+            val processedLine = try {
+                instance.checkLog(logLine)
+            } finally {
+                isFinished = true
+            }
+            processedLine shouldBe null
+        }
     }
 }

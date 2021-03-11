@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.CWADebug
@@ -20,7 +21,7 @@ class RegistrationTokenCensor @Inject constructor(
             entry.message.replace(token, PLACEHOLDER + token.takeLast(4))
         }
 
-        return entry.copy(message = newMessage)
+        return entry.toNewLogLineIfDifferent(newMessage)
     }
 
     companion object {

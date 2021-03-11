@@ -10,10 +10,12 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import kotlin.concurrent.thread
 
 class DiaryEncounterCensorTest : BaseTest() {
 
@@ -99,5 +101,63 @@ class DiaryEncounterCensorTest : BaseTest() {
             throwable = null
         )
         instance.checkLog(notCensored) shouldBe null
+    }
+
+    @Test
+    fun `censoring returns null if the message did not change`() = runBlockingTest {
+        every { diaryRepo.personEncounters } returns flowOf(
+            listOf(
+                mockEncounter(1, _circumstances = "March weather"),
+                mockEncounter(2, _circumstances = "Rainy, cold"),
+            )
+        )
+
+        val instance = createInstance(this)
+        val notCensored = LogLine(
+            timestamp = 1,
+            priority = 3,
+            message = "I like turtles",
+            tag = "I'm a tag",
+            throwable = null
+        )
+        instance.checkLog(notCensored) shouldBe null
+    }
+
+    // EXPOSUREAPP-5670 / EXPOSUREAPP-5691
+    @Test
+    fun `replacement doesn't cause recursion`() {
+        every { diaryRepo.personEncounters } returns flowOf(
+            listOf(
+                mockEncounter(1, _circumstances = "March weather"),
+                mockEncounter(2, _circumstances = "Rainy, cold"),
+            )
+        )
+
+        val logLine = LogLine(
+            timestamp = 1,
+            priority = 3,
+            message = "Lorem ipsum",
+            tag = "I'm a tag",
+            throwable = null
+        )
+
+        var isFinished = false
+
+        thread {
+            Thread.sleep(500)
+            if (isFinished) return@thread
+            Runtime.getRuntime().exit(1)
+        }
+
+        runBlocking {
+            val instance = createInstance(this)
+
+            val processedLine = try {
+                instance.checkLog(logLine)
+            } finally {
+                isFinished = true
+            }
+            processedLine shouldBe null
+        }
     }
 }
