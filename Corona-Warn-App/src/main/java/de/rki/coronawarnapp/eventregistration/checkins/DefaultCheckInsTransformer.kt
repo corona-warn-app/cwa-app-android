@@ -30,7 +30,7 @@ class DefaultCheckInsTransformer @Inject constructor() :
                 .setSignedLocation(signedTraceLocation)
                 .setStartIntervalNumber(checkIn.checkInStart.seconds.toInt())
                 .setEndIntervalNumber(checkIn.checkInEnd?.seconds?.toInt() ?: 0)
-                //TODO .setTransmissionRiskLevel()
+                // TODO .setTransmissionRiskLevel()
                 .build()
         }
     }
