@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.nearby.modules.tracing
 
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.storage.TracingSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -22,6 +23,7 @@ import testhelpers.gms.MockGMSTask
 class DefaultTracingStatusTest : BaseTest() {
 
     @MockK lateinit var client: ExposureNotificationClient
+    @MockK lateinit var tracingSettings: TracingSettings
 
     @BeforeEach
     fun setup() {
@@ -32,7 +34,8 @@ class DefaultTracingStatusTest : BaseTest() {
 
     private fun createInstance(scope: CoroutineScope): DefaultTracingStatus = DefaultTracingStatus(
         client = client,
-        scope = scope
+        scope = scope,
+        tracingSettings = tracingSettings
     )
 
     @Test

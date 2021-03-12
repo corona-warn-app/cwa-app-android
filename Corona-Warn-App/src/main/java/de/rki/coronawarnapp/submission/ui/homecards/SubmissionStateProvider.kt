@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import dagger.Reusable
 import de.rki.coronawarnapp.exception.http.CwaServerError
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
@@ -18,18 +18,20 @@ import javax.inject.Inject
 
 @Reusable
 class SubmissionStateProvider @Inject constructor(
-    submissionRepository: SubmissionRepository
+    submissionRepository: SubmissionRepository,
+    submissionSettings: SubmissionSettings
 ) {
 
     val state: Flow<SubmissionState> = combine(
         submissionRepository.deviceUIStateFlow,
         submissionRepository.hasViewedTestResult,
-        submissionRepository.testResultReceivedDateFlow
-    ) { uiState, hasTestBeenSeen, testRegistrationDate ->
+        submissionRepository.testResultReceivedDateFlow,
+        submissionSettings.registrationToken.flow
+    ) { uiState, hasTestBeenSeen, testRegistrationDate, registrationToken ->
 
         val eval = Evaluation(
             deviceUiState = uiState,
-            isDeviceRegistered = LocalData.registrationToken() != null,
+            isDeviceRegistered = registrationToken != null,
             hasTestResultBeenSeen = hasTestBeenSeen
         )
         Timber.d("eval: %s", eval)

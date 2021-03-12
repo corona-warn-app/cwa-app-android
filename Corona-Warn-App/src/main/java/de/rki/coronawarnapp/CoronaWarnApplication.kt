@@ -21,7 +21,9 @@ import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.storage.preferences.EncryptedPreferencesMigration
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
@@ -29,6 +31,7 @@ import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -57,6 +60,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
     @Inject lateinit var autoSubmission: AutoSubmission
+    @Inject lateinit var submissionSettings: SubmissionSettings
+    @Inject lateinit var onboardingSettings: OnboardingSettings
+    @Inject lateinit var encryptedPreferencesMigration: EncryptedPreferencesMigration
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -69,6 +75,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         AppInjector.init(this)
 
         CWADebug.initAfterInjection(component)
+
+        encryptedPreferencesMigration.doMigration()
+
+        BackgroundWorkScheduler.init(component)
 
         Timber.plant(rollingLogHistory)
 
@@ -87,8 +97,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             .onEach { isAppInForeground = it }
             .launchIn(GlobalScope)
 
-        if (LocalData.onboardingCompletedTimestamp() != null) {
-            if (!LocalData.isAllowedToSubmitDiagnosisKeys()) {
+        if (onboardingSettings.isOnboarded) {
+            if (!submissionSettings.isAllowedToSubmitKeys) {
                 deadmanNotificationScheduler.schedulePeriodic()
             }
             contactDiaryWorkScheduler.schedulePeriodic()

@@ -19,7 +19,7 @@ object DiaryData {
     val DATA_ITEMS = listOf(
         DayOverviewItem.Data(
             R.drawable.ic_contact_diary_location_item,
-            "Rewe",
+            "Supermarkt",
             Duration.standardMinutes(30),
             attributes = null,
             circumstances = null,
@@ -27,7 +27,7 @@ object DiaryData {
         ),
         DayOverviewItem.Data(
             R.drawable.ic_contact_diary_person_item,
-            "Andrea Steinhauer",
+            "Erika Musterfrau",
             null,
             listOf(
                 R.string.contact_diary_person_encounter_duration_below_15_min,
@@ -89,7 +89,7 @@ object DiaryData {
 
     val PERSONS: List<DiaryPersonListItem> = listOf(
         DiaryPersonListItem(
-            item = DefaultContactDiaryPerson(fullName = "Andrea Steinhauer"),
+            item = DefaultContactDiaryPerson(fullName = "Erika Musterfrau"),
             personEncounter = DefaultContactDiaryPersonEncounter(
                 contactDiaryPerson = DefaultContactDiaryPerson(fullName = ""),
                 date = LocalDate.now(),
@@ -106,7 +106,7 @@ object DiaryData {
             onCircumstanceInfoClicked = {}
         ),
         DiaryPersonListItem(
-            item = DefaultContactDiaryPerson(fullName = "Constantin Frenzel"),
+            item = DefaultContactDiaryPerson(fullName = "Max Mustermann"),
             personEncounter = DefaultContactDiaryPersonEncounter(
                 contactDiaryPerson = DefaultContactDiaryPerson(fullName = ""),
                 date = LocalDate.now()
@@ -136,7 +136,6 @@ object DiaryData {
             phoneNumber = "+49151237865",
             emailAddress = "max.musterman@me.com"
         ),
-        DefaultContactDiaryPerson(fullName = "Erika Mustermann", emailAddress = "erika.mustermann@me.com"),
-        DefaultContactDiaryPerson(fullName = "John Doe")
+        DefaultContactDiaryPerson(fullName = "Erika Musterfrau", emailAddress = "erika.musterfrau@me.com")
     )
 }

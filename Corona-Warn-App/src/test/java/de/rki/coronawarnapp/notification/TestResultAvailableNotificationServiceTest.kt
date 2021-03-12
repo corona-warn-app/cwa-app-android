@@ -6,7 +6,7 @@ import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
@@ -35,26 +35,27 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
     @MockK lateinit var navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>
     @MockK lateinit var notificationManager: NotificationManager
     @MockK lateinit var notificationHelper: NotificationHelper
+    @MockK lateinit var cwaSettings: CWASettings
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
         mockkObject(CoronaWarnApplication)
-        mockkObject(LocalData)
 
         every { CoronaWarnApplication.getAppContext() } returns context
         every { context.getSystemService(Context.NOTIFICATION_SERVICE) } returns notificationManager
         every { navDeepLinkBuilderProvider.get() } returns navDeepLinkBuilder
         every { navDeepLinkBuilder.createPendingIntent() } returns pendingIntent
-        every { LocalData.isNotificationsTestEnabled } returns true
+        every { cwaSettings.isNotificationsTestEnabled.value } returns true
     }
 
     fun createInstance() = TestResultAvailableNotificationService(
         context = context,
         foregroundState = foregroundState,
         navDeepLinkBuilderProvider = navDeepLinkBuilderProvider,
-        notificationHelper = notificationHelper
+        notificationHelper = notificationHelper,
+        cwaSettings = cwaSettings
     )
 
     @Test
@@ -111,7 +112,7 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
     @Test
     fun `test notification in background disabled`() = runBlockingTest {
         coEvery { foregroundState.isInForeground } returns flow { emit(false) }
-        every { LocalData.isNotificationsTestEnabled } returns false
+        every { cwaSettings.isNotificationsTestEnabled.value } returns false
 
         createInstance().apply {
             showTestResultAvailableNotification(TestResult.POSITIVE)
