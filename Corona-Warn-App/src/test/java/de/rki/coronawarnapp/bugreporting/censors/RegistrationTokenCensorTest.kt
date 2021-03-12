@@ -1,21 +1,26 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 
 class RegistrationTokenCensorTest : BaseTest() {
+    @MockK lateinit var submissionSettings: SubmissionSettings
 
     private val testToken = "63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
+
+    private val regtokenPreference = mockFlowPreference<String?>(testToken)
 
     @BeforeEach
     fun setup() {
@@ -24,11 +29,12 @@ class RegistrationTokenCensorTest : BaseTest() {
         mockkObject(CWADebug)
         every { CWADebug.isDeviceForTestersBuild } returns false
 
-        mockkObject(LocalData)
-        every { LocalData.registrationToken() } returns testToken
+        every { submissionSettings.registrationToken } returns regtokenPreference
     }
 
-    private fun createInstance() = RegistrationTokenCensor()
+    private fun createInstance() = RegistrationTokenCensor(
+        submissionSettings = submissionSettings
+    )
 
     @Test
     fun `censoring replaces the logline message`() = runBlockingTest {
@@ -49,12 +55,12 @@ class RegistrationTokenCensorTest : BaseTest() {
             message = "I'm a shy registration token: ########-e0de-4bd4-90c1-17c2bb683a2f"
         )
 
-        verify { LocalData.registrationToken() }
+        verify { regtokenPreference.value }
     }
 
     @Test
     fun `censoring returns null if there is no token`() = runBlockingTest {
-        every { LocalData.registrationToken() } returns null
+        every { submissionSettings.registrationToken } returns mockFlowPreference(null)
         val instance = createInstance()
         val filterMeNot = LogLine(
             timestamp = 1,
