@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.eventregistration.common.decodeBase32
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
@@ -13,7 +11,6 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
