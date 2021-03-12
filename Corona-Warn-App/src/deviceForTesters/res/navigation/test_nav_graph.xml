@@ -169,7 +169,7 @@
         tools:layout="@layout/fragment_test_showstoredevents" />
     <fragment
         android:id="@+id/eventRegistrationCategoriesFragment"
-        android:name="de.rki.coronawarnapp.eventregistration.events.ui.TraceLocationCategoryFragment"
+        android:name="de.rki.coronawarnapp.eventregistration.events.ui.category.TraceLocationCategoryFragment"
         android:label="TraceLocationCategoryFragment" />
 
 </navigation>

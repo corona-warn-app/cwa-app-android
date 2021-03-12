@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.ui
+package de.rki.coronawarnapp.eventregistration.events.ui.category
 
 import android.os.Bundle
 import android.view.View

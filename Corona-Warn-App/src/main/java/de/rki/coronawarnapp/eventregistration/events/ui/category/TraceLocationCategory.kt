@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.ui
+package de.rki.coronawarnapp.eventregistration.events.ui.category
 
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
