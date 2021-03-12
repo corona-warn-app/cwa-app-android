@@ -14,7 +14,9 @@ class DefaultQRCodeVerifier @Inject constructor(
         Timber.tag(TAG).v("Verifying: %s", encodedSignedTraceLocation)
 
         val signedTraceLocation = try {
-            TraceLocationOuterClass.SignedTraceLocation.parseFrom(encodedSignedTraceLocation.decodeBase32().toByteArray())
+            TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+                encodedSignedTraceLocation.decodeBase32().toByteArray()
+            )
         } catch (e: Exception) {
             throw InvalidQRCodeDataException(cause = e, message = "QR-code data could not be parsed.")
         }
