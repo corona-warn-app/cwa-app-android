@@ -40,8 +40,10 @@ class CheckInRepository @Inject constructor(
         }
     }
 
-    fun clear() = appScope.launch {
-        checkInDao.deleteAll()
+    fun clear() {
+        appScope.launch {
+            checkInDao.deleteAll()
+        }
     }
 }
 

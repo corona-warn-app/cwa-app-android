@@ -115,6 +115,7 @@ class SubmissionTaskTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
 
         every { checkInRepository.allCheckIns } returns flowOf(emptyList())
+        every { checkInRepository.clear() } just Runs
         every { checkInsTransformer.transform(any()) } returns emptyList()
     }
 
