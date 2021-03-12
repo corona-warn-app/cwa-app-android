@@ -4,7 +4,7 @@ import com.google.protobuf.ByteString
 import dagger.Lazy
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
-import de.rki.coronawarnapp.server.protocols.internal.evreg.CheckInOuterClass.CheckIn
+import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 
 import de.rki.coronawarnapp.util.PaddingTool.requestPadding
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,7 @@ class SubmissionServer @Inject constructor(
         val keyList: List<TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visitedCountries: List<String>,
-        val checkIns: List<CheckIn>
+        val checkIns: List<CheckInOuterClass.CheckIn>
     )
 
     suspend fun submitKeysToServer(

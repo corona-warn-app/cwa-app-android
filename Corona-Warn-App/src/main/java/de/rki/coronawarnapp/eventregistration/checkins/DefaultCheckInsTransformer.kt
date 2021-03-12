@@ -1,9 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
 import com.google.protobuf.ByteString
-import de.rki.coronawarnapp.server.protocols.internal.evreg.CheckInOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.evreg.EventOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.evreg.SignedEventOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import javax.inject.Inject
 
@@ -11,28 +10,28 @@ class DefaultCheckInsTransformer @Inject constructor() :
     CheckInsTransformer {
     override fun transform(checkIns: List<CheckIn>): List<CheckInOuterClass.CheckIn> {
         return checkIns.map { checkIn ->
-
-            // TODO check all fields once new Proto-buffs is merged
-            val traceLocation = EventOuterClass.Event.newBuilder()
-                .setGuid(checkIn.guid.toProtoByteString())
+            val traceLocation = TraceLocationOuterClass.TraceLocation.newBuilder()
+                .setGuid(checkIn.guid)
+                .setVersion(checkIn.version)
+                .setType(TraceLocationOuterClass.TraceLocationType.forNumber(checkIn.type))
                 .setDescription(checkIn.description)
-                .setStart(checkIn.traceLocationStart?.seconds?.toInt() ?: 0)
-                .setEnd(checkIn.traceLocationEnd?.seconds?.toInt() ?: 0)
+                .setAddress(checkIn.address)
+                .setStartTimestamp(checkIn.traceLocationStart?.seconds ?: 0L)
+                .setEndTimestamp(checkIn.traceLocationEnd?.seconds ?: 0L)
                 .setDefaultCheckInLengthInMinutes(checkIn.defaultCheckInLengthInMinutes ?: 0)
                 .build()
 
-            val signedTraceLocation = SignedEventOuterClass.SignedEvent.newBuilder()
-                .setEvent(traceLocation)
-                .setSignature(checkIn.signature.toProtoByteString())
+            val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder()
+                .setLocation(traceLocation)
+                .setSignature(ByteString.copyFrom(checkIn.signature.toByteArray()))
                 .build()
 
             CheckInOuterClass.CheckIn.newBuilder()
-                .setCheckinTime(checkIn.checkInStart.seconds.toInt())
-                .setCheckoutTime(checkIn.checkInEnd?.seconds?.toInt() ?: 0)
-                .setSignedEvent(signedTraceLocation)
+                .setSignedLocation(signedTraceLocation)
+                .setStartIntervalNumber(checkIn.checkInStart.seconds.toInt())
+                .setEndIntervalNumber(checkIn.checkInEnd?.seconds?.toInt() ?: 0)
+                //TODO .setTransmissionRiskLevel()
                 .build()
         }
     }
-
-    private fun String.toProtoByteString() = ByteString.copyFrom(toByteArray())
 }
