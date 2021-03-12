@@ -34,7 +34,7 @@ data class RiskLevelTaskResult(
     )
 
     override val traceLocationCheckInRiskStates: List<RiskLevelResult.TraceLocationCheckInRisk>
-        get() = emptyList() //TODO("Not yet implemented")
+        get() = emptyList() // TODO("Not yet implemented")
 
     override fun toString(): String = "RiskLevelTaskResult(" +
         "calculatedAt=$calculatedAt, " +
