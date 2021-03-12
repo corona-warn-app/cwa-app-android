@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifyResult
 import kotlinx.parcelize.Parcelize
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 @Parcelize
@@ -20,7 +21,7 @@ data class VerifiedTraceLocation(
 fun QRCodeVerifyResult.toVerifiedTraceLocation() =
     with(singedTraceLocation.location) {
         VerifiedTraceLocation(
-            guid = guid.toByteArray().toByteString().base64(),
+            guid = guid,
             start = startTimestamp.toInstant(),
             end = endTimestamp.toInstant(),
             description = description,

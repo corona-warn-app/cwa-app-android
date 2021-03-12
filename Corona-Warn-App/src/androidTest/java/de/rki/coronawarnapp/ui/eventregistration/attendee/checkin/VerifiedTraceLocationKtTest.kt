@@ -13,7 +13,6 @@ import org.junit.runners.JUnit4
 import testhelpers.BaseTestInstrumentation
 
 @RunWith(JUnit4::class)
-@Ignore("FIXME: Provide new encoded signed trace location samples")
 class VerifiedTraceLocationKtTest : BaseTestInstrumentation() {
 
     @Test
@@ -26,19 +25,20 @@ class VerifiedTraceLocationKtTest : BaseTestInstrumentation() {
             val verifiedTraceLocation =
                 QRCodeVerifyResult(singedTraceLocation = signedTraceLocation).toVerifiedTraceLocation()
             verifiedTraceLocation shouldBe VerifiedTraceLocation(
-                guid = "Yc48RFi/hfyXKlF4DEDs/w==",
+                guid = "3055331c-2306-43f3-9742-6d8fab54e848",
                 start = Instant.parse("1970-02-01T02:39:15.000Z"),
                 end = Instant.parse("1970-02-01T02:39:51.000Z"),
-                defaultCheckInLengthInMinutes = 30,
-                description = "CWA Launch Party"
+                defaultCheckInLengthInMinutes = 0,
+                description = "My Birthday Party"
             )
         }
     }
 
     companion object {
         private const val DECODED_TRACE_LOCATION =
-            "BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBGGC5LOMNUCAUDBOJ2HSGGTQ6SACIHXQ6SAC" +
-                "KA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFFBU2SQCEEAJAUCJSQJ7WDM6" +
-                "75MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI="
+            "BJLAUJBTGA2TKMZTGFRS2MRTGA3C2NBTMYZS2OJXGQZC2NTEHBTGCYRVGRST" +
+                "QNBYCAARQARCCFGXSICCNFZHI2DEMF4SAUDBOJ2HSKQLMF" +
+                "2CA3LZEBYGYYLDMUYNHB5EAE4PPB5EAFAAAESIGBDAEIIARVENF6QT6XZATJ5GSDHL77" +
+                "BCAGR6QKDEUJRP2RDCTKTS7QECWMFAEIIA47MT2EA7MQKGNQU2XCY3Y2ZOZXCILDPC65PBUO4JJHT5LQQWDQSA"
     }
 }
