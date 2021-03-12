@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.launcher
 
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.UpdateChecker
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
@@ -26,13 +26,13 @@ class LauncherActivityViewModelTest : BaseTest() {
 
     @MockK lateinit var updateChecker: UpdateChecker
     @MockK lateinit var cwaSettings: CWASettings
+    @MockK lateinit var onboardingSettings: OnboardingSettings
 
     @BeforeEach
     fun setupFreshViewModel() {
         MockKAnnotations.init(this)
 
-        mockkObject(LocalData)
-        every { LocalData.isOnboarded() } returns false
+        every { onboardingSettings.isOnboarded } returns false
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 10L
@@ -43,7 +43,8 @@ class LauncherActivityViewModelTest : BaseTest() {
     private fun createViewModel() = LauncherActivityViewModel(
         updateChecker = updateChecker,
         dispatcherProvider = TestDispatcherProvider(),
-        cwaSettings = cwaSettings
+        cwaSettings = cwaSettings,
+        onboardingSettings = onboardingSettings
     )
 
     @Test
@@ -67,8 +68,8 @@ class LauncherActivityViewModelTest : BaseTest() {
 
     @Test
     fun `onboarding finished`() {
-        every { LocalData.isOnboarded() } returns true
-        every { LocalData.isInteroperabilityShownAtLeastOnce } returns true
+        every { onboardingSettings.isOnboarded } returns true
+        every { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns true
         every { cwaSettings.lastChangelogVersion } returns mockFlowPreference(10L)
 
         val vm = createViewModel()

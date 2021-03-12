@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
@@ -67,6 +68,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
+    @MockK lateinit var tracingSettings: TracingSettings
 
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
 
@@ -256,7 +258,8 @@ class HomeFragmentTest : BaseUITest() {
             cwaSettings = cwaSettings,
             statisticsProvider = statisticsProvider,
             deadmanNotificationScheduler = deadmanNotificationScheduler,
-            appShortcutsHelper = appShortcutsHelper
+            appShortcutsHelper = appShortcutsHelper,
+            tracingSettings = tracingSettings
         )
     )
 

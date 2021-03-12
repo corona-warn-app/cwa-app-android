@@ -1,26 +1,23 @@
-package de.rki.coronawarnapp.contactdiary.ui.durationpicker
+package de.rki.coronawarnapp.ui.durationpicker
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import de.rki.coronawarnapp.databinding.ContactDiaryDurationPickerDialogFragmentBinding
+import de.rki.coronawarnapp.databinding.DurationPickerBinding
 import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
 
-class ContactDiaryDurationPickerFragment : DialogFragment() {
+class DurationPicker : DialogFragment() {
 
-    interface OnChangeListener {
+    fun interface OnChangeListener {
         fun onChange(duration: Duration)
     }
 
-    val binding: Lazy<ContactDiaryDurationPickerDialogFragmentBinding> = lazy {
-        ContactDiaryDurationPickerDialogFragmentBinding.inflate(
-            layoutInflater
-        )
-    }
+    private var onChangeListener: OnChangeListener? = null
+    private val binding: Lazy<DurationPickerBinding> = lazy { DurationPickerBinding.inflate(layoutInflater) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return binding.value.root
@@ -42,7 +39,7 @@ class ContactDiaryDurationPickerFragment : DialogFragment() {
         }
 
         with(binding.value) {
-            var duration = requireArguments().getString(DURATION_ARGUMENT_KEY)!!.split(":").toTypedArray()
+            var duration = requireArguments().getString(DURATION_KEY)!!.split(":").toTypedArray()
             if (duration.size < 2) duration = arrayOf("00", "00")
 
             hours.value = hoursArray.indexOf(duration[0])
@@ -50,15 +47,19 @@ class ContactDiaryDurationPickerFragment : DialogFragment() {
 
             cancelButton.setOnClickListener { dismiss() }
             okButton.setOnClickListener {
-                (targetFragment as? OnChangeListener)?.onChange(getDuration(hours.value, minutes.value))
+                onChangeListener?.onChange(getDuration(hours.value, minutes.value))
                 dismiss()
             }
         }
     }
 
-    companion object {
-        const val DURATION_ARGUMENT_KEY = "duration"
+    fun setDurationChangeListener(onChangeListener: OnChangeListener) {
+        this.onChangeListener = onChangeListener
+    }
 
+    companion object {
+        private const val DURATION_KEY = "duration"
+        private const val TITLE_KEY = "title"
         val minutesArray = arrayOf("00", "15", "30", "45")
         val hoursArray = Array(24) { "%02d".format(it) }
 
@@ -71,5 +72,24 @@ class ContactDiaryDurationPickerFragment : DialogFragment() {
                 .toFormatter()
             return formatter.parsePeriod(durationString).toStandardDuration()
         }
+
+        private fun newInstance(builder: Builder) = DurationPicker()
+            .apply {
+                arguments = Bundle().apply {
+                    putString(DURATION_KEY, builder.duration)
+                    putString(TITLE_KEY, builder.title)
+                }
+            }
+    }
+
+    class Builder {
+        var title: String = ""
+            private set
+        var duration: String = ""
+            private set
+
+        fun title(title: String) = apply { this.title = title }
+        fun duration(duration: String) = apply { this.duration = duration }
+        fun build() = newInstance(this)
     }
 }

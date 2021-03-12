@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.storage.interoperability
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.ui.Country
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -12,7 +12,8 @@ import javax.inject.Singleton
 
 @Singleton
 class InteroperabilityRepository @Inject constructor(
-    private val appConfigProvider: AppConfigProvider
+    private val appConfigProvider: AppConfigProvider,
+    private val settings: CWASettings
 ) {
 
     val countryList = appConfigProvider.currentConfig
@@ -39,6 +40,6 @@ class InteroperabilityRepository @Inject constructor(
     }
 
     fun saveInteroperabilityUsed() {
-        LocalData.isInteroperabilityShownAtLeastOnce = true
+        settings.wasInteroperabilityShownAtLeastOnce = true
     }
 }
