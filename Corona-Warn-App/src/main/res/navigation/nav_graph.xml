@@ -9,6 +9,9 @@
     <include app:graph="@navigation/test_nav_graph" />
     <!--    Contact Diary graph-->
     <include app:graph="@navigation/contact_diary_nav_graph" />
+    <!--    Event registration graphs-->
+    <include app:graph="@navigation/trace_location_organizer_nav_graph" />
+    <include app:graph="@navigation/trace_location_attendee_nav_graph" />
 
     <!-- Main -->
     <fragment
@@ -545,8 +548,7 @@
         android:id="@+id/surveyConsentDetailFragment"
         android:name="de.rki.coronawarnapp.datadonation.survey.consent.SurveyConsentDetailFragment"
         android:label="survey_consent_detail_fragment"
-        tools:layout="@layout/survey_consent_detail_fragment">
-    </fragment>
+        tools:layout="@layout/survey_consent_detail_fragment" />
     <fragment
         android:id="@+id/analyticsUserInputFragment"
         android:name="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment"
@@ -572,8 +574,7 @@
         android:id="@+id/ppaMoreInfoFragment"
         android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
         android:label="PpaMoreInfoFragment"
-        tools:layout="@layout/fragment_ppa_more_info">
-    </fragment>
+        tools:layout="@layout/fragment_ppa_more_info" />
     <fragment
         android:id="@+id/settingsPrivacyPreservingAnalyticsFragment"
         android:name="de.rki.coronawarnapp.ui.settings.analytics.SettingsPrivacyPreservingAnalyticsFragment"
@@ -595,7 +596,7 @@
         android:id="@+id/debugLogUploadFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.DebugLogUploadFragment"
         android:label="DebugLogUploadFragment"
-        tools:layout="@layout/bugreporting_debuglog_upload_fragment" >
+        tools:layout="@layout/bugreporting_debuglog_upload_fragment">
         <action
             android:id="@+id/action_debugLogUploadFragment_to_debugLogLegalFragment"
             app:destination="@id/debugLogLegalFragment" />

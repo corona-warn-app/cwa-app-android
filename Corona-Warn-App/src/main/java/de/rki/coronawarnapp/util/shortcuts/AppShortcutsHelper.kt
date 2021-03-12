@@ -36,18 +36,17 @@ class AppShortcutsHelper @Inject constructor(@AppContext private val context: Co
 
     private fun createContactDiaryIntent() = Intent(context, LauncherActivity::class.java).apply {
         action = Intent.ACTION_VIEW
-        putExtra(SHORTCUT_EXTRA_ID, AppShortcuts.CONTACT_DIARY.toString())
+        putExtra(SHORTCUT_EXTRA, AppShortcuts.CONTACT_DIARY.toString())
     }
 
     companion object {
         private const val CONTACT_DIARY_SHORTCUT_ID = "contact_diary_id"
-        private const val SHORTCUT_EXTRA_ID = "shortcut_extra"
+        const val SHORTCUT_EXTRA = "shortcut_extra"
 
-        fun getShortcutType(intent: Intent): AppShortcuts? {
-            intent.getStringExtra(SHORTCUT_EXTRA_ID)?.let {
+        fun Intent.getShortcutExtra(): AppShortcuts? {
+            getStringExtra(SHORTCUT_EXTRA)?.let {
                 return AppShortcuts.valueOf(it)
             }
-
             return null
         }
     }
