@@ -1,9 +1,10 @@
-package de.rki.coronawarnapp.storage.preferences
+package de.rki.coronawarnapp.util.encryptionmigration
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -16,32 +17,38 @@ import javax.inject.Inject
 
 class EncryptedPreferencesMigration @Inject constructor(
     @AppContext private val context: Context,
-    private val encryptedPreferencesHelper: EncryptedPreferencesHelper,
+    private val encryptedPreferences: EncryptedPreferencesHelper,
     private val cwaSettings: CWASettings,
     private val submissionSettings: SubmissionSettings,
     private val tracingSettings: TracingSettings,
-    private val onboardingSettings: OnboardingSettings
+    private val onboardingSettings: OnboardingSettings,
+    private val errorResetTool: EncryptionErrorResetTool
 ) {
 
     fun doMigration() {
         Timber.d("Migration start")
         try {
-            copyData()
-            cleanData()
+            encryptedPreferences.instance?.let { copyData(it) }
         } catch (e: Exception) {
-            Timber.e(e, "Migration was not successful")
+            e.reportProblem(tag = this::class.simpleName, info = "Migration failed")
+            errorResetTool.isResetNoticeToBeShown = true
+        } finally {
+            try {
+                encryptedPreferences.clean()
+            } catch (e: Exception) {
+                e.reportProblem(tag = this::class.simpleName, info = "Encryption data clean up failed")
+            }
         }
         try {
             dropDatabase()
         } catch (e: Exception) {
-            Timber.e(e, "Database removing was not successful")
+            e.reportProblem(tag = this::class.simpleName, info = "Database removing failed")
         }
         Timber.d("Migration finish")
     }
 
-    private fun copyData() {
-        val encryptedSharedPreferences = encryptedPreferencesHelper.encryptedSharedPreferencesInstance ?: return
-        Timber.d("EncryptedPreferences are available")
+    private fun copyData(encryptedSharedPreferences: SharedPreferences) {
+        Timber.i("copyData(): EncryptedPreferences are available")
         SettingsLocalData(encryptedSharedPreferences).apply {
             cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
             cwaSettings.isNotificationsRiskEnabled.update { isNotificationsRiskEnabled() }
@@ -73,17 +80,21 @@ class EncryptedPreferencesMigration @Inject constructor(
             submissionSettings.isSubmissionSuccessful = numberOfSuccessfulSubmissions() >= 1
             submissionSettings.isAllowedToSubmitKeys = isAllowedToSubmitDiagnosisKeys()
         }
-    }
-
-    private fun cleanData() {
-        encryptedPreferencesHelper.clean()
+        Timber.i("copyData(): EncryptedPreferences have been copied.")
     }
 
     private fun dropDatabase() {
         val file = context.getDatabasePath("coronawarnapp-db")
-        if (file.exists()) {
-            Timber.d("Removing database $file")
-            SQLiteDatabase.deleteDatabase(file)
+        if (!file.exists()) {
+            Timber.d("Encrypted database does not exist.")
+            return
+        }
+
+        Timber.i("Removing database $file")
+        if (SQLiteDatabase.deleteDatabase(file)) {
+            Timber.i("Legacy encrypted database was deleted.")
+        } else {
+            Timber.e("Legacy encrypted database could not be deleted.")
         }
     }
 

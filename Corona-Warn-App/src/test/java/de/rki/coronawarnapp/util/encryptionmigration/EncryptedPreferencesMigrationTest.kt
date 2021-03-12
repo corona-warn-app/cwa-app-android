@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.storage.preferences
+package de.rki.coronawarnapp.util.encryptionmigration
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -31,6 +31,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var onboardingSettings: OnboardingSettings
+    @MockK lateinit var encryptedErrorResetTool: EncryptionErrorResetTool
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
     private val dbFile = File(testDir, "database.sql")
@@ -49,11 +50,12 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
 
     private fun createInstance() = EncryptedPreferencesMigration(
         context = context,
-        encryptedPreferencesHelper = encryptedPreferencesHelper,
+        encryptedPreferences = encryptedPreferencesHelper,
         cwaSettings = cwaSettings,
         submissionSettings = submissionSettings,
         tracingSettings = tracingSettings,
-        onboardingSettings = onboardingSettings
+        onboardingSettings = onboardingSettings,
+        errorResetTool = encryptedErrorResetTool
     )
 
     private fun createOldPreferences() = MockSharedPreferences().also {
@@ -92,7 +94,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         every { encryptedPreferencesHelper.clean() } just Runs
 
         val oldPreferences = createOldPreferences()
-        every { encryptedPreferencesHelper.encryptedSharedPreferencesInstance } returns oldPreferences
+        every { encryptedPreferencesHelper.instance } returns oldPreferences
 
         // SettingsLocalData
         every { cwaSettings.wasInteroperabilityShownAtLeastOnce = true } just Runs
@@ -148,7 +150,10 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
             )
         } throws Exception("No one expects the spanish inquisition")
 
-        every { encryptedPreferencesHelper.encryptedSharedPreferencesInstance } returns mockPrefs
+        every { encryptedPreferencesHelper.instance } returns mockPrefs
+        every { encryptedPreferencesHelper.clean() } just Runs
+
+        every { encryptedErrorResetTool.isResetNoticeToBeShown = true } just Runs
 
         shouldNotThrowAny {
             val instance = createInstance()

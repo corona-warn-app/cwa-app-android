@@ -318,7 +318,7 @@
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Rejestrowanie narażenia nie mogło zostać zaktualizowane przez okres dłuższy niż 24 godziny."</string>
     <!-- YTXT: risk details - low risk explanation text -->
-    <string name="risk_details_information_body_low_risk">"Masz niskie ryzyko zakażenia, ponieważ nie zarejestrowano narażenia na kontakt z osobami, u których później zdiagnozowano COVID-19, lub ponieważ Twoje kontakty trwały krótko przy zachowaniu odpowiednio dużej odległości."</string>
+    <string name="risk_details_information_body_low_risk">"Masz niskie ryzyko zakażenia, ponieważ nie zarejestrowano narażenia na kontakt z osobami, u których później zdiagnozowano koronawirusa, lub ponieważ Twoje kontakty trwały krótko przy zachowaniu odpowiednio dużej odległości."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Ryzyko zakażenia jest obliczane lokalnie na Twoim smartfonie na podstawie danych rejestrowania narażenia. Ta kalkulacja uwzględnia również dystans i czas trwania narażenia na kontakt z osobami, u których zdiagnozowano koronawirusa, a także ich potencjalną zakaźność. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
@@ -326,7 +326,7 @@
     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
-    <string name="risk_details_information_body_increased_risk_date">"Masz podwyższone ryzyko zakażenia, ponieważ byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</string>
+    <string name="risk_details_information_body_increased_risk_date">"Masz podwyższone ryzyko zakażenia, ponieważ byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dzień temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</item>
@@ -861,8 +861,22 @@
     <string name="debugging_debuglog_status_not_recording">"Nieaktywne"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"Bieżący rozmiar: %1$s (nieskompresowane)"</string>
+
+    <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_title">"Weryfikacja autentyczności i przekazywanie danych do krajów trzecich"</string>
+    <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_first_section">"Aby potwierdzić autentyczność aplikacji, smartfon generuje unikalny identyfikator zawierający informacje o wersji smartfona i aplikacji. Jest to konieczne w celu zapewnienia, by tylko osoby, które faktycznie używają aplikacji Corona-Warn-App mogły wysyłać dane do pomocy technicznej, i wykluczenia zmanipulowanych raportów o błędach. W tym celu identyfikator jest wysyłany do Google. W tym procesie dane mogą być przekazywane do Stanów Zjednoczonych lub innych krajów trzecich, gdzie poziom prywatności danych może nie odpowiadać prawu europejskiemu i możesz nie być w stanie wyegzekwować swoich europejskich praw do prywatności danych. W szczególności organy ds. bezpieczeństwa w kraju trzecim mogłyby uzyskać dostęp do danych i analizować je przy pomocy Google, nawet jeśli nie ma podstaw do podejrzeń, i na przykład łączyć te dane z innymi informacjami. Dotyczy to tylko identyfikatora wysyłanego do Google. Google nie otrzymuje informacji z Twojego raportu o błędzie, może jednak określić Twoją tożsamość na podstawie identyfikatora i poprzez prześledzenie danych ustalić, że sprawdzanie autentyczności zostało przeprowadzone na Twoim smartfonie."</string>
+    <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_second_section">"Jeśli nie wyrażasz zgody na przekazanie swoich danych do kraju trzeciego, nie klikaj opcji „Akceptuj i wyślij”. Nadal będziesz mieć możliwość korzystania z aplikacji, ale wysyłanie raportów o błędach będzie niemożliwe."</string>
+
+    <!-- YTXT: Dialog title if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_title">"Zatrzymać analizę błędu?"</string>
     <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
-    <string name="debugging_debuglog_stop_confirmation_message">"Raport o błędzie został usunięty. Jeśli zapisano lokalną kopię raportu o błędzie, nie została ona usunięta."</string>
+    <string name="debugging_debuglog_stop_confirmation_message">"Jeśli to zrobisz, wszystkie zapisane dane zostaną usunięte. Jeśli zapisano lokalną kopię raportu o błędzie, nie zostanie ona usunięta."</string>
+    <!-- YTXT: Dialog confirmation button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_confirmation_button">"Zatrzymaj analizę"</string>
+    <!-- YTXT: Dialog discard button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_discard_button">"Kontynuuj analizę"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Aby rozpocząć analizę błędu, potrzebujesz co najmniej 200 MB pamięci. Zwolnij pamięć."</string>
     <!-- XHED: Dialog title if a user has stored a debug log locally -->
@@ -871,7 +885,6 @@
     <string name="debugging_debuglog_localexport_message">"Analiza błędu została zapisana lokalnie."</string>
     <!-- YTXT: Dialog message if local export has failed -->
     <string name="debugging_debuglog_localexport_error_message">"Próba zapisania raportu o błędzie nie powiodła się. Sprawdź, czy dostępna jest wystarczająca ilość pamięci."</string>
-
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Szczegółowe informacje na temat wysyłania raportów o błędach"</string>
     <!-- YTXT: Section Title for debug legal screen -->
