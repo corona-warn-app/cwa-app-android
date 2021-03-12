@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.eventregistration.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -53,12 +54,24 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         binding.runMatcher.setOnClickListener {
             viewModel.runMatcher()
         }
+
+        binding.downloadReportedCheckIns.setOnClickListener {
+            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.calculateRisk.setOnClickListener {
+            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
+        }
+
         viewModel.checkInOverlaps.observe2(this) {
+            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
+            if (it.isEmpty()) return@observe2
             val text = it.fold(StringBuilder()) { stringBuilder, eventOverlap ->
-                stringBuilder.append("Overlap ${eventOverlap.checkInGuid} ${eventOverlap.overlap.standardSeconds} sec")
+                stringBuilder.append("Overlap ${eventOverlap.checkInGuid} ${eventOverlap.overlap.standardMinutes} min")
                     .append("\n")
             }
             binding.resultText.text = text
+            binding.resultText.visibility = View.VISIBLE
         }
     }
 

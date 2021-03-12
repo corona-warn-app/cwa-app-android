@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +16,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_small"
+            android:layout_margin="@dimen/spacing_tiny"
             android:orientation="vertical">
 
             <TextView
@@ -37,8 +37,8 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/spacing_tiny"
+            android:layout_marginBottom="@dimen/spacing_tiny"
             android:orientation="vertical">
 
             <TextView
@@ -52,6 +52,49 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
                 android:text="Scan check in QR code" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_tiny"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Download, matching &amp; risk calculation" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/downloadReportedCheckIns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="download check-ins" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/runMatcher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Run matcher" />
+
+            <TextView
+                android:id="@+id/resultText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Matching result"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/calculateRisk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Calculate risk" />
 
         </LinearLayout>
 
@@ -105,7 +148,5 @@
                 app:layout_constraintStart_toEndOf="@id/create_event_button"
                 app:layout_constraintTop_toBottomOf="@id/events_body" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
