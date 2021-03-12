@@ -159,6 +159,8 @@ class SubmissionTaskTest : BaseTest() {
             settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
+            checkInRepository.allCheckIns
+            checkInsTransformer.transform(any())
 
             appConfigProvider.getAppConfig()
             playbook.submit(
@@ -175,6 +177,7 @@ class SubmissionTaskTest : BaseTest() {
             analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
             tekHistoryStorage.clear()
+            checkInRepository.clear()
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 
@@ -234,6 +237,7 @@ class SubmissionTaskTest : BaseTest() {
         }
         coVerify(exactly = 0) {
             tekHistoryStorage.clear()
+            checkInRepository.clear()
             settingSymptomsPreference.update(any())
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             autoSubmission.updateMode(any())
