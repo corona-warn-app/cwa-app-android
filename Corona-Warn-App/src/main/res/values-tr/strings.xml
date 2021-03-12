@@ -318,7 +318,7 @@
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Maruz kalma günlüğünüz 24 saatten uzun süre için güncellenemedi."</string>
     <!-- YTXT: risk details - low risk explanation text -->
-    <string name="risk_details_information_body_low_risk">"Daha sonra COVID-19 tanısı konan kişilere maruz kaldığınıza dair bir günlük kaydı oluşturulmadığı veya bu kişilerle yalnızca kısa süreyle ve uzak mesafeden karşılaştığınız için enfeksiyon riskiniz düşüktür."</string>
+    <string name="risk_details_information_body_low_risk">"Daha sonra koronavirüs tanısı konan kişilere maruz kaldığınıza dair bir günlük kaydı oluşturulmadığı veya bu kişilerle yalnızca kısa süreyle ve uzak mesafeden karşılaştığınız için enfeksiyon riskiniz düşüktür."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Enfeksiyon riskiniz, maruz kalma günlüğünün verileri kullanılarak yerel olarak akıllı telefonunuzda hesaplanır. Hesaplamada koronavirüs tanısı konan kişilere maruz kalma mesafesi ve süresinin yanında potansiyel enfeksiyon bulaştırma durumu da göz önünde bulundurulur. Enfeksiyon riskiniz bir başkası tarafından görüntülenemez ya da bir başkasına aktarılamaz."</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
@@ -326,7 +326,7 @@
     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
-    <string name="risk_details_information_body_increased_risk_date">"COVID-19 tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</string>
+    <string name="risk_details_information_body_increased_risk_date">"Koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"En son %1$s gün önce, koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
@@ -861,8 +861,22 @@
     <string name="debugging_debuglog_status_not_recording">"Etkin Değil"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"Geçerli boyut: %1$s (sıkıştırılmamış)"</string>
+
+    <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_title">"Orijinallik Doğrulaması ve Üçüncü Ülkelere Veri Aktarımı"</string>
+    <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_first_section">"Akıllı telefonunuz, uygulamanızın orijinalliğini teyit etmek için akıllı telefonunuzun ve uygulamanızın sürümüne ilişkin bilgileri içeren bir benzersiz tanıtıcı oluşturur. Bu, teknik destek birimine yalnızca Corona-Warn-App’i gerçekten kullanan kişilerin veri aktarabilmesini ve üzerinde oynanmış hata raporlarının ortadan kaldırılabilmesini sağlamak için gereklidir. Bunun için, tanıtıcı Google’a gönderilir. Bu işlem kapsamında veriler, ABD’ye veya veri gizliliği düzeyinin Avrupa kanunlarına uygun olmadığı ve veri gizliliği konusunda Avrupa’daki haklarınızı kullanamayabileceğiniz başka üçüncü ülkelere aktarılabilir. Özellikle, üçüncü ülkedeki güvenlik servisleri herhangi bir şüphe sebebi olmasa bile verilere erişebilir, Google ile verileri analiz edebilir ve bu verileri örneğin başka bilgilerle bağlantılandırabilir. Buna yalnızca Google’a gönderilen tanıtıcı dahildir. Google hata raporunuzda yer alan bilgileri almaz ancak tanıtıcıya göre kimliğinizi belirleyebilir ve akıllı telefonunuzda orijinallik kontrolünün yapıldığını takip edebilir."</string>
+    <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_second_section">"Verilerinizin üçüncü bir ülkeye aktarılmasına izin vermiyorsanız lütfen “Kabul Et ve Gönder” öğesine dokunmayın. Uygulamayı kullanmaya devam edebileceksiniz ancak hata raporlarını gönderemeyeceksiniz."</string>
+
+    <!-- YTXT: Dialog title if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_title">"Hata analizi durdurulsun mu?"</string>
     <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
-    <string name="debugging_debuglog_stop_confirmation_message">"Hata raporu silinmiş. Hata raporunun yerel bir kopyasını kaydettiyseniz bu kopya silinmemiştir."</string>
+    <string name="debugging_debuglog_stop_confirmation_message">"Bunu seçerseniz kaydedilen tüm veriler silinir. Hata raporunun yerel bir kopyasını kaydettiyseniz bu kopya silinmez."</string>
+    <!-- YTXT: Dialog confirmation button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_confirmation_button">"Analizi Durdur"</string>
+    <!-- YTXT: Dialog discard button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_discard_button">"Analizi Devam Ettir"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Hata analizini başlatmak için en az 200 MB bellek alanınızın olması gerekir. Lütfen belleği boşaltın."</string>
     <!-- XHED: Dialog title if a user has stored a debug log locally -->
@@ -871,7 +885,6 @@
     <string name="debugging_debuglog_localexport_message">"Hata analizi yerel olarak kaydedilmiştir."</string>
     <!-- YTXT: Dialog message if local export has failed -->
     <string name="debugging_debuglog_localexport_error_message">"Hata raporunu kaydetme denemesi başarısız oldu. Lütfen yeterli bellek alanı olup olmadığını kontrol edin."</string>
-
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Hata Raporlarını Gönderme Konusunda Ayrıntılı Bilgi"</string>
     <!-- YTXT: Section Title for debug legal screen -->
