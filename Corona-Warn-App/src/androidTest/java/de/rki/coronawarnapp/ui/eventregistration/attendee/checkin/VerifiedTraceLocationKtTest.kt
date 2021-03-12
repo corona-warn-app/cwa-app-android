@@ -12,6 +12,10 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import testhelpers.BaseTestInstrumentation
 
+/**
+ * Samples are provided here [https://github.com/corona-warn-app/cwa-app-tech-spec/blob/4c78679d835b9a3b4052150dbf8d3724
+ * 8f2eb6af/docs/spec/event-registration-client.md#base32-protocol-buffer-samples-for-signedtracelocation]
+ */
 @RunWith(JUnit4::class)
 class VerifiedTraceLocationKtTest : BaseTestInstrumentation() {
 
@@ -34,11 +38,35 @@ class VerifiedTraceLocationKtTest : BaseTestInstrumentation() {
         }
     }
 
+    @Test
+    fun testVerifiedTraceLocationMappingNoTimes() {
+        shouldNotThrowAny {
+            val signedTraceLocation =
+                TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+                    DECODED_TRACE_LOCATION_NO_TIMES.decodeBase32().toByteArray()
+                )
+            val verifiedTraceLocation =
+                QRCodeVerifyResult(singedTraceLocation = signedTraceLocation).toVerifiedTraceLocation()
+            verifiedTraceLocation shouldBe VerifiedTraceLocation(
+                guid = "fca84b37-61c0-4a7c-b2f8-825cadd506cf",
+                start = null,
+                end = null,
+                defaultCheckInLengthInMinutes = 10,
+                description = "Icecream Shop"
+            )
+        }
+    }
+
     companion object {
         private const val DECODED_TRACE_LOCATION =
             "BJLAUJBTGA2TKMZTGFRS2MRTGA3C2NBTMYZS2OJXGQZC2NTEHBTGCYRVGRST" +
                 "QNBYCAARQARCCFGXSICCNFZHI2DEMF4SAUDBOJ2HSKQLMF" +
                 "2CA3LZEBYGYYLDMUYNHB5EAE4PPB5EAFAAAESIGBDAEIIARVENF6QT6XZATJ5GSDHL77" +
                 "BCAGR6QKDEUJRP2RDCTKTS7QECWMFAEIIA47MT2EA7MQKGNQU2XCY3Y2ZOZXCILDPC65PBUO4JJHT5LQQWDQSA"
+
+        private const val DECODED_TRACE_LOCATION_NO_TIMES =
+            "BJHAUJDGMNQTQNDCGM3S2NRRMMYC2NDBG5RS2YRSMY4C2OBSGVRWCZDEGUYDMY3GCAARQAJCBVEWGZLDOJSWC3JAKNUG" +
+                "64BKBVGWC2LOEBJXI4TFMV2CAMJQAA4AAQAKCJDTARICEBNEPPKKTAAIH5BSV45EPOINHOASARJLYYSHNTUUHLNG" +
+                "VYUZXZEBWARBACD53WYEGYXYQS3STOFLSOVM3XXD5A5HKMFQR7WYYARKKVOFGYGHO"
     }
 }
