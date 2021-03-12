@@ -41,27 +41,32 @@ val traceLocationCategories = listOf(
         LOCATION,
         R.string.tracelocation_organizer_category_food_service_title,
         R.string.tracelocation_organizer_category_food_service_subtitle
-    ), TraceLocationCategory(
+    ),
+    TraceLocationCategory(
         LOCATION_TYPE_PERMANENT_CRAFT,
         LOCATION,
         R.string.tracelocation_organizer_category_craft_title,
         R.string.tracelocation_organizer_category_craft_subtitle
-    ), TraceLocationCategory(
+    ),
+    TraceLocationCategory(
         LOCATION_TYPE_PERMANENT_WORKPLACE,
         LOCATION,
         R.string.tracelocation_organizer_category_workplace_title,
         R.string.tracelocation_organizer_category_workplace_subtitle
-    ), TraceLocationCategory(
+    ),
+    TraceLocationCategory(
         LOCATION_TYPE_PERMANENT_EDUCATIONAL_INSTITUTION,
         LOCATION,
         R.string.tracelocation_organizer_category_educational_institution_title,
         R.string.tracelocation_organizer_category_educational_institution_subtitle
-    ), TraceLocationCategory(
+    ),
+    TraceLocationCategory(
         LOCATION_TYPE_PERMANENT_PUBLIC_BUILDING,
         LOCATION,
         R.string.tracelocation_organizer_category_public_building_title,
         R.string.tracelocation_organizer_category_public_building_subtitle
-    ), TraceLocationCategory(
+    ),
+    TraceLocationCategory(
         LOCATION_TYPE_PERMANENT_OTHER,
         LOCATION,
         R.string.tracelocation_organizer_category_other_location_title
@@ -71,21 +76,25 @@ val traceLocationCategories = listOf(
         EVENT,
         R.string.tracelocation_organizer_category_cultural_event_title,
         R.string.tracelocation_organizer_category_cultural_event_subtitle
-    ), TraceLocationCategory(
+    ),
+    TraceLocationCategory(
         LOCATION_TYPE_TEMPORARY_CLUB_ACTIVITY,
         EVENT,
         R.string.tracelocation_organizer_category_club_activity_title,
         R.string.tracelocation_organizer_category_club_activity_subtitle
-    ), TraceLocationCategory(
+    ),
+    TraceLocationCategory(
         LOCATION_TYPE_TEMPORARY_PRIVATE_EVENT,
         EVENT,
         R.string.tracelocation_organizer_category_private_event_title,
         R.string.tracelocation_organizer_category_private_event_subtitle
-    ), TraceLocationCategory(
+    ),
+    TraceLocationCategory(
         LOCATION_TYPE_TEMPORARY_WORSHIP_SERVICE,
         EVENT,
         R.string.tracelocation_organizer_category_worship_service_title
-    ), TraceLocationCategory(
+    ),
+    TraceLocationCategory(
         LOCATION_TYPE_TEMPORARY_OTHER,
         EVENT,
         R.string.tracelocation_organizer_category_other_event_title
