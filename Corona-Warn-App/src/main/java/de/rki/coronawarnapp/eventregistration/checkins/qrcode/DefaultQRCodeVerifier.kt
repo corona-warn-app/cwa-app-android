@@ -10,11 +10,11 @@ class DefaultQRCodeVerifier @Inject constructor(
     private val signatureValidation: SignatureValidation
 ) : QRCodeVerifier {
 
-    override suspend fun verify(encodedTraceLocation: String): QRCodeVerifyResult {
-        Timber.tag(TAG).v("Verifying: %s", encodedTraceLocation)
+    override suspend fun verify(encodedSignedTraceLocation: String): QRCodeVerifyResult {
+        Timber.tag(TAG).v("Verifying: %s", encodedSignedTraceLocation)
 
         val signedTraceLocation = try {
-            TraceLocationOuterClass.SignedTraceLocation.parseFrom(encodedTraceLocation.decodeBase32().toByteArray())
+            TraceLocationOuterClass.SignedTraceLocation.parseFrom(encodedSignedTraceLocation.decodeBase32().toByteArray())
         } catch (e: Exception) {
             throw InvalidQRCodeDataException(cause = e, message = "QR-code data could not be parsed.")
         }
