@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.eventregistration.events.ui.category
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_CRAFT
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_EDUCATIONAL_INSTITUTION
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_FOOD_SERVICE
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
@@ -32,6 +33,10 @@ val traceLocationCategoriesLocations = listOf(
         R.string.tracelocation_organizer_category_food_service_title,
         R.string.tracelocation_organizer_category_food_service_subtitle
     ), TraceLocationCategory(
+        LOCATION_TYPE_PERMANENT_CRAFT,
+        R.string.tracelocation_organizer_category_craft_title,
+        R.string.tracelocation_organizer_category_craft_subtitle
+    ), TraceLocationCategory(
         LOCATION_TYPE_PERMANENT_WORKPLACE,
         R.string.tracelocation_organizer_category_workplace_title,
         R.string.tracelocation_organizer_category_workplace_subtitle
@@ -45,7 +50,7 @@ val traceLocationCategoriesLocations = listOf(
         R.string.tracelocation_organizer_category_public_building_subtitle
     ), TraceLocationCategory(
         LOCATION_TYPE_PERMANENT_OTHER,
-        R.string.tracelocation_organizer_category_other_event_title
+        R.string.tracelocation_organizer_category_other_location_title
     )
 )
 
