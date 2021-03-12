@@ -36,25 +36,29 @@ class TraceLocationCategoryFragment : Fragment(R.layout.event_registration_categ
             }
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.categoryRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
-    private fun inflateCategories(it: TraceLocationCategory, layout: ViewGroup) {
+    private fun inflateCategories(category: TraceLocationCategory, layout: ViewGroup) {
         val categoryLayout = layoutInflater.inflate(R.layout.event_registration_category_item, null)
-        categoryLayout.findViewById<TextView>(R.id.title).text = getString(it.title)
+
+        val titleTextView = categoryLayout.findViewById<TextView>(R.id.title)
         val subtitleTextView = categoryLayout.findViewById<TextView>(R.id.subtitle)
-        if (it.subtitle != null) {
-            subtitleTextView.text = getString(it.subtitle)
+
+        titleTextView.text = getString(category.title)
+
+        if (category.subtitle != null) {
+            subtitleTextView.text = getString(category.subtitle)
         } else {
             subtitleTextView.setGone(true)
         }
 
         categoryLayout.setOnClickListener {
-            // continue event creation flow and pass TraceLocationCategory (it) to it
+            // TODO in next PR - continue event creation flow and pass TraceLocationCategory (it) to it
         }
 
         layout.addView(categoryLayout)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.categoryRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }
