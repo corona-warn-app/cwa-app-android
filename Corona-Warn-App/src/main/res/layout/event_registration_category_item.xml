@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="11dp"
     android:paddingBottom="11dp"
+    android:background="?android:selectableItemBackground"
     android:orientation="vertical">
 
     <TextView

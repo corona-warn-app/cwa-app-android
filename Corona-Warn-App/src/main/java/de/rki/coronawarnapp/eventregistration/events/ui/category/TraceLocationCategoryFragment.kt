@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.eventregistration.events.ui.category
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
@@ -22,13 +23,22 @@ class TraceLocationCategoryFragment : Fragment(R.layout.event_registration_categ
             popBackStack()
         }
 
-        traceLocationCategoriesLocations.forEach {
-            inflateCategories(it, binding.layoutLocations)
-        }
+        traceLocationCategories
+            .filter { it.uiType == TraceLocationUIType.LOCATION }
+            .forEach {
+                inflateCategories(it, binding.layoutLocations)
+            }
 
-        traceLocationCategoriesEvents.forEach {
-            inflateCategories(it, binding.layoutEvents)
-        }
+        traceLocationCategories
+            .filter { it.uiType == TraceLocationUIType.EVENT }
+            .forEach {
+                inflateCategories(it, binding.layoutEvents)
+            }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.categoryRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun inflateCategories(it: TraceLocationCategory, layout: ViewGroup) {

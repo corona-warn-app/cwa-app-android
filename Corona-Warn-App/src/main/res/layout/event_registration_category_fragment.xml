@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/category_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/tracelocation_organizer_category_title">
@@ -46,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_mega_tiny"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/header_locations" />
 
@@ -75,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/spacing_small"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/header_events" />
 
@@ -85,6 +86,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/guideline_end" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
