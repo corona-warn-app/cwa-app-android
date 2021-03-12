@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmen
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
+    @Inject lateinit var submissionSettings: SubmissionSettings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -168,7 +169,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         vm.doBackgroundNoiseCheck()
         contactDiaryWorkScheduler.schedulePeriodic()
         dataDonationAnalyticsScheduler.schedulePeriodic()
-        if (!LocalData.isAllowedToSubmitDiagnosisKeys()) {
+        if (!submissionSettings.isAllowedToSubmitKeys) {
             deadmanScheduler.schedulePeriodic()
         }
     }

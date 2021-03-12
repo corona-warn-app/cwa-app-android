@@ -3,11 +3,11 @@ package de.rki.coronawarnapp.notification
 import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INTERVAL
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
@@ -17,13 +17,14 @@ import javax.inject.Inject
 class ShareTestResultNotificationService @Inject constructor(
     @AppContext private val context: Context,
     private val timeStamper: TimeStamper,
-    private val notificationHelper: NotificationHelper
+    private val notificationHelper: NotificationHelper,
+    private val cwaSettings: CWASettings
 ) {
 
     fun scheduleSharePositiveTestResultReminder() {
-        if (LocalData.numberOfRemainingSharePositiveTestResultReminders < 0) {
+        if (cwaSettings.numberOfRemainingSharePositiveTestResultReminders < 0) {
             Timber.v("Schedule positive test result notification")
-            LocalData.numberOfRemainingSharePositiveTestResultReminders = POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
+            cwaSettings.numberOfRemainingSharePositiveTestResultReminders = POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
             notificationHelper.scheduleRepeatingNotification(
                 timeStamper.nowUTC.plus(POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
                 POSITIVE_RESULT_NOTIFICATION_INTERVAL,
@@ -35,8 +36,8 @@ class ShareTestResultNotificationService @Inject constructor(
     }
 
     fun showSharePositiveTestResultNotification(notificationId: Int) {
-        if (LocalData.numberOfRemainingSharePositiveTestResultReminders > 0) {
-            LocalData.numberOfRemainingSharePositiveTestResultReminders -= 1
+        if (cwaSettings.numberOfRemainingSharePositiveTestResultReminders > 0) {
+            cwaSettings.numberOfRemainingSharePositiveTestResultReminders -= 1
             val pendingIntent = NavDeepLinkBuilder(context)
                 .setGraph(R.navigation.nav_graph)
                 .setComponentName(MainActivity::class.java)
@@ -61,7 +62,7 @@ class ShareTestResultNotificationService @Inject constructor(
 
     fun resetSharePositiveTestResultNotification() {
         cancelSharePositiveTestResultNotification()
-        LocalData.numberOfRemainingSharePositiveTestResultReminders = Int.MIN_VALUE
+        cwaSettings.numberOfRemainingSharePositiveTestResultReminders = Int.MIN_VALUE
         Timber.v("Positive test result notification counter has been reset")
     }
 }

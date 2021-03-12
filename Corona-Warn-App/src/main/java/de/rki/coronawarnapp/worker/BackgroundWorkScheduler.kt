@@ -6,7 +6,7 @@ import androidx.work.Operation
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import timber.log.Timber
 import java.util.concurrent.ExecutionException
 
@@ -17,7 +17,11 @@ import java.util.concurrent.ExecutionException
  * @see BackgroundConstants
  * @see BackgroundWorkHelper
  */
-object BackgroundWorkScheduler {
+object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
+
+    fun init(component: ApplicationComponent) {
+        component.inject(this)
+    }
 
     /**
      * Enum class for work tags
@@ -67,7 +71,7 @@ object BackgroundWorkScheduler {
      * Checks if periodic worker was already scheduled. If not - reschedule it again.
      * For [WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER] also checks if User is Registered
      *
-     * @see LocalData.registrationToken
+     * @see de.rki.coronawarnapp.submission.SubmissionSettings.registrationToken
      * @see isWorkActive
      */
     fun startWorkScheduler() {
@@ -82,12 +86,13 @@ object BackgroundWorkScheduler {
             WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
             notificationBody.append("[DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK] ")
         }
-        if (!LocalData.submissionWasSuccessful()) {
+        if (!submissionSettings.isSubmissionSuccessful) {
             if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
-                LocalData.registrationToken() != null && !LocalData.isTestResultAvailableNotificationSent()
+                submissionSettings.registrationToken.value != null &&
+                !tracingSettings.isTestResultAvailableNotificationSent
             ) {
                 WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
-                LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
+                tracingSettings.initialPollingForTestResultTimeStamp = System.currentTimeMillis()
                 notificationBody.append("[DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER]")
             }
         }
