@@ -51,11 +51,6 @@ interface RiskLevelResult {
 
     val traceLocationCheckInRiskStates: List<TraceLocationCheckInRisk>
 
-    data class TraceLocationCheckInRisk(
-        val checkInId: Long,
-        val riskState: RiskState
-    )
-
     enum class FailureReason(val failureCode: String) {
         UNKNOWN("unknown"),
         TRACING_OFF("tracingOff"),
