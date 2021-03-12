@@ -84,8 +84,6 @@ data class IncreasedRisk(
             lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
         )
     }
-
-    fun getProgressColorHighRisk(context: Context) = context.getColorCompat(R.color.colorStableLight)
 }
 
 // tracing_content_low_view
@@ -95,7 +93,8 @@ data class LowRisk(
     val lastExposureDetectionTime: Instant?,
     val lastEncounterAt: Instant?,
     val allowManualUpdate: Boolean,
-    val daysWithEncounters: Int
+    val daysWithEncounters: Int,
+    val daysSinceInstallation: Long
 ) : TracingState() {
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
@@ -130,6 +129,12 @@ data class LowRisk(
             daysWithEncounters
         )
     }
+
+    fun getDaysSinceInstall(context: Context): String =
+        context.getString(R.string.risk_card_body_days_since_installation)
+            .format(daysSinceInstallation)
+
+    fun appInstalledForOverTwoWeeks(): Boolean = daysSinceInstallation < 14 && lastEncounterAt == null
 
     fun getRiskContactLast(context: Context): String? {
         if (lastEncounterAt == null) return null

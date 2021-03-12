@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.durationpicker
+package de.rki.coronawarnapp.ui.durationpicker
 
 import org.joda.time.Duration
 

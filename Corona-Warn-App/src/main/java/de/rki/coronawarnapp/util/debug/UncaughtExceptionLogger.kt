@@ -13,9 +13,13 @@ class UncaughtExceptionLogger(
 
     override fun uncaughtException(thread: Thread, error: Throwable) {
         Timber.tag(thread.name).e(error, "Uncaught exception!")
-        if (CWADebug.isLogging) {
-            // Make sure this crash is written before killing the app.
-            Thread.sleep(1500)
+        try {
+            if (CWADebug.isLogging) {
+                // Make sure this crash is written before killing the app.
+                Thread.sleep(1500)
+            }
+        } catch (e: Exception) {
+            Timber.w("Couldn't delay exception for debug logger.")
         }
         wrappedHandler?.uncaughtException(thread, error)
     }

@@ -8,6 +8,7 @@ import android.text.format.Formatter
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isGone
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
@@ -23,6 +24,8 @@ import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -138,7 +141,25 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         }
 
         vm.logUploads.observe2(this@DebugLogFragment) {
-            binding.debugLogHistoryContainer.setGone(it.logs.isEmpty())
+            val lastLog = it.logs.lastOrNull()?.uploadedAt
+
+            binding.debugLogHistoryContainer.setGone(lastLog == null)
+
+            val now = Instant.now()
+
+            if (lastLog != null && Duration(lastLog, now).standardSeconds < 3) {
+                binding.scrollview.fullScroll(NestedScrollView.FOCUS_DOWN)
+
+                binding.debugLogHistoryContainer.apply {
+                    postOnAnimationDelayed(
+                        {
+                            isPressed = true
+                            postOnAnimationDelayed({ isPressed = false }, 250)
+                        },
+                        250
+                    )
+                }
+            }
         }
         binding.debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
     }

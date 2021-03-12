@@ -49,6 +49,8 @@ interface RiskLevelResult {
             aggregatedRiskResult?.mostRecentDateWithLowRisk
         }
 
+    val traceLocationCheckInRiskStates: List<TraceLocationCheckInRisk>
+
     enum class FailureReason(val failureCode: String) {
         UNKNOWN("unknown"),
         TRACING_OFF("tracingOff"),

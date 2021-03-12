@@ -22,10 +22,12 @@ class RiskLevelResultExtensionsTest : BaseTest() {
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
+        override val traceLocationCheckInRiskStates: List<TraceLocationCheckInRisk>
+            get() = emptyList() // TODO("Not yet implemented")
     }
 
     @Test
-    fun `getLastestAndLastSuccessful on empty results`() {
+    fun `getLatestAndLastSuccessful on empty results`() {
         val emptyResults = emptyList<RiskLevelResult>()
 
         emptyResults.tryLatestResultsWithDefaults().apply {
@@ -41,7 +43,7 @@ class RiskLevelResultExtensionsTest : BaseTest() {
     }
 
     @Test
-    fun `getLastestAndLastSuccessful last calculation was successful`() {
+    fun `getLatestAndLastSuccessful last calculation was successful`() {
         val results = listOf(
             createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH),
             createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH.plus(1))
@@ -54,7 +56,7 @@ class RiskLevelResultExtensionsTest : BaseTest() {
     }
 
     @Test
-    fun `getLastestAndLastSuccessful last calculation was not successful`() {
+    fun `getLatestAndLastSuccessful last calculation was not successful`() {
         val results = listOf(
             createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH),
             createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH.plus(1)),
@@ -68,7 +70,7 @@ class RiskLevelResultExtensionsTest : BaseTest() {
     }
 
     @Test
-    fun `getLastestAndLastSuccessful no successful calculations yet`() {
+    fun `getLatestAndLastSuccessful no successful calculations yet`() {
         val results = listOf(
             createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(10)),
             createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(11)),
