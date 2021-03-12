@@ -99,9 +99,11 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         item: DiaryLocationListItem,
         duration: Duration?
     ) {
-        val visit = item.visit?.toEditableVariant() ?: return
+        val visit = item.visit ?: return
         launchOnAppScope {
-            contactDiaryRepository.updateLocationVisit(visit.copy(duration = duration))
+            contactDiaryRepository.updateLocationVisit(visit.id) {
+                it.toEditableVariant().copy(duration = duration)
+            }
         }
     }
 
@@ -109,10 +111,12 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         item: DiaryLocationListItem,
         circumstances: String
     ) {
-        val visit = item.visit?.toEditableVariant() ?: return
+        val visit = item.visit ?: return
         val sanitized = circumstances.trim().trimToLength(250)
         launchOnAppScope {
-            contactDiaryRepository.updateLocationVisit(visit.copy(circumstances = sanitized))
+            contactDiaryRepository.updateLocationVisit(visit.id) {
+                it.toEditableVariant().copy(circumstances = sanitized)
+            }
         }
     }
 
