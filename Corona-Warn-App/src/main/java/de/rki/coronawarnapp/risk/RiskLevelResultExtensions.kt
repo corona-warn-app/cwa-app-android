@@ -30,6 +30,8 @@ private object InitialLowLevelRiskLevelResult : RiskLevelResult {
     override val exposureWindows: List<ExposureWindow>? = null
     override val matchedKeyCount: Int = 0
     override val daysWithEncounters: Int = 0
+    override val traceLocationCheckInRiskStates: List<RiskLevelResult.TraceLocationCheckInRisk>
+        get() = emptyList()// TODO("Not yet implemented")
 }
 
 private object UndeterminedRiskLevelResult : RiskLevelResult {
@@ -40,4 +42,6 @@ private object UndeterminedRiskLevelResult : RiskLevelResult {
     override val exposureWindows: List<ExposureWindow>? = null
     override val matchedKeyCount: Int = 0
     override val daysWithEncounters: Int = 0
+    override val traceLocationCheckInRiskStates: List<RiskLevelResult.TraceLocationCheckInRisk>
+        get() = emptyList()// TODO("Not yet implemented")
 }

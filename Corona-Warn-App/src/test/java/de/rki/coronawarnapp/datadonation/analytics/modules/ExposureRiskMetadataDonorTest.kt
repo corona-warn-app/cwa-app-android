@@ -51,6 +51,8 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
+        override val traceLocationCheckInRiskStates: List<RiskLevelResult.TraceLocationCheckInRisk>
+            get() = emptyList() // todo
     }
 
     private fun createInstance() = ExposureRiskMetadataDonor(

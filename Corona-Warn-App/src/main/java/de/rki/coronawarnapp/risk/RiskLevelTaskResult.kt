@@ -33,6 +33,9 @@ data class RiskLevelTaskResult(
         exposureWindows = null
     )
 
+    override val traceLocationCheckInRiskStates: List<RiskLevelResult.TraceLocationCheckInRisk>
+        get() = TODO("Not yet implemented")
+
     override fun toString(): String = "RiskLevelTaskResult(" +
         "calculatedAt=$calculatedAt, " +
         "failureReason=$failureReason, " +
