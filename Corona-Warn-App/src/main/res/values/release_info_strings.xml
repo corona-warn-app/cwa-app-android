@@ -18,24 +18,20 @@
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
         <item>"Switzerland Added to Transnational Exposure Logging"</item>
-        <item>"Generation of Error Reports"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
         <item>"Corona-Warn-App users can now exchange encrypted random IDs with users of the official warning app in Switzerland. This means warnings can now be sent to and received from app users in Switzerland."</item>
-        <item>"You can now generate an error report, upon request by technical support, and record the steps that you perform in the app. This will make it easier to analyze technical errors and correct them more quickly."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
     </string-array>
 
