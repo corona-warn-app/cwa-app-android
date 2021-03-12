@@ -12,16 +12,17 @@ class RegistrationTokenCensor @Inject constructor() : BugCensor {
         val token = LocalData.registrationToken() ?: return null
         if (!entry.message.contains(token)) return null
 
-        var newMessage = entry.message.replace(token, PLACEHOLDER + token.takeLast(4))
-
-        if (CWADebug.isDeviceForTestersBuild) {
-            newMessage = entry.message
+        val newMessage = if (CWADebug.isDeviceForTestersBuild) {
+            entry.message.replace(token, PLACEHOLDER_TESTER + token.takeLast(27))
+        } else {
+            entry.message.replace(token, PLACEHOLDER + token.takeLast(4))
         }
 
         return entry.copy(message = newMessage)
     }
 
     companion object {
+        private const val PLACEHOLDER_TESTER = "########-"
         private const val PLACEHOLDER = "########-####-####-####-########"
     }
 }
