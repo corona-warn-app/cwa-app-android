@@ -12,7 +12,7 @@ interface CheckInsPackage {
     suspend fun extractCheckIns(): List<CheckIn>
 }
 
-// proprietary dummy implementation
+// proprietary dummy implementations
 object DummyCheckInPackage : CheckInsPackage {
     override suspend fun extractCheckIns(): List<CheckIn> {
         return listOf(dummyEventCheckIn1)
@@ -42,4 +42,3 @@ private val dummyEventCheckIn1: CheckIn = CheckIn(
     targetCheckInEnd = null,
     createJournalEntry = false
 )
-
