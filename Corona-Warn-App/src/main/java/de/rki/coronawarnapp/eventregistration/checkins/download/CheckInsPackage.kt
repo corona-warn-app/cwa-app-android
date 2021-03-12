@@ -12,6 +12,8 @@ interface CheckInsPackage {
     suspend fun extractCheckIns(): List<CheckIn>
 }
 
+// TODO replace with actual implementation
+
 // proprietary dummy implementations
 object DummyCheckInPackage : CheckInsPackage {
     override suspend fun extractCheckIns(): List<CheckIn> {
@@ -20,7 +22,6 @@ object DummyCheckInPackage : CheckInsPackage {
 }
 
 private const val TYPE_LOCATION = 1
-private const val TYPE_EVENT = 2
 
 private val dummyEventCheckIn1: CheckIn = CheckIn(
     id = 1L,
