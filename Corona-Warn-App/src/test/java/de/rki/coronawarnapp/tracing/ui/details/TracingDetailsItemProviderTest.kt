@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.datadonation.survey.Surveys
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.risk.ProtoRiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
@@ -39,6 +40,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
 
     @MockK lateinit var tracingStatus: GeneralTracingStatus
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
+    @MockK lateinit var installTimeProvider: InstallTimeProvider
     @MockK lateinit var surveys: Surveys
 
     @BeforeEach
@@ -50,6 +52,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     private fun createInstance() = TracingDetailsItemProvider(
         tracingStatus = tracingStatus,
         riskLevelStorage = riskLevelStorage,
+        installTimeProvider = installTimeProvider,
         surveys = surveys
     )
 
@@ -57,10 +60,12 @@ class TracingDetailsItemProviderTest : BaseTest() {
         status: GeneralTracingStatus.Status,
         riskLevel: ProtoRiskLevel,
         matchedKeyCount: Int,
+        daysSinceInstallation: Long,
         availableSurveys: List<Surveys.Type> = emptyList()
     ) {
         every { tracingStatus.generalStatus } returns flowOf(status)
         every { aggregatedRiskResult.totalRiskLevel } returns riskLevel
+        every { installTimeProvider.daysSinceInstallation } returns daysSinceInstallation
         every { surveys.availableSurveys } returns flowOf(availableSurveys)
 
         if (riskLevel == ProtoRiskLevel.LOW) {
@@ -86,6 +91,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.LOW,
+            daysSinceInstallation = 4,
             matchedKeyCount = 1
         )
 
@@ -102,6 +108,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.LOW,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -118,6 +125,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.HIGH,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -134,6 +142,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.HIGH,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -152,6 +161,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.LOW,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -170,7 +180,8 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.LOW,
-            matchedKeyCount = 0
+            daysSinceInstallation = 4,
+            matchedKeyCount = 0,
         )
 
         val instance = createInstance()
@@ -189,6 +200,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.HIGH,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -208,6 +220,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.UNRECOGNIZED,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -227,6 +240,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_INACTIVE,
             riskLevel = ProtoRiskLevel.LOW,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -246,6 +260,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_INACTIVE,
             riskLevel = ProtoRiskLevel.LOW,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -268,6 +283,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.UNRECOGNIZED,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -290,6 +306,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.LOW,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -312,6 +329,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.HIGH,
+            daysSinceInstallation = 4,
             matchedKeyCount = 0
         )
 
@@ -335,6 +353,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.LOW,
             matchedKeyCount = 0,
+            daysSinceInstallation = 4,
             availableSurveys = listOf(Surveys.Type.HIGH_RISK_ENCOUNTER)
         )
 
@@ -355,6 +374,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.HIGH,
             matchedKeyCount = 0,
+            daysSinceInstallation = 4,
             availableSurveys = emptyList()
         )
 
@@ -375,6 +395,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
             riskLevel = ProtoRiskLevel.HIGH,
             matchedKeyCount = 0,
+            daysSinceInstallation = 4,
             availableSurveys = listOf(Surveys.Type.HIGH_RISK_ENCOUNTER)
         )
 

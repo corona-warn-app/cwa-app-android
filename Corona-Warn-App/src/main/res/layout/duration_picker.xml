@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/duration_container"
     android:layout_width="match_parent"
+    tools:context="de.rki.coronawarnapp.ui.durationpicker.DurationPicker"
     android:layout_height="wrap_content">
 
     <TextView

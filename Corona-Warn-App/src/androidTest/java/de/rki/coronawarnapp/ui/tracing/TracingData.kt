@@ -41,6 +41,7 @@ object TracingData {
             ),
 
             PeriodLoggedBox.Item(
+                daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
             ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
@@ -61,6 +62,7 @@ object TracingData {
                     lastExposureDetectionTime = Instant.now(),
                     allowManualUpdate = false,
                     daysWithEncounters = 0,
+                    daysSinceInstallation = 4,
                     lastEncounterAt = Instant.now()
                 )
             ),
@@ -70,6 +72,7 @@ object TracingData {
             ),
 
             PeriodLoggedBox.Item(
+                daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
             ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
@@ -90,6 +93,7 @@ object TracingData {
                     lastExposureDetectionTime = Instant.now(),
                     allowManualUpdate = false,
                     daysWithEncounters = 1,
+                    daysSinceInstallation = 4,
                     lastEncounterAt = Instant.now()
                 )
             ),
@@ -99,6 +103,7 @@ object TracingData {
             ),
 
             PeriodLoggedBox.Item(
+                daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
             ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
@@ -119,6 +124,7 @@ object TracingData {
                     lastExposureDetectionTime = Instant.now(),
                     allowManualUpdate = false,
                     daysWithEncounters = 2,
+                    daysSinceInstallation = 4,
                     lastEncounterAt = Instant.now()
                 )
             ),
@@ -128,6 +134,7 @@ object TracingData {
             ),
 
             PeriodLoggedBox.Item(
+                daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
             ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
@@ -153,6 +160,7 @@ object TracingData {
             ),
             BehaviorIncreasedRiskBox.Item,
             PeriodLoggedBox.Item(
+                daysSinceInstallation = 5,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
             ),
             DetailsIncreasedRiskBox.Item(

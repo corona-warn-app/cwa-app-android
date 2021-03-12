@@ -8,7 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
@@ -18,7 +18,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.spyk
 import org.junit.After
 import org.junit.Before
@@ -32,14 +31,15 @@ class LauncherActivityTest : BaseUITest() {
 
     @MockK lateinit var updateChecker: UpdateChecker
     @MockK lateinit var cwaSettings: CWASettings
+    @MockK lateinit var onboardingSettings: OnboardingSettings
     lateinit var viewModel: LauncherActivityViewModel
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        mockkObject(LocalData)
+
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
-        every { LocalData.isOnboarded() } returns false
+        every { onboardingSettings.isOnboarded } returns false
         viewModel = launcherActivityViewModel()
         setupMockViewModel(
             object : LauncherActivityViewModel.Factory {
@@ -86,7 +86,8 @@ class LauncherActivityTest : BaseUITest() {
         LauncherActivityViewModel(
             updateChecker,
             TestDispatcherProvider(),
-            cwaSettings
+            cwaSettings,
+            onboardingSettings
         )
     )
 }
