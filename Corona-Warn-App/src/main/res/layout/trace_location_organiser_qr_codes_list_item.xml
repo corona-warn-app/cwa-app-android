@@ -10,8 +10,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icon"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="88dp"
+        android:layout_height="95dp"
         android:importantForAccessibility="no"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"

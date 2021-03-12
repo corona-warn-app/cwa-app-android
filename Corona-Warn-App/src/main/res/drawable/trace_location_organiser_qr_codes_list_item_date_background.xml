@@ -6,5 +6,5 @@
         android:bottomLeftRadius="@dimen/radius_card"
         android:bottomRightRadius="@dimen/radius_card"
         />
-    <solid android:color="#FFFFFF"/>
+    <solid android:color="@color/colorTraceLocationIconDateBackground"/>
 </shape>
