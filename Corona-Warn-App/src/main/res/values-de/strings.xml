@@ -905,8 +905,16 @@
     <string name="debugging_debuglog_status_not_recording">"Inaktiv"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"Derzeitige Größe: %1$s (unkomprimiert)"</string>
+
+
+    <!-- YTXT: Dialog title if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_title">"Wollen Sie die Fehleranalyse wirklich stoppen?"</string>
     <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
-    <string name="debugging_debuglog_stop_confirmation_message">"Der Fehlerbericht wurde gelöscht. Wenn Sie eine lokale Kopie des Fehlerberichts gespeichert haben, wurde diese nicht gelöscht."</string>
+    <string name="debugging_debuglog_stop_confirmation_message">"Hierbei werden alle bereits aufgezeichneten Daten gelöscht. Wenn Sie eine lokale Kopie des Fehlerberichts gespeichert haben, wird diese nicht gelöscht."</string>
+    <!-- YTXT: Dialog confirmation button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_confirmation_button">"Analyse stoppen"</string>
+    <!-- YTXT: Dialog discard button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_discard_button">"Analyse fortführen"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Sie brauchen mindestens 200 MB Speicherplatz, um die Fehleranalyse zu starten. Bitte geben Sie Speicherplatz frei."</string>
     <!-- XHED: Dialog title if a user has stored a debug log locally -->
@@ -915,7 +923,6 @@
     <string name="debugging_debuglog_localexport_message">"Die Fehleranalyse wurde lokal gespeichert."</string>
     <!-- YTXT: Dialog message if local export has failed -->
     <string name="debugging_debuglog_localexport_error_message">"Das Speichern des Fehlerberichts ist fehlgeschlagen. Bitte überprüfen Sie, ob genügend Speicherplatz zur Verfügung steht."</string>
-
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Ausführliche Informationen zur Übersendung der Fehlerberichte"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -1832,6 +1839,8 @@
     <string name="bottom_nav_home_title">Startseite</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">Tagebuch</string>
+    <!-- XHED: Title for BottomNav check-in screen title -->
+    <string name="bottom_nav_check_ins_title">Check In</string>
 
     <!-- ####################################
            Data Donation & Survey
@@ -1949,4 +1958,8 @@
     <string name="duration_dialog_ok_button">OK</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">00:00</string>
+
+    <!-- Scan check in QR Code-->
+    <!-- XTXT: Scan check in QR-Code  FAB text-->
+    <string name="scan_check_in_qr_code">QR-Code scannen</string>
 </resources>

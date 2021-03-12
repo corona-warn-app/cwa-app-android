@@ -4,7 +4,6 @@ import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
@@ -31,12 +30,18 @@ class DiaryPersonCensor @Inject constructor(
 
         if (personsNow.isEmpty()) return null
 
-        var newMessage = personsNow.fold(entry.message) { oldMsg, person ->
-            oldMsg.replace(person.fullName, "Person#${person.personId}")
-        }
+        val newMessage = personsNow.fold(entry.message) { orig, person ->
+            var wip = orig.replace(person.fullName, "Person#${person.personId}/Name")
 
-        if (CWADebug.isDeviceForTestersBuild) {
-            newMessage = entry.message
+            person.emailAddress?.let {
+                wip = wip.replace(it, "Person#${person.personId}/EMail")
+            }
+
+            person.phoneNumber?.let {
+                wip = wip.replace(it, "Person#${person.personId}/PhoneNumber")
+            }
+
+            wip
         }
 
         return entry.copy(message = newMessage)
