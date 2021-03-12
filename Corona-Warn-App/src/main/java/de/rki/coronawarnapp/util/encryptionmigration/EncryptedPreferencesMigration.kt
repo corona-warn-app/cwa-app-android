@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util.encryptionmigration
 import android.content.Context
 import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -28,19 +29,19 @@ class EncryptedPreferencesMigration @Inject constructor(
         try {
             encryptedPreferences.instance?.let { copyData(it) }
         } catch (e: Exception) {
-            Timber.e(e, "Migration failed")
+            e.reportProblem(tag = this::class.simpleName, info = "Migration failed")
             errorResetTool.isResetNoticeToBeShown = true
         } finally {
             try {
                 encryptedPreferences.clean()
             } catch (e: Exception) {
-                Timber.e(e, "Encryption data clean up failed")
+                e.reportProblem(tag = this::class.simpleName, info = "Encryption data clean up failed")
             }
         }
         try {
             dropDatabase()
         } catch (e: Exception) {
-            Timber.e(e, "Database removing failed")
+            e.reportProblem(tag = this::class.simpleName, info = "Database removing failed")
         }
         Timber.d("Migration finish")
     }
