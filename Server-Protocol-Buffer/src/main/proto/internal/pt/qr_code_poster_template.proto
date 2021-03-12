@@ -12,7 +12,7 @@ message QRCodePosterTemplateAndroid {
 
   uint32 qrCodeSideLength = 4;
 
-  QRCodeTextBoxAndroid description = 5;
+  QRCodeTextBoxAndroid descriptionTextBox = 5;
 
   message QRCodeTextBoxAndroid {
     uint32 offsetX = 1;
@@ -35,7 +35,7 @@ message QRCodePosterTemplateIOS {
 
   uint32 qrCodeSideLength = 4;
 
-  QRCodeTextBoxIOS description = 5;
+  QRCodeTextBoxIOS descriptionTextBox = 5;
 
   message QRCodeTextBoxIOS {
     uint32 offsetX = 1;
