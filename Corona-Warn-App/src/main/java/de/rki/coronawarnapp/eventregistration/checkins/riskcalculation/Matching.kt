@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 
-import de.rki.coronawarnapp.eventregistration.checkins.EventCheckIn
+import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.CheckInsPackage
 import org.joda.time.Duration
 import org.joda.time.Instant
 
 suspend fun filterRelevantEventCheckIns(
-    localCheckIns: List<EventCheckIn>,
+    localCheckIns: List<CheckIn>,
     checkInsPackage: CheckInsPackage
-): List<EventCheckIn> {
+): List<CheckIn> {
     val reportedCheckIns = checkInsPackage.extractCheckIns()
     return reportedCheckIns.filter { reported ->
         localCheckIns.find { local ->
@@ -18,18 +18,16 @@ suspend fun filterRelevantEventCheckIns(
 }
 
 fun calculateOverlap(
-    local: EventCheckIn,
-    reported: EventCheckIn
-): EventOverlap? {
+    local: CheckIn,
+    reported: CheckIn
+): CheckInOverlap? {
     if (local.guid != reported.guid) return null
-    val start = max(local.startTime, reported.startTime)
-    val end = min(local.endTime, reported.endTime)
-    return if (start < end) EventOverlap(local.guid, Duration(start, end))
-    else null
+    // TODO implement calculation
+    return null
 }
 
-data class EventOverlap(
-    val guid: String,
+data class CheckInOverlap(
+    val checkInGuid: String,
     val overlap: Duration
 )
 

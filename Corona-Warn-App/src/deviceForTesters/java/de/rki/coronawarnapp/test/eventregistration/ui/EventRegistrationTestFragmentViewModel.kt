@@ -13,7 +13,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     private val checkInMatcher: CheckInMatcher
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val checkInOverlaps = checkInMatcher.eventOverlapFlow.asLiveData()
+    val checkInOverlaps = checkInMatcher.checkInOverlapFlow.asLiveData()
 
     fun runMatcher() {
         launch { checkInMatcher.execute() }

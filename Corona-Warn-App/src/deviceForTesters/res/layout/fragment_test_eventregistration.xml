@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,17 +9,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:orientation="vertical"
-        android:paddingBottom="32dp">
+        android:orientation="vertical">
 
         <LinearLayout
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_margin="@dimen/spacing_small"
             android:orientation="vertical">
 
             <TextView
@@ -31,7 +27,7 @@
                 android:id="@+id/testQrCodeCreation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/spacing_tiny"
                 android:text="QR Code Creation" />
 
         </LinearLayout>
@@ -40,10 +36,10 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,6 +49,7 @@
                 android:id="@+id/scanCheckInQrCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
                 android:text="Scan check in QR code" />
 
         </LinearLayout>
@@ -61,13 +58,20 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Download, matching &amp; risk calculation" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/downloadReportedCheckIns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
                 android:text="download check-ins" />
 
             <com.google.android.material.button.MaterialButton
@@ -82,9 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="Matching result:" />
+                android:text="Matching result" />
 
         </LinearLayout>
-
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</ScrollView>

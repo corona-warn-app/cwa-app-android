@@ -15,7 +15,7 @@ interface DownloadedCheckInsRepo {
 
 class FakeDownloadedCheckInsRepo @Inject constructor() : DownloadedCheckInsRepo {
     override val allCheckInsPackages: Flow<List<CheckInsPackage>>
-        get() = listOf(listOf<CheckInsPackage>(FakeCheckInsPackage)).asFlow()
+        get() = listOf(listOf<CheckInsPackage>(DummyCheckInPackage)).asFlow()
 
     override fun addCheckIns(checkins: List<CheckInsPackage>) {
         // TODO("Not yet implemented")
