@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.durationpicker.ContactDiaryDurationPickerFragment
-import de.rki.coronawarnapp.contactdiary.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
+import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.databinding.FragmentTestContactDiaryBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class ContactDiaryTestFragment :
     Fragment(R.layout.fragment_test_contact_diary),
     AutoInject,
-    ContactDiaryDurationPickerFragment.OnChangeListener {
+    DurationPicker.OnChangeListener {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: ContactDiaryTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
@@ -49,15 +49,11 @@ class ContactDiaryTestFragment :
             locationVisitsCleanButton.setOnClickListener { vm.clearLocationVisits() }
             personEncountersCleanButton.setOnClickListener { vm.clearPersonEncounters() }
             durationValue.setOnClickListener {
-                val args = Bundle()
-                args.putString(
-                    ContactDiaryDurationPickerFragment.DURATION_ARGUMENT_KEY,
-                    binding.durationValue.text.toString()
-                )
-
-                val durationPicker = ContactDiaryDurationPickerFragment()
-                durationPicker.arguments = args
-                durationPicker.setTargetFragment(this@ContactDiaryTestFragment, 0)
+                val durationPicker = DurationPicker.Builder()
+                    .duration(binding.durationValue.text.toString())
+                    .title(getString(R.string.duration_dialog_title))
+                    .build()
+                durationPicker.setDurationChangeListener(this@ContactDiaryTestFragment)
                 durationPicker.show(parentFragmentManager, "ContactDiaryDurationPickerFragment")
             }
         }
