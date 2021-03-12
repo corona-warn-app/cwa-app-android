@@ -48,7 +48,7 @@ class QRCodeCensorTest : BaseTest() {
 
         every { CWADebug.isDeviceForTestersBuild } returns true
         instance.checkLog(censored) shouldBe censored.copy(
-            message = "I'm a shy qrcode: 63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
+            message = "I'm a shy qrcode: ########-e0de-4bd4-90c1-17c2bb683a2f"
         )
     }
 

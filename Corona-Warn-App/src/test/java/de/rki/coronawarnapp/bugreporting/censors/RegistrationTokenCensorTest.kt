@@ -46,7 +46,7 @@ class RegistrationTokenCensorTest : BaseTest() {
 
         every { CWADebug.isDeviceForTestersBuild } returns true
         instance.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: 63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
+            message = "I'm a shy registration token: ########-e0de-4bd4-90c1-17c2bb683a2f"
         )
 
         verify { LocalData.registrationToken() }
