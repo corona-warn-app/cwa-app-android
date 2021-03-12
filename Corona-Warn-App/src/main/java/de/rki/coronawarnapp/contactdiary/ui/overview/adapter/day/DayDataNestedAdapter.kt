@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day
 import android.view.View
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.durationpicker.toReadableDuration
+import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
