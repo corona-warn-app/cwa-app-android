@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="HardcodedText">
 
     <LinearLayout
@@ -54,40 +55,57 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/event_container"
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            android:layout_marginBottom="@dimen/spacing_small"
-            android:orientation="vertical">
+            android:layout_margin="@dimen/spacing_tiny">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/event_title"
+                style="@style/headline6"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Download, matching &amp; risk calculation" />
+                android:layout_marginEnd="8dp"
+                android:text="Events"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/downloadReportedCheckIns"
+            <TextView
+                android:id="@+id/events_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:text="download check-ins" />
+                android:textIsSelectable="true"
+                android:text="After creating an event in the app, it is sent to the server and returned together with a guid and a signature."
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_title" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/runMatcher"
-                android:layout_width="match_parent"
+                android:id="@+id/create_event_button"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="Run matcher" />
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Create Event"
+                app:layout_constraintEnd_toStartOf="@+id/show_events_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/events_body" />
 
-            <TextView
-                android:id="@+id/resultText"
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/show_events_button"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="Matching result" />
+                android:layout_marginTop="8dp"
+                android:text="Show stored Events"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/create_event_button"
+                app:layout_constraintTop_toBottomOf="@id/events_body" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

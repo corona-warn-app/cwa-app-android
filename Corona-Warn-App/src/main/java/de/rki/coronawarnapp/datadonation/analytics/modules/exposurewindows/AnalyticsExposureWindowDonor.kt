@@ -76,7 +76,7 @@ internal fun List<AnalyticsExposureWindowEntityWrapper>.asPpaData() = map {
     }
 
     val exposureWindow = PpaData.PPAExposureWindow.newBuilder()
-        .setDate(it.exposureWindowEntity.dateMillis)
+        .setDate(it.exposureWindowEntity.dateMillis / 1000)
         .setCalibrationConfidence(it.exposureWindowEntity.calibrationConfidence)
         .setInfectiousnessValue(it.exposureWindowEntity.infectiousness)
         .setReportTypeValue(it.exposureWindowEntity.reportType)

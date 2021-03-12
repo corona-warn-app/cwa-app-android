@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.app.Application
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
+import android.content.ContentResolver
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.app.NotificationManagerCompat
@@ -76,4 +77,7 @@ class AndroidModule {
     @Provides
     @Singleton
     fun safetyNet(@AppContext context: Context): SafetyNetClient = SafetyNet.getClient(context)
+
+    @Provides
+    fun contentResolver(@AppContext context: Context): ContentResolver = context.contentResolver
 }

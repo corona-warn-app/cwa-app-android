@@ -13,10 +13,10 @@ class QRCodeCensor @Inject constructor() : BugCensor {
         val guid = lastGUID ?: return null
         if (!entry.message.contains(guid)) return null
 
-        var newMessage = entry.message.replace(guid, PLACEHOLDER + guid.takeLast(4))
-
-        if (CWADebug.isDeviceForTestersBuild) {
-            newMessage = entry.message
+        val newMessage = if (CWADebug.isDeviceForTestersBuild) {
+            entry.message.replace(guid, PLACEHOLDER_TESTER + guid.takeLast(27))
+        } else {
+            entry.message.replace(guid, PLACEHOLDER + guid.takeLast(4))
         }
 
         return entry.copy(message = newMessage)
@@ -24,6 +24,7 @@ class QRCodeCensor @Inject constructor() : BugCensor {
 
     companion object {
         var lastGUID: String? = null
+        private const val PLACEHOLDER_TESTER = "########-"
         private const val PLACEHOLDER = "########-####-####-####-########"
     }
 }

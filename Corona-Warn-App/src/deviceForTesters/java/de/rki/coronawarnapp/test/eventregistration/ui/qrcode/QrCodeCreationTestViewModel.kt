@@ -15,7 +15,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.sharing.FileSharing
+import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -31,7 +31,7 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
 
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
     val errorMessage = SingleLiveEvent<String>()
-    val sharingIntent = SingleLiveEvent<FileSharing.ShareIntentProvider>()
+    val sharingIntent = SingleLiveEvent<FileSharing.FileIntentProvider>()
 
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
@@ -68,7 +68,7 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
             }
 
             sharingIntent.postValue(
-                fileSharing.getIntentProvider(file, "Scan and Help")
+                fileSharing.getFileIntentProvider(file, "Scan and Help")
             )
         } catch (e: Exception) {
             errorMessage.postValue(e.localizedMessage ?: "Creating pdf failed")
@@ -85,8 +85,10 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
     private fun encodeAsBitmap(input: String, size: Int = 1000): Bitmap? {
         return try {
             val hints = mapOf(
-                EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.H,
-                EncodeHintType.CHARACTER_SET to Charsets.UTF_8
+                EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.H
+                // This is not required in the specs and it should not be enabled
+                // it is causing crash on older Android versions ex:API 23
+                // EncodeHintType.CHARACTER_SET to Charsets.UTF_8
             )
             MultiFormatWriter().encode(
                 input,

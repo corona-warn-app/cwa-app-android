@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
@@ -24,6 +25,8 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
     private val binding: FragmentTestEventregistrationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         with(binding) {
             scanCheckInQrCode.setOnClickListener {
                 doNavigate(
@@ -37,6 +40,14 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                     EventRegistrationTestFragmentDirections
                         .actionEventRegistrationTestFragmentToTestQrCodeCreationFragment()
                 )
+            }
+
+            createEventButton.setOnClickListener {
+                findNavController().navigate(R.id.createEventTestFragment)
+            }
+
+            showEventsButton.setOnClickListener {
+                findNavController().navigate(R.id.showStoredEventsTestFragment)
             }
         }
         binding.runMatcher.setOnClickListener {

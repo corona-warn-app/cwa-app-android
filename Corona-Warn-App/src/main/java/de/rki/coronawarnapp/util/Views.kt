@@ -10,6 +10,7 @@ import android.util.Patterns
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.text.util.LinkifyCompat
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 
@@ -52,4 +53,24 @@ fun TextView.linkifyPhoneNumbers() {
     )
     movementMethod = LinkMovementMethod.getInstance()
     setLinkTextColor(context.getColorCompat(R.color.colorTextTint))
+}
+
+/**
+ * [RecyclerView.OnScrollListener] listener wrapper
+ * @param block Callback to scroll changes, passes `true` if scrolling up and `false` otherwise
+ */
+fun RecyclerView.onScroll(block: (Boolean) -> Unit) {
+    val threshold = 50
+    addOnScrollListener(
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                // Scrolling down
+                if (dy > threshold) block(false)
+                // Scrolling up
+                if (dy < -threshold) block(true)
+                // At the top
+                if (!recyclerView.canScrollVertically(-1)) block(true)
+            }
+        }
+    )
 }
