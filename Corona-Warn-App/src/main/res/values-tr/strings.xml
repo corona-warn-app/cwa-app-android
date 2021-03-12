@@ -1,47 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
-
-    <!-- ####################################
-               Preference Keys
-    ######################################
-    TODO: Check what is needed -->
-
-    <!-- NOTR -->
-    <string name="preference_name"><xliff:g id="preference">"shared_preferences_cwa"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_onboarding_completed"><xliff:g id="preference">"preference_onboarding_completed"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_onboarding_completed_timestamp"><xliff:g id="preference">"preference_onboarding_completed_timestamp"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_background_check_done"><xliff:g id="preference">"preference_background_check_done"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_reset_app"><xliff:g id="preference">"preference_reset_app"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_only_wifi"><xliff:g id="preference">"preference_only_wifi"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_tracing"><xliff:g id="preference">"preference_tracing"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_timestamp_manual_diagnosis_keys_retrieval"><xliff:g id="preference">"preference_timestamp_manual_diagnosis_keys_retrieval"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_device_pairing_successful_time"><xliff:g id="preference">"preference_device_pairing_successful_time"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_initial_tracing_activation_time"><xliff:g id="preference">"preference_initial_tracing_activation_time"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_database_password"><xliff:g id="preference">"preference_database_password"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_total_non_active_tracing"><xliff:g id="preference">"preference_total_non_active_tracing"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_last_non_active_tracing_timestamp"><xliff:g id="preference">"preference_last_non_active_tracing_timestamp"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_number_successful_submissions"><xliff:g id="preference">"preference_number_successful_submissions"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
-
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -105,6 +62,12 @@
                   Risk Card
     ###################################### -->
 
+    <!-- XTXT: risk card - Days since installation if < 14 days -->
+    <string name="risk_card_body_days_since_installation">"%s gün önce yüklendi"</string>
+    <!-- XTXT: risk card - tracing active for x out of 14 days -->
+    <string name="risk_card_body_saved_days">"Maruz kalma günlüğü son 14 günde %1$s gün etkindi"</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">"Maruz kalma günlüğü sürekli etkin"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Karşılaşmalar henüz kontrol edilmedi."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -307,7 +270,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"Mümkünse lütfen eve gidin ve evde kalın."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"Belirtiler, test kullanılabilirliği veya bireysel izolasyon hakkında sorularınız varsa lütfen aşağıdakilerden biri ile iletişime geçin:"</string>
+    <string name="risk_details_behavior_body_contact_doctor">"Belirtiler, test kullanılabilirliği veya karantina önlemleri hakkında sorularınız varsa lütfen aşağıdakilerden biri ile iletişime geçin:"</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Ellerinizi düzenli olarak 20 saniye sabunla yıkayın."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -322,6 +285,8 @@
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
 
+    <!-- XMSG: risk details - ventilation bullet point -->
+    <string name="risk_details_behavior_body_ventilation">"Kapalı alanları günde birkaç kez havalandırın. Bunun için, pencereleri birkaç dakika süreyle sonuna dek açın (“şok havalandırma”)."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Öksürürken ya da hapşırırken dirseğinizin iç kısmına dönün veya bir mendil kullanın."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
@@ -337,7 +302,13 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Bu dönem hesaplamaya dahil edildi."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir."</string>
+    <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir. Maruz kalma günlüğü son 14 günü kapsar."</string>
+    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Corona-Warn-App %s gün önce yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
+    <!-- XTXT: risk details - infection period logged information body, over 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Maruz kalma günlüğü başka insanlarla karşılaştığınız sırada etkindiyse bu dönem için enfeksiyon riskiniz hesaplanabilir."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment">"Maruz kalma günlüğü son 14 günü kapsar. Bu süre boyunca akıllı telefonunuzdaki günlüğe kaydetme özelliği %1$s gün etkindi. Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
@@ -350,8 +321,12 @@
     <string name="risk_details_information_body_low_risk">"Daha sonra COVID-19 tanısı konan kişilere maruz kaldığınıza dair bir günlük kaydı oluşturulmadığı veya bu kişilerle yalnızca kısa süreyle ve uzak mesafeden karşılaştığınız için enfeksiyon riskiniz düşüktür."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Enfeksiyon riskiniz, maruz kalma günlüğünün verileri kullanılarak yerel olarak akıllı telefonunuzda hesaplanır. Hesaplamada koronavirüs tanısı konan kişilere maruz kalma mesafesi ve süresinin yanında potansiyel enfeksiyon bulaştırma durumu da göz önünde bulundurulur. Enfeksiyon riskiniz bir başkası tarafından görüntülenemez ya da bir başkasına aktarılamaz."</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
+    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
-    <string name="risk_details_information_body_increased_risk_date">"En son %1$s tarihinde, koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</string>
+    <string name="risk_details_information_body_increased_risk_date">"COVID-19 tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"En son %1$s gün önce, koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
@@ -486,7 +461,7 @@
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Konum Ayarını Etkinleştir"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Uygulama, cihazınızın konumunu belirleyemiyor ancak bazı Android sürümlerinde Bluetooth Düşük Enerji işlevinin kullanılması için cihazın konum ayarının etkinleştirilmesi gereklidir."</string>
+    <string name="onboarding_tracing_location_body">"Uygulama, konumunuzu belirleyemiyor. Ancak bazı Android 10 ve daha önceki sürümlerde Bluetooth Düşük Enerji işlevinin kullanılması için cihazın konum ayarının etkinleştirilmesi gereklidir."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Cihaz Ayarlarını Aç"</string>
     <!-- XACT: Onboarding (test) page title -->
@@ -597,9 +572,6 @@
     <string name="onboarding_ppa_more_info_other_info_point_3_text">"Test sonucunuzu paylaşıp diğer kullanıcı uyarıp uyarmadığınız hakkında bilgi."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
     <string name="onboarding_ppa_more_info_much_privacy_body">"Bu bilgilerin kişisel olarak sizinle bağlantısı kurulamaz. Kimliğiniz gizli tutulacaktır.\nBilgiler istatistiksel amaçlar doğrultusunda analiz edilecektir. Profil oluşturmak için kaydedilmeyecektir."</string>
-
-
-
 
 
     <!-- ####################################
@@ -851,26 +823,76 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"Bir kişi ekranında uzun bir metin olan bir akıllı telefon tutuyor. Metnin yanında baskıyı temsil eden bir bölüm bulunuyor."</string>
 
+    <!-- ####################################
+               App Information - Bug Reporting
+    ###################################### -->
+
     <!-- XHED: Headline for debug log screen -->
-    <string name="debugging_debuglog_title">"Hata Raporu"</string>
-    <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation_section_one">"Bu seçenek, uygulama davranışını bir metin dosyasına kaydeder. Bir hata meydana gelmeden önce bu seçenek etkinleştirilirse geliştiricilerin sorunu çözmesine yardımcı olmak için bu raporu sunabilirsiniz.\nBu seçeneği etkinleştirilmiş durumda bırakırsanız yüksek depolama alanı gereklilikleri oluşacaktır. Seçeneği devre dışı bırakırsanız hata raporu silinir."</string>
+    <string name="debugging_debuglog_title">"Hata Raporları"</string>
+    <!-- XHED: Headline for current status of debug log screen -->
+    <string name="debugging_debuglog_current_status_title">"Hata Analizi"</string>
+    <!-- YTXT: Description one for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation_section_one">"Hata analizi konusunda uygulamanın teknik destek ekibine yardımcı olmak için CWA’da bir hata raporu kaydı oluşturabilirsiniz. Oluşturduğunuzda, her bir teknik adım ve uygulama işlemlerinin sonuçları kaydedilir. Ardından hata raporunu teknik ekibe gönderebilir ve hatanın belirlenip düzeltilmesine yardımcı olabilirsiniz."</string>
+    <!-- YTXT: Description two for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation_section_two">"Daha fazla bilgi için lütfen SSS sayfamıza bakın:\nHata raporları için SSS"</string>
+    <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
+    <string name="debugging_debuglog_intro_explanation_section_two_link_label">"Hata raporları için SSS"</string>
+    <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/en/faq/#error_log"</string>
+    <!-- YTXT: Title of ID History -->
+    <string name="debugging_debuglog_id_history_title">"Tanıtıcı Geçmişi"</string>
+    <!-- YTXT: Description of ID History -->
+    <string name="debugging_debuglog_id_history_body">"Şimdiye dek paylaşılan hata analizlerinin tanıtıcıları"</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
     <string name="debugging_debuglog_intro_warning">"Lütfen hata raporlarının hassas veriler içerebileceğini unutmayın (örneğin, test sonucu ya da temas güncesi girişleri). Bu nedenle bu hata raporlarını herkese açık şekilde paylaşmamanız gerekir."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Başlat"</string>
     <!-- XBUT: Button text to stop the log recording -->
-    <string name="debugging_debuglog_action_stop_recording">"Sil"</string>
+    <string name="debugging_debuglog_action_stop_recording">"Durdur ve Sil"</string>
     <!-- XBUT: Button text to share the log recording -->
-    <string name="debugging_debuglog_action_share_log">"Paylaş"</string>
+    <string name="debugging_debuglog_action_share_log">"Hata Raporu Gönder"</string>
+    <!-- XBUT: Button text to locally store the log recording -->
+    <string name="debugging_debuglog_action_local_log_store">"Yerel Olarak Kaydet ve Devam Et"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Kayıt Etkin"</string>
+    <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
+    <string name="debugging_debuglog_status_lowstorage">"Yeterli bellek yok"</string>
     <!-- YTXT: Status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_not_recording">"Etkin Değil"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"Geçerli boyut: %1$s (sıkıştırılmamış)"</string>
-    <!-- XHED: Title for native sharing dialog -->
-    <string name="debugging_debuglog_sharing_dialog_title">"CWA Hata Raporunu Paylaş"</string>
+    <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_message">"Hata raporu silinmiş. Hata raporunun yerel bir kopyasını kaydettiyseniz bu kopya silinmemiştir."</string>
+    <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
+    <string name="debugging_debuglog_start_low_storage_error">"Hata analizini başlatmak için en az 200 MB bellek alanınızın olması gerekir. Lütfen belleği boşaltın."</string>
+    <!-- XHED: Dialog title if a user has stored a debug log locally -->
+    <string name="debugging_debuglog_localexport_title">"Yerel Olarak Kaydedildi"</string>
+    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
+    <string name="debugging_debuglog_localexport_message">"Hata analizi yerel olarak kaydedilmiştir."</string>
+    <!-- YTXT: Dialog message if local export has failed -->
+    <string name="debugging_debuglog_localexport_error_message">"Hata raporunu kaydetme denemesi başarısız oldu. Lütfen yeterli bellek alanı olup olmadığını kontrol edin."</string>
+
+    <!-- XHED: Title for debug legal screen -->
+    <string name="debugging_debuglog_legal_dialog_title">"Hata Raporlarını Gönderme Konusunda Ayrıntılı Bilgi"</string>
+    <!-- YTXT: Section Title for debug legal screen -->
+    <string name="debugging_debuglog_legal_section_title">"RKI, hata analizlerini nasıl analiz eder?"</string>
+    <!-- YTXT: Section Body for debug legal screen -->
+    <string name="debugging_debuglog_legal_section_body">"Uygulamanızın orijinalliği doğrulandıktan sonra hata raporu, güvenli bir bağlantı üzerinden RKI’ye gönderilir. Hata raporları yalnızca gelecekteki uygulama güncellemeleri kapsamında hata düzeltme ve sorun gierme için kullanılacaktır. Hata raporlarına yalnızca teknik destek çalışanları erişiebilir. Hata raporları, uygulamada tetiklenen çeşitli durum mesajlarını ve olayları içerir ancak RKI’nin kimliğinizi belirlemesini sağlayabilecek herhangi bir bilgi içermez. Yalnızca ilave mesajlarla birlikte hata raporu tanıtıcısını adlandırmanız durumunda mesaj (ve örneğin bu mesajda yer alan adınız) ile hata raporunda bulunan bilgiler (örneğin, maruz kalma günlüğü kapsamında hesaplamaya ilişkin teknik mesajlar, uygulamada görüntülenen bilgiler ve gerçekleştirilen adımlar ve geçerli durumlarda, alınan test sonucu ve diğer kullanıcıları uyarma sürecinde paylaşılan rastgele kimlikler) arasında bağlantı kurulabilir."</string>
+
+    <!-- XHED: Title for Bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_title">"Hata Raporu Gönder"</string>
+    <!-- YTXT: First body section for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_section_one">"Kaydedilen hata raporunu RKI teknik destek birimine gönderebilmeniz için onay vermeniz gerekir."</string>
+    <!-- YTXT: Second body section for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_section_two">"Raporu göndermenizin ardından bir hata raporu tanıtıcısı belirtilecektir. Bu tanıtıcı bilgisini vererek örneğin, teknik destek birimine ek bilgi sunabilir ve hata raporunuza atanmasını sağlayabilirsiniz. Hata raporu tanıtıcısını belirtmezseniz RKI raporu şahsınıza atayamaz."</string>
+    <!-- YTXT: Privacy Information section for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_privacy_information">"ABD’de ve Diğer Üçüncü Ülkelerde Veri İşleme ve Veri Koruma Riskleri Hakkında Ayrıntılı Bilgiler"</string>
+    <!-- XBUT: Button for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_button">"Kabul Et ve Gönder"</string>
+    <!-- XHED: Title for log upload history -->
+    <string name="debugging_debuglog_uploadhistory_title">"Tanıtıcı Geçmişi"</string>
+    <!-- YTXT: Description for log upload history -->
+    <string name="debugging_debuglog_uploadhistory_description">"Hata analizi günlüklerinizin tanıtıcıları burada görüntülenir."</string>
 
     <!-- ####################################
               Interoperability
@@ -1383,9 +1405,9 @@
     <!-- YTXT: Text for consent given -->
     <string name="submission_test_result_available_text_consent_given">"Test sonucunuzu paylaşmayı kabul ederek diğer kullanıcıların uyarılmasına yardımcı olduğunuz için teşekkür ederiz. \n\n"<b>"Sonraki adımda lütfen “Paylaş” seçeneğine dokunarak test sonucunuzu paylaşın."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_given">"İşlemi gerçekten iptal etmek istiyor musunuz?"</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_given">"Test Sonucunu Görüntüle"</string>
     <!-- XTXT: Close screen popup text for consent given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_given">"Önemli:\nBu işlemi iptal etmek üzeresiniz.\nHenüz diğer kullanıcıları uyarmadınız. Lütfen bu işlemi tamamlayın ve diğer kullanıcıların korunmasına yardımcı olun."</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_given">"Test sonucunuzu okuduktan sonra gerekli durumlarda diğer kullanıcı uyarabilir ve enfeksiyon zincirini kırabilirsiniz."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Test sonucunuzu paylaşmamayı seçtiniz. Diğer kullanıcılar uyarılmayacak. \n\nSonraki adımda dilerseniz fikrinizi değiştirip test sonucunuzu paylaşarak koronavirüsün yayılmasını durdurmaya ve diğer kullanıcıların korunmasına yardımcı olabilirsiniz."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
@@ -1393,9 +1415,9 @@
     <!-- XTXT: Close screen popup text for consent NOT given -->
     <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Girişleriniz kaydedilmeyecektir."</string>
     <!-- XBUT: Close screen popup cancel button -->
-    <string name="submission_test_result_available_close_dialog_cancel_button">"İptal"</string>
+    <string name="submission_test_result_available_close_dialog_cancel_button">"Görüntüleme"</string>
     <!-- XBUT: Close screen popup continue button -->
-    <string name="submission_test_result_available_close_dialog_continue_button">"Devam"</string>
+    <string name="submission_test_result_available_close_dialog_continue_button">"Görüntüle"</string>
 
     <!-- Submission your consent screen -->
     <!-- XHED: Your consent screen title  -->
@@ -1557,6 +1579,8 @@
     <!-- ####################################
                Generic Error Messages
         ###################################### -->
+    <!-- XHED: error dialog - headline -->
+    <string name="errors_generic_headline_short">"Hata"</string>
     <!-- XHED: error dialog - headline -->
     <string name="errors_generic_headline">"Bir sorun oluştu."</string>
     <!-- XTXT: error dialog - short text for error reason -->

@@ -3,13 +3,13 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.v2;
 
 import "internal/v2/app_features.proto";
-import "internal/v2/event_registration_parameters.proto";
 import "internal/v2/exposure_detection_parameters.proto";
 import "internal/v2/key_download_parameters.proto";
 import "internal/v2/ppdd_edus_parameters.proto";
 import "internal/v2/ppdd_els_parameters.proto";
 import "internal/v2/ppdd_ppa_parameters.proto";
 import "internal/v2/risk_calculation_parameters.proto";
+import "internal/v2/presence_tracing_parameters.proto";
 import "internal/v2/semantic_version.proto";
 
 message ApplicationConfigurationIOS {
@@ -33,7 +33,7 @@ message ApplicationConfigurationIOS {
   PPDDPrivacyPreservingAnalyticsParametersIOS privacyPreservingAnalyticsParameters = 10;
   PPDDErrorLogSharingParametersIOS errorLogSharingParameters = 11;
 
-  EventRegistrationParameters eventRegistrationParameters = 12;
+  PresenceTracingParameters presenceTracingParameters = 12;
 }
 
 message ExposureConfiguration {

@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -67,6 +66,7 @@ class SubmissionTaskTest : BaseTest() {
 
     private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
 
+    private val registrationToken: FlowPreference<String?> = mockFlowPreference("regtoken")
     private val settingHasGivenConsent: FlowPreference<Boolean> = mockFlowPreference(true)
     private val settingAutoSubmissionAttemptsCount: FlowPreference<Int> = mockFlowPreference(0)
     private val settingAutoSubmissionAttemptsLast: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
@@ -77,9 +77,8 @@ class SubmissionTaskTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        mockkObject(LocalData)
-        every { LocalData.registrationToken() } returns "regtoken"
-        every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
+        every { submissionSettings.registrationToken } returns registrationToken
+        every { submissionSettings.isSubmissionSuccessful = any() } just Runs
 
         mockkObject(BackgroundWorkScheduler)
         every { BackgroundWorkScheduler.stopWorkScheduler() } just Runs
@@ -142,11 +141,20 @@ class SubmissionTaskTest : BaseTest() {
         )
 
         coVerifySequence {
+            submissionSettings.lastSubmissionUserActivityUTC
             settingLastUserActivityUTC.value
+            submissionSettings.hasGivenConsent
             settingHasGivenConsent.value
 
-            LocalData.registrationToken()
+            submissionSettings.autoSubmissionAttemptsCount
+            submissionSettings.autoSubmissionAttemptsLast
+            submissionSettings.autoSubmissionAttemptsCount
+            submissionSettings.autoSubmissionAttemptsLast
+            submissionSettings.registrationToken
+
+            registrationToken.value
             tekHistoryStorage.tekData
+            submissionSettings.symptoms
             settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
@@ -166,12 +174,13 @@ class SubmissionTaskTest : BaseTest() {
             analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
             tekHistoryStorage.clear()
+            submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
             BackgroundWorkScheduler.stopWorkScheduler()
-            LocalData.numberOfSuccessfulSubmissions(1)
+            submissionSettings.isSubmissionSuccessful = true
             BackgroundWorkScheduler.startWorkScheduler()
 
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
@@ -205,7 +214,7 @@ class SubmissionTaskTest : BaseTest() {
         coVerifySequence {
             settingHasGivenConsent.value
 
-            LocalData.registrationToken()
+            registrationToken.value
             tekHistoryStorage.tekData
             settingSymptomsPreference.value
 
@@ -233,7 +242,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `task throws if no registration token is available`() = runBlockingTest {
-        every { LocalData.registrationToken() } returns null
+        every { submissionSettings.registrationToken } returns mockFlowPreference(null)
 
         val task = createTask()
         shouldThrow<NoRegistrationTokenSetException> {
