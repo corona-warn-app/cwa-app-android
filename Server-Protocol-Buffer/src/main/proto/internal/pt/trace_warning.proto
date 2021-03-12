@@ -16,7 +16,7 @@ message TraceTimeIntervalWarning {
   string locationGuid = 1; // uuid
   // 10-minute intervals since UNIX Epoch
   uint32 startIntervalNumber = 2;
-  // 10-minute intervals since UNIX Epoch
-  uint32 endIntervalNumber = 3;
+  // Number of 10-minute intervals to which the warning applies
+  uint32 period = 3;
   uint32 transmissionRiskLevel = 4;
 }
