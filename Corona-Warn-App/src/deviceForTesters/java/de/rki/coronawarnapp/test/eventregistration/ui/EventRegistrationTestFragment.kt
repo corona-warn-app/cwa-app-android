@@ -52,6 +52,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             }
         }
         binding.runMatcher.setOnClickListener {
+            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
             viewModel.runMatcher()
         }
 
@@ -64,7 +65,6 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         }
 
         viewModel.checkInOverlaps.observe2(this) {
-            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
             if (it.isEmpty()) return@observe2
             val text = it.fold(StringBuilder()) { stringBuilder, eventOverlap ->
                 stringBuilder.append("Overlap ${eventOverlap.checkInGuid} ${eventOverlap.overlap.standardMinutes} min")
