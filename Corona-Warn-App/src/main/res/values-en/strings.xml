@@ -318,7 +318,7 @@
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Your exposure logging could not be updated for more than 24 hours."</string>
     <!-- YTXT: risk details - low risk explanation text -->
-    <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with COVID-19 was logged, or because your encounters were only for a short time and at a greater distance."</string>
+    <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with coronavirus was logged, or because your encounters were only for a short time and at a greater distance."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"The risk of infection is calculated locally on your smartphone, using exposure logging data. The calculation also takes into account distance and duration of any exposure to persons diagnosed with coronavirus, as well as their potential infectiousness. Your risk of infection cannot be seen by or passed on to anyone else."</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
@@ -326,7 +326,7 @@
     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
-    <string name="risk_details_information_body_increased_risk_date">"You have an increased risk of infection because you were exposed over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</string>
+    <string name="risk_details_information_body_increased_risk_date">"You have an increased risk of infection because you were exposed over a longer period of time and at close proximity to at least one person diagnosed with coronavirus."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with coronavirus."</item>
@@ -861,8 +861,22 @@
     <string name="debugging_debuglog_status_not_recording">"Inactive"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"Current size: %1$s (uncompressed)"</string>
+
+    <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_title">"Verification of Authenticity and Data Transfer to Third Countries"</string>
+    <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_first_section">"To confirm the authenticity of your app, your smartphone generates a unique identifier that contains information about the version of your smartphone and the app. This is necessary to ensure that only people who actually use the Corona-Warn-App can send data to technical support and rule out manipulated error reports. To do so, the identifier is sent to Google. In this process, data may be transferred to the U.S. or other third countries, where the level of data privacy may not correspond to European law and you may not be able to enforce your European rights to data privacy. In particular, security services in the third country could access and analyze the data with Google, even if there is no grounds for suspicion, and link this data with other information, for example. This only involves the identifier that is sent to Google. Google does not receive the information from your error report, however, Google may be able to determine your identity based on the identifier and track that the authenticity check was performed on your smartphone."</string>
+    <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_second_section">"If you do not consent to this transfer of your data to a third country, please do not tap on “Accept and Send”. You will still be able to use the app, but you cannot send error reports."</string>
+
+    <!-- YTXT: Dialog title if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_title">"Stop the error analysis?"</string>
     <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
-    <string name="debugging_debuglog_stop_confirmation_message">"The error report was deleted. If you have saved a local copy of the error report, it was not deleted."</string>
+    <string name="debugging_debuglog_stop_confirmation_message">"If you do so, all recorded data will be deleted. If you have saved a local copy of the error report, it will not be deleted."</string>
+    <!-- YTXT: Dialog confirmation button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_confirmation_button">"Stop Analysis"</string>
+    <!-- YTXT: Dialog discard button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_discard_button">"Continue Analysis"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"You need at least 200 MB of memory to start the error analysis. Please free up memory."</string>
     <!-- XHED: Dialog title if a user has stored a debug log locally -->
@@ -871,7 +885,6 @@
     <string name="debugging_debuglog_localexport_message">"The error analysis was saved locally."</string>
     <!-- YTXT: Dialog message if local export has failed -->
     <string name="debugging_debuglog_localexport_error_message">"The attempt to save the error report failed. Please check whether enough memory is available."</string>
-
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Detailed Information on Sending Error Reports"</string>
     <!-- YTXT: Section Title for debug legal screen -->
