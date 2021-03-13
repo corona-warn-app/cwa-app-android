@@ -60,7 +60,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Duration picker 1 minute step"
+                app:layout_constraintTop_toBottomOf="@id/duration_picker_2" />
+
+            <TextView
+                android:id="@+id/hours_slider_title"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hours range"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/hours_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="1.0"
+                android:valueFrom="1.0"
+                android:valueTo="24.0"
+                app:layout_constraintTop_toBottomOf="@id/hours_slider_title" />
+
+            <TextView
+                android:id="@+id/minutes_slider_title"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Minutes range"
+                app:layout_constraintTop_toBottomOf="@id/hours_slider" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/minutes_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="1.0"
+                android:valueFrom="1.0"
+                android:valueTo="60.0"
+                app:layout_constraintTop_toBottomOf="@id/minutes_slider_title" />
 
             <TextView
                 android:id="@+id/duration_value_2"
@@ -76,7 +110,7 @@
                 android:text="@string/duration_dialog_default_value"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/duration_picker_2" />
+                app:layout_constraintTop_toBottomOf="@id/minutes_slider" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

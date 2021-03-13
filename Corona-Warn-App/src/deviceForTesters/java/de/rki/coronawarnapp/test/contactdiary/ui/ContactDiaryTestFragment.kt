@@ -61,7 +61,8 @@ class ContactDiaryTestFragment :
                 val durationPicker = DurationPicker.Builder()
                     .duration(binding.durationValue.text.toString())
                     .title("Presence tracing title")
-                    .minutes(step = 1)
+                    .minutes(step = minutesSlider.value.toInt())
+                    .hours(step = hoursSlider.value.toInt())
                     .build()
                 durationPicker.show(parentFragmentManager, "PresenceTracing")
                 durationPicker.setDurationChangeListener {
