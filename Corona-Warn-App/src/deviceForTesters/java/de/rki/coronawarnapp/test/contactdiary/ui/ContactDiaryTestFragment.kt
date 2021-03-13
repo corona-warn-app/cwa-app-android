@@ -56,6 +56,18 @@ class ContactDiaryTestFragment :
                 durationPicker.setDurationChangeListener(this@ContactDiaryTestFragment)
                 durationPicker.show(parentFragmentManager, "ContactDiaryDurationPickerFragment")
             }
+
+            durationValue2.setOnClickListener {
+                val durationPicker = DurationPicker.Builder()
+                    .duration(binding.durationValue.text.toString())
+                    .title("Presence tracing title")
+                    .minutes(step = 1)
+                    .build()
+                durationPicker.show(parentFragmentManager, "PresenceTracing")
+                durationPicker.setDurationChangeListener {
+                    durationValue2.text = it.toContactDiaryFormat()
+                }
+            }
         }
     }
 
