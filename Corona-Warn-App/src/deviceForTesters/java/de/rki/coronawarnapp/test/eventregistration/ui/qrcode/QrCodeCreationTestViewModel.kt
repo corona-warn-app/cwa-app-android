@@ -13,6 +13,8 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.server.protocols.internal.AppConfig
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.files.FileSharing
@@ -26,7 +28,8 @@ import java.io.FileOutputStream
 class QrCodeCreationTestViewModel @AssistedInject constructor(
     private val dispatcher: DispatcherProvider,
     private val fileSharing: FileSharing,
-    @AppContext private val context: Context
+    @AppContext private val context: Context,
+    private val appConfigProvider: AppConfigProvider,
 ) : CWAViewModel(dispatcher) {
 
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
@@ -82,10 +85,15 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
         return File(dir, "CoronaWarnApp-Event.pdf")
     }
 
-    private fun encodeAsBitmap(input: String, size: Int = 1000): Bitmap? {
+    private suspend fun encodeAsBitmap(input: String, size: Int = 1000): Bitmap? {
         return try {
+            val qrCodeErrorCorrectionLevel = appConfigProvider
+                .getAppConfig()
+                .presenceTracing
+                .qrCodeErrorCorrectionLevel
+            Timber.i("QrCodeErrorCorrectionLevel: $qrCodeErrorCorrectionLevel")
             val hints = mapOf(
-                EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.H
+                EncodeHintType.ERROR_CORRECTION to qrCodeErrorCorrectionLevel
                 // This is not required in the specs and it should not be enabled
                 // it is causing crash on older Android versions ex:API 23
                 // EncodeHintType.CHARACTER_SET to Charsets.UTF_8
