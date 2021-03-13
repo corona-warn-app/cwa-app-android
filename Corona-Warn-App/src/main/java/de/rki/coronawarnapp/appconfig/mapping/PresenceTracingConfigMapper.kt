@@ -19,30 +19,26 @@ import javax.inject.Inject
 @Reusable
 class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.Mapper {
     override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): PresenceTracingConfig {
-        val hasPresenceTracingConfig = rawConfig.hasPresenceTracingParameters() &&
-            rawConfig.presenceTracingParameters.hasRiskCalculationParameters() &&
-            rawConfig.presenceTracingParameters.hasSubmissionParameters()
-
-        if (!hasPresenceTracingConfig) {
+        if (!rawConfig.hasPresenceTracingParameters()) {
             Timber.w("AppConfig does not have PresenceTracingParameters")
             return PresenceTracingConfigContainer(
-                qrCodeErrorCorrectionLevel = ErrorCorrectionLevel.L,
+                qrCodeErrorCorrectionLevel = ErrorCorrectionLevel.H,
                 revokedTraceLocationVersions = emptyList(),
-                riskCalculationParameters = emptyTracingRiskCalculationParamContainer(),
-                submissionParameters = emptyPresenceTracingSubmissionParamContainer()
+                riskCalculationParameters = emptyRiskCalculationParameters(),
+                submissionParameters = emptySubmissionParameters()
             )
         }
 
-        return rawConfig.presenceTracingConfig()
+        return rawConfig.presenceTracingConfig().also { Timber.i("PresenceTracingConfig: $it") }
     }
 
-    private fun emptyPresenceTracingSubmissionParamContainer() =
+    private fun emptySubmissionParameters() =
         PresenceTracingSubmissionParamContainer(
             durationFilters = emptyList(),
             aerosoleDecayLinearFunctions = emptyList()
         )
 
-    private fun emptyTracingRiskCalculationParamContainer() =
+    private fun emptyRiskCalculationParameters() =
         PresenceTracingRiskCalculationParamContainer(
             transmissionRiskValueMapping = emptyList(),
             normalizedTimePerCheckInToRiskLevelMapping = emptyList(),
@@ -68,17 +64,30 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
             QRCodeErrorCorrectionLevel.MEDIUM -> ErrorCorrectionLevel.M
             QRCodeErrorCorrectionLevel.HIGH -> ErrorCorrectionLevel.H
             QRCodeErrorCorrectionLevel.QUANTILE -> ErrorCorrectionLevel.Q
-            // Default correction error level in zxing
-            QRCodeErrorCorrectionLevel.UNRECOGNIZED -> ErrorCorrectionLevel.L
+            else -> ErrorCorrectionLevel.H
         }
 
     private fun AppConfigAndroid.ApplicationConfigurationAndroid.presenceTracingConfig() =
         presenceTracingParameters.run {
+            val riskCalculationParameters = if (hasRiskCalculationParameters()) {
+                riskCalculationParameters.mapRiskCalculationParameters()
+            } else {
+                Timber.w("RiskCalculationParameters are missing")
+                emptyRiskCalculationParameters()
+            }
+
+            val submissionParameters = if (hasSubmissionParameters()) {
+                submissionParameters.mapSubmissionParameters()
+            } else {
+                Timber.w("SubmissionParameters are missing")
+                emptySubmissionParameters()
+            }
+
             PresenceTracingConfigContainer(
                 qrCodeErrorCorrectionLevel = qrCodeErrorCorrectionLevel.mapErrorCorrection(),
-                revokedTraceLocationVersions = revokedTraceLocationVersionsList,
-                riskCalculationParameters = riskCalculationParameters.mapRiskCalculationParameters(),
-                submissionParameters = submissionParameters.mapSubmissionParameters()
+                revokedTraceLocationVersions = revokedTraceLocationVersionsList.orEmpty(),
+                riskCalculationParameters = riskCalculationParameters,
+                submissionParameters = submissionParameters
             )
         }
 }
