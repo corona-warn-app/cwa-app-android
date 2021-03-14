@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationContactBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.linkifyPhoneNumbers
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
@@ -20,6 +21,8 @@ class InformationContactFragment : Fragment(R.layout.fragment_information_contac
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+
+        binding.informationContactBodyOther.linkifyPhoneNumbers()
     }
 
     override fun onResume() {

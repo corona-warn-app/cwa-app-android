@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_test_result_available_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/submission_test_result_available_title"
+        android:fillViewport="true"
+        tools:context=".ui.submission.resultavailable.SubmissionTestResultAvailableFragment">
+
+        <include
+            android:id="@+id/submission_test_result_available_header"
+            layout="@layout/include_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_close}"
+            app:title="@{@string/submission_test_result_available_title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_action"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_test_result_available_header"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/submission_test_result_illustration_result_available"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:src="@drawable/ic_test_result_illustration_result_available"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    bind:cwaContentDescription="@{@string/submission_test_result_available_illustration_description}"
+                    tools:ignore="ContentDescription" />
+
+                <de.rki.coronawarnapp.ui.submission.consentstatus.ConsentStatusView
+                    android:id="@+id/submission_test_result_available_consent_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_illustration_result_available" />
+
+                <TextView
+                    android:id="@+id/submission_test_result_available_text"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:text="@string/submission_test_result_available_text_consent_given"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_available_consent_status" />
+
+                <include layout="@layout/merge_guidelines_side" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/submission_test_result_available_proceed_button"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_normal"
+            android:text="@string/submission_intro_button_next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/guideline_action" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_action" />
+
+        <include layout="@layout/merge_guidelines_side" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

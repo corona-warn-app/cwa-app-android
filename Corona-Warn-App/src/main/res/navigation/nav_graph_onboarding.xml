@@ -3,8 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_onboarding"
-    app:startDestination="@id/onboardingFragment">
+    app:startDestination="@id/loadingFragment">
 
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingLoadingFragment"
+        android:label="LoadingFragment"
+        tools:layout="@layout/onboaring_loading_layout">
+        <action
+            android:id="@+id/action_loadingFragment_to_newReleaseInfoFragment"
+            app:destination="@id/newReleaseInfoFragment" />
+        <action
+            android:id="@+id/action_loadingFragment_to_onboardingDeltaInteroperabilityFragment"
+            app:destination="@id/onboardingDeltaInteroperabilityFragment2" />
+        <action
+            android:id="@+id/action_loadingFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onboardingFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingFragment"
@@ -17,11 +32,17 @@
     <fragment
         android:id="@+id/onboardingNotificationsFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingNotificationsFragment"
-        android:label="OnboardingNotificationsFragment" />
+        android:label="OnboardingNotificationsFragment"
+        tools:layout="@layout/fragment_onboarding_notifications">
+        <action
+            android:id="@+id/action_onboardingNotificationsFragment_to_onboardingAnalyticsFragment"
+            app:destination="@id/onboardingAnalyticsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onboardingPrivacyFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyFragment"
-        android:label="OnboardingPrivacyFragment">
+        android:label="OnboardingPrivacyFragment"
+        tools:layout="@layout/fragment_onboarding_privacy">
         <action
             android:id="@+id/action_onboardingPrivacyFragment_to_onboardingTracingFragment"
             app:destination="@id/onboardingTracingFragment" />
@@ -29,7 +50,8 @@
     <fragment
         android:id="@+id/onboardingTestFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingTestFragment"
-        android:label="OnboardingTestFragment">
+        android:label="OnboardingTestFragment"
+        tools:layout="@layout/fragment_onboarding_test">
         <action
             android:id="@+id/action_onboardingTestFragment_to_onboardingNotificationsFragment"
             app:destination="@id/onboardingNotificationsFragment" />
@@ -37,9 +59,80 @@
     <fragment
         android:id="@+id/onboardingTracingFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragment"
-        android:label="OnboardingTracingFragment">
+        android:label="OnboardingTracingFragment"
+        tools:layout="@layout/fragment_onboarding_tracing">
         <action
             android:id="@+id/action_onboardingTracingFragment_to_onboardingTestFragment"
             app:destination="@id/onboardingTestFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/onboardingAnalyticsFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingAnalyticsFragment"
+        android:label="OnboardingAnalyticsFragment"
+        tools:layout="@layout/fragment_onboarding_ppa">
+        <action
+            android:id="@+id/action_onboardingAnalyticsFragment_to_analyticsUserInputFragment"
+            app:destination="@id/analyticsUserInputFragment" />
+        <action
+            android:id="@+id/action_onboardingAnalyticsFragment_to_ppaMoreInfoFragment"
+            app:destination="@id/ppaMoreInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/analyticsUserInputFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment"
+        android:label="AnalyticsUserInputFragment"
+        tools:layout="@layout/analytics_ppa_userinfo_input_fragment">
+        <argument
+            android:name="type"
+            app:argType="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment$InputType" />
+    </fragment>
+    <fragment
+        android:id="@+id/ppaMoreInfoFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
+        android:label="PpaMoreInfoFragment"
+        tools:layout="@layout/fragment_ppa_more_info" />
+
+    <!-- New Release -->
+    <fragment
+        android:id="@+id/newReleaseInfoFragment"
+        android:name="de.rki.coronawarnapp.release.NewReleaseInfoFragment"
+        tools:layout="@layout/new_release_info_screen_fragment"
+        android:label="NewReleaseInfoFragment">
+        <argument
+            android:name="comesFromInfoScreen"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_newReleaseInfoFragment_to_onboardingDeltaAnalyticsFragment"
+            app:destination="@id/onboardingDeltaAnalyticsFragment"
+            app:popUpTo="@id/loadingFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingDeltaAnalyticsFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsFragment"
+        android:label="OnboardingDeltaAnalyticsFragment"
+        tools:layout="@layout/fragment_onboarding_delta_ppa">
+        <action
+            android:id="@+id/action_onboardingDeltaAnalyticsFragment_to_analyticsUserInputFragment"
+            app:destination="@id/analyticsUserInputFragment" />
+        <action
+            android:id="@+id/action_onboardingDeltaAnalyticsFragment_to_ppaMoreInfoFragment"
+            app:destination="@id/ppaMoreInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingDeltaInteroperabilityFragment2"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragment"
+        android:label="OnboardingDeltaInteroperabilityFragment"
+        tools:layout="@layout/fragment_onboarding_delta_interoperability">
+        <action
+            android:id="@+id/action_onboardingDeltaInteroperabilityFragment_to_informationTermsFragment"
+            app:destination="@id/informationTermsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/informationTermsFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationTermsFragment"
+        android:label="@layout/fragment_information_terms"
+        tools:layout="@layout/fragment_information_terms" />
 </navigation>

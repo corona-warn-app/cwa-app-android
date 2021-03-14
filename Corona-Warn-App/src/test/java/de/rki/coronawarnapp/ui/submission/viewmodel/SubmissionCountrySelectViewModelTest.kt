@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.ui.submission.SubmissionCountry
 import io.kotest.inspectors.forAll
 import io.kotest.inspectors.forAtLeastOne
 import io.kotest.inspectors.forAtMostOne
-import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +19,7 @@ class SubmissionCountrySelectViewModelTest {
 
         viewModel.fetchCountries()
         // TODO: implement proper test one backend is merged
-        viewModel.countries.value!!.shouldHaveSize(2)
+        viewModel.countries.value!!.size shouldBe 2
     }
 
     @Test

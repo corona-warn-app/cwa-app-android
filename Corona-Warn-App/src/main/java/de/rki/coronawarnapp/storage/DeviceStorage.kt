@@ -8,6 +8,7 @@ import android.os.storage.StorageManager
 import android.text.format.Formatter
 import dagger.Reusable
 import de.rki.coronawarnapp.util.ApiLevel
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.storage.StatsFsProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 @Reusable
 class DeviceStorage @Inject constructor(
-    private val context: Context,
+    @AppContext private val context: Context,
     private val apiLevel: ApiLevel,
     private val statsFsProvider: StatsFsProvider
 ) {
@@ -30,7 +31,9 @@ class DeviceStorage @Inject constructor(
     @TargetApi(Build.VERSION_CODES.O)
     private fun requestStorageAPI26Plus(targetPath: File, requiredBytes: Long = -1L): CheckResult {
         Timber.tag(TAG).v(
-            "requestStorageAPI26Plus(path=%s, requiredBytes=%d)", targetPath, requiredBytes
+            "requestStorageAPI26Plus(path=%s, requiredBytes=%d)",
+            targetPath,
+            requiredBytes
 
         )
         val statsManager =
@@ -46,7 +49,9 @@ class DeviceStorage @Inject constructor(
             if (allocatableBytes + availableBytes >= requiredBytes) {
                 val toAllocate = requiredBytes - availableBytes
                 Timber.tag(TAG).v(
-                    "Not enough free space, allocating %d on %s.", requiredBytes, targetPath
+                    "Not enough free space, allocating %d on %s.",
+                    requiredBytes,
+                    targetPath
                 )
                 storageManager.allocateBytes(storageUUID, toAllocate)
                 availableBytes += toAllocate
@@ -64,7 +69,9 @@ class DeviceStorage @Inject constructor(
 
     private fun requestStorageLegacy(targetPath: File, requiredBytes: Long = -1L): CheckResult {
         Timber.tag(TAG).v(
-            "requestStorageAPI26Plus(path=%s, requiredBytes=%d)", targetPath, requiredBytes
+            "requestStorageAPI26Plus(path=%s, requiredBytes=%d)",
+            targetPath,
+            requiredBytes
         )
 
         val stats = statsFsProvider.createStats(targetPath)

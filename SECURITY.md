@@ -9,7 +9,7 @@ We are grateful for security researchers and users reporting a vulnerability to 
 **Please do not report security vulnerabilities directly on GitHub. GitHub Issues can be publicly seen and therefore would result in a direct disclosure.**
 
 * Please address questions about data privacy, security concepts, and other media requests to the corona-warn-app.opensource@sap.com mailbox.
-* For reporting a vulnerability, please use the Vulnerability Report Form for Security Researchers on [SAP Trust Center](https://www.sap.com/about/trust-center/incident-management.html).
+* For reporting a vulnerability, please use the Vulnerability Report Form for Security Researchers on [SAP Trust Center](https://www.sap.com/about/trust-center/security/incident-management.html).
   * Please select "Corona-Warn-App" in the _product_ list.
   * In the _versions_ field, either note the specific [release version](https://github.com/corona-warn-app/cwa-app-android/releases) or commit id of the master branch you investigated.
   * The affected repository should be mentioned in the _vulnerability description_.

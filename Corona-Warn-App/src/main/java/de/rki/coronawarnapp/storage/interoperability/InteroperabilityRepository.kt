@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.storage.interoperability
 
-import android.text.TextUtils
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.ui.Country
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
@@ -14,29 +12,15 @@ import javax.inject.Singleton
 
 @Singleton
 class InteroperabilityRepository @Inject constructor(
-    private val appConfigProvider: AppConfigProvider
+    private val appConfigProvider: AppConfigProvider,
+    private val settings: CWASettings
 ) {
 
-    fun saveInteroperabilityUsed() {
-        LocalData.isInteroperabilityShownAtLeastOnce = true
-    }
-
-    private val _countryList: MutableLiveData<List<Country>> = MutableLiveData(listOf())
-    val countryList = Transformations.distinctUntilChanged(_countryList)
-
-    init {
-        getAllCountries()
-    }
-
-    /**
-     * Gets all countries from @see ApplicationConfigurationService.asyncRetrieveApplicationConfiguration
-     * Also changes every country code to lower case
-     */
-    fun getAllCountries() {
-        runBlocking {
+    val countryList = appConfigProvider.currentConfig
+        .map { configData ->
             try {
-                val countries = appConfigProvider.getAppConfig()
-                    .supportedCountriesList
+                configData
+                    .supportedCountries
                     .mapNotNull { rawCode ->
                         val countryCode = rawCode.toLowerCase(Locale.ROOT)
 
@@ -44,12 +28,18 @@ class InteroperabilityRepository @Inject constructor(
                         if (mappedCountry == null) Timber.e("Unknown countrycode: %s", rawCode)
                         mappedCountry
                     }
-                _countryList.postValue(countries)
-                Timber.d("Country list: ${TextUtils.join(System.lineSeparator(), countries)}")
             } catch (e: Exception) {
-                Timber.e(e)
-                _countryList.postValue(listOf())
+                Timber.e(e, "Failed to map country list.")
+                emptyList()
             }
         }
+        .onEach { Timber.d("Country list: %s", it.joinToString(",")) }
+
+    suspend fun refreshCountries() {
+        appConfigProvider.getAppConfig()
+    }
+
+    fun saveInteroperabilityUsed() {
+        settings.wasInteroperabilityShownAtLeastOnce = true
     }
 }

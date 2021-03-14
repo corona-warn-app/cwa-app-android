@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="?selectableItemBackground"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/location_info"
+        style="@style/body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="EUR" />
+    <TextView
+        android:id="@+id/type_info"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/location_info"
+        app:layout_constraintEnd_toStartOf="@+id/creation_label"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/location_info"
+        app:layout_constraintTop_toTopOf="@+id/location_info"
+        tools:text="Day Package" />
+
+    <TextView
+        android:id="@+id/time_info"
+        style="@style/body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/type_info"
+        tools:text="2020-11-02 12:00" />
+
+    <TextView
+        android:id="@+id/creation_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_marginEnd="16dp"
+        android:text="Downloaded at"
+        app:layout_constraintBottom_toBottomOf="@+id/location_info"
+        app:layout_constraintEnd_toStartOf="@+id/progress_indicator"
+        app:layout_constraintTop_toTopOf="@+id/location_info" />
+
+    <TextView
+        android:id="@+id/creation_data"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/time_info"
+        app:layout_constraintEnd_toStartOf="@+id/progress_indicator"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/time_info"
+        app:layout_constraintTop_toTopOf="@+id/time_info"
+        tools:text="1111-11-11 11:11" />
+
+    <ProgressBar
+        android:id="@+id/progress_indicator"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

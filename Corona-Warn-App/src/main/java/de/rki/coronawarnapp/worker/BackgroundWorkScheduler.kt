@@ -3,11 +3,10 @@ package de.rki.coronawarnapp.worker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.Operation
-import androidx.work.WorkManager
 import androidx.work.WorkInfo
-import de.rki.coronawarnapp.BuildConfig
+import androidx.work.WorkManager
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import timber.log.Timber
 import java.util.concurrent.ExecutionException
 
@@ -18,7 +17,11 @@ import java.util.concurrent.ExecutionException
  * @see BackgroundConstants
  * @see BackgroundWorkHelper
  */
-object BackgroundWorkScheduler {
+object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
+
+    fun init(component: ApplicationComponent) {
+        component.inject(this)
+    }
 
     /**
      * Enum class for work tags
@@ -68,13 +71,12 @@ object BackgroundWorkScheduler {
      * Checks if periodic worker was already scheduled. If not - reschedule it again.
      * For [WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER] also checks if User is Registered
      *
-     * @see LocalData.registrationToken
+     * @see de.rki.coronawarnapp.submission.SubmissionSettings.registrationToken
      * @see isWorkActive
      */
     fun startWorkScheduler() {
         val notificationBody = StringBuilder()
         notificationBody.append("Jobs starting: ")
-        if (LocalData.numberOfSuccessfulSubmissions() > 0) return
         val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
         logWorkActiveStatus(
             WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag,
@@ -84,15 +86,17 @@ object BackgroundWorkScheduler {
             WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
             notificationBody.append("[DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK] ")
         }
-        if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
-            LocalData.registrationToken() != null && !LocalData.isTestResultNotificationSent()
-        ) {
-            WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
-            LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
-            notificationBody.append("[DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER]")
+        if (!submissionSettings.isSubmissionSuccessful) {
+            if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
+                submissionSettings.registrationToken.value != null &&
+                !tracingSettings.isTestResultAvailableNotificationSent
+            ) {
+                WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
+                tracingSettings.initialPollingForTestResultTimeStamp = System.currentTimeMillis()
+                notificationBody.append("[DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER]")
+            }
         }
-        BackgroundWorkHelper.sendDebugNotification(
-            "Background Job Starting", notificationBody.toString())
+        Timber.d("Background Job Starting: %s", notificationBody)
     }
 
     /**
@@ -144,14 +148,13 @@ object BackgroundWorkScheduler {
             workManager.cancelAllWorkByTag(workTag.tag)
                 .also { it.logOperationCancelByTag(workTag) }
         }
-        BackgroundWorkHelper.sendDebugNotification(
-            "All Background Jobs Stopped", "All Background Jobs Stopped")
+        Timber.d("All Background Jobs Stopped")
     }
 
     /**
-     * Schedule diagnosis key one time work
+     * Schedule diagnosis key periodic time work
      *
-     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK
+     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK
      */
     fun scheduleDiagnosisKeyPeriodicWork() {
         WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
@@ -178,10 +181,10 @@ object BackgroundWorkScheduler {
     /**
      * Schedule background noise one time work
      *
-     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK
+     * @see WorkType.BACKGROUND_NOISE_ONE_TIME_WORK
      */
     fun scheduleBackgroundNoiseOneTimeWork() {
-        WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK.start()
+        WorkType.BACKGROUND_NOISE_ONE_TIME_WORK.start()
     }
 
     /**
@@ -277,28 +280,24 @@ object BackgroundWorkScheduler {
      * Log operation schedule
      */
     private fun Operation.logOperationSchedule(workType: WorkType) =
-        this.result.addListener({
-            Timber.d("${workType.uniqueName} completed.")
-            BackgroundWorkHelper.sendDebugNotification(
-                "Background Job Started", "${workType.uniqueName} scheduled")
-        }, { it.run() })
-            .also { if (BuildConfig.DEBUG) Timber.d("${workType.uniqueName} scheduled.") }
+        this.result.addListener(
+            { Timber.d("${workType.uniqueName} completed.") },
+            { it.run() }
+        ).also { Timber.d("${workType.uniqueName} scheduled.") }
 
     /**
      * Log operation cancellation
      */
     private fun Operation.logOperationCancelByTag(workTag: WorkTag) =
-        this.result.addListener({
-            Timber.d("All work with tag ${workTag.tag} canceled.")
-            BackgroundWorkHelper.sendDebugNotification(
-                "Background Job canceled", "${workTag.tag} canceled")
-        }, { it.run() })
-            .also { if (BuildConfig.DEBUG) Timber.d("Canceling all work with tag ${workTag.tag}") }
+        this.result.addListener(
+            { Timber.d("All work with tag ${workTag.tag} canceled.") },
+            { it.run() }
+        ).also { Timber.d("Canceling all work with tag ${workTag.tag}") }
 
     /**
      * Log work active status
      */
     private fun logWorkActiveStatus(tag: String, active: Boolean) {
-        if (BuildConfig.DEBUG) Timber.d("Work type $tag is active: $active")
+        Timber.d("Work type $tag is active: $active")
     }
 }

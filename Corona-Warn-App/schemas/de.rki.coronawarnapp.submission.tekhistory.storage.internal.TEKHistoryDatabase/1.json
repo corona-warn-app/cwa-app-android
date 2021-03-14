@@ -1,0 +1,82 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "d63edaaa672685ab593a15e9deb02210",
+    "entities": [
+      {
+        "tableName": "tek_history",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `batchId` TEXT NOT NULL, `obtainedAt` TEXT NOT NULL, `keyData` BLOB NOT NULL, `rollingStartIntervalNumber` INTEGER NOT NULL, `transmissionRiskLevel` INTEGER NOT NULL, `rollingPeriod` INTEGER NOT NULL, `reportType` INTEGER NOT NULL, `daysSinceOnsetOfSymptoms` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "batchId",
+            "columnName": "batchId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "obtainedAt",
+            "columnName": "obtainedAt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "persistedTEK.keyData",
+            "columnName": "keyData",
+            "affinity": "BLOB",
+            "notNull": true
+          },
+          {
+            "fieldPath": "persistedTEK.rollingStartIntervalNumber",
+            "columnName": "rollingStartIntervalNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "persistedTEK.transmissionRiskLevel",
+            "columnName": "transmissionRiskLevel",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "persistedTEK.rollingPeriod",
+            "columnName": "rollingPeriod",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "persistedTEK.reportType",
+            "columnName": "reportType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "persistedTEK.daysSinceOnsetOfSymptoms",
+            "columnName": "daysSinceOnsetOfSymptoms",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd63edaaa672685ab593a15e9deb02210')"
+    ]
+  }
+}

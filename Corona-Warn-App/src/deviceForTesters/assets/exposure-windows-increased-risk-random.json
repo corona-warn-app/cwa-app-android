@@ -1,0 +1,690 @@
+[
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 2,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 299,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 2,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 2,
+    "scanInstances": [
+      {
+        "minAttenuation": 73,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 73,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 2,
+    "scanInstances": [
+      {
+        "minAttenuation": 72,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 72,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 2,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 1,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 299,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 1,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 3,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 2,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 4,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 1,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 2,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 3,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 2,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 4,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 1,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 2,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 2,
+    "calibrationConfidence": 0,
+    "infectiousness": 1,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 4,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 420,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 2,
+    "scanInstances": []
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 0,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 70,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  },
+  {
+    "ageInDays": 1,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 3,
+    "scanInstances": [
+      {
+        "minAttenuation": 70,
+        "secondsSinceLastScan": 0,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 70,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 70,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  }
+]

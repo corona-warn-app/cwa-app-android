@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
 
         <variable
             name="headline"
@@ -23,7 +22,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dispatcher_card"
-        style="@style/cardGrey"
+        style="@style/GreyCard.Ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -33,7 +32,7 @@
             android:id="@+id/dispatcher_card_title"
             style="@style/headline6"
             android:accessibilityHeading="true"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
@@ -50,23 +49,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:src="@drawable/ic_forward"
-            android:tint="@color/colorTextPrimary1"
             android:importantForAccessibility="no"
+            android:src="@drawable/ic_forward"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorTextPrimary1" />
 
         <TextView
             android:id="@+id/submission_dispatcher_card_text"
             style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:text="@{body}"
-            android:contentDescription="@{FormatterAccessibilityHelper.formatButton(body)}"
+            bind:cwaContentDescription="@{body}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_illustration"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="tracingDetailsState"
+            type="de.rki.coronawarnapp.tracing.ui.details.TracingDetailsState" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/risk_details_container"
+        android:layout_width="match_parent"
+        invisible="@{tracingDetailsState == null}"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/risk_details_accessibility_title">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAToolbar.Close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@{tracingDetailsState.getRiskColor(context)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/risk_details_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:titleTextColor="@{tracingDetailsState.getStableTextColor(context)}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/risk_details_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/risk_details_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackground"
+            android:paddingStart="@dimen/spacing_normal"
+            android:paddingTop="@dimen/spacing_small"
+            android:paddingEnd="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/spacing_small"
+            gone="@{!tracingDetailsState.isRiskLevelButtonGroupVisible()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/risk_details_button_enable_tracing"
+                style="@style/buttonPrimary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/risk_card_button_enable_tracing"
+                gone="@{!tracingDetailsState.isRiskDetailsEnableTracingButtonVisible()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/risk_card_button_enable_tracing" />
+
+            <Button
+                android:id="@+id/risk_details_button_update"
+                style="@style/buttonPrimary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:enabled="@{tracingDetailsState.isUpdateButtonEnabled()}"
+                android:text="@{tracingDetailsState.getUpdateButtonText(context)}"
+                gone="@{!tracingDetailsState.isRiskDetailsUpdateButtonVisible()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/risk_details_button_update" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

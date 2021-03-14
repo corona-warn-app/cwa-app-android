@@ -7,11 +7,13 @@ import org.joda.time.DateTimeZone
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import org.joda.time.chrono.GJChronology
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.math.RoundingMode
 import java.util.Date
+import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 object TimeAndDateExtensions {
@@ -54,6 +56,14 @@ object TimeAndDateExtensions {
     }
 
     /**
+     * Converts a Long to Instant or null if the long is 0 or null
+     */
+    fun Long?.toInstantOrNull(): Instant? =
+        if (this != null && this != 0L) {
+            Instant.ofEpochMilli(this)
+        } else null
+
+    /**
      * Converts milliseconds to human readable format hh:mm:ss
      *
      * @return String
@@ -61,7 +71,8 @@ object TimeAndDateExtensions {
      * @see TimeUnit
      */
     fun Long.millisecondsToHMS() = String.format(
-        "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(this),
+        "%02d:%02d:%02d",
+        TimeUnit.MILLISECONDS.toHours(this),
         TimeUnit.MILLISECONDS.toMinutes(this) % TimeUnit.HOURS.toMinutes(1),
         TimeUnit.MILLISECONDS.toSeconds(this) % TimeUnit.MINUTES.toSeconds(1)
     )
@@ -80,5 +91,11 @@ object TimeAndDateExtensions {
 
     fun LocalDate.ageInDays(now: LocalDate) = Days.daysBetween(this, now).days
 
-    fun Instant.toLocalDate() = this.toDateTime(DateTimeZone.UTC).toLocalDate()
+    fun Instant.toLocalDate(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
+
+    fun Instant.toLocalTime(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
+
+    val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
+
+    fun Instant.toUserTimeZone() = this.toDateTime(DateTimeZone.forTimeZone(TimeZone.getDefault()))
 }

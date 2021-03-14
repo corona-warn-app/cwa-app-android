@@ -1,29 +1,45 @@
 package de.rki.coronawarnapp.util
 
+import de.rki.coronawarnapp.util.HashExtensions.Format.BASE64
+import de.rki.coronawarnapp.util.HashExtensions.Format.HEX
+import okio.ByteString.Companion.toByteString
 import java.io.File
 import java.security.MessageDigest
 import java.util.Locale
 
 internal object HashExtensions {
 
-    fun String.toSHA256() = this.hashString("SHA-256")
+    enum class Format {
+        HEX, BASE64
+    }
 
-    fun String.toSHA1() = this.hashString("SHA-1")
+    fun ByteArray.toSHA256(format: Format = HEX) = this.hashByteArray("SHA-256", format)
 
-    fun String.toMD5() = this.hashString("MD5")
+    fun ByteArray.toSHA1(format: Format = HEX) = this.hashByteArray("SHA-1", format)
 
-    private fun ByteArray.formatHash(): String = this
-        .joinToString(separator = "") { String.format("%02X", it) }
-        .toLowerCase(Locale.ROOT)
+    fun ByteArray.toMD5(format: Format = HEX) = this.hashByteArray("MD5", format)
 
-    private fun String.hashString(type: String): String = MessageDigest
+    fun String.toSHA256(format: Format = HEX) = this.hashString("SHA-256", format)
+
+    fun String.toSHA1(format: Format = HEX) = this.hashString("SHA-1", format)
+
+    fun String.toMD5(format: Format = HEX) = this.hashString("MD5", format)
+
+    private fun String.hashString(type: String, format: Format): String = toByteArray().hashByteArray(type, format)
+
+    private fun ByteArray.hashByteArray(type: String, format: Format): String = MessageDigest
         .getInstance(type)
-        .digest(this.toByteArray())
-        .formatHash()
+        .digest(this)
+        .formatHash(format)
 
-    fun File.hashToMD5(): String = this.hashTo("MD5")
+    private fun ByteArray.formatHash(format: Format): String = when (format) {
+        HEX -> this.joinToString(separator = "") { String.format("%02X", it) }.toLowerCase(Locale.ROOT)
+        BASE64 -> this.toByteString().base64()
+    }
 
-    private fun File.hashTo(type: String): String = MessageDigest
+    fun File.hashToMD5(format: Format = HEX): String = this.hashTo("MD5", format)
+
+    private fun File.hashTo(type: String, format: Format): String = MessageDigest
         .getInstance(type)
         .let { md ->
             inputStream().use { stream ->
@@ -35,5 +51,5 @@ internal object HashExtensions {
             }
             md.digest()
         }
-        .formatHash()
+        .formatHash(format)
 }

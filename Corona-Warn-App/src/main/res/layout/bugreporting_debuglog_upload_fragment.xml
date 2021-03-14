@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@string/debugging_debuglog_share_log_title"
+    android:focusable="true">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.BackArrow.Transparent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/debugging_debuglog_share_log_title" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/spacing_small"
+        app:layout_constraintBottom_toTopOf="@id/upload_action"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/bugreporting_share_log_body_one"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:focusable="true"
+                android:text="@string/debugging_debuglog_share_log_section_one"
+                tools:text="@string/debugging_debuglog_share_log_section_one" />
+
+            <TextView
+                android:id="@+id/bugreporting_share_log_body_two"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                android:focusable="true"
+                android:text="@string/debugging_debuglog_share_log_section_two"
+                tools:text="@string/debugging_debuglog_share_log_section_two" />
+
+            <include
+                android:id="@+id/bugreporting_share_log_privacy_card"
+                layout="@layout/include_debugging_debuglog_share_privacy_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/guideline_card"
+                android:layout_marginVertical="24dp"
+                android:focusable="true" />
+
+            <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+                android:id="@+id/debug_log_privacy_information"
+                android:layout_marginHorizontal="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                app:titleText="@string/debugging_debuglog_share_log_privacy_information" />
+
+        </LinearLayout>
+
+    </ScrollView>
+    <android.widget.Button
+        android:id="@+id/upload_action"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/debugging_debuglog_share_log_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/debugging_debuglog_share_log_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

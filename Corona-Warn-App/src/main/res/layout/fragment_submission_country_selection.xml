@@ -21,12 +21,12 @@
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:focusable="true"
-            tools:context=".ui.submission.fragment.SubmissionIntroFragment">
+            tools:context=".ui.submission.fragment.SubmissionCountrySelectionFragment">
 
             <include
                 android:id="@+id/submission_country_selection_header"
                 layout="@layout/include_header"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:icon="@{@drawable/ic_back}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,7 @@
             <TextView
                 android:id="@+id/submission_country_selection_headline"
                 style="@style/headline5"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:accessibilityHeading="true"
@@ -49,7 +49,7 @@
             <include
                 android:id="@+id/submission_country_selection_selector"
                 layout="@layout/include_submission_country_selector"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_tiny"
                 android:layout_marginTop="@dimen/spacing_medium"
@@ -62,7 +62,7 @@
             <include
                 android:id="@+id/submission_country_selection_no_selection"
                 layout="@layout/include_submission_country_no_selection"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_tiny"
                 android:layout_marginTop="@dimen/spacing_small"
@@ -74,7 +74,7 @@
             <TextView
                 android:id="@+id/submission_country_selection_data_faq"
                 style="@style/body1"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:accessibilityHeading="true"
@@ -86,7 +86,7 @@
             <Button
                 android:id="@+id/submission_country_selection_button"
                 style="@style/buttonPrimary"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/spacing_normal"
                 android:enabled="@{submissionCountrySelectViewModel.nextActive}"

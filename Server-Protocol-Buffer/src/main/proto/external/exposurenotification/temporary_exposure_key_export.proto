@@ -1,0 +1,55 @@
+// This file is auto-generated, DO NOT make any changes here
+//https://static.googleusercontent.com/media/www.google.com/en//covid19/exposurenotifications/pdfs/Exposure-Key-File-Format-and-Verification.pdf
+syntax = "proto2";
+package de.rki.coronawarnapp.server.protocols.external.exposurenotification;
+
+import "external/exposurenotification/diagnosis_key_batch.proto";
+
+message TemporaryExposureKeyExport {
+  // Time window of keys in the file, based on arrival
+  // at the server, in UTC seconds.
+  optional fixed64 start_timestamp = 1;
+  optional fixed64 end_timestamp = 2;
+  // Region from which these keys came (for example, MCC).
+  optional string region = 3;
+  // Reserved for future use. Both batch_num and batch_size
+  // must be set to a value of 1.
+  optional int32 batch_num = 4;
+  optional int32 batch_size = 5;
+  // Information about associated signatures.
+  repeated SignatureInfo signature_infos = 6;
+  // The temporary exposure keys themselves.
+  repeated TemporaryExposureKey keys = 7;
+}
+message SignatureInfo {
+  // App Store app bundle ID.
+  optional string app_bundle_id = 1;
+  // Android app package name.
+  optional string android_package = 2;
+  // Key version in case the EN server signing key is rotated.
+  optional string verification_key_version = 3;
+  // Three-digit mobile country code (MCC) for validating the key file.
+  // If a region has more than one MCC, the server can choose
+  // which MCC to use. This value does not have to match the client's MCC,
+  // but must correspond to one of the supported MCCs for its region.
+  optional string verification_key_id = 4;
+  // All keys must be signed using the SHA-256 with ECDSA algorithm.
+  // This field must contain the string "1.2.840.10045.4.3.2".
+  optional string signature_algorithm = 5;
+}
+message TemporaryExposureKey {
+  // Key of infected user
+  optional bytes key_data = 1;
+  // Varying risk associated with a key depending on diagnosis method
+  optional int32 transmission_risk_level = 2;
+  // The interval number since epoch for which a key starts
+  optional int32 rolling_start_interval_number = 3;
+  // Increments of 10 minutes describing how long a key is valid
+  optional int32 rolling_period = 4
+      [default = 144]; // defaults to 24 hours
+  // Type of diagnosis associated with a key.
+  optional ReportType report_type = 5 [default = CONFIRMED_TEST];
+  // Number of days elapsed between symptom onset and the TEK being used.
+  // E.g. 2 means TEK is 2 days after onset of symptoms.
+  optional sint32 days_since_onset_of_symptoms = 6;
+}

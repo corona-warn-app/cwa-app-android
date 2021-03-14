@@ -1,0 +1,209 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "c9b87dec5a9991bf14dc60dee54d4181",
+    "entities": [
+      {
+        "tableName": "riskresults",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`monotonicId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` TEXT NOT NULL, `calculatedAt` TEXT NOT NULL, `failureReason` TEXT, `totalRiskLevel` INTEGER, `totalMinimumDistinctEncountersWithLowRisk` INTEGER, `totalMinimumDistinctEncountersWithHighRisk` INTEGER, `mostRecentDateWithLowRisk` TEXT, `mostRecentDateWithHighRisk` TEXT, `numberOfDaysWithLowRisk` INTEGER, `numberOfDaysWithHighRisk` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "monotonicId",
+            "columnName": "monotonicId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "calculatedAt",
+            "columnName": "calculatedAt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "failureReason",
+            "columnName": "failureReason",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aggregatedRiskResult.totalRiskLevel",
+            "columnName": "totalRiskLevel",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aggregatedRiskResult.totalMinimumDistinctEncountersWithLowRisk",
+            "columnName": "totalMinimumDistinctEncountersWithLowRisk",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aggregatedRiskResult.totalMinimumDistinctEncountersWithHighRisk",
+            "columnName": "totalMinimumDistinctEncountersWithHighRisk",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aggregatedRiskResult.mostRecentDateWithLowRisk",
+            "columnName": "mostRecentDateWithLowRisk",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aggregatedRiskResult.mostRecentDateWithHighRisk",
+            "columnName": "mostRecentDateWithHighRisk",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aggregatedRiskResult.numberOfDaysWithLowRisk",
+            "columnName": "numberOfDaysWithLowRisk",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aggregatedRiskResult.numberOfDaysWithHighRisk",
+            "columnName": "numberOfDaysWithHighRisk",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "monotonicId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "exposurewindows",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `riskLevelResultId` TEXT NOT NULL, `dateMillisSinceEpoch` INTEGER NOT NULL, `calibrationConfidence` INTEGER NOT NULL, `infectiousness` INTEGER NOT NULL, `reportType` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "riskLevelResultId",
+            "columnName": "riskLevelResultId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateMillisSinceEpoch",
+            "columnName": "dateMillisSinceEpoch",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "calibrationConfidence",
+            "columnName": "calibrationConfidence",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "infectiousness",
+            "columnName": "infectiousness",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reportType",
+            "columnName": "reportType",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "scaninstances",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `exposureWindowId` INTEGER NOT NULL, `minAttenuationDb` INTEGER NOT NULL, `secondsSinceLastScan` INTEGER NOT NULL, `typicalAttenuationDb` INTEGER NOT NULL, FOREIGN KEY(`exposureWindowId`) REFERENCES `exposurewindows`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exposureWindowId",
+            "columnName": "exposureWindowId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "minAttenuationDb",
+            "columnName": "minAttenuationDb",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondsSinceLastScan",
+            "columnName": "secondsSinceLastScan",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "typicalAttenuationDb",
+            "columnName": "typicalAttenuationDb",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_scaninstances_exposureWindowId",
+            "unique": false,
+            "columnNames": [
+              "exposureWindowId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_scaninstances_exposureWindowId` ON `${TABLE_NAME}` (`exposureWindowId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "exposurewindows",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "exposureWindowId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c9b87dec5a9991bf14dc60dee54d4181')"
+    ]
+  }
+}

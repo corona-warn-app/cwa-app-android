@@ -38,8 +38,8 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         // Set day content description for talk back
         textView.contentDescription = day.date.toString(talkBackDateFormat)
 
-        // If date is after today - then disable click listener
-        if (!day.date.isAfter(today)) {
+        // If date is after today or exceeds 21 days in the past- then disable click listener
+        if (!day.date.isAfter(today) && !day.date.isBefore(today.minusDays(ONSET_PERIOD))) {
             textView.setOnClickListener { clickListener(day) }
         }
 
@@ -48,23 +48,28 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             // Selected
             day.isSelected -> {
                 textView.setBackgroundResource(R.drawable.calendar_selected_day_back)
-                textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextEmphasizedButton))
+                textView.setTextColor(ContextCompat.getColor(context, R.color.colorCalendarTextSelected))
             }
             // Today
             day.date.isEqual(today) -> {
                 textView.setBackgroundResource(R.drawable.calendar_today_back)
                 textView.setTextColor(ContextCompat.getColor(context, R.color.colorCalendarTodayText))
             }
-            // Future
-            day.date.isAfter(today) -> {
+            // Future & past exceeding 21 days
+            day.date.isAfter(today) || day.date.isBefore(today.minusDays(ONSET_PERIOD)) -> {
                 textView.setBackgroundResource(0)
                 textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary3))
             }
             // Past
             day.date.isBefore(today) -> {
                 textView.setBackgroundResource(0)
-                textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary1))
+                textView.setTextColor(ContextCompat.getColor(context, R.color.colorCalendarTextUnselected))
             }
         }
+    }
+
+    companion object {
+        // Max number of days for the onset of symptoms to be calculated
+        private const val ONSET_PERIOD = 21
     }
 }

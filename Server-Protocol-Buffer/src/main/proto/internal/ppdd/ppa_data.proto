@@ -1,0 +1,180 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.ppdd;
+
+
+message PPADataIOS {
+
+  // for Plausible Deniability; can be ignored by the server
+  bytes requestPadding = 1;
+
+  // 0..1 entries expected
+  repeated ExposureRiskMetadata exposureRiskMetadataSet = 2;
+  // 0..n entries expected
+  repeated PPANewExposureWindow newExposureWindows = 3;
+  // 0..1 entries expected
+  repeated PPATestResultMetadata testResultMetadataSet = 4;
+  // 0..1 entries expected
+  repeated PPAKeySubmissionMetadata keySubmissionMetadataSet = 5;
+
+  PPAClientMetadataIOS clientMetadata = 6;
+  PPAUserMetadata userMetadata = 7;
+}
+
+message PPADataAndroid {
+
+  // for Plausible Deniability; can be ignored by the server
+  bytes requestPadding = 1;
+
+  // 0..n entries expected
+  repeated ExposureRiskMetadata exposureRiskMetadataSet = 2;
+  // 0..n entries expected
+  repeated PPANewExposureWindow newExposureWindows = 3;
+  // 0..1 entries expected
+  repeated PPATestResultMetadata testResultMetadataSet = 4;
+  // 0..1 entries expected
+  repeated PPAKeySubmissionMetadata keySubmissionMetadataSet = 5;
+
+  PPAClientMetadataAndroid clientMetadata = 6;
+  PPAUserMetadata userMetadata = 7;
+}
+
+message ExposureRiskMetadata {
+  PPARiskLevel riskLevel = 1;
+  bool riskLevelChangedComparedToPreviousSubmission = 2;
+  int64 mostRecentDateAtRiskLevel = 3;
+  bool dateChangedComparedToPreviousSubmission = 4;
+}
+
+message PPANewExposureWindow {
+  PPAExposureWindow exposureWindow = 1;
+  int32 transmissionRiskLevel = 2;
+  double normalizedTime = 3;
+}
+
+message PPATestResultMetadata {
+  PPATestResult testResult = 1;
+  int32 hoursSinceTestRegistration = 2;
+  PPARiskLevel riskLevelAtTestRegistration = 3;
+  int32 daysSinceMostRecentDateAtRiskLevelAtTestRegistration = 4;
+  int32 hoursSinceHighRiskWarningAtTestRegistration = 5;
+}
+
+message PPAKeySubmissionMetadata {
+  bool submitted = 1;
+  bool submittedInBackground = 2;
+  bool submittedAfterCancel = 3;
+  bool submittedAfterSymptomFlow = 4;
+  bool advancedConsentGiven = 5;
+  PPALastSubmissionFlowScreen lastSubmissionFlowScreen = 6;
+  int32 hoursSinceTestResult = 7;
+  int32 hoursSinceTestRegistration = 8;
+  int32 daysSinceMostRecentDateAtRiskLevelAtTestRegistration = 9;
+  int32 hoursSinceHighRiskWarningAtTestRegistration = 10;
+  bool submittedWithTeleTAN = 11;
+}
+
+enum PPARiskLevel {
+  RISK_LEVEL_UNKNOWN = 0;
+  RISK_LEVEL_NONE = 1;
+  RISK_LEVEL_LOW = 2;
+  RISK_LEVEL_HIGH = 3;
+}
+
+message PPAExposureWindow {
+  int64 date = 1;
+  PPAExposureWindowReportType reportType = 2;
+  PPAExposureWindowInfectiousness infectiousness = 3;
+  int32 calibrationConfidence = 4;
+  repeated PPAExposureWindowScanInstance scanInstances = 5;
+}
+
+message PPAExposureWindowScanInstance {
+  int32 typicalAttenuation = 1;
+  int32 minAttenuation = 2;
+  int32 secondsSinceLastScan = 3;
+}
+
+message PPAClientMetadataIOS {
+  PPASemanticVersion cwaVersion = 1;
+  PPASemanticVersion iosVersion = 2;
+  string appConfigETag = 3;
+}
+
+message PPAClientMetadataAndroid {
+  PPASemanticVersion cwaVersion = 1;
+  int64 androidApiLevel = 2;
+  int64 enfVersion = 3;
+  string appConfigETag = 4;
+}
+
+message PPAUserMetadata {
+  PPAFederalState federalState = 1;
+  // KreisIdSurvNet
+  int32 administrativeUnit = 2;
+  PPAAgeGroup ageGroup = 3;
+}
+
+message PPASemanticVersion {
+  uint32 major = 1;
+  uint32 minor = 2;
+  uint32 patch = 3;
+}
+
+enum PPAExposureWindowReportType {
+  REPORT_TYPE_UNKNOWN = 0;
+  REPORT_TYPE_CONFIRMED_TEST = 1;
+  REPORT_TYPE_CONFIRMED_CLINICAL_DIAGNOSIS = 2;
+  REPORT_TYPE_SELF_REPORT = 3;
+  REPORT_TYPE_RECURSIVE = 4;
+  REPORT_TYPE_REVOKED = 5;
+}
+
+enum PPAExposureWindowInfectiousness {
+  INFECTIOUSNESS_NONE = 0;
+  INFECTIOUSNESS_STANDARD = 1;
+  INFECTIOUSNESS_HIGH = 2;
+}
+
+enum PPATestResult {
+  TEST_RESULT_UNKNOWN = 0;
+  TEST_RESULT_PENDING = 1;
+  TEST_RESULT_NEGATIVE = 2;
+  TEST_RESULT_POSITIVE = 3;
+}
+
+enum PPALastSubmissionFlowScreen {
+  SUBMISSION_FLOW_SCREEN_UNKNOWN = 0;
+  SUBMISSION_FLOW_SCREEN_OTHER = 1;
+  SUBMISSION_FLOW_SCREEN_TEST_RESULT = 2;
+  SUBMISSION_FLOW_SCREEN_WARN_OTHERS = 3;
+  SUBMISSION_FLOW_SCREEN_SYMPTOMS = 4;
+  SUBMISSION_FLOW_SCREEN_SYMPTOM_ONSET = 5;
+}
+
+enum PPAFederalState {
+  FEDERAL_STATE_UNSPECIFIED = 0;
+  FEDERAL_STATE_BW = 1;
+  FEDERAL_STATE_BY = 2;
+  FEDERAL_STATE_BE = 3;
+  FEDERAL_STATE_BB = 4;
+  FEDERAL_STATE_HB = 5;
+  FEDERAL_STATE_HH = 6;
+  FEDERAL_STATE_HE = 7;
+  FEDERAL_STATE_MV = 8;
+  FEDERAL_STATE_NI = 9;
+  FEDERAL_STATE_NRW = 10;
+  FEDERAL_STATE_RP = 11;
+  FEDERAL_STATE_SL = 12;
+  FEDERAL_STATE_SN = 13;
+  FEDERAL_STATE_ST = 14;
+  FEDERAL_STATE_SH = 15;
+  FEDERAL_STATE_TH = 16;
+}
+
+enum PPAAgeGroup {
+  AGE_GROUP_UNSPECIFIED = 0;
+  AGE_GROUP_0_TO_29 = 1;
+  AGE_GROUP_30_TO_59 = 2;
+  AGE_GROUP_FROM_60 = 3;
+}

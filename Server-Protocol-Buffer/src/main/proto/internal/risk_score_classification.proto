@@ -1,0 +1,15 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal;
+
+
+message RiskScoreClassification {
+  repeated RiskScoreClass risk_classes = 1;
+}
+
+message RiskScoreClass {
+  string label = 1;
+  int32 min = 2;
+  int32 max = 3;
+  string url = 4;
+}

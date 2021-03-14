@@ -1,0 +1,14 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.stats;
+
+import "internal/stats/key_figure_card.proto";
+
+message Statistics {
+
+  // The sequence in which cards are displayed
+  // remove a cardId here to hide a card from the app
+  repeated int32 cardIdSequence = 1;
+
+  repeated KeyFigureCard keyFigureCards = 2;
+}

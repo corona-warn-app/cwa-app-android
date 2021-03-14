@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="body"
+            type="String" />
+
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/contact_diary_row_icon"
+            android:layout_width="@dimen/icon_size_risk_card"
+            android:layout_height="@dimen/icon_size_risk_card"
+            android:layout_marginTop="@dimen/spacing_mega_tiny"
+            android:importantForAccessibility="no"
+            android:src="@{icon}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_contact_diary_person" />
+
+        <TextView
+            android:id="@+id/contact_diary_row_body"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:text="@{body}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/contact_diary_row_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/lorem_ipsum"
+            tools:textColor="@color/colorStableLight" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

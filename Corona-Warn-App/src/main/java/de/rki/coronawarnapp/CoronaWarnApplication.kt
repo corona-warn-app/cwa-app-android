@@ -5,24 +5,35 @@ import android.app.Application
 import android.content.Context
 import android.content.IntentFilter
 import android.os.Bundle
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
+import android.view.WindowManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.work.Configuration
 import androidx.work.WorkManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
+import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
+import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
+import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
+import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
+import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
+import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.WatchdogService
+import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
@@ -33,50 +44,71 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var component: ApplicationComponent
 
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     @Inject lateinit var watchdogService: WatchdogService
+    @Inject lateinit var taskController: TaskController
+    @Inject lateinit var foregroundState: ForegroundState
+    @Inject lateinit var workManager: WorkManager
+    @Inject lateinit var configChangeDetector: ConfigChangeDetector
+    @Inject lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
+    @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
+    @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
+    @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
+    @Inject lateinit var autoSubmission: AutoSubmission
+    @Inject lateinit var submissionSettings: SubmissionSettings
+    @Inject lateinit var onboardingSettings: OnboardingSettings
+
+    @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
         instance = this
         super.onCreate()
         CWADebug.init(this)
 
-        Timber.v("onCreate(): Initializing Dagger")
-        AppInjector.init(this)
+        AppInjector.init(this).let { compPreview ->
+            Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
+            compPreview.encryptedMigration.doMigration()
 
-        Timber.v("onCreate(): Initializing WorkManager")
-        Configuration.Builder()
-            .apply { setMinimumLoggingLevel(android.util.Log.DEBUG) }.build()
-            .let { WorkManager.initialize(this, it) }
+            CWADebug.initAfterInjection(compPreview)
 
-        NotificationHelper.createNotificationChannel()
+            Timber.v("Completing application injection")
+            compPreview.inject(this)
+        }
+
+        BackgroundWorkScheduler.init(component)
+
+        Timber.plant(rollingLogHistory)
+
+        Timber.v("onCreate(): WorkManager setup done: $workManager")
+
+        notificationHelper.createNotificationChannel()
 
         // Enable Conscrypt for TLS1.3 Support below API Level 29
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
-        ProcessLifecycleOwner.get().lifecycle.addObserver(foregroundStateUpdater)
         registerActivityLifecycleCallbacks(activityLifecycleCallback)
 
-        // notification to test the WakeUpService from Google when the app was force stopped
-        BackgroundWorkHelper.sendDebugNotification(
-            "Application onCreate", "App was woken up"
-        )
         watchdogService.launch()
-    }
 
-    private val foregroundStateUpdater = object : LifecycleObserver {
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        fun onAppForegrounded() {
-            isAppInForeground = true
-            Timber.v("App is in the foreground")
+        foregroundState.isInForeground
+            .onEach { isAppInForeground = it }
+            .launchIn(GlobalScope)
+
+        if (onboardingSettings.isOnboarded) {
+            if (!submissionSettings.isAllowedToSubmitKeys) {
+                deadmanNotificationScheduler.schedulePeriodic()
+            }
+            contactDiaryWorkScheduler.schedulePeriodic()
         }
 
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        fun onAppBackgrounded() {
-            isAppInForeground = false
-            Timber.v("App is in the background")
-        }
+        deviceTimeHandler.launch()
+        configChangeDetector.launch()
+        riskLevelChangeDetector.launch()
+        autoSubmission.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
@@ -90,10 +122,11 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
                 localBM.unregisterReceiver(it)
                 errorReceiver = null
             }
+            disableAppLauncherPreviewAndScreenshots(activity)
         }
 
         override fun onActivityStarted(activity: Activity) {
-            // NOOP
+            enableAppLauncherPreviewAndScreenshots(activity)
         }
 
         override fun onActivityDestroyed(activity: Activity) {
@@ -105,7 +138,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         }
 
         override fun onActivityStopped(activity: Activity) {
-            // NOOP
+            disableAppLauncherPreviewAndScreenshots(activity)
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -121,7 +154,16 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             errorReceiver = ErrorReportReceiver(activity).also {
                 localBM.registerReceiver(it, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
             }
+            enableAppLauncherPreviewAndScreenshots(activity)
         }
+    }
+
+    private fun enableAppLauncherPreviewAndScreenshots(activity: Activity) {
+        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
+    private fun disableAppLauncherPreviewAndScreenshots(activity: Activity) {
+        activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 
     companion object {

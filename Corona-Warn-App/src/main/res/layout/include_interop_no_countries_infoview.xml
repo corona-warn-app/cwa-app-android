@@ -6,8 +6,6 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
-
     </data>
 
 

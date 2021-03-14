@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                 Release Info Screen 1.14
+     ###################################### -->
+
+    <!-- XHED: Title for the release info screen -->
+    <string name="release_info_header">"Nowe funkcje"</string>
+    <!-- XHED: Version title for the release info screen -->
+    <string name="release_info_version_title">"Wersja %1$s"</string>
+    <!-- XTXT: Description for the release info screen -->
+    <string name="release_info_version_body">"Oprócz poprawek błędów ta aktualizacja zawiera również nowe i ulepszone funkcje."</string>
+    <!-- XBUT: Continue button for the release info screen -->
+    <string name="release_info_continue_button">"Dalej"</string>
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">"Dane o zmianach w tej wersji można znaleźć w informacjach o aplikacji w sekcji „Nowe funkcje”."</string>
+
+    <!-- XHED: Titles for the release info screen bullet points -->
+    <string-array name="new_release_title">
+        <item>"Do międzynarodowego rejestrowania narażenia dodano Szwajcarię."</item>
+        <item>"Generowanie raportów o błędach"</item>
+    </string-array>
+
+    <!-- XTXT: Text bodies for the release info screen bullet points -->
+    <string-array name="new_release_body">
+        <item>"Użytkownicy aplikacji Corona-Warn-App mogą teraz wymieniać zaszyfrowane losowe identyfikatory z użytkownikami oficjalnej aplikacji ostrzegawczej w Szwajcarii. Oznacza to, że ostrzeżenia mogą być teraz wysyłane do użytkowników aplikacji w Szwajcarii i od nich odbierane."</item>
+        <item>"Na prośbę działu wsparcia technicznego możesz teraz wygenerować raport o błędach i zapisać czynności wykonane w aplikacji. Ułatwi to analizę błędów technicznych i przyśpieszy ich usuwanie."</item>
+    </string-array>
+
+    <!-- XTXT: Text labels that will be converted to Links -->
+    <string-array name="new_release_linkified_labels">
+        <item/>
+        <item/>
+    </string-array>
+
+    <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
+    <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
+    </string-array>
+
+</resources>

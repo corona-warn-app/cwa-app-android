@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:focusable="true"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/contact_diary_day_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/contact_diary_background"
+            android:elevation="@dimen/elevation_weak"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/CWAToolbar.BackArrow"
+            tools:title="Mittwoch, 23.12.2020" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/contact_diary_day_tab_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/contact_diary_background"
+            android:elevation="@dimen/elevation_weak"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_day_header"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabTextColor="@color/contact_diary_tab_text_color" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/contact_diary_day_view_pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_day_tab_layout" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/contact_diary_day_fab"
+            style="@style/Widget.App.ExtendedFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:text="@string/contact_diary_day_person_fab_title"
+            app:icon="@android:drawable/ic_input_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

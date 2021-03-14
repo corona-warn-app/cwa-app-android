@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.4.0'
+    ext.kotlin_version = '1.4.21'
     ext.protobufVersion = '0.8.12'
     ext.navVersion = "2.2.2"
 
@@ -13,12 +13,17 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        // https://issuetracker.google.com/issues/176381203
+        // Fixed in bleeding-edge
+        // Can be upgraded once new Android version is released or
+        // the specific version is available via maven
+        classpath 'com.android.tools:r8:2.0.88'
+        classpath 'com.android.tools.build:gradle:4.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.protobuf:protobuf-gradle-plugin:$protobufVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.9.1"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.4.1"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.16.0-RC1"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -57,8 +62,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-//        mavenLocal()
-
     }
 }
 
@@ -67,7 +70,7 @@ task clean(type: Delete) {
 }
 
 wrapper {
-    gradleVersion = "6.1.1"
+    gradleVersion = "6.7.1"
     distributionType = "all"
 }
 

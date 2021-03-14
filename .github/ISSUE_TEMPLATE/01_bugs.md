@@ -17,13 +17,15 @@ Also, be sure to check our documentation first: https://github.com/corona-warn-a
 * [ ] Bug is specific for Android only, for general issues / questions that apply to iOS and Android please raise them in the [documentation repository](https://github.com/corona-warn-app/cwa-documentation)
 * [ ] Bug is not already reported in another issue
 
+## Technical details
+
+- Device name:
+- Android version:
+- App version:
+
 ## Describe the bug
 
 <!-- Describe your issue, but please be descriptive! Thanks again 🙌 ❤️ -->
-
-## Expected behaviour
-
-<!-- A clear and concise description of what you expected to happen. -->
 
 ## Steps to reproduce the issue
 
@@ -36,10 +38,9 @@ Also, be sure to check our documentation first: https://github.com/corona-warn-a
 4. See error
 -->
 
-## Technical details
+## Expected behaviour
 
-- Mobile device:
-- Android version:
+<!-- A clear and concise description of what you expected to happen. -->
 
 ## Possible Fix
 

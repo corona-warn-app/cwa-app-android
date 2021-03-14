@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/privacy_card"
+        style="@style/GreyCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_normal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/privacy_card_title"
+            style="@style/headline6"
+            android:accessibilityHeading="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_consent_your_consent_subsection_headline"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/privacy_card_text_part_first"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_no_consent_your_consent_subsection_body_first_part"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/privacy_card_title" />
+
+        <TextView
+            android:id="@+id/privacy_card_text_part_second"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_no_consent_your_consent_subsection_body_second_part"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/privacy_card_text_part_first" />
+
+        <TextView
+            android:id="@+id/privacy_card_text_part_third"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_no_consent_your_consent_subsection_body_third_part"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/privacy_card_text_part_second" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

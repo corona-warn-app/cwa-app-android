@@ -68,18 +68,6 @@ object BackgroundConstants {
      * Total tries count for diagnosis key retrieval per day
      * Internal requirement
      */
-    const val DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY = 12
-
-    /**
-     * Maximum tries count for diagnosis key retrieval per day
-     * Google API limit
-     */
-    const val GOOGLE_API_MAX_CALLS_PER_DAY = 20
-
-    /**
-     * Total tries count for diagnosis key retrieval per day
-     * Internal requirement
-     */
     const val DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY = 12
 
     /**

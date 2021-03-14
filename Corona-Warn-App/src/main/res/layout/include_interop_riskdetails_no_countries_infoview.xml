@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
-
-    </data>
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/cardTracing"

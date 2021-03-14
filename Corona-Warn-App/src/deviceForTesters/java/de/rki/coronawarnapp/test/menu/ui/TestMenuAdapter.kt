@@ -24,7 +24,7 @@ class TestMenuAdapter @Inject constructor() : BaseAdapter<TestMenuAdapter.VH>() 
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): VH = VH(parent)
 
-    override fun onBindBaseVH(holder: VH, position: Int) {
+    override fun onBindBaseVH(holder: VH, position: Int, payloads: MutableList<Any>) {
         holder.apply {
             val item = internalData[position]
             bind(item)

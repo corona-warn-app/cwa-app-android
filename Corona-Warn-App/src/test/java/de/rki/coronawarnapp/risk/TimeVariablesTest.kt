@@ -6,8 +6,9 @@ import io.mockk.every
 import io.mockk.mockkObject
 import org.junit.Assert
 import org.junit.Test
+import testhelpers.BaseTest
 
-class TimeVariablesTest {
+class TimeVariablesTest : BaseTest() {
 
     @Test
     fun getDeactivationTracingMeasureThresholdTimeRange() {
@@ -32,11 +33,6 @@ class TimeVariablesTest {
     @Test
     fun getMinActivatedTracingTime() {
         Assert.assertEquals(TimeVariables.getMinActivatedTracingTime(), 24)
-    }
-
-    @Test
-    fun getMaxStaleExposureRiskRange() {
-        Assert.assertEquals(TimeVariables.getMaxStaleExposureRiskRange(), 48)
     }
 
     @Test

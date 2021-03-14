@@ -11,28 +11,45 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.environment.BuildConfigWrap
+import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.AppShortcuts
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
 import javax.inject.Inject
 
 /**
  * This activity holds all the onboarding fragments and isn't used after a successful onboarding flow.
  *
- * @see LocalData
  */
 class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInjector {
     companion object {
         private val TAG: String? = OnboardingActivity::class.simpleName
+        private const val EXTRA_DATA = "shortcut"
 
-        fun start(context: Context) {
-            val intent = Intent(context, OnboardingActivity::class.java)
+        fun start(context: Context, shortcut: AppShortcuts? = null) {
+            val intent = Intent(context, OnboardingActivity::class.java).apply {
+                putExtra(EXTRA_DATA, shortcut?.toString())
+            }
             context.startActivity(intent)
+        }
+
+        fun getShortcutFromIntent(intent: Intent?): AppShortcuts? {
+            intent?.getStringExtra(EXTRA_DATA)?.let {
+                return AppShortcuts.valueOf(it)
+            }
+            return null
         }
     }
 
     @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
+
+    @Inject lateinit var settings: CWASettings
+    @Inject lateinit var onboardingSettings: OnboardingSettings
+    @Inject lateinit var timeStamper: TimeStamper
 
     private val FragmentManager.currentNavigationFragment: Fragment?
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
@@ -56,8 +73,12 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
     }
 
     fun completeOnboarding() {
-        LocalData.isOnboarded(true)
-        LocalData.onboardingCompletedTimestamp(System.currentTimeMillis())
+        onboardingSettings.onboardingCompletedTimestamp = timeStamper.nowUTC
+
+        settings.lastChangelogVersion.update {
+            BuildConfigWrap.VERSION_CODE
+        }
+
         MainActivity.start(this)
         finish()
     }

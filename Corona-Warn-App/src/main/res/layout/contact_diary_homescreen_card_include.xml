@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/contact_diary_card_homescreen_title"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="@dimen/card_padding"
+            android:accessibilityHeading="true"
+            android:focusable="false"
+            android:text="@string/contact_diary_homescreen_card_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/contact_diary_card_homescreen_body"
+            style="@style/subtitleMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:focusable="false"
+            android:text="@string/contact_diary_homescreen_card_body"
+            app:layout_constraintEnd_toStartOf="@+id/contact_diary_card_homescreen_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_card_homescreen_title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/contact_diary_card_homescreen_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:contentDescription="@string/contact_diary_homescreen_card_image_content_description"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/contact_diary_card_homescreen_body"
+            app:srcCompat="@drawable/ic_diary_book" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/submission_status_card_unregistered_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="contact_diary_card_homescreen_icon,contact_diary_card_homescreen_body" />
+
+        <Button
+            android:id="@+id/contact_diary_card_homescreen_button"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/card_padding"
+            android:layout_marginBottom="@dimen/card_padding"
+            android:text="@string/contact_diary_homescreen_card_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_barrier" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

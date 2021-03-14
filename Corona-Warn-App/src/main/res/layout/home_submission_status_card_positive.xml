@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/card_padding"
+        tools:showIn="@layout/home_card_container_layout">
+
+        <TextView
+            android:id="@+id/submission_status_card_positive_title"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:accessibilityHeading="true"
+            android:text="@string/submission_status_card_title_positive"
+            app:layout_constraintEnd_toStartOf="@id/submission_status_card_positive_next"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/submission_status_card_positive_next"
+            layout="@layout/include_button_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_forward}"
+            app:iconDescription="@{@string/accessibility_next}"
+            app:layout_constraintBottom_toBottomOf="@+id/submission_status_card_positive_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/submission_status_card_positive_title" />
+
+        <include
+            android:id="@+id/submission_status_card_positive_result_card"
+            layout="@layout/include_test_result_card_positive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_title" />
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/include_divider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_card" />
+
+        <TextView
+            android:id="@+id/submission_status_card_positive_result_subtitle"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:accessibilityHeading="true"
+            android:text="@string/submission_status_card_positive_result_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <include
+            android:id="@+id/submission_status_card_positive_result_contact"
+            layout="@layout/include_submission_behaviour_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:body="@{@string/submission_status_card_positive_result_contact}"
+            app:icon="@{@drawable/ic_risk_details_contact}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_subtitle" />
+
+        <include
+            android:id="@+id/submission_status_card_positive_result_contagious"
+            layout="@layout/include_submission_behaviour_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:body="@{@string/submission_status_card_positive_result_contagious}"
+            app:icon="@{@drawable/ic_submission_home}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_contact" />
+
+        <include
+            android:id="@+id/submission_status_card_positive_result_share"
+            layout="@layout/include_submission_behaviour_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:body="@{@string/submission_status_card_positive_result_share}"
+            app:icon="@{@drawable/ic_submission_share}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_contagious" />
+
+        <Button
+            android:id="@+id/submission_status_card_positive_button"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_test_result_positive_no_consent_button_warn_others"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_share" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

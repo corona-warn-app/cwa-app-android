@@ -3,12 +3,12 @@ package de.rki.coronawarnapp.submission.server
 import android.content.Context
 import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.http.HttpModule
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -49,7 +49,6 @@ class SubmissionServerTest : BaseTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         webServer.shutdown()
         testDir.deleteRecursively()
     }
@@ -67,16 +66,16 @@ class SubmissionServerTest : BaseTest() {
             arg<String>(0) shouldBe "testAuthCode"
             arg<String>(1) shouldBe "0"
             arg<String>(2) shouldBe ""
-            arg<KeyExportFormat.SubmissionPayload>(3).apply {
+            arg<SubmissionPayloadOuterClass.SubmissionPayload>(3).apply {
                 keysList.single().keyData shouldBe testKeyData
-                padding.size() shouldBe 364
+                requestPadding.size() shouldBe 364
                 hasConsentToFederation() shouldBe true
                 visitedCountriesList shouldBe listOf("DE")
             }
             Unit
         }
 
-        val googleKeyList = KeyExportFormat.TemporaryExposureKey
+        val googleKeyList = TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
             .newBuilder()
             .setKeyData(testKeyData)
             .build()
@@ -85,7 +84,7 @@ class SubmissionServerTest : BaseTest() {
             authCode = "testAuthCode",
             keyList = listOf(googleKeyList),
             consentToFederation = true,
-            visistedCountries = listOf("DE")
+            visitedCountries = listOf("DE")
         )
         server.submitKeysToServer(submissionData)
 
@@ -99,9 +98,9 @@ class SubmissionServerTest : BaseTest() {
             arg<String>(0) shouldBe "" // cwa-authorization
             arg<String>(1) shouldBe "1" // cwa-fake
             arg<String>(2).length shouldBe 36 // cwa-header-padding
-            arg<KeyExportFormat.SubmissionPayload>(3).apply {
+            arg<SubmissionPayloadOuterClass.SubmissionPayload>(3).apply {
                 keysList.size shouldBe 0
-                padding.size() shouldBe 392
+                requestPadding.size() shouldBe 392
                 hasConsentToFederation() shouldBe false
                 visitedCountriesList shouldBe emptyList()
             }
@@ -137,7 +136,7 @@ class SubmissionServerTest : BaseTest() {
         val server = createServer(createRealApi())
 
         val testKeyData = ByteString.copyFrom("TestKeyDataGoogle", Charsets.UTF_8)
-        val googleKeyList = KeyExportFormat.TemporaryExposureKey
+        val googleKeyList = TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
             .newBuilder()
             .setKeyData(testKeyData)
             .build()
@@ -145,7 +144,7 @@ class SubmissionServerTest : BaseTest() {
             authCode = "39ec4930-7a1f-4d5d-921f-bfad3b6f1269",
             keyList = listOf(googleKeyList),
             consentToFederation = true,
-            visistedCountries = listOf("DE")
+            visitedCountries = listOf("DE")
         )
         webServer.enqueue(MockResponse().setBody("{}"))
         server.submitKeysToServer(submissionData)

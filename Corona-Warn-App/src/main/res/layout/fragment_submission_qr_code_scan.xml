@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
-
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_qr_code_scan_container"
@@ -16,8 +12,8 @@
 
         <com.journeyapps.barcodescanner.BarcodeView
             android:id="@+id/submission_qr_code_scan_preview"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +25,8 @@
 
         <com.journeyapps.barcodescanner.ViewfinderView
             android:id="@+id/submission_qr_code_scan_viewfinder_view"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,12 +70,13 @@
                 style="@style/iconStable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@{FormatterAccessibilityHelper.formatImage(@string/accessibility_close)"
+                bind:cwaContentDescription="@{@string/accessibility_close}"
                 android:src="@drawable/ic_close"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

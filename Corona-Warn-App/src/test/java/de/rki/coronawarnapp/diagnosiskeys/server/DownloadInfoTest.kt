@@ -10,10 +10,8 @@ class DownloadInfoTest : BaseTest() {
     @Test
     fun `extract server MD5`() {
         val info = DownloadInfo(
-            headers = Headers.headersOf("ETAG", "serverMD5"),
-            localMD5 = "localMD5"
+            headers = Headers.headersOf("ETag", "\"etag\"")
         )
-        info.serverMD5 shouldBe "serverMD5"
-        info.localMD5 shouldBe "localMD5"
+        info.etag shouldBe "\"etag\""
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/bullet_point"
+        android:layout_width="@dimen/bullet_point_size"
+        android:layout_height="@dimen/bullet_point_size"
+        android:baseline="@dimen/bullet_point_baseline_offset"
+        android:src="@drawable/bullet_point"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:showIn="@layout/include_submission_consent_body" />
+</layout>

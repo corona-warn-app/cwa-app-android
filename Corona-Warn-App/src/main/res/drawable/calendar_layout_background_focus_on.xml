@@ -4,5 +4,5 @@
     <corners android:radius="@dimen/radius_card" />
     <stroke
         android:width="@dimen/calendar_layout_stroke"
-        android:color="@color/colorCalendarLayoutFocusOn" />
+        android:color="@color/colorCalendarBackgroundSelected" />
 </shape>

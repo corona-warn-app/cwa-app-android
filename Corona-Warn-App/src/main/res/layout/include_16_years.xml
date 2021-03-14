@@ -2,59 +2,42 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="headline"
-            type="String" />
-
-        <variable
-            name="body"
-            type="String" />
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sixteen_years"
-        style="@style/SixteenInclude"
+        style="@style/Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true">
+        android:layout_margin="@dimen/spacing_small"
+        android:backgroundTint="@color/colorCardBackgroundHighlightGray"
+        android:focusable="true"
+        android:padding="@dimen/card_padding"
+        android:textColor="@color/colorStableLight">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/sixteen_years_header"
-            android:layout_width="@dimen/match_constraint"
+        <TextView
+            android:id="@+id/sixteen_years_headline"
+            style="@style/headline6Sixteen"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
+            android:contentDescription="@string/sixteen_title_text"
+            android:text="@string/sixteen_title_text"
+            android:textColor="@color/colorTextPrimary1InvertedStable"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/sixteen_years_headline"
-                style="@style/headline6Sixteen"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_small"
-                android:accessibilityHeading="true"
-                android:contentDescription="@{headline}"
-                android:text="@{headline}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/sixteen_years_body"
             style="@style/subtitleSixteen"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:text="@{body}"
+            android:text="@string/sixteen_description_text"
+            android:textColor="@color/colorTextPrimary1InvertedStable"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sixteen_years_header" />
+            app:layout_constraintTop_toBottomOf="@+id/sixteen_years_headline" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

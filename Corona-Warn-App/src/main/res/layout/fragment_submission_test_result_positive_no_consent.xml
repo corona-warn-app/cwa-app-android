@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_test_result_layout"
+        android:contentDescription="@string/submission_test_result_headline"
+        android:accessibilityLiveRegion="assertive"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/submission_test_result_consent_given_header"
+            layout="@layout/include_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_close}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/submission_test_result_consent_given_heading}" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/submission_test_result_consent_given_header"
+            app:layout_constraintBottom_toTopOf="@id/submission_test_result_positive_no_consent_button_warn_others">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/submission_test_result_container"
+                android:contentDescription="@string/submission_test_result_headline"
+                android:accessibilityLiveRegion="assertive"
+                android:paddingHorizontal="@dimen/spacing_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.rki.coronawarnapp.ui.view.TestResultSectionView
+                    android:id="@+id/submission_test_result_section"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:focusable="true"
+                    android:importantForAccessibility="yes"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/submission_test_result_positive_no_consent_subtitle"
+                    style="@style/headline5"
+                    android:accessibilityHeading="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:text="@string/submission_test_result_positive_no_consent_subtitle"
+                    tools:text="Bitte helfen Sie mit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_section" />
+
+                <ImageView
+                    android:id="@+id/submission_test_result_positive_no_consent_icon_1"
+                    android:layout_width="@dimen/circle_icon_big"
+                    android:layout_height="@dimen/circle_icon_big"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@drawable/circle"
+                    android:backgroundTint="@color/button_red"
+                    android:importantForAccessibility="no"
+                    android:padding="@dimen/circle_icon_padding"
+                    android:src="@drawable/ic_submission_share"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_subtitle"
+                    app:tint="@color/colorStableLight" />
+
+                <TextView
+                    android:id="@+id/submission_test_result_positive_no_consent_text_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginStart="@dimen/spacing_small"
+                    tools:text="Helfen Sie mit, Ihre Mitmenschen vor Ansteckungen zu schützen und teilen Sie Ihr Testergebnis."
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_subtitle"
+                    app:layout_constraintStart_toEndOf="@id/submission_test_result_positive_no_consent_icon_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/submission_test_result_positive_no_consent_text_1"
+                    style="@style/subtitle" />
+
+                <ImageView
+                    android:id="@+id/submission_test_result_positive_no_consent_icon_2"
+                    android:layout_width="@dimen/circle_icon_big"
+                    android:layout_height="@dimen/circle_icon_big"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@drawable/circle"
+                    android:backgroundTint="@color/button_red"
+                    android:src="@drawable/ic_lock"
+                    android:importantForAccessibility="no"
+                    android:padding="@dimen/circle_icon_big_padding"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_text_1"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/submission_test_result_positive_no_consent_text_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginStart="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_text_1"
+                    app:layout_constraintStart_toEndOf="@id/submission_test_result_positive_no_consent_icon_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/submission_test_result_positive_no_consent_text_2"
+                    style="@style/subtitle" />
+
+                <ImageView
+                    android:id="@+id/submission_test_result_positive_no_consent_icon_3"
+                    android:layout_width="@dimen/circle_icon_big"
+                    android:layout_height="@dimen/circle_icon_big"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@drawable/circle"
+                    android:backgroundTint="@color/button_red"
+                    android:src="@drawable/ic_risk_details_home"
+                    android:importantForAccessibility="no"
+                    android:padding="@dimen/circle_icon_big_padding"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_text_2"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/submission_test_result_positive_no_consent_text_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginStart="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_text_2"
+                    app:layout_constraintStart_toEndOf="@id/submission_test_result_positive_no_consent_icon_3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/submission_test_result_positive_no_consent_text_3"
+                    style="@style/subtitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/submission_test_result_positive_no_consent_button_warn_others"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_normal"
+            android:text="@string/submission_test_result_positive_no_consent_button_warn_others"
+            app:layout_constraintBottom_toTopOf="@+id/submission_test_result_positive_no_consent_button_abort"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
+
+        <Button
+            android:id="@+id/submission_test_result_positive_no_consent_button_abort"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_normal"
+            android:text="@string/submission_test_result_positive_no_consent_button_abort"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
+
+        <include layout="@layout/merge_guidelines_side" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

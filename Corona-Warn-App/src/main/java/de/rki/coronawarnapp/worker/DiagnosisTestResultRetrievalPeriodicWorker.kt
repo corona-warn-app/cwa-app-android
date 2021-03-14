@@ -1,121 +1,130 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
-import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.R
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
+import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.service.submission.SubmissionService
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import timber.log.Timber
 
 /**
- * Diagnosis Test Result Periodic retrieval
+ * Diagnosis test result retrieval by periodic polling
  *
  * @see BackgroundWorkScheduler
  */
-class DiagnosisTestResultRetrievalPeriodicWorker(
-    val context: Context,
-    workerParams: WorkerParameters
-) :
-    CoroutineWorker(context, workerParams) {
+class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
+    @Assisted val context: Context,
+    @Assisted workerParams: WorkerParameters,
+    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
+    private val notificationHelper: NotificationHelper,
+    private val submissionSettings: SubmissionSettings,
+    private val submissionService: SubmissionService,
+    private val timeStamper: TimeStamper,
+    private val tracingSettings: TracingSettings,
+) : CoroutineWorker(context, workerParams) {
 
-    companion object {
-        private val TAG: String? = DiagnosisTestResultRetrievalPeriodicWorker::class.simpleName
-    }
-
-    /**
-     * Work execution
-     *
-     * If background job is running for less than 21 days, testResult is checked.
-     * If the job is running for more than 21 days, the job will be stopped
-     *
-     * @return Result
-     *
-     * @see LocalData.isTestResultNotificationSent
-     * @see LocalData.initialPollingForTestResultTimeStamp
-     */
     override suspend fun doWork(): Result {
-
-        Timber.d("Background job started. Run attempt: $runAttemptCount")
-        BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Executing: Start", "TestResult started. Run attempt: $runAttemptCount ")
+        Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            Timber.d("Background job failed after $runAttemptCount attempts. Rescheduling")
-
-            BackgroundWorkHelper.sendDebugNotification(
-                "TestResult Executing: Failure", "TestResult failed with $runAttemptCount attempts")
+            Timber.tag(TAG).d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
+            Timber.tag(TAG).d("$id Rescheduled background worker")
+
             return Result.failure()
         }
         var result = Result.success()
         try {
-            if (TimeAndDateExtensions.calculateDays(
-                    LocalData.initialPollingForTestResultTimeStamp(),
-                    System.currentTimeMillis()
-                ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
-            ) {
-                val testResult = SubmissionService.asyncRequestTestResult()
-                initiateNotification(testResult)
-            } else {
+
+            if (abortConditionsMet(timeStamper.nowUTC.millis)) {
+                Timber.tag(TAG).d(" $id Stopping worker.")
                 stopWorker()
+            } else {
+                Timber.tag(TAG).d(" $id Running worker.")
+
+                val registrationToken =
+                    submissionSettings.registrationToken.value ?: throw NoRegistrationTokenSetException()
+                val testResult = submissionService.asyncRequestTestResult(registrationToken)
+                Timber.tag(TAG).d("$id: Test Result retrieved is $testResult")
+
+                if (testResult == TestResult.NEGATIVE ||
+                    testResult == TestResult.POSITIVE ||
+                    testResult == TestResult.INVALID
+                ) {
+                    sendTestResultAvailableNotification(testResult)
+                    cancelRiskLevelScoreNotification()
+                    Timber.tag(TAG)
+                        .d("$id: Test Result available - notification sent & risk level notification canceled")
+                    stopWorker()
+                }
             }
-        } catch (e: Exception) {
+        } catch (ex: Exception) {
             result = Result.retry()
         }
 
-        BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Executing: End", "TestResult result: $result ")
+        Timber.tag(TAG).d("$id: doWork() finished with %s", result)
 
         return result
     }
 
-    /**
-     * Notification Initiation
-     *
-     * If the returned Test Result is Negative, Positive or Invalid
-     * The Background polling  will be stopped
-     * and a notification is shown, but only if the App is not in foreground
-     *
-     * @see LocalData.isTestResultNotificationSent
-     * @see LocalData.initialPollingForTestResultTimeStamp
-     * @see TestResult
-     */
-    private fun initiateNotification(testResult: TestResult) {
-        if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE ||
-            testResult == TestResult.INVALID
-        ) {
-            if (!CoronaWarnApplication.isAppInForeground) {
-                NotificationHelper.sendNotification(
-                    CoronaWarnApplication.getAppContext()
-                        .getString(R.string.notification_name), CoronaWarnApplication.getAppContext()
-                        .getString(R.string.notification_body),
-                    NotificationCompat.PRIORITY_HIGH
-                )
-            }
-            LocalData.isTestResultNotificationSent(true)
-            stopWorker()
+    private fun abortConditionsMet(currentMillis: Long): Boolean {
+        if (tracingSettings.isTestResultAvailableNotificationSent) {
+            Timber.tag(TAG).d("$id: Notification already sent.")
+            return true
         }
+        if (submissionSettings.hasViewedTestResult.value) {
+            Timber.tag(TAG).d("$id: Test result has already been viewed.")
+            return true
+        }
+
+        val calculateDays = TimeAndDateExtensions.calculateDays(
+            tracingSettings.initialPollingForTestResultTimeStamp,
+            currentMillis
+        )
+        if (calculateDays >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS) {
+            Timber.tag(TAG)
+                .d(" $id Maximum of ${BackgroundConstants.POLLING_VALIDITY_MAX_DAYS} days for polling exceeded.")
+            return true
+        }
+
+        return false
     }
 
-    /**
-     * Stops the Background Polling worker
-     *
-     * @see LocalData.initialPollingForTestResultTimeStamp
-     * @see BackgroundWorkScheduler.stop
-     */
-    private fun stopWorker() {
-        LocalData.initialPollingForTestResultTimeStamp(0L)
-        BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
+    private suspend fun sendTestResultAvailableNotification(testResult: TestResult) {
+        testResultAvailableNotificationService.showTestResultAvailableNotification(testResult)
+        tracingSettings.isTestResultAvailableNotificationSent = true
+    }
 
-        BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Stopped", "TestResult Stopped")
+    private fun cancelRiskLevelScoreNotification() {
+        notificationHelper.cancelCurrentNotification(
+            NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+        )
+    }
+
+    private fun stopWorker() {
+        tracingSettings.initialPollingForTestResultTimeStamp = 0L
+        BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
+        Timber.tag(TAG).d("$id: Background worker stopped")
+    }
+
+    @AssistedFactory
+    interface Factory : InjectedWorkerFactory<DiagnosisTestResultRetrievalPeriodicWorker>
+
+    companion object {
+        private val TAG = DiagnosisTestResultRetrievalPeriodicWorker::class.java.simpleName
     }
 }

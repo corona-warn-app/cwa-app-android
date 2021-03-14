@@ -9,7 +9,7 @@ import retrofit2.http.Streaming
 interface DiagnosisKeyApiV1 {
     // TODO Let retrofit format this to CountryCode
     @GET("/version/v1/diagnosis-keys/country")
-    suspend fun getCountryIndex(): List<String>
+    suspend fun getLocationIndex(): List<String>
 
     // TODO Let retrofit format this to LocalDate
     @GET("/version/v1/diagnosis-keys/country/{country}/date")

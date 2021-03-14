@@ -1,0 +1,231 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "afee4b1ca6ab9abd7117fe308784bc99",
+    "entities": [
+      {
+        "tableName": "exposure_summary",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `daysSinceLastExposure` INTEGER NOT NULL, `matchedKeyCount` INTEGER NOT NULL, `maximumRiskScore` INTEGER NOT NULL, `summationRiskScore` INTEGER NOT NULL, `attenuationDurationsInMinutes` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "daysSinceLastExposure",
+            "columnName": "daysSinceLastExposure",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "matchedKeyCount",
+            "columnName": "matchedKeyCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maximumRiskScore",
+            "columnName": "maximumRiskScore",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summationRiskScore",
+            "columnName": "summationRiskScore",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attenuationDurationsInMinutes",
+            "columnName": "attenuationDurationsInMinutes",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_exposure_summary_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exposure_summary_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "date",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `path` TEXT NOT NULL, `type` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "path",
+            "columnName": "path",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_date_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_date_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tracing_interval",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`from` INTEGER NOT NULL, `to` INTEGER NOT NULL, PRIMARY KEY(`from`, `to`))",
+        "fields": [
+          {
+            "fieldPath": "from",
+            "columnName": "from",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "to",
+            "columnName": "to",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "from",
+            "to"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_tracing_interval_from_to",
+            "unique": false,
+            "columnNames": [
+              "from",
+              "to"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tracing_interval_from_to` ON `${TABLE_NAME}` (`from`, `to`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "CrashReportEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `deviceInfo` TEXT NOT NULL, `appVersionName` TEXT NOT NULL, `appVersionCode` INTEGER NOT NULL, `apiLevel` INTEGER NOT NULL, `androidVersion` TEXT NOT NULL, `shortID` TEXT NOT NULL, `message` TEXT NOT NULL, `stackTrace` TEXT NOT NULL, `tag` TEXT, `crashedAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deviceInfo",
+            "columnName": "deviceInfo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appVersionName",
+            "columnName": "appVersionName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appVersionCode",
+            "columnName": "appVersionCode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apiLevel",
+            "columnName": "apiLevel",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "androidVersion",
+            "columnName": "androidVersion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shortID",
+            "columnName": "shortID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "message",
+            "columnName": "message",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stackTrace",
+            "columnName": "stackTrace",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tag",
+            "columnName": "tag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "crashedAt",
+            "columnName": "crashedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'afee4b1ca6ab9abd7117fe308784bc99')"
+    ]
+  }
+}

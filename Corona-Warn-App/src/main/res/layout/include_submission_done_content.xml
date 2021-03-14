@@ -3,9 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-    <import type="de.rki.coronawarnapp.risk.RiskLevelConstants" />
-
         <variable
             name="illustrationDescription"
             type="String" />
@@ -19,7 +16,7 @@
         <TextView
             android:id="@+id/submission_done_text"
             style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/submission_done_body"
             android:focusable="true"
@@ -31,7 +28,7 @@
             android:id="@+id/submission_done_subtitle"
             style="@style/headline5"
             android:accessibilityHeading="true"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_done_subtitle"
@@ -42,33 +39,31 @@
 
         <include
             android:id="@+id/submission_done_contagious"
-            layout="@layout/include_risk_details_behavior_row"
-            android:layout_width="@dimen/match_constraint"
+            layout="@layout/include_submission_behaviour_row"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:body="@{@string/submission_done_contagious}"
             app:icon="@{@drawable/ic_risk_details_contact}"
             app:layout_constraintEnd_toEndOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/submission_done_subtitle"
-            app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_done_subtitle" />
 
         <include
             android:id="@+id/submission_done_isolate"
-            layout="@layout/include_risk_details_behavior_row"
-            android:layout_width="@dimen/match_constraint"
+            layout="@layout/include_submission_behaviour_row"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:body="@{@string/submission_done_isolate}"
-            app:icon="@{@drawable/ic_submission_home}"
+            app:icon="@{@drawable/ic_risk_details_home}"
             app:layout_constraintEnd_toEndOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/submission_done_contagious"
-            app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_done_contagious" />
 
         <include
             layout="@layout/include_submission_done_further_info"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintEnd_toEndOf="parent"

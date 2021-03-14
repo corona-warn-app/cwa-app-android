@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                 Release Info Screen 1.14
+     ###################################### -->
+
+    <!-- XHED: Title for the release info screen -->
+    <string name="release_info_header">"Caracteristici noi"</string>
+    <!-- XHED: Version title for the release info screen -->
+    <string name="release_info_version_title">"Versiunea %1$s"</string>
+    <!-- XTXT: Description for the release info screen -->
+    <string name="release_info_version_body">"Pe lângă remedierile de erori, această actualizare include și caracteristici noi și îmbunătățiri."</string>
+    <!-- XBUT: Continue button for the release info screen -->
+    <string name="release_info_continue_button">"Înainte"</string>
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">"Modificările din această versiune pot fi găsite în informațiile aplicației, la „Caracteristici noi”."</string>
+
+    <!-- XHED: Titles for the release info screen bullet points -->
+    <string-array name="new_release_title">
+        <item>"A fost adăugată Elveția la înregistrarea transnațională a expunerilor în jurnal"</item>
+        <item>"Generarea rapoartelor de erori"</item>
+    </string-array>
+
+    <!-- XTXT: Text bodies for the release info screen bullet points -->
+    <string-array name="new_release_body">
+        <item>"Utilizatorii aplicației Corona-Warn pot schimba acum ID-uri aleatorii criptate cu utilizatorii aplicației oficiale de avertizare din Elveția. Aceasta înseamnă că avertizările pot fi acum trimise și primite de utilizatorii aplicației din Elveția."</item>
+        <item>"Acum puteți genera un raport de erori, la cerere de la suportul tehnic, și puteți înregistra etapele pe care le efectuați în aplicație. Această acțiune va facilita analizarea erorilor tehnice și corecția mai rapidă a acestora."</item>
+    </string-array>
+
+    <!-- XTXT: Text labels that will be converted to Links -->
+    <string-array name="new_release_linkified_labels">
+        <item/>
+        <item/>
+    </string-array>
+
+    <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
+    <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
+    </string-array>
+
+</resources>

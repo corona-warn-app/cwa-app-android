@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/submission_consent_main_headline_body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_illustration"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            android:text="@string/submission_consent_main_headline_body"
+            style="@style/subtitle" />
+
+        <TextView
+            android:id="@+id/submission_consent_call_test_result"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_main_headline_body"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            android:text="@string/submission_consent_call_test_result"
+            style="@style/headline6" />
+
+        <TextView
+            android:id="@+id/submission_consent_call_test_result_body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            android:text="@string/submission_consent_call_test_result_body"
+            style="@style/subtitle" />
+
+        <ImageView
+            android:id="@+id/submission_consent_icon_scan"
+            android:layout_width="@dimen/circle_icon"
+            android:layout_height="@dimen/circle_icon"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:src="@drawable/ic_qr_icon_personal_result"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/card_dark"
+            android:padding="@dimen/circle_icon_padding"
+            android:importantForAccessibility="no"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_body"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"/>
+
+        <TextView
+            android:id="@+id/submission_consent_call_test_result_scan_your_test_only"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_body"
+            app:layout_constraintStart_toEndOf="@id/submission_consent_icon_scan"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            android:text="@string/submission_consent_call_test_result_scan_your_test_only"
+            style="@style/subtitle" />
+
+        <ImageView
+            android:id="@+id/submission_consent_icon_single_test"
+            android:layout_width="@dimen/circle_icon"
+            android:layout_height="@dimen/circle_icon"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/card_dark"
+            android:src="@drawable/ic_qr_icon_test_scan"
+            android:importantForAccessibility="no"
+            android:padding="@dimen/circle_icon_padding"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_scan_your_test_only"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"/>
+
+        <TextView
+            android:id="@+id/submission_consent_call_test_result_scan_test_only_once"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_scan_your_test_only"
+            app:layout_constraintStart_toEndOf="@id/submission_consent_icon_single_test"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            android:text="@string/submission_consent_call_test_result_scan_test_only_once"
+            style="@style/subtitle" />
+
+        <TextView
+            android:id="@+id/submission_consent_help_by_warning_others_headline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_scan_test_only_once"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            android:text="@string/submission_consent_help_by_warning_others_headline"
+            style="@style/headline6" />
+
+        <TextView
+            android:id="@+id/submission_consent_help_by_warning_others_body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_help_by_warning_others_headline"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            android:text="@string/submission_consent_help_by_warning_others_body"
+            style="@style/subtitle" />
+
+        <include layout="@layout/merge_guidelines_side" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

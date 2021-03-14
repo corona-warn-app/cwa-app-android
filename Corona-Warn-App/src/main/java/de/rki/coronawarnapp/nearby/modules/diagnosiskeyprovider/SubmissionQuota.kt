@@ -74,18 +74,26 @@ class SubmissionQuota @Inject constructor(
 
             Timber.i(
                 "Quota reset: oldQuota=%d, lastReset=%s -> newQuota=%d, thisReset=%s",
-                oldQuota, oldQuotaReset, currentQuota, now
+                oldQuota,
+                oldQuotaReset,
+                currentQuota,
+                now
             )
         } else {
             Timber.d(
                 "No new quota available (now=%s, availableAt=%s)",
-                now, nextQuotaReset
+                now,
+                nextQuotaReset
             )
         }
     }
 
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal const val DEFAULT_QUOTA = 20
+        /**
+         * This quota should be 6 when using ExposureWindow
+         * See: https://developers.google.com/android/exposure-notifications/release-notes
+         */
+        internal const val DEFAULT_QUOTA = 6
     }
 }

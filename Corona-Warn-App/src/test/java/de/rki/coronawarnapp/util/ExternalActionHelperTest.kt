@@ -11,13 +11,12 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.unmockkAll
 import io.mockk.verify
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 
-class ExternalActionHelperTest {
+class ExternalActionHelperTest : BaseTest() {
 
     @MockK
     private lateinit var context: Context
@@ -77,10 +76,5 @@ class ExternalActionHelperTest {
         every { fragment.startActivity(any()) } just Runs
         ExternalActionHelper.shareText(fragment = fragment, text = "text", title = "title")
         verify(exactly = 1) { fragment.startActivity(any()) }
-    }
-
-    @After
-    fun cleanUp() {
-        unmockkAll()
     }
 }

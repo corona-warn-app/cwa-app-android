@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TEKSignature
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TEKSignatureList
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TemporaryExposureKeyExport
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeySignatureList.TEKSignature
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeySignatureList.TEKSignatureList
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass.TemporaryExposureKeyExport
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.convertToGoogleKey
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.logUTCFormat
 import kotlinx.coroutines.Dispatchers
@@ -35,9 +35,9 @@ object KeyFileHelper {
         fileList.map { file ->
             async(Dispatchers.IO) {
                 val createdExportString = "created export for batch ${file.header.batchNum}" +
-                        "(of ${file.header.batchSize}) with ${file.keysCount} keys, BEG:${Date(
-                            file.header.startTimestamp
-                        ).logUTCFormat()}, END:${Date(file.header.endTimestamp).logUTCFormat()}"
+                    "(of ${file.header.batchSize}) with ${file.keysCount} keys, BEG:${Date(
+                        file.header.startTimestamp
+                    ).logUTCFormat()}, END:${Date(file.header.endTimestamp).logUTCFormat()}"
                 Timber.d(createdExportString)
                 Pair(
                     TemporaryExposureKeyExport
@@ -63,8 +63,8 @@ object KeyFileHelper {
                     createBinaryFile(
                         storageDirectory,
                         "${source.first.batchNum}-" +
-                                "${source.first.startTimestamp}-" +
-                                "${source.first.endTimestamp}.zip",
+                            "${source.first.startTimestamp}-" +
+                            "${source.first.endTimestamp}.zip",
                         source
                     )
                 }

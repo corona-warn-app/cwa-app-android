@@ -7,5 +7,5 @@
         android:bottomRightRadius="@dimen/calendar_header_bottom_radius"
         android:topLeftRadius="@dimen/calendar_header_top_radius"
         android:topRightRadius="@dimen/calendar_header_top_radius" />
-    <solid android:color="@color/colorCalendarLayoutFocusOn" />
+    <solid android:color="@color/colorCalendarBackgroundSelected" />
 </shape>

@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.diagnosiskeys.server
 import dagger.Lazy
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
@@ -36,7 +35,6 @@ class DiagnosisKeyServerTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         testDir.deleteRecursively()
     }
 
@@ -50,27 +48,30 @@ class DiagnosisKeyServerTest : BaseIOTest() {
     @Test
     fun `download country index`() {
         val downloadServer = createDownloadServer()
-        coEvery { api.getCountryIndex() } returns listOf("DE", "NL")
+        coEvery { api.getLocationIndex() } returns listOf("DE", "NL")
 
         runBlocking {
-            downloadServer.getCountryIndex() shouldBe listOf(
-                LocationCode("DE"), LocationCode("NL")
+            downloadServer.getLocationIndex() shouldBe listOf(
+                LocationCode("DE"),
+                LocationCode("NL")
             )
         }
 
-        coVerify { api.getCountryIndex() }
+        coVerify { api.getLocationIndex() }
     }
 
     @Test
     fun `download day index for country`() {
         val downloadServer = createDownloadServer()
         coEvery { api.getDayIndex("DE") } returns listOf(
-            "2000-01-01", "2000-01-02"
+            "2000-01-01",
+            "2000-01-02"
         )
 
         runBlocking {
             downloadServer.getDayIndex(LocationCode("DE")) shouldBe listOf(
-                "2000-01-01", "2000-01-02"
+                "2000-01-01",
+                "2000-01-02"
             ).map { LocalDate.parse(it) }
         }
 
@@ -81,7 +82,10 @@ class DiagnosisKeyServerTest : BaseIOTest() {
     fun `download hour index for country and day`() {
         val downloadServer = createDownloadServer()
         coEvery { api.getHourIndex("DE", "2000-01-01") } returns listOf(
-            "1", "2", "20", "21"
+            "1",
+            "2",
+            "20",
+            "21"
         )
 
         runBlocking {
@@ -89,7 +93,10 @@ class DiagnosisKeyServerTest : BaseIOTest() {
                 LocationCode("DE"),
                 LocalDate.parse("2000-01-01")
             ) shouldBe listOf(
-                "01:00", "02:00", "20:00", "21:00"
+                "01:00",
+                "02:00",
+                "20:00",
+                "21:00"
             ).map { LocalTime.parse(it) }
         }
 

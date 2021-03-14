@@ -1,0 +1,42 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.stats;
+
+import "internal/stats/card_header.proto";
+
+message KeyFigureCard {
+
+  CardHeader header = 1;
+
+  repeated KeyFigure keyFigures = 2;
+}
+
+message KeyFigure {
+
+  enum Rank {
+    UNSPECIFIED_RANK = 0;
+    PRIMARY = 1;
+    SECONDARY = 2;
+    TERTIARY = 3;
+  }
+
+  enum Trend {
+    UNSPECIFIED_TREND = 0;
+    STABLE = 1;
+    INCREASING = 2;
+    DECREASING = 3;
+  }
+
+  enum TrendSemantic {
+    UNSPECIFIED_TREND_SEMANTIC = 0;
+    NEUTRAL = 1;
+    POSITIVE = 2;
+    NEGATIVE = 3;
+  }
+
+  Rank rank = 1;
+  double value = 2;
+  int32 decimals = 3; // zero by default; formatted as integer then
+  Trend trend = 4;
+  TrendSemantic trendSemantic = 5;
+}

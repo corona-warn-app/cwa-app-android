@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_done_no_consent_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/submission_done_no_consent_title"
+        android:fillViewport="true"
+        tools:context=".ui.submission.resultready.SubmissionResultReadyFragment">
+
+        <include
+            android:id="@+id/submission_done_no_consent_header"
+            layout="@layout/include_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_close}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/submission_done_no_consent_title}" />
+
+        <ScrollView
+            android:id="@+id/content_scrollcontainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/submission_done_button_continue_with_symptom_recording"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_done_no_consent_header"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_normal"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/submission_done_hero_illustration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:src="@drawable/ic_illustration_together"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    bind:cwaContentDescription="@{@string/submission_done_no_consent_illustration_description}"
+                    tools:ignore="ContentDescription" />
+                <TextView
+                    android:id="@+id/submission_done_text"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/submission_test_result_consent_given_subtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_done_hero_illustration" />
+
+                <TextView
+                    android:id="@+id/submission_done_subtitle"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:accessibilityHeading="true"
+                    android:focusable="true"
+                    android:text="@string/submission_done_no_consent_body_title"
+                    app:layout_constraintEnd_toEndOf="@id/submission_done_text"
+                    app:layout_constraintStart_toStartOf="@id/submission_done_text"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_done_text" />
+
+                <TextView
+                    android:id="@+id/submission_done_no_consent_body"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:accessibilityHeading="true"
+                    android:focusable="true"
+                    android:text="@string/submission_done_no_consent_body"
+                    app:layout_constraintEnd_toEndOf="@id/submission_done_text"
+                    app:layout_constraintStart_toStartOf="@id/submission_done_text"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_done_subtitle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/submission_done_button_continue_with_symptom_recording"
+            style="@style/buttonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/submission_done_no_consent_continue_with_symptom_recording"
+            app:layout_constraintBottom_toTopOf="@+id/submission_done_contact_button_finish_flow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/content_scrollcontainer" />
+
+        <Button
+            android:id="@+id/submission_done_contact_button_finish_flow"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/submission_done_no_consent_break_flow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/submission_done_button_continue_with_symptom_recording"
+            app:layout_constraintStart_toStartOf="@id/submission_done_button_continue_with_symptom_recording"
+            app:layout_constraintTop_toBottomOf="@+id/submission_done_button_continue_with_symptom_recording" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

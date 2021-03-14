@@ -56,7 +56,7 @@ class DiagnosisKeyApiTest : BaseIOTest() {
         webServer.enqueue(MockResponse().setBody("[\"DE\",\"NL\"]"))
 
         runBlocking {
-            api.getCountryIndex() shouldBe listOf("DE", "NL")
+            api.getLocationIndex() shouldBe listOf("DE", "NL")
         }
 
         val request = webServer.takeRequest(5, TimeUnit.SECONDS)!!

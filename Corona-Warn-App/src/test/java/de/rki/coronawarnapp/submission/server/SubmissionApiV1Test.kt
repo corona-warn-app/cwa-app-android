@@ -3,11 +3,10 @@ package de.rki.coronawarnapp.submission.server
 import android.content.Context
 import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.http.HttpModule
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
 import de.rki.coronawarnapp.submission.SubmissionModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
@@ -46,7 +45,6 @@ class SubmissionApiV1Test : BaseTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         webServer.shutdown()
     }
 
@@ -79,8 +77,8 @@ class SubmissionApiV1Test : BaseTest() {
             }
         """.toJsonResponse().apply { webServer.enqueue(this) }
 
-        val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
-            .setPadding(ByteString.copyFromUtf8("fakeKeyPadding"))
+        val submissionPayload = SubmissionPayloadOuterClass.SubmissionPayload.newBuilder()
+            .setRequestPadding(ByteString.copyFromUtf8("fakeKeyPadding"))
             .build()
 
         api.submitKeys(

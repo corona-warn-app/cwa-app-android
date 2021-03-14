@@ -1,0 +1,13 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+
+message AppFeatures {
+  repeated AppFeature appFeatures = 1;
+}
+
+message AppFeature {
+  string label = 1;
+  int32 value = 2;
+}

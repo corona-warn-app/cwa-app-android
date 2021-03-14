@@ -9,7 +9,7 @@
         android:id="@+id/simple_step_entry_title"
         style="@style/headline6"
         android:accessibilityHeading="true"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/simple_step_entry_body"
         style="@style/subtitle"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_small"
         app:layout_constraintEnd_toEndOf="parent"

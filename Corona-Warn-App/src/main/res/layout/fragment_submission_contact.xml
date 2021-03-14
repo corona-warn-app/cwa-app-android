@@ -14,7 +14,7 @@
         <include
             android:id="@+id/submission_contact_header"
             layout="@layout/include_header"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,8 +25,8 @@
         <include
             android:id="@+id/include_submission_contact"
             layout="@layout/include_submission_contact"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
         <Button
             android:id="@+id/submission_contact_button_call"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/submission_contact_button_call"
             android:textAllCaps="true"
@@ -47,7 +47,7 @@
         <Button
             android:id="@+id/submission_contact_button_enter"
             style="@style/buttonLight"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/submission_contact_button_enter"
             android:textAllCaps="true"

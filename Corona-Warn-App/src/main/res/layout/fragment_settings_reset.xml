@@ -50,7 +50,7 @@
                 <include
                     android:id="@+id/settings_reset_keys"
                     layout="@layout/include_tracing_status_card"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
                     app:body="@{@string/settings_reset_body_keys}"

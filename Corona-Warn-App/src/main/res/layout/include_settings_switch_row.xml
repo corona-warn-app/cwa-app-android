@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
-
-        <import type="android.view.View" />
-
         <variable
             name="subtitle"
             type="String" />
@@ -81,14 +74,14 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/settings_switch_row_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:checked="@{status}"
+                android:checked="@{status}"
                 android:importantForAccessibility="no"
                 android:enabled="@{enabled}"
-                android:contentDescription="@{FormatterSettingsHelper.formatSwitchContentDescription(subtitle, statusText)}"
+                android:contentDescription="@{subtitle + ` ` + status}"
                 android:theme="@style/switchBase"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +94,7 @@
             layout="@layout/include_divider"
             android:layout_width="0dp"
             android:layout_height="@dimen/card_divider"
-            android:visibility="@{FormatterHelper.formatVisibility(showDivider)}"
+            gone="@{!showDivider}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/settings_switch_row" />

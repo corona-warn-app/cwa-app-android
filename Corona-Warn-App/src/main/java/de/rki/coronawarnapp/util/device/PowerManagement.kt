@@ -1,15 +1,31 @@
 package de.rki.coronawarnapp.util.device
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.PowerManager
+import android.provider.Settings
+import androidx.core.content.getSystemService
+import de.rki.coronawarnapp.util.di.AppContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-interface PowerManagement {
+@Singleton
+class PowerManagement @Inject constructor(
+    @AppContext private val context: Context
+) {
 
-    /**
-     * Checks if app is excluded from battery optimizations
-     */
-    val isIgnoringBatteryOptimizations: Boolean
+    private val powerManager by lazy { context.getSystemService<PowerManager>()!! }
 
-    val toBatteryOptimizationSettingsIntent: Intent
+    val isIgnoringBatteryOptimizations
+        get() = powerManager.isIgnoringBatteryOptimizations(context.packageName)
 
-    val disableBatteryOptimizationsIntent: Intent
+    val toBatteryOptimizationSettingsIntent =
+        Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+
+    val disableBatteryOptimizationsIntent =
+        Intent(
+            Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+            Uri.parse("package:${context.packageName}")
+        )
 }

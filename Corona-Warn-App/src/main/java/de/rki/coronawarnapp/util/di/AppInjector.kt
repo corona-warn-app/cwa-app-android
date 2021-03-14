@@ -13,9 +13,11 @@ import timber.log.Timber
 object AppInjector {
     lateinit var component: ApplicationComponent
 
-    fun init(app: CoronaWarnApplication) {
-        component = DaggerApplicationComponent.factory().create(app)
-        component.inject(app)
+    fun init(app: CoronaWarnApplication): ApplicationComponent {
+        Timber.v("Initializing Dagger (%s)", app)
+        return DaggerApplicationComponent.factory().create(app).also {
+            component = it
+        }
     }
 
     fun setup(activity: Activity) {
@@ -27,20 +29,23 @@ object AppInjector {
 
         if (activity is FragmentActivity) {
             activity.supportFragmentManager
-                .registerFragmentLifecycleCallbacks(object :
-                    FragmentManager.FragmentLifecycleCallbacks() {
-                    override fun onFragmentPreAttached(
-                        fm: FragmentManager,
-                        f: Fragment,
-                        context: Context
-                    ) {
-                        if (f is AutoInject) {
-                            Timber.tag(TAG).d("Injecting %s", f)
-                            AndroidSupportInjection.inject(f)
+                .registerFragmentLifecycleCallbacks(
+                    object :
+                        FragmentManager.FragmentLifecycleCallbacks() {
+                        override fun onFragmentPreAttached(
+                            fm: FragmentManager,
+                            f: Fragment,
+                            context: Context
+                        ) {
+                            if (f is AutoInject) {
+                                Timber.tag(TAG).d("Injecting %s", f)
+                                AndroidSupportInjection.inject(f)
+                            }
+                            super.onFragmentPreAttached(fm, f, context)
                         }
-                        super.onFragmentPreAttached(fm, f, context)
-                    }
-                }, true)
+                    },
+                    true
+                )
         }
     }
 

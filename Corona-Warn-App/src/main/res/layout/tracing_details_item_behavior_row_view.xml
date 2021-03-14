@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+
+    <FrameLayout
+        android:id="@+id/icon_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:background="@drawable/circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:backgroundTint="@color/colorSemanticNeutralRisk">
+
+        <ImageView
+            android:id="@+id/icon"
+            style="@style/icon"
+            android:layout_width="@dimen/icon_size_risk_details_behavior"
+            android:layout_height="@dimen/icon_size_risk_details_behavior"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/icon_margin_risk_details_behavior"
+            android:focusable="false"
+            android:importantForAccessibility="no"
+            app:tint="@color/colorStableLight"
+            tools:src="@drawable/common_full_open_on_phone" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/body"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon_background"
+        app:layout_constraintTop_toTopOf="@+id/icon_background"
+        tools:text="@string/risk_details_behavior_body_contact_doctor" />
+
+</merge>

@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
-
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,20 +15,21 @@
 
             <ImageView
                 android:id="@+id/submission_done_hero_illustration"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="@{FormatterAccessibilityHelper.formatImage(@string/submission_done_illustration_description)}"
                 android:focusable="true"
-                android:src="@drawable/ic_submission_illustration_thanks"
+                android:src="@drawable/ic_illustration_together"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                bind:cwaContentDescription="@{@string/submission_done_illustration_description}"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/submission_done_headline"
                 style="@style/headline4"
                 android:accessibilityHeading="true"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@string/submission_done_title"
@@ -44,7 +41,7 @@
             <include
                 android:id="@+id/submission_done_content"
                 layout="@layout/include_submission_done_content"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 app:illustrationDescription="@{@string/submission_done_illustration_description}"

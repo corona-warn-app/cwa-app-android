@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -22,14 +23,14 @@ class KeyCacheDatabaseTest {
     @Test
     fun crud() {
         val keyDay = CachedKeyInfo(
-            type = CachedKeyInfo.Type.COUNTRY_DAY,
+            type = CachedKeyInfo.Type.LOCATION_DAY,
             location = LocationCode("DE"),
             day = LocalDate.now(),
             hour = null,
             createdAt = Instant.now()
         )
         val keyHour = CachedKeyInfo(
-            type = CachedKeyInfo.Type.COUNTRY_HOUR,
+            type = CachedKeyInfo.Type.LOCATION_HOUR,
             location = LocationCode("DE"),
             day = LocalDate.now(),
             hour = LocalTime.now(),
@@ -40,40 +41,40 @@ class KeyCacheDatabaseTest {
 
             dao.insertEntry(keyDay)
             dao.insertEntry(keyHour)
-            dao.getAllEntries() shouldBe listOf(keyDay, keyHour)
-            dao.getEntriesForType(CachedKeyInfo.Type.COUNTRY_DAY.typeValue) shouldBe listOf(keyDay)
-            dao.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR.typeValue) shouldBe listOf(keyHour)
+            dao.allEntries().first() shouldBe listOf(keyDay, keyHour)
+            dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY.typeValue) shouldBe listOf(keyDay)
+            dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR.typeValue) shouldBe listOf(keyHour)
 
             dao.updateDownloadState(keyDay.toDownloadUpdate("coffee"))
-            dao.getEntriesForType(CachedKeyInfo.Type.COUNTRY_DAY.typeValue).single().apply {
+            dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY.typeValue).single().apply {
                 isDownloadComplete shouldBe true
-                checksumMD5 shouldBe "coffee"
+                etag shouldBe "coffee"
             }
-            dao.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR.typeValue).single().apply {
+            dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR.typeValue).single().apply {
                 isDownloadComplete shouldBe false
-                checksumMD5 shouldBe null
+                etag shouldBe null
             }
 
             dao.updateDownloadState(keyHour.toDownloadUpdate("with milk"))
-            dao.getEntriesForType(CachedKeyInfo.Type.COUNTRY_DAY.typeValue).single().apply {
+            dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY.typeValue).single().apply {
                 isDownloadComplete shouldBe true
-                checksumMD5 shouldBe "coffee"
+                etag shouldBe "coffee"
             }
-            dao.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR.typeValue).single().apply {
+            dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR.typeValue).single().apply {
                 isDownloadComplete shouldBe true
-                checksumMD5 shouldBe "with milk"
+                etag shouldBe "with milk"
             }
 
             dao.deleteEntry(keyDay)
-            dao.getAllEntries() shouldBe listOf(
+            dao.allEntries().first() shouldBe listOf(
                 keyHour.copy(
                     isDownloadComplete = true,
-                    checksumMD5 = "with milk"
+                    etag = "with milk"
                 )
             )
 
             dao.clear()
-            dao.getAllEntries() shouldBe emptyList()
+            dao.allEntries().first() shouldBe emptyList<List<CachedKeyInfo>>()
         }
     }
 }

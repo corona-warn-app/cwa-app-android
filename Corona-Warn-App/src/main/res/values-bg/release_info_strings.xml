@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                 Release Info Screen 1.14
+     ###################################### -->
+
+    <!-- XHED: Title for the release info screen -->
+    <string name="release_info_header">"Нови функции"</string>
+    <!-- XHED: Version title for the release info screen -->
+    <string name="release_info_version_title">"Версия %1$s"</string>
+    <!-- XTXT: Description for the release info screen -->
+    <string name="release_info_version_body">"Наред с корекциите на грешки настоящата актуализация съдържа също и нови и разширени функции."</string>
+    <!-- XBUT: Continue button for the release info screen -->
+    <string name="release_info_continue_button">"Напред"</string>
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">"Може да видите промените в тази версия в подраздела „Нови функции“ на информацията за приложението."</string>
+
+    <!-- XHED: Titles for the release info screen bullet points -->
+    <string-array name="new_release_title">
+        <item>"Швейцария е добавена към международното регистриране на излаганията на риск"</item>
+        <item>"Генериране на отчети за грешки"</item>
+    </string-array>
+
+    <!-- XTXT: Text bodies for the release info screen bullet points -->
+    <string-array name="new_release_body">
+        <item>"Потребителите на Corona-Warn-App вече могат да разменят криптирани случайни идентификатори с потребителите на официалното приложение за борба с коронавируса в Швейцария. Това означава, че потребителите там също могат да изпращат и получават предупреждения."</item>
+        <item>"Вече можете да генерирате отчети за грешките при поискване от техническата поддръжка и да записвате стъпките, които изпълнявате в приложението. Това ще улесни анализа на техническите грешки и ще ускори коригирането им."</item>
+    </string-array>
+
+    <!-- XTXT: Text labels that will be converted to Links -->
+    <string-array name="new_release_linkified_labels">
+        <item/>
+        <item/>
+    </string-array>
+
+    <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
+    <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
+    </string-array>
+
+</resources>

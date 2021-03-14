@@ -10,10 +10,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
-        <variable
             name="icon"
             type="android.graphics.drawable.Drawable" />
 

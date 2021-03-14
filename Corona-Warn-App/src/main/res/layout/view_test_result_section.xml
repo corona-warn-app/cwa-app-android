@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/test_result_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_dark"
+        android:focusable="true"
+        android:padding="@dimen/card_padding">
+
+        <TextView
+            android:id="@+id/test_result_section_headline"
+            style="@style/body2"
+            android:accessibilityHeading="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            app:layout_constraintEnd_toStartOf="@id/test_result_section_status_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Ihr Befund"/>
+
+        <TextView
+            android:id="@+id/test_result_section_content"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            app:layout_constraintBottom_toTopOf="@id/test_result_section_registered_at_text"
+            app:layout_constraintEnd_toStartOf="@id/test_result_section_status_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/test_result_section_headline"
+            tools:text="SARS-CoV-2 Negativ" />
+
+        <ImageView
+            android:id="@+id/test_result_section_status_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_test_result_illustration_negative" />
+
+        <TextView
+            android:id="@+id/test_result_section_registered_at_text"
+            style="@style/body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/test_result_section_status_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/test_result_card_registered_at_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

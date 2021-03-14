@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/icon_size_risk_card"
+        android:layout_height="@dimen/icon_size_risk_card"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@+id/body"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/body"
+        tools:src="@drawable/ic_risk_details_home"
+        tools:tint="@color/colorTextPrimary1" />
+
+    <TextView
+        android:id="@+id/body"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:layout_marginBottom="@dimen/spacing_tiny"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/lorem_ipsum"
+        tools:textColor="@color/colorTextPrimary1" />
+</merge>
