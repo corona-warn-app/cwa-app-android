@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
@@ -60,27 +59,19 @@ class ContactDiaryTestFragment :
             }
 
             durationValue2.setOnClickListener {
-                try {
-                    val durationPicker = DurationPicker.Builder()
-                        .duration(binding.durationValue2.text.toString())
-                        .title("Presence tracing title")
-                        .minutes(step = minutesSlider.value.toInt())
-                        .hours(
-                            min = hoursLimitsRangeSlider.values.first().roundToInt(),
-                            max = hoursLimitsRangeSlider.values.last().roundToInt(),
-                            step = hoursSlider.value.toInt()
-                        )
-                        .build()
-                    durationPicker.show(parentFragmentManager, "PresenceTracing")
-                    durationPicker.setDurationChangeListener {
-                        durationValue2.text = it.toContactDiaryFormat()
-                    }
-                } catch (exception: Exception) {
-                    MaterialAlertDialogBuilder(requireContext()).apply {
-                        setTitle("Runtime Exception")
-                        setMessage(exception.message)
-                        setPositiveButton("OK") { _, _ -> }
-                    }.show()
+                val durationPicker = DurationPicker.Builder()
+                    .duration(binding.durationValue2.text.toString())
+                    .title("Presence tracing title")
+                    .minutes(step = minutesSlider.value.toInt())
+                    .hours(
+                        min = hoursLimitsRangeSlider.values.first().roundToInt(),
+                        max = hoursLimitsRangeSlider.values.last().roundToInt(),
+                        step = hoursSlider.value.toInt()
+                    )
+                    .build()
+                durationPicker.show(parentFragmentManager, "PresenceTracing")
+                durationPicker.setDurationChangeListener {
+                    durationValue2.text = it.toContactDiaryFormat()
                 }
             }
 

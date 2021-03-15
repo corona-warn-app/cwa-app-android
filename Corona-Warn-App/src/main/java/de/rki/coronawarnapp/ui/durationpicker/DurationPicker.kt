@@ -146,7 +146,7 @@ class DurationPicker : DialogFragment(R.layout.duration_picker) {
                 values.add("%02d".format(item))
             }
             if (values.size == 0) {
-                throw IllegalArgumentException("valuesArray(min = $min, max = $max, step = $step) returns an empty array")
+                return arrayOf("00")
             }
             return values.toTypedArray()
         }
