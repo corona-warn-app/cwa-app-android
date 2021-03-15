@@ -34,7 +34,6 @@
         android:ellipsize="end"
         android:focusable="true"
         android:maxLines="3"
-        app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_element_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_element_image"
         app:layout_constraintTop_toTopOf="@+id/contact_diary_overview_element_image"
