@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.appconfig.LogUploadConfig
+import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
 import de.rki.coronawarnapp.appconfig.SurveyConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 
@@ -17,7 +18,8 @@ data class DefaultConfigMapping(
     val exposureWindowRiskCalculationConfig: ExposureWindowRiskCalculationConfig,
     override val survey: SurveyConfig,
     override val analytics: AnalyticsConfig,
-    override val logUpload: LogUploadConfig
+    override val logUpload: LogUploadConfig,
+    override val presenceTracing: PresenceTracingConfig,
 ) : ConfigMapping,
     CWAConfig by cwaConfig,
     KeyDownloadConfig by keyDownloadConfig,
