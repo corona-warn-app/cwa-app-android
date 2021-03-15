@@ -67,16 +67,26 @@ fun PresenceTracingSubmissionParamContainer.deriveTime(
     Timber.d("overlapWithEndInterval: $overlapWithEndInterval")
 
     val targetDurationInSeconds =
-        ((durationInSeconds + aerosoleDecayInSeconds) / INTERVAL_LENGTH_IN_SECONDS).roundToLong() * INTERVAL_LENGTH_IN_SECONDS
+        ((durationInSeconds + aerosoleDecayInSeconds) / INTERVAL_LENGTH_IN_SECONDS).roundToLong() *
+            INTERVAL_LENGTH_IN_SECONDS
+
     Timber.d("targetDurationInSeconds:$targetDurationInSeconds")
 
     return if (overlapWithEndInterval > overlapWithStartInterval) {
-        Timber.d("overlapWithEndInterval: $overlapWithEndInterval > overlapWithStartInterval: $overlapWithStartInterval")
+        Timber.d(
+            "overlapWithEndInterval:%s > overlapWithStartInterval:%s",
+            overlapWithEndInterval,
+            overlapWithStartInterval
+        )
         val newEndTimestamp = relevantEndIntervalTimestamp + INTERVAL_LENGTH_IN_SECONDS
         val newStartTimestamp = newEndTimestamp - targetDurationInSeconds
         newStartTimestamp to newEndTimestamp
     } else {
-        Timber.d("overlapWithEndInterval: $overlapWithEndInterval > overlapWithStartInterval: $overlapWithStartInterval")
+        Timber.d(
+            "overlapWithEndInterval:%s, overlapWithStartInterval:%s",
+            overlapWithEndInterval,
+            overlapWithStartInterval
+        )
         val newEndTimestamp = relevantStartIntervalTimestamp + targetDurationInSeconds
         relevantStartIntervalTimestamp to newEndTimestamp
     }
