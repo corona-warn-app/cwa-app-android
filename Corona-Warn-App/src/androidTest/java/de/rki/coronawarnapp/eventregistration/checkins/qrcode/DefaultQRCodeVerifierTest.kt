@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
+import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.eventregistration.common.base32
 import de.rki.coronawarnapp.eventregistration.common.decodeBase32
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.security.SignatureValidation
@@ -11,6 +13,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import org.junit.Before
 import org.junit.Ignore
@@ -20,7 +23,7 @@ import org.junit.runners.JUnit4
 import testhelpers.BaseTestInstrumentation
 
 @RunWith(JUnit4::class)
-@Ignore("FIXME: Provide new encoded signed trace location samples")
+@Ignore("Until format is clarified")
 class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
@@ -38,7 +41,7 @@ class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
         val time = 2687960 * 1_000L
         val instant = Instant.ofEpochMilli(time)
         shouldNotThrowAny {
-            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
+            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT.decodeBase32().toByteArray())
             verifyResult.apply {
                 singedTraceLocation.location.description shouldBe "CWA Launch Party"
                 verifyResult.isBeforeStartTime(instant) shouldBe false
@@ -52,7 +55,7 @@ class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
         val time = 2687940 * 1_000L
         val instant = Instant.ofEpochMilli(time)
         shouldNotThrowAny {
-            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
+            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT.decodeBase32().toByteArray())
             verifyResult.apply {
                 singedTraceLocation.location.description shouldBe "CWA Launch Party"
             }
@@ -65,7 +68,7 @@ class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
     fun verifyEventEndTimeWarning() = runBlockingTest {
         val instant = Instant.now()
         shouldNotThrowAny {
-            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
+            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT.decodeBase32().toByteArray())
             verifyResult.apply {
                 singedTraceLocation.location.description shouldBe "CWA Launch Party"
             }
@@ -78,14 +81,62 @@ class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
     fun verifyEventWithInvalidKey() = runBlockingTest {
         every { environmentSetup.appConfigVerificationKey } returns INVALID_PUB_KEY
         shouldThrow<InvalidQRCodeSignatureException> {
-            qrCodeVerifier.verify(ENCODED_EVENT)
+            qrCodeVerifier.verify(ENCODED_EVENT.decodeBase32().toByteArray())
         }
     }
 
     @Test
     fun eventHasMalformedData() = runBlockingTest {
         shouldThrow<InvalidQRCodeDataException> {
-            qrCodeVerifier.verify(INVALID_ENCODED_EVENT)
+            qrCodeVerifier.verify(INVALID_ENCODED_EVENT.decodeBase32().toByteArray())
+        }
+    }
+
+    @Test
+    fun decodingTest1() = runBlockingTest {
+        val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder().apply {
+            signature = ByteString.copyFromUtf8(
+                "MEYCIQCNSNL6E/XyCaemkM6//CIBo+goZKJi/URimqcvwIKzCgIhAOfZPRAfZBRmwpq4sbxrLs3EhY3i914aO4lJ59XCFhwk"
+            )
+            location = TraceLocationOuterClass.TraceLocation.parseFrom(
+                "BISDGMBVGUZTGMLDFUZDGMBWFU2DGZRTFU4TONBSFU3GIODGMFRDKNDFHA2DQEABDABCEEKNPEQEE2LSORUGIYLZEBIGC4TUPEVAWYLUEBWXSIDQNRQWGZJQ2OD2IAJY66D2IAKAAA"
+                    .decodeBase32().toByteArray()
+            )
+        }.build()
+
+        val base32 = signedTraceLocation.toByteArray().toByteString().base32()
+
+        shouldNotThrowAny {
+            val verifyResult = qrCodeVerifier.verify(base32.decodeBase32().toByteArray())
+
+            verifyResult.apply {
+                singedTraceLocation.location.description shouldBe "My Birthday Party"
+                signedTraceLocation.signature shouldBe "MEYCIQCNSNL6E/XyCaemkM6//CIBo+goZKJi/URimqcvwIKzCgIhAOfZPRAfZBRmwpq4sbxrLs3EhY3i914aO4lJ59XCFhwk"
+            }
+        }
+    }
+
+    @Test
+    fun decodingTest2() = runBlockingTest {
+        val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder().apply {
+            signature = ByteString.copyFromUtf8(
+                "MEUCIFpHvUqYAIP0Mq86R7kNO4EgRSvGJHbOlDraauKZvkgbAiEAh93bBDYviEtym4q5Oqzd7j6Dp1MLCP7YwCKlVcU2DHc="
+            )
+            location = TraceLocationOuterClass.TraceLocation.parseFrom(
+                "BISGMY3BHA2GEMZXFU3DCYZQFU2GCN3DFVRDEZRYFU4DENLDMFSGINJQGZRWMEABDAASEDKJMNSWG4TFMFWSAU3IN5YCUDKNMFUW4ICTORZGKZLUEAYTAABYABAAU"
+                    .decodeBase32().toByteArray()
+            )
+        }.build()
+
+        val base32 = signedTraceLocation.toByteArray().toByteString().base32()
+
+        shouldNotThrowAny {
+            val verifyResult = qrCodeVerifier.verify(base32.decodeBase32().toByteArray())
+
+            verifyResult.apply {
+                singedTraceLocation.location.description shouldBe "Icecream Shop"
+                signedTraceLocation.signature shouldBe "MEUCIFpHvUqYAIP0Mq86R7kNO4EgRSvGJHbOlDraauKZvkgbAiEAh93bBDYviEtym4q5Oqzd7j6Dp1MLCP7YwCKlVcU2DHc="
+            }
         }
     }
 
