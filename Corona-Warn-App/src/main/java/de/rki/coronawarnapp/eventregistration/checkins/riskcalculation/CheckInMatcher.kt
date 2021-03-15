@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.download.DownloadedCheckInsRepo
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
@@ -11,11 +10,9 @@ class CheckInMatcher @Inject constructor(
     private val downloadedCheckInsRepo: DownloadedCheckInsRepo
 ) {
 
-    val checkInOverlapFlow = MutableStateFlow<List<CheckInOverlap>>(emptyList())
-
-    suspend fun execute() {
-        val localCheckIns = checkInsRepository.allCheckIns.firstOrNull() ?: return
-        val downloadedPackages = downloadedCheckInsRepo.allCheckInsPackages.firstOrNull() ?: return
+    suspend fun execute(): List<CheckInOverlap> {
+        val localCheckIns = checkInsRepository.allCheckIns.firstOrNull() ?: return emptyList()
+        val downloadedPackages = downloadedCheckInsRepo.allCheckInsPackages.firstOrNull() ?: return emptyList()
         val relevantDownloadedCheckIns =
             downloadedPackages.flatMap {
                 filterRelevantEventCheckIns(
@@ -23,8 +20,11 @@ class CheckInMatcher @Inject constructor(
                     it
                 )
             }
-        if (relevantDownloadedCheckIns.isEmpty()) return
+        if (relevantDownloadedCheckIns.isEmpty()) return emptyList()
 
+        //TODO split by midnight UTC
+
+        // calculate time overlap
         val eventOverlapList = mutableListOf<CheckInOverlap>()
         relevantDownloadedCheckIns.forEach { relevantDownloadedCheckIn ->
             localCheckIns.forEach { localCheckIn ->
@@ -32,6 +32,6 @@ class CheckInMatcher @Inject constructor(
                 if (overlap != null) eventOverlapList.add(overlap)
             }
         }
-        checkInOverlapFlow.value = eventOverlapList
+        return eventOverlapList
     }
 }

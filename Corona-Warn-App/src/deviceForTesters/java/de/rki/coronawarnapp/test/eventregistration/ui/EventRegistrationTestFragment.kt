@@ -64,8 +64,11 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         }
 
         viewModel.checkInOverlaps.observe2(this) {
-            val text = it.fold(StringBuilder()) { stringBuilder, eventOverlap ->
-                stringBuilder.append("Overlap ${eventOverlap.checkInGuid} ${eventOverlap.overlap.standardMinutes} min")
+            val text = it.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
+                stringBuilder
+                    .append("CheckIn Id ${checkInOverlap.checkInId}")
+                    .append("SeqNo ${checkInOverlap.seqNo}")
+                    .append("Min. ${checkInOverlap.overlap.standardMinutes}")
                     .append("\n")
             }
             binding.resultText.text = text

@@ -27,7 +27,8 @@ fun calculateOverlap(
 }
 
 data class CheckInOverlap(
-    val checkInGuid: String,
+    val checkInId: Long,
+    val seqNo: Int,
     val overlap: Duration
 )
 
