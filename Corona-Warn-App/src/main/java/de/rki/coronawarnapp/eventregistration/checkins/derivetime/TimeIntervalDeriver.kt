@@ -7,23 +7,30 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlin.math.roundToLong
 
-private const val MINUTES_INTERVAL = 10L
+private val INTERVAL_LENGTH_IN_SECONDS = TimeUnit.MINUTES.toSeconds(10L)
 
-private fun minutesInSeconds(minutes: Long) = TimeUnit.MINUTES.toSeconds(minutes)
-
-private fun alignToInterval(timestamp: Long): Long {
-    val minutesInSeconds = minutesInSeconds(MINUTES_INTERVAL)
-    return (timestamp / minutesInSeconds) * minutesInSeconds
-}
+private fun alignToInterval(timestamp: Long) =
+    (timestamp / INTERVAL_LENGTH_IN_SECONDS) * INTERVAL_LENGTH_IN_SECONDS
 
 private fun Range.inRange(value: Long): Boolean {
-    if (minExclusive && value <= min) return false
-    else if (!minExclusive && value < min) return false
+    val inRage = when {
+        minExclusive && value <= min -> false
+        !minExclusive && value < min -> false
+        maxExclusive && value >= max -> false
+        !maxExclusive && value > max -> false
+        else -> true
+    }
 
-    if (maxExclusive && value >= max) return false
-    else if (!maxExclusive && value > max) return false
-
-    return true
+    Timber.d(
+        "Value:%s isInRange:%s - Range{min:%s,max:%s,minExclusive:%s,maxExclusive:%s}",
+        value,
+        inRage,
+        min,
+        max,
+        minExclusive,
+        maxExclusive
+    )
+    return inRage
 }
 
 fun PresenceTracingSubmissionParamContainer.deriveTime(
@@ -31,40 +38,45 @@ fun PresenceTracingSubmissionParamContainer.deriveTime(
     endTimestamp: Long
 ): Pair<Long, Long>? {
     val durationInSeconds = max(0, endTimestamp - startTimestamp)
-    val durationInMinutes = TimeUnit.SECONDS.toMinutes(durationInSeconds)
     Timber.d("durationInSeconds: $durationInSeconds")
+
+    val durationInMinutes = TimeUnit.SECONDS.toMinutes(durationInSeconds)
+    Timber.d("durationInMinutes: $durationInMinutes")
 
     val dropDueToDuration = durationFilters.any { durationFilter ->
         durationFilter.dropIfMinutesInRange.inRange(durationInMinutes)
     }
-
     Timber.d("dropDueToDuration: $dropDueToDuration")
     if (dropDueToDuration) return null
 
-    val aerosoleDecayInSeconds = aerosoleDecayLinearFunctions.filter { aerosole ->
+    val aerosoleDecays = aerosoleDecayLinearFunctions.filter { aerosole ->
         aerosole.minutesRange.inRange(durationInMinutes)
     }.map { aerosole ->
-        aerosole.slope * durationInSeconds + minutesInSeconds(aerosole.intercept.toLong())
-    }.firstOrNull() ?: 0.0 //default: zero, i.e. 'no decay'
+        aerosole.slope * durationInSeconds + TimeUnit.MINUTES.toSeconds(aerosole.intercept.toLong())
+    }
+    Timber.d("aerosoleDecays:$aerosoleDecays")
+    val aerosoleDecayInSeconds = aerosoleDecays.firstOrNull() ?: 0.0 // Default: zero, i.e. 'no decay'
+    Timber.d("aerosoleDecayInSeconds: $aerosoleDecayInSeconds")
 
-    val relevantEndTimestamp = endTimestamp + aerosoleDecayInSeconds
+    val relevantEndTimestamp = endTimestamp + aerosoleDecayInSeconds.toLong()
     val relevantStartIntervalTimestamp = alignToInterval(startTimestamp)
-    val relevantEndIntervalTimestamp = alignToInterval(relevantEndTimestamp.toLong())
-
-    val overlapWithStartInterval = relevantStartIntervalTimestamp + MINUTES_INTERVAL - startTimestamp
+    val relevantEndIntervalTimestamp = alignToInterval(relevantEndTimestamp)
+    val overlapWithStartInterval = relevantStartIntervalTimestamp + INTERVAL_LENGTH_IN_SECONDS - startTimestamp
     val overlapWithEndInterval = relevantEndTimestamp - relevantEndIntervalTimestamp
     Timber.d("overlapWithStartInterval: $overlapWithStartInterval")
     Timber.d("overlapWithEndInterval: $overlapWithEndInterval")
 
     val targetDurationInSeconds =
-        ((durationInSeconds + aerosoleDecayInSeconds) / MINUTES_INTERVAL).roundToLong() * MINUTES_INTERVAL
-    Timber.d("targetDurationInSeconds: $targetDurationInSeconds")
+        ((durationInSeconds + aerosoleDecayInSeconds) / INTERVAL_LENGTH_IN_SECONDS).roundToLong() * INTERVAL_LENGTH_IN_SECONDS
+    Timber.d("targetDurationInSeconds:$targetDurationInSeconds")
 
     return if (overlapWithEndInterval > overlapWithStartInterval) {
-        val newEndTimestamp = relevantEndIntervalTimestamp + MINUTES_INTERVAL
+        Timber.d("overlapWithEndInterval: $overlapWithEndInterval > overlapWithStartInterval: $overlapWithStartInterval")
+        val newEndTimestamp = relevantEndIntervalTimestamp + INTERVAL_LENGTH_IN_SECONDS
         val newStartTimestamp = newEndTimestamp - targetDurationInSeconds
         newStartTimestamp to newEndTimestamp
     } else {
+        Timber.d("overlapWithEndInterval: $overlapWithEndInterval > overlapWithStartInterval: $overlapWithStartInterval")
         val newEndTimestamp = relevantStartIntervalTimestamp + targetDurationInSeconds
         relevantStartIntervalTimestamp to newEndTimestamp
     }
