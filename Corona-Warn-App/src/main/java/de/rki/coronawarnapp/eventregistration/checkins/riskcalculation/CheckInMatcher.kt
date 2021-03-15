@@ -22,7 +22,7 @@ class CheckInMatcher @Inject constructor(
             }
         if (relevantDownloadedCheckIns.isEmpty()) return emptyList()
 
-        //TODO split by midnight UTC
+        // TODO split by midnight UTC?
 
         // calculate time overlap
         val eventOverlapList = mutableListOf<CheckInOverlap>()
