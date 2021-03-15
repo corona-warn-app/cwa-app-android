@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_box"
     style="@style/ContactDiaryExpandableListItem"
+    android:paddingBottom="17dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -12,7 +13,6 @@
         android:layout_width="88dp"
         android:layout_height="136dp"
         android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="21.01.2021">
@@ -67,6 +67,19 @@
         app:layout_constraintStart_toEndOf="@+id/icon"
         app:layout_constraintTop_toBottomOf="@+id/location"
         tools:text="18:00 - 21:00 Uhr" />
+
+    <Button
+        android:id="@+id/button"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="17dp"
+        android:text="@string/submission_test_result_positive_continue_button_with_symptoms"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icon"
+        tools:text="Selbst einchecken" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
