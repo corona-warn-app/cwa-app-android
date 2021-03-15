@@ -30,8 +30,9 @@ class ValidUrlProvider : ArgumentsProvider {
                     "NEPPKKTAAIH5BSV45EPOINHOASARJLYYSHNTUUHLNGVYUZXZEBWARBACD53WYEGYXYQS3STOFLSOVM3XX" +
                     "D5A5HKMFQR7WYYARKKVOFGYGHO"
             ),
-            Arguments.of("JBSWY3DPEBLW64TMMQQQ===="),
-            Arguments.of("JBSWY3DPEBLW64TMMQQQ"),
+            Arguments.of("https://e.coronawarn.app/c1/JBSWY3DPEBLW64TMMQQQ===="),
+            Arguments.of("https://e.coronawarn.app/c1/JBSWY3DPEBLW64TMMQQQ"),
+            Arguments.of("https://e.coronawarn.app/c1/JBSWY3DPEBLW64TMMQQQ========"),
         )
     }
 }

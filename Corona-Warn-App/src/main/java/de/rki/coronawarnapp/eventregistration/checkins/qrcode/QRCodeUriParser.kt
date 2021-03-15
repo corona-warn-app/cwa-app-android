@@ -22,7 +22,7 @@ class QRCodeUriParser @Inject constructor() {
         if (!path.substringBeforeLast("/").equals(PATH_PREFIX, true)) return@run null
 
         val rawData = path.substringAfterLast("/")
-        val paddingDiff = rawData.length % 8
+        val paddingDiff = 8 - (rawData.length % 8)
         val maybeBase32 = rawData + createPadding(paddingDiff)
 
         if (!maybeBase32.matches(BASE32_REGEX)) return@run null
