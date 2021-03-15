@@ -67,7 +67,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             val text = it.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
                 stringBuilder
                     .append("CheckIn Id ${checkInOverlap.checkInId}")
-                    .append("SeqNo ${checkInOverlap.seqNo}")
+                    .append("Date ${checkInOverlap.localDate}")
                     .append("Min. ${checkInOverlap.overlap.standardMinutes}")
                     .append("\n")
             }

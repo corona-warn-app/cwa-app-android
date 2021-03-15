@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.CheckInsPackage
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 
 suspend fun filterRelevantEventCheckIns(
     localCheckIns: List<CheckIn>,
@@ -28,7 +29,7 @@ fun calculateOverlap(
 
 data class CheckInOverlap(
     val checkInId: Long,
-    val seqNo: Int,
+    val localDate: LocalDate,
     val overlap: Duration
 )
 
