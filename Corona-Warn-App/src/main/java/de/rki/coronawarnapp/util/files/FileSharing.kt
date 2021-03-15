@@ -50,6 +50,38 @@ class FileSharing @Inject constructor(
         }
     }
 
+    fun getFileIntentProvider(
+        path: File,
+        title: String,
+        @StringRes chooserTitle: Int? = null
+    ): FileIntentProvider = object : FileIntentProvider {
+        override fun intent(activity: Activity): Intent {
+            val builder = ShareCompat.IntentBuilder.from(activity).apply {
+                setType(path.determineMimeType())
+                setStream(getFileUri(path))
+                setSubject(title)
+                chooserTitle?.let { setChooserTitle(it) }
+            }
+
+            val intent = if (chooserTitle != null) {
+                builder.createChooserIntent()
+            } else {
+                builder.intent
+            }
+            return intent.apply {
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                Timber.tag(TAG).d("Intent created %s", this)
+            }
+        }
+
+        override val file: File = path
+    }
+
+    interface FileIntentProvider {
+        fun intent(activity: Activity): Intent
+        val file: File
+    }
+
     interface ShareIntentProvider {
         fun get(activity: Activity): Intent
     }

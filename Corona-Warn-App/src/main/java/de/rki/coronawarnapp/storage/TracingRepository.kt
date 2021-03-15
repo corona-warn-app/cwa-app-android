@@ -32,7 +32,6 @@ import javax.inject.Singleton
  * The Tracing Repository refreshes and triggers all tracing relevant data. Some functions get their
  * data directly from the Exposure Notification, others consume the shared preferences.
  *
- * @see LocalData
  * @see InternalExposureNotificationClient
  */
 @Singleton

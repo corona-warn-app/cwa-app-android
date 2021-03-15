@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -31,11 +32,15 @@ class DiaryVisitCensor @Inject constructor(
         if (visitsNow.isEmpty()) return null
 
         val newMessage = visitsNow.fold(entry.message) { orig, visit ->
-            if (visit.circumstances.isNullOrBlank()) return@fold orig
+            var wip = orig
 
-            orig.replace(visit.circumstances!!, "Visit#${visit.id}/Circumstances")
+            BugCensor.withValidComment(visit.circumstances) {
+                wip = wip.replace(it, "Visit#${visit.id}/Circumstances")
+            }
+
+            wip
         }
 
-        return entry.copy(message = newMessage)
+        return entry.toNewLogLineIfDifferent(newMessage)
     }
 }

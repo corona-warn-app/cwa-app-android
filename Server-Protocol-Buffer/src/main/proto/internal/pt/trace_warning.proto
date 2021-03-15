@@ -1,0 +1,22 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.pt;
+
+
+import "internal/pt/check_in.proto";
+
+message TraceWarningPackage {
+  // hours since UNIX Epoch
+  uint32 intervalNumber = 1;
+  string region = 2;
+  repeated TraceTimeIntervalWarning timeIntervalWarnings = 3;
+}
+
+message TraceTimeIntervalWarning {
+  string locationGuid = 1; // uuid
+  // 10-minute intervals since UNIX Epoch
+  uint32 startIntervalNumber = 2;
+  // Number of 10-minute intervals to which the warning applies
+  uint32 period = 3;
+  uint32 transmissionRiskLevel = 4;
+}

@@ -1,0 +1,24 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.evreg;
+
+
+message PosterTemplateAndroid {
+  // SVG
+  bytes template = 1;
+
+  float offsetX = 2;
+  float offsetY = 3;
+
+  uint32 qrCodeSideLength = 4;
+}
+
+message PosterTemplateIOS {
+  // PDF
+  bytes template = 1;
+
+  uint32 offsetX = 2;
+  uint32 offsetY = 3;
+
+  uint32 qrCodeSideLength = 4;
+}

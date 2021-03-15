@@ -88,4 +88,7 @@
     <!-- Bottom Nav bar-->
     <color name="navItemColorSelected">@color/colorAccent</color>
     <color name="navItemColorNormal">#999999</color>
+
+    <!-- Trace location -->
+    <color name="colorTraceLocationIconDateBackground">#FFFFFF</color>
 </resources>
