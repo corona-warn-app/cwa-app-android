@@ -172,6 +172,8 @@
 
     <!-- XBUT: Option - person encounter - inside-->
     <string name="contact_diary_location_visit_duration_label">Dauer</string>
+    <!-- XTXT: Option - location encounter - duration in hours label-->
+    <string name="contact_diary_location_visit_duration_hour">"Std."</string>
     <!-- XTXT: Option - person encounter - circumstances hint-->
     <string name="contact_diary_location_visit_circumstances_hint">Notiz (z.B. sehr voll)</string>
 </resources>
