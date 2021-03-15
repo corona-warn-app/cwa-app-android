@@ -13,6 +13,7 @@ import org.joda.time.format.DateTimeFormatter
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 /**
@@ -53,6 +54,7 @@ internal class TimeIntervalDeriverTest : BaseTest() {
   } */
 
     private val timeFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm Z")
+        .withLocale(Locale.GERMAN)
     private val presenceTracingConfig = PresenceTracingSubmissionParamContainer(
         durationFilters = listOf(
             DurationFilter.newBuilder()
