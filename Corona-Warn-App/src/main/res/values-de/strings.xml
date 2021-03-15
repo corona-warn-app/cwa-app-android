@@ -1914,7 +1914,7 @@
     <!-- XHED: Duration dialog title -->
     <string name="duration_dialog_title">Dauer</string>
     <!-- XBUT: Duration dialog cancel button -->
-    <string name="duration_dialog_cancel_button">Cancel</string>
+    <string name="duration_dialog_cancel_button">Abbrechen</string>
     <!-- XBUT: Duration dialog ok button -->
     <string name="duration_dialog_ok_button">OK</string>
     <!-- NOTR -->
