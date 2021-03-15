@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
-import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.eventregistration.common.decodeBase32
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
@@ -13,17 +12,10 @@ class DefaultQRCodeVerifierTest2 : BaseTest() {
     @Test
     fun `protobuf decoding 1`() {
         val signedTraceLocation =
-            TraceLocationOuterClass.SignedTraceLocation.newBuilder(TraceLocationOuterClass.SignedTraceLocation.getDefaultInstance())
-                .apply {
-                    signature = ByteString.copyFromUtf8(
-                        "MEYCIQCNSNL6E/XyCaemkM6//CIBo+goZKJi/URimqcvwIKzCgIhAOfZPRAfZBRmwpq4sbxrLs3EhY3i914aO4lJ59XCFhwk"
-                    )
-                    location = ByteString.copyFrom(
-                        "BISDGMBVGUZTGMLDFUZDGMBWFU2DGZRTFU4TONBSFU3GIODGMFRDKNDFHA2DQEABDABCEEKNPEQEE2LSORUGIYLZEBIGC4TUPEVAWYLUEBWXSIDQNRQWGZJQ2OD2IAJY66D2IAKAAA".decodeBase32()
-                            .toByteArray()
-                    )
-
-                }.build()
+            TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+                "BJLAUJBTGA2TKMZTGFRS2MRTGA3C2NBTMYZS2OJXGQZC2NTEHBTGCYRVGRSTQNBYCAARQARCCFGXSICCNFZHI2DEMF4SAUDBOJ2HSKQLMF2CA3LZEBYGYYLDMUYNHB5EAE4PPB5EAFAAAESGGBCAEIDFJJ7KHRO3ZZ2SFMJSBXSUY2ZZKGOIZS27L2D6VPKTA57M6RZY3MBCARR7LXAA2BY3IGNTHNFFAJSMIXF6PP4TEB3I2C3D7P32QUZHVVER"
+                    .decodeBase32().toByteArray()
+            )
 
         signedTraceLocation.apply {
             TraceLocationOuterClass.TraceLocation.parseFrom(location).apply {
@@ -36,7 +28,8 @@ class DefaultQRCodeVerifierTest2 : BaseTest() {
                 endTimestamp shouldBe 2687991
                 defaultCheckInLengthInMinutes shouldBe 0
             }
-            signature.toStringUtf8() shouldBe "MEYCIQCNSNL6E/XyCaemkM6//CIBo+goZKJi/URimqcvwIKzCgIhAOfZPRAfZBRmwpq4sbxrLs3EhY3i914aO4lJ59XCFhwk"
+            signature.toByteArray().toByteString()
+                .base64() shouldBe "MEQCIGVKfqPF2851IrEyDeVMazlRnIzLX16H6r1TB37PRzjbAiBGP13ADQcbQZsztKUCZMRcvnv5Mgdo0LY/v3qFMnrUkQ=="
         }
 
         signedTraceLocation.location.toByteArray().toByteString()
@@ -45,15 +38,10 @@ class DefaultQRCodeVerifierTest2 : BaseTest() {
 
     @Test
     fun `protobuf decoding 2`() {
-        val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder().apply {
-            signature = ByteString.copyFromUtf8(
-                "MEUCIFpHvUqYAIP0Mq86R7kNO4EgRSvGJHbOlDraauKZvkgbAiEAh93bBDYviEtym4q5Oqzd7j6Dp1MLCP7YwCKlVcU2DHc="
-            )
-            location = ByteString.copyFrom(
-                "BISGMY3BHA2GEMZXFU3DCYZQFU2GCN3DFVRDEZRYFU4DENLDMFSGINJQGZRWMEABDAASEDKJMNSWG4TFMFWSAU3IN5YCUDKNMFUW4ICTORZGKZLUEAYTAABYABAAU".decodeBase32()
-                    .toByteArray()
-            )
-        }.build()
+        val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+            "BJHAUJDGMNQTQNDCGM3S2NRRMMYC2NDBG5RS2YRSMY4C2OBSGVRWCZDEGUYDMY3GCAARQAJCBVEWGZLDOJSWC3JAKNUG64BKBVGWC2LOEBJXI4TFMV2CAMJQAA4AAQAKCJDDARACEA2ZCTGOF2HH2RQU7ODZMCSUTUBBNQYM6AR4NG6FFLC6ISXWEOI5UARADO44YYH3U53ZYL6IYM5DWALXUESAJNWRGRL5KLNLS5BM54SHDDCA"
+                .decodeBase32().toByteArray()
+        )
 
         signedTraceLocation.apply {
             TraceLocationOuterClass.TraceLocation.parseFrom(location).apply {
@@ -66,7 +54,8 @@ class DefaultQRCodeVerifierTest2 : BaseTest() {
                 endTimestamp shouldBe 0
                 defaultCheckInLengthInMinutes shouldBe 10
             }
-            signature.toStringUtf8() shouldBe "MEUCIFpHvUqYAIP0Mq86R7kNO4EgRSvGJHbOlDraauKZvkgbAiEAh93bBDYviEtym4q5Oqzd7j6Dp1MLCP7YwCKlVcU2DHc="
+            signature.toByteArray().toByteString()
+                .base64() shouldBe "MEQCIDWRTM4ujn1GFPuHlgpUnQIWwwzwI8abxSrF5Er2I5HaAiAbucxg+6d3nC/Iwzo7AXehJAS20TRX1S2rl0LO8kcYxA=="
         }
 
         signedTraceLocation.location.toByteArray().toByteString()

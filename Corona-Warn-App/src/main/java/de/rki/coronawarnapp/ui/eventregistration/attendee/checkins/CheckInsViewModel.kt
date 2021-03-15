@@ -6,8 +6,8 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.LocationQRCodeVerifier
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifier
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifyResult
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -20,7 +20,7 @@ class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     @Assisted private val deepLink: String?,
     dispatcherProvider: DispatcherProvider,
-    private val qrCodeVerifier: QRCodeVerifier,
+    private val qrCodeVerifier: LocationQRCodeVerifier,
     private val qrCodeUriParser: QRCodeUriParser
 ) : CWAViewModel(dispatcherProvider) {
 

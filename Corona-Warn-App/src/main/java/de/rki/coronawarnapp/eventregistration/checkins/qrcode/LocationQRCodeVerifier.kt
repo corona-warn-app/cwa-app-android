@@ -2,15 +2,14 @@ package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.security.SignatureValidation
-import okio.ByteString.Companion.decodeBase64
 import timber.log.Timber
 import javax.inject.Inject
 
-class DefaultQRCodeVerifier @Inject constructor(
+class LocationQRCodeVerifier @Inject constructor(
     private val signatureValidation: SignatureValidation
-) : QRCodeVerifier {
+) {
 
-    override suspend fun verify(rawTraceLocation: ByteArray): QRCodeVerifyResult {
+    fun verify(rawTraceLocation: ByteArray): QRCodeVerifyResult {
         Timber.tag(TAG).v("Verifying: %s", rawTraceLocation)
 
         val signedTraceLocation = try {
@@ -23,7 +22,7 @@ class DefaultQRCodeVerifier @Inject constructor(
         val isValid = try {
             signatureValidation.hasValidSignature(
                 signedTraceLocation.location.toByteArray(),
-                sequenceOf(signedTraceLocation.signature.toStringUtf8().decodeBase64()!!.toByteArray())
+                sequenceOf(signedTraceLocation.signature.toByteArray())
             )
         } catch (e: Exception) {
             throw InvalidQRCodeDataException(cause = e, message = "Verification failed.")
