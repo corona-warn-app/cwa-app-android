@@ -10,6 +10,7 @@ fun calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
 ): Int {
     val lastChangeCheckedRiskLevelDate = lastChangeCheckedRiskLevelTimestamp?.toLocalDate() ?: return 0
     val testRegisteredAtDate = testRegisteredAt?.toLocalDate() ?: return 0
+    if (lastChangeCheckedRiskLevelDate.isAfter(testRegisteredAtDate)) return 0
     return Days.daysBetween(
         lastChangeCheckedRiskLevelDate,
         testRegisteredAtDate

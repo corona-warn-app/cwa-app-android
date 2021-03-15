@@ -1,15 +1,11 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
-import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
-import de.rki.coronawarnapp.risk.RiskLevelSettings
 import org.joda.time.Duration
-import org.joda.time.Instant
 import javax.inject.Inject
 import kotlin.math.max
 
 class AnalyticsKeySubmissionRepository @Inject constructor(
-    private val storage: AnalyticsKeySubmissionStorage,
-    private val riskLevelSettings: RiskLevelSettings
+    private val storage: AnalyticsKeySubmissionStorage
 ) {
     val testResultReceivedAt: Long
         get() = storage.testResultReceivedAt.value
@@ -42,16 +38,21 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
         get() = storage.advancedConsentGiven.value
 
     val hoursSinceTestResult: Int
-        get() = Duration.millis(max(submittedAt - testResultReceivedAt, 0)).toStandardHours().hours
+        get() = if (submittedAt > 0) {
+            Duration.millis(max(submittedAt - testResultReceivedAt, 0)).toStandardHours().hours
+        } else {
+            -1
+        }
 
     val hoursSinceTestRegistration: Int
-        get() = Duration.millis(max(submittedAt - testRegisteredAt, 0L)).toStandardHours().hours
+        get() = if (submittedAt > 0) {
+            Duration.millis(max(submittedAt - testRegisteredAt, 0L)).toStandardHours().hours
+        } else {
+            -1
+        }
 
     val daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
-        get() = calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-            riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
-            Instant.ofEpochMilli(testRegisteredAt)
-        )
+        get() = storage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
 
     val hoursSinceHighRiskWarningAtTestRegistration: Int
         get() = storage.hoursSinceHighRiskWarningAtTestRegistration.value

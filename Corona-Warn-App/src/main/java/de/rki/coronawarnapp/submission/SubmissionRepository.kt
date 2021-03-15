@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
@@ -35,7 +36,8 @@ class SubmissionRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val tekHistoryStorage: TEKHistoryStorage,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    private val testResultDonorSettings: TestResultDonorSettings
 ) {
     private val testResultReceivedDateFlowInternal =
         MutableStateFlow(Date(LocalData.initialTestResultReceivedTimestamp() ?: System.currentTimeMillis()))
@@ -183,6 +185,7 @@ class SubmissionRepository @Inject constructor(
         submissionSettings.hasViewedTestResult.update { false }
         submissionSettings.hasGivenConsent.update { false }
         analyticsKeySubmissionCollector.reset()
+        testResultDonorSettings.clear()
         revokeConsentToSubmission()
         LocalData.registrationToken(null)
         LocalData.devicePairingSuccessfulTimestamp(0L)
