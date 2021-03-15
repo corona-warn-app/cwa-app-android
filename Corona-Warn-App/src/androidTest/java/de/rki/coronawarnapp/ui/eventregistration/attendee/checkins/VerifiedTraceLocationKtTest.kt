@@ -6,39 +6,39 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import testhelpers.BaseTestInstrumentation
 
 @RunWith(JUnit4::class)
-@Ignore("FIXME: Provide new encoded signed trace location samples")
+@Suppress("MaxLineLength")
 class VerifiedTraceLocationKtTest : BaseTestInstrumentation() {
 
     @Test
     fun testVerifiedTraceLocationMapping() {
         shouldNotThrowAny {
-            val signedTraceLocation =
-                TraceLocationOuterClass.SignedTraceLocation.parseFrom(
-                    DECODED_TRACE_LOCATION.decodeBase32().toByteArray()
-                )
-            val verifiedTraceLocation =
-                QRCodeVerifyResult(singedTraceLocation = signedTraceLocation).toVerifiedTraceLocation()
+            val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+                "BJLAUJBTGA2TKMZTGFRS2MRTGA3C2NBTMYZS2OJXGQZC2NTEHBTGCYRVGRSTQNBYCAARQARCCFGXSICCNFZHI2DEMF4SAUDBOJ2HSKQLMF2CA3LZEBYGYYLDMUYNHB5EAE4PPB5EAFAAAESIGBDAEIIARVENF6QT6XZATJ5GSDHL77BCAGR6QKDEUJRP2RDCTKTS7QECWMFAEIIA47MT2EA7MQKGNQU2XCY3Y2ZOZXCILDPC65PBUO4JJHT5LQQWDQSA"
+                    .decodeBase32().toByteArray()
+            )
+
+            val traceLocation = TraceLocationOuterClass.TraceLocation.parseFrom(
+                "BISDGMBVGUZTGMLDFUZDGMBWFU2DGZRTFU4TONBSFU3GIODGMFRDKNDFHA2DQEABDABCEEKNPEQEE2LSORUGIYLZEBIGC4TUPEVAWYLUEBWXSIDQNRQWGZJQ2OD2IAJY66D2IAKAAA"
+                    .decodeBase32().toByteArray()
+            )
+            val verifiedTraceLocation = QRCodeVerifyResult(
+                singedTraceLocation = signedTraceLocation,
+                traceLocation = traceLocation
+            ).toVerifiedTraceLocation()
+
             verifiedTraceLocation shouldBe VerifiedTraceLocation(
-                guid = "Yc48RFi/hfyXKlF4DEDs/w==",
-                start = Instant.parse("1970-02-01T02:39:15.000Z"),
-                end = Instant.parse("1970-02-01T02:39:51.000Z"),
-                defaultCheckInLengthInMinutes = 30,
-                description = "CWA Launch Party"
+                guid = "MzA1NTMzMWMtMjMwNi00M2YzLTk3NDItNmQ4ZmFiNTRlODQ4",
+                start = Instant.ofEpochSecond(2687955),
+                end = Instant.ofEpochSecond(2687991),
+                defaultCheckInLengthInMinutes = 0,
+                description = "My Birthday Party",
             )
         }
-    }
-
-    companion object {
-        private const val DECODED_TRACE_LOCATION =
-            "BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBGGC5LOMNUCAUDBOJ2HSGGTQ6SACIHXQ6SAC" +
-                "KA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFFBU2SQCEEAJAUCJSQJ7WDM6" +
-                "75MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI="
     }
 }

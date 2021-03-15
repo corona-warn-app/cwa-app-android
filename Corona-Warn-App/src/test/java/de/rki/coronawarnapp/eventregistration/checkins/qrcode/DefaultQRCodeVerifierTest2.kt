@@ -5,11 +5,9 @@ import de.rki.coronawarnapp.eventregistration.common.decodeBase32
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.toByteString
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-@Disabled("Renable after encoding clarification")
 class DefaultQRCodeVerifierTest2 : BaseTest() {
 
     @Test
@@ -20,14 +18,15 @@ class DefaultQRCodeVerifierTest2 : BaseTest() {
                     signature = ByteString.copyFromUtf8(
                         "MEYCIQCNSNL6E/XyCaemkM6//CIBo+goZKJi/URimqcvwIKzCgIhAOfZPRAfZBRmwpq4sbxrLs3EhY3i914aO4lJ59XCFhwk"
                     )
-                    location = TraceLocationOuterClass.TraceLocation.parseFrom(
+                    location = ByteString.copyFrom(
                         "BISDGMBVGUZTGMLDFUZDGMBWFU2DGZRTFU4TONBSFU3GIODGMFRDKNDFHA2DQEABDABCEEKNPEQEE2LSORUGIYLZEBIGC4TUPEVAWYLUEBWXSIDQNRQWGZJQ2OD2IAJY66D2IAKAAA".decodeBase32()
                             .toByteArray()
                     )
+
                 }.build()
 
         signedTraceLocation.apply {
-            location.apply {
+            TraceLocationOuterClass.TraceLocation.parseFrom(location).apply {
                 guid shouldBe "3055331c-2306-43f3-9742-6d8fab54e848"
                 version shouldBe 1
                 typeValue shouldBe 2
@@ -50,14 +49,14 @@ class DefaultQRCodeVerifierTest2 : BaseTest() {
             signature = ByteString.copyFromUtf8(
                 "MEUCIFpHvUqYAIP0Mq86R7kNO4EgRSvGJHbOlDraauKZvkgbAiEAh93bBDYviEtym4q5Oqzd7j6Dp1MLCP7YwCKlVcU2DHc="
             )
-            location = TraceLocationOuterClass.TraceLocation.parseFrom(
+            location = ByteString.copyFrom(
                 "BISGMY3BHA2GEMZXFU3DCYZQFU2GCN3DFVRDEZRYFU4DENLDMFSGINJQGZRWMEABDAASEDKJMNSWG4TFMFWSAU3IN5YCUDKNMFUW4ICTORZGKZLUEAYTAABYABAAU".decodeBase32()
                     .toByteArray()
             )
         }.build()
 
         signedTraceLocation.apply {
-            location.apply {
+            TraceLocationOuterClass.TraceLocation.parseFrom(location).apply {
                 guid shouldBe "fca84b37-61c0-4a7c-b2f8-825cadd506cf"
                 version shouldBe 1
                 typeValue shouldBe 1

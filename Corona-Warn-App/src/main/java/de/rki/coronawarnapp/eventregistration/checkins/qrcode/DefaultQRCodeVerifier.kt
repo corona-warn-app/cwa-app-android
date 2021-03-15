@@ -33,7 +33,14 @@ class DefaultQRCodeVerifier @Inject constructor(
             throw InvalidQRCodeSignatureException(message = "QR-code did not match signature.")
         }
 
-        return QRCodeVerifyResult(signedTraceLocation)
+        val traceLocation = TraceLocationOuterClass.TraceLocation.parseFrom(
+            signedTraceLocation.location
+        )
+
+        return QRCodeVerifyResult(
+            singedTraceLocation = signedTraceLocation,
+            traceLocation = traceLocation
+        )
     }
 
     companion object {
