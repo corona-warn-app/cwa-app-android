@@ -82,7 +82,6 @@ class ContactDiaryTestFragment :
                         setPositiveButton("OK") { _, _ -> }
                     }.show()
                 }
-
             }
 
             hoursLimitsRangeSlider.setValues(0f, 24f)
