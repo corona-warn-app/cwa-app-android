@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
 import io.kotest.matchers.shouldBe
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.junit.jupiter.api.Test
@@ -54,7 +55,8 @@ internal class TimeIntervalDeriverTest : BaseTest() {
   } */
 
     private val timeFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm Z")
-        .withLocale(Locale.GERMAN)
+        .withZone(DateTimeZone.forID("Europe/Berlin"))
+        
     private val presenceTracingConfig = PresenceTracingSubmissionParamContainer(
         durationFilters = listOf(
             DurationFilter.newBuilder()
