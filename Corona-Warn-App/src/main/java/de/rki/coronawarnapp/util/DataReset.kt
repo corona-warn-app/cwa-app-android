@@ -11,14 +11,16 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.security.SecurityHelper
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -45,7 +47,11 @@ class DataReset @Inject constructor(
     private val surveySettings: SurveySettings,
     private val analyticsSettings: AnalyticsSettings,
     private val analytics: Analytics,
-    private val bugReportingSettings: BugReportingSettings
+    private val bugReportingSettings: BugReportingSettings,
+    private val tracingSettings: TracingSettings,
+    private val onboardingSettings: OnboardingSettings,
+    private val submissionSettings: SubmissionSettings,
+    private val traceLocationRepository: TraceLocationRepository,
 ) {
 
     private val mutex = Mutex()
@@ -57,11 +63,6 @@ class DataReset @Inject constructor(
     @SuppressLint("ApplySharedPref") // We need a commit here to ensure consistency
     suspend fun clearAllLocalData() = mutex.withLock {
         Timber.w("CWA LOCAL DATA DELETION INITIATED.")
-        // Because LocalData does not behave like a normal shared preference
-        LocalData.clear()
-        // Shared Preferences Reset
-        SecurityHelper.resetSharedPrefs()
-
         // Triggers deletion of all analytics contributed data
         analytics.setAnalyticsEnabled(false)
 
@@ -76,6 +77,9 @@ class DataReset @Inject constructor(
         cwaSettings.clear()
         surveySettings.clear()
         analyticsSettings.clear()
+        tracingSettings.clear()
+        onboardingSettings.clear()
+        submissionSettings.clear()
 
         // Clear contact diary database
         contactDiaryRepository.clear()
@@ -83,6 +87,8 @@ class DataReset @Inject constructor(
         statisticsProvider.clear()
 
         bugReportingSettings.clear()
+
+        traceLocationRepository.deleteAllTraceLocations()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

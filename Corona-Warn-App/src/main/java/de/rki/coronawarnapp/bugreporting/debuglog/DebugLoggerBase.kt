@@ -8,5 +8,5 @@ import javax.inject.Inject
  */
 @Suppress("UnnecessaryAbstractClass")
 abstract class DebugLoggerBase {
-    @Inject internal lateinit var bugCensors: dagger.Lazy<List<BugCensor>>
+    @Inject internal lateinit var bugCensors: dagger.Lazy<Set<BugCensor>>
 }

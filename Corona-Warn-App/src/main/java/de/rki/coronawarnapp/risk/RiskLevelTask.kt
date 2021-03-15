@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetec
 import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -45,6 +45,7 @@ class RiskLevelTask @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelStorage: RiskLevelStorage,
     private val keyCacheRepository: KeyCacheRepository,
+    private val submissionSettings: SubmissionSettings,
     private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
 ) : Task<DefaultProgress, RiskLevelTaskResult> {
 
@@ -82,7 +83,7 @@ class RiskLevelTask @Inject constructor(
             Timber.d("The current time is %s", it)
         }
 
-        if (LocalData.isAllowedToSubmitDiagnosisKeys()) {
+        if (submissionSettings.isAllowedToSubmitKeys) {
             Timber.i("Positive test result, skip risk calculation")
             return RiskLevelTaskResult(
                 calculatedAt = nowUTC,

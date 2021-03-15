@@ -1,10 +1,13 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidEmail
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
@@ -31,14 +34,22 @@ class DiaryLocationCensor @Inject constructor(
 
         if (locationsNow.isEmpty()) return null
 
-        var newMessage = locationsNow.fold(entry.message) { oldMsg, location ->
-            oldMsg.replace(location.locationName, "Location#${location.locationId}")
+        val newMessage = locationsNow.fold(entry.message) { orig, location ->
+            var wip = orig
+
+            withValidName(location.locationName) {
+                wip = wip.replace(it, "Location#${location.locationId}/Name")
+            }
+            withValidEmail(location.emailAddress) {
+                wip = wip.replace(it, "Location#${location.locationId}/EMail")
+            }
+            withValidPhoneNumber(location.phoneNumber) {
+                wip = wip.replace(it, "Location#${location.locationId}/PhoneNumber")
+            }
+
+            wip
         }
 
-        if (CWADebug.isDeviceForTestersBuild) {
-            newMessage = entry.message
-        }
-
-        return entry.copy(message = newMessage)
+        return entry.toNewLogLineIfDifferent(newMessage)
     }
 }

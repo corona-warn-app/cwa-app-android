@@ -90,6 +90,7 @@ class DebugLogger(
         Timber.tag(TAG).i("setInjectionIsReady()")
         component.inject(this)
         isDaggerReady = true
+        Timber.tag(TAG).d("Censors loaded: %s", bugCensors)
     }
 
     suspend fun start(): Unit = mutex.withLock {

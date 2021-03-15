@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/submission_test_result_pending_steps_waiting_body"
+        android:text="@string/submission_status_card_title_fetching"
         app:layout_constraintBottom_toBottomOf="@+id/progress_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

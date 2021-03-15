@@ -4,6 +4,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import de.rki.coronawarnapp.ui.launcher.LauncherActivityTestModule
 import testhelpers.viewmodels.MockViewModelModule
 import javax.inject.Singleton
 
@@ -13,6 +14,7 @@ import javax.inject.Singleton
         MockViewModelModule::class,
         FragmentTestModuleRegistrar::class,
         TestAndroidModule::class,
+        LauncherActivityTestModule::class,
     ]
 )
 @Singleton

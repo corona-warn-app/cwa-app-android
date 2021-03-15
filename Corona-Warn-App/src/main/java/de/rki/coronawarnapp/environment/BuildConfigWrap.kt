@@ -6,6 +6,12 @@ import de.rki.coronawarnapp.BuildConfig
 @Suppress("MayBeConstant")
 object BuildConfigWrap {
 
+    val DEBUG: Boolean = BuildConfig.DEBUG
+    val FLAVOR: String = BuildConfig.FLAVOR
+    val BUILD_TYPE: String = BuildConfig.BUILD_TYPE
+
+    val GIT_COMMIT_SHORT_HASH: String = BuildConfig.GIT_COMMIT_SHORT_HASH
+
     val ENVIRONMENT_JSONDATA = BuildConfig.ENVIRONMENT_JSONDATA
     val ENVIRONMENT_TYPE_DEFAULT = BuildConfig.ENVIRONMENT_TYPE_DEFAULT
 

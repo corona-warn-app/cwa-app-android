@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment
+import de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.organiser.ui.TraceLocationOrganiserQrCodesListTestFragment
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
@@ -35,6 +36,8 @@ class TestMenuFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
             ContactDiaryTestFragment.MENU_ITEM,
             PlaygroundFragment.MENU_ITEM,
             DataDonationTestFragment.MENU_ITEM,
+            DeltaonboardingFragment.MENU_ITEM,
+            EventRegistrationTestFragment.MENU_ITEM,
             DeltaonboardingFragment.MENU_ITEM,
             TraceLocationOrganiserQrCodesListTestFragment.MENU_ITEM
         ).let { MutableLiveData(it) }

@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.EnvironmentModule
+import de.rki.coronawarnapp.eventregistration.EventRegistrationModule
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.ENFModule
@@ -41,6 +42,7 @@ import de.rki.coronawarnapp.util.security.SecurityModule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.worker.WorkerBinder
 import de.rki.coronawarnapp.verification.VerificationModule
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import javax.inject.Singleton
 
 @Singleton
@@ -72,7 +74,8 @@ import javax.inject.Singleton
         WorkerBinder::class,
         StatisticsModule::class,
         DataDonationModule::class,
-        SecurityModule::class
+        SecurityModule::class,
+        EventRegistrationModule::class,
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
@@ -84,6 +87,7 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val enfClient: ENFClient
 
     val encryptedPreferencesFactory: EncryptedPreferencesFactory
+
     val errorResetTool: EncryptionErrorResetTool
 
     val playbook: Playbook
@@ -95,6 +99,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val bugReporter: BugReporter
 
     fun inject(logger: DebugLogger)
+
+    fun inject(backgroundWorkScheduler: BackgroundWorkScheduler)
 
     @Component.Factory
     interface Factory {

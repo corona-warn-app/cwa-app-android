@@ -1,47 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
-
-    <!-- ####################################
-               Preference Keys
-    ######################################
-    TODO: Check what is needed -->
-
-    <!-- NOTR -->
-    <string name="preference_name"><xliff:g id="preference">"shared_preferences_cwa"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_onboarding_completed"><xliff:g id="preference">"preference_onboarding_completed"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_onboarding_completed_timestamp"><xliff:g id="preference">"preference_onboarding_completed_timestamp"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_background_check_done"><xliff:g id="preference">"preference_background_check_done"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_reset_app"><xliff:g id="preference">"preference_reset_app"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_only_wifi"><xliff:g id="preference">"preference_only_wifi"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_tracing"><xliff:g id="preference">"preference_tracing"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_timestamp_manual_diagnosis_keys_retrieval"><xliff:g id="preference">"preference_timestamp_manual_diagnosis_keys_retrieval"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_device_pairing_successful_time"><xliff:g id="preference">"preference_device_pairing_successful_time"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_initial_tracing_activation_time"><xliff:g id="preference">"preference_initial_tracing_activation_time"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_database_password"><xliff:g id="preference">"preference_database_password"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_total_non_active_tracing"><xliff:g id="preference">"preference_total_non_active_tracing"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_last_non_active_tracing_timestamp"><xliff:g id="preference">"preference_last_non_active_tracing_timestamp"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_number_successful_submissions"><xliff:g id="preference">"preference_number_successful_submissions"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
-
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -105,6 +62,12 @@
                   Risk Card
     ###################################### -->
 
+    <!-- XTXT: risk card - Days since installation if < 14 days -->
+    <string name="risk_card_body_days_since_installation">"Instalat acum %s zile"</string>
+    <!-- XTXT: risk card - tracing active for x out of 14 days -->
+    <string name="risk_card_body_saved_days">"În ultimele 14 zile, înregistrarea în jurnal a expunerilor a fost activă timp de %1$s zile"</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">"Înregistrarea în jurnal a expunerilor este permanent activă"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Întâlnirile nu au fost încă verificate."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -307,7 +270,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"Dacă este posibil, mergeți acasă și rămâneți în casă."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"Dacă aveți întrebări despre simptome, disponibilitatea testării sau autoizolare, contactați:"</string>
+    <string name="risk_details_behavior_body_contact_doctor">"Dacă aveți întrebări despre simptome, disponibilitatea testării sau măsurile de carantină, contactați fie:"</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Spălați-vă frecvent pe mâini cu săpun timp de 20 de secunde."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -322,6 +285,8 @@
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
 
+    <!-- XMSG: risk details - ventilation bullet point -->
+    <string name="risk_details_behavior_body_ventilation">"Aerisiți spațiile interioare de mai multe ori pe zi. Astfel, deschideți ferestrele cât mai larg posibil timp de câteva minute („ventilație șoc”)."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Strănutați sau tușiți în pliul cotului sau într-un șervețel."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
@@ -337,7 +302,13 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Această perioadă este inclusă în calcul."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <string name="risk_details_information_body_period_logged">"Riscul dvs. de infectare poate fi calculat doar pentru perioadele în care a fost activă înregistrarea în jurnal a expunerilor. Prin urmare, caracteristica de înregistrare în jurnal trebuie să rămână permanent activă."</string>
+    <string name="risk_details_information_body_period_logged">"Riscul dvs. de infectare poate fi calculat doar pentru perioadele în care a fost activă înregistrarea în jurnal a expunerilor. Prin urmare, caracteristica de înregistrare în jurnal trebuie să rămână permanent activă. Înregistrarea în jurnal a expunerilor acoperă ultimele 14 zile."</string>
+    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplicația Corona-Warn a fost instalată acum %s. Riscul dvs. de infectare este calculat pentru perioadele în care înregistrarea în jurnal a expunerilor a fost activă. Dacă v-ați întâlnit cu alte persoane și înregistrarea în jurnal a expunerilor a fost activă, este calculat riscul dvs. de infectare."</string>
+    <!-- XTXT: risk details - infection period logged information body, over 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Dacă înregistrarea în jurnal a expunerilor a fost activă pe durata în care v-ați întâlnit cu alte persoane, riscul dvs. de infectare poate fi calculat pentru această perioadă."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment">"Înregistrarea în jurnal a expunerilor acoperă ultimele 14 zile. În această perioadă, caracteristica de înregistrare în jurnal de pe smartphone-ul dvs. a fost activă timp de %1$s zile. Aplicația șterge automat înregistrările mai vechi din jurnal, întrucât acestea nu mai sunt relevante pentru prevenirea infectării."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
@@ -350,8 +321,12 @@
     <string name="risk_details_information_body_low_risk">"Aveți un risc redus de infectare deoarece nu a fost înregistrată nicio expunere la persoane diagnosticate ulterior cu COVID-19 sau întâlnirile dvs. au fost limitate la o perioadă scurtă și la o distanță mai mare."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Riscul de infectare este calculat local pe smartphone-ul dvs., utilizând datele de înregistrare în jurnal a expunerilor. Calculul poate ține cont și de distanța și durata expunerii la persoane diagnosticate cu coronavirus, precum și de potențiala contagiozitate a acestora. Riscul dvs. de infectare nu poate fi observat sau transmis mai departe niciunei alte persoane."</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
+    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
+    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
-    <string name="risk_details_information_body_increased_risk_date">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată pe %1$s pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</string>
+    <string name="risk_details_information_body_increased_risk_date">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu COVID-19."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zi pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
@@ -486,7 +461,7 @@
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Activați setarea locației"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Locația dispozitivului dvs. nu poate fi determinată de aplicație, dar setarea locației dispozitivului trebuie să fie activată pentru a utiliza Bluetooth Low Energy pe unele versiuni Android."</string>
+    <string name="onboarding_tracing_location_body">"Aplicația nu poate determina locația dvs. Totuși, setarea locației dispozitivului trebuie să fie activată pentru a utiliza Bluetooth Low Energy pe Android 10 și versiunile anterioare."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Deschideți configurările dispozitivului"</string>
     <!-- XACT: Onboarding (test) page title -->
@@ -597,9 +572,6 @@
     <string name="onboarding_ppa_more_info_other_info_point_3_text">"Informații dacă ați partajat rezultatul testului și i-ați avertizat pe ceilalți."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
     <string name="onboarding_ppa_more_info_much_privacy_body">"Aceste informații nu pot fi legate de dvs. în mod personal. Identitatea dvs. va rămâne confidențială.\nInformațiile vor fi analizate în scop statistic. Ele nu vor fi salvate pentru un profil."</string>
-
-
-
 
 
     <!-- ####################################
@@ -851,26 +823,76 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"O mână ține un smartphone pe al cărui ecran este afișat un corp mare de text. Lângă text există un simbol de secțiune, reprezentând informațiile de contact."</string>
 
+    <!-- ####################################
+               App Information - Bug Reporting
+    ###################################### -->
+
     <!-- XHED: Headline for debug log screen -->
-    <string name="debugging_debuglog_title">"Raport de erori"</string>
-    <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation_section_one">"Această opțiune înregistrează comportamentul aplicației într-un fișier text de jurnal. Dacă opțiunea este activată înainte de apariția unei erori, puteți face disponibil acest raport pentru a-i ajuta pe dezvoltatori să rezolve problema.\nDacă lăsați activată această opțiune, acest lucru va conduce la cerințe de stocare ridicate. Dacă dezactivați opțiunea, raportul de erori este șters."</string>
+    <string name="debugging_debuglog_title">"Rapoarte de erori"</string>
+    <!-- XHED: Headline for current status of debug log screen -->
+    <string name="debugging_debuglog_current_status_title">"Analiză erori"</string>
+    <!-- YTXT: Description one for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation_section_one">"Pentru a ajuta echipa de suport tehnic a aplicației la analiza erorilor, puteți înregistra un raport de erori din aplicația Corona-Warn. Astfel, sunt înregistrate etapele tehnice individuale și rezultatele proceselor aplicației. Puteți trimite apoi raportul de erori la suportul tehnic și ajutați la identificarea și corectarea erorilor."</string>
+    <!-- YTXT: Description two for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation_section_two">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente:\nÎntrebări frecvente despre rapoartele de erori"</string>
+    <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
+    <string name="debugging_debuglog_intro_explanation_section_two_link_label">"Întrebări frecvente despre rapoartele de erori"</string>
+    <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/en/faq/#error_log"</string>
+    <!-- YTXT: Title of ID History -->
+    <string name="debugging_debuglog_id_history_title">"Istoric ID-uri"</string>
+    <!-- YTXT: Description of ID History -->
+    <string name="debugging_debuglog_id_history_body">"ID-urile analizelor de erori partajate până în prezent"</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
     <string name="debugging_debuglog_intro_warning">"Rețineți că rapoartele de erori pot conține date sensibile (precum un rezultat al testului sau intrări în jurnal ale contactelor). În consecință, nu este recomandat să împărtășiți public aceste rapoarte de erori."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Pornire"</string>
     <!-- XBUT: Button text to stop the log recording -->
-    <string name="debugging_debuglog_action_stop_recording">"Ștergere"</string>
+    <string name="debugging_debuglog_action_stop_recording">"Oprire și ștergere"</string>
     <!-- XBUT: Button text to share the log recording -->
-    <string name="debugging_debuglog_action_share_log">"Partajare"</string>
+    <string name="debugging_debuglog_action_share_log">"Trimitere raport de erori"</string>
+    <!-- XBUT: Button text to locally store the log recording -->
+    <string name="debugging_debuglog_action_local_log_store">"Salvare locală și continuare"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Înregistrare activă"</string>
+    <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
+    <string name="debugging_debuglog_status_lowstorage">"Memorie insuficientă"</string>
     <!-- YTXT: Status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_not_recording">"Inactivă"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"Mărime curentă: %1$s (necomprimat)"</string>
-    <!-- XHED: Title for native sharing dialog -->
-    <string name="debugging_debuglog_sharing_dialog_title">"Partajare raport de erori CWA"</string>
+    <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_message">"Raportul de erori a fost șters. Dacă ați salvat o copie locală a raportului de erori, nu a fost ștearsă."</string>
+    <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
+    <string name="debugging_debuglog_start_low_storage_error">"Aveți nevoie de cel puțin 200 MB de memorie pentru a începe analiza erorilor. Eliberați memorie."</string>
+    <!-- XHED: Dialog title if a user has stored a debug log locally -->
+    <string name="debugging_debuglog_localexport_title">"Salvat local"</string>
+    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
+    <string name="debugging_debuglog_localexport_message">"Analiza erorilor a fost salvată local."</string>
+    <!-- YTXT: Dialog message if local export has failed -->
+    <string name="debugging_debuglog_localexport_error_message">"Încercarea de a salva un raport de erori a eșuat. Verificați dacă este disponibilă suficientă memorie."</string>
+
+    <!-- XHED: Title for debug legal screen -->
+    <string name="debugging_debuglog_legal_dialog_title">"Informații detaliate despre trimiterea rapoartelor de erori"</string>
+    <!-- YTXT: Section Title for debug legal screen -->
+    <string name="debugging_debuglog_legal_section_title">"Cum analizează RKI rapoartele de erori"</string>
+    <!-- YTXT: Section Body for debug legal screen -->
+    <string name="debugging_debuglog_legal_section_body">"După ce este verificată autenticitatea aplicației dvs., raportul de erori este trimis la RKI printr-o conexiune sigură. Rapoartele de erori vor fi utilizate doar pentru depanarea și corecția erorilor în cadrul unor actualizări viitoare ale aplicației. Doar angajații responsabili cu suportul tehnic pot accesa rapoartele de erori. Rapoartele de erori conțin o varietate de mesaje de stare și evenimente declanșate în aplicație, dar nu conțin informații care i-ar permite institutului RKI să vă determine identitatea. Doar dacă dezvăluiți ID-ul raportului de erori în legătură cu mesaje viitoare se poate face o conexiune între mesaj (și, de exemplu, numele dvs. conținut în acesta) și informațiile conținute în raportul de erori (precum mesajele tehnice pentru calculul ca parte din înregistrarea în jurnal a expunerilor, informațiile afișate și etapele efectuate în aplicație și, unde este cazul, un rezultat de test obținut și ID-urile aleatorii partajate ca parte din notificarea altor utilizatori)."</string>
+
+    <!-- XHED: Title for Bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_title">"Trimitere raport de erori"</string>
+    <!-- YTXT: First body section for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_section_one">"Consimțământul dvs. este necesar înainte de a trimite raportul de erori înregistrate la suportul tehnic al RKI."</string>
+    <!-- YTXT: Second body section for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_section_two">"După ce trimiteți raportul, veți primi un ID pentru raportul de erori. Puteți specifica acest ID pentru a-i furniza suportului tehnic, de exemplu, informații suplimentare și permiteți astfel atribuirea acestora la raportul dvs. de erori. Dacă nu furnizați ID-ul raportului de erori, RKI nu vă poate atribui raportul dvs. individual."</string>
+    <!-- YTXT: Privacy Information section for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_privacy_information">"Informații detaliate despre prelucrarea acestor date și riscurile privind prelucrarea datelor din SUA și din alte țări terțe"</string>
+    <!-- XBUT: Button for bugreporting share log screen -->
+    <string name="debugging_debuglog_share_log_button">"Sunt de acord și trimitere"</string>
+    <!-- XHED: Title for log upload history -->
+    <string name="debugging_debuglog_uploadhistory_title">"Istoric ID-uri"</string>
+    <!-- YTXT: Description for log upload history -->
+    <string name="debugging_debuglog_uploadhistory_description">"Aici vedeți ID-urile jurnalelor de analiză a erorilor."</string>
 
     <!-- ####################################
               Interoperability
@@ -1383,9 +1405,9 @@
     <!-- YTXT: Text for consent given -->
     <string name="submission_test_result_available_text_consent_given">"Vă mulțumim pentru că sunteți de acord să partajați rezultatul testului dvs. și să ajutați astfel la avertizarea celorlalți. \n\n"<b>"La pasul următor, partajați rezultatul testului dvs. apăsând „Partajare”."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_given">"Sigur doriți să anulați acest proces?"</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_given">"Afișare rezultat test"</string>
     <!-- XTXT: Close screen popup text for consent given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_given">"Important:\nSunteți pe punctul de a anula acest proces.\nÎncă nu i-ați avertizat pe ceilalți. Vă rugăm să finalizați procesul și să ajutați la protejarea celorlalți."</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_given">"După ce ați citit rezultatul testului dvs., îi puteți notifica pe ceilalți dacă este necesar și puteți întrerupe lanțul de infectare."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Ați ales să nu partajați rezultatul testului dvs. Ceilalți nu vor fi avertizați. \n\nLa pasul următor, aveți ocazia să vă răzgândiți și să partajați totuși rezultatul testului dvs., pentru a ajuta la oprirea răspândirii coronavirusului și a-i proteja pe ceilalți."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
@@ -1393,9 +1415,9 @@
     <!-- XTXT: Close screen popup text for consent NOT given -->
     <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Intrările dvs. nu vor fi salvate."</string>
     <!-- XBUT: Close screen popup cancel button -->
-    <string name="submission_test_result_available_close_dialog_cancel_button">"Anulare"</string>
+    <string name="submission_test_result_available_close_dialog_cancel_button">"Fără afișare"</string>
     <!-- XBUT: Close screen popup continue button -->
-    <string name="submission_test_result_available_close_dialog_continue_button">"Continuare"</string>
+    <string name="submission_test_result_available_close_dialog_continue_button">"Afișare"</string>
 
     <!-- Submission your consent screen -->
     <!-- XHED: Your consent screen title  -->
@@ -1557,6 +1579,8 @@
     <!-- ####################################
                Generic Error Messages
         ###################################### -->
+    <!-- XHED: error dialog - headline -->
+    <string name="errors_generic_headline_short">"Eroare"</string>
     <!-- XHED: error dialog - headline -->
     <string name="errors_generic_headline">"A apărut o problemă."</string>
     <!-- XTXT: error dialog - short text for error reason -->

@@ -7,7 +7,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -42,10 +41,10 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
             ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
     }
 
-    fun isDeltaOnboardingDone() = LocalData.isInteroperabilityShownAtLeastOnce
+    fun isDeltaOnboardingDone() = settings.wasInteroperabilityShownAtLeastOnce
 
     fun setDeltaOboardinDone(value: Boolean) {
-        LocalData.isInteroperabilityShownAtLeastOnce = value
+        settings.wasInteroperabilityShownAtLeastOnce = value
     }
 
     @AssistedFactory

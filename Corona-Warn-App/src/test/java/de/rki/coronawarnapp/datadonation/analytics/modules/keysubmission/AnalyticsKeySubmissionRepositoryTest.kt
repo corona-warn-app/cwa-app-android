@@ -26,7 +26,8 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     private fun createInstance() = AnalyticsKeySubmissionRepository(
-        storage, riskLevelSettings
+        storage,
+        riskLevelSettings
     )
 
     @Test

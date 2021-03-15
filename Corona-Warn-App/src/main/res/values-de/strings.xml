@@ -1,48 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
-
-    <!-- ####################################
-               Preference Keys
-    ######################################
-    TODO: Check what is needed -->
-
-    <!-- NOTR -->
-    <string name="preference_name"><xliff:g id="preference">"shared_preferences_cwa"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_onboarding_completed"><xliff:g id="preference">"preference_onboarding_completed"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_onboarding_completed_timestamp"><xliff:g id="preference">"preference_onboarding_completed_timestamp"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_background_check_done"><xliff:g id="preference">"preference_background_check_done"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_reset_app"><xliff:g id="preference">"preference_reset_app"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_only_wifi"><xliff:g id="preference">"preference_only_wifi"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_tracing"><xliff:g id="preference">"preference_tracing"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_timestamp_manual_diagnosis_keys_retrieval"><xliff:g id="preference">"preference_timestamp_manual_diagnosis_keys_retrieval"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_device_pairing_successful_time"><xliff:g id="preference">"preference_device_pairing_successful_time"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_initial_tracing_activation_time"><xliff:g id="preference">"preference_initial_tracing_activation_time"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_database_password"><xliff:g id="preference">"preference_database_password"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_total_non_active_tracing"><xliff:g id="preference">"preference_total_non_active_tracing"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_last_non_active_tracing_timestamp"><xliff:g id="preference">"preference_last_non_active_tracing_timestamp"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_number_successful_submissions"><xliff:g id="preference">"preference_number_successful_submissions"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
-
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -905,8 +862,22 @@
     <string name="debugging_debuglog_status_not_recording">"Inaktiv"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"Derzeitige Größe: %1$s (unkomprimiert)"</string>
+
+    <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_title">"Prüfung der Echtheit und Drittlandsübermittlung"</string>
+    <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_first_section">"Um die Echtheit Ihrer App zu bestätigen, erzeugt Ihr Smartphone eine eindeutige Kennung, die Informationen über die Version Ihres Smartphones und der App enthält. Das ist erforderlich, um sicherzustellen, dass nur Nutzer Daten auf diesem Weg an den technischen Support übersenden, die tatsächlich die Corona-Warn-App nutzen und nicht manipulierte Fehlerberichte bereitstellen. Die Kennung wird dafür einmalig an Google übermittelt. Dabei kann es auch zu einer Datenübermittlung in die USA oder andere Drittländer kommen. Dort besteht möglicherweise kein dem europäischen Recht entsprechendes Datenschutzniveau und Ihre europäischen Datenschutzrechte können eventuell nicht durchgesetzt werden. Insbesondere besteht die Möglichkeit, dass Sicherheitsbehörden im Drittland, auch ohne einen konkreten Verdacht, auf die übermittelten Daten bei Google zugreifen und diese auswerten, beispielsweise indem sie Daten mit anderen Informationen verknüpfen. Dies betrifft nur die an Google übermittelte Kennung. Die Angaben aus Ihrem Fehlerbericht erhält Google nicht. Möglicherweise kann Google jedoch anhand der Kennung auf Ihre Identität schließen und nachvollziehen, dass die Echtheitsprüfung Ihres Smartphones stattgefunden hat."</string>
+    <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_second_section">"Wenn Sie mit der Drittlandsübermittlung nicht einverstanden sind, tippen Sie bitte nicht „Einverstanden und senden“ an. Sie können die App weiterhin nutzen, eine Übersendung des Fehlerberichtes über die App ist dann jedoch nicht möglich."</string>
+
+    <!-- YTXT: Dialog title if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_title">"Wollen Sie die Fehleranalyse wirklich stoppen?"</string>
     <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
-    <string name="debugging_debuglog_stop_confirmation_message">"Der Fehlerbericht wurde gelöscht. Wenn Sie eine lokale Kopie des Fehlerberichts gespeichert haben, wurde diese nicht gelöscht."</string>
+    <string name="debugging_debuglog_stop_confirmation_message">"Hierbei werden alle bereits aufgezeichneten Daten gelöscht. Wenn Sie eine lokale Kopie des Fehlerberichts gespeichert haben, wird diese nicht gelöscht."</string>
+    <!-- YTXT: Dialog confirmation button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_confirmation_button">"Analyse stoppen"</string>
+    <!-- YTXT: Dialog discard button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_discard_button">"Analyse fortführen"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Sie brauchen mindestens 200 MB Speicherplatz, um die Fehleranalyse zu starten. Bitte geben Sie Speicherplatz frei."</string>
     <!-- XHED: Dialog title if a user has stored a debug log locally -->
@@ -915,7 +886,6 @@
     <string name="debugging_debuglog_localexport_message">"Die Fehleranalyse wurde lokal gespeichert."</string>
     <!-- YTXT: Dialog message if local export has failed -->
     <string name="debugging_debuglog_localexport_error_message">"Das Speichern des Fehlerberichts ist fehlgeschlagen. Bitte überprüfen Sie, ob genügend Speicherplatz zur Verfügung steht."</string>
-
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Ausführliche Informationen zur Übersendung der Fehlerberichte"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -930,7 +900,7 @@
     <!-- YTXT: Second body section for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_section_two">"Nach der Übersendung erhalten Sie eine Fehlerbericht-ID. Diese können Sie angeben, um dem technischen Support z.B. weitere Informationen zukommen zu lassen und dabei eine Zuordnung zu Ihrem Fehlerbericht zu ermöglichen. Wenn Sie die Fehlerbericht-ID nicht mitteilen, ist dem RKI eine Zuordnung zu Ihrer Person nicht möglich."</string>
     <!-- YTXT: Privacy Information section for bugreporting share log screen -->
-    <string name="debugging_debuglog_share_log_privacy_information">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA und anderen Drittländern."</string>
+    <string name="debugging_debuglog_share_log_privacy_information">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA und anderen Drittländern"</string>
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Einverstanden und senden"</string>
     <!-- XHED: Title for log upload history -->
@@ -1832,6 +1802,8 @@
     <string name="bottom_nav_home_title">Startseite</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">Tagebuch</string>
+    <!-- XHED: Title for BottomNav check-in screen title -->
+    <string name="bottom_nav_check_ins_title">Check In</string>
 
     <!-- ####################################
            Data Donation & Survey
@@ -1949,4 +1921,8 @@
     <string name="duration_dialog_ok_button">OK</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">00:00</string>
+
+    <!-- Scan check in QR Code-->
+    <!-- XTXT: Scan check in QR-Code  FAB text-->
+    <string name="scan_check_in_qr_code">QR-Code scannen</string>
 </resources>

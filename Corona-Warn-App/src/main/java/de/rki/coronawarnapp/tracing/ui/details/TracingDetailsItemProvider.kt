@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.tracing.ui.details
 
 import dagger.Reusable
 import de.rki.coronawarnapp.datadonation.survey.Surveys
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
@@ -29,6 +30,7 @@ import javax.inject.Inject
 class TracingDetailsItemProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     riskLevelStorage: RiskLevelStorage,
+    installTimeProvider: InstallTimeProvider,
     surveys: Surveys
 ) {
 
@@ -68,6 +70,7 @@ class TracingDetailsItemProvider @Inject constructor(
 
             if (latestCalc.riskState != RiskState.CALCULATION_FAILED && status != Status.TRACING_INACTIVE) {
                 PeriodLoggedBox.Item(
+                    daysSinceInstallation = installTimeProvider.daysSinceInstallation,
                     tracingStatus = status
                 ).also { add(it) }
             }

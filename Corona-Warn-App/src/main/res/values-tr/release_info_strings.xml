@@ -12,38 +12,30 @@
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button">"Sonraki"</string>
     <!-- XTXT: New release info footer -->
-    <string name="new_release_bottom">"Bu sürümdeki değişiklikleri uygulama ayarlarında “Yeni Özellikler” bölümünde bulabilirsiniz."</string>
+    <string name="new_release_bottom">"Bu sürümdeki değişiklikleri uygulama bilgilerinde “Yeni Özellikler” bölümünde bulabilirsiniz."</string>
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Temas Güncesindeki Ek Özellikler"</item>
-        <item>"Temas Güncesine Doğrudan Erişim"</item>
-        <item>"Risk Durumunuz Hakkında Daha Ayrıntılı Bilgi"</item>
-        <item>"Corona-Warn-App Ekran Görüntüleri"</item>
+        <item>"Uluslararası Maruz Kalma Günlüğüne İsviçre Eklendi"</item>
+        <item>"Hata Raporlarının Oluşturulması"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Artık her bir karşılaşma için belirli koşullar girebilirsiniz. Önceden tanımlanmış seçenekler (örneğin karşılaşmanın süresi, maske takılı olup olmadığı) arasından seçim yapabilir ve yüksek riske neden olabilecek diğer koşulları kaydetmek için kısa bir not da ekleyebilirsiniz. Enfekte olmanız halinde bu bilgiler kamu sağlığı yetkilisinin potansiyel enfeksiyon zincirlerini takip etmesine yardımcı olabilir."</item>
-        <item>"Artık önce uygulamayı açmanız gerekmeden doğrudan temas güncenize giriş ekleyebilirsiniz. Bunun için, bir menü görüntülenene dek yaklaşık 2 saniye süreyle Corona-Warn-App simgesine basılı tutun ve ardından “Bugün için Günce Girişi Ekle” seçeneğine dokunun."</item>
-        <item>"Uygulama, yüksek risk altında olduğunuzu belirtiyorsa artık risk durumunun, yüksek riskli bir veya daha fazla maruz kalmaya göre mi yoksa düşük riskli bir veya daha fazla maruz kalmaya göre mi görüntülendiğini görebilirsiniz."</item>
-        <item>"https://www.coronawarn.app adresindeki web sitesinde uygulamanın tüm ekran görüntüleri sunulmaktadır. Bu sayede, planlanan özellikler gibi çeşitli bilgileri edinebilirsiniz."</item>
+        <item>"Corona-Warn-App kullanıcıları artık şifrelenmiş rastgele kimlikleri, İsviçre’de resmi uyarı uygulamasının kullanıcıları ile değiştirebilir. Buna göre, artık İsviçre’deki uygulama kullanıcıları ile uyarı alışverişi yapılabilir."</item>
+        <item>"Artık teknik destek talebi üzerine bir hata raporu oluşturabilir ve uygulamada gerçekleştirdiğiniz adımları kaydedebilirsiniz. Bu sayede teknik hataların analiz edilmesi ve daha kısa süre içinde düzeltilmesi kolaylaştırılacaktır."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
-        <item/>
-        <item>"https://www.coronawarn.app"</item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
         <item/>
         <item/>
-        <item/>
-        <item>"https://www.coronawarn.app/en/screenshots"</item>
     </string-array>
 
 </resources>
