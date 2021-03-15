@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
+import kotlin.math.max
 
 class DurationPicker : DialogFragment(R.layout.duration_picker) {
 
@@ -20,6 +21,7 @@ class DurationPicker : DialogFragment(R.layout.duration_picker) {
     private var onChangeListener: OnChangeListener? = null
     private val binding: DurationPickerBinding by viewBindingLazy()
     private val hoursArray by lazy { requireArguments().getStringArray(HOURS_KEY).orEmpty() }
+    private val title by lazy { requireArguments().getString(TITLE_KEY).orEmpty() }
     private val minutesArray by lazy { requireArguments().getStringArray(MINUTES_KEY).orEmpty() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,12 +39,16 @@ class DurationPicker : DialogFragment(R.layout.duration_picker) {
             displayedValues = minutesArray
         }
 
+        with(binding.title) {
+            text = title
+        }
+
         with(binding) {
             var duration = requireArguments().getString(DURATION_KEY)!!.split(":").toTypedArray()
             if (duration.size < 2) duration = arrayOf("00", "00")
 
-            hours.value = hoursArray.indexOf(duration[0])
-            minutes.value = minutesArray.indexOf(duration[1])
+            hours.value = max(0, hoursArray.indexOf(duration[0]))
+            minutes.value = max(0, minutesArray.indexOf(duration[1]))
 
             cancelButton.setOnClickListener { dismiss() }
             okButton.setOnClickListener {
@@ -95,12 +101,12 @@ class DurationPicker : DialogFragment(R.layout.duration_picker) {
             private set
 
         /**
-         * Sets picker dialog
+         * Sets picker dialog title
          */
         fun title(title: String) = apply { this.title = title }
 
         /**
-         * Sets picker duration
+         * Sets picker default duration as "hh:mm" string
          */
         fun duration(duration: String) = apply { this.duration = duration }
 
@@ -138,6 +144,9 @@ class DurationPicker : DialogFragment(R.layout.duration_picker) {
             val values = mutableListOf<String>()
             for (item in min until max step step) {
                 values.add("%02d".format(item))
+            }
+            if (values.size == 0) {
+                throw IllegalArgumentException("valuesArray(min = $min, max = $max, step = $step) returns an empty array")
             }
             return values.toTypedArray()
         }
