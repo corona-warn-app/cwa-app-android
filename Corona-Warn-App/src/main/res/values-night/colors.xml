@@ -68,4 +68,7 @@
     <!-- Statistics -->
     <color name="colorStatisticsValueLabel">#A7A7A7</color>
     <color name="colorStatisticsPrimaryValue">#FFFFFF</color>
+
+    <!-- Trace location -->
+    <color name="colorTraceLocationIconDateBackground">#434445</color>
 </resources>
