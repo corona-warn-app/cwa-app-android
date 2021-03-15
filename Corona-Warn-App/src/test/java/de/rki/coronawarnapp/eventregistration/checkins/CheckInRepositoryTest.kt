@@ -77,4 +77,49 @@ class CheckInRepositoryTest {
             }
         }
     }
+
+    @Test
+    fun `update new check in`() {
+        coEvery { checkInDao.update(any()) } returns Unit
+        runBlockingTest {
+            val start = Instant.ofEpochMilli(1397210400000)
+            val end = Instant.ofEpochMilli(1615796487)
+            createInstance(scope = this).updateCheckIn(
+                CheckIn(
+                    id = 0L,
+                    guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                    version = 1,
+                    type = 2,
+                    description = "sisters birthday",
+                    address = "Long Beach",
+                    traceLocationStart = start,
+                    traceLocationEnd = end,
+                    defaultCheckInLengthInMinutes = null,
+                    signature = "efg",
+                    checkInStart = start,
+                    checkInEnd = end,
+                    targetCheckInEnd = end,
+                    createJournalEntry = false
+                )
+            )
+            coVerify {
+                checkInDao.update(TraceLocationCheckInEntity(
+                    id = 0L,
+                    guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                    version = 1,
+                    type = 2,
+                    description = "sisters birthday",
+                    address = "Long Beach",
+                    traceLocationStart = start,
+                    traceLocationEnd = end,
+                    defaultCheckInLengthInMinutes = null,
+                    signature = "efg",
+                    checkInStart = start,
+                    checkInEnd = end,
+                    targetCheckInEnd = end,
+                    createJournalEntry = false
+                ))
+            }
+        }
+    }
 }
