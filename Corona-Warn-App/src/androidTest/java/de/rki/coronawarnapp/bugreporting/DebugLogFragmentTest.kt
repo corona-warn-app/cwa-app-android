@@ -126,7 +126,6 @@ class DebugLogFragmentTest : BaseUITest() {
     }
 }
 
-
 @Module
 abstract class DebugLogTestModule {
     @ContributesAndroidInjector
