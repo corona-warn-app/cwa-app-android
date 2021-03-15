@@ -1,9 +1,10 @@
-package de.rki.coronawarnapp.eventregistration.events.ui.category
+package de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category
 
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.eventregistration.events.ui.category.TraceLocationUIType.EVENT
-import de.rki.coronawarnapp.eventregistration.events.ui.category.TraceLocationUIType.LOCATION
+import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.CategoryItem
+import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category.TraceLocationUIType.EVENT
+import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category.TraceLocationUIType.LOCATION
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_CRAFT
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_EDUCATIONAL_INSTITUTION
@@ -23,7 +24,9 @@ data class TraceLocationCategory(
     val uiType: TraceLocationUIType,
     @StringRes val title: Int,
     @StringRes val subtitle: Int? = null
-)
+) : CategoryItem {
+    override val stableId = hashCode().toLong()
+}
 
 enum class TraceLocationUIType {
     LOCATION, EVENT
