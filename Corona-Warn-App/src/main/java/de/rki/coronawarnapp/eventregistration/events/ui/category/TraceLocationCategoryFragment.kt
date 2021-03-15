@@ -19,9 +19,7 @@ class TraceLocationCategoryFragment : Fragment(R.layout.event_registration_categ
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.categoryNavbar.headerButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
-        }
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
 
         traceLocationCategories
             .filter { it.uiType == TraceLocationUIType.LOCATION }
