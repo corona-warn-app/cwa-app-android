@@ -46,4 +46,8 @@
         <attr name="titleText" format="string" localization="suggested" />
         <attr name="subtitleText" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="TraceLocationHighlightView">
+        <attr name="android:text" />
+    </declare-styleable>
 </resources>
