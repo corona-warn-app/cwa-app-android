@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.Duration
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @SuppressLint("SetTextI18n")
 class ContactDiaryTestFragment :
@@ -58,17 +60,32 @@ class ContactDiaryTestFragment :
             }
 
             durationValue2.setOnClickListener {
-                val durationPicker = DurationPicker.Builder()
-                    .duration(binding.durationValue.text.toString())
-                    .title("Presence tracing title")
-                    .minutes(step = minutesSlider.value.toInt())
-                    .hours(step = hoursSlider.value.toInt())
-                    .build()
-                durationPicker.show(parentFragmentManager, "PresenceTracing")
-                durationPicker.setDurationChangeListener {
-                    durationValue2.text = it.toContactDiaryFormat()
+                try {
+                    val durationPicker = DurationPicker.Builder()
+                        .duration(binding.durationValue2.text.toString())
+                        .title("Presence tracing title")
+                        .minutes(step = minutesSlider.value.toInt())
+                        .hours(
+                            min = hoursLimitsRangeSlider.values.first().roundToInt(),
+                            max = hoursLimitsRangeSlider.values.last().roundToInt(),
+                            step = hoursSlider.value.toInt()
+                        )
+                        .build()
+                    durationPicker.show(parentFragmentManager, "PresenceTracing")
+                    durationPicker.setDurationChangeListener {
+                        durationValue2.text = it.toContactDiaryFormat()
+                    }
+                } catch (exception: Exception) {
+                    MaterialAlertDialogBuilder(requireContext()).apply {
+                        setTitle("Runtime Exception")
+                        setMessage(exception.message)
+                        setPositiveButton("OK") { _, _ -> }
+                    }.show()
                 }
+
             }
+
+            hoursLimitsRangeSlider.setValues(0f, 24f)
         }
     }
 
