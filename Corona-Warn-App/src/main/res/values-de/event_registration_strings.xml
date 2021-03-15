@@ -52,7 +52,7 @@
     <string name="tracelocation_organizer_category_cultural_event_subtitle">Konzert, Kunstausstellung</string>
 
     <!-- XTXT: Title for the club activity category  -->
-    <string name="tracelocation_organizer_category_club_activity_title">Verainsaktivität</string>
+    <string name="tracelocation_organizer_category_club_activity_title">Vereinsaktivität</string>
     <!-- XTXT: Subtitle for the club activity category  -->
     <string name="tracelocation_organizer_category_club_activity_subtitle">Sporttraining, Mitgliederversammlung</string>
 
