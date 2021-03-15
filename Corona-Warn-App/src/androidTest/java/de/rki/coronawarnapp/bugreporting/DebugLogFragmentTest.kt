@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.spyk
 import org.junit.After
 import org.junit.Before
@@ -40,7 +39,8 @@ class DebugLogFragmentTest : BaseUITest() {
     @MockK lateinit var safLogExport: SAFLogExport
     @MockK lateinit var contentResolver: ContentResolver
 
-    private lateinit var viewModel: DebugLogViewModel
+    private lateinit var inactiveViewModel: DebugLogViewModel
+    private lateinit var activeViewModel: DebugLogViewModel
 
     @Rule
     @JvmField
@@ -53,24 +53,16 @@ class DebugLogFragmentTest : BaseUITest() {
     fun setup() {
 
         MockKAnnotations.init(this, relaxed = true)
-        viewModel = spyk(
-            DebugLogViewModel(
-                debugLogger,
-                TestDispatcherProvider(),
-                enfClient,
-                bugReportingSettings,
-                logSnapshotter,
-                safLogExport,
-                contentResolver
-            )
-        )
+
+        inactiveViewModel = setupViewModels(false, 0)
+        activeViewModel = setupViewModels(true, 9410 )
+
         setupMockViewModel(
             object : DebugLogViewModel.Factory {
-                override fun create(): DebugLogViewModel = viewModel
+                override fun create(): DebugLogViewModel = inactiveViewModel
             }
         )
     }
-
 
     @After
     fun teardown() {
@@ -92,9 +84,45 @@ class DebugLogFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_active_screenshot() {
-        
+
+        setupMockViewModel(
+            object : DebugLogViewModel.Factory {
+                override fun create(): DebugLogViewModel = activeViewModel
+            }
+        )
+
         launchFragmentInContainer2<DebugLogFragment>()
         takeScreenshot<DebugLogFragment>()
+    }
+
+    private fun setupViewModels(
+        isRecording: Boolean,
+        currentSize: Long,
+        isLowStorage: Boolean = false,
+        isActionInProgress: Boolean = false,
+    ): DebugLogViewModel {
+        val vm = spyk(
+            DebugLogViewModel(
+                debugLogger,
+                TestDispatcherProvider(),
+                enfClient,
+                bugReportingSettings,
+                logSnapshotter,
+                safLogExport,
+                contentResolver
+            )
+        )
+        with(vm) {
+            every { state } returns MutableLiveData(
+                DebugLogViewModel.State(
+                    isRecording = isRecording,
+                    currentSize = currentSize,
+                    isLowStorage = isLowStorage,
+                    isActionInProgress = isActionInProgress
+                )
+            )
+        }
+        return vm
     }
 }
 
