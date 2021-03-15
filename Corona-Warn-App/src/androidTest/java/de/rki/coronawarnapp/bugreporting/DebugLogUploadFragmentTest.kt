@@ -28,7 +28,6 @@ class DebugLogUploadFragmentTest : BaseUITest() {
 
     @MockK lateinit var snapShotUploader: SnapshotUploader
 
-
     @Rule
     @JvmField
     val localeTestRule = LocaleTestRule()
