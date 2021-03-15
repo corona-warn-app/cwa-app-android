@@ -22,7 +22,11 @@ interface ContactDiaryRepository {
     val locationVisits: Flow<List<ContactDiaryLocationVisit>>
     fun locationVisitsForDate(date: LocalDate): Flow<List<ContactDiaryLocationVisit>>
     suspend fun addLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit)
-    suspend fun updateLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit)
+    suspend fun updateLocationVisit(
+        visitId: Long,
+        update: (ContactDiaryLocationVisit) -> ContactDiaryLocationVisit
+    )
+
     suspend fun deleteLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit)
     suspend fun deleteLocationVisits(contactDiaryLocationVisits: List<ContactDiaryLocationVisit>)
     suspend fun deleteAllLocationVisits()
@@ -39,7 +43,11 @@ interface ContactDiaryRepository {
     val personEncounters: Flow<List<ContactDiaryPersonEncounter>>
     fun personEncountersForDate(date: LocalDate): Flow<List<ContactDiaryPersonEncounter>>
     suspend fun addPersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter)
-    suspend fun updatePersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter)
+    suspend fun updatePersonEncounter(
+        encounterId: Long,
+        update: (ContactDiaryPersonEncounter) -> ContactDiaryPersonEncounter
+    )
+
     suspend fun deletePersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter)
     suspend fun deletePersonEncounters(contactDiaryPersonEncounters: List<ContactDiaryPersonEncounter>)
     suspend fun deleteAllPersonEncounters()
