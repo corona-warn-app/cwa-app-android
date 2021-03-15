@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContain
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2
-.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters
+    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2
-.PresenceTracingParametersOuterClass.PresenceTracingRiskCalculationParameters
+    .PresenceTracingParametersOuterClass.PresenceTracingRiskCalculationParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2
-.PresenceTracingParametersOuterClass.PresenceTracingParameters.QRCodeErrorCorrectionLevel
+    .PresenceTracingParametersOuterClass.PresenceTracingParameters.QRCodeErrorCorrectionLevel
 import timber.log.Timber
 import javax.inject.Inject
 

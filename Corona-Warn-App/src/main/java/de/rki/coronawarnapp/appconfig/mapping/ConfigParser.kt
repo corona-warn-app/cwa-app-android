@@ -36,7 +36,7 @@ class ConfigParser @Inject constructor(
                 survey = surveyConfigMapper.map(it),
                 analytics = analyticsConfigMapper.map(it),
                 logUpload = logUploadConfigMapper.map(it),
-                presenceTracing=presenceTracingConfigMapper.map(it)
+                presenceTracing = presenceTracingConfigMapper.map(it)
             )
         }
     } catch (e: Exception) {
