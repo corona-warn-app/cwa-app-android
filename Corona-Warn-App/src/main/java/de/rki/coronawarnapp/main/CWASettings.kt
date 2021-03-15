@@ -50,12 +50,12 @@ class CWASettings @Inject constructor(
 
     val isNotificationsRiskEnabled = prefs.createFlowPreference(
         key = PKEY_NOTIFICATIONS_RISK_ENABLED,
-        defaultValue = false
+        defaultValue = true
     )
 
     val isNotificationsTestEnabled = prefs.createFlowPreference(
         key = PKEY_NOTIFICATIONS_TEST_ENABLED,
-        defaultValue = false
+        defaultValue = true
     )
 
     val lastChangelogVersion = prefs.createFlowPreference(
