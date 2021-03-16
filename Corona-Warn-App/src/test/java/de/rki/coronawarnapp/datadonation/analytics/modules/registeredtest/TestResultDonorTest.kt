@@ -140,6 +140,92 @@ class TestResultDonorTest : BaseTest() {
     }
 
     @Test
+    fun `No donation when test is  POSITIVE and HighRisk but riskLevelTurnedRedTime is missing`() {
+        runBlockingTest {
+            with(testResultDonorSettings) {
+                every { testScannedAfterConsent } returns mockFlowPreference(true)
+                every { testResultAtRegistration } returns mockFlowPreference(TestResult.POSITIVE)
+                every { finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
+                every { riskLevelTurnedRedTime } returns mockFlowPreference(null)
+                every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+            }
+            testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
+        }
+    }
+
+    @Test
+    fun `No donation when test is NEGATIVE and HighRisk but riskLevelTurnedRedTime is missing`() {
+        runBlockingTest {
+            with(testResultDonorSettings) {
+                every { testScannedAfterConsent } returns mockFlowPreference(true)
+                every { testResultAtRegistration } returns mockFlowPreference(TestResult.NEGATIVE)
+                every { finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
+                every { riskLevelTurnedRedTime } returns mockFlowPreference(null)
+                every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+            }
+            testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
+        }
+    }
+
+    @Test
+    fun `No donation when test is  POSITIVE and HighRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() {
+        runBlockingTest {
+            with(testResultDonorSettings) {
+                every { testScannedAfterConsent } returns mockFlowPreference(true)
+                every { testResultAtRegistration } returns mockFlowPreference(TestResult.POSITIVE)
+                every { finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
+                every { riskLevelTurnedRedTime } returns mockFlowPreference(baseTime)
+                every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
+                every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+            }
+            testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
+        }
+    }
+
+    @Test
+    fun `No donation when test is NEGATIVE and HighRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() {
+        runBlockingTest {
+            with(testResultDonorSettings) {
+                every { testScannedAfterConsent } returns mockFlowPreference(true)
+                every { testResultAtRegistration } returns mockFlowPreference(TestResult.NEGATIVE)
+                every { finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
+                every { riskLevelTurnedRedTime } returns mockFlowPreference(baseTime)
+                every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
+                every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+            }
+            testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
+        }
+    }
+
+    @Test
+    fun `No donation when test is  POSITIVE and LowRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() {
+        runBlockingTest {
+            with(testResultDonorSettings) {
+                every { testScannedAfterConsent } returns mockFlowPreference(true)
+                every { testResultAtRegistration } returns mockFlowPreference(TestResult.POSITIVE)
+                every { finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
+                every { riskLevelTurnedRedTime } returns mockFlowPreference(null)
+                every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
+            }
+            testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
+        }
+    }
+
+    @Test
+    fun `No donation when test is NEGATIVE and LowRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() {
+        runBlockingTest {
+            with(testResultDonorSettings) {
+                every { testScannedAfterConsent } returns mockFlowPreference(true)
+                every { testResultAtRegistration } returns mockFlowPreference(TestResult.NEGATIVE)
+                every { finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
+                every { riskLevelTurnedRedTime } returns mockFlowPreference(null)
+                every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
+            }
+            testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
+        }
+    }
+
+    @Test
     fun `Donation is collected when test result is NEGATIVE`() {
         runBlockingTest {
             every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
