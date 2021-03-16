@@ -6,10 +6,9 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
@@ -23,7 +22,7 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE_TELETAN
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
-import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -65,6 +64,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
+    @MockK lateinit var tracingSettings: TracingSettings
 
     @BeforeEach
     fun setup() {
@@ -96,7 +96,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         statisticsProvider = statisticsProvider,
         deadmanNotificationScheduler = deadmanNotificationScheduler,
-        appShortcutsHelper = appShortcutsHelper
+        appShortcutsHelper = appShortcutsHelper,
+        tracingSettings = tracingSettings
     )
 
     @Test
@@ -177,24 +178,15 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `test correct order of displaying delta onboarding, release notes and popups`() {
-
-        mockkObject(LocalData)
-        every { LocalData.isInteroperabilityShownAtLeastOnce } returns false andThen true
+        every { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns false andThen true
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 1120004
         every { cwaSettings.lastChangelogVersion.value } returns 1L andThen 1120004
 
-        every { LocalData.tracingExplanationDialogWasShown() } returns false andThen true
-        mockkObject(TimeVariables)
-        coEvery { TimeVariables.getActiveTracingDaysInRetentionPeriod() } coAnswers { 1 }
-
-        every { errorResetTool.isResetNoticeToBeShown } returns false andThen true
+        every { errorResetTool.isResetNoticeToBeShown } returns true
 
         with(createInstance()) {
-            showPopUps()
-            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowTracingExplanation(1)
-
             showPopUps()
             popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowErrorResetDialog
         }

@@ -43,7 +43,7 @@ object HomeData {
                 lastEncounterAt = null,
                 allowManualUpdate = false,
                 daysWithEncounters = 0,
-                activeTracingDays = 1
+                daysSinceInstallation = 4,
             ),
             onCardClick = {},
             onUpdateClick = {}
@@ -57,7 +57,7 @@ object HomeData {
                 lastEncounterAt = Instant.now(),
                 allowManualUpdate = false,
                 daysWithEncounters = 1,
-                activeTracingDays = 1
+                daysSinceInstallation = 4
             ),
             onCardClick = {},
             onUpdateClick = {}
@@ -70,7 +70,6 @@ object HomeData {
                 lastExposureDetectionTime = Instant.now(),
                 allowManualUpdate = false,
                 daysWithEncounters = 1,
-                activeTracingDays = 1,
                 lastEncounterAt = Instant.now()
             ),
             onCardClick = {},

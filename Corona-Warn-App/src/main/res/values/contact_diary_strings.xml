@@ -104,9 +104,9 @@
     <!-- XHED: Title for the contact diary dialog to delete all persons -->
     <string name="contact_diary_delete_persons_title">"Do you really want to remove all people?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_message">"If you remove a place, all the entries for that place will be removed from your journal."</string>
+    <string name="contact_diary_delete_locations_message">"If you remove all places, all the entries for all places will be removed from your journal."</string>
     <!-- XTXT: Message for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_message">"If you remove a person, all the entries for that person will be removed from your journal."</string>
+    <string name="contact_diary_delete_persons_message">"If you remove all people, all the entries for all people will be removed from your journal."</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_edit_icon_content_description">"Edit Entry"</string>
     <!-- XACT: edit icon description for screen readers -->
@@ -115,6 +115,10 @@
     <string name="contact_diary_delete_location_title">"Do you really want to remove this place?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
     <string name="contact_diary_delete_person_title">"Do you really want to remove this person?"</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single location -->
+    <string name="contact_diary_delete_location_message">"If you remove a place, all the entries for that place will be removed from your journal."</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single person -->
+    <string name="contact_diary_delete_person_message">"If you remove a person, all the entries for that person will be removed from your journal."</string>
 
     <!-- XHED: Title for the contact journal export email subject -->
     <string name="contact_diary_export_subject" translatable="false">"Mein Kontakt-Tagebuch"</string>
@@ -142,8 +146,6 @@
     <string name="contact_diary_export_location_duration_prefix" translatable="false">"Dauer"</string>
     <!-- XTXT: Location duration postfix in the contact journal export-->
     <string name="contact_diary_export_location_duration_suffix" translatable="false">"h"</string>
-    <!-- XTXT: Location duration prefix in the contact journal overview-->
-    <string name="contact_diary_overview_location_duration_suffix" translatable="false">"Std."</string>
 
     <!-- XHED: Title for the contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_title">"Note"</string>
@@ -197,6 +199,8 @@
 
     <!-- XBUT: Option - person encounter - inside-->
     <string name="contact_diary_location_visit_duration_label">"Duration"</string>
+    <!-- XTXT: Option - location encounter - duration in hours label-->
+    <string name="contact_diary_location_visit_duration_hour">"h"</string>
     <!-- XTXT: Option - person encounter - circumstances hint-->
     <string name="contact_diary_location_visit_circumstances_hint">"Note (e.g. very full)"</string>
 </resources>

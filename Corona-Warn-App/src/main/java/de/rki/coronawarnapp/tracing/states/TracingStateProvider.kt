@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.states
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskState
@@ -25,9 +26,9 @@ class TracingStateProvider @AssistedInject constructor(
     backgroundModeStatus: BackgroundModeStatus,
     tracingRepository: TracingRepository,
     riskLevelStorage: RiskLevelStorage,
-    exposureDetectionTracker: ExposureDetectionTracker
+    exposureDetectionTracker: ExposureDetectionTracker,
+    installTimeProvider: InstallTimeProvider
 ) {
-
     val state: Flow<TracingState> = combine(
         tracingStatus.generalStatus.onEach {
             Timber.v("tracingStatus: $it")
@@ -38,9 +39,6 @@ class TracingStateProvider @AssistedInject constructor(
         riskLevelStorage.latestAndLastSuccessful.onEach {
             Timber.v("riskLevelResults: $it")
         },
-        tracingRepository.activeTracingDaysInRetentionPeriod.onEach {
-            Timber.v("activeTracingDaysInRetentionPeriod: $it")
-        },
         exposureDetectionTracker.latestSubmission().onEach {
             Timber.v("latestSubmission: $it")
         },
@@ -50,7 +48,6 @@ class TracingStateProvider @AssistedInject constructor(
     ) { tracingStatus,
         tracingProgress,
         riskLevelResults,
-        activeTracingDaysInRetentionPeriod,
         latestSubmission,
         isBackgroundJobEnabled ->
 
@@ -76,8 +73,8 @@ class TracingStateProvider @AssistedInject constructor(
                 lastExposureDetectionTime = latestSubmission?.startedAt,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
-                activeTracingDays = activeTracingDaysInRetentionPeriod.toInt(),
-                allowManualUpdate = !isBackgroundJobEnabled
+                allowManualUpdate = !isBackgroundJobEnabled,
+                daysSinceInstallation = installTimeProvider.daysSinceInstallation
             )
             latestCalc.riskState == RiskState.INCREASED_RISK -> IncreasedRisk(
                 isInDetailsMode = isDetailsMode,
@@ -85,7 +82,6 @@ class TracingStateProvider @AssistedInject constructor(
                 lastExposureDetectionTime = latestSubmission?.startedAt,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
-                activeTracingDays = activeTracingDaysInRetentionPeriod.toInt(),
                 allowManualUpdate = !isBackgroundJobEnabled
             )
             else -> TracingFailed(

@@ -27,9 +27,10 @@
         <TextView
             android:id="@+id/duration_input"
             style="@style/bodyNeutral"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
+            android:minWidth="70dp"
             android:paddingTop="11dp"
             android:paddingBottom="11dp"
             android:paddingLeft="13dp"

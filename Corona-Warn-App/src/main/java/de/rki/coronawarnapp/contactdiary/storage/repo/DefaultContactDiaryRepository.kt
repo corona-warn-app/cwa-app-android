@@ -11,8 +11,10 @@ import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDa
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationVisitEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationVisitSortedList
+import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEncounterSortedList
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEntity
@@ -108,10 +110,14 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryLocationVisitDao.insert(contactDiaryLocationVisitEntity)
     }
 
-    override suspend fun updateLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit) {
-        executeWhenIdNotDefault(contactDiaryLocationVisit.id) {
-            val contactDiaryLocationVisitEntity = contactDiaryLocationVisit.toContactDiaryLocationVisitEntity()
-            contactDiaryLocationVisitDao.update(contactDiaryLocationVisitEntity)
+    override suspend fun updateLocationVisit(
+        visitId: Long,
+        update: (ContactDiaryLocationVisit) -> ContactDiaryLocationVisit
+    ) {
+        executeWhenIdNotDefault(visitId) {
+            val original = contactDiaryLocationVisitDao.entityForId(visitId)
+            val updatedVisit = update(original.toContactDiaryLocationVisit())
+            contactDiaryLocationVisitDao.update(updatedVisit.toContactDiaryLocationVisitEntity())
         }
     }
 
@@ -202,10 +208,14 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryPersonEncounterDao.insert(contactDiaryPersonEncounterEntity)
     }
 
-    override suspend fun updatePersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter) {
-        executeWhenIdNotDefault(contactDiaryPersonEncounter.id) {
-            val contactDiaryPersonEncounterEntity = contactDiaryPersonEncounter.toContactDiaryPersonEncounterEntity()
-            contactDiaryPersonEncounterDao.update(contactDiaryPersonEncounterEntity)
+    override suspend fun updatePersonEncounter(
+        encounterId: Long,
+        update: (ContactDiaryPersonEncounter) -> ContactDiaryPersonEncounter
+    ) {
+        executeWhenIdNotDefault(encounterId) {
+            val original = contactDiaryPersonEncounterDao.entityForId(encounterId)
+            val updatedEncounter = update(original.toContactDiaryPersonEncounter())
+            contactDiaryPersonEncounterDao.update(updatedEncounter.toContactDiaryPersonEncounterEntity())
         }
     }
 

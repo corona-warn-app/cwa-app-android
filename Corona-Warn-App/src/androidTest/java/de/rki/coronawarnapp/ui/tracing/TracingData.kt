@@ -41,7 +41,7 @@ object TracingData {
             ),
 
             PeriodLoggedBox.Item(
-                activeTracingDaysInRetentionPeriod = 0,
+                daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
             ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
@@ -62,7 +62,7 @@ object TracingData {
                     lastExposureDetectionTime = Instant.now(),
                     allowManualUpdate = false,
                     daysWithEncounters = 0,
-                    activeTracingDays = 0,
+                    daysSinceInstallation = 4,
                     lastEncounterAt = Instant.now()
                 )
             ),
@@ -72,7 +72,69 @@ object TracingData {
             ),
 
             PeriodLoggedBox.Item(
-                activeTracingDaysInRetentionPeriod = 0,
+                daysSinceInstallation = 4,
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
+            ),
+            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
+        )
+    )
+
+    val LOW_RISK_WITH_ONE_ENCOUNTER = Pair(
+        TracingDetailsState(
+            tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+            riskState = RiskState.LOW_RISK,
+            isManualKeyRetrievalEnabled = false
+        ),
+        listOf(
+            LowRiskBox.Item(
+                state = LowRisk(
+                    riskState = RiskState.LOW_RISK,
+                    isInDetailsMode = true,
+                    lastExposureDetectionTime = Instant.now(),
+                    allowManualUpdate = false,
+                    daysWithEncounters = 1,
+                    daysSinceInstallation = 4,
+                    lastEncounterAt = Instant.now()
+                )
+            ),
+            BehaviorNormalRiskBox.Item(
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+                riskState = RiskState.LOW_RISK
+            ),
+
+            PeriodLoggedBox.Item(
+                daysSinceInstallation = 4,
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
+            ),
+            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
+        )
+    )
+
+    val LOW_RISK_WITH_TWO_ENCOUNTERS = Pair(
+        TracingDetailsState(
+            tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+            riskState = RiskState.LOW_RISK,
+            isManualKeyRetrievalEnabled = false
+        ),
+        listOf(
+            LowRiskBox.Item(
+                state = LowRisk(
+                    riskState = RiskState.LOW_RISK,
+                    isInDetailsMode = true,
+                    lastExposureDetectionTime = Instant.now(),
+                    allowManualUpdate = false,
+                    daysWithEncounters = 2,
+                    daysSinceInstallation = 4,
+                    lastEncounterAt = Instant.now()
+                )
+            ),
+            BehaviorNormalRiskBox.Item(
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+                riskState = RiskState.LOW_RISK
+            ),
+
+            PeriodLoggedBox.Item(
+                daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
             ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
@@ -93,13 +155,12 @@ object TracingData {
                     lastExposureDetectionTime = Instant.now(),
                     allowManualUpdate = false,
                     daysWithEncounters = 1,
-                    activeTracingDays = 5,
                     lastEncounterAt = Instant.now()
                 )
             ),
             BehaviorIncreasedRiskBox.Item,
             PeriodLoggedBox.Item(
-                activeTracingDaysInRetentionPeriod = 5,
+                daysSinceInstallation = 5,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
             ),
             DetailsIncreasedRiskBox.Item(

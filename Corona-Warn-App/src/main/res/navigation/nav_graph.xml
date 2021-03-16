@@ -501,7 +501,18 @@
     <fragment
         android:id="@+id/debuglogFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
-        android:label="DebuglogFragment" />
+        android:label="DebuglogFragment"
+        tools:layout="@layout/bugreporting_debuglog_fragment">
+        <action
+            android:id="@+id/action_debuglogFragment_to_informationPrivacyFragment"
+            app:destination="@id/informationPrivacyFragment" />
+        <action
+            android:id="@+id/action_debuglogFragment_to_logUploadHistoryFragment"
+            app:destination="@id/logUploadHistoryFragment" />
+        <action
+            android:id="@+id/action_debuglogFragment_to_debugLogUploadFragment"
+            app:destination="@id/debugLogUploadFragment" />
+    </fragment>
 
     <!-- New Release -->
     <fragment
@@ -575,4 +586,23 @@
             android:id="@+id/action_settingsPrivacyPreservingAnalyticsFragment_to_ppaMoreInfoFragment"
             app:destination="@id/ppaMoreInfoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/logUploadHistoryFragment"
+        android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.history.LogUploadHistoryFragment"
+        android:label="LogUploadHistoryFragment"
+        tools:layout="@layout/bugreporting_upload_history_fragment" />
+    <fragment
+        android:id="@+id/debugLogUploadFragment"
+        android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.DebugLogUploadFragment"
+        android:label="DebugLogUploadFragment"
+        tools:layout="@layout/bugreporting_debuglog_upload_fragment" >
+        <action
+            android:id="@+id/action_debugLogUploadFragment_to_debugLogLegalFragment"
+            app:destination="@id/debugLogLegalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/debugLogLegalFragment"
+        android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.legal.DebugLogLegalFragment"
+        android:label="DebugLogLegalFragment"
+        tools:layout="@layout/bugreporting_legal_fragment" />
 </navigation>

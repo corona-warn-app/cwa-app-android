@@ -32,7 +32,7 @@ internal class LowRiskTest {
         lastExposureDetectionTime = Instant.now(),
         allowManualUpdate = false,
         daysWithEncounters = 0,
-        activeTracingDays = 1,
+        daysSinceInstallation = 4,
         lastEncounterAt = null
     )
 

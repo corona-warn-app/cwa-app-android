@@ -53,7 +53,7 @@ class DayDataNestedAdapter : BaseAdapter<DayDataNestedAdapter.NestedItemViewHold
             mutableListOf<String>().apply {
                 duration?.run {
                     if (duration != Duration.ZERO) {
-                        val durationSuffix = context.getString(R.string.contact_diary_overview_location_duration_suffix)
+                        val durationSuffix = context.getString(R.string.contact_diary_location_visit_duration_hour)
                         add(toReadableDuration(suffix = durationSuffix))
                     }
                 }

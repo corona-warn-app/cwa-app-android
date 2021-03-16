@@ -4,8 +4,9 @@ import android.app.ActivityManager
 import android.app.Application
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
+import android.content.ContentResolver
 import android.content.Context
-import android.content.SharedPreferences
+import android.content.pm.ApplicationInfo
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleOwner
@@ -17,8 +18,6 @@ import com.google.android.gms.safetynet.SafetyNetClient
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.storage.EncryptedPreferences
-import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.worker.WorkManagerProvider
 import javax.inject.Singleton
 
@@ -56,11 +55,6 @@ class AndroidModule {
         workManagerProvider: WorkManagerProvider
     ): WorkManager = workManagerProvider.workManager
 
-    @EncryptedPreferences
-    @Provides
-    @Singleton
-    fun encryptedPreferences(): SharedPreferences = SecurityHelper.globalEncryptedSharedPreferencesInstance
-
     @Provides
     fun navDeepLinkBuilder(@AppContext context: Context): NavDeepLinkBuilder = NavDeepLinkBuilder(context)
 
@@ -76,4 +70,10 @@ class AndroidModule {
     @Provides
     @Singleton
     fun safetyNet(@AppContext context: Context): SafetyNetClient = SafetyNet.getClient(context)
+
+    @Provides
+    fun contentResolver(@AppContext context: Context): ContentResolver = context.contentResolver
+
+    @Provides
+    fun applicationInfo(@AppContext context: Context): ApplicationInfo = context.applicationInfo
 }

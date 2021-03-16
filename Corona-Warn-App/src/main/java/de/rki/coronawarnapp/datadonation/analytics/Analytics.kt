@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeout
 import org.joda.time.Hours
-import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,7 +35,8 @@ class Analytics @Inject constructor(
     private val donorModules: Set<@JvmSuppressWildcards DonorModule>,
     private val settings: AnalyticsSettings,
     private val logger: LastAnalyticsSubmissionLogger,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val onboardingSettings: OnboardingSettings
 ) {
     private val submissionLockoutMutex = Mutex()
 
@@ -173,7 +173,7 @@ class Analytics @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToTimeSinceOnboarding(): Boolean {
-        val onboarding = LocalData.onboardingCompletedTimestamp()?.let { Instant.ofEpochMilli(it) } ?: return true
+        val onboarding = onboardingSettings.onboardingCompletedTimestamp ?: return true
         return onboarding.plus(Hours.hours(ONBOARDING_DELAY_HOURS).toStandardDuration()).isAfter(timeStamper.nowUTC)
     }
 
