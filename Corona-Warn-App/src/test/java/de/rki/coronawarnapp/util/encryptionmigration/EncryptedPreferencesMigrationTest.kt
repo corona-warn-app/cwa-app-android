@@ -62,6 +62,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         it.edit {
             // SettingsLocalData
             putBoolean(EncryptedPreferencesMigration.SettingsLocalData.PKEY_INTEROPERABILITY_WAS_USED, true)
+            putBoolean(EncryptedPreferencesMigration.SettingsLocalData.PKEY_TRACING_EXPLANATION_WAS_SHOWN, true)
             putBoolean(EncryptedPreferencesMigration.SettingsLocalData.PKEY_NOTIFICATIONS_RISK_ENABLED, false)
             putBoolean(EncryptedPreferencesMigration.SettingsLocalData.PKEY_NOTIFICATIONS_TEST_ENABLED, false)
             putInt(
@@ -98,6 +99,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
 
         // SettingsLocalData
         every { cwaSettings.wasInteroperabilityShownAtLeastOnce = true } just Runs
+        every { cwaSettings.wasTracingExplanationDialogShown = true } just Runs
         val mockRiskPreference = mockFlowPreference(true)
         every { cwaSettings.isNotificationsRiskEnabled } returns mockRiskPreference
         val mockTestPreference = mockFlowPreference(true)
