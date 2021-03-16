@@ -7,9 +7,11 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -65,6 +67,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = mockFlowPreference(0)
         every { analyticsKeySubmissionStorage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
             daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+        every { analyticsKeySubmissionStorage.clear() } just Runs
         runBlockingTest {
             val collector = createInstance()
             collector.reportTestRegistered()
@@ -189,6 +192,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @Test
     fun `no data collection if disabled`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns false
+        every { analyticsKeySubmissionStorage.clear() } just Runs
         runBlockingTest {
             val collector = createInstance()
             collector.reportTestRegistered()
