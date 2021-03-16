@@ -16,8 +16,9 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-class CheckInRepositoryTest {
+class CheckInRepositoryTest : BaseTest() {
 
     @MockK lateinit var factory: TraceLocationDatabase.Factory
     @MockK lateinit var database: TraceLocationDatabase
