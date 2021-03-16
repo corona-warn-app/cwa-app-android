@@ -124,6 +124,7 @@ class SubmissionRepository @Inject constructor(
     }
 
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
+        analyticsKeySubmissionCollector.reset()
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
         submissionSettings.registrationToken.update {
             registrationData.registrationToken
@@ -131,12 +132,12 @@ class SubmissionRepository @Inject constructor(
         updateTestResult(registrationData.testResult)
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
         backgroundNoise.scheduleDummyPattern()
-        analyticsKeySubmissionCollector.reset()
         analyticsKeySubmissionCollector.reportTestRegistered()
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
     }
 
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
+        analyticsKeySubmissionCollector.reset()
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
         submissionSettings.registrationToken.update {
             registrationData.registrationToken
@@ -144,7 +145,6 @@ class SubmissionRepository @Inject constructor(
         updateTestResult(registrationData.testResult)
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
         backgroundNoise.scheduleDummyPattern()
-        analyticsKeySubmissionCollector.reset()
         analyticsKeySubmissionCollector.reportTestRegistered()
         return registrationData.testResult
     }
