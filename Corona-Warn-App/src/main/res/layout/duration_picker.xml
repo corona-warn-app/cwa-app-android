@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/duration_container"
     android:layout_width="match_parent"
-    tools:context="de.rki.coronawarnapp.ui.durationpicker.DurationPicker"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:context="de.rki.coronawarnapp.ui.durationpicker.DurationPicker">
 
     <TextView
         android:id="@+id/title"
@@ -13,8 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/spacing_normal"
-        android:paddingEnd="@dimen/spacing_normal"
         android:paddingTop="@dimen/spacing_small"
+        android:paddingEnd="@dimen/spacing_normal"
         android:paddingBottom="@dimen/spacing_normal"
         android:text="@string/duration_dialog_title"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,21 +25,19 @@
         android:id="@+id/labelHours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/hours"
-        app:layout_constraintEnd_toEndOf="@id/hours"
-        app:layout_constraintTop_toBottomOf="@+id/title"
         android:text="@string/duration_hours"
-        />
+        app:layout_constraintEnd_toEndOf="@id/hours"
+        app:layout_constraintStart_toStartOf="@id/hours"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/labelMinutes"
         android:layout_width="wrap_content"
-        android:text="@string/duration_minutes"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/minutes"
+        android:text="@string/duration_minutes"
         app:layout_constraintEnd_toEndOf="@id/minutes"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        />
+        app:layout_constraintStart_toStartOf="@id/minutes"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <NumberPicker
         android:id="@+id/hours"
