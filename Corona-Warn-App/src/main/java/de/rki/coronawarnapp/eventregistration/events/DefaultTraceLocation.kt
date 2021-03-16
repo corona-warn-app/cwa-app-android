@@ -1,13 +1,12 @@
 package de.rki.coronawarnapp.eventregistration.events
 
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import org.joda.time.Instant
-
-const val TRACE_LOCATION_VERSION = 1
 
 data class DefaultTraceLocation(
     override val guid: String,
-    override val type: TraceLocation.Type,
+    override val type: TraceLocationOuterClass.TraceLocationType,
     override val description: String,
     override val address: String,
     override val startDate: Instant?,
@@ -29,4 +28,17 @@ fun TraceLocationEntity.toTraceLocation() = DefaultTraceLocation(
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
     signature = signature,
     version = version
+)
+
+// TODO: write tests for this mapper
+fun TraceLocationOuterClass.SignedTraceLocation.toTraceLocation() = DefaultTraceLocation(
+    guid = location.guid,
+    type = location.type,
+    description = location.description,
+    address = location.address,
+    startDate = Instant.ofEpochSecond(location.startTimestamp),
+    endDate = Instant.ofEpochSecond(location.endTimestamp),
+    defaultCheckInLengthInMinutes = location.defaultCheckInLengthInMinutes,
+    signature = signature.toString(),
+    version = location.version
 )

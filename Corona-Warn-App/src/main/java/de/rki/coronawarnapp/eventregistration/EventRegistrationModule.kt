@@ -4,10 +4,15 @@ import dagger.Binds
 import dagger.Module
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.DefaultQRCodeVerifier
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifier
+import de.rki.coronawarnapp.eventregistration.events.server.CreateTraceLocationModule
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 
-@Module
+@Module(
+    includes = [
+        CreateTraceLocationModule::class
+    ]
+)
 abstract class EventRegistrationModule {
 
     @Binds

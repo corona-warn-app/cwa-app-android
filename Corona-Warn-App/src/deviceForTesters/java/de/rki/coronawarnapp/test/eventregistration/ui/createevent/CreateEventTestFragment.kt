@@ -65,7 +65,8 @@ class CreateEventTestFragment : Fragment(R.layout.fragment_test_createevent), Au
             eventAddress.text.toString(),
             eventStartEditText.text.toString(),
             eventEndEditText.text.toString(),
-            eventDefaultCheckinLengthInMinutes.text.toString()
+            eventDefaultCheckinLengthInMinutes.text.toString(),
+            sendToServer
         )
     }
 
