@@ -91,7 +91,7 @@ class PpaDataExtensionsTest : BaseTest() {
         val now = Instant.now()
         val twoDaysAgo = now.minus(Days.days(2).toStandardDuration())
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-            lastChangeCheckedRiskLevelTimestamp = null,
+            lastChangeCheckedRiskLevelTimestamp = now,
             testRegisteredAt = twoDaysAgo
         ) shouldBe 0
     }
