@@ -168,6 +168,34 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
         }
     }
 
+    @Test
+    fun testVerifiedTraceLocationMapping() {
+        shouldNotThrowAny {
+            val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+                ENCODED_EVENT1.decodeBase32().toByteArray()
+            )
+
+            val traceLocation = TraceLocationOuterClass.TraceLocation.parseFrom(
+                ENCODED_EVENT1_LOCATION.decodeBase32().toByteArray()
+            )
+            val verifiedTraceLocation = QRCodeVerifyResult(
+                singedTraceLocation = signedTraceLocation,
+                traceLocation = traceLocation
+            ).verifiedTraceLocation
+
+            verifiedTraceLocation shouldBe VerifiedTraceLocation(
+                guid = "MzA1NTMzMWMtMjMwNi00M2YzLTk3NDItNmQ4ZmFiNTRlODQ4",
+                version = 1,
+                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
+                description = "My Birthday Party",
+                address = "at my place",
+                start = Instant.ofEpochSecond(2687955),
+                end = Instant.ofEpochSecond(2687991),
+                defaultCheckInLengthInMinutes = 0,
+            )
+        }
+    }
+
     companion object {
 
         //   "signedLocation": {
@@ -184,6 +212,8 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
         //    "signature": "MEQCIGVKfqPF2851IrEyDeVMazlRnIzLX16H6r1TB37PRzjbAiBGP13ADQcbQZsztKUCZMRcvnv5Mgdo0LY/v3qFMnrUkQ=="
         private const val ENCODED_EVENT1 =
             "BJLAUJBTGA2TKMZTGFRS2MRTGA3C2NBTMYZS2OJXGQZC2NTEHBTGCYRVGRSTQNBYCAARQARCCFGXSICCNFZHI2DEMF4SAUDBOJ2HSKQLMF2CA3LZEBYGYYLDMUYNHB5EAE4PPB5EAFAAAESGGBCAEIDFJJ7KHRO3ZZ2SFMJSBXSUY2ZZKGOIZS27L2D6VPKTA57M6RZY3MBCARR7LXAA2BY3IGNTHNFFAJSMIXF6PP4TEB3I2C3D7P32QUZHVVER"
+        private const val ENCODED_EVENT1_LOCATION =
+            "BISDGMBVGUZTGMLDFUZDGMBWFU2DGZRTFU4TONBSFU3GIODGMFRDKNDFHA2DQEABDABCEEKNPEQEE2LSORUGIYLZEBIGC4TUPEVAWYLUEBWXSIDQNRQWGZJQ2OD2IAJY66D2IAKAAA"
 
         //   "signedLocation": {
         //    "location": {
