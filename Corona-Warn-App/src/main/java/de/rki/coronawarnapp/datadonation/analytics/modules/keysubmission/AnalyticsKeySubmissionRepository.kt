@@ -38,17 +38,17 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
 
     val hoursSinceTestResult: Int
         get() {
-            if (submittedAt <= 0) return 0
-            if (testResultReceivedAt <= 0) return 0
-            if (submittedAt < testResultReceivedAt) return 0
+            if (submittedAt <= 0) return -1
+            if (testResultReceivedAt <= 0) return -1
+            if (submittedAt < testResultReceivedAt) return -1
             return Duration.millis(submittedAt - testResultReceivedAt).toStandardHours().hours
         }
 
     val hoursSinceTestRegistration: Int
         get() {
-            if (submittedAt <= 0) return 0
-            if (testRegisteredAt <= 0) return 0
-            if (submittedAt < testRegisteredAt) return 0
+            if (submittedAt <= 0) return -1
+            if (testRegisteredAt <= 0) return -1
+            if (submittedAt < testRegisteredAt) return -1
             return Duration.millis(submittedAt - testRegisteredAt).toStandardHours().hours
         }
 

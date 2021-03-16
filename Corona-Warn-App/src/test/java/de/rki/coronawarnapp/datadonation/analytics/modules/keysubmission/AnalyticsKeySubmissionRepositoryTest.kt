@@ -34,35 +34,35 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `hours since test result when not submitted should be 0`() {
+    fun `hours since test result when not submitted should be -1`() {
         coEvery { storage.submittedAt.value } returns -1
         coEvery { storage.testResultReceivedAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         val repository = createInstance()
-        repository.hoursSinceTestResult shouldBe 0
+        repository.hoursSinceTestResult shouldBe -1
     }
 
     @Test
-    fun `hours since test result should be 0 when testResultReceivedAt is missing`() {
+    fun `hours since test result should be -1 when testResultReceivedAt is missing`() {
         coEvery { storage.submittedAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         coEvery { storage.testResultReceivedAt.value } returns -1
         val repository = createInstance()
-        repository.hoursSinceTestResult shouldBe 0
+        repository.hoursSinceTestResult shouldBe -1
     }
 
     @Test
-    fun `hours since test result when not received or submitted should be 0`() {
+    fun `hours since test result when not received or submitted should be -1`() {
         coEvery { storage.submittedAt.value } returns -1
         coEvery { storage.testResultReceivedAt.value } returns -1
         val repository = createInstance()
-        repository.hoursSinceTestResult shouldBe 0
+        repository.hoursSinceTestResult shouldBe -1
     }
 
     @Test
-    fun `hours since test result should be 0 when dates have been manipulated`() {
+    fun `hours since test result should be -1 when dates have been manipulated`() {
         coEvery { storage.submittedAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         coEvery { storage.testResultReceivedAt.value } returns now.millis
         val repository = createInstance()
-        repository.hoursSinceTestResult shouldBe 0
+        repository.hoursSinceTestResult shouldBe -1
     }
 
     @Test
@@ -74,18 +74,18 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `hours since test registration should be 0 if not submitted`() {
+    fun `hours since test registration should be -1 if not submitted`() {
         coEvery { storage.submittedAt.value } returns -1
         coEvery { storage.testRegisteredAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         val repository = createInstance()
-        repository.hoursSinceTestRegistration shouldBe 0
+        repository.hoursSinceTestRegistration shouldBe -1
     }
 
     @Test
-    fun `hours since test registration should be 0 if testRegisteredAt is missing`() {
+    fun `hours since test registration should be -1 if testRegisteredAt is missing`() {
         coEvery { storage.submittedAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         coEvery { storage.testRegisteredAt.value } returns -1
         val repository = createInstance()
-        repository.hoursSinceTestRegistration shouldBe 0
+        repository.hoursSinceTestRegistration shouldBe -1
     }
 }
