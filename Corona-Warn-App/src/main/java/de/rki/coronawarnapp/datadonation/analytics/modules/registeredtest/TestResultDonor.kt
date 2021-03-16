@@ -23,35 +23,25 @@ class TestResultDonor @Inject constructor(
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         val scannedAfterConsent = testResultDonorSettings.testScannedAfterConsent.value
         if (!scannedAfterConsent) {
-            Timber.d("Skipping TestResultMetadata donation (testScannedAfterConsent=%s)", scannedAfterConsent)
+            Timber.d("Skipping TestResultMetadata donation (scannedAfterConsent=%s)", scannedAfterConsent)
             return TestResultMetadataNoContribution
         }
 
         val timestampAtRegistration = submissionSettings.initialTestResultReceivedAt
-
         if (timestampAtRegistration == null) {
-            Timber.d("Skipping TestResultMetadata donation timestampAtRegistration isn't found")
+            Timber.d("Skipping TestResultMetadata donation (timestampAtRegistration is missing)")
             return TestResultMetadataNoContribution
         }
 
-        val configHours = request
-            .currentConfig
-            .analytics
-            .hoursSinceTestRegistrationToSubmitTestResultMetadata
-
-        val hoursSinceTestRegistrationTime = Duration(timestampAtRegistration, timeStamper.nowUTC).standardHours.toInt()
-        val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
-
-        val testResultAtRegistration =
-            testResultDonorSettings.testResultAtRegistration.value
+        val testResultAtRegistration = testResultDonorSettings.testResultAtRegistration.value
         if (testResultAtRegistration == null) {
-            Timber.d("Skipping TestResultMetadata donation testResultAtRegistration isn't found")
+            Timber.d("Skipping TestResultMetadata donation (testResultAtRegistration is missing)")
             return TestResultMetadataNoContribution
         }
 
         val lastChangeCheckedRiskLevelTimestamp = testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value
         if (lastChangeCheckedRiskLevelTimestamp == null) {
-            Timber.d("Skipping TestResultMetadata donation lastChangeCheckedRiskLevelTimestamp isn't found")
+            Timber.d("Skipping TestResultMetadata donation (lastChangeCheckedRiskLevelTimestamp is missing)")
             return TestResultMetadataNoContribution
         }
 
@@ -61,20 +51,38 @@ class TestResultDonor @Inject constructor(
                 timestampAtRegistration
             )
 
+        Timber.i(
+            "daysSinceMostRecentDateAtRiskLevelAtTestRegistration: %s",
+            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+        )
+
         val riskLevelAtRegistration = testResultDonorSettings.riskLevelAtTestRegistration.value
+        val highRiskResultCalculatedAt = testResultDonorSettings.riskLevelTurnedRedTime.value
 
         val hoursSinceHighRiskWarningAtTestRegistration =
             if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_LOW) {
                 DEFAULT_HOURS_SINCE_HIGH_RISK_WARNING
             } else {
-                val highRiskResultCalculatedAt = testResultDonorSettings.riskLevelTurnedRedTime.value
                 if (highRiskResultCalculatedAt == null) {
-                    Timber.d("Skipping TestResultMetadata donation highRiskResultCalculatedAt isn't found")
+                    Timber.d("Skipping TestResultMetadata donation (highRiskResultCalculatedAt is missing)")
                     return TestResultMetadataNoContribution
                 }
 
+                Timber.i(
+                    "highRiskResultCalculatedAt: %s, timestampAtRegistration: %s",
+                    highRiskResultCalculatedAt,
+                    timestampAtRegistration
+                )
                 calculatedHoursSinceHighRiskWarning(highRiskResultCalculatedAt, timestampAtRegistration)
             }
+        Timber.i(
+            "hoursSinceHighRiskWarningAtTestRegistration: %s",
+            hoursSinceHighRiskWarningAtTestRegistration
+        )
+
+        val configHours = request.currentConfig.analytics.hoursSinceTestRegistrationToSubmitTestResultMetadata
+        val hoursSinceTestRegistrationTime = Duration(timestampAtRegistration, timeStamper.nowUTC).standardHours.toInt()
+        val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
 
         return when {
             /**
@@ -145,8 +153,13 @@ class TestResultDonor @Inject constructor(
     ): DonorModule.Contribution {
         val finalTestResultReceivedAt = testResultDonorSettings.finalTestResultReceivedAt.value
         val hoursSinceTestRegistrationTime = if (finalTestResultReceivedAt != null) {
-            Duration(registrationTime, finalTestResultReceivedAt).standardHours.toInt()
+            Timber.i("finalTestResultReceivedAt: %s", finalTestResultReceivedAt)
+            Timber.i("registrationTime: %s", registrationTime)
+            Duration(registrationTime, finalTestResultReceivedAt).standardHours.toInt().also {
+                Timber.i("Calculated hoursSinceTestRegistrationTime: %s", it)
+            }
         } else {
+            Timber.i("Default hoursSinceTestRegistrationTime")
             DEFAULT_HOURS_SINCE_TEST_REGISTRATION_TIME
         }
 
