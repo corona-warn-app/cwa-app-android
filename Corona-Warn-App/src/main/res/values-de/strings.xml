@@ -1925,10 +1925,6 @@
     <string name="duration_hours">"Stunden"</string>
     <!-- XTXT: Duration minutes text -->
     <string name="duration_minutes">"Minuten"</string>
-    <!-- XTXT: Duration Organize title -->
-    <string name="duration_typical_lenght_of_stay">"Typische Aufenthaltsdauer"</string>
-    <!-- XTXT: Duration Attendee title -->
-    <string name="duration_check_out_automatically">"Automatisch auschecken"</string>
 
     <!-- Scan check in QR Code-->
     <!-- XTXT: Scan check in QR-Code  FAB text-->
