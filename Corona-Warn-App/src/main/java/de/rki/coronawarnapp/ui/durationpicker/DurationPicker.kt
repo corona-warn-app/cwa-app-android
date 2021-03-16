@@ -1,49 +1,54 @@
 package de.rki.coronawarnapp.ui.durationpicker
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.IntRange
 import androidx.fragment.app.DialogFragment
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.DurationPickerBinding
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
 import kotlin.math.max
 
-class DurationPicker : DialogFragment(R.layout.duration_picker) {
+class DurationPicker : DialogFragment() {
 
     fun interface OnChangeListener {
         fun onChange(duration: Duration)
     }
 
     private var onChangeListener: OnChangeListener? = null
-    private val binding: DurationPickerBinding by viewBindingLazy()
     private val hoursArray by lazy { requireArguments().getStringArray(HOURS_KEY).orEmpty() }
     private val title by lazy { requireArguments().getString(TITLE_KEY).orEmpty() }
     private val minutesArray by lazy { requireArguments().getStringArray(MINUTES_KEY).orEmpty() }
 
+    private val binding: Lazy<DurationPickerBinding> = lazy { DurationPickerBinding.inflate(layoutInflater) }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return binding.value.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding.hours) {
+        with(binding.value.hours) {
             minValue = 0
             maxValue = hoursArray.size - 1
             displayedValues = hoursArray
         }
 
-        with(binding.minutes) {
+        with(binding.value.minutes) {
             minValue = 0
             maxValue = minutesArray.size - 1
             displayedValues = minutesArray
         }
 
-        with(binding.title) {
+        with(binding.value.title) {
             text = title
         }
 
-        with(binding) {
+        with(binding.value) {
             var duration = requireArguments().getString(DURATION_KEY)!!.split(":").toTypedArray()
             if (duration.size < 2) duration = arrayOf("00", "00")
 
@@ -63,7 +68,7 @@ class DurationPicker : DialogFragment(R.layout.duration_picker) {
     }
 
     private fun getDuration(): Duration {
-        val durationString = hoursArray[binding.hours.value] + ":" + minutesArray[binding.minutes.value]
+        val durationString = hoursArray[binding.value.hours.value] + ":" + minutesArray[binding.value.minutes.value]
         val formatter: PeriodFormatter = PeriodFormatterBuilder()
             .appendHours()
             .appendLiteral(":")
