@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.eventregistration.checkins.derivetime
 
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.server.protocols.internal.v2
-.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
+    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
 import de.rki.coronawarnapp.server.protocols.internal.v2
-.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
+    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
 import io.kotest.matchers.shouldBe
 import org.joda.time.DateTime
@@ -14,7 +14,6 @@ import org.joda.time.format.DateTimeFormatter
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 /**
@@ -56,7 +55,7 @@ internal class TimeIntervalDeriverTest : BaseTest() {
 
     private val timeFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm Z")
         .withZone(DateTimeZone.forID("Europe/Berlin"))
-        
+
     private val presenceTracingConfig = PresenceTracingSubmissionParamContainer(
         durationFilters = listOf(
             DurationFilter.newBuilder()

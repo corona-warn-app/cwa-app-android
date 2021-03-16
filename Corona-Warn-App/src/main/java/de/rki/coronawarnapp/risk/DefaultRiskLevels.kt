@@ -173,11 +173,11 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         // 6. Determine `Total Risk`
         val totalRiskLevel =
             if (exposureHistory.any {
-                    it.riskLevel == RiskCalculationParametersOuterClass
-                        .NormalizedTimeToRiskLevelMapping
-                        .RiskLevel
-                        .HIGH
-                }
+                it.riskLevel == RiskCalculationParametersOuterClass
+                    .NormalizedTimeToRiskLevelMapping
+                    .RiskLevel
+                    .HIGH
+            }
             ) {
                 RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
             } else {
