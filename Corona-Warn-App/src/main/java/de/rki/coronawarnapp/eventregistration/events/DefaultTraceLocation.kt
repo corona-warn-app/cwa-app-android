@@ -30,16 +30,3 @@ fun TraceLocationEntity.toTraceLocation() = DefaultTraceLocation(
     signature = signature,
     version = version
 )
-
-/*fun SignedEventOuterClass.SignedEvent.toHostedEvent(): TraceLocation =
-    DefaultTraceLocation(
-        guid = event.guid.toString(),
-        type = enumValues<TraceLocation.Type>()[type],
-        description = event.description,
-        address = "hardcodedLocation", // event.location,
-        // backend needs UNIX timestamp in seconds, so we have to multiply it by 1000 to get milliseconds
-        startDate = Instant.ofEpochMilli(event.start.toLong() * 1000),
-        endDate = Instant.ofEpochMilli(event.end.toLong() * 1000),
-        defaultCheckInLengthInMinutes = event.defaultCheckInLengthInMinutes,
-        signature = signature.toString()
-    )*/
