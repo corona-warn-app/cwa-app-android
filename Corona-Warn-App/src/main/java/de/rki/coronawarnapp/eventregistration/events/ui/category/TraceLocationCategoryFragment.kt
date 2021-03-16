@@ -5,7 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.EventRegistrationCategoryFragmentBinding
+import de.rki.coronawarnapp.databinding.TraceLocationOrganizerCategoryFragmentBinding
 import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.CategoryItem
 import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.TraceLocationCategoryAdapter
 import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category.TraceLocationUIType
@@ -16,9 +16,9 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import timber.log.Timber
 
-class TraceLocationCategoryFragment : Fragment(R.layout.event_registration_category_fragment) {
+class TraceLocationCategoryFragment : Fragment(R.layout.trace_location_organizer_category_fragment) {
 
-    private val binding: EventRegistrationCategoryFragmentBinding by viewBindingLazy()
+    private val binding: TraceLocationOrganizerCategoryFragmentBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
