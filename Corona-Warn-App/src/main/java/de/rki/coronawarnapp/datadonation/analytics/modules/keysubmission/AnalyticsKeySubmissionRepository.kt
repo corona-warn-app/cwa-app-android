@@ -38,18 +38,10 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
         get() = storage.advancedConsentGiven.value
 
     val hoursSinceTestResult: Int
-        get() = if (submittedAt > 0) {
-            Duration.millis(max(submittedAt - testResultReceivedAt, 0)).toStandardHours().hours
-        } else {
-            -1
-        }
+        get() = Duration.millis(max(submittedAt - testResultReceivedAt, 0)).toStandardHours().hours
 
     val hoursSinceTestRegistration: Int
-        get() = if (submittedAt > 0) {
-            Duration.millis(max(submittedAt - testRegisteredAt, 0L)).toStandardHours().hours
-        } else {
-            -1
-        }
+        get() = Duration.millis(max(submittedAt - testRegisteredAt, 0L)).toStandardHours().hours
 
     val daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
         get() = storage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
