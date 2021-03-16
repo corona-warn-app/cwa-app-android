@@ -91,7 +91,7 @@ class RiskLevelChangeDetector @Inject constructor(
                 }
                 Timber.i(
                     "newRiskState:%s, riskLevelTurnedRedTime:%s",
-                    newRiskState,
+                    newRiskState.riskState,
                     newRiskState.calculatedAt
                 )
             }
@@ -101,7 +101,7 @@ class RiskLevelChangeDetector @Inject constructor(
         if (newRiskState.riskState in listOf(RiskState.INCREASED_RISK, RiskState.LOW_RISK)) {
             Timber.i(
                 "newRiskState:%s, mostRecentDateWithHighOrLowRiskLevel:%s",
-                newRiskState,
+                newRiskState.riskState,
                 newRiskState.calculatedAt
             )
             testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.update {
