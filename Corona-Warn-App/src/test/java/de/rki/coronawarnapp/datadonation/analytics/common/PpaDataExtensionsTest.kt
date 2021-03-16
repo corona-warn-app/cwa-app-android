@@ -61,38 +61,38 @@ class PpaDataExtensionsTest : BaseTest() {
     }
 
     @Test
-    fun `days should be 0 if lastChangeCheckedRiskLevelTimestamp is null`() {
+    fun `days should be -1 if lastChangeCheckedRiskLevelTimestamp is null`() {
         val twoHoursAgo = Instant.now().minus(Hours.hours(2).toStandardDuration())
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             lastChangeCheckedRiskLevelTimestamp = null,
             testRegisteredAt = twoHoursAgo
-        ) shouldBe 0
+        ) shouldBe -1
     }
 
     @Test
-    fun `days should be 0 if testRegisteredAt is null`() {
+    fun `days should be -1 if testRegisteredAt is null`() {
         val twoHoursAgo = Instant.now().minus(Hours.hours(2).toStandardDuration())
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             lastChangeCheckedRiskLevelTimestamp = twoHoursAgo,
             testRegisteredAt = null
-        ) shouldBe 0
+        ) shouldBe -1
     }
 
     @Test
-    fun `days should be 0 if both are null`() {
+    fun `days should be -1 if both are null`() {
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             lastChangeCheckedRiskLevelTimestamp = null,
             testRegisteredAt = null
-        ) shouldBe 0
+        ) shouldBe -1
     }
 
     @Test
-    fun `days should be 0 if order is reversed`() {
+    fun `days should be -1 if order is reversed`() {
         val now = Instant.now()
         val twoDaysAgo = now.minus(Days.days(2).toStandardDuration())
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             lastChangeCheckedRiskLevelTimestamp = now,
             testRegisteredAt = twoDaysAgo
-        ) shouldBe 0
+        ) shouldBe -1
     }
 }
