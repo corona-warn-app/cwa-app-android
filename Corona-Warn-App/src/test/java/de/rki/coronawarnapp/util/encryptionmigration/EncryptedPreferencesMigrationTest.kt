@@ -61,7 +61,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
     private fun createOldPreferences() = MockSharedPreferences().also {
         it.edit {
             // SettingsLocalData
-            putBoolean(EncryptedPreferencesMigration.SettingsLocalData.PREFERENCE_INTEROPERABILITY_WAS_USED, true)
+            putBoolean(EncryptedPreferencesMigration.SettingsLocalData.PKEY_INTEROPERABILITY_WAS_USED, true)
             putBoolean(EncryptedPreferencesMigration.SettingsLocalData.PKEY_NOTIFICATIONS_RISK_ENABLED, false)
             putBoolean(EncryptedPreferencesMigration.SettingsLocalData.PKEY_NOTIFICATIONS_TEST_ENABLED, false)
             putInt(
@@ -145,7 +145,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         val mockPrefs = mockk<SharedPreferences>()
         every {
             mockPrefs.getBoolean(
-                EncryptedPreferencesMigration.SettingsLocalData.PREFERENCE_INTEROPERABILITY_WAS_USED,
+                EncryptedPreferencesMigration.SettingsLocalData.PKEY_INTEROPERABILITY_WAS_USED,
                 false
             )
         } throws Exception("No one expects the spanish inquisition")
