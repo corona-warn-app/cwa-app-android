@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.attendee.checkin
+package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
 import dagger.Binds
 import dagger.Module
