@@ -1925,4 +1925,12 @@
     <!-- Scan check in QR Code-->
     <!-- XTXT: Scan check in QR-Code  FAB text-->
     <string name="scan_check_in_qr_code">QR-Code scannen</string>
+
+    <!-- ####################################
+        Generic
+    ###################################### -->
+    <!-- XACT: Button/Dialog label to cancel something-->
+    <string name="generic_action_abort">Abbrechen</string>
+    <!-- XACT: Button/Dialog label to remove something-->
+    <string name="generic_action_remove">Entfernen</string>
 </resources>
