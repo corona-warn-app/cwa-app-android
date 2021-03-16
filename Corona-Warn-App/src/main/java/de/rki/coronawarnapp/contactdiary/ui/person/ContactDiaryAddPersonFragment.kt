@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.focusAndShowKeyboard
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
@@ -34,6 +35,14 @@ class ContactDiaryAddPersonFragment :
             factory.create(navArgs.addedAt)
         }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val transform = MaterialContainerTransform()
+        sharedElementEnterTransition = transform
+        sharedElementReturnTransition = transform
+    }
 
     private val navArgs: ContactDiaryAddPersonFragmentArgs by navArgs()
 

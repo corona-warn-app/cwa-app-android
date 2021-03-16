@@ -22,8 +22,9 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmen
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.base.startActivitySafely
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
@@ -31,7 +32,6 @@ import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.navUri
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShortcutExtra
 import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
+    @Inject lateinit var submissionSettings: SubmissionSettings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -156,8 +157,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun navigateByIntentUri(intent: Intent?) {
         val uri = intent?.data ?: return
         Timber.i("Uri:$uri")
-        Timber.i("NavUri:%s", uri.navUri)
-        navController.navigate(uri.navUri)
+        navController.navigate(CheckInsFragment.uri(uri.toString()))
     }
 
     /**
@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         vm.doBackgroundNoiseCheck()
         contactDiaryWorkScheduler.schedulePeriodic()
         dataDonationAnalyticsScheduler.schedulePeriodic()
-        if (!LocalData.isAllowedToSubmitDiagnosisKeys()) {
+        if (!submissionSettings.isAllowedToSubmitKeys) {
             deadmanScheduler.schedulePeriodic()
         }
     }

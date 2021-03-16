@@ -4,7 +4,8 @@
     android:id="@+id/check_in_qr_code_scan_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/submission_qr_code_scan_title">
+    android:contentDescription="@string/submission_qr_code_scan_title"
+    android:transitionName="shared_element_container">
 
     <com.journeyapps.barcodescanner.BarcodeView
         android:id="@+id/check_in_qr_code_scan_preview"

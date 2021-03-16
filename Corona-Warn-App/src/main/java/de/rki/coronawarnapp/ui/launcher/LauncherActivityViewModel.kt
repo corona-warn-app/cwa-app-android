@@ -4,7 +4,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -15,6 +15,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
     private val updateChecker: UpdateChecker,
     dispatcherProvider: DispatcherProvider,
     private val cwaSettings: CWASettings,
+    private val onboardingSettings: OnboardingSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<LauncherEvent>()
@@ -31,7 +32,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
     }
 
     private fun isJustInstalledOrUpdated() =
-        !LocalData.isOnboarded() || !LocalData.isInteroperabilityShownAtLeastOnce ||
+        !onboardingSettings.isOnboarded || !cwaSettings.wasInteroperabilityShownAtLeastOnce ||
             cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE
 
     @AssistedFactory

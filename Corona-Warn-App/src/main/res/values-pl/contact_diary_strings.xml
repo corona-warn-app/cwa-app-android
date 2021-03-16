@@ -103,9 +103,9 @@
     <!-- XHED: Title for the contact diary dialog to delete all persons -->
     <string name="contact_diary_delete_persons_title">"Czy na pewno chcesz usunąć wszystkie osoby?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_message">"Jeśli usuniesz miejsce, wszystkie wpisy dotyczące tego miejsca zostaną usunięte z Twojego dziennika."</string>
+    <string name="contact_diary_delete_locations_message">"Jeśli usuniesz wszystkie miejsca, wszystkie wpisy dotyczące tych miejsc zostaną usunięte z Twojego dziennika."</string>
     <!-- XTXT: Message for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_message">"Jeśli usuniesz osobę, wszystkie wpisy dotyczące tej osoby zostaną usunięte z Twojego dziennika."</string>
+    <string name="contact_diary_delete_persons_message">"Jeśli usuniesz wszystkie osoby, wszystkie wpisy dotyczące tych osób zostaną usunięte z Twojego dziennika."</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_edit_icon_content_description">"Edytuj wpis"</string>
     <!-- XACT: edit icon description for screen readers -->
@@ -114,6 +114,10 @@
     <string name="contact_diary_delete_location_title">"Czy na pewno chcesz usunąć to miejsce?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
     <string name="contact_diary_delete_person_title">"Czy na pewno chcesz usunąć tę osobę?"</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single location -->
+    <string name="contact_diary_delete_location_message">"Jeśli usuniesz miejsce, wszystkie wpisy dotyczące tego miejsca zostaną usunięte z Twojego dziennika."</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single person -->
+    <string name="contact_diary_delete_person_message">"Jeśli usuniesz osobę, wszystkie wpisy dotyczące tej osoby zostaną usunięte z Twojego dziennika."</string>
 
     <!-- XHED: Title for the contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_title">"Uwaga"</string>
