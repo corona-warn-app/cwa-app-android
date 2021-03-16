@@ -31,8 +31,6 @@ import testhelpers.preferences.mockFlowPreference
 
 class TestResultDonorTest : BaseTest() {
     @MockK lateinit var testResultDonorSettings: TestResultDonorSettings
-    @MockK lateinit var riskLevelSettings: RiskLevelSettings
-    @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var submissionSettings: SubmissionSettings
 
@@ -43,16 +41,16 @@ class TestResultDonorTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this, true)
+        with(testResultDonorSettings) {
+            every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(baseTime)
+            every { riskLevelTurnedRedTime } returns mockFlowPreference(baseTime)
+            every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
+        }
         every { timeStamper.nowUTC } returns baseTime
-        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns baseTime
-        every { testResultDonorSettings.riskLevelAtTestRegistration } returns
-            mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
         every { submissionSettings.initialTestResultReceivedAt } returns baseTime
 
         testResultDonor = TestResultDonor(
             testResultDonorSettings,
-            riskLevelSettings,
-            riskLevelStorage,
             timeStamper,
             submissionSettings
         )
@@ -108,7 +106,9 @@ class TestResultDonorTest : BaseTest() {
 
             val timeDayBefore = baseTime.minus(Duration.standardDays(1))
             every { submissionSettings.initialTestResultReceivedAt } returns timeDayBefore
-            every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns timeDayBefore
+            every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(
+                timeDayBefore
+            )
 
             val donation = testResultDonor.beginDonation(TestRequest)
             donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()

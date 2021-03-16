@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.risk
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
@@ -43,6 +44,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var surveys: Surveys
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var tracingSettings: TracingSettings
+    @MockK lateinit var testResultDonorSettings: TestResultDonorSettings
 
     @BeforeEach
     fun setup() {
@@ -80,7 +82,8 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         notificationHelper = notificationHelper,
         surveys = surveys,
         submissionSettings = submissionSettings,
-        tracingSettings = tracingSettings
+        tracingSettings = tracingSettings,
+        testResultDonorSettings = testResultDonorSettings
     )
 
     @Test

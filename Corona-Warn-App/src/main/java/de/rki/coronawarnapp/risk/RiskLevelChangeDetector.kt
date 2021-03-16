@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -34,7 +35,8 @@ class RiskLevelChangeDetector @Inject constructor(
     private val notificationHelper: NotificationHelper,
     private val surveys: Surveys,
     private val submissionSettings: SubmissionSettings,
-    private val tracingSettings: TracingSettings
+    private val tracingSettings: TracingSettings,
+    private val testResultDonorSettings: TestResultDonorSettings
 ) {
 
     fun launch() {
@@ -65,9 +67,53 @@ class RiskLevelChangeDetector @Inject constructor(
 
         val oldRiskState = oldResult.riskState
         val newRiskState = newResult.riskState
-
         Timber.d("Last state was $oldRiskState and current state is $newRiskState")
 
+        // Check sending a notification when risk level changes
+        checkSendingNotification(oldRiskState, newRiskState)
+
+        // Save Survey related data based on the risk state
+        saveSurveyRiskState(oldRiskState, newRiskState, newResult)
+
+        // Save TestDonor risk level timestamps
+        saveTestDonorRiskLevelAnalytics(newResult)
+    }
+
+    private fun saveTestDonorRiskLevelAnalytics(
+        newRiskState: RiskLevelResult
+    ) {
+        // Save if not already set before for increased risk
+        Timber.i("riskLevelTurnedRedTime:%s", testResultDonorSettings.riskLevelTurnedRedTime.value)
+        if (testResultDonorSettings.riskLevelTurnedRedTime.value == null) {
+            if (newRiskState.isIncreasedRisk) {
+                testResultDonorSettings.riskLevelTurnedRedTime.update {
+                    newRiskState.calculatedAt
+                }
+                Timber.i(
+                    "newRiskState:%s, riskLevelTurnedRedTime:%s",
+                    newRiskState,
+                    newRiskState.calculatedAt
+                )
+            }
+        }
+
+        // Save most recent date high or low risks
+        if (newRiskState.riskState in listOf(RiskState.INCREASED_RISK, RiskState.LOW_RISK)) {
+            Timber.i(
+                "newRiskState:%s, mostRecentDateWithHighOrLowRiskLevel:%s",
+                newRiskState,
+                newRiskState.calculatedAt
+            )
+            testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.update {
+                newRiskState.calculatedAt
+            }
+        }
+    }
+
+    private suspend fun checkSendingNotification(
+        oldRiskState: RiskState,
+        newRiskState: RiskState
+    ) {
         if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !submissionSettings.isSubmissionSuccessful) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
@@ -82,7 +128,13 @@ class RiskLevelChangeDetector @Inject constructor(
 
             Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskState")
         }
+    }
 
+    private fun saveSurveyRiskState(
+        oldRiskState: RiskState,
+        newRiskState: RiskState,
+        newResult: RiskLevelResult
+    ) {
         if (oldRiskState == RiskState.INCREASED_RISK && newRiskState == RiskState.LOW_RISK) {
             tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { true }
             Timber.d("Risk level changed LocalData is updated. Current Risk level is $newRiskState")
