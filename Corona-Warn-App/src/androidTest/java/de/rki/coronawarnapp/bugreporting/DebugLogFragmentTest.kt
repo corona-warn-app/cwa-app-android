@@ -51,9 +51,7 @@ class DebugLogFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
-
         MockKAnnotations.init(this, relaxed = true)
-
         inactiveViewModel = setupViewModels(false, 0)
         activeViewModel = setupViewModels(true, 9410 )
 
@@ -84,13 +82,11 @@ class DebugLogFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_active_screenshot() {
-
         setupMockViewModel(
             object : DebugLogViewModel.Factory {
                 override fun create(): DebugLogViewModel = activeViewModel
             }
         )
-
         launchFragmentInContainer2<DebugLogFragment>()
         takeScreenshot<DebugLogFragment>()
     }

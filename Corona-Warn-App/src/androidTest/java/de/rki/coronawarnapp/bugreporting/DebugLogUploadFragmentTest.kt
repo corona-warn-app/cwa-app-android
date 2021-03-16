@@ -39,7 +39,6 @@ class DebugLogUploadFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
-
         MockKAnnotations.init(this, relaxed = true)
         viewModel = spyk(
             DebugLogUploadViewModel(
