@@ -140,7 +140,6 @@ class SubmissionRepositoryTest : BaseTest() {
     fun registrationWithGUIDSucceeds() = runBlockingTest {
         coEvery { submissionService.asyncRegisterDeviceViaGUID(guid) } returns registrationData
         coEvery { analyticsKeySubmissionCollector.reportTestRegistered() } just Runs
-        every { analyticsKeySubmissionCollector.reset() } just Runs
 
         val submissionRepository = createInstance(scope = this)
 
@@ -161,7 +160,6 @@ class SubmissionRepositoryTest : BaseTest() {
         coEvery { submissionService.asyncRegisterDeviceViaTAN(tan) } returns registrationData
         coEvery { analyticsKeySubmissionCollector.reportTestRegistered() } just Runs
         every { analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN() } just Runs
-        every { analyticsKeySubmissionCollector.reset() } just Runs
 
         val submissionRepository = createInstance(scope = this)
 

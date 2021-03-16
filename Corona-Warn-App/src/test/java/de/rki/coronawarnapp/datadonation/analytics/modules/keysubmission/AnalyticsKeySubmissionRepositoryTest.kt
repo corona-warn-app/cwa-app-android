@@ -42,6 +42,14 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
+    fun `hours since test result should be 0 when testResultReceivedAt is missing`() {
+        coEvery { storage.submittedAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
+        coEvery { storage.testResultReceivedAt.value } returns -1
+        val repository = createInstance()
+        repository.hoursSinceTestResult shouldBe 0
+    }
+
+    @Test
     fun `hours since test result when not received or submitted should be 0`() {
         coEvery { storage.submittedAt.value } returns -1
         coEvery { storage.testResultReceivedAt.value } returns -1
@@ -69,6 +77,14 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     fun `hours since test registration should be 0 if not submitted`() {
         coEvery { storage.submittedAt.value } returns -1
         coEvery { storage.testRegisteredAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
+        val repository = createInstance()
+        repository.hoursSinceTestRegistration shouldBe 0
+    }
+
+    @Test
+    fun `hours since test registration should be 0 if testRegisteredAt is missing`() {
+        coEvery { storage.submittedAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
+        coEvery { storage.testRegisteredAt.value } returns -1
         val repository = createInstance()
         repository.hoursSinceTestRegistration shouldBe 0
     }

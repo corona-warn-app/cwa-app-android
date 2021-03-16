@@ -20,7 +20,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     private val riskLevelSettings: RiskLevelSettings
 ) {
 
-    fun reset() {
+    private fun reset() {
         analyticsKeySubmissionStorage.clear()
     }
 
@@ -30,6 +30,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     }
 
     suspend fun reportTestRegistered() {
+        reset()
         if (disabled) return
         val testRegisteredAt = timeStamper.nowUTC
         analyticsKeySubmissionStorage.testRegisteredAt.update { testRegisteredAt.millis }
