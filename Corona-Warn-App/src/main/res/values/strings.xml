@@ -348,6 +348,11 @@
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Your Risk Status"</string>
 
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">"Information about exposure logging functionality"</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">"For further information, please see our FAQ page."</string>
+
     <!-- XHED: risk details - deadman notification title -->
     <string name="risk_details_deadman_notification_title">"Your Risk Status"</string>
     <!-- YTXT: risk details - deadman notification text -->
@@ -638,8 +643,6 @@
     <string name="settings_tracing_status_connection_headline">"Open Internet connection"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Exposure logging requires an Internet connection to calculate your risk of infection. Please turn on Wi-Fi or mobile data in your device settings."</string>
-    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
-    <string name="risk_details_explanation_dialog_faq_body">"For further information, please see our FAQ page."</string>
     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
