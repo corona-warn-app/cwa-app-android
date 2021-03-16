@@ -131,6 +131,7 @@ class SubmissionRepository @Inject constructor(
         updateTestResult(registrationData.testResult)
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
         backgroundNoise.scheduleDummyPattern()
+        analyticsKeySubmissionCollector.reset()
         analyticsKeySubmissionCollector.reportTestRegistered()
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
     }
@@ -143,6 +144,7 @@ class SubmissionRepository @Inject constructor(
         updateTestResult(registrationData.testResult)
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
         backgroundNoise.scheduleDummyPattern()
+        analyticsKeySubmissionCollector.reset()
         analyticsKeySubmissionCollector.reportTestRegistered()
         return registrationData.testResult
     }

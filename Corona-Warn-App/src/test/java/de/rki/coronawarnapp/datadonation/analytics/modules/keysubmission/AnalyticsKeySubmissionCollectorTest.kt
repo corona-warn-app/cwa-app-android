@@ -134,6 +134,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(now.millis)
         every { analyticsKeySubmissionStorage.testResultReceivedAt } returns flow
+
         runBlockingTest {
             val collector = createInstance()
             collector.reportPositiveTestResultReceived()
@@ -192,7 +193,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @Test
     fun `no data collection if disabled`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns false
-        every { analyticsKeySubmissionStorage.clear() } just Runs
         runBlockingTest {
             val collector = createInstance()
             collector.reportTestRegistered()
