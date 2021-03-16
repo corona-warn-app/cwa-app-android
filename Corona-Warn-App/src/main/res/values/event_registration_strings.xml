@@ -3,4 +3,35 @@
     <!-- ####################################
              Event Registration
     ###################################### -->
+
+    <!-- XHED: My check-ins: screen title -->
+    <string name="trace_location_checkins_title">Meine Check-ins</string>
+    <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_label">Noch keine Einträge vorhanden</string>
+    <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description">Wenn Sie einen QR-Code scannen, um sich für ein Event oder einen Ort einzuchecken, wird automatisch ein Eintrag angelegt.</string>
+    <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
+    <string name="trace_location_checkins_empty_illustration_accessibility">Gebäude mit QR-Code-Symbol im Hintergrund.</string>
+
+    <!-- XBUT: My check-ins: Scan QR Code button -->
+    <string name="trace_location_checkins_action_scan_qrcode">QR-Code scannen</string>
+
+    <!-- XBUT: My check-ins: menu entry to remove all -->
+    <string name="trace_location_checkins_menu_remove_all">Alle entfernen</string>
+    <!-- XBUT: My check-ins: menu entry to show information -->
+    <string name="trace_location_checkins_menu_information">Informationen</string>
+
+    <!-- XHED: My checkin-ins: card title if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_title">Zugriff auf Kamera erlauben</string>
+    <!-- XTXT: My checkin-ins: card description if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_description">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräte-Einstellungen zur App zulassen.</string>
+    <!-- XBUT: My checkin-ins: card description if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_action">Einstellungen  öffnen</string>
+
+    <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
+    <string name="trace_location_checkins_remove_all_title">Wollen Sie wirklich alle Einträge entfernen?</string>
+    <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
+    <string name="trace_location_checkins_remove_single_title">Wollen Sie diesen Eintrag wirklich entfernen?</string>
+    <!-- XTXT: My checkin-ins: Confirmation dialog description when removing all/single items -->
+    <string name="trace_location_checkins_remove_message">Sie können dann Personen, die zur selben Zeit für diesen Ort oder Event eingecheckt waren, bei Bedarf nicht mehr warnen oder von ihnen gewarnt werden.</string>
 </resources>
