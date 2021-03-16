@@ -13,7 +13,7 @@ class TracingExplanationDialog @Inject constructor(
         get() = homeFragment.requireContext()
 
     fun show(onPositive: () -> Unit) {
-        // get all text strings and the current active tracing time
+
         val infoPeriodLogged =
             context.getString(R.string.risk_details_information_body_period_logged)
         val infoPeriodLoggedAssessment =
