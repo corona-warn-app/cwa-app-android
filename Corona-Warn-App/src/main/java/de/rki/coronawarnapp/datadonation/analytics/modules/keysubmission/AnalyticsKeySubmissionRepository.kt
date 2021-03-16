@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
 import org.joda.time.Duration
 import javax.inject.Inject
-import kotlin.math.max
 
 class AnalyticsKeySubmissionRepository @Inject constructor(
     private val storage: AnalyticsKeySubmissionStorage
@@ -42,7 +41,7 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
             if (submittedAt <= 0) return 0
             if (testResultReceivedAt <= 0) return 0
             if (submittedAt < testResultReceivedAt) return 0
-            return Duration.millis(max(submittedAt - testResultReceivedAt, 0)).toStandardHours().hours
+            return Duration.millis(submittedAt - testResultReceivedAt).toStandardHours().hours
         }
 
     val hoursSinceTestRegistration: Int
