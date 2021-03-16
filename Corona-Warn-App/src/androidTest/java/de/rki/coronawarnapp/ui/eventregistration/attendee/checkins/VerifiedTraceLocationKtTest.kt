@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.attendee.checkin
+package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifyResult
 import de.rki.coronawarnapp.eventregistration.common.decodeBase32
