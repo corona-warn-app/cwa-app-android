@@ -51,6 +51,7 @@ class EncryptedPreferencesMigration @Inject constructor(
         Timber.i("copyData(): EncryptedPreferences are available")
         SettingsLocalData(encryptedSharedPreferences).apply {
             cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
+            cwaSettings.wasTracingExplanationDialogShown = wasTracingExplanationDialogShown()
             cwaSettings.isNotificationsRiskEnabled.update { isNotificationsRiskEnabled() }
             cwaSettings.isNotificationsTestEnabled.update { isNotificationsTestEnabled() }
             cwaSettings.numberOfRemainingSharePositiveTestResultReminders =
@@ -101,7 +102,9 @@ class EncryptedPreferencesMigration @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     class SettingsLocalData(private val sharedPreferences: SharedPreferences) {
 
-        fun wasInteroperabilityShown() = sharedPreferences.getBoolean(PREFERENCE_INTEROPERABILITY_WAS_USED, false)
+        fun wasInteroperabilityShown() = sharedPreferences.getBoolean(PKEY_INTEROPERABILITY_WAS_USED, false)
+
+        fun wasTracingExplanationDialogShown() = sharedPreferences.getBoolean(PKEY_TRACING_EXPLANATION_WAS_SHOWN, false)
 
         fun isNotificationsRiskEnabled(): Boolean = sharedPreferences.getBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, true)
 
@@ -112,7 +115,10 @@ class EncryptedPreferencesMigration @Inject constructor(
 
         companion object {
             @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-            const val PREFERENCE_INTEROPERABILITY_WAS_USED = "preference_interoperability_is_used_at_least_once"
+            const val PKEY_INTEROPERABILITY_WAS_USED = "preference_interoperability_is_used_at_least_once"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_TRACING_EXPLANATION_WAS_SHOWN = "preference_risk_days_explanation_shown"
 
             @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
             const val PKEY_NOTIFICATIONS_RISK_ENABLED = "preference_notifications_risk_enabled"
