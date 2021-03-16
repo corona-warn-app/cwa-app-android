@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -56,16 +57,20 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             }
             if (CWADebug.isDeviceForTestersBuild) {
                 setOnLongClickListener {
-                    findNavController().navigate(createCheckInUri(DEBUG_CHECKINS.random()))
+                    findNavController().navigate(
+                        createCheckInUri(DEBUG_CHECKINS.random()),
+                        NavOptions.Builder().apply {
+                            setLaunchSingleTop(true)
+                        }.build()
+                    )
                     true
                 }
             }
         }
 
-        viewModel.verifyResult.observe2(this) {
+        viewModel.confirmationEvent.observe2(this) {
             doNavigate(
-                CheckInsFragmentDirections
-                    .actionCheckInsFragmentToConfirmCheckInFragment(it.verifiedTraceLocation)
+                CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(it.verifiedTraceLocation)
             )
         }
     }

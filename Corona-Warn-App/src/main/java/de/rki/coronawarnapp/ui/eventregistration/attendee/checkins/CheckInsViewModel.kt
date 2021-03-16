@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -12,6 +10,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationVerif
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import timber.log.Timber
@@ -24,8 +23,7 @@ class CheckInsViewModel @AssistedInject constructor(
     private val qrCodeUriParser: QRCodeUriParser
 ) : CWAViewModel(dispatcherProvider) {
 
-    private val verifyResultData = MutableLiveData<TraceLocationVerifyResult>()
-    val verifyResult: LiveData<TraceLocationVerifyResult> = verifyResultData
+    val confirmationEvent = SingleLiveEvent<TraceLocationVerifyResult>()
 
     init {
         deepLink?.let {
@@ -47,7 +45,7 @@ class CheckInsViewModel @AssistedInject constructor(
 
             val verifyResult = traceLocationQRCodeVerifier.verify(signedTraceLocation.toByteArray())
             Timber.i("verifyResult: $verifyResult")
-            verifyResultData.postValue(verifyResult)
+            confirmationEvent.postValue(verifyResult)
         } catch (e: Exception) {
             Timber.d(e, "TraceLocation verification failed")
             e.report(ExceptionCategory.INTERNAL)
