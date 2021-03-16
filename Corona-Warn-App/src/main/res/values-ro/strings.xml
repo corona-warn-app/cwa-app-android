@@ -308,7 +308,7 @@
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Dacă înregistrarea în jurnal a expunerilor a fost activă pe durata în care v-ați întâlnit cu alte persoane, riscul dvs. de infectare poate fi calculat pentru această perioadă."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment">"Înregistrarea în jurnal a expunerilor acoperă ultimele 14 zile. În această perioadă, caracteristica de înregistrare în jurnal de pe smartphone-ul dvs. a fost activă timp de %1$s zile. Aplicația șterge automat înregistrările mai vechi din jurnal, întrucât acestea nu mai sunt relevante pentru prevenirea infectării."</string>
+    <string name="risk_details_information_body_period_logged_assessment">"Aplicația șterge automat înregistrările mai vechi din jurnal, întrucât acestea nu mai sunt relevante pentru prevenirea infectării."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->

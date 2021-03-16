@@ -308,7 +308,7 @@
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Maruz kalma günlüğü başka insanlarla karşılaştığınız sırada etkindiyse bu dönem için enfeksiyon riskiniz hesaplanabilir."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment">"Maruz kalma günlüğü son 14 günü kapsar. Bu süre boyunca akıllı telefonunuzdaki günlüğe kaydetme özelliği %1$s gün etkindi. Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
+    <string name="risk_details_information_body_period_logged_assessment">"Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
