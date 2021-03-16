@@ -63,6 +63,8 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
             .minus(Days.days(2).toStandardDuration()).toDateTime().toLocalDate()
             .toDateTime(LocalTime(22, 0)).toInstant()
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = mockFlowPreference(0)
+        every { analyticsKeySubmissionStorage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
+            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
         runBlockingTest {
             val collector = createInstance()
             collector.reportTestRegistered()
