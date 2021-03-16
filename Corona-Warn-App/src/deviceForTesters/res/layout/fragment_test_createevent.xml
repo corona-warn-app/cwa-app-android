@@ -137,6 +137,14 @@
                 android:text="Create Event"
                 tools:ignore="HardcodedText" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/send_to_server_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Send to server"
+                tools:ignore="HardcodedText" />
+
             <TextView
                 android:id="@+id/resultText"
                 style="@style/subtitle"
