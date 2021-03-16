@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.appconfig.LogUploadConfig
+import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
 import de.rki.coronawarnapp.appconfig.SurveyConfig
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -30,6 +31,7 @@ class ConfigParserTest : BaseTest() {
     @MockK lateinit var surveyConfigMapper: SurveyConfig.Mapper
     @MockK lateinit var analyticsConfigMapper: AnalyticsConfig.Mapper
     @MockK lateinit var logUploadConfigMapper: LogUploadConfig.Mapper
+    @MockK lateinit var presenceTracingConfigMapper: PresenceTracingConfig.Mapper
 
     private val appConfig171 = File("src/test/resources/appconfig_1_7_1.bin")
     private val appConfig180 = File("src/test/resources/appconfig_1_8_0.bin")
@@ -45,6 +47,7 @@ class ConfigParserTest : BaseTest() {
         every { surveyConfigMapper.map(any()) } returns mockk()
         every { analyticsConfigMapper.map(any()) } returns mockk()
         every { logUploadConfigMapper.map(any()) } returns mockk()
+        every { presenceTracingConfigMapper.map(any()) } returns mockk()
 
         appConfig171.exists() shouldBe true
         appConfig180.exists() shouldBe true
@@ -57,7 +60,8 @@ class ConfigParserTest : BaseTest() {
         exposureWindowRiskCalculationConfigMapper = exposureWindowRiskCalculationConfigMapper,
         surveyConfigMapper = surveyConfigMapper,
         analyticsConfigMapper = analyticsConfigMapper,
-        logUploadConfigMapper = logUploadConfigMapper
+        logUploadConfigMapper = logUploadConfigMapper,
+        presenceTracingConfigMapper = presenceTracingConfigMapper
     )
 
     @Test
