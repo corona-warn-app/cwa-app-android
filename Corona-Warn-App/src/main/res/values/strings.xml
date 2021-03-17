@@ -1930,6 +1930,10 @@
     <string name="duration_dialog_ok_button">"OK"</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">"00:00"</string>
+    <!-- XTXT: Duration hours text -->
+    <string name="duration_hours">"Stunden"</string>
+    <!-- XTXT: Duration minutes text -->
+    <string name="duration_minutes">"Minuten"</string>
 
     <!-- Scan check in QR Code-->
     <!-- XTXT: Scan check in QR-Code  FAB text-->
