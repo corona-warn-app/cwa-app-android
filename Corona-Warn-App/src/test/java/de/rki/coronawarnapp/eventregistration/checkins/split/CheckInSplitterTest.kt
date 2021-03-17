@@ -67,11 +67,9 @@ class CheckInSplitterTest : BaseTest() {
         checkIn.splitByMidnightUTC().apply {
             size shouldBe 2
             get(0).apply {
-
             }
 
             get(1).apply {
-
             }
         }
     }
@@ -95,11 +93,9 @@ class CheckInSplitterTest : BaseTest() {
         checkIn.splitByMidnightUTC().apply {
             size shouldBe 3
             get(0).apply {
-
             }
 
             get(1).apply {
-
             }
         }
     }

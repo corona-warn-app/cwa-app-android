@@ -65,7 +65,8 @@ fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
 
         checkIns.add(checkInCopy)
     }
-    Timber.i("Split CheckIns: %s",
+    Timber.i(
+        "Split CheckIns: %s",
         checkIns.joinToString(separator = "\n") { checkIn ->
             "{checkInStart:%s,checkOutEnd:%s}".format(checkIn.checkInStart, checkIn.checkInEnd)
         }
