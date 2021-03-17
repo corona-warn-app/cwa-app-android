@@ -11,7 +11,7 @@
     <string name="contact_diary_person_list_no_items_title">"Nie zdefiniowano jeszcze żadnych osób"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Utwórz osobę i dodaj ją do dziennika kontaktów."</string>
     <string name="contact_diary_add_person_title">"Osoba"</string>
-    <string name="contact_diary_add_person_text_input_name_hint">"Imię, nazwisko"</string>
+    <string name="contact_diary_add_person_text_input_name_hint">"Imię i nazwisko"</string>
     <string name="contact_diary_add_text_input_phone_hint">"Telefon"</string>
     <string name="contact_diary_add_text_input_email_hint">"E-mail"</string>
     <string name="contact_diary_add_person_save_button">"Zapisz"</string>
@@ -172,7 +172,7 @@
     <!-- XBUT: Option - person encounter - inside-->
     <string name="contact_diary_location_visit_duration_label">"Czas trwania"</string>
     <!-- XTXT: Option - location encounter - duration in hours label-->
-    <string name="contact_diary_location_visit_duration_hour">"Std."</string>
+    <string name="contact_diary_location_visit_duration_hour">"godz."</string>
     <!-- XTXT: Option - person encounter - circumstances hint-->
     <string name="contact_diary_location_visit_circumstances_hint">"Uwaga (np. bardzo pełny)"</string>
 </resources>
