@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.eventregistration.checkins
 import org.joda.time.Instant
 
 @Suppress("LongParameterList")
-class CheckIn(
+data class CheckIn(
     val id: Long,
     val guid: String,
     val version: Int,

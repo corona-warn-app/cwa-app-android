@@ -8,9 +8,14 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.DefaultQRCodeVerif
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifier
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
+import de.rki.coronawarnapp.eventregistration.checkins.DefaultCheckInsTransformer
 
 @Module
 abstract class EventRegistrationModule {
+
+    @Binds
+    abstract fun checkInsTransformer(transformer: DefaultCheckInsTransformer): CheckInsTransformer
 
     @Binds
     abstract fun qrCodeVerifier(qrCodeVerifier: DefaultQRCodeVerifier): QRCodeVerifier
