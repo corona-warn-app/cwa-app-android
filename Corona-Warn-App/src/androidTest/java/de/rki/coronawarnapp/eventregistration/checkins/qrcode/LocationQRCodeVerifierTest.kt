@@ -179,7 +179,7 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
                 ENCODED_EVENT1_LOCATION.decodeBase32().toByteArray()
             )
             val verifiedTraceLocation = QRCodeVerifyResult(
-                singedTraceLocation = signedTraceLocation,
+                signedTraceLocation = signedTraceLocation,
                 traceLocation = traceLocation
             ).verifiedTraceLocation
 

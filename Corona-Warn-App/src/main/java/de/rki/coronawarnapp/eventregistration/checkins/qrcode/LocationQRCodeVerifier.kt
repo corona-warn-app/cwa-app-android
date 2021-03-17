@@ -37,7 +37,7 @@ class LocationQRCodeVerifier @Inject constructor(
         )
 
         return QRCodeVerifyResult(
-            singedTraceLocation = signedTraceLocation,
+            signedTraceLocation = signedTraceLocation,
             traceLocation = traceLocation
         )
     }

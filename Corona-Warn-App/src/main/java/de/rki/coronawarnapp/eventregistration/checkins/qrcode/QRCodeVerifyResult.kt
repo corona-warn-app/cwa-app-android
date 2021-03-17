@@ -7,7 +7,7 @@ import org.joda.time.Instant
 import java.util.concurrent.TimeUnit
 
 data class QRCodeVerifyResult(
-    val singedTraceLocation: TraceLocationOuterClass.SignedTraceLocation,
+    val signedTraceLocation: TraceLocationOuterClass.SignedTraceLocation,
     val traceLocation: TraceLocationOuterClass.TraceLocation
 ) {
     fun isBeforeStartTime(now: Instant): Boolean {
