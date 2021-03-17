@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.eventregistration.events.ui.category
 
 import dagger.Binds
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -16,7 +15,4 @@ abstract class TraceLocationCategoryModule {
     @CWAViewModelKey(TraceLocationCategoryViewModel::class)
     abstract fun traceLocationCategoryViewModel(factory: TraceLocationCategoryViewModel.Factory):
         CWAViewModelFactory<out CWAViewModel>
-
-    @ContributesAndroidInjector
-    abstract fun traceLocationCategoryFragment(): TraceLocationCategoryFragment
 }

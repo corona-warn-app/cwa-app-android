@@ -6,15 +6,10 @@ import de.rki.coronawarnapp.eventregistration.checkins.download.DownloadedCheckI
 import de.rki.coronawarnapp.eventregistration.checkins.download.FakeDownloadedCheckInsRepo
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.DefaultQRCodeVerifier
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifier
-import de.rki.coronawarnapp.eventregistration.events.ui.category.TraceLocationCategoryModule
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 
-@Module(
-    includes = [
-        TraceLocationCategoryModule::class,
-    ]
-)
+@Module
 abstract class EventRegistrationModule {
 
     @Binds
