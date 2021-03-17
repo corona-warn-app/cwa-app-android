@@ -7,14 +7,18 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Days
 import org.joda.time.Hours
 import org.joda.time.Instant
+import org.joda.time.LocalTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -53,13 +57,24 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         val riskLevelAtTestRegistration = mockFlowPreference(-1)
         every { analyticsKeySubmissionStorage.riskLevelAtTestRegistration } returns riskLevelAtTestRegistration
         val hoursSinceHighRiskWarningAtTestRegistration = mockFlowPreference(-1)
-        every { analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration } returns hoursSinceHighRiskWarningAtTestRegistration
+        every { analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration } returns
+            hoursSinceHighRiskWarningAtTestRegistration
+        coEvery {
+            riskLevelSettings.lastChangeCheckedRiskLevelTimestamp
+        } returns now
+            .minus(Days.days(2).toStandardDuration()).toDateTime().toLocalDate()
+            .toDateTime(LocalTime(22, 0)).toInstant()
+        val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = mockFlowPreference(0)
+        every { analyticsKeySubmissionStorage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
+            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+        every { analyticsKeySubmissionStorage.clear() } just Runs
         runBlockingTest {
             val collector = createInstance()
             collector.reportTestRegistered()
             verify { testRegisteredAt.update(any()) }
             verify { riskLevelAtTestRegistration.update(any()) }
             verify { hoursSinceHighRiskWarningAtTestRegistration.update(any()) }
+            verify { daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update(any()) }
         }
     }
 
@@ -119,6 +134,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(now.millis)
         every { analyticsKeySubmissionStorage.testResultReceivedAt } returns flow
+
         runBlockingTest {
             val collector = createInstance()
             collector.reportPositiveTestResultReceived()
