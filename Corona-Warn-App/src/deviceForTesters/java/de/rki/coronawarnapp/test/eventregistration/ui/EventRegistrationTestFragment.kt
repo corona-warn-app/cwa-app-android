@@ -50,6 +50,10 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             showEventsButton.setOnClickListener {
                 findNavController().navigate(R.id.showStoredEventsTestFragment)
             }
+
+            startCreateEventFlowButton.setOnClickListener {
+                findNavController().navigate(R.id.traceLocationOrganizerCategoriesFragment)
+            }
         }
         binding.runMatcher.setOnClickListener {
             Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()

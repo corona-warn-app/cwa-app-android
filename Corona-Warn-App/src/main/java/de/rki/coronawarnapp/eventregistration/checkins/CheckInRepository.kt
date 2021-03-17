@@ -39,6 +39,12 @@ class CheckInRepository @Inject constructor(
             checkInDao.update(checkIn.toEntity())
         }
     }
+
+    fun clear() {
+        appScope.launch {
+            checkInDao.deleteAll()
+        }
+    }
 }
 
 private fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(

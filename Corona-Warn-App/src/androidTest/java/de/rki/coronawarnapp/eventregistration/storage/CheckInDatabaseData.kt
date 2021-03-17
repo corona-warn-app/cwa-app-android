@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.storage
 
-import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import org.joda.time.Instant
 
 object CheckInDatabaseData {
@@ -9,7 +9,7 @@ object CheckInDatabaseData {
     val testCheckIn = TraceLocationCheckInEntity(
         guid = "testGuid1",
         version = 1,
-        type = TraceLocation.Type.TEMPORARY_OTHER.value,
+        type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER.number,
         description = "testDescription1",
         address = "testAddress1",
         traceLocationStart = Instant.parse("2021-01-01T12:00:00.000Z"),
@@ -25,7 +25,7 @@ object CheckInDatabaseData {
     val testCheckInWithoutCheckOutTime = TraceLocationCheckInEntity(
         guid = "testGuid2",
         version = 1,
-        type = TraceLocation.Type.TEMPORARY_OTHER.value,
+        type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER.number,
         description = "testDescription2",
         address = "testAddress2",
         traceLocationStart = null,
