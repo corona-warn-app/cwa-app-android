@@ -165,6 +165,16 @@ class SubmissionRepository @Inject constructor(
             deadmanNotificationScheduler.cancelScheduledWork()
         }
 
+        // https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-4484
+        // User removed a test before 1.11 where due to a bug the timestamp was not removed.
+        if (submissionSettings.initialTestResultReceivedAt != null &&
+            submissionSettings.registrationToken.value != null &&
+            submissionSettings.devicePairingSuccessfulAt == null
+        ) {
+            Timber.tag(TAG).w("User has stale initialTestResultReceivedAt, fixing EXPOSUREAPP-4484.")
+            submissionSettings.initialTestResultReceivedAt = null
+        }
+
         val initialTestResultReceivedTimestamp = submissionSettings.initialTestResultReceivedAt
 
         if (initialTestResultReceivedTimestamp == null) {
