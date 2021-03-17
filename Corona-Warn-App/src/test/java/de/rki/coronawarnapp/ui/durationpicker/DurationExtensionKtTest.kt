@@ -9,7 +9,15 @@ import org.junit.jupiter.params.provider.MethodSource
 internal class DurationExtensionKtTest {
 
     @ParameterizedTest
-    @MethodSource("provideArguments")
+    @MethodSource("provideArgumentsForContactDiaryFormat")
+    fun `toContactDiaryFormat() should return correct String`(testItem: TestItem) {
+        with(testItem) {
+            duration.toContactDiaryFormat() shouldBe expectedReadableDuration
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideArgumentsForReadableDuration")
     fun `toReadableDuration() should return correct String`(testItem: TestItem) {
         with(testItem) {
             duration.toReadableDuration(prefix, suffix) shouldBe expectedReadableDuration
@@ -20,21 +28,46 @@ internal class DurationExtensionKtTest {
 
         @Suppress("unused")
         @JvmStatic
-        fun provideArguments() = listOf(
+        fun provideArgumentsForContactDiaryFormat() = listOf(
             TestItem(
-                prefix = null,
-                suffix = null,
+                duration = Duration.standardMinutes(0),
+                expectedReadableDuration = "00:00"
+            ),
+            TestItem(
+                duration = Duration.standardMinutes(1),
+                expectedReadableDuration = "00:01"
+            ),
+            TestItem(
+                duration = Duration.standardMinutes(30),
+                expectedReadableDuration = "00:30"
+            ),
+            TestItem(
+                duration = Duration.standardMinutes(45),
+                expectedReadableDuration = "00:45"
+            ),
+            TestItem(
+                duration = Duration.standardMinutes(60),
+                expectedReadableDuration = "01:00"
+            ),
+            TestItem(
+                duration = Duration.standardMinutes(75),
+                expectedReadableDuration = "01:15"
+            ),
+        ).map { Arguments.of(it) }
+
+        @Suppress("unused")
+        @JvmStatic
+        fun provideArgumentsForReadableDuration() = listOf(
+            TestItem(
                 duration = Duration.standardMinutes(30),
                 expectedReadableDuration = "00:30"
             ),
             TestItem(
                 prefix = "Dauer",
-                suffix = null,
                 duration = Duration.standardMinutes(45),
                 expectedReadableDuration = "Dauer 00:45"
             ),
             TestItem(
-                prefix = null,
                 suffix = "Std.",
                 duration = Duration.standardMinutes(60),
                 expectedReadableDuration = "01:00 Std."
@@ -49,9 +82,9 @@ internal class DurationExtensionKtTest {
     }
 
     data class TestItem(
-        val prefix: String?,
+        val prefix: String? = null,
         val duration: Duration,
-        val suffix: String?,
+        val suffix: String? = null,
         val expectedReadableDuration: String
     )
 }
