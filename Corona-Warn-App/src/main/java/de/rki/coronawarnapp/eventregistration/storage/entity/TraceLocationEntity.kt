@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.eventregistration.events.TraceLocation
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import org.joda.time.Instant
 
 @Entity(tableName = "traceLocations")
@@ -11,7 +12,7 @@ data class TraceLocationEntity(
 
     @PrimaryKey @ColumnInfo(name = "guid") val guid: String,
     @ColumnInfo(name = "version") val version: Int,
-    @ColumnInfo(name = "type") val type: TraceLocation.Type,
+    @ColumnInfo(name = "type") val type: TraceLocationOuterClass.TraceLocationType,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "address") val address: String,
     @ColumnInfo(name = "startDate") val startDate: Instant?,

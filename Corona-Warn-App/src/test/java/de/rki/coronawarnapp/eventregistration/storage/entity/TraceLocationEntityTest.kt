@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.storage.entity
 
 import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
-import de.rki.coronawarnapp.eventregistration.events.TraceLocation
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
@@ -14,7 +15,7 @@ internal class TraceLocationEntityTest : BaseTest() {
         DefaultTraceLocation(
             guid = "TestGuid",
             version = 1,
-            type = TraceLocation.Type.TEMPORARY_OTHER,
+            type = LOCATION_TYPE_TEMPORARY_OTHER,
             description = "TestTraceLocation",
             address = "TestTraceLocationAddress",
             startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
@@ -24,7 +25,7 @@ internal class TraceLocationEntityTest : BaseTest() {
         ).toTraceLocationEntity() shouldBe TraceLocationEntity(
             guid = "TestGuid",
             version = 1,
-            type = TraceLocation.Type.TEMPORARY_OTHER,
+            type = LOCATION_TYPE_TEMPORARY_OTHER,
             description = "TestTraceLocation",
             address = "TestTraceLocationAddress",
             startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
@@ -39,7 +40,7 @@ internal class TraceLocationEntityTest : BaseTest() {
         DefaultTraceLocation(
             guid = "TestGuid",
             version = 1,
-            type = TraceLocation.Type.PERMANENT_OTHER,
+            type = LOCATION_TYPE_PERMANENT_OTHER,
             description = "TestTraceLocation",
             address = "TestTraceLocationAddress",
             startDate = null,
@@ -49,7 +50,7 @@ internal class TraceLocationEntityTest : BaseTest() {
         ).toTraceLocationEntity() shouldBe TraceLocationEntity(
             guid = "TestGuid",
             version = 1,
-            type = TraceLocation.Type.PERMANENT_OTHER,
+            type = LOCATION_TYPE_PERMANENT_OTHER,
             description = "TestTraceLocation",
             address = "TestTraceLocationAddress",
             startDate = null,
