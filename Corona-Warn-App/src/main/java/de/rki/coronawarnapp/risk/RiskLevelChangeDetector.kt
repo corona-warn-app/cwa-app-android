@@ -100,17 +100,17 @@ class RiskLevelChangeDetector @Inject constructor(
 
         // Save most recent date of high or low risks
         if (newRiskState.riskState in listOf(RiskState.INCREASED_RISK, RiskState.LOW_RISK)) {
-            Timber.i(
-                "newRiskState:%s, mostRecentDateWithHighOrLowRiskLevel:%s",
-                newRiskState.riskState,
-                newRiskState.calculatedAt
-            )
-
             val lastRiskEncounterAt: Instant? = if (newRiskState.isIncreasedRisk) {
                 newRiskState.aggregatedRiskResult?.mostRecentDateWithHighRisk
             } else {
                 newRiskState.aggregatedRiskResult?.mostRecentDateWithLowRisk
             }
+
+            Timber.i(
+                "newRiskState:%s, lastRiskEncounterAt:%s",
+                newRiskState.riskState,
+                lastRiskEncounterAt
+            )
 
             testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.update {
                 lastRiskEncounterAt
