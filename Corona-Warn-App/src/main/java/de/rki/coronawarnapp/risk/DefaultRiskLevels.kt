@@ -310,7 +310,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             "The Report Type returned by the ENF is not known"
         )
 
-        private fun <T : Number> RiskCalculationParametersOuterClass.Range.inRange(value: T): Boolean =
+        fun <T : Number> RiskCalculationParametersOuterClass.Range.inRange(value: T): Boolean =
             when {
                 minExclusive && value.toDouble() <= min -> false
                 !minExclusive && value.toDouble() < min -> false
