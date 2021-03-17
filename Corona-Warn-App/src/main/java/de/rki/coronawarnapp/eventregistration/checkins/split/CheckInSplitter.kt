@@ -23,14 +23,14 @@ fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     val durationDays = max(1L, ceil(durationSeconds.toDouble() / DAY_IN_SECONDS).toLong())
     Timber.i("durationDays=$durationDays")
 
-    return Array(durationDays.toInt()) { day ->
+    return (0 until durationDays).map { day ->
         checkInCopy(
-            day.toLong(),
+            day,
             durationDays,
             startTimeSeconds,
             endTimeSeconds
         )
-    }.toList().also { it.print() }
+    }.also { it.print() }
 }
 
 private fun CheckIn.checkInCopy(
