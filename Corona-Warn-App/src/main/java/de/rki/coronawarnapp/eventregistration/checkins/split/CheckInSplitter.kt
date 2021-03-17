@@ -10,66 +10,80 @@ import kotlin.math.max
 
 private val DAY_IN_SECONDS = TimeUnit.DAYS.toSeconds(1)
 
-private fun toMidnightUTC(timestampSeconds: Long) = (timestampSeconds / DAY_IN_SECONDS) * DAY_IN_SECONDS
-
-private fun daysInSeconds(days: Long) = TimeUnit.DAYS.toSeconds(days)
-
 /**
  * Splits a [CheckIn] by midnight UTC time into multiple [CheckIn]s across multiple days.
  *
  * @return [List] of [CheckIn]s
  */
 fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
-    val startTimestampInSeconds = checkInStart.seconds
-    val endTimestampInSeconds = checkInEnd?.seconds ?: 0L
+    val startTimeSeconds = checkInStart.seconds
+    val endTimeSeconds = checkInEnd?.seconds ?: 0L
+    val durationSeconds = endTimeSeconds - startTimeSeconds
 
-    val durationInSeconds = endTimestampInSeconds - startTimestampInSeconds
-    Timber.i("durationInSeconds: $durationInSeconds")
+    Timber.i("durationSeconds: $durationSeconds")
 
-    val durationInDays = max(1L, ceil(durationInSeconds.toDouble() / DAY_IN_SECONDS).toLong())
-    Timber.i("durationInDays: $durationInDays")
+    val durationDays = max(1L, ceil(durationSeconds.toDouble() / DAY_IN_SECONDS).toLong())
+    Timber.i("durationDays: $durationDays")
 
-    // Util Internal methods
-    fun isFirstDay(day: Long): Boolean {
-        return day == 0L
+    val checkIns = Array(durationDays.toInt()) { day ->
+        checkInCopy(
+            day.toLong(),
+            durationDays,
+            startTimeSeconds,
+            endTimeSeconds
+        )
     }
 
-    fun isLastDay(day: Long): Boolean {
-        return day == durationInDays - 1L
-    }
-
-    val checkIns = mutableListOf<CheckIn>()
-    for (day in 0 until durationInDays) {
-        val checkInCopy = when {
-            isFirstDay(day) && !isLastDay(day) -> {
-                val endSeconds = toMidnightUTC(startTimestampInSeconds) + daysInSeconds(day + 1)
-                copy(checkInEnd = Instant.ofEpochSecond(endSeconds))
-            }
-
-            !isFirstDay(day) && isLastDay(day) -> {
-                copy(checkInStart = Instant.ofEpochSecond(toMidnightUTC(endTimestampInSeconds)))
-            }
-
-            !isFirstDay(day) && !isLastDay(day) -> {
-                val startSeconds = toMidnightUTC(startTimestampInSeconds) + daysInSeconds(day)
-                val endSeconds = toMidnightUTC(startTimestampInSeconds) + daysInSeconds(day + 1)
-                copy(
-                    checkInStart = Instant.ofEpochSecond(startSeconds),
-                    checkInEnd = Instant.ofEpochSecond(endSeconds)
-                )
-            }
-            else -> {
-                copy()
-            }
-        }
-
-        checkIns.add(checkInCopy)
-    }
     Timber.i(
         "Split CheckIns: %s",
         checkIns.joinToString(separator = "\n") { checkIn ->
             "{checkInStart:%s,checkOutEnd:%s}".format(checkIn.checkInStart, checkIn.checkInEnd)
         }
     )
-    return checkIns
+    return checkIns.toList()
+}
+
+private fun CheckIn.checkInCopy(
+    day: Long,
+    durationDays: Long,
+    startTimeSeconds: Long,
+    endTimeSeconds: Long
+): CheckIn = when {
+    isFirstDay(day) && !isLastDay(day, durationDays) ->
+        copy(
+            checkInEnd = toInstant(
+                seconds = toMidnightUTC(startTimeSeconds) + daysInSeconds(day + 1)
+            )
+        )
+
+    !isFirstDay(day) && isLastDay(day, durationDays) ->
+        copy(
+            checkInStart = toInstant(seconds = toMidnightUTC(endTimeSeconds))
+        )
+
+    !isFirstDay(day) && !isLastDay(day, durationDays) ->
+        copy(
+            checkInStart = toInstant(
+                seconds = toMidnightUTC(startTimeSeconds) + daysInSeconds(day)
+            ),
+            checkInEnd = toInstant(
+                seconds = toMidnightUTC(startTimeSeconds) + daysInSeconds(day + 1)
+            )
+        )
+
+    else -> copy()
+}
+
+private fun toMidnightUTC(timestampSeconds: Long): Long = (timestampSeconds / DAY_IN_SECONDS) * DAY_IN_SECONDS
+
+private fun daysInSeconds(days: Long): Long = TimeUnit.DAYS.toSeconds(days)
+
+private fun toInstant(seconds: Long): Instant = Instant.ofEpochSecond(seconds)
+
+private fun isFirstDay(day: Long): Boolean {
+    return day == 0L
+}
+
+private fun isLastDay(day: Long, days: Long): Boolean {
+    return day == days - 1L
 }
