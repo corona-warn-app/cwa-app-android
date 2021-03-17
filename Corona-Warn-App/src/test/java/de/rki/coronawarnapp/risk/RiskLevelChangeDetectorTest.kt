@@ -24,6 +24,7 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -54,18 +55,27 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         every { submissionSettings.isSubmissionSuccessful } returns false
         every { foregroundState.isInForeground } returns flowOf(true)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
+
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = any() } just Runs
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns null
+
+        every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp = any() } just Runs
+        every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp } returns null
+
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
+
+        every { testResultDonorSettings.riskLevelTurnedRedTime } returns mockFlowPreference(null)
+        every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
     }
 
     private fun createRiskLevel(
         riskState: RiskState,
-        calculatedAt: Instant = Instant.EPOCH
+        calculatedAt: Instant = Instant.EPOCH,
+        aggregatedRiskResult: AggregatedRiskResult? = null
     ): RiskLevelResult = object : RiskLevelResult {
         override val riskState: RiskState = riskState
         override val calculatedAt: Instant = calculatedAt
-        override val aggregatedRiskResult: AggregatedRiskResult? = null
+        override val aggregatedRiskResult: AggregatedRiskResult? = aggregatedRiskResult
         override val failureReason: RiskLevelResult.FailureReason? = null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
@@ -192,6 +202,89 @@ class RiskLevelChangeDetectorTest : BaseTest() {
                 surveys wasNot Called
             }
         }
+    }
+
+    @Test
+    fun `riskLevelTurnedRedTime is only set once`() {
+        testResultDonorSettings.riskLevelTurnedRedTime.update { Instant.EPOCH.plus(1) }
+
+        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+            listOf(
+                createRiskLevel(
+                    INCREASED_RISK,
+                    calculatedAt = Instant.EPOCH.plus(2),
+                    aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+                        every { isIncreasedRisk() } returns true
+                    }
+                ),
+                createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
+
+        runBlockingTest {
+            val instance = createInstance(scope = this)
+            instance.launch()
+            advanceUntilIdle()
+        }
+
+        testResultDonorSettings.riskLevelTurnedRedTime.value shouldBe Instant.EPOCH.plus(1)
+
+        testResultDonorSettings.riskLevelTurnedRedTime.update { null }
+
+        runBlockingTest {
+            val instance = createInstance(scope = this)
+            instance.launch()
+            advanceUntilIdle()
+        }
+
+        testResultDonorSettings.riskLevelTurnedRedTime.value shouldBe Instant.EPOCH.plus(2)
+    }
+
+    @Test
+    fun `mostRecentDateWithHighOrLowRiskLevel is updated every time`() {
+        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+            listOf(
+                createRiskLevel(
+                    INCREASED_RISK,
+                    calculatedAt = Instant.EPOCH.plus(1),
+                    aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+                        every { mostRecentDateWithHighRisk } returns Instant.EPOCH.plus(10)
+                        every { isIncreasedRisk() } returns true
+                    }
+                ),
+                createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
+
+        runBlockingTest {
+            val instance = createInstance(scope = this)
+            instance.launch()
+            advanceUntilIdle()
+        }
+
+        testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(10)
+
+        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+            listOf(
+                createRiskLevel(
+                    INCREASED_RISK,
+                    calculatedAt = Instant.EPOCH.plus(1),
+                    aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+                        every { mostRecentDateWithLowRisk } returns Instant.EPOCH.plus(20)
+                        every { isIncreasedRisk() } returns false
+                    }
+                ),
+                createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
+
+        runBlockingTest {
+            val instance = createInstance(scope = this)
+            instance.launch()
+            advanceUntilIdle()
+        }
+
+        testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(20)
     }
 
     @Test
