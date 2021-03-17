@@ -1,14 +1,14 @@
-package de.rki.coronawarnapp.eventregistration.events.ui.category.adapter
+package de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category.TraceLocationCategory
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category.TraceLocationCategoryVH
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.header.TraceLocationHeaderItem
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.header.TraceLocationHeaderVH
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.separator.TraceLocationSeparatorItem
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.separator.TraceLocationSeparatorVH
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategoryVH
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.header.TraceLocationHeaderItem
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.header.TraceLocationHeaderVH
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.separator.TraceLocationSeparatorItem
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.separator.TraceLocationSeparatorVH
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer

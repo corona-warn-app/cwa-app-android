@@ -1,15 +1,15 @@
-package de.rki.coronawarnapp.eventregistration.events.ui.category
+package de.rki.coronawarnapp.ui.eventregistration.organizer.category
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.CategoryItem
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category.TraceLocationUIType
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category.traceLocationCategories
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.header.TraceLocationHeaderItem
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.separator.TraceLocationSeparatorItem
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.CategoryItem
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.traceLocationCategories
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.header.TraceLocationHeaderItem
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.separator.TraceLocationSeparatorItem
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 

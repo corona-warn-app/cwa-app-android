@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.ui.category
+package de.rki.coronawarnapp.ui.eventregistration.organizer.category
 
 import dagger.Binds
 import dagger.Module

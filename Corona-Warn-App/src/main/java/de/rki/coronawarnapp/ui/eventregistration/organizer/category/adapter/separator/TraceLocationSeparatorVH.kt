@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.separator
+package de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.separator
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerCategorySeparatorBinding
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.TraceLocationCategoryAdapter
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.TraceLocationCategoryAdapter
 
 class TraceLocationSeparatorVH(parent: ViewGroup) :
     TraceLocationCategoryAdapter.ItemVH<TraceLocationSeparatorItem, TraceLocationOrganizerCategorySeparatorBinding>(

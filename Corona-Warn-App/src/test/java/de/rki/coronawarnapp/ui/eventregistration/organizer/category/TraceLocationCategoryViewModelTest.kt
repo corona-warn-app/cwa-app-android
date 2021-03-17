@@ -1,11 +1,11 @@
-package de.rki.coronawarnapp.eventregistration.events.ui.category
+package de.rki.coronawarnapp.ui.eventregistration.organizer.category
 
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category.TraceLocationCategory
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category.TraceLocationUIType
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.header.TraceLocationHeaderItem
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.separator.TraceLocationSeparatorItem
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.header.TraceLocationHeaderItem
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.separator.TraceLocationSeparatorItem
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.ui.category
+package de.rki.coronawarnapp.ui.eventregistration.organizer.category
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerCategoryFragmentBinding
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.TraceLocationCategoryAdapter
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.TraceLocationCategoryAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack

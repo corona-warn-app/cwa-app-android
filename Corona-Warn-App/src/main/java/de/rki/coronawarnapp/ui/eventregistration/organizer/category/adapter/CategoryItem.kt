@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.ui.category.adapter
+package de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter
 
 import de.rki.coronawarnapp.util.lists.HasStableId
 

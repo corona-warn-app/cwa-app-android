@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.header
+package de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.header
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerCategoryHeaderBinding
-import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.TraceLocationCategoryAdapter
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.TraceLocationCategoryAdapter
 
 class TraceLocationHeaderVH(parent: ViewGroup) :
     TraceLocationCategoryAdapter.ItemVH<TraceLocationHeaderItem, TraceLocationOrganizerCategoryHeaderBinding>(
