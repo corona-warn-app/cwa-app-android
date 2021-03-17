@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -104,8 +105,15 @@ class RiskLevelChangeDetector @Inject constructor(
                 newRiskState.riskState,
                 newRiskState.calculatedAt
             )
+
+            val lastRiskEncounterAt: Instant? = if (newRiskState.isIncreasedRisk) {
+                newRiskState.aggregatedRiskResult?.mostRecentDateWithHighRisk
+            } else {
+                newRiskState.aggregatedRiskResult?.mostRecentDateWithLowRisk
+            }
+
             testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.update {
-                newRiskState.calculatedAt
+                lastRiskEncounterAt
             }
         }
     }
