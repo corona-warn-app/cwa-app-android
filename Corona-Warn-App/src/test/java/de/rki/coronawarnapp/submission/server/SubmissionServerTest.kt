@@ -84,7 +84,8 @@ class SubmissionServerTest : BaseTest() {
             authCode = "testAuthCode",
             keyList = listOf(googleKeyList),
             consentToFederation = true,
-            visitedCountries = listOf("DE")
+            visitedCountries = listOf("DE"),
+            checkIns = emptyList()
         )
         server.submitKeysToServer(submissionData)
 
@@ -144,7 +145,8 @@ class SubmissionServerTest : BaseTest() {
             authCode = "39ec4930-7a1f-4d5d-921f-bfad3b6f1269",
             keyList = listOf(googleKeyList),
             consentToFederation = true,
-            visitedCountries = listOf("DE")
+            visitedCountries = listOf("DE"),
+            checkIns = emptyList()
         )
         webServer.enqueue(MockResponse().setBody("{}"))
         server.submitKeysToServer(submissionData)

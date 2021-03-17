@@ -13,10 +13,4 @@ interface TraceLocation {
     val endDate: Instant?
     val defaultCheckInLengthInMinutes: Int?
     val signature: String
-
-    enum class Type(val value: Int) {
-        UNSPECIFIED(0),
-        PERMANENT_OTHER(1),
-        TEMPORARY_OTHER(2)
-    }
 }

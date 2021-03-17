@@ -1,29 +1,24 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import org.junit.Test
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
+import testhelpers.BaseTest
 
-class UriValidatorTest {
+class QRCodeUriParserTest : BaseTest() {
+
+    fun createInstance() = QRCodeUriParser()
 
     @ParameterizedTest
     @ArgumentsSource(ValidUrlProvider::class)
     fun `Valid URLs`(input: String) {
-        input.isValidQRCodeUri() shouldBe true
+        createInstance().getSignedTraceLocation(input) shouldNotBe null
     }
 
     @ParameterizedTest
     @ArgumentsSource(InvalidUrlProvider::class)
     fun `Invalid URLs`(input: String) {
-        input.isValidQRCodeUri() shouldBe false
-    }
-
-    @Test
-    fun `Invalid  URL string`() {
-        shouldThrow<IllegalArgumentException> {
-            "Hello World!".isValidQRCodeUri()
-        }
+        createInstance().getSignedTraceLocation(input) shouldBe null
     }
 }
