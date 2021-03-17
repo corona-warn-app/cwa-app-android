@@ -9,6 +9,5 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
  * @return [List] of [CheckIn]s
  */
 fun CheckIn.splitByMidnight(): List<CheckIn> {
-
-    return emptyList()
+    return listOf(this)
 }
