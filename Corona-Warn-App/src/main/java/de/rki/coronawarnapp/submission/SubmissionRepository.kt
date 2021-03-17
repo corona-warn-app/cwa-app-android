@@ -167,6 +167,16 @@ class SubmissionRepository @Inject constructor(
 
         val initialTestResultReceivedTimestamp = submissionSettings.initialTestResultReceivedAt
 
+        // https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-4484
+        // User removed a test before 1.11 where due to a bug the timestamp was not removed.
+        if (initialTestResultReceivedTimestamp != null &&
+            submissionSettings.registrationToken.value != null &&
+            submissionSettings.devicePairingSuccessfulAt == null
+        ) {
+            Timber.tag(TAG).w("User has stale initialTestResultReceivedAt, fixing EXPOSUREAPP-4484.")
+            submissionSettings.initialTestResultReceivedAt = null
+        }
+
         if (initialTestResultReceivedTimestamp == null) {
             val currentTime = timeStamper.nowUTC
             submissionSettings.initialTestResultReceivedAt = currentTime
