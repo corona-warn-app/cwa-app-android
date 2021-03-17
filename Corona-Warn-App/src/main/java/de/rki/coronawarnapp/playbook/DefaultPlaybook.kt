@@ -100,7 +100,8 @@ class DefaultPlaybook @Inject constructor(
                     authCode = authCode,
                     keyList = data.temporaryExposureKeys,
                     consentToFederation = data.consentToFederation,
-                    visitedCountries = data.visitedCountries
+                    visitedCountries = data.visitedCountries,
+                    checkIns = data.checkIns
                 )
                 submissionServer.submitKeysToServer(serverSubmissionData)
                 coroutineScope.launch { followUpPlaybooks() }
