@@ -39,33 +39,33 @@ private fun CheckIn.checkInCopy(
     startTimeSeconds: Long,
     endTimeSeconds: Long
 ): CheckIn = when {
-    isFirstDay(day) && !isLastDay(day, durationDays) ->
+    day.isFirstDay() && !day.isLastDay(durationDays) ->
         copy(
             checkInEnd = toInstant(
-                seconds = toMidnightUTC(startTimeSeconds) + daysInSeconds(day + 1)
+                seconds = startTimeSeconds.toMidnightUTC() + daysInSeconds(day + 1)
             )
         )
 
-    !isFirstDay(day) && isLastDay(day, durationDays) ->
+    !day.isFirstDay() && day.isLastDay(durationDays) ->
         copy(
-            checkInStart = toInstant(seconds = toMidnightUTC(endTimeSeconds))
+            checkInStart = toInstant(seconds = endTimeSeconds.toMidnightUTC())
         )
 
-    !isFirstDay(day) && !isLastDay(day, durationDays) ->
+    !day.isFirstDay() && !day.isLastDay(durationDays) ->
         copy(
             checkInStart = toInstant(
-                seconds = toMidnightUTC(startTimeSeconds) + daysInSeconds(day)
+                seconds = startTimeSeconds.toMidnightUTC() + daysInSeconds(day)
             ),
             checkInEnd = toInstant(
-                seconds = toMidnightUTC(startTimeSeconds) + daysInSeconds(day + 1)
+                seconds = startTimeSeconds.toMidnightUTC() + daysInSeconds(day + 1)
             )
         )
 
     else -> copy()
 }
 
-private fun toMidnightUTC(timestampSeconds: Long): Long =
-    (timestampSeconds / DAY_IN_SECONDS) * DAY_IN_SECONDS
+private fun Long.toMidnightUTC(): Long =
+    (this / DAY_IN_SECONDS) * DAY_IN_SECONDS
 
 private fun daysInSeconds(days: Long): Long =
     TimeUnit.DAYS.toSeconds(days)
@@ -73,12 +73,12 @@ private fun daysInSeconds(days: Long): Long =
 private fun toInstant(seconds: Long): Instant =
     Instant.ofEpochSecond(seconds)
 
-private fun isFirstDay(day: Long): Boolean {
-    return day == 0L
+private fun Long.isFirstDay(): Boolean {
+    return this == 0L
 }
 
-private fun isLastDay(day: Long, days: Long): Boolean {
-    return day == days - 1L
+private fun Long.isLastDay(days: Long): Boolean {
+    return this == days - 1L
 }
 
 private fun List<CheckIn>.print() = Timber.i(
