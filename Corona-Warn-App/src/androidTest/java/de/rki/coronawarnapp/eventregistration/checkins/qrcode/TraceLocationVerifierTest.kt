@@ -5,6 +5,7 @@ import android.os.Parcel
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.eventregistration.common.base32
 import de.rki.coronawarnapp.eventregistration.common.decodeBase32
+import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldNotThrowAny
@@ -23,23 +24,23 @@ import org.junit.runners.JUnit4
 import testhelpers.BaseTestInstrumentation
 
 @RunWith(JUnit4::class)
-class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
+class TraceLocationVerifierTest : BaseTestInstrumentation() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
-    private lateinit var qrCodeVerifier: LocationQRCodeVerifier
+    private lateinit var traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
-        qrCodeVerifier = LocationQRCodeVerifier(SignatureValidation(environmentSetup))
+        traceLocationQRCodeVerifier = TraceLocationQRCodeVerifier(SignatureValidation(environmentSetup))
     }
 
     @Test
     fun verifyEventSuccess() = runBlockingTest {
         val instant = Instant.ofEpochMilli(2687960 * 1_000L)
         shouldNotThrowAny {
-            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
+            val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
             verifyResult.apply {
                 traceLocation.description shouldBe "My Birthday Party"
                 verifyResult.isBeforeStartTime(instant) shouldBe false
@@ -50,17 +51,18 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
 
     @Test
     fun verifyParcelization() = runBlockingTest {
-        val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
+        val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
 
-        val expectedTraceLocation = VerifiedTraceLocation(
-            guid = "3055331c-2306-43f3-9742-6d8fab54e848".toByteArray().toByteString().base64(),
+        val expectedTraceLocation = DefaultTraceLocation(
+            guid = "3055331c-2306-43f3-9742-6d8fab54e848",
             version = 1,
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
             description = "My Birthday Party",
             address = "at my place",
-            start = Instant.ofEpochSecond(2687955),
-            end = Instant.ofEpochSecond(2687991),
+            startDate = Instant.ofEpochSecond(2687955),
+            endDate = Instant.ofEpochSecond(2687991),
             defaultCheckInLengthInMinutes = 0,
+            signature = verifyResult.signedTraceLocation.signature.toByteArray().toByteString()
         )
 
         verifyResult.verifiedTraceLocation shouldBe expectedTraceLocation
@@ -79,8 +81,8 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
         }
 
         val restoredData = restoredParcel.readBundle()!!.run {
-            classLoader = VerifiedTraceLocation::class.java.classLoader
-            getParcelable<VerifiedTraceLocation>("test")
+            classLoader = DefaultTraceLocation::class.java.classLoader
+            getParcelable<DefaultTraceLocation>("test")
         }
         restoredData shouldBe expectedTraceLocation
     }
@@ -89,7 +91,7 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
     fun verifyEventStartTimeWaning() = runBlockingTest {
         val instant = Instant.ofEpochMilli(2687940 * 1_000L)
         shouldNotThrowAny {
-            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
+            val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
             verifyResult.apply {
                 traceLocation.description shouldBe "My Birthday Party"
             }
@@ -102,7 +104,7 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
     fun verifyEventEndTimeWarning() = runBlockingTest {
         val instant = Instant.now()
         shouldNotThrowAny {
-            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
+            val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
             verifyResult.apply {
                 traceLocation.description shouldBe "My Birthday Party"
             }
@@ -115,14 +117,14 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
     fun verifyEventWithInvalidKey() = runBlockingTest {
         every { environmentSetup.appConfigVerificationKey } returns INVALID_PUB_KEY
         shouldThrow<InvalidQRCodeSignatureException> {
-            qrCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
+            traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
         }
     }
 
     @Test
     fun eventHasMalformedData() = runBlockingTest {
         shouldThrow<InvalidQRCodeDataException> {
-            qrCodeVerifier.verify(
+            traceLocationQRCodeVerifier.verify(
                 INVALID_ENCODED_EVENT.decodeBase32().toByteArray()
             )
         }
@@ -139,7 +141,7 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
         val base32 = signedTraceLocation.toByteArray().toByteString().base32()
 
         shouldNotThrowAny {
-            val verifyResult = qrCodeVerifier.verify(base32.decodeBase32().toByteArray())
+            val verifyResult = traceLocationQRCodeVerifier.verify(base32.decodeBase32().toByteArray())
 
             verifyResult.apply {
                 traceLocation.description shouldBe "My Birthday Party"
@@ -159,7 +161,7 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
         val base32 = signedTraceLocation.toByteArray().toByteString().base32()
 
         shouldNotThrowAny {
-            val verifyResult = qrCodeVerifier.verify(base32.decodeBase32().toByteArray())
+            val verifyResult = traceLocationQRCodeVerifier.verify(base32.decodeBase32().toByteArray())
 
             verifyResult.apply {
                 traceLocation.description shouldBe "Icecream Shop"
@@ -178,20 +180,21 @@ class LocationQRCodeVerifierTest : BaseTestInstrumentation() {
             val traceLocation = TraceLocationOuterClass.TraceLocation.parseFrom(
                 ENCODED_EVENT1_LOCATION.decodeBase32().toByteArray()
             )
-            val verifiedTraceLocation = QRCodeVerifyResult(
+            val verifiedTraceLocation = TraceLocationVerifyResult(
                 signedTraceLocation = signedTraceLocation,
                 traceLocation = traceLocation
             ).verifiedTraceLocation
 
-            verifiedTraceLocation shouldBe VerifiedTraceLocation(
-                guid = "MzA1NTMzMWMtMjMwNi00M2YzLTk3NDItNmQ4ZmFiNTRlODQ4",
+            verifiedTraceLocation shouldBe DefaultTraceLocation(
+                guid = "3055331c-2306-43f3-9742-6d8fab54e848",
                 version = 1,
                 type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
                 description = "My Birthday Party",
                 address = "at my place",
-                start = Instant.ofEpochSecond(2687955),
-                end = Instant.ofEpochSecond(2687991),
+                startDate = Instant.ofEpochSecond(2687955),
+                endDate = Instant.ofEpochSecond(2687991),
                 defaultCheckInLengthInMinutes = 0,
+                signature = signedTraceLocation.signature.toByteArray().toByteString()
             )
         }
     }

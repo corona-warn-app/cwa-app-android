@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import okio.ByteString.Companion.toByteString
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
@@ -59,7 +60,7 @@ class CreateEventTestViewModel @AssistedInject constructor(
                 startDate?.toInstant(),
                 endDate?.toInstant(),
                 defaultCheckInLengthInMinutes.toInt(),
-                "ServerSignature"
+                "ServerSignature".toByteArray().toByteString()
             )
 
             traceLocationRepository.addTraceLocation(traceLocation)

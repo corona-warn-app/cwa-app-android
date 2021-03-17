@@ -2,10 +2,14 @@ package de.rki.coronawarnapp.eventregistration.events
 
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import kotlinx.parcelize.Parcelize
+import okio.ByteString
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 
 const val TRACE_LOCATION_VERSION = 1
 
+@Parcelize
 data class DefaultTraceLocation(
     override val guid: String,
     override val type: TraceLocationOuterClass.TraceLocationType,
@@ -14,7 +18,7 @@ data class DefaultTraceLocation(
     override val startDate: Instant?,
     override val endDate: Instant?,
     override val defaultCheckInLengthInMinutes: Int?,
-    override val signature: String,
+    override val signature: ByteString,
     override val version: Int = TRACE_LOCATION_VERSION,
 ) : TraceLocation
 
@@ -28,7 +32,7 @@ fun TraceLocationEntity.toTraceLocation() = DefaultTraceLocation(
     startDate = startDate,
     endDate = endDate,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-    signature = signature,
+    signature = signatureBase64.decodeBase64()!!,
     version = version
 )
 

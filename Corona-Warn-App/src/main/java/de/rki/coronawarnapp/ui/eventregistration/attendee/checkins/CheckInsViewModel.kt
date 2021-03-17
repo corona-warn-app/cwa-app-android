@@ -6,9 +6,9 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.LocationQRCodeVerifier
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifyResult
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCodeVerifier
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationVerifyResult
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -20,12 +20,12 @@ class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     @Assisted private val deepLink: String?,
     dispatcherProvider: DispatcherProvider,
-    private val qrCodeVerifier: LocationQRCodeVerifier,
+    private val traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier,
     private val qrCodeUriParser: QRCodeUriParser
 ) : CWAViewModel(dispatcherProvider) {
 
-    private val verifyResultData = MutableLiveData<QRCodeVerifyResult>()
-    val verifyResult: LiveData<QRCodeVerifyResult> = verifyResultData
+    private val verifyResultData = MutableLiveData<TraceLocationVerifyResult>()
+    val verifyResult: LiveData<TraceLocationVerifyResult> = verifyResultData
 
     init {
         deepLink?.let {
@@ -45,7 +45,7 @@ class CheckInsViewModel @AssistedInject constructor(
             val signedTraceLocation = qrCodeUriParser.getSignedTraceLocation(uri)
                 ?: throw IllegalArgumentException("Invalid uri: $uri")
 
-            val verifyResult = qrCodeVerifier.verify(signedTraceLocation.toByteArray())
+            val verifyResult = traceLocationQRCodeVerifier.verify(signedTraceLocation.toByteArray())
             Timber.i("verifyResult: $verifyResult")
             verifyResultData.postValue(verifyResult)
         } catch (e: Exception) {

@@ -5,19 +5,19 @@ import de.rki.coronawarnapp.util.security.SignatureValidation
 import timber.log.Timber
 import javax.inject.Inject
 
-class LocationQRCodeVerifier @Inject constructor(
+class TraceLocationQRCodeVerifier @Inject constructor(
     private val signatureValidation: SignatureValidation
 ) {
 
-    fun verify(rawTraceLocation: ByteArray): QRCodeVerifyResult {
-        Timber.tag(TAG).v("Verifying: %s", rawTraceLocation)
+    fun verify(rawTraceLocation: ByteArray): TraceLocationVerifyResult {
+        Timber.v("Verifying: %s", rawTraceLocation)
 
         val signedTraceLocation = try {
             TraceLocationOuterClass.SignedTraceLocation.parseFrom(rawTraceLocation)
         } catch (e: Exception) {
             throw InvalidQRCodeDataException(cause = e, message = "QR-code data could not be parsed.")
         }
-        Timber.tag(TAG).d("Parsed to signed location: %s", signedTraceLocation)
+        Timber.d("Parsed to signed location: %s", signedTraceLocation)
 
         val isValid = try {
             signatureValidation.hasValidSignature(
@@ -36,13 +36,9 @@ class LocationQRCodeVerifier @Inject constructor(
             signedTraceLocation.location
         )
 
-        return QRCodeVerifyResult(
+        return TraceLocationVerifyResult(
             signedTraceLocation = signedTraceLocation,
             traceLocation = traceLocation
         )
-    }
-
-    companion object {
-        private const val TAG = "DefaultQRCodeVerifier"
     }
 }

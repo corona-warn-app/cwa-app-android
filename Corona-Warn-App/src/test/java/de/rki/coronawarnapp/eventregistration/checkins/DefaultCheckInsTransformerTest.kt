@@ -57,7 +57,7 @@ class DefaultCheckInsTransformerTest : BaseTest() {
 
         outCheckIns[0].apply {
             signedLocation.apply {
-                location.apply {
+                TraceLocationOuterClass.TraceLocation.parseFrom(location).apply {
                     guid shouldBe "3055331c-2306-43f3-9742-6d8fab54e848"
                     version shouldBe 1
                     type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
@@ -76,7 +76,7 @@ class DefaultCheckInsTransformerTest : BaseTest() {
 
         outCheckIns[1].apply {
             signedLocation.apply {
-                location.apply {
+                TraceLocationOuterClass.TraceLocation.parseFrom(location).apply {
                     guid shouldBe "fca84b37-61c0-4a7c-b2f8-825cadd506cf"
                     version shouldBe 1
                     type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
