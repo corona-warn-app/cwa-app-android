@@ -12,11 +12,18 @@ import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.categor
 import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.header.TraceLocationHeaderItem
 import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.separator.TraceLocationSeparatorItem
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
+import javax.inject.Inject
 
-class TraceLocationCategoryFragment : Fragment(R.layout.event_registration_category_fragment) {
+class TraceLocationCategoryFragment : Fragment(R.layout.event_registration_category_fragment), AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: TraceLocationCategoryViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: EventRegistrationCategoryFragmentBinding by viewBindingLazy()
 
