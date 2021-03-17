@@ -83,14 +83,14 @@ class RiskLevelChangeDetector @Inject constructor(
         newRiskState: RiskLevelResult
     ) {
         // Save riskLevelTurnedRedTime if not already set before for high risk detection
-        Timber.i("riskLevelTurnedRedTime:%s", testResultDonorSettings.riskLevelTurnedRedTime.value)
+        Timber.i("riskLevelTurnedRedTime=%s", testResultDonorSettings.riskLevelTurnedRedTime.value)
         if (testResultDonorSettings.riskLevelTurnedRedTime.value == null) {
             if (newRiskState.isIncreasedRisk) {
                 testResultDonorSettings.riskLevelTurnedRedTime.update {
                     newRiskState.calculatedAt
                 }
                 Timber.i(
-                    "newRiskState:%s, riskLevelTurnedRedTime:%s",
+                    "riskLevelTurnedRedTime: newRiskState=%s, riskLevelTurnedRedTime=%s",
                     newRiskState.riskState,
                     newRiskState.calculatedAt
                 )
@@ -100,7 +100,7 @@ class RiskLevelChangeDetector @Inject constructor(
         // Save most recent date of high or low risks
         if (newRiskState.riskState in listOf(RiskState.INCREASED_RISK, RiskState.LOW_RISK)) {
             Timber.i(
-                "newRiskState:%s, lastRiskEncounterAt:%s",
+                "mostRecentDateWithHighOrLowRiskLevel: newRiskState=%s, lastRiskEncounterAt=%s",
                 newRiskState.riskState,
                 newRiskState.lastRiskEncounterAt
             )
