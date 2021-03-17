@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.submission.task
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -37,6 +39,8 @@ class SubmissionTask @Inject constructor(
     private val timeStamper: TimeStamper,
     private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
+    private val checkInsRepository: CheckInRepository,
+    private val checkInsTransformer: CheckInsTransformer,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
@@ -137,11 +141,17 @@ class SubmissionTask @Inject constructor(
         )
         Timber.tag(TAG).d("Transformed keys with symptoms %s from %s to %s", symptoms, keys, transformedKeys)
 
+        val checkIns = checkInsRepository.allCheckIns.first()
+        val transformedCheckIns = checkInsTransformer.transform(checkIns)
+
+        Timber.tag(TAG).d("Transformed CheckIns from: %s to: %s", checkIns, transformedCheckIns)
+
         val submissionData = Playbook.SubmissionData(
-            registrationToken,
-            transformedKeys,
-            true,
-            getSupportedCountries()
+            registrationToken = registrationToken,
+            temporaryExposureKeys = transformedKeys,
+            consentToFederation = true,
+            visitedCountries = getSupportedCountries(),
+            checkIns = transformedCheckIns
         )
 
         checkCancel()
@@ -154,6 +164,7 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()
+        checkInsRepository.clear()
         submissionSettings.symptoms.update { null }
 
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)

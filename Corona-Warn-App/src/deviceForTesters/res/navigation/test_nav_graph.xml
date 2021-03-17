@@ -167,6 +167,10 @@
         android:name="de.rki.coronawarnapp.test.eventregistration.ui.showevents.ShowStoredEventsTestFragment"
         android:label="ShowStoredEventsTestFragment"
         tools:layout="@layout/fragment_test_showstoredevents" />
-
+    <fragment
+        android:id="@+id/traceLocationOrganizerCategoriesFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment"
+        android:label="TraceLocationCategoryFragment"
+        tools:layout="@layout/trace_location_organizer_category_fragment" />
 
 </navigation>
