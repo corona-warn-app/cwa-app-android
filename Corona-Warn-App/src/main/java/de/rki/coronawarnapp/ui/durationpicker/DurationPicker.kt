@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IntRange
 import androidx.fragment.app.DialogFragment
 import de.rki.coronawarnapp.databinding.DurationPickerBinding
 import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
+import kotlin.math.max
 
 class DurationPicker : DialogFragment() {
 
@@ -17,6 +19,10 @@ class DurationPicker : DialogFragment() {
     }
 
     private var onChangeListener: OnChangeListener? = null
+    private val hoursArray by lazy { requireArguments().getStringArray(HOURS_KEY).orEmpty() }
+    private val title by lazy { requireArguments().getString(TITLE_KEY).orEmpty() }
+    private val minutesArray by lazy { requireArguments().getStringArray(MINUTES_KEY).orEmpty() }
+
     private val binding: Lazy<DurationPickerBinding> = lazy { DurationPickerBinding.inflate(layoutInflater) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -38,16 +44,20 @@ class DurationPicker : DialogFragment() {
             displayedValues = minutesArray
         }
 
+        with(binding.value.title) {
+            text = title
+        }
+
         with(binding.value) {
             var duration = requireArguments().getString(DURATION_KEY)!!.split(":").toTypedArray()
             if (duration.size < 2) duration = arrayOf("00", "00")
 
-            hours.value = hoursArray.indexOf(duration[0])
-            minutes.value = minutesArray.indexOf(duration[1])
+            hours.value = max(0, hoursArray.indexOf(duration[0]))
+            minutes.value = max(0, minutesArray.indexOf(duration[1]))
 
             cancelButton.setOnClickListener { dismiss() }
             okButton.setOnClickListener {
-                onChangeListener?.onChange(getDuration(hours.value, minutes.value))
+                onChangeListener?.onChange(getDuration())
                 dismiss()
             }
         }
@@ -57,27 +67,29 @@ class DurationPicker : DialogFragment() {
         this.onChangeListener = onChangeListener
     }
 
+    private fun getDuration(): Duration {
+        val durationString = hoursArray[binding.value.hours.value] + ":" + minutesArray[binding.value.minutes.value]
+        val formatter: PeriodFormatter = PeriodFormatterBuilder()
+            .appendHours()
+            .appendLiteral(":")
+            .appendMinutes()
+            .toFormatter()
+        return formatter.parsePeriod(durationString).toStandardDuration()
+    }
+
     companion object {
         private const val DURATION_KEY = "duration"
         private const val TITLE_KEY = "title"
-        val minutesArray = arrayOf("00", "15", "30", "45")
-        val hoursArray = Array(24) { "%02d".format(it) }
-
-        fun getDuration(hours: Int, minutes: Int): Duration {
-            val durationString = hoursArray[hours] + ":" + minutesArray[minutes]
-            val formatter: PeriodFormatter = PeriodFormatterBuilder()
-                .appendHours()
-                .appendLiteral(":")
-                .appendMinutes()
-                .toFormatter()
-            return formatter.parsePeriod(durationString).toStandardDuration()
-        }
+        private const val HOURS_KEY = "hours"
+        private const val MINUTES_KEY = "minutes"
 
         private fun newInstance(builder: Builder) = DurationPicker()
             .apply {
                 arguments = Bundle().apply {
                     putString(DURATION_KEY, builder.duration)
                     putString(TITLE_KEY, builder.title)
+                    putStringArray(HOURS_KEY, builder.hoursArray)
+                    putStringArray(MINUTES_KEY, builder.minutesArray)
                 }
             }
     }
@@ -88,8 +100,60 @@ class DurationPicker : DialogFragment() {
         var duration: String = ""
             private set
 
+        var minutesArray = arrayOf("00", "15", "30", "45")
+            private set
+        var hoursArray = Array(24) { "%02d".format(it) }
+            private set
+
+        /**
+         * Sets picker dialog title
+         */
         fun title(title: String) = apply { this.title = title }
+
+        /**
+         * Sets picker default duration as "hh:mm" string
+         */
         fun duration(duration: String) = apply { this.duration = duration }
+
+        /**
+         * Sets minutes range set
+         * @param min [Int] inclusive start
+         * @param max [Int] exclusive end
+         * @param step [Int] a value in range of `0` and `59`
+         */
+        fun minutes(
+            min: Int = 0,
+            max: Int = 60,
+            @IntRange(from = 1, to = 59) step: Int = 1
+        ) = apply {
+            minutesArray = valuesArray(min, max, step)
+        }
+
+        /**
+         * Sets hours minutes set
+         * @param min [Int] inclusive start
+         * @param max [Int] exclusive end
+         * @param step [Int] a value in range of `0` and `23`
+         */
+        fun hours(
+            min: Int = 0,
+            max: Int = 24,
+            @IntRange(from = 1, to = 23) step: Int = 1
+        ) = apply {
+            hoursArray = valuesArray(min, max, step)
+        }
+
         fun build() = newInstance(this)
+
+        private fun valuesArray(min: Int, max: Int, step: Int): Array<String> {
+            val values = mutableListOf<String>()
+            for (item in min until max step step) {
+                values.add("%02d".format(item))
+            }
+            if (values.size == 0) {
+                return arrayOf("00")
+            }
+            return values.toTypedArray()
+        }
     }
 }
