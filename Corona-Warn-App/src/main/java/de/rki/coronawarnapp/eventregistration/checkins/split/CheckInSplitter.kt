@@ -8,8 +8,6 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.ceil
 import kotlin.math.max
 
-private val DAY_IN_SECONDS = TimeUnit.DAYS.toSeconds(1)
-
 /**
  * Splits a [CheckIn] by midnight UTC time into multiple [CheckIn]s across multiple days.
  *
@@ -92,3 +90,5 @@ private fun List<CheckIn>.print() = Timber.i(
         )
     }
 )
+
+private val DAY_IN_SECONDS = TimeUnit.DAYS.toSeconds(1)
