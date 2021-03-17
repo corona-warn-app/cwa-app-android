@@ -40,8 +40,8 @@ class SubmissionRepository @Inject constructor(
     private val tracingSettings: TracingSettings
 ) {
     private val testResultReceivedDateFlowInternal =
-        MutableStateFlow((submissionSettings.initialTestResultReceivedAt ?: timeStamper.nowUTC).toDate())
-    val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
+        MutableStateFlow(submissionSettings.initialTestResultReceivedAt?.toDate())
+    val testResultReceivedDateFlow: Flow<Date?> = testResultReceivedDateFlowInternal
 
     private val deviceUIStateFlowInternal =
         MutableStateFlow<NetworkRequestWrapper<DeviceUIState, Throwable>>(NetworkRequestWrapper.RequestIdle)
@@ -198,6 +198,7 @@ class SubmissionRepository @Inject constructor(
         submissionSettings.isAllowedToSubmitKeys = false
         tracingSettings.isTestResultAvailableNotificationSent = false
         submissionSettings.isSubmissionSuccessful = false
+        testResultReceivedDateFlowInternal.value = null
     }
 
     private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {
