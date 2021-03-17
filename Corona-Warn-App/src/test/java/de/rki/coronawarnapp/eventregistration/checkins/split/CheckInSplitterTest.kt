@@ -42,7 +42,7 @@ class CheckInSplitterTest : BaseTest() {
             checkInEnd = Instant.parse("2021-03-04T09:45:00Z")
         )
 
-        checkIn.splitByMidnight().apply {
+        checkIn.splitByMidnightUTC().apply {
             size shouldBe 1 // No splitting
             get(0) shouldBe checkIn
         }
@@ -64,7 +64,7 @@ class CheckInSplitterTest : BaseTest() {
             checkInEnd = Instant.parse("2021-03-05T09:45:00Z")
         )
 
-        checkIn.splitByMidnight().apply {
+        checkIn.splitByMidnightUTC().apply {
             size shouldBe 2
             get(0).apply {
 
@@ -92,7 +92,7 @@ class CheckInSplitterTest : BaseTest() {
             checkInEnd = Instant.parse("2021-03-06T09:45:00Z"),
         )
 
-        checkIn.splitByMidnight().apply {
+        checkIn.splitByMidnightUTC().apply {
             size shouldBe 2
             get(0).apply {
 
