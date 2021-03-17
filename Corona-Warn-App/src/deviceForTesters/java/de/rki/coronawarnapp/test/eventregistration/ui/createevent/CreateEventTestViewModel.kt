@@ -59,7 +59,6 @@ class CreateEventTestViewModel @AssistedInject constructor(
                 launch {
                     try {
                         val traceLocation = traceLocationCreator.createTraceLocation(userInput)
-                        traceLocationRepository.addTraceLocation(traceLocation)
                         result.postValue(Result.Success(traceLocation))
                     } catch (exception: Exception) {
                         Timber.d("Something went wrong when sending the event to the server $exception")
