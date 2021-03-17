@@ -50,7 +50,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             }
 
             startCreateEventFlowButton.setOnClickListener {
-                findNavController().navigate(R.id.eventRegistrationCategoriesFragment)
+                findNavController().navigate(R.id.traceLocationOrganizerCategoriesFragment)
             }
         }
     }

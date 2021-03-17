@@ -5,7 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.EventRegistrationCategoryFragmentBinding
+import de.rki.coronawarnapp.databinding.TraceLocationOrganizerCategoryFragmentBinding
 import de.rki.coronawarnapp.eventregistration.events.ui.category.adapter.TraceLocationCategoryAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -16,12 +16,12 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
 import javax.inject.Inject
 
-class TraceLocationCategoryFragment : Fragment(R.layout.event_registration_category_fragment), AutoInject {
+class TraceLocationCategoryFragment : Fragment(R.layout.trace_location_organizer_category_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: TraceLocationCategoryViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: EventRegistrationCategoryFragmentBinding by viewBindingLazy()
+    private val binding: TraceLocationOrganizerCategoryFragmentBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.attendee.checkin
+package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
 import android.os.Parcelable
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifyResult
