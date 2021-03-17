@@ -93,7 +93,7 @@ class CheckInSplitterTest : BaseTest() {
         )
 
         checkIn.splitByMidnightUTC().apply {
-            size shouldBe 2
+            size shouldBe 3
             get(0).apply {
 
             }
