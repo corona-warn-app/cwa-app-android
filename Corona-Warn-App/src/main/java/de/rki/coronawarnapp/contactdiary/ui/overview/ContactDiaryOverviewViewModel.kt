@@ -14,7 +14,11 @@ import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTask
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayDataItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.header.HeaderItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskcalculated.RiskCalculatedItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -87,15 +91,25 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             riskLevelPerDateList
         )
         return dateList.map { date ->
+            val items: MutableList<DayDataItem> = mutableListOf()
+
+            items.add(HeaderItem(date))
+
             val dayData = getEncountersForDate(encounters, date) + getVisitsForDate(visits, date)
-            val risk = riskLevelPerDateList
+            riskLevelPerDateList
                 .firstOrNull { riskLevelPerDate -> riskLevelPerDate.day == date }
                 ?.toRisk(dayData.isNotEmpty())
-            DayOverviewItem(date = date, data = dayData, risk = risk) { onItemPress(it) }
+                ?.also { items.add(it) }
+
+            if (dayData.isNotEmpty()) {
+                items.add(ContactItem(dayData))
+            }
+
+            DayOverviewItem(date = date, dayData = items) { onItemPress(it) }
         }
     }
 
-    private fun AggregatedRiskPerDateResult.toRisk(locationOrPerson: Boolean): DayOverviewItem.Risk {
+    private fun AggregatedRiskPerDateResult.toRisk(locationOrPerson: Boolean): RiskCalculatedItem {
         @StringRes val title: Int
         @StringRes var body: Int = R.string.contact_diary_risk_body
         @DrawableRes val drawableId: Int
@@ -116,7 +130,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             drawableId = R.drawable.ic_low_risk_alert
         }
 
-        return DayOverviewItem.Risk(title, body, bodyExtend, drawableId)
+        return RiskCalculatedItem(title, body, bodyExtend, drawableId)
     }
 
     private fun getEncountersForDate(
@@ -125,13 +139,13 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     ) = personEncounterList
         .filter { personEncounter -> personEncounter.date == date }
         .map { personEncounter ->
-            DayOverviewItem.Data(
+            ContactItem.Data(
                 R.drawable.ic_contact_diary_person_item,
                 name = personEncounter.contactDiaryPerson.fullName,
                 duration = null,
                 attributes = getPersonAttributes(personEncounter),
                 circumstances = personEncounter.circumstances,
-                DayOverviewItem.Type.PERSON
+                ContactItem.Type.PERSON
             )
         }
 
@@ -141,13 +155,13 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     ) = locationVisitList
         .filter { locationVisit -> locationVisit.date == date }
         .map { locationVisit ->
-            DayOverviewItem.Data(
+            ContactItem.Data(
                 R.drawable.ic_contact_diary_location_item,
                 locationVisit.contactDiaryLocation.locationName,
                 duration = locationVisit.duration,
                 attributes = null,
                 circumstances = locationVisit.circumstances,
-                DayOverviewItem.Type.LOCATION
+                ContactItem.Type.LOCATION
             )
         }
 
