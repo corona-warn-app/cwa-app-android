@@ -8,9 +8,11 @@ import de.rki.coronawarnapp.eventregistration.events.ui.category.TraceLocationCa
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 
-@Module(includes = [
-    TraceLocationCategoryModule::class,
-])
+@Module(
+    includes = [
+        TraceLocationCategoryModule::class,
+    ]
+)
 abstract class EventRegistrationModule {
 
     @Binds

@@ -14,9 +14,9 @@ abstract class TraceLocationCategoryModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(TraceLocationCategoryViewModel::class)
-    abstract fun traceLocationCategoryViewModel(factory: TraceLocationCategoryViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    abstract fun traceLocationCategoryViewModel(factory: TraceLocationCategoryViewModel.Factory):
+        CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
     abstract fun traceLocationCategoryFragment(): TraceLocationCategoryFragment
-
 }

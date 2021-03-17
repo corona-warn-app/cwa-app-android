@@ -28,7 +28,7 @@ class TraceLocationCategoryFragment : Fragment(R.layout.event_registration_categ
 
         binding.toolbar.setNavigationOnClickListener { popBackStack() }
 
-        vm.categoryItems.observe2(this){ categoryItems ->
+        vm.categoryItems.observe2(this) { categoryItems ->
             val adapter = TraceLocationCategoryAdapter(categoryItems) {
                 // TODO: Set click-listener - Continue with event creation flow in next PR
                 Timber.d("Clicked on TraceLocationCategory: $it")
