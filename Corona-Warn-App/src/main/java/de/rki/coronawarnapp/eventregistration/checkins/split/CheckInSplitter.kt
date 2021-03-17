@@ -25,25 +25,14 @@ fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     val durationDays = max(1L, ceil(durationSeconds.toDouble() / DAY_IN_SECONDS).toLong())
     Timber.i("durationDays=$durationDays")
 
-    val checkIns = Array(durationDays.toInt()) { day ->
+    return Array(durationDays.toInt()) { day ->
         checkInCopy(
             day.toLong(),
             durationDays,
             startTimeSeconds,
             endTimeSeconds
         )
-    }
-
-    Timber.i(
-        "splitInto: %s",
-        checkIns.joinToString(separator = "\n") { checkIn ->
-            "{checkInStart=%s,checkOutEnd=%s}".format(
-                checkIn.checkInStart,
-                checkIn.checkInEnd
-            )
-        }
-    )
-    return checkIns.toList()
+    }.toList().also { it.print() }
 }
 
 private fun CheckIn.checkInCopy(
@@ -77,11 +66,14 @@ private fun CheckIn.checkInCopy(
     else -> copy()
 }
 
-private fun toMidnightUTC(timestampSeconds: Long): Long = (timestampSeconds / DAY_IN_SECONDS) * DAY_IN_SECONDS
+private fun toMidnightUTC(timestampSeconds: Long): Long =
+    (timestampSeconds / DAY_IN_SECONDS) * DAY_IN_SECONDS
 
-private fun daysInSeconds(days: Long): Long = TimeUnit.DAYS.toSeconds(days)
+private fun daysInSeconds(days: Long): Long =
+    TimeUnit.DAYS.toSeconds(days)
 
-private fun toInstant(seconds: Long): Instant = Instant.ofEpochSecond(seconds)
+private fun toInstant(seconds: Long): Instant =
+    Instant.ofEpochSecond(seconds)
 
 private fun isFirstDay(day: Long): Boolean {
     return day == 0L
@@ -90,3 +82,13 @@ private fun isFirstDay(day: Long): Boolean {
 private fun isLastDay(day: Long, days: Long): Boolean {
     return day == days - 1L
 }
+
+private fun List<CheckIn>.print() = Timber.i(
+    "splitInto: %s",
+    joinToString(separator = "\n") { checkIn ->
+        "{checkInStart=%s,checkOutEnd=%s}".format(
+            checkIn.checkInStart,
+            checkIn.checkInEnd
+        )
+    }
+)
