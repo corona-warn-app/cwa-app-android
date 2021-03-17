@@ -27,19 +27,19 @@ fun PresenceTracingSubmissionParamContainer.deriveTime(
     val durationInMinutes = TimeUnit.SECONDS.toMinutes(durationInSeconds)
     Timber.d("durationInMinutes: $durationInMinutes")
 
-    val dropDueToDuration = durationFilters.any { durationFilter ->
+    val dropDueToDuration: Boolean = durationFilters.any { durationFilter ->
         durationFilter.dropIfMinutesInRange.inRange(durationInMinutes)
     }
     Timber.d("dropDueToDuration: $dropDueToDuration")
     if (dropDueToDuration) return null
 
-    val aerosoleDecays = aerosoleDecayLinearFunctions.filter { aerosole ->
+    val aerosoleDecays: List<Double> = aerosoleDecayLinearFunctions.filter { aerosole ->
         aerosole.minutesRange.inRange(durationInMinutes)
     }.map { aerosole ->
         aerosole.slope * durationInSeconds + TimeUnit.MINUTES.toSeconds(aerosole.intercept.toLong())
     }
     Timber.d("aerosoleDecays:$aerosoleDecays")
-    val aerosoleDecayInSeconds = aerosoleDecays.firstOrNull() ?: 0.0 // Default: zero, i.e. 'no decay'
+    val aerosoleDecayInSeconds: Double = aerosoleDecays.firstOrNull() ?: 0.0 // Default: zero, i.e. 'no decay'
     Timber.d("aerosoleDecayInSeconds: $aerosoleDecayInSeconds")
 
     val relevantEndTimestamp = endTimestampInSeconds + aerosoleDecayInSeconds.toLong()
