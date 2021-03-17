@@ -9,6 +9,23 @@ import testhelpers.BaseTest
 
 class CheckInSplitterTest : BaseTest() {
 
+    private val defaultCheckIn = CheckIn(
+        id = 1L,
+        guid = "eventOne",
+        version = 1,
+        type = 1,
+        description = "Restaurant",
+        address = "Around the corner",
+        traceLocationStart = null,
+        traceLocationEnd = null,
+        defaultCheckInLengthInMinutes = null,
+        signature = "signature",
+        checkInStart = Instant.now(),
+        checkInEnd = Instant.now(),
+        targetCheckInEnd = null,
+        createJournalEntry = false
+    )
+
     @Test
     fun `same-day check-in`() {
         /*
@@ -16,21 +33,9 @@ class CheckInSplitterTest : BaseTest() {
            localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-04 09:45' }
            splitInto = [{ start: '2021-03-04 09:30', end: '2021-03-04 09:45' } // no split
         */
-        val checkIn = CheckIn(
-            id = 1L,
-            guid = "eventOne",
-            version = 1,
-            type = 1,
-            description = "Restaurant",
-            address = "Around the corner",
-            traceLocationStart = null,
-            traceLocationEnd = null,
-            defaultCheckInLengthInMinutes = null,
-            signature = "signature",
-            checkInStart = Instant.parse("2021-03-04 09:30"),
-            checkInEnd = Instant.parse("2021-03-04 09:45"),
-            targetCheckInEnd = null,
-            createJournalEntry = false
+        val checkIn = defaultCheckIn.copy(
+            checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
+            checkInEnd = Instant.parse("2021-03-04T09:45:00Z")
         )
 
         checkIn.splitByMidnight().apply {
@@ -50,21 +55,9 @@ class CheckInSplitterTest : BaseTest() {
         ]
         */
 
-        val checkIn = CheckIn(
-            id = 1L,
-            guid = "eventOne",
-            version = 1,
-            type = 1,
-            description = "Restaurant",
-            address = "Around the corner",
-            traceLocationStart = null,
-            traceLocationEnd = null,
-            defaultCheckInLengthInMinutes = null,
-            signature = "signature",
-            checkInStart = Instant.parse("2021-03-04 09:30"),
-            checkInEnd = Instant.parse("2021-03-05 09:45"),
-            targetCheckInEnd = null,
-            createJournalEntry = false
+        val checkIn = defaultCheckIn.copy(
+            checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
+            checkInEnd = Instant.parse("2021-03-05T09:45:00Z")
         )
 
         checkIn.splitByMidnight().apply {
@@ -90,21 +83,9 @@ class CheckInSplitterTest : BaseTest() {
             { start: '2021-03-06 00:00', end: '2021-03-06 09:45' }
           ]
          */
-        val checkIn = CheckIn(
-            id = 1L,
-            guid = "eventOne",
-            version = 1,
-            type = 1,
-            description = "Restaurant",
-            address = "Around the corner",
-            traceLocationStart = null,
-            traceLocationEnd = null,
-            defaultCheckInLengthInMinutes = null,
-            signature = "signature",
-            checkInStart = Instant.parse("2021-03-04 09:30"),
-            checkInEnd = Instant.parse("2021-03-05 09:45"),
-            targetCheckInEnd = null,
-            createJournalEntry = false
+        val checkIn = defaultCheckIn.copy(
+            checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
+            checkInEnd = Instant.parse("2021-03-06T09:45:00Z"),
         )
 
         checkIn.splitByMidnight().apply {
