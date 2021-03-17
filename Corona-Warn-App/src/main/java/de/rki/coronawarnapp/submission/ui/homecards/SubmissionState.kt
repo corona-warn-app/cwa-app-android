@@ -19,5 +19,5 @@ data class SubmissionDone(private val testRegisteredOn: Date?) : SubmissionState
 
     fun formatTestRegistrationText(context: Context): String =
         context.getString(R.string.reenable_risk_card_test_registration_string)
-            .format(testRegisteredOn?.toUIFormat(context) ?: Date().toUIFormat(context))
+            .format((testRegisteredOn ?: Date()).toUIFormat(context))
 }

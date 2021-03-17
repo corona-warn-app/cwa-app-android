@@ -138,7 +138,7 @@ fun formatTestStatusIcon(context: Context, uiState: NetworkRequestWrapper<Device
 
 fun formatTestResultRegisteredAtText(context: Context, registeredAt: Date?): String {
     return context.getString(R.string.test_result_card_registered_at_text)
-        .format(registeredAt?.toUIFormat(context))
+        .format((registeredAt ?: Date()).toUIFormat(context))
 }
 
 fun formatTestResultPendingStepsVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =

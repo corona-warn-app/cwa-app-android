@@ -73,7 +73,7 @@ constructor(
 
     private fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
         return context.getString(R.string.test_result_card_registered_at_text)
-            .format(registeredAt?.toUIFormat(context) ?: Date().toUIFormat(context))
+            .format((registeredAt ?: Date()).toUIFormat(context))
     }
 
     private fun formatTestResultSectionContent(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Spannable {
