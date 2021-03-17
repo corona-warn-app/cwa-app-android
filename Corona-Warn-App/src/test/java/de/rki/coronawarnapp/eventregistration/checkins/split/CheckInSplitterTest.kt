@@ -7,6 +7,10 @@ import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
 
+/**
+ * Test examples reference [https://github.com/corona-warn-app/cwa-app-tech-spec/blob/proposal/
+ * event-registration-mvp/docs/spec/event-registration-client.md#split-checkin-by-midnight-utc]
+ */
 class CheckInSplitterTest : BaseTest() {
 
     private val defaultCheckIn = CheckIn(
