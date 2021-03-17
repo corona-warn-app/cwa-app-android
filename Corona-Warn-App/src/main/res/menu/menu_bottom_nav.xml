@@ -7,6 +7,11 @@
         android:title="@string/bottom_nav_home_title" />
 
     <item
+        android:id="@+id/trace_location_attendee_nav_graph"
+        android:icon="@drawable/ic_nav_check_in"
+        android:title="@string/bottom_nav_check_ins_title" />
+
+    <item
         android:id="@+id/contact_diary_nav_graph"
         android:icon="@drawable/ic_nav_diary"
         android:title="@string/bottom_nav_diary_title" />

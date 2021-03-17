@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
@@ -35,10 +35,12 @@ class SubmissionRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val tekHistoryStorage: TEKHistoryStorage,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    private val backgroundNoise: BackgroundNoise,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    private val tracingSettings: TracingSettings
 ) {
     private val testResultReceivedDateFlowInternal =
-        MutableStateFlow(Date(LocalData.initialTestResultReceivedTimestamp() ?: System.currentTimeMillis()))
+        MutableStateFlow((submissionSettings.initialTestResultReceivedAt ?: timeStamper.nowUTC).toDate())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
 
     private val deviceUIStateFlowInternal =
@@ -77,18 +79,18 @@ class SubmissionRepository @Inject constructor(
     }
 
     fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
-        if (LocalData.submissionWasSuccessful()) {
+        if (submissionSettings.isSubmissionSuccessful) {
             deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL)
             return
         }
 
-        val registrationToken = LocalData.registrationToken()
+        val registrationToken = submissionSettings.registrationToken.value
         if (registrationToken == null) {
             deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED)
             return
         }
 
-        if (LocalData.isAllowedToSubmitDiagnosisKeys()) {
+        if (submissionSettings.isAllowedToSubmitKeys) {
             deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE)
             return
         }
@@ -123,20 +125,24 @@ class SubmissionRepository @Inject constructor(
 
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
-        LocalData.registrationToken(registrationData.registrationToken)
+        submissionSettings.registrationToken.update {
+            registrationData.registrationToken
+        }
         updateTestResult(registrationData.testResult)
-        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
-        BackgroundNoise.getInstance().scheduleDummyPattern()
+        submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
+        backgroundNoise.scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
     }
 
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
-        LocalData.registrationToken(registrationData.registrationToken)
+        submissionSettings.registrationToken.update {
+            registrationData.registrationToken
+        }
         updateTestResult(registrationData.testResult)
-        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
-        BackgroundNoise.getInstance().scheduleDummyPattern()
+        submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
+        backgroundNoise.scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
         return registrationData.testResult
     }
@@ -152,22 +158,22 @@ class SubmissionRepository @Inject constructor(
         testResultFlow.value = testResult
 
         if (testResult == TestResult.POSITIVE) {
-            LocalData.isAllowedToSubmitDiagnosisKeys(true)
+            submissionSettings.isAllowedToSubmitKeys = true
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
             deadmanNotificationScheduler.cancelScheduledWork()
         }
 
-        val initialTestResultReceivedTimestamp = LocalData.initialTestResultReceivedTimestamp()
+        val initialTestResultReceivedTimestamp = submissionSettings.initialTestResultReceivedAt
 
         if (initialTestResultReceivedTimestamp == null) {
-            val currentTime = System.currentTimeMillis()
-            LocalData.initialTestResultReceivedTimestamp(currentTime)
-            testResultReceivedDateFlowInternal.value = Date(currentTime)
+            val currentTime = timeStamper.nowUTC
+            submissionSettings.initialTestResultReceivedAt = currentTime
+            testResultReceivedDateFlowInternal.value = currentTime.toDate()
             if (testResult == TestResult.PENDING) {
                 BackgroundWorkScheduler.startWorkScheduler()
             }
         } else {
-            testResultReceivedDateFlowInternal.value = Date(initialTestResultReceivedTimestamp)
+            testResultReceivedDateFlowInternal.value = initialTestResultReceivedTimestamp.toDate()
         }
     }
 
@@ -184,13 +190,13 @@ class SubmissionRepository @Inject constructor(
         submissionSettings.hasGivenConsent.update { false }
         analyticsKeySubmissionCollector.reset()
         revokeConsentToSubmission()
-        LocalData.registrationToken(null)
-        LocalData.devicePairingSuccessfulTimestamp(0L)
-        LocalData.initialPollingForTestResultTimeStamp(0L)
-        LocalData.initialTestResultReceivedTimestamp(0L)
-        LocalData.isAllowedToSubmitDiagnosisKeys(false)
-        LocalData.isTestResultAvailableNotificationSent(false)
-        LocalData.numberOfSuccessfulSubmissions(0)
+        submissionSettings.registrationToken.update { null }
+        submissionSettings.devicePairingSuccessfulAt = null
+        tracingSettings.initialPollingForTestResultTimeStamp = 0L
+        submissionSettings.initialTestResultReceivedAt = null
+        submissionSettings.isAllowedToSubmitKeys = false
+        tracingSettings.isTestResultAvailableNotificationSent = false
+        submissionSettings.isSubmissionSuccessful = false
     }
 
     private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {

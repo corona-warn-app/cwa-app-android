@@ -11,8 +11,8 @@ import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.FetchingResult
 import de.rki.coronawarnapp.submission.ui.homecards.NoTest
@@ -80,7 +80,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     appConfigProvider: AppConfigProvider,
     statisticsProvider: StatisticsProvider,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
-    private val appShortcutsHelper: AppShortcutsHelper
+    private val appShortcutsHelper: AppShortcutsHelper,
+    private val tracingSettings: TracingSettings,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -265,8 +266,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     // TODO only lazy to keep tests going which would break because of LocalData access
     val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
-        LocalData
-            .isUserToBeNotifiedOfLoweredRiskLevelFlow
+        tracingSettings
+            .isUserToBeNotifiedOfLoweredRiskLevel
+            .flow
             .map { shouldBeNotified ->
                 val shouldBeShown = shouldBeNotified && !isLoweredRiskLevelDialogBeingShown
                 if (shouldBeShown) {
@@ -305,7 +307,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
         isLoweredRiskLevelDialogBeingShown = false
-        LocalData.isUserToBeNotifiedOfLoweredRiskLevel = false
+        tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
     }
 
     fun userHasAcknowledgedIncorrectDeviceTime() {

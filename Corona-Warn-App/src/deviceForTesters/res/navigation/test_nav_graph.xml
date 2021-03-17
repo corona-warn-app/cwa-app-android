@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_deltaonboardingFragment"
             app:destination="@id/test_deltaonboarding_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_eventRegistrationTestFragment"
+            app:destination="@id/eventRegistrationTestFragment" />
     </fragment>
 
     <fragment
@@ -124,5 +127,50 @@
         android:name="de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment"
         android:label="DeltaonboardingFragment"
         tools:layout="@layout/fragment_test_deltaonboarding" />
+    <fragment
+        android:id="@+id/eventRegistrationTestFragment"
+        android:name="de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragment"
+        android:label="EventRegistrationTestFragment"
+        tools:layout="@layout/fragment_test_eventregistration">
+        <action
+            android:id="@+id/action_eventRegistrationTestFragment_to_test_qr_code_creation_fragment"
+            app:destination="@id/test_qr_code_creation_fragment" />
+        <action
+            android:id="@+id/action_eventRegistrationTestFragment_to_scanCheckInQrCodeFragment"
+            app:destination="@id/scanCheckInQrCodeFragmentTest" />
+        <action
+            android:id="@+id/action_eventRegistrationTestFragment_to_CreateEventTestFragment"
+            app:destination="@id/createEventTestFragment" />
+        <action
+            android:id="@+id/action_eventRegistrationTestFragment_to_ShowStoredEventsTestFragment"
+            app:destination="@id/showStoredEventsTestFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/test_qr_code_creation_fragment"
+        android:name="de.rki.coronawarnapp.test.eventregistration.ui.qrcode.QrCodeCreationTestFragment"
+        android:label="QrCodeCreationTestFragment"
+        tools:layout="@layout/fragment_test_qrcode_creation" />
+    <fragment
+        android:id="@+id/scanCheckInQrCodeFragmentTest"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeFragment"
+        android:label="ScanCheckInQrCodeFragment"
+        tools:layout="@layout/fragment_submission_qr_code_scan" />
+
+    <fragment
+        android:id="@+id/createEventTestFragment"
+        android:name="de.rki.coronawarnapp.test.eventregistration.ui.createevent.CreateEventTestFragment"
+        android:label="CreateEventTestFragment"
+        tools:layout="@layout/fragment_test_createevent" />
+    <fragment
+        android:id="@+id/showStoredEventsTestFragment"
+        android:name="de.rki.coronawarnapp.test.eventregistration.ui.showevents.ShowStoredEventsTestFragment"
+        android:label="ShowStoredEventsTestFragment"
+        tools:layout="@layout/fragment_test_showstoredevents" />
+    <fragment
+        android:id="@+id/traceLocationOrganizerCategoriesFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment"
+        android:label="TraceLocationCategoryFragment"
+        tools:layout="@layout/trace_location_organizer_category_fragment" />
 
 </navigation>

@@ -4,12 +4,13 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -60,9 +61,12 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var appConfigData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var checkInsTransformer: CheckInsTransformer
+    @MockK lateinit var checkInRepository: CheckInRepository
 
     private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
 
+    private val registrationToken: FlowPreference<String?> = mockFlowPreference("regtoken")
     private val settingHasGivenConsent: FlowPreference<Boolean> = mockFlowPreference(true)
     private val settingAutoSubmissionAttemptsCount: FlowPreference<Int> = mockFlowPreference(0)
     private val settingAutoSubmissionAttemptsLast: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
@@ -73,9 +77,8 @@ class SubmissionTaskTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        mockkObject(LocalData)
-        every { LocalData.registrationToken() } returns "regtoken"
-        every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
+        every { submissionSettings.registrationToken } returns registrationToken
+        every { submissionSettings.isSubmissionSuccessful = any() } just Runs
 
         mockkObject(BackgroundWorkScheduler)
         every { BackgroundWorkScheduler.stopWorkScheduler() } just Runs
@@ -110,6 +113,10 @@ class SubmissionTaskTest : BaseTest() {
         every { autoSubmission.updateMode(any()) } just Runs
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
+
+        every { checkInRepository.allCheckIns } returns flowOf(emptyList())
+        every { checkInRepository.clear() } just Runs
+        every { checkInsTransformer.transform(any()) } returns emptyList()
     }
 
     private fun createTask() = SubmissionTask(
@@ -122,7 +129,9 @@ class SubmissionTaskTest : BaseTest() {
         timeStamper = timeStamper,
         autoSubmission = autoSubmission,
         testResultAvailableNotificationService = testResultAvailableNotificationService,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        checkInsRepository = checkInRepository,
+        checkInsTransformer = checkInsTransformer
     )
 
     @Test
@@ -133,22 +142,34 @@ class SubmissionTaskTest : BaseTest() {
         )
 
         coVerifySequence {
+            submissionSettings.lastSubmissionUserActivityUTC
             settingLastUserActivityUTC.value
+            submissionSettings.hasGivenConsent
             settingHasGivenConsent.value
 
-            LocalData.registrationToken()
+            submissionSettings.autoSubmissionAttemptsCount
+            submissionSettings.autoSubmissionAttemptsLast
+            submissionSettings.autoSubmissionAttemptsCount
+            submissionSettings.autoSubmissionAttemptsLast
+            submissionSettings.registrationToken
+
+            registrationToken.value
             tekHistoryStorage.tekData
+            submissionSettings.symptoms
             settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
+            checkInRepository.allCheckIns
+            checkInsTransformer.transform(any())
 
             appConfigProvider.getAppConfig()
             playbook.submit(
                 Playbook.SubmissionData(
-                    "regtoken",
-                    listOf(transformedKey),
-                    true,
-                    listOf("NL")
+                    registrationToken = "regtoken",
+                    temporaryExposureKeys = listOf(transformedKey),
+                    consentToFederation = true,
+                    visitedCountries = listOf("NL"),
+                    checkIns = emptyList()
                 )
             )
 
@@ -156,12 +177,14 @@ class SubmissionTaskTest : BaseTest() {
             analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
             tekHistoryStorage.clear()
+            checkInRepository.clear()
+            submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
             BackgroundWorkScheduler.stopWorkScheduler()
-            LocalData.numberOfSuccessfulSubmissions(1)
+            submissionSettings.isSubmissionSuccessful = true
             BackgroundWorkScheduler.startWorkScheduler()
 
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
@@ -195,7 +218,7 @@ class SubmissionTaskTest : BaseTest() {
         coVerifySequence {
             settingHasGivenConsent.value
 
-            LocalData.registrationToken()
+            registrationToken.value
             tekHistoryStorage.tekData
             settingSymptomsPreference.value
 
@@ -204,15 +227,17 @@ class SubmissionTaskTest : BaseTest() {
             appConfigProvider.getAppConfig()
             playbook.submit(
                 Playbook.SubmissionData(
-                    "regtoken",
-                    listOf(transformedKey),
-                    true,
-                    listOf("NL")
+                    registrationToken = "regtoken",
+                    temporaryExposureKeys = listOf(transformedKey),
+                    consentToFederation = true,
+                    visitedCountries = listOf("NL"),
+                    checkIns = emptyList()
                 )
             )
         }
         coVerify(exactly = 0) {
             tekHistoryStorage.clear()
+            checkInRepository.clear()
             settingSymptomsPreference.update(any())
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             autoSubmission.updateMode(any())
@@ -222,7 +247,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `task throws if no registration token is available`() = runBlockingTest {
-        every { LocalData.registrationToken() } returns null
+        every { submissionSettings.registrationToken } returns mockFlowPreference(null)
 
         val task = createTask()
         shouldThrow<NoRegistrationTokenSetException> {
@@ -241,10 +266,11 @@ class SubmissionTaskTest : BaseTest() {
         coVerifySequence {
             playbook.submit(
                 Playbook.SubmissionData(
-                    "regtoken",
-                    listOf(transformedKey),
-                    true,
-                    listOf("DE")
+                    registrationToken = "regtoken",
+                    temporaryExposureKeys = listOf(transformedKey),
+                    consentToFederation = true,
+                    visitedCountries = listOf("DE"),
+                    checkIns = emptyList()
                 )
             )
         }

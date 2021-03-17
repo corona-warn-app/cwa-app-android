@@ -4,6 +4,100 @@
              Event Registration
     ###################################### -->
 
+    <!-- XHED: My check-ins: screen title -->
+    <string name="trace_location_checkins_title">Meine Check-ins</string>
+    <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_label">Noch keine Einträge vorhanden</string>
+    <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description">Wenn Sie einen QR-Code scannen, um sich für ein Event oder einen Ort einzuchecken, wird automatisch ein Eintrag angelegt.</string>
+    <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
+    <string name="trace_location_checkins_empty_illustration_accessibility">Gebäude mit QR-Code-Symbol im Hintergrund.</string>
+
+    <!-- XBUT: My check-ins: Scan QR Code button -->
+    <string name="trace_location_checkins_action_scan_qrcode">QR-Code scannen</string>
+
+    <!-- XBUT: My check-ins: menu entry to remove all -->
+    <string name="trace_location_checkins_menu_remove_all">Alle entfernen</string>
+    <!-- XBUT: My check-ins: menu entry to show information -->
+    <string name="trace_location_checkins_menu_information">Informationen</string>
+
+    <!-- XHED: My checkin-ins: card title if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_title">Zugriff auf Kamera erlauben</string>
+    <!-- XTXT: My checkin-ins: card description if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_description">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräte-Einstellungen zur App zulassen.</string>
+    <!-- XBUT: My checkin-ins: card description if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_action">Einstellungen  öffnen</string>
+
+    <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
+    <string name="trace_location_checkins_remove_all_title">Wollen Sie wirklich alle Einträge entfernen?</string>
+    <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
+    <string name="trace_location_checkins_remove_single_title">Wollen Sie diesen Eintrag wirklich entfernen?</string>
+    <!-- XTXT: My checkin-ins: Confirmation dialog description when removing all/single items -->
+    <string name="trace_location_checkins_remove_message">Sie können dann Personen, die zur selben Zeit für diesen Ort oder Event eingecheckt waren, bei Bedarf nicht mehr warnen oder von ihnen gewarnt werden.</string>
+
+    <!-- XHED: Title of the category list screen of the event creation  -->
+    <string name="tracelocation_organizer_category_title">QR-Code erstellen</string>
+
+    <!-- XHED: Title of location types in the category list screen of the event creation -->
+    <string name="tracelocation_organizer_category_type_location_header">Ort</string>
+
+    <!-- XTXT: Title for the retail category  -->
+    <string name="tracelocation_organizer_category_retail_title">Einzelhandel</string>
+    <!-- XTXT: Subtitle for the retail category  -->
+    <string name="tracelocation_organizer_category_retail_subtitle">Geschäft, Verkaufsraum</string>
+
+    <!-- XTXT: Title for the food service category  -->
+    <string name="tracelocation_organizer_category_food_service_title">Gastronomiebetrieb</string>
+    <!-- XTXT: Subtitle for the food service category  -->
+    <string name="tracelocation_organizer_category_food_service_subtitle">Café, Kneipe, Restaurant, Hotel</string>
+
+    <!-- XTXT: Title for the craft category  -->
+    <string name="tracelocation_organizer_category_craft_title">Handwerksbetrieb</string>
+    <!-- XTXT: Subtitle for the craft category  -->
+    <string name="tracelocation_organizer_category_craft_subtitle">Friseur, Schreinerei</string>
+
+    <!-- XTXT: Title for the workplace category  -->
+    <string name="tracelocation_organizer_category_workplace_title">Arbeitsstätte</string>
+    <!-- XTXT: Subtitle for the workplace category  -->
+    <string name="tracelocation_organizer_category_workplace_subtitle">Büro, Konferenzraum, Kantine</string>
+
+    <!-- XTXT: Title for the educational institution category  -->
+    <string name="tracelocation_organizer_category_educational_institution_title">Bildungsstätte</string>
+    <!-- XTXT: Subtitle for the educational institution category  -->
+    <string name="tracelocation_organizer_category_educational_institution_subtitle">Klassenzimmer, Vorlesungssaal, Bibliothek</string>
+
+    <!-- XTXT: Title for the public building category  -->
+    <string name="tracelocation_organizer_category_public_building_title">öffentliches Gebäude</string>
+    <!-- XTXT: Subtitle for the public building category  -->
+    <string name="tracelocation_organizer_category_public_building_subtitle">Bürgeramt, Museum</string>
+
+    <!-- XTXT: Title for other location  -->
+    <string name="tracelocation_organizer_category_other_location_title">anderer Ort</string>
+
+    <!-- XHED: Title of event types in the category list screen of the event creation -->
+    <string name="tracelocation_organizer_category_type_event_header">Event</string>
+
+    <!-- XTXT: Title for the cultural event category  -->
+    <string name="tracelocation_organizer_category_cultural_event_title">Kulturveranstaltung</string>
+    <!-- XTXT: Subtitle for the cultural event category  -->
+    <string name="tracelocation_organizer_category_cultural_event_subtitle">Konzert, Kunstausstellung</string>
+
+    <!-- XTXT: Title for the club activity category  -->
+    <string name="tracelocation_organizer_category_club_activity_title">Vereinsaktivität</string>
+    <!-- XTXT: Subtitle for the club activity category  -->
+    <string name="tracelocation_organizer_category_club_activity_subtitle">Sporttraining, Mitgliederversammlung</string>
+
+    <!-- XTXT: Title for the private event category  -->
+    <string name="tracelocation_organizer_category_private_event_title">private Feier</string>
+    <!-- XTXT: Subtitle for the private event category  -->
+    <string name="tracelocation_organizer_category_private_event_subtitle">Geburtstag, Familienfeier</string>
+
+    <!-- XTXT: Title for the worship service category  -->
+    <string name="tracelocation_organizer_category_worship_service_title">Gottesdienst</string>
+
+    <!-- XTXT: Title for other event  -->
+    <string name="tracelocation_organizer_category_other_event_title">anderes Event</string>
+
     <!--    Event Registration Homescreen Card-->
     <!-- XHED: Headline for event registration creation card -->
     <string name="create_event_card_headline">"Sie planen eine\nVeranstaltung?"</string>

@@ -1,0 +1,12 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.pt;
+
+import "internal/pt/trace_location.proto";
+
+message CheckIn {
+  SignedTraceLocation signedLocation = 1;
+  uint32 startIntervalNumber = 2;
+  uint32 endIntervalNumber = 3;
+  uint32 transmissionRiskLevel = 4;
+}
