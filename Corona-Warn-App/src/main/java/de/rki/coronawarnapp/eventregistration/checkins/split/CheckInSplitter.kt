@@ -26,7 +26,7 @@ fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     val durationInSeconds = endTimestampInSeconds - startTimestampInSeconds
     Timber.i("durationInSeconds: $durationInSeconds")
 
-    val durationInDays = max(1, ceil(durationInSeconds.toDouble() / DAY_IN_SECONDS).toLong())
+    val durationInDays = max(1L, ceil(durationInSeconds.toDouble() / DAY_IN_SECONDS).toLong())
     Timber.i("durationInDays: $durationInDays")
 
     // Util Internal methods
@@ -35,7 +35,7 @@ fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     }
 
     fun isLastDay(day: Long): Boolean {
-        return day == durationInDays - 1
+        return day == durationInDays - 1L
     }
 
     val checkIns = mutableListOf<CheckIn>()
