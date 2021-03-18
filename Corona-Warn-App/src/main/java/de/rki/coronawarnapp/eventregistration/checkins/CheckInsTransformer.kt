@@ -22,17 +22,27 @@ class CheckInsTransformer @Inject constructor(
     private val transmissionDeterminator: TransmissionRiskVectorDeterminator,
     private val appConfigProvider: AppConfigProvider
 ) {
+    /**
+     * Transforms database [CheckIn]s into [CheckInOuterClass.CheckIn]s to submit
+     * them to the server.
+     *
+     * It derives the time for individual check-in and split it by midnight time UTC
+     * and map the result into a list of [CheckInOuterClass.CheckIn]s
+     *
+     * @param checkIns [List] of local database [CheckIn]
+     * @param symptoms [Symptoms] symptoms to calculate risk level transmission
+     */
     suspend fun transform(checkIns: List<CheckIn>, symptoms: Symptoms): List<CheckInOuterClass.CheckIn> {
 
         val submissionParamContainer = appConfigProvider.getAppConfig().presenceTracing.submissionParameters
         val transmissionVector = transmissionDeterminator.determine(symptoms)
 
-        return checkIns.mapNotNull { originalCheckIn ->
+        return checkIns.map { originalCheckIn ->
             // Derive CheckIn times
             val timesPair = submissionParamContainer.deriveTime(
                 originalCheckIn.checkInStart.seconds,
                 originalCheckIn.checkInEnd!!.seconds
-            ) ?: return@mapNotNull null
+            ) ?: return@map emptyList()
 
             val derivedCheckIn = originalCheckIn.copy(
                 checkInStart = timesPair.first.secondsToInstant(),
@@ -73,12 +83,17 @@ class CheckInsTransformer @Inject constructor(
             )
             .build()
     }
+}
 
-    private fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: TransmissionRiskVector): Int {
-        val startMidnight = checkInStart.toLocalDate().toDateTimeAtStartOfDay()
-        val nowMidnight = now.toLocalDate().toDateTimeAtStartOfDay()
-        val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
-        // Default value 1 is already provided by TransmissionRiskVector
-        return transmissionVector[ageInDays]
-    }
+/**
+ * Determine transmission risk level for [CheckIn] bases on its start time.
+ * @param now [Instant]
+ * @param transmissionVector [TransmissionRiskVector]
+ */
+fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: TransmissionRiskVector): Int {
+    val startMidnight = checkInStart.toLocalDate().toDateTimeAtStartOfDay()
+    val nowMidnight = now.toLocalDate().toDateTimeAtStartOfDay()
+    val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
+    // Default value 1 is already provided by TransmissionRiskVector
+    return transmissionVector[ageInDays]
 }
