@@ -61,4 +61,12 @@ class CheckInsRiskTransmissionTest : BaseTest() {
             transmissionVector
         ) shouldBe 1
     }
+
+    @Test
+    fun `negative age`() {
+        checkIn.determineRiskTransmission(
+            Instant.parse("2021-03-01T10:20:00Z"),
+            transmissionVector
+        ) shouldBe 1
+    }
 }

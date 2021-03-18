@@ -30,7 +30,7 @@ class CheckInsTransformer @Inject constructor(
      * and map the result into a list of [CheckInOuterClass.CheckIn]s
      *
      * @param checkIns [List] of local database [CheckIn]
-     * @param symptoms [Symptoms] symptoms to calculate risk level transmission
+     * @param symptoms [Symptoms] symptoms to calculate transmission risk level
      */
     suspend fun transform(checkIns: List<CheckIn>, symptoms: Symptoms): List<CheckInOuterClass.CheckIn> {
 
@@ -94,6 +94,8 @@ fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: Transmis
     val startMidnight = checkInStart.toLocalDate().toDateTimeAtStartOfDay()
     val nowMidnight = now.toLocalDate().toDateTimeAtStartOfDay()
     val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
-    // Default value 1 is already provided by TransmissionRiskVector
+    if (ageInDays <= 0) return 1 // Default for negative ages
+    // Same default value is returned by transmissionVector
+    // when age is over transmissionVector size
     return transmissionVector[ageInDays]
 }
