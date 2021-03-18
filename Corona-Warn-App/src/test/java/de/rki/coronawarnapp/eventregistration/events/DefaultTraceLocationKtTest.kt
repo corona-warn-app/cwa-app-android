@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.eventregistration.events
 
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocations
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
 import io.kotest.matchers.shouldBe
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -21,8 +25,8 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
             startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
             endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 15,
-            signature = "signature"
-        ).toTraceLocation() shouldBe DefaultTraceLocation(
+            signatureBase64 = "signature".toByteArray().toByteString().base64()
+        ).toTraceLocation() shouldBe TraceLocation(
             guid = "TestGuid",
             version = 1,
             type = LOCATION_TYPE_PERMANENT_OTHER,
@@ -31,7 +35,7 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
             startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
             endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 15,
-            signature = "signature"
+            signature = "signature".toByteArray().toByteString()
         )
     }
 
@@ -46,8 +50,8 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
             startDate = null,
             endDate = null,
             defaultCheckInLengthInMinutes = null,
-            signature = "signature"
-        ).toTraceLocation() shouldBe DefaultTraceLocation(
+            signatureBase64 = "signature".toByteArray().toByteString().base64()
+        ).toTraceLocation() shouldBe TraceLocation(
             guid = "TestGuid",
             version = 1,
             type = LOCATION_TYPE_PERMANENT_OTHER,
@@ -56,7 +60,7 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
             startDate = null,
             endDate = null,
             defaultCheckInLengthInMinutes = null,
-            signature = "signature"
+            signature = "signature".toByteArray().toByteString()
         )
     }
 
@@ -72,7 +76,7 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
                 startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
                 endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
                 defaultCheckInLengthInMinutes = 15,
-                signature = "signature"
+                signatureBase64 = "signature".toByteArray().toByteString().base64()
             ),
             TraceLocationEntity(
                 guid = "TestGuid2",
@@ -83,10 +87,10 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
                 startDate = null,
                 endDate = null,
                 defaultCheckInLengthInMinutes = null,
-                signature = "signature"
+                signatureBase64 = "signature".toByteArray().toByteString().base64()
             )
         ).toTraceLocations() shouldBe listOf(
-            DefaultTraceLocation(
+            TraceLocation(
                 guid = "TestGuid1",
                 version = 1,
                 type = LOCATION_TYPE_TEMPORARY_OTHER,
@@ -95,9 +99,9 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
                 startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
                 endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
                 defaultCheckInLengthInMinutes = 15,
-                signature = "signature"
+                signature = "signature".toByteArray().toByteString()
             ),
-            DefaultTraceLocation(
+            TraceLocation(
                 guid = "TestGuid2",
                 version = 1,
                 type = LOCATION_TYPE_PERMANENT_OTHER,
@@ -106,7 +110,7 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
                 startDate = null,
                 endDate = null,
                 defaultCheckInLengthInMinutes = null,
-                signature = "signature"
+                signature = "signature".toByteArray().toByteString()
             )
         )
     }
