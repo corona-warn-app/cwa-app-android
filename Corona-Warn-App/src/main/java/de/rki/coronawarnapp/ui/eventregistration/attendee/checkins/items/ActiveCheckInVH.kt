@@ -39,7 +39,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
         description.text = item.checkin.description
         address.text = item.checkin.address
         val startDate = checkInStartUserTZ.toLocalDate()
-        traceLocationCardHighlightView.setCaption(startDate.toString(highlightDurationDateFormatter))
+        traceLocationCardHighlightView.setCaption(startDate.toString(DateTimeFormat.mediumDate()))
 
         val autoCheckoutText = item.checkin.defaultCheckInLengthInMinutes?.let { checkoutLength ->
             val checkoutAt = checkInStartUserTZ.plus(Duration.standardMinutes(checkoutLength.toLong()))
@@ -79,7 +79,6 @@ class ActiveCheckInVH(parent: ViewGroup) :
     }
 
     companion object {
-        private val highlightDurationDateFormatter = DateTimeFormat.mediumDate()
         private val highlightDurationForamtter = PeriodFormatterBuilder().apply {
             printZeroAlways()
             minimumPrintedDigits(2)

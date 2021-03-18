@@ -28,11 +28,13 @@ class PastCheckInVH(parent: ViewGroup) :
         description.text = item.checkin.description
         address.text = item.checkin.address
 
-        val dayFormatted = checkInStartUserTZ.toLocalDate().toString(dayFormatter)
-        val startTimeFormatted = checkInStartUserTZ.toLocalTime().toString(DateTimeFormat.mediumTime())
-        val endTimeFormatted = checkInEndUserTZ.toLocalTime().toString(DateTimeFormat.mediumTime())
+        checkoutInfo.text = run {
+            val dayFormatted = checkInStartUserTZ.toLocalDate().toString(DateTimeFormat.mediumDate())
+            val startTimeFormatted = checkInStartUserTZ.toLocalTime().toString(DateTimeFormat.shortTime())
+            val endTimeFormatted = checkInEndUserTZ.toLocalTime().toString(DateTimeFormat.shortTime())
 
-        checkoutInfo.text = "$dayFormatted, $startTimeFormatted - $endTimeFormatted"
+            "$dayFormatted, $startTimeFormatted - $endTimeFormatted"
+        }
 
         menuAction.setupMenu(R.menu.menu_trace_location_attendee_checkin_item) {
             when (it.itemId) {
@@ -48,9 +50,5 @@ class PastCheckInVH(parent: ViewGroup) :
         val onRemoveItem: (CheckIn) -> Unit
     ) : CheckInsItem {
         override val stableId: Long = checkin.id
-    }
-
-    companion object {
-        private val dayFormatter = DateTimeFormat.mediumDate()
     }
 }
