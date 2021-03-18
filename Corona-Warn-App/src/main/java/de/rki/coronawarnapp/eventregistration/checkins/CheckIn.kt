@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
+import okio.ByteString
 import org.joda.time.Instant
 
 @Suppress("LongParameterList")
@@ -15,7 +16,7 @@ data class CheckIn(
     val traceLocationEnd: Instant?,
     val defaultCheckInLengthInMinutes: Int?,
     val traceLocationBytes: ByteArray,
-    val signature: String,
+    val signature: ByteString,
     val checkInStart: Instant,
     val checkInEnd: Instant,
     val completed: Boolean,

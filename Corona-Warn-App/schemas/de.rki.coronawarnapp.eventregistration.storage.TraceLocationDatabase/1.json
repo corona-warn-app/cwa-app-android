@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3162f664065d390a95933c34ad4affa4",
+    "identityHash": "60641f3d1b058f1e3df2fd9a50402cf4",
     "entities": [
       {
         "tableName": "checkin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `guidHash` BLOB NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `byteRepresentation` BLOB NOT NULL, `signature` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `guidHash` BLOB NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `traceLocationBytes` BLOB NOT NULL, `signature` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -69,13 +69,13 @@
             "notNull": false
           },
           {
-            "fieldPath": "byteRepresentation",
-            "columnName": "byteRepresentation",
+            "fieldPath": "traceLocationBytes",
+            "columnName": "traceLocationBytes",
             "affinity": "BLOB",
             "notNull": true
           },
           {
-            "fieldPath": "signature",
+            "fieldPath": "signatureBase64",
             "columnName": "signature",
             "affinity": "TEXT",
             "notNull": true
@@ -186,7 +186,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3162f664065d390a95933c34ad4affa4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '60641f3d1b058f1e3df2fd9a50402cf4')"
     ]
   }
 }

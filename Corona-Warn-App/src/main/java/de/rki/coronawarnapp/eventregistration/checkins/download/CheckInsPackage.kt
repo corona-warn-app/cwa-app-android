@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.checkins.download
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import okio.ByteString
 import org.joda.time.DateTime
 import org.joda.time.Instant
 
@@ -36,7 +37,7 @@ private val dummyEventCheckIn1: CheckIn = CheckIn(
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
     traceLocationBytes = ByteArray(0),
-    signature = "signature",
+    signature = ByteString.EMPTY,
     checkInStart = Instant.ofEpochMilli(
         DateTime(2021, 2, 2012, 11, 45).millis
     ),
@@ -59,7 +60,7 @@ private val dummyEventCheckIn2: CheckIn = CheckIn(
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
     traceLocationBytes = ByteArray(0),
-    signature = "signature2",
+    signature = ByteString.EMPTY,
     checkInStart = Instant.ofEpochMilli(
         DateTime(2021, 3, 20, 18, 45).millis
     ),
