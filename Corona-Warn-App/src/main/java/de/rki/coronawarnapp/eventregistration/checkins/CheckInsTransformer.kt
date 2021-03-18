@@ -27,13 +27,12 @@ class CheckInsTransformer @Inject constructor(
         val submissionParamContainer = appConfigProvider.getAppConfig().presenceTracing.submissionParameters
         val transmissionVector = transmissionDeterminator.determine(symptoms)
 
-        return checkIns.flatMap { originalCheckIn ->
-
+        return checkIns.mapNotNull { originalCheckIn ->
             // Derive CheckIn times
             val timesPair = submissionParamContainer.deriveTime(
                 originalCheckIn.checkInStart.seconds,
                 originalCheckIn.checkInEnd!!.seconds
-            ) ?: return emptyList()
+            ) ?: return@mapNotNull null
 
             val derivedCheckIn = originalCheckIn.copy(
                 checkInStart = timesPair.first.secondsToInstant(),
@@ -43,7 +42,7 @@ class CheckInsTransformer @Inject constructor(
             derivedCheckIn.splitByMidnightUTC().map { checkIn ->
                 checkIn.toOuterCheckIn(transmissionVector)
             }
-        }
+        }.flatten()
     }
 
     private fun CheckIn.toOuterCheckIn(

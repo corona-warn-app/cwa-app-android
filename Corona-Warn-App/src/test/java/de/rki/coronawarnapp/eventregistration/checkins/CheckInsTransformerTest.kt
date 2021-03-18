@@ -1,10 +1,14 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
-import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
+import de.rki.coronawarnapp.server.protocols.internal.v2
+    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
+import de.rki.coronawarnapp.server.protocols.internal.v2
+    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
@@ -29,6 +33,97 @@ class CheckInsTransformerTest : BaseTest() {
 
     private lateinit var checkInTransformer: CheckInsTransformer
 
+    // CheckIn can not be derived
+    private val checkIn1 = CheckIn(
+        id = 1L,
+        guid = "trace_location_1",
+        version = 1,
+        type = 1,
+        description = "restaurant_1",
+        address = "address_1",
+        traceLocationStart = null,
+        traceLocationEnd = null,
+        defaultCheckInLengthInMinutes = null,
+        signature = "signature1",
+        checkInStart = Instant.parse("2021-03-04T10:21:00Z"),
+        checkInEnd = Instant.parse("2021-03-04T10:29:00Z"),
+        targetCheckInEnd = null,
+        createJournalEntry = false
+    )
+
+    // CheckIn that can be derived and can't be splitted
+    private val checkIn2 = CheckIn(
+        id = 2L,
+        guid = "trace_location_2",
+        version = 1,
+        type = 2,
+        description = "restaurant_2",
+        address = "address_2",
+        traceLocationStart = null,
+        traceLocationEnd = null,
+        defaultCheckInLengthInMinutes = null,
+        signature = "signature_2",
+        checkInStart = Instant.parse("2021-03-04T10:20:00Z"),
+        checkInEnd = Instant.parse("2021-03-04T10:30:00Z"),
+        targetCheckInEnd = null,
+        createJournalEntry = false
+    )
+
+    // CheckIn that can be derived and can be splitted
+    private val checkIn3 = CheckIn(
+        id = 3L,
+        guid = "trace_location_3",
+        version = 1,
+        type = 3,
+        description = "restaurant_3",
+        address = "address_3",
+        traceLocationStart = null,
+        traceLocationEnd = null,
+        defaultCheckInLengthInMinutes = null,
+        signature = "signature_3",
+        checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
+        checkInEnd = Instant.parse("2021-03-06T09:45:00Z"),
+        targetCheckInEnd = null,
+        createJournalEntry = false
+    )
+
+    private val presenceTracingConfig = PresenceTracingSubmissionParamContainer(
+        durationFilters = listOf(
+            DurationFilter.newBuilder()
+                .setDropIfMinutesInRange(
+                    RiskCalculationParametersOuterClass.Range.newBuilder()
+                        .setMin(0.0)
+                        .setMax(10.0)
+                        .setMaxExclusive(true)
+                        .build()
+                )
+                .build()
+        ),
+        aerosoleDecayLinearFunctions = listOf(
+            AerosoleDecayFunctionLinear.newBuilder()
+                .setMinutesRange(
+                    RiskCalculationParametersOuterClass.Range.newBuilder()
+                        .setMin(0.0)
+                        .setMax(30.0)
+                        .build()
+                )
+                .setSlope(1.0)
+                .setIntercept(0.0)
+                .build(),
+            AerosoleDecayFunctionLinear.newBuilder()
+                .setMinutesRange(
+                    RiskCalculationParametersOuterClass.Range.newBuilder()
+                        .setMin(30.0)
+                        .setMax(9999.0)
+                        .setMinExclusive(true)
+                        .build()
+                )
+                .setSlope(0.0)
+                .setIntercept(30.0)
+                .build()
+        )
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -36,7 +131,9 @@ class CheckInsTransformerTest : BaseTest() {
         every { symptoms.symptomIndication } returns Symptoms.Indication.POSITIVE
         every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDate())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
-            every { presenceTracing } returns PresenceTracingConfigContainer()
+            every { presenceTracing } returns PresenceTracingConfigContainer(
+                submissionParameters = presenceTracingConfig
+            )
         }
         checkInTransformer = CheckInsTransformer(
             timeStamper = timeStamper,
@@ -47,85 +144,18 @@ class CheckInsTransformerTest : BaseTest() {
 
     @Test
     fun `transform check-ins`() = runBlockingTest {
-        val checkIn1 = CheckIn(
-            id = 0,
-            guid = "3055331c-2306-43f3-9742-6d8fab54e848",
-            version = 1,
-            type = 2,
-            description = "description1",
-            address = "address1",
-            traceLocationStart = Instant.ofEpochMilli(2687955 * 1_000L),
-            traceLocationEnd = Instant.ofEpochMilli(2687991 * 1_000L),
-            defaultCheckInLengthInMinutes = 10,
-            signature = "signature1",
-            checkInStart = Instant.parse("1970-02-01T02:40:00.000Z"),
-            checkInEnd = Instant.parse("1970-02-01T02:40:00.000Z"),
-            targetCheckInEnd = null,
-            createJournalEntry = true
-        )
-
-        val checkIn2 = CheckIn(
-            id = 1,
-            guid = "fca84b37-61c0-4a7c-b2f8-825cadd506cf",
-            version = 1,
-            type = 1,
-            description = "description2",
-            address = "address2",
-            traceLocationStart = null,
-            traceLocationEnd = null,
-            defaultCheckInLengthInMinutes = 20,
-            signature = "signature2",
-            checkInStart = Instant.parse("1970-02-01T02:40:00.000Z"),
-            checkInEnd = Instant.parse("1970-02-01T02:40:00.000Z"),
-            targetCheckInEnd = null,
-            createJournalEntry = false
-        )
-
         val outCheckIns = checkInTransformer.transform(
             listOf(
                 checkIn1,
-                checkIn2
+                checkIn2,
+                checkIn3
             ),
             symptoms
         )
-        outCheckIns.size shouldBe 2
 
-        outCheckIns[0].apply {
-            signedLocation.apply {
-                TraceLocationOuterClass.TraceLocation.parseFrom(location).apply {
-                    guid shouldBe "3055331c-2306-43f3-9742-6d8fab54e848"
-                    version shouldBe 1
-                    type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
-                    description shouldBe "description1"
-                    address shouldBe "address1"
-                    startTimestamp shouldBe 2687955L
-                    endTimestamp shouldBe 2687991L
-                    defaultCheckInLengthInMinutes shouldBe 10
-                }
-                signature shouldBe ByteString.copyFrom("signature1".toByteArray())
-            }
-            startIntervalNumber shouldBe 2688000
-            endIntervalNumber shouldBe 2688000
-            // TODO transmissionRiskLevel shouldBe
-        }
-
-        outCheckIns[1].apply {
-            signedLocation.apply {
-                TraceLocationOuterClass.TraceLocation.parseFrom(location).apply {
-                    guid shouldBe "fca84b37-61c0-4a7c-b2f8-825cadd506cf"
-                    version shouldBe 1
-                    type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
-                    description shouldBe "description2"
-                    address shouldBe "address2"
-                    startTimestamp shouldBe 0
-                    endTimestamp shouldBe 0
-                    defaultCheckInLengthInMinutes shouldBe 20
-                }
-                signature shouldBe ByteString.copyFrom("signature2".toByteArray())
-            }
-            startIntervalNumber shouldBe 2688000
-            endIntervalNumber shouldBe 2688000
-            // TODO transmissionRiskLevel shouldBe
+        outCheckIns.apply {
+            size shouldBe 4
+            // TODO verify transformed check-ins
         }
     }
 }
