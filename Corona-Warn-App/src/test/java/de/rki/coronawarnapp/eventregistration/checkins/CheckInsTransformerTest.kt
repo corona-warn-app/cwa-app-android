@@ -1,16 +1,19 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
+import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.v2
-    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
+.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
 import de.rki.coronawarnapp.server.protocols.internal.v2
-    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
+.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
@@ -51,7 +54,12 @@ class CheckInsTransformerTest : BaseTest() {
         createJournalEntry = false
     )
 
-    // CheckIn that can be derived and can't be splitted
+    /*
+      CheckIn that can be derived and can't be splitted
+      Derived start and end times
+      "expStartDateStr": "2021-03-04 10:20+01:00"
+      "expEndDateStr": "2021-03-04 10:40+01:00"
+     */
     private val checkIn2 = CheckIn(
         id = 2L,
         guid = "trace_location_2",
@@ -153,9 +161,42 @@ class CheckInsTransformerTest : BaseTest() {
             symptoms
         )
 
-        outCheckIns.apply {
+        with(outCheckIns) {
             size shouldBe 4
-            // TODO verify transformed check-ins
+            // Check In 1 is excluded from submission due to time deriving
+
+            // Check In 2 mapping and transformation
+            get(0).apply {
+                /*
+                    guid = "trace_location_2",
+                    version = 1,
+                    type = 2,
+                    description = "restaurant_2",
+                    address = "address_2",
+                    traceLocationStart = null,
+                    traceLocationEnd = null,
+                    defaultCheckInLengthInMinutes = null,
+                    signature = "signature_2",
+                 */
+                startIntervalNumber shouldBe Instant.parse("2021-03-04T10:20:00Z").seconds // New derived start time
+                endIntervalNumber shouldBe Instant.parse("2021-03-04T10:40:00Z").seconds // New derived end time
+                signedLocation.signature shouldBe "signature_2".toProtoByteString()
+                parseLocation(signedLocation.location).apply {
+                    guid shouldBe "trace_location_2"
+                    version shouldBe 1
+                    type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
+                    description shouldBe "restaurant_2"
+                    address shouldBe "address_2"
+                    startTimestamp shouldBe 0
+                    endTimestamp shouldBe 0
+                    defaultCheckInLengthInMinutes shouldBe 0
+                }
+            }
         }
     }
+
+    private fun parseLocation(bytes: ByteString): TraceLocationOuterClass.TraceLocation =
+        TraceLocationOuterClass.TraceLocation.parseFrom(bytes)
+
+    private fun String.toProtoByteString() = ByteString.copyFrom(toByteArray())
 }
