@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.eventregistration.checkins
 import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -25,7 +26,7 @@ class DefaultCheckInsTransformerTest : BaseTest() {
             traceLocationEnd = Instant.ofEpochMilli(2687991 * 1_000L),
             defaultCheckInLengthInMinutes = 10,
             traceLocationBytes = byteArrayOf(),
-            signature = "signature1",
+            signature = "signature1".decodeBase64()!!,
             checkInStart = Instant.ofEpochMilli(2687955 * 1_000L),
             checkInEnd = Instant.ofEpochMilli(2687991 * 1_000L),
             completed = false,
@@ -44,7 +45,7 @@ class DefaultCheckInsTransformerTest : BaseTest() {
             traceLocationEnd = null,
             defaultCheckInLengthInMinutes = 20,
             traceLocationBytes = byteArrayOf(),
-            signature = "signature2",
+            signature = "signature2".decodeBase64()!!,
             checkInStart = Instant.ofEpochMilli(2687955 * 1_000L),
             checkInEnd = Instant.ofEpochMilli(2687956 * 1_000L),
             completed = false,

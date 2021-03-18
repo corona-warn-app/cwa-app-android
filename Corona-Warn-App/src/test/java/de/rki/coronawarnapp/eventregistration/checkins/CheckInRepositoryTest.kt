@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -57,7 +58,7 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationEnd = null,
                     defaultCheckInLengthInMinutes = null,
                     traceLocationBytes = byteArrayOf(),
-                    signature = "abc",
+                    signature = "abc".decodeBase64()!!,
                     checkInStart = time,
                     checkInEnd = end,
                     completed = false,
@@ -108,7 +109,7 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationEnd = end,
                     defaultCheckInLengthInMinutes = null,
                     traceLocationBytes = byteArrayOf(),
-                    signature = "efg",
+                    signature = "efg".decodeBase64()!!,
                     checkInStart = start,
                     checkInEnd = end,
                     completed = false,
@@ -178,7 +179,7 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = start,
                     traceLocationEnd = end,
                     defaultCheckInLengthInMinutes = null,
-                    signature = "efg",
+                    signature = "efg".decodeBase64()!!,
                     checkInStart = start,
                     checkInEnd = end,
                     completed = false,
