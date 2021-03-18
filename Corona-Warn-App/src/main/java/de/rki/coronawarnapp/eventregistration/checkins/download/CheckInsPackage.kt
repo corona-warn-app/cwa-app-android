@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins.download
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.DateTime
 import org.joda.time.Instant
