@@ -75,8 +75,18 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                     .append("Min. ${checkInOverlap.overlap.standardMinutes}")
                     .append("\n")
             }
-            binding.resultText.text = text
-            binding.resultText.visibility = View.VISIBLE
+            binding.matchingResultText.text = text
+        }
+
+        viewModel.checkInRiskPerDayList.observe2(this) {
+            val text = it.fold(StringBuilder()) { stringBuilder, checkInRiskPerDay ->
+                stringBuilder
+                    .append("CheckIn Id ${checkInRiskPerDay.checkInId}")
+                    .append("Date ${checkInRiskPerDay.localDate}")
+                    .append("RiskState ${checkInRiskPerDay.riskState}")
+                    .append("\n")
+            }
+            binding.riskCalculationResultText.text = text
         }
     }
 
