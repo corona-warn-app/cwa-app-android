@@ -49,13 +49,14 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.items.CreateEventCard
+import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -99,6 +100,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         launch {
             if (errorResetTool.isResetNoticeToBeShown) {
                 popupEvents.postValue(ShowErrorResetDialog)
+            }
+            if (!cwaSettings.wasTracingExplanationDialogShown) {
+                popupEvents.postValue(ShowTracingExplanation)
             }
         }
     }
@@ -312,6 +316,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun userHasAcknowledgedIncorrectDeviceTime() {
         cwaSettings.wasDeviceTimeIncorrectAcknowledged = true
+    }
+
+    fun tracingExplanationWasShown() {
+        cwaSettings.wasTracingExplanationDialogShown = true
     }
 
     @AssistedFactory

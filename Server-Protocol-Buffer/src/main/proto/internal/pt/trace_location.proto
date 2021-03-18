@@ -20,7 +20,7 @@ message TraceLocation {
 }
 
 message SignedTraceLocation {
-  TraceLocation location = 1;
+  bytes location = 1;
   bytes signature = 2;
 }
 

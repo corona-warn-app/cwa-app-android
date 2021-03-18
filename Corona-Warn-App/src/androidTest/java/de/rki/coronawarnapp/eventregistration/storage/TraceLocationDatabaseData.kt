@@ -16,7 +16,7 @@ object TraceLocationDatabaseData {
         startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
         endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
         defaultCheckInLengthInMinutes = null,
-        signature = "signature1"
+        signatureBase64 = "signature1"
     )
 
     val testTraceLocation2 = TraceLocationEntity(
@@ -28,6 +28,6 @@ object TraceLocationDatabaseData {
         startDate = null,
         endDate = null,
         defaultCheckInLengthInMinutes = 15,
-        signature = "signature2"
+        signatureBase64 = "signature2"
     )
 }

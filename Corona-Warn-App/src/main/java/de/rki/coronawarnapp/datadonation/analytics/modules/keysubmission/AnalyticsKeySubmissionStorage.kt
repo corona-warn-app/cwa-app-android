@@ -73,6 +73,11 @@ class AnalyticsKeySubmissionStorage @Inject constructor(
         defaultValue = -1
     )
 
+    val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = prefs.createFlowPreference(
+        key = "analytics_key_submission_daysSinceMostRecentDateAtRiskLevelAtTestRegistration",
+        defaultValue = -1
+    )
+
     fun clear() {
         prefs.clearAndNotify()
     }

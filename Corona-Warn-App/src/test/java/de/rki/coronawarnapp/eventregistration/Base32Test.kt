@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.eventregistration
 
-import de.rki.coronawarnapp.eventregistration.common.base32
-import de.rki.coronawarnapp.eventregistration.common.decodeBase32
+import de.rki.coronawarnapp.util.base32
+import de.rki.coronawarnapp.util.decodeBase32
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.toByteString
 import org.junit.jupiter.params.ParameterizedTest
