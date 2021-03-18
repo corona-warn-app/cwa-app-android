@@ -16,6 +16,7 @@ class DefaultCheckInsTransformerTest : BaseTest() {
         val checkIn1 = CheckIn(
             id = 0,
             guid = "3055331c-2306-43f3-9742-6d8fab54e848",
+            guidHash = byteArrayOf(),
             version = 1,
             type = 2,
             description = "description1",
@@ -23,16 +24,18 @@ class DefaultCheckInsTransformerTest : BaseTest() {
             traceLocationStart = Instant.ofEpochMilli(2687955 * 1_000L),
             traceLocationEnd = Instant.ofEpochMilli(2687991 * 1_000L),
             defaultCheckInLengthInMinutes = 10,
+            byteRepresentation = byteArrayOf(),
             signature = "signature1",
             checkInStart = Instant.ofEpochMilli(2687955 * 1_000L),
             checkInEnd = Instant.ofEpochMilli(2687991 * 1_000L),
-            targetCheckInEnd = null,
+            completed = false,
             createJournalEntry = true
         )
 
         val checkIn2 = CheckIn(
             id = 1,
             guid = "fca84b37-61c0-4a7c-b2f8-825cadd506cf",
+            guidHash = byteArrayOf(),
             version = 1,
             type = 1,
             description = "description2",
@@ -40,13 +43,14 @@ class DefaultCheckInsTransformerTest : BaseTest() {
             traceLocationStart = null,
             traceLocationEnd = null,
             defaultCheckInLengthInMinutes = 20,
+            byteRepresentation = byteArrayOf(),
             signature = "signature2",
             checkInStart = Instant.ofEpochMilli(2687955 * 1_000L),
-            checkInEnd = null,
-            targetCheckInEnd = null,
+            checkInEnd = Instant.ofEpochMilli(2687956 * 1_000L),
+            completed = false,
             createJournalEntry = false
         )
-        
+
         val outCheckIns = checkInTransformer.transform(
             listOf(
                 checkIn1,
@@ -89,7 +93,7 @@ class DefaultCheckInsTransformerTest : BaseTest() {
                 signature shouldBe ByteString.copyFrom("signature2".toByteArray())
             }
             startIntervalNumber shouldBe 2687955
-            endIntervalNumber shouldBe 0
+            endIntervalNumber shouldBe 2687956
             // TODO transmissionRiskLevel shouldBe
         }
     }

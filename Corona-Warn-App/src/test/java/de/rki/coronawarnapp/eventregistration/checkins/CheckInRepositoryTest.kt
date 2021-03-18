@@ -43,10 +43,12 @@ class CheckInRepositoryTest : BaseTest() {
         coEvery { checkInDao.insert(any()) } returns 0L
         runBlockingTest {
             val time = Instant.ofEpochMilli(1397210400000)
+            val end = Instant.ofEpochMilli(1397210400001)
             createInstance(scope = this).addCheckIn(
                 CheckIn(
                     id = 0L,
                     guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
+                    guidHash = byteArrayOf(),
                     version = 1,
                     type = 2,
                     description = "brothers birthday",
@@ -54,10 +56,11 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = time,
                     traceLocationEnd = null,
                     defaultCheckInLengthInMinutes = null,
+                    byteRepresentation = byteArrayOf(),
                     signature = "abc",
                     checkInStart = time,
-                    checkInEnd = null,
-                    targetCheckInEnd = null,
+                    checkInEnd = end,
+                    completed = false,
                     createJournalEntry = false
                 )
             )
@@ -66,6 +69,7 @@ class CheckInRepositoryTest : BaseTest() {
                     TraceLocationCheckInEntity(
                         id = 0L,
                         guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
+                        guidHash = byteArrayOf(),
                         version = 1,
                         type = 2,
                         description = "brothers birthday",
@@ -73,10 +77,11 @@ class CheckInRepositoryTest : BaseTest() {
                         traceLocationStart = time,
                         traceLocationEnd = null,
                         defaultCheckInLengthInMinutes = null,
+                        byteRepresentation = byteArrayOf(),
                         signature = "abc",
                         checkInStart = time,
-                        checkInEnd = null,
-                        targetCheckInEnd = null,
+                        checkInEnd = end,
+                        completed = false,
                         createJournalEntry = false
                     )
                 )
@@ -94,6 +99,7 @@ class CheckInRepositoryTest : BaseTest() {
                 CheckIn(
                     id = 0L,
                     guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                    guidHash = byteArrayOf(),
                     version = 1,
                     type = 2,
                     description = "sisters birthday",
@@ -101,10 +107,11 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = start,
                     traceLocationEnd = end,
                     defaultCheckInLengthInMinutes = null,
+                    byteRepresentation = byteArrayOf(),
                     signature = "efg",
                     checkInStart = start,
                     checkInEnd = end,
-                    targetCheckInEnd = end,
+                    completed = false,
                     createJournalEntry = false
                 )
             )
@@ -113,6 +120,7 @@ class CheckInRepositoryTest : BaseTest() {
                     TraceLocationCheckInEntity(
                         id = 0L,
                         guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                        guidHash = byteArrayOf(),
                         version = 1,
                         type = 2,
                         description = "sisters birthday",
@@ -120,10 +128,11 @@ class CheckInRepositoryTest : BaseTest() {
                         traceLocationStart = start,
                         traceLocationEnd = end,
                         defaultCheckInLengthInMinutes = null,
+                        byteRepresentation = byteArrayOf(),
                         signature = "efg",
                         checkInStart = start,
                         checkInEnd = end,
-                        targetCheckInEnd = end,
+                        completed = false,
                         createJournalEntry = false
                     )
                 )
@@ -139,6 +148,7 @@ class CheckInRepositoryTest : BaseTest() {
             TraceLocationCheckInEntity(
                 id = 0L,
                 guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                guidHash = byteArrayOf(),
                 version = 1,
                 type = 2,
                 description = "sisters birthday",
@@ -146,10 +156,11 @@ class CheckInRepositoryTest : BaseTest() {
                 traceLocationStart = start,
                 traceLocationEnd = end,
                 defaultCheckInLengthInMinutes = null,
+                byteRepresentation = byteArrayOf(),
                 signature = "efg",
                 checkInStart = start,
                 checkInEnd = end,
-                targetCheckInEnd = end,
+                completed = false,
                 createJournalEntry = false
             )
         )
@@ -158,6 +169,8 @@ class CheckInRepositoryTest : BaseTest() {
                 CheckIn(
                     id = 0L,
                     guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                    guidHash = byteArrayOf(),
+                    byteRepresentation = byteArrayOf(),
                     version = 1,
                     type = 2,
                     description = "sisters birthday",
@@ -168,7 +181,7 @@ class CheckInRepositoryTest : BaseTest() {
                     signature = "efg",
                     checkInStart = start,
                     checkInEnd = end,
-                    targetCheckInEnd = end,
+                    completed = false,
                     createJournalEntry = false
                 )
             )
