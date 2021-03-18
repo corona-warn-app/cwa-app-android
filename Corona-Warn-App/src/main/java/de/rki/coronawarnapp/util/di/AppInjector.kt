@@ -13,9 +13,11 @@ import timber.log.Timber
 object AppInjector {
     lateinit var component: ApplicationComponent
 
-    fun init(app: CoronaWarnApplication) {
-        component = DaggerApplicationComponent.factory().create(app)
-        component.inject(app)
+    fun init(app: CoronaWarnApplication): ApplicationComponent {
+        Timber.v("Initializing Dagger (%s)", app)
+        return DaggerApplicationComponent.factory().create(app).also {
+            component = it
+        }
     }
 
     fun setup(activity: Activity) {

@@ -124,6 +124,7 @@ class SubmissionRepository @Inject constructor(
     }
 
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
+        analyticsKeySubmissionCollector.reset()
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
         submissionSettings.registrationToken.update {
             registrationData.registrationToken
@@ -136,6 +137,7 @@ class SubmissionRepository @Inject constructor(
     }
 
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
+        analyticsKeySubmissionCollector.reset()
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
         submissionSettings.registrationToken.update {
             registrationData.registrationToken
@@ -163,6 +165,16 @@ class SubmissionRepository @Inject constructor(
             deadmanNotificationScheduler.cancelScheduledWork()
         }
 
+        // https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-4484
+        // User removed a test before 1.11 where due to a bug the timestamp was not removed.
+        if (submissionSettings.initialTestResultReceivedAt != null &&
+            submissionSettings.registrationToken.value != null &&
+            submissionSettings.devicePairingSuccessfulAt == null
+        ) {
+            Timber.tag(TAG).w("User has stale initialTestResultReceivedAt, fixing EXPOSUREAPP-4484.")
+            submissionSettings.initialTestResultReceivedAt = null
+        }
+
         val initialTestResultReceivedTimestamp = submissionSettings.initialTestResultReceivedAt
 
         if (initialTestResultReceivedTimestamp == null) {
@@ -188,7 +200,6 @@ class SubmissionRepository @Inject constructor(
     fun removeTestFromDevice() {
         submissionSettings.hasViewedTestResult.update { false }
         submissionSettings.hasGivenConsent.update { false }
-        analyticsKeySubmissionCollector.reset()
         revokeConsentToSubmission()
         submissionSettings.registrationToken.update { null }
         submissionSettings.devicePairingSuccessfulAt = null

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util.security
+package de.rki.coronawarnapp.util.encryptionmigration
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -16,12 +16,12 @@ class EncryptionErrorResetTool @Inject constructor(
     }
 
     var isResetNoticeToBeShown: Boolean
-        get() = prefs.getBoolean(PKEY_EA1851_SHOW_RESET_NOTICE, false)
+        get() = prefs.getBoolean(PKEY_EA2850_SHOW_RESET_NOTICE, false)
         set(value) = prefs.edit {
-            putBoolean(PKEY_EA1851_SHOW_RESET_NOTICE, value)
+            putBoolean(PKEY_EA2850_SHOW_RESET_NOTICE, value)
         }
 
     companion object {
-        private const val PKEY_EA1851_SHOW_RESET_NOTICE = "ea1851.reset.shownotice"
+        private const val PKEY_EA2850_SHOW_RESET_NOTICE = "ea2850.reset.shownotice"
     }
 }
