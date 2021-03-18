@@ -3,10 +3,9 @@ package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 import android.os.Bundle
 import android.os.Parcel
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.eventregistration.common.base32
-import de.rki.coronawarnapp.eventregistration.common.decodeBase32
-import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.util.base32
+import de.rki.coronawarnapp.util.decodeBase32
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow

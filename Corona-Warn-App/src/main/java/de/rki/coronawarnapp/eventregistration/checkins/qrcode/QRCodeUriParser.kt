@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import dagger.Reusable
-import de.rki.coronawarnapp.eventregistration.common.decodeBase32
+import de.rki.coronawarnapp.util.decodeBase32
 import okio.ByteString
 import timber.log.Timber
 import java.net.URI

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events
+package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import android.os.Parcelable
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
