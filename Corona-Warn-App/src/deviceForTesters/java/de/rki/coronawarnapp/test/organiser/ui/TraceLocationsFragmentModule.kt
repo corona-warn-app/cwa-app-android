@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class TraceLocationOrganiserQrCodesListTestFragmentModule {
+abstract class TraceLocationsFragmentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(TraceLocationOrganiserQrCodesListTestFragmentViewModel::class)
-    abstract fun organiserQrCodesListViewModel(
-        factory: TraceLocationOrganiserQrCodesListTestFragmentViewModel.Factory
+    @CWAViewModelKey(TraceLocationsViewModel::class)
+    abstract fun traceLocationsViewModel(
+        factory: TraceLocationsViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

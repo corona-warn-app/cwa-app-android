@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_information"
+        android:title="@string/trace_location_organizer_menu_information_btn" />
+    <item
+        android:id="@+id/menu_remove_all"
+        android:title="@string/trace_location_organizer_menu_remove_all_btn" />
+</menu>

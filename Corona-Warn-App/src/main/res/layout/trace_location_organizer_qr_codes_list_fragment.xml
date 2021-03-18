@@ -8,7 +8,7 @@
     android:focusable="true">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/header"
+        android:id="@+id/toolbar"
         style="@style/CWAToolbar.BackArrow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -21,6 +21,22 @@
         app:popupTheme="@style/CWAToolbar.Menu"
         app:title="@string/trace_location_organiser_qr_list_title"
         tools:title="Meine QR-Codes" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginVertical="@dimen/spacing_normal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="@dimen/spacing_huge"
+        android:paddingTop="@dimen/spacing_huge"
+        android:clipToPadding="false"
+        tools:listitem="@layout/trace_location_organizer_qr_codes_list_item" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/qr_codes_list_no_items_group"
