@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util.security
 
 import android.content.Context
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.mockk.Called
 import io.mockk.MockKAnnotations

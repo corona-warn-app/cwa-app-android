@@ -30,7 +30,7 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.statistics.Statistics
-import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations

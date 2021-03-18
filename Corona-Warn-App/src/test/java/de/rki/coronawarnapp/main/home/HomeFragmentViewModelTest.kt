@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE_TELETAN
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
-import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
