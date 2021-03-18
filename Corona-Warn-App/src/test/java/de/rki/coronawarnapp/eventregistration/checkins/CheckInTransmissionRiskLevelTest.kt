@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
 
-class CheckInsRiskTransmissionTest : BaseTest() {
+class CheckInTransmissionRiskLevelTest : BaseTest() {
 
     private val checkIn = CheckIn(
         id = 1L,

@@ -94,8 +94,5 @@ fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: Transmis
     val startMidnight = checkInStart.toLocalDate().toDateTimeAtStartOfDay()
     val nowMidnight = now.toLocalDate().toDateTimeAtStartOfDay()
     val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
-    if (ageInDays <= 0) return 1 // Default for negative ages
-    // Same default value is returned by transmissionVector
-    // when age is over transmissionVector size
-    return transmissionVector[ageInDays]
+    return transmissionVector.raw.getOrElse(ageInDays) { 1 } // Default value
 }
