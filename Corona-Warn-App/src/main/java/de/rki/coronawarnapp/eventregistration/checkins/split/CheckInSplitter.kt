@@ -15,11 +15,11 @@ import kotlin.math.ceil
 fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     val startTimeSeconds = checkInStart.seconds
     val endTimeSeconds = checkInEnd?.seconds ?: return listOf(copy()) // Should not arrive here ,but just in case
-    val durationSeconds = endTimeSeconds - startTimeSeconds.toMidnightUTC()
+    val durationSecondsUTC = endTimeSeconds - startTimeSeconds.toMidnightUTC()
 
-    Timber.i("durationSeconds=$durationSeconds")
+    Timber.i("durationSecondsUTC=$durationSecondsUTC")
 
-    val durationDays = ceil(durationSeconds.toDouble() / DAY_IN_SECONDS).toLong()
+    val durationDays = ceil(durationSecondsUTC.toDouble() / DAY_IN_SECONDS).toLong()
     Timber.i("durationDays=$durationDays")
 
     return (0 until durationDays).map { day ->

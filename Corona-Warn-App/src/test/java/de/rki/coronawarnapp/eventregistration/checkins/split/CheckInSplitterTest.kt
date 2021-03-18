@@ -248,7 +248,7 @@ class CheckInSplitterTest : BaseTest() {
     @Test
     fun `Scenario 9`() {
         /*
-        // Example 9 - 1-day-duration-less-than-a-day check-in
+        // Example 9 - 2-dates duration < day check-in
         localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-05 09:15' }
         splitInto = [
             { start: '2021-03-04 09:30', end: '2021-03-05 00:00' },
@@ -271,6 +271,89 @@ class CheckInSplitterTest : BaseTest() {
             get(1) shouldBe checkIn.copy(
                 checkInStart = Instant.parse("2021-03-05T00:00:00Z"),
                 checkInEnd = Instant.parse("2021-03-05T09:15:00Z")
+            )
+        }
+    }
+
+    @Test
+    fun `Scenario 10`() {
+        /*
+        // Example 10 - 2-dates duration < day - same start and end times check-in
+        localCheckIn = { start: '2021-03-04 09:00', end: '2021-03-05 09:00' }
+        splitInto = [
+            { start: '2021-03-04 09:00', end: '2021-03-05 00:00' },
+            { start: '2021-03-05 00:00', end: '2021-03-05 09:00' }
+        ]
+        */
+
+        val checkIn = defaultCheckIn.copy(
+            checkInStart = Instant.parse("2021-03-04T09:00:00Z"),
+            checkInEnd = Instant.parse("2021-03-05T09:00:00Z")
+        )
+
+        checkIn.splitByMidnightUTC().apply {
+            size shouldBe 2
+            get(0) shouldBe checkIn.copy(
+                checkInStart = Instant.parse("2021-03-04T09:00:00Z"),
+                checkInEnd = Instant.parse("2021-03-05T00:00:00Z")
+            )
+
+            get(1) shouldBe checkIn.copy(
+                checkInStart = Instant.parse("2021-03-05T00:00:00Z"),
+                checkInEnd = Instant.parse("2021-03-05T09:00:00Z")
+            )
+        }
+    }
+
+    @Test
+    fun `Scenario 11`() {
+        /*
+        // Example 11 - midnight times check-in
+        localCheckIn = { start: '2021-03-04 00:00', end: '2021-03-05 00:00' }
+        splitInto = [
+            { start: '2021-03-04 00:00', end: '2021-03-05 00:00' } // No split
+        ]
+        */
+
+        val checkIn = defaultCheckIn.copy(
+            checkInStart = Instant.parse("2021-03-04T00:00:00Z"),
+            checkInEnd = Instant.parse("2021-03-05T00:00:00Z")
+        )
+
+        checkIn.splitByMidnightUTC().apply {
+            size shouldBe 1
+            get(0) shouldBe checkIn.copy(
+                checkInStart = Instant.parse("2021-03-04T00:00:00Z"),
+                checkInEnd = Instant.parse("2021-03-05T00:00:00Z")
+            )
+        }
+    }
+
+    @Test
+    fun `Scenario 12`() {
+        /*
+        // Example 12 - 2min-2dates check-in
+        localCheckIn = { start: '2021-03-04 23:59', end: '2021-03-05 00:01' }
+        splitInto = [
+            { start: '2021-03-04 00:00', end: '2021-03-05 00:00' } // No split
+        ]
+        */
+
+        val checkIn = defaultCheckIn.copy(
+            checkInStart = Instant.parse("2021-03-04T00:23:59Z"),
+            checkInEnd = Instant.parse("2021-03-05T00:00:01Z")
+        )
+
+        checkIn.splitByMidnightUTC().apply {
+            size shouldBe 2
+            get(0) shouldBe checkIn.copy(
+                checkInStart = Instant.parse("2021-03-04T00:23:59Z"),
+                checkInEnd = Instant.parse("2021-03-05T00:00:00Z")
+            )
+
+            get(1) shouldBe checkIn.copy(
+                checkInStart = Instant.parse("2021-03-05T00:00:00.000Z"),
+                checkInEnd = Instant.parse("2021-03-05T00:00:01Z")
             )
         }
     }
