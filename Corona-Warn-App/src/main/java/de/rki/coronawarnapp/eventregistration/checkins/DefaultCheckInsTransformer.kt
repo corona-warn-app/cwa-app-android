@@ -22,7 +22,7 @@ class DefaultCheckInsTransformer @Inject constructor() :
                 .build()
 
             val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder()
-                .setLocation(traceLocation)
+                .setLocation(traceLocation.toByteString())
                 .setSignature(ByteString.copyFrom(checkIn.signature.toByteArray()))
                 .build()
 

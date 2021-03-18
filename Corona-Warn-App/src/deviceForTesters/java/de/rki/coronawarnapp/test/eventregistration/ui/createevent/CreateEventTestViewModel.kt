@@ -3,8 +3,7 @@ package de.rki.coronawarnapp.test.eventregistration.ui.createevent
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
-import de.rki.coronawarnapp.eventregistration.events.TraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationCreator
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationUserInput
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
@@ -12,6 +11,7 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import okio.ByteString.Companion.toByteString
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
@@ -66,15 +66,15 @@ class CreateEventTestViewModel @AssistedInject constructor(
                     }
                 }
             } else {
-                val traceLocation = DefaultTraceLocation(
-                    UUID.randomUUID().toString(), // will be provided by the server when the endpoint is ready
+                val traceLocation = TraceLocation(
+                    UUID.randomUUID().toString(),
                     traceLocationType,
                     description,
                     address,
                     startDate?.toInstant(),
                     endDate?.toInstant(),
                     defaultCheckInLengthInMinutes.toInt(),
-                    "ServerSignature"
+                    "ServerSignature".toByteArray().toByteString()
                 )
                 traceLocationRepository.addTraceLocation(traceLocation)
                 result.postValue(Result.Success(traceLocation))
