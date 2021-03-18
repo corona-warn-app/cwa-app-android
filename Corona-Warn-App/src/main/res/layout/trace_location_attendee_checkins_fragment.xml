@@ -49,14 +49,15 @@
             android:src="@drawable/trace_location_my_check_ins_empty_illustration" />
 
         <TextView
-            style="@style/headline6"
+            style="@style/subtitleMedium"
             android:layout_width="wrap_content"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="36dp"
             android:text="@string/trace_location_checkins_empty_label" />
         <TextView
-            style="@style/subtitleMedium"
+            style="@style/body2Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

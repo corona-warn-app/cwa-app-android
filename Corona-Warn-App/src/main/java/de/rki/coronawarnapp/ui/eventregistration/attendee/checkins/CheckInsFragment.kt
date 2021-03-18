@@ -12,11 +12,13 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -51,6 +53,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
         binding.checkInsList.apply {
             adapter = checkInsAdapter
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            itemAnimator = DefaultItemAnimator()
         }
 
         viewModel.checkins.observe2(this) {
@@ -91,7 +95,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     }
 
     private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
-        inflateMenu(R.menu.menu_trace_location_my_check_ins)
+        inflateMenu(R.menu.menu_trace_location_attendee_checkins)
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_information -> {

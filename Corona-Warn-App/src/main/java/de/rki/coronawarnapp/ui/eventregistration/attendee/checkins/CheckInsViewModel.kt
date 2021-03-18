@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -37,8 +38,14 @@ class CheckInsViewModel @AssistedInject constructor(
         .map { checkins ->
             checkins.map { checkin ->
                 when {
-                    checkin.checkInEnd == null -> ActiveCheckInVH.Item(checkin = checkin)
-                    else -> PastCheckInVH.Item(checkin = checkin)
+                    checkin.checkInEnd == null -> ActiveCheckInVH.Item(
+                        checkin = checkin,
+                        onRemoveItem = { /* TODO */ }
+                    )
+                    else -> PastCheckInVH.Item(
+                        checkin = checkin,
+                        onRemoveItem = { /* TODO */ }
+                    )
                 }
             }
         }
@@ -87,11 +94,27 @@ class CheckInsViewModel @AssistedInject constructor(
 private val FAKE_CHECKINS = listOf(
     CheckIn(
         id = 1,
+        guid = "testGuid2",
+        version = 1,
+        type = 1,
+        description = "Jahrestreffen der deutschen SAP Anwendergruppe",
+        address = "Hauptstr. 3, 69115 Heidelberg",
+        traceLocationStart = null,
+        traceLocationEnd = null,
+        defaultCheckInLengthInMinutes = 3 * 60,
+        signature = "Signature",
+        checkInStart = Instant.now().minus(Duration.standardHours(2)),
+        checkInEnd = null,
+        targetCheckInEnd = Instant.now().plus(Duration.standardHours(1)),
+        createJournalEntry = true
+    ),
+    CheckIn(
+        id = 2,
         guid = "testGuid1",
         version = 1,
         type = 2,
-        description = "testDescription1",
-        address = "testAddress1",
+        description = "CWA Launch Party",
+        address = "At home! Do you want the 'rona?",
         traceLocationStart = Instant.parse("2021-01-01T12:00:00.000Z"),
         traceLocationEnd = Instant.parse("2021-01-01T15:00:00.000Z"),
         defaultCheckInLengthInMinutes = 15,
@@ -100,26 +123,9 @@ private val FAKE_CHECKINS = listOf(
         checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
         targetCheckInEnd = Instant.parse("2021-01-01T12:45:00.000Z"),
         createJournalEntry = true
-    ),
-
-    CheckIn(
-        id = 2,
-        guid = "testGuid2",
-        version = 1,
-        type = 1,
-        description = "testDescription2",
-        address = "testAddress2",
-        traceLocationStart = null,
-        traceLocationEnd = null,
-        defaultCheckInLengthInMinutes = null,
-        signature = "Signature",
-        checkInStart = Instant.now().minus(Duration.standardHours(2)),
-        checkInEnd = null,
-        targetCheckInEnd = Instant.now().plus(Duration.standardHours(1)),
-        createJournalEntry = true
     )
 )
 
-private val FAKE_CHECKIN_SOURCE = flow<List<CheckIn>> {
+private val FAKE_CHECKIN_SOURCE = flow {
     emit(FAKE_CHECKINS)
 }

@@ -5,9 +5,8 @@
     style="@style/contactDiaryCardRipple"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="24dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="16dp"
     android:focusable="true">
 
     <de.rki.coronawarnapp.ui.eventregistration.common.TraceLocationCardHighlightView
@@ -95,24 +94,26 @@
         app:layout_constraintVertical_bias="0.0"
         tools:text="18:00 - Automatisch auschecken nach 3 Std." />
 
-    <Button
+    <ImageButton
         android:id="@+id/menu_action"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
+        style="@style/CardOverFlowButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/checkout_action"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/trace_location_checkins_card_action_checkout"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/colorAccent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
