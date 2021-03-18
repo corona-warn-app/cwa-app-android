@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
 import com.google.protobuf.ByteString
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
@@ -16,7 +15,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
