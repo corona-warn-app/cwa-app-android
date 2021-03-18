@@ -19,18 +19,7 @@ class TraceLocationServer @Inject constructor(
         traceLocationUserInput: TraceLocationUserInput
     ): TraceLocationOuterClass.SignedTraceLocation {
 
-        val traceLocationProto = with(traceLocationUserInput) {
-            TraceLocationOuterClass.TraceLocation.newBuilder()
-                .setVersion(TRACE_LOCATION_VERSION)
-                .setType(type)
-                .setDescription(description)
-                .setAddress(address)
-                .setStartTimestamp(startDate?.seconds ?: 0)
-                .setEndTimestamp(endDate?.seconds ?: 0)
-                .setDefaultCheckInLengthInMinutes(defaultCheckInLengthInMinutes ?: 0)
-                .build()
-        }
-
+        val traceLocationProto = traceLocationUserInput.toTraceLocationProtoBuf()
         val response = api.get().createTraceLocation(traceLocationProto)
 
         if (!response.isSuccessful) throw HttpException(response)
@@ -43,5 +32,17 @@ class TraceLocationServer @Inject constructor(
 
         Timber.d("Successfully received SignedTraceLocation: $signedTraceLocation")
         return signedTraceLocation
+    }
+
+    private fun TraceLocationUserInput.toTraceLocationProtoBuf(): TraceLocationOuterClass.TraceLocation {
+        return TraceLocationOuterClass.TraceLocation.newBuilder()
+            .setVersion(TRACE_LOCATION_VERSION)
+            .setType(type)
+            .setDescription(description)
+            .setAddress(address)
+            .setStartTimestamp(startDate?.seconds ?: 0)
+            .setEndTimestamp(endDate?.seconds ?: 0)
+            .setDefaultCheckInLengthInMinutes(defaultCheckInLengthInMinutes ?: 0)
+            .build()
     }
 }
