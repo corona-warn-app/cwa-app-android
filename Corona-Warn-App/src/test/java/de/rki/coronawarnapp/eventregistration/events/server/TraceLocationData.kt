@@ -31,7 +31,7 @@ object TraceLocationData {
 
     val signedTraceLocationTemporary: TraceLocationOuterClass.SignedTraceLocation =
         TraceLocationOuterClass.SignedTraceLocation.newBuilder()
-            .setLocation(traceLocationTemporary)
+            .setLocation(traceLocationTemporary.toByteString())
             .setSignature(ByteString.copyFromUtf8("ServerSignature"))
             .build()
 }

@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.events
 
 import dagger.Lazy
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocation
 import de.rki.coronawarnapp.eventregistration.events.server.TraceLocationServer
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.util.security.SignatureValidation

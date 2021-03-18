@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.eventregistration.events
 
 import com.google.protobuf.ByteString
 import dagger.Lazy
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocation
 import de.rki.coronawarnapp.eventregistration.events.server.TraceLocationServer
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
@@ -49,7 +50,7 @@ internal class TraceLocationCreatorTest : BaseTest() {
                 .build()
 
             val signedTraceLocationToReturn = TraceLocationOuterClass.SignedTraceLocation.newBuilder()
-                .setLocation(traceLocationToReturn)
+                .setLocation(traceLocationToReturn.toByteString())
                 .setSignature(ByteString.copyFromUtf8("Signature"))
                 .build()
 
