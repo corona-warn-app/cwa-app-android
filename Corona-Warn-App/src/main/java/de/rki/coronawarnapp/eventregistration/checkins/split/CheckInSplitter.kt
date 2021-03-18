@@ -6,7 +6,6 @@ import org.joda.time.Instant
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import kotlin.math.ceil
-import kotlin.math.max
 
 /**
  * Splits a [CheckIn] by midnight UTC time into multiple [CheckIn]s across multiple days.
