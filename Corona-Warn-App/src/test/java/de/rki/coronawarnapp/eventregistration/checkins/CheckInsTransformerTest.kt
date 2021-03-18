@@ -7,9 +7,9 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class DefaultCheckInsTransformerTest : BaseTest() {
+class CheckInsTransformerTest : BaseTest() {
 
-    private val checkInTransformer = DefaultCheckInsTransformer()
+    private val checkInTransformer = CheckInsTransformer()
 
     @Test
     fun `transform check-ins`() {
