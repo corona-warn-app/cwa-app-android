@@ -2,14 +2,38 @@ package de.rki.coronawarnapp.eventregistration.checkins
 
 import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.joda.time.Instant
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class CheckInsTransformerTest : BaseTest() {
 
-    private val checkInTransformer = CheckInsTransformer()
+    @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var symptoms: Symptoms
+
+    private lateinit var checkInTransformer: CheckInsTransformer
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+        every { timeStamper.nowUTC } returns Instant.now()
+        every { symptoms.symptomIndication } returns Symptoms.Indication.POSITIVE
+        every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDate())
+        checkInTransformer = CheckInsTransformer(
+            timeStamper,
+            TransmissionRiskVectorDeterminator(timeStamper)
+        )
+    }
 
     @Test
     fun `transform check-ins`() {
@@ -51,7 +75,8 @@ class CheckInsTransformerTest : BaseTest() {
             listOf(
                 checkIn1,
                 checkIn2
-            )
+            ),
+            symptoms
         )
         outCheckIns.size shouldBe 2
 

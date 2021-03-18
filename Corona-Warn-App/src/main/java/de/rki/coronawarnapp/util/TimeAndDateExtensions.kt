@@ -64,6 +64,11 @@ object TimeAndDateExtensions {
         } else null
 
     /**
+     * Converts a [Long] representing time in Seconds into [Instant]
+     */
+    fun Long.secondsToInstant(): Instant = Instant.ofEpochSecond(this)
+
+    /**
      * Converts milliseconds to human readable format hh:mm:ss
      *
      * @return String

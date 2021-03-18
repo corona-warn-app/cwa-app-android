@@ -16,6 +16,8 @@ private fun alignToInterval(timestamp: Long) =
  * Derive CheckIn start and end times
  * @param startTimestampInSeconds [Long] timestamp in seconds
  * @param endTimestampInSeconds [Long] timestamp in seconds
+ *
+ * @return [Pair] of [Long] including derived startTime and endTime in seconds
  */
 fun PresenceTracingSubmissionParamContainer.deriveTime(
     startTimestampInSeconds: Long,
