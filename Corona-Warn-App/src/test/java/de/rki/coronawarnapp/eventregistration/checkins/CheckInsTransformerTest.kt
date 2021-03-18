@@ -46,7 +46,7 @@ class CheckInsTransformerTest : BaseTest() {
             targetCheckInEnd = null,
             createJournalEntry = false
         )
-        
+
         val outCheckIns = checkInTransformer.transform(
             listOf(
                 checkIn1,
