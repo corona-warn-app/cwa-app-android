@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.eventregistration.checkins.split
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import io.kotest.matchers.shouldBe
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 
@@ -25,7 +26,7 @@ class CheckInSplitterTest : BaseTest() {
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
         traceLocationBytes = byteArrayOf(),
-        signature = "signature",
+        signature = "c2lnbmF0dXJl".decodeBase64()!!,
         checkInStart = Instant.now(),
         checkInEnd = Instant.now(),
         completed = false,

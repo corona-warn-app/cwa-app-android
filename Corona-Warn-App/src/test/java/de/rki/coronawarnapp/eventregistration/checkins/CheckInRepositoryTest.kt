@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
-import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.EMPTY
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -58,7 +58,7 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationEnd = null,
                     defaultCheckInLengthInMinutes = null,
                     traceLocationBytes = byteArrayOf(),
-                    signature = "abc".decodeBase64()!!,
+                    signature = EMPTY,
                     checkInStart = time,
                     checkInEnd = end,
                     completed = false,
@@ -79,7 +79,7 @@ class CheckInRepositoryTest : BaseTest() {
                         traceLocationEnd = null,
                         defaultCheckInLengthInMinutes = null,
                         traceLocationBytes = byteArrayOf(),
-                        signatureBase64 = "abc",
+                        signatureBase64 = "",
                         checkInStart = time,
                         checkInEnd = end,
                         completed = false,
@@ -109,7 +109,7 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationEnd = end,
                     defaultCheckInLengthInMinutes = null,
                     traceLocationBytes = byteArrayOf(),
-                    signature = "efg".decodeBase64()!!,
+                    signature = EMPTY,
                     checkInStart = start,
                     checkInEnd = end,
                     completed = false,
@@ -130,7 +130,7 @@ class CheckInRepositoryTest : BaseTest() {
                         traceLocationEnd = end,
                         defaultCheckInLengthInMinutes = null,
                         traceLocationBytes = byteArrayOf(),
-                        signatureBase64 = "efg",
+                        signatureBase64 = "",
                         checkInStart = start,
                         checkInEnd = end,
                         completed = false,
@@ -158,7 +158,7 @@ class CheckInRepositoryTest : BaseTest() {
                 traceLocationEnd = end,
                 defaultCheckInLengthInMinutes = null,
                 traceLocationBytes = byteArrayOf(),
-                signatureBase64 = "efg",
+                signatureBase64 = "",
                 checkInStart = start,
                 checkInEnd = end,
                 completed = false,
@@ -179,7 +179,7 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = start,
                     traceLocationEnd = end,
                     defaultCheckInLengthInMinutes = null,
-                    signature = "efg".decodeBase64()!!,
+                    signature = EMPTY,
                     checkInStart = start,
                     checkInEnd = end,
                     completed = false,
