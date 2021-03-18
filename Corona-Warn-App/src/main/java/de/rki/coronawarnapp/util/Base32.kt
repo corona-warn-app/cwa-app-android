@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.common
+package de.rki.coronawarnapp.util
 
 import com.google.common.io.BaseEncoding
 import okio.ByteString
