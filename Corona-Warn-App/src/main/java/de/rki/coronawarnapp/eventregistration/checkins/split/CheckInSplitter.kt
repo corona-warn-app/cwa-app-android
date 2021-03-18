@@ -15,12 +15,12 @@ import kotlin.math.max
  */
 fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     val startTimeSeconds = checkInStart.seconds
-    val endTimeSeconds = checkInEnd?.seconds ?: 0L
-    val durationSeconds = endTimeSeconds - startTimeSeconds
+    val endTimeSeconds = checkInEnd?.seconds ?: return listOf(copy()) // Should not arrive here ,but just in case
+    val durationSeconds = endTimeSeconds - startTimeSeconds.toMidnightUTC()
 
     Timber.i("durationSeconds=$durationSeconds")
 
-    val durationDays = max(1L, ceil(durationSeconds.toDouble() / DAY_IN_SECONDS).toLong())
+    val durationDays = ceil(durationSeconds.toDouble() / DAY_IN_SECONDS).toLong()
     Timber.i("durationDays=$durationDays")
 
     return (0 until durationDays).map { day ->
