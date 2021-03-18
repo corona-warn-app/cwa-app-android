@@ -34,4 +34,20 @@ object TraceLocationData {
             .setLocation(traceLocationTemporary.toByteString())
             .setSignature(ByteString.copyFromUtf8("ServerSignature"))
             .build()
+
+    private val traceLocationPermanent: TraceLocationOuterClass.TraceLocation =
+        TraceLocationOuterClass.TraceLocation.newBuilder()
+            .setGuid("serverGeneratedGuid")
+            .setVersion(1)
+            .setType(TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER)
+            .setDescription("IceCream Shop")
+            .setAddress("IceCream Wonderland Street 1")
+            .setDefaultCheckInLengthInMinutes(30)
+            .build()
+
+    val signedTraceLocationPermanent: TraceLocationOuterClass.SignedTraceLocation =
+        TraceLocationOuterClass.SignedTraceLocation.newBuilder()
+            .setLocation(traceLocationPermanent.toByteString())
+            .setSignature(ByteString.copyFromUtf8("ServerSignature"))
+            .build()
 }

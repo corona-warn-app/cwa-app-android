@@ -43,13 +43,15 @@ fun TraceLocationOuterClass.SignedTraceLocation.toTraceLocation(): TraceLocation
 
     val traceLocation = parseFrom(location)
 
+    fun Long.getInstantOrNull() = if (this == 0L) null else Instant.ofEpochSecond(this)
+
     return TraceLocation(
         guid = traceLocation.guid,
         type = traceLocation.type,
         description = traceLocation.description,
         address = traceLocation.address,
-        startDate = Instant.ofEpochSecond(traceLocation.startTimestamp),
-        endDate = Instant.ofEpochSecond(traceLocation.endTimestamp),
+        startDate = traceLocation.startTimestamp.getInstantOrNull(),
+        endDate = traceLocation.endTimestamp.getInstantOrNull(),
         defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
         signature = signature.toByteArray().toByteString(),
         version = traceLocation.version
