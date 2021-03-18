@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContain
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2
-    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters
+.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2
-    .PresenceTracingParametersOuterClass.PresenceTracingRiskCalculationParameters
+.PresenceTracingParametersOuterClass.PresenceTracingRiskCalculationParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2
-    .PresenceTracingParametersOuterClass.PresenceTracingParameters.QRCodeErrorCorrectionLevel
+.PresenceTracingParametersOuterClass.PresenceTracingParameters.QRCodeErrorCorrectionLevel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,26 +24,13 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
             return PresenceTracingConfigContainer(
                 qrCodeErrorCorrectionLevel = ErrorCorrectionLevel.H,
                 revokedTraceLocationVersions = emptyList(),
-                riskCalculationParameters = emptyRiskCalculationParameters(),
-                submissionParameters = emptySubmissionParameters()
+                riskCalculationParameters = PresenceTracingRiskCalculationParamContainer(),
+                submissionParameters = PresenceTracingSubmissionParamContainer()
             )
         }
 
         return rawConfig.presenceTracingConfig().also { Timber.i("PresenceTracingConfig: $it") }
     }
-
-    private fun emptySubmissionParameters() =
-        PresenceTracingSubmissionParamContainer(
-            durationFilters = emptyList(),
-            aerosoleDecayLinearFunctions = emptyList()
-        )
-
-    private fun emptyRiskCalculationParameters() =
-        PresenceTracingRiskCalculationParamContainer(
-            transmissionRiskValueMapping = emptyList(),
-            normalizedTimePerCheckInToRiskLevelMapping = emptyList(),
-            normalizedTimePerDayToRiskLevelMapping = emptyList()
-        )
 
     private fun PresenceTracingSubmissionParameters.mapSubmissionParameters() =
         PresenceTracingSubmissionParamContainer(
@@ -73,14 +60,14 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
                 riskCalculationParameters.mapRiskCalculationParameters()
             } else {
                 Timber.w("RiskCalculationParameters are missing")
-                emptyRiskCalculationParameters()
+                PresenceTracingRiskCalculationParamContainer()
             }
 
             val submissionParameters = if (hasSubmissionParameters()) {
                 submissionParameters.mapSubmissionParameters()
             } else {
                 Timber.w("SubmissionParameters are missing")
-                emptySubmissionParameters()
+                PresenceTracingSubmissionParamContainer()
             }
 
             PresenceTracingConfigContainer(
