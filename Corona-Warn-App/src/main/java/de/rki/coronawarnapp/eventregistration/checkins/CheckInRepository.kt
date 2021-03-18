@@ -50,6 +50,7 @@ class CheckInRepository @Inject constructor(
 private fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     id = id,
     guid = guid,
+    guidHash = guidHash,
     version = version,
     type = type,
     description = description,
@@ -57,16 +58,18 @@ private fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     traceLocationStart = traceLocationStart,
     traceLocationEnd = traceLocationEnd,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
+    byteRepresentation = byteRepresentation,
     signature = signature,
     checkInStart = checkInStart,
     checkInEnd = checkInEnd,
-    targetCheckInEnd = targetCheckInEnd,
+    completed = completed,
     createJournalEntry = createJournalEntry
 )
 
 private fun CheckIn.toEntity() = TraceLocationCheckInEntity(
     id = id,
     guid = guid,
+    guidHash = guidHash,
     version = version,
     type = type,
     description = description,
@@ -74,9 +77,10 @@ private fun CheckIn.toEntity() = TraceLocationCheckInEntity(
     traceLocationStart = traceLocationStart,
     traceLocationEnd = traceLocationEnd,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
+    byteRepresentation = byteRepresentation,
     signature = signature,
     checkInStart = checkInStart,
     checkInEnd = checkInEnd,
-    targetCheckInEnd = targetCheckInEnd,
+    completed = completed,
     createJournalEntry = createJournalEntry
 )

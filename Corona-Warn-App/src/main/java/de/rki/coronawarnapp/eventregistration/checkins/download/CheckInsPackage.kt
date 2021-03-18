@@ -27,6 +27,7 @@ private const val TYPE_EVENT = 2
 private val dummyEventCheckIn1: CheckIn = CheckIn(
     id = 1L,
     guid = "eventOne",
+    guidHash = ByteArray(0),
     version = 1,
     type = TYPE_LOCATION,
     description = "Restaurant",
@@ -34,6 +35,7 @@ private val dummyEventCheckIn1: CheckIn = CheckIn(
     traceLocationStart = null,
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
+    byteRepresentation = ByteArray(0),
     signature = "signature",
     checkInStart = Instant.ofEpochMilli(
         DateTime(2021, 2, 2012, 11, 45).millis
@@ -41,20 +43,22 @@ private val dummyEventCheckIn1: CheckIn = CheckIn(
     checkInEnd = Instant.ofEpochMilli(
         DateTime(2021, 2, 20, 12, 15).millis
     ),
-    targetCheckInEnd = null,
+    completed = false,
     createJournalEntry = false
 )
 
 private val dummyEventCheckIn2: CheckIn = CheckIn(
     id = 1L,
     guid = "eventOne",
+    guidHash = ByteArray(0),
     version = 1,
     type = TYPE_EVENT,
-    description = "Women in tech meetup",
+    description = "People in tech meetup",
     address = "Technology Park",
     traceLocationStart = null,
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
+    byteRepresentation = ByteArray(0),
     signature = "signature2",
     checkInStart = Instant.ofEpochMilli(
         DateTime(2021, 3, 20, 18, 45).millis
@@ -62,6 +66,6 @@ private val dummyEventCheckIn2: CheckIn = CheckIn(
     checkInEnd = Instant.ofEpochMilli(
         DateTime(2021, 3, 20, 20, 15).millis
     ),
-    targetCheckInEnd = null,
+    completed = false,
     createJournalEntry = false
 )
