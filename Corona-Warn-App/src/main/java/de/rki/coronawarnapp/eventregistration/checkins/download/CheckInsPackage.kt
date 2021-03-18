@@ -35,7 +35,7 @@ private val dummyEventCheckIn1: CheckIn = CheckIn(
     traceLocationStart = null,
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
-    byteRepresentation = ByteArray(0),
+    traceLocationBytes = ByteArray(0),
     signature = "signature",
     checkInStart = Instant.ofEpochMilli(
         DateTime(2021, 2, 2012, 11, 45).millis
@@ -58,7 +58,7 @@ private val dummyEventCheckIn2: CheckIn = CheckIn(
     traceLocationStart = null,
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
-    byteRepresentation = ByteArray(0),
+    traceLocationBytes = ByteArray(0),
     signature = "signature2",
     checkInStart = Instant.ofEpochMilli(
         DateTime(2021, 3, 20, 18, 45).millis

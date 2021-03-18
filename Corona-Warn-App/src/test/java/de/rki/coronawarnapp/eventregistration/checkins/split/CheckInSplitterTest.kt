@@ -24,7 +24,7 @@ class CheckInSplitterTest : BaseTest() {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
-        byteRepresentation = byteArrayOf(),
+        traceLocationBytes = byteArrayOf(),
         signature = "signature",
         checkInStart = Instant.now(),
         checkInEnd = Instant.now(),

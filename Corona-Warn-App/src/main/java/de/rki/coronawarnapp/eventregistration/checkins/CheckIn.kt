@@ -14,7 +14,7 @@ data class CheckIn(
     val traceLocationStart: Instant?,
     val traceLocationEnd: Instant?,
     val defaultCheckInLengthInMinutes: Int?,
-    val byteRepresentation: ByteArray,
+    val traceLocationBytes: ByteArray,
     val signature: String,
     val checkInStart: Instant,
     val checkInEnd: Instant,
@@ -40,7 +40,7 @@ data class CheckIn(
         if (traceLocationStart != other.traceLocationStart) return false
         if (traceLocationEnd != other.traceLocationEnd) return false
         if (defaultCheckInLengthInMinutes != other.defaultCheckInLengthInMinutes) return false
-        if (!byteRepresentation.contentEquals(other.byteRepresentation)) return false
+        if (!traceLocationBytes.contentEquals(other.traceLocationBytes)) return false
         if (signature != other.signature) return false
         if (checkInStart != other.checkInStart) return false
         if (checkInEnd != other.checkInEnd) return false

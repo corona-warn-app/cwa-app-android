@@ -17,7 +17,7 @@ data class TraceLocationCheckInEntity(
     @ColumnInfo(name = "traceLocationStart") val traceLocationStart: Instant?,
     @ColumnInfo(name = "traceLocationEnd") val traceLocationEnd: Instant?,
     @ColumnInfo(name = "defaultCheckInLengthInMinutes") val defaultCheckInLengthInMinutes: Int?,
-    @ColumnInfo(name = "byteRepresentation") val byteRepresentation: ByteArray,
+    @ColumnInfo(name = "traceLocationBytes") val traceLocationBytes: ByteArray,
     @ColumnInfo(name = "signature") val signature: String,
     @ColumnInfo(name = "checkInStart") val checkInStart: Instant,
     @ColumnInfo(name = "checkInEnd") val checkInEnd: Instant,
@@ -43,7 +43,7 @@ data class TraceLocationCheckInEntity(
         if (traceLocationStart != other.traceLocationStart) return false
         if (traceLocationEnd != other.traceLocationEnd) return false
         if (defaultCheckInLengthInMinutes != other.defaultCheckInLengthInMinutes) return false
-        if (!byteRepresentation.contentEquals(other.byteRepresentation)) return false
+        if (!traceLocationBytes.contentEquals(other.traceLocationBytes)) return false
         if (signature != other.signature) return false
         if (checkInStart != other.checkInStart) return false
         if (checkInEnd != other.checkInEnd) return false
