@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationCreator
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationUserInput
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -44,7 +45,7 @@ class CreateEventTestViewModel @AssistedInject constructor(
                 if (end.isBlank()) null else DateTime.parse(end, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"))
 
             val traceLocationType =
-                if (type == "Event") LOCATION_TYPE_TEMPORARY_OTHER else LOCATION_TYPE_TEMPORARY_OTHER
+                if (type == "Event") LOCATION_TYPE_TEMPORARY_OTHER else LOCATION_TYPE_PERMANENT_OTHER
 
             if (sendToServer) {
                 val userInput = TraceLocationUserInput(
