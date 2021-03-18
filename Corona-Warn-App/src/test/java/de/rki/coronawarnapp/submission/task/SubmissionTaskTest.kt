@@ -116,7 +116,7 @@ class SubmissionTaskTest : BaseTest() {
 
         every { checkInRepository.allCheckIns } returns flowOf(emptyList())
         every { checkInRepository.clear() } just Runs
-        every { checkInsTransformer.transform(any(), any()) } returns emptyList()
+        coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
     private fun createTask() = SubmissionTask(
