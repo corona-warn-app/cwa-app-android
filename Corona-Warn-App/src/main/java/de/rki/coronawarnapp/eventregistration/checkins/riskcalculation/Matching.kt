@@ -30,7 +30,8 @@ fun calculateOverlap(
 data class CheckInOverlap(
     val checkInId: Long,
     val localDate: LocalDate,
-    val overlap: Duration
+    val overlap: Duration,
+    val transmissionRiskLevel: Int
 )
 
 fun min(first: Instant, second: Instant) = Instant(kotlin.math.min(first.millis, second.millis))
