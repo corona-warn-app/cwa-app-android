@@ -6,6 +6,7 @@ import org.joda.time.Instant
 data class CheckIn(
     val id: Long,
     val guid: String,
+    val guidHash: ByteArray,
     val version: Int,
     val type: Int,
     val description: String,
@@ -13,9 +14,10 @@ data class CheckIn(
     val traceLocationStart: Instant?,
     val traceLocationEnd: Instant?,
     val defaultCheckInLengthInMinutes: Int?,
+    val byteRepresentation: ByteArray,
     val signature: String,
     val checkInStart: Instant,
-    val checkInEnd: Instant?,
-    val targetCheckInEnd: Instant?,
+    val checkInEnd: Instant,
+    val completed: Boolean,
     val createJournalEntry: Boolean
 )
