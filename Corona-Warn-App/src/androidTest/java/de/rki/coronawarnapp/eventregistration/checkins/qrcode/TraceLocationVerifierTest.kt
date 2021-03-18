@@ -5,7 +5,7 @@ import android.os.Parcel
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.eventregistration.common.base32
 import de.rki.coronawarnapp.eventregistration.common.decodeBase32
-import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
+import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldNotThrowAny
@@ -53,7 +53,7 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
     fun verifyParcelization() = runBlockingTest {
         val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
 
-        val expectedTraceLocation = DefaultTraceLocation(
+        val expectedTraceLocation = TraceLocation(
             guid = "3055331c-2306-43f3-9742-6d8fab54e848",
             version = 1,
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
@@ -81,8 +81,8 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
         }
 
         val restoredData = restoredParcel.readBundle()!!.run {
-            classLoader = DefaultTraceLocation::class.java.classLoader
-            getParcelable<DefaultTraceLocation>("test")
+            classLoader = TraceLocation::class.java.classLoader
+            getParcelable<TraceLocation>("test")
         }
         restoredData shouldBe expectedTraceLocation
     }
@@ -185,7 +185,7 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
                 traceLocation = traceLocation
             ).verifiedTraceLocation
 
-            verifiedTraceLocation shouldBe DefaultTraceLocation(
+            verifiedTraceLocation shouldBe TraceLocation(
                 guid = "3055331c-2306-43f3-9742-6d8fab54e848",
                 version = 1,
                 type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,

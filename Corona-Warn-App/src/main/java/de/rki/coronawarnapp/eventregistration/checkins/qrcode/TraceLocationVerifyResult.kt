@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
-import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
 import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
@@ -22,7 +21,7 @@ data class TraceLocationVerifyResult(
         return endTimestamp != 0L && endTimestamp < now.seconds
     }
 
-    val verifiedTraceLocation: TraceLocation = DefaultTraceLocation(
+    val verifiedTraceLocation: TraceLocation = TraceLocation(
         guid = traceLocation.guid,
         version = traceLocation.version,
         type = traceLocation.type,

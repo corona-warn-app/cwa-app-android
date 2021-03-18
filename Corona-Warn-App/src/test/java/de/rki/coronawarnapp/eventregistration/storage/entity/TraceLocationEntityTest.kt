@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.storage.entity
 
-import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
+import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
 import io.kotest.matchers.shouldBe
@@ -13,7 +13,7 @@ internal class TraceLocationEntityTest : BaseTest() {
 
     @Test
     fun `toTraceLocationEntity() should map to TraceLocationEntity correctly with all arguments`() {
-        DefaultTraceLocation(
+        TraceLocation(
             guid = "TestGuid",
             version = 1,
             type = LOCATION_TYPE_TEMPORARY_OTHER,
@@ -38,7 +38,7 @@ internal class TraceLocationEntityTest : BaseTest() {
 
     @Test
     fun `toTraceLocationEntity() should map to TraceLocationEntity correctly with some arguments as null`() {
-        DefaultTraceLocation(
+        TraceLocation(
             guid = "TestGuid",
             version = 1,
             type = LOCATION_TYPE_PERMANENT_OTHER,

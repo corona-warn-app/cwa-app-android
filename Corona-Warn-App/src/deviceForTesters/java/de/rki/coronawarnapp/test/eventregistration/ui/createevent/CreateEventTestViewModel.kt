@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.test.eventregistration.ui.createevent
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
 import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
@@ -52,7 +51,7 @@ class CreateEventTestViewModel @AssistedInject constructor(
                 if (type == "Event") TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
                 else TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
 
-            val traceLocation = DefaultTraceLocation(
+            val traceLocation = TraceLocation(
                 UUID.randomUUID().toString(), // will be provided by the server when the endpoint is ready
                 traceLocationType,
                 description,

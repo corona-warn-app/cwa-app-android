@@ -23,7 +23,7 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
             endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 15,
             signatureBase64 = "signature".toByteArray().toByteString().base64()
-        ).toTraceLocation() shouldBe DefaultTraceLocation(
+        ).toTraceLocation() shouldBe TraceLocation(
             guid = "TestGuid",
             version = 1,
             type = LOCATION_TYPE_PERMANENT_OTHER,
@@ -48,7 +48,7 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
             endDate = null,
             defaultCheckInLengthInMinutes = null,
             signatureBase64 = "signature".toByteArray().toByteString().base64()
-        ).toTraceLocation() shouldBe DefaultTraceLocation(
+        ).toTraceLocation() shouldBe TraceLocation(
             guid = "TestGuid",
             version = 1,
             type = LOCATION_TYPE_PERMANENT_OTHER,
@@ -87,7 +87,7 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
                 signatureBase64 = "signature".toByteArray().toByteString().base64()
             )
         ).toTraceLocations() shouldBe listOf(
-            DefaultTraceLocation(
+            TraceLocation(
                 guid = "TestGuid1",
                 version = 1,
                 type = LOCATION_TYPE_TEMPORARY_OTHER,
@@ -98,7 +98,7 @@ internal class DefaultTraceLocationKtTest : BaseTest() {
                 defaultCheckInLengthInMinutes = 15,
                 signature = "signature".toByteArray().toByteString()
             ),
-            DefaultTraceLocation(
+            TraceLocation(
                 guid = "TestGuid2",
                 version = 1,
                 type = LOCATION_TYPE_PERMANENT_OTHER,
