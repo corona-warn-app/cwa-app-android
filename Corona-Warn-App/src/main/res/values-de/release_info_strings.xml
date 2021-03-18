@@ -17,14 +17,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Länderübergreifende Risiko-Ermittlung um Schweiz erweitert </item>
-        <item>Erstellung von Fehlerberichten</item>
+        <item>Länderübergreifende Risiko-Ermittlung um Schweiz erweitert</item>
+        <item>Änderung der Risikokarten</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
         <item>Die Corona-Warn-App nutzende Personen können nun auch verschlüsselte Zufalls-IDs mit Personen austauschen, die die offizielle Warn-App der Schweiz nutzen. Somit können Warnungen an App nutzende Personen in der Schweiz geschickt sowie von ihnen empfangen werden.</item>
-        <item>Sie können nun nach Aufforderung des technischen Supports einen Fehlerbericht erstellen und die Schritte aufzeichnen, die Sie in der App ausführen. Mögliche technische Fehler können so besser analysiert und schneller behoben werden. </item>
+        <item>Auf den Risikokarten entfällt die Anzeige der Anzahl aktiver Tage bzw. dass die App dauerhaft aktiv ist.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
