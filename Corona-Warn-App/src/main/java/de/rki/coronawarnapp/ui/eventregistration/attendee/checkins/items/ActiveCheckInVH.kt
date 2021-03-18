@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.joda.time.PeriodType
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.PeriodFormat
 import org.joda.time.format.PeriodFormatterBuilder
@@ -38,16 +39,23 @@ class ActiveCheckInVH(parent: ViewGroup) :
         description.text = item.checkin.description
         address.text = item.checkin.address
         val startDate = checkInStartUserTZ.toLocalDate()
-        traceLocationCardHighlightView.setCaption(startDate.toString(DateTimeFormat.mediumDate()))
+        traceLocationCardHighlightView.setCaption(startDate.toString(highlightDurationDateFormatter))
 
-        val autoCheckoutText = item.checkin.defaultCheckInLengthInMinutes?.let {
-            val checkoutAt = checkInStartUserTZ.plus(Duration.standardMinutes(it.toLong()))
-            val checkoutIn = Duration(Instant.now(), checkoutAt)
-            val checkoutInFormatted = hourPeriodFormatter.print(checkoutIn.toPeriod())
+        val autoCheckoutText = item.checkin.defaultCheckInLengthInMinutes?.let { checkoutLength ->
+            val checkoutAt = checkInStartUserTZ.plus(Duration.standardMinutes(checkoutLength.toLong()))
+            val checkoutIn = Duration(Instant.now(), checkoutAt).let {
+                val periodType = when {
+                    it.isLongerThan(Duration.standardHours(1)) -> PeriodType.hours()
+                    it.isLongerThan(Duration.standardDays(1)) -> PeriodType.days()
+                    else -> PeriodType.minutes()
+                }
+                it.toPeriod(periodType)
+            }
+
             context.getString(
                 R.string.trace_location_checkins_card_automatic_checkout_info,
                 checkInStartUserTZ.toLocalTime().toString("HH:mm"),
-                checkoutInFormatted
+                hourPeriodFormatter.print(checkoutIn)
             )
         }
 
@@ -63,12 +71,15 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
     data class Item(
         val checkin: CheckIn,
-        val onRemoveItem: (CheckIn) -> Unit
+        val onCardClicked: (CheckIn) -> Unit,
+        val onRemoveItem: (CheckIn) -> Unit,
+        val onCheckout: (CheckIn) -> Unit,
     ) : CheckInsItem {
         override val stableId: Long = checkin.id
     }
 
     companion object {
+        private val highlightDurationDateFormatter = DateTimeFormat.mediumDate()
         private val highlightDurationForamtter = PeriodFormatterBuilder().apply {
             printZeroAlways()
             minimumPrintedDigits(2)

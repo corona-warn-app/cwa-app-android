@@ -40,10 +40,13 @@ class CheckInsViewModel @AssistedInject constructor(
                 when {
                     checkin.checkInEnd == null -> ActiveCheckInVH.Item(
                         checkin = checkin,
-                        onRemoveItem = { /* TODO */ }
+                        onCardClicked = { /* TODO */ },
+                        onRemoveItem = { /* TODO */ },
+                        onCheckout = { /* TODO */ }
                     )
                     else -> PastCheckInVH.Item(
                         checkin = checkin,
+                        onCardClicked = { /* TODO */ },
                         onRemoveItem = { /* TODO */ }
                     )
                 }
@@ -127,5 +130,5 @@ private val FAKE_CHECKINS = listOf(
 )
 
 private val FAKE_CHECKIN_SOURCE = flow {
-    emit(FAKE_CHECKINS)
+    emit(FAKE_CHECKINS + FAKE_CHECKINS + FAKE_CHECKINS + FAKE_CHECKINS + FAKE_CHECKINS)
 }

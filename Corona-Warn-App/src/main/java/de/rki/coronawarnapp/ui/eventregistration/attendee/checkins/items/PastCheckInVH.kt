@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemPastBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 
 class PastCheckInVH(parent: ViewGroup) :
@@ -21,11 +22,17 @@ class PastCheckInVH(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
+        val checkInStartUserTZ = item.checkin.checkInStart.toUserTimeZone()
+        val checkInEndUserTZ = (item.checkin.checkInEnd ?: Instant.EPOCH).toUserTimeZone()
 
         description.text = item.checkin.description
         address.text = item.checkin.address
-        val startDate = item.checkin.checkInStart.toUserTimeZone().toLocalDate()
-        traceLocationCardHighlightView.setCaption(startDate.toString(DateTimeFormat.mediumDate()))
+
+        val dayFormatted = checkInStartUserTZ.toLocalDate().toString(dayFormatter)
+        val startTimeFormatted = checkInStartUserTZ.toLocalTime().toString(DateTimeFormat.mediumTime())
+        val endTimeFormatted = checkInEndUserTZ.toLocalTime().toString(DateTimeFormat.mediumTime())
+
+        checkoutInfo.text = "$dayFormatted, $startTimeFormatted - $endTimeFormatted"
 
         menuAction.setupMenu(R.menu.menu_trace_location_attendee_checkin_item) {
             when (it.itemId) {
@@ -37,8 +44,13 @@ class PastCheckInVH(parent: ViewGroup) :
 
     data class Item(
         val checkin: CheckIn,
+        val onCardClicked: (CheckIn) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit
     ) : CheckInsItem {
         override val stableId: Long = checkin.id
+    }
+
+    companion object {
+        private val dayFormatter = DateTimeFormat.mediumDate()
     }
 }
