@@ -19,7 +19,7 @@ class TraceLocationCreator @Inject constructor(
 
     suspend fun createTraceLocation(traceLocationUserInput: TraceLocationUserInput): TraceLocation {
 
-        val signedTraceLocation = api.get().createTraceLocation(traceLocationUserInput)
+        val signedTraceLocation = api.get().retrieveSignedTraceLocation(traceLocationUserInput)
 
         val isSignatureValid = try {
             signatureValidation.hasValidSignature(

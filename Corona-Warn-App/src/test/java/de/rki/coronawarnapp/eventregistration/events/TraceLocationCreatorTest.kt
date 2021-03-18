@@ -53,7 +53,7 @@ internal class TraceLocationCreatorTest : BaseTest() {
                 .setSignature(ByteString.copyFromUtf8("Signature"))
                 .build()
 
-            coEvery { api.get().createTraceLocation(any()) } returns signedTraceLocationToReturn
+            coEvery { api.get().retrieveSignedTraceLocation(any()) } returns signedTraceLocationToReturn
             every { signatureValidation.hasValidSignature(any(), any()) } returns true
             every { repository.addTraceLocation(any()) } just Runs
 

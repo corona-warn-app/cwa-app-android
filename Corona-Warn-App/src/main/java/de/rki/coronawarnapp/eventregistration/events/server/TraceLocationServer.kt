@@ -15,7 +15,7 @@ class TraceLocationServer @Inject constructor(
     private val api: Lazy<CreateTraceLocationApiV1>
 ) {
 
-    suspend fun createTraceLocation(
+    suspend fun retrieveSignedTraceLocation(
         traceLocationUserInput: TraceLocationUserInput
     ): TraceLocationOuterClass.SignedTraceLocation {
 
