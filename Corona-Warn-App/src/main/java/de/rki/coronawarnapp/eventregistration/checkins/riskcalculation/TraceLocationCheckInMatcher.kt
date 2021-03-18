@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.download.DownloadedCheckI
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
-class CheckInMatcher @Inject constructor(
+class TraceLocationCheckInMatcher @Inject constructor(
     private val checkInsRepository: CheckInRepository,
     private val downloadedCheckInsRepo: DownloadedCheckInsRepo
 ) {
