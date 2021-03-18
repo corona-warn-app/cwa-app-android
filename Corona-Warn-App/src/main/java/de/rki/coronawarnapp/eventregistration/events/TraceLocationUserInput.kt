@@ -9,5 +9,5 @@ data class TraceLocationUserInput(
     val address: String,
     val startDate: Instant?,
     val endDate: Instant?,
-    val defaultCheckInLengthInMinutes: Int?
+    val defaultCheckInLengthInMinutes: Int
 )

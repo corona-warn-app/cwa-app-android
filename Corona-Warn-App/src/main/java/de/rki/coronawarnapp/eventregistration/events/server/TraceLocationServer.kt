@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.events.server
 
+import androidx.annotation.VisibleForTesting
 import dagger.Lazy
 import de.rki.coronawarnapp.eventregistration.events.TRACE_LOCATION_VERSION
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationUserInput
@@ -33,16 +34,17 @@ class TraceLocationServer @Inject constructor(
         Timber.d("Successfully received SignedTraceLocation: $signedTraceLocation")
         return signedTraceLocation
     }
+}
 
-    private fun TraceLocationUserInput.toTraceLocationProtoBuf(): TraceLocationOuterClass.TraceLocation {
-        return TraceLocationOuterClass.TraceLocation.newBuilder()
-            .setVersion(TRACE_LOCATION_VERSION)
-            .setType(type)
-            .setDescription(description)
-            .setAddress(address)
-            .setStartTimestamp(startDate?.seconds ?: 0)
-            .setEndTimestamp(endDate?.seconds ?: 0)
-            .setDefaultCheckInLengthInMinutes(defaultCheckInLengthInMinutes ?: 0)
-            .build()
-    }
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun TraceLocationUserInput.toTraceLocationProtoBuf(): TraceLocationOuterClass.TraceLocation {
+    return TraceLocationOuterClass.TraceLocation.newBuilder()
+        .setVersion(TRACE_LOCATION_VERSION)
+        .setType(type)
+        .setDescription(description)
+        .setAddress(address)
+        .setStartTimestamp(startDate?.seconds ?: 0)
+        .setEndTimestamp(endDate?.seconds ?: 0)
+        .setDefaultCheckInLengthInMinutes(defaultCheckInLengthInMinutes)
+        .build()
 }
