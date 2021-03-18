@@ -124,7 +124,8 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.EnvKey.DATA_DONATION.rawKey shouldBe "DATA_DONATION_CDN_URL"
         EnvironmentSetup.EnvKey.LOG_UPLOAD.rawKey shouldBe "LOG_UPLOAD_SERVER_URL"
         EnvironmentSetup.EnvKey.SAFETYNET_API_KEY.rawKey shouldBe "SAFETYNET_API_KEY"
-        EnvironmentSetup.EnvKey.values().size shouldBe 8
+        EnvironmentSetup.EnvKey.CREATE_TRACELOCATION.rawKey shouldBe "CREATE_TRACELOCATION_URL"
+        EnvironmentSetup.EnvKey.values().size shouldBe 9
     }
 
     companion object {
