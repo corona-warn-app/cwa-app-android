@@ -12,7 +12,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-internal class DefaultTraceLocationKtTest : BaseTest() {
+internal class TraceLocationMapperTest : BaseTest() {
 
     @Test
     fun `toTraceLocation() should map to correct object when providing all arguments`() {
