@@ -35,9 +35,8 @@ class CheckInSplitterTest : BaseTest() {
     )
 
     @Test
-    fun `Scenario 1`() {
+    fun `same-day check-in`() {
         /*
-           Example 1 - same-day check-in
            localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-04 09:45' }
            splitInto = [{ start: '2021-03-04 09:30', end: '2021-03-04 09:45' } // no split
         */
@@ -53,9 +52,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 2`() {
+    fun `same-start-end-times check-in`() {
         /*
-           Example 2 - same-start-end-times check-in
            localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-04 09:30' }
            splitInto = [{ start: '2021-03-04 09:30', end: '2021-03-04 09:30' } // no split
         */
@@ -71,9 +69,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 3`() {
+    fun `2-days check-in`() {
         /*
-        // Example 3 - 2-days check-in
         localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-05 09:45' }
         splitInto = [
             { start: '2021-03-04 09:30', end: '2021-03-05 00:00' },
@@ -101,9 +98,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 4`() {
+    fun `3-days check-in`() {
         /*
-         // Example 4 - 3-days check-in
          localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-06 09:45' }
          splitInto = [
             { start: '2021-03-04 09:30', end: '2021-03-05 00:00' },
@@ -136,9 +132,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 5`() {
+    fun `2-days-different-months check-in`() {
         /*
-        // Example 5 - 2-days-different-months check-in
         localCheckIn = { start: '2021-02-28 09:30', end: '2021-03-01 12:45' }
         splitInto = [
             { start: '2021-02-28 09:30', end: '2021-03-01 00:00' },
@@ -166,9 +161,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 6`() {
+    fun `2-days-different-years check-in`() {
         /*
-        // Example 6 - 2-days-different-years check-in
         localCheckIn = { start: '2021-12-31 09:30', end: '2022-01-01 12:45' }
         splitInto = [
             { start: '2021-12-31 09:30', end: '2022-01-01 00:00' },
@@ -196,9 +190,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 7`() {
+    fun `3-days-different-months-leap-year check-in`() {
         /*
-        // Example 7 - 3-days-different-months-leap-year check-in
         localCheckIn = { start: '2020-02-28 09:30', end: '2020-03-01 12:45' }
         splitInto = [
             { start: '2020-02-28 09:30', end: '2020-02-29 00:00' },
@@ -232,9 +225,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 8`() {
+    fun `2-dates duration lower than day check-in`() {
         /*
-        // Example 8 - 2-dates duration < day check-in
         localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-05 09:15' }
         splitInto = [
             { start: '2021-03-04 09:30', end: '2021-03-05 00:00' },
@@ -262,9 +254,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 9`() {
+    fun `2-dates duration lower than day - same start and end times check-in`() {
         /*
-        // Example 9 - 2-dates duration < day - same start and end times check-in
         localCheckIn = { start: '2021-03-04 09:00', end: '2021-03-05 09:00' }
         splitInto = [
             { start: '2021-03-04 09:00', end: '2021-03-05 00:00' },
@@ -292,9 +283,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 10`() {
+    fun `midnight times check-in`() {
         /*
-        // Example 10 - midnight times check-in
         localCheckIn = { start: '2021-03-04 00:00', end: '2021-03-05 00:00' }
         splitInto = [
             { start: '2021-03-04 00:00', end: '2021-03-05 00:00' } // No split
@@ -316,9 +306,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 11`() {
+    fun `2min-2dates check-in`() {
         /*
-        // Example 11 - 2min-2dates check-in
         localCheckIn = { start: '2021-03-04 23:59', end: '2021-03-05 00:01' }
         splitInto = [
             { start: '2021-03-04 00:00', end: '2021-03-05 00:00' } // No split
