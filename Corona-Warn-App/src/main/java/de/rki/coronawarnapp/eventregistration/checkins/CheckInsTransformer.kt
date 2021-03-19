@@ -48,12 +48,12 @@ class CheckInsTransformer @Inject constructor(
             Timber.d("Transforming check-in=$originalCheckIn")
             val timesPair = submissionParamContainer.deriveTime(
                 originalCheckIn.checkInStart.seconds,
-                originalCheckIn.checkInEnd!!.seconds
+                originalCheckIn.checkInEnd.seconds
             )
 
             if (timesPair == null) {
                 Timber.d("CheckIn can't be derived")
-                emptyList() // Excluded from submission bye-bye
+                emptyList() // Excluded from submission
             } else {
                 Timber.d("Derived times=$timesPair")
                 val derivedCheckIn = originalCheckIn.copy(
@@ -89,7 +89,7 @@ class CheckInsTransformer @Inject constructor(
         return CheckInOuterClass.CheckIn.newBuilder()
             .setSignedLocation(signedTraceLocation)
             .setStartIntervalNumber(checkInStart.seconds.toInt())
-            .setEndIntervalNumber(checkInEnd!!.seconds.toInt())
+            .setEndIntervalNumber(checkInEnd.seconds.toInt())
             .setTransmissionRiskLevel(
                 determineRiskTransmission(timeStamper.nowUTC, transmissionVector)
             )
