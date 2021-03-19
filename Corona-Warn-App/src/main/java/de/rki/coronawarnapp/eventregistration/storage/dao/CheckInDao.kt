@@ -13,6 +13,9 @@ interface CheckInDao {
     @Query("SELECT * FROM checkin")
     fun allEntries(): Flow<List<TraceLocationCheckInEntity>>
 
+    @Query("SELECT * FROM checkin WHERE id = :id")
+    suspend fun entryForId(id: Long): TraceLocationCheckInEntity?
+
     @Insert
     suspend fun insert(entity: TraceLocationCheckInEntity): Long
 
@@ -21,4 +24,7 @@ interface CheckInDao {
 
     @Query("DELETE FROM checkin")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM checkin WHERE id in (:idList)")
+    suspend fun deleteByIds(idList: List<Long>)
 }
