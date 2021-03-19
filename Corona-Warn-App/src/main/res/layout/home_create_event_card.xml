@@ -50,6 +50,6 @@
         android:text="@string/create_event_card_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/create_event_card_icon" />
+        app:layout_constraintTop_toBottomOf="@id/create_event_card_subtitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
