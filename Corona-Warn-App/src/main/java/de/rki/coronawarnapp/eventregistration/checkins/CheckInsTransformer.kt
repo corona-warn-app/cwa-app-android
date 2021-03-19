@@ -71,20 +71,9 @@ class CheckInsTransformer @Inject constructor(
     private fun CheckIn.toOuterCheckIn(
         transmissionVector: TransmissionRiskVector
     ): CheckInOuterClass.CheckIn {
-        val traceLocation = TraceLocationOuterClass.TraceLocation.newBuilder()
-            .setGuid(guid)
-            .setVersion(version)
-            .setType(TraceLocationOuterClass.TraceLocationType.forNumber(type))
-            .setDescription(description)
-            .setAddress(address)
-            .setStartTimestamp(traceLocationStart?.seconds ?: 0L)
-            .setEndTimestamp(traceLocationEnd?.seconds ?: 0L)
-            .setDefaultCheckInLengthInMinutes(defaultCheckInLengthInMinutes ?: 0)
-            .build()
-
         val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder()
-            .setLocation(traceLocation.toByteString())
-            .setSignature(ByteString.copyFrom(signature.toByteArray()))
+            .setLocation(traceLocationBytes.toProtoByteString())
+            .setSignature(signature.toProtoByteString())
             .build()
 
         return CheckInOuterClass.CheckIn.newBuilder()
@@ -109,3 +98,5 @@ fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: Transmis
     val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
     return transmissionVector.raw.getOrElse(ageInDays) { 1 } // Default value
 }
+
+private fun okio.ByteString.toProtoByteString() = ByteString.copyFrom(toByteArray())
