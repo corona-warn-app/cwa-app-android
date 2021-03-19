@@ -13,7 +13,7 @@ class TraceLocationCleanUpScheduler @Inject constructor(
     private val workManager: WorkManager
 ) {
 
-    private val periodicWorkRequest = PeriodicWorkRequestBuilder<TraceLocationCleanUpWorker>(
+    private val periodicWorkRequest = PeriodicWorkRequestBuilder<TraceLocationCleanUpPeriodicWorker>(
         DateTimeConstants.HOURS_PER_DAY.toLong(),
         TimeUnit.HOURS
     ).build()
