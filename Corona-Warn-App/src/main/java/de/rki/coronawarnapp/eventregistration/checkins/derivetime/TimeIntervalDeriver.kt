@@ -23,6 +23,7 @@ fun PresenceTracingSubmissionParamContainer.deriveTime(
     startTimestampInSeconds: Long,
     endTimestampInSeconds: Long
 ): Pair<Long, Long>? {
+    Timber.d("Starting deriveTime ...")
     val durationInSeconds = max(0, endTimestampInSeconds - startTimestampInSeconds)
     Timber.d("durationInSeconds: $durationInSeconds")
 

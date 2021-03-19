@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Days
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 
 class CheckInsTransformer @Inject constructor(
@@ -34,25 +35,34 @@ class CheckInsTransformer @Inject constructor(
      */
     suspend fun transform(checkIns: List<CheckIn>, symptoms: Symptoms): List<CheckInOuterClass.CheckIn> {
 
-        val submissionParamContainer = appConfigProvider.getAppConfig().presenceTracing.submissionParameters
+        val submissionParamContainer = appConfigProvider
+            .getAppConfig()
+            .presenceTracing
+            .submissionParameters
+
         val transmissionVector = transmissionDeterminator.determine(symptoms)
 
-        return checkIns.map { originalCheckIn ->
-            // Derive CheckIn times
+        return checkIns.flatMap { originalCheckIn ->
+            Timber.d("Transforming check-in=$originalCheckIn")
             val timesPair = submissionParamContainer.deriveTime(
                 originalCheckIn.checkInStart.seconds,
                 originalCheckIn.checkInEnd!!.seconds
-            ) ?: return@map emptyList()
-
-            val derivedCheckIn = originalCheckIn.copy(
-                checkInStart = timesPair.first.secondsToInstant(),
-                checkInEnd = timesPair.second.secondsToInstant()
             )
 
-            derivedCheckIn.splitByMidnightUTC().map { checkIn ->
-                checkIn.toOuterCheckIn(transmissionVector)
+            if (timesPair == null) {
+                Timber.d("CheckIn can't be derived")
+                emptyList() // Excluded from submission bye-bye
+            } else {
+                val derivedCheckIn = originalCheckIn.copy(
+                    checkInStart = timesPair.first.secondsToInstant(),
+                    checkInEnd = timesPair.second.secondsToInstant()
+                )
+                Timber.d("Derived times=$timesPair")
+                derivedCheckIn.splitByMidnightUTC().map { checkIn ->
+                    checkIn.toOuterCheckIn(transmissionVector)
+                }
             }
-        }.flatten()
+        }
     }
 
     private fun CheckIn.toOuterCheckIn(
