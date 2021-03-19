@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.eventregistration.storage.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import org.joda.time.Instant
 
 @Entity(tableName = "checkin")
@@ -21,4 +22,21 @@ data class TraceLocationCheckInEntity(
     @ColumnInfo(name = "checkInEnd") val checkInEnd: Instant?,
     @ColumnInfo(name = "targetCheckInEnd") val targetCheckInEnd: Instant?,
     @ColumnInfo(name = "createJournalEntry") val createJournalEntry: Boolean
+)
+
+fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
+    id = id,
+    guid = guid,
+    version = version,
+    type = type,
+    description = description,
+    address = address,
+    traceLocationStart = traceLocationStart,
+    traceLocationEnd = traceLocationEnd,
+    defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
+    signature = signature,
+    checkInStart = checkInStart,
+    checkInEnd = checkInEnd,
+    targetCheckInEnd = targetCheckInEnd,
+    createJournalEntry = createJournalEntry
 )

@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import de.rki.coronawarnapp.eventregistration.storage.CheckInDatabaseData.testCheckIn
 import de.rki.coronawarnapp.eventregistration.storage.CheckInDatabaseData.testCheckInWithoutCheckOutTime
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -81,5 +82,24 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
         checkInDao.deleteAll()
 
         checkInsFlow.first() shouldBe emptyList()
+    }
+
+    @Test
+    fun traceLocationCheckInDaoRetrieveById() = runBlocking {
+        val generatedId1 = checkInDao.insert(testCheckIn)
+        val generatedId2 = checkInDao.insert(testCheckIn)
+
+        checkInDao.entryForId(generatedId1)!!.id shouldBe generatedId1
+        checkInDao.entryForId(generatedId2)!!.id shouldBe generatedId2
+    }
+
+    @Test
+    fun traceLocationCheckInDaoDeleteById() = runBlocking {
+        val generatedId1 = checkInDao.insert(testCheckIn)
+        val generatedId2 = checkInDao.insert(testCheckIn)
+
+        checkInDao.deleteByIds(listOf(generatedId1))
+        checkInDao.entryForId(generatedId1) shouldBe null
+        checkInDao.entryForId(generatedId2) shouldNotBe null
     }
 }

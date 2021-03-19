@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.eventregistration.checkins
 
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.CheckInDao
-import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.eventregistration.storage.entity.toCheckIn
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -36,13 +36,7 @@ class CheckInRepository @Inject constructor(
 
     suspend fun updateCheckIn(checkInId: Long, update: (CheckIn?) -> CheckIn?) = withContext(NonCancellable) {
         Timber.d("updateCheckIn(checkInId=%d, update=%s)", checkInId, update)
-        val current = checkInDao.entryForId(checkInId)
-
-        val updated = update(current?.toCheckIn()).also {
-            if (it != null && it.id != checkInId) throw UnsupportedOperationException("Can't change entity id: $it")
-        }
-
-        if (updated != null) checkInDao.update(updated.toEntity())
+        checkInDao.updateEntityById(checkInId, update)
     }
 
     suspend fun deleteCheckIns(checkIns: Collection<CheckIn>) = withContext(NonCancellable) {
@@ -55,37 +49,3 @@ class CheckInRepository @Inject constructor(
         checkInDao.deleteAll()
     }
 }
-
-private fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
-    id = id,
-    guid = guid,
-    version = version,
-    type = type,
-    description = description,
-    address = address,
-    traceLocationStart = traceLocationStart,
-    traceLocationEnd = traceLocationEnd,
-    defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-    signature = signature,
-    checkInStart = checkInStart,
-    checkInEnd = checkInEnd,
-    targetCheckInEnd = targetCheckInEnd,
-    createJournalEntry = createJournalEntry
-)
-
-private fun CheckIn.toEntity() = TraceLocationCheckInEntity(
-    id = id,
-    guid = guid,
-    version = version,
-    type = type,
-    description = description,
-    address = address,
-    traceLocationStart = traceLocationStart,
-    traceLocationEnd = traceLocationEnd,
-    defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-    signature = signature,
-    checkInStart = checkInStart,
-    checkInEnd = checkInEnd,
-    targetCheckInEnd = targetCheckInEnd,
-    createJournalEntry = createJournalEntry
-)
