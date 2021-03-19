@@ -85,9 +85,9 @@ class CheckInsTransformerTest : BaseTest() {
         type = 3,
         description = "restaurant_3",
         address = "address_3",
-        traceLocationStart = null,
-        traceLocationEnd = null,
-        defaultCheckInLengthInMinutes = null,
+        traceLocationStart = Instant.parse("2021-03-04T09:00:00Z"),
+        traceLocationEnd = Instant.parse("2021-03-06T11:00:00Z"),
+        defaultCheckInLengthInMinutes = 10,
         signature = "signature_3",
         checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
         checkInEnd = Instant.parse("2021-03-06T09:45:00Z"),
@@ -135,7 +135,7 @@ class CheckInsTransformerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns Instant.parse("2021-03-19T10:00:00Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-08T10:00:00Z")
         every { symptoms.symptomIndication } returns Symptoms.Indication.POSITIVE
         every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDate())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
@@ -190,6 +190,82 @@ class CheckInsTransformerTest : BaseTest() {
                     startTimestamp shouldBe 0
                     endTimestamp shouldBe 0
                     defaultCheckInLengthInMinutes shouldBe 0
+                    transmissionRiskLevel shouldBe 4
+                }
+            }
+
+            // Check-In 3 mappings and transformation
+            /*
+                   guid = "trace_location_3",
+                   version = 1,
+                   type = 3,
+                   description = "restaurant_3",
+                   address = "address_3",
+                   traceLocationStart = Instant.parse("2021-03-04T09:00:00Z"),
+                   traceLocationEnd = Instant.parse("2021-03-06T12:00:00Z"),
+                   defaultCheckInLengthInMinutes = 10,
+                   signature = "signature_3",
+                   checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
+                   checkInEnd = Instant.parse("2021-03-06T09:45:00Z"),
+             */
+
+            // Splitted CheckIn 1
+            get(1).apply {
+                // Start time from original check-in
+                startIntervalNumber shouldBe Instant.parse("2021-03-04T09:30:00Z").seconds
+                // End time for splitted check-in 1
+                endIntervalNumber shouldBe Instant.parse("2021-03-05T00:00:00Z").seconds
+                signedLocation.signature shouldBe "signature_3".toProtoByteString()
+                parseLocation(signedLocation.location).apply {
+                    guid shouldBe "trace_location_3"
+                    version shouldBe 1
+                    type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_RETAIL
+                    description shouldBe "restaurant_3"
+                    address shouldBe "address_3"
+                    startTimestamp shouldBe Instant.parse("2021-03-04T09:00:00Z").seconds
+                    endTimestamp shouldBe Instant.parse("2021-03-06T11:00:00Z").seconds
+                    defaultCheckInLengthInMinutes shouldBe 10
+                    transmissionRiskLevel shouldBe 4
+                }
+            }
+
+            // Splitted CheckIn 2
+            get(2).apply {
+                // Start time for splitted check-in 2
+                startIntervalNumber shouldBe Instant.parse("2021-03-05T00:00:00Z").seconds
+                // End time for splitted check-in 2
+                endIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").seconds
+                signedLocation.signature shouldBe "signature_3".toProtoByteString()
+                parseLocation(signedLocation.location).apply {
+                    guid shouldBe "trace_location_3"
+                    version shouldBe 1
+                    type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_RETAIL
+                    description shouldBe "restaurant_3"
+                    address shouldBe "address_3"
+                    startTimestamp shouldBe Instant.parse("2021-03-04T09:00:00Z").seconds
+                    endTimestamp shouldBe Instant.parse("2021-03-06T11:00:00Z").seconds
+                    defaultCheckInLengthInMinutes shouldBe 10
+                    transmissionRiskLevel shouldBe 6
+                }
+            }
+
+            // Splitted CheckIn 3
+            get(3).apply {
+                // Start time from splitted check-in 3
+                startIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").seconds
+                // End time for splitted check-in 3
+                endIntervalNumber shouldBe Instant.parse("2021-03-06T10:20:00Z").seconds
+                signedLocation.signature shouldBe "signature_3".toProtoByteString()
+                parseLocation(signedLocation.location).apply {
+                    guid shouldBe "trace_location_3"
+                    version shouldBe 1
+                    type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_RETAIL
+                    description shouldBe "restaurant_3"
+                    address shouldBe "address_3"
+                    startTimestamp shouldBe Instant.parse("2021-03-04T09:00:00Z").seconds
+                    endTimestamp shouldBe Instant.parse("2021-03-06T11:00:00Z").seconds
+                    defaultCheckInLengthInMinutes shouldBe 10
+                    transmissionRiskLevel shouldBe 7
                 }
             }
         }
