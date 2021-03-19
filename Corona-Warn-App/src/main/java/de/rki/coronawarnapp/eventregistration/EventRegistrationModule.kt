@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.eventregistration.checkins.DefaultCheckInsTransformer
-import de.rki.coronawarnapp.eventregistration.checkins.download.DownloadedCheckInsRepo
-import de.rki.coronawarnapp.eventregistration.checkins.download.FakeDownloadedCheckInsRepo
+import de.rki.coronawarnapp.eventregistration.checkins.download.FakeTraceTimeIntervalWarningRepository
+import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningRepository
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 
@@ -20,5 +20,5 @@ abstract class EventRegistrationModule {
         TraceLocationRepository
 
     @Binds
-    abstract fun downloadedCheckInsRepo(repository: FakeDownloadedCheckInsRepo): DownloadedCheckInsRepo
+    abstract fun downloadedCheckInsRepo(repository: FakeTraceTimeIntervalWarningRepository): TraceTimeIntervalWarningRepository
 }

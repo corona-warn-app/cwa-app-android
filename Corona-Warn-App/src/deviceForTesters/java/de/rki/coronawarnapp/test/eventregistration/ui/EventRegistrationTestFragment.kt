@@ -75,7 +75,9 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                     .append("Min. ${checkInOverlap.overlap.standardMinutes}")
                     .append("\n")
             }
-            binding.matchingResultText.text = text
+            binding.matchingResultText.text =
+                if (text.isNotBlank()) text
+                else "No matches found"
         }
 
         viewModel.checkInRiskPerDayList.observe2(this) {
@@ -86,7 +88,9 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                     .append("RiskState ${checkInRiskPerDay.riskState}")
                     .append("\n")
             }
-            binding.riskCalculationResultText.text = text
+            binding.riskCalculationResultText.text =
+                if (text.isNotBlank()) text
+                else "No risk results available"
         }
     }
 

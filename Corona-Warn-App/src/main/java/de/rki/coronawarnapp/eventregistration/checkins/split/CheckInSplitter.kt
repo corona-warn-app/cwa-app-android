@@ -19,6 +19,8 @@ fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
 
     Timber.i("durationSecondsUTC=$durationSecondsUTC")
 
+    if (durationSecondsUTC <= 0) return listOf(copy())
+
     val durationDays = ceil(durationSecondsUTC.toDouble() / DAY_IN_SECONDS).toLong()
     Timber.i("durationDays=$durationDays")
 

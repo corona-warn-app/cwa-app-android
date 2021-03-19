@@ -1,38 +1,34 @@
 package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.download.DownloadedCheckInsRepo
+import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningRepository
+import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
 class TraceLocationCheckInMatcher @Inject constructor(
     private val checkInsRepository: CheckInRepository,
-    private val downloadedCheckInsRepo: DownloadedCheckInsRepo
+    private val traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository
 ) {
-
     suspend fun execute(): List<CheckInOverlap> {
-        val localCheckIns = checkInsRepository.allCheckIns.firstOrNull() ?: return emptyList()
-        val downloadedPackages = downloadedCheckInsRepo.allCheckInsPackages.firstOrNull() ?: return emptyList()
-        val relevantDownloadedCheckIns =
-            downloadedPackages.flatMap {
-                filterRelevantEventCheckIns(
-                    localCheckIns,
-                    it
+        val checkIns = checkInsRepository.allCheckIns.firstOrNull() ?: return emptyList()
+        val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull() ?: return emptyList()
+
+        val relevantWarnings = warningPackages
+            .flatMap { warningPackage ->
+                filterRelevantWarnings(
+                    checkIns,
+                    warningPackage
                 )
             }
-        if (relevantDownloadedCheckIns.isEmpty()) return emptyList()
 
-        // TODO split by midnight UTC?
-        relevantDownloadedCheckIns
+        if (relevantWarnings.isEmpty()) return emptyList()
 
-        // calculate time overlap
-        val eventOverlapList = mutableListOf<CheckInOverlap>()
-        relevantDownloadedCheckIns.forEach { relevantDownloadedCheckIn ->
-            localCheckIns.forEach { localCheckIn ->
-                val overlap = calculateOverlap(localCheckIn, relevantDownloadedCheckIn)
-                if (overlap != null) eventOverlapList.add(overlap)
+        return relevantWarnings
+            .flatMap { warning ->
+                checkIns
+                    .flatMap { it.splitByMidnightUTC() }
+                    .mapNotNull { it.calculateOverlap(warning) }
             }
-        }
-        return eventOverlapList
     }
 }
