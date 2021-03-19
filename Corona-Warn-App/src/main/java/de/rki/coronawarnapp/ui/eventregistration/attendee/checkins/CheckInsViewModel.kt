@@ -19,6 +19,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import okio.ByteString.Companion.EMPTY
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -98,6 +100,7 @@ private val FAKE_CHECKINS = listOf(
     CheckIn(
         id = 1,
         guid = "testGuid2",
+        guidHash = EMPTY,
         version = 1,
         type = 1,
         description = "Jahrestreffen der deutschen SAP Anwendergruppe",
@@ -105,15 +108,17 @@ private val FAKE_CHECKINS = listOf(
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = 3 * 60,
-        signature = "Signature",
+        traceLocationBytes = EMPTY,
+        signature = "Signature".toByteArray().toByteString(),
         checkInStart = Instant.now().minus(Duration.standardHours(2)),
-        checkInEnd = null,
-        targetCheckInEnd = Instant.now().plus(Duration.standardHours(1)),
+        checkInEnd = Instant.now(),
+        completed = false,
         createJournalEntry = true
     ),
     CheckIn(
         id = 2,
         guid = "testGuid1",
+        guidHash = EMPTY,
         version = 1,
         type = 2,
         description = "CWA Launch Party",
@@ -121,10 +126,11 @@ private val FAKE_CHECKINS = listOf(
         traceLocationStart = Instant.parse("2021-01-01T12:00:00.000Z"),
         traceLocationEnd = Instant.parse("2021-01-01T15:00:00.000Z"),
         defaultCheckInLengthInMinutes = 15,
-        signature = "Signature",
+        traceLocationBytes = EMPTY,
+        signature = "Signature".toByteArray().toByteString(),
         checkInStart = Instant.parse("2021-01-01T12:30:00.000Z"),
         checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
-        targetCheckInEnd = Instant.parse("2021-01-01T12:45:00.000Z"),
+        completed = true,
         createJournalEntry = true
     )
 )

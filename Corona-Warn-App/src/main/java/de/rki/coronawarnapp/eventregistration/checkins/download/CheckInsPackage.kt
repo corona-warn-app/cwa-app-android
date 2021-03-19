@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.checkins.download
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import okio.ByteString.Companion.EMPTY
+import okio.ByteString.Companion.toByteString
 import org.joda.time.DateTime
 import org.joda.time.Instant
 
@@ -27,6 +29,7 @@ private const val TYPE_EVENT = 2
 private val dummyEventCheckIn1: CheckIn = CheckIn(
     id = 1L,
     guid = "eventOne",
+    guidHash = EMPTY,
     version = 1,
     type = TYPE_LOCATION,
     description = "Restaurant",
@@ -34,34 +37,37 @@ private val dummyEventCheckIn1: CheckIn = CheckIn(
     traceLocationStart = null,
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
-    signature = "signature",
+    traceLocationBytes = EMPTY,
+    signature = "signature".toByteArray().toByteString(),
     checkInStart = Instant.ofEpochMilli(
         DateTime(2021, 2, 2012, 11, 45).millis
     ),
     checkInEnd = Instant.ofEpochMilli(
         DateTime(2021, 2, 20, 12, 15).millis
     ),
-    targetCheckInEnd = null,
+    completed = false,
     createJournalEntry = false
 )
 
 private val dummyEventCheckIn2: CheckIn = CheckIn(
     id = 1L,
     guid = "eventOne",
+    guidHash = EMPTY,
     version = 1,
     type = TYPE_EVENT,
-    description = "Women in tech meetup",
+    description = "People in tech meetup",
     address = "Technology Park",
     traceLocationStart = null,
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
-    signature = "signature2",
+    traceLocationBytes = EMPTY,
+    signature = "signature2".toByteArray().toByteString(),
     checkInStart = Instant.ofEpochMilli(
         DateTime(2021, 3, 20, 18, 45).millis
     ),
     checkInEnd = Instant.ofEpochMilli(
         DateTime(2021, 3, 20, 20, 15).millis
     ),
-    targetCheckInEnd = null,
+    completed = false,
     createJournalEntry = false
 )

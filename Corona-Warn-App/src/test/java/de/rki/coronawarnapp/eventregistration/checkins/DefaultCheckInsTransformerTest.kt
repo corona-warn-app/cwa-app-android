@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.eventregistration.checkins
 import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
+import okio.ByteString.Companion.EMPTY
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -16,6 +18,7 @@ class DefaultCheckInsTransformerTest : BaseTest() {
         val checkIn1 = CheckIn(
             id = 0,
             guid = "3055331c-2306-43f3-9742-6d8fab54e848",
+            guidHash = EMPTY,
             version = 1,
             type = 2,
             description = "description1",
@@ -23,16 +26,18 @@ class DefaultCheckInsTransformerTest : BaseTest() {
             traceLocationStart = Instant.ofEpochMilli(2687955 * 1_000L),
             traceLocationEnd = Instant.ofEpochMilli(2687991 * 1_000L),
             defaultCheckInLengthInMinutes = 10,
-            signature = "signature1",
+            traceLocationBytes = EMPTY,
+            signature = "c2lnbmF0dXJlMQ==".decodeBase64()!!,
             checkInStart = Instant.ofEpochMilli(2687955 * 1_000L),
             checkInEnd = Instant.ofEpochMilli(2687991 * 1_000L),
-            targetCheckInEnd = null,
+            completed = false,
             createJournalEntry = true
         )
 
         val checkIn2 = CheckIn(
             id = 1,
             guid = "fca84b37-61c0-4a7c-b2f8-825cadd506cf",
+            guidHash = EMPTY,
             version = 1,
             type = 1,
             description = "description2",
@@ -40,13 +45,14 @@ class DefaultCheckInsTransformerTest : BaseTest() {
             traceLocationStart = null,
             traceLocationEnd = null,
             defaultCheckInLengthInMinutes = 20,
-            signature = "signature2",
+            traceLocationBytes = EMPTY,
+            signature = "c2lnbmF0dXJlMg==".decodeBase64()!!,
             checkInStart = Instant.ofEpochMilli(2687955 * 1_000L),
-            checkInEnd = null,
-            targetCheckInEnd = null,
+            checkInEnd = Instant.ofEpochMilli(2687956 * 1_000L),
+            completed = false,
             createJournalEntry = false
         )
-        
+
         val outCheckIns = checkInTransformer.transform(
             listOf(
                 checkIn1,
@@ -89,7 +95,7 @@ class DefaultCheckInsTransformerTest : BaseTest() {
                 signature shouldBe ByteString.copyFrom("signature2".toByteArray())
             }
             startIntervalNumber shouldBe 2687955
-            endIntervalNumber shouldBe 0
+            endIntervalNumber shouldBe 2687956
             // TODO transmissionRiskLevel shouldBe
         }
     }
