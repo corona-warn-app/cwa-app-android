@@ -22,8 +22,8 @@ class DayOverviewVH(parent: ViewGroup) :
     override val onBindData: ContactDiaryOverviewListItemBinding.(item: DayOverviewItem, payloads: List<Any>) -> Unit =
         { item, _ ->
             dayRecyclerView.apply {
-                adapter = dayDataAdapter.apply { update(item.dayData) }
-                itemAnimator = null
+                adapter = dayDataAdapter.apply { setItems(item.dayData) }
+                suppressLayout(true)
             }
 
             dayElementBody.apply {
