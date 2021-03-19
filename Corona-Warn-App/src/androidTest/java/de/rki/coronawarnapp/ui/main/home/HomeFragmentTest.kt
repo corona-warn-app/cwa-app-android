@@ -109,6 +109,15 @@ class HomeFragmentTest : BaseUITest() {
 
     @Screenshot
     @Test
+    fun captureHomeFragmentLowRiskNoEncountersWithoutInstallTime() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            HomeData.Tracing.LOW_RISK_ITEM_NO_ENCOUNTERS_WITHOUT_INSTALL_TIME
+        )
+        captureHomeFragment("low_risk_no_encounters_without_install_time")
+    }
+
+    @Screenshot
+    @Test
     fun captureHomeFragmentLowRiskWithEncounters() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS
