@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import okio.ByteString.Companion.decodeBase64
 import javax.inject.Inject
 
 class CheckInRepository @Inject constructor(
@@ -50,6 +51,7 @@ class CheckInRepository @Inject constructor(
 private fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     id = id,
     guid = guid,
+    guidHash = guidHashBase64.decodeBase64()!!,
     version = version,
     type = type,
     description = description,
@@ -57,16 +59,18 @@ private fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     traceLocationStart = traceLocationStart,
     traceLocationEnd = traceLocationEnd,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-    signature = signature,
+    traceLocationBytes = traceLocationBytesBase64.decodeBase64()!!,
+    signature = signatureBase64.decodeBase64()!!,
     checkInStart = checkInStart,
     checkInEnd = checkInEnd,
-    targetCheckInEnd = targetCheckInEnd,
+    completed = completed,
     createJournalEntry = createJournalEntry
 )
 
 private fun CheckIn.toEntity() = TraceLocationCheckInEntity(
     id = id,
     guid = guid,
+    guidHashBase64 = guidHash.base64(),
     version = version,
     type = type,
     description = description,
@@ -74,9 +78,10 @@ private fun CheckIn.toEntity() = TraceLocationCheckInEntity(
     traceLocationStart = traceLocationStart,
     traceLocationEnd = traceLocationEnd,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-    signature = signature,
+    traceLocationBytesBase64 = traceLocationBytes.base64(),
+    signatureBase64 = signature.base64(),
     checkInStart = checkInStart,
     checkInEnd = checkInEnd,
-    targetCheckInEnd = targetCheckInEnd,
+    completed = completed,
     createJournalEntry = createJournalEntry
 )

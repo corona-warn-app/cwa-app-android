@@ -8,6 +8,7 @@ object CheckInDatabaseData {
 
     val testCheckIn = TraceLocationCheckInEntity(
         guid = "testGuid1",
+        guidHashBase64 = "",
         version = 1,
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER.number,
         description = "testDescription1",
@@ -15,15 +16,17 @@ object CheckInDatabaseData {
         traceLocationStart = Instant.parse("2021-01-01T12:00:00.000Z"),
         traceLocationEnd = Instant.parse("2021-01-01T15:00:00.000Z"),
         defaultCheckInLengthInMinutes = 15,
-        signature = "Signature",
+        traceLocationBytesBase64 = "",
+        signatureBase64 = "Signature",
         checkInStart = Instant.parse("2021-01-01T12:30:00.000Z"),
         checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
-        targetCheckInEnd = Instant.parse("2021-01-01T12:45:00.000Z"),
+        completed = false,
         createJournalEntry = true
     )
 
     val testCheckInWithoutCheckOutTime = TraceLocationCheckInEntity(
         guid = "testGuid2",
+        guidHashBase64 = "",
         version = 1,
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER.number,
         description = "testDescription2",
@@ -31,10 +34,11 @@ object CheckInDatabaseData {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
-        signature = "Signature",
+        traceLocationBytesBase64 = "",
+        signatureBase64 = "Signature",
         checkInStart = Instant.parse("2021-01-01T12:30:00.000Z"),
-        checkInEnd = null,
-        targetCheckInEnd = Instant.parse("2021-01-01T12:45:00.000Z"),
+        checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
+        completed = false,
         createJournalEntry = true
     )
 }

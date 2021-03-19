@@ -14,7 +14,7 @@ import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.observeForTesting
 
 @ExtendWith(InstantExecutorExtension::class)
-internal class TraceLocationCategoryViewModelTest : BaseTest(){
+internal class TraceLocationCategoryViewModelTest : BaseTest() {
 
     @Test
     fun `viewModel should emit correct categoryItems`() {

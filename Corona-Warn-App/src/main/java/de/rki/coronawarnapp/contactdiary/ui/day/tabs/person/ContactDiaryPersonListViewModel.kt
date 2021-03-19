@@ -95,9 +95,11 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         duration: ContactDiaryPersonEncounter.DurationClassification?
     ) {
         Timber.d("onDurationChanged(item=%s, duration=%s)", item, duration)
-        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        val encounter = item.personEncounter ?: return
         launchOnAppScope {
-            contactDiaryRepository.updatePersonEncounter(encounter.copy(durationClassification = duration))
+            contactDiaryRepository.updatePersonEncounter(encounter.id) {
+                it.toEditableVariant().copy(durationClassification = duration)
+            }
         }
     }
 
@@ -112,9 +114,11 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         withMask: Boolean?
     ) {
         Timber.d("onWithmaskChanged(item=%s, withMask=%s)", item, withMask)
-        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        val encounter = item.personEncounter ?: return
         launchOnAppScope {
-            contactDiaryRepository.updatePersonEncounter(encounter.copy(withMask = withMask))
+            contactDiaryRepository.updatePersonEncounter(encounter.id) {
+                it.toEditableVariant().copy(withMask = withMask)
+            }
         }
     }
 
@@ -123,9 +127,11 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         wasOutside: Boolean?
     ) {
         Timber.d("onWasOutsideChanged(item=%s, onWasOutside=%s)", item, wasOutside)
-        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        val encounter = item.personEncounter ?: return
         launchOnAppScope {
-            contactDiaryRepository.updatePersonEncounter(encounter.copy(wasOutside = wasOutside))
+            contactDiaryRepository.updatePersonEncounter(encounter.id) {
+                it.toEditableVariant().copy(wasOutside = wasOutside)
+            }
         }
     }
 
@@ -134,10 +140,12 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         circumstances: String
     ) {
         Timber.d("onCircumstancesChanged(item=%s, circumstances=%s)", item, circumstances)
-        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        val encounter = item.personEncounter ?: return
         launchOnAppScope {
             val sanitized = circumstances.trim().trimToLength(250)
-            contactDiaryRepository.updatePersonEncounter(encounter.copy(circumstances = sanitized))
+            contactDiaryRepository.updatePersonEncounter(encounter.id) {
+                it.toEditableVariant().copy(circumstances = sanitized)
+            }
         }
     }
 
