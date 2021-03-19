@@ -120,7 +120,7 @@ class CheckInRepositoryTest : BaseTest() {
 
     @Test
     fun `update new check in`() = runBlockingTest {
-        val slot = slot<(CheckIn?) -> CheckIn?>()
+        val slot = slot<(CheckIn) -> CheckIn>()
         coEvery { checkInDao.updateEntityById(any(), capture(slot)) } returns Unit
 
         val checkIn = mockk<CheckIn>()
