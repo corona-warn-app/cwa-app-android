@@ -17,7 +17,9 @@ import org.joda.time.Days
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CheckInsTransformer @Inject constructor(
     private val timeStamper: TimeStamper,
     private val transmissionDeterminator: TransmissionRiskVectorDeterminator,
@@ -53,11 +55,11 @@ class CheckInsTransformer @Inject constructor(
                 Timber.d("CheckIn can't be derived")
                 emptyList() // Excluded from submission bye-bye
             } else {
+                Timber.d("Derived times=$timesPair")
                 val derivedCheckIn = originalCheckIn.copy(
                     checkInStart = timesPair.first.secondsToInstant(),
                     checkInEnd = timesPair.second.secondsToInstant()
                 )
-                Timber.d("Derived times=$timesPair")
                 derivedCheckIn.splitByMidnightUTC().map { checkIn ->
                     checkIn.toOuterCheckIn(transmissionVector)
                 }
