@@ -4,8 +4,10 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import de.rki.coronawarnapp.eventregistration.storage.CheckInDatabaseData.testCheckIn
 import de.rki.coronawarnapp.eventregistration.storage.CheckInDatabaseData.testCheckInWithoutCheckOutTime
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -101,5 +103,24 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
         checkInDao.deleteByIds(listOf(generatedId1))
         checkInDao.entryForId(generatedId1) shouldBe null
         checkInDao.entryForId(generatedId2) shouldNotBe null
+    }
+
+    @Test
+    fun traceLocationCheckInDaoUpdateById() = runBlocking {
+        val generatedId1 = checkInDao.insert(testCheckIn)
+
+        checkInDao.updateEntityById(generatedId1) {
+            it.copy(address = "test")
+        }
+        checkInDao.entryForId(generatedId1)!!.address shouldBe "test"
+    }
+
+    @Test
+    fun traceLocationCheckInDaoUpdateById_raceCondition1(): Unit = runBlocking {
+        shouldThrow<IllegalStateException> {
+            checkInDao.updateEntityById(123) {
+                mockk()
+            }
+        }
     }
 }

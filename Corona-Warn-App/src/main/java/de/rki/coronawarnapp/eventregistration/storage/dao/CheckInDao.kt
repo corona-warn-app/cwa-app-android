@@ -27,19 +27,14 @@ interface CheckInDao {
     suspend fun update(entity: TraceLocationCheckInEntity)
 
     @Transaction
-    suspend fun updateEntityById(checkInId: Long, update: (CheckIn?) -> CheckIn?) {
-        val current = entryForId(checkInId)
+    suspend fun updateEntityById(checkInId: Long, update: (CheckIn) -> CheckIn) {
+        val current = entryForId(checkInId) ?: throw IllegalStateException("Entity $checkInId no longer exists.")
 
-        val updated = update(current?.toCheckIn()).also {
-            if (it != null && it.id != checkInId) throw UnsupportedOperationException("Can't change entity id: $it")
-        }?.toEntity() ?: return
+        val updated = update(current.toCheckIn()).also {
+            if (it.id != checkInId) throw UnsupportedOperationException("Can't change entity id: $it")
+        }.toEntity()
 
-        if (current != null) {
-            update(updated)
-        } else {
-            if (updated.id == 0L) throw IllegalArgumentException("Adding a new enitity requires default ID 0.")
-            insert(updated)
-        }
+        update(updated)
     }
 
     @Query("DELETE FROM checkin")

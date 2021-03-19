@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
-import okio.ByteString
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
+import okio.ByteString
 import org.joda.time.Instant
 
 @Suppress("LongParameterList")
@@ -27,6 +27,7 @@ data class CheckIn(
 fun CheckIn.toEntity() = TraceLocationCheckInEntity(
     id = id,
     guid = guid,
+    guidHashBase64 = guidHash.base64(),
     version = version,
     type = type,
     description = description,
@@ -34,9 +35,10 @@ fun CheckIn.toEntity() = TraceLocationCheckInEntity(
     traceLocationStart = traceLocationStart,
     traceLocationEnd = traceLocationEnd,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-    signature = signature,
+    traceLocationBytesBase64 = traceLocationBytes.base64(),
+    signatureBase64 = signature.base64(),
     checkInStart = checkInStart,
     checkInEnd = checkInEnd,
-    targetCheckInEnd = targetCheckInEnd,
+    completed = completed,
     createJournalEntry = createJournalEntry
 )

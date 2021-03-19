@@ -34,7 +34,7 @@ class CheckInRepository @Inject constructor(
         checkInDao.insert(checkIn.toEntity())
     }
 
-    suspend fun updateCheckIn(checkInId: Long, update: (CheckIn?) -> CheckIn?) = withContext(NonCancellable) {
+    suspend fun updateCheckIn(checkInId: Long, update: (CheckIn) -> CheckIn) = withContext(NonCancellable) {
         Timber.d("updateCheckIn(checkInId=%d, update=%s)", checkInId, update)
         checkInDao.updateEntityById(checkInId, update)
     }
