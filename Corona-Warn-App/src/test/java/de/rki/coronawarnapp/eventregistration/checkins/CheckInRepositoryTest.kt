@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.EMPTY
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -67,10 +68,12 @@ class CheckInRepositoryTest : BaseTest() {
         coEvery { checkInDao.insert(any()) } returns 0L
         runBlockingTest {
             val time = Instant.ofEpochMilli(1397210400000)
+            val end = Instant.ofEpochMilli(1397210400001)
             createInstance(scope = this).addCheckIn(
                 CheckIn(
                     id = 1L,
                     guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
+                    guidHash = EMPTY,
                     version = 1,
                     type = 2,
                     description = "brothers birthday",
@@ -78,10 +81,11 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = time,
                     traceLocationEnd = null,
                     defaultCheckInLengthInMinutes = null,
-                    signature = "abc",
+                    traceLocationBytes = EMPTY,
+                    signature = EMPTY,
                     checkInStart = time,
-                    checkInEnd = null,
-                    targetCheckInEnd = null,
+                    checkInEnd = end,
+                    completed = false,
                     createJournalEntry = false
                 )
             )
@@ -90,6 +94,7 @@ class CheckInRepositoryTest : BaseTest() {
                     TraceLocationCheckInEntity(
                         id = 1L,
                         guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
+                        guidHashBase64 = "",
                         version = 1,
                         type = 2,
                         description = "brothers birthday",
@@ -97,10 +102,11 @@ class CheckInRepositoryTest : BaseTest() {
                         traceLocationStart = time,
                         traceLocationEnd = null,
                         defaultCheckInLengthInMinutes = null,
-                        signature = "abc",
+                        traceLocationBytesBase64 = "",
+                        signatureBase64 = "",
                         checkInStart = time,
-                        checkInEnd = null,
-                        targetCheckInEnd = null,
+                        checkInEnd = end,
+                        completed = false,
                         createJournalEntry = false
                     )
                 )
@@ -118,6 +124,7 @@ class CheckInRepositoryTest : BaseTest() {
                 CheckIn(
                     id = 0L,
                     guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                    guidHash = EMPTY,
                     version = 1,
                     type = 2,
                     description = "sisters birthday",
@@ -125,10 +132,11 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = start,
                     traceLocationEnd = end,
                     defaultCheckInLengthInMinutes = null,
-                    signature = "efg",
+                    traceLocationBytes = EMPTY,
+                    signature = EMPTY,
                     checkInStart = start,
                     checkInEnd = end,
-                    targetCheckInEnd = end,
+                    completed = false,
                     createJournalEntry = false
                 )
             }
@@ -137,6 +145,7 @@ class CheckInRepositoryTest : BaseTest() {
                     TraceLocationCheckInEntity(
                         id = 0L,
                         guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                        guidHashBase64 = "",
                         version = 1,
                         type = 2,
                         description = "sisters birthday",
@@ -144,10 +153,11 @@ class CheckInRepositoryTest : BaseTest() {
                         traceLocationStart = start,
                         traceLocationEnd = end,
                         defaultCheckInLengthInMinutes = null,
-                        signature = "efg",
+                        traceLocationBytesBase64 = "",
+                        signatureBase64 = "",
                         checkInStart = start,
                         checkInEnd = end,
-                        targetCheckInEnd = end,
+                        completed = false,
                         createJournalEntry = false
                     )
                 )
@@ -163,6 +173,7 @@ class CheckInRepositoryTest : BaseTest() {
             TraceLocationCheckInEntity(
                 id = 0L,
                 guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                guidHashBase64 = "",
                 version = 1,
                 type = 2,
                 description = "sisters birthday",
@@ -170,10 +181,11 @@ class CheckInRepositoryTest : BaseTest() {
                 traceLocationStart = start,
                 traceLocationEnd = end,
                 defaultCheckInLengthInMinutes = null,
-                signature = "efg",
+                traceLocationBytesBase64 = "",
+                signatureBase64 = "",
                 checkInStart = start,
                 checkInEnd = end,
-                targetCheckInEnd = end,
+                completed = false,
                 createJournalEntry = false
             )
         )
@@ -182,6 +194,8 @@ class CheckInRepositoryTest : BaseTest() {
                 CheckIn(
                     id = 0L,
                     guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                    guidHash = EMPTY,
+                    traceLocationBytes = EMPTY,
                     version = 1,
                     type = 2,
                     description = "sisters birthday",
@@ -189,10 +203,10 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = start,
                     traceLocationEnd = end,
                     defaultCheckInLengthInMinutes = null,
-                    signature = "efg",
+                    signature = EMPTY,
                     checkInStart = start,
                     checkInEnd = end,
-                    targetCheckInEnd = end,
+                    completed = false,
                     createJournalEntry = false
                 )
             )

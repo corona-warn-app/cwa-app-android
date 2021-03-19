@@ -72,7 +72,7 @@ import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
         ContactDiaryEditPersonsFragmentTestModule::class,
         // Statistics
         StatisticsExplanationFragmentTestModule::class,
-        //Bugreporting
+        // Bugreporting
         DebugLogUploadTestModule::class,
         DebugLogTestModule::class
     ]

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
+import okio.ByteString
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import org.joda.time.Instant
 
@@ -7,6 +8,7 @@ import org.joda.time.Instant
 data class CheckIn(
     val id: Long,
     val guid: String,
+    val guidHash: ByteString,
     val version: Int,
     val type: Int,
     val description: String,
@@ -14,10 +16,11 @@ data class CheckIn(
     val traceLocationStart: Instant?,
     val traceLocationEnd: Instant?,
     val defaultCheckInLengthInMinutes: Int?,
-    val signature: String,
+    val traceLocationBytes: ByteString,
+    val signature: ByteString,
     val checkInStart: Instant,
-    val checkInEnd: Instant?,
-    val targetCheckInEnd: Instant?,
+    val checkInEnd: Instant,
+    val completed: Boolean,
     val createJournalEntry: Boolean
 )
 

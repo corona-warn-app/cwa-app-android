@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.eventregistration.checkins.split
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import io.kotest.matchers.shouldBe
+import okio.ByteString.Companion.EMPTY
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 
@@ -16,6 +18,7 @@ class CheckInSplitterTest : BaseTest() {
     private val defaultCheckIn = CheckIn(
         id = 1L,
         guid = "eventOne",
+        guidHash = EMPTY,
         version = 1,
         type = 1,
         description = "Restaurant",
@@ -23,17 +26,17 @@ class CheckInSplitterTest : BaseTest() {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
-        signature = "signature",
+        traceLocationBytes = EMPTY,
+        signature = "c2lnbmF0dXJl".decodeBase64()!!,
         checkInStart = Instant.now(),
         checkInEnd = Instant.now(),
-        targetCheckInEnd = null,
+        completed = false,
         createJournalEntry = false
     )
 
     @Test
-    fun `Scenario 1`() {
+    fun `same-day check-in`() {
         /*
-           Example 1 - same-day check-in
            localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-04 09:45' }
            splitInto = [{ start: '2021-03-04 09:30', end: '2021-03-04 09:45' } // no split
         */
@@ -49,27 +52,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 2`() {
+    fun `same-start-end-times check-in`() {
         /*
-           Example 2 - no-checkout-time check-in
-           localCheckIn = { start: '2021-03-04 09:30', end: null }
-           splitInto = [{ start: '2021-03-04 09:30', end: null } // no split
-        */
-        val checkIn = defaultCheckIn.copy(
-            checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
-            checkInEnd = null
-        )
-
-        checkIn.splitByMidnightUTC().apply {
-            size shouldBe 1 // No splitting
-            get(0) shouldBe checkIn
-        }
-    }
-
-    @Test
-    fun `Scenario 3`() {
-        /*
-           Example 3 - same-start-end-times check-in
            localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-04 09:30' }
            splitInto = [{ start: '2021-03-04 09:30', end: '2021-03-04 09:30' } // no split
         */
@@ -85,9 +69,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 4`() {
+    fun `2-days check-in`() {
         /*
-        // Example 4 - 2-days check-in
         localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-05 09:45' }
         splitInto = [
             { start: '2021-03-04 09:30', end: '2021-03-05 00:00' },
@@ -115,9 +98,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 5`() {
+    fun `3-days check-in`() {
         /*
-         // Example 5 - 3-days check-in
          localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-06 09:45' }
          splitInto = [
             { start: '2021-03-04 09:30', end: '2021-03-05 00:00' },
@@ -150,9 +132,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 6`() {
+    fun `2-days-different-months check-in`() {
         /*
-        // Example 6 - 2-days-different-months check-in
         localCheckIn = { start: '2021-02-28 09:30', end: '2021-03-01 12:45' }
         splitInto = [
             { start: '2021-02-28 09:30', end: '2021-03-01 00:00' },
@@ -180,9 +161,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 7`() {
+    fun `2-days-different-years check-in`() {
         /*
-        // Example 7 - 2-days-different-years check-in
         localCheckIn = { start: '2021-12-31 09:30', end: '2022-01-01 12:45' }
         splitInto = [
             { start: '2021-12-31 09:30', end: '2022-01-01 00:00' },
@@ -210,9 +190,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 8`() {
+    fun `3-days-different-months-leap-year check-in`() {
         /*
-        // Example 8 - 3-days-different-months-leap-year check-in
         localCheckIn = { start: '2020-02-28 09:30', end: '2020-03-01 12:45' }
         splitInto = [
             { start: '2020-02-28 09:30', end: '2020-02-29 00:00' },
@@ -246,9 +225,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 9`() {
+    fun `2-dates duration lower than day check-in`() {
         /*
-        // Example 9 - 2-dates duration < day check-in
         localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-05 09:15' }
         splitInto = [
             { start: '2021-03-04 09:30', end: '2021-03-05 00:00' },
@@ -276,9 +254,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 10`() {
+    fun `2-dates duration lower than day - same start and end times check-in`() {
         /*
-        // Example 10 - 2-dates duration < day - same start and end times check-in
         localCheckIn = { start: '2021-03-04 09:00', end: '2021-03-05 09:00' }
         splitInto = [
             { start: '2021-03-04 09:00', end: '2021-03-05 00:00' },
@@ -306,9 +283,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 11`() {
+    fun `midnight times check-in`() {
         /*
-        // Example 11 - midnight times check-in
         localCheckIn = { start: '2021-03-04 00:00', end: '2021-03-05 00:00' }
         splitInto = [
             { start: '2021-03-04 00:00', end: '2021-03-05 00:00' } // No split
@@ -330,9 +306,8 @@ class CheckInSplitterTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 12`() {
+    fun `2min-2dates check-in`() {
         /*
-        // Example 12 - 2min-2dates check-in
         localCheckIn = { start: '2021-03-04 23:59', end: '2021-03-05 00:01' }
         splitInto = [
             { start: '2021-03-04 00:00', end: '2021-03-05 00:00' } // No split
