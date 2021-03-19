@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.checkins.download
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.EMPTY
+import okio.ByteString.Companion.toByteString
 import org.joda.time.DateTime
 import org.joda.time.Instant
 
@@ -28,7 +29,7 @@ private const val TYPE_EVENT = 2
 private val dummyEventCheckIn1: CheckIn = CheckIn(
     id = 1L,
     guid = "eventOne",
-    guidHash = ByteArray(0),
+    guidHash = EMPTY,
     version = 1,
     type = TYPE_LOCATION,
     description = "Restaurant",
@@ -36,8 +37,8 @@ private val dummyEventCheckIn1: CheckIn = CheckIn(
     traceLocationStart = null,
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
-    traceLocationBytes = ByteArray(0),
-    signature = "c2lnbmF0dXJl".decodeBase64()!!,
+    traceLocationBytes = EMPTY,
+    signature = "signature".toByteArray().toByteString(),
     checkInStart = Instant.ofEpochMilli(
         DateTime(2021, 2, 2012, 11, 45).millis
     ),
@@ -51,7 +52,7 @@ private val dummyEventCheckIn1: CheckIn = CheckIn(
 private val dummyEventCheckIn2: CheckIn = CheckIn(
     id = 1L,
     guid = "eventOne",
-    guidHash = ByteArray(0),
+    guidHash = EMPTY,
     version = 1,
     type = TYPE_EVENT,
     description = "People in tech meetup",
@@ -59,8 +60,8 @@ private val dummyEventCheckIn2: CheckIn = CheckIn(
     traceLocationStart = null,
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
-    traceLocationBytes = ByteArray(0),
-    signature = "c2lnbmF0dXJl".decodeBase64()!!,
+    traceLocationBytes = EMPTY,
+    signature = "signature2".toByteArray().toByteString(),
     checkInStart = Instant.ofEpochMilli(
         DateTime(2021, 3, 20, 18, 45).millis
     ),
