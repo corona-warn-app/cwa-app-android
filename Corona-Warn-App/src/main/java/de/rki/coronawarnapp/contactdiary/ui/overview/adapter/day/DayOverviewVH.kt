@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewAdapte
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDayForAccessibility
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
+import de.rki.coronawarnapp.util.lists.decorations.VerticalDividerItemDecorationExcludeLast
 import de.rki.coronawarnapp.util.lists.diffutil.update
 
 class DayOverviewVH(parent: ViewGroup) :
@@ -22,8 +23,14 @@ class DayOverviewVH(parent: ViewGroup) :
     override val onBindData: ContactDiaryOverviewListItemBinding.(item: DayOverviewItem, payloads: List<Any>) -> Unit =
         { item, _ ->
             dayRecyclerView.apply {
-                adapter = dayDataAdapter.apply { setItems(item.dayData) }
-                suppressLayout(true)
+                if (adapter == null) {
+                    adapter = dayDataAdapter
+                    addItemDecoration(VerticalDividerItemDecorationExcludeLast(context))
+                    // To avoid flickering
+                    itemAnimator = null
+                }
+                dayDataAdapter.update(item.dayData)
+                //suppressLayout(true)
             }
 
             dayElementBody.apply {

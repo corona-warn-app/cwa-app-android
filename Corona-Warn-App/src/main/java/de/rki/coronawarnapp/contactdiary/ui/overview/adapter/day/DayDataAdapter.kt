@@ -9,17 +9,20 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.header.HeaderIt
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.header.HeaderVH
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskcalculated.RiskCalculatedItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskcalculated.RiskCalculatedVH
-import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.util.lists.BindableVH
+import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
+import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
 class DayDataAdapter :
-    ModularAdapter<DayDataAdapter.ItemVH<DayDataItem, ViewBinding>>() {
+    ModularAdapter<DayDataAdapter.ItemVH<DayDataItem, ViewBinding>>(),
+    AsyncDiffUtilAdapter<DayDataItem>
+{
 
-    private val data: MutableList<DayDataItem> = mutableListOf()
+    override val asyncDiffer: AsyncDiffer<DayDataItem> = AsyncDiffer(adapter = this)
 
     init {
         modules.addAll(
@@ -34,11 +37,6 @@ class DayDataAdapter :
     }
 
     override fun getItemCount(): Int = data.size
-
-    fun setItems(dayDataList: List<DayDataItem>) {
-        data.clearAndAddAll(dayDataList)
-        notifyDataSetChanged()
-    }
 
     abstract class ItemVH<Item : DayDataItem, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
