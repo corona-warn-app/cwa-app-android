@@ -2,19 +2,20 @@ package de.rki.coronawarnapp.ui.main.home.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.HomeCreateEventCardBinding
+import de.rki.coronawarnapp.databinding.HomeCreateTraceLocationCardBinding
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class CreateEventCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<CreateEventCard.Item, HomeCreateEventCardBinding>(
-    R.layout.home_card_container_layout,
-    parent
-) {
+class CreateTraceLocationCard(parent: ViewGroup) :
+    HomeAdapter.HomeItemVH<CreateTraceLocationCard.Item, HomeCreateTraceLocationCardBinding>(
+        R.layout.home_card_container_layout,
+        parent
+    ) {
     override val viewBinding = lazy {
-        HomeCreateEventCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        HomeCreateTraceLocationCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: HomeCreateEventCardBinding.(
+    override val onBindData: HomeCreateTraceLocationCardBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->

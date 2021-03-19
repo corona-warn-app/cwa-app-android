@@ -48,7 +48,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
-import de.rki.coronawarnapp.ui.main.home.items.CreateEventCard
+import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
@@ -240,7 +240,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
 
-            add(CreateEventCard.Item(onClickAction = { /** Todo: Add navigation on click */ }))
+            add(CreateTraceLocationCard.Item(onClickAction = { /** Todo: Add navigation on click */ }))
 
             add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
         }
