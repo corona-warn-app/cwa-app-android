@@ -53,7 +53,7 @@ class DebugLogFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         inactiveViewModel = setupViewModels(false, 0)
-        activeViewModel = setupViewModels(true, 9410 )
+        activeViewModel = setupViewModels(true, 9410)
 
         setupMockViewModel(
             object : DebugLogViewModel.Factory {
@@ -127,4 +127,3 @@ abstract class DebugLogTestModule {
     @ContributesAndroidInjector
     abstract fun debugLogFragment(): DebugLogFragment
 }
-
