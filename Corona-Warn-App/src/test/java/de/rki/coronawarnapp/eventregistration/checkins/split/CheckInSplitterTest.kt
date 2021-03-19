@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.eventregistration.checkins.split
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import io.kotest.matchers.shouldBe
+import okio.ByteString.Companion.EMPTY
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
@@ -17,7 +18,7 @@ class CheckInSplitterTest : BaseTest() {
     private val defaultCheckIn = CheckIn(
         id = 1L,
         guid = "eventOne",
-        guidHash = byteArrayOf(),
+        guidHash = EMPTY,
         version = 1,
         type = 1,
         description = "Restaurant",
@@ -25,7 +26,7 @@ class CheckInSplitterTest : BaseTest() {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
-        traceLocationBytes = byteArrayOf(),
+        traceLocationBytes = EMPTY,
         signature = "c2lnbmF0dXJl".decodeBase64()!!,
         checkInStart = Instant.now(),
         checkInEnd = Instant.now(),
