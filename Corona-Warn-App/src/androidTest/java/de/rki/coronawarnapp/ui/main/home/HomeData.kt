@@ -35,7 +35,7 @@ object HomeData {
 
     object Tracing {
 
-        val LOW_RISK_ITEM_NO_ENCOUNTERS_WO_INSTALL_TIME = LowRiskCard.Item(
+        val LOW_RISK_ITEM_NO_ENCOUNTERS_WITHOUT_INSTALL_TIME = LowRiskCard.Item(
             state = LowRisk(
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = false,

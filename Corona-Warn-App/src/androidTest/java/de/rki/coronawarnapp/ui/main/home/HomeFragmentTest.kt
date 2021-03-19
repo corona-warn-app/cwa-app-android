@@ -109,15 +109,11 @@ class HomeFragmentTest : BaseUITest() {
 
     @Screenshot
     @Test
-    fun captureHomeFragmentLowRiskNoEncountersWOInstallTime() {
+    fun captureHomeFragmentLowRiskNoEncountersWithoutInstallTime() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            HomeData.Tracing.LOW_RISK_ITEM_NO_ENCOUNTERS_WO_INSTALL_TIME
+            HomeData.Tracing.LOW_RISK_ITEM_NO_ENCOUNTERS_WITHOUT_INSTALL_TIME
         )
-        captureHomeFragment("low_risk_no_encounters_wo_install_time")
-
-        // also scroll down and capture a screenshot of the faq card
-        Espresso.onView(ViewMatchers.withId(R.id.recycler_view)).perform(recyclerScrollTo())
-        takeScreenshot<HomeFragment>("faq_card")
+        captureHomeFragment("low_risk_no_encounters_without_install_time")
     }
 
     @Screenshot
