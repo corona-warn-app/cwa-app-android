@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
@@ -88,8 +89,8 @@ class CheckInsTransformer @Inject constructor(
 
         return CheckInOuterClass.CheckIn.newBuilder()
             .setSignedLocation(signedTraceLocation)
-            .setStartIntervalNumber(checkInStart.seconds.toInt())
-            .setEndIntervalNumber(checkInEnd.seconds.toInt())
+            .setStartIntervalNumber(checkInStart.derive10MinutesInterval().toInt())
+            .setEndIntervalNumber(checkInEnd.derive10MinutesInterval().toInt())
             .setTransmissionRiskLevel(
                 determineRiskTransmission(timeStamper.nowUTC, transmissionVector)
             )

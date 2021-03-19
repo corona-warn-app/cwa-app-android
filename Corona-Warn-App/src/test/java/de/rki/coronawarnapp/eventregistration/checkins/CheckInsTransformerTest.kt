@@ -29,6 +29,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.util.concurrent.TimeUnit
 
 class CheckInsTransformerTest : BaseTest() {
 
@@ -192,8 +193,11 @@ class CheckInsTransformerTest : BaseTest() {
                     completed = false,         // Not mapped - client specific
                     createJournalEntry = false // Not mapped - client specific
                  */
-                startIntervalNumber shouldBe Instant.parse("2021-03-04T10:20:00Z").seconds // New derived start time
-                endIntervalNumber shouldBe Instant.parse("2021-03-04T10:40:00Z").seconds // New derived end time
+
+                // New derived start time
+                startIntervalNumber shouldBe Instant.parse("2021-03-04T10:20:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                // New derived end time
+                endIntervalNumber shouldBe Instant.parse("2021-03-04T10:40:00Z").seconds / TEN_MINUTES_IN_SECONDS
                 signedLocation.signature shouldBe ByteString.copyFrom("signature1".toByteArray())
                 parseLocation(signedLocation.location).apply {
                     guid shouldBe "trace_location_2"
@@ -231,9 +235,9 @@ class CheckInsTransformerTest : BaseTest() {
             // Splitted CheckIn 1
             get(1).apply {
                 // Start time from original check-in
-                startIntervalNumber shouldBe Instant.parse("2021-03-04T09:30:00Z").seconds
+                startIntervalNumber shouldBe Instant.parse("2021-03-04T09:30:00Z").seconds / TEN_MINUTES_IN_SECONDS
                 // End time for splitted check-in 1
-                endIntervalNumber shouldBe Instant.parse("2021-03-05T00:00:00Z").seconds
+                endIntervalNumber shouldBe Instant.parse("2021-03-05T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
                 signedLocation.signature shouldBe ByteString.copyFrom("signature1".toByteArray())
                 parseLocation(signedLocation.location).apply {
                     guid shouldBe "trace_location_3"
@@ -251,9 +255,9 @@ class CheckInsTransformerTest : BaseTest() {
             // Splitted CheckIn 2
             get(2).apply {
                 // Start time for splitted check-in 2
-                startIntervalNumber shouldBe Instant.parse("2021-03-05T00:00:00Z").seconds
+                startIntervalNumber shouldBe Instant.parse("2021-03-05T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
                 // End time for splitted check-in 2
-                endIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").seconds
+                endIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
                 signedLocation.signature shouldBe ByteString.copyFrom("signature1".toByteArray())
                 parseLocation(signedLocation.location).apply {
                     guid shouldBe "trace_location_3"
@@ -271,9 +275,9 @@ class CheckInsTransformerTest : BaseTest() {
             // Splitted CheckIn 3
             get(3).apply {
                 // Start time from splitted check-in 3
-                startIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").seconds
+                startIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
                 // End time for splitted check-in 3
-                endIntervalNumber shouldBe Instant.parse("2021-03-06T10:20:00Z").seconds
+                endIntervalNumber shouldBe Instant.parse("2021-03-06T10:20:00Z").seconds / TEN_MINUTES_IN_SECONDS
                 signedLocation.signature shouldBe ByteString.copyFrom("signature1".toByteArray())
                 parseLocation(signedLocation.location).apply {
                     guid shouldBe "trace_location_3"
@@ -292,4 +296,8 @@ class CheckInsTransformerTest : BaseTest() {
 
     private fun parseLocation(bytes: ByteString): TraceLocationOuterClass.TraceLocation =
         TraceLocationOuterClass.TraceLocation.parseFrom(bytes)
+
+    companion object {
+        private val TEN_MINUTES_IN_SECONDS = TimeUnit.MINUTES.toSeconds(10)
+    }
 }
