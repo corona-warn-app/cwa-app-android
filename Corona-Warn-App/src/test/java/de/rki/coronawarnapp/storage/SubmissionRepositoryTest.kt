@@ -14,9 +14,9 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.formatter.TestResult
-import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
-import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -80,11 +80,14 @@ class SubmissionRepositoryTest : BaseTest() {
 
         every { submissionSettings.devicePairingSuccessfulAt = any() } just Runs
         every { submissionSettings.initialTestResultReceivedAt } returns resultReceivedTimeStamp
+        every { submissionSettings.initialTestResultReceivedAt = any() } just Runs
 
         every { submissionSettings.hasGivenConsent } returns mockFlowPreference(false)
         every { submissionSettings.hasViewedTestResult } returns mockFlowPreference(false)
         every { submissionSettings.symptoms } returns mockFlowPreference(Symptoms.NO_INFO_GIVEN)
         every { submissionSettings.clear() } just Runs
+
+        every { submissionSettings.devicePairingSuccessfulAt } returns null
 
         every { taskController.tasks } returns emptyFlow()
 
@@ -118,10 +121,8 @@ class SubmissionRepositoryTest : BaseTest() {
             tracingSettings.isTestResultAvailableNotificationSent = capture(isTestResultAvailableNotificationSent)
         } answers {}
 
-        every { submissionSettings.initialTestResultReceivedAt = any() } just Runs
         every { submissionSettings.isAllowedToSubmitKeys = any() } just Runs
         every { submissionSettings.isSubmissionSuccessful = any() } just Runs
-        every { analyticsKeySubmissionCollector.reset() } just Runs
 
         submissionRepository.removeTestFromDevice()
 
@@ -141,6 +142,7 @@ class SubmissionRepositoryTest : BaseTest() {
     fun registrationWithGUIDSucceeds() = runBlockingTest {
         coEvery { submissionService.asyncRegisterDeviceViaGUID(guid) } returns registrationData
         coEvery { analyticsKeySubmissionCollector.reportTestRegistered() } just Runs
+        every { analyticsKeySubmissionCollector.reset() } just Runs
 
         val submissionRepository = createInstance(scope = this)
 
@@ -161,6 +163,7 @@ class SubmissionRepositoryTest : BaseTest() {
         coEvery { submissionService.asyncRegisterDeviceViaTAN(tan) } returns registrationData
         coEvery { analyticsKeySubmissionCollector.reportTestRegistered() } just Runs
         every { analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN() } just Runs
+        every { analyticsKeySubmissionCollector.reset() } just Runs
 
         val submissionRepository = createInstance(scope = this)
 
@@ -275,5 +278,56 @@ class SubmissionRepositoryTest : BaseTest() {
         submissionRepository.refreshDeviceUIState()
 
         coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
+    }
+
+    @Test
+    fun `EXPOSUREAPP-4484 is fixed`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.EPOCH
+
+        var initialTimeStamp = Instant.EPOCH.plus(9999)
+        every { submissionSettings.initialTestResultReceivedAt } answers { initialTimeStamp }
+        every { submissionSettings.initialTestResultReceivedAt = any() } answers { initialTimeStamp = arg(0) }
+
+        every { submissionSettings.registrationToken } returns mockFlowPreference("token")
+        every { submissionSettings.devicePairingSuccessfulAt } returns null
+
+        val submissionRepository = createInstance(scope = this)
+
+        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+
+        verify {
+            submissionSettings.initialTestResultReceivedAt = null
+            submissionSettings.initialTestResultReceivedAt = Instant.EPOCH
+        }
+
+        initialTimeStamp shouldBe Instant.EPOCH
+    }
+
+    @Test
+    fun `EXPOSUREAPP-4484 has specific conditions`() = runBlockingTest {
+        val submissionRepository = createInstance(scope = this)
+
+        every { submissionSettings.initialTestResultReceivedAt } returns Instant.ofEpochMilli(1234)
+        every { submissionSettings.registrationToken } returns mockFlowPreference("token")
+        // This needs to be null to trigger the fix
+        every { submissionSettings.devicePairingSuccessfulAt } returns Instant.ofEpochMilli(5678)
+
+        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+
+        every { submissionSettings.initialTestResultReceivedAt } returns Instant.ofEpochMilli(1234)
+        // This needs to be non null to trigger the fix
+        every { submissionSettings.registrationToken } returns mockFlowPreference(null)
+        every { submissionSettings.devicePairingSuccessfulAt } returns null
+
+        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+
+        // This needs to be non null to trigger the fix
+        every { submissionSettings.initialTestResultReceivedAt } returns null
+        every { submissionSettings.registrationToken } returns mockFlowPreference("token")
+        every { submissionSettings.devicePairingSuccessfulAt } returns null
+
+        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+
+        verify(exactly = 0) { submissionSettings.initialTestResultReceivedAt = null }
     }
 }

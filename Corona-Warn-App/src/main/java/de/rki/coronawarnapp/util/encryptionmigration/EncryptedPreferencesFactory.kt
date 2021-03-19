@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util.security
+package de.rki.coronawarnapp.util.encryptionmigration
 
 import android.content.Context
 import android.content.SharedPreferences

@@ -204,7 +204,7 @@ class RiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation is skipped if positive test is registered`() = runBlockingTest {
+    fun `risk calculation is skipped if positive test is registered and viewed`() = runBlockingTest {
         val cachedKey = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
                 every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(1)
@@ -216,10 +216,40 @@ class RiskLevelTaskTest : BaseTest() {
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
         every { timeStamper.nowUTC } returns now
         every { submissionSettings.isAllowedToSubmitKeys } returns true
+        every { submissionSettings.hasViewedTestResult.value } returns true
 
         createTask().run(arguments) shouldBe RiskLevelTaskResult(
             calculatedAt = now,
             failureReason = RiskLevelResult.FailureReason.POSITIVE_TEST_RESULT
+        )
+    }
+
+    @Test
+    fun `risk calculation is not skipped if positive test is registered and not viewed`() = runBlockingTest {
+        val cachedKey = mockk<CachedKey>().apply {
+            every { info } returns mockk<CachedKeyInfo>().apply {
+                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(1)
+            }
+        }
+        val now = Instant.parse("2020-12-28")
+        val aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+            every { isIncreasedRisk() } returns true
+        }
+
+        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
+        coEvery { enfClient.exposureWindows() } returns listOf()
+        every { riskLevels.calculateRisk(any(), any()) } returns null
+        every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
+        every { timeStamper.nowUTC } returns now
+        coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
+        every { submissionSettings.isAllowedToSubmitKeys } returns true
+        every { submissionSettings.hasViewedTestResult.value } returns false
+
+        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+            calculatedAt = now,
+            failureReason = null,
+            aggregatedRiskResult = aggregatedRiskResult,
+            listOf()
         )
     }
 
