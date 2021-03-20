@@ -36,8 +36,9 @@ import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.CoroutineModule
 import de.rki.coronawarnapp.util.device.DeviceModule
-import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
-import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesMigration
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.security.SecurityModule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.worker.WorkerBinder
@@ -101,6 +102,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     fun inject(logger: DebugLogger)
 
     fun inject(backgroundWorkScheduler: BackgroundWorkScheduler)
+
+    val encryptedMigration: EncryptedPreferencesMigration
 
     @Component.Factory
     interface Factory {

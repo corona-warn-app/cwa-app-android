@@ -14,7 +14,7 @@ import kotlin.math.ceil
  */
 fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     val startTimeSeconds = checkInStart.seconds
-    val endTimeSeconds = checkInEnd?.seconds ?: return listOf(copy()) // Should not arrive here ,but just in case
+    val endTimeSeconds = checkInEnd.seconds
     val durationSecondsUTC = endTimeSeconds - startTimeSeconds.toMidnightUTC()
 
     Timber.i("durationSecondsUTC=$durationSecondsUTC")
