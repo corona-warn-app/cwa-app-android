@@ -22,10 +22,8 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
-    private val submissionRepository: SubmissionRepository,
-    private val testResultDataCollector: TestResultDataCollector
-) :
-    CWAViewModel() {
+    private val submissionRepository: SubmissionRepository
+) : CWAViewModel() {
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val scanStatusValue = SingleLiveEvent<ScanStatus>()
@@ -56,10 +54,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val testResult = submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!)
-            // Order here is important. When `registrationState.postValue` is called before
-            // `saveTestResultAnalyticsSettings`, this coroutine will get canceled due to the navigation
-            // to the next screen.
-            testResultDataCollector.saveTestResultAnalyticsSettings(testResult)
             checkTestResult(testResult)
             registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, testResult))
         } catch (err: CwaWebException) {

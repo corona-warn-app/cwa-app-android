@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -27,6 +28,7 @@ class TestResultDataCollectorTest : BaseTest() {
     @MockK lateinit var analyticsSettings: AnalyticsSettings
     @MockK lateinit var testResultDonorSettings: TestResultDonorSettings
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
+    @MockK lateinit var timeStamper: TimeStamper
 
     private lateinit var testResultDataCollector: TestResultDataCollector
 
@@ -34,10 +36,12 @@ class TestResultDataCollectorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
+        every { timeStamper.nowUTC } returns Instant.now()
         testResultDataCollector = TestResultDataCollector(
             analyticsSettings,
             testResultDonorSettings,
-            riskLevelStorage
+            riskLevelStorage,
+            timeStamper
         )
     }
 

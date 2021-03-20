@@ -24,7 +24,6 @@ import testhelpers.extensions.InstantExecutorExtension
 class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var testResultDataCollector: TestResultDataCollector
 
     @BeforeEach
     fun setUp() {
@@ -32,8 +31,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     }
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
-        submissionRepository,
-        testResultDataCollector
+        submissionRepository
     )
 
     @Test
@@ -67,7 +65,5 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
         coEvery { submissionRepository.asyncRegisterDeviceViaGUID(any()) } returns TestResult.POSITIVE
         viewModel.doDeviceRegistration(mockResult)
-
-        coVerify { testResultDataCollector.saveTestResultAnalyticsSettings(any()) }
     }
 }
