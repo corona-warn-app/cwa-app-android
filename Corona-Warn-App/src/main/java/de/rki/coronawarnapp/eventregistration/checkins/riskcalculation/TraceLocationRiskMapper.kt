@@ -78,4 +78,3 @@ internal fun RiskCalculationParametersOuterClass.Range.isInRange(value: Double):
     if (!maxExclusive && value > max) return false
     return true
 }
-
