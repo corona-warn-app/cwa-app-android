@@ -64,7 +64,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         }
 
         binding.calculateRisk.setOnClickListener {
-            viewModel.runRiskCalculationPerCheckInDay()
+            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
         }
 
         viewModel.checkInOverlaps.observe2(this) {
