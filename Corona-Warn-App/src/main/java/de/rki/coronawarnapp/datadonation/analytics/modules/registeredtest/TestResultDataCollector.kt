@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.flow.first
-import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 

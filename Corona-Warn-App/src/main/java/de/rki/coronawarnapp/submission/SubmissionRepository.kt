@@ -28,6 +28,7 @@ import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Suppress("LongParameterList")
 @Singleton
 class SubmissionRepository @Inject constructor(
     private val submissionSettings: SubmissionSettings,
