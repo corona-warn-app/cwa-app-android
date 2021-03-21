@@ -15,7 +15,7 @@ class PaddingToolTest : BaseTest() {
     fun `verify padding patterns`() {
         repeat(1000) {
             val randomLength = abs(Random.nextInt(1, 1024))
-            PaddingTool.requestPadding(randomLength).apply {
+            PaddingTool.keyPadding(randomLength).apply {
                 length shouldBe randomLength
                 Timber.v("RandomLength: %d, Padding: %s", randomLength, this)
                 validPattern.matches(this) shouldBe true

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.verification.server
 
 import dagger.Lazy
-import de.rki.coronawarnapp.util.PaddingTool.requestPadding
+import de.rki.coronawarnapp.util.PaddingTool.keyPadding
 import de.rki.coronawarnapp.util.security.HashHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,11 +33,11 @@ class VerificationServer @Inject constructor(
 
         api.getRegistrationToken(
             fake = "0",
-            headerPadding = requestPadding(PADDING_LENGTH_HEADER_REGISTRATION_TOKEN),
+            headerPadding = keyPadding(PADDING_LENGTH_HEADER_REGISTRATION_TOKEN),
             requestBody = VerificationApiV1.RegistrationTokenRequest(
                 keyType = keyType.name,
                 key = keyStr,
-                requestPadding = requestPadding(paddingLength)
+                requestPadding = keyPadding(paddingLength)
             )
         ).registrationToken
     }
@@ -47,10 +47,10 @@ class VerificationServer @Inject constructor(
     ): Int = withContext(Dispatchers.IO) {
         api.getTestResult(
             fake = "0",
-            headerPadding = requestPadding(PADDING_LENGTH_HEADER_TEST_RESULT),
+            headerPadding = keyPadding(PADDING_LENGTH_HEADER_TEST_RESULT),
             request = VerificationApiV1.RegistrationRequest(
                 registrationToken,
-                requestPadding(PADDING_LENGTH_BODY_TEST_RESULT)
+                keyPadding(PADDING_LENGTH_BODY_TEST_RESULT)
             )
         ).testResult
     }
@@ -60,10 +60,10 @@ class VerificationServer @Inject constructor(
     ): String = withContext(Dispatchers.IO) {
         api.getTAN(
             fake = "0",
-            headerPadding = requestPadding(PADDING_LENGTH_HEADER_TAN),
+            headerPadding = keyPadding(PADDING_LENGTH_HEADER_TAN),
             requestBody = VerificationApiV1.TanRequestBody(
                 registrationToken,
-                requestPadding(PADDING_LENGTH_BODY_TAN)
+                keyPadding(PADDING_LENGTH_BODY_TAN)
             )
         ).tan
     }
@@ -71,10 +71,10 @@ class VerificationServer @Inject constructor(
     suspend fun retrieveTanFake() = withContext(Dispatchers.IO) {
         api.getTAN(
             fake = "1",
-            headerPadding = requestPadding(PADDING_LENGTH_HEADER_TAN),
+            headerPadding = keyPadding(PADDING_LENGTH_HEADER_TAN),
             requestBody = VerificationApiV1.TanRequestBody(
                 registrationToken = DUMMY_REGISTRATION_TOKEN,
-                requestPadding = requestPadding(PADDING_LENGTH_BODY_TAN_FAKE)
+                requestPadding = keyPadding(PADDING_LENGTH_BODY_TAN_FAKE)
             )
         )
     }

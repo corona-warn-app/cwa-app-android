@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.server.protocols.external.exposurenotification.Tempo
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 
-import de.rki.coronawarnapp.util.PaddingTool.requestPadding
+import de.rki.coronawarnapp.util.PaddingTool.keyPadding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -43,7 +43,7 @@ class SubmissionServer @Inject constructor(
             MIN_KEY_COUNT_FOR_SUBMISSION + randomAdditions - keyList.size,
             0
         )
-        val fakeKeyPadding = requestPadding(FAKE_KEY_SIZE * fakeKeyCount)
+        val fakeKeyPadding = keyPadding(FAKE_KEY_SIZE * fakeKeyCount)
 
         val submissionPayload = SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
@@ -67,7 +67,7 @@ class SubmissionServer @Inject constructor(
         val randomAdditions = 0 // prepare for random addition of keys
         val fakeKeyCount = MIN_KEY_COUNT_FOR_SUBMISSION + randomAdditions
 
-        val fakeKeyPadding = requestPadding(FAKE_KEY_SIZE * fakeKeyCount)
+        val fakeKeyPadding = keyPadding(FAKE_KEY_SIZE * fakeKeyCount)
 
         val submissionPayload = SubmissionPayload.newBuilder()
             .setRequestPadding(ByteString.copyFromUtf8(fakeKeyPadding))
@@ -76,7 +76,7 @@ class SubmissionServer @Inject constructor(
         api.submitKeys(
             authCode = EMPTY_HEADER,
             fake = "1",
-            headerPadding = requestPadding(PADDING_LENGTH_HEADER_SUBMISSION_FAKE),
+            headerPadding = keyPadding(PADDING_LENGTH_HEADER_SUBMISSION_FAKE),
             requestBody = submissionPayload
         )
     }
@@ -84,7 +84,7 @@ class SubmissionServer @Inject constructor(
     companion object {
         const val EMPTY_HEADER = ""
         const val PADDING_LENGTH_HEADER_SUBMISSION_FAKE = 36
-        const val MIN_KEY_COUNT_FOR_SUBMISSION = 14
-        const val FAKE_KEY_SIZE = (1 * 16 /* key data*/) + (3 * 4 /* 3x int32*/)
+        const val MIN_KEY_COUNT_FOR_SUBMISSION = 15
+        const val FAKE_KEY_SIZE = 28 // 28 bytes per key
     }
 }

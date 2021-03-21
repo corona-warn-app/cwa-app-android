@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.util
 
 object PaddingTool {
-    fun requestPadding(length: Int): String = (1..length)
+    fun keyPadding(length: Int): String = (1..length)
         .map { PADDING_ITEMS.random() }
         .joinToString("")
 
