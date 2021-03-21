@@ -53,9 +53,9 @@ class TestResultDataCollector @Inject constructor(
             // Final Test result received
             newTestResult in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)
         if (shouldUpdate) {
-            Timber.d("Update finalTestResultReceivedAt time")
-            // TODO clarify this
-            testResultDonorSettings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
+            val receivedAt = timeStamper.nowUTC
+            Timber.d("New Test result=$newTestResult received at=$receivedAt")
+            testResultDonorSettings.finalTestResultReceivedAt.update { receivedAt }
             testResultDonorSettings.testResultAtRegistration.update { newTestResult }
         }
     }
