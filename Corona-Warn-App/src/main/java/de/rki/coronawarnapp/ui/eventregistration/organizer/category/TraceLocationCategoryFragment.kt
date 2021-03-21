@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import timber.log.Timber
 import javax.inject.Inject
 
 class TraceLocationCategoryFragment : Fragment(R.layout.trace_location_organizer_category_fragment), AutoInject {
@@ -31,11 +30,9 @@ class TraceLocationCategoryFragment : Fragment(R.layout.trace_location_organizer
 
         vm.categoryItems.observe2(this) { categoryItems ->
             val adapter = TraceLocationCategoryAdapter(categoryItems) {
-                Timber.d("Clicked on TraceLocationCategory: $it") //TODO: remove before commit
-
                 doNavigate(
                     TraceLocationCategoryFragmentDirections
-                        .actionTraceLocationOrganizerCategoriesFragmentToTraceLocationCreateFragment(it.type.ordinal, it.uiType)
+                        .actionTraceLocationOrganizerCategoriesFragmentToTraceLocationCreateFragment(it)
                 )
             }
             binding.recyclerViewCategories.adapter = adapter

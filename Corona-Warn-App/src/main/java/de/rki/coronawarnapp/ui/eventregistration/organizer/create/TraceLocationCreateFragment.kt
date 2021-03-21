@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.ui.category
+package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 
 import android.os.Bundle
 import android.view.View
@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.databinding.TraceLocationCreateFragmentBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -33,23 +34,24 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as TraceLocationCreateViewModel.Factory
-            factory.create(navArgs.typeValue, navArgs.uiType)
+            factory.create(navArgs.category)
         }
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.uiState.observe(viewLifecycleOwner) { state ->
-                binding.valueStart.text = state.getStartDate(requireContext().getLocale())
-                binding.valueEnd.text = state.getEndDate(requireContext().getLocale())
-                binding.layoutBeginn.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
-                binding.layoutEnd.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
-                binding.valueLengthOfStay.text = state.getLength()
-                binding.buttonSubmit.isEnabled = state.isSendEnable
-        }
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
 
-//        binding.toolbar.setNavigationOnClickListener { popBackStack() }
+        viewModel.uiState.observe(viewLifecycleOwner) { state ->
+            binding.toolbar.setSubtitle(state.title)
+            binding.valueStart.text = state.getStartDate(requireContext().getLocale())
+            binding.valueEnd.text = state.getEndDate(requireContext().getLocale())
+            binding.layoutBeginn.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
+            binding.layoutEnd.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
+            binding.valueLengthOfStay.text = state.getLength(resources)
+            binding.buttonSubmit.isEnabled = state.isSendEnable
+        }
 
         binding.descriptionInputEdit.doOnTextChanged { text, _, _, _ ->
             viewModel.description = text?.toString()
@@ -76,6 +78,10 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         binding.layoutLengthOfStay.setOnClickListener {
             it.hideKeyboard()
             showDurationPicker()
+        }
+
+        binding.buttonSubmit.setOnClickListener {
+            viewModel.send()
         }
     }
 
@@ -104,7 +110,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     private fun showDurationPicker() {
         val durationPicker = DurationPicker.Builder()
             .duration(viewModel.checkInLength?.toContactDiaryFormat() ?: "")
-            .title("TODO: change me")
+            .title(getString(R.string.tracelocation_organizer_add_event_length_of_stay))
             .build()
         durationPicker.show(parentFragmentManager, DURATION_PICKER_TAG)
         durationPicker.setDurationChangeListener {

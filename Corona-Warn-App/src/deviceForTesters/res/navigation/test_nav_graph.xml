@@ -179,17 +179,12 @@
     </fragment>
     <fragment
         android:id="@+id/traceLocationCreateFragment"
-        android:name="de.rki.coronawarnapp.eventregistration.events.ui.category.TraceLocationCreateFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragment"
         android:label="trace_location_create_fragment"
         tools:layout="@layout/trace_location_create_fragment">
         <argument
-            android:name="typeValue"
-            android:defaultValue="0"
-            app:argType="integer"
-            app:nullable="false" />
-        <argument
-            android:name="uiType"
-            app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType" />
+            android:name="category"
+            app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory" />
     </fragment>
 
 </navigation>

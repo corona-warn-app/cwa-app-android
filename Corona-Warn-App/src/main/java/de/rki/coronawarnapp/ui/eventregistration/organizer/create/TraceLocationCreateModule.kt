@@ -1,9 +1,8 @@
-package de.rki.coronawarnapp.ui.eventregistration.organizer.category
+package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import de.rki.coronawarnapp.eventregistration.events.ui.category.TraceLocationCreateViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey

@@ -4,86 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="TODO: add content description from title QR-Code erstellen"
-    tools:context=".eventregistration.events.ui.category.TraceLocationCreateFragment">
+    android:contentDescription="@string/tracelocation_organizer_category_title"
+    tools:context=".ui.eventregistration.organizer.create.TraceLocationCreateFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back"
+        app:subtitle="@string/tracelocation_organizer_category_craft_title"
+        app:title="@string/tracelocation_organizer_category_title" />
 
-        <include
-            android:id="@+id/statistics_explanation_header_button_back"
-            layout="@layout/include_button_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:focusable="true"
-            app:icon="@drawable/ic_close"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/statistics_explanation_header_title"
-            style="@style/headline6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="6dp"
-            android:accessibilityHeading="true"
-            android:focusable="true"
-            android:text="@string/tracelocation_organizer_category_title"
-            app:layout_constraintStart_toEndOf="@+id/statistics_explanation_header_button_back"
-            app:layout_constraintTop_toTopOf="@+id/statistics_explanation_header_button_back" />
-
-        <TextView
-            android:id="@+id/statistics_explanation_header_subtitle"
-            style="@style/body2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="3dp"
-            android:focusable="true"
-            android:text="@string/statistics_explanation_subtitle"
-            app:layout_constraintStart_toEndOf="@+id/statistics_explanation_header_button_back"
-            app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_header_title"
-            tools:text="@string/statistics_explanation_subtitle" />
-
-        <View
-            android:id="@+id/statistics_explanation_header_subtitle_divider"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/card_divider"
-            android:layout_marginTop="13dp"
-            android:background="@color/colorHairline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_header_subtitle" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_start" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_end" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="14dp" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/toolbar_divider"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/card_divider"
+        android:background="@color/colorHairline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -93,7 +35,7 @@
         app:layout_constraintBottom_toTopOf="@id/button_submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_divider">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,13 +50,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:hint="@string/contact_diary_add_location_text_input_hint"
+                android:hint="@string/tracelocation_organizer_add_event_description"
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/description_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="100" />
@@ -128,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:hint="@string/contact_diary_add_location_title"
+                android:hint="@string/tracelocation_organizer_add_event_location"
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -155,10 +98,11 @@
 
                 <TextView
                     android:id="@+id/label_start"
-                    style="@style/StatisticsCardValueLabel"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Beginn"
+                    android:textStyle="bold"
+                    android:text="@string/tracelocation_organizer_add_event_begin"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/value_start"
                     app:layout_constraintStart_toStartOf="parent"
@@ -166,7 +110,7 @@
 
                 <TextView
                     android:id="@+id/value_start"
-                    style="@style/StatisticsCardValueLabel"
+                    style="@style/subtitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -190,10 +134,11 @@
 
                 <TextView
                     android:id="@+id/label_end"
-                    style="@style/StatisticsCardValueLabel"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
+                    android:textStyle="bold"
                     android:layout_height="wrap_content"
-                    android:text="Ende"
+                    android:text="@string/tracelocation_organizer_add_event_end"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/value_end"
                     app:layout_constraintStart_toStartOf="parent"
@@ -201,7 +146,7 @@
 
                 <TextView
                     android:id="@+id/value_end"
-                    style="@style/StatisticsCardValueLabel"
+                    style="@style/subtitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -225,17 +170,18 @@
 
                 <TextView
                     android:id="@+id/label_length_of_stay"
-                    style="@style/StatisticsCardValueLabel"
+                    style="@style/subtitle"
+                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Typische Aufenthaltsdauer"
+                    android:text="@string/tracelocation_organizer_add_event_length_of_stay"
                     app:layout_constraintEnd_toStartOf="@id/value_length_of_stay"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/value_length_of_stay"
-                    style="@style/StatisticsCardValueLabel"
+                    style="@style/subtitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -244,16 +190,15 @@
 
                 <TextView
                     android:id="@+id/description_length_of_stay"
-                    style="@style/StatisticsCardValueLabel"
+                    style="@style/subtitleMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/spacing_small"
-                    android:text="Geben Sie an wie lange sich Gäste üblicherweise bei Ihnen aufhalten."
+                    android:text="@string/tracelocation_organizer_add_event_length_of_stay_description"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/value_length_of_stay" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
