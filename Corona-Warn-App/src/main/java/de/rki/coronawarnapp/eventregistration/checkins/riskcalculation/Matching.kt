@@ -42,6 +42,5 @@ fun CheckIn.calculateOverlap(
     )
 }
 
-//converts number of 10min intervals into milliseconds
+// converts number of 10min intervals into milliseconds
 private fun Int.tenMinIntervalToMillis() = this * 600L * 1000L
-
