@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 
 import javax.inject.Inject
 
-class TraceLocationRiskCalculator @Inject constructor(
-    private val traceLocationRiskMapper: TraceLocationRiskMapper
+class PresenceTracingRiskCalculator @Inject constructor(
+    private val presenceTracingRiskMapper: PresenceTracingRiskMapper
 ) {
     suspend fun calculateNormalizedTime(overlaps: List<CheckInOverlap>): List<TraceLocationCheckInNormalizedTime> {
         return overlaps.groupBy {
@@ -13,7 +13,7 @@ class TraceLocationRiskCalculator @Inject constructor(
                 it.localDate
             }.map { dateGroup ->
                 val normalizedTimeSum = dateGroup.value.fold(0.0) { sum, overlap ->
-                    val value = traceLocationRiskMapper.lookupTransmissionRiskValue(overlap.transmissionRiskLevel)
+                    val value = presenceTracingRiskMapper.lookupTransmissionRiskValue(overlap.transmissionRiskLevel)
                     sum + overlap.normalizedTime(value)
                 }
                 TraceLocationCheckInNormalizedTime(
@@ -30,7 +30,7 @@ class TraceLocationRiskCalculator @Inject constructor(
             TraceLocationCheckInRiskPerDay(
                 checkInId = it.checkInId,
                 localDate = it.localDate,
-                riskState = traceLocationRiskMapper.lookupRiskStatePerCheckIn(it.normalizedTime)
+                riskState = presenceTracingRiskMapper.lookupRiskStatePerCheckIn(it.normalizedTime)
             )
         }
     }
@@ -42,7 +42,7 @@ class TraceLocationRiskCalculator @Inject constructor(
             }
             TraceLocationDayRisk(
                 localDate = it.key,
-                riskState = traceLocationRiskMapper.lookupRiskStatePerDay(normalizedTimePerDate)
+                riskState = presenceTracingRiskMapper.lookupRiskStatePerDay(normalizedTimePerDate)
             )
         }
     }
@@ -54,7 +54,7 @@ class TraceLocationRiskCalculator @Inject constructor(
             }
             TraceLocationCheckInRisk(
                 checkInId = it.key,
-                riskState = traceLocationRiskMapper.lookupRiskStatePerCheckIn(normalizedTimePerDate)
+                riskState = presenceTracingRiskMapper.lookupRiskStatePerCheckIn(normalizedTimePerDate)
             )
         }
     }

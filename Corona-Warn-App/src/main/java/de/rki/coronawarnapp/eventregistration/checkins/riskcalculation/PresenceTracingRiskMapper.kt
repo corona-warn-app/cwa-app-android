@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.first
 import java.lang.reflect.Modifier.PRIVATE
 import javax.inject.Inject
 
-class TraceLocationRiskMapper @Inject constructor(
+class PresenceTracingRiskMapper @Inject constructor(
     private val configProvider: AppConfigProvider
 ) {
     private var presenceTracingRiskCalculationParamContainer: PresenceTracingRiskCalculationParamContainer? = null

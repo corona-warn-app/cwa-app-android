@@ -6,7 +6,7 @@ import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.BeforeEach
 import testhelpers.BaseTest
 
-class TraceLocationRiskMapperTest : BaseTest() {
+class PresenceTracingRiskMapperTest : BaseTest() {
     @MockK lateinit var configProvider: AppConfigProvider
 
     @BeforeEach
@@ -14,5 +14,5 @@ class TraceLocationRiskMapperTest : BaseTest() {
         MockKAnnotations.init(this)
     }
 
-    private fun createInstance() = TraceLocationRiskMapper(configProvider)
+    private fun createInstance() = PresenceTracingRiskMapper(configProvider)
 }
