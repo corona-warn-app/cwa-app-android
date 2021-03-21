@@ -163,6 +163,8 @@ class SubmissionRepositoryTest : BaseTest() {
             submissionSettings.devicePairingSuccessfulAt = any()
             backgroundNoise.scheduleDummyPattern()
         }
+
+        coVerify { testResultDataCollector.saveTestResultAnalyticsSettings(any()) }
     }
 
     @Test
@@ -183,6 +185,10 @@ class SubmissionRepositoryTest : BaseTest() {
             registrationTokenPreference.update(any())
             submissionSettings.devicePairingSuccessfulAt = any()
             backgroundNoise.scheduleDummyPattern()
+        }
+
+        coVerify(exactly = 0) {
+            testResultDataCollector.saveTestResultAnalyticsSettings(any())
         }
     }
 
@@ -336,5 +342,13 @@ class SubmissionRepositoryTest : BaseTest() {
         submissionRepository.updateTestResult(TestResult.NEGATIVE)
 
         verify(exactly = 0) { submissionSettings.initialTestResultReceivedAt = null }
+    }
+
+    @Test
+    fun `updateTestResult updates test result donor data`() = runBlockingTest {
+        val submissionRepository = createInstance(scope = this)
+        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+
+        verify { testResultDataCollector.updatePendingTestResultReceivedTime(any()) }
     }
 }
