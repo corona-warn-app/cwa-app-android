@@ -50,6 +50,11 @@ class TestResultDonor @Inject constructor(
                 lastChangeCheckedRiskLevelTimestamp,
                 timestampAtRegistration
             )
+        Timber.i(
+            "lastChangeCheckedRiskLevelTimestamp=%s,timestampAtRegistration=%s",
+            lastChangeCheckedRiskLevelTimestamp,
+            timestampAtRegistration
+        )
 
         Timber.i(
             "daysSinceMostRecentDateAtRiskLevelAtTestRegistration: %s",
@@ -83,6 +88,7 @@ class TestResultDonor @Inject constructor(
         val configHours = request.currentConfig.analytics.hoursSinceTestRegistrationToSubmitTestResultMetadata
         val hoursSinceTestRegistrationTime = Duration(timestampAtRegistration, timeStamper.nowUTC).standardHours.toInt()
         val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
+        Timber.i("hoursSinceTestRegistrationTime=$hoursSinceTestRegistrationTime, configHours=$configHours")
 
         return when {
             /**
