@@ -37,6 +37,7 @@ class TestResultDataCollector @Inject constructor(
                 .first()
                 .tryLatestResultsWithDefaults()
                 .lastCalculated
+            Timber.d("saveTestResultDonorDataAtRegistration($testResult, $lastRiskResult)")
             testResultDonorSettings.saveTestResultDonorDataAtRegistration(testResult, lastRiskResult)
         }
     }
@@ -53,7 +54,7 @@ class TestResultDataCollector @Inject constructor(
             newTestResult in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)
         if (shouldUpdate) {
             val receivedAt = timeStamper.nowUTC
-            Timber.d("New Test result=$newTestResult received at=$receivedAt")
+            Timber.d("updatePendingTestResultReceivedTime($newTestResult, $receivedAt")
             testResultDonorSettings.finalTestResultReceivedAt.update { receivedAt }
             testResultDonorSettings.testResultAtRegistration.update { newTestResult }
         }
@@ -63,6 +64,7 @@ class TestResultDataCollector @Inject constructor(
      * Clear saved test donor saved metadata
      */
     fun clear() {
+        Timber.d("clear TestResultDonorSettings")
         testResultDonorSettings.clear()
     }
 }
