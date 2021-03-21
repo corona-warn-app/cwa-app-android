@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import org.joda.time.Duration
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 
 suspend fun filterRelevantWarnings(
     checkIns: List<CheckIn>,
@@ -15,7 +14,7 @@ suspend fun filterRelevantWarnings(
     val warnings = traceTimeIntervalWarningPackage.extractTraceTimeIntervalWarning()
     return warnings.filter { warning ->
         checkIns.find { checkIn ->
-            warning.locationGuidHash == checkIn.traceLocationGuidHash
+            warning.locationGuidHash.toStringUtf8() == checkIn.guidHash.base64()
         } != null
     }
 }
@@ -24,11 +23,10 @@ fun CheckIn.calculateOverlap(
     warning: TraceWarning.TraceTimeIntervalWarning
 ): CheckInOverlap? {
 
-    if (traceLocationGuidHash !== warning.locationGuidHash) return null
-    if (checkInEnd == null) return null
+    if (warning.locationGuidHash.toStringUtf8() != guidHash.base64()) return null
 
-    val warningStartTimestamp = warning.startIntervalNumber.toTimestamp()
-    val warningEndTimestamp = (warning.startIntervalNumber + warning.period).toTimestamp()
+    val warningStartTimestamp = warning.startIntervalNumber.tenMinIntervalToMillis()
+    val warningEndTimestamp = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
 
     val overlapStartTimestamp = kotlin.math.max(checkInStart.millis, warningStartTimestamp)
     val overlapEndTimestamp = kotlin.math.min(checkInEnd.millis, warningEndTimestamp)
@@ -44,11 +42,6 @@ fun CheckIn.calculateOverlap(
     )
 }
 
-fun Int.toTimestamp() = this * 600L * 1000L
+//converts number of 10min intervals into milliseconds
+private fun Int.tenMinIntervalToMillis() = this * 600L * 1000L
 
-data class CheckInOverlap(
-    val checkInId: Long,
-    val localDate: LocalDate,
-    val overlap: Duration,
-    val transmissionRiskLevel: Int
-)

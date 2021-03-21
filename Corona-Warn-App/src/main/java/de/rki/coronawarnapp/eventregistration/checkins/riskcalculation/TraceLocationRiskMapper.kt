@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.risk.RiskState
@@ -9,12 +10,12 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.UNRECOGNIZED
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.UNSPECIFIED
 import kotlinx.coroutines.flow.first
+import java.lang.reflect.Modifier.PRIVATE
 import javax.inject.Inject
 
 class TraceLocationRiskMapper @Inject constructor(
     private val configProvider: AppConfigProvider
 ) {
-
     private var presenceTracingRiskCalculationParamContainer: PresenceTracingRiskCalculationParamContainer? = null
 
     suspend fun lookupTransmissionRiskValue(transmissionRiskLevel: Int): Double {
@@ -29,14 +30,6 @@ class TraceLocationRiskMapper @Inject constructor(
         }
             ?.riskLevel
             ?.mapToRiskState() ?: RiskState.CALCULATION_FAILED
-    }
-
-    private fun RiskCalculationParametersOuterClass.Range.isInRange(value: Double): Boolean {
-        if (minExclusive && value <= min) return false
-        if (!minExclusive && value < min) return false
-        if (maxExclusive && value >= max) return false
-        if (!maxExclusive && value > max) return false
-        return true
     }
 
     suspend fun lookupRiskStatePerCheckIn(normalizedTime: Double): RiskState {
@@ -67,7 +60,8 @@ class TraceLocationRiskMapper @Inject constructor(
     }
 }
 
-private fun RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.mapToRiskState(): RiskState {
+@VisibleForTesting(otherwise = PRIVATE)
+internal fun RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.mapToRiskState(): RiskState {
     return when (this) {
         UNSPECIFIED -> RiskState.CALCULATION_FAILED
         LOW -> RiskState.LOW_RISK
@@ -76,4 +70,12 @@ private fun RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping
     }
 }
 
+@VisibleForTesting(otherwise = PRIVATE)
+internal fun RiskCalculationParametersOuterClass.Range.isInRange(value: Double): Boolean {
+    if (minExclusive && value <= min) return false
+    if (!minExclusive && value < min) return false
+    if (maxExclusive && value >= max) return false
+    if (!maxExclusive && value > max) return false
+    return true
+}
 

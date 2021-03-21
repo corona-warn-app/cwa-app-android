@@ -9,9 +9,3 @@ interface TraceTimeIntervalWarningPackage {
      */
     suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning>
 }
-
-
-
-
-
-
