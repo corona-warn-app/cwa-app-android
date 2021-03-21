@@ -35,24 +35,24 @@ class TraceLocationRiskCalculator @Inject constructor(
         }
     }
 
-    suspend fun calculateAggregatedRiskPerDay(list: List<TraceLocationCheckInNormalizedTime>): List<TracedLocationDayRisk> {
+    suspend fun calculateAggregatedRiskPerDay(list: List<TraceLocationCheckInNormalizedTime>): List<TraceLocationDayRisk> {
         return list.groupBy { it.localDate }.map {
             val normalizedTimePerDate = it.value.sumByDouble {
                 it.normalizedTime
             }
-            TracedLocationDayRisk(
+            TraceLocationDayRisk(
                 localDate = it.key,
                 riskState = traceLocationRiskMapper.lookupRiskStatePerDay(normalizedTimePerDate)
             )
         }
     }
 
-    suspend fun calculateAggregatedRiskPerCheckIn(list: List<TraceLocationCheckInNormalizedTime>): List<TracedLocationCheckInRisk> {
+    suspend fun calculateAggregatedRiskPerCheckIn(list: List<TraceLocationCheckInNormalizedTime>): List<TraceLocationCheckInRisk> {
         return list.groupBy { it.checkInId }.map {
             val normalizedTimePerDate = it.value.sumByDouble {
                 it.normalizedTime
             }
-            TracedLocationCheckInRisk(
+            TraceLocationCheckInRisk(
                 checkInId = it.key,
                 riskState = traceLocationRiskMapper.lookupRiskStatePerCheckIn(normalizedTimePerDate)
             )
