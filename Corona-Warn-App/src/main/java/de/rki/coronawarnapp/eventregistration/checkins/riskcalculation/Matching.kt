@@ -14,7 +14,7 @@ suspend fun filterRelevantWarnings(
     val warnings = traceTimeIntervalWarningPackage.extractTraceTimeIntervalWarning()
     return warnings.filter { warning ->
         checkIns.find { checkIn ->
-            warning.locationGuidHash.toStringUtf8() == checkIn.guidHash.base64()
+            warning.locationGuidHash.toByteArray().contentEquals(checkIn.guidHash.toByteArray())
         } != null
     }
 }
@@ -23,7 +23,7 @@ fun CheckIn.calculateOverlap(
     warning: TraceWarning.TraceTimeIntervalWarning
 ): CheckInOverlap? {
 
-    if (warning.locationGuidHash.toStringUtf8() != guidHash.base64()) return null
+    if (!warning.locationGuidHash.toByteArray().contentEquals(guidHash.toByteArray())) return null
 
     val warningStartTimestamp = warning.startIntervalNumber.tenMinIntervalToMillis()
     val warningEndTimestamp = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
