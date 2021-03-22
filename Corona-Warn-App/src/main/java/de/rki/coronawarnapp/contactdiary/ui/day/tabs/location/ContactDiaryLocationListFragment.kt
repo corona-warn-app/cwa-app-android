@@ -8,9 +8,9 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentDirections
-import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationListFragmentBinding
+import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
@@ -47,7 +47,7 @@ class ContactDiaryLocationListFragment :
             adapter = locationListAdapter
             addItemDecoration(
                 MarginRecyclerViewDecoration(
-                    resources.getDimensionPixelSize(R.dimen.spacing_tiny)
+                    resources.getDimensionPixelSize(R.dimen.list_item_decoration_card_margins)
                 )
             )
             onScroll {
