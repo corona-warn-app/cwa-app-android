@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
+    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
+    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
 import de.rki.coronawarnapp.util.PaddingTool.determineNumberOfFakeCheckIns
 import de.rki.coronawarnapp.util.PaddingTool.equation
 import io.kotest.matchers.doubles.shouldBeGreaterThan
@@ -47,7 +47,7 @@ class PaddingToolTest : BaseTest() {
 
     @Test
     fun `keyPadding - genuine request with 16 keys`() {
-        //keyPadding = 0 keys x 28 bytes per key = 0 bytes`
+        // keyPadding = 0 keys x 28 bytes per key = 0 bytes`
         PaddingTool.keyPadding(keyListSize = 16).toByteArray().size shouldBe 0
     }
 
