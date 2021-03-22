@@ -83,8 +83,8 @@ class RiskLevelTask @Inject constructor(
             Timber.d("The current time is %s", it)
         }
 
-        if (submissionSettings.isAllowedToSubmitKeys) {
-            Timber.i("Positive test result, skip risk calculation")
+        if (submissionSettings.isAllowedToSubmitKeys && submissionSettings.hasViewedTestResult.value) {
+            Timber.i("Positive test result and user has seen it, skip risk calculation")
             return RiskLevelTaskResult(
                 calculatedAt = nowUTC,
                 failureReason = FailureReason.POSITIVE_TEST_RESULT

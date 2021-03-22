@@ -302,13 +302,14 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Този период се включва в изчислението."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
+<!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните 14 дни."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Приложението Corona-Warn-App е инсталирано преди %s дни. Рискът да сте се заразили се изчислява за периодите, през които е било активно регистрирането на контактите Ви. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, рискът да сте се заразили ще бъде изчислен."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Ако регистрирането на контактите Ви е било активно, когато сте се срещали с други хора, рискът да сте се заразили през този период ще бъде изчислен."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment">"Регистрирането на излагания на риск покрива последните 14 дни. За този период от време функцията е била активна на Вашия смартфон в продължение на %1$s дни. Приложението изтрива автоматично по-старите регистри, тъй като те вече не могат да служат за предотвратяване на заразяването."</string>
+    <string name="risk_details_information_body_period_logged_assessment">"Приложението изтрива автоматично по-старите регистри, тъй като те вече не могат да служат за предотвратяване на заразяването."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
@@ -318,15 +319,13 @@
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Регистърът на излаганията на риск не е обновяван повече от 24 часа."</string>
     <!-- YTXT: risk details - low risk explanation text -->
-    <string name="risk_details_information_body_low_risk">"Вашето ниво на риск от заразяване е ниско, защото нямате регистрирани контакти с лица, които впоследствие са били диагностицирани с COVID-19, или ако сте имали такива, те са били краткотрайни и от по-голямо разстояние."</string>
+    <string name="risk_details_information_body_low_risk">"Вашето ниво на риск от заразяване е ниско, защото нямате регистрирани контакти с лица, които впоследствие са били диагностицирани с коронавирус, или ако сте имали такива, те са били краткотрайни и от по-голямо разстояние."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Рискът от заразяване се изчислява локално на смартфона Ви въз основа на регистрираните данни за излагане. Изчислението включва също така разстоянието от и продължителността на всички контакти с лица, диагностицирани с коронавирус, както и възможността им да заразят околните. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск."</string>
-    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
-    <string name="risk_details_explanation_dialog_faq_body">"За повече информация вижте страницата „ЧЗВ“."</string>
     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
-    <string name="risk_details_information_body_increased_risk_date">"Нивото на риска Ви от заразяване е повишено, защото сте имали продължителен и близък контакт с поне едно лице, диагностицирано с COVID-19."</string>
+    <string name="risk_details_information_body_increased_risk_date">"Нивото на риска Ви от заразяване е повишено, защото сте имали продължителен и близък контакт с поне едно лице, диагностицирано с коронавирус."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Нивото на риска Ви от заразяване е повишено, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с коронавирус."</item>
@@ -347,6 +346,10 @@
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Вашият статус на риск"</string>
 
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">"Информация относно функционалността за регистриране на излагания на риск"</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">"За повече информация вижте страницата „ЧЗВ“."</string>
     <!-- XHED: risk details - deadman notification title -->
     <string name="risk_details_deadman_notification_title">"Вашият статус на риск"</string>
     <!-- YTXT: risk details - deadman notification text -->
@@ -861,8 +864,22 @@
     <string name="debugging_debuglog_status_not_recording">"Неактивно"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"Текущ размер: %1$s (без компресия)"</string>
+
+    <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_title">"Удостоверяване на автентичността и пренос на данни в други държави"</string>
+    <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_first_section">"За да бъде потвърдена автентичността на приложението Ви, Вашето устройство генерира уникален идентификатор с информация за версията на устройството и приложението. Това гарантира, че само лицата, които действително използват приложението Corona-Warn-App, могат да изпращат данни до техническата поддръжка и изключва възможността за манипулиране на отчетите. За тази цел идентификаторът се изпраща до Google. При този процес е възможно да бъдат изпратени данни до САЩ или други държави, чието ниво на защита на данните може да не съответства на европейското. По тази причина е възможно да не можете да упражните своите права относно защитата на данните, предвидени в европейското законодателство. По конкретно, службите за сигурност в съответната държава биха могли да осъществят достъп до данните и да ги анализират с Google, независимо от липсата на основание за това, както и да свържат тези данни с друга информация. Това касае само идентификатора, който се изпраща до Google. Google не получава информацията от Вашия отчет за грешките, но е възможно да определи Вашата самоличност на база на идентификатора и чрез проследяване да установи, че проверката за автентичност е извършена на Вашето устройство."</string>
+    <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
+    <string name="debugging_debuglog_legal_privacy_card_second_section">"Ако не сте съгласни данните Ви да бъдат пренасяни в други държави, моля не докосвайте бутона “Приемане и изпращане”. В този случай ще можете да използвате приложението, но не и да изпращате отчети за грешки."</string>
+
+    <!-- YTXT: Dialog title if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_title">"Желаете ли да спрете анализа на грешките?"</string>
     <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
-    <string name="debugging_debuglog_stop_confirmation_message">"Отчетът за грешките е изтрит. Вашето локално копие на отчета, ако сте запазили такова, не е изтрито."</string>
+    <string name="debugging_debuglog_stop_confirmation_message">"Ако потвърдите, всички записани данни ще бъдат изтрити. Вашето локално копие на отчета за грешките, ако сте запазили такова, няма да бъде изтрито."</string>
+    <!-- YTXT: Dialog confirmation button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_confirmation_button">"Спиране на анализа"</string>
+    <!-- YTXT: Dialog discard button if the log recording is stopped, and thus deleted. -->
+    <string name="debugging_debuglog_stop_confirmation_discard_button">"Продължаване на анализа"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Необходими са поне 200 MB памет, за да се стартира анализа на грешките. Моля, освободете място."</string>
     <!-- XHED: Dialog title if a user has stored a debug log locally -->
@@ -871,7 +888,6 @@
     <string name="debugging_debuglog_localexport_message">"Анализът на грешките е запазен локално."</string>
     <!-- YTXT: Dialog message if local export has failed -->
     <string name="debugging_debuglog_localexport_error_message">"Отчетът за грешките не беше запазен. Моля, проверете дали има достатъчно свободна памет."</string>
-
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Подробна информация относно изпращането на отчети за грешки"</string>
     <!-- YTXT: Section Title for debug legal screen -->
