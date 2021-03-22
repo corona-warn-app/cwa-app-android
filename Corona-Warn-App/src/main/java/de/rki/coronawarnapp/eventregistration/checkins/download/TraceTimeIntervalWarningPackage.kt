@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.checkins.download
 
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
-
 interface TraceTimeIntervalWarningPackage {
 
     /**

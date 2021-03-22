@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
-import org.joda.time.Duration
 import org.joda.time.Instant
 
 suspend fun filterRelevantWarnings(
@@ -20,7 +18,8 @@ suspend fun filterRelevantWarnings(
 }
 
 fun CheckIn.calculateOverlap(
-    warning: TraceWarning.TraceTimeIntervalWarning
+    warning: TraceWarning.TraceTimeIntervalWarning,
+    traceWarningPackageId: Long
 ): CheckInOverlap? {
 
     if (warning.locationGuidHash.toStringUtf8() != guidHash.base64()) return null
@@ -36,11 +35,11 @@ fun CheckIn.calculateOverlap(
 
     return CheckInOverlap(
         checkInId = id,
-        localDate = Instant.ofEpochMilli(warningStartTimestamp).toLocalDate(),
-        overlap = Duration(overlapMillis),
-        transmissionRiskLevel = warning.transmissionRiskLevel
+        traceLocationGuidHash = warning.locationGuidHash,
+        transmissionRiskLevel = warning.transmissionRiskLevel,
+        traceWarningPackageId = traceWarningPackageId,
+        startTime = Instant.ofEpochMilli(overlapStartTimestamp),
+        endTime = Instant.ofEpochMilli(overlapEndTimestamp)
+
     )
 }
-
-// converts number of 10min intervals into milliseconds
-private fun Int.tenMinIntervalToMillis() = this * 600L * 1000L
