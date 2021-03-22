@@ -60,11 +60,18 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
             title = category.title,
             isDateVisible = category.uiType == TraceLocationUIType.EVENT,
             isSendEnable = when (category.uiType) {
-                TraceLocationUIType.LOCATION -> description?.trim()?.length in 1..100 && address?.trim()?.length in 0..100 && (checkInLength
-                    ?: Duration.ZERO) > Duration.ZERO
-                TraceLocationUIType.EVENT -> description?.trim()?.length in 1..100 && address?.trim()?.length in 0..100 && start != null && end != null && end?.isAfter(
-                    start
-                ) == true
+                TraceLocationUIType.LOCATION -> {
+                    description?.trim()?.length in 1..100 &&
+                        address?.trim()?.length in 0..100 &&
+                        (checkInLength ?: Duration.ZERO) > Duration.ZERO
+                }
+                TraceLocationUIType.EVENT -> {
+                    description?.trim()?.length in 1..100 &&
+                        address?.trim()?.length in 0..100 &&
+                        start != null &&
+                        end != null &&
+                        end?.isAfter(start) == true
+                }
             }
         )
     }
