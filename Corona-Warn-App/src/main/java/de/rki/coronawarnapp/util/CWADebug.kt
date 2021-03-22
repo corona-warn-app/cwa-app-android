@@ -36,6 +36,7 @@ object CWADebug {
     }
 
     fun initAfterInjection(component: ApplicationComponent) {
+        Timber.v("initAfterInjection(%s)", component)
         // TODO ¯\_(ツ)_/¯
         if (isDeviceForTestersBuild) {
             debugLogger.setInjectionIsReady(component)

@@ -1,8 +1,10 @@
-package de.rki.coronawarnapp.storage.preferences
+package de.rki.coronawarnapp.util.encryptionmigration
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
+import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -15,34 +17,41 @@ import javax.inject.Inject
 
 class EncryptedPreferencesMigration @Inject constructor(
     @AppContext private val context: Context,
-    private val encryptedPreferencesHelper: EncryptedPreferencesHelper,
+    private val encryptedPreferences: EncryptedPreferencesHelper,
     private val cwaSettings: CWASettings,
     private val submissionSettings: SubmissionSettings,
     private val tracingSettings: TracingSettings,
-    private val onboardingSettings: OnboardingSettings
+    private val onboardingSettings: OnboardingSettings,
+    private val errorResetTool: EncryptionErrorResetTool
 ) {
 
     fun doMigration() {
         Timber.d("Migration start")
         try {
-            copyData()
-            cleanData()
+            encryptedPreferences.instance?.let { copyData(it) }
         } catch (e: Exception) {
-            Timber.e(e, "Migration was not successful")
+            e.reportProblem(tag = this::class.simpleName, info = "Migration failed")
+            errorResetTool.isResetNoticeToBeShown = true
+        } finally {
+            try {
+                encryptedPreferences.clean()
+            } catch (e: Exception) {
+                e.reportProblem(tag = this::class.simpleName, info = "Encryption data clean up failed")
+            }
         }
         try {
             dropDatabase()
         } catch (e: Exception) {
-            Timber.e(e, "Database removing was not successful")
+            e.reportProblem(tag = this::class.simpleName, info = "Database removing failed")
         }
         Timber.d("Migration finish")
     }
 
-    private fun copyData() {
-        val encryptedSharedPreferences = encryptedPreferencesHelper.encryptedSharedPreferencesInstance ?: return
-        Timber.d("EncryptedPreferences are available")
+    private fun copyData(encryptedSharedPreferences: SharedPreferences) {
+        Timber.i("copyData(): EncryptedPreferences are available")
         SettingsLocalData(encryptedSharedPreferences).apply {
             cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
+            cwaSettings.wasTracingExplanationDialogShown = wasTracingExplanationDialogShown()
             cwaSettings.isNotificationsRiskEnabled.update { isNotificationsRiskEnabled() }
             cwaSettings.isNotificationsTestEnabled.update { isNotificationsTestEnabled() }
             cwaSettings.numberOfRemainingSharePositiveTestResultReminders =
@@ -72,23 +81,30 @@ class EncryptedPreferencesMigration @Inject constructor(
             submissionSettings.isSubmissionSuccessful = numberOfSuccessfulSubmissions() >= 1
             submissionSettings.isAllowedToSubmitKeys = isAllowedToSubmitDiagnosisKeys()
         }
-    }
-
-    private fun cleanData() {
-        encryptedPreferencesHelper.clean()
+        Timber.i("copyData(): EncryptedPreferences have been copied.")
     }
 
     private fun dropDatabase() {
         val file = context.getDatabasePath("coronawarnapp-db")
-        if (file.exists()) {
-            Timber.d("Removing database $file")
-            SQLiteDatabase.deleteDatabase(file)
+        if (!file.exists()) {
+            Timber.d("Encrypted database does not exist.")
+            return
+        }
+
+        Timber.i("Removing database $file")
+        if (SQLiteDatabase.deleteDatabase(file)) {
+            Timber.i("Legacy encrypted database was deleted.")
+        } else {
+            Timber.e("Legacy encrypted database could not be deleted.")
         }
     }
 
-    private class SettingsLocalData(private val sharedPreferences: SharedPreferences) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    class SettingsLocalData(private val sharedPreferences: SharedPreferences) {
 
-        fun wasInteroperabilityShown() = sharedPreferences.getBoolean(PREFERENCE_INTEROPERABILITY_WAS_USED, false)
+        fun wasInteroperabilityShown() = sharedPreferences.getBoolean(PKEY_INTEROPERABILITY_WAS_USED, false)
+
+        fun wasTracingExplanationDialogShown() = sharedPreferences.getBoolean(PKEY_TRACING_EXPLANATION_WAS_SHOWN, false)
 
         fun isNotificationsRiskEnabled(): Boolean = sharedPreferences.getBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, true)
 
@@ -98,15 +114,25 @@ class EncryptedPreferencesMigration @Inject constructor(
             sharedPreferences.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)
 
         companion object {
-            private const val PREFERENCE_INTEROPERABILITY_WAS_USED = "preference_interoperability_is_used_at_least_once"
-            private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "preference_notifications_risk_enabled"
-            private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "preference_notifications_test_enabled"
-            private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT =
-                "preference_positive_test_result_reminder_count"
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_INTEROPERABILITY_WAS_USED = "preference_interoperability_is_used_at_least_once"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_TRACING_EXPLANATION_WAS_SHOWN = "preference_risk_days_explanation_shown"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_NOTIFICATIONS_RISK_ENABLED = "preference_notifications_risk_enabled"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_NOTIFICATIONS_TEST_ENABLED = "preference_notifications_test_enabled"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT = "preference_positive_test_result_reminder_count"
         }
     }
 
-    private class OnboardingLocalData(private val sharedPreferences: SharedPreferences) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    class OnboardingLocalData(private val sharedPreferences: SharedPreferences) {
         fun onboardingCompletedTimestamp(): Long? {
             val timestamp = sharedPreferences.getLong(PKEY_ONBOARDING_COMPLETED_TIMESTAMP, 0L)
 
@@ -117,12 +143,16 @@ class EncryptedPreferencesMigration @Inject constructor(
         fun isBackgroundCheckDone(): Boolean = sharedPreferences.getBoolean(PKEY_BACKGROUND_CHECK_DONE, false)
 
         companion object {
-            private const val PKEY_ONBOARDING_COMPLETED_TIMESTAMP = "preference_onboarding_completed_timestamp"
-            private const val PKEY_BACKGROUND_CHECK_DONE = "preference_background_check_done"
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_ONBOARDING_COMPLETED_TIMESTAMP = "preference_onboarding_completed_timestamp"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_BACKGROUND_CHECK_DONE = "preference_background_check_done"
         }
     }
 
-    private class TracingLocalData(private val sharedPreferences: SharedPreferences) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    class TracingLocalData(private val sharedPreferences: SharedPreferences) {
 
         fun initialPollingForTestResultTimeStamp() = sharedPreferences.getLong(PKEY_POOLING_TEST_RESULT_STARTED, 0L)
 
@@ -133,14 +163,22 @@ class EncryptedPreferencesMigration @Inject constructor(
         fun initialTracingActivationTimestamp(): Long = sharedPreferences.getLong(PKEY_TRACING_ACTIVATION_TIME, 0L)
 
         companion object {
-            private const val PKEY_POOLING_TEST_RESULT_STARTED = "preference_polling_test_result_started"
-            private const val PKEY_TEST_RESULT_NOTIFICATION = "preference_test_result_notification"
-            private const val PKEY_HAS_RISK_STATUS_LOWERED = "preference_has_risk_status_lowered"
-            private const val PKEY_TRACING_ACTIVATION_TIME = "preference_initial_tracing_activation_time"
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_POOLING_TEST_RESULT_STARTED = "preference_polling_test_result_started"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_TEST_RESULT_NOTIFICATION = "preference_test_result_notification"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_HAS_RISK_STATUS_LOWERED = "preference_has_risk_status_lowered"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_TRACING_ACTIVATION_TIME = "preference_initial_tracing_activation_time"
         }
     }
 
-    private class SubmissionLocalData(private val sharedPreferences: SharedPreferences) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    class SubmissionLocalData(private val sharedPreferences: SharedPreferences) {
         fun registrationToken(): String? = sharedPreferences.getString(PKEY_REGISTRATION_TOKEN, null)
 
         fun initialTestResultReceivedTimestamp(): Long? {
@@ -157,11 +195,20 @@ class EncryptedPreferencesMigration @Inject constructor(
         fun isAllowedToSubmitDiagnosisKeys(): Boolean = sharedPreferences.getBoolean(PKEY_IS_ALLOWED_TO_SUBMIT, false)
 
         companion object {
-            private const val PKEY_REGISTRATION_TOKEN = "preference_registration_token"
-            private const val PKEY_INITIAL_RESULT_RECEIVED_TIME = "preference_initial_result_received_time"
-            private const val PKEY_DEVICE_PARING_SUCCESSFUL_TIME = "preference_device_pairing_successful_time"
-            private const val PKEY_NUMBER_SUCCESSFUL_SUBMISSIONS = "preference_number_successful_submissions"
-            private const val PKEY_IS_ALLOWED_TO_SUBMIT = "preference_is_allowed_to_submit_diagnosis_keys"
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_REGISTRATION_TOKEN = "preference_registration_token"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_INITIAL_RESULT_RECEIVED_TIME = "preference_initial_result_received_time"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_DEVICE_PARING_SUCCESSFUL_TIME = "preference_device_pairing_successful_time"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_NUMBER_SUCCESSFUL_SUBMISSIONS = "preference_number_successful_submissions"
+
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            const val PKEY_IS_ALLOWED_TO_SUBMIT = "preference_is_allowed_to_submit_diagnosis_keys"
         }
     }
 }

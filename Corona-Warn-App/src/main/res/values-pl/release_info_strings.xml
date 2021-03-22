@@ -17,24 +17,20 @@
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
         <item>"Do międzynarodowego rejestrowania narażenia dodano Szwajcarię."</item>
-        <item>"Generowanie raportów o błędach"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
         <item>"Użytkownicy aplikacji Corona-Warn-App mogą teraz wymieniać zaszyfrowane losowe identyfikatory z użytkownikami oficjalnej aplikacji ostrzegawczej w Szwajcarii. Oznacza to, że ostrzeżenia mogą być teraz wysyłane do użytkowników aplikacji w Szwajcarii i od nich odbierane."</item>
-        <item>"Na prośbę działu wsparcia technicznego możesz teraz wygenerować raport o błędach i zapisać czynności wykonane w aplikacji. Ułatwi to analizę błędów technicznych i przyśpieszy ich usuwanie."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
     </string-array>
 

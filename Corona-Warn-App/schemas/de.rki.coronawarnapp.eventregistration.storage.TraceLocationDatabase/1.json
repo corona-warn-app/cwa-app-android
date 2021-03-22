@@ -6,7 +6,7 @@
     "entities": [
       {
         "tableName": "checkin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `signature` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT, `targetCheckInEnd` TEXT, `createJournalEntry` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `guidHash` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `traceLocationBytes` TEXT NOT NULL, `signature` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -17,6 +17,12 @@
           {
             "fieldPath": "guid",
             "columnName": "guid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "guidHashBase64",
+            "columnName": "guidHash",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -63,7 +69,13 @@
             "notNull": false
           },
           {
-            "fieldPath": "signature",
+            "fieldPath": "traceLocationBytesBase64",
+            "columnName": "traceLocationBytes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "signatureBase64",
             "columnName": "signature",
             "affinity": "TEXT",
             "notNull": true
@@ -78,13 +90,13 @@
             "fieldPath": "checkInEnd",
             "columnName": "checkInEnd",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
-            "fieldPath": "targetCheckInEnd",
-            "columnName": "targetCheckInEnd",
-            "affinity": "TEXT",
-            "notNull": false
+            "fieldPath": "completed",
+            "columnName": "completed",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "createJournalEntry",
@@ -153,8 +165,7 @@
             "columnName": "defaultCheckInLengthInMinutes",
             "affinity": "INTEGER",
             "notNull": false
-          },
-          {
+          },{
             "fieldPath": "byteRepresentationBase64",
             "columnName": "byteRepresentation",
             "affinity": "TEXT",
