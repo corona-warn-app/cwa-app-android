@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.server
+package de.rki.coronawarnapp.environment.eventregistration
 
 import javax.inject.Qualifier
 

@@ -1,10 +1,11 @@
-package de.rki.coronawarnapp.eventregistration.events.server
+package de.rki.coronawarnapp.environment.eventregistration
 
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import de.rki.coronawarnapp.environment.BaseEnvironmentModule
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.eventregistration.events.server.CreateTraceLocationApiV1
 import de.rki.coronawarnapp.http.HttpClientDefault
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
