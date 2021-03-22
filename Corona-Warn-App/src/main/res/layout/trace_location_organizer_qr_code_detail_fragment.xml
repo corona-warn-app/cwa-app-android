@@ -62,12 +62,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="12dp"
                         android:gravity="center"
                         tools:text="Hauptstr 3, 69115 Heidelberg"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
-                        android:textStyle="normal">
+                        android:textStyle="normal"
+                        android:layout_marginBottom="200dp">
 
                     </TextView>
 
@@ -110,18 +110,18 @@
             android:id="@+id/nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:behavior_overlapTop="210dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/qrCodeImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginHorizontal="24dp" />
 
                 <TextView
@@ -142,7 +142,7 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <android.widget.Button
+    <Button
         android:id="@+id/qr_code_print_button"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
@@ -156,7 +156,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Druckversion anzeigen" />
 
-    <android.widget.Button
+    <Button
         android:id="@+id/qr_code_clone_button"
         style="@style/buttonLight"
         android:layout_width="0dp"
