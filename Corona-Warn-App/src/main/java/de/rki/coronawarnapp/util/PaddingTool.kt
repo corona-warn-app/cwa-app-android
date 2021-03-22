@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParamete
 .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 
 import de.rki.coronawarnapp.submission.server.SubmissionServer
+import timber.log.Timber
 import java.util.Random
 import kotlin.math.floor
 import kotlin.math.max
@@ -44,20 +45,23 @@ object PaddingTool {
             p * q.pow(exponent) + a * x.pow(2.0) + b * x + c
         }
 
-    private fun PlausibleDeniabilityParametersContainer.determineNumberOfFakeCheckIns(
+    fun PlausibleDeniabilityParametersContainer.determineNumberOfFakeCheckIns(
         numberOfLocalCheckIns: Int
     ): Double {
         val random = Random() // Java Random class
-        val probabilityThreshold = if (numberOfLocalCheckIns == 0) {
+        val probabilityThreshold: Double = if (numberOfLocalCheckIns == 0) {
             probabilityToFakeCheckInsIfNoCheckIns
         } else {
             probabilityToFakeCheckInsIfSomeCheckIns
         }
 
-        if (random.nextDouble() > probabilityThreshold) return 0.0
+        Timber.i("probabilityThreshold=$probabilityThreshold")
+        val randomUniformNumber = Math.random()
+        Timber.i("randomUniformNumber=$randomUniformNumber")
+        if (randomUniformNumber > probabilityThreshold) return 0.0
 
         val x = random.nextGaussian()
-
+        Timber.i("x=$x")
         val equationParameters = numberOfFakeCheckInsFunctionParameters.firstOrNull { functionParam ->
             functionParam.randomNumberRange.inRange(x)
         } ?: return 0.0
