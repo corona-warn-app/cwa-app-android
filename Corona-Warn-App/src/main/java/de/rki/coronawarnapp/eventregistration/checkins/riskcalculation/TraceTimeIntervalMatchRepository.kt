@@ -62,7 +62,6 @@ data class TraceTimeIntervalMatchEntity(
     )
     val checkInId: Long,
     val traceWarningPackageId: Long,
-    val traceLocationGuid: String,
     val transmissionRiskLevel: Int,
     val startTimeMillis: Long,
     val endTimeMillis: Long
@@ -71,7 +70,6 @@ data class TraceTimeIntervalMatchEntity(
 fun CheckInOverlap.toEntity() = TraceTimeIntervalMatchEntity(
     checkInId = checkInId,
     traceWarningPackageId = traceWarningPackageId,
-    traceLocationGuid = traceLocationGuid,
     transmissionRiskLevel = transmissionRiskLevel,
     startTimeMillis = startTime.millis,
     endTimeMillis = endTime.millis

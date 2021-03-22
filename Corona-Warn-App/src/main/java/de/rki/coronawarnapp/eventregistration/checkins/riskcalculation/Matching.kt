@@ -22,7 +22,7 @@ fun CheckIn.calculateOverlap(
     traceWarningPackageId: Long
 ): CheckInOverlap? {
 
-    if (warning.locationGuidHash.toStringUtf8() != guidHash.base64()) return null
+    if (warning.locationGuidHash.toByteArray() != guidHash.toByteArray()) return null
 
     val warningStartTimestamp = warning.startIntervalNumber.tenMinIntervalToMillis()
     val warningEndTimestamp = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
@@ -35,7 +35,6 @@ fun CheckIn.calculateOverlap(
 
     return CheckInOverlap(
         checkInId = id,
-        traceLocationGuidHash = warning.locationGuidHash,
         transmissionRiskLevel = warning.transmissionRiskLevel,
         traceWarningPackageId = traceWarningPackageId,
         startTime = Instant.ofEpochMilli(overlapStartTimestamp),

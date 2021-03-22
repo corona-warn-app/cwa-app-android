@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 
-import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
@@ -37,8 +36,6 @@ data class CheckInOverlap(
     val checkInId: Long,
     val transmissionRiskLevel: Int,
     val traceWarningPackageId: Long,
-    // TODO data type?
-    val traceLocationGuidHash: ByteString,
     val startTime: Instant,
     val endTime: Instant
 ) {

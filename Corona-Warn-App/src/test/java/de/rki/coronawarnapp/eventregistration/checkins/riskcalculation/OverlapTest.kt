@@ -24,7 +24,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         ) shouldBe null
     }
 
@@ -40,7 +41,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         ) shouldBe null
     }
 
@@ -56,7 +58,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         ) shouldBe null
     }
 
@@ -72,7 +75,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         ) shouldBe null
     }
 
@@ -88,7 +92,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         ) shouldBe null
     }
 
@@ -104,7 +109,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         )!!.roundedMinutes shouldBe 12
     }
 
@@ -120,7 +126,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         )!!.roundedMinutes shouldBe 15
     }
 
@@ -136,7 +143,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         )!!.roundedMinutes shouldBe 13
     }
 
@@ -152,7 +160,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         )!!.roundedMinutes shouldBe 2
     }
 
@@ -168,7 +177,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         )!!.roundedMinutes shouldBe 30
     }
 
@@ -184,7 +194,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         )!!.roundedMinutes shouldBe 60
     }
 
@@ -200,7 +211,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         )!!.roundedMinutes shouldBe 6
     }
 
@@ -216,7 +228,8 @@ class OverlapTest {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = 1L
         )!!.roundedMinutes shouldBe 5
     }
 }
