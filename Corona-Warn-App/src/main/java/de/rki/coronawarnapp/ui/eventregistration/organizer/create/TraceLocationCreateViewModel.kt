@@ -93,7 +93,9 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
         }
 
         fun getLength(resources: Resources): String? {
-            return lengthOfStay?.toReadableDuration(suffix = resources.getString(R.string.tracelocation_organizer_duration_suffix))
+            return lengthOfStay?.toReadableDuration(
+                suffix = resources.getString(R.string.tracelocation_organizer_duration_suffix)
+            )
         }
     }
 
