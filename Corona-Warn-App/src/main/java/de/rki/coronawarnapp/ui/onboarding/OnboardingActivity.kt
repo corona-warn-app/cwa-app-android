@@ -32,7 +32,7 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
             Timber.i("launchIntent:$launchIntent")
             launchIntent?.let {
                 intent.data = it.data // DeepLinking
-                intent.putExtras(it)  // Shortcuts
+                intent.putExtras(it) // Shortcuts
                 Timber.i("filledIntent:$intent")
             }
             context.startActivity(intent)
