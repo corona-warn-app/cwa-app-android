@@ -36,7 +36,8 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
         vm.createQrCode(qrCodeText)
 
-        val params: CoordinatorLayout.LayoutParams = binding.nestedScrollView.layoutParams as (CoordinatorLayout.LayoutParams)
+        val params: CoordinatorLayout.LayoutParams = binding.nestedScrollView.layoutParams
+            as (CoordinatorLayout.LayoutParams)
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
         behavior.overlayTop = width / 2
 
