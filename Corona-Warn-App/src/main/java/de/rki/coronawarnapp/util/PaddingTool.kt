@@ -53,7 +53,6 @@ object PaddingTool {
         numberOfLocalCheckIns: Int
     ): Double {
         Timber.i("Starting determineNumberOfFakeCheckIns ...")
-        val random = Random.asJavaRandom() // Kotlin does not implement [nextGaussian]
         val probabilityThreshold: Double = if (numberOfLocalCheckIns == 0) {
             probabilityToFakeCheckInsIfNoCheckIns
         } else {
@@ -66,7 +65,8 @@ object PaddingTool {
 
         if (randomUniformNumber > probabilityThreshold) return 0.0
 
-        val x = random.nextGaussian()
+        // Kotlin doesn't implement [nextGaussian]
+        val x = Random.asJavaRandom().nextGaussian()
         Timber.i("x=$x")
 
         val equationParameters = numberOfFakeCheckInsFunctionParameters.firstOrNull { functionParam ->
