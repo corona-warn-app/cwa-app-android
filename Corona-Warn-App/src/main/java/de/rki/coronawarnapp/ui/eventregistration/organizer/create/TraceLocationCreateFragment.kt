@@ -5,6 +5,8 @@ import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import de.rki.coronawarnapp.R
@@ -70,7 +72,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
 
         binding.layoutEnd.setOnClickListener {
             it.hideKeyboard()
-            showDatePicker(viewModel.end) { value ->
+            showDatePicker(viewModel.end, viewModel.start) { value ->
                 viewModel.end = value
             }
         }
@@ -85,37 +87,65 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
     }
 
-    private fun showDatePicker(defaultValue: LocalDateTime?, callback: (LocalDateTime) -> Unit) {
-        MaterialDatePicker.Builder.datePicker().setSelection(defaultValue?.toDateTime(DateTimeZone.UTC)?.millis).build()
+    private fun showDatePicker(
+        defaultValue: LocalDateTime?,
+        minConstraint: LocalDateTime? = null,
+        callback: (LocalDateTime) -> Unit
+    ) {
+        MaterialDatePicker
+            .Builder
+            .datePicker()
+            .setSelection(defaultValue?.toDateTime(DateTimeZone.UTC)?.millis)
+            .apply {
+                if (minConstraint != null) {
+                    setCalendarConstraints(
+                        CalendarConstraints.Builder()
+                            .setValidator(
+                                DateValidatorPointForward
+                                    .from(minConstraint.withMillisOfDay(0).toDateTime(DateTimeZone.UTC).millis)
+                            )
+                            .build()
+                    )
+                }
+            }
+            .build()
             .apply {
                 addOnPositiveButtonClickListener {
                     showTimePicker(LocalDate(it), defaultValue?.hourOfDay, defaultValue?.minuteOfHour, callback)
                 }
-            }.show(childFragmentManager, DATE_PICKER_TAG)
+            }
+            .show(childFragmentManager, DATE_PICKER_TAG)
     }
 
     private fun showTimePicker(date: LocalDate, hours: Int?, minutes: Int?, callback: (LocalDateTime) -> Unit) {
-        MaterialTimePicker.Builder().apply {
-            if (hours != null && minutes != null) {
-                setHour(hours)
-                setMinute(minutes)
+        MaterialTimePicker
+            .Builder()
+            .apply {
+                if (hours != null && minutes != null) {
+                    setHour(hours)
+                    setMinute(minutes)
+                }
             }
-        }.build().apply {
-            addOnPositiveButtonClickListener {
-                callback(date.toLocalDateTime(LocalTime(this.hour, this.minute)))
+            .build()
+            .apply {
+                addOnPositiveButtonClickListener {
+                    callback(date.toLocalDateTime(LocalTime(this.hour, this.minute)))
+                }
             }
-        }.show(childFragmentManager, TIME_PICKER_TAG)
+            .show(childFragmentManager, TIME_PICKER_TAG)
     }
 
     private fun showDurationPicker() {
-        val durationPicker = DurationPicker.Builder()
+        DurationPicker.Builder()
             .duration(viewModel.checkInLength?.toContactDiaryFormat() ?: "")
             .title(getString(R.string.tracelocation_organizer_add_event_length_of_stay))
             .build()
-        durationPicker.show(parentFragmentManager, DURATION_PICKER_TAG)
-        durationPicker.setDurationChangeListener {
-            viewModel.checkInLength = it
-        }
+            .apply {
+                setDurationChangeListener {
+                    viewModel.checkInLength = it
+                }
+            }
+            .show(parentFragmentManager, DURATION_PICKER_TAG)
     }
 
     companion object {
