@@ -39,7 +39,7 @@ class CheckInsViewModel @AssistedInject constructor(
         .map { checkins ->
             checkins.map { checkin ->
                 when {
-                    checkin.checkInEnd == null -> ActiveCheckInVH.Item(
+                    !checkin.completed -> ActiveCheckInVH.Item(
                         checkin = checkin,
                         onCardClicked = { /* TODO */ },
                         onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) },
