@@ -147,6 +147,7 @@
         <action
             android:id="@+id/action_eventRegistrationTestFragment_to_qrCodeDetailFragment"
             app:destination="@id/qrCodeDetailFragment" />
+
     </fragment>
 
     <fragment
@@ -175,5 +176,9 @@
         android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment"
         android:label="TraceLocationCategoryFragment"
         tools:layout="@layout/trace_location_organizer_category_fragment" />
+    <fragment
+        android:id="@+id/qrCodeDetailFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment"
+        android:label="QrCodeDetailFragment" />
 
 </navigation>

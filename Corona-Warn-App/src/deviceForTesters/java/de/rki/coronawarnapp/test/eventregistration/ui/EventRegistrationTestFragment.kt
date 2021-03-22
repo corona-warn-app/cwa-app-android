@@ -51,7 +51,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                 findNavController().navigate(R.id.showStoredEventsTestFragment)
             }
 
-            showFragmentButton.setOnClickListener {
+            showQrCodeDetailFragment.setOnClickListener {
                 findNavController().navigate(R.id.qrCodeDetailFragment)
             }
 

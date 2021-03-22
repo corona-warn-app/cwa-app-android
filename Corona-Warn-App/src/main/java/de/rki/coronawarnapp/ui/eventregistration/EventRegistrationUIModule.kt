@@ -8,8 +8,6 @@ import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckIn
 import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInModule
 import de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeFragment
 import de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeModule
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryModule
 
@@ -24,9 +22,6 @@ internal abstract class EventRegistrationUIModule {
 
     @ContributesAndroidInjector(modules = [CheckInsModule::class])
     abstract fun checkInsFragment(): CheckInsFragment
-
-    @ContributesAndroidInjector(modules = [QrCodeDetailModule::class])
-    abstract fun qrCodeDetailFragment(): QrCodeDetailFragment
     
     @ContributesAndroidInjector(modules = [TraceLocationCategoryModule::class])
     abstract fun traceLocationCategoryFragment(): TraceLocationCategoryFragment
