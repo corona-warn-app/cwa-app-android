@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.eventregistration.checkins
 
 import com.google.protobuf.ByteString.copyFromUtf8
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
+import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import okio.ByteString
 import org.joda.time.Instant
 
@@ -25,3 +26,21 @@ data class CheckIn(
 ) {
     val locationGuidHash: com.google.protobuf.ByteString by lazy { copyFromUtf8(guid.toSHA256()) }
 }
+
+fun CheckIn.toEntity() = TraceLocationCheckInEntity(
+    id = id,
+    guid = guid,
+    version = version,
+    type = type,
+    description = description,
+    address = address,
+    traceLocationStart = traceLocationStart,
+    traceLocationEnd = traceLocationEnd,
+    defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
+    traceLocationBytesBase64 = traceLocationBytes.base64(),
+    signatureBase64 = signature.base64(),
+    checkInStart = checkInStart,
+    checkInEnd = checkInEnd,
+    completed = completed,
+    createJournalEntry = createJournalEntry
+)
