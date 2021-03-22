@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
+import com.google.protobuf.ByteString.EMPTY
 import com.google.protobuf.ByteString.copyFromUtf8
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
