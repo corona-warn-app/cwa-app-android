@@ -19,5 +19,6 @@ class HeaderVH(parent: ViewGroup) :
     override val onBindData: ContactDiaryOverviewDayListItemHeaderBinding.(item: HeaderItem, payloads: List<Any>) -> Unit =
         { item, _ ->
             name.text = item.date.toFormattedDay(context.getLocale())
+            headerBody.setOnClickListener { item.onclickListener(item) }
         }
 }

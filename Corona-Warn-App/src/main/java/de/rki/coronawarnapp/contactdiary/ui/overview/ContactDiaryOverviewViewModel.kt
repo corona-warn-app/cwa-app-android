@@ -93,7 +93,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         return dateList.map { date ->
             val items: MutableList<DayDataItem> = mutableListOf()
 
-            items.add(HeaderItem(date))
+            val headerItem = HeaderItem(date) { openDayFragment(it.date)}
+            items.add(headerItem)
 
             val dayData = getEncountersForDate(encounters, date) + getVisitsForDate(visits, date)
             riskLevelPerDateList
@@ -170,7 +171,11 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     }
 
     fun onItemPress(listItem: DayOverviewItem) {
-        routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(listItem.date))
+        openDayFragment(listItem.date)
+    }
+
+    private fun openDayFragment(date: LocalDate) {
+        routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(date))
     }
 
     private fun getPersonAttributes(personEncounter: ContactDiaryPersonEncounter): List<Int> =
