@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
+import de.rki.coronawarnapp.util.PaddingTool.checkInPadding
 import de.rki.coronawarnapp.util.PaddingTool.keyPadding
 
 import de.rki.coronawarnapp.util.PaddingTool.requestPadding
@@ -38,12 +39,25 @@ class SubmissionServer @Inject constructor(
         Timber.d("submitKeysToServer()")
         val authCode = data.authCode
         val keyList = data.keyList
-        Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
+        val checkInList = data.checkIns
+        Timber.d(
+            "Writing %s Keys and %s CheckIns to the Submission Payload.",
+            keyList.size,
+            checkInList.size
+        )
 
-        val fakeKeyPadding = keyPadding(keyList.size)
+        val plausibleParameters = appConfigProvider
+            .getAppConfig()
+            .presenceTracing
+            .plausibleDeniabilityParameters
+
+        val keyPadding = keyPadding(keyList.size)
+        val checkInPadding = checkInPadding(plausibleParameters, checkInList.size)
+        val requestPadding = keyPadding + checkInPadding
+
         val submissionPayload = SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
-            .setRequestPadding(ByteString.copyFromUtf8(fakeKeyPadding))
+            .setRequestPadding(ByteString.copyFromUtf8(requestPadding))
             .setConsentToFederation(data.consentToFederation)
             .addAllVisitedCountries(data.visitedCountries)
             .addAllCheckIns(data.checkIns)
@@ -60,9 +74,17 @@ class SubmissionServer @Inject constructor(
     suspend fun submitKeysToServerFake() = withContext(Dispatchers.IO) {
         Timber.d("submitKeysToServerFake()")
 
+        val plausibleParameters = appConfigProvider
+            .getAppConfig()
+            .presenceTracing
+            .plausibleDeniabilityParameters
+
         val fakeKeyPadding = keyPadding(keyListSize = 0)
+        val fakeCheckInPadding = checkInPadding(plausibleParameters, checkInListSize = 0)
+        val requestPadding = fakeKeyPadding + fakeCheckInPadding
+        
         val submissionPayload = SubmissionPayload.newBuilder()
-            .setRequestPadding(ByteString.copyFromUtf8(fakeKeyPadding))
+            .setRequestPadding(ByteString.copyFromUtf8(requestPadding))
             .build()
 
         api.submitKeys(

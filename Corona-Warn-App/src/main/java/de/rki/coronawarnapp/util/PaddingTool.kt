@@ -37,7 +37,7 @@ object PaddingTool {
         return requestPadding(KEY_SIZE * keyCount)
     }
 
-    private const val MIN_KEY_COUNT_FOR_SUBMISSION = 14
+    private const val MIN_KEY_COUNT_FOR_SUBMISSION = 15
     private const val KEY_SIZE = 28 // 28 bytes per key
 
     // ---------- CheckIn padding ----------
@@ -49,10 +49,10 @@ object PaddingTool {
             p * q.pow(exponent) + a * x.pow(2.0) + b * x + c
         }
 
-    fun PlausibleDeniabilityParametersContainer.determineNumberOfFakeCheckIns(
+    fun PlausibleDeniabilityParametersContainer.determineFakeCheckInsNumber(
         numberOfLocalCheckIns: Int
     ): Double {
-        Timber.i("Starting determineNumberOfFakeCheckIns ...")
+        Timber.i("determineFakeCheckInsNumber()")
         val probabilityThreshold: Double = if (numberOfLocalCheckIns == 0) {
             probabilityToFakeCheckInsIfNoCheckIns
         } else {
@@ -81,14 +81,14 @@ object PaddingTool {
      * Returns check-in padding for [SubmissionServer]
      */
     fun checkInPadding(
-        parameters: PlausibleDeniabilityParametersContainer,
-        numberOfLocalCheckIns: Int
+        plausibleParameters: PlausibleDeniabilityParametersContainer,
+        checkInListSize: Int
     ): String {
-        Timber.i("Starting checkInPadding ...")
-        val checkInBytesSizes: List<Int> = parameters.checkInSizesInBytes
+        Timber.i("checkInPadding()")
+        val checkInBytesSizes: List<Int> = plausibleParameters.checkInSizesInBytes
         if (checkInBytesSizes.isEmpty()) return requestPadding(0)
 
-        val fakeCheckInsNumber: Int = parameters.determineNumberOfFakeCheckIns(numberOfLocalCheckIns).roundToInt()
+        val fakeCheckInsNumber: Int = plausibleParameters.determineFakeCheckInsNumber(checkInListSize).roundToInt()
         val numberOfBytes: Int = (0 until fakeCheckInsNumber)
             .map {
                 val index = floor(Math.random() * checkInBytesSizes.size).toInt()

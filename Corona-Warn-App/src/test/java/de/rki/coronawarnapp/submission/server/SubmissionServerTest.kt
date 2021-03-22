@@ -2,7 +2,13 @@ package de.rki.coronawarnapp.submission.server
 
 import android.content.Context
 import com.google.protobuf.ByteString
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
+import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
+import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
+import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
@@ -14,6 +20,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
@@ -42,6 +49,22 @@ class SubmissionServerTest : BaseTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
         every { context.cacheDir } returns cacheDir
+        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
+            every { presenceTracing } returns PresenceTracingConfigContainer(
+                qrCodeErrorCorrectionLevel = ErrorCorrectionLevel.H,
+                revokedTraceLocationVersions = emptyList(),
+                riskCalculationParameters = PresenceTracingRiskCalculationParamContainer(
+                    emptyList(),
+                    emptyList(),
+                    emptyList()
+                ),
+                submissionParameters = PresenceTracingSubmissionParamContainer(
+                    emptyList(),
+                    emptyList()
+                ),
+                plausibleDeniabilityParameters = PlausibleDeniabilityParametersContainer()
+            )
+        }
 
         webServer = MockWebServer()
         webServer.start()
@@ -69,7 +92,7 @@ class SubmissionServerTest : BaseTest() {
             arg<String>(2) shouldBe ""
             arg<SubmissionPayloadOuterClass.SubmissionPayload>(3).apply {
                 keysList.single().keyData shouldBe testKeyData
-                requestPadding.size() shouldBe 364
+                requestPadding.size() shouldBe 392
                 hasConsentToFederation() shouldBe true
                 visitedCountriesList shouldBe listOf("DE")
             }
@@ -102,7 +125,7 @@ class SubmissionServerTest : BaseTest() {
             arg<String>(2).length shouldBe 36 // cwa-header-padding
             arg<SubmissionPayloadOuterClass.SubmissionPayload>(3).apply {
                 keysList.size shouldBe 0
-                requestPadding.size() shouldBe 392
+                requestPadding.size() shouldBe 420
                 hasConsentToFederation() shouldBe false
                 visitedCountriesList shouldBe emptyList()
             }

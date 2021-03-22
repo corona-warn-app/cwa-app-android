@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParamete
     .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
     .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
-import de.rki.coronawarnapp.util.PaddingTool.determineNumberOfFakeCheckIns
+import de.rki.coronawarnapp.util.PaddingTool.determineFakeCheckInsNumber
 import de.rki.coronawarnapp.util.PaddingTool.equation
 import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -35,14 +35,14 @@ class PaddingToolTest : BaseTest() {
 
     @Test
     fun `keyPadding - fake requests with 0 keys`() {
-        // keyPadding = 14 keys x 28 bytes per key = 392 bytes`
-        PaddingTool.keyPadding(keyListSize = 0).toByteArray().size shouldBe 392
+        // keyPadding = 15 keys x 28 bytes per key = 392 bytes`
+        PaddingTool.keyPadding(keyListSize = 0).toByteArray().size shouldBe 420
     }
 
     @Test
     fun `keyPadding - genuine request with 5 keys`() {
         // keyPadding = 9 keys x 28 bytes per key = 252 bytes`
-        PaddingTool.keyPadding(keyListSize = 5).toByteArray().size shouldBe 252
+        PaddingTool.keyPadding(keyListSize = 5).toByteArray().size shouldBe 280
     }
 
     @Test
@@ -90,7 +90,7 @@ class PaddingToolTest : BaseTest() {
         numberOfCheckIns: Int,
         expected: Double
     ) {
-        plausibleDeniabilityParameters.determineNumberOfFakeCheckIns(numberOfCheckIns) shouldBe expected
+        plausibleDeniabilityParameters.determineFakeCheckInsNumber(numberOfCheckIns) shouldBe expected
     }
 
     @ParameterizedTest
@@ -100,6 +100,6 @@ class PaddingToolTest : BaseTest() {
         numberOfCheckIns: Int,
         expected: Double
     ) {
-        plausibleDeniabilityParameters.determineNumberOfFakeCheckIns(numberOfCheckIns) shouldBeGreaterThan expected
+        plausibleDeniabilityParameters.determineFakeCheckInsNumber(numberOfCheckIns) shouldBeGreaterThan expected
     }
 }
