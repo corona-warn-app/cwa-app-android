@@ -103,7 +103,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tracelocation_organizer_add_event_begin"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/value_start"
                     app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +138,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tracelocation_organizer_add_event_end"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/value_end"
                     app:layout_constraintStart_toStartOf="parent"
@@ -174,7 +172,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tracelocation_organizer_add_event_length_of_stay"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@id/value_length_of_stay"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -216,6 +213,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
