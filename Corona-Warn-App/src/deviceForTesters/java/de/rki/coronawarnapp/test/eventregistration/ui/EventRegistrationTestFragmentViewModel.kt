@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.CheckInOv
 import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.TraceLocationCheckInMatcher
 import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.TraceLocationCheckInRiskPerDay
+import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.TraceLocationRiskCalculator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory

@@ -181,9 +181,7 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
     }
 
     private fun createInstance() = TraceLocationCheckInMatcher(
-        checkInsRepository, traceTimeIntervalWarningRepository
+        checkInsRepository,
+        traceTimeIntervalWarningRepository
     )
 }
-
-
-

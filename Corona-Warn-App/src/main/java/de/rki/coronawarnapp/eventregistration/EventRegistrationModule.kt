@@ -20,5 +20,6 @@ abstract class EventRegistrationModule {
         TraceLocationRepository
 
     @Binds
-    abstract fun downloadedCheckInsRepo(repository: FakeTraceTimeIntervalWarningRepository): TraceTimeIntervalWarningRepository
+    abstract fun traceTimeIntervalWarningRepository(repository: FakeTraceTimeIntervalWarningRepository):
+        TraceTimeIntervalWarningRepository
 }
