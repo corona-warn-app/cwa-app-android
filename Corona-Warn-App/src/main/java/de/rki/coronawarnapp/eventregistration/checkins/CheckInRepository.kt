@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CheckInRepository @Inject constructor(
     traceLocationDatabaseFactory: TraceLocationDatabase.Factory
 ) {
@@ -22,10 +24,9 @@ class CheckInRepository @Inject constructor(
         traceLocationDatabase.eventCheckInDao()
     }
 
-    val allCheckIns: Flow<List<CheckIn>> =
-        checkInDao
-            .allEntries()
-            .map { list -> list.map { it.toCheckIn() } }
+    val allCheckIns: Flow<List<CheckIn>> = checkInDao
+        .allEntries()
+        .map { list -> list.map { it.toCheckIn() } }
 
     suspend fun addCheckIn(checkIn: CheckIn) = withContext(NonCancellable) {
         Timber.d("addCheckIn(checkIn=%s)", checkIn)
