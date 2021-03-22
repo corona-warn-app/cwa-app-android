@@ -6,17 +6,20 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCodeVerifier
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationVerifyResult
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.PastCheckInVH
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import okio.ByteString.Companion.EMPTY
@@ -29,13 +32,18 @@ class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     @Assisted private val deepLink: String?,
     dispatcherProvider: DispatcherProvider,
+    @AppScope private val appScope: CoroutineScope,
     private val traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier,
-    private val qrCodeUriParser: QRCodeUriParser
+    private val qrCodeUriParser: QRCodeUriParser,
+    private val checkInsRepository: CheckInRepository,
 ) : CWAViewModel(dispatcherProvider) {
 
-    val confirmationEvent = SingleLiveEvent<TraceLocationVerifyResult>()
+    val events = SingleLiveEvent<CheckInEvent>()
 
-    val checkins = FAKE_CHECKIN_SOURCE
+    val checkins = combine(
+        FAKE_CHECKIN_SOURCE,
+        checkInsRepository.allCheckIns
+    ) { fake: List<CheckIn>, real: List<CheckIn> -> fake + real }
         .map { checkins -> checkins.sortedBy { it.checkInEnd } }
         .map { checkins ->
             checkins.map { checkin ->
@@ -43,13 +51,13 @@ class CheckInsViewModel @AssistedInject constructor(
                     checkin.checkInEnd == null -> ActiveCheckInVH.Item(
                         checkin = checkin,
                         onCardClicked = { /* TODO */ },
-                        onRemoveItem = { /* TODO */ },
+                        onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) },
                         onCheckout = { /* TODO */ }
                     )
                     else -> PastCheckInVH.Item(
                         checkin = checkin,
                         onCardClicked = { /* TODO */ },
-                        onRemoveItem = { /* TODO */ }
+                        onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) }
                     )
                 }
             }
@@ -68,6 +76,22 @@ class CheckInsViewModel @AssistedInject constructor(
         savedState.set(SKEY_LAST_DEEPLINK, deepLink)
     }
 
+    fun onRemoveCheckInConfirmed(checkIn: CheckIn?) {
+        Timber.d("removeCheckin(checkIn=%s)", checkIn)
+        launch(scope = appScope) {
+            if (checkIn == null) {
+                checkInsRepository.clear()
+            } else {
+                checkInsRepository.deleteCheckIns(listOf(checkIn))
+            }
+        }
+    }
+
+    fun onRemoveAllCheckIns() {
+        Timber.d("onRemovaAllCheckIns()")
+        events.postValue(CheckInEvent.ConfirmRemoveAll)
+    }
+
     private fun verifyUri(uri: String) = launch {
         try {
             Timber.i("uri: $uri")
@@ -76,7 +100,7 @@ class CheckInsViewModel @AssistedInject constructor(
 
             val verifyResult = traceLocationQRCodeVerifier.verify(signedTraceLocation.toByteArray())
             Timber.i("verifyResult: $verifyResult")
-            confirmationEvent.postValue(verifyResult)
+            events.postValue(CheckInEvent.ConfirmCheckIn(verifyResult))
         } catch (e: Exception) {
             Timber.d(e, "TraceLocation verification failed")
             e.report(ExceptionCategory.INTERNAL)
@@ -104,7 +128,7 @@ private val FAKE_CHECKINS = listOf(
         version = 1,
         type = 1,
         description = "Jahrestreffen der deutschen SAP Anwendergruppe",
-        address = "Hauptstr. 3, 69115 Heidelberg",
+        address = "Hauptstr. 3, 69115 Heidelberg (FakeEntry)",
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = 3 * 60,
@@ -122,7 +146,7 @@ private val FAKE_CHECKINS = listOf(
         version = 1,
         type = 2,
         description = "CWA Launch Party",
-        address = "At home! Do you want the 'rona?",
+        address = "At home! Do you want the 'rona? (FakeEntry)",
         traceLocationStart = Instant.parse("2021-01-01T12:00:00.000Z"),
         traceLocationEnd = Instant.parse("2021-01-01T15:00:00.000Z"),
         defaultCheckInLengthInMinutes = 15,
