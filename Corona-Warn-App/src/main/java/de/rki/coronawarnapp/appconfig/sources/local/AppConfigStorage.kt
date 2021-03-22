@@ -81,10 +81,8 @@ class AppConfigStorage @Inject constructor(
             Timber.v("Overwriting %d from %s", configFile.length(), configFile.lastModified())
         }
 
-        if (legacyConfigFile.exists()) {
-            if (legacyConfigFile.delete()) {
-                Timber.i("Legacy config file deleted, superseeded.")
-            }
+        if (legacyConfigFile.exists() && legacyConfigFile.delete()) {
+            Timber.i("Legacy config file deleted, superseeded.")
         }
 
         if (value == null) {

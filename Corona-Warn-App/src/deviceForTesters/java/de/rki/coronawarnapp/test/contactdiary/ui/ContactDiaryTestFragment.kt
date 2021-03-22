@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.Duration
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @SuppressLint("SetTextI18n")
 class ContactDiaryTestFragment :
@@ -56,6 +57,25 @@ class ContactDiaryTestFragment :
                 durationPicker.setDurationChangeListener(this@ContactDiaryTestFragment)
                 durationPicker.show(parentFragmentManager, "ContactDiaryDurationPickerFragment")
             }
+
+            durationValue2.setOnClickListener {
+                val durationPicker = DurationPicker.Builder()
+                    .duration(binding.durationValue2.text.toString())
+                    .title("Presence tracing title")
+                    .minutes(step = minutesSlider.value.toInt())
+                    .hours(
+                        min = hoursLimitsRangeSlider.values.first().roundToInt(),
+                        max = hoursLimitsRangeSlider.values.last().roundToInt(),
+                        step = hoursSlider.value.toInt()
+                    )
+                    .build()
+                durationPicker.show(parentFragmentManager, "PresenceTracing")
+                durationPicker.setDurationChangeListener {
+                    durationValue2.text = it.toContactDiaryFormat()
+                }
+            }
+
+            hoursLimitsRangeSlider.setValues(0f, 24f)
         }
     }
 
