@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.server
 
 import android.content.Context
 import com.google.protobuf.ByteString
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
@@ -27,13 +28,13 @@ import java.io.File
 class SubmissionServerTest : BaseTest() {
     @MockK lateinit var submissionApi: SubmissionApiV1
     @MockK lateinit var context: Context
+    @MockK lateinit var appConfigProvider: AppConfigProvider
 
     private lateinit var webServer: MockWebServer
     private lateinit var serverAddress: String
 
     private val testDir = File(BaseIOTest.IO_TEST_BASEDIR, this::class.java.simpleName)
     private val cacheDir = File(testDir, "cache")
-    private val httpCacheDir = File(cacheDir, "http_submission")
 
     @BeforeEach
     fun setup() {
@@ -55,7 +56,7 @@ class SubmissionServerTest : BaseTest() {
 
     private fun createServer(
         customApi: SubmissionApiV1 = submissionApi
-    ) = SubmissionServer(submissionApi = { customApi })
+    ) = SubmissionServer(submissionApi = { customApi }, appConfigProvider)
 
     @Test
     fun `normal submission`(): Unit = runBlocking {

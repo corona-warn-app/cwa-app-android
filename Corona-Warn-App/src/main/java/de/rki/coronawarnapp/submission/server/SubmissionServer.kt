@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.server
 
 import com.google.protobuf.ByteString
 import dagger.Lazy
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
@@ -16,7 +17,8 @@ import kotlin.math.max
 
 @Singleton
 class SubmissionServer @Inject constructor(
-    private val submissionApi: Lazy<SubmissionApiV1>
+    private val submissionApi: Lazy<SubmissionApiV1>,
+    private val appConfigProvider: AppConfigProvider
 ) {
 
     private val api: SubmissionApiV1
