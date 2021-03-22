@@ -30,7 +30,7 @@ class TraceLocationServer @Inject constructor(
 
         val signedTraceLocation = response.body()!!
 
-        Timber.d("Successfully received SignedTraceLocation: $signedTraceLocation")
+        Timber.d("Successfully received %s", signedTraceLocation)
         return signedTraceLocation
     }
 }
