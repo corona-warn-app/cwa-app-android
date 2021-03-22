@@ -3,15 +3,16 @@ package de.rki.coronawarnapp.util
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
+    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import timber.log.Timber
-import java.util.Random
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.pow
 import kotlin.math.roundToInt
+import kotlin.random.Random
+import kotlin.random.asJavaRandom
 
 object PaddingTool {
     // Common
@@ -48,23 +49,27 @@ object PaddingTool {
     fun PlausibleDeniabilityParametersContainer.determineNumberOfFakeCheckIns(
         numberOfLocalCheckIns: Int
     ): Double {
-        val random = Random() // Java Random class
+        Timber.i("Starting determineNumberOfFakeCheckIns ...")
+        val random = Random.asJavaRandom() // Kotlin does not implement [nextGaussian]
         val probabilityThreshold: Double = if (numberOfLocalCheckIns == 0) {
             probabilityToFakeCheckInsIfNoCheckIns
         } else {
             probabilityToFakeCheckInsIfSomeCheckIns
         }
-
         Timber.i("probabilityThreshold=$probabilityThreshold")
+
         val randomUniformNumber = Math.random()
         Timber.i("randomUniformNumber=$randomUniformNumber")
+
         if (randomUniformNumber > probabilityThreshold) return 0.0
 
         val x = random.nextGaussian()
         Timber.i("x=$x")
+
         val equationParameters = numberOfFakeCheckInsFunctionParameters.firstOrNull { functionParam ->
             functionParam.randomNumberRange.inRange(x)
         } ?: return 0.0
+        Timber.i("equationParameters=$equationParameters")
 
         return equationParameters.equation(x)
     }
@@ -73,18 +78,18 @@ object PaddingTool {
         parameters: PlausibleDeniabilityParametersContainer,
         numberOfLocalCheckIns: Int
     ): String {
+        Timber.i("Starting checkInPadding ...")
+        val checkInBytesSizes: List<Int> = parameters.checkInSizesInBytes
+        if (checkInBytesSizes.isEmpty()) return requestPadding(0)
 
-        val checkInSizesInBytes: List<Int> = parameters.checkInSizesInBytes
-        if (checkInSizesInBytes.isEmpty()) return requestPadding(0)
-
-        val numberOfFakeCheckIns: Int = parameters.determineNumberOfFakeCheckIns(numberOfLocalCheckIns).roundToInt()
-        val numberOfBytes: Int = (0 until numberOfFakeCheckIns)
+        val fakeCheckInsNumber: Int = parameters.determineNumberOfFakeCheckIns(numberOfLocalCheckIns).roundToInt()
+        val numberOfBytes: Int = (0 until fakeCheckInsNumber)
             .map {
-                val index = floor(Math.random() * checkInSizesInBytes.size).toInt()
-                checkInSizesInBytes[index]
+                val index = floor(Math.random() * checkInBytesSizes.size).toInt()
+                checkInBytesSizes[index]
             }
-            .reduce { sum, bytes ->
-                sum + bytes
+            .reduce { sum, size ->
+                sum + size
             }
         return requestPadding(numberOfBytes)
     }
