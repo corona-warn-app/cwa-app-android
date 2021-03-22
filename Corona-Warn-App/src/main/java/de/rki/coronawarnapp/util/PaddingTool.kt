@@ -37,7 +37,7 @@ object PaddingTool {
     private const val KEY_SIZE = 28 // 28 bytes per key
     // ---------- CheckIn padding ----------
 
-    private val NumberOfFakeCheckInsFunctionParametersOrBuilder.equation: (Double) -> Double
+    val NumberOfFakeCheckInsFunctionParametersOrBuilder.equation: (Double) -> Double
         // f(x) = p * q ^ r*(s*(x+t))^u  + ax^2 + bx + c
         get() = { x ->
             val exponent = r * (s * (x + t)).pow(u)
