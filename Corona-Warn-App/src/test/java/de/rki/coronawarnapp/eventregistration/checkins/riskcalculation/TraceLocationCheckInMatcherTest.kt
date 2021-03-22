@@ -28,26 +28,26 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
     fun `returns correct matches`() {
         val checkIn1 = createCheckIn(
             id = 2L,
-            traceLocationGuidHash = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startDateStr = "2021-03-04T10:15+01:00",
             endDateStr = "2021-03-04T10:17+01:00"
         )
         val checkIn2 = createCheckIn(
             id = 3L,
-            traceLocationGuidHash = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startDateStr = "2021-03-04T09:15+01:00",
             endDateStr = "2021-03-04T10:12+01:00"
         )
 
         val warning1 = createWarning(
-            traceLocationGuidHash = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
         )
 
         val warning2 = createWarning(
-            traceLocationGuidHash = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
@@ -75,26 +75,26 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
     fun `returns empty list if no relevant warnings`() {
         val checkIn1 = createCheckIn(
             id = 2L,
-            traceLocationGuidHash = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startDateStr = "2021-03-04T10:15+01:00",
             endDateStr = "2021-03-04T10:17+01:00"
         )
         val checkIn2 = createCheckIn(
             id = 3L,
-            traceLocationGuidHash = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startDateStr = "2021-03-04T09:15+01:00",
             endDateStr = "2021-03-04T10:12+01:00"
         )
 
         val warning1 = createWarning(
-            traceLocationGuidHash = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
         )
 
         val warning2 = createWarning(
-            traceLocationGuidHash = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
@@ -120,13 +120,13 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
     fun `returns empty list if no warnings`() {
         val checkIn1 = createCheckIn(
             id = 2L,
-            traceLocationGuidHash = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startDateStr = "2021-03-04T10:15+01:00",
             endDateStr = "2021-03-04T10:17+01:00"
         )
         val checkIn2 = createCheckIn(
             id = 3L,
-            traceLocationGuidHash = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startDateStr = "2021-03-04T09:15+01:00",
             endDateStr = "2021-03-04T10:12+01:00"
         )
@@ -151,14 +151,14 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
     fun `returns empty list if no check-ins`() {
 
         val warning1 = createWarning(
-            traceLocationGuidHash = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
         )
 
         val warning2 = createWarning(
-            traceLocationGuidHash = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8

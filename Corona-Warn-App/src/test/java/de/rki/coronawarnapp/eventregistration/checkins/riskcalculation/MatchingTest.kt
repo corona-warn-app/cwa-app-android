@@ -3,28 +3,27 @@ package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString
-import okio.ByteString.Companion.decodeBase64
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 
 class MatchingTest {
-    private val guidHash = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060"
-    private val guidHash2 = "70eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060"
-    private val guidHash3 = "71eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060"
+    private val guid1 = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060"
+    private val guid2 = "70eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060"
+    private val guid3 = "71eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060"
 
     private val time = Instant.ofEpochMilli(1397210400000)
     private val end = Instant.ofEpochMilli(1397210400001)
 
     private val checkIn = CheckIn(
         id = 1L,
-        guid = "guid",
-        guidHash = guidHash.decodeBase64()!!,
+        guid = guid1,
         version = 1,
         type = 2,
         description = "my birthday",
@@ -42,8 +41,7 @@ class MatchingTest {
 
     private val checkIn2 = CheckIn(
         id = 2L,
-        guid = "guid2",
-        guidHash = guidHash2.decodeBase64()!!,
+        guid = guid2,
         version = 1,
         type = 2,
         description = "my birthday",
@@ -62,21 +60,21 @@ class MatchingTest {
     private val warningStart = DateTime(2021, 3, 20, 18, 45).millis
 
     private val warning1 = TraceWarning.TraceTimeIntervalWarning.newBuilder()
-        .setLocationGuidHash(com.google.protobuf.ByteString.copyFromUtf8(guidHash))
+        .setLocationGuidHash(com.google.protobuf.ByteString.copyFromUtf8(guid1.toSHA256()))
         .setPeriod(6) // one hour
         .setStartIntervalNumber((Duration(warningStart).standardMinutes / 10).toInt())
         .setTransmissionRiskLevel(4)
         .build()
 
     private val warning2 = TraceWarning.TraceTimeIntervalWarning.newBuilder()
-        .setLocationGuidHash(com.google.protobuf.ByteString.copyFromUtf8(guidHash2))
+        .setLocationGuidHash(com.google.protobuf.ByteString.copyFromUtf8(guid2.toSHA256()))
         .setPeriod(6) // one hour
         .setStartIntervalNumber((Duration(warningStart).standardMinutes / 10).toInt())
         .setTransmissionRiskLevel(4)
         .build()
 
     private val warning3 = TraceWarning.TraceTimeIntervalWarning.newBuilder()
-        .setLocationGuidHash(com.google.protobuf.ByteString.copyFromUtf8(guidHash3))
+        .setLocationGuidHash(com.google.protobuf.ByteString.copyFromUtf8(guid3.toSHA256()))
         .setPeriod(6) // one hour
         .setStartIntervalNumber((Duration(warningStart).standardMinutes / 10).toInt())
         .setTransmissionRiskLevel(4)

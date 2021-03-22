@@ -49,7 +49,6 @@ class CheckInRepositoryTest : BaseTest() {
                 CheckIn(
                     id = 0L,
                     guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
-                    guidHash = EMPTY,
                     version = 1,
                     type = 2,
                     description = "brothers birthday",
@@ -70,7 +69,6 @@ class CheckInRepositoryTest : BaseTest() {
                     TraceLocationCheckInEntity(
                         id = 0L,
                         guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
-                        guidHashBase64 = "",
                         version = 1,
                         type = 2,
                         description = "brothers birthday",
@@ -100,7 +98,6 @@ class CheckInRepositoryTest : BaseTest() {
                 CheckIn(
                     id = 0L,
                     guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
-                    guidHash = EMPTY,
                     version = 1,
                     type = 2,
                     description = "sisters birthday",
@@ -121,7 +118,6 @@ class CheckInRepositoryTest : BaseTest() {
                     TraceLocationCheckInEntity(
                         id = 0L,
                         guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
-                        guidHashBase64 = "",
                         version = 1,
                         type = 2,
                         description = "sisters birthday",
@@ -149,7 +145,6 @@ class CheckInRepositoryTest : BaseTest() {
             TraceLocationCheckInEntity(
                 id = 0L,
                 guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
-                guidHashBase64 = "",
                 version = 1,
                 type = 2,
                 description = "sisters birthday",
@@ -170,7 +165,6 @@ class CheckInRepositoryTest : BaseTest() {
                 CheckIn(
                     id = 0L,
                     guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
-                    guidHash = EMPTY,
                     traceLocationBytes = EMPTY,
                     version = 1,
                     type = 2,

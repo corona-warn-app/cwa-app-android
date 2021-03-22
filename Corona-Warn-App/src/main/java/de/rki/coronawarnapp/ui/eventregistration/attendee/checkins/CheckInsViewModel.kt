@@ -100,7 +100,6 @@ private val FAKE_CHECKINS = listOf(
     CheckIn(
         id = 1,
         guid = "testGuid2",
-        guidHash = EMPTY,
         version = 1,
         type = 1,
         description = "Jahrestreffen der deutschen SAP Anwendergruppe",
@@ -118,7 +117,6 @@ private val FAKE_CHECKINS = listOf(
     CheckIn(
         id = 2,
         guid = "testGuid1",
-        guidHash = EMPTY,
         version = 1,
         type = 2,
         description = "CWA Launch Party",
