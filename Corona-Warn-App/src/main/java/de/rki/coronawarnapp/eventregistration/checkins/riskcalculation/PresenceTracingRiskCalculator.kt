@@ -12,9 +12,9 @@ class PresenceTracingRiskCalculator @Inject constructor(
             checkInGroup.value.groupBy {
                 it.localDate
             }.map { dateGroup ->
-                val normalizedTimeSum = dateGroup.value.fold(0.0) { sum, overlap ->
-                    val value = presenceTracingRiskMapper.lookupTransmissionRiskValue(overlap.transmissionRiskLevel)
-                    sum + overlap.normalizedTime(value)
+                val normalizedTimeSum = dateGroup.value.sumByDouble {
+                    val value = presenceTracingRiskMapper.lookupTransmissionRiskValue(it.transmissionRiskLevel)
+                    it.normalizedTime(value)
                 }
                 TraceLocationCheckInNormalizedTime(
                     checkInId = checkInGroup.key,
