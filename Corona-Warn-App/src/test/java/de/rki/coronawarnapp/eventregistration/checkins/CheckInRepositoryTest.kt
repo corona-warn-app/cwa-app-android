@@ -48,7 +48,6 @@ class CheckInRepositoryTest : BaseTest() {
             val checkIn = CheckIn(
                 id = 0L,
                 guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
-                guidHash = EMPTY,
                 version = 1,
                 type = 2,
                 description = "brothers birthday",
