@@ -29,7 +29,6 @@ data class TraceLocationCheckInEntity(
 fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     id = id,
     guid = guid,
-    guidHash = guidHashBase64.decodeBase64()!!,
     version = version,
     type = type,
     description = description,
