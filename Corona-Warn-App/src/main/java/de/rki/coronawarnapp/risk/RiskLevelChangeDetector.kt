@@ -100,7 +100,7 @@ class RiskLevelChangeDetector @Inject constructor(
         // Save most recent date of high or low risks
         if (newRiskState.riskState in listOf(RiskState.INCREASED_RISK, RiskState.LOW_RISK)) {
             Timber.d("newRiskState=$newRiskState")
-            val lastRiskEncounterAt = newRiskState.lastRiskEncounterAt ?: newRiskState.calculatedAt
+            val lastRiskEncounterAt = newRiskState.lastRiskEncounterAt
             Timber.i(
                 "mostRecentDateWithHighOrLowRiskLevel: newRiskState=%s, lastRiskEncounterAt=%s",
                 newRiskState.riskState,
