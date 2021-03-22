@@ -42,7 +42,7 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
         with(binding.scanCheckinQrcodeFab) {
             setOnClickListener {
                 findNavController().navigate(
-                    R.id.action_checkInsFragment_to_scanCheckInQrCodeFragment,
+                    R.id.action_checkInsFragment_to_qrCodeDetailFragment,
                     null,
                     null,
                     FragmentNavigatorExtras(this to transitionName)
