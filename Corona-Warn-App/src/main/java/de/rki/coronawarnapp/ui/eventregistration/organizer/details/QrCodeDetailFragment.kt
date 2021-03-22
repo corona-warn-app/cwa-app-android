@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.details
 
 import android.os.Bundle
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
@@ -29,21 +30,14 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
         "BOJ2HSGGTQ6SACIHXQ6SACKA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFF" +
         "BU2SQCEEAJAUCJSQJ7WDM675MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI="
 
+    private val testTitle = "Jahrestreffen der deutschen SAP Anwendergruppe"
+    private val testSubtitle = "Hauptstr 3, 69115 Heidelberg"
+    private val testEventDate = "21.01.2021, 18:00 - 21:00 Uhr"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val width = requireContext().resources.displayMetrics.widthPixels
-
         vm.createQrCode(qrCodeText)
-
-        val params: CoordinatorLayout.LayoutParams = binding.nestedScrollView.layoutParams
-            as (CoordinatorLayout.LayoutParams)
-        val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
-        behavior.overlayTop = width / 2
-
-        val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
-        textParams.bottomMargin = width / 2 + 24
-        binding.subtitle.requestLayout()
 
         binding.apply {
             appBarLayout.addOnOffsetChangedListener(
@@ -57,6 +51,11 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 }
             )
 
+            // Only for testing
+            title.text = testTitle
+            subtitle.text = testSubtitle
+            eventDate.text = testEventDate
+
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)
                 navigationContentDescription = getString(R.string.accessibility_close)
@@ -66,6 +65,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
         vm.qrCodeBitmap.observe2(this) {
             binding.qrCodeImage.setImageBitmap(it)
+            setToolbarOverlay()
         }
 
         vm.routeToScreen.observe2(this) {
@@ -73,14 +73,30 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 QrCodeDetailNavigationEvents.NavigateBack -> {
                     popBackStack()
                 }
-                QrCodeDetailNavigationEvents.NavigateToPrintFragment -> { /* TODO */ }
-                QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> { /* TODO */ }
+                QrCodeDetailNavigationEvents.NavigateToPrintFragment -> { /* TODO */
+                }
+                QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> { /* TODO */
+                }
             }
         }
     }
 
+    private fun setToolbarOverlay() {
+        val width = requireContext().resources.displayMetrics.widthPixels
+
+        val params: CoordinatorLayout.LayoutParams = binding.nestedScrollView.layoutParams
+            as (CoordinatorLayout.LayoutParams)
+
+        val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
+        textParams.bottomMargin = width / 2
+        binding.subtitle.requestLayout()
+
+        val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
+        behavior.overlayTop = width / 2
+    }
+
     override fun onResume() {
         super.onResume()
-        // binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }
