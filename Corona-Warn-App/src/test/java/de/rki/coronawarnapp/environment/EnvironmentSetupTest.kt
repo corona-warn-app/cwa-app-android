@@ -67,6 +67,7 @@ class EnvironmentSetupTest : BaseTest() {
                 safetyNetApiKey shouldBe "placeholder-${env.rawKey}"
                 dataDonationCdnUrl shouldBe "https://datadonation-${env.rawKey}"
                 logUploadServerUrl shouldBe "https://logupload-${env.rawKey}"
+                traceLocationCdnUrl shouldBe "https://tracelocation-${env.rawKey}"
             }
         }
     }
@@ -146,6 +147,7 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-PROD",
                     "DATA_DONATION_CDN_URL": "https://datadonation-PROD",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-PROD",
+                    "CREATE_TRACELOCATION_URL": "https://tracelocation-PROD",
                     "SAFETYNET_API_KEY": "placeholder-PROD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-PROD"
                 },
@@ -156,9 +158,10 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-DEV",
                     "DATA_DONATION_CDN_URL": "https://datadonation-DEV",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-DEV",
+                    "CREATE_TRACELOCATION_URL": "https://tracelocation-DEV",
                     "SAFETYNET_API_KEY": "placeholder-DEV",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-DEV"
-                },
+               },
                 "INT": {
                     "USE_EUR_KEY_PKGS" : false,
                     "SUBMISSION_CDN_URL": "https://submission-INT",
@@ -166,6 +169,7 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-INT",
                     "DATA_DONATION_CDN_URL": "https://datadonation-INT",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-INT",
+                    "CREATE_TRACELOCATION_URL": "https://tracelocation-INT",
                     "SAFETYNET_API_KEY": "placeholder-INT",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT"
                 },
@@ -176,8 +180,10 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-WRU",
                     "DATA_DONATION_CDN_URL": "https://datadonation-WRU",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU",
+                    "CREATE_TRACELOCATION_URL": "https://tracelocation-WRU",
                     "SAFETYNET_API_KEY": "placeholder-WRU",
-                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU"
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU",
+                    "CREATE_TRACELOCATION_URL": "https://tracelocation-WRU"
                 },
                 "WRU-XD": {
                     "USE_EUR_KEY_PKGS" : true,
@@ -186,6 +192,7 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-WRU-XD",
                     "DATA_DONATION_CDN_URL": "https://datadonation-WRU-XD",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU-XD",
+                    "CREATE_TRACELOCATION_URL": "https://tracelocation-WRU-XD",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XD"
                 },
@@ -196,6 +203,7 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-WRU-XA",
                     "DATA_DONATION_CDN_URL": "https://datadonation-WRU-XA",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU-XA",
+                    "CREATE_TRACELOCATION_URL": "https://tracelocation-WRU-XA",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XA",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XA"
                 },
@@ -206,6 +214,7 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-LOCAL",
                     "DATA_DONATION_CDN_URL": "https://datadonation-LOCAL",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-LOCAL",
+                    "CREATE_TRACELOCATION_URL": "https://tracelocation-LOCAL",
                     "SAFETYNET_API_KEY": "placeholder-LOCAL",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-LOCAL"
                 }
