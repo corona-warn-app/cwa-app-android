@@ -8,20 +8,33 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParamete
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import java.util.Random
 import kotlin.math.floor
+import kotlin.math.max
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
 object PaddingTool {
-    // ---------- Key padding ----------
+    // Common
     /**
-     * Temporary exposure keys request padding for [SubmissionServer]
+     * Generates a random string with passed [length]
+     * Passing characters [A-Z], [a-z] and [0-9]
      */
-    fun keyPadding(length: Int): String = (1..length)
+    fun requestPadding(length: Int): String = (1..length)
         .map { PADDING_ITEMS.random() }
         .joinToString("")
 
     private val PADDING_ITEMS = ('A'..'Z') + ('a'..'z') + ('0'..'9')
 
+    // ---------- Key padding ----------
+    /**
+     * Temporary exposure keys request padding for [SubmissionServer]
+     */
+    fun keyPadding(keyListSize: Int): String {
+        val keyCount = max(MIN_KEY_COUNT_FOR_SUBMISSION - keyListSize, 0)
+        return requestPadding(KEY_SIZE * keyCount)
+    }
+
+    private const val MIN_KEY_COUNT_FOR_SUBMISSION = 14
+    private const val KEY_SIZE = 28 // 28 bytes per key
     // ---------- CheckIn padding ----------
 
     private val NumberOfFakeCheckInsFunctionParametersOrBuilder.equation: (Double) -> Double
@@ -58,7 +71,7 @@ object PaddingTool {
     ): String {
 
         val checkInSizesInBytes: List<Int> = parameters.checkInSizesInBytes
-        if (checkInSizesInBytes.isEmpty()) return keyPadding(0)
+        if (checkInSizesInBytes.isEmpty()) return requestPadding(0)
 
         val numberOfFakeCheckIns: Int = parameters.determineNumberOfFakeCheckIns(numberOfLocalCheckIns).roundToInt()
         val numberOfBytes: Int = (0 until numberOfFakeCheckIns)
@@ -69,6 +82,6 @@ object PaddingTool {
             .reduce { sum, bytes ->
                 sum + bytes
             }
-        return keyPadding(numberOfBytes)
+        return requestPadding(numberOfBytes)
     }
 }
