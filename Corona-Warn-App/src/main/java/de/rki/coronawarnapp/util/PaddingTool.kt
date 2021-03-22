@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.util
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
+.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import timber.log.Timber
@@ -15,7 +15,8 @@ import kotlin.random.Random
 import kotlin.random.asJavaRandom
 
 object PaddingTool {
-    // Common
+    // Common padding
+
     /**
      * Generates a random string with passed [length]
      * Passing characters [A-Z], [a-z] and [0-9]
@@ -27,6 +28,7 @@ object PaddingTool {
     private val PADDING_ITEMS = ('A'..'Z') + ('a'..'z') + ('0'..'9')
 
     // ---------- Key padding ----------
+
     /**
      * Temporary exposure keys request padding for [SubmissionServer]
      */
@@ -37,6 +39,7 @@ object PaddingTool {
 
     private const val MIN_KEY_COUNT_FOR_SUBMISSION = 14
     private const val KEY_SIZE = 28 // 28 bytes per key
+
     // ---------- CheckIn padding ----------
 
     val NumberOfFakeCheckInsFunctionParametersOrBuilder.equation: (Double) -> Double
@@ -74,6 +77,9 @@ object PaddingTool {
         return equationParameters.equation(x)
     }
 
+    /**
+     * Returns check-in padding for [SubmissionServer]
+     */
     fun checkInPadding(
         parameters: PlausibleDeniabilityParametersContainer,
         numberOfLocalCheckIns: Int
