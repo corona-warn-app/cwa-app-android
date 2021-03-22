@@ -16,6 +16,8 @@ message PresenceTracingParameters {
 
   PresenceTracingPlausibleDeniabilityParameters plausibleDeniabilityParameters = 5;
 
+  repeated PresenceTracingQRCodeDescriptor qrCodeDescriptors = 6;
+
   enum QRCodeErrorCorrectionLevel {
     MEDIUM = 0;
     LOW = 1;
@@ -23,6 +25,7 @@ message PresenceTracingParameters {
     HIGH = 3;
   }
 }
+
 message PresenceTracingRiskCalculationParameters {
 
   repeated TransmissionRiskValueMapping transmissionRiskValueMapping = 1;
@@ -69,5 +72,20 @@ message PresenceTracingPlausibleDeniabilityParameters {
     double a = 8;
     double b = 9;
     double c = 10;
+  }
+}
+
+message PresenceTracingQRCodeDescriptor {
+
+  string regexPattern = 1;
+
+  uint32 versionGroupIndex = 2;
+  uint32 encodedTraceLocationGroupIndex = 3;
+
+  TraceLocationEncoding traceLocationEncoding = 4;
+
+  enum TraceLocationEncoding {
+    BASE32 = 0;
+    BASE64 = 1;
   }
 }
