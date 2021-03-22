@@ -22,7 +22,7 @@ internal abstract class EventRegistrationUIModule {
 
     @ContributesAndroidInjector(modules = [CheckInsModule::class])
     abstract fun checkInsFragment(): CheckInsFragment
-    
+
     @ContributesAndroidInjector(modules = [TraceLocationCategoryModule::class])
     abstract fun traceLocationCategoryFragment(): TraceLocationCategoryFragment
 }

@@ -55,7 +55,6 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                 findNavController().navigate(R.id.qrCodeDetailFragment)
             }
 
-
             startCreateEventFlowButton.setOnClickListener {
                 findNavController().navigate(R.id.traceLocationOrganizerCategoriesFragment)
             }

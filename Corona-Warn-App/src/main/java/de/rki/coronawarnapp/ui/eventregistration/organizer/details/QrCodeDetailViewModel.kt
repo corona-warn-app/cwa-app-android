@@ -10,7 +10,6 @@ import com.google.zxing.common.BitMatrix
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -22,15 +21,12 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     private val dispatcher: DispatcherProvider,
     private val appConfigProvider: AppConfigProvider,
     @AppContext private val context: Context,
-
-    ) : CWAViewModel() {
+) : CWAViewModel() {
 
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
     val errorMessage = SingleLiveEvent<String>()
 
     val routeToScreen: SingleLiveEvent<QrCodeDetailNavigationEvents> = SingleLiveEvent()
-
-
 
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
@@ -88,4 +84,3 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<QrCodeDetailViewModel>
 }
-
