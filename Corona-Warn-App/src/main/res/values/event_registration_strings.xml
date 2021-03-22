@@ -122,5 +122,7 @@
     <string name="tracelocation_organizer_add_event_end">"Ende"</string>
     <!-- XTXT: Duration suffix -->
     <string name="tracelocation_organizer_duration_suffix">"Std."</string>
+    <!-- XTXT: Save button text -->
+    <string name="tracelocation_organizer_save">"Speichern"</string>
 
 </resources>

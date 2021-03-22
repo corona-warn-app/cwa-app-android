@@ -15,16 +15,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back"
-        app:subtitle="@string/tracelocation_organizer_category_craft_title"
-        app:title="@string/tracelocation_organizer_category_title" />
+        app:title="@string/tracelocation_organizer_category_title"
+        tools:subtitle="@string/tracelocation_organizer_category_craft_title" />
 
     <View
         android:id="@+id/toolbar_divider"
         android:layout_width="0dp"
         android:layout_height="@dimen/card_divider"
         android:background="@color/colorHairline"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <ScrollView
@@ -57,10 +57,10 @@
                     android:id="@+id/description_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
-                    android:maxLength="100" />
+                    android:maxLength="100"
+                    android:textStyle="bold" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginBottom="@dimen/spacing_normal"
                 android:hint="@string/tracelocation_organizer_add_event_location"
                 app:endIconMode="clear_text">
 
@@ -90,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginBottom="@dimen/spacing_tiny"
                 android:backgroundTint="@color/colorContactDiaryListItem"
                 android:clickable="true"
                 android:focusable="true"
@@ -101,8 +102,8 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
                     android:text="@string/tracelocation_organizer_add_event_begin"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/value_start"
                     app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginBottom="@dimen/spacing_tiny"
                 android:backgroundTint="@color/colorContactDiaryListItem"
                 android:clickable="true"
                 android:focusable="true"
@@ -136,9 +137,9 @@
                     android:id="@+id/label_end"
                     style="@style/subtitle"
                     android:layout_width="0dp"
-                    android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:text="@string/tracelocation_organizer_add_event_end"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/value_end"
                     app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +163,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_tiny"
                 android:backgroundTint="@color/colorContactDiaryListItem"
                 android:clickable="true"
                 android:focusable="true"
@@ -171,10 +171,10 @@
                 <TextView
                     android:id="@+id/label_length_of_stay"
                     style="@style/subtitle"
-                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tracelocation_organizer_add_event_length_of_stay"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@id/value_length_of_stay"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -212,7 +212,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_small"
-        android:text="@string/onboarding_button_start"
+        android:text="@string/tracelocation_organizer_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

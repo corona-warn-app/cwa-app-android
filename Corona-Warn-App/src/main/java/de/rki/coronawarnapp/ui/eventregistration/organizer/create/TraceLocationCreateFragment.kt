@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 
 import android.os.Bundle
+import android.text.format.DateFormat.is24HourFormat
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
@@ -123,6 +125,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     private fun showTimePicker(date: LocalDate, hours: Int?, minutes: Int?, callback: (LocalDateTime) -> Unit) {
         MaterialTimePicker
             .Builder()
+            .setTimeFormat(if (is24HourFormat(requireContext())) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H)
             .apply {
                 if (hours != null && minutes != null) {
                     setHour(hours)

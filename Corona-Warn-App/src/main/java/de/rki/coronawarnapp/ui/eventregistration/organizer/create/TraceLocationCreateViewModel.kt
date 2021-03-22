@@ -24,8 +24,7 @@ import kotlin.reflect.KProperty
 class TraceLocationCreateViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val category: TraceLocationCategory
-) :
-    CWAViewModel(dispatcherProvider = dispatcherProvider) {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val mutableUiState = MutableLiveData<UIState>()
     val uiState: LiveData<UIState>
