@@ -86,7 +86,8 @@ class DefaultPlaybookTest : BaseTest() {
                 registrationToken = "token",
                 temporaryExposureKeys = listOf(),
                 consentToFederation = true,
-                visitedCountries = listOf("DE")
+                visitedCountries = listOf("DE"),
+                checkIns = emptyList()
             )
         )
 
@@ -107,7 +108,8 @@ class DefaultPlaybookTest : BaseTest() {
                     registrationToken = "token",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
-                    visitedCountries = listOf("DE")
+                    visitedCountries = listOf("DE"),
+                    checkIns = emptyList()
                 )
             )
         } catch (e: Exception) {
@@ -126,7 +128,8 @@ class DefaultPlaybookTest : BaseTest() {
                     registrationToken = "token",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
-                    visitedCountries = listOf("DE")
+                    visitedCountries = listOf("DE"),
+                    checkIns = emptyList()
                 )
             )
         } catch (e: Exception) {
@@ -146,7 +149,8 @@ class DefaultPlaybookTest : BaseTest() {
                     registrationToken = "token",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
-                    visitedCountries = listOf("DE")
+                    visitedCountries = listOf("DE"),
+                    checkIns = emptyList()
                 )
             )
         }
@@ -260,7 +264,8 @@ class DefaultPlaybookTest : BaseTest() {
                     registrationToken = "token",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
-                    visitedCountries = listOf("DE")
+                    visitedCountries = listOf("DE"),
+                    checkIns = emptyList()
                 )
             )
         }

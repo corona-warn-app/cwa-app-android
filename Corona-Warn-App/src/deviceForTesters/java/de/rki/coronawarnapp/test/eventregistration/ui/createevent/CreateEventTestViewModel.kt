@@ -3,13 +3,14 @@ package de.rki.coronawarnapp.test.eventregistration.ui.createevent
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
-import de.rki.coronawarnapp.eventregistration.events.TraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import okio.ByteString.Companion.toByteString
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
@@ -47,9 +48,10 @@ class CreateEventTestViewModel @AssistedInject constructor(
             val endTimeStampSeconds = endDate?.toInstant()?.seconds ?: 0
 
             val traceLocationType =
-                if (type == "Event") TraceLocation.Type.TEMPORARY_OTHER else TraceLocation.Type.PERMANENT_OTHER
+                if (type == "Event") TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
+                else TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
 
-            val traceLocation = DefaultTraceLocation(
+            val traceLocation = TraceLocation(
                 UUID.randomUUID().toString(), // will be provided by the server when the endpoint is ready
                 traceLocationType,
                 description,
@@ -57,7 +59,7 @@ class CreateEventTestViewModel @AssistedInject constructor(
                 startDate?.toInstant(),
                 endDate?.toInstant(),
                 defaultCheckInLengthInMinutes.toInt(),
-                "ServerSignature"
+                "ServerSignature".toByteArray().toByteString()
             )
 
             traceLocationRepository.addTraceLocation(traceLocation)

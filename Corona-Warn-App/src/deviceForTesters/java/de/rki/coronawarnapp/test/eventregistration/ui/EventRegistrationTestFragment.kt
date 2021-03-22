@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.eventregistration.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -10,6 +11,7 @@ import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -54,6 +56,32 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             }
 
 
+            startCreateEventFlowButton.setOnClickListener {
+                findNavController().navigate(R.id.traceLocationOrganizerCategoriesFragment)
+            }
+        }
+        binding.runMatcher.setOnClickListener {
+            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.downloadReportedCheckIns.setOnClickListener {
+            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.calculateRisk.setOnClickListener {
+            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.checkInOverlaps.observe2(this) {
+            val text = it.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
+                stringBuilder
+                    .append("CheckIn Id ${checkInOverlap.checkInId}")
+                    .append("Date ${checkInOverlap.localDate}")
+                    .append("Min. ${checkInOverlap.overlap.standardMinutes}")
+                    .append("\n")
+            }
+            binding.resultText.text = text
+            binding.resultText.visibility = View.VISIBLE
         }
     }
 

@@ -30,8 +30,8 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             confirmButton.setOnClickListener { viewModel.onConfirmTraceLocation() }
             // TODO bind final UI
             eventGuid.text = "GUID: %s".format(args.traceLocation.guid)
-            startTime.text = "Start time: %s".format(args.traceLocation.start)
-            endTime.text = "End time: %s".format(args.traceLocation.end)
+            startTime.text = "Start time: %s".format(args.traceLocation.startDate)
+            endTime.text = "End time: %s".format(args.traceLocation.endDate)
             description.text = "Description: %s".format(args.traceLocation.description)
         }
 

@@ -18,8 +18,8 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorContactDiaryListItem"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/spacing_tiny"
+            android:backgroundTint="@color/colorContactDiaryListItem">
 
             <TextView
                 android:id="@+id/duration_picker"
@@ -35,15 +35,99 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:paddingTop="11dp"
-                android:paddingBottom="11dp"
-                android:paddingLeft="13dp"
-                android:paddingRight="13dp"
-                android:text="@string/duration_dialog_default_value"
                 android:background="@drawable/contact_diary_duration_background_default"
+                android:paddingLeft="13dp"
+                android:paddingTop="11dp"
+                android:paddingRight="13dp"
+                android:paddingBottom="11dp"
+                android:text="@string/duration_dialog_default_value"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/duration_picker"/>
+                app:layout_constraintTop_toBottomOf="@+id/duration_picker" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:backgroundTint="@color/colorContactDiaryListItem">
+
+            <TextView
+                android:id="@+id/duration_picker_2"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Duration picker 1 minute step"
+                app:layout_constraintTop_toBottomOf="@id/duration_picker_2" />
+
+            <TextView
+                android:id="@+id/hours_limits_title"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hours limits"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/hours_limits_range_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="1.0"
+                android:valueFrom="0.0"
+                android:valueTo="48.0"
+                app:layout_constraintTop_toBottomOf="@id/hours_limits_title" />
+
+            <TextView
+                android:id="@+id/hours_slider_title"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hours range"
+                app:layout_constraintTop_toBottomOf="@id/hours_limits_range_slider" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/hours_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="1.0"
+                android:valueFrom="1.0"
+                android:valueTo="24.0"
+                app:layout_constraintTop_toBottomOf="@id/hours_slider_title" />
+
+            <TextView
+                android:id="@+id/minutes_slider_title"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Minutes range"
+                app:layout_constraintTop_toBottomOf="@id/hours_slider" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/minutes_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="1.0"
+                android:valueFrom="1.0"
+                android:valueTo="60.0"
+                app:layout_constraintTop_toBottomOf="@id/minutes_slider_title" />
+
+            <TextView
+                android:id="@+id/duration_value_2"
+                style="@style/bodyNeutral"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:background="@drawable/contact_diary_duration_background_default"
+                android:paddingLeft="13dp"
+                android:paddingTop="11dp"
+                android:paddingRight="13dp"
+                android:paddingBottom="11dp"
+                android:text="@string/duration_dialog_default_value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/minutes_slider" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
