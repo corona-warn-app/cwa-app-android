@@ -36,7 +36,7 @@ class TestResultDataCollectorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.now()
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-02T09:57:11+01:00")
         every { testResultDonorSettings.clear() } just Runs
         testResultDataCollector = TestResultDataCollector(
             analyticsSettings,
