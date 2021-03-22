@@ -43,13 +43,16 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setNavigationOnClickListener { popBackStack() }
+        binding.toolbar.setNavigationOnClickListener {
+            it.hideKeyboard()
+            popBackStack()
+        }
 
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             binding.toolbar.setSubtitle(state.title)
             binding.valueStart.text = state.getStartDate(requireContext().getLocale())
             binding.valueEnd.text = state.getEndDate(requireContext().getLocale())
-            binding.layoutBeginn.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
+            binding.layoutBegin.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
             binding.layoutEnd.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
             binding.valueLengthOfStay.text = state.getLength(resources)
             binding.buttonSubmit.isEnabled = state.isSendEnable
@@ -63,7 +66,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             viewModel.address = text?.toString()
         }
 
-        binding.layoutBeginn.setOnClickListener {
+        binding.layoutBegin.setOnClickListener {
             it.hideKeyboard()
             showDatePicker(viewModel.start) { value ->
                 viewModel.start = value
