@@ -28,8 +28,7 @@ class TraceLocationServer @Inject constructor(
             throw IllegalStateException("Response is successful, but body is empty.")
         }
 
-        val byteStream = response.body()!!.byteStream()
-        val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.parseFrom(byteStream)
+        val signedTraceLocation = response.body()!!
 
         Timber.d("Successfully received SignedTraceLocation: $signedTraceLocation")
         return signedTraceLocation

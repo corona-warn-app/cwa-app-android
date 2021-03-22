@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test
 import retrofit2.HttpException
 import retrofit2.Response
 import testhelpers.BaseTest
-import java.io.IOException
 
 internal class TraceLocationServerTest : BaseTest() {
 
@@ -40,26 +39,12 @@ internal class TraceLocationServerTest : BaseTest() {
         runBlockingTest {
 
             val signedTraceLocationMock = TraceLocationData.signedTraceLocationTemporary
-            val responseBodyMock = signedTraceLocationMock.toByteArray().toResponseBody()
-            coEvery { api.get().createTraceLocation(any()) } returns Response.success(200, responseBodyMock)
+            coEvery { api.get().createTraceLocation(any()) } returns Response.success(200, signedTraceLocationMock)
 
             val userInput = TraceLocationData.traceLocationTemporaryUserInput
             val actualSignedTraceLocation = getInstance().retrieveSignedTraceLocation(userInput)
 
             actualSignedTraceLocation shouldBe signedTraceLocationMock
-        }
-
-    @Test
-    fun `retrieveSignedTraceLocation() should throw IOException when we receive an invalid response`() =
-        runBlockingTest {
-            coEvery { api.get().createTraceLocation(any()) } returns Response.success(
-                200,
-                "Invalid Response".toResponseBody()
-            )
-
-            shouldThrow<IOException> {
-                getInstance().retrieveSignedTraceLocation(TraceLocationData.traceLocationTemporaryUserInput)
-            }
         }
 
     @Test
