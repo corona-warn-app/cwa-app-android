@@ -60,6 +60,7 @@ fun TraceLocationOuterClass.SignedTraceLocation.toTraceLocation(): TraceLocation
         startDate = traceLocation.startTimestamp.getInstantOrNull(),
         endDate = traceLocation.endTimestamp.getInstantOrNull(),
         defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
+        byteRepresentation = traceLocation.toByteArray().toByteString(),
         signature = signature.toByteArray().toByteString(),
         version = traceLocation.version
     )
