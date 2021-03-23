@@ -1,24 +1,52 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.confirm
 
+import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
 
 class ConfirmCheckInViewModel @AssistedInject constructor(
     @Assisted private val verifiedTraceLocation: VerifiedTraceLocation,
-    private val checkInRepository: CheckInRepository
+    private val checkInRepository: CheckInRepository,
+    private val timeStamper: TimeStamper
 ) : CWAViewModel() {
+    private val traceLocation = MutableStateFlow(verifiedTraceLocation.traceLocation)
+    private val createJournalEntry = MutableStateFlow(true)
+    private val checkInLength = MutableStateFlow(
+        Duration.standardMinutes(
+            verifiedTraceLocation.traceLocation.defaultCheckInLengthInMinutes?.toLong() ?: 0L
+        )
+    )
 
+    val openDatePickerEvent = SingleLiveEvent<String>()
     val events = SingleLiveEvent<ConfirmCheckInNavigation>()
+
+    val uiState = combine(
+        traceLocation,
+        createJournalEntry,
+        checkInLength
+    ) { traceLocation, createEntry, checkInLength ->
+        UiState(
+            traceLocation,
+            createEntry,
+            checkInLength
+        )
+    }.asLiveData()
 
     fun onClose() {
         events.value = ConfirmCheckInNavigation.BackNavigation
@@ -26,10 +54,28 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
 
     fun onConfirmTraceLocation() {
         launch {
-            // TODO This is only for testing
-            checkInRepository.addCheckIn(verifiedTraceLocation.toCheckIn(checkInStart = Instant.now()))
+            val now = timeStamper.nowUTC
+            checkInRepository.addCheckIn(
+                verifiedTraceLocation.toCheckIn(
+                    checkInStart = now,
+                    createJournalEntry = createJournalEntry.value,
+                    checkInEnd = now + checkInLength.value
+                )
+            )
             events.postValue(ConfirmCheckInNavigation.ConfirmNavigation)
         }
+    }
+
+    fun createJournalEntryToggled(state: Boolean) {
+        createJournalEntry.value = state
+    }
+
+    fun dateSelectorClicked() {
+        openDatePickerEvent.value = checkInLength.value.toContactDiaryFormat()
+    }
+
+    fun durationUpdated(duration: Duration) {
+        checkInLength.value = duration
     }
 
     private fun VerifiedTraceLocation.toCheckIn(
@@ -62,5 +108,16 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         fun create(
             verifiedTraceLocation: VerifiedTraceLocation
         ): ConfirmCheckInViewModel
+    }
+
+    data class UiState(
+        private val traceLocation: TraceLocation,
+        val createJournalEntry: Boolean,
+        private val checkInEndOffset: Duration
+    ) {
+        val description get() = traceLocation.description
+        val type get() = traceLocation.type.name
+        val address get() = traceLocation.address
+        val checkInEnd get() = checkInEndOffset.toReadableDuration(suffix = "Std")
     }
 }
