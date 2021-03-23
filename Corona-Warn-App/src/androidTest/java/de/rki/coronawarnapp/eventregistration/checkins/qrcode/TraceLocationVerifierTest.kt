@@ -61,6 +61,7 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
             startDate = Instant.ofEpochSecond(2687955),
             endDate = Instant.ofEpochSecond(2687991),
             defaultCheckInLengthInMinutes = 0,
+            byteRepresentation = verifyResult.signedTraceLocation.location.toByteArray().toByteString(),
             signature = verifyResult.signedTraceLocation.signature.toByteArray().toByteString()
         )
 
@@ -193,6 +194,7 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
                 startDate = Instant.ofEpochSecond(2687955),
                 endDate = Instant.ofEpochSecond(2687991),
                 defaultCheckInLengthInMinutes = 0,
+                byteRepresentation = signedTraceLocation.location.toByteArray().toByteString(),
                 signature = signedTraceLocation.signature.toByteArray().toByteString()
             )
         }
