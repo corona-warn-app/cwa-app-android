@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.test.risk.storage
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.DefaultRiskLevelStorage
@@ -30,6 +31,7 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
     @MockK lateinit var database: RiskResultDatabase
     @MockK lateinit var riskResultTables: RiskResultDatabase.RiskResultsDao
     @MockK lateinit var exposureWindowTables: RiskResultDatabase.ExposureWindowsDao
+    @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
 
     private val testRiskLevelResultDao = PersistedRiskLevelResultDao(
         id = "riskresult-id",
@@ -82,11 +84,13 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
         coEvery { exposureWindowTables.insertWindows(any()) } returns listOf(111L, 222L)
         coEvery { exposureWindowTables.insertScanInstances(any()) } just Runs
         coEvery { exposureWindowTables.deleteByRiskResultId(any()) } returns 1
+        coEvery { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
     }
 
     private fun createInstance() = DefaultRiskLevelStorage(
         scope = TestCoroutineScope(),
-        riskResultDatabaseFactory = databaseFactory
+        riskResultDatabaseFactory = databaseFactory,
+        presenceTracingRiskRepository = presenceTracingRiskRepository
     )
 
     @Test

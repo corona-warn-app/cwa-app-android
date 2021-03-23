@@ -60,8 +60,7 @@ class PresenceTracingRiskMapper @Inject constructor(
     }
 }
 
-@VisibleForTesting(otherwise = PRIVATE)
-internal fun RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.mapToRiskState(): RiskState {
+fun RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.mapToRiskState(): RiskState {
     return when (this) {
         UNSPECIFIED -> RiskState.CALCULATION_FAILED
         LOW -> RiskState.LOW_RISK

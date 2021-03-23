@@ -10,23 +10,29 @@ import javax.inject.Inject
 
 class TraceLocationCheckInMatcher @Inject constructor(
     private val checkInsRepository: CheckInRepository,
-    private val traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository
+    private val traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository,
+    private val presenceTracingRiskRepository: PresenceTracingRiskRepository
 ) {
-    suspend fun execute(): List<CheckInOverlap> {
-        val checkIns = checkInsRepository.allCheckIns.firstOrNull() ?: return emptyList()
+    suspend fun execute() {
 
-        // TODO only new packages
-        val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull() ?: return emptyList()
+        val checkIns = checkInsRepository.allCheckIns.firstOrNull()
+        val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull()
 
-        // TODO store matches in db
-        return warningPackages
+        if (checkIns.isNullOrEmpty() || warningPackages.isNullOrEmpty()) {
+            presenceTracingRiskRepository.deleteAllMatches()
+            return
+        }
+
+        val matches = warningPackages
             .flatMap { warningPackage ->
                 findMatches(checkIns, warningPackage)
             }
+
+        presenceTracingRiskRepository.replaceAllMatches(matches)
     }
 }
 
-private suspend fun findMatches(
+internal suspend fun findMatches(
     checkIns: List<CheckIn>,
     warningPackage: TraceTimeIntervalWarningPackage
 ): List<CheckInOverlap> {
@@ -43,6 +49,6 @@ private suspend fun findMatches(
         .flatMap { warning ->
             checkIns
                 .flatMap { it.splitByMidnightUTC() }
-                .mapNotNull { it.calculateOverlap(warning) }
+                .mapNotNull { it.calculateOverlap(warning, warningPackage.id) }
         }
 }

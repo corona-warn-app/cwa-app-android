@@ -1,9 +1,12 @@
 package de.rki.coronawarnapp.risk.storage
 
+import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import kotlinx.coroutines.flow.Flow
+import org.joda.time.LocalDate
 
 interface RiskLevelStorage {
 
@@ -43,9 +46,26 @@ interface RiskLevelStorage {
      */
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>>
 
+    /**
+     * Risk level per date/day aggregated over check-ins
+     * Used by contact diary overview
+     */
+    val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>>
+
+    /**
+     * Risk level per date/day aggregated form Exposure Windows and Presence Tracing
+     * Used by contact diary overview
+     */
+    val aggregatedDayRisk: Flow<List<AggregatedDayRisk>>
+
     suspend fun deleteAggregatedRiskPerDateResults(results: List<AggregatedRiskPerDateResult>)
 
     suspend fun storeResult(result: RiskLevelResult)
 
     suspend fun clear()
 }
+
+data class AggregatedDayRisk(
+    val localDate: LocalDate,
+    val riskState: RiskState
+)

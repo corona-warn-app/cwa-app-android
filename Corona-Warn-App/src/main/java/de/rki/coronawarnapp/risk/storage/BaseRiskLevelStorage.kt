@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.risk.storage
 
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
-import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
@@ -14,7 +13,6 @@ import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
@@ -134,9 +132,6 @@ abstract class BaseRiskLevelStorage constructor(
             }
             .shareLatest(tag = TAG, scope = scope)
     }
-
-    override val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>>
-        get() = flowOf(emptyList<TraceLocationCheckInRisk>()) // TODO("Not yet implemented")
 
     private suspend fun insertAggregatedRiskPerDateResults(
         aggregatedRiskPerDateResults: List<AggregatedRiskPerDateResult>

@@ -22,13 +22,8 @@ data class TraceLocationCheckInRiskPerDay(
     override val riskState: RiskState
 ) : TraceLocationCheckInRisk
 
-data class TraceLocationDayRisk(
+data class PresenceTracingDayRisk(
     val localDate: LocalDate,
-    val riskState: RiskState
-)
-
-data class TraceLocationCheckInRisk(
-    val checkInId: Long,
     val riskState: RiskState
 )
 

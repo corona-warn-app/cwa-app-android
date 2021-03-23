@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "88d85d795c7774a70649afe043d7a820",
+    "identityHash": "751c249cb9c836add4b0cb663ed13954",
     "entities": [
       {
         "tableName": "TraceTimeIntervalMatchEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `checkInId` INTEGER NOT NULL, `traceWarningPackageId` INTEGER NOT NULL, `traceLocationGuid` TEXT NOT NULL, `transmissionRiskLevel` INTEGER NOT NULL, `startTimeMillis` INTEGER NOT NULL, `endTimeMillis` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `checkInId` INTEGER NOT NULL, `traceWarningPackageId` INTEGER NOT NULL, `transmissionRiskLevel` INTEGER NOT NULL, `startTimeMillis` INTEGER NOT NULL, `endTimeMillis` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -24,12 +24,6 @@
             "fieldPath": "traceWarningPackageId",
             "columnName": "traceWarningPackageId",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "traceLocationGuid",
-            "columnName": "traceLocationGuid",
-            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -64,7 +58,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '88d85d795c7774a70649afe043d7a820')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '751c249cb9c836add4b0cb663ed13954')"
     ]
   }
 }

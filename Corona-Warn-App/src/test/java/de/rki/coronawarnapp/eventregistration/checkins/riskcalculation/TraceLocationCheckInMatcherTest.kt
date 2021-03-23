@@ -5,10 +5,13 @@ import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeInterva
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.debug.measureTime
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
@@ -20,14 +23,17 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
 
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository
+    @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        coEvery { presenceTracingRiskRepository.replaceAllMatches(any()) } just Runs
+        coEvery { presenceTracingRiskRepository.deleteAllMatches() } just Runs
     }
 
     @Test
-    fun `returns correct matches`() {
+    fun `replaces matches`() {
         val checkIn1 = createCheckIn(
             id = 2L,
             traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
@@ -61,20 +67,22 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
             override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
+
+            override val id: Long
+                get() = 1L
         }
 
         every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {
-            val list = createInstance().execute()
-            list.size shouldBe 2
-            list.find { it.checkInId == 2L }!!.roundedMinutes shouldBe 2
-            list.find { it.checkInId == 3L }!!.roundedMinutes shouldBe 12
+            createInstance().execute()
+            coVerify(exactly = 1) { presenceTracingRiskRepository.replaceAllMatches(any()) }
+            coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
 
     @Test
-    fun `returns empty list if no relevant warnings`() {
+    fun `replace with empty list if no matches found`() {
         val checkIn1 = createCheckIn(
             id = 2L,
             traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
@@ -108,18 +116,22 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
             override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
+
+            override val id: Long
+                get() = 1L
         }
 
         every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {
-            val list = createInstance().execute()
-            list.size shouldBe 0
+            createInstance().execute()
+            coVerify(exactly = 1) { presenceTracingRiskRepository.replaceAllMatches(emptyList()) }
+            coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
 
     @Test
-    fun `returns empty list if no warnings`() {
+    fun `replace with empty list if package is empty`() {
         val checkIn1 = createCheckIn(
             id = 2L,
             traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
@@ -139,18 +151,22 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
             override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf()
             }
+
+            override val id: Long
+                get() = 1L
         }
 
         every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {
-            val list = createInstance().execute()
-            list.size shouldBe 0
+            createInstance().execute()
+            coVerify(exactly = 1) { presenceTracingRiskRepository.replaceAllMatches(emptyList()) }
+            coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
 
     @Test
-    fun `returns empty list if no check-ins`() {
+    fun `deletes all matches if no check-ins`() {
 
         val warning1 = createWarning(
             traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
@@ -172,13 +188,17 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
             override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
+
+            override val id: Long
+                get() = 1L
         }
 
         every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {
-            val list = createInstance().execute()
-            list.size shouldBe 0
+            createInstance().execute()
+            coVerify(exactly = 0) { presenceTracingRiskRepository.replaceAllMatches(any()) }
+            coVerify(exactly = 1) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
 
@@ -205,6 +225,9 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
             override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return warnings
             }
+
+            override val id: Long
+                get() = 1L
         }
 
         every { checkInsRepository.allCheckIns } returns flowOf(checkIns)
@@ -219,6 +242,7 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
 
     private fun createInstance() = TraceLocationCheckInMatcher(
         checkInsRepository,
-        traceTimeIntervalWarningRepository
+        traceTimeIntervalWarningRepository,
+        presenceTracingRiskRepository
     )
 }

@@ -35,26 +35,14 @@ class PresenceTracingRiskCalculator @Inject constructor(
         }
     }
 
-    suspend fun calculateAggregatedRiskPerDay(list: List<TraceLocationCheckInNormalizedTime>): List<TraceLocationDayRisk> {
+    suspend fun calculateAggregatedRiskPerDay(list: List<TraceLocationCheckInNormalizedTime>): List<PresenceTracingDayRisk> {
         return list.groupBy { it.localDate }.map {
             val normalizedTimePerDate = it.value.sumByDouble {
                 it.normalizedTime
             }
-            TraceLocationDayRisk(
+            PresenceTracingDayRisk(
                 localDate = it.key,
                 riskState = presenceTracingRiskMapper.lookupRiskStatePerDay(normalizedTimePerDate)
-            )
-        }
-    }
-
-    suspend fun calculateAggregatedRiskPerCheckIn(list: List<TraceLocationCheckInNormalizedTime>): List<TraceLocationCheckInRisk> {
-        return list.groupBy { it.checkInId }.map {
-            val normalizedTimePerDate = it.value.sumByDouble {
-                it.normalizedTime
-            }
-            TraceLocationCheckInRisk(
-                checkInId = it.key,
-                riskState = presenceTracingRiskMapper.lookupRiskStatePerCheckIn(normalizedTimePerDate)
             )
         }
     }
