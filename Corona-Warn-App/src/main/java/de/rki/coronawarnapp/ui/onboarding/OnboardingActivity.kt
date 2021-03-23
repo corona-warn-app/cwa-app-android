@@ -31,7 +31,8 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
             val intent = Intent(context, OnboardingActivity::class.java)
             Timber.i("launchIntent:$launchIntent")
             launchIntent?.let {
-                intent.fillIn(it, Intent.FILL_IN_DATA)
+                intent.data = it.data // DeepLinking
+                intent.putExtras(it) // Shortcuts
                 Timber.i("filledIntent:$intent")
             }
             context.startActivity(intent)

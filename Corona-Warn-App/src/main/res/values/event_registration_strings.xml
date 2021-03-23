@@ -125,4 +125,12 @@
     <!-- XTXT: Save button text -->
     <string name="tracelocation_organizer_save">"Speichern"</string>
 
+    <!--    Trace Location Homescreen Card-->
+    <!-- XHED: Headline for trace location creation card -->
+    <string name="create_trace_location_card_headline">"Sie planen eine\nVeranstaltung?"</string>
+    <!-- XTXT: Subtitle for trace location creation card -->
+    <string name="create_trace_location_card_subtitle">"Sie planen ein Event oder haben ein Geschäft? Erstellen Sie einen QR-Code, mit dem sich Ihre Gäste bei Ankunft einchecken können."</string>
+    <!-- XTXT: Text for trace location creation card -->
+    <string name="create_trace_location_card_button">"QR-Code erstellen"</string>
+
 </resources>
