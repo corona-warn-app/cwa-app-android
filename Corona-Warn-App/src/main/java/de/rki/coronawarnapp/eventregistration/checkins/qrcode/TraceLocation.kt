@@ -19,9 +19,15 @@ data class TraceLocation(
     val startDate: Instant?,
     val endDate: Instant?,
     val defaultCheckInLengthInMinutes: Int?,
+    val byteRepresentation: ByteString,
     val signature: ByteString,
     val version: Int = TRACE_LOCATION_VERSION,
-) : Parcelable
+) : Parcelable {
+
+    fun isBeforeStartTime(now: Instant): Boolean = startDate?.isAfter(now) ?: false
+
+    fun isAfterEndTime(now: Instant): Boolean = endDate?.isBefore(now) ?: false
+}
 
 fun List<TraceLocationEntity>.toTraceLocations() = this.map { it.toTraceLocation() }
 
@@ -33,6 +39,7 @@ fun TraceLocationEntity.toTraceLocation() = TraceLocation(
     startDate = startDate,
     endDate = endDate,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
+    byteRepresentation = byteRepresentationBase64.decodeBase64()!!,
     signature = signatureBase64.decodeBase64()!!,
     version = version
 )

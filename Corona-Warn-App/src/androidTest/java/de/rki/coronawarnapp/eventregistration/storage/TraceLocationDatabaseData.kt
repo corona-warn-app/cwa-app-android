@@ -16,6 +16,7 @@ object TraceLocationDatabaseData {
         startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
         endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
         defaultCheckInLengthInMinutes = null,
+        byteRepresentationBase64 = "byteRepresentationBase64",
         signatureBase64 = "signature1"
     )
 
@@ -28,6 +29,7 @@ object TraceLocationDatabaseData {
         startDate = null,
         endDate = null,
         defaultCheckInLengthInMinutes = 15,
+        byteRepresentationBase64 = "byteRepresentationBase64",
         signatureBase64 = "signature2"
     )
 }
