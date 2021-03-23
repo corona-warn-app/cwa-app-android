@@ -77,7 +77,7 @@ class PaddingToolTest : BaseTest() {
 
     @Test
     fun `keyPadding - genuine request with 5 keys`() {
-        // keyPadding = 9 keys x 28 bytes per key = 252 bytes`
+        // keyPadding = 10 keys x 28 bytes per key = 252 bytes`
         PaddingTool.keyPadding(keyListSize = 5).toByteArray().size shouldBe 280
     }
 
