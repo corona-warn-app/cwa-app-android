@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.core.view.isGone
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
+import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -74,6 +76,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     FragmentNavigatorExtras(this to transitionName)
                 )
             }
+            // TODO Remove once feature is done
             if (CWADebug.isDeviceForTestersBuild) {
                 setOnLongClickListener {
                     findNavController().navigate(
@@ -87,12 +90,36 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             }
         }
 
-        viewModel.confirmationEvent.observe2(this) {
-            doNavigate(
-                CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(it.verifiedTraceLocation)
-            )
+        viewModel.events.observe2(this) {
+            when (it) {
+                is CheckInEvent.ConfirmCheckIn -> {
+                    doNavigate(
+                        CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
+                            it.verifiedTraceLocation
+                        )
+                    )
+                }
+                is CheckInEvent.ConfirmRemoveItem -> {
+                    showRemovalConfirmation(it.checkIn)
+                }
+                is CheckInEvent.ConfirmRemoveAll -> {
+                    showRemovalConfirmation(null)
+                }
+            }
         }
     }
+
+    private fun showRemovalConfirmation(checkIn: CheckIn?) = AlertDialog.Builder(requireContext()).apply {
+        setTitle(
+            if (checkIn == null) R.string.trace_location_checkins_remove_all_title
+            else R.string.trace_location_checkins_remove_single_title
+        )
+        setMessage(R.string.trace_location_checkins_remove_message)
+        setPositiveButton(R.string.generic_action_remove) { _, _ ->
+            viewModel.onRemoveCheckInConfirmed(checkIn)
+        }
+        setNegativeButton(R.string.generic_action_abort) { _, _ -> /* NOOP */ }
+    }.show()
 
     private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
         inflateMenu(R.menu.menu_trace_location_attendee_checkins)
@@ -103,7 +130,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     true
                 }
                 R.id.menu_remove_all -> {
-                    Toast.makeText(requireContext(), "Remove all // TODO", Toast.LENGTH_SHORT).show()
+                    viewModel.onRemoveAllCheckIns()
                     true
                 }
                 else -> onOptionsItemSelected(it)
@@ -116,8 +143,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
         @Suppress("MaxLineLength")
         private val DEBUG_CHECKINS = listOf(
-            "https://e.coronawarn.app/c1/BJLAUJBTGA2TKMZTGFRS2MRTGA3C2NBTMYZS2OJXGQZC2NTEHBTGCYRVGRSTQNBYCAARQARCCFGXSICCNFZHI2DEMF4SAUDBOJ2HSKQLMF2CA3LZEBYGYYLDMUYNHB5EAE4PPB5EAFAAAESGGBCAEIDFJJ7KHRO3ZZ2SFMJSBXSUY2ZZKGOIZS27L2D6VPKTA57M6RZY3MBCARR7LXAA2BY3IGNTHNFFAJSMIXF6PP4TEB3I2C3D7P32QUZHVVER",
-            "https://e.coronawarn.app/c1/BJHAUJDGMNQTQNDCGM3S2NRRMMYC2NDBG5RS2YRSMY4C2OBSGVRWCZDEGUYDMY3GCAARQAJCBVEWGZLDOJSWC3JAKNUG64BKBVGWC2LOEBJXI4TFMV2CAMJQAA4AAQAKCJDDARACEA2ZCTGOF2HH2RQU7ODZMCSUTUBBNQYM6AR4NG6FFLC6ISXWEOI5UARADO44YYH3U53ZYL6IYM5DWALXUESAJNWRGRL5KLNLS5BM54SHDDCA",
+            "HTTPS://E.CORONAWARN.APP/C1/BJHAUJDFMNSTKMJYGY3S2NJYHA4S2NBRG5QS2YLGMM3C2ZDDHFRTSNRSGZTGIYZWCAARQAJCBVEWGZLDOJSWC3JAKNUG64BKBVGWC2LOEBJXI4TFMV2CAMJQAA4AAQAKCJDTARICEBFRIDICXSP4QTNMBRDF7EOJ3EIJD6AWT24YDOWWXQI22KCUD7R7WARBAC7ONBRPJDB2KK6QKZLF4RE3PXU7PMON4IOZVIHCYPJGBZ27FF5S4",
+            "HTTPS://E.CORONAWARN.APP/C1/BJHAUJDEMVRDGZTGMU2C2MZUGQ2C2NBWGZQS2YLCHEYC2NJQHBRDCMBRMVTDIZBTCAARQAJCBVEWGZLDOJSWC3JAKNUG64BKBVGWC2LOEBJXI4TFMV2CAMJQAA4AAQAKCJDTARICEEAJRWAYJARF3V4AS5OVBODPLPX2V3IJFMFU4O2CAKRH6HGHHWCDMJYCEBH7BO2IU2EEGRKEXBZT2DAOFIMXES5ETUT45QIWDCX64APY7C2ME",
+            "HTTPS://E.CORONAWARN.APP/C1/BJHAUJDBMNQWIMLFHA3S2NZQGVTC2NDDGY3C2ODGGBTC2ZBWGQYDCZJUMRTDEN3FCAARQAJCBVEWGZLDOJSWC3JAKNUG64BKBVGWC2LOEBJXI4TFMV2CAMJQAA4AAQAKCJDTARICEEAKJM3RPYMM2VVCE2GLVK6OKY36F64FRNSI6DWYV7WW6MGESFCDNNQCEA44UHS2GEWHJYHTIJ3AJYM6BC3HEIYHY2HRMPIP7ZF62YBAUKOIY",
+            "HTTPS://E.CORONAWARN.APP/C1/BJHAUJBQGZRDOMJXHEYC2NBRG44C2NBWGZRC2YRQGA4S2MJTGRRDQOJZMU4DMMRQCAARQAJCBVEWGZLDOJSWC3JAKNUG64BKBVGWC2LOEBJXI4TFMV2CAMJQAA4AAQAKCJDTARICEB365TX5SEWICC3JUOAZCQX5YUK2LZZA7RGRTNBXTSEBXTD2766CAARBADXEYUJHQSE7QRQOIPEMSSPLCVC5D4I3FOBDRX64NASE47XKKK5EY",
+            "HTTPS://E.CORONAWARN.APP/C1/BJHAUJDGGE4WKMTEMQZC2OJRMUYC2NBQGNTC2OJZMZRC2MTEG4ZWGMJTGA3GEOBTCAARQAJCBVEWGZLDOJSWC3JAKNUG64BKBVGWC2LOEBJXI4TFMV2CAMJQAA4AAQAKCJDTARICEEANT4HDNB7V5DWCKKUV22YQ7NYOBCTOZ2QUFBOUDZS6V5J2VRVLVSICEBU2YHAEBPQSLWTR75VFC6OEFIS22V6KU4NRDYZHTIBMHS4FDADG6",
         )
     }
 }

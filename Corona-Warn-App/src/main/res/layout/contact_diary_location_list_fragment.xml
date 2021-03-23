@@ -11,8 +11,6 @@
             android:id="@+id/contact_diary_location_list_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            android:layout_marginVertical="@dimen/spacing_normal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
