@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class QrCodeDetailModule {
+abstract class QrCodeDetailFragmentModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(QrCodeDetailViewModel::class)

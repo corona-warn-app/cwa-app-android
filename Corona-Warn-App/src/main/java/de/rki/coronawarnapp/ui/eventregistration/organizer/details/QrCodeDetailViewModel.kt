@@ -39,7 +39,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         routeToScreen.postValue(QrCodeDetailNavigationEvents.NavigateBack)
     }
 
-    private suspend fun encodeAsBitmap(input: String, size: Int = 1300): Bitmap? {
+    private suspend fun encodeAsBitmap(input: String, size: Int = 1000): Bitmap? {
         return try {
             val qrCodeErrorCorrectionLevel = appConfigProvider
                 .getAppConfig()
@@ -48,9 +48,6 @@ class QrCodeDetailViewModel @AssistedInject constructor(
             Timber.i("QrCodeErrorCorrectionLevel: $qrCodeErrorCorrectionLevel")
             val hints = mapOf(
                 EncodeHintType.ERROR_CORRECTION to qrCodeErrorCorrectionLevel
-                // This is not required in the specs and it should not be enabled
-                // it is causing crash on older Android versions ex:API 23
-                // EncodeHintType.CHARACTER_SET to Charsets.UTF_8
             )
             MultiFormatWriter().encode(
                 input,

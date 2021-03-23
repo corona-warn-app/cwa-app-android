@@ -35,7 +35,7 @@ import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragmentModule
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragmentModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragmentModule
 
 @Module
 abstract class MainActivityTestModule {
@@ -88,6 +88,6 @@ abstract class MainActivityTestModule {
     @ContributesAndroidInjector(modules = [ShowStoredEventsTestFragmentModule::class])
     abstract fun showStoredEvents(): ShowStoredEventsTestFragment
 
-    @ContributesAndroidInjector(modules = [QrCodeDetailModule::class])
+    @ContributesAndroidInjector(modules = [QrCodeDetailFragmentModule::class])
     abstract fun showEventDetail(): QrCodeDetailFragment
 }
