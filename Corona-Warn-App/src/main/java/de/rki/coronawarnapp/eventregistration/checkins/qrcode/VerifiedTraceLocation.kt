@@ -36,7 +36,8 @@ data class VerifiedTraceLocation(
             startDate = protoTraceLocation.startTimestamp.toInstant(),
             endDate = protoTraceLocation.endTimestamp.toInstant(),
             defaultCheckInLengthInMinutes = protoTraceLocation.defaultCheckInLengthInMinutes,
-            signature = signature
+            byteRepresentation = traceLocationBytes,
+            signature = signature,
         )
     }
 

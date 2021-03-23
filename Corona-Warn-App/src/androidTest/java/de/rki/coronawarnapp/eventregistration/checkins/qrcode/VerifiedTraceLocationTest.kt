@@ -23,7 +23,7 @@ import org.junit.runners.JUnit4
 import testhelpers.BaseTestInstrumentation
 
 @RunWith(JUnit4::class)
-class TraceLocationVerifierTest : BaseTestInstrumentation() {
+class VerifiedTraceLocationTest : BaseTestInstrumentation() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
     private lateinit var traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier
@@ -61,8 +61,8 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
             startDate = Instant.ofEpochSecond(2687955),
             endDate = Instant.ofEpochSecond(2687991),
             defaultCheckInLengthInMinutes = 0,
-            byteRepresentation = verifyResult.signedTraceLocation.location.toByteArray().toByteString(),
-            signature = verifyResult.signature.toByteArray().toByteString()
+            byteRepresentation = verifyResult.traceLocationBytes,
+            signature = verifyResult.signature.toByteArray().toByteString(),
         )
 
         verifyResult.traceLocation shouldBe expectedTraceLocation
