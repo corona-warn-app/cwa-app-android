@@ -25,7 +25,8 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, savedState ->
             factory as ConfirmCheckInViewModel.Factory
-            factory.create(navArgs.verifiedTraceLocation, navArgs.editCheckInId)
+            val editId = if (navArgs.editCheckInId == 0L) null else navArgs.editCheckInId
+            factory.create(navArgs.verifiedTraceLocation, editId)
         }
     )
     private val binding: FragmentConfirmCheckInBinding by viewBindingLazy()
