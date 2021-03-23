@@ -12,18 +12,20 @@ import timber.log.Timber
 class EventRegistrationDbCleanUpPeriodicWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted private val workerParams: WorkerParameters,
-    private val traceLocationCleaner: TraceLocationCleaner
+    private val traceLocationCleaner: TraceLocationCleaner,
+    private val checkInCleaner: CheckInCleaner
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        Timber.d("Starting work in TraceLocationCleanUpWorker")
+        Timber.d("Starting work in EventRegistrationDbCleanUpPeriodicWorker")
         try {
             traceLocationCleaner.cleanUp()
+            checkInCleaner.cleanUp()
         } catch (exception: Exception) {
-            Timber.e("Work in TraceLocationCleanUpWorker failed: $exception")
+            Timber.e("Work in EventRegistrationDbCleanUpPeriodicWorker failed: $exception")
             return Result.failure()
         }
-        Timber.d("Work in TraceLocationCleanUpWorker successfully completed!")
+        Timber.d("Work in EventRegistrationDbCleanUpPeriodicWorker successfully completed!")
         return Result.success()
     }
 
