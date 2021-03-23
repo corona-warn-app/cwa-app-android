@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.Contact
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactVH
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.header.HeaderItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.header.HeaderVH
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskcalculated.RiskCalculatedItem
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskcalculated.RiskCalculatedVH
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfVH
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -30,7 +30,7 @@ class DayDataAdapter :
                 StableIdMod(data),
                 DataBinderMod<DayDataItem, ItemVH<DayDataItem, ViewBinding>>(data),
                 TypedVHCreatorMod({ data[it] is HeaderItem }) { HeaderVH(it) },
-                TypedVHCreatorMod({ data[it] is RiskCalculatedItem }) { RiskCalculatedVH(it) },
+                TypedVHCreatorMod({ data[it] is RiskEnfItem }) { RiskEnfVH(it) },
                 TypedVHCreatorMod({ data[it] is ContactItem }) { ContactVH(it) }
             )
         )
