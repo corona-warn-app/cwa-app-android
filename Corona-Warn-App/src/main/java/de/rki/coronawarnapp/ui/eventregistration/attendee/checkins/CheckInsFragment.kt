@@ -95,7 +95,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 is CheckInEvent.ConfirmCheckIn -> {
                     doNavigate(
                         CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
-                            it.verifiedTraceLocation
+                            verifiedTraceLocation = it.verifiedTraceLocation,
+                            editCheckInId = 0,
                         )
                     )
                 }
@@ -106,7 +107,12 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     showRemovalConfirmation(null)
                 }
                 is CheckInEvent.EditCheckIn -> {
-                    TODO("Navigate to check-in with ID:$it.checkInId")
+                    doNavigate(
+                        CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
+                            verifiedTraceLocation = null,
+                            editCheckInId = it.checkInId,
+                        )
+                    )
                 }
                 is CheckInEvent.ShowInformation -> {
                     TODO()
