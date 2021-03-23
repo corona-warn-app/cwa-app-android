@@ -9,8 +9,14 @@ import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
+.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
+import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -22,6 +28,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -68,8 +75,21 @@ class SubmissionServerTest : BaseTest() {
     ) = SubmissionServer(submissionApi = { customApi }, appConfigProvider)
 
     @Test
-    fun `normal submission`(): Unit = runBlocking {
+    fun `genuine submission - empty checkInPadding`(): Unit = runBlocking {
         val testKeyData = ByteString.copyFrom("TestKeyDataGoogle", Charsets.UTF_8)
+        val signedTraceLocation = ByteString.copyFrom(
+            "ChB0cmFjZV9sb2NhdGlvbl8zEAEYAyIMcmVzdGF1cmFudF8zKglhZGRyZXNzXzMwkMOCggY4sMGNggZACg=="
+                .decodeBase64()!!.toByteArray()
+        )
+        val checkIn = CheckInOuterClass.CheckIn.newBuilder()
+            .setEndIntervalNumber(0)
+            .setStartIntervalNumber(0)
+            .setSignedLocation(
+                TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+                    signedTraceLocation
+                )
+            )
+            .build()
 
         val server = createServer()
         coEvery { submissionApi.submitPayload(any(), any(), any(), any()) } answers {
@@ -78,6 +98,8 @@ class SubmissionServerTest : BaseTest() {
             arg<String>(2) shouldBe ""
             arg<SubmissionPayloadOuterClass.SubmissionPayload>(3).apply {
                 keysList.single().keyData shouldBe testKeyData
+                checkInsOrBuilderList.size shouldBe 1
+                checkInsOrBuilderList[0] shouldBe checkIn
                 requestPadding.size() shouldBe 392
                 hasConsentToFederation() shouldBe true
                 visitedCountriesList shouldBe listOf("DE")
@@ -95,7 +117,85 @@ class SubmissionServerTest : BaseTest() {
             keyList = listOf(googleKeyList),
             consentToFederation = true,
             visitedCountries = listOf("DE"),
-            checkIns = emptyList()
+            checkIns = listOf(checkIn)
+        )
+        server.submitPayload(submissionData)
+
+        coVerify { submissionApi.submitPayload(any(), any(), any(), any()) }
+    }
+
+    @Test
+    fun `genuine submission - non empty checkInPadding`(): Unit = runBlocking {
+        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
+            every { presenceTracing } returns PresenceTracingConfigContainer(
+                plausibleDeniabilityParameters = PlausibleDeniabilityParametersContainer(
+                    checkInSizesInBytes = listOf(10),
+                    probabilityToFakeCheckInsIfSomeCheckIns = 1.0,
+                    probabilityToFakeCheckInsIfNoCheckIns = 1.0,
+                    numberOfFakeCheckInsFunctionParameters = listOf(
+                        NumberOfFakeCheckInsFunctionParameters.newBuilder()
+                            .setRandomNumberRange(
+                                RiskCalculationParametersOuterClass.Range.newBuilder()
+                                    .setMax(9999.0)
+                                    .setMin(-9999.0)
+                            )
+                            .setP(100.0)
+                            .setQ(1.4)
+                            .setR(-1.0)
+                            .setS(0.8)
+                            .setT(-1.5)
+                            .setU(2.0)
+                            .setA(0.0)
+                            .setB(0.0)
+                            .setC(0.0)
+                            .build()
+                    )
+                )
+            )
+        }
+        val testKeyData = ByteString.copyFrom("TestKeyDataGoogle", Charsets.UTF_8)
+        val signedTraceLocation = ByteString.copyFrom(
+            "ChB0cmFjZV9sb2NhdGlvbl8zEAEYAyIMcmVzdGF1cmFudF8zKglhZGRyZXNzXzMwkMOCggY4sMGNggZACg=="
+                .decodeBase64()!!.toByteArray()
+        )
+        val checkIn = CheckInOuterClass.CheckIn.newBuilder()
+            .setEndIntervalNumber(0)
+            .setStartIntervalNumber(0)
+            .setSignedLocation(
+                TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+                    signedTraceLocation
+                )
+            )
+            .build()
+
+        val server = createServer()
+        coEvery { submissionApi.submitPayload(any(), any(), any(), any()) } answers {
+            arg<String>(0) shouldBe "testAuthCode"
+            arg<String>(1) shouldBe "0"
+            arg<String>(2) shouldBe ""
+            arg<SubmissionPayloadOuterClass.SubmissionPayload>(3).apply {
+                keysList.single().keyData shouldBe testKeyData
+                checkInsOrBuilderList.size shouldBe 1
+                checkInsOrBuilderList[0] shouldBe checkIn
+                // CheckInPadding length is random > is used to check it exists
+                requestPadding.size() shouldBeGreaterThan 392
+                hasConsentToFederation() shouldBe true
+                visitedCountriesList shouldBe listOf("DE")
+            }
+            Unit
+        }
+
+        val googleKeyList = TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
+            .newBuilder()
+            .setKeyData(testKeyData)
+            .build()
+
+        val submissionData = SubmissionServer.SubmissionData(
+            authCode = "testAuthCode",
+            keyList = listOf(googleKeyList),
+            consentToFederation = true,
+            visitedCountries = listOf("DE"),
+            checkIns = listOf(checkIn)
         )
         server.submitPayload(submissionData)
 
@@ -111,6 +211,7 @@ class SubmissionServerTest : BaseTest() {
             arg<String>(2).length shouldBe 36 // cwa-header-padding
             arg<SubmissionPayloadOuterClass.SubmissionPayload>(3).apply {
                 keysList.size shouldBe 0
+                checkInsOrBuilderList.size shouldBe 0
                 requestPadding.size() shouldBe 420
                 hasConsentToFederation() shouldBe false
                 visitedCountriesList shouldBe emptyList()
