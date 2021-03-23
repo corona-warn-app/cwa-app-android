@@ -27,18 +27,10 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
     private val vm: QrCodeDetailViewModel by cwaViewModels { viewModelFactory }
     private val binding: TraceLocationOrganizerQrCodeDetailFragmentBinding by viewBindingLazy()
 
-    private val qrCodeText = "HTTPS://E.CORONAWARN.APP/C1/BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBGGC5LOMNUCAUD" +
-        "BOJ2HSGGTQ6SACIHXQ6SACKA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFF" +
-        "BU2SQCEEAJAUCJSQJ7WDM675MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI="
-
-    private val testTitle = "Jahrestreffen der deutschen SAP Anwendergruppe"
-    private val testSubtitle = "Hauptstr 3, 69115 Heidelberg"
-    private val testEventDate = "21.01.2021, 18:00 - 21:00 Uhr"
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.createQrCode(qrCodeText)
+        vm.createQrCode(vm.qrCodeText)
 
         binding.apply {
             appBarLayout.addOnOffsetChangedListener(
@@ -52,11 +44,9 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 }
             )
 
-
-            // Only for testing
-            title.text = testTitle
-            subtitle.text = testSubtitle
-            eventDate.text = testEventDate
+            title.text = vm.testTitle
+            subtitle.text = vm.testSubtitle
+            eventDate.text = vm.testEventDate
 
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)
