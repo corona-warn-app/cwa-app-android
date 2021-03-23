@@ -54,6 +54,7 @@
                     android:hint="Description"
                     android:maxLines="1"
                     android:padding="@dimen/spacing_tiny"
+                    android:text="TraceLocation created from TestMenu"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -71,6 +72,7 @@
                     android:hint="Address"
                     android:maxLines="1"
                     android:padding="@dimen/spacing_tiny"
+                    android:text="Address of TraceLocation"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -89,6 +91,7 @@
                     android:hint="Start (yyyy-MM-dd HH:mm)"
                     android:maxLines="1"
                     android:padding="@dimen/spacing_tiny"
+                    android:text="2020-01-15 15:00"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -107,6 +110,7 @@
                     android:hint="End (yyyy-MM-dd HH:mm)"
                     android:maxLines="1"
                     android:padding="@dimen/spacing_tiny"
+                    android:text="2020-01-15 18:00"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -126,6 +130,7 @@
                     android:maxLines="1"
                     android:padding="@dimen/spacing_tiny"
                     android:inputType="numberDecimal"
+                    android:text="90"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -135,6 +140,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Create Event"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/send_to_server_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Send to server"
                 tools:ignore="HardcodedText" />
 
             <TextView
