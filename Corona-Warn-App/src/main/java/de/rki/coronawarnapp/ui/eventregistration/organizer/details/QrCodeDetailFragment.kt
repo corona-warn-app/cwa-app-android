@@ -67,7 +67,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
         vm.qrCodeBitmap.observe2(this) {
             binding.qrCodeImage.setImageBitmap(it)
-            //setToolbarOverlay()
+            setToolbarOverlay()
         }
 
         vm.routeToScreen.observe2(this) {
@@ -90,11 +90,11 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
-        textParams.bottomMargin = (width / 2) + 24
+        textParams.bottomMargin = ((width) / 2) - 24
         binding.subtitle.requestLayout()
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
-        behavior.overlayTop = width / 2
+        behavior.overlayTop = ((width) / 2) - 24
     }
 
     override fun onResume() {
