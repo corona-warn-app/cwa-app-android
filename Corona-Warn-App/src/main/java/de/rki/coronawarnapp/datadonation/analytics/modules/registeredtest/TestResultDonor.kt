@@ -41,15 +41,13 @@ class TestResultDonor @Inject constructor(
 
         val lastChangeCheckedRiskLevelTimestamp = testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value
 
-        val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = if (lastChangeCheckedRiskLevelTimestamp == null) {
-            Timber.d("lastChangeCheckedRiskLevelTimestamp is missing - Using default value=-1")
-            DEFAULT_DAYS_SINCE_MOST_RECENT_DATE_AT_RISK_LEVEL
-        } else {
+        // Default -1 value is covered by calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
+        // In case lastChangeCheckedRiskLevelTimestamp is null
+        val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 lastChangeCheckedRiskLevelTimestamp,
                 timestampAtRegistration
             )
-        }
 
         Timber.i(
             "lastChangeCheckedRiskLevelTimestamp=%s,timestampAtRegistration=%s",
