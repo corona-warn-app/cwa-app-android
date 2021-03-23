@@ -6,8 +6,8 @@ import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
@@ -32,7 +32,7 @@ class RiskLevelChangeDetector @Inject constructor(
     private val riskLevelSettings: RiskLevelSettings,
     private val notificationManagerCompat: NotificationManagerCompat,
     private val foregroundState: ForegroundState,
-    private val notificationHelper: NotificationHelper,
+    private val notificationHelper: GeneralNotifications,
     private val surveys: Surveys,
     private val submissionSettings: SubmissionSettings,
     private val tracingSettings: TracingSettings,

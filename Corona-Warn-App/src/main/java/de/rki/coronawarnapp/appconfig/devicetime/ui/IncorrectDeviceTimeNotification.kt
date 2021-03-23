@@ -5,8 +5,8 @@ import androidx.core.app.NotificationCompat
 import androidx.navigation.NavDeepLinkBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -20,7 +20,7 @@ class IncorrectDeviceTimeNotification @Inject constructor(
     @AppContext private val context: Context,
     private val foregroundState: ForegroundState,
     private val navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>,
-    private val notificationHelper: NotificationHelper
+    private val notificationHelper: GeneralNotifications
 ) {
 
     private val notificationId = NotificationConstants.INCORRECT_DEVICE_TIME_NOTIFICATION_ID

@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import dagger.Reusable
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.flow.first
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class DeadmanNotificationSender @Inject constructor(
     @AppContext private val context: Context,
     private val foregroundState: ForegroundState,
-    private val notificationHelper: NotificationHelper
+    private val notificationHelper: GeneralNotifications
 ) {
 
     suspend fun sendNotification() {

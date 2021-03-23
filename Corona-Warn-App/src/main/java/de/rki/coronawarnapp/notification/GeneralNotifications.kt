@@ -26,14 +26,12 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Singleton class for notification handling
- * Notifications should only be sent when the app is not in foreground.
- * The helper uses externalised constants for readability.
- *
- * @see NotificationConstants
+ * Helper for the apps main notification channel,
+ * e.g. notifications about increased risk.
+ * Notifications are IMPORTANCE_HIGH
  */
 @Reusable
-class NotificationHelper @Inject constructor(
+class GeneralNotifications @Inject constructor(
     @AppContext private val context: Context,
     private val notificationManagerCompat: NotificationManagerCompat,
     private val notificationManager: NotificationManager

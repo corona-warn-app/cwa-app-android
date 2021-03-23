@@ -34,7 +34,7 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
     @MockK lateinit var pendingIntent: PendingIntent
     @MockK lateinit var navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>
     @MockK lateinit var notificationManager: NotificationManager
-    @MockK lateinit var notificationHelper: NotificationHelper
+    @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var cwaSettings: CWASettings
 
     @BeforeEach

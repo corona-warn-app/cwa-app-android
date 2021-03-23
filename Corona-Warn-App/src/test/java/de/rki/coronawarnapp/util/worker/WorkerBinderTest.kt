@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsS
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -116,7 +116,7 @@ class MockProvider {
     fun testResultAvailableNotification(): TestResultAvailableNotificationService = mockk()
 
     @Provides
-    fun notificationHelper(): NotificationHelper = mockk()
+    fun notificationHelper(): GeneralNotifications = mockk()
 
     @Provides
     @AppContext

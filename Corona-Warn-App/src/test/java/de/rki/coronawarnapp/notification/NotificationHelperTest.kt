@@ -8,6 +8,6 @@ class NotificationHelperTest : BaseTest() {
 
     @Test
     fun `notification channel ID should never change`() {
-        NotificationHelper.MAIN_CHANNEL_ID shouldBe "de.rki.coronawarnapp.notification.exposureNotificationChannelId"
+        GeneralNotifications.MAIN_CHANNEL_ID shouldBe "de.rki.coronawarnapp.notification.exposureNotificationChannelId"
     }
 }

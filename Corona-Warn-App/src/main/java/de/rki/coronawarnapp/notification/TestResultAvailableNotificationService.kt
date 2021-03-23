@@ -17,7 +17,7 @@ class TestResultAvailableNotificationService @Inject constructor(
     @AppContext private val context: Context,
     private val foregroundState: ForegroundState,
     private val navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>,
-    private val notificationHelper: NotificationHelper,
+    private val notificationHelper: GeneralNotifications,
     private val cwaSettings: CWASettings
 ) {
 

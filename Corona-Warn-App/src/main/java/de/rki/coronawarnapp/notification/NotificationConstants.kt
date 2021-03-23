@@ -5,7 +5,7 @@ import org.joda.time.Duration
 /**
  * The notification constants are used inside the NotificationHelper
  *
- * @see NotificationHelper
+ * @see GeneralNotifications
  */
 object NotificationConstants {
 
@@ -20,4 +20,5 @@ object NotificationConstants {
     const val NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID: NotificationId = 110
     const val TEST_RESULT_AVAILABLE_NOTIFICATION_ID: NotificationId = 130
     const val INCORRECT_DEVICE_TIME_NOTIFICATION_ID: NotificationId = 140
+    const val TRACELOCATION_AUTOCHECKOUT_NOTIFICATION_ID: NotificationId = 1001
 }

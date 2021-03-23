@@ -17,7 +17,7 @@ import javax.inject.Inject
 class ShareTestResultNotificationService @Inject constructor(
     @AppContext private val context: Context,
     private val timeStamper: TimeStamper,
-    private val notificationHelper: NotificationHelper,
+    private val notificationHelper: GeneralNotifications,
     private val cwaSettings: CWASettings
 ) {
 
