@@ -178,7 +178,7 @@
 
     <fragment
         android:id="@+id/test_orginser_qr_codes_list_fragment"
-        android:name="de.rki.coronawarnapp.test.organiser.ui.TraceLocationsFragment"
+        android:name="de.rki.coronawarnapp.test.organiser.ui.TestTraceLocationsFragment"
         android:label="OrganiserQrCodesListTestFragment"
         tools:layout="@layout/trace_location_organizer_trace_locations_list_fragment" />
 

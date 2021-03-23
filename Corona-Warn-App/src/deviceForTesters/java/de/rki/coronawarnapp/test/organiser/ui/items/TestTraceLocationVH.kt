@@ -5,11 +5,11 @@ import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsItemBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.test.organiser.ui.TraceLocationsAdapter
+import de.rki.coronawarnapp.test.organiser.ui.TestTraceLocationsAdapter
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 
-class TraceLocationVH(parent: ViewGroup) :
-    TraceLocationsAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsItemBinding>(
+class TestTraceLocationVH(parent: ViewGroup) :
+    TestTraceLocationsAdapter.ItemVH<TestTraceLocationVH.Item, TraceLocationOrganizerTraceLocationsItemBinding>(
         layoutRes = R.layout.trace_location_organizer_trace_locations_item,
         parent = parent
     ) {
@@ -70,7 +70,7 @@ class TraceLocationVH(parent: ViewGroup) :
         val onDuplicate: (TraceLocation) -> Unit,
         val onShowPrint: (TraceLocation) -> Unit,
         val onClearItem: (TraceLocation) -> Unit,
-    ) : TraceLocationItem {
+    ) : TestTraceLocationItem {
         override val stableId: Long = traceLocation.guid.hashCode().toLong()
     }
 }

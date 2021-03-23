@@ -26,8 +26,8 @@ import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragmentModule
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentModule
-import de.rki.coronawarnapp.test.organiser.ui.TraceLocationsFragment
-import de.rki.coronawarnapp.test.organiser.ui.TraceLocationsFragmentModule
+import de.rki.coronawarnapp.test.organiser.ui.TestTraceLocationsFragment
+import de.rki.coronawarnapp.test.organiser.ui.TestTraceLocationsFragmentModule
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
@@ -76,8 +76,8 @@ abstract class MainActivityTestModule {
     @ContributesAndroidInjector(modules = [DeltaOnboardingFragmentModule::class])
     abstract fun deltaOnboarding(): DeltaonboardingFragment
 
-    @ContributesAndroidInjector(modules = [TraceLocationsFragmentModule::class])
-    abstract fun organiserQrCodesList(): TraceLocationsFragment
+    @ContributesAndroidInjector(modules = [TestTraceLocationsFragmentModule::class])
+    abstract fun organiserQrCodesList(): TestTraceLocationsFragment
 
     @ContributesAndroidInjector(modules = [EventRegistrationTestFragmentModule::class])
     abstract fun eventRegistration(): EventRegistrationTestFragment

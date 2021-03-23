@@ -22,12 +22,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_locations_list_fragment), AutoInject {
+class TestTraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_locations_list_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: TraceLocationsViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: TestTraceLocationsViewModel by cwaViewModels { viewModelFactory }
     private val binding: TraceLocationOrganizerTraceLocationsListFragmentBinding by viewBindingLazy()
-    private val traceLocationsAdapter = TraceLocationsAdapter()
+    private val traceLocationsAdapter = TestTraceLocationsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.organiser.ui
+package de.rki.coronawarnapp.ui.eventregistration.organizer.list
 
 import dagger.Binds
 import dagger.Module

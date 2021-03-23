@@ -1,10 +1,10 @@
-package de.rki.coronawarnapp.test.organiser.ui
+package de.rki.coronawarnapp.ui.eventregistration.organizer.list
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
-import de.rki.coronawarnapp.test.organiser.ui.items.TraceLocationVH
-import de.rki.coronawarnapp.test.organiser.ui.items.TraceLocationItem
+import de.rki.coronawarnapp.ui.eventregistration.organizer.list.items.TraceLocationItem
+import de.rki.coronawarnapp.ui.eventregistration.organizer.list.items.TraceLocationVH
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer

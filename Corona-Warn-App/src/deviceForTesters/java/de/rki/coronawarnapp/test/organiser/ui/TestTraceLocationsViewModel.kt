@@ -7,8 +7,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.test.organiser.ui.items.TraceLocationVH
-import de.rki.coronawarnapp.test.organiser.ui.items.TraceLocationItem
+import de.rki.coronawarnapp.test.organiser.ui.items.TestTraceLocationVH
+import de.rki.coronawarnapp.test.organiser.ui.items.TestTraceLocationItem
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -18,13 +18,13 @@ import okio.ByteString.Companion.toByteString
 import org.joda.time.DateTime
 import java.util.UUID
 
-class TraceLocationsViewModel @AssistedInject constructor(
+class TestTraceLocationsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val traceLocationRepository: TraceLocationRepository,
     private val timeStamper: TimeStamper
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val traceLocations: LiveData<List<TraceLocationItem>> = traceLocationRepository.allTraceLocations
+    val traceLocations: LiveData<List<TestTraceLocationItem>> = traceLocationRepository.allTraceLocations
         .map { traceLocations ->
             traceLocations
                 .filter { it.endDate == null || it.endDate.isAfter(timeStamper.nowUTC.toDateTime().minusDays(15)) }
@@ -32,7 +32,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
         }
         .map { traceLocations ->
             traceLocations.map { traceLocation ->
-                TraceLocationVH.Item(
+                TestTraceLocationVH.Item(
                     traceLocation = traceLocation,
                     onCheckIn = { /* TODO */ },
                     onDuplicate = { /* TODO */ },
@@ -56,6 +56,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
             startDate = null,
             endDate = null,
             defaultCheckInLengthInMinutes = 60,
+            byteRepresentation = "Hauptstr. 3, 69115 Heidelberg".toByteArray().toByteString(),
             signature = "Signature".toByteArray().toByteString()
         )
         traceLocationRepository.addTraceLocation(permanent)
@@ -68,6 +69,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
             startDate = DateTime.now().plusHours(2).toInstant(),
             endDate = DateTime.now().plusHours(3).toInstant(),
             defaultCheckInLengthInMinutes = 60,
+            byteRepresentation = "Hauptstr. 3, 69115 Heidelberg".toByteArray().toByteString(),
             signature = "Signature".toByteArray().toByteString()
         )
         traceLocationRepository.addTraceLocation(oneDayEvent)
@@ -80,6 +82,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
             startDate = DateTime.now().plusHours(2).toInstant(),
             endDate = DateTime.now().plusDays(5).plusHours(2).toInstant(),
             defaultCheckInLengthInMinutes = 60,
+            byteRepresentation = "Hauptstr. 3, 69115 Heidelberg".toByteArray().toByteString(),
             signature = "Signature".toByteArray().toByteString()
         )
         traceLocationRepository.addTraceLocation(partyHardEvent)
@@ -92,6 +95,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
             startDate = null,
             endDate = null,
             defaultCheckInLengthInMinutes = 60,
+            byteRepresentation = "Moscow, Kosmodomianskaya 52/7".toByteArray().toByteString(),
             signature = "Signature".toByteArray().toByteString()
         )
         traceLocationRepository.addTraceLocation(oldPermanent)
@@ -104,6 +108,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
             startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
             endDate = DateTime.now().minusSeconds(15 * 86400 - 10).toInstant(),
             defaultCheckInLengthInMinutes = 60,
+            byteRepresentation = "Hauptstr. 3, 69115 Heidelberg".toByteArray().toByteString(),
             signature = "Signature".toByteArray().toByteString()
         )
         traceLocationRepository.addTraceLocation(oldTemporaryOne)
@@ -116,6 +121,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
             startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
             endDate = DateTime.now().minusSeconds(15 * 86400).toInstant(),
             defaultCheckInLengthInMinutes = 60,
+            byteRepresentation = "Hauptstr. 3, 69115 Heidelberg".toByteArray().toByteString(),
             signature = "Signature".toByteArray().toByteString()
         )
         traceLocationRepository.addTraceLocation(oldTemporaryTwo)
@@ -128,11 +134,12 @@ class TraceLocationsViewModel @AssistedInject constructor(
             startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
             endDate = DateTime.now().minusSeconds(15 * 86400 + 10).toInstant(),
             defaultCheckInLengthInMinutes = 60,
+            byteRepresentation = "Hauptstr. 3, 69115 Heidelberg".toByteArray().toByteString(),
             signature = "Signature".toByteArray().toByteString()
         )
         traceLocationRepository.addTraceLocation(oldTemporaryThree)
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<TraceLocationsViewModel>
+    interface Factory : SimpleCWAViewModelFactory<TestTraceLocationsViewModel>
 }
