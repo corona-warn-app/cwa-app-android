@@ -80,8 +80,8 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
-        textParams.bottomMargin = ((width) / 2) - 24
-        binding.subtitle.requestLayout()
+        textParams.bottomMargin = ((width) / 2) - 24 /* 24 is space between screen border and QrCode */
+        binding.subtitle.requestLayout() /* 24 is space between screen border and QrCode */
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
         behavior.overlayTop = ((width) / 2) - 24
