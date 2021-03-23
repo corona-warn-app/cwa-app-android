@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationVerifyResult
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
 
 sealed class CheckInEvent {
 
@@ -9,5 +9,5 @@ sealed class CheckInEvent {
 
     object ConfirmRemoveAll : CheckInEvent()
 
-    data class ConfirmCheckIn(val result: TraceLocationVerifyResult) : CheckInEvent()
+    data class ConfirmCheckIn(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
 }
