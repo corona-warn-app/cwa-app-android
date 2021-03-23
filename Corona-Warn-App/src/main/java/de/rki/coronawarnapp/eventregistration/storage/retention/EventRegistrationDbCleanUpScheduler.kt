@@ -9,11 +9,11 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Reusable
-class TraceLocationCleanUpScheduler @Inject constructor(
+class EventRegistrationDbCleanUpScheduler @Inject constructor(
     private val workManager: WorkManager
 ) {
 
-    private val periodicWorkRequest = PeriodicWorkRequestBuilder<TraceLocationCleanUpPeriodicWorker>(
+    private val periodicWorkRequest = PeriodicWorkRequestBuilder<EventRegistrationDbCleanUpPeriodicWorker>(
         DateTimeConstants.HOURS_PER_DAY.toLong(),
         TimeUnit.HOURS
     ).build()

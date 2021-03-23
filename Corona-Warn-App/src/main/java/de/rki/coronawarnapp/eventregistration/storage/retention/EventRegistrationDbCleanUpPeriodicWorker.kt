@@ -9,7 +9,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
-class TraceLocationCleanUpPeriodicWorker @AssistedInject constructor(
+class EventRegistrationDbCleanUpPeriodicWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted private val workerParams: WorkerParameters,
     private val traceLocationCleaner: TraceLocationCleaner
@@ -28,5 +28,5 @@ class TraceLocationCleanUpPeriodicWorker @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : InjectedWorkerFactory<TraceLocationCleanUpPeriodicWorker>
+    interface Factory : InjectedWorkerFactory<EventRegistrationDbCleanUpPeriodicWorker>
 }
