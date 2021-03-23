@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.test.organiser.ui
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
-import de.rki.coronawarnapp.test.organiser.ui.items.ActiveTraceLocationVH
+import de.rki.coronawarnapp.test.organiser.ui.items.TraceLocationVH
 import de.rki.coronawarnapp.test.organiser.ui.items.TraceLocationItem
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
@@ -24,14 +24,14 @@ class TraceLocationsAdapter :
             listOf(
                 StableIdMod(data),
                 DataBinderMod<TraceLocationItem, ItemVH<TraceLocationItem, ViewBinding>>(data),
-                TypedVHCreatorMod({ data[it] is ActiveTraceLocationVH.Item }) { ActiveTraceLocationVH(it) },
+                TypedVHCreatorMod({ data[it] is TraceLocationVH.Item }) { TraceLocationVH(it) },
             )
         )
     }
 
     override fun getItemCount(): Int = data.size
 
-    abstract class ItemVH<Item: TraceLocationItem, VB: ViewBinding>(
+    abstract class ItemVH<Item : TraceLocationItem, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
     ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>

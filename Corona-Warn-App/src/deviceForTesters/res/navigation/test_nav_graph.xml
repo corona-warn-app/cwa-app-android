@@ -180,6 +180,6 @@
         android:id="@+id/test_orginser_qr_codes_list_fragment"
         android:name="de.rki.coronawarnapp.test.organiser.ui.TraceLocationsFragment"
         android:label="OrganiserQrCodesListTestFragment"
-        tools:layout="@layout/trace_location_organizer_qr_codes_list_fragment" />
+        tools:layout="@layout/trace_location_organizer_trace_locations_list_fragment" />
 
 </navigation>

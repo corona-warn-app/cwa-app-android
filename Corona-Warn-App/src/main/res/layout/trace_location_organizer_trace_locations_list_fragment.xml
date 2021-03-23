@@ -19,24 +19,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/CWAToolbar.Menu"
-        app:title="@string/trace_location_organiser_qr_list_title"
+        app:title="@string/trace_location_organiser_list_title"
         tools:title="Meine QR-Codes" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/spacing_small"
-        android:layout_marginVertical="@dimen/spacing_normal"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingBottom="@dimen/spacing_huge"
-        android:paddingTop="@dimen/spacing_huge"
-        android:clipToPadding="false"
-        tools:listitem="@layout/trace_location_organizer_qr_codes_list_item" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:listitem="@layout/trace_location_organizer_trace_locations_item" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/qr_codes_list_no_items_group"
@@ -63,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_huge"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:text="@string/trace_location_organiser_qr_list_no_codes_title"
+        android:text="@string/trace_location_organiser_list_no_codes_title"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@id/qr_codes_list_no_items_subtitle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_huge"
         android:layout_marginTop="@dimen/spacing_tiny"
-        android:text="@string/trace_location_organiser_qr_list_no_codes_subtitle"
+        android:text="@string/trace_location_organiser_list_no_codes_subtitle"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_normal"
-        android:text="@string/trace_location_organiser_qr_list_new_qr_code_button"
+        android:text="@string/trace_location_organiser_list_new_button"
         android:transitionName="contact_diary_shared_content"
         app:icon="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
