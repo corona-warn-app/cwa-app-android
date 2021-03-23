@@ -83,10 +83,10 @@ class SubmissionServer @Inject constructor(
 
         val fakeKeyPadding = keyPadding(keyListSize = 0)
         val fakeCheckInPadding = checkInPadding(plausibleParameters, checkInListSize = 0)
-        val requestPadding = fakeKeyPadding + fakeCheckInPadding
+        val fakeRequestPadding = fakeKeyPadding + fakeCheckInPadding
 
         val submissionPayload = SubmissionPayload.newBuilder()
-            .setRequestPadding(ByteString.copyFromUtf8(requestPadding))
+            .setRequestPadding(ByteString.copyFromUtf8(fakeRequestPadding))
             .build()
 
         api.submitPayload(
