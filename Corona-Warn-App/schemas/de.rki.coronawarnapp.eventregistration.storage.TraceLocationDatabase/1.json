@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3130771db80d789cd0ef50b8d24e0354",
+    "identityHash": "58db835392620886de3bb25c22d5190a",
     "entities": [
       {
         "tableName": "checkin",
@@ -116,7 +116,7 @@
       },
       {
         "tableName": "traceLocations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `startDate` TEXT, `endDate` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `signature` TEXT NOT NULL, PRIMARY KEY(`guid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `startDate` TEXT, `endDate` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `byteRepresentation` TEXT NOT NULL, `signature` TEXT NOT NULL, PRIMARY KEY(`guid`))",
         "fields": [
           {
             "fieldPath": "guid",
@@ -165,6 +165,11 @@
             "columnName": "defaultCheckInLengthInMinutes",
             "affinity": "INTEGER",
             "notNull": false
+          },{
+            "fieldPath": "byteRepresentationBase64",
+            "columnName": "byteRepresentation",
+            "affinity": "TEXT",
+            "notNull": true
           },
           {
             "fieldPath": "signatureBase64",
@@ -186,7 +191,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3130771db80d789cd0ef50b8d24e0354')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '58db835392620886de3bb25c22d5190a')"
     ]
   }
 }
