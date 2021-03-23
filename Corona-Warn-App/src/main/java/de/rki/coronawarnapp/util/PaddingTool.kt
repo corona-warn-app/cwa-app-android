@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.util
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
+    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import timber.log.Timber
