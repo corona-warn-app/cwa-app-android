@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -118,6 +119,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     TODO()
                 }
             }
+        }
+
+        viewModel.errorEvent.observe2(this) {
+            val errorForHumans = it.tryHumanReadableError(requireContext())
+            Toast.makeText(requireContext(), errorForHumans.description, Toast.LENGTH_LONG).show()
         }
     }
 

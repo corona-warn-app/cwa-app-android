@@ -35,6 +35,7 @@ class CheckInsViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
+    val errorEvent = SingleLiveEvent<Throwable>()
 
     val checkins = checkInsRepository.allCheckIns
         .map { checkins ->
@@ -73,7 +74,12 @@ class CheckInsViewModel @AssistedInject constructor(
 
     private fun doCheckOutNow(checkIn: CheckIn) = launch(scope = appScope) {
         Timber.d("doCheckOutNow(checkIn=%s)", checkIn)
-        checkOutHandler.checkOut(checkIn.id)
+        try {
+            checkOutHandler.checkOut(checkIn.id)
+        } catch (e: Exception) {
+            Timber.e(e, "Checkout failed for %s", checkIn)
+            errorEvent.postValue(e)
+        }
     }
 
     fun onRemoveCheckInConfirmed(checkIn: CheckIn?) {
