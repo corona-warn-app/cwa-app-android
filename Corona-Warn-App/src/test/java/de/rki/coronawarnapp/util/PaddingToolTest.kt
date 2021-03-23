@@ -157,20 +157,20 @@ class PaddingToolTest : BaseTest() {
     @ParameterizedTest
     @ArgumentsSource(ZeroFakeCheckInsProvider::class)
     fun `Determine Number Of Fake CheckIns = 0`(
-        plausibleDeniabilityParameters: PlausibleDeniabilityParametersContainer,
+        plausibleParameters: PlausibleDeniabilityParametersContainer,
         numberOfCheckIns: Int,
         expected: Double
     ) {
-        plausibleDeniabilityParameters.determineFakeCheckInsNumber(numberOfCheckIns) shouldBe expected
+        plausibleParameters.determineFakeCheckInsNumber(numberOfCheckIns) shouldBe expected
     }
 
     @ParameterizedTest
     @ArgumentsSource(MoreThanZeroFakeCheckInsProvider::class)
     fun `Determine Number Of Fake CheckIns more than 0`(
-        plausibleDeniabilityParameters: PlausibleDeniabilityParametersContainer,
+        plausibleParameters: PlausibleDeniabilityParametersContainer,
         numberOfCheckIns: Int,
         expected: Double
     ) {
-        plausibleDeniabilityParameters.determineFakeCheckInsNumber(numberOfCheckIns) shouldBeGreaterThan expected
+        plausibleParameters.determineFakeCheckInsNumber(numberOfCheckIns) shouldBeGreaterThan expected
     }
 }
