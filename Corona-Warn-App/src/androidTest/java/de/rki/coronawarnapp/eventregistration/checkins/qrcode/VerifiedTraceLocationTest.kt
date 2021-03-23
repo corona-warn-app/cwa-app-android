@@ -23,7 +23,7 @@ import org.junit.runners.JUnit4
 import testhelpers.BaseTestInstrumentation
 
 @RunWith(JUnit4::class)
-class TraceLocationVerifierTest : BaseTestInstrumentation() {
+class VerifiedTraceLocationTest : BaseTestInstrumentation() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
     private lateinit var traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier
@@ -42,8 +42,8 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
             val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
             verifyResult.apply {
                 traceLocation.description shouldBe "My Birthday Party"
-                verifyResult.isBeforeStartTime(instant) shouldBe false
-                verifyResult.isAfterEndTime(instant) shouldBe false
+                traceLocation.isBeforeStartTime(instant) shouldBe false
+                traceLocation.isAfterEndTime(instant) shouldBe false
             }
         }
     }
@@ -61,14 +61,14 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
             startDate = Instant.ofEpochSecond(2687955),
             endDate = Instant.ofEpochSecond(2687991),
             defaultCheckInLengthInMinutes = 0,
-            byteRepresentation = verifyResult.signedTraceLocation.location.toByteArray().toByteString(),
-            signature = verifyResult.signedTraceLocation.signature.toByteArray().toByteString()
+            byteRepresentation = verifyResult.traceLocationBytes,
+            signature = verifyResult.signature.toByteArray().toByteString(),
         )
 
-        verifyResult.verifiedTraceLocation shouldBe expectedTraceLocation
+        verifyResult.traceLocation shouldBe expectedTraceLocation
 
         val bundle = Bundle().apply {
-            putParcelable("test", verifyResult.verifiedTraceLocation)
+            putParcelable("test", verifyResult.traceLocation)
         }
 
         val parcelRaw = Parcel.obtain().apply {
@@ -94,9 +94,9 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
             val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
             verifyResult.apply {
                 traceLocation.description shouldBe "My Birthday Party"
+                traceLocation.isBeforeStartTime(instant) shouldBe true
+                traceLocation.isAfterEndTime(instant) shouldBe false
             }
-            verifyResult.isBeforeStartTime(instant) shouldBe true
-            verifyResult.isAfterEndTime(instant) shouldBe false
         }
     }
 
@@ -107,9 +107,9 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
             val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
             verifyResult.apply {
                 traceLocation.description shouldBe "My Birthday Party"
+                traceLocation.isBeforeStartTime(instant) shouldBe false
+                traceLocation.isAfterEndTime(instant) shouldBe true
             }
-            verifyResult.isBeforeStartTime(instant) shouldBe false
-            verifyResult.isAfterEndTime(instant) shouldBe true
         }
     }
 
@@ -180,10 +180,10 @@ class TraceLocationVerifierTest : BaseTestInstrumentation() {
             val traceLocation = TraceLocationOuterClass.TraceLocation.parseFrom(
                 ENCODED_EVENT1_LOCATION.decodeBase32().toByteArray()
             )
-            val verifiedTraceLocation = TraceLocationVerifyResult(
-                signedTraceLocation = signedTraceLocation,
-                traceLocation = traceLocation
-            ).verifiedTraceLocation
+            val verifiedTraceLocation = VerifiedTraceLocation(
+                protoSignedTraceLocation = signedTraceLocation,
+                protoTraceLocation = traceLocation
+            ).traceLocation
 
             verifiedTraceLocation shouldBe TraceLocation(
                 guid = "3055331c-2306-43f3-9742-6d8fab54e848",
