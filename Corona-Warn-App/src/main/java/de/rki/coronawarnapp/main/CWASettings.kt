@@ -25,6 +25,10 @@ class CWASettings @Inject constructor(
         get() = prefs.getBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, false)
         set(value) = prefs.edit { putBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, value) }
 
+    var wasTracingExplanationDialogShown: Boolean
+        get() = prefs.getBoolean(PKEY_TRACING_DIALOG_SHOWN, false)
+        set(value) = prefs.edit { putBoolean(PKEY_TRACING_DIALOG_SHOWN, value) }
+
     var wasInteroperabilityShownAtLeastOnce: Boolean
         get() = prefs.getBoolean(PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, false)
         set(value) = prefs.edit { putBoolean(PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, value) }
@@ -50,12 +54,12 @@ class CWASettings @Inject constructor(
 
     val isNotificationsRiskEnabled = prefs.createFlowPreference(
         key = PKEY_NOTIFICATIONS_RISK_ENABLED,
-        defaultValue = false
+        defaultValue = true
     )
 
     val isNotificationsTestEnabled = prefs.createFlowPreference(
         key = PKEY_NOTIFICATIONS_TEST_ENABLED,
-        defaultValue = false
+        defaultValue = true
     )
 
     val lastChangelogVersion = prefs.createFlowPreference(
@@ -69,6 +73,7 @@ class CWASettings @Inject constructor(
 
     companion object {
         private const val PKEY_DEVICE_TIME_INCORRECT_ACK = "devicetime.incorrect.acknowledged"
+        private const val PKEY_TRACING_DIALOG_SHOWN = "tracing.dialog.shown"
         private const val PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE = "interoperability.showed"
         private const val PKEY_DEVICE_TIME_FIRST_RELIABLE = "devicetime.correct.first"
         private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME = "devicetime.laststatechange.timestamp"

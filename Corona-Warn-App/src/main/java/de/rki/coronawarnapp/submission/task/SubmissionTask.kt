@@ -142,7 +142,7 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("Transformed keys with symptoms %s from %s to %s", symptoms, keys, transformedKeys)
 
         val checkIns = checkInsRepository.allCheckIns.first()
-        val transformedCheckIns = checkInsTransformer.transform(checkIns)
+        val transformedCheckIns = checkInsTransformer.transform(checkIns, symptoms)
 
         Timber.tag(TAG).d("Transformed CheckIns from: %s to: %s", checkIns, transformedCheckIns)
 

@@ -115,8 +115,8 @@ class SubmissionTaskTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
 
         every { checkInRepository.allCheckIns } returns flowOf(emptyList())
-        every { checkInRepository.clear() } just Runs
-        every { checkInsTransformer.transform(any()) } returns emptyList()
+        coEvery { checkInRepository.clear() } just Runs
+        coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
     private fun createTask() = SubmissionTask(
@@ -160,7 +160,7 @@ class SubmissionTaskTest : BaseTest() {
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
             checkInRepository.allCheckIns
-            checkInsTransformer.transform(any())
+            checkInsTransformer.transform(any(), any())
 
             appConfigProvider.getAppConfig()
             playbook.submit(

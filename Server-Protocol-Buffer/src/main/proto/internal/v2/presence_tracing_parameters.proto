@@ -14,6 +14,10 @@ message PresenceTracingParameters {
 
   repeated uint32 revokedTraceLocationVersions = 4;
 
+  PresenceTracingPlausibleDeniabilityParameters plausibleDeniabilityParameters = 5;
+
+  repeated PresenceTracingQRCodeDescriptor qrCodeDescriptors = 6;
+
   enum QRCodeErrorCorrectionLevel {
     MEDIUM = 0;
     LOW = 1;
@@ -21,6 +25,7 @@ message PresenceTracingParameters {
     HIGH = 3;
   }
 }
+
 message PresenceTracingRiskCalculationParameters {
 
   repeated TransmissionRiskValueMapping transmissionRiskValueMapping = 1;
@@ -44,5 +49,43 @@ message PresenceTracingSubmissionParameters {
     Range minutesRange = 1;
     double slope = 2;
     double intercept = 3;
+  }
+}
+
+message PresenceTracingPlausibleDeniabilityParameters {
+
+  repeated uint32 checkInSizesInBytes = 1;
+  
+  double probabilityToFakeCheckInsIfNoCheckIns = 2;
+  double probabilityToFakeCheckInsIfSomeCheckIns = 3;
+
+  repeated NumberOfFakeCheckInsFunctionParameters numberOfFakeCheckInsFunctionParameters = 4;
+
+  message NumberOfFakeCheckInsFunctionParameters {
+    Range randomNumberRange = 1;
+    double p = 2;
+    double q = 3;
+    double r = 4;
+    double s = 5;
+    double t = 6;
+    double u = 7;
+    double a = 8;
+    double b = 9;
+    double c = 10;
+  }
+}
+
+message PresenceTracingQRCodeDescriptor {
+
+  string regexPattern = 1;
+
+  uint32 versionGroupIndex = 2;
+  uint32 encodedTraceLocationGroupIndex = 3;
+
+  TraceLocationEncoding traceLocationEncoding = 4;
+
+  enum TraceLocationEncoding {
+    BASE32 = 0;
+    BASE64 = 1;
   }
 }
