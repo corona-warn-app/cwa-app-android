@@ -126,11 +126,13 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         analyticsKeySubmissionCollector.reset()
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
+        // START - Fix for EXPOSUREAPP-4484 relies on this call order
         submissionSettings.registrationToken.update {
             registrationData.registrationToken
         }
         updateTestResult(registrationData.testResult)
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
+        // END
         backgroundNoise.scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
@@ -139,11 +141,13 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         analyticsKeySubmissionCollector.reset()
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
+        // START - Fix for EXPOSUREAPP-4484 relies on this call order
         submissionSettings.registrationToken.update {
             registrationData.registrationToken
         }
         updateTestResult(registrationData.testResult)
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
+        // END
         backgroundNoise.scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
         return registrationData.testResult
