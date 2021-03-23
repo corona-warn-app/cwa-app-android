@@ -20,6 +20,7 @@ internal class SignedTraceLocationToTraceLocationMapperTest : BaseTest() {
             address = "SAP Headquarter",
             startDate = Instant.parse("2021-05-01T19:00:00.000Z"),
             endDate = Instant.parse("2021-05-01T23:30:00.000Z"),
+            byteRepresentation = TraceLocationData.signedTraceLocationTemporary.location.toByteArray().toByteString(),
             signature = "ServerSignature".toByteArray().toByteString(),
             defaultCheckInLengthInMinutes = 180
         )
@@ -35,6 +36,7 @@ internal class SignedTraceLocationToTraceLocationMapperTest : BaseTest() {
             address = "IceCream Wonderland Street 1",
             startDate = null,
             endDate = null,
+            byteRepresentation = TraceLocationData.signedTraceLocationPermanent.location.toByteArray().toByteString(),
             signature = "ServerSignature".toByteArray().toByteString(),
             defaultCheckInLengthInMinutes = 30
         )
