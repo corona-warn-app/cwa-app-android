@@ -36,8 +36,8 @@ class DefaultPlaybookTest : BaseTest() {
         coEvery { verificationServer.retrieveTanFake() } returns mockk()
         coEvery { verificationServer.retrieveTan(any()) } returns "tan"
 
-        coEvery { submissionServer.submitKeysToServer(any()) } returns mockk()
-        coEvery { submissionServer.submitKeysToServerFake() } returns mockk()
+        coEvery { submissionServer.submitSubmissionPayload(any()) } returns mockk()
+        coEvery { submissionServer.submitFakeSubmissionPayload() } returns mockk()
     }
 
     private fun createPlaybook() = DefaultPlaybook(
@@ -55,7 +55,7 @@ class DefaultPlaybookTest : BaseTest() {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveRegistrationToken(any(), any())
             verificationServer.retrieveTestResults(any())
-            submissionServer.submitKeysToServerFake()
+            submissionServer.submitFakeSubmissionPayload()
         }
     }
 
@@ -73,7 +73,7 @@ class DefaultPlaybookTest : BaseTest() {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveRegistrationToken(any(), any())
             verificationServer.retrieveTanFake()
-            submissionServer.submitKeysToServerFake()
+            submissionServer.submitFakeSubmissionPayload()
         }
     }
 
@@ -95,7 +95,7 @@ class DefaultPlaybookTest : BaseTest() {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveTan(any())
             verificationServer.retrieveTanFake()
-            submissionServer.submitKeysToServer(any())
+            submissionServer.submitSubmissionPayload(any())
         }
     }
 
@@ -121,7 +121,7 @@ class DefaultPlaybookTest : BaseTest() {
 
     @Test
     fun `keys submission throws human readable exception`(): Unit = runBlocking {
-        coEvery { submissionServer.submitKeysToServer(any()) } throws BadRequestException(null)
+        coEvery { submissionServer.submitSubmissionPayload(any()) } throws BadRequestException(null)
         try {
             createPlaybook().submit(
                 Playbook.SubmissionData(
@@ -160,7 +160,7 @@ class DefaultPlaybookTest : BaseTest() {
             verificationServer.retrieveTan(any())
             verificationServer.retrieveTanFake()
             // Only called when null TAN is returned? But when does that happen?
-            submissionServer.submitKeysToServerFake()
+            submissionServer.submitFakeSubmissionPayload()
         }
     }
 
@@ -174,7 +174,7 @@ class DefaultPlaybookTest : BaseTest() {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveTestResults(any())
             verificationServer.retrieveTanFake()
-            submissionServer.submitKeysToServerFake()
+            submissionServer.submitFakeSubmissionPayload()
         }
     }
 
@@ -186,7 +186,7 @@ class DefaultPlaybookTest : BaseTest() {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveTanFake()
             verificationServer.retrieveTanFake()
-            submissionServer.submitKeysToServerFake()
+            submissionServer.submitFakeSubmissionPayload()
         }
     }
 
@@ -196,7 +196,7 @@ class DefaultPlaybookTest : BaseTest() {
         coEvery { verificationServer.retrieveRegistrationToken(any(), any()) } returns expectedToken
         val expectedResult = TestResult.PENDING
         coEvery { verificationServer.retrieveTestResults(expectedToken) } returns expectedResult.value
-        coEvery { submissionServer.submitKeysToServerFake() } throws TestException()
+        coEvery { submissionServer.submitFakeSubmissionPayload() } throws TestException()
 
         val (registrationToken, testResult) = createPlaybook()
             .initialRegistration("key", VerificationKeyType.GUID)
@@ -218,7 +218,7 @@ class DefaultPlaybookTest : BaseTest() {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveRegistrationToken(any(), any())
             verificationServer.retrieveTanFake()
-            submissionServer.submitKeysToServerFake()
+            submissionServer.submitFakeSubmissionPayload()
         }
     }
 
@@ -234,7 +234,7 @@ class DefaultPlaybookTest : BaseTest() {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveRegistrationToken(any(), any())
             verificationServer.retrieveTestResults(any())
-            submissionServer.submitKeysToServerFake()
+            submissionServer.submitFakeSubmissionPayload()
         }
     }
 
@@ -250,7 +250,7 @@ class DefaultPlaybookTest : BaseTest() {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveTestResults(any())
             verificationServer.retrieveTanFake()
-            submissionServer.submitKeysToServerFake()
+            submissionServer.submitFakeSubmissionPayload()
         }
     }
 
@@ -273,7 +273,7 @@ class DefaultPlaybookTest : BaseTest() {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveTan(any())
             verificationServer.retrieveTanFake()
-            submissionServer.submitKeysToServerFake()
+            submissionServer.submitFakeSubmissionPayload()
         }
     }
 }

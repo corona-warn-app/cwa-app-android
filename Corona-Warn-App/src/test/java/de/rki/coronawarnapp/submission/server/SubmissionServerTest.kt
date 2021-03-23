@@ -86,7 +86,7 @@ class SubmissionServerTest : BaseTest() {
         val testKeyData = ByteString.copyFrom("TestKeyDataGoogle", Charsets.UTF_8)
 
         val server = createServer()
-        coEvery { submissionApi.submitKeys(any(), any(), any(), any()) } answers {
+        coEvery { submissionApi.submitPayload(any(), any(), any(), any()) } answers {
             arg<String>(0) shouldBe "testAuthCode"
             arg<String>(1) shouldBe "0"
             arg<String>(2) shouldBe ""
@@ -111,15 +111,15 @@ class SubmissionServerTest : BaseTest() {
             visitedCountries = listOf("DE"),
             checkIns = emptyList()
         )
-        server.submitKeysToServer(submissionData)
+        server.submitSubmissionPayload(submissionData)
 
-        coVerify { submissionApi.submitKeys(any(), any(), any(), any()) }
+        coVerify { submissionApi.submitPayload(any(), any(), any(), any()) }
     }
 
     @Test
     fun `fake submission`(): Unit = runBlocking {
         val server = createServer()
-        coEvery { submissionApi.submitKeys(any(), any(), any(), any()) } answers {
+        coEvery { submissionApi.submitPayload(any(), any(), any(), any()) } answers {
             arg<String>(0) shouldBe "" // cwa-authorization
             arg<String>(1) shouldBe "1" // cwa-fake
             arg<String>(2).length shouldBe 36 // cwa-header-padding
@@ -132,9 +132,9 @@ class SubmissionServerTest : BaseTest() {
             Unit
         }
 
-        server.submitKeysToServerFake()
+        server.submitFakeSubmissionPayload()
 
-        coVerify { submissionApi.submitKeys(any(), any(), any(), any()) }
+        coVerify { submissionApi.submitPayload(any(), any(), any(), any()) }
     }
 
     private fun createRealApi(): SubmissionApiV1 {
@@ -173,10 +173,10 @@ class SubmissionServerTest : BaseTest() {
             checkIns = emptyList()
         )
         webServer.enqueue(MockResponse().setBody("{}"))
-        server.submitKeysToServer(submissionData)
+        server.submitSubmissionPayload(submissionData)
 
         webServer.enqueue(MockResponse().setBody("{}"))
-        server.submitKeysToServerFake()
+        server.submitFakeSubmissionPayload()
 
         val requests = listOf(
             webServer.takeRequest(),

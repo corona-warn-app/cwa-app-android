@@ -33,13 +33,15 @@ class SubmissionServer @Inject constructor(
         val checkIns: List<CheckInOuterClass.CheckIn>
     )
 
-    suspend fun submitKeysToServer(
+    suspend fun submitSubmissionPayload(
         data: SubmissionData
     ) = withContext(Dispatchers.IO) {
-        Timber.d("submitKeysToServer()")
+        Timber.d("submitSubmissionPayload()")
+
         val authCode = data.authCode
         val keyList = data.keyList
         val checkInList = data.checkIns
+
         Timber.d(
             "Writing %s Keys and %s CheckIns to the Submission Payload.",
             keyList.size,
@@ -63,16 +65,16 @@ class SubmissionServer @Inject constructor(
             .addAllCheckIns(data.checkIns)
             .build()
 
-        api.submitKeys(
+        api.submitPayload(
             authCode = authCode,
             fake = "0",
-            headerPadding = EMPTY_HEADER,
+            headerPadding = EMPTY_STRING,
             requestBody = submissionPayload
         )
     }
 
-    suspend fun submitKeysToServerFake() = withContext(Dispatchers.IO) {
-        Timber.d("submitKeysToServerFake()")
+    suspend fun submitFakeSubmissionPayload() = withContext(Dispatchers.IO) {
+        Timber.d("submitFakeSubmissionPayload()")
 
         val plausibleParameters = appConfigProvider
             .getAppConfig()
@@ -87,8 +89,8 @@ class SubmissionServer @Inject constructor(
             .setRequestPadding(ByteString.copyFromUtf8(requestPadding))
             .build()
 
-        api.submitKeys(
-            authCode = EMPTY_HEADER,
+        api.submitPayload(
+            authCode = EMPTY_STRING,
             fake = "1",
             headerPadding = requestPadding(PADDING_LENGTH_HEADER_SUBMISSION_FAKE),
             requestBody = submissionPayload
@@ -96,7 +98,7 @@ class SubmissionServer @Inject constructor(
     }
 
     companion object {
-        const val EMPTY_HEADER = ""
-        const val PADDING_LENGTH_HEADER_SUBMISSION_FAKE = 36
+        private const val EMPTY_STRING = ""
+        private const val PADDING_LENGTH_HEADER_SUBMISSION_FAKE = 36
     }
 }
