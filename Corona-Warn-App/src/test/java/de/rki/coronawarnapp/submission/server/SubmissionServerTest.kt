@@ -51,17 +51,6 @@ class SubmissionServerTest : BaseTest() {
         every { context.cacheDir } returns cacheDir
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { presenceTracing } returns PresenceTracingConfigContainer(
-                qrCodeErrorCorrectionLevel = ErrorCorrectionLevel.H,
-                revokedTraceLocationVersions = emptyList(),
-                riskCalculationParameters = PresenceTracingRiskCalculationParamContainer(
-                    emptyList(),
-                    emptyList(),
-                    emptyList()
-                ),
-                submissionParameters = PresenceTracingSubmissionParamContainer(
-                    emptyList(),
-                    emptyList()
-                ),
                 plausibleDeniabilityParameters = PlausibleDeniabilityParametersContainer()
             )
         }
