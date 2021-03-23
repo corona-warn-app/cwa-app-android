@@ -38,4 +38,3 @@ class CheckOutHandler @Inject constructor(
         // Remove auto-checkout timer?
     }
 }
-
