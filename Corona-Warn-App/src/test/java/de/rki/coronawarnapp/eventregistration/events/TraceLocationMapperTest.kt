@@ -25,6 +25,7 @@ internal class TraceLocationMapperTest : BaseTest() {
             startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
             endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 15,
+            byteRepresentationBase64 = "byteRepresentation".toByteArray().toByteString().base64(),
             signatureBase64 = "signature".toByteArray().toByteString().base64()
         ).toTraceLocation() shouldBe TraceLocation(
             guid = "TestGuid",
@@ -35,6 +36,7 @@ internal class TraceLocationMapperTest : BaseTest() {
             startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
             endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 15,
+            byteRepresentation = "byteRepresentation".toByteArray().toByteString(),
             signature = "signature".toByteArray().toByteString()
         )
     }
@@ -50,6 +52,7 @@ internal class TraceLocationMapperTest : BaseTest() {
             startDate = null,
             endDate = null,
             defaultCheckInLengthInMinutes = null,
+            byteRepresentationBase64 = "byteRepresentation".toByteArray().toByteString().base64(),
             signatureBase64 = "signature".toByteArray().toByteString().base64()
         ).toTraceLocation() shouldBe TraceLocation(
             guid = "TestGuid",
@@ -60,6 +63,7 @@ internal class TraceLocationMapperTest : BaseTest() {
             startDate = null,
             endDate = null,
             defaultCheckInLengthInMinutes = null,
+            byteRepresentation = "byteRepresentation".toByteArray().toByteString(),
             signature = "signature".toByteArray().toByteString()
         )
     }
@@ -76,6 +80,7 @@ internal class TraceLocationMapperTest : BaseTest() {
                 startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
                 endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
                 defaultCheckInLengthInMinutes = 15,
+                byteRepresentationBase64 = "byteRepresentation".toByteArray().toByteString().base64(),
                 signatureBase64 = "signature".toByteArray().toByteString().base64()
             ),
             TraceLocationEntity(
@@ -87,6 +92,7 @@ internal class TraceLocationMapperTest : BaseTest() {
                 startDate = null,
                 endDate = null,
                 defaultCheckInLengthInMinutes = null,
+                byteRepresentationBase64 = "byteRepresentation".toByteArray().toByteString().base64(),
                 signatureBase64 = "signature".toByteArray().toByteString().base64()
             )
         ).toTraceLocations() shouldBe listOf(
@@ -99,6 +105,7 @@ internal class TraceLocationMapperTest : BaseTest() {
                 startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
                 endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
                 defaultCheckInLengthInMinutes = 15,
+                byteRepresentation = "byteRepresentation".toByteArray().toByteString(),
                 signature = "signature".toByteArray().toByteString()
             ),
             TraceLocation(
@@ -110,6 +117,7 @@ internal class TraceLocationMapperTest : BaseTest() {
                 startDate = null,
                 endDate = null,
                 defaultCheckInLengthInMinutes = null,
+                byteRepresentation = "byteRepresentation".toByteArray().toByteString(),
                 signature = "signature".toByteArray().toByteString()
             )
         )
