@@ -36,7 +36,7 @@ class SubmissionServer @Inject constructor(
     suspend fun submitPayload(
         data: SubmissionData
     ) = withContext(Dispatchers.IO) {
-        Timber.d("submitSubmissionPayload()")
+        Timber.d("submitPayload()")
 
         val authCode = data.authCode
         val keyList = data.keyList
@@ -80,7 +80,7 @@ class SubmissionServer @Inject constructor(
     }
 
     suspend fun submitFakePayload() = withContext(Dispatchers.IO) {
-        Timber.d("submitFakeSubmissionPayload()")
+        Timber.d("submitFakePayload()")
 
         val plausibleParameters = appConfigProvider
             .getAppConfig()
