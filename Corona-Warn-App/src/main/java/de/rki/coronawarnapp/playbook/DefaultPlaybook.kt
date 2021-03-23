@@ -50,7 +50,7 @@ class DefaultPlaybook @Inject constructor(
         }
 
         // fake submission
-        ignoreExceptions { submissionServer.submitFakeSubmissionPayload() }
+        ignoreExceptions { submissionServer.submitFakePayload() }
 
         coroutineScope.launch { followUpPlaybooks() }
 
@@ -73,7 +73,7 @@ class DefaultPlaybook @Inject constructor(
         ignoreExceptions { verificationServer.retrieveTanFake() }
 
         // fake submission
-        ignoreExceptions { submissionServer.submitFakeSubmissionPayload() }
+        ignoreExceptions { submissionServer.submitFakePayload() }
 
         coroutineScope.launch { followUpPlaybooks() }
 
@@ -103,10 +103,10 @@ class DefaultPlaybook @Inject constructor(
                     visitedCountries = data.visitedCountries,
                     checkIns = data.checkIns
                 )
-                submissionServer.submitSubmissionPayload(serverSubmissionData)
+                submissionServer.submitPayload(serverSubmissionData)
                 coroutineScope.launch { followUpPlaybooks() }
             } else {
-                submissionServer.submitFakeSubmissionPayload()
+                submissionServer.submitFakePayload()
                 coroutineScope.launch { followUpPlaybooks() }
                 propagateException(wrapException(exception))
             }
@@ -141,7 +141,7 @@ class DefaultPlaybook @Inject constructor(
         ignoreExceptions { verificationServer.retrieveTanFake() }
 
         // fake submission
-        ignoreExceptions { submissionServer.submitFakeSubmissionPayload() }
+        ignoreExceptions { submissionServer.submitFakePayload() }
 
         if (launchFollowUp)
             coroutineScope.launch { followUpPlaybooks() }

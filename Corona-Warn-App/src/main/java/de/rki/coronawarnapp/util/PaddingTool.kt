@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.util
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
+.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import timber.log.Timber
@@ -19,7 +19,7 @@ object PaddingTool {
 
     /**
      * Generates a random string with passed [length]
-     * Passing characters [A-Z], [a-z] and [0-9]
+     * Padding characters [A-Z], [a-z] and [0-9]
      */
     fun requestPadding(length: Int): String = (1..length)
         .map { PADDING_ITEMS.random() }
@@ -37,7 +37,7 @@ object PaddingTool {
         return requestPadding(KEY_SIZE * keyCount)
     }
 
-    private const val MIN_KEY_COUNT_FOR_SUBMISSION = 15
+    private const val MIN_KEY_COUNT_FOR_SUBMISSION = 15 // Increased from 14 to 15 in purpose for CheckIn submission
     private const val KEY_SIZE = 28 // 28 bytes per key
 
     // ---------- CheckIn padding ----------

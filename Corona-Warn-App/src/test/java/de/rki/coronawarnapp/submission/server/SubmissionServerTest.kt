@@ -2,13 +2,10 @@ package de.rki.coronawarnapp.submission.server
 
 import android.content.Context
 import com.google.protobuf.ByteString
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
-import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
-import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
@@ -100,7 +97,7 @@ class SubmissionServerTest : BaseTest() {
             visitedCountries = listOf("DE"),
             checkIns = emptyList()
         )
-        server.submitSubmissionPayload(submissionData)
+        server.submitPayload(submissionData)
 
         coVerify { submissionApi.submitPayload(any(), any(), any(), any()) }
     }
@@ -121,7 +118,7 @@ class SubmissionServerTest : BaseTest() {
             Unit
         }
 
-        server.submitFakeSubmissionPayload()
+        server.submitFakePayload()
 
         coVerify { submissionApi.submitPayload(any(), any(), any(), any()) }
     }
@@ -162,10 +159,10 @@ class SubmissionServerTest : BaseTest() {
             checkIns = emptyList()
         )
         webServer.enqueue(MockResponse().setBody("{}"))
-        server.submitSubmissionPayload(submissionData)
+        server.submitPayload(submissionData)
 
         webServer.enqueue(MockResponse().setBody("{}"))
-        server.submitFakeSubmissionPayload()
+        server.submitFakePayload()
 
         val requests = listOf(
             webServer.takeRequest(),

@@ -33,7 +33,7 @@ class SubmissionServer @Inject constructor(
         val checkIns: List<CheckInOuterClass.CheckIn>
     )
 
-    suspend fun submitSubmissionPayload(
+    suspend fun submitPayload(
         data: SubmissionData
     ) = withContext(Dispatchers.IO) {
         Timber.d("submitSubmissionPayload()")
@@ -73,7 +73,7 @@ class SubmissionServer @Inject constructor(
         )
     }
 
-    suspend fun submitFakeSubmissionPayload() = withContext(Dispatchers.IO) {
+    suspend fun submitFakePayload() = withContext(Dispatchers.IO) {
         Timber.d("submitFakeSubmissionPayload()")
 
         val plausibleParameters = appConfigProvider
