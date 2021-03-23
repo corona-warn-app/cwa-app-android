@@ -29,6 +29,7 @@ data class TraceLocationVerifyResult(
         startDate = traceLocation.startTimestamp.toInstant(),
         endDate = traceLocation.endTimestamp.toInstant(),
         defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
+        byteRepresentation = signedTraceLocation.location.toByteArray().toByteString(),
         signature = signedTraceLocation.signature.toByteArray().toByteString()
     )
 
