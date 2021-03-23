@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.details
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
+import android.graphics.Color.BLACK
+import android.graphics.Color.WHITE
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
@@ -71,20 +72,22 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         }
     }
 
-    private fun BitMatrix.toBitmap() =
-        Bitmap.createBitmap(
+    private fun BitMatrix.toBitmap(): Bitmap {
+        val bitmap = Bitmap.createBitmap(
             context.resources.displayMetrics,
             width,
             height,
             Bitmap.Config.ARGB_8888
-        ).apply {
-            for (x in 0 until width) {
-                for (y in 0 until height) {
-                    val color = if (get(x, y)) Color.BLACK else Color.WHITE
-                    setPixel(x, y, color)
-                }
+        )
+
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                val color = if (get(x, y)) BLACK else WHITE
+                bitmap.setPixel(x, y, color)
             }
         }
+        return bitmap
+    }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<QrCodeDetailViewModel>
