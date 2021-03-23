@@ -107,6 +107,22 @@
     <!-- XTXT: Title for other event  -->
     <string name="tracelocation_organizer_category_other_event_title">anderes Event</string>
 
+    <!-- XTXT: Title for event description  -->
+    <string name="tracelocation_organizer_add_event_description">"Bezeichnung"</string>
+    <!-- XTXT: Title for event location  -->
+    <string name="tracelocation_organizer_add_event_location">"Ort"</string>
+    <!-- XTXT: Title for event length of stay  -->
+    <string name="tracelocation_organizer_add_event_length_of_stay">"Typische Aufenthaltsdauer"</string>
+    <!-- XTXT: Description for event length of stay  -->
+    <string name="tracelocation_organizer_add_event_length_of_stay_description">"Geben Sie an wie lange sich Gäste üblicherweise bei Ihnen aufhalten."</string>
+    <!-- XTXT: Title for event start time  -->
+    <string name="tracelocation_organizer_add_event_begin">"Beginn"</string>
+    <!-- XTXT: Title for event end time  -->
+    <string name="tracelocation_organizer_add_event_end">"Ende"</string>
+    <!-- XTXT: Duration suffix -->
+    <string name="tracelocation_organizer_duration_suffix">"Std."</string>
+    <!-- XTXT: Save button text -->
+    <string name="tracelocation_organizer_save">"Speichern"</string>
 
     <!--    Trace Location Homescreen Card-->
     <!-- XHED: Headline for trace location creation card -->

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.organizer.category
+package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class TraceLocationCategoryModule {
+abstract class TraceLocationCreateFragmentModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(TraceLocationCategoryViewModel::class)
-    abstract fun traceLocationCategoryViewModel(factory: TraceLocationCategoryViewModel.Factory):
+    @CWAViewModelKey(TraceLocationCreateViewModel::class)
+    abstract fun traceLocationCreateViewModel(factory: TraceLocationCreateViewModel.Factory):
         CWAViewModelFactory<out CWAViewModel>
 }
