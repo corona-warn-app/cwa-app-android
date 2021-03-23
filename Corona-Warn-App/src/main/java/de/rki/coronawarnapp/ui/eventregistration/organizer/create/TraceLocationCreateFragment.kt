@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -57,8 +58,8 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                 toolbar.setSubtitle(state.title)
                 valueStart.text = state.getBegin(requireContext().getLocale())
                 valueEnd.text = state.getEnd(requireContext().getLocale())
-                layoutBegin.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
-                layoutEnd.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
+                layoutBegin.isVisible = state.isDateVisible
+                layoutEnd.isVisible = state.isDateVisible
                 valueLengthOfStay.text = state.getCheckInLength(resources)
                 buttonSubmit.isEnabled = state.isSendEnable
             }
