@@ -18,7 +18,6 @@ class DefaultCheckInsTransformerTest : BaseTest() {
         val checkIn1 = CheckIn(
             id = 0,
             guid = "3055331c-2306-43f3-9742-6d8fab54e848",
-            guidHash = EMPTY,
             version = 1,
             type = 2,
             description = "description1",
@@ -37,7 +36,6 @@ class DefaultCheckInsTransformerTest : BaseTest() {
         val checkIn2 = CheckIn(
             id = 1,
             guid = "fca84b37-61c0-4a7c-b2f8-825cadd506cf",
-            guidHash = EMPTY,
             version = 1,
             type = 1,
             description = "description2",

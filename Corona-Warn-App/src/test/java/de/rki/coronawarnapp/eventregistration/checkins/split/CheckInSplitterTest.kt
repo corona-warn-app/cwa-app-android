@@ -18,7 +18,6 @@ class CheckInSplitterTest : BaseTest() {
     private val defaultCheckIn = CheckIn(
         id = 1L,
         guid = "eventOne",
-        guidHash = EMPTY,
         version = 1,
         type = 1,
         description = "Restaurant",

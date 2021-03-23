@@ -41,7 +41,11 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
 
         binding.contactDiaryPersonListRecyclerView.apply {
             adapter = personListAdapter
-            addItemDecoration(MarginRecyclerViewDecoration(resources.getDimensionPixelSize(R.dimen.spacing_tiny)))
+            addItemDecoration(
+                MarginRecyclerViewDecoration(
+                    resources.getDimensionPixelSize(R.dimen.list_item_decoration_card_margins)
+                )
+            )
             onScroll {
                 (parentFragment as? ContactDiaryDayFragment)?.onScrollChange(it)
             }
