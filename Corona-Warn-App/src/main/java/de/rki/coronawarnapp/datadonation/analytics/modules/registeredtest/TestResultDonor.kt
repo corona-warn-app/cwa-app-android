@@ -236,7 +236,6 @@ class TestResultDonor @Inject constructor(
     }
 
     companion object {
-        private const val DEFAULT_DAYS_SINCE_MOST_RECENT_DATE_AT_RISK_LEVEL = -1
         private const val DEFAULT_HOURS_SINCE_HIGH_RISK_WARNING = -1
         private const val DEFAULT_HOURS_SINCE_TEST_REGISTRATION_TIME = 0
     }
