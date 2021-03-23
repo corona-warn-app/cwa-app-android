@@ -81,19 +81,18 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
         val isDateVisible: Boolean,
         val isSendEnable: Boolean
     ) {
-        fun getStartDate(locale: Locale): String? {
-            return begin?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
-        }
+        fun getBegin(locale: Locale) = getFormattedTime(begin, locale)
 
-        fun getEndDate(locale: Locale): String? {
-            return end?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
-        }
+        fun getEnd(locale: Locale) = getFormattedTime(end, locale)
 
-        fun getLength(resources: Resources): String? {
+        fun getCheckInLength(resources: Resources): String? {
             return checkInLength?.toReadableDuration(
                 suffix = resources.getString(R.string.tracelocation_organizer_duration_suffix)
             )
         }
+
+        private fun getFormattedTime(value: LocalDateTime?, locale: Locale) =
+            value?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
     }
 
     private class UpdateDelegate<T> : ReadWriteProperty<TraceLocationCreateViewModel?, T?> {

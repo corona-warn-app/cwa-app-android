@@ -53,13 +53,15 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            binding.toolbar.setSubtitle(state.title)
-            binding.valueStart.text = state.getStartDate(requireContext().getLocale())
-            binding.valueEnd.text = state.getEndDate(requireContext().getLocale())
-            binding.layoutBegin.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
-            binding.layoutEnd.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
-            binding.valueLengthOfStay.text = state.getLength(resources)
-            binding.buttonSubmit.isEnabled = state.isSendEnable
+            binding.apply {
+                toolbar.setSubtitle(state.title)
+                valueStart.text = state.getBegin(requireContext().getLocale())
+                valueEnd.text = state.getEnd(requireContext().getLocale())
+                layoutBegin.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
+                layoutEnd.visibility = if (state.isDateVisible) View.VISIBLE else View.GONE
+                valueLengthOfStay.text = state.getCheckInLength(resources)
+                buttonSubmit.isEnabled = state.isSendEnable
+            }
         }
 
         binding.descriptionInputEdit.doOnTextChanged { text, _, _, _ ->
@@ -159,7 +161,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(
             outState.apply {
-                putLong(LENGT_OF_STAY, viewModel.checkInLength?.standardMinutes ?: 0L)
+                putLong(LENGTH_OF_STAY, viewModel.checkInLength?.standardMinutes ?: 0L)
                 putSerializable(BEGIN, viewModel.begin)
                 putSerializable(END, viewModel.end)
             }
@@ -168,7 +170,9 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        viewModel.checkInLength = Duration.standardMinutes(savedInstanceState?.getLong(LENGT_OF_STAY) ?: 0L)
+        savedInstanceState?.getLong(LENGTH_OF_STAY)?.let {
+            viewModel.checkInLength = Duration.standardMinutes(it)
+        }
         viewModel.begin = savedInstanceState?.getSerializable(BEGIN) as LocalDateTime?
         viewModel.end = savedInstanceState?.getSerializable(END) as LocalDateTime?
     }
@@ -177,7 +181,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         private const val DURATION_PICKER_TAG = "duration_picker"
         private const val DATE_PICKER_TAG = "date_picker"
         private const val TIME_PICKER_TAG = "time_picker"
-        private const val LENGT_OF_STAY = "length_of_stay"
+        private const val LENGTH_OF_STAY = "length_of_stay"
         private const val BEGIN = "begin"
         private const val END = "end"
     }
