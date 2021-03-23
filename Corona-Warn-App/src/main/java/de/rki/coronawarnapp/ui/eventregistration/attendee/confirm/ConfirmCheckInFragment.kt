@@ -11,14 +11,22 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), AutoInject {
 
+    private val navArgs by navArgs<ConfirmCheckInFragmentArgs>()
+
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val viewModel: ConfirmCheckInViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: ConfirmCheckInViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, savedState ->
+            factory as ConfirmCheckInViewModel.Factory
+            factory.create(navArgs.verifiedTraceLocation)
+        }
+    )
     private val binding: FragmentConfirmCheckInBinding by viewBindingLazy()
     private val args by navArgs<ConfirmCheckInFragmentArgs>()
 
@@ -29,10 +37,11 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             confirmButton.setOnClickListener { viewModel.onConfirmTraceLocation() }
             // TODO bind final UI
-            eventGuid.text = "GUID: %s".format(args.traceLocation.guid)
-            startTime.text = "Start time: %s".format(args.traceLocation.startDate)
-            endTime.text = "End time: %s".format(args.traceLocation.endDate)
-            description.text = "Description: %s".format(args.traceLocation.description)
+            val traceLocation = args.verifiedTraceLocation.traceLocation
+            eventGuid.text = "GUID: %s".format(traceLocation.guid)
+            startTime.text = "Start time: %s".format(traceLocation.startDate)
+            endTime.text = "End time: %s".format(traceLocation.endDate)
+            description.text = "Description: %s".format(traceLocation.description)
         }
 
         viewModel.events.observe2(this) { navEvent ->
