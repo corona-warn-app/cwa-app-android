@@ -47,19 +47,19 @@ class CheckInsTransformer @Inject constructor(
 
         return checkIns.flatMap { originalCheckIn ->
             Timber.d("Transforming check-in=$originalCheckIn")
-            val timesPair = submissionParamContainer.deriveTime(
+            val derivedTimes = submissionParamContainer.deriveTime(
                 originalCheckIn.checkInStart.seconds,
                 originalCheckIn.checkInEnd.seconds
             )
 
-            if (timesPair == null) {
+            if (derivedTimes == null) {
                 Timber.d("CheckIn can't be derived")
                 emptyList() // Excluded from submission
             } else {
-                Timber.d("Derived times=$timesPair")
+                Timber.d("Derived times=$derivedTimes")
                 val derivedCheckIn = originalCheckIn.copy(
-                    checkInStart = timesPair.first.secondsToInstant(),
-                    checkInEnd = timesPair.second.secondsToInstant()
+                    checkInStart = derivedTimes.startTimeSeconds.secondsToInstant(),
+                    checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
                 )
                 derivedCheckIn.splitByMidnightUTC().map { checkIn ->
                     checkIn.toOuterCheckIn(transmissionVector)

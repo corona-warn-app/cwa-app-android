@@ -17,12 +17,12 @@ private fun alignToInterval(timestamp: Long) =
  * @param startTimestampInSeconds [Long] timestamp in seconds
  * @param endTimestampInSeconds [Long] timestamp in seconds
  *
- * @return [Pair] of [Long] including derived startTime and endTime in seconds
+ * @return [DerivedTimes] holds derived startTime and endTime in seconds
  */
 fun PresenceTracingSubmissionParamContainer.deriveTime(
     startTimestampInSeconds: Long,
     endTimestampInSeconds: Long
-): Pair<Long, Long>? {
+): DerivedTimes? {
     Timber.d("Starting deriveTime ...")
     val durationInSeconds = max(0, endTimestampInSeconds - startTimestampInSeconds)
     Timber.d("durationInSeconds: $durationInSeconds")
@@ -67,7 +67,10 @@ fun PresenceTracingSubmissionParamContainer.deriveTime(
         )
         val newEndTimestamp = relevantEndIntervalTimestamp + INTERVAL_LENGTH_IN_SECONDS
         val newStartTimestamp = newEndTimestamp - targetDurationInSeconds
-        newStartTimestamp to newEndTimestamp
+        DerivedTimes(
+            startTimeSeconds = newStartTimestamp,
+            endTimeSeconds = newEndTimestamp
+        )
     } else {
         Timber.d(
             "overlapWithEndInterval:%s, overlapWithStartInterval:%s",
@@ -75,6 +78,17 @@ fun PresenceTracingSubmissionParamContainer.deriveTime(
             overlapWithStartInterval
         )
         val newEndTimestamp = relevantStartIntervalTimestamp + targetDurationInSeconds
-        relevantStartIntervalTimestamp to newEndTimestamp
+        DerivedTimes(
+            startTimeSeconds = relevantStartIntervalTimestamp,
+            endTimeSeconds = newEndTimestamp
+        )
     }
 }
+
+/**
+ * Represents output of [deriveTime]
+ */
+data class DerivedTimes(
+    val startTimeSeconds: Long,
+    val endTimeSeconds: Long
+)
