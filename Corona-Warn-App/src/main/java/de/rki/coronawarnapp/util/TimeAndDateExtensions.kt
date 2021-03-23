@@ -64,6 +64,17 @@ object TimeAndDateExtensions {
         } else null
 
     /**
+     * Converts a [Long] representing time in Seconds into [Instant]
+     */
+    fun Long.secondsToInstant(): Instant = Instant.ofEpochSecond(this)
+
+    /**
+     * Derive a UNIX timestamp (in seconds) and returns the corresponding 10-minute interval
+     */
+    fun Instant.derive10MinutesInterval(): Long =
+        seconds / TimeUnit.MINUTES.toSeconds(10) // 10 min in seconds
+
+    /**
      * Converts milliseconds to human readable format hh:mm:ss
      *
      * @return String
