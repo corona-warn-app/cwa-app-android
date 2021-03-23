@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
+.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
+.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
 import de.rki.coronawarnapp.util.PaddingTool.checkInPadding
 import de.rki.coronawarnapp.util.PaddingTool.determineFakeCheckInsNumber
@@ -140,7 +140,7 @@ class PaddingToolTest : BaseTest() {
                     checkInListSize = 0
                 ).length // Generated Random Padding (String)  length
             }
-            .reduce { sum, length ->
+            .fold(initial = 0) { sum, length ->
                 sum + length
             } / numberOfRuns
 

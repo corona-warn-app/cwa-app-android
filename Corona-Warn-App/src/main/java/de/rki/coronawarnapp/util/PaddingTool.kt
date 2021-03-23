@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.util
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
+.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import timber.log.Timber
@@ -98,7 +98,7 @@ object PaddingTool {
                 val index = floor(Math.random() * checkInBytesSizes.size).toInt()
                 checkInBytesSizes[index]
             }
-            .reduce { sum, size ->
+            .fold(initial = 0) { sum, size ->
                 sum + size
             }
         return requestPadding(numberOfBytes)
