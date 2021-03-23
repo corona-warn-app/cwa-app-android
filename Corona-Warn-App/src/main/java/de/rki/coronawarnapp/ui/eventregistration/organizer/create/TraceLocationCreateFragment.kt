@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.DateTimeZone
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.joda.time.LocalTime
@@ -35,6 +36,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: TraceLocationCreateViewModel by cwaViewModelsAssisted(
+        keyProducer = { navArgs.category.type.toString() },
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as TraceLocationCreateViewModel.Factory
@@ -154,9 +156,27 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             .show(parentFragmentManager, DURATION_PICKER_TAG)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply {
+            putLong(LENGT_OF_STAY, viewModel.checkInLength?.standardMinutes ?: 0L)
+            putSerializable(BEGIN, viewModel.start)
+            putSerializable(END, viewModel.end)
+        })
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        viewModel.checkInLength = Duration.standardMinutes(savedInstanceState?.getLong(LENGT_OF_STAY) ?: 0L)
+        viewModel.start = savedInstanceState?.getSerializable(BEGIN) as LocalDateTime?
+        viewModel.end = savedInstanceState?.getSerializable(END) as LocalDateTime?
+    }
+
     companion object {
         private const val DURATION_PICKER_TAG = "duration_picker"
         private const val DATE_PICKER_TAG = "date_picker"
         private const val TIME_PICKER_TAG = "time_picker"
+        private const val LENGT_OF_STAY = "length_of_stay"
+        private const val BEGIN = "begin"
+        private const val END = "end"
     }
 }
