@@ -18,8 +18,8 @@ data class TraceLocationEntity(
     @ColumnInfo(name = "startDate") val startDate: Instant?,
     @ColumnInfo(name = "endDate") val endDate: Instant?,
     @ColumnInfo(name = "defaultCheckInLengthInMinutes") val defaultCheckInLengthInMinutes: Int?,
+    @ColumnInfo(name = "byteRepresentation") val byteRepresentationBase64: String,
     @ColumnInfo(name = "signature") val signatureBase64: String
-
 )
 
 fun TraceLocation.toTraceLocationEntity(): TraceLocationEntity =
@@ -31,6 +31,7 @@ fun TraceLocation.toTraceLocationEntity(): TraceLocationEntity =
         startDate = startDate,
         endDate = endDate,
         defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
+        byteRepresentationBase64 = byteRepresentation.base64(),
         signatureBase64 = signature.base64(),
         version = version
     )
