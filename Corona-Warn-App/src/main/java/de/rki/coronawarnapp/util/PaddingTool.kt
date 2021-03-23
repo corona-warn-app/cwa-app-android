@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.util
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
+.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import timber.log.Timber
@@ -33,6 +33,7 @@ object PaddingTool {
      * Temporary exposure keys request padding for [SubmissionServer]
      */
     fun keyPadding(keyListSize: Int): String {
+        Timber.d("keyPadding(keyListSize=$keyListSize)")
         val keyCount = max(MIN_KEY_COUNT_FOR_SUBMISSION - keyListSize, 0)
         return requestPadding(KEY_SIZE * keyCount)
     }
@@ -52,27 +53,27 @@ object PaddingTool {
     fun PlausibleDeniabilityParametersContainer.determineFakeCheckInsNumber(
         numberOfLocalCheckIns: Int
     ): Double {
-        Timber.i("determineFakeCheckInsNumber()")
+        Timber.d("determineFakeCheckInsNumber(numberOfLocalCheckIns=$numberOfLocalCheckIns)")
         val probabilityThreshold: Double = if (numberOfLocalCheckIns == 0) {
             probabilityToFakeCheckInsIfNoCheckIns
         } else {
             probabilityToFakeCheckInsIfSomeCheckIns
         }
-        Timber.i("probabilityThreshold=$probabilityThreshold")
+        Timber.d("probabilityThreshold=$probabilityThreshold")
 
         val randomUniformNumber = Math.random()
-        Timber.i("randomUniformNumber=$randomUniformNumber")
+        Timber.d("randomUniformNumber=$randomUniformNumber")
 
         if (randomUniformNumber > probabilityThreshold) return 0.0
 
         // Kotlin doesn't implement [nextGaussian]
         val x = Random.asJavaRandom().nextGaussian()
-        Timber.i("x=$x")
+        Timber.d("x=$x")
 
         val equationParameters = numberOfFakeCheckInsFunctionParameters.firstOrNull { functionParam ->
             functionParam.randomNumberRange.inRange(x)
         } ?: return 0.0
-        Timber.i("equationParameters=$equationParameters")
+        Timber.d("equationParameters=$equationParameters")
 
         return equationParameters.equation(x)
     }
@@ -84,8 +85,11 @@ object PaddingTool {
         plausibleParameters: PlausibleDeniabilityParametersContainer,
         checkInListSize: Int
     ): String {
-        Timber.i("checkInPadding()")
+        Timber.d("checkInPadding(plausibleParameters=$plausibleParameters, checkInListSize=$checkInListSize)")
+
         val checkInBytesSizes: List<Int> = plausibleParameters.checkInSizesInBytes
+        Timber.d("checkInBytesSizes=$checkInBytesSizes")
+
         if (checkInBytesSizes.isEmpty()) return requestPadding(0)
 
         val fakeCheckInsNumber: Int = plausibleParameters.determineFakeCheckInsNumber(checkInListSize).roundToInt()

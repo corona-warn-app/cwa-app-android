@@ -56,6 +56,12 @@ class SubmissionServer @Inject constructor(
         val keyPadding = keyPadding(keyList.size)
         val checkInPadding = checkInPadding(plausibleParameters, checkInList.size)
         val requestPadding = keyPadding + checkInPadding
+        Timber.d(
+            "keyPadding=%s\ncheckInPadding=%s\nrequestPadding=%s",
+            keyPadding,
+            checkInPadding,
+            requestPadding
+        )
 
         val submissionPayload = SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
@@ -84,6 +90,13 @@ class SubmissionServer @Inject constructor(
         val fakeKeyPadding = keyPadding(keyListSize = 0)
         val fakeCheckInPadding = checkInPadding(plausibleParameters, checkInListSize = 0)
         val fakeRequestPadding = fakeKeyPadding + fakeCheckInPadding
+
+        Timber.d(
+            "fakeKeyPadding=%s\nfakeCheckInPadding=%s\nfakeRequestPadding=%s",
+            fakeKeyPadding,
+            fakeCheckInPadding,
+            fakeRequestPadding
+        )
 
         val submissionPayload = SubmissionPayload.newBuilder()
             .setRequestPadding(ByteString.copyFromUtf8(fakeRequestPadding))
