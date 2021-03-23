@@ -3,7 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/trace_location_attendee_nav_graph"
-    app:startDestination="@id/checkInsFragment">
+    app:startDestination="@id/checkInOnboardingFragment">
+    <fragment
+        android:id="@+id/checkInOnboardingFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.onboarding.CheckInOnboardingFragment"
+        android:label="CheckInOnboardingFragment"
+        tools:layout="@layout/fragment_check_in_onboarding">
+        <action
+            android:id="@+id/action_checkInOnboardingFragment_to_checkInsFragment"
+            app:destination="@id/checkInsFragment" />
+        <action
+            android:id="@+id/action_checkInOnboardingFragment_to_privacyFragment"
+            app:destination="@id/checkInPrivacyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkInPrivacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="InformationPrivacyFragment"
+        tools:layout="@layout/fragment_information_privacy" />
     <fragment
         android:id="@+id/confirmCheckInFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInFragment"
