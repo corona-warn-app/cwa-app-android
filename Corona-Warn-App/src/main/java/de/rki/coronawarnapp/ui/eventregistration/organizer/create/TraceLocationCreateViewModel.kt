@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.sh
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.joda.time.Duration
@@ -22,9 +21,8 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 class TraceLocationCreateViewModel @AssistedInject constructor(
-    dispatcherProvider: DispatcherProvider,
     @Assisted private val category: TraceLocationCategory
-) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+) : CWAViewModel() {
 
     private val mutableUiState = MutableLiveData<UIState>()
     val uiState: LiveData<UIState>
@@ -33,7 +31,7 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
     var description: String? by UpdateDelegate()
     var address: String? by UpdateDelegate()
     var checkInLength: Duration? by UpdateDelegate()
-    var start: LocalDateTime? by UpdateDelegate()
+    var begin: LocalDateTime? by UpdateDelegate()
     var end: LocalDateTime? by UpdateDelegate()
 
     init {
@@ -53,9 +51,9 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
 
     private fun updateState() {
         mutableUiState.value = UIState(
-            startDate = start,
-            endDate = end,
-            lengthOfStay = checkInLength,
+            begin = begin,
+            end = end,
+            checkInLength = checkInLength,
             title = category.title,
             isDateVisible = category.uiType == TraceLocationUIType.EVENT,
             isSendEnable = when (category.uiType) {
@@ -67,32 +65,32 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
                 TraceLocationUIType.EVENT -> {
                     description?.trim()?.length in 1..100 &&
                         address?.trim()?.length in 0..100 &&
-                        start != null &&
+                        begin != null &&
                         end != null &&
-                        end?.isAfter(start) == true
+                        end?.isAfter(begin) == true
                 }
             }
         )
     }
 
     data class UIState(
-        private val startDate: LocalDateTime? = null,
-        private val endDate: LocalDateTime? = null,
-        private val lengthOfStay: Duration? = null,
+        private val begin: LocalDateTime? = null,
+        private val end: LocalDateTime? = null,
+        private val checkInLength: Duration? = null,
         @StringRes val title: Int,
         val isDateVisible: Boolean,
         val isSendEnable: Boolean
     ) {
         fun getStartDate(locale: Locale): String? {
-            return startDate?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
+            return begin?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
         }
 
         fun getEndDate(locale: Locale): String? {
-            return endDate?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
+            return end?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
         }
 
         fun getLength(resources: Resources): String? {
-            return lengthOfStay?.toReadableDuration(
+            return checkInLength?.toReadableDuration(
                 suffix = resources.getString(R.string.tracelocation_organizer_duration_suffix)
             )
         }

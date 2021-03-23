@@ -72,14 +72,14 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
 
         binding.layoutBegin.setOnClickListener {
             it.hideKeyboard()
-            showDatePicker(viewModel.start) { value ->
-                viewModel.start = value
+            showDatePicker(viewModel.begin) { value ->
+                viewModel.begin = value
             }
         }
 
         binding.layoutEnd.setOnClickListener {
             it.hideKeyboard()
-            showDatePicker(viewModel.end, viewModel.start) { value ->
+            showDatePicker(viewModel.end, viewModel.begin) { value ->
                 viewModel.end = value
             }
         }
@@ -157,17 +157,19 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply {
-            putLong(LENGT_OF_STAY, viewModel.checkInLength?.standardMinutes ?: 0L)
-            putSerializable(BEGIN, viewModel.start)
-            putSerializable(END, viewModel.end)
-        })
+        super.onSaveInstanceState(
+            outState.apply {
+                putLong(LENGT_OF_STAY, viewModel.checkInLength?.standardMinutes ?: 0L)
+                putSerializable(BEGIN, viewModel.begin)
+                putSerializable(END, viewModel.end)
+            }
+        )
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         viewModel.checkInLength = Duration.standardMinutes(savedInstanceState?.getLong(LENGT_OF_STAY) ?: 0L)
-        viewModel.start = savedInstanceState?.getSerializable(BEGIN) as LocalDateTime?
+        viewModel.begin = savedInstanceState?.getSerializable(BEGIN) as LocalDateTime?
         viewModel.end = savedInstanceState?.getSerializable(END) as LocalDateTime?
     }
 
