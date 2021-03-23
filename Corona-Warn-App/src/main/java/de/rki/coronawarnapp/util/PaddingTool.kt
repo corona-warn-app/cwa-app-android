@@ -51,10 +51,10 @@ object PaddingTool {
         }
 
     fun PlausibleDeniabilityParametersContainer.determineFakeCheckInsNumber(
-        numberOfLocalCheckIns: Int
+        checkInListSize: Int
     ): Double {
-        Timber.d("determineFakeCheckInsNumber(numberOfLocalCheckIns=$numberOfLocalCheckIns)")
-        val probabilityThreshold: Double = if (numberOfLocalCheckIns == 0) {
+        Timber.d("determineFakeCheckInsNumber(checkInListSize=$checkInListSize)")
+        val probabilityThreshold: Double = if (checkInListSize == 0) {
             probabilityToFakeCheckInsIfNoCheckIns
         } else {
             probabilityToFakeCheckInsIfSomeCheckIns
