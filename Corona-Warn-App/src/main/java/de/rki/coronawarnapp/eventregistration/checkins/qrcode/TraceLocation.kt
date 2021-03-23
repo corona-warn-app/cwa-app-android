@@ -22,7 +22,12 @@ data class TraceLocation(
     val byteRepresentation: ByteString,
     val signature: ByteString,
     val version: Int = TRACE_LOCATION_VERSION,
-) : Parcelable
+) : Parcelable {
+
+    fun isBeforeStartTime(now: Instant): Boolean = startDate?.isAfter(now) ?: false
+
+    fun isAfterEndTime(now: Instant): Boolean = endDate?.isBefore(now) ?: false
+}
 
 fun List<TraceLocationEntity>.toTraceLocations() = this.map { it.toTraceLocation() }
 

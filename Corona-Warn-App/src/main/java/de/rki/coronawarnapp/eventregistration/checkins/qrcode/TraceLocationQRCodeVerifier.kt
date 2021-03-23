@@ -9,7 +9,7 @@ class TraceLocationQRCodeVerifier @Inject constructor(
     private val signatureValidation: SignatureValidation
 ) {
 
-    fun verify(rawTraceLocation: ByteArray): TraceLocationVerifyResult {
+    fun verify(rawTraceLocation: ByteArray): VerifiedTraceLocation {
         Timber.v("Verifying: %s", rawTraceLocation)
 
         val signedTraceLocation = try {
@@ -36,9 +36,9 @@ class TraceLocationQRCodeVerifier @Inject constructor(
             signedTraceLocation.location
         )
 
-        return TraceLocationVerifyResult(
-            signedTraceLocation = signedTraceLocation,
-            traceLocation = traceLocation
+        return VerifiedTraceLocation(
+            protoSignedTraceLocation = signedTraceLocation,
+            protoTraceLocation = traceLocation
         )
     }
 }
