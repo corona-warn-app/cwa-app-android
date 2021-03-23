@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category
 
+import android.os.Parcelable
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
@@ -18,13 +19,15 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.CategoryItem
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType.EVENT
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType.LOCATION
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class TraceLocationCategory(
     val type: TraceLocationOuterClass.TraceLocationType,
     val uiType: TraceLocationUIType,
     @StringRes val title: Int,
     @StringRes val subtitle: Int? = null
-) : CategoryItem {
+) : CategoryItem, Parcelable {
     override val stableId = hashCode().toLong()
 }
 
