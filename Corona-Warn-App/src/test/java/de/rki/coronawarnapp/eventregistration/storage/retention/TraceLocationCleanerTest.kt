@@ -89,6 +89,7 @@ internal class TraceLocationCleanerTest : BaseTest() {
         startDate = null,
         endDate = endDate,
         defaultCheckInLengthInMinutes = 30,
+        byteRepresentation = "".toByteArray().toByteString(),
         signature = "".toByteArray().toByteString(),
         version = 1,
     )
