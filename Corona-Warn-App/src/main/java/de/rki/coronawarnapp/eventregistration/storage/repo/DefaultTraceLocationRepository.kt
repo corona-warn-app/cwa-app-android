@@ -31,18 +31,18 @@ class DefaultTraceLocationRepository @Inject constructor(
     override val allTraceLocations: Flow<List<TraceLocation>>
         get() = traceLocationDao.allEntries().map { it.toTraceLocations() }
 
-    override fun addTraceLocation(event: TraceLocation) {
+    override fun addTraceLocation(traceLocation: TraceLocation) {
         appScope.launch {
-            Timber.d("Add hosted event: $event")
-            val eventEntity = event.toTraceLocationEntity()
+            Timber.d("Add hosted event: $traceLocation")
+            val eventEntity = traceLocation.toTraceLocationEntity()
             traceLocationDao.insert(eventEntity)
         }
     }
 
-    override fun deleteTraceLocation(event: TraceLocation) {
+    override fun deleteTraceLocation(traceLocation: TraceLocation) {
         appScope.launch {
-            Timber.d("Delete hosted event: $event")
-            val eventEntity = event.toTraceLocationEntity()
+            Timber.d("Delete hosted event: $traceLocation")
+            val eventEntity = traceLocation.toTraceLocationEntity()
             traceLocationDao.delete(eventEntity)
         }
     }
