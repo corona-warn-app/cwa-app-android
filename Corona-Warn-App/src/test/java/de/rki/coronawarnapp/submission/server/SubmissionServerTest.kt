@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClas
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
+    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
