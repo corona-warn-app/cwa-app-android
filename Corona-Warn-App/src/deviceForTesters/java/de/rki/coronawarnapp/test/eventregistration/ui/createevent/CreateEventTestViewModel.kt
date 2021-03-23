@@ -59,6 +59,7 @@ class CreateEventTestViewModel @AssistedInject constructor(
                 startDate?.toInstant(),
                 endDate?.toInstant(),
                 defaultCheckInLengthInMinutes.toInt(),
+                "ByteRepresentation".toByteArray().toByteString(),
                 "ServerSignature".toByteArray().toByteString()
             )
 

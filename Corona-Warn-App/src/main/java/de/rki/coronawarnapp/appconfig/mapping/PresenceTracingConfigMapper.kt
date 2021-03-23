@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.server.protocols.internal.v2
     .PresenceTracingParametersOuterClass.PresenceTracingRiskCalculationParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2
     .PresenceTracingParametersOuterClass.PresenceTracingParameters.QRCodeErrorCorrectionLevel
-
 import de.rki.coronawarnapp.server.protocols.internal.v2
     .PresenceTracingParametersOuterClass.PresenceTracingPlausibleDeniabilityParameters
 
@@ -29,27 +28,14 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
             return PresenceTracingConfigContainer(
                 qrCodeErrorCorrectionLevel = ErrorCorrectionLevel.H,
                 revokedTraceLocationVersions = emptyList(),
-                riskCalculationParameters = emptyRiskCalculationParameters(),
-                submissionParameters = emptySubmissionParameters(),
+                riskCalculationParameters = PresenceTracingRiskCalculationParamContainer(),
+                submissionParameters = PresenceTracingSubmissionParamContainer(),
                 plausibleDeniabilityParameters = PlausibleDeniabilityParametersContainer()
             )
         }
 
         return rawConfig.presenceTracingConfig().also { Timber.i("PresenceTracingConfig: $it") }
     }
-
-    private fun emptySubmissionParameters() =
-        PresenceTracingSubmissionParamContainer(
-            durationFilters = emptyList(),
-            aerosoleDecayLinearFunctions = emptyList()
-        )
-
-    private fun emptyRiskCalculationParameters() =
-        PresenceTracingRiskCalculationParamContainer(
-            transmissionRiskValueMapping = emptyList(),
-            normalizedTimePerCheckInToRiskLevelMapping = emptyList(),
-            normalizedTimePerDayToRiskLevelMapping = emptyList()
-        )
 
     private fun PresenceTracingSubmissionParameters.mapSubmissionParameters() =
         PresenceTracingSubmissionParamContainer(
@@ -87,14 +73,14 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
                 riskCalculationParameters.mapRiskCalculationParameters()
             } else {
                 Timber.w("RiskCalculationParameters are missing")
-                emptyRiskCalculationParameters()
+                PresenceTracingRiskCalculationParamContainer()
             }
 
             val submissionParameters = if (hasSubmissionParameters()) {
                 submissionParameters.mapSubmissionParameters()
             } else {
                 Timber.w("SubmissionParameters are missing")
-                emptySubmissionParameters()
+                PresenceTracingSubmissionParamContainer()
             }
 
             val plausibleDeniabilityParameters = if (hasPlausibleDeniabilityParameters()) {
