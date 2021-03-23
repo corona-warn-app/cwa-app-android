@@ -105,6 +105,12 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 is CheckInEvent.ConfirmRemoveAll -> {
                     showRemovalConfirmation(null)
                 }
+                is CheckInEvent.EditCheckIn -> {
+                    TODO("Navigate to check-in with ID:$it.checkInId")
+                }
+                is CheckInEvent.ShowInformation -> {
+                    TODO()
+                }
             }
         }
     }

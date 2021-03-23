@@ -67,6 +67,8 @@ class ActiveCheckInVH(parent: ViewGroup) :
                 else -> false
             }
         }
+
+        checkoutAction.setOnClickListener { item.onCheckout(item.checkin) }
     }
 
     data class Item(
