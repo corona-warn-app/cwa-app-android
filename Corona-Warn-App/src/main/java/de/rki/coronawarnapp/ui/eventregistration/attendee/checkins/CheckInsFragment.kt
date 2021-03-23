@@ -116,7 +116,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     )
                 }
                 is CheckInEvent.ShowInformation -> {
-                    TODO()
+                    Toast.makeText(requireContext(), "TODO ¯\\_(ツ)_/¯", Toast.LENGTH_SHORT).show()
                 }
             }
         }
