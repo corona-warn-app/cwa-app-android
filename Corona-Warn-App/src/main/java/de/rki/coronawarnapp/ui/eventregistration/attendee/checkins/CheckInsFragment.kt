@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.isSwipeable
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.onSwipeItem
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -60,6 +61,10 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             adapter = checkInsAdapter
             addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             itemAnimator = DefaultItemAnimator()
+            onScroll { extend ->
+                if (extend) binding.scanCheckinQrcodeFab.extend() else binding.scanCheckinQrcodeFab.shrink()
+            }
+
             onSwipeItem(
                 context = requireContext(),
                 excludedPositions = listOf() // TODO exclude items from swiping such as Camera permission item
