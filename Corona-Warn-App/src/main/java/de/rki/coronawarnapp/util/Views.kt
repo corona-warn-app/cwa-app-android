@@ -89,7 +89,10 @@ fun RecyclerView.onScroll(block: (Boolean) -> Unit) {
  *
  * Usage:
  * ```
- * RecyclerView.onSwipeItem(requireContext()) { position, direction ->
+ * RecyclerView.onSwipeItem(
+ *   context = requireContext(),
+ *   excludedPositions = listOf(0, 1)
+ * ) { position, direction ->
  *   // Do operation here
  * }
  * ```
