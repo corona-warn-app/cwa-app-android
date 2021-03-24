@@ -24,10 +24,10 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     @AppContext private val context: Context,
 ) : CWAViewModel() {
 
+    /* Currently hardcoded to show the functionality -> will be connected to the database in a separate PR */
     val qrCodeText = "HTTPS://E.CORONAWARN.APP/C1/BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBGGC5LOMNUCAUD" +
         "BOJ2HSGGTQ6SACIHXQ6SACKA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFF" +
         "BU2SQCEEAJAUCJSQJ7WDM675MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI="
-
     val testTitle = "Jahrestreffen der deutschen SAP Anwendergruppe"
     val testSubtitle = "Hauptstr 3, 69115 Heidelberg"
     val testEventDate = "21.01.2021, 18:00 - 21:00 Uhr"
