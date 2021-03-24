@@ -7,6 +7,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.eventregistration.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCodeVerifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -19,13 +20,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import okio.ByteString.Companion.EMPTY
-import okio.ByteString.Companion.toByteString
-import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
 
 class CheckInsViewModel @AssistedInject constructor(
@@ -36,27 +31,28 @@ class CheckInsViewModel @AssistedInject constructor(
     private val traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier,
     private val qrCodeUriParser: QRCodeUriParser,
     private val checkInsRepository: CheckInRepository,
+    private val checkOutHandler: CheckOutHandler,
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
+    val errorEvent = SingleLiveEvent<Throwable>()
 
-    val checkins = combine(
-        FAKE_CHECKIN_SOURCE,
-        checkInsRepository.allCheckIns
-    ) { fake: List<CheckIn>, real: List<CheckIn> -> fake + real }
-        .map { checkins -> checkins.sortedBy { it.checkInEnd } }
+    val checkins = checkInsRepository.allCheckIns
+        .map { checkins ->
+            checkins.sortedWith(compareBy<CheckIn> { it.completed }.thenByDescending { it.checkInEnd })
+        }
         .map { checkins ->
             checkins.map { checkin ->
                 when {
-                    checkin.checkInEnd == null -> ActiveCheckInVH.Item(
+                    !checkin.completed -> ActiveCheckInVH.Item(
                         checkin = checkin,
-                        onCardClicked = { /* TODO */ },
+                        onCardClicked = { events.postValue(CheckInEvent.EditCheckIn(it.id)) },
                         onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) },
-                        onCheckout = { /* TODO */ }
+                        onCheckout = { doCheckOutNow(it) }
                     )
                     else -> PastCheckInVH.Item(
                         checkin = checkin,
-                        onCardClicked = { /* TODO */ },
+                        onCardClicked = { events.postValue(CheckInEvent.EditCheckIn(it.id)) },
                         onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) }
                     )
                 }
@@ -74,6 +70,16 @@ class CheckInsViewModel @AssistedInject constructor(
             }
         }
         savedState.set(SKEY_LAST_DEEPLINK, deepLink)
+    }
+
+    private fun doCheckOutNow(checkIn: CheckIn) = launch(scope = appScope) {
+        Timber.d("doCheckOutNow(checkIn=%s)", checkIn)
+        try {
+            checkOutHandler.checkOut(checkIn.id)
+        } catch (e: Exception) {
+            Timber.e(e, "Checkout failed for %s", checkIn)
+            errorEvent.postValue(e)
+        }
     }
 
     fun onRemoveCheckInConfirmed(checkIn: CheckIn?) {
@@ -118,45 +124,4 @@ class CheckInsViewModel @AssistedInject constructor(
             deepLink: String?
         ): CheckInsViewModel
     }
-}
-
-private val FAKE_CHECKINS = listOf(
-    CheckIn(
-        id = 1,
-        guid = "testGuid2",
-        version = 1,
-        type = 1,
-        description = "Jahrestreffen der deutschen SAP Anwendergruppe",
-        address = "Hauptstr. 3, 69115 Heidelberg (FakeEntry)",
-        traceLocationStart = null,
-        traceLocationEnd = null,
-        defaultCheckInLengthInMinutes = 3 * 60,
-        traceLocationBytes = EMPTY,
-        signature = "Signature".toByteArray().toByteString(),
-        checkInStart = Instant.now().minus(Duration.standardHours(2)),
-        checkInEnd = Instant.now(),
-        completed = false,
-        createJournalEntry = true
-    ),
-    CheckIn(
-        id = 2,
-        guid = "testGuid1",
-        version = 1,
-        type = 2,
-        description = "CWA Launch Party",
-        address = "At home! Do you want the 'rona? (FakeEntry)",
-        traceLocationStart = Instant.parse("2021-01-01T12:00:00.000Z"),
-        traceLocationEnd = Instant.parse("2021-01-01T15:00:00.000Z"),
-        defaultCheckInLengthInMinutes = 15,
-        traceLocationBytes = EMPTY,
-        signature = "Signature".toByteArray().toByteString(),
-        checkInStart = Instant.parse("2021-01-01T12:30:00.000Z"),
-        checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
-        completed = true,
-        createJournalEntry = true
-    )
-)
-
-private val FAKE_CHECKIN_SOURCE = flow {
-    emit(FAKE_CHECKINS + FAKE_CHECKINS + FAKE_CHECKINS)
 }

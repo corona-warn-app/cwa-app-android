@@ -46,7 +46,7 @@ class CheckInRepositoryTest : BaseTest() {
     fun `new entities should have ID 0`() = runBlockingTest {
         shouldThrow<IllegalArgumentException> {
             val checkIn = CheckIn(
-                id = 0L,
+                id = 1L,
                 guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
                 version = 1,
                 type = 2,
@@ -74,7 +74,7 @@ class CheckInRepositoryTest : BaseTest() {
             val end = Instant.ofEpochMilli(1397210400001)
             createInstance(scope = this).addCheckIn(
                 CheckIn(
-                    id = 1L,
+                    id = 0L,
                     guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
                     version = 1,
                     type = 2,
@@ -94,7 +94,7 @@ class CheckInRepositoryTest : BaseTest() {
             coVerify {
                 checkInDao.insert(
                     TraceLocationCheckInEntity(
-                        id = 1L,
+                        id = 0L,
                         guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
                         version = 1,
                         type = 2,
@@ -138,7 +138,7 @@ class CheckInRepositoryTest : BaseTest() {
         val end = Instant.ofEpochMilli(1397210400000)
         allEntriesFlow.value = listOf(
             TraceLocationCheckInEntity(
-                id = 0L,
+                id = 1L,
                 guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
                 version = 1,
                 type = 2,
@@ -158,7 +158,7 @@ class CheckInRepositoryTest : BaseTest() {
         runBlockingTest {
             createInstance(scope = this).allCheckIns.first() shouldBe listOf(
                 CheckIn(
-                    id = 0L,
+                    id = 1L,
                     guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
                     traceLocationBytes = EMPTY,
                     version = 1,
