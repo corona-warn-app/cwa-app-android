@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.header.HeaderIt
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.header.HeaderVH
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfVH
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventVH
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -19,8 +21,7 @@ import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
 class DayDataAdapter :
     ModularAdapter<DayDataAdapter.ItemVH<DayDataItem, ViewBinding>>(),
-    AsyncDiffUtilAdapter<DayDataItem>
-{
+    AsyncDiffUtilAdapter<DayDataItem> {
 
     override val asyncDiffer: AsyncDiffer<DayDataItem> = AsyncDiffer(adapter = this)
 
@@ -31,6 +32,7 @@ class DayDataAdapter :
                 DataBinderMod<DayDataItem, ItemVH<DayDataItem, ViewBinding>>(data),
                 TypedVHCreatorMod({ data[it] is HeaderItem }) { HeaderVH(it) },
                 TypedVHCreatorMod({ data[it] is RiskEnfItem }) { RiskEnfVH(it) },
+                TypedVHCreatorMod({ data[it] is RiskEventItem }) { RiskEventVH(it) },
                 TypedVHCreatorMod({ data[it] is ContactItem }) { ContactVH(it) }
             )
         )

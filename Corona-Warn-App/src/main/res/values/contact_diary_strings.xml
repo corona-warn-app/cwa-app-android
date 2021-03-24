@@ -79,6 +79,10 @@
     <string name="contact_diary_risk_body_extended">"They are not necessarily related to the people and places you have recorded."</string>
     <!-- XTXT: Body for contact diary overview screen event risk information prelude -->
     <string name="contact_diary_event_risk_body">""</string>
+    <!-- XTXT: Indicates this event caused a high risk  -->
+    <string name="contact_diary_event_risk_high">""</string>
+    <!-- XTXT: Indicates this event caused a lows risk -->
+    <string name="contact_diary_event_risk_low">""</string>
 
     <!-- XTXT: content description of contact journal image on home screen -->
     <string name="contact_diary_homescreen_card_image_content_description">"A closed book with a bookmark"</string>

@@ -79,6 +79,11 @@
     <string name="contact_diary_risk_body_extended">"Diese müssen nicht in Zusammenhang mit den von Ihnen erfassten Personen und Orten stehen."</string>
     <!-- XTXT: Body for contact diary overview screen event risk information prelude -->
     <string name="contact_diary_event_risk_body">"aufgrund ihrer Anwesenheit bei:"</string>
+    <!-- XTXT: Indicates this event caused a high risk  -->
+    <string name="contact_diary_event_risk_high">"erhöhtes Risiko"</string>
+    <!-- XTXT: Indicates this event caused a lows risk -->
+    <string name="contact_diary_event_risk_low">"niedriges Risiko"</string>
+
 
 
     <!-- XTXT: content description of contact journal image on home screen -->

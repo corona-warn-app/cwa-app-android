@@ -7,20 +7,21 @@
 
     <ImageView
         android:id="@+id/bullet_point_image"
-        android:layout_width="@dimen/bullet_point_size"
-        android:layout_height="@dimen/bullet_point_size"
-        android:layout_marginStart="@dimen/bullet_point_spacing_before"
+        android:layout_width="@dimen/bullet_point_size_contact_diary"
+        android:layout_height="@dimen/bullet_point_size_contact_diary"
         android:baseline="@dimen/bullet_point_baseline_offset"
-        android:src="@drawable/bullet_point"
         android:importantForAccessibility="no"
+        android:src="@drawable/bullet_point"
         app:layout_constraintBaseline_toBaselineOf="@id/event_name"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/event_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bullet_point_spacing_after"
+        android:layout_marginStart="@dimen/bullet_point_spacing_after_contact_diary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -47,10 +47,12 @@
         tools:text="aufgrund Ihrer Anwesenheit bei:" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contact_diary_overview_item_risk_event_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
         android:nestedScrollingEnabled="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/contact_diary_overview_item_risk_body"
