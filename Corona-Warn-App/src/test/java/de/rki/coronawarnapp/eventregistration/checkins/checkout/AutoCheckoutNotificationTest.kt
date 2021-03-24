@@ -4,8 +4,10 @@ import android.content.Context
 import de.rki.coronawarnapp.eventregistration.common.TraceLocationNotifications
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -20,6 +22,8 @@ class AutoCheckoutNotificationTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        every { foregroundState.isInForeground } returns flowOf(false)
     }
 
     private fun createInstance() = AutoCheckoutNotification(

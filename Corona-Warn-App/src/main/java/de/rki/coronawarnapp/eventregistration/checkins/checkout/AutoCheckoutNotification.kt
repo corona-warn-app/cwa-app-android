@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
@@ -36,11 +37,10 @@ class AutoCheckoutNotification @Inject constructor(
             .createPendingIntent()
 
         val notification = notificationHelper.newBaseBuilder().apply {
-            setContentTitle(context.getString(R.string.tracelocation_notification_autocheckout_title))
-            val content = context.getString(R.string.tracelocation_notification_autocheckout_description)
-            setContentText(content)
-            setStyle(NotificationCompat.BigTextStyle().bigText(content))
             setContentIntent(pendingIntent)
+            setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            setContentTitle(context.getString(R.string.tracelocation_notification_autocheckout_title))
+            setContentTextExpandable(context.getString(R.string.tracelocation_notification_autocheckout_description))
         }.build()
 
         notificationHelper.sendNotification(

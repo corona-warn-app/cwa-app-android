@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,13 +26,12 @@ class DeadmanNotificationSender @Inject constructor(
             return
         }
 
-        val notification = notificationHelper.getBaseBuilder().apply {
+        val notification = notificationHelper.newBaseBuilder().apply {
             setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             setContentTitle(context.getString(R.string.risk_details_deadman_notification_title))
-
-            val content = context.getString(R.string.risk_details_deadman_notification_body)
-            setContentText(content)
-            setStyle(NotificationCompat.BigTextStyle().bigText(content))
+            setContentTextExpandable(
+                context.getString(R.string.risk_details_deadman_notification_body)
+            )
         }.build()
 
         notificationHelper.sendNotification(

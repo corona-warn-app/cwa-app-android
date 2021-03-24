@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
@@ -119,9 +120,14 @@ class RiskLevelChangeDetector @Inject constructor(
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {
+                val notification = notificationHelper.newBaseBuilder().apply {
+                    setContentTitle(context.getString(R.string.notification_headline))
+                    setContentTextExpandable(context.getString(R.string.notification_body))
+                }.build()
+
                 notificationHelper.sendNotification(
-                    content = context.getString(R.string.notification_body),
-                    notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+                    notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID,
+                    notification = notification,
                 )
             } else {
                 Timber.d("App is in foreground, not sending notifications")

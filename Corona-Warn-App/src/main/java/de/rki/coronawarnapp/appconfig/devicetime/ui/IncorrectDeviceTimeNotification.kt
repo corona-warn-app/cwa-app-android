@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.appconfig.devicetime.ui
 
 import android.content.Context
-import androidx.core.app.NotificationCompat
 import androidx.navigation.NavDeepLinkBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.R
@@ -10,6 +9,7 @@ import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,15 +37,10 @@ class IncorrectDeviceTimeNotification @Inject constructor(
             setDestination(R.id.mainFragment)
         }.createPendingIntent()
 
-        val notification = notificationHelper.getBaseBuilder().apply {
-            setStyle(
-                NotificationCompat.BigTextStyle().bigText(
-                    context.getString(R.string.device_time_incorrect_dialog_body)
-                )
-            )
-
-            setContentTitle(context.getString(R.string.device_time_incorrect_dialog_headline))
+        val notification = notificationHelper.newBaseBuilder().apply {
             setContentIntent(pendingIntent)
+            setContentTitle(context.getString(R.string.device_time_incorrect_dialog_headline))
+            setContentTextExpandable(context.getString(R.string.device_time_incorrect_dialog_body))
         }.build()
 
         notificationHelper.sendNotification(notificationId, notification)

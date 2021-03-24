@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.util.ApiLevel
 import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -20,6 +21,8 @@ class TraceLocationNotificationsTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        every { context.packageName } returns "packagename"
     }
 
     fun createInstance() = TraceLocationNotifications(

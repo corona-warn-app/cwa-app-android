@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.ApiLevel
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -31,6 +32,7 @@ class TraceLocationNotifications @Inject constructor(
 ) {
 
     private val channelId = "${context.packageName}.notification.traceLocationChannelId"
+    private var isNotificationChannelSetup = false
 
     @TargetApi(Build.VERSION_CODES.O)
     fun setupChannel() {
@@ -47,23 +49,37 @@ class TraceLocationNotifications @Inject constructor(
         notificationManager.createNotificationChannel(channel)
     }
 
-    fun newBaseBuilder(): NotificationCompat.Builder = NotificationCompat.Builder(context, channelId).apply {
-        setSmallIcon(R.drawable.ic_splash_logo)
-        priority = NotificationCompat.PRIORITY_DEFAULT
-        setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+    fun newBaseBuilder(): NotificationCompat.Builder {
+        val common = NotificationCompat.Builder(context, channelId).apply {
+            setSmallIcon(R.drawable.ic_splash_logo)
+            priority = NotificationCompat.PRIORITY_DEFAULT
 
-        val pendingIntent = NavDeepLinkBuilder(context)
-            .setGraph(R.navigation.trace_location_attendee_nav_graph)
-            .setComponentName(MainActivity::class.java)
-            .setDestination(R.id.checkInsFragment)
-            .createPendingIntent()
+            val pendingIntent = NavDeepLinkBuilder(context)
+                .setGraph(R.navigation.trace_location_attendee_nav_graph)
+                .setComponentName(MainActivity::class.java)
+                .setDestination(R.id.checkInsFragment)
+                .createPendingIntent()
 
-        setContentIntent(pendingIntent)
-        setAutoCancel(true)
+            setContentIntent(pendingIntent)
+            setAutoCancel(true)
+        }
+
+        // Generic notification that does not exposure any specifics
+        val public = common.apply {
+            setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            setContentTitle(context.getString(R.string.notification_headline))
+            setContentTextExpandable(context.getString(R.string.notification_body))
+        }.build()
+
+        return common.apply {
+            setPublicVersion(public)
+            setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+        }
     }
 
     fun sendNotification(notificationId: Int, notification: Notification) {
-        if (apiLevel.hasAPILevel(Build.VERSION_CODES.O)) {
+        if (apiLevel.hasAPILevel(Build.VERSION_CODES.O) && !isNotificationChannelSetup) {
+            isNotificationChannelSetup = true
             setupChannel()
         }
         Timber.i("Showing notification for ID=$notificationId: %s", notification)

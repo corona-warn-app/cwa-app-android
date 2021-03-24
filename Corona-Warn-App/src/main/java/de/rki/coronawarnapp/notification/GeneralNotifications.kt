@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.notification
 
+import android.annotation.TargetApi
 import android.app.AlarmManager
 import android.app.Notification
 import android.app.NotificationChannel
@@ -13,13 +14,13 @@ import android.media.RingtoneManager
 import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.app.NotificationManagerCompat
 import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -37,37 +38,29 @@ class GeneralNotifications @Inject constructor(
     private val notificationManager: NotificationManager
 ) {
 
-    /**
-     * Notification channel audio attributes
-     */
-    private val audioAttributes = AudioAttributes.Builder()
-        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-        .build()
+    private var isNotificationChannelSetup = false
 
-    /**
-     * Create notification channel
-     * Notification channel is only needed for API version >= 26.
-     * Safe to be called repeatedly.
-     *
-     * @see audioAttributes
-     * @see notificationManager
-     */
-    fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationRingtone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun setupNotificationChannel() {
+        Timber.d("setupChannel()")
 
-            val channel = NotificationChannel(
-                MAIN_CHANNEL_ID,
-                context.getString(R.string.general_notification_channel_title),
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = context.getString(R.string.general_notification_channel_description)
-                setSound(notificationRingtone, audioAttributes)
-            }
+        val channel = NotificationChannel(
+            MAIN_CHANNEL_ID,
+            context.getString(R.string.general_notification_channel_title),
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = context.getString(R.string.general_notification_channel_description)
 
-            notificationManager.createNotificationChannel(channel)
+            setSound(
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
+                AudioAttributes.Builder().apply {
+                    setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                }.build()
+            )
         }
+
+        notificationManager.createNotificationChannel(channel)
     }
 
     fun cancelFutureNotifications(notificationId: Int) {
@@ -107,107 +100,41 @@ class GeneralNotifications @Inject constructor(
             flag
         )
 
-    /**
-     * Build notification
-     * Create notification with defined title, content text and visibility.
-     *
-     * @param title: String
-     * @param content: String
-     * @param visibility: Int
-     *
-     * @return Notification?
-     *
-     * @see NotificationCompat.VISIBILITY_PUBLIC
-     */
-    private fun buildNotification(
-        title: String,
-        content: String,
-        visibility: Int,
-        expandableLongText: Boolean = false,
-        pendingIntent: PendingIntent = createPendingIntentToMainActivity()
-    ): Notification? {
-        val builder = getBaseBuilder().apply {
-            setContentIntent(pendingIntent)
-            setVisibility(visibility)
-        }
+    fun newBaseBuilder(): NotificationCompat.Builder {
+        val common = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
+            setSmallIcon(R.drawable.ic_splash_logo)
+            priority = NotificationCompat.PRIORITY_MAX
 
-        if (expandableLongText) {
-            builder
-                .setStyle(
-                    NotificationCompat.BigTextStyle()
-                        .bigText(content)
-                )
-        }
-
-        if (title.isNotEmpty()) {
-            builder.setContentTitle(title)
-        }
-
-        if (visibility == NotificationCompat.VISIBILITY_PRIVATE) {
-            builder.setPublicVersion(
-                buildNotification(
-                    title,
-                    content,
-                    NotificationCompat.VISIBILITY_PUBLIC
-                )
+            val defaultIntent = PendingIntent.getActivity(
+                context,
+                0,
+                Intent(context, MainActivity::class.java),
+                0
             )
-        } else if (visibility == NotificationCompat.VISIBILITY_PUBLIC) {
-            builder.setContentText(content)
+            setContentIntent(defaultIntent)
+            setAutoCancel(true)
         }
 
-        return builder.build()
+        // Generic notification that does not exposure any specifics
+        val public = common.apply {
+            setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            setContentTitle(context.getString(R.string.notification_headline))
+            setContentTextExpandable(context.getString(R.string.notification_body))
+        }.build()
+
+        return common.apply {
+            setPublicVersion(public)
+            setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+        }
     }
 
-    /**
-     * Create pending intent to main activity
-     *
-     * @return PendingIntent
-     */
-    private fun createPendingIntentToMainActivity() =
-        PendingIntent.getActivity(
-            context,
-            0,
-            Intent(context, MainActivity::class.java),
-            0
-        )
-
-    /**
-     * Send notification
-     * Build and send notification with predefined title, content and visibility.
-     *
-     * @param title: String
-     * @param content: String
-     * @param expandableLongText: Boolean
-     * @param notificationId: NotificationId
-     * @param pendingIntent: PendingIntent
-     */
-    fun sendNotification(
-        title: String = context.getString(R.string.notification_headline),
-        content: String,
-        notificationId: NotificationId,
-        expandableLongText: Boolean = false,
-        pendingIntent: PendingIntent = createPendingIntentToMainActivity()
-    ) {
-        Timber.d("Sending notification with id: %s | title: %s | content: %s", notificationId, title, content)
-        val notification =
-            buildNotification(title, content, PRIORITY_HIGH, expandableLongText, pendingIntent) ?: return
-        sendNotification(notificationId, notification)
-    }
-
-    fun sendNotification(
-        notificationId: NotificationId,
-        notification: Notification
-    ) {
+    fun sendNotification(notificationId: NotificationId, notification: Notification) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !isNotificationChannelSetup) {
+            isNotificationChannelSetup = true
+            setupNotificationChannel()
+        }
         Timber.i("Showing notification for ID=$notificationId: %s", notification)
         notificationManagerCompat.notify(notificationId, notification)
-    }
-
-    fun getBaseBuilder() = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
-        setSmallIcon(R.drawable.ic_splash_logo)
-        priority = NotificationCompat.PRIORITY_MAX
-        setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
-        setContentIntent(createPendingIntentToMainActivity())
-        setAutoCancel(true)
     }
 
     companion object {

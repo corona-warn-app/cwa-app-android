@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_N
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -38,17 +39,22 @@ class ShareTestResultNotificationService @Inject constructor(
     fun showSharePositiveTestResultNotification(notificationId: Int) {
         if (cwaSettings.numberOfRemainingSharePositiveTestResultReminders > 0) {
             cwaSettings.numberOfRemainingSharePositiveTestResultReminders -= 1
+
             val pendingIntent = NavDeepLinkBuilder(context)
                 .setGraph(R.navigation.nav_graph)
                 .setComponentName(MainActivity::class.java)
                 .setDestination(R.id.submissionTestResultAvailableFragment)
                 .createPendingIntent()
 
+            val notification = notificationHelper.newBaseBuilder().apply {
+                setContentTitle(context.getString(R.string.notification_headline_share_positive_result))
+                setContentTextExpandable(context.getString(R.string.notification_body_share_positive_result))
+                setContentIntent(pendingIntent)
+            }.build()
+
             notificationHelper.sendNotification(
-                title = context.getString(R.string.notification_headline_share_positive_result),
-                content = context.getString(R.string.notification_body_share_positive_result),
                 notificationId = notificationId,
-                pendingIntent = pendingIntent
+                notification = notification,
             )
         } else {
             notificationHelper.cancelFutureNotifications(notificationId)
