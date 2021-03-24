@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color.BLACK
 import android.graphics.Color.WHITE
+import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfDocument
 import android.view.View
 import com.google.zxing.BarcodeFormat
@@ -13,6 +14,7 @@ import com.google.zxing.common.BitMatrix
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate.QrCodePosterTemplateServer
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.files.FileSharing
@@ -28,11 +30,13 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
     private val fileSharing: FileSharing,
     @AppContext private val context: Context,
     private val appConfigProvider: AppConfigProvider,
+    private val posterTemplateServer: QrCodePosterTemplateServer
 ) : CWAViewModel(dispatcher) {
 
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
     val errorMessage = SingleLiveEvent<String>()
     val sharingIntent = SingleLiveEvent<FileSharing.FileIntentProvider>()
+    val qrCodePosterTemplate = SingleLiveEvent<Drawable>()
 
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
@@ -124,6 +128,17 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
                 }
             }
         }
+
+    fun downloadQrCodePosterTemplate() {
+        launch {
+            val posterTemplate = posterTemplateServer.downloadQrCodePosterTemplate()
+            Timber.d("Received poster template: %s", posterTemplate)
+
+            // TODO: Convert posterTemplate.template to drawable
+
+            // qrCodePosterTemplate.postValue(vd)
+        }
+    }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<QrCodeCreationTestViewModel>

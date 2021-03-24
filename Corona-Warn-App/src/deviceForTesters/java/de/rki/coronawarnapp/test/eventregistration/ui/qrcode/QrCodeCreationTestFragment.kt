@@ -80,5 +80,13 @@ class QrCodeCreationTestFragment : Fragment(R.layout.fragment_test_qrcode_creati
         binding.generateQrCode.setOnClickListener {
             viewModel.createQrCode(binding.qrCodeText.text.toString())
         }
+
+        binding.downloadQrCodePosterTemplate.setOnClickListener {
+            viewModel.downloadQrCodePosterTemplate()
+        }
+
+        viewModel.qrCodePosterTemplate.observe2(this) { drawable ->
+            binding.pdfTemplateImageView.setImageDrawable(drawable)
+        }
     }
 }

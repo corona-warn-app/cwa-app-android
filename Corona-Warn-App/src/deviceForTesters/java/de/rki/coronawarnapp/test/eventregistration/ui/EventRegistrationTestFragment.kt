@@ -54,10 +54,6 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             startCreateEventFlowButton.setOnClickListener {
                 findNavController().navigate(R.id.traceLocationOrganizerCategoriesFragment)
             }
-
-            downloadQrCodePosterTemplate.setOnClickListener {
-                viewModel.downloadQrCodePosterTemplate()
-            }
         }
         binding.runMatcher.setOnClickListener {
             Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()

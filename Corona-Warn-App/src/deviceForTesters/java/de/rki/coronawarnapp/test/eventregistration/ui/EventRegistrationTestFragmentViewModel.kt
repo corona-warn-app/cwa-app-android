@@ -23,9 +23,6 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun downloadQrCodePosterTemplate() {
-    }
-
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<EventRegistrationTestFragmentViewModel>
 }

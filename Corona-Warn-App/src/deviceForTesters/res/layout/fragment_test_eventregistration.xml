@@ -22,14 +22,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="QRCode, PDF event registration" />
+                android:text="QRCode Creation, Poster Template download, PDF creation/printing/sharing" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/testQrCodeCreation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:text="QR Code Creation" />
+                android:text="QR Code and Poster Creation" />
 
         </LinearLayout>
 
@@ -159,26 +159,5 @@
                 app:layout_constraintTop_toBottomOf="@id/create_event_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            style="@style/Card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_tiny"
-            android:layout_marginBottom="@dimen/spacing_tiny"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="QR-Code Template" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/downloadQrCodePosterTemplate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:text="Download QR-Code Poster Template" />
-        </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
