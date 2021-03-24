@@ -2,6 +2,9 @@ package de.rki.coronawarnapp.eventregistration.events.server
 
 import dagger.Lazy
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationUserInput
+import de.rki.coronawarnapp.eventregistration.events.server.createtracelocation.CreateTraceLocationApiV1
+import de.rki.coronawarnapp.eventregistration.events.server.createtracelocation.TraceLocationServer
+import de.rki.coronawarnapp.eventregistration.events.server.createtracelocation.toTraceLocationProtoBuf
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import io.kotest.assertions.throwables.shouldThrow

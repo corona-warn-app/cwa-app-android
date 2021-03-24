@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.eventregistration.events
 import com.google.protobuf.ByteString
 import dagger.Lazy
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocation
-import de.rki.coronawarnapp.eventregistration.events.server.TraceLocationServer
+import de.rki.coronawarnapp.eventregistration.events.server.createtracelocation.TraceLocationServer
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds

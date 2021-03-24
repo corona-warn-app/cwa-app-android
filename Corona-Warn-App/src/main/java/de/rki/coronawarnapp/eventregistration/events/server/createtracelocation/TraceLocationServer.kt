@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.server
+package de.rki.coronawarnapp.eventregistration.events.server.createtracelocation
 
 import androidx.annotation.VisibleForTesting
 import dagger.Lazy

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.server
+package de.rki.coronawarnapp.eventregistration.events.server.createtracelocation
 
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import retrofit2.Response
