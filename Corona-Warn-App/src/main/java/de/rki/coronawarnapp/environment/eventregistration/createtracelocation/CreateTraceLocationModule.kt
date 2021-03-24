@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.environment.eventregistration
+package de.rki.coronawarnapp.environment.eventregistration.createtracelocation
 
 import dagger.Module
 import dagger.Provides
