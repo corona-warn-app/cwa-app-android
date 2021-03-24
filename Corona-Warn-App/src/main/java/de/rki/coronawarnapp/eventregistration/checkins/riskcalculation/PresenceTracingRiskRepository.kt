@@ -31,25 +31,21 @@ class PresenceTracingRiskRepository @Inject constructor(
         database.traceTimeIntervalMatchDao()
     }
 
-    val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>>
-        get() = traceTimeIntervalMatchDao.allEntries().map {
-            it.map {
-                it.toModel()
-            }
-        }.map {
-            presenceTracingRiskCalculator.calculateNormalizedTime(it)
-        }.map {
+    private val normalizedTime = traceTimeIntervalMatchDao.allEntries().map {
+        it.map {
+            it.toModel()
+        }
+    }.map {
+        presenceTracingRiskCalculator.calculateNormalizedTime(it)
+    }
+
+    val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
+        normalizedTime.map {
             presenceTracingRiskCalculator.calculateRisk(it)
         }
 
-    val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>>
-        get() = traceTimeIntervalMatchDao.allEntries().map {
-            it.map {
-                it.toModel()
-            }
-        }.map {
-            presenceTracingRiskCalculator.calculateNormalizedTime(it)
-        }.map {
+    val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>> =
+        normalizedTime.map {
             presenceTracingRiskCalculator.calculateAggregatedRiskPerDay(it)
         }
 

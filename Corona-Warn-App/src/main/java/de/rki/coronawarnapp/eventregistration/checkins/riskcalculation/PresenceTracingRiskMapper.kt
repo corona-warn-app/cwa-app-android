@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.UNRECOGNIZED
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.UNSPECIFIED
 import kotlinx.coroutines.flow.first
+import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
 import javax.inject.Inject
 
@@ -55,6 +56,7 @@ class PresenceTracingRiskMapper @Inject constructor(
         if (presenceTracingRiskCalculationParamContainer == null) {
             presenceTracingRiskCalculationParamContainer =
                 configProvider.currentConfig.first().presenceTracing.riskCalculationParameters
+            Timber.i(presenceTracingRiskCalculationParamContainer.toString())
         }
         return presenceTracingRiskCalculationParamContainer
     }

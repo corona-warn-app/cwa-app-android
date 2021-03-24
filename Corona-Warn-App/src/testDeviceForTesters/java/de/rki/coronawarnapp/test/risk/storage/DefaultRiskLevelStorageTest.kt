@@ -84,7 +84,6 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
         coEvery { exposureWindowTables.insertWindows(any()) } returns listOf(111L, 222L)
         coEvery { exposureWindowTables.insertScanInstances(any()) } just Runs
         coEvery { exposureWindowTables.deleteByRiskResultId(any()) } returns 1
-        coEvery { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
     }
 
     private fun createInstance() = DefaultRiskLevelStorage(
