@@ -18,6 +18,7 @@ import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.isSwipeable
@@ -47,6 +48,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     )
     private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBindingLazy()
     private val checkInsAdapter = CheckInsAdapter()
+    private val positions = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +69,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
             onSwipeItem(
                 context = requireContext(),
-                excludedPositions = listOf() // TODO exclude items from swiping such as Camera permission item
+                excludedPositions = positions
             ) { position, direction ->
                 val checkInsItem = checkInsAdapter.data[position]
                 if (checkInsItem.isSwipeable()) {
@@ -76,11 +78,15 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             }
         }
 
-        viewModel.checkins.observe2(this) {
-            checkInsAdapter.update(it)
+        viewModel.checkins.observe2(this) { items ->
+            checkInsAdapter.update(items)
             binding.apply {
-                checkInsList.isGone = it.isEmpty()
-                emptyListInfoContainer.isGone = it.isNotEmpty()
+                checkInsList.isGone = items.isEmpty()
+                emptyListInfoContainer.isGone = items.isNotEmpty()
+                scanCheckinQrcodeFab.isGone = items.any { it is CameraPermissionVH.Item }
+                val index = items.indexOfFirst { it is CameraPermissionVH.Item }
+                positions.clear()
+                positions.add(index)
             }
         }
 
