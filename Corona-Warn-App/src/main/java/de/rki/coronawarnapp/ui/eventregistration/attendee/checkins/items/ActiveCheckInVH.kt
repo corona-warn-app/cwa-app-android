@@ -70,7 +70,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
     }
 
     data class Item(
-        val checkin: CheckIn,
+        override val checkin: CheckIn,
         val onCardClicked: (CheckIn) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit,
         val onCheckout: (CheckIn) -> Unit,

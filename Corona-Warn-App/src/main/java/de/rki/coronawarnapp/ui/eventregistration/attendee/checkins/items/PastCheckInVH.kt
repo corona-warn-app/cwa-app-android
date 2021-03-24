@@ -45,7 +45,7 @@ class PastCheckInVH(parent: ViewGroup) :
     }
 
     data class Item(
-        val checkin: CheckIn,
+        override val checkin: CheckIn,
         val onCardClicked: (CheckIn) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit
     ) : CheckInsItem {
