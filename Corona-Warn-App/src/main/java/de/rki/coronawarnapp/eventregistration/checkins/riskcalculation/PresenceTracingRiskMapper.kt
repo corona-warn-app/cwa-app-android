@@ -1,17 +1,11 @@
 package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 
-import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.UNRECOGNIZED
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.UNSPECIFIED
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
-import java.lang.reflect.Modifier.PRIVATE
 import javax.inject.Inject
 
 class PresenceTracingRiskMapper @Inject constructor(
@@ -42,12 +36,10 @@ class PresenceTracingRiskMapper @Inject constructor(
     }
 
     private suspend fun getTransmissionRiskValueMapping() =
-        getRiskCalculationParameters()
-            ?.transmissionRiskValueMapping
+        getRiskCalculationParameters()?.transmissionRiskValueMapping
 
     private suspend fun getNormalizedTimePerDayToRiskLevelMapping() =
-        getRiskCalculationParameters()
-            ?.normalizedTimePerDayToRiskLevelMapping
+        getRiskCalculationParameters()?.normalizedTimePerDayToRiskLevelMapping
 
     private suspend fun getNormalizedTimePerCheckInToRiskLevelMapping() =
         getRiskCalculationParameters()?.normalizedTimePerCheckInToRiskLevelMapping
@@ -56,23 +48,13 @@ class PresenceTracingRiskMapper @Inject constructor(
         if (presenceTracingRiskCalculationParamContainer == null) {
             presenceTracingRiskCalculationParamContainer =
                 configProvider.currentConfig.first().presenceTracing.riskCalculationParameters
-            Timber.i(presenceTracingRiskCalculationParamContainer.toString())
+            Timber.d(presenceTracingRiskCalculationParamContainer.toString())
         }
         return presenceTracingRiskCalculationParamContainer
     }
 }
 
-fun RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.mapToRiskState(): RiskState {
-    return when (this) {
-        UNSPECIFIED -> RiskState.CALCULATION_FAILED
-        LOW -> RiskState.LOW_RISK
-        HIGH -> RiskState.INCREASED_RISK
-        UNRECOGNIZED -> RiskState.CALCULATION_FAILED
-    }
-}
-
-@VisibleForTesting(otherwise = PRIVATE)
-internal fun RiskCalculationParametersOuterClass.Range.isInRange(value: Double): Boolean {
+private fun RiskCalculationParametersOuterClass.Range.isInRange(value: Double): Boolean {
     if (minExclusive && value <= min) return false
     if (!minExclusive && value < min) return false
     if (maxExclusive && value >= max) return false

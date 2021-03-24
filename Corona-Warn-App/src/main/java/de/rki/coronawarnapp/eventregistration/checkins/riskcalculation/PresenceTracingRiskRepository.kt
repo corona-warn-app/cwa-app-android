@@ -51,7 +51,7 @@ class PresenceTracingRiskRepository @Inject constructor(
         }
 
     suspend fun replaceAllMatches(list: List<CheckInOverlap>) {
-        traceTimeIntervalMatchDao.deleteAll()
+        deleteAllMatches()
         addAll(list)
     }
 
@@ -92,8 +92,7 @@ data class TraceTimeIntervalMatchEntity(
         entity = TraceLocationCheckInEntity::class,
         parentColumns = ["id"],
         childColumns = ["checkInId"],
-        onDelete = ForeignKey.CASCADE,
-        deferred = true
+        onDelete = ForeignKey.CASCADE
     )
     val checkInId: Long,
     val traceWarningPackageId: Long,

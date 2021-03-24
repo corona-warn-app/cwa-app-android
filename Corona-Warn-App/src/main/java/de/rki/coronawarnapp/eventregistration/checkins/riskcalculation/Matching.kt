@@ -2,8 +2,30 @@ package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
+import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import org.joda.time.Instant
+
+internal suspend fun findMatches(
+    checkIns: List<CheckIn>,
+    warningPackage: TraceTimeIntervalWarningPackage
+): List<CheckInOverlap> {
+
+    val relevantWarnings =
+        filterRelevantWarnings(
+            checkIns,
+            warningPackage
+        )
+
+    if (relevantWarnings.isEmpty()) return emptyList()
+
+    return relevantWarnings
+        .flatMap { warning ->
+            checkIns
+                .flatMap { it.splitByMidnightUTC() }
+                .mapNotNull { it.calculateOverlap(warning, warningPackage.id) }
+        }
+}
 
 suspend fun filterRelevantWarnings(
     checkIns: List<CheckIn>,
@@ -39,6 +61,5 @@ fun CheckIn.calculateOverlap(
         traceWarningPackageId = traceWarningPackageId,
         startTime = Instant.ofEpochMilli(overlapStartTimestamp),
         endTime = Instant.ofEpochMilli(overlapEndTimestamp)
-
     )
 }
