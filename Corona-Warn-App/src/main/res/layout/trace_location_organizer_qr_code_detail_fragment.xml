@@ -167,7 +167,7 @@
 
     <Button
         android:id="@+id/qr_code_clone_button"
-        style="@style/buttonLight"
+        style="@style/buttonTraceLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_normal"
