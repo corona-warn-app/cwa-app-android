@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.details
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -56,7 +57,9 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
         }
 
         vm.qrCodeBitmap.observe2(this) {
-            binding.qrCodeImage.setImageBitmap(it)
+            binding.qrCodeImage.apply {
+                setImageBitmap(it)
+            }
             setToolbarOverlay()
         }
 
