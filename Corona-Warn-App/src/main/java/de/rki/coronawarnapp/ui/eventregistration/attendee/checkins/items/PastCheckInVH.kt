@@ -41,6 +41,8 @@ class PastCheckInVH(parent: ViewGroup) :
                 else -> false
             }
         }
+
+        itemView.setOnClickListener { item.onCardClicked(item.checkin) }
     }
 
     data class Item(
