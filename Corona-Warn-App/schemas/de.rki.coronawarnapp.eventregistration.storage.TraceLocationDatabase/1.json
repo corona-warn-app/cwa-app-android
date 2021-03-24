@@ -159,6 +159,11 @@
             "columnName": "defaultCheckInLengthInMinutes",
             "affinity": "INTEGER",
             "notNull": false
+          },{
+            "fieldPath": "byteRepresentationBase64",
+            "columnName": "byteRepresentation",
+            "affinity": "TEXT",
+            "notNull": true
           },
           {
             "fieldPath": "signatureBase64",
@@ -180,7 +185,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9de69fd121ac4a9aaa820aebbf7db6fb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '58db835392620886de3bb25c22d5190a')"
     ]
   }
 }

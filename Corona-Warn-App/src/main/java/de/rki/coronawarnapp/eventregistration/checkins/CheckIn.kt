@@ -8,7 +8,7 @@ import org.joda.time.Instant
 
 @Suppress("LongParameterList")
 data class CheckIn(
-    val id: Long,
+    val id: Long = 0L,
     val guid: String,
     val version: Int,
     val type: Int,
