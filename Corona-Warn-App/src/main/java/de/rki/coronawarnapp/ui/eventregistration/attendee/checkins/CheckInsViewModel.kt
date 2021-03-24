@@ -7,6 +7,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.eventregistration.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCodeVerifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -30,24 +31,28 @@ class CheckInsViewModel @AssistedInject constructor(
     private val traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier,
     private val qrCodeUriParser: QRCodeUriParser,
     private val checkInsRepository: CheckInRepository,
+    private val checkOutHandler: CheckOutHandler,
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
+    val errorEvent = SingleLiveEvent<Throwable>()
 
     val checkins = checkInsRepository.allCheckIns
-        .map { checkins -> checkins.sortedBy { it.checkInEnd } }
+        .map { checkins ->
+            checkins.sortedWith(compareBy<CheckIn> { it.completed }.thenByDescending { it.checkInEnd })
+        }
         .map { checkins ->
             checkins.map { checkin ->
                 when {
                     !checkin.completed -> ActiveCheckInVH.Item(
                         checkin = checkin,
-                        onCardClicked = { /* TODO */ },
+                        onCardClicked = { events.postValue(CheckInEvent.EditCheckIn(it.id)) },
                         onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) },
-                        onCheckout = { /* TODO */ }
+                        onCheckout = { doCheckOutNow(it) }
                     )
                     else -> PastCheckInVH.Item(
                         checkin = checkin,
-                        onCardClicked = { /* TODO */ },
+                        onCardClicked = { events.postValue(CheckInEvent.EditCheckIn(it.id)) },
                         onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) }
                     )
                 }
@@ -65,6 +70,16 @@ class CheckInsViewModel @AssistedInject constructor(
             }
         }
         savedState.set(SKEY_LAST_DEEPLINK, deepLink)
+    }
+
+    private fun doCheckOutNow(checkIn: CheckIn) = launch(scope = appScope) {
+        Timber.d("doCheckOutNow(checkIn=%s)", checkIn)
+        try {
+            checkOutHandler.checkOut(checkIn.id)
+        } catch (e: Exception) {
+            Timber.e(e, "Checkout failed for %s", checkIn)
+            errorEvent.postValue(e)
+        }
     }
 
     fun onRemoveCheckInConfirmed(checkIn: CheckIn?) {

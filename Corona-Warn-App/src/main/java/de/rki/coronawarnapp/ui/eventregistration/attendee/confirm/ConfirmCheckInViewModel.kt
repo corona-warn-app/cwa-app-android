@@ -14,7 +14,8 @@ import org.joda.time.Duration
 import org.joda.time.Instant
 
 class ConfirmCheckInViewModel @AssistedInject constructor(
-    @Assisted private val verifiedTraceLocation: VerifiedTraceLocation,
+    @Assisted private val verifiedTraceLocation: VerifiedTraceLocation?,
+    @Assisted private val editCheckInId: Long?,
     private val checkInRepository: CheckInRepository
 ) : CWAViewModel() {
 
@@ -25,6 +26,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     }
 
     fun onConfirmTraceLocation() {
+        if (verifiedTraceLocation == null) return
         launch {
             // TODO This is only for testing
             checkInRepository.addCheckIn(verifiedTraceLocation.toCheckIn(checkInStart = Instant.now()))
@@ -60,7 +62,8 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<ConfirmCheckInViewModel> {
         fun create(
-            verifiedTraceLocation: VerifiedTraceLocation
+            verifiedTraceLocation: VerifiedTraceLocation?,
+            editCheckInId: Long?
         ): ConfirmCheckInViewModel
     }
 }

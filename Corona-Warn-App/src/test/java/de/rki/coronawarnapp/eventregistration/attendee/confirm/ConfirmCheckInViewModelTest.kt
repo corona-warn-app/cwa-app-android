@@ -27,7 +27,8 @@ class ConfirmCheckInViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
         viewModel = ConfirmCheckInViewModel(
             verifiedTraceLocation = verifiedTraceLocation,
-            checkInRepository = checkInRepository
+            checkInRepository = checkInRepository,
+            editCheckInId = null
         )
     }
 
