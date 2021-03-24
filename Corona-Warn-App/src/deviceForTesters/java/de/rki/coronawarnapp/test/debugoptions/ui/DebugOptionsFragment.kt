@@ -71,7 +71,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                 environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"
                 environmentUrlDatadonation.text = "DataDonation:\n${state.urlDataDonation}"
                 environmentUrlTracelocation.text = "Create TraceLocation:\n${state.urlCreateTraceLocation}"
-                environmentUrlTracelocation.text = "QR-Code Poster Template:\n${state.urlQrCodePosterTemplate}"
+                environmentUrlQrcodePosterTemplate.text = "QR-Code Poster Template:\n${state.urlQrCodePosterTemplate}"
             }
         }
         vm.environmentChangeEvent.observe2(this) {
