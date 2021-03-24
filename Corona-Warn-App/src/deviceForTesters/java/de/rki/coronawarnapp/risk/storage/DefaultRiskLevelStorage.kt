@@ -57,6 +57,4 @@ class DefaultRiskLevelStorage @Inject constructor(
             Timber.d("$it orphaned exposure windows were deleted.")
         }
     }
-
-
 }

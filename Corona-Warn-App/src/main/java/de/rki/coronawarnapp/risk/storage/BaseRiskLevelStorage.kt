@@ -191,7 +191,7 @@ abstract class BaseRiskLevelStorage constructor(
     }
 }
 
-fun combineRisk(
+private fun combineRisk(
     ptRiskList: List<PresenceTracingDayRisk>,
     ewRiskList: List<AggregatedRiskPerDateResult>
 ): List<AggregatedDayRisk> {
@@ -202,13 +202,14 @@ fun combineRisk(
         AggregatedDayRisk(
             date,
             max(
-                ptRisk?.riskState, ewRisk?.riskLevel?.mapToRiskState()
+                ptRisk?.riskState,
+                ewRisk?.riskLevel?.mapToRiskState()
             )
         )
     }
 }
 
-fun max(left: RiskState?, right: RiskState?): RiskState {
+private fun max(left: RiskState?, right: RiskState?): RiskState {
     return if (left == RiskState.INCREASED_RISK || right == RiskState.INCREASED_RISK) RiskState.INCREASED_RISK
     else if (left == RiskState.LOW_RISK || right == RiskState.LOW_RISK) RiskState.LOW_RISK
     else RiskState.CALCULATION_FAILED

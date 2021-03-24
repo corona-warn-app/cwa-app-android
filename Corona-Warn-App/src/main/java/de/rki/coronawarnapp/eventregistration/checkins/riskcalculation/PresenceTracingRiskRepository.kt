@@ -69,19 +69,19 @@ class PresenceTracingRiskRepository @Inject constructor(
 }
 
 @Dao
-abstract class TraceTimeIntervalMatchDao {
+interface TraceTimeIntervalMatchDao {
 
     @Query("SELECT * FROM TraceTimeIntervalMatchEntity")
-    abstract fun allEntries(): Flow<List<TraceTimeIntervalMatchEntity>>
+    fun allEntries(): Flow<List<TraceTimeIntervalMatchEntity>>
 
     @Query("DELETE FROM TraceTimeIntervalMatchEntity")
-    abstract suspend fun deleteAll()
+    suspend fun deleteAll()
 
     @Query("DELETE FROM TraceTimeIntervalMatchEntity WHERE endTimeMillis < :endTimeMillis")
-    abstract suspend fun deleteOlderThan(endTimeMillis: Long)
+    suspend fun deleteOlderThan(endTimeMillis: Long)
 
     @Insert
-    abstract suspend fun insert(entities: List<TraceTimeIntervalMatchEntity>)
+    suspend fun insert(entities: List<TraceTimeIntervalMatchEntity>)
 }
 
 @Entity

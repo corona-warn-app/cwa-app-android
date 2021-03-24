@@ -39,9 +39,11 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 },
                 {
                     checkInOverlaps.clear()
-                    checkInOverlaps.addAll((1..360).flatMap {
-                        findMatches(checkIns, DummyCheckInPackage)
-                    })
+                    checkInOverlaps.addAll(
+                        (1..100).flatMap {
+                            findMatches(checkIns, DummyCheckInPackage)
+                        }
+                    )
                     if (checkInOverlaps.size < 100) {
                         val text = checkInOverlaps.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
                             stringBuilder
@@ -49,11 +51,10 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                                 .append("Date ${checkInOverlap.localDate}, ")
                                 .append("Min. ${checkInOverlap.overlap.standardMinutes}")
                                 .append("\n")
-
                         }
                         checkInOverlapsText.postValue(text.toString())
                     } else {
-                        checkInOverlapsText.postValue("Output >= 100")
+                        checkInOverlapsText.postValue("Output too large. ${checkInOverlaps.size} lines")
                     }
                 }
             )
@@ -83,7 +84,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                         }
                         checkInRiskPerDayText.postValue(text.toString())
                     } else {
-                        checkInRiskPerDayText.postValue("Output >= 100")
+                        checkInRiskPerDayText.postValue("Output too large. ${riskStates.size} lines")
                     }
                 }
             )
@@ -94,7 +95,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     interface Factory : SimpleCWAViewModelFactory<EventRegistrationTestFragmentViewModel>
 }
 
-val checkIns = (1L..100L).map {
+val checkIns = (1L..10L).map {
     createCheckIn(
         id = it,
         traceLocationGuid = it.toString(),
