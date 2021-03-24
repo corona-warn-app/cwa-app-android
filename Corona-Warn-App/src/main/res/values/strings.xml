@@ -1949,4 +1949,10 @@
     <string name="generic_action_abort">Cancel</string>
     <!-- XACT: Button/Dialog label to remove something-->
     <string name="generic_action_remove">Remove</string>
+    <string name="confirm_checkin_title_text">Einchecken für:</string>
+    <string name="confirm_checkin_event_in_future_card_text">Das Event beginnt erst am 21e.01.21 um 18:00 Uhr. Wollen Sie jetzt bereits einchecken?</string>
+    <string name="confirm_checkin_event_in_past_card_text">Das Event ist beendet. Wollen Sie nachträglich einchecken?</string>
+    <string name="confirm_checkin_settings_card_checkout_toggle_label">Nach dem Auschecken in mein Kontakt-Tagebuch eintragen?</string>
+    <string name="confirm_checkin_settings_card_checkout_time_label">Automatisch auschecken nach</string>
+    <string name="confirm_checkin_confirm_button_text">Einchecken</string>
 </resources>

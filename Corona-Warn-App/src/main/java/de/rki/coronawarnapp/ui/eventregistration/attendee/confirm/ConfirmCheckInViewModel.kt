@@ -42,9 +42,11 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         checkInLength
     ) { traceLocation, createEntry, checkInLength ->
         UiState(
-            traceLocation,
-            createEntry,
-            checkInLength
+            traceLocation = traceLocation,
+            createJournalEntry = createEntry,
+            checkInEndOffset = checkInLength,
+            eventInPastVisible = traceLocation.isAfterEndTime(timeStamper.nowUTC),
+            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowUTC)
         )
     }.asLiveData()
 
@@ -112,8 +114,10 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
 
     data class UiState(
         private val traceLocation: TraceLocation,
+        private val checkInEndOffset: Duration,
         val createJournalEntry: Boolean,
-        private val checkInEndOffset: Duration
+        val eventInPastVisible: Boolean,
+        val eventInFutureVisible: Boolean
     ) {
         val description get() = traceLocation.description
         val type get() = traceLocation.type.name

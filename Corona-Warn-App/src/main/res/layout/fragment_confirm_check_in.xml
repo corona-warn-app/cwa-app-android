@@ -93,7 +93,7 @@
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_huge"
                         android:layout_marginBottom="@dimen/spacing_normal"
-                        android:text="Einchecken für:"
+                        android:text="@string/confirm_checkin_title_text"
                         android:textColor="@color/colorStableLight" />
 
                     <LinearLayout
@@ -101,18 +101,16 @@
                         style="@style/Card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_normal"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/confirm_checkin_title">
+                        android:layout_marginHorizontal="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_tiny"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/confirm_checkin_info_card_header"
                             style="@style/subtitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Vereinsaktivität" />
+                            tools:text="Vereinsaktivität" />
 
                         <TextView
                             android:id="@+id/confirm_checkin_info_card_title"
@@ -120,7 +118,7 @@
                             android:layout_width="276dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_small"
-                            android:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
+                            tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
 
                         <TextView
                             android:id="@+id/confirm_checkin_info_card_address"
@@ -128,7 +126,37 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_small"
-                            android:text="Hauptstr 3, 69115 Heidelberg" />
+                            tools:text="Hauptstr 3, 69115 Heidelberg" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/confirm_checkin_event_in_future_card"
+                        style="@style/Card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/spacing_normal"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/body2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/confirm_checkin_event_in_future_card_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/confirm_checkin_event_in_past_card"
+                        style="@style/Card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/spacing_normal"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/body2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/confirm_checkin_event_in_past_card_text" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -138,16 +166,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_tiny"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/confirm_checkin_info_card">
+                        android:orientation="vertical">
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/confirm_checkin_settings_card_checkout_toggle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Nach dem Auschecken in mein Kontakt-Tagebuch eintragen? " />
+                            android:text="@string/confirm_checkin_settings_card_checkout_toggle_label" />
 
                         <View
                             android:layout_width="match_parent"
@@ -164,7 +189,7 @@
                                 style="@style/body2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Automatisch auschecken nach" />
+                                android:text="@string/confirm_checkin_settings_card_checkout_time_label" />
 
                             <Space
                                 android:layout_width="0dp"
@@ -176,7 +201,7 @@
                                 style="@style/body2Medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="03:00 Std" />
+                                tools:text="03:00 Std" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -195,7 +220,7 @@
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_marginBottom="@dimen/spacing_small"
-            android:text="Einchecken"
+            android:text="@string/confirm_checkin_confirm_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

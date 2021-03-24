@@ -10,17 +10,16 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
+import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), AutoInject {
-
     private val navArgs by navArgs<ConfirmCheckInFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
     private val viewModel: ConfirmCheckInViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
@@ -28,6 +27,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             factory.create(navArgs.verifiedTraceLocation)
         }
     )
+
     private val binding: FragmentConfirmCheckInBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,6 +66,9 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
                 confirmCheckinInfoCardAddress.text = uiState.address
                 confirmCheckinSettingsCardCheckoutToggle.isChecked = uiState.createJournalEntry
                 confirmCheckinSettingsCardCheckoutTime.text = uiState.checkInEnd
+
+                confirmCheckinEventInPastCard.setGone(!uiState.eventInPastVisible)
+                confirmCheckinEventInFutureCard.setGone(!uiState.eventInFutureVisible)
             }
         }
 
