@@ -36,6 +36,7 @@ class EnvironmentSetup @Inject constructor(
         VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION"),
         DATA_DONATION("DATA_DONATION_CDN_URL"),
         CREATE_TRACELOCATION("CREATE_TRACELOCATION_URL"),
+        QRCODE_POSTER_TEMPLATE("QRCODE_POSTER_TEMPLATE_URL"),
         LOG_UPLOAD("LOG_UPLOAD_SERVER_URL"),
         SAFETYNET_API_KEY("SAFETYNET_API_KEY")
     }
@@ -119,6 +120,8 @@ class EnvironmentSetup @Inject constructor(
         get() = getEnvironmentValue(DATA_DONATION).asString
     val traceLocationCdnUrl: String
         get() = getEnvironmentValue(CREATE_TRACELOCATION).asString
+    val qrCodePosterTemplateCdnUrl: String
+        get() = getEnvironmentValue(EnvKey.QRCODE_POSTER_TEMPLATE).asString
 
     val appConfigVerificationKey: String
         get() = getEnvironmentValue(VERIFICATION_KEYS).asString

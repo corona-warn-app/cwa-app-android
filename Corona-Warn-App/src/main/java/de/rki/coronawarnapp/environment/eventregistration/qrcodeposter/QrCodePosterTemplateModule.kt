@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.environment.eventregistration.qrcodeposter
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.environment.BaseEnvironmentModule
+import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
-import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate.QrCodePosterTemplateApiV1
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
@@ -16,29 +17,37 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
-interface QrCodePosterTemplateModule {
+class QrCodePosterTemplateModule : BaseEnvironmentModule() {
 
     @Singleton
     @Provides
-    @QrCodePoster
+    @QrCodePosterTemplate
     fun cacheDir(
         @AppContext context: Context
     ): File = File(context.cacheDir, "qrCodePoster")
 
     @Singleton
     @Provides
-    @QrCodePoster
+    @QrCodePosterTemplate
     fun httpCache(
-        @QrCodePoster cacheDir: File
+        @QrCodePosterTemplate cacheDir: File
     ): Cache = Cache(File(cacheDir, "cache_http"), CACHE_SIZE_5MB)
+
+    @Singleton
+    @QrCodePosterTemplate
+    @Provides
+    fun provideQrCodePosterTemplateCDNServerUrl(environment: EnvironmentSetup): String {
+        val url = environment.qrCodePosterTemplateCdnUrl
+        return requireValidUrl(url)
+    }
 
     @Singleton
     @Provides
     fun api(
         @DownloadCDNHttpClient client: OkHttpClient,
-        @DownloadCDNServerUrl url: String,
+        @QrCodePosterTemplate url: String,
         protoConverterFactory: ProtoConverterFactory,
-        @QrCodePoster cache: Cache
+        @QrCodePosterTemplate cache: Cache
     ): QrCodePosterTemplateApiV1 {
         val httpClient = client.newBuilder().apply {
             cache(cache)
@@ -60,4 +69,4 @@ interface QrCodePosterTemplateModule {
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class QrCodePoster
+annotation class QrCodePosterTemplate
