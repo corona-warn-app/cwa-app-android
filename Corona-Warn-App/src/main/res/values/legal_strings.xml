@@ -43,13 +43,13 @@
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_body_one" translatable="false">Using this additional feature of the Corona-Warn-App is voluntary. Only you decide which people and places you record.</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_body_two" translatable="false">"Neither the RKI nor any other agency has access to the information you enter in the contact diary. The information is only stored in encrypted form on your Android smartphone."</string>
+    <string name="contact_diary_onboarding_privacy_information_first_section_body_two" translatable="false">"Neither the RKI nor any other agency has access to the information you enter in the contact journal. The information is only stored in encrypted form on your Android smartphone."</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information second section title -->
     <string name="contact_diary_onboarding_privacy_information_second_section_title" translatable="false">"Please respect other people’s privacy"</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
     <string name="contact_diary_onboarding_privacy_information_second_section_body_one" translatable="false">"Please think carefully about with whom you share the information recorded in your contact journal, and how you share it. The information is meant to help you remember – it is not intended for anyone else. If the public health office (Gesundheitsamt) asks for your help with contact tracing, then sharing your entries is appropriate."</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_body_two" translatable="false">"Private individuals as well as companies are not allowed to make you disclose the information you have recorded. Please respect the wishes of anyone who does not want to be recorded in your contact diary."</string>
+    <string name="contact_diary_onboarding_privacy_information_second_section_body_two" translatable="false">"Private individuals as well as companies are not allowed to make you disclose the information you have recorded. Please respect the wishes of anyone who does not want to be recorded in your contact journal."</string>
 
     <!-- XHED: Title for the consent displayed above the button in the survey consent screen -->
     <string name="datadonation_details_survey_consent_info_card_title" translatable="false">"Your Consent"</string>
