@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.onSwipeItem
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -102,7 +103,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 is CheckInEvent.ConfirmCheckIn -> {
                     doNavigate(
                         CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
-                            it.verifiedTraceLocation
+                            verifiedTraceLocation = it.verifiedTraceLocation,
+                            editCheckInId = 0,
                         )
                     )
                 }
@@ -112,7 +114,23 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 is CheckInEvent.ConfirmRemoveAll -> {
                     showRemovalConfirmation(null)
                 }
+                is CheckInEvent.EditCheckIn -> {
+                    doNavigate(
+                        CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
+                            verifiedTraceLocation = null,
+                            editCheckInId = it.checkInId,
+                        )
+                    )
+                }
+                is CheckInEvent.ShowInformation -> {
+                    Toast.makeText(requireContext(), "TODO ¯\\_(ツ)_/¯", Toast.LENGTH_SHORT).show()
+                }
             }
+        }
+
+        viewModel.errorEvent.observe2(this) {
+            val errorForHumans = it.tryHumanReadableError(requireContext())
+            Toast.makeText(requireContext(), errorForHumans.description, Toast.LENGTH_LONG).show()
         }
     }
 
