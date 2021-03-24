@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCod
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveCheckInVH
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.PastCheckInVH
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -37,7 +39,7 @@ class CheckInsViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<CheckInEvent>()
     val errorEvent = SingleLiveEvent<Throwable>()
 
-    val checkins = checkInsRepository.allCheckIns
+    val checkins: LiveData<List<CheckInsItem>> = checkInsRepository.allCheckIns
         .map { checkins ->
             checkins.sortedWith(compareBy<CheckIn> { it.completed }.thenByDescending { it.checkInEnd })
         }

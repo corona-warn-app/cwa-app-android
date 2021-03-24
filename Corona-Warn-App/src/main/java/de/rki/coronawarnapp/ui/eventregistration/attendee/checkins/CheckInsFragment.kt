@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBin
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.isSwipeable
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.tryHumanReadableError
@@ -62,8 +63,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             onSwipeItem(
                 context = requireContext(),
                 excludedPositions = listOf() // TODO exclude items from swiping such as Camera permission item
-            ) { position, _ ->
-                showRemovalConfirmation(checkInsAdapter.data[position].checkin)
+            ) { position, direction ->
+                val checkInsItem = checkInsAdapter.data[position]
+                if (checkInsItem.isSwipeable()) {
+                    checkInsItem.onSwipe(direction)
+                }
             }
         }
 

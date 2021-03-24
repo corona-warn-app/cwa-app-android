@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemPastBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.util.SwipeConsumer
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import org.joda.time.format.DateTimeFormat
 
@@ -46,10 +47,11 @@ class PastCheckInVH(parent: ViewGroup) :
     }
 
     data class Item(
-        override val checkin: CheckIn,
+        val checkin: CheckIn,
         val onCardClicked: (CheckIn) -> Unit,
-        val onRemoveItem: (CheckIn) -> Unit
-    ) : CheckInsItem {
+        val onRemoveItem: (CheckIn) -> Unit,
+    ) : CheckInsItem, SwipeConsumer {
         override val stableId: Long = checkin.id
+        override fun onSwipe(direction: Int) = onRemoveItem(checkin)
     }
 }
