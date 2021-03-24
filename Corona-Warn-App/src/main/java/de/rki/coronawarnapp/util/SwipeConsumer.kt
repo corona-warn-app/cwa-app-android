@@ -12,9 +12,10 @@ import kotlin.contracts.contract
 interface SwipeConsumer {
     /**
      * On swipe callback
+     * @param position [Int] item position
      * @param direction [Int] from [ItemTouchHelper] such as [ItemTouchHelper.RIGHT]
      */
-    fun onSwipe(direction: Int)
+    fun onSwipe(position: Int, direction: Int)
 }
 
 /**

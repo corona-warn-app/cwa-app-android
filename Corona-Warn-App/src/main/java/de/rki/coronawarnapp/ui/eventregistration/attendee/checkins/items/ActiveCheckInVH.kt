@@ -79,9 +79,10 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val onCardClicked: (CheckIn) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit,
         val onCheckout: (CheckIn) -> Unit,
+        val onSwipeItem: (CheckIn, Int) -> Unit
     ) : CheckInsItem, SwipeConsumer {
         override val stableId: Long = checkin.id
-        override fun onSwipe(direction: Int) = onRemoveItem(checkin)
+        override fun onSwipe(position: Int, direction: Int) = onSwipeItem(checkin, position)
     }
 
     companion object {
