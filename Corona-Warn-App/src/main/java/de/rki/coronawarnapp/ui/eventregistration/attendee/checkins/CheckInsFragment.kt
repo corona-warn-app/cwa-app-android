@@ -20,9 +20,12 @@ import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBin
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.isSwipeable
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.tryHumanReadableError
+import de.rki.coronawarnapp.util.onSwipeItem
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -58,6 +61,19 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             adapter = checkInsAdapter
             addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             itemAnimator = DefaultItemAnimator()
+            onScroll { extend ->
+                if (extend) binding.scanCheckinQrcodeFab.extend() else binding.scanCheckinQrcodeFab.shrink()
+            }
+
+            onSwipeItem(
+                context = requireContext(),
+                excludedPositions = listOf() // TODO exclude items from swiping such as Camera permission item
+            ) { position, direction ->
+                val checkInsItem = checkInsAdapter.data[position]
+                if (checkInsItem.isSwipeable()) {
+                    checkInsItem.onSwipe(position, direction)
+                }
+            }
         }
 
         viewModel.checkins.observe2(this) {
@@ -101,11 +117,15 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                         )
                     )
                 }
+
+                is CheckInEvent.ConfirmSwipeItem -> {
+                    showRemovalConfirmation(it.checkIn, it.position)
+                }
                 is CheckInEvent.ConfirmRemoveItem -> {
-                    showRemovalConfirmation(it.checkIn)
+                    showRemovalConfirmation(it.checkIn, null)
                 }
                 is CheckInEvent.ConfirmRemoveAll -> {
-                    showRemovalConfirmation(null)
+                    showRemovalConfirmation(null, null)
                 }
                 is CheckInEvent.EditCheckIn -> {
                     doNavigate(
@@ -127,17 +147,24 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         }
     }
 
-    private fun showRemovalConfirmation(checkIn: CheckIn?) = AlertDialog.Builder(requireContext()).apply {
-        setTitle(
-            if (checkIn == null) R.string.trace_location_checkins_remove_all_title
-            else R.string.trace_location_checkins_remove_single_title
-        )
-        setMessage(R.string.trace_location_checkins_remove_message)
-        setPositiveButton(R.string.generic_action_remove) { _, _ ->
-            viewModel.onRemoveCheckInConfirmed(checkIn)
-        }
-        setNegativeButton(R.string.generic_action_abort) { _, _ -> /* NOOP */ }
-    }.show()
+    private fun showRemovalConfirmation(checkIn: CheckIn?, position: Int?) =
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(
+                if (checkIn == null) R.string.trace_location_checkins_remove_all_title
+                else R.string.trace_location_checkins_remove_single_title
+            )
+            setMessage(R.string.trace_location_checkins_remove_message)
+            setPositiveButton(R.string.generic_action_remove) { _, _ ->
+                viewModel.onRemoveCheckInConfirmed(checkIn)
+            }
+            setNegativeButton(R.string.generic_action_abort) { _, _ ->
+                position?.let {
+                    checkInsAdapter.notifyItemChanged(
+                        position
+                    )
+                }
+            }
+        }.show()
 
     private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
         inflateMenu(R.menu.menu_trace_location_attendee_checkins)

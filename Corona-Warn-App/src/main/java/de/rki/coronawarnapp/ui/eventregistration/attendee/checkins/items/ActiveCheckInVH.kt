@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemActiveBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.util.SwipeConsumer
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -78,8 +79,10 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val onCardClicked: (CheckIn) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit,
         val onCheckout: (CheckIn) -> Unit,
-    ) : CheckInsItem {
+        val onSwipeItem: (CheckIn, Int) -> Unit
+    ) : CheckInsItem, SwipeConsumer {
         override val stableId: Long = checkin.id
+        override fun onSwipe(position: Int, direction: Int) = onSwipeItem(checkin, position)
     }
 
     companion object {
