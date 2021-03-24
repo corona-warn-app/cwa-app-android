@@ -10,4 +10,8 @@ sealed class CheckInEvent {
     object ConfirmRemoveAll : CheckInEvent()
 
     data class ConfirmCheckIn(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
+
+    data class EditCheckIn(val checkInId: Long) : CheckInEvent()
+
+    object ShowInformation : CheckInEvent()
 }
