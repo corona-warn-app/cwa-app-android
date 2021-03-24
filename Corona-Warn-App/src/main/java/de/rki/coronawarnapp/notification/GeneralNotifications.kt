@@ -59,10 +59,10 @@ class GeneralNotifications @Inject constructor(
 
             val channel = NotificationChannel(
                 MAIN_CHANNEL_ID,
-                context.getString(R.string.notification_name),
+                context.getString(R.string.general_notification_channel_title),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = context.getString(R.string.notification_description)
+                description = context.getString(R.string.general_notification_channel_description)
                 setSound(notificationRingtone, audioAttributes)
             }
 
@@ -182,7 +182,7 @@ class GeneralNotifications @Inject constructor(
      * @param pendingIntent: PendingIntent
      */
     fun sendNotification(
-        title: String = context.getString(R.string.notification_name),
+        title: String = context.getString(R.string.notification_headline),
         content: String,
         notificationId: NotificationId,
         expandableLongText: Boolean = false,
