@@ -32,6 +32,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
         super.onViewCreated(view, savedInstanceState)
 
         vm.createQrCode(vm.qrCodeText)
+        setToolbarOverlay()
 
         binding.apply {
             appBarLayout.addOnOffsetChangedListener(
@@ -60,7 +61,6 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             binding.qrCodeImage.apply {
                 setImageBitmap(it)
             }
-            setToolbarOverlay()
         }
 
         vm.routeToScreen.observe2(this) {
