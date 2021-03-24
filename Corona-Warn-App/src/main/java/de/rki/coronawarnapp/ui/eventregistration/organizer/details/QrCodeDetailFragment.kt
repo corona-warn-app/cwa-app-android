@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.details
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
