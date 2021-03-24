@@ -58,7 +58,10 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             adapter = checkInsAdapter
             addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             itemAnimator = DefaultItemAnimator()
-            onSwipeItem(requireContext()) { position, _ ->
+            onSwipeItem(
+                context = requireContext(),
+                excludedPositions = listOf(0)
+            ) { position, _ ->
                 showRemovalConfirmation(checkInsAdapter.data[position].checkin)
             }
         }

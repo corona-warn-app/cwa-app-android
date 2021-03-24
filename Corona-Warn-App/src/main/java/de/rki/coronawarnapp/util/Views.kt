@@ -87,13 +87,7 @@ fun RecyclerView.onScroll(block: (Boolean) -> Unit) {
 /**
  * On [RecyclerView] item swipe listener
  * @param context [Context]
- * @param leftIconRes [Int] left icon resource
- * @param rightIconRes [Int] right icon resource
- * @param colorRes [Int] background color resource
- * @param iconMarginRes [Int] icon left or right margin from item's edge
- * @param [swipeDirs] Swipe directions flags such as [ItemTouchHelper.LEFT]
- * by default right and left directions are enabled
- *
+ * @param excludedPositions excluded positions from swiping factory
  * @param onSwipe on swipe callback. It passes item's position and swipe direction
  *
  * Usage:
@@ -103,24 +97,15 @@ fun RecyclerView.onScroll(block: (Boolean) -> Unit) {
  * }
  * ```
  */
-@Suppress("LongParameterList")
 fun RecyclerView.onSwipeItem(
     context: Context,
-    @DrawableRes leftIconRes: Int = R.drawable.ic_delete,
-    @DrawableRes rightIconRes: Int = R.drawable.ic_delete,
-    @ColorRes colorRes: Int = R.color.swipeBackgroundColor,
-    @DimenRes iconMarginRes: Int = R.dimen.swipe_icon_margin,
-    swipeDirs: Int = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
+    excludedPositions: List<Int> = emptyList(),
     onSwipe: (position: Int, direction: Int) -> Unit
 ) {
     ItemTouchHelper(
         SwipeCallback(
             context,
-            leftIconRes,
-            rightIconRes,
-            iconMarginRes,
-            colorRes,
-            swipeDirs,
+            excludedPositions,
             onSwipe
         )
     ).attachToRecyclerView(this)
@@ -131,20 +116,15 @@ fun RecyclerView.onSwipeItem(
  */
 private class SwipeCallback(
     context: Context,
-    @DrawableRes leftIconRes: Int,
-    @DrawableRes rightIconRes: Int,
-    @DimenRes iconMarginRes: Int,
-    @ColorRes colorRes: Int,
-    swipeDirections: Int,
+    private val excludedPositions: List<Int>,
     private val action: (position: Int, direction: Int) -> Unit
 ) : ItemTouchHelper.SimpleCallback(
     0,
-    swipeDirections
+    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
 ) {
-    private val leftIcon = context.getDrawableCompat(leftIconRes)!!
-    private val rightIcon = context.getDrawableCompat(rightIconRes)!!
-    private val iconMargin = context.resources.getDimensionPixelSize(iconMarginRes)
-    private val background = ColorDrawable(context.getColorCompat(colorRes))
+    private val icon = context.getDrawableCompat(R.drawable.ic_delete)!!
+    private val iconMargin = context.resources.getDimensionPixelSize(R.dimen.swipe_icon_margin)
+    private val background = ColorDrawable(context.getColorCompat(R.color.swipeBackgroundColor))
 
     override fun onMove(
         recyclerView: RecyclerView,
@@ -180,6 +160,11 @@ private class SwipeCallback(
         }
     }
 
+    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+        if (viewHolder.adapterPosition in excludedPositions) return 0
+        return super.getMovementFlags(recyclerView, viewHolder)
+    }
+
     private fun onSwipeLeft(
         itemView: View,
         dX: Float,
@@ -196,15 +181,15 @@ private class SwipeCallback(
 
         // Draw right icon
         val itemHeight = itemView.height
-        val iconHeight = rightIcon.intrinsicHeight
-        val iconWidth = rightIcon.intrinsicWidth
+        val iconHeight = icon.intrinsicHeight
+        val iconWidth = icon.intrinsicWidth
 
         val iconTop = itemView.top + (itemHeight - iconHeight) / 2
         val iconLeft = itemView.right - iconMargin - iconWidth
         val iconRight = itemView.right - iconMargin
         val iconBottom = iconTop + iconHeight
-        rightIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
-        rightIcon.draw(canvas)
+        icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+        icon.draw(canvas)
     }
 
     private fun onSwipeRight(
@@ -223,15 +208,15 @@ private class SwipeCallback(
 
         // Draw left icon
         val itemHeight = itemView.height
-        val iconHeight = leftIcon.intrinsicHeight
-        val iconWidth = leftIcon.intrinsicWidth
+        val iconHeight = icon.intrinsicHeight
+        val iconWidth = icon.intrinsicWidth
 
         val iconTop = itemView.top + (itemHeight - iconHeight) / 2
         val iconLeft = itemView.left + iconMargin
         val iconRight = itemView.left + iconMargin + iconWidth
         val iconBottom = iconTop + iconHeight
-        leftIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
-        leftIcon.draw(canvas)
+        icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+        icon.draw(canvas)
     }
 
     companion object {
