@@ -6,6 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.Insert
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.util.TimeStamper
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 @Singleton
 class PresenceTracingRiskRepository @Inject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
-    private val databaseFactory: PresenceTracingDatabase.Factory,
+    private val databaseFactory: TraceLocationDatabase.Factory,
     private val timeStamper: TimeStamper
 ) {
 

@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.TraceTimeIntervalMatchDao
+import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.TraceTimeIntervalMatchEntity
 import de.rki.coronawarnapp.eventregistration.storage.dao.CheckInDao
 import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @Database(
     entities = [
         TraceLocationCheckInEntity::class,
-        TraceLocationEntity::class
+        TraceLocationEntity::class,
+        TraceTimeIntervalMatchEntity::class
     ],
     version = 1,
     exportSchema = true
@@ -27,6 +30,7 @@ abstract class TraceLocationDatabase : RoomDatabase() {
 
     abstract fun eventCheckInDao(): CheckInDao
     abstract fun traceLocationDao(): TraceLocationDao
+    abstract fun traceTimeIntervalMatchDao(): TraceTimeIntervalMatchDao
 
     class Factory @Inject constructor(@AppContext private val context: Context) {
         fun create() = Room
