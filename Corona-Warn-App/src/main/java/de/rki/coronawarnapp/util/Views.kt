@@ -12,9 +12,6 @@ import android.text.util.Linkify
 import android.util.Patterns
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.text.util.LinkifyCompat
 import androidx.recyclerview.widget.ItemTouchHelper
