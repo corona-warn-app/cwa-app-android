@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9de69fd121ac4a9aaa820aebbf7db6fb",
+    "identityHash": "69a18a2a36f4121828ab2a501f6452f2",
     "entities": [
       {
         "tableName": "checkin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `traceLocationBytes` TEXT NOT NULL, `signature` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `traceLocationBytesBase64` TEXT NOT NULL, `signatureBase64` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -64,13 +64,13 @@
           },
           {
             "fieldPath": "traceLocationBytesBase64",
-            "columnName": "traceLocationBytes",
+            "columnName": "traceLocationBytesBase64",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "signatureBase64",
-            "columnName": "signature",
+            "columnName": "signatureBase64",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -110,7 +110,7 @@
       },
       {
         "tableName": "traceLocations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `startDate` TEXT, `endDate` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `signature` TEXT NOT NULL, PRIMARY KEY(`guid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `startDate` TEXT, `endDate` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `byteRepresentationBase64` TEXT NOT NULL, `signatureBase64` TEXT NOT NULL, PRIMARY KEY(`guid`))",
         "fields": [
           {
             "fieldPath": "guid",
@@ -159,15 +159,16 @@
             "columnName": "defaultCheckInLengthInMinutes",
             "affinity": "INTEGER",
             "notNull": false
-          },{
+          },
+          {
             "fieldPath": "byteRepresentationBase64",
-            "columnName": "byteRepresentation",
+            "columnName": "byteRepresentationBase64",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "signatureBase64",
-            "columnName": "signature",
+            "columnName": "signatureBase64",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -185,7 +186,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '58db835392620886de3bb25c22d5190a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '69a18a2a36f4121828ab2a501f6452f2')"
     ]
   }
 }
