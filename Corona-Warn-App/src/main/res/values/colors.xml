@@ -91,4 +91,7 @@
 
     <!-- Trace location -->
     <color name="colorTraceLocationIconDateBackground">#FFFFFF</color>
+
+    <!-- Swipe to delete background color -->
+    <color name="swipeBackgroundColor">#EB4D3D</color>
 </resources>
