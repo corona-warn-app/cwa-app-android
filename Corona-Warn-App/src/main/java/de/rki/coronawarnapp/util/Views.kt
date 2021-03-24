@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.drawable.ColorDrawable
+import android.graphics.Paint
+import android.graphics.RectF
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -124,7 +125,10 @@ private class SwipeCallback(
 ) {
     private val icon = context.getDrawableCompat(R.drawable.ic_delete)!!
     private val iconMargin = context.resources.getDimensionPixelSize(R.dimen.swipe_icon_margin)
-    private val background = ColorDrawable(context.getColorCompat(R.color.swipeBackgroundColor))
+    private val radius = context.resources.getDimensionPixelSize(R.dimen.radius_card).toFloat()
+    private val backgroundPaint = Paint().apply {
+        color = context.getColorCompat(R.color.swipeBackgroundColor)
+    }
 
     override fun onMove(
         recyclerView: RecyclerView,
@@ -156,7 +160,7 @@ private class SwipeCallback(
             dX < 0 -> onSwipeLeft(itemView, dX, canvas)
 
             // View is unSwiped
-            else -> background.setBounds(0, 0, 0, 0)
+            else -> canvas.drawRect(0f, 0f, 0f, 0f, Paint())
         }
     }
 
@@ -171,13 +175,13 @@ private class SwipeCallback(
         canvas: Canvas
     ) {
         // Draw background
-        background.setBounds(
-            itemView.right + dX.toInt() - BACKGROUND_CORNER_OFFSET,
-            itemView.top,
-            itemView.right,
-            itemView.bottom
+        val recF = RectF(
+            (itemView.right + dX.toInt() - BACKGROUND_CORNER_OFFSET).toFloat(),
+            itemView.top.toFloat(),
+            itemView.right.toFloat(),
+            itemView.bottom.toFloat()
         )
-        background.draw(canvas)
+        canvas.drawRoundRect(recF, radius, radius, backgroundPaint)
 
         // Draw right icon
         val itemHeight = itemView.height
@@ -198,13 +202,13 @@ private class SwipeCallback(
         canvas: Canvas
     ) {
         // Draw background
-        background.setBounds(
-            itemView.left,
-            itemView.top,
-            itemView.left + dX.toInt() + BACKGROUND_CORNER_OFFSET,
-            itemView.bottom
+        val recF = RectF(
+            itemView.left.toFloat(),
+            itemView.top.toFloat(),
+            (itemView.left + dX.toInt() + BACKGROUND_CORNER_OFFSET).toFloat(),
+            itemView.bottom.toFloat()
         )
-        background.draw(canvas)
+        canvas.drawRoundRect(recF, radius, radius, backgroundPaint)
 
         // Draw left icon
         val itemHeight = itemView.height
