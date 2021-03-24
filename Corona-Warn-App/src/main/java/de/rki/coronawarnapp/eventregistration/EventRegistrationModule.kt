@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.eventregistration
 import dagger.Binds
 import dagger.Module
 import de.rki.coronawarnapp.environment.eventregistration.createtracelocation.CreateTraceLocationModule
+import de.rki.coronawarnapp.environment.eventregistration.qrcodeposter.QrCodePosterTemplateModule
 import de.rki.coronawarnapp.eventregistration.checkins.download.DownloadedCheckInsRepo
 import de.rki.coronawarnapp.eventregistration.checkins.download.FakeDownloadedCheckInsRepo
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
@@ -10,7 +11,8 @@ import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationReposito
 
 @Module(
     includes = [
-        CreateTraceLocationModule::class
+        CreateTraceLocationModule::class,
+        QrCodePosterTemplateModule::class
     ]
 )
 abstract class EventRegistrationModule {
