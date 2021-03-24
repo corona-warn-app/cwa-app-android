@@ -60,7 +60,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             itemAnimator = DefaultItemAnimator()
             onSwipeItem(
                 context = requireContext(),
-                excludedPositions = listOf(0)
+                excludedPositions = listOf() // TODO exclude items from swiping such as Camera permission item
             ) { position, _ ->
                 showRemovalConfirmation(checkInsAdapter.data[position].checkin)
             }
