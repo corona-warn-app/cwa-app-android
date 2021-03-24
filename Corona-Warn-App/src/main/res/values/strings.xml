@@ -1949,4 +1949,11 @@
     <string name="generic_action_abort">Cancel</string>
     <!-- XACT: Button/Dialog label to remove something-->
     <string name="generic_action_remove">Remove</string>
+
+    <!--  XHED: Trace location check-ins camera permission card title-->
+    <string name="trace_location_attendee_camera_card_title">Zugriff auf Kamera erlauben Typography</string>
+    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
+    <string name="trace_location_attendee_camera_card_subtitle">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräte-Einstellungen zur App zulassen.</string>
+    <!--  XBUT: Trace location check-ins camera permission card button-->
+    <string name="trace_location_attendee_camera_card_button">Einstellungen öffnen</string>
 </resources>
