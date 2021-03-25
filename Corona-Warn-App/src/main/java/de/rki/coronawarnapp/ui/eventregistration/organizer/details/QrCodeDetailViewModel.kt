@@ -48,6 +48,9 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         routeToScreen.postValue(QrCodeDetailNavigationEvents.NavigateBack)
     }
 
+    /* QR CODE GENERATION WILL BE OUTSOURCED TO A COMPONENT IN A DIFFERENT PR
+    -> includes encodeAsBitmap() and BitMatrix.toBitmap() */
+
     private suspend fun encodeAsBitmap(input: String, size: Int = 1000): Bitmap? {
         return try {
             val qrCodeErrorCorrectionLevel = appConfigProvider
