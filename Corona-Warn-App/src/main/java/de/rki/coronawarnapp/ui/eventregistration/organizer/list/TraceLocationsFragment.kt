@@ -9,7 +9,6 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.util.DialogHelper
