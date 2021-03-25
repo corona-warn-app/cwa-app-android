@@ -88,7 +88,7 @@ class CheckInsTransformer @Inject constructor(
         // Find transmissionRiskValue for matched transmissionRiskLevel - default 0.0 if no match
         val transmissionRiskValue = transmissionRiskValueMappings.find {
             it.transmissionRiskLevel == transmissionRiskLevel
-        }?.transmissionRiskValue ?: 0.0
+        }?.transmissionRiskValue //?: 0.0
 
         // Exclude check-in with
         if (transmissionRiskValue == 0.0) {
