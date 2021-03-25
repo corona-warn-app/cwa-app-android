@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.confirm
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -24,7 +25,8 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, savedState ->
             factory as ConfirmCheckInViewModel.Factory
-            factory.create(navArgs.verifiedTraceLocation)
+            val editId = if (navArgs.editCheckInId == 0L) null else navArgs.editCheckInId
+            factory.create(navArgs.verifiedTraceLocation, editId)
         }
     )
     private val binding: FragmentConfirmCheckInBinding by viewBindingLazy()
@@ -37,11 +39,17 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             confirmButton.setOnClickListener { viewModel.onConfirmTraceLocation() }
             // TODO bind final UI
-            val traceLocation = args.verifiedTraceLocation.traceLocation
-            eventGuid.text = "GUID: %s".format(traceLocation.guid)
-            startTime.text = "Start time: %s".format(traceLocation.startDate)
-            endTime.text = "End time: %s".format(traceLocation.endDate)
-            description.text = "Description: %s".format(traceLocation.description)
+            args.verifiedTraceLocation?.let {
+                val traceLocation = it.traceLocation
+                eventGuid.text = "GUID: %s".format(traceLocation.guid)
+                startTime.text = "Start time: %s".format(traceLocation.startDate)
+                endTime.text = "End time: %s".format(traceLocation.endDate)
+                description.text = "Description: %s".format(traceLocation.description)
+            }
+
+            if (navArgs.editCheckInId != 0L) {
+                Toast.makeText(requireContext(), "EDIT CHECKIN MODE", Toast.LENGTH_SHORT).show()
+            }
         }
 
         viewModel.events.observe2(this) { navEvent ->
