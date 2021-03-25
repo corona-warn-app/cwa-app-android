@@ -133,6 +133,7 @@
 
     <dimen name="bullet_point_size_contact_diary">8dp</dimen>
     <dimen name="bullet_point_spacing_after_contact_diary">10dp</dimen>
+    <dimen name="bullet_point_baseline_offset_contact_diary">9dp</dimen>
 
     <dimen name="no_padding">0dp</dimen>
 
