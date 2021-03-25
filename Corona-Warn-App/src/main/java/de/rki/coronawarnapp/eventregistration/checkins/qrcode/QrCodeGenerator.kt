@@ -62,5 +62,4 @@ class QrCodeGenerator @Inject constructor(
         }
         return bitmap
     }
-
 }
