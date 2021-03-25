@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.TimeStamper
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Days
 import org.joda.time.Instant
 import timber.log.Timber
@@ -88,7 +89,7 @@ class CheckInsTransformer @Inject constructor(
         // Find transmissionRiskValue for matched transmissionRiskLevel - default 0.0 if no match
         val transmissionRiskValue = transmissionRiskValueMappings.find {
             it.transmissionRiskLevel == transmissionRiskLevel
-        }?.transmissionRiskValue //?: 0.0
+        }?.transmissionRiskValue ?: 0.0
 
         // Exclude check-in with
         if (transmissionRiskValue == 0.0) {
