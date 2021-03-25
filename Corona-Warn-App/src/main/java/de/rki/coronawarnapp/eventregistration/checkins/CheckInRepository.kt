@@ -57,4 +57,3 @@ class CheckInRepository @Inject constructor(
         return checkIn.toCheckIn()
     }
 }
-

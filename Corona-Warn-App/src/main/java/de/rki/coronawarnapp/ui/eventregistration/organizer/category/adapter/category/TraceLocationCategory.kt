@@ -114,4 +114,3 @@ fun mapTraceLocationToTitleRes(type: Int): Int {
     val category = traceLocationCategories.find { it.type.ordinal == type }
     return category?.title ?: R.string.tracelocation_organizer_category_other_location_title
 }
-

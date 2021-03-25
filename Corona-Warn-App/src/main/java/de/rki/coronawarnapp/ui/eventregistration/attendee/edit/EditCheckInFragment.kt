@@ -146,7 +146,9 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
     ) {
         MaterialTimePicker
             .Builder()
-            .setTimeFormat(if (DateFormat.is24HourFormat(requireContext())) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H)
+            .setTimeFormat(
+                if (DateFormat.is24HourFormat(requireContext())) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+            )
             .apply {
                 if (defaultValue != null) {
                     setHour(defaultValue.hourOfDay)
