@@ -60,7 +60,7 @@ private class SwipeCallback(
     private val iconMargin = context.resources.getDimensionPixelSize(R.dimen.swipe_icon_margin)
     private val radius = context.resources.getDimensionPixelSize(R.dimen.radius_card).toFloat()
     private val backgroundPaint = Paint().apply {
-        color = context.getColorCompat(R.color.swipeBackgroundColor)
+        color = context.getColorCompat(R.color.swipeDeleteBackgroundColor)
     }
 
     private val clearPaint = Paint().apply {
