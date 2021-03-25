@@ -1,11 +1,5 @@
 package de.rki.coronawarnapp.util
 
-import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
-import android.graphics.RectF
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -13,17 +7,12 @@ import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.util.Patterns
-import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.text.util.LinkifyCompat
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import kotlin.math.max
-import kotlin.math.min
 
 fun TextView.convertToHyperlink(url: String) {
     setText(
