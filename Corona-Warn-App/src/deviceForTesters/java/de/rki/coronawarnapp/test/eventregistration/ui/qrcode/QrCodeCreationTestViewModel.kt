@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color.BLACK
 import android.graphics.Color.WHITE
-import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfDocument
 import android.view.View
+import com.google.protobuf.ByteString
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
@@ -36,7 +36,7 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
     val errorMessage = SingleLiveEvent<String>()
     val sharingIntent = SingleLiveEvent<FileSharing.FileIntentProvider>()
-    val qrCodePosterTemplate = SingleLiveEvent<Drawable>()
+    val qrCodePosterTemplate = SingleLiveEvent<ByteString>()
 
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
@@ -132,11 +132,7 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
     fun downloadQrCodePosterTemplate() {
         launch {
             val posterTemplate = posterTemplateServer.downloadQrCodePosterTemplate()
-            Timber.d("Received poster template: %s", posterTemplate)
-
-            // TODO: Convert posterTemplate.template to drawable
-
-            // qrCodePosterTemplate.postValue(vd)
+            qrCodePosterTemplate.postValue(posterTemplate.template)
         }
     }
 
