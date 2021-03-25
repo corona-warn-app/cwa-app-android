@@ -1346,6 +1346,8 @@
     <string name="submission_status_card_body_failed">"Ihr Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neuen Test hinzufügen."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"Warnen Sie Ihre Mitmenschen, wenn Sie positiv auf Corona getestet wurden."</string>
+    <!-- YTXT: Button text for submission status fetch ready -->
+    <string name="submission_status_card_retrieve_test_result">"Testergebnis abrufen"</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Nächste Schritte"</string>
     <!-- XBUT: submission status card show results button -->
