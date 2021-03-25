@@ -8,6 +8,7 @@ interface ContactDiaryLocation : HasStableId {
     var locationName: String
     val phoneNumber: String?
     val emailAddress: String?
+    val traceLocationGUID: String?
 }
 
 fun List<ContactDiaryLocation>.sortByNameAndIdASC(): List<ContactDiaryLocation> =

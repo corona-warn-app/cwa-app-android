@@ -14,7 +14,8 @@ data class ContactDiaryLocationEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "locationId") override val locationId: Long = 0L,
     @ColumnInfo(name = "locationName") override var locationName: String,
     override val phoneNumber: String?,
-    override val emailAddress: String?
+    override val emailAddress: String?,
+    @ColumnInfo(name = "traceLocationGUID") override val traceLocationGUID: String?
 ) : ContactDiaryLocation, Parcelable {
     override val stableId: Long
         get() = locationId
@@ -28,5 +29,6 @@ fun ContactDiaryLocation.toContactDiaryLocationEntity(): ContactDiaryLocationEnt
         locationId = this.locationId,
         locationName = this.locationName.trimMaxCharacters(),
         phoneNumber = this.phoneNumber?.trimMaxCharacters(),
-        emailAddress = this.emailAddress?.trimMaxCharacters()
+        emailAddress = this.emailAddress?.trimMaxCharacters(),
+        traceLocationGUID = this.traceLocationGUID
     )

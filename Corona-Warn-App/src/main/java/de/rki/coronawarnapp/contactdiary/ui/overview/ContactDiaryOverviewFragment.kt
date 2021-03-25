@@ -8,7 +8,6 @@ import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewAdapter
-import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -31,16 +30,9 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
 
         val adapter = DiaryOverviewAdapter()
 
-        binding.contactDiaryOverviewRecyclerview.apply {
-            this.adapter = adapter
-            addItemDecoration(
-                MarginRecyclerViewDecoration(
-                    resources.getDimensionPixelSize(R.dimen.list_item_decoration_card_margins)
-                )
-            )
-        }
-
         binding.apply {
+            contactDiaryOverviewRecyclerview.adapter = adapter
+
             setupMenu(toolbar)
             toolbar.setNavigationOnClickListener {
                 vm.onBackButtonPress()

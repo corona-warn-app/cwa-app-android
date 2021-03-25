@@ -59,7 +59,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val personEncountersFlow = contactDiaryRepository.personEncounters
 
     private val riskLevelPerDateFlow = riskLevelStorage.aggregatedRiskPerDateResults
-    private val traceLocationCheckInRiskFlow = riskLevelStorage.allTraceLocationCheckInRisk
+    private val traceLocationCheckInRiskFlow = riskLevelStorage.traceLocationCheckInRiskStates
 
     val listItems = combine(
         flowOf(dates),
@@ -178,9 +178,6 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     )
 
     private fun Map<ContactDiaryLocationVisit, TraceLocationCheckInRisk?>.toRiskEventItem(): RiskEventItem? {
-
-
-        TODO("Use Bulletspan...")
 
         val highRiskEvent = RiskEventItem.Event(
             name = "Test high risk",
