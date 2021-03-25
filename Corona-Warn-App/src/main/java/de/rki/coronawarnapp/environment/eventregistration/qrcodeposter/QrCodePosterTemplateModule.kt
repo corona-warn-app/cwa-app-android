@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.protobuf.ProtoConverterFactory
 import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -46,7 +45,6 @@ class QrCodePosterTemplateModule : BaseEnvironmentModule() {
     fun api(
         @DownloadCDNHttpClient client: OkHttpClient,
         @QrCodePosterTemplate url: String,
-        protoConverterFactory: ProtoConverterFactory,
         @QrCodePosterTemplate cache: Cache
     ): QrCodePosterTemplateApiV1 {
         val httpClient = client.newBuilder().apply {
@@ -56,7 +54,6 @@ class QrCodePosterTemplateModule : BaseEnvironmentModule() {
         return Retrofit.Builder()
             .client(httpClient)
             .baseUrl(url)
-            .addConverterFactory(protoConverterFactory)
             .build()
             .create(QrCodePosterTemplateApiV1::class.java)
     }
