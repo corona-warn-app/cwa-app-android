@@ -7,21 +7,11 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/submission_consent_main_headline_body"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/submission_consent_illustration"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            android:text="@string/submission_consent_main_headline_body"
-            style="@style/subtitle" />
-
-        <TextView
             android:id="@+id/submission_consent_call_test_result"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:layout_constraintTop_toBottomOf="@+id/submission_consent_main_headline_body"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_illustration"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             android:text="@string/submission_consent_call_test_result"
@@ -32,10 +22,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result"
+            app:layout_constraintTop_toBottomOf="@id/submission_consent_call_test_result"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            android:text="@string/submission_consent_call_test_result_body"
+            android:text="@string/submission_consent_main_headline_body"
             style="@style/subtitle" />
 
         <ImageView
