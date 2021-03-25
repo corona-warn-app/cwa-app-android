@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.util
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
@@ -20,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import kotlin.math.max
+import kotlin.math.min
 
 fun TextView.convertToHyperlink(url: String) {
     setText(
@@ -130,6 +134,10 @@ private class SwipeCallback(
         color = context.getColorCompat(R.color.swipeBackgroundColor)
     }
 
+    private val clearPaint = Paint().apply {
+        xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+    }
+
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
@@ -160,7 +168,13 @@ private class SwipeCallback(
             dX < 0 -> onSwipeLeft(itemView, dX, canvas)
 
             // View is unSwiped
-            else -> canvas.drawRect(0f, 0f, 0f, 0f, Paint())
+            else -> canvas.drawRect(
+                itemView.right.toFloat(),
+                itemView.top.toFloat(),
+                itemView.right.toFloat(),
+                itemView.bottom.toFloat(),
+                clearPaint
+            )
         }
     }
 
@@ -175,8 +189,13 @@ private class SwipeCallback(
         canvas: Canvas
     ) {
         // Draw background
-        val recF = RectF(
+        val backgroundWidth = max(
             (itemView.right + dX.toInt() - BACKGROUND_CORNER_OFFSET).toFloat(),
+            itemView.left.toFloat()
+        )
+
+        val recF = RectF(
+            backgroundWidth,
             itemView.top.toFloat(),
             itemView.right.toFloat(),
             itemView.bottom.toFloat()
@@ -202,10 +221,15 @@ private class SwipeCallback(
         canvas: Canvas
     ) {
         // Draw background
+        val backgroundWidth = min(
+            (itemView.left + dX.toInt() + BACKGROUND_CORNER_OFFSET).toFloat(),
+            itemView.right.toFloat()
+        )
+
         val recF = RectF(
             itemView.left.toFloat(),
             itemView.top.toFloat(),
-            (itemView.left + dX.toInt() + BACKGROUND_CORNER_OFFSET).toFloat(),
+            backgroundWidth,
             itemView.bottom.toFloat()
         )
         canvas.drawRoundRect(recF, radius, radius, backgroundPaint)
