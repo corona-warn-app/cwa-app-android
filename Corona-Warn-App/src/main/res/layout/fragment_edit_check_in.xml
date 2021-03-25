@@ -14,7 +14,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_small"
             android:nestedScrollingEnabled="true"
-            app:layout_constraintBottom_toTopOf="@id/confirm_checkin_confirm_button"
+            app:layout_constraintBottom_toTopOf="@id/edit_checkin_confirm_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -74,9 +74,8 @@
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.core.widget.NestedScrollView
-                android:id="@+id/nested_scroll_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:behavior_overlapTop="244dp"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
@@ -86,18 +85,18 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/confirm_checkin_title"
+                        android:id="@+id/edit_checkin_title"
                         style="@style/headline6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_huge"
                         android:layout_marginBottom="@dimen/spacing_normal"
-                        android:text="@string/confirm_checkin_title_text"
+                        android:text="@string/edit_checkin_title_text"
                         android:textColor="@color/colorStableLight" />
 
                     <LinearLayout
-                        android:id="@+id/confirm_checkin_info_card"
+                        android:id="@+id/edit_checkin_info_card"
                         style="@style/Card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -106,14 +105,14 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/confirm_checkin_info_card_header"
+                            android:id="@+id/edit_checkin_info_card_header"
                             style="@style/subtitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="Vereinsaktivität" />
 
                         <TextView
-                            android:id="@+id/confirm_checkin_info_card_title"
+                            android:id="@+id/edit_checkin_info_card_title"
                             style="@style/headline5Bold"
                             android:layout_width="276dp"
                             android:layout_height="wrap_content"
@@ -121,7 +120,7 @@
                             tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
 
                         <TextView
-                            android:id="@+id/confirm_checkin_info_card_address"
+                            android:id="@+id/edit_checkin_info_card_address"
                             style="@style/subtitleMedium"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -130,49 +129,44 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/confirm_checkin_event_in_future_card"
+                        android:id="@+id/edit_checkin_edit_card"
                         style="@style/Card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/spacing_normal"
-                        android:visibility="gone">
-
-                        <TextView
-                            style="@style/body2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/confirm_checkin_event_in_future_card_text" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/confirm_checkin_event_in_past_card"
-                        style="@style/Card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/spacing_normal"
-                        android:visibility="gone">
-
-                        <TextView
-                            style="@style/body2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/confirm_checkin_event_in_past_card_text" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/confirm_checkin_settings_card"
-                        style="@style/Card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/spacing_normal"
-                        android:layout_marginTop="@dimen/spacing_tiny"
                         android:orientation="vertical">
 
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/confirm_checkin_settings_card_checkout_toggle"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/confirm_checkin_settings_card_checkout_toggle_label" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/body2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/edit_checkin_edit_card_checkin_time_label" />
+
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:id="@+id/edit_checkin_edit_card_checkin_date"
+                                style="@style/body2Medium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="Do., 21.01.21" />
+
+                            <TextView
+                                android:id="@+id/edit_checkin_edit_card_checkin_time"
+                                style="@style/body2Medium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_tiny"
+                                tools:text="18:00" />
+                        </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
@@ -189,7 +183,7 @@
                                 style="@style/body2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/confirm_checkin_settings_card_checkout_time_label" />
+                                android:text="@string/edit_checkin_edit_card_checkout_time_label" />
 
                             <Space
                                 android:layout_width="0dp"
@@ -197,13 +191,35 @@
                                 android:layout_weight="1" />
 
                             <TextView
-                                android:id="@+id/confirm_checkin_settings_card_checkout_time"
+                                android:id="@+id/edit_checkin_edit_card_checkout_date"
                                 style="@style/body2Medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="03:00 Std" />
-                        </LinearLayout>
+                                tools:text="Do., 21.01.21" />
 
+                            <TextView
+                                android:id="@+id/edit_checkin_edit_card_checkout_time"
+                                style="@style/body2Medium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_tiny"
+                                tools:text="18:00" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/edit_checkin_duration_edit_hint_card"
+                        style="@style/Card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_tiny">
+
+                        <TextView
+                            style="@style/body2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/edit_checkin_duration_edit_hint_card_text" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -213,14 +229,14 @@
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <android.widget.Button
-            android:id="@+id/confirm_checkin_confirm_button"
+            android:id="@+id/edit_checkin_confirm_button"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_marginBottom="@dimen/spacing_small"
-            android:text="@string/confirm_checkin_confirm_button_text"
+            android:text="@string/edit_checkin_confirm_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

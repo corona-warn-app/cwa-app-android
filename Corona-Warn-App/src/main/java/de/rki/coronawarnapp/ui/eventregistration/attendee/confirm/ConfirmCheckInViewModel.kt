@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.mapTraceLocationToTitleRes
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -120,7 +121,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         val eventInFutureVisible: Boolean
     ) {
         val description get() = traceLocation.description
-        val type get() = traceLocation.type.name
+        val typeRes get() = mapTraceLocationToTitleRes(traceLocation.type)
         val address get() = traceLocation.address
         val checkInEnd get() = checkInEndOffset.toReadableDuration(suffix = "Std")
     }

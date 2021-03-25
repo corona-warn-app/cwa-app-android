@@ -107,13 +107,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     showRemovalConfirmation(null)
                 }
                 is CheckInEvent.EditCheckIn -> {
-                    // Add navigation to edit fragment
-/*                    doNavigate(
-                        CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
-                            verifiedTraceLocation = null,
+                    doNavigate(
+                        CheckInsFragmentDirections.actionCheckInsFragmentToEditCheckInFragment(
                             editCheckInId = it.checkInId,
                         )
-                    )*/
+                    )
                 }
                 is CheckInEvent.ShowInformation -> {
                     Toast.makeText(requireContext(), "TODO ¯\\_(ツ)_/¯", Toast.LENGTH_SHORT).show()

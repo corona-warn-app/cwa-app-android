@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import org.joda.time.Duration
 import javax.inject.Inject
 
 class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), AutoInject {
@@ -61,7 +62,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
 
         viewModel.uiState.observe2(this) { uiState ->
             with(binding) {
-                confirmCheckinInfoCardHeader.text = uiState.type
+                confirmCheckinInfoCardHeader.text = getString(uiState.typeRes)
                 confirmCheckinInfoCardTitle.text = uiState.description
                 confirmCheckinInfoCardAddress.text = uiState.address
                 confirmCheckinSettingsCardCheckoutToggle.isChecked = uiState.createJournalEntry
@@ -73,15 +74,26 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
         }
 
         viewModel.openDatePickerEvent.observe2(this) { time ->
-            val durationPicker = DurationPicker.Builder()
-                .duration(time)
-                .minutes()
-                .title(getString(R.string.duration_dialog_title))
-                .build()
-            durationPicker.show(parentFragmentManager, "DurationPicker")
-            durationPicker.setDurationChangeListener { duration ->
-                viewModel.durationUpdated(duration)
+            showDurationPicker(time) {
+                viewModel.durationUpdated(it)
             }
         }
+    }
+
+    private fun showDurationPicker(
+        defaultValue: String?,
+        callback: (Duration) -> Unit
+    ) {
+        val durationPicker = DurationPicker.Builder()
+            .duration(defaultValue ?: "00:00")
+            .minutes()
+            .title(getString(R.string.duration_dialog_title))
+            .build()
+        durationPicker.show(parentFragmentManager, DURATION_PICKER_TAG)
+        durationPicker.setDurationChangeListener(callback)
+    }
+
+    companion object {
+        private const val DURATION_PICKER_TAG = "duration_picker"
     }
 }
