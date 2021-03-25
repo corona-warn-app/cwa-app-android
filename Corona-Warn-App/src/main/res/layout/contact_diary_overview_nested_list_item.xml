@@ -34,7 +34,7 @@
         android:ellipsize="end"
         android:focusable="true"
         android:maxLines="3"
-        app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_element_image"
+        app:layout_constraintBottom_toTopOf="@+id/contact_diary_overview_element_attributes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_element_image"
         app:layout_constraintTop_toTopOf="@+id/contact_diary_overview_element_image"
@@ -45,10 +45,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:maxLines="3"
-        android:text="unter 15 Min, im Freien"
+        app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_element_image"
         app:layout_constraintEnd_toEndOf="@+id/contact_diary_overview_element_name"
         app:layout_constraintStart_toStartOf="@+id/contact_diary_overview_element_name"
-        app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_element_name" />
+        app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_element_name"
+        tools:text="unter 15 Min, im Freien" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

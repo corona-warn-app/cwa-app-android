@@ -37,7 +37,11 @@ interface RiskLevelStorage {
      */
     val aggregatedRiskPerDateResults: Flow<List<AggregatedRiskPerDateResult>>
 
-    val allTraceLocationCheckInRisk: Flow<List<TraceLocationCheckInRisk>>
+    /**
+     * Risk level per date/day and checkIn
+     * Used by contact diary overview
+     */
+    val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>>
 
     suspend fun deleteAggregatedRiskPerDateResults(results: List<AggregatedRiskPerDateResult>)
 

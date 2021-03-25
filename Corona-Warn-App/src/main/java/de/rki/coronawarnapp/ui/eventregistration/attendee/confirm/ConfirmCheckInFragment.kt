@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.confirm
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -11,14 +12,23 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), AutoInject {
 
+    private val navArgs by navArgs<ConfirmCheckInFragmentArgs>()
+
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val viewModel: ConfirmCheckInViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: ConfirmCheckInViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, savedState ->
+            factory as ConfirmCheckInViewModel.Factory
+            val editId = if (navArgs.editCheckInId == 0L) null else navArgs.editCheckInId
+            factory.create(navArgs.verifiedTraceLocation, editId)
+        }
+    )
     private val binding: FragmentConfirmCheckInBinding by viewBindingLazy()
     private val args by navArgs<ConfirmCheckInFragmentArgs>()
 
@@ -29,10 +39,17 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             confirmButton.setOnClickListener { viewModel.onConfirmTraceLocation() }
             // TODO bind final UI
-            eventGuid.text = "GUID: %s".format(args.traceLocation.guid)
-            startTime.text = "Start time: %s".format(args.traceLocation.start)
-            endTime.text = "End time: %s".format(args.traceLocation.end)
-            description.text = "Description: %s".format(args.traceLocation.description)
+            args.verifiedTraceLocation?.let {
+                val traceLocation = it.traceLocation
+                eventGuid.text = "GUID: %s".format(traceLocation.guid)
+                startTime.text = "Start time: %s".format(traceLocation.startDate)
+                endTime.text = "End time: %s".format(traceLocation.endDate)
+                description.text = "Description: %s".format(traceLocation.description)
+            }
+
+            if (navArgs.editCheckInId != 0L) {
+                Toast.makeText(requireContext(), "EDIT CHECKIN MODE", Toast.LENGTH_SHORT).show()
+            }
         }
 
         viewModel.events.observe2(this) { navEvent ->

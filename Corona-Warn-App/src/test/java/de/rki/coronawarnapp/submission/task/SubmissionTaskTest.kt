@@ -4,6 +4,8 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -59,6 +61,8 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var appConfigData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var checkInsTransformer: CheckInsTransformer
+    @MockK lateinit var checkInRepository: CheckInRepository
 
     private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
 
@@ -109,6 +113,10 @@ class SubmissionTaskTest : BaseTest() {
         every { autoSubmission.updateMode(any()) } just Runs
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
+
+        every { checkInRepository.allCheckIns } returns flowOf(emptyList())
+        coEvery { checkInRepository.clear() } just Runs
+        coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
     private fun createTask() = SubmissionTask(
@@ -121,7 +129,9 @@ class SubmissionTaskTest : BaseTest() {
         timeStamper = timeStamper,
         autoSubmission = autoSubmission,
         testResultAvailableNotificationService = testResultAvailableNotificationService,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        checkInsRepository = checkInRepository,
+        checkInsTransformer = checkInsTransformer
     )
 
     @Test
@@ -149,14 +159,17 @@ class SubmissionTaskTest : BaseTest() {
             settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
+            checkInRepository.allCheckIns
+            checkInsTransformer.transform(any(), any())
 
             appConfigProvider.getAppConfig()
             playbook.submit(
                 Playbook.SubmissionData(
-                    "regtoken",
-                    listOf(transformedKey),
-                    true,
-                    listOf("NL")
+                    registrationToken = "regtoken",
+                    temporaryExposureKeys = listOf(transformedKey),
+                    consentToFederation = true,
+                    visitedCountries = listOf("NL"),
+                    checkIns = emptyList()
                 )
             )
 
@@ -164,6 +177,7 @@ class SubmissionTaskTest : BaseTest() {
             analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
             tekHistoryStorage.clear()
+            checkInRepository.clear()
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 
@@ -213,15 +227,17 @@ class SubmissionTaskTest : BaseTest() {
             appConfigProvider.getAppConfig()
             playbook.submit(
                 Playbook.SubmissionData(
-                    "regtoken",
-                    listOf(transformedKey),
-                    true,
-                    listOf("NL")
+                    registrationToken = "regtoken",
+                    temporaryExposureKeys = listOf(transformedKey),
+                    consentToFederation = true,
+                    visitedCountries = listOf("NL"),
+                    checkIns = emptyList()
                 )
             )
         }
         coVerify(exactly = 0) {
             tekHistoryStorage.clear()
+            checkInRepository.clear()
             settingSymptomsPreference.update(any())
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             autoSubmission.updateMode(any())
@@ -250,10 +266,11 @@ class SubmissionTaskTest : BaseTest() {
         coVerifySequence {
             playbook.submit(
                 Playbook.SubmissionData(
-                    "regtoken",
-                    listOf(transformedKey),
-                    true,
-                    listOf("DE")
+                    registrationToken = "regtoken",
+                    temporaryExposureKeys = listOf(transformedKey),
+                    consentToFederation = true,
+                    visitedCountries = listOf("DE"),
+                    checkIns = emptyList()
                 )
             )
         }

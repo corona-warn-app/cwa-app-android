@@ -128,13 +128,15 @@ abstract class BaseRiskLevelStorage constructor(
     override val aggregatedRiskPerDateResults: Flow<List<AggregatedRiskPerDateResult>> by lazy {
         aggregatedRiskPerDateResultTables.allEntries()
             .map {
-                it.map {
-                        persistedAggregatedRiskPerDateResult ->
+                it.map { persistedAggregatedRiskPerDateResult ->
                     persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult()
                 }
             }
             .shareLatest(tag = TAG, scope = scope)
     }
+
+    override val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>>
+        get() = flowOf(emptyList<TraceLocationCheckInRisk>()) // TODO("Not yet implemented")
 
     private suspend fun insertAggregatedRiskPerDateResults(
         aggregatedRiskPerDateResults: List<AggregatedRiskPerDateResult>
@@ -159,8 +161,6 @@ abstract class BaseRiskLevelStorage constructor(
             Timber.e(e, "Failed to delete risk level per date results")
         }
     }
-
-    override val allTraceLocationCheckInRisk: Flow<List<TraceLocationCheckInRisk>> = flowOf(emptyList())
 
     internal abstract suspend fun storeExposureWindows(storedResultId: String, result: RiskLevelResult)
 

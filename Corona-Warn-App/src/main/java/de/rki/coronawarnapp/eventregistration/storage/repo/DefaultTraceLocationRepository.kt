@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.storage.repo
 
-import de.rki.coronawarnapp.eventregistration.events.TraceLocation
-import de.rki.coronawarnapp.eventregistration.events.toTraceLocations
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocations
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.toTraceLocationEntity
@@ -31,18 +31,18 @@ class DefaultTraceLocationRepository @Inject constructor(
     override val allTraceLocations: Flow<List<TraceLocation>>
         get() = traceLocationDao.allEntries().map { it.toTraceLocations() }
 
-    override fun addTraceLocation(event: TraceLocation) {
+    override fun addTraceLocation(traceLocation: TraceLocation) {
         appScope.launch {
-            Timber.d("Add hosted event: $event")
-            val eventEntity = event.toTraceLocationEntity()
+            Timber.d("Add hosted event: $traceLocation")
+            val eventEntity = traceLocation.toTraceLocationEntity()
             traceLocationDao.insert(eventEntity)
         }
     }
 
-    override fun deleteTraceLocation(event: TraceLocation) {
+    override fun deleteTraceLocation(traceLocation: TraceLocation) {
         appScope.launch {
-            Timber.d("Delete hosted event: $event")
-            val eventEntity = event.toTraceLocationEntity()
+            Timber.d("Delete hosted event: $traceLocation")
+            val eventEntity = traceLocation.toTraceLocationEntity()
             traceLocationDao.delete(eventEntity)
         }
     }
