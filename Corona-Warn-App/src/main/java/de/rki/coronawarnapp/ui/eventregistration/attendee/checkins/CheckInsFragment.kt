@@ -164,6 +164,14 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     )
                 }
             }
+
+            setOnCancelListener {
+                position?.let {
+                    checkInsAdapter.notifyItemChanged(
+                        position
+                    )
+                }
+            }
         }.show()
 
     private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
