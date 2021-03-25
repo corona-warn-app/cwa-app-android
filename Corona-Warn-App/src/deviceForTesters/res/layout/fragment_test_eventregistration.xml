@@ -158,6 +158,26 @@
                 app:layout_constraintStart_toStartOf="@id/create_event_button"
                 app:layout_constraintTop_toBottomOf="@id/create_event_button" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/show_organizer_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Show Organizer List"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/start_create_event_flow_button"
+                app:layout_constraintTop_toBottomOf="@id/start_create_event_flow_button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/generate_test_trace_locations"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Generate test trace locations"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/show_organizer_list"
+                app:layout_constraintTop_toBottomOf="@id/show_organizer_list" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

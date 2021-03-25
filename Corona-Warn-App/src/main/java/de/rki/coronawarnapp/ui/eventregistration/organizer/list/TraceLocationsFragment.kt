@@ -9,11 +9,15 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.onScroll
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -40,6 +44,9 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         binding.recyclerView.apply {
             adapter = traceLocationsAdapter
             addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            onScroll {
+                onScrollChange(it)
+            }
         }
 
         binding.toolbar.setOnClickListener {
@@ -54,7 +61,20 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             }
         }
 
-        binding.qrCodeFab.setOnClickListener { /* TODO */ }
+        viewModel.showDeleteSingleDialog.observe2(this) {
+            showDeleteSingleDialog(it)
+        }
+
+        viewModel.createNewTraceLocationEvent.observe2(this) {
+            doNavigate(
+                TraceLocationsFragmentDirections
+                    .actionTraceLocationOrganizerTraceLocationsListFragmentToTraceLocationOrganizerCategoriesFragment()
+            )
+        }
+
+        binding.qrCodeFab.setOnClickListener {
+            viewModel.createNewTraceLocation()
+        }
     }
 
     override fun onResume() {
@@ -92,4 +112,23 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         )
         DialogHelper.showDialog(deleteAllDialog)
     }
+
+    private fun showDeleteSingleDialog(traceLocation: TraceLocation) {
+        val deleteAllDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.trace_location_organiser_list_delete_single_popup_title,
+            R.string.trace_location_organiser_list_delete_single_popup_message,
+            R.string.trace_location_organiser_list_delete_all_popup_positive_button,
+            R.string.trace_location_organiser_list_delete_all_popup_negative_button,
+            positiveButtonFunction = {
+                viewModel.deleteSingleTraceLocation(traceLocation)
+            }
+        )
+        DialogHelper.showDialog(deleteAllDialog)
+    }
+
+    fun onScrollChange(extend: Boolean) =
+        with(binding.qrCodeFab) {
+            if (extend) extend() else shrink()
+        }
 }

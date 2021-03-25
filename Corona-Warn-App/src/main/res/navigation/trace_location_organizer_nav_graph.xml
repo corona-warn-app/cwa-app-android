@@ -22,6 +22,19 @@
         <argument
             android:name="category"
             app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory" />
+        <action
+            android:id="@+id/action_traceLocationCreateFragment_to_traceLocationOrganizerTraceLocationsListFragment"
+            app:destination="@id/traceLocationOrganizerTraceLocationsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/traceLocationOrganizerTraceLocationsListFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragment"
+        android:label="TraceLocationCategoryFragment"
+        tools:layout="@layout/trace_location_organizer_trace_locations_list_fragment">
+
+        <action
+            android:id="@+id/action_traceLocationOrganizerTraceLocationsListFragment_to_traceLocationOrganizerCategoriesFragment"
+            app:destination="@id/traceLocationOrganizerCategoriesFragment" />
     </fragment>
 
 </navigation>

@@ -47,9 +47,6 @@
             android:id="@+id/action_test_menu_fragment_to_deltaonboardingFragment"
             app:destination="@id/test_deltaonboarding_fragment" />
         <action
-            android:id="@+id/action_test_menu_fragment_to_test_orginser_qr_codes_list_fragment"
-            app:destination="@id/test_orginser_qr_codes_list_fragment" />
-        <action
             android:id="@+id/action_test_menu_fragment_to_eventRegistrationTestFragment"
             app:destination="@id/eventRegistrationTestFragment" />
     </fragment>
@@ -147,6 +144,9 @@
         <action
             android:id="@+id/action_eventRegistrationTestFragment_to_ShowStoredEventsTestFragment"
             app:destination="@id/showStoredEventsTestFragment" />
+        <action
+            android:id="@+id/action_eventRegistrationTestFragment_to_traceLocationOrganizerTraceLocationsListFragment"
+            app:destination="@id/traceLocationOrganizerTraceLocationsListFragment" />
     </fragment>
 
     <fragment
@@ -181,6 +181,16 @@
             app:destination="@id/traceLocationCreateFragment" />
     </fragment>
     <fragment
+        android:id="@+id/traceLocationOrganizerTraceLocationsListFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragment"
+        android:label="TraceLocationCategoryFragment"
+        tools:layout="@layout/trace_location_organizer_trace_locations_list_fragment">
+
+        <action
+            android:id="@+id/action_traceLocationOrganizerTraceLocationsListFragment_to_traceLocationOrganizerCategoriesFragment"
+            app:destination="@id/traceLocationOrganizerCategoriesFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/traceLocationCreateFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragment"
         android:label="trace_location_create_fragment"
@@ -189,11 +199,5 @@
             android:name="category"
             app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory" />
     </fragment>
-
-    <fragment
-        android:id="@+id/test_orginser_qr_codes_list_fragment"
-        android:name="de.rki.coronawarnapp.test.organiser.ui.TestTraceLocationsFragment"
-        android:label="OrganiserQrCodesListTestFragment"
-        tools:layout="@layout/trace_location_organizer_trace_locations_list_fragment" />
 
 </navigation>

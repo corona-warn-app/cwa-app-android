@@ -40,8 +40,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/menu_action"
-        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/menu_action"
+        app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
 
@@ -100,7 +100,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_barrier"
+        app:layout_constraintTop_toBottomOf="@id/button_barrier"
         app:strokeColor="@color/colorAccent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

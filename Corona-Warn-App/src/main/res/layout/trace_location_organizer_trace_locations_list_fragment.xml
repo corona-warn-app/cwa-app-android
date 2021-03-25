@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:focusable="true">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/CWAToolbar.BackArrow"
         android:layout_width="0dp"
@@ -64,7 +64,7 @@
         app:layout_constraintBottom_toTopOf="@id/qr_codes_list_no_items_subtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qr_codes__list_no_items_image" />
+        app:layout_constraintTop_toBottomOf="@id/qr_codes__list_no_items_image" />
 
     <TextView
         android:id="@+id/qr_codes_list_no_items_subtitle"
@@ -78,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qr_codes_list_no_items_title" />
+        app:layout_constraintTop_toBottomOf="@id/qr_codes_list_no_items_title" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/qr_code_fab"

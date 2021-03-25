@@ -152,6 +152,11 @@
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
     <string name="trace_location_organizer_list_menu_remove_all_btn">"Alle entfernen"</string>
 
+    <!-- XHED:  Event organiser qr codes list: delete single popup title -->
+    <string name="trace_location_organiser_list_delete_single_popup_title">"Wollen Sie den QR-Code wirklich entfernen?"</string>
+    <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
+    <string name="trace_location_organiser_list_delete_single_popup_message">"Bitte denken Sie daran, dass der QR-Code “Jahrestreffen der deutschen SAP Anwendergruppe” danach nicht mehr zum Einchecken verwendet werden kann."</string>
+
     <!-- XHED:  Event organiser qr codes list: delete all popup title -->
     <string name="trace_location_organiser_list_delete_all_popup_title">"Wollen Sie wirklich alle QR-Codes entfernen?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete all popup message -->
