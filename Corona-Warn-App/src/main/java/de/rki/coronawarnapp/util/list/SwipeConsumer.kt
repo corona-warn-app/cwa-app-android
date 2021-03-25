@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util
+package de.rki.coronawarnapp.util.list
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView

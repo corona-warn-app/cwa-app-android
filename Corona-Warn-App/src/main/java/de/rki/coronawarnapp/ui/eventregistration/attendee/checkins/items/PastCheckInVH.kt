@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemPastBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.util.SwipeConsumer
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.util.list.SwipeConsumer
 import org.joda.time.format.DateTimeFormat
 
 class PastCheckInVH(parent: ViewGroup) :

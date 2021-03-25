@@ -24,12 +24,12 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.isSwipeable
+import de.rki.coronawarnapp.util.list.isSwipeable
+import de.rki.coronawarnapp.util.list.onSwipeItem
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.tryHumanReadableError
-import de.rki.coronawarnapp.util.onSwipeItem
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -172,6 +172,14 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 viewModel.onRemoveCheckInConfirmed(checkIn)
             }
             setNegativeButton(R.string.generic_action_abort) { _, _ ->
+                position?.let {
+                    checkInsAdapter.notifyItemChanged(
+                        position
+                    )
+                }
+            }
+
+            setOnCancelListener {
                 position?.let {
                     checkInsAdapter.notifyItemChanged(
                         position

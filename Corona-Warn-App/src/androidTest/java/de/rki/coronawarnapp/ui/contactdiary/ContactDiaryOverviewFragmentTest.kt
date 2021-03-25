@@ -25,10 +25,12 @@ import io.mockk.spyk
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchInMainActivity
@@ -46,6 +48,9 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
     @MockK lateinit var exporter: ContactDiaryExporter
 
     private lateinit var viewModel: ContactDiaryOverviewViewModel
+
+    @get:Rule
+    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {
