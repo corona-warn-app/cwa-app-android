@@ -72,7 +72,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                     val normalizedTimePerCheckInDayList =
                         presenceTracingRiskCalculator.calculateNormalizedTime(checkInOverlaps)
                     val riskStates =
-                        presenceTracingRiskCalculator.calculateRisk(normalizedTimePerCheckInDayList)
+                        presenceTracingRiskCalculator.calculateCheckInRiskPerDay(normalizedTimePerCheckInDayList)
 
                     if (riskStates.size < 100) {
                         val text = riskStates.fold(StringBuilder()) { stringBuilder, checkInRiskPerDay ->

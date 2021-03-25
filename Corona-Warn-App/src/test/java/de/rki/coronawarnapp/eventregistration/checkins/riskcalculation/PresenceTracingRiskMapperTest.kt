@@ -73,7 +73,9 @@ class PresenceTracingRiskMapperTest : BaseTest() {
     @Test
     fun `lookupRiskStatePerDay returns correct value `() {
         runBlockingTest {
-            createInstance().lookupRiskStatePerDay(15.0) shouldBe RiskState.LOW_RISK
+            createInstance().lookupRiskStatePerDay(30.0) shouldBe RiskState.LOW_RISK
+            createInstance().lookupRiskStatePerDay(30.1) shouldBe RiskState.INCREASED_RISK
+            createInstance().lookupRiskStatePerDay(0.0) shouldBe RiskState.LOW_RISK
             createInstance().lookupRiskStatePerDay(60.0) shouldBe RiskState.INCREASED_RISK
         }
     }
@@ -83,6 +85,18 @@ class PresenceTracingRiskMapperTest : BaseTest() {
         runBlockingTest {
             createInstance().lookupRiskStatePerCheckIn(30.0) shouldBe RiskState.LOW_RISK
             createInstance().lookupRiskStatePerCheckIn(30.1) shouldBe RiskState.INCREASED_RISK
+            createInstance().lookupRiskStatePerCheckIn(0.0) shouldBe RiskState.LOW_RISK
+            createInstance().lookupRiskStatePerCheckIn(100.1) shouldBe RiskState.INCREASED_RISK
+        }
+    }
+
+    @Test
+    fun `out of range returns failed calculation `() {
+        runBlockingTest {
+            createInstance().lookupRiskStatePerDay(10000.0) shouldBe RiskState.CALCULATION_FAILED
+            createInstance().lookupRiskStatePerCheckIn(100000.1) shouldBe RiskState.CALCULATION_FAILED
+            createInstance().lookupRiskStatePerDay(-1.0) shouldBe RiskState.CALCULATION_FAILED
+            createInstance().lookupRiskStatePerCheckIn(-1.0) shouldBe RiskState.CALCULATION_FAILED
         }
     }
 

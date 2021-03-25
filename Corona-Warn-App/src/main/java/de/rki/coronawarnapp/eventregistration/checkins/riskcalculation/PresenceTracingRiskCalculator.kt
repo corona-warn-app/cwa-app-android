@@ -25,7 +25,7 @@ class PresenceTracingRiskCalculator @Inject constructor(
         }
     }
 
-    suspend fun calculateRisk(list: List<TraceLocationCheckInNormalizedTime>): List<TraceLocationCheckInRiskPerDay> {
+    suspend fun calculateCheckInRiskPerDay(list: List<TraceLocationCheckInNormalizedTime>): List<TraceLocationCheckInRiskPerDay> {
         return list.map {
             TraceLocationCheckInRiskPerDay(
                 checkInId = it.checkInId,

@@ -27,6 +27,9 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
 
         coEvery { presenceTracingRiskMapper.lookupRiskStatePerCheckIn(15.0) } returns RiskState.LOW_RISK
         coEvery { presenceTracingRiskMapper.lookupRiskStatePerCheckIn(31.0) } returns RiskState.INCREASED_RISK
+
+        coEvery { presenceTracingRiskMapper.lookupRiskStatePerCheckIn(10000.0) } returns RiskState.CALCULATION_FAILED
+        coEvery { presenceTracingRiskMapper.lookupRiskStatePerDay(10000.0) } returns RiskState.CALCULATION_FAILED
     }
 
     @Test
@@ -56,7 +59,7 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
     }
 
     @Test
-    fun `calculateRisk works correctly`() {
+    fun `calculateCheckInRiskPerDay works correctly`() {
         val normTime = TraceLocationCheckInNormalizedTime(
             checkInId = 1L,
             localDate = Instant.parse("2021-03-15T05:00:00.000Z").toLocalDate(),
@@ -69,10 +72,40 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
             normalizedTime = 15.0
         )
         runBlockingTest {
-            val result = createInstance().calculateRisk(listOf(normTime, normTime2))
+            val result = createInstance().calculateCheckInRiskPerDay(listOf(normTime, normTime2))
             result.size shouldBe 2
             result.find { it.checkInId == 1L }!!.riskState shouldBe RiskState.INCREASED_RISK
             result.find { it.checkInId == 2L }!!.riskState shouldBe RiskState.LOW_RISK
+        }
+    }
+
+    @Test
+    fun `calculateCheckInRiskPerDay returns calculation failed for value out of range`() {
+        val normTime = TraceLocationCheckInNormalizedTime(
+            checkInId = 1L,
+            localDate = Instant.parse("2021-03-15T05:00:00.000Z").toLocalDate(),
+            normalizedTime = 10000.0
+        )
+
+        runBlockingTest {
+            val result = createInstance().calculateCheckInRiskPerDay(listOf(normTime))
+            result.size shouldBe 1
+            result.find { it.checkInId == 1L }!!.riskState shouldBe RiskState.CALCULATION_FAILED
+        }
+    }
+
+    @Test
+    fun `calculateAggregatedRiskPerDay returns calculation failed for value out of range`() {
+        val normTime = TraceLocationCheckInNormalizedTime(
+            checkInId = 1L,
+            localDate = Instant.parse("2021-03-15T05:00:00.000Z").toLocalDate(),
+            normalizedTime = 10000.0
+        )
+
+        runBlockingTest {
+            val result = createInstance().calculateAggregatedRiskPerDay(listOf(normTime))
+            result.size shouldBe 1
+            result[0].riskState shouldBe RiskState.CALCULATION_FAILED
         }
     }
 
@@ -84,17 +117,17 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
         val normTime = TraceLocationCheckInNormalizedTime(
             checkInId = 1L,
             localDate = localDate,
-            normalizedTime = 31.0
+            normalizedTime = 20.0
         )
 
         val normTime2 = TraceLocationCheckInNormalizedTime(
             checkInId = 2L,
             localDate = localDate,
-            normalizedTime = 15.0
+            normalizedTime = 26.0
         )
 
         val normTime3 = TraceLocationCheckInNormalizedTime(
-            checkInId = 2L,
+            checkInId = 3L,
             localDate = localDate2,
             normalizedTime = 15.0
         )
