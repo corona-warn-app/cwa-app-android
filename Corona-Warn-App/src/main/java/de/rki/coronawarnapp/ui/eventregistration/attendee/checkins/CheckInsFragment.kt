@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
+import android.Manifest.permission.CAMERA
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -20,6 +21,8 @@ import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBin
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.CameraPermissionHelper
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.isSwipeable
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -32,6 +35,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import javax.inject.Inject
 
 class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_fragment), AutoInject {
@@ -43,7 +47,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, savedState ->
             factory as CheckInsViewModel.Factory
-            factory.create(savedState = savedState, deepLink = navArgs.uri)
+            factory.create(
+                savedState = savedState,
+                deepLink = navArgs.uri,
+                permissionDenied = permissionDeniedPermanently()
+            )
         }
     )
     private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBindingLazy()
@@ -187,6 +195,15 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 else -> onOptionsItemSelected(it)
             }
         }
+    }
+
+    private fun permissionDeniedPermanently(): Boolean {
+        val permissionDenied = !CameraPermissionHelper.hasCameraPermission(requireContext()) &&
+            !shouldShowRequestPermissionRationale(CAMERA)
+
+        Timber.d("permissionDenied=$permissionDenied")
+
+        return permissionDenied
     }
 
     companion object {

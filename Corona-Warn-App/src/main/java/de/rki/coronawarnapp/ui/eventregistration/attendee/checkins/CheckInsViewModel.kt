@@ -24,20 +24,20 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     @Assisted private val deepLink: String?,
+    @Assisted private val permissionDenied: Boolean = false,
     dispatcherProvider: DispatcherProvider,
     @AppScope private val appScope: CoroutineScope,
     private val traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier,
     private val qrCodeUriParser: QRCodeUriParser,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
-    cameraPermissionProvider: CameraPermissionProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
@@ -45,11 +45,11 @@ class CheckInsViewModel @AssistedInject constructor(
 
     val checkins: LiveData<List<CheckInsItem>> = combine(
         checkInsRepository.allCheckIns,
-        cameraPermissionProvider.permissionGranted.distinctUntilChanged()
-    ) { checkIns, granted ->
+        flowOf(permissionDenied)
+    ) { checkIns, denied ->
         mutableListOf<CheckInsItem>().apply {
-            // Camera permission
-            if (!granted) {
+            // Camera permission item
+            if (denied) {
                 add(CameraPermissionVH.Item(onOpenSettings = {}))
             }
             // CheckIns items
@@ -152,7 +152,8 @@ class CheckInsViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<CheckInsViewModel> {
         fun create(
             savedState: SavedStateHandle,
-            deepLink: String?
+            deepLink: String?,
+            permissionDenied: Boolean
         ): CheckInsViewModel
     }
 }
