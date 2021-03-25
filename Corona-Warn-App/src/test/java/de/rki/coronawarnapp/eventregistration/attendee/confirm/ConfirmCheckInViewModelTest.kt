@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInNavigation
 import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInViewModel
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -19,6 +20,7 @@ class ConfirmCheckInViewModelTest : BaseTest() {
 
     @MockK lateinit var verifiedTraceLocation: VerifiedTraceLocation
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var timeStamper: TimeStamper
 
     private lateinit var viewModel: ConfirmCheckInViewModel
 
@@ -28,7 +30,7 @@ class ConfirmCheckInViewModelTest : BaseTest() {
         viewModel = ConfirmCheckInViewModel(
             verifiedTraceLocation = verifiedTraceLocation,
             checkInRepository = checkInRepository,
-            editCheckInId = null
+            timeStamper = timeStamper
         )
     }
 
