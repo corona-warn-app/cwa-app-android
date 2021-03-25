@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.eventregistration.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.v2
+.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
@@ -61,28 +63,48 @@ class CheckInsTransformer @Inject constructor(
                     checkInStart = derivedTimes.startTimeSeconds.secondsToInstant(),
                     checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
                 )
-                derivedCheckIn.splitByMidnightUTC().map { checkIn ->
+                derivedCheckIn.splitByMidnightUTC().mapNotNull { checkIn ->
                     checkIn.toOuterCheckIn(transmissionVector)
                 }
             }
         }
     }
 
-    private fun CheckIn.toOuterCheckIn(
+    private suspend fun CheckIn.toOuterCheckIn(
         transmissionVector: TransmissionRiskVector
-    ): CheckInOuterClass.CheckIn {
+    ): CheckInOuterClass.CheckIn? {
         val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder()
             .setLocation(traceLocationBytes.toProtoByteString())
             .setSignature(signature.toProtoByteString())
             .build()
 
+        val transmissionRiskLevel = determineRiskTransmission(timeStamper.nowUTC, transmissionVector)
+        val transmissionRiskValueMappings: List<TransmissionRiskValueMapping> =
+            appConfigProvider.getAppConfig()
+                .presenceTracing
+                .riskCalculationParameters
+                .transmissionRiskValueMapping
+
+        // Find transmissionRiskValue for matched transmissionRiskLevel - default 0.0 if no match
+        val transmissionRiskValue = transmissionRiskValueMappings.find {
+            it.transmissionRiskLevel == transmissionRiskLevel
+        }?.transmissionRiskValue ?: 0.0
+
+        // Exclude check-in with
+        if (transmissionRiskValue == 0.0) {
+            Timber.d(
+                "CheckIn=%s with TRL=%s is excluded from submission due to TRV=0",
+                this, // Current CheckIn
+                transmissionRiskLevel
+            )
+            return null // Not mapped
+        }
+
         return CheckInOuterClass.CheckIn.newBuilder()
             .setSignedLocation(signedTraceLocation)
             .setStartIntervalNumber(checkInStart.derive10MinutesInterval().toInt())
             .setEndIntervalNumber(checkInEnd.derive10MinutesInterval().toInt())
-            .setTransmissionRiskLevel(
-                determineRiskTransmission(timeStamper.nowUTC, transmissionVector)
-            )
+            .setTransmissionRiskLevel(transmissionRiskLevel)
             .build()
     }
 }

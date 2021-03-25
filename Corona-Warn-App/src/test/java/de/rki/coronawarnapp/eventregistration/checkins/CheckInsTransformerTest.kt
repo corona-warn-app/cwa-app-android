@@ -4,13 +4,16 @@ import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
+import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.v2
 .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
 import de.rki.coronawarnapp.server.protocols.internal.v2
 .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
+import de.rki.coronawarnapp.server.protocols.internal.v2
+.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
@@ -25,12 +28,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.EMPTY
 import okio.ByteString.Companion.decodeBase64
-import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class CheckInsTransformerTest : BaseTest() {
@@ -106,11 +107,11 @@ class CheckInsTransformerTest : BaseTest() {
         createJournalEntry = false
     )
 
-    private val presenceTracingConfig = PresenceTracingSubmissionParamContainer(
+    private val submissionParams = PresenceTracingSubmissionParamContainer(
         durationFilters = listOf(
             DurationFilter.newBuilder()
                 .setDropIfMinutesInRange(
-                    RiskCalculationParametersOuterClass.Range.newBuilder()
+                    Range.newBuilder()
                         .setMin(0.0)
                         .setMax(10.0)
                         .setMaxExclusive(true)
@@ -121,7 +122,7 @@ class CheckInsTransformerTest : BaseTest() {
         aerosoleDecayLinearFunctions = listOf(
             AerosoleDecayFunctionLinear.newBuilder()
                 .setMinutesRange(
-                    RiskCalculationParametersOuterClass.Range.newBuilder()
+                    Range.newBuilder()
                         .setMin(0.0)
                         .setMax(30.0)
                         .build()
@@ -131,7 +132,7 @@ class CheckInsTransformerTest : BaseTest() {
                 .build(),
             AerosoleDecayFunctionLinear.newBuilder()
                 .setMinutesRange(
-                    RiskCalculationParametersOuterClass.Range.newBuilder()
+                    Range.newBuilder()
                         .setMin(30.0)
                         .setMax(9999.0)
                         .setMinExclusive(true)
@@ -143,6 +144,13 @@ class CheckInsTransformerTest : BaseTest() {
         )
     )
 
+    private val transmissionRiskValueMappings: List<TransmissionRiskValueMapping> = listOf(
+        TransmissionRiskValueMapping.newBuilder()
+            .setTransmissionRiskLevel(1)
+            .setTransmissionRiskValue(1.0)
+            .build()
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -151,7 +159,10 @@ class CheckInsTransformerTest : BaseTest() {
         every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDate())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { presenceTracing } returns PresenceTracingConfigContainer(
-                submissionParameters = presenceTracingConfig
+                submissionParameters = submissionParams,
+                riskCalculationParameters = PresenceTracingRiskCalculationParamContainer(
+                    transmissionRiskValueMapping = transmissionRiskValueMappings
+                )
             )
         }
         checkInTransformer = CheckInsTransformer(
