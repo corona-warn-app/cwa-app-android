@@ -63,15 +63,17 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
-            //TODO: do not merge before implementing strings
-            DialogHelper.showDialog(DialogHelper.DialogInstance(
-                requireActivity(),
-                "TODO: implement strings when available",
-                error.localizedMessage,
-                "OK",
-                null,
-                true
-            ))
+            // TODO: do not merge before implementing strings
+            DialogHelper.showDialog(
+                DialogHelper.DialogInstance(
+                    requireActivity(),
+                    "TODO: implement strings when available",
+                    error.localizedMessage,
+                    "OK",
+                    null,
+                    true
+                )
+            )
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
