@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationCreateFragmentBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -51,6 +53,25 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         binding.toolbar.setNavigationOnClickListener {
             it.hideKeyboard()
             popBackStack()
+        }
+
+        viewModel.requestState.observe(viewLifecycleOwner) { state ->
+            binding.progressBar.isVisible = state == ApiRequestState.STARTED
+            if (state == ApiRequestState.SUCCESS) {
+                Toast.makeText(context, "Done! TODO: redirect to another screen", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            //TODO: do not merge before implementing strings
+            DialogHelper.showDialog(DialogHelper.DialogInstance(
+                requireActivity(),
+                "TODO: implement strings when available",
+                error.localizedMessage,
+                "OK",
+                null,
+                true
+            ))
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
@@ -93,6 +114,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
 
         binding.buttonSubmit.setOnClickListener {
+            it.hideKeyboard()
             viewModel.send()
         }
     }
