@@ -114,7 +114,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
                 <ImageView
                     android:id="@+id/qrCodeImage"
                     android:layout_width="0dp"
@@ -162,11 +161,11 @@
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="8dp"
-        android:text="Druckversion anzeigen"
+        android:text="@string/trace_location_event_detail_show_print_qr_code_button"
         app:layout_constraintBottom_toTopOf="@id/qr_code_clone_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="Druckversion anzeigen" />
+        tools:text="@string/trace_location_event_detail_show_print_qr_code_button" />
 
     <Button
         android:id="@+id/qr_code_clone_button"
@@ -176,11 +175,10 @@
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="4dp"
-        android:text="Als Vorlage Speichern"
+        android:text="@string/trace_location_event_detail_save_as_template_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="Als Vorlage Speichern" />
+        tools:text="@string/trace_location_event_detail_save_as_template_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
