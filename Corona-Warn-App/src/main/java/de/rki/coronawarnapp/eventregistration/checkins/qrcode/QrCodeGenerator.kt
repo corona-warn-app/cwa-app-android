@@ -20,30 +20,24 @@ class QrCodeGenerator @Inject constructor(
     @AppContext private val context: Context,
 ) {
 
-    private val errorMessage = SingleLiveEvent<String>()
-
     suspend fun createQrCode(input: String, size: Int = 1000): Bitmap? {
-        return try {
-            val qrCodeErrorCorrectionLevel = appConfigProvider
-                .getAppConfig()
-                .presenceTracing
-                .qrCodeErrorCorrectionLevel
-            Timber.i("QrCodeErrorCorrectionLevel: $qrCodeErrorCorrectionLevel")
-            val hints = mapOf(
-                EncodeHintType.ERROR_CORRECTION to qrCodeErrorCorrectionLevel
-            )
-            MultiFormatWriter().encode(
-                input,
-                BarcodeFormat.QR_CODE,
-                size,
-                size,
-                hints
-            ).toBitmap()
-        } catch (e: Exception) {
-            Timber.d(e, "Qr code creation failed")
-            errorMessage.postValue(e.localizedMessage ?: "QR code creation failed")
-            null
-        }
+
+        val qrCodeErrorCorrectionLevel = appConfigProvider
+            .getAppConfig()
+            .presenceTracing
+            .qrCodeErrorCorrectionLevel
+        Timber.i("QrCodeErrorCorrectionLevel: $qrCodeErrorCorrectionLevel")
+        val hints = mapOf(
+            EncodeHintType.ERROR_CORRECTION to qrCodeErrorCorrectionLevel
+        )
+
+        return MultiFormatWriter().encode(
+            input,
+            BarcodeFormat.QR_CODE,
+            size,
+            size,
+            hints
+        ).toBitmap()
     }
 
     private fun BitMatrix.toBitmap(): Bitmap {
