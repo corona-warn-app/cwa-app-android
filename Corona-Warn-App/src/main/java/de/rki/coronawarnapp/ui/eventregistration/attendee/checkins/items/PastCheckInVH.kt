@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemPastBin
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.list.SwipeConsumer
 import org.joda.time.format.DateTimeFormat
 
 class PastCheckInVH(parent: ViewGroup) :
@@ -51,10 +52,13 @@ class PastCheckInVH(parent: ViewGroup) :
     data class Item(
         val checkin: CheckIn,
         val onCardClicked: (CheckIn) -> Unit,
-        val onRemoveItem: (CheckIn) -> Unit
-    ) : CheckInsItem, HasPayloadDiffer {
+        val onRemoveItem: (CheckIn) -> Unit,
+        val onSwipeItem: (CheckIn, Int) -> Unit,
+    ) : CheckInsItem, HasPayloadDiffer, SwipeConsumer {
         override val stableId: Long = checkin.id
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
+
+        override fun onSwipe(position: Int, direction: Int) = onSwipeItem(checkin, position)
     }
 }
