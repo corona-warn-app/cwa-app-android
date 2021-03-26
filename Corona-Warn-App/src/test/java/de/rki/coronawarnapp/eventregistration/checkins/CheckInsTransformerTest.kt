@@ -6,10 +6,8 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.v2
-.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
-import de.rki.coronawarnapp.server.protocols.internal.v2
-.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
@@ -25,12 +23,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.EMPTY
 import okio.ByteString.Companion.decodeBase64
-import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class CheckInsTransformerTest : BaseTest() {
