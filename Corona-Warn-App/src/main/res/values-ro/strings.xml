@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Anulare"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"Poziționați codul QR în cadru."</string>
+    <string name="qr_code_scan_title">"Poziționați codul QR în cadru."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="submission_qr_code_scan_body">"Poziționați codul QR în cadru."</string>
+    <string name="qr_code_scan_body">"Poziționați codul QR în cadru."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->

@@ -4,7 +4,7 @@
     android:id="@+id/check_in_qr_code_scan_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/submission_qr_code_scan_title"
+    android:contentDescription="@string/qr_code_scan_title"
     android:transitionName="shared_element_container">
 
     <com.journeyapps.barcodescanner.BarcodeView
@@ -15,8 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:zxing_framing_rect_height="@dimen/submission_scan_qr_code_viewfinder_size"
-        app:zxing_framing_rect_width="@dimen/submission_scan_qr_code_viewfinder_size">
+        app:zxing_framing_rect_height="@dimen/scan_qr_code_viewfinder_size"
+        app:zxing_framing_rect_width="@dimen/scan_qr_code_viewfinder_size">
 
     </com.journeyapps.barcodescanner.BarcodeView>
 
@@ -28,62 +28,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:zxing_viewfinder_mask="@color/colorQrCodeScanMask"
         app:zxing_viewfinder_laser_visibility="false" />
 
     <TextView
         android:id="@+id/check_in_qr_code_scan_body"
-        style="@style/registrationQRCodeScanBody"
-        android:layout_width="@dimen/submission_scan_qr_code_viewfinder_size"
+        style="@style/qrCodeScanBody"
+        android:layout_width="@dimen/scan_qr_code_viewfinder_size"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/submission_scan_qr_code_viewfinder_center_offset"
-        android:text="@string/submission_qr_code_scan_body"
+        android:layout_marginTop="@dimen/scan_qr_code_viewfinder_center_offset"
+        android:text="@string/qr_code_scan_body"
         app:layout_constraintEnd_toEndOf="@id/check_in_qr_code_scan_preview"
         app:layout_constraintStart_toStartOf="@id/check_in_qr_code_scan_preview"
         app:layout_constraintTop_toBottomOf="@id/check_in_qr_code_scan_guideline_center" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/check_in_qr_code_scan_close"
-        style="@style/buttonIcon"
-        android:layout_width="@dimen/icon_size_button"
-        android:layout_height="@dimen/icon_size_button"
-        app:layout_constraintBottom_toTopOf="@id/check_in_qr_code_scan_guideline_top"
-        app:layout_constraintEnd_toStartOf="@id/guideline_start"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="@id/check_in_qr_code_scan_guideline_top">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            style="@style/iconStable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/accessibility_close"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_close" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ToggleButton
-        android:id="@+id/check_in_qr_code_scan_torch"
-        android:layout_width="@dimen/icon_size_button"
-        android:layout_height="@dimen/icon_size_button"
-        android:background="@drawable/ic_registration_qr_code_scan_torch_toggle"
-        android:backgroundTint="@color/colorStableLight"
-        android:textOff=""
-        android:textOn=""
-        app:layout_constraintBottom_toTopOf="@id/check_in_qr_code_scan_guideline_top"
-        app:layout_constraintEnd_toStartOf="@id/guideline_end"
-        app:layout_constraintStart_toStartOf="@id/guideline_end"
-        app:layout_constraintTop_toTopOf="@id/check_in_qr_code_scan_guideline_top" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/check_in_qr_code_scan_guideline_top"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/check_in_qr_code_scan_toolbar"
+        style="@style/CWAToolbar.BackArrow.Transparent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/spacing_normal" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIconTint="@color/colorQrCodeScanToolbar"
+        app:title="@string/qr_code_scan_title"
+        app:titleTextColor="@color/colorQrCodeScanToolbar">
+
+        <ToggleButton
+            android:id="@+id/check_in_qr_code_scan_torch"
+            android:layout_width="@dimen/icon_size_button"
+            android:layout_height="@dimen/icon_size_button"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:background="@drawable/ic_registration_qr_code_scan_torch_toggle"
+            android:backgroundTint="@color/colorQrCodeScanToolbar"
+            android:textOff=""
+            android:textOn="" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/check_in_qr_code_scan_guideline_center"
@@ -91,7 +74,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
-
-    <include layout="@layout/merge_guidelines_side" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

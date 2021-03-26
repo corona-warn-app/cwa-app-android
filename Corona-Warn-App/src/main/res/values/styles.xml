@@ -385,11 +385,11 @@
     </style>
 
     <!-- ####################################
-            Registration
+            QR Code Scan
     ###################################### -->
-    <style name="registrationQRCodeScanBody">
+    <style name="qrCodeScanBody">
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/colorStableLight</item>
+        <item name="android:textColor">@color/colorQrCodeScanToolbar</item>
         <item name="android:textSize">14sp</item>
     </style>
 

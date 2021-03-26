@@ -1000,9 +1000,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Abbrechen"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"Positionieren Sie den QR-Code in den Rahmen."</string>
+    <string name="qr_code_scan_title">"QR-Code Scan"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="submission_qr_code_scan_body">"Positionieren Sie den QR-Code in den Rahmen."</string>
+    <string name="qr_code_scan_body">"Positionieren Sie den QR-Code in den Rahmen."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->

@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Отказ"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"Позиционирайте QR кода в рамката."</string>
+    <string name="qr_code_scan_title">"Позиционирайте QR кода в рамката."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="submission_qr_code_scan_body">"Позиционирайте QR кода в рамката."</string>
+    <string name="qr_code_scan_body">"Позиционирайте QR кода в рамката."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
