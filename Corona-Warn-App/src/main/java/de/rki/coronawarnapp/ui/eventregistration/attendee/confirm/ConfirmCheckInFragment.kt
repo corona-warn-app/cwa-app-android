@@ -69,7 +69,13 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
                 confirmCheckinSettingsCardCheckoutTime.text = uiState.checkInEnd
 
                 confirmCheckinEventInPastCard.setGone(!uiState.eventInPastVisible)
+
                 confirmCheckinEventInFutureCard.setGone(!uiState.eventInFutureVisible)
+                confirmCheckinEventInFutureCardText.text = getString(
+                    R.string.confirm_checkin_event_in_future_card_text,
+                    uiState.eventInFutureDateText,
+                    uiState.eventInFutureTimeText
+                )
             }
         }
 

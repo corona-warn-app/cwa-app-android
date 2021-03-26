@@ -138,10 +138,11 @@
                         android:visibility="gone">
 
                         <TextView
+                            android:id="@+id/confirm_checkin_event_in_future_card_text"
                             style="@style/body2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/confirm_checkin_event_in_future_card_text" />
+                            tools:text="@string/confirm_checkin_event_in_future_card_text" />
                     </LinearLayout>
 
                     <LinearLayout

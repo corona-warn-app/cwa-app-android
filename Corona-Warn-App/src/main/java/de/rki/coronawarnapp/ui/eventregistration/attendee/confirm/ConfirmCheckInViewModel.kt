@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.combine
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.joda.time.format.DateTimeFormat
 
 class ConfirmCheckInViewModel @AssistedInject constructor(
     @Assisted private val verifiedTraceLocation: VerifiedTraceLocation,
@@ -124,5 +125,15 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         val typeRes get() = mapTraceLocationToTitleRes(traceLocation.type)
         val address get() = traceLocation.address
         val checkInEnd get() = checkInEndOffset.toReadableDuration(suffix = "Std")
+        val eventInFutureDateText get() = traceLocation.startDate?.toDateTime()?.toString(dateFormatter) ?: ""
+        val eventInFutureTimeText get() = traceLocation.startDate?.toDateTime()?.toString(timeFormatter) ?: ""
     }
+}
+
+private val dateFormatter by lazy {
+    DateTimeFormat.forPattern("EE, dd.MM.yy")
+}
+
+private val timeFormatter by lazy {
+    DateTimeFormat.forPattern("HH:mm")
 }
