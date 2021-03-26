@@ -4,9 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -14,9 +12,7 @@ import timber.log.Timber
 
 class QrCodeDetailViewModel @AssistedInject constructor(
     private val dispatcher: DispatcherProvider,
-    private val appConfigProvider: AppConfigProvider,
     private val qrCodeGenerator: QrCodeGenerator,
-    @AppContext private val context: Context,
 ) : CWAViewModel() {
 
     /* Currently hardcoded to show the functionality -> will be connected to the database in a separate PR */
