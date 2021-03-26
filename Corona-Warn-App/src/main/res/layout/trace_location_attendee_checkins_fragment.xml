@@ -51,11 +51,11 @@
         <TextView
             style="@style/subtitleMedium"
             android:layout_width="wrap_content"
-            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="36dp"
-            android:text="@string/trace_location_checkins_empty_label" />
+            android:text="@string/trace_location_checkins_empty_label"
+            android:textStyle="bold" />
         <TextView
             style="@style/body2Medium"
             android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
         android:layout_margin="@dimen/spacing_normal"
         android:text="@string/trace_location_checkins_action_scan_qrcode"
         android:transitionName="shared_element_container"
-        app:icon="@drawable/ic_qrcode_checkins_fab"
+        app:icon="@drawable/ic_qrcode"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

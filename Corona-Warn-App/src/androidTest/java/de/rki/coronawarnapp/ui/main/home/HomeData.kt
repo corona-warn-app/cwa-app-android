@@ -34,7 +34,7 @@ import java.util.Date
 object HomeData {
 
     private val todayAtNineFiftyFive = Instant.now().toDateTime()
-        .withTime(9,55,0,0).toInstant()
+        .withTime(9, 55, 0, 0).toInstant()
 
     object Tracing {
 
