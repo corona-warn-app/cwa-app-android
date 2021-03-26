@@ -5,6 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
@@ -57,7 +58,9 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
         vm.qrCodeBitmap.observe2(this) {
             binding.qrCodeImage.apply {
-                setImageBitmap(it)
+                val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
+                resourceId.cornerRadius = it.width * 0.1f
+                setImageDrawable(resourceId)
             }
         }
 
