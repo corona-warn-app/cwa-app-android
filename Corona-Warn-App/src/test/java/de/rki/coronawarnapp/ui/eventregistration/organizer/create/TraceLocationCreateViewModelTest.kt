@@ -1,12 +1,16 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.eventregistration.events.TraceLocationCreator
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
 import org.joda.time.Duration
 import org.joda.time.LocalDateTime
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
@@ -18,10 +22,17 @@ import testhelpers.extensions.observeForTesting
 @ExtendWith(InstantExecutorExtension::class)
 internal class TraceLocationCreateViewModelTest : BaseTest() {
 
+    @MockK lateinit var traceLocationCreator: TraceLocationCreator
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+    }
+
     @ParameterizedTest
     @MethodSource("provideArguments")
     fun `send should not be enabled for empty form`(category: TraceLocationCategory) {
-        val viewModel = TraceLocationCreateViewModel(category = category)
+        val viewModel = TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.isSendEnable shouldBe false
         }
@@ -30,7 +41,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("provideArguments")
     fun `title should be set according to the category item`(category: TraceLocationCategory) {
-        val viewModel = TraceLocationCreateViewModel(category = category)
+        val viewModel = TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.title shouldBe category.title
         }
@@ -39,7 +50,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("provideArguments")
     fun `send should be enabled when all data are entered`(category: TraceLocationCategory) {
-        val viewModel = TraceLocationCreateViewModel(category = category)
+        val viewModel = TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
 
         viewModel.address = "Address"
         viewModel.description = "Description"
@@ -55,7 +66,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("provideArguments")
     fun `send should not not be enabled when description it too long`(category: TraceLocationCategory) {
-        val viewModel = TraceLocationCreateViewModel(category = category)
+        val viewModel = TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
 
         viewModel.address = "Address"
         viewModel.description = "A".repeat(101)
@@ -71,7 +82,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("provideArguments")
     fun `send should not not be enabled when address it too long`(category: TraceLocationCategory) {
-        val viewModel = TraceLocationCreateViewModel(category = category)
+        val viewModel = TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
 
         viewModel.address = "A".repeat(101)
         viewModel.description = "Description"
@@ -86,7 +97,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
     @Test
     fun `begin and end should be visible for EVENT`() {
-        val viewModel = TraceLocationCreateViewModel(category = categoryEvent)
+        val viewModel =
+            TraceLocationCreateViewModel(category = categoryEvent, traceLocationCreator = traceLocationCreator)
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.isDateVisible shouldBe true
         }
@@ -94,7 +106,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
     @Test
     fun `begin and end should not be visible for LOCATION`() {
-        val viewModel = TraceLocationCreateViewModel(category = categoryLocation)
+        val viewModel =
+            TraceLocationCreateViewModel(category = categoryLocation, traceLocationCreator = traceLocationCreator)
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.isDateVisible shouldBe false
         }
@@ -102,7 +115,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
     @Test
     fun `send should not be enabled when length of stay is ZERO and category is LOCATION`() {
-        val viewModel = TraceLocationCreateViewModel(category = categoryLocation)
+        val viewModel =
+            TraceLocationCreateViewModel(category = categoryLocation, traceLocationCreator = traceLocationCreator)
 
         viewModel.address = "Address"
         viewModel.description = "Description"
@@ -115,7 +129,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
     @Test
     fun `send should be enabled when length of stay is ZERO and category is EVENT`() {
-        val viewModel = TraceLocationCreateViewModel(category = categoryEvent)
+        val viewModel =
+            TraceLocationCreateViewModel(category = categoryEvent, traceLocationCreator = traceLocationCreator)
 
         viewModel.address = "Address"
         viewModel.description = "Description"
@@ -130,7 +145,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
     @Test
     fun `send should not be enabled when end is before begin and category is EVENT`() {
-        val viewModel = TraceLocationCreateViewModel(category = categoryEvent)
+        val viewModel =
+            TraceLocationCreateViewModel(category = categoryEvent, traceLocationCreator = traceLocationCreator)
 
         viewModel.address = "Address"
         viewModel.description = "Description"
