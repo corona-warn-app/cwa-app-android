@@ -19,6 +19,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -39,10 +41,14 @@ class AutoCheckOut @Inject constructor(
 
     private val mutex = Mutex()
 
-    init {
+    fun setupMonitor() {
         repository.allCheckIns
             .onStart { Timber.tag(TAG).v("Monitoring check-ins.") }
-            .map { checkins -> checkins.map { it.id } }
+            .map { checkins ->
+                val completed = checkins.filter { it.completed }.map { it.id }
+                val notCompleted = checkins.filter { !it.completed }.map { it.id }
+                completed to notCompleted
+            }
             .distinctUntilChanged()
             .onEach {
                 Timber.tag(TAG).i("Check-in was added or removed, refreshing alarm.")
@@ -71,9 +77,17 @@ class AutoCheckOut @Inject constructor(
         val nextCheckout = findNextAutoCheckOut()
 
         return if (nextCheckout != null) {
-            Timber.tag(TAG).d("Updating next check-out alarm for %s", nextCheckout)
-            val targetTime = nextCheckout.checkInEnd.millis
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, targetTime, createIntent(nextCheckout.id))
+            Timber.tag(TAG).d(
+                "Next check-out will be at %s (in %d min) for %s",
+                nextCheckout.checkInEnd,
+                Duration(Instant.now(), nextCheckout.checkInEnd).standardMinutes,
+                nextCheckout
+            )
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                nextCheckout.checkInEnd.millis,
+                createIntent(nextCheckout.id)
+            )
             true
         } else {
             Timber.tag(TAG).d("There is currently no up-coming check-out, canceling alarm.")
