@@ -9,6 +9,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationCreator
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationUserInput
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
@@ -30,15 +31,13 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
     private val traceLocationCreator: TraceLocationCreator
 ) : CWAViewModel() {
 
-    val error = SingleLiveEvent<Exception>()
-    private val mutableRequestState = MutableLiveData(ApiRequestState.IDLE)
-    val requestState: LiveData<ApiRequestState>
-        get() = mutableRequestState
+    val result = SingleLiveEvent<Result>()
 
     private val mutableUiState = MutableLiveData<UIState>()
     val uiState: LiveData<UIState>
         get() = mutableUiState
 
+    private var requestInProgress: Boolean = false
     var description: String? by UpdateDelegate()
     var address: String? by UpdateDelegate()
     var checkInLength: Duration? by UpdateDelegate()
@@ -57,6 +56,9 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
     }
 
     fun send() {
+        requestInProgress = true
+        updateState()
+
         val userInput = TraceLocationUserInput(
             type = category.type,
             description = description ?: "",
@@ -66,45 +68,45 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
             defaultCheckInLengthInMinutes = checkInLength?.standardMinutes?.toInt() ?: 0
         )
 
-        mutableRequestState.postValue(ApiRequestState.STARTED)
-        updateState()
-
         launch {
             try {
-                traceLocationCreator.createTraceLocation(userInput)
-                mutableRequestState.postValue(ApiRequestState.SUCCESS)
+                val traceLocation = traceLocationCreator.createTraceLocation(userInput)
+                result.postValue(Result.Success(traceLocation))
             } catch (exception: Exception) {
                 Timber.e(exception, "Something went wrong when sending the event $userInput to the server")
-                mutableRequestState.postValue(ApiRequestState.FAILED)
-                error.postValue(exception)
+                result.postValue(Result.Error(exception))
             } finally {
-                updateState(true)
+                requestInProgress = false
+                updateState()
             }
         }
     }
 
-    private fun updateState(ignoreRequestState: Boolean = false) {
+    private fun updateState() {
         mutableUiState.postValue(
             UIState(
                 begin = begin,
                 end = end,
                 checkInLength = checkInLength,
                 title = category.title,
+                isRequestInProgress = requestInProgress,
                 isDateVisible = category.uiType == TraceLocationUIType.EVENT,
                 isSendEnable = when (category.uiType) {
                     TraceLocationUIType.LOCATION -> {
                         description?.trim()?.length in 1..100 &&
                             address?.trim()?.length in 0..100 &&
-                            (checkInLength ?: Duration.ZERO) > Duration.ZERO
+                            (checkInLength ?: Duration.ZERO) > Duration.ZERO &&
+                            !requestInProgress
                     }
                     TraceLocationUIType.EVENT -> {
                         description?.trim()?.length in 1..100 &&
                             address?.trim()?.length in 0..100 &&
                             begin != null &&
                             end != null &&
-                            end?.isAfter(begin) == true
+                            end?.isAfter(begin) == true &&
+                            !requestInProgress
                     }
-                } && (ignoreRequestState || requestState.value != ApiRequestState.STARTED)
+                }
             )
         )
     }
@@ -114,6 +116,7 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
         private val end: LocalDateTime? = null,
         private val checkInLength: Duration? = null,
         @StringRes val title: Int,
+        val isRequestInProgress: Boolean,
         val isDateVisible: Boolean,
         val isSendEnable: Boolean
     ) {
@@ -129,6 +132,11 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
 
         private fun getFormattedTime(value: LocalDateTime?, locale: Locale) =
             value?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
+    }
+
+    sealed class Result {
+        data class Error(val exception: java.lang.Exception) : Result()
+        data class Success(val eventEntity: TraceLocation) : Result()
     }
 
     private class UpdateDelegate<T> : ReadWriteProperty<TraceLocationCreateViewModel?, T?> {

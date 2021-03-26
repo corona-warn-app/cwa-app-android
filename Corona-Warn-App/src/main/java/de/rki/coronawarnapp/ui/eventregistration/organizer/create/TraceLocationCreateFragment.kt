@@ -60,15 +60,16 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             popBackStack()
         }
 
-        viewModel.requestState.observe(viewLifecycleOwner) { state ->
-            binding.progressBar.isVisible = state == ApiRequestState.STARTED
-            if (state == ApiRequestState.SUCCESS) {
-                Toast.makeText(context, "Done! TODO: redirect to another screen", Toast.LENGTH_SHORT).show()
+        viewModel.result.observe(viewLifecycleOwner) { result ->
+            when(result) {
+                is TraceLocationCreateViewModel.Result.Error -> {
+                    DialogHelper.showDialog(getErrorDialogInstance(result.exception))
+                }
+                is TraceLocationCreateViewModel.Result.Success -> {
+                    // TODO: will be handled in another PR
+                    Toast.makeText(context, "Done! TODO: redirect to another screen", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
-
-        viewModel.error.observe(viewLifecycleOwner) { error ->
-            DialogHelper.showDialog(getErrorDialogInstance(error))
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
@@ -76,6 +77,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                 toolbar.setSubtitle(state.title)
                 valueStart.text = state.getBegin(requireContext().getLocale())
                 valueEnd.text = state.getEnd(requireContext().getLocale())
+                progressBar.isVisible = state.isRequestInProgress
                 layoutBegin.isVisible = state.isDateVisible
                 layoutEnd.isVisible = state.isDateVisible
                 valueLengthOfStay.text = state.getCheckInLength(resources)
