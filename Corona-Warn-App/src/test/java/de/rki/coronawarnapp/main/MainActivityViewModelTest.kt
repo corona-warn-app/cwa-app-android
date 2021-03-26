@@ -80,7 +80,7 @@ class MainActivityViewModelTest : BaseTest() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
         val vm = createInstance()
         vm.onBottomNavSelected()
-        vm.isOnboardingDone.value shouldBe false
+        vm.isContactDiaryOnboardingDone.value shouldBe false
     }
 
     @Test
@@ -88,6 +88,6 @@ class MainActivityViewModelTest : BaseTest() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
         val vm = createInstance()
         vm.onBottomNavSelected()
-        vm.isOnboardingDone.value shouldBe true
+        vm.isContactDiaryOnboardingDone.value shouldBe true
     }
 }
