@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.CameraPermissionHelper
-import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
 import de.rki.coronawarnapp.util.list.onSwipeItem
@@ -172,19 +171,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 viewModel.onRemoveCheckInConfirmed(checkIn)
             }
             setNegativeButton(R.string.generic_action_abort) { _, _ ->
-                position?.let {
-                    checkInsAdapter.notifyItemChanged(
-                        position
-                    )
-                }
+                position?.let { checkInsAdapter.notifyItemChanged(position) }
             }
 
             setOnCancelListener {
-                position?.let {
-                    checkInsAdapter.notifyItemChanged(
-                        position
-                    )
-                }
+                position?.let { checkInsAdapter.notifyItemChanged(position) }
             }
         }.show()
 
