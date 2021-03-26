@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:fillViewport="true"
+    android:fitsSystemWindows="true"
     android:transitionName="contact_diary_shared_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,7 +68,10 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
+                android:focusable="true"
                 android:maxLength="250" />
+
+            <requestFocus/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
