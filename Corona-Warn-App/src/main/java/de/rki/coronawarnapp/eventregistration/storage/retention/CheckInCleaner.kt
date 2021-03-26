@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import org.joda.time.DateTimeConstants
-import org.joda.time.Instant
 import javax.inject.Inject
 
 @Reusable
@@ -16,19 +15,16 @@ class CheckInCleaner @Inject constructor(
 ) {
 
     suspend fun cleanUp() {
+        val retentionThreshold = (timeStamper.nowUTC.seconds - RETENTION_SECONDS)
         val checkInsToDelete = checkInRepository.allCheckIns.first()
             .filter {
-                isOutOfRetention(it.checkInEnd)
+                it.checkInEnd.seconds < retentionThreshold
             }
         checkInRepository.deleteCheckIns(checkInsToDelete)
     }
 
-    private fun isOutOfRetention(checkInEndDate: Instant): Boolean {
-        val retentionThreshold = (timeStamper.nowUTC.seconds - (RETENTION_DAYS * DateTimeConstants.SECONDS_PER_DAY))
-        return checkInEndDate.seconds < retentionThreshold
-    }
-
     companion object {
-        const val RETENTION_DAYS = 15
+        private const val RETENTION_DAYS = 15
+        private const val RETENTION_SECONDS = RETENTION_DAYS * DateTimeConstants.SECONDS_PER_DAY
     }
 }
