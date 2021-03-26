@@ -21,10 +21,10 @@ class AutoCheckOutBootRestoreReceiver : BroadcastReceiver() {
     @Inject lateinit var workManager: WorkManager
 
     override fun onReceive(context: Context, intent: Intent) {
-        Timber.tag(TAG).d("onReceive(context=%s, intent=%s)", context, intent)
+        Timber.d("onReceive(context=%s, intent=%s)", context, intent)
 
         if (!EXPECTED_INTENTS.contains(intent.action)) {
-            Timber.tag(TAG).e("Received unknown intent action: %s", intent.action)
+            Timber.e("Received unknown intent action: %s", intent.action)
             return
         }
 
@@ -44,11 +44,11 @@ class AutoCheckOutBootRestoreReceiver : BroadcastReceiver() {
                     .build()
                     .let { workManager.enqueue(it) }
 
-                Timber.tag(TAG).i("Post boot refresh queued.")
+                Timber.i("Post boot refresh queued.")
             } catch (e: Exception) {
-                e.reportProblem(TAG, "Failed to process intent.")
+                e.reportProblem("AutoCheckOutBootRestoreReceiver", "Failed to process intent.")
             } finally {
-                Timber.tag(TAG).i("Finished processing broadcast.")
+                Timber.i("Finished processing broadcast.")
                 async.finish()
             }
         }
@@ -59,6 +59,5 @@ class AutoCheckOutBootRestoreReceiver : BroadcastReceiver() {
             Intent.ACTION_BOOT_COMPLETED,
             Intent.ACTION_MY_PACKAGE_REPLACED
         )
-        private const val TAG = "AutoCheckoutReceiver"
     }
 }

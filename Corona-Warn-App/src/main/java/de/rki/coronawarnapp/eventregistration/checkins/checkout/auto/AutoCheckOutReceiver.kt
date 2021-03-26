@@ -21,7 +21,7 @@ class AutoCheckOutReceiver : BroadcastReceiver() {
     @Inject lateinit var workManager: WorkManager
 
     override fun onReceive(context: Context, intent: Intent) {
-        Timber.tag(TAG).d("onReceive(context=%s, intent=%s)", context, intent)
+        Timber.d("onReceive(context=%s, intent=%s)", context, intent)
         AndroidInjection.inject(this, context)
 
         val async = goAsync()
@@ -43,9 +43,9 @@ class AutoCheckOutReceiver : BroadcastReceiver() {
 
                 Timber.i("AutoCheckoutWorker queued for Check-in#$checkInId")
             } catch (e: Exception) {
-                e.reportProblem(TAG, "Failed to process intent.")
+                e.reportProblem("AutoCheckOutReceiver", "Failed to process intent.")
             } finally {
-                Timber.tag(TAG).i("Finished processing broadcast.")
+                Timber.i("Finished processing broadcast.")
                 async.finish()
             }
         }
@@ -53,6 +53,5 @@ class AutoCheckOutReceiver : BroadcastReceiver() {
 
     companion object {
         const val ARGKEY_RECEIVER_CHECKIN_ID = "autoCheckout.checkInId"
-        private const val TAG = "AutoCheckoutReceiver"
     }
 }

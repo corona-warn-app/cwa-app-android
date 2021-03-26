@@ -45,6 +45,7 @@ class AutoCheckOut @Inject constructor(
         repository.allCheckIns
             .onStart { Timber.tag(TAG).v("Monitoring check-ins.") }
             .map { checkins ->
+                Timber.tag(TAG).v("CheckIns changed")
                 val completed = checkins.filter { it.completed }.map { it.id }
                 val notCompleted = checkins.filter { !it.completed }.map { it.id }
                 completed to notCompleted
@@ -58,7 +59,7 @@ class AutoCheckOut @Inject constructor(
     }
 
     private fun createIntent(checkInId: Long? = null): PendingIntent {
-        val updateServiceIntent = Intent(context, AutoCheckOutBootRestoreReceiver::class.java).apply {
+        val updateServiceIntent = Intent(context, AutoCheckOutReceiver::class.java).apply {
             if (checkInId != null) {
                 putExtra(AutoCheckOutReceiver.ARGKEY_RECEIVER_CHECKIN_ID, checkInId)
             }

@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemActiveBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
-import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.list.SwipeConsumer
+import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.PeriodType
@@ -45,8 +45,8 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val startDate = checkInStartUserTZ.toLocalDate()
         traceLocationCardHighlightView.setCaption(startDate.toString(DateTimeFormat.mediumDate()))
 
-        val autoCheckoutText = curItem.checkin.defaultCheckInLengthInMinutes?.let { checkoutLength ->
-            val checkoutAt = checkInStartUserTZ.plus(Duration.standardMinutes(checkoutLength.toLong()))
+        checkoutInfo.text = run {
+            val checkoutAt = curItem.checkin.checkInEnd
             val checkoutIn = Duration(Instant.now(), checkoutAt).let {
                 val periodType = when {
                     it.isLongerThan(Duration.standardHours(1)) -> PeriodType.hours()
@@ -62,8 +62,6 @@ class ActiveCheckInVH(parent: ViewGroup) :
                 hourPeriodFormatter.print(checkoutIn)
             )
         }
-
-        checkoutInfo.text = autoCheckoutText ?: checkInStartUserTZ.toLocalTime().toString("HH:mm")
 
         menuAction.setupMenu(R.menu.menu_trace_location_attendee_checkin_item) {
             when (it.itemId) {
