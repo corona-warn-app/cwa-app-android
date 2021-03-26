@@ -6,8 +6,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.v2
-.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
