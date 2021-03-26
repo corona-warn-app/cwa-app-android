@@ -30,7 +30,6 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.createQrCode(vm.qrCodeText)
         setToolbarOverlay()
 
         binding.apply {
@@ -45,9 +44,9 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 }
             )
 
-            title.text = vm.testTitle
-            subtitle.text = vm.testSubtitle
-            eventDate.text = vm.testEventDate
+            title.text = vm.titleText
+            subtitle.text = vm.subtitleText
+            eventDate.text = vm.eventDate
 
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)
