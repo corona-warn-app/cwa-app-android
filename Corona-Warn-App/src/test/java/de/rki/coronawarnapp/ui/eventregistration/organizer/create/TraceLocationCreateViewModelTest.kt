@@ -1,14 +1,19 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationCreator
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
+import org.joda.time.Instant
 import org.joda.time.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -16,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.observeForTesting
 
@@ -154,8 +160,56 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
         }
     }
 
+    @Test
+    fun `result should be success after send() when everything is ok`() {
+        coEvery { traceLocationCreator.createTraceLocation(any()) } returns dummyTraceLocation
+
+        runBlockingTest {
+            val viewModel = createViewModel(categoryEvent)
+
+            viewModel.send()
+
+            viewModel.result.observeForTesting {
+                viewModel.result.value shouldBe TraceLocationCreateViewModel.Result.Success(dummyTraceLocation)
+            }
+        }
+    }
+
+    @Test
+    fun `result should be error after send() when something is not ok`() {
+        val exception = Exception()
+        coEvery { traceLocationCreator.createTraceLocation(any()) } throws exception
+
+        runBlockingTest {
+            val viewModel = createViewModel(categoryEvent)
+
+            viewModel.send()
+
+            viewModel.result.observeForTesting {
+                viewModel.result.value shouldBe TraceLocationCreateViewModel.Result.Error(exception)
+            }
+        }
+    }
+
     private fun createViewModel(category: TraceLocationCategory) =
-        TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
+        TraceLocationCreateViewModel(
+            category = category,
+            traceLocationCreator = traceLocationCreator,
+            dispatcherProvider = TestDispatcherProvider()
+        )
+
+    private val dummyTraceLocation = TraceLocation(
+        guid = "TestGuid1",
+        version = 1,
+        type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
+        description = "TestTraceLocation1",
+        address = "TestTraceLocationAddress1",
+        startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
+        endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
+        defaultCheckInLengthInMinutes = 15,
+        byteRepresentation = "byteRepresentation".toByteArray().toByteString(),
+        signature = "signature".toByteArray().toByteString()
+    )
 
     companion object {
         private val categoryLocation = TraceLocationCategory(

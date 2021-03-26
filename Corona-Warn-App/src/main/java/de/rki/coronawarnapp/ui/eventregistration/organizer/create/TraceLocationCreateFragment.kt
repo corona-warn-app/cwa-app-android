@@ -61,7 +61,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
 
         viewModel.result.observe(viewLifecycleOwner) { result ->
-            when(result) {
+            when (result) {
                 is TraceLocationCreateViewModel.Result.Error -> {
                     DialogHelper.showDialog(getErrorDialogInstance(result.exception))
                 }
@@ -86,11 +86,11 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
 
         binding.descriptionInputEdit.doOnTextChanged { text, _, _, _ ->
-            viewModel.description = text?.toString()
+            viewModel.description = text.toString()
         }
 
         binding.placeInputEdit.doOnTextChanged { text, _, _, _ ->
-            viewModel.address = text?.toString()
+            viewModel.address = text.toString()
         }
 
         binding.layoutBegin.setOnClickListener {

@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.eventregistration.events.TraceLocationUserInput
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -27,9 +28,10 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 class TraceLocationCreateViewModel @AssistedInject constructor(
+    dispatcherProvider: DispatcherProvider,
     @Assisted private val category: TraceLocationCategory,
     private val traceLocationCreator: TraceLocationCreator
-) : CWAViewModel() {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val result = SingleLiveEvent<Result>()
 
@@ -37,10 +39,10 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
     val uiState: LiveData<UIState>
         get() = mutableUiState
 
-    private var requestInProgress: Boolean = false
-    var description: String? by UpdateDelegate()
-    var address: String? by UpdateDelegate()
-    var checkInLength: Duration? by UpdateDelegate()
+    private var requestInProgress: Boolean by UpdateDelegateWithDefaultValue(false)
+    var description: String by UpdateDelegateWithDefaultValue("")
+    var address: String by UpdateDelegateWithDefaultValue("")
+    var checkInLength: Duration by UpdateDelegateWithDefaultValue(Duration.ZERO)
     var begin: LocalDateTime? by UpdateDelegate()
     var end: LocalDateTime? by UpdateDelegate()
 
@@ -57,15 +59,14 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
 
     fun send() {
         requestInProgress = true
-        updateState()
 
         val userInput = TraceLocationUserInput(
             type = category.type,
-            description = description ?: "",
-            address = address ?: "",
+            description = description,
+            address = address,
             startDate = begin?.toDateTime(DateTimeZone.UTC)?.toInstant(),
             endDate = end?.toDateTime(DateTimeZone.UTC)?.toInstant(),
-            defaultCheckInLengthInMinutes = checkInLength?.standardMinutes?.toInt() ?: 0
+            defaultCheckInLengthInMinutes = checkInLength.standardMinutes.toInt()
         )
 
         launch {
@@ -77,7 +78,6 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
                 result.postValue(Result.Error(exception))
             } finally {
                 requestInProgress = false
-                updateState()
             }
         }
     }
@@ -93,14 +93,14 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
                 isDateVisible = category.uiType == TraceLocationUIType.EVENT,
                 isSendEnable = when (category.uiType) {
                     TraceLocationUIType.LOCATION -> {
-                        description?.trim()?.length in 1..100 &&
-                            address?.trim()?.length in 0..100 &&
-                            (checkInLength ?: Duration.ZERO) > Duration.ZERO &&
+                        description.trim().length in 1..100 &&
+                            address.trim().length in 0..100 &&
+                            checkInLength > Duration.ZERO &&
                             !requestInProgress
                     }
                     TraceLocationUIType.EVENT -> {
-                        description?.trim()?.length in 1..100 &&
-                            address?.trim()?.length in 0..100 &&
+                        description.trim().length in 1..100 &&
+                            address.trim().length in 0..100 &&
                             begin != null &&
                             end != null &&
                             end?.isAfter(begin) == true &&
@@ -154,6 +154,24 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
         }
 
         override fun getValue(thisRef: TraceLocationCreateViewModel?, property: KProperty<*>): T? {
+            return this.value
+        }
+    }
+
+    private class UpdateDelegateWithDefaultValue<T>(defaultValue: T) :
+        ReadWriteProperty<TraceLocationCreateViewModel?, T> {
+        var value: T = defaultValue
+
+        override fun setValue(
+            thisRef: TraceLocationCreateViewModel?,
+            property: KProperty<*>,
+            value: T
+        ) {
+            this.value = value
+            thisRef?.updateState()
+        }
+
+        override fun getValue(thisRef: TraceLocationCreateViewModel?, property: KProperty<*>): T {
             return this.value
         }
     }
