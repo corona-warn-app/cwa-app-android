@@ -56,7 +56,8 @@ class AutoCheckOutBootRestoreReceiver : BroadcastReceiver() {
 
     companion object {
         private val EXPECTED_INTENTS = listOf(
-            Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_MY_PACKAGE_REPLACED
+            Intent.ACTION_BOOT_COMPLETED,
+            Intent.ACTION_MY_PACKAGE_REPLACED
         )
         private const val TAG = "AutoCheckoutReceiver"
     }
