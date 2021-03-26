@@ -144,7 +144,24 @@ class CheckInsTransformerTest : BaseTest() {
     private val transmissionRiskValueMappings: List<TransmissionRiskValueMapping> = listOf(
         TransmissionRiskValueMapping.newBuilder()
             .setTransmissionRiskLevel(1)
-            .setTransmissionRiskValue(1.0)
+            .setTransmissionRiskValue(2.0)
+            .build(),
+        TransmissionRiskValueMapping.newBuilder()
+            .setTransmissionRiskLevel(2)
+            .setTransmissionRiskValue(2.0)
+            .build(),
+        TransmissionRiskValueMapping.newBuilder()
+            .setTransmissionRiskLevel(4)
+            .setTransmissionRiskValue(2.0)
+            .build(),
+        TransmissionRiskValueMapping.newBuilder()
+            .setTransmissionRiskLevel(6)
+            .setTransmissionRiskValue(0.0) // CheckIn will be excluded ,as TRV here = 0
+            .build(),
+        // Transmission Mapping for TRL = 7 and therefore one of the CheckIns should excluded
+        TransmissionRiskValueMapping.newBuilder()
+            .setTransmissionRiskLevel(8)
+            .setTransmissionRiskValue(2.0)
             .build()
     )
 
@@ -181,7 +198,7 @@ class CheckInsTransformerTest : BaseTest() {
         )
 
         with(outCheckIns) {
-            size shouldBe 8
+            size shouldBe 6 // 3 check-ins with TRL = 1 and  3 other check-ins with TRL = 2, 4, 8
             // Check In 1 is excluded from submission due to time deriving
             // Check In 2 mapping and transformation
             get(0).apply {
@@ -325,48 +342,8 @@ class CheckInsTransformerTest : BaseTest() {
             // Splitted CheckIn 5
             get(5).apply {
                 // Start time from splitted check-in 5
-                startIntervalNumber shouldBe Instant.parse("2021-03-08T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
-                // End time for splitted check-in 5
-                endIntervalNumber shouldBe Instant.parse("2021-03-09T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
-                signedLocation.signature shouldBe ByteString.copyFrom("signature1".toByteArray())
-                parseLocation(signedLocation.location).apply {
-                    guid shouldBe "trace_location_3"
-                    version shouldBe 1
-                    type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_RETAIL
-                    description shouldBe "restaurant_3"
-                    address shouldBe "address_3"
-                    startTimestamp shouldBe Instant.parse("2021-03-04T09:00:00Z").seconds
-                    endTimestamp shouldBe Instant.parse("2021-03-10T11:00:00Z").seconds
-                    defaultCheckInLengthInMinutes shouldBe 10
-                    transmissionRiskLevel shouldBe 6
-                }
-            }
-
-            // Splitted CheckIn 6
-            get(6).apply {
-                // Start time from splitted check-in 6
-                startIntervalNumber shouldBe Instant.parse("2021-03-09T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
-                // End time for splitted check-in 6
-                endIntervalNumber shouldBe Instant.parse("2021-03-10T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
-                signedLocation.signature shouldBe ByteString.copyFrom("signature1".toByteArray())
-                parseLocation(signedLocation.location).apply {
-                    guid shouldBe "trace_location_3"
-                    version shouldBe 1
-                    type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_RETAIL
-                    description shouldBe "restaurant_3"
-                    address shouldBe "address_3"
-                    startTimestamp shouldBe Instant.parse("2021-03-04T09:00:00Z").seconds
-                    endTimestamp shouldBe Instant.parse("2021-03-10T11:00:00Z").seconds
-                    defaultCheckInLengthInMinutes shouldBe 10
-                    transmissionRiskLevel shouldBe 7
-                }
-            }
-
-            // Splitted CheckIn 7
-            get(7).apply {
-                // Start time from splitted check-in 7
                 startIntervalNumber shouldBe Instant.parse("2021-03-10T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
-                // End time for splitted check-in 7
+                // End time for splitted check-in 5
                 endIntervalNumber shouldBe Instant.parse("2021-03-10T10:20:00Z").seconds / TEN_MINUTES_IN_SECONDS
                 signedLocation.signature shouldBe ByteString.copyFrom("signature1".toByteArray())
                 parseLocation(signedLocation.location).apply {

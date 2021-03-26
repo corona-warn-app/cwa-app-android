@@ -82,8 +82,8 @@ private fun Long.isLastDay(days: Long): Boolean {
 }
 
 private fun List<CheckIn>.print() = Timber.i(
-    "splitInto: %s",
-    joinToString(separator = "\n") { checkIn ->
+    "SplitCheckIns=[%s]",
+    joinToString(separator = ",\n") { checkIn ->
         "{checkInStart=%s,checkOutEnd=%s}".format(
             checkIn.checkInStart,
             checkIn.checkInEnd

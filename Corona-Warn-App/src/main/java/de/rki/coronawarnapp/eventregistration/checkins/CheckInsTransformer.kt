@@ -93,8 +93,7 @@ class CheckInsTransformer @Inject constructor(
         // Exclude check-in with
         if (transmissionRiskValue == 0.0) {
             Timber.d(
-                "CheckIn=%s with TRL=%s is excluded from submission due to TRV=0",
-                this, // Current CheckIn
+                "CheckIn with TRL=%s is excluded from submission due to TRV=0",
                 transmissionRiskLevel
             )
             return null // Not mapped
