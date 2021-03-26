@@ -30,7 +30,7 @@ class DayOverviewVH(parent: ViewGroup) :
                     itemAnimator = null
                 }
                 dayDataAdapter.update(item.dayData)
-                //suppressLayout(true)
+                // suppressLayout(true)
             }
 
             dayElementBody.apply {
@@ -39,4 +39,3 @@ class DayOverviewVH(parent: ViewGroup) :
             }
         }
 }
-

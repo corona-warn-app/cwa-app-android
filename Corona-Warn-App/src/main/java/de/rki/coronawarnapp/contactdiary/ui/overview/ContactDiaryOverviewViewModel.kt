@@ -26,7 +26,6 @@ import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
@@ -185,7 +184,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             riskInfoAddition = R.string.contact_diary_event_risk_high
         )
 
-        val lowRiskEvent =  RiskEventItem.Event(
+        val lowRiskEvent = RiskEventItem.Event(
             name = "Test low risk",
             bulledPointColor = R.color.colorBulletPointLowRisk
         )
@@ -197,7 +196,6 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             events = listOf(highRiskEvent, lowRiskEvent)
         )
 
-
         if (isEmpty()) return null
 
         val isHighRisk = values.any { it?.riskState == RiskState.INCREASED_RISK }
@@ -206,7 +204,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         val drawableID: Int
         val title: Int
 
-        when(isHighRisk) {
+        when (isHighRisk) {
             true -> {
                 drawableID = R.drawable.ic_high_risk_alert
                 title = R.string.contact_diary_high_risk_title
@@ -225,7 +223,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             val bulletPointColor: Int
             var riskInfoAddition: Int?
 
-            when(entry.value?.riskState == RiskState.INCREASED_RISK) {
+            when (entry.value?.riskState == RiskState.INCREASED_RISK) {
                 true -> {
                     bulletPointColor = R.color.colorBulletPointHighRisk
                     riskInfoAddition = R.string.contact_diary_event_risk_high

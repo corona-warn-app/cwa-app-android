@@ -18,7 +18,7 @@ class ContactVH(parent: ViewGroup) :
 
     override val onBindData: ContactDiaryOverviewDayListItemContactBinding.(item: ContactItem, payloads: List<Any>) -> Unit =
         { item, _ ->
-            recyclerView.apply{
+            recyclerView.apply {
                 adapter = contactAdapter.apply { setItems(item.data) }
                 suppressLayout(true)
             }
