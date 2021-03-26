@@ -13,5 +13,7 @@ sealed class CheckInEvent {
 
     data class EditCheckIn(val checkInId: Long) : CheckInEvent()
 
+    data class ConfirmSwipeItem(val checkIn: CheckIn, val position: Int) : CheckInEvent()
+
     object ShowInformation : CheckInEvent()
 }
