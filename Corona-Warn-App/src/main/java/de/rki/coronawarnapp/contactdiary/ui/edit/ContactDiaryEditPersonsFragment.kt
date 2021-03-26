@@ -51,7 +51,6 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         }
 
         viewModel.navigationEvent.observe2(this) {
-
             when (it) {
                 ShowDeletionConfirmationDialog -> DialogHelper.showDialog(deleteAllPersonsConfirmationDialog)
                 is ShowPersonDetailFragment -> {
