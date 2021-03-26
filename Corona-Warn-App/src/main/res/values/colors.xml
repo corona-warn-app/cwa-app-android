@@ -95,4 +95,7 @@
     <!-- QR Code Scan -->
     <color name="colorQrCodeScanToolbar">#000000</color>
     <color name="colorQrCodeScanMask">#BFFFFFFF</color>
+
+    <!-- Swipe to delete background color -->
+    <color name="swipeDeleteBackgroundColor">#EB4D3D</color>
 </resources>
