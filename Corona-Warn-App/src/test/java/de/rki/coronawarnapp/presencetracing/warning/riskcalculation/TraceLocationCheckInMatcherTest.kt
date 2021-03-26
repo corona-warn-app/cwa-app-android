@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
+package de.rki.coronawarnapp.presencetracing.warning.riskcalculation
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage

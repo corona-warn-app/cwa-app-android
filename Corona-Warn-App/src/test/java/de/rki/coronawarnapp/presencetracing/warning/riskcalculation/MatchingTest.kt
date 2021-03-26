@@ -1,10 +1,9 @@
-package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
+package de.rki.coronawarnapp.presencetracing.warning.riskcalculation
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
-import de.rki.coronawarnapp.util.debug.measureTime
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runBlockingTest
@@ -13,7 +12,6 @@ import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
-import timber.log.Timber
 
 class MatchingTest {
     private val guid1 = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060"
