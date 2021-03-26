@@ -42,7 +42,8 @@ class MainActivityViewModelTest : BaseTest() {
 
         every { onboardingSettings.isOnboarded } returns true
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
-
+        every { traceLocationSettings.onboardingStatus } returns TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
+        every { onboardingSettings.isBackgroundCheckDone } returns true
         every { checkInRepository.allCheckIns } returns MutableStateFlow(listOf())
     }
 
