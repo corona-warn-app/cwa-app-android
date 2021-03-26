@@ -32,7 +32,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("provideArguments")
     fun `send should not be enabled for empty form`(category: TraceLocationCategory) {
-        val viewModel = TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
+        val viewModel = createViewModel(category)
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.isSendEnable shouldBe false
         }
@@ -41,7 +41,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("provideArguments")
     fun `title should be set according to the category item`(category: TraceLocationCategory) {
-        val viewModel = TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
+        val viewModel = createViewModel(category)
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.title shouldBe category.title
         }
@@ -50,7 +50,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("provideArguments")
     fun `send should be enabled when all data are entered`(category: TraceLocationCategory) {
-        val viewModel = TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
+        val viewModel = createViewModel(category)
 
         viewModel.address = "Address"
         viewModel.description = "Description"
@@ -66,7 +66,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("provideArguments")
     fun `send should not not be enabled when description it too long`(category: TraceLocationCategory) {
-        val viewModel = TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
+        val viewModel = createViewModel(category)
 
         viewModel.address = "Address"
         viewModel.description = "A".repeat(101)
@@ -82,7 +82,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("provideArguments")
     fun `send should not not be enabled when address it too long`(category: TraceLocationCategory) {
-        val viewModel = TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
+        val viewModel = createViewModel(category)
 
         viewModel.address = "A".repeat(101)
         viewModel.description = "Description"
@@ -97,8 +97,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
     @Test
     fun `begin and end should be visible for EVENT`() {
-        val viewModel =
-            TraceLocationCreateViewModel(category = categoryEvent, traceLocationCreator = traceLocationCreator)
+        val viewModel = createViewModel(categoryEvent)
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.isDateVisible shouldBe true
         }
@@ -106,8 +105,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
     @Test
     fun `begin and end should not be visible for LOCATION`() {
-        val viewModel =
-            TraceLocationCreateViewModel(category = categoryLocation, traceLocationCreator = traceLocationCreator)
+        val viewModel = createViewModel(categoryLocation)
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.isDateVisible shouldBe false
         }
@@ -115,8 +113,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
     @Test
     fun `send should not be enabled when length of stay is ZERO and category is LOCATION`() {
-        val viewModel =
-            TraceLocationCreateViewModel(category = categoryLocation, traceLocationCreator = traceLocationCreator)
+        val viewModel = createViewModel(categoryLocation)
 
         viewModel.address = "Address"
         viewModel.description = "Description"
@@ -129,8 +126,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
     @Test
     fun `send should be enabled when length of stay is ZERO and category is EVENT`() {
-        val viewModel =
-            TraceLocationCreateViewModel(category = categoryEvent, traceLocationCreator = traceLocationCreator)
+        val viewModel = createViewModel(categoryEvent)
 
         viewModel.address = "Address"
         viewModel.description = "Description"
@@ -145,8 +141,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
     @Test
     fun `send should not be enabled when end is before begin and category is EVENT`() {
-        val viewModel =
-            TraceLocationCreateViewModel(category = categoryEvent, traceLocationCreator = traceLocationCreator)
+        val viewModel = createViewModel(categoryEvent)
 
         viewModel.address = "Address"
         viewModel.description = "Description"
@@ -158,6 +153,9 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
             viewModel.uiState.value?.isSendEnable shouldBe false
         }
     }
+
+    private fun createViewModel(category: TraceLocationCategory) =
+        TraceLocationCreateViewModel(category = category, traceLocationCreator = traceLocationCreator)
 
     companion object {
         private val categoryLocation = TraceLocationCategory(
