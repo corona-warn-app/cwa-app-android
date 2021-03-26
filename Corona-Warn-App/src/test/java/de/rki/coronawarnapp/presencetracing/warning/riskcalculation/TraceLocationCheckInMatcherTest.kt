@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
+package de.rki.coronawarnapp.presencetracing.warning.riskcalculation
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
@@ -234,8 +234,9 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
         every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {
-            measureTime({ Timber.d("Time to compare 200 checkIns with 1000 warnings: $it millis")},
-                { createInstance().execute()}
+            measureTime(
+                { Timber.d("Time to compare 200 checkIns with 1000 warnings: $it millis") },
+                { createInstance().execute() }
             )
         }
     }

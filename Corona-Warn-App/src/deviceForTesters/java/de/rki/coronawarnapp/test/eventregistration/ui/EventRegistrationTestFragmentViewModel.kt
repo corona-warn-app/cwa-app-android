@@ -9,6 +9,9 @@ import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.CheckInOv
 import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.TraceLocationCheckInMatcher
 import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.findMatches
+import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.CheckInOverlap
+import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.TraceLocationCheckInMatcher
+import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.TraceLocationCheckInRiskPerDay
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
