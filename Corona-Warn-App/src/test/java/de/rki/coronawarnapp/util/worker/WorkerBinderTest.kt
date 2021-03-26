@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsS
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.eventregistration.storage.retention.EventRegistrationDbCleanUpScheduler
+import de.rki.coronawarnapp.eventregistration.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -106,7 +106,7 @@ class MockProvider {
 
     // For TraceLocation clean up periodic worker
     @Provides
-    fun traceLocationCleanUpScheduler(): EventRegistrationDbCleanUpScheduler = mockk()
+    fun traceLocationCleanUpScheduler(): TraceLocationDbCleanUpScheduler = mockk()
 
     // For TraceLocation clean up periodic worker
     @Provides

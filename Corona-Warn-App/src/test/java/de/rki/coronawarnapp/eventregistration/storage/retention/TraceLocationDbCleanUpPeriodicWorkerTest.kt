@@ -15,7 +15,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-internal class EventRegistrationDbCleanUpPeriodicWorkerTest {
+internal class TraceLocationDbCleanUpPeriodicWorkerTest {
 
     @MockK lateinit var context: Context
     @RelaxedMockK lateinit var workerParams: WorkerParameters
@@ -27,7 +27,7 @@ internal class EventRegistrationDbCleanUpPeriodicWorkerTest {
         MockKAnnotations.init(this)
     }
 
-    private fun createWorker() = EventRegistrationDbCleanUpPeriodicWorker(
+    private fun createWorker() = TraceLocationDbCleanUpPeriodicWorker(
         context = context,
         workerParams = workerParams,
         traceLocationCleaner = traceLocationCleaner,
