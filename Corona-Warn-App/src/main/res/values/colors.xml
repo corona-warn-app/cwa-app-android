@@ -94,4 +94,7 @@
     <color name="colorTraceLocationGradientBackground">#F5F5F5</color>
     <color name="colorTraceLocationButtonTextColor">#F5F5F5</color>
 
+
+    <!-- Swipe to delete background color -->
+    <color name="swipeDeleteBackgroundColor">#EB4D3D</color>
 </resources>
