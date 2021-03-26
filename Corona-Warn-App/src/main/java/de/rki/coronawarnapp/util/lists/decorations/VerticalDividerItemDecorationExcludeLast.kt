@@ -11,6 +11,7 @@ class VerticalDividerItemDecorationExcludeLast(
     context: Context
 ) : DividerItemDecoration(context, VERTICAL) {
 
+    @Suppress("NestedBlockDepth")
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val left = parent.paddingLeft
         val right = parent.width - parent.paddingRight

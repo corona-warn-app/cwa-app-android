@@ -69,7 +69,15 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     ) { dateList, locationVisists, personEncounters, riskLevelPerDateList, traceLocationCheckInRiskList ->
         mutableListOf<DiaryOverviewItem>().apply {
             add(OverviewSubHeaderItem)
-            addAll(createListItemList(dateList, locationVisists, personEncounters, riskLevelPerDateList, traceLocationCheckInRiskList))
+            addAll(
+                createListItemList(
+                    dateList,
+                    locationVisists,
+                    personEncounters,
+                    riskLevelPerDateList,
+                    traceLocationCheckInRiskList
+                )
+            )
         }.toList()
     }.asLiveData(dispatcherProvider.Default)
 
@@ -90,7 +98,11 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         traceLocationCheckInRiskList: List<TraceLocationCheckInRisk>
     ): List<DiaryOverviewItem> {
         Timber.v(
-            "createListItemList(dateList=%s, visits=%s, encounters=%s, riskLevelPerDateList=%s, traceLocationCheckInRiskList=%s",
+            "createListItemList(dateList=%s, " +
+                "visits=%s, " +
+                "encounters=%s, " +
+                "riskLevelPerDateList=%s, " +
+                "traceLocationCheckInRiskList=%s",
             dateList,
             visits,
             encounters,
@@ -117,7 +129,12 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 ?.toRisk(coreItemData.isNotEmpty())
 
             val riskeventItem = visitsForDate
-                .map { it to traceLocationCheckInRisksForDate.find { checkInRisk -> checkInRisk.checkInId == it.checkInID } }
+                .map {
+                    it to traceLocationCheckInRisksForDate.find {
+                        checkInRisk ->
+                        checkInRisk.checkInId == it.checkInID
+                    }
+                }
                 .toMap()
                 .filter { it.value != null }
                 .toRiskEventItem()

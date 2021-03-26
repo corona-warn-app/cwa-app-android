@@ -11,21 +11,23 @@ class RiskEnfVH(parent: ViewGroup) :
         parent = parent
     ) {
 
-    override val viewBinding: Lazy<ContactDiaryOverviewDayListItemRiskEnfBinding> =
-        lazy { ContactDiaryOverviewDayListItemRiskEnfBinding.bind(itemView) }
+    override val viewBinding:
+        Lazy<ContactDiaryOverviewDayListItemRiskEnfBinding> =
+            lazy { ContactDiaryOverviewDayListItemRiskEnfBinding.bind(itemView) }
 
-    override val onBindData: ContactDiaryOverviewDayListItemRiskEnfBinding.(item: RiskEnfItem, payloads: List<Any>) -> Unit =
-        { item, _ ->
+    override val onBindData:
+        ContactDiaryOverviewDayListItemRiskEnfBinding.(item: RiskEnfItem, payloads: List<Any>) -> Unit =
+            { item, _ ->
 
-            contactDiaryOverviewItemRiskTitle.text = context.getString(item.title)
-            this.contactDiaryOverviewRiskItemImage.setImageResource(item.drawableId)
+                contactDiaryOverviewItemRiskTitle.text = context.getString(item.title)
+                this.contactDiaryOverviewRiskItemImage.setImageResource(item.drawableId)
 
-            val sb = StringBuilder().append(context.getString(item.body))
+                val sb = StringBuilder().append(context.getString(item.body))
 
-            item.bodyExtended?.let { extend ->
-                sb.appendLine().append(context.getString(extend))
+                item.bodyExtended?.let { extend ->
+                    sb.appendLine().append(context.getString(extend))
+                }
+
+                this.contactDiaryOverviewItemRiskBody.text = sb
             }
-
-            this.contactDiaryOverviewItemRiskBody.text = sb
-        }
 }

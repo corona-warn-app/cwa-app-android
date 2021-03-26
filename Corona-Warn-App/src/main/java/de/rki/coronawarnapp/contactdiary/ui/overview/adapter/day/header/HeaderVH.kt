@@ -13,12 +13,14 @@ class HeaderVH(parent: ViewGroup) :
         parent = parent
     ) {
 
-    override val viewBinding: Lazy<ContactDiaryOverviewDayListItemHeaderBinding> =
-        lazy { ContactDiaryOverviewDayListItemHeaderBinding.bind(itemView) }
+    override val viewBinding:
+        Lazy<ContactDiaryOverviewDayListItemHeaderBinding> =
+            lazy { ContactDiaryOverviewDayListItemHeaderBinding.bind(itemView) }
 
-    override val onBindData: ContactDiaryOverviewDayListItemHeaderBinding.(item: HeaderItem, payloads: List<Any>) -> Unit =
-        { item, _ ->
-            name.text = item.date.toFormattedDay(context.getLocale())
-            headerBody.setOnClickListener { item.onclickListener(item) }
-        }
+    override val onBindData:
+        ContactDiaryOverviewDayListItemHeaderBinding.(item: HeaderItem, payloads: List<Any>) -> Unit =
+            { item, _ ->
+                name.text = item.date.toFormattedDay(context.getLocale())
+                headerBody.setOnClickListener { item.onclickListener(item) }
+            }
 }

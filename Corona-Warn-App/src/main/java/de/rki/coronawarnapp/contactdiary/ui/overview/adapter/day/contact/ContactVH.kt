@@ -13,14 +13,16 @@ class ContactVH(parent: ViewGroup) :
 
     private val contactAdapter by lazy { ContactAdapter() }
 
-    override val viewBinding: Lazy<ContactDiaryOverviewDayListItemContactBinding> =
-        lazy { ContactDiaryOverviewDayListItemContactBinding.bind(itemView) }
+    override val viewBinding:
+        Lazy<ContactDiaryOverviewDayListItemContactBinding> =
+            lazy { ContactDiaryOverviewDayListItemContactBinding.bind(itemView) }
 
-    override val onBindData: ContactDiaryOverviewDayListItemContactBinding.(item: ContactItem, payloads: List<Any>) -> Unit =
-        { item, _ ->
-            recyclerView.apply {
-                adapter = contactAdapter.apply { setItems(item.data) }
-                suppressLayout(true)
+    override val onBindData:
+        ContactDiaryOverviewDayListItemContactBinding.(item: ContactItem, payloads: List<Any>) -> Unit =
+            { item, _ ->
+                recyclerView.apply {
+                    adapter = contactAdapter.apply { setItems(item.data) }
+                    suppressLayout(true)
+                }
             }
-        }
 }

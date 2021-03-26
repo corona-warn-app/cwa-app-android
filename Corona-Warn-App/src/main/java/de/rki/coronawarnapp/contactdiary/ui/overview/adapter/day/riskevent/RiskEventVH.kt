@@ -16,7 +16,8 @@ class RiskEventVH(parent: ViewGroup) :
     override val viewBinding: Lazy<ContactDiaryOverviewDayListItemRiskEventBinding> =
         lazy { ContactDiaryOverviewDayListItemRiskEventBinding.bind(itemView) }
 
-    override val onBindData: ContactDiaryOverviewDayListItemRiskEventBinding.(item: RiskEventItem, payloads: List<Any>) -> Unit =
+    override val onBindData: ContactDiaryOverviewDayListItemRiskEventBinding.(item: RiskEventItem, payloads: List<Any>)
+    -> Unit =
         { item, _ ->
 
             with(context) {

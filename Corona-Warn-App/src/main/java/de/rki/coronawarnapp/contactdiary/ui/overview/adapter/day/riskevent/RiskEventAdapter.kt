@@ -28,21 +28,24 @@ class RiskEventAdapter : BaseAdapter<RiskEventAdapter.RiskEventListItemVH>() {
         BaseAdapter.VH(R.layout.contact_diary_overview_day_list_item_risk_event_list_item, parent),
         BindableVH<RiskEventItem.Event, ContactDiaryOverviewDayListItemRiskEventListItemBinding> {
 
-        override val viewBinding: Lazy<ContactDiaryOverviewDayListItemRiskEventListItemBinding> =
-            lazy { ContactDiaryOverviewDayListItemRiskEventListItemBinding.bind(itemView) }
+        override val viewBinding:
+            Lazy<ContactDiaryOverviewDayListItemRiskEventListItemBinding> =
+                lazy { ContactDiaryOverviewDayListItemRiskEventListItemBinding.bind(itemView) }
 
-        override val onBindData: ContactDiaryOverviewDayListItemRiskEventListItemBinding.(item: RiskEventItem.Event, payloads: List<Any>) -> Unit =
-            { item, _ ->
+        override val onBindData:
+            ContactDiaryOverviewDayListItemRiskEventListItemBinding.(item: RiskEventItem.Event, payloads: List<Any>)
+            -> Unit =
+                { item, _ ->
 
-                bulletPointImage.drawable?.setTint(context.getColorCompat(item.bulledPointColor))
+                    bulletPointImage.drawable?.setTint(context.getColorCompat(item.bulledPointColor))
 
-                var name = item.name
+                    var name = item.name
 
-                item.riskInfoAddition?.let {
-                    name += " (${context.getString(it)})"
+                    item.riskInfoAddition?.let {
+                        name += " (${context.getString(it)})"
+                    }
+
+                    eventName.text = name
                 }
-
-                eventName.text = name
-            }
     }
 }
