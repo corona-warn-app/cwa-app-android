@@ -132,4 +132,10 @@
     <!-- XTXT: Text for trace location creation card -->
     <string name="create_trace_location_card_button">"QR-Code erstellen"</string>
 
+    <!--  Organizer Flow: Event Detail Screen-->
+    <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
+    <string name="trace_location_event_detail_qr_code_accessibility">QR-Code</string>
+    <!-- XHED: Organizer Flow : Accessibility title for event-overview -->
+    <string name="trace_location_event_detail_title_accessibility">Event-Ansicht</string>
+
 </resources>
