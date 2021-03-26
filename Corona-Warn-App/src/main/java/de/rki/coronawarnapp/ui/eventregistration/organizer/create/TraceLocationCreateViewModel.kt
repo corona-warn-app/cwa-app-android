@@ -78,12 +78,12 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
                 mutableRequestState.postValue(ApiRequestState.FAILED)
                 error.postValue(exception)
             } finally {
-                updateState()
+                updateState(true)
             }
         }
     }
 
-    private fun updateState() {
+    private fun updateState(ignoreRequestState: Boolean = false) {
         mutableUiState.postValue(
             UIState(
                 begin = begin,
@@ -104,7 +104,7 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
                             end != null &&
                             end?.isAfter(begin) == true
                     }
-                } && requestState.value != ApiRequestState.STARTED
+                } && (ignoreRequestState || requestState.value != ApiRequestState.STARTED)
             )
         )
     }

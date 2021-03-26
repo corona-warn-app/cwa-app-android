@@ -17,6 +17,10 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationCreateFragmentBinding
+import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
+import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
+import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.DialogHelper
@@ -30,6 +34,7 @@ import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.joda.time.LocalTime
+import java.lang.Exception
 import javax.inject.Inject
 
 class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_fragment), AutoInject {
@@ -63,17 +68,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
-            // TODO: do not merge before implementing strings
-            DialogHelper.showDialog(
-                DialogHelper.DialogInstance(
-                    requireActivity(),
-                    "TODO: implement strings when available",
-                    error.localizedMessage,
-                    "OK",
-                    null,
-                    true
-                )
-            )
+            DialogHelper.showDialog(getErrorDialogInstance(error))
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
@@ -119,6 +114,48 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             it.hideKeyboard()
             viewModel.send()
         }
+    }
+
+    private fun getErrorDialogInstance(exception: Exception): DialogHelper.DialogInstance {
+        return when (exception) {
+            is CwaUnknownHostException, is NetworkReadTimeoutException, is NetworkConnectTimeoutException -> {
+                DialogHelper.DialogInstance(
+                    requireActivity(),
+                    R.string.tracelocation_generic_error_title,
+                    R.string.tracelocation_generic_network_error_body,
+                    R.string.errors_generic_button_positive
+                )
+            }
+            is CwaWebException -> {
+                DialogHelper.DialogInstance(
+                    requireActivity(),
+                    R.string.tracelocation_generic_error_title,
+                    getString(R.string.tracelocation_generic_qr_code_error_body_with_error_code, exception.statusCode),
+                    R.string.errors_generic_button_positive
+                )
+            }
+            else -> {
+                DialogHelper.DialogInstance(
+                    requireActivity(),
+                    R.string.tracelocation_generic_error_title,
+                    R.string.tracelocation_generic_qr_code_error_body,
+                    R.string.errors_generic_button_positive,
+                    R.string.errors_generic_button_negative,
+                    negativeButtonFunction = { showExceptionDetails(exception) }
+                )
+            }
+        }
+    }
+
+    private fun showExceptionDetails(exception: Exception) {
+        DialogHelper.showDialog(
+            DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.errors_generic_headline,
+                exception.toString(),
+                R.string.errors_generic_button_positive
+            )
+        )
     }
 
     private fun showDatePicker(
