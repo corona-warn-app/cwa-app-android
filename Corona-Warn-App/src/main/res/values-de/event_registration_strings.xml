@@ -140,6 +140,6 @@
     <!-- XBUT: Organizer Flow : Title for show print version button -->
     <string name="trace_location_event_detail_show_print_qr_code_button">Druckversion anzeigen</string>
     <!-- XBUT: Organizer Flow : Title for save as template button -->
-    <string name="trace_location_event_detail_save_as_template_button">Als Vorlage speichern</string>
+    <string name="trace_location_event_detail_save_as_template_button">Als Vorlage verwenden</string>
 
 </resources>
