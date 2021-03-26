@@ -19,7 +19,7 @@ class CheckOutHandler @Inject constructor(
      * Could happen on raceconditions, you should catch this, should be rare though.
      */
     suspend fun checkOut(checkInId: Long, checkOutAt: Instant = timeStamper.nowUTC) {
-        Timber.d("checkOut(checkInId=$checkInId)")
+        Timber.d("checkOut(checkInId=$checkInId, checkOutAt=%s)", checkOutAt)
 
         var createJournalEntry = false
         repository.updateCheckIn(checkInId) {

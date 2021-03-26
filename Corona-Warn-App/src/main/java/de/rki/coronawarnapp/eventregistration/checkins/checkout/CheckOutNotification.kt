@@ -16,7 +16,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class AutoCheckoutNotification @Inject constructor(
+class CheckOutNotification @Inject constructor(
     @AppContext private val context: Context,
     private val foregroundState: ForegroundState,
     private val notificationHelper: TraceLocationNotifications,

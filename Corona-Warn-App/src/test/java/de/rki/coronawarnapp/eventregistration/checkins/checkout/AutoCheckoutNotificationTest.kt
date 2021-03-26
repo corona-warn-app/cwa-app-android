@@ -26,7 +26,7 @@ class AutoCheckoutNotificationTest : BaseTest() {
         every { foregroundState.isInForeground } returns flowOf(false)
     }
 
-    private fun createInstance() = AutoCheckoutNotification(
+    private fun createInstance() = CheckOutNotification(
         notificationHelper = traceLocationNotifications,
         context = context,
         foregroundState = foregroundState,
