@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemActiveBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.PeriodType
@@ -30,18 +31,20 @@ class ActiveCheckInVH(parent: ViewGroup) :
     override val onBindData: TraceLocationAttendeeCheckinsItemActiveBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
-        val checkInStartUserTZ = item.checkin.checkInStart.toUserTimeZone()
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+
+        val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
 
         val checkinDuration = Duration(checkInStartUserTZ, Instant.now())
         highlightDuration.text = highlightDurationForamtter.print(checkinDuration.toPeriod())
 
-        description.text = item.checkin.description
-        address.text = item.checkin.address
+        description.text = curItem.checkin.description
+        address.text = curItem.checkin.address
         val startDate = checkInStartUserTZ.toLocalDate()
         traceLocationCardHighlightView.setCaption(startDate.toString(DateTimeFormat.mediumDate()))
 
-        val autoCheckoutText = item.checkin.defaultCheckInLengthInMinutes?.let { checkoutLength ->
+        val autoCheckoutText = curItem.checkin.defaultCheckInLengthInMinutes?.let { checkoutLength ->
             val checkoutAt = checkInStartUserTZ.plus(Duration.standardMinutes(checkoutLength.toLong()))
             val checkoutIn = Duration(Instant.now(), checkoutAt).let {
                 val periodType = when {
@@ -63,14 +66,14 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         menuAction.setupMenu(R.menu.menu_trace_location_attendee_checkin_item) {
             when (it.itemId) {
-                R.id.menu_remove_item -> item.onRemoveItem(item.checkin).let { true }
+                R.id.menu_remove_item -> curItem.onRemoveItem(curItem.checkin).let { true }
                 else -> false
             }
         }
 
-        checkoutAction.setOnClickListener { item.onCheckout(item.checkin) }
+        checkoutAction.setOnClickListener { curItem.onCheckout(curItem.checkin) }
 
-        itemView.setOnClickListener { item.onCardClicked(item.checkin) }
+        itemView.setOnClickListener { curItem.onCardClicked(curItem.checkin) }
     }
 
     data class Item(
@@ -78,8 +81,10 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val onCardClicked: (CheckIn) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit,
         val onCheckout: (CheckIn) -> Unit,
-    ) : CheckInsItem {
+    ) : CheckInsItem, HasPayloadDiffer {
         override val stableId: Long = checkin.id
+
+        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 
     companion object {
