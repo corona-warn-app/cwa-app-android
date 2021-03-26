@@ -8,8 +8,15 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,11 +28,24 @@ import javax.inject.Singleton
 @Singleton
 class AutoCheckOut @Inject constructor(
     @AppContext private val context: Context,
+    @AppScope private val appScope: CoroutineScope,
     private val repository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
     private val alarmManager: AlarmManager,
     private val timeStamper: TimeStamper,
 ) {
+
+    init {
+        repository.allCheckIns
+            .onStart { Timber.tag(TAG).v("Monitoring check-ins.") }
+            .map { checkins -> checkins.map { it.id } }
+            .distinctUntilChanged()
+            .onEach {
+                Timber.tag(TAG).i("Check-in was added or removed, refreshing alarm.")
+                refreshAlarm()
+            }
+            .launchIn(appScope)
+    }
 
     private fun createIntent(checkInId: Long? = null): PendingIntent {
         val updateServiceIntent = Intent(context, AutoCheckOutBootRestoreReceiver::class.java).apply {
