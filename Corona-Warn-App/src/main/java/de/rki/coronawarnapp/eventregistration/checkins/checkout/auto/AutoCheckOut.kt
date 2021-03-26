@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,6 +36,8 @@ class AutoCheckOut @Inject constructor(
     private val alarmManager: AlarmManager,
     private val timeStamper: TimeStamper,
 ) {
+
+    private val mutex = Mutex()
 
     init {
         repository.allCheckIns
@@ -61,7 +65,7 @@ class AutoCheckOut @Inject constructor(
         ?.filter { !it.completed }
         ?.minByOrNull { it.checkInEnd }
 
-    suspend fun refreshAlarm(): Boolean {
+    suspend fun refreshAlarm(): Boolean = mutex.withLock {
         Timber.tag(TAG).d("refreshAlarm()")
 
         val nextCheckout = findNextAutoCheckOut()
@@ -78,7 +82,7 @@ class AutoCheckOut @Inject constructor(
         }
     }
 
-    suspend fun processOverDueCheckouts(): List<Long> {
+    suspend fun processOverDueCheckouts(): List<Long> = mutex.withLock {
         Timber.tag(TAG).d("processOverDueCheckouts()")
 
         val overDueCheckouts = run {
@@ -103,7 +107,7 @@ class AutoCheckOut @Inject constructor(
         return successfulCheckouts.map { it.id }
     }
 
-    suspend fun performCheckOut(targetId: Long): Boolean {
+    suspend fun performCheckOut(targetId: Long): Boolean = mutex.withLock {
         Timber.tag(TAG).v("performCheckOut(targetId=$targetId)")
 
         if (targetId == 0L) {
