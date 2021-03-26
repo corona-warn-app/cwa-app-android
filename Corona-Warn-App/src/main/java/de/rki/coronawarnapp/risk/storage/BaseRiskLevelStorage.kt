@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.risk.storage
 
-import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.PresenceTracingDayRisk
-import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.PresenceTracingRiskRepository
-import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.mapToRiskState
+import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.PresenceTracingDayRisk
+import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.mapToRiskState
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
 import de.rki.coronawarnapp.risk.RiskState

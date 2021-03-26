@@ -5,13 +5,10 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.DummyCheckInPackage
-import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.CheckInOverlap
-import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.PresenceTracingRiskCalculator
-import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.TraceLocationCheckInMatcher
-import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.findMatches
 import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.CheckInOverlap
+import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.TraceLocationCheckInMatcher
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.TraceLocationCheckInRiskPerDay
+import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.findMatches
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel

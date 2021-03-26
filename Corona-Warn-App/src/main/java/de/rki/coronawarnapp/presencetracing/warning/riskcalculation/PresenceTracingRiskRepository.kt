@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
+package de.rki.coronawarnapp.presencetracing.warning.riskcalculation
 
 import androidx.room.Dao
 import androidx.room.Entity

@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.risk.storage
 
-import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindow
