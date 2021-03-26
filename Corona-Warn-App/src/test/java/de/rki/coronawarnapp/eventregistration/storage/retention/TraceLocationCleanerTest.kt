@@ -66,7 +66,6 @@ internal class TraceLocationCleanerTest : BaseTest() {
 
         createInstance().cleanUp()
         verify(exactly = 0) { traceLocationRepository.deleteTraceLocation(any()) }
-
     }
 
     @Test
