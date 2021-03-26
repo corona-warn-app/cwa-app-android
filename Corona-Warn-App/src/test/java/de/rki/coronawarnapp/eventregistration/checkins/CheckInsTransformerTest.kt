@@ -158,7 +158,7 @@ class CheckInsTransformerTest : BaseTest() {
             .setTransmissionRiskLevel(6)
             .setTransmissionRiskValue(0.0) // CheckIn will be excluded ,as TRV here = 0
             .build(),
-        // Transmission Mapping for TRL = 7 and therefore one of the CheckIns should excluded
+        // No transmissionMapping for TRL = 7 and therefore one of the check-ins is excluded
         TransmissionRiskValueMapping.newBuilder()
             .setTransmissionRiskLevel(8)
             .setTransmissionRiskValue(2.0)
