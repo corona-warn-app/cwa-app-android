@@ -2,12 +2,6 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.details
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color.BLACK
-import android.graphics.Color.WHITE
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.EncodeHintType
-import com.google.zxing.MultiFormatWriter
-import com.google.zxing.common.BitMatrix
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -21,6 +15,7 @@ import timber.log.Timber
 class QrCodeDetailViewModel @AssistedInject constructor(
     private val dispatcher: DispatcherProvider,
     private val appConfigProvider: AppConfigProvider,
+    private val qrCodeGenerator: QrCodeGenerator,
     @AppContext private val context: Context,
 ) : CWAViewModel() {
 
@@ -41,55 +36,17 @@ class QrCodeDetailViewModel @AssistedInject constructor(
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
      */
     fun createQrCode(input: String) = launch(context = dispatcher.IO) {
-        qrCodeBitmap.postValue(encodeAsBitmap(input))
+
+        try {
+            qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(input))
+        } catch (e: Exception) {
+            Timber.d(e, "Qr code creation failed")
+            errorMessage.postValue(e.localizedMessage ?: "QR code creation failed")
+        }
     }
 
     fun onBackButtonPress() {
         routeToScreen.postValue(QrCodeDetailNavigationEvents.NavigateBack)
-    }
-
-    /* QR CODE GENERATION WILL BE OUTSOURCED TO A COMPONENT IN A DIFFERENT PR
-    -> includes encodeAsBitmap() and BitMatrix.toBitmap() */
-
-    private suspend fun encodeAsBitmap(input: String, size: Int = 1000): Bitmap? {
-        return try {
-            val qrCodeErrorCorrectionLevel = appConfigProvider
-                .getAppConfig()
-                .presenceTracing
-                .qrCodeErrorCorrectionLevel
-            Timber.i("QrCodeErrorCorrectionLevel: $qrCodeErrorCorrectionLevel")
-            val hints = mapOf(
-                EncodeHintType.ERROR_CORRECTION to qrCodeErrorCorrectionLevel
-            )
-            MultiFormatWriter().encode(
-                input,
-                BarcodeFormat.QR_CODE,
-                size,
-                size,
-                hints
-            ).toBitmap()
-        } catch (e: Exception) {
-            Timber.d(e, "Qr code creation failed")
-            errorMessage.postValue(e.localizedMessage ?: "QR code creation failed")
-            null
-        }
-    }
-
-    private fun BitMatrix.toBitmap(): Bitmap {
-        val bitmap = Bitmap.createBitmap(
-            context.resources.displayMetrics,
-            width,
-            height,
-            Bitmap.Config.ARGB_8888
-        )
-
-        for (x in 0 until width) {
-            for (y in 0 until height) {
-                val color = if (get(x, y)) BLACK else WHITE
-                bitmap.setPixel(x, y, color)
-            }
-        }
-        return bitmap
     }
 
     @AssistedFactory
