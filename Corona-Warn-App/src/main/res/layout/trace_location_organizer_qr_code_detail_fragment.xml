@@ -141,7 +141,7 @@
                     android:layout_marginHorizontal="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:gravity="center"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textStyle="normal"
                     tools:text="21.01.2021, 18:00 - 21:00 Uhr">
 
