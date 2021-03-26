@@ -34,7 +34,13 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
      */
     fun createQrCode(input: String) = launch(context = dispatcher.IO) {
-        qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(input))
+
+        try {
+            qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(input))
+        } catch (e: Exception) {
+            Timber.d(e, "Qr code creation failed")
+            errorMessage.postValue(e.localizedMessage ?: "QR code creation failed")
+        }
     }
 
     /**
