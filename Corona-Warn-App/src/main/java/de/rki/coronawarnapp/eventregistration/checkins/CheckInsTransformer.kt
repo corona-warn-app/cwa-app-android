@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.v2
-    .RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
+.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
@@ -73,31 +73,32 @@ class CheckInsTransformer @Inject constructor(
     private suspend fun CheckIn.toOuterCheckIn(
         transmissionVector: TransmissionRiskVector
     ): CheckInOuterClass.CheckIn? {
-        val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder()
-            .setLocation(traceLocationBytes.toProtoByteString())
-            .setSignature(signature.toProtoByteString())
-            .build()
-
-        val transmissionRiskLevel = determineRiskTransmission(timeStamper.nowUTC, transmissionVector)
-        val transmissionRiskValueMappings: List<TransmissionRiskValueMapping> =
+        val trvMappings: List<TransmissionRiskValueMapping> =
             appConfigProvider.getAppConfig()
                 .presenceTracing
                 .riskCalculationParameters
                 .transmissionRiskValueMapping
 
+        val transmissionRiskLevel = determineRiskTransmission(
+            timeStamper.nowUTC,
+            transmissionVector
+        )
+
         // Find transmissionRiskValue for matched transmissionRiskLevel - default 0.0 if no match
-        val transmissionRiskValue = transmissionRiskValueMappings.find {
+        val transmissionRiskValue = trvMappings.find {
             it.transmissionRiskLevel == transmissionRiskLevel
         }?.transmissionRiskValue ?: 0.0
 
-        // Exclude check-in with
+        // Exclude check-in with TRV = 0.0
         if (transmissionRiskValue == 0.0) {
-            Timber.d(
-                "CheckIn with TRL=%s is excluded from submission due to TRV=0",
-                transmissionRiskLevel
-            )
+            Timber.d("CheckIn has TRL=$transmissionRiskLevel is excluded from submission (TRV=0)")
             return null // Not mapped
         }
+
+        val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder()
+            .setLocation(traceLocationBytes.toProtoByteString())
+            .setSignature(signature.toProtoByteString())
+            .build()
 
         return CheckInOuterClass.CheckIn.newBuilder()
             .setSignedLocation(signedTraceLocation)
