@@ -10,7 +10,6 @@ import com.google.zxing.common.BitMatrix
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import timber.log.Timber
 import javax.inject.Inject
 
