@@ -70,8 +70,13 @@ abstract class ModularAdapter<VH : ModularAdapter.VH> : BaseAdapter<VH>() {
         }
 
         interface Binder<T : VH> : Module {
-            fun onBindModularVH(adapter: ModularAdapter<T>, vh: T, pos: Int, payloads: MutableList<Any>) {}
-            fun onPostBind(adapter: ModularAdapter<T>, vh: T, pos: Int) {}
+            fun onBindModularVH(adapter: ModularAdapter<T>, vh: T, pos: Int, payloads: MutableList<Any>) {
+                // NOOP
+            }
+
+            fun onPostBind(adapter: ModularAdapter<T>, vh: T, pos: Int) {
+                // NOOP
+            }
         }
 
         interface Typing : Module {

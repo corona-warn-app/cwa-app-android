@@ -2,12 +2,16 @@ package de.rki.coronawarnapp.ui.eventregistration
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.CheckInsFragment
-import de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.CheckInsModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragment
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsFragment
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsModule
 import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInModule
 import de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeFragment
 import de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragmentModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragmentModule
 
 @Module
 internal abstract class EventRegistrationUIModule {
@@ -20,4 +24,10 @@ internal abstract class EventRegistrationUIModule {
 
     @ContributesAndroidInjector(modules = [CheckInsModule::class])
     abstract fun checkInsFragment(): CheckInsFragment
+
+    @ContributesAndroidInjector(modules = [TraceLocationCategoryFragmentModule::class])
+    abstract fun traceLocationCategoryFragment(): TraceLocationCategoryFragment
+
+    @ContributesAndroidInjector(modules = [TraceLocationCreateFragmentModule::class])
+    abstract fun traceLocationCreateFragment(): TraceLocationCreateFragment
 }

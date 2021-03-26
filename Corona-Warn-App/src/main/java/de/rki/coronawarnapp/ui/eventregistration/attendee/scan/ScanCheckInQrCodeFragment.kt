@@ -13,7 +13,7 @@ import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentScanCheckInQrCodeBinding
-import de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.CheckInsFragment
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -61,7 +61,7 @@ class ScanCheckInQrCodeFragment :
                 is ScanCheckInQrCodeNavigation.ScanResultNavigation -> {
                     Timber.i(navEvent.uri)
                     findNavController().navigate(
-                        CheckInsFragment.uri(navEvent.uri),
+                        CheckInsFragment.createCheckInUri(navEvent.uri),
                         NavOptions.Builder()
                             .setPopUpTo(R.id.checkInsFragment, true)
                             .build()

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.risk.storage
 
 import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import kotlinx.coroutines.flow.Flow
 
@@ -35,6 +36,12 @@ interface RiskLevelStorage {
      * Item with newest date first.
      */
     val aggregatedRiskPerDateResults: Flow<List<AggregatedRiskPerDateResult>>
+
+    /**
+     * Risk level per date/day and checkIn
+     * Used by contact diary overview
+     */
+    val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>>
 
     suspend fun deleteAggregatedRiskPerDateResults(results: List<AggregatedRiskPerDateResult>)
 

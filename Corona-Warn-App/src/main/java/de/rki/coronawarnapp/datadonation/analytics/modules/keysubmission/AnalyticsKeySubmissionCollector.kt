@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
+import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
@@ -53,6 +54,13 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
                     hours
                 }
             }
+        }
+
+        analyticsKeySubmissionStorage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+            calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+                riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
+                testRegisteredAt
+            )
         }
     }
 

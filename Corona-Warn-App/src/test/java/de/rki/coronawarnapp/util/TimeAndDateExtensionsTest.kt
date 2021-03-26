@@ -3,8 +3,10 @@ package de.rki.coronawarnapp.util
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.calculateDays
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.getCurrentHourUTC
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.mockkObject
@@ -69,5 +71,32 @@ class TimeAndDateExtensionsTest : BaseTest() {
         Instant.ofEpochMilli(1000).seconds shouldBe 1
         Instant.ofEpochMilli(1999).seconds shouldBe 1
         Instant.ofEpochMilli(2000).seconds shouldBe 2
+    }
+
+    @Test
+    fun `seconds to instant`() {
+        2687955L.secondsToInstant() shouldBe Instant.parse("1970-02-01T02:39:15.000Z")
+    }
+
+    @Test
+    fun `0 seconds to instant`() {
+        0L.secondsToInstant() shouldBe Instant.parse("1970-01-01T00:00:00.000Z")
+    }
+
+    @Test
+    fun `-10 seconds to instant`() {
+        (-10).toLong().secondsToInstant() shouldBe Instant.parse("1969-12-31T23:59:50.000Z")
+    }
+
+    @Test
+    fun `derive 10 minutes interval`() {
+        Instant.parse("2021-03-02T09:57:11+01:00")
+            .derive10MinutesInterval() shouldBe 2691125
+    }
+
+    @Test
+    fun `derive 10 minutes interval should be 0`() {
+        Instant.parse("1970-01-01T00:00:00.000Z")
+            .derive10MinutesInterval() shouldBe 0
     }
 }
