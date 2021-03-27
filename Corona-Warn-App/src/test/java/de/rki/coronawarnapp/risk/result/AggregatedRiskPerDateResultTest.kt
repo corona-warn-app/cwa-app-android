@@ -29,9 +29,9 @@ class AggregatedRiskPerDateResultTest : BaseTest() {
         val yesterdayAggregatedRiskPerDateResult = createAggregatedRiskPerDateResult(yesterdayInstant)
         val tomorrowAggregatedRiskPerDateResult = createAggregatedRiskPerDateResult(tomorrowInstant)
 
-        todayAggregatedRiskPerDateResult.day shouldBe todayLocalDate
-        yesterdayAggregatedRiskPerDateResult.day shouldBe yesterdayLocalDate
-        tomorrowAggregatedRiskPerDateResult.day shouldBe tomorrowLocalDate
+        todayAggregatedRiskPerDateResult.localDateUtc shouldBe todayLocalDate
+        yesterdayAggregatedRiskPerDateResult.localDateUtc shouldBe yesterdayLocalDate
+        tomorrowAggregatedRiskPerDateResult.localDateUtc shouldBe tomorrowLocalDate
     }
 
     private fun createAggregatedRiskPerDateResult(date: Instant) = AggregatedRiskPerDateResult(

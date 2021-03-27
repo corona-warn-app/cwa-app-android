@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationConverters
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.TraceTimeIntervalMatchDao
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.TraceTimeIntervalMatchEntity
+import de.rki.coronawarnapp.presencetracing.risk.TraceTimeIntervalMatchDao
+import de.rki.coronawarnapp.presencetracing.risk.TraceTimeIntervalMatchEntity
 import de.rki.coronawarnapp.util.database.CommonConverters
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject

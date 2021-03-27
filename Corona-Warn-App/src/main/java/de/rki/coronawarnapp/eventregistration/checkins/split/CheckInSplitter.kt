@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.eventregistration.checkins.split
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -15,7 +15,7 @@ import kotlin.math.ceil
  */
 fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     Timber.d("Starting splitByMidnightUTC ...")
-    if (checkInStart.toLocalDate() == checkInEnd.toLocalDate()) return listOf(this)
+    if (checkInStart.toLocalDateUtc() == checkInEnd.toLocalDateUtc()) return listOf(this)
     val startTimeSeconds = checkInStart.seconds
     val endTimeSeconds = checkInEnd.seconds
     val durationSecondsUTC = endTimeSeconds - startTimeSeconds.toMidnightUTC()

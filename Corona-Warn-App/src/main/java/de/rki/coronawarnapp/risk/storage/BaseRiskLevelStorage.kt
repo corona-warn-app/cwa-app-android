@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.risk.storage
 
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.PresenceTracingDayRisk
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.PresenceTracingRiskRepository
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.mapToRiskState
+import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingDayRisk
+import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.risk.mapToRiskState
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
 import de.rki.coronawarnapp.risk.RiskState
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import java.lang.reflect.Modifier.PRIVATE
 
 abstract class BaseRiskLevelStorage constructor(
     private val riskResultDatabaseFactory: RiskResultDatabase.Factory,
@@ -170,7 +172,7 @@ abstract class BaseRiskLevelStorage constructor(
         presenceTracingRiskRepository.presenceTracingDayRisk
 
     override val aggregatedDayRisk: Flow<List<AggregatedDayRisk>>
-        get() = de.rki.coronawarnapp.util.flow.combine(
+        get() = combine(
             presenceTracingDayRisk,
             aggregatedRiskPerDateResults
         ) { ptRiskList, ewRiskList ->
@@ -191,14 +193,15 @@ abstract class BaseRiskLevelStorage constructor(
     }
 }
 
-private fun combineRisk(
+@VisibleForTesting(otherwise = PRIVATE)
+internal fun combineRisk(
     ptRiskList: List<PresenceTracingDayRisk>,
     ewRiskList: List<AggregatedRiskPerDateResult>
 ): List<AggregatedDayRisk> {
-    val allDates = ptRiskList.map { it.localDate }.plus(ewRiskList.map { it.day }).distinct()
+    val allDates = ptRiskList.map { it.localDateUtc }.plus(ewRiskList.map { it.localDateUtc }).distinct()
     return allDates.map { date ->
-        val ptRisk = ptRiskList.find { it.localDate == date }
-        val ewRisk = ewRiskList.find { it.day == date }
+        val ptRisk = ptRiskList.find { it.localDateUtc == date }
+        val ewRisk = ewRiskList.find { it.localDateUtc == date }
         AggregatedDayRisk(
             date,
             max(
@@ -209,7 +212,8 @@ private fun combineRisk(
     }
 }
 
-private fun max(left: RiskState?, right: RiskState?): RiskState {
+@VisibleForTesting(otherwise = PRIVATE)
+internal fun max(left: RiskState?, right: RiskState?): RiskState {
     return if (left == RiskState.INCREASED_RISK || right == RiskState.INCREASED_RISK) RiskState.INCREASED_RISK
     else if (left == RiskState.LOW_RISK || right == RiskState.LOW_RISK) RiskState.LOW_RISK
     else RiskState.CALCULATION_FAILED

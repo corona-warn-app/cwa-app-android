@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.risk.storage
 
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao.PersistedScanInstance

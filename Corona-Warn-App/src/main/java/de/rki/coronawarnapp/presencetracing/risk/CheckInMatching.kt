@@ -9,7 +9,7 @@ import org.joda.time.Instant
 internal suspend fun findMatches(
     checkIns: List<CheckIn>,
     warningPackage: TraceTimeIntervalWarningPackage
-): List<CheckInOverlap> {
+): List<CheckInWarningOverlap> {
 
     val relevantWarnings =
         filterRelevantWarnings(

@@ -5,13 +5,10 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.DummyCheckInPackage
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.CheckInOverlap
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.PresenceTracingRiskCalculator
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.TraceLocationCheckInMatcher
-import de.rki.coronawarnapp.presencetracing.warning.riskcalculation.findMatches
-import de.rki.coronawarnapp.presencetracing.risk.CheckInRiskPerDay
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
+import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskCalculator
+import de.rki.coronawarnapp.presencetracing.risk.findMatches
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -22,11 +19,11 @@ import timber.log.Timber
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val traceLocationCheckInMatcher: TraceLocationCheckInMatcher,
+    private val checkInWarningMatcher: CheckInWarningMatcher,
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val checkInOverlaps = mutableListOf<CheckInOverlap>()
+    private val checkInWarningOverlaps = mutableListOf<CheckInWarningOverlap>()
     val checkInOverlapsText = MutableLiveData<String>()
     val matchingRuntime = MutableLiveData<Long>()
     val riskCalculationRuntime = MutableLiveData<Long>()
@@ -41,23 +38,23 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                     matchingRuntime.postValue(it)
                 },
                 {
-                    checkInOverlaps.clear()
-                    checkInOverlaps.addAll(
+                    checkInWarningOverlaps.clear()
+                    checkInWarningOverlaps.addAll(
                         (1..100).flatMap {
                             findMatches(checkIns, DummyCheckInPackage)
                         }
                     )
-                    if (checkInOverlaps.size < 100) {
-                        val text = checkInOverlaps.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
+                    if (checkInWarningOverlaps.size < 100) {
+                        val text = checkInWarningOverlaps.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
                             stringBuilder
                                 .append("CheckIn Id ${checkInOverlap.checkInId}, ")
-                                .append("Date ${checkInOverlap.localDate}, ")
+                                .append("Date ${checkInOverlap.localDateUtc}, ")
                                 .append("Min. ${checkInOverlap.overlap.standardMinutes}")
                                 .append("\n")
                         }
                         checkInOverlapsText.postValue(text.toString())
                     } else {
-                        checkInOverlapsText.postValue("Output too large. ${checkInOverlaps.size} lines")
+                        checkInOverlapsText.postValue("Output too large. ${checkInWarningOverlaps.size} lines")
                     }
                 }
             )
@@ -73,7 +70,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 },
                 {
                     val normalizedTimePerCheckInDayList =
-                        presenceTracingRiskCalculator.calculateNormalizedTime(checkInOverlaps)
+                        presenceTracingRiskCalculator.calculateNormalizedTime(checkInWarningOverlaps)
                     val riskStates =
                         presenceTracingRiskCalculator.calculateCheckInRiskPerDay(normalizedTimePerCheckInDayList)
 
@@ -81,7 +78,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                         val text = riskStates.fold(StringBuilder()) { stringBuilder, checkInRiskPerDay ->
                             stringBuilder
                                 .append("CheckIn Id ${checkInRiskPerDay.checkInId}, ")
-                                .append("Date ${checkInRiskPerDay.localDate}, ")
+                                .append("Date ${checkInRiskPerDay.localDateUtc}, ")
                                 .append("RiskState ${checkInRiskPerDay.riskState}")
                                 .append("\n")
                         }

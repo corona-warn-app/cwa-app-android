@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.presencetracing.risk
 
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.DateTimeConstants
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -12,13 +12,13 @@ import kotlin.math.roundToLong
 
 data class CheckInNormalizedTime(
     val checkInId: Long,
-    val localDate: LocalDate,
+    val localDateUtc: LocalDate,
     val normalizedTime: Double
 )
 
 data class CheckInRiskPerDay(
     override val checkInId: Long,
-    override val localDate: LocalDate,
+    override val localDateUtc: LocalDate,
     override val riskState: RiskState
 ) : TraceLocationCheckInRisk
 
@@ -29,13 +29,13 @@ data class CheckInWarningOverlap(
     val startTime: Instant,
     val endTime: Instant
 ) {
-    val localDate = startTime.toLocalDate()
+    val localDateUtc = startTime.toLocalDateUtc()
     val overlap: Duration = Duration(max((endTime.millis - startTime.millis), 0))
     val roundedMinutes = (overlap.millis.toDouble() / DateTimeConstants.MILLIS_PER_MINUTE.toDouble()).roundToLong()
     fun normalizedTime(transmissionRiskValue: Double) = transmissionRiskValue * roundedMinutes
 }
 
 data class PresenceTracingDayRisk(
-    val localDate: LocalDate,
+    val localDateUtc: LocalDate,
     val riskState: RiskState
 )
