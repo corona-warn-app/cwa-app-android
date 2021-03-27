@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.warning.riskcalculation
+package de.rki.coronawarnapp.presencetracing.risk
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
 
-class TraceLocationCheckInMatcherTest : BaseTest() {
+class CheckInWarningMatcherTest : BaseTest() {
 
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository
@@ -218,7 +218,7 @@ class TraceLocationCheckInMatcherTest : BaseTest() {
         }
     }
 
-    private fun createInstance() = TraceLocationCheckInMatcher(
+    private fun createInstance() = CheckInWarningMatcher(
         checkInsRepository,
         traceTimeIntervalWarningRepository
     )

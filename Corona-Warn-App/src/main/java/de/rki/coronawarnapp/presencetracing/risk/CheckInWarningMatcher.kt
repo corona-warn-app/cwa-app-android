@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.warning.riskcalculation
+package de.rki.coronawarnapp.presencetracing.risk
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
@@ -8,17 +8,15 @@ import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
-class TraceLocationCheckInMatcher @Inject constructor(
+class CheckInWarningMatcher @Inject constructor(
     private val checkInsRepository: CheckInRepository,
     private val traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository
 ) {
-    suspend fun execute(): List<CheckInOverlap> {
+    suspend fun execute(): List<CheckInWarningOverlap> {
         val checkIns = checkInsRepository.allCheckIns.firstOrNull() ?: return emptyList()
 
-        // TODO only new packages
         val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull() ?: return emptyList()
 
-        // TODO store matches in db
         return warningPackages
             .flatMap { warningPackage ->
                 findMatches(checkIns, warningPackage)
@@ -29,7 +27,7 @@ class TraceLocationCheckInMatcher @Inject constructor(
 private suspend fun findMatches(
     checkIns: List<CheckIn>,
     warningPackage: TraceTimeIntervalWarningPackage
-): List<CheckInOverlap> {
+): List<CheckInWarningOverlap> {
 
     val relevantWarnings =
         filterRelevantWarnings(
