@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.checkout.auto
+package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
 
 import android.app.PendingIntent
 import android.content.Context

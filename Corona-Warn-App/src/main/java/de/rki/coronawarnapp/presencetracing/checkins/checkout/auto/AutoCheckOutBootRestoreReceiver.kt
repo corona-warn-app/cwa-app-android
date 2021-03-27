@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.checkout.auto
+package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class AutoCheckOutReceiver : BroadcastReceiver() {
+class AutoCheckOutBootRestoreReceiver : BroadcastReceiver() {
     @Inject @AppScope lateinit var scope: CoroutineScope
     @Inject lateinit var dispatcherProvider: DispatcherProvider
     @Inject lateinit var workManager: WorkManager
@@ -23,7 +23,7 @@ class AutoCheckOutReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Timber.d("onReceive(context=%s, intent=%s)", context, intent)
 
-        if (ACTION_AUTO_CHECKOUT != intent.action) {
+        if (!EXPECTED_INTENTS.contains(intent.action)) {
             Timber.e("Received unknown intent action: %s", intent.action)
             return
         }
@@ -34,10 +34,7 @@ class AutoCheckOutReceiver : BroadcastReceiver() {
 
         scope.launch(context = scope.coroutineContext) {
             try {
-                val checkInId = intent.getLongExtra(ARGKEY_RECEIVER_CHECKIN_ID, 0)
-
                 val data = Data.Builder()
-                    .putLong(AutoCheckOutWorker.ARGKEY_CHECKIN_ID, checkInId)
                     .putBoolean(AutoCheckOutWorker.ARGKEY_PROCESS_OVERDUE, true)
                     .build()
 
@@ -47,9 +44,9 @@ class AutoCheckOutReceiver : BroadcastReceiver() {
                     .build()
                     .let { workManager.enqueue(it) }
 
-                Timber.i("AutoCheckoutWorker queued for Check-in#$checkInId")
+                Timber.i("Post boot refresh queued.")
             } catch (e: Exception) {
-                e.reportProblem("AutoCheckOutReceiver", "Failed to process intent.")
+                e.reportProblem("AutoCheckOutBootRestoreReceiver", "Failed to process intent.")
             } finally {
                 Timber.i("Finished processing broadcast.")
                 async.finish()
@@ -58,7 +55,9 @@ class AutoCheckOutReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        const val ARGKEY_RECEIVER_CHECKIN_ID = "autoCheckout.checkInId"
-        const val ACTION_AUTO_CHECKOUT = "de.rki.coronawarnapp.intent.action.AUTO_CHECKOUT"
+        private val EXPECTED_INTENTS = listOf(
+            Intent.ACTION_BOOT_COMPLETED,
+            Intent.ACTION_MY_PACKAGE_REPLACED
+        )
     }
 }

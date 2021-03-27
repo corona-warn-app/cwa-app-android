@@ -54,10 +54,10 @@
             android:name=".notification.NotificationReceiver"
             android:enabled="true" />
         <receiver
-            android:name=".eventregistration.checkins.checkout.auto.AutoCheckOutReceiver"
+            android:name="de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutReceiver"
             android:enabled="true" />
         <receiver
-            android:name=".eventregistration.checkins.checkout.auto.AutoCheckOutBootRestoreReceiver"
+            android:name="de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutBootRestoreReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />

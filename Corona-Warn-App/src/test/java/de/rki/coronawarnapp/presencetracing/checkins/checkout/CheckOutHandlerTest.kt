@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.checkout
+package de.rki.coronawarnapp.presencetracing.checkins.checkout
 
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn

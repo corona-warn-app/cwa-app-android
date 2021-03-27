@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsPeriodicWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationOneTimeWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationPeriodicWorker
-import de.rki.coronawarnapp.eventregistration.checkins.checkout.auto.AutoCheckOutWorker
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutWorker
 import de.rki.coronawarnapp.submission.auto.SubmissionWorker
 import de.rki.coronawarnapp.worker.BackgroundNoiseOneTimeWorker
 import de.rki.coronawarnapp.worker.BackgroundNoisePeriodicWorker

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.common
+package de.rki.coronawarnapp.presencetracing.common
 
 import android.annotation.TargetApi
 import android.app.Notification
@@ -28,7 +28,6 @@ class TraceLocationNotifications @Inject constructor(
     @AppContext private val context: Context,
     private val apiLevel: ApiLevel,
     private val notificationManagerCompat: NotificationManagerCompat,
-    private val notificationManager: NotificationManager,
 ) {
 
     private val channelId = "${context.packageName}.notification.traceLocationChannelId"
@@ -46,7 +45,7 @@ class TraceLocationNotifications @Inject constructor(
             description = context.getString(R.string.tracelocation_notification_channel_description)
         }
 
-        notificationManager.createNotificationChannel(channel)
+        notificationManagerCompat.createNotificationChannel(channel)
     }
 
     fun newBaseBuilder(): NotificationCompat.Builder {

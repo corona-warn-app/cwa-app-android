@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.eventregistration.checkins.checkout.auto
+package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
 
 import android.content.Context
 import androidx.work.Data
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.eventregistration.checkins.checkout.CheckOutNotification
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutNotification
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.clearAllMocks

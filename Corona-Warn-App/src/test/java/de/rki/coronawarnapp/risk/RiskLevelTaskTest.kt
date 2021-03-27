@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.Analy
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
-import de.rki.coronawarnapp.eventregistration.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.submission.SubmissionSettings

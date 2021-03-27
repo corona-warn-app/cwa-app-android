@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.checkout.auto
+package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -8,7 +8,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.eventregistration.checkins.checkout.CheckOutNotification
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutNotification
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 

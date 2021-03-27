@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.checkout.auto
+package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
 
 import android.app.Application
 import android.content.Context
@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 
-class AutoCheckOutReceiverTest : BaseTest() {
+class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
 
     @MockK private lateinit var context: Context
 
@@ -49,7 +49,7 @@ class AutoCheckOutReceiverTest : BaseTest() {
         every { context.applicationContext } returns application
 
         val broadcastReceiverInjector = AndroidInjector<Any> {
-            it as AutoCheckOutReceiver
+            it as AutoCheckOutBootRestoreReceiver
             it.dispatcherProvider = TestDispatcherProvider()
             it.scope = scope
             it.workManager = workManager
@@ -61,23 +61,33 @@ class AutoCheckOutReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `match our intent`() {
-        every { intent.action } returns "de.rki.coronawarnapp.intent.action.AUTO_CHECKOUT"
-        every { intent.getLongExtra("autoCheckout.checkInId", 0L) } returns 42L
-        AutoCheckOutReceiver().apply {
+    fun `match boot intent`() {
+        every { intent.action } returns Intent.ACTION_BOOT_COMPLETED
+        AutoCheckOutBootRestoreReceiver().apply {
             onReceive(context, intent)
         }
 
         verify { workManager.enqueue(any<WorkRequest>()) }
 
         workRequestSlot.captured.workSpec.input.getBoolean("autoCheckout.overdue", false) shouldBe true
-        workRequestSlot.captured.workSpec.input.getLong("autoCheckout.checkInId", 0) shouldBe 42L
+    }
+
+    @Test
+    fun `match app update intent`() {
+        every { intent.action } returns Intent.ACTION_MY_PACKAGE_REPLACED
+        AutoCheckOutBootRestoreReceiver().apply {
+            onReceive(context, intent)
+        }
+
+        verify { workManager.enqueue(any<WorkRequest>()) }
+
+        workRequestSlot.captured.workSpec.input.getBoolean("autoCheckout.overdue", false) shouldBe true
     }
 
     @Test
     fun `do not match unknown intents`() {
         every { intent.action } returns "yolo"
-        AutoCheckOutReceiver().apply {
+        AutoCheckOutBootRestoreReceiver().apply {
             onReceive(context, intent)
         }
 

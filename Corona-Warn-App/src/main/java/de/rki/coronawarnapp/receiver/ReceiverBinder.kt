@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.receiver
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.eventregistration.checkins.checkout.auto.AutoCheckOutBootRestoreReceiver
-import de.rki.coronawarnapp.eventregistration.checkins.checkout.auto.AutoCheckOutReceiver
 import de.rki.coronawarnapp.notification.NotificationReceiver
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutBootRestoreReceiver
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutReceiver
 
 @Module
 internal abstract class ReceiverBinder {
