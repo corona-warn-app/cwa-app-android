@@ -42,11 +42,13 @@ class CheckInsViewModel @AssistedInject constructor(
     val errorEvent = SingleLiveEvent<Throwable>()
 
     val checkins: LiveData<List<CheckInsItem>> = combine(
-        intervalFlow(5000),
+        intervalFlow(1000),
         checkInsRepository.allCheckIns
     ) { _, checkins -> checkins }
         .map { checkins ->
-            checkins.sortedWith(compareBy<CheckIn> { it.completed }.thenBy { it.checkInEnd })
+            val active = checkins.filter { !it.completed }.sortedBy { it.checkInEnd }
+            val completed = checkins.filter { it.completed }.sortedByDescending { it.checkInEnd }
+            active + completed
         }
         .map { checkins ->
             checkins.map { checkin ->
