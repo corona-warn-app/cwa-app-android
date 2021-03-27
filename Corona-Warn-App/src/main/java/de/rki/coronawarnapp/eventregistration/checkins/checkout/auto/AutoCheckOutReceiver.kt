@@ -22,6 +22,12 @@ class AutoCheckOutReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         Timber.d("onReceive(context=%s, intent=%s)", context, intent)
+
+        if (ACTION_AUTO_CHECKOUT != intent.action) {
+            Timber.e("Received unknown intent action: %s", intent.action)
+            return
+        }
+
         AndroidInjection.inject(this, context)
 
         val async = goAsync()
@@ -53,5 +59,6 @@ class AutoCheckOutReceiver : BroadcastReceiver() {
 
     companion object {
         const val ARGKEY_RECEIVER_CHECKIN_ID = "autoCheckout.checkInId"
+        const val ACTION_AUTO_CHECKOUT = "de.rki.coronawarnapp.intent.action.AUTO_CHECKOUT"
     }
 }

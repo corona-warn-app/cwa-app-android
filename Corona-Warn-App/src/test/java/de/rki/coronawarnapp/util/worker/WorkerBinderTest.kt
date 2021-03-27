@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
+import de.rki.coronawarnapp.eventregistration.checkins.checkout.CheckOutNotification
+import de.rki.coronawarnapp.eventregistration.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -125,4 +127,10 @@ class MockProvider {
     @Provides
     @BaseGson
     fun baseGson(): Gson = mockk()
+
+    @Provides
+    fun autoCheckOut(): AutoCheckOut = mockk()
+
+    @Provides
+    fun checkOutNotification(): CheckOutNotification = mockk()
 }

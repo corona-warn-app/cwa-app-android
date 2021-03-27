@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.eventregistration.checkins.checkout
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
-import androidx.navigation.NavDeepLinkBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.eventregistration.common.TraceLocationNotifications
@@ -10,6 +9,7 @@ import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
@@ -20,6 +20,7 @@ class CheckOutNotification @Inject constructor(
     @AppContext private val context: Context,
     private val foregroundState: ForegroundState,
     private val notificationHelper: TraceLocationNotifications,
+    private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
 
     suspend fun showAutoCheckoutNotification(checkInId: Long) {
@@ -30,7 +31,7 @@ class CheckOutNotification @Inject constructor(
             return
         }
 
-        val pendingIntent = NavDeepLinkBuilder(context)
+        val pendingIntent = deepLinkBuilderFactory.create(context)
             .setGraph(R.navigation.trace_location_attendee_nav_graph)
             .setComponentName(MainActivity::class.java)
             .setDestination(R.id.checkInsFragment)
