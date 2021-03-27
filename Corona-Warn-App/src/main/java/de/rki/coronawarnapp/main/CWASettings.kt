@@ -12,8 +12,6 @@ import javax.inject.Inject
 /**
  * For general app related values,
  * e.g. "Has dialog been shown", as "OnBoarding been shown?"
- * In future refactoring it should contain all values
- * from **[de.rki.coronawarnapp.storage.LocalData]** that don't fit more specific classes.
  */
 class CWASettings @Inject constructor(
     @AppContext val context: Context
@@ -26,6 +24,14 @@ class CWASettings @Inject constructor(
     var wasDeviceTimeIncorrectAcknowledged: Boolean
         get() = prefs.getBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, false)
         set(value) = prefs.edit { putBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, value) }
+
+    var wasTracingExplanationDialogShown: Boolean
+        get() = prefs.getBoolean(PKEY_TRACING_DIALOG_SHOWN, false)
+        set(value) = prefs.edit { putBoolean(PKEY_TRACING_DIALOG_SHOWN, value) }
+
+    var wasInteroperabilityShownAtLeastOnce: Boolean
+        get() = prefs.getBoolean(PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, false)
+        set(value) = prefs.edit { putBoolean(PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, value) }
 
     var firstReliableDeviceTime: Instant
         get() = Instant.ofEpochMilli(prefs.getLong(PKEY_DEVICE_TIME_FIRST_RELIABLE, 0L))
@@ -42,6 +48,20 @@ class CWASettings @Inject constructor(
         ).let { raw -> ConfigData.DeviceTimeState.values().single { it.key == raw } }
         set(value) = prefs.edit { putString(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE, value.key) }
 
+    var numberOfRemainingSharePositiveTestResultReminders: Int
+        get() = prefs.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)
+        set(value) = prefs.edit { putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, value) }
+
+    val isNotificationsRiskEnabled = prefs.createFlowPreference(
+        key = PKEY_NOTIFICATIONS_RISK_ENABLED,
+        defaultValue = true
+    )
+
+    val isNotificationsTestEnabled = prefs.createFlowPreference(
+        key = PKEY_NOTIFICATIONS_TEST_ENABLED,
+        defaultValue = true
+    )
+
     val lastChangelogVersion = prefs.createFlowPreference(
         key = LAST_CHANGELOG_VERSION,
         defaultValue = DEFAULT_APP_VERSION
@@ -53,9 +73,14 @@ class CWASettings @Inject constructor(
 
     companion object {
         private const val PKEY_DEVICE_TIME_INCORRECT_ACK = "devicetime.incorrect.acknowledged"
+        private const val PKEY_TRACING_DIALOG_SHOWN = "tracing.dialog.shown"
+        private const val PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE = "interoperability.showed"
         private const val PKEY_DEVICE_TIME_FIRST_RELIABLE = "devicetime.correct.first"
         private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME = "devicetime.laststatechange.timestamp"
         private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE = "devicetime.laststatechange.state"
+        private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "notifications.risk.enabled"
+        private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "notifications.test.enabled"
+        private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT = "testresults.count"
         private const val LAST_CHANGELOG_VERSION = "update.changelog.lastversion"
         private const val DEFAULT_APP_VERSION = 1L
     }

@@ -17,7 +17,9 @@ message RiskCalculationParameters {
 
   TransmissionRiskLevelEncoding trlEncoding = 6;
 
-  double transmissionRiskLevelMultiplier = 7;
+  double transmissionRiskLevelMultiplier = 7 [deprecated = true];
+
+  repeated TransmissionRiskValueMapping transmissionRiskValueMapping = 8;
 }
 
 message Range {
@@ -62,4 +64,9 @@ message TransmissionRiskLevelEncoding {
   int32 reportTypeOffsetSelfReport = 4;
   int32 reportTypeOffsetConfirmedClinicalDiagnosis = 5;
   int32 reportTypeOffsetConfirmedTest = 6;
+}
+
+message TransmissionRiskValueMapping {
+  int32 transmissionRiskLevel = 1;
+  double transmissionRiskValue = 2;
 }

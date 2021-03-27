@@ -7,15 +7,12 @@ import com.google.android.gms.common.GoogleApiAvailability
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.flow
-import org.joda.time.Instant
 import timber.log.Timber
 
 class MiscInfoFragmentViewModel @AssistedInject constructor(
@@ -47,17 +44,6 @@ class MiscInfoFragmentViewModel @AssistedInject constructor(
                 Timber.i("Google Service Infos: %s", it)
             }
         )
-    }.asLiveData(context = dispatcherProvider.Default)
-
-    val inActiveTracingIntervals = flow {
-        TracingIntervalRepository.getDateRepository(context)
-            .getIntervals()
-            .map { Instant.ofEpochMilli(it.first) to Instant.ofEpochMilli(it.second) }
-            .let { emit(it.joinToString("\n")) }
-    }.asLiveData(context = dispatcherProvider.Default)
-
-    val tracingDaysInRetention = flow {
-        emit(TimeVariables.getActiveTracingDaysInRetentionPeriod())
     }.asLiveData(context = dispatcherProvider.Default)
 
     @AssistedFactory

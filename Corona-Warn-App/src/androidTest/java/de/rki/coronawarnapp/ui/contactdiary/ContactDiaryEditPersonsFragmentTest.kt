@@ -12,6 +12,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -44,6 +45,7 @@ class ContactDiaryEditPersonsFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel = spyk(
             ContactDiaryEditPersonsViewModel(
+                TestCoroutineScope(),
                 contactDiaryRepository,
                 TestDispatcherProvider()
             )

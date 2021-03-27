@@ -2,10 +2,10 @@ package de.rki.coronawarnapp.tracing.ui.details
 
 import dagger.Reusable
 import de.rki.coronawarnapp.datadonation.survey.Surveys
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
-import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
@@ -29,19 +29,17 @@ import javax.inject.Inject
 @Reusable
 class TracingDetailsItemProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
-    tracingRepository: TracingRepository,
     riskLevelStorage: RiskLevelStorage,
+    installTimeProvider: InstallTimeProvider,
     surveys: Surveys
 ) {
 
     val state: Flow<List<DetailsItem>> = combine(
         tracingStatus.generalStatus,
         riskLevelStorage.latestAndLastSuccessful,
-        tracingRepository.activeTracingDaysInRetentionPeriod,
         surveys.availableSurveys
     ) { status,
         riskLevelResults,
-        activeTracingDaysInRetentionPeriod,
         availableSurveys ->
 
         val (latestCalc, _) = riskLevelResults.tryLatestResultsWithDefaults()
@@ -72,7 +70,7 @@ class TracingDetailsItemProvider @Inject constructor(
 
             if (latestCalc.riskState != RiskState.CALCULATION_FAILED && status != Status.TRACING_INACTIVE) {
                 PeriodLoggedBox.Item(
-                    activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod.toInt(),
+                    daysSinceInstallation = installTimeProvider.daysSinceInstallation,
                     tracingStatus = status
                 ).also { add(it) }
             }

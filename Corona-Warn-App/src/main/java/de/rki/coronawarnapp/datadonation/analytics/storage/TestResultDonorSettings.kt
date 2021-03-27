@@ -65,6 +65,34 @@ class TestResultDonorSettings @Inject constructor(
         }
     )
 
+    val mostRecentDateWithHighOrLowRiskLevel = prefs.createFlowPreference(
+        key = PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_RISK_LEVEL,
+        reader = { key ->
+            getLong(key, 0L).let {
+                if (it != 0L) {
+                    Instant.ofEpochMilli(it)
+                } else null
+            }
+        },
+        writer = { key, value ->
+            putLong(key, value?.millis ?: 0L)
+        }
+    )
+
+    val riskLevelTurnedRedTime = prefs.createFlowPreference(
+        key = PREFS_KEY_RISK_LEVEL_TURNED_RED_TIME,
+        reader = { key ->
+            getLong(key, 0L).let {
+                if (it != 0L) {
+                    Instant.ofEpochMilli(it)
+                } else null
+            }
+        },
+        writer = { key, value ->
+            putLong(key, value?.millis ?: 0L)
+        }
+    )
+
     fun saveTestResultDonorDataAtRegistration(testResult: TestResult, lastRiskResult: RiskLevelResult) {
         testScannedAfterConsent.update { true }
         testResultAtRegistration.update { testResult }
@@ -82,5 +110,8 @@ class TestResultDonorSettings @Inject constructor(
         private const val PREFS_KEY_TEST_RESULT_AT_REGISTRATION = "testResultDonor.testResultAtRegistration"
         private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION = "testResultDonor.riskLevelAtRegistration"
         private const val PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT = "testResultDonor.finalTestResultReceivedAt"
+        private const val PREFS_KEY_RISK_LEVEL_TURNED_RED_TIME = "testResultDonor.riskLevelTurnedRedTime"
+        private const val PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_RISK_LEVEL =
+            "testResultDonor.mostRecentWithHighOrLowRiskLevel"
     }
 }

@@ -13,16 +13,16 @@ import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.AppShortcuts
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
 import javax.inject.Inject
 
 /**
  * This activity holds all the onboarding fragments and isn't used after a successful onboarding flow.
  *
- * @see LocalData
  */
 class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInjector {
     companion object {
@@ -48,6 +48,8 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
     @Inject lateinit var settings: CWASettings
+    @Inject lateinit var onboardingSettings: OnboardingSettings
+    @Inject lateinit var timeStamper: TimeStamper
 
     private val FragmentManager.currentNavigationFragment: Fragment?
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
@@ -71,9 +73,12 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
     }
 
     fun completeOnboarding() {
-        LocalData.isOnboarded(true)
-        LocalData.onboardingCompletedTimestamp(System.currentTimeMillis())
-        settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
+        onboardingSettings.onboardingCompletedTimestamp = timeStamper.nowUTC
+
+        settings.lastChangelogVersion.update {
+            BuildConfigWrap.VERSION_CODE
+        }
+
         MainActivity.start(this)
         finish()
     }

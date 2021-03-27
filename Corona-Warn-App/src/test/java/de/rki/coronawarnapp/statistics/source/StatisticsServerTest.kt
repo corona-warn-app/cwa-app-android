@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.statistics.source
 
-import de.rki.coronawarnapp.util.security.VerificationKeys
+import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -23,20 +23,20 @@ import java.io.IOException
 class StatisticsServerTest : BaseIOTest() {
 
     @MockK lateinit var api: StatisticsApiV1
-    @MockK lateinit var verificationKeys: VerificationKeys
+    @MockK lateinit var signatureValidation: SignatureValidation
     @MockK lateinit var cache: Cache
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { verificationKeys.hasInvalidSignature(any(), any()) } returns false
+        every { signatureValidation.hasValidSignature(any(), any()) } returns true
         every { cache.evictAll() } just Runs
     }
 
     private fun createInstance() = StatisticsServer(
         api = { api },
-        verificationKeys = verificationKeys,
+        signatureValidation = signatureValidation,
         cache = cache
     )
 
@@ -49,7 +49,7 @@ class StatisticsServerTest : BaseIOTest() {
         val rawStatistics = server.getRawStatistics()
         rawStatistics shouldBe STATS_PROTO
 
-        verify(exactly = 1) { verificationKeys.hasInvalidSignature(any(), any()) }
+        verify(exactly = 1) { signatureValidation.hasValidSignature(any(), any()) }
     }
 
     @Test
@@ -66,7 +66,7 @@ class StatisticsServerTest : BaseIOTest() {
     @Test
     fun `verification fails`() = runBlockingTest {
         coEvery { api.getStatistics() } returns Response.success(STATS_ZIP.toResponseBody())
-        every { verificationKeys.hasInvalidSignature(any(), any()) } returns true
+        every { signatureValidation.hasValidSignature(any(), any()) } returns false
 
         val server = createInstance()
 

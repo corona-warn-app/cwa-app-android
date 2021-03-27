@@ -80,11 +80,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         vm.popupEvents.observe2(this) { event ->
             when (event) {
-                is HomeFragmentEvents.ShowTracingExplanation -> {
-                    tracingExplanationDialog.show(event.activeTracingDaysInRetentionPeriod) {
-                        vm.tracingExplanationWasShown()
-                    }
-                }
                 HomeFragmentEvents.ShowErrorResetDialog -> {
                     RecoveryByResetDialogFactory(this).showDialog(
                         detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
@@ -97,6 +92,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 )
                 HomeFragmentEvents.ShowReactivateRiskCheckDialog -> {
                     showReactivateRiskCheckDialog()
+                }
+                HomeFragmentEvents.ShowTracingExplanation -> {
+                    tracingExplanationDialog.show {
+                        vm.tracingExplanationWasShown()
+                    }
                 }
             }
         }

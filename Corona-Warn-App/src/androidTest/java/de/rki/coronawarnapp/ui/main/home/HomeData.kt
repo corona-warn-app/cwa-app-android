@@ -35,6 +35,20 @@ object HomeData {
 
     object Tracing {
 
+        val LOW_RISK_ITEM_NO_ENCOUNTERS_WITHOUT_INSTALL_TIME = LowRiskCard.Item(
+            state = LowRisk(
+                riskState = RiskState.LOW_RISK,
+                isInDetailsMode = false,
+                lastExposureDetectionTime = Instant.now(),
+                lastEncounterAt = null,
+                allowManualUpdate = false,
+                daysWithEncounters = 0,
+                daysSinceInstallation = 20,
+            ),
+            onCardClick = {},
+            onUpdateClick = {}
+        )
+
         val LOW_RISK_ITEM_NO_ENCOUNTERS = LowRiskCard.Item(
             state = LowRisk(
                 riskState = RiskState.LOW_RISK,
@@ -43,7 +57,7 @@ object HomeData {
                 lastEncounterAt = null,
                 allowManualUpdate = false,
                 daysWithEncounters = 0,
-                activeTracingDays = 1
+                daysSinceInstallation = 4,
             ),
             onCardClick = {},
             onUpdateClick = {}
@@ -57,7 +71,7 @@ object HomeData {
                 lastEncounterAt = Instant.now(),
                 allowManualUpdate = false,
                 daysWithEncounters = 1,
-                activeTracingDays = 1
+                daysSinceInstallation = 4
             ),
             onCardClick = {},
             onUpdateClick = {}
@@ -70,7 +84,6 @@ object HomeData {
                 lastExposureDetectionTime = Instant.now(),
                 allowManualUpdate = false,
                 daysWithEncounters = 1,
-                activeTracingDays = 1,
                 lastEncounterAt = Instant.now()
             ),
             onCardClick = {},

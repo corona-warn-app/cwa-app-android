@@ -9,7 +9,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -17,7 +16,6 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTra
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
@@ -39,7 +37,6 @@ import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val handle: SavedStateHandle,
@@ -109,30 +106,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     val backendParameters = appConfigProvider
         .currentConfig
-        .map { it.toReadableString() }
+        .map { it.rawConfig.riskCalculationParameters.toString() }
         .asLiveData()
-
-    private fun ConfigData.toReadableString(): String = StringBuilder()
-        .appendLine("Transmission RiskLevel Multiplier: $transmissionRiskLevelMultiplier")
-        .appendLine()
-        .appendLine("Minutes At Attenuation Filters:")
-        .appendLine(minutesAtAttenuationFilters)
-        .appendLine()
-        .appendLine("Minutes At Attenuation Weights:")
-        .appendLine(minutesAtAttenuationWeights)
-        .appendLine()
-        .appendLine("Transmission RiskLevel Encoding:")
-        .appendLine(transmissionRiskLevelEncoding)
-        .appendLine()
-        .appendLine("Transmission RiskLevel Filters:")
-        .appendLine(transmissionRiskLevelFilters)
-        .appendLine()
-        .appendLine("Normalized Time Per Exposure Window To RiskLevel Mapping:")
-        .appendLine(normalizedTimePerExposureWindowToRiskLevelMapping)
-        .appendLine()
-        .appendLine("Normalized Time Per Day To RiskLevel Mapping List:")
-        .appendLine(normalizedTimePerDayToRiskLevelMappingList)
-        .toString()
 
     val additionalRiskCalcInfo = combine(
         riskLevelStorage.latestAndLastSuccessful,
@@ -164,8 +139,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .appendLine("Matched key count: $matchedKeyCount")
         .appendLine("Days since last Exposure: $daysSinceLastExposure days")
         .appendLine("Last key submission: $lastKeySubmission")
-        .appendLine("Tracing Duration: ${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days")
-        .appendLine("Tracing Duration in last 14 days: ${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days")
         .appendLine("Last time risk level calculation $lastTimeRiskLevelCalculation")
         .toString()
 
@@ -202,7 +175,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     fun shareExposureWindows() {
         Timber.d("Creating text file for Exposure Windows")
-        launch(dispatcherProvider.IO) {
+        launch {
             val exposureWindows = lastRiskResult.firstOrNull()?.exposureWindows?.map { it.toExposureWindowJson() }
             val fileNameCompatibleTimestamp = timeStamper.nowUTC.toString(
                 DateTimeFormat.forPattern("yyyy-MM-DD-HH-mm-ss")

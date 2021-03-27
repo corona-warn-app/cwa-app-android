@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.util.TimeStamper
@@ -39,7 +39,6 @@ import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
 
 class RiskLevelTaskTest : BaseTest() {
-
     @MockK lateinit var riskLevels: RiskLevels
     @MockK lateinit var context: Context
     @MockK lateinit var enfClient: ENFClient
@@ -50,6 +49,7 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
+    @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
@@ -59,9 +59,8 @@ class RiskLevelTaskTest : BaseTest() {
         MockKAnnotations.init(this)
 
         mockkObject(TimeVariables)
-        mockkObject(LocalData)
 
-        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
+        every { submissionSettings.isAllowedToSubmitKeys } returns false
         every { configData.isDeviceTimeCorrect } returns true
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         coEvery { appConfigProvider.getAppConfig() } returns configData
@@ -95,6 +94,7 @@ class RiskLevelTaskTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         riskLevelStorage = riskLevelStorage,
         keyCacheRepository = keyCacheRepository,
+        submissionSettings = submissionSettings,
         analyticsExposureWindowCollector = analyticsExposureWindowCollector
     )
 
@@ -204,7 +204,7 @@ class RiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation is skipped if positive test is registered`() = runBlockingTest {
+    fun `risk calculation is skipped if positive test is registered and viewed`() = runBlockingTest {
         val cachedKey = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
                 every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(1)
@@ -215,11 +215,41 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
         every { timeStamper.nowUTC } returns now
-        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns true
+        every { submissionSettings.isAllowedToSubmitKeys } returns true
+        every { submissionSettings.hasViewedTestResult.value } returns true
 
         createTask().run(arguments) shouldBe RiskLevelTaskResult(
             calculatedAt = now,
             failureReason = RiskLevelResult.FailureReason.POSITIVE_TEST_RESULT
+        )
+    }
+
+    @Test
+    fun `risk calculation is not skipped if positive test is registered and not viewed`() = runBlockingTest {
+        val cachedKey = mockk<CachedKey>().apply {
+            every { info } returns mockk<CachedKeyInfo>().apply {
+                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(1)
+            }
+        }
+        val now = Instant.parse("2020-12-28")
+        val aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+            every { isIncreasedRisk() } returns true
+        }
+
+        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
+        coEvery { enfClient.exposureWindows() } returns listOf()
+        every { riskLevels.calculateRisk(any(), any()) } returns null
+        every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
+        every { timeStamper.nowUTC } returns now
+        coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
+        every { submissionSettings.isAllowedToSubmitKeys } returns true
+        every { submissionSettings.hasViewedTestResult.value } returns false
+
+        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+            calculatedAt = now,
+            failureReason = null,
+            aggregatedRiskResult = aggregatedRiskResult,
+            listOf()
         )
     }
 

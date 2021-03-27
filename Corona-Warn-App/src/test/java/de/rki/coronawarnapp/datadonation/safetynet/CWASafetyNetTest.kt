@@ -17,6 +17,8 @@ import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -257,9 +259,35 @@ class CWASafetyNetTest : BaseTest() {
         exception.type shouldBe SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED
     }
 
+    @Test
+    fun `device time checks can be disabled via request`() = runBlockingTest {
+        every { appConfigData.deviceTimeState } returns ConfigData.DeviceTimeState.ASSUMED_CORRECT
+        every { timeStamper.nowUTC } returns Instant.EPOCH
+
+        val request = TestAttestationRequest(
+            "Computer says no.".toByteArray(),
+            checkDeviceTime = false
+        )
+        createInstance().attest(request) shouldNotBe null
+    }
+
+    @Test
+    fun `the request can contain a app config that should be used`() = runBlockingTest {
+        val request = TestAttestationRequest(
+            "Computer says no.".toByteArray(),
+            configData = appConfigData
+        )
+        createInstance().attest(request) shouldNotBe null
+
+        coVerify { appConfigProvider wasNot Called }
+    }
+
     data class TestAttestationRequest(
-        override val scenarioPayload: ByteArray
+        override val scenarioPayload: ByteArray,
+        override val configData: ConfigData? = null,
+        override val checkDeviceTime: Boolean = true
     ) : DeviceAttestation.Request {
+
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false

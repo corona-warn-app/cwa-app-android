@@ -12,7 +12,7 @@
     <string name="contact_diary_person_list_no_items_title">"Noch keine Personen vorhanden"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Legen Sie eine Person an und fügen Sie sie in Ihrem Kontakt-Tagebuch hinzu."</string>
     <string name="contact_diary_add_person_title">"Person"</string>
-    <string name="contact_diary_add_person_text_input_name_hint">"Vorname, Nachname"</string>
+    <string name="contact_diary_add_person_text_input_name_hint">"Name"</string>
     <string name="contact_diary_add_text_input_phone_hint">"Telefon"</string>
     <string name="contact_diary_add_text_input_email_hint">"E-Mail"</string>
     <string name="contact_diary_add_person_save_button">"Speichern"</string>
@@ -104,17 +104,21 @@
     <!-- XHED: Title for the contact diary dialog to delete all persons -->
     <string name="contact_diary_delete_persons_title">"Wollen Sie wirklich alle Personen entfernen?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_message">"Wenn Sie einen Ort entfernen, werden alle Einträge für diesen Ort aus dem Tagebuch gelöscht."</string>
+    <string name="contact_diary_delete_locations_message">"Wenn Sie alle Orte entfernen, werden alle Einträge für alle Orte aus dem Tagebuch gelöscht."</string>
     <!-- XTXT: Message for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_message">"Wenn Sie eine Person entfernen, werden alle Einträge für diese Person aus dem Tagebuch gelöscht."</string>
+    <string name="contact_diary_delete_persons_message">"Wenn Sie alle Personen entfernen, werden alle Einträge für alle Personen aus dem Tagebuch gelöscht."</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_edit_icon_content_description">"Eintrag bearbeiten"</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_delete_icon_content_description">"Eintrag löschen"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single location -->
-    <string name="contact_diary_delete_location_title">"Wollen Sie wirklich diesen Ort entfernen?"</string>
+    <string name="contact_diary_delete_location_title">"Wollen Sie diesen Ort wirklich entfernen?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
     <string name="contact_diary_delete_person_title">"Wollen Sie wirklich diese Person entfernen?"</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single location -->
+    <string name="contact_diary_delete_location_message">"Wenn Sie einen Ort entfernen, werden alle Einträge für diesen Ort aus dem Tagebuch gelöscht."</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single person -->
+    <string name="contact_diary_delete_person_message">"Wenn Sie eine Person entfernen, werden alle Einträge für diese Person aus dem Tagebuch gelöscht."</string>
 
     <!-- XHED: Title for the contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_title">"Notiz"</string>
@@ -168,6 +172,8 @@
 
     <!-- XBUT: Option - person encounter - inside-->
     <string name="contact_diary_location_visit_duration_label">Dauer</string>
+    <!-- XTXT: Option - location encounter - duration in hours label-->
+    <string name="contact_diary_location_visit_duration_hour">"Std."</string>
     <!-- XTXT: Option - person encounter - circumstances hint-->
     <string name="contact_diary_location_visit_circumstances_hint">Notiz (z.B. sehr voll)</string>
 </resources>

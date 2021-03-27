@@ -11,7 +11,7 @@
     <string name="contact_diary_person_list_no_items_title">"Nicio persoană definită deocamdată"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Creați o persoană și adăugați-o la jurnalul dvs. de contacte."</string>
     <string name="contact_diary_add_person_title">"Persoană"</string>
-    <string name="contact_diary_add_person_text_input_name_hint">"Prenume, nume"</string>
+    <string name="contact_diary_add_person_text_input_name_hint">"Nume"</string>
     <string name="contact_diary_add_text_input_phone_hint">"Telefon"</string>
     <string name="contact_diary_add_text_input_email_hint">"e-mail"</string>
     <string name="contact_diary_add_person_save_button">"Salvare"</string>
@@ -103,9 +103,9 @@
     <!-- XHED: Title for the contact diary dialog to delete all persons -->
     <string name="contact_diary_delete_persons_title">"Sigur doriți să eliminați toate persoanele?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_message">"Dacă eliminați un loc, toate intrările pentru respectivul loc vor fi eliminate din jurnalul dvs."</string>
+    <string name="contact_diary_delete_locations_message">"Dacă eliminați toate locurile, toate intrările pentru toate locurile vor fi eliminate din jurnalul dvs."</string>
     <!-- XTXT: Message for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_message">"Dacă eliminați o persoană, toate intrările pentru respectiva persoană vor fi eliminate din jurnalul dvs."</string>
+    <string name="contact_diary_delete_persons_message">"Dacă eliminați toate persoanele, toate intrările pentru toate persoanele vor fi eliminate din jurnalul dvs."</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_edit_icon_content_description">"Editare intrare"</string>
     <!-- XACT: edit icon description for screen readers -->
@@ -114,6 +114,10 @@
     <string name="contact_diary_delete_location_title">"Sigur doriți să eliminați acest loc?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
     <string name="contact_diary_delete_person_title">"Sigur doriți să eliminați această persoană?"</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single location -->
+    <string name="contact_diary_delete_location_message">"Dacă eliminați un loc, toate intrările pentru respectivul loc vor fi eliminate din jurnalul dvs."</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single person -->
+    <string name="contact_diary_delete_person_message">"Dacă eliminați o persoană, toate intrările pentru respectiva persoană vor fi eliminate din jurnalul dvs."</string>
 
     <!-- XHED: Title for the contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_title">"Notă"</string>
@@ -167,6 +171,8 @@
 
     <!-- XBUT: Option - person encounter - inside-->
     <string name="contact_diary_location_visit_duration_label">"Durată"</string>
+    <!-- XTXT: Option - location encounter - duration in hours label-->
+    <string name="contact_diary_location_visit_duration_hour">"ore"</string>
     <!-- XTXT: Option - person encounter - circumstances hint-->
     <string name="contact_diary_location_visit_circumstances_hint">"Notă (de ex., foarte plin)"</string>
 </resources>

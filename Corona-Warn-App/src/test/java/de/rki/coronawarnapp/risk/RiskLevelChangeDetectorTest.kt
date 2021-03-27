@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.risk
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
@@ -10,7 +11,8 @@ import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingSettings
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
@@ -22,7 +24,7 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockkObject
+import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -30,9 +32,9 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 
 class RiskLevelChangeDetectorTest : BaseTest() {
-
     @MockK lateinit var context: Context
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
@@ -41,29 +43,39 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: NotificationHelper
     @MockK lateinit var surveys: Surveys
+    @MockK lateinit var submissionSettings: SubmissionSettings
+    @MockK lateinit var tracingSettings: TracingSettings
+    @MockK lateinit var testResultDonorSettings: TestResultDonorSettings
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        mockkObject(LocalData)
-
-        every { LocalData.isUserToBeNotifiedOfLoweredRiskLevel = any() } just Runs
-        every { LocalData.submissionWasSuccessful() } returns false
+        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
+        every { submissionSettings.isSubmissionSuccessful } returns false
         every { foregroundState.isInForeground } returns flowOf(true)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
+
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = any() } just Runs
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns null
+
+        every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp = any() } just Runs
+        every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp } returns null
+
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
+
+        every { testResultDonorSettings.riskLevelTurnedRedTime } returns mockFlowPreference(null)
+        every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
     }
 
     private fun createRiskLevel(
         riskState: RiskState,
-        calculatedAt: Instant = Instant.EPOCH
+        calculatedAt: Instant = Instant.EPOCH,
+        aggregatedRiskResult: AggregatedRiskResult? = null
     ): RiskLevelResult = object : RiskLevelResult {
         override val riskState: RiskState = riskState
         override val calculatedAt: Instant = calculatedAt
-        override val aggregatedRiskResult: AggregatedRiskResult? = null
+        override val aggregatedRiskResult: AggregatedRiskResult? = aggregatedRiskResult
         override val failureReason: RiskLevelResult.FailureReason? = null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
@@ -78,7 +90,10 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         foregroundState = foregroundState,
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
-        surveys = surveys
+        surveys = surveys,
+        submissionSettings = submissionSettings,
+        tracingSettings = tracingSettings,
+        testResultDonorSettings = testResultDonorSettings
     )
 
     @Test
@@ -92,7 +107,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData wasNot Called
                 notificationManagerCompat wasNot Called
                 surveys wasNot Called
             }
@@ -115,7 +129,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData wasNot Called
                 notificationManagerCompat wasNot Called
                 surveys wasNot Called
             }
@@ -138,9 +151,8 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData.submissionWasSuccessful()
+                submissionSettings.isSubmissionSuccessful
                 foregroundState.isInForeground
-                LocalData.isUserToBeNotifiedOfLoweredRiskLevel = any()
                 surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
             }
         }
@@ -162,7 +174,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData.submissionWasSuccessful()
+                submissionSettings.isSubmissionSuccessful
                 foregroundState.isInForeground
                 surveys wasNot Called
             }
@@ -186,11 +198,93 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData wasNot Called
                 notificationManagerCompat wasNot Called
                 surveys wasNot Called
             }
         }
+    }
+
+    @Test
+    fun `riskLevelTurnedRedTime is only set once`() {
+        testResultDonorSettings.riskLevelTurnedRedTime.update { Instant.EPOCH.plus(1) }
+
+        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+            listOf(
+                createRiskLevel(
+                    INCREASED_RISK,
+                    calculatedAt = Instant.EPOCH.plus(2),
+                    aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+                        every { isIncreasedRisk() } returns true
+                    }
+                ),
+                createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
+
+        runBlockingTest {
+            val instance = createInstance(scope = this)
+            instance.launch()
+            advanceUntilIdle()
+        }
+
+        testResultDonorSettings.riskLevelTurnedRedTime.value shouldBe Instant.EPOCH.plus(1)
+
+        testResultDonorSettings.riskLevelTurnedRedTime.update { null }
+
+        runBlockingTest {
+            val instance = createInstance(scope = this)
+            instance.launch()
+            advanceUntilIdle()
+        }
+
+        testResultDonorSettings.riskLevelTurnedRedTime.value shouldBe Instant.EPOCH.plus(2)
+    }
+
+    @Test
+    fun `mostRecentDateWithHighOrLowRiskLevel is updated every time`() {
+        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+            listOf(
+                createRiskLevel(
+                    INCREASED_RISK,
+                    calculatedAt = Instant.EPOCH.plus(1),
+                    aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+                        every { mostRecentDateWithHighRisk } returns Instant.EPOCH.plus(10)
+                        every { isIncreasedRisk() } returns true
+                    }
+                ),
+                createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
+
+        runBlockingTest {
+            val instance = createInstance(scope = this)
+            instance.launch()
+            advanceUntilIdle()
+        }
+
+        testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(10)
+
+        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+            listOf(
+                createRiskLevel(
+                    INCREASED_RISK,
+                    calculatedAt = Instant.EPOCH.plus(1),
+                    aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+                        every { mostRecentDateWithLowRisk } returns Instant.EPOCH.plus(20)
+                        every { isIncreasedRisk() } returns false
+                    }
+                ),
+                createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
+
+        runBlockingTest {
+            val instance = createInstance(scope = this)
+            instance.launch()
+            advanceUntilIdle()
+        }
+
+        testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(20)
     }
 
     @Test

@@ -9,11 +9,10 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.FetchingResult
 import de.rki.coronawarnapp.submission.ui.homecards.NoTest
@@ -56,7 +55,7 @@ import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -81,7 +80,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     appConfigProvider: AppConfigProvider,
     statisticsProvider: StatisticsProvider,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
-    private val appShortcutsHelper: AppShortcutsHelper
+    private val appShortcutsHelper: AppShortcutsHelper,
+    private val tracingSettings: TracingSettings,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -97,17 +97,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun showPopUps() {
         launch {
-            if (!LocalData.tracingExplanationDialogWasShown()) {
-                popupEvents.postValue(
-                    ShowTracingExplanation(
-                        TimeVariables.getActiveTracingDaysInRetentionPeriod()
-                    )
-                )
-            }
-        }
-        launch {
             if (errorResetTool.isResetNoticeToBeShown) {
                 popupEvents.postValue(ShowErrorResetDialog)
+            }
+            if (!cwaSettings.wasTracingExplanationDialogShown) {
+                popupEvents.postValue(ShowTracingExplanation)
             }
         }
     }
@@ -273,8 +267,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     // TODO only lazy to keep tests going which would break because of LocalData access
     val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
-        LocalData
-            .isUserToBeNotifiedOfLoweredRiskLevelFlow
+        tracingSettings
+            .isUserToBeNotifiedOfLoweredRiskLevel
+            .flow
             .map { shouldBeNotified ->
                 val shouldBeShown = shouldBeNotified && !isLoweredRiskLevelDialogBeingShown
                 if (shouldBeShown) {
@@ -293,7 +288,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         launch {
             submissionRepository.refreshDeviceUIState()
             tracingRepository.refreshRiskLevel()
-            tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         }
     }
 
@@ -301,10 +295,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         launch {
             appShortcutsHelper.restoreAppShortcut()
         }
-    }
-
-    fun tracingExplanationWasShown() {
-        LocalData.tracingExplanationDialogWasShown(true)
     }
 
     private fun refreshDiagnosisKeys() {
@@ -318,11 +308,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
         isLoweredRiskLevelDialogBeingShown = false
-        LocalData.isUserToBeNotifiedOfLoweredRiskLevel = false
+        tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
     }
 
     fun userHasAcknowledgedIncorrectDeviceTime() {
         cwaSettings.wasDeviceTimeIncorrectAcknowledged = true
+    }
+
+    fun tracingExplanationWasShown() {
+        cwaSettings.wasTracingExplanationDialogShown = true
     }
 
     @AssistedFactory

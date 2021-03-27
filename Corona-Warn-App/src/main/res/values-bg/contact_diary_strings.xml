@@ -11,7 +11,7 @@
     <string name="contact_diary_person_list_no_items_title">"Все още няма въведени лица"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Създайте лице и го добавете към Вашия дневник на контактите."</string>
     <string name="contact_diary_add_person_title">"Лице"</string>
-    <string name="contact_diary_add_person_text_input_name_hint">"Име, фамилия"</string>
+    <string name="contact_diary_add_person_text_input_name_hint">"Име"</string>
     <string name="contact_diary_add_text_input_phone_hint">"Телефон"</string>
     <string name="contact_diary_add_text_input_email_hint">"Имейл"</string>
     <string name="contact_diary_add_person_save_button">"Запазване"</string>
@@ -103,9 +103,9 @@
     <!-- XHED: Title for the contact diary dialog to delete all persons -->
     <string name="contact_diary_delete_persons_title">"Наистина ли искате да изтриете всички лица?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_message">"Ако изтриете дадено място, всички записи за него ще бъдат премахнати от Вашия дневник."</string>
+    <string name="contact_diary_delete_locations_message">"Ако премахнете всички места, всички записи за тях ще бъдат премахнати от Вашия дневник."</string>
     <!-- XTXT: Message for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_message">"Ако изтриете дадено лице, всички записи за него ще бъдат премахнати от Вашия дневник."</string>
+    <string name="contact_diary_delete_persons_message">"Ако премахнете всички лица, всички записи за тях ще бъдат премахнати от дневника Ви."</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_edit_icon_content_description">"Редактиране на запис"</string>
     <!-- XACT: edit icon description for screen readers -->
@@ -114,13 +114,17 @@
     <string name="contact_diary_delete_location_title">"Наистина ли искате да изтриете това място?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
     <string name="contact_diary_delete_person_title">"Наистина ли искате да изтриете това лице?"</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single location -->
+    <string name="contact_diary_delete_location_message">"Ако изтриете дадено място, всички записи за него ще бъдат премахнати от Вашия дневник."</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single person -->
+    <string name="contact_diary_delete_person_message">"Ако изтриете дадено лице, всички записи за него ще бъдат премахнати от Вашия дневник."</string>
 
     <!-- XHED: Title for the contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_title">"Бележка"</string>
     <!-- XTXT: Description for contact diary comment info screen -->
-    <string name="contact_diary_comment_info_screen_description">"Тук можете да въведете бележки, които ще ви помогнат да оцените по-добре своя риск от заразяване."</string>
+    <string name="contact_diary_comment_info_screen_description">"Тук можете да въведете бележки, които ще Ви помогнат да оцените по-добре своя риск от заразяване."</string>
     <!-- XTXT: Body for contact diary comment info screen -->
-    <string name="contact_diary_comment_info_screen_body">"Опишете обстоятелствата, които биха могли да доведат до повишаване на вашето ниво на риск, например в каква близост сте били до други хора и каква дейност с потенциално влияние върху качеството на въздуха сте извършвали (напр. „седяхме близо един до друг“, „спортувахме“, „пространството беше малко“ или „пяхме“).\n\nАко се заразите, тази информация може да помогне на службата за обществено здравеопазване да проследи потенциалните вериги на заразяване."</string>
+    <string name="contact_diary_comment_info_screen_body">"Опишете обстоятелствата, които биха могли да доведат до повишаване на Вашето ниво на риск, например в каква близост сте били до други хора и каква дейност с потенциално влияние върху качеството на въздуха сте извършвали (напр. „седяхме близо един до друг“, „спортувахме“, „пространството беше малко“ или „пяхме“).\n\nАко се заразите, тази информация може да помогне на службата за обществено здравеопазване да проследи потенциалните вериги на заразяване."</string>
 
     <!-- XTXT: location (description for screen readers) -->
     <string name="accessibility_location">"Място %s"</string>
@@ -167,6 +171,8 @@
 
     <!-- XBUT: Option - person encounter - inside-->
     <string name="contact_diary_location_visit_duration_label">"Продължителност"</string>
+    <!-- XTXT: Option - location encounter - duration in hours label-->
+    <string name="contact_diary_location_visit_duration_hour">"ч"</string>
     <!-- XTXT: Option - person encounter - circumstances hint-->
     <string name="contact_diary_location_visit_circumstances_hint">"Забележка (напр. препълнено)"</string>
 </resources>

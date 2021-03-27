@@ -4,13 +4,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToSeconds
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CancellationException
@@ -25,7 +21,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
@@ -35,6 +30,7 @@ import kotlin.coroutines.suspendCoroutine
 @Singleton
 class DefaultTracingStatus @Inject constructor(
     private val client: ExposureNotificationClient,
+    private val tracingSettings: TracingSettings,
     @AppScope val scope: CoroutineScope
 ) : TracingStatus {
 
@@ -77,28 +73,15 @@ class DefaultTracingStatus @Inject constructor(
         client.start()
             .addOnSuccessListener { cont.resume(it) }
             .addOnFailureListener { cont.resumeWithException(it) }
-    }.also {
-        LocalData.lastNonActiveTracingTimestamp()?.let { ts ->
-            TracingIntervalRepository.getDateRepository(CoronaWarnApplication.getAppContext())
-                .createInterval(ts, System.currentTimeMillis())
-            val difference = Date().time.minus(ts).millisecondsToSeconds()
-            if (difference >= TimeVariables.getDeactivationTracingMeasureThresholdTimeRange()) {
-                LocalData.totalNonActiveTracing(
-                    LocalData.totalNonActiveTracing().plus(difference)
-                )
+            .also {
+                tracingSettings.isConsentGiven = true
             }
-        }
-        LocalData.lastNonActiveTracingTimestamp(null)
-        LocalData.initialTracingActivationTimestamp()
-            ?: LocalData.initialTracingActivationTimestamp(System.currentTimeMillis())
     }
 
     private suspend fun asyncStop() = suspendCoroutine<Void> { cont ->
         client.stop()
             .addOnSuccessListener { cont.resume(it) }
             .addOnFailureListener { cont.resumeWithException(it) }
-    }.also {
-        LocalData.lastNonActiveTracingTimestamp(System.currentTimeMillis())
     }
 
     override val isTracingEnabled: Flow<Boolean> = flow {

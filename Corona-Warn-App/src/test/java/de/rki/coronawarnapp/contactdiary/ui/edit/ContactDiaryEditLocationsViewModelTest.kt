@@ -12,6 +12,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -37,10 +38,16 @@ class ContactDiaryEditLocationsViewModelTest {
         MockKAnnotations.init(this)
     }
 
+    fun createInstance() = ContactDiaryEditLocationsViewModel(
+        appScope = TestCoroutineScope(),
+        contactDiaryRepository = contactDiaryRepository,
+        dispatcherProvider = TestDispatcherProvider()
+    )
+
     @Test
     fun testOnDeleteAllLocationsClick() {
         every { contactDiaryRepository.locations } returns MutableStateFlow(locationList)
-        viewModel = ContactDiaryEditLocationsViewModel(contactDiaryRepository, TestDispatcherProvider())
+        viewModel = createInstance()
         viewModel.navigationEvent.observeForever { }
         viewModel.onDeleteAllLocationsClick()
         viewModel.navigationEvent.value shouldBe ContactDiaryEditLocationsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
@@ -51,7 +58,7 @@ class ContactDiaryEditLocationsViewModelTest {
         coEvery { contactDiaryRepository.deleteAllLocationVisits() } just Runs
         coEvery { contactDiaryRepository.deleteAllLocations() } just Runs
         every { contactDiaryRepository.locations } returns MutableStateFlow(locationList)
-        viewModel = ContactDiaryEditLocationsViewModel(contactDiaryRepository, TestDispatcherProvider())
+        viewModel = createInstance()
         viewModel.onDeleteAllConfirmedClick()
         coVerify(exactly = 1) {
             contactDiaryRepository.deleteAllLocationVisits()
@@ -62,7 +69,7 @@ class ContactDiaryEditLocationsViewModelTest {
     @Test
     fun testOnEditLocationClick() {
         every { contactDiaryRepository.locations } returns MutableStateFlow(locationList)
-        viewModel = ContactDiaryEditLocationsViewModel(contactDiaryRepository, TestDispatcherProvider())
+        viewModel = createInstance()
         viewModel.navigationEvent.observeForever { }
         viewModel.onEditLocationClick(location)
         viewModel.navigationEvent.value shouldBe
@@ -72,7 +79,7 @@ class ContactDiaryEditLocationsViewModelTest {
     @Test
     fun testIsButtonEnabled() {
         every { contactDiaryRepository.locations } returns MutableStateFlow(locationList)
-        viewModel = ContactDiaryEditLocationsViewModel(contactDiaryRepository, TestDispatcherProvider())
+        viewModel = createInstance()
         viewModel.isButtonEnabled.observeForever { }
         viewModel.isButtonEnabled.value shouldBe true
     }
@@ -80,7 +87,7 @@ class ContactDiaryEditLocationsViewModelTest {
     @Test
     fun testIsButtonNotEnabledWhenListIsEmpty() {
         every { contactDiaryRepository.locations } returns MutableStateFlow(emptyList())
-        viewModel = ContactDiaryEditLocationsViewModel(contactDiaryRepository, TestDispatcherProvider())
+        viewModel = createInstance()
         viewModel.isButtonEnabled.observeForever { }
         viewModel.isButtonEnabled.value shouldBe false
     }
@@ -88,7 +95,7 @@ class ContactDiaryEditLocationsViewModelTest {
     @Test
     fun testLocations() {
         every { contactDiaryRepository.locations } returns MutableStateFlow(locationList)
-        viewModel = ContactDiaryEditLocationsViewModel(contactDiaryRepository, TestDispatcherProvider())
+        viewModel = createInstance()
         viewModel.locationsLiveData.observeForever { }
         viewModel.locationsLiveData.value shouldBe locationList
     }
