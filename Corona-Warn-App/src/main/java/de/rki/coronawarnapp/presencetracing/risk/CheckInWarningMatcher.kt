@@ -1,11 +1,11 @@
-package de.rki.coronawarnapp.presencetracing.warning.riskcalculation
+package de.rki.coronawarnapp.presencetracing.risk
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningRepository
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
-class TraceLocationCheckInMatcher @Inject constructor(
+class CheckInWarningMatcher @Inject constructor(
     private val checkInsRepository: CheckInRepository,
     private val traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository,
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository

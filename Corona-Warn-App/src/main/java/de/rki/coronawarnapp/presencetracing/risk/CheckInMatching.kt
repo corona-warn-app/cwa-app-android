@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.warning.riskcalculation
+package de.rki.coronawarnapp.presencetracing.risk
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
@@ -42,7 +42,7 @@ suspend fun filterRelevantWarnings(
 fun CheckIn.calculateOverlap(
     warning: TraceWarning.TraceTimeIntervalWarning,
     traceWarningPackageId: Long
-): CheckInOverlap? {
+): CheckInWarningOverlap?  {
 
     if (warning.locationGuidHash != locationGuidHash) return null
 
@@ -55,7 +55,7 @@ fun CheckIn.calculateOverlap(
 
     if (overlapMillis <= 0) return null
 
-    return CheckInOverlap(
+    return CheckInWarningOverlap(
         checkInId = id,
         transmissionRiskLevel = warning.transmissionRiskLevel,
         traceWarningPackageId = traceWarningPackageId,
