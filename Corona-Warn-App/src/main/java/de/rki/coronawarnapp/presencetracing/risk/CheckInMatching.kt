@@ -42,7 +42,7 @@ suspend fun filterRelevantWarnings(
 fun CheckIn.calculateOverlap(
     warning: TraceWarning.TraceTimeIntervalWarning,
     traceWarningPackageId: Long
-): CheckInWarningOverlap?  {
+): CheckInWarningOverlap? {
 
     if (warning.locationGuidHash != locationGuidHash) return null
 

@@ -10,19 +10,19 @@ import org.junit.jupiter.api.Test
 import java.time.Instant
 
 class CombineRiskTest {
-    
+
     @Test
     fun `combineRisk works`() {
         val ptRisk = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3,20),
+            localDateUtc = LocalDate(2021, 3, 20),
             riskState = RiskState.INCREASED_RISK
         )
         val ptRisk2 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3,21),
+            localDateUtc = LocalDate(2021, 3, 21),
             riskState = RiskState.LOW_RISK
         )
         val ptRisk3 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3,22),
+            localDateUtc = LocalDate(2021, 3, 22),
             riskState = RiskState.CALCULATION_FAILED
         )
         val ewRisk = AggregatedRiskPerDateResult(
@@ -55,19 +55,19 @@ class CombineRiskTest {
         val result = combineRisk(ptRiskList, ewRiskList)
         result.size shouldBe 5
         result.find {
-            it.localDate == LocalDate(2021, 3,15)
+            it.localDate == LocalDate(2021, 3, 15)
         }!!.riskState shouldBe RiskState.CALCULATION_FAILED
         result.find {
-            it.localDate == LocalDate(2021, 3,19)
+            it.localDate == LocalDate(2021, 3, 19)
         }!!.riskState shouldBe RiskState.LOW_RISK
         result.find {
-            it.localDate == LocalDate(2021, 3,20)
+            it.localDate == LocalDate(2021, 3, 20)
         }!!.riskState shouldBe RiskState.INCREASED_RISK
         result.find {
-            it.localDate == LocalDate(2021, 3,21)
+            it.localDate == LocalDate(2021, 3, 21)
         }!!.riskState shouldBe RiskState.LOW_RISK
         result.find {
-            it.localDate == LocalDate(2021, 3,22)
+            it.localDate == LocalDate(2021, 3, 22)
         }!!.riskState shouldBe RiskState.INCREASED_RISK
     }
 
