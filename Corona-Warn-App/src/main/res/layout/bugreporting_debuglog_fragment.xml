@@ -164,7 +164,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.widget.Button
+        <Button
             android:id="@+id/toggle_send_error_log"
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
@@ -173,7 +173,7 @@
             android:text="@string/debugging_debuglog_action_share_log"
             tools:text="@string/debugging_debuglog_action_share_log" />
 
-        <android.widget.Button
+        <Button
             android:id="@+id/toggle_store_log"
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
@@ -182,7 +182,7 @@
             android:text="@string/debugging_debuglog_action_local_log_store"
             tools:text="@string/debugging_debuglog_action_local_log_store" />
 
-        <android.widget.Button
+        <Button
             android:id="@+id/toggle_recording"
             style="@style/buttonBarAlertRed"
             android:layout_width="match_parent"
