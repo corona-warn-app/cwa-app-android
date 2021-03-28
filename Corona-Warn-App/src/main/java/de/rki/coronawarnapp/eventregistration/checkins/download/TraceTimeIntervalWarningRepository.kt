@@ -32,7 +32,7 @@ class FakeTraceTimeIntervalWarningRepository @Inject constructor() : TraceTimeIn
 }
 
 object DummyCheckInPackage : TraceTimeIntervalWarningPackage {
-    override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
+    override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
         return warnings
     }
 

@@ -17,6 +17,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import timber.log.Timber
 
 class CheckInWarningMatcherTest : BaseTest() {
@@ -64,7 +65,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
 
         val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
 
@@ -113,7 +114,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
 
         val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
 
@@ -148,7 +149,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
 
         val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf()
             }
 
@@ -185,7 +186,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         every { checkInsRepository.allCheckIns } returns flowOf(listOf())
 
         val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
 
@@ -222,7 +223,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         }
 
         val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return warnings
             }
 
@@ -244,6 +245,7 @@ class CheckInWarningMatcherTest : BaseTest() {
     private fun createInstance() = CheckInWarningMatcher(
         checkInsRepository,
         traceTimeIntervalWarningRepository,
-        presenceTracingRiskRepository
+        presenceTracingRiskRepository,
+        TestDispatcherProvider()
     )
 }
