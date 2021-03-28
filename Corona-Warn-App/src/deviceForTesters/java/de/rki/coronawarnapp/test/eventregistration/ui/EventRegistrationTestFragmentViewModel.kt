@@ -5,21 +5,21 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.DummyCheckInPackage
-import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
+import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskCalculator
-import de.rki.coronawarnapp.presencetracing.risk.findMatches
+import de.rki.coronawarnapp.presencetracing.risk.launchMatching
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.awaitAll
 import okio.ByteString
 import org.joda.time.Instant
 import timber.log.Timber
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
-    dispatcherProvider: DispatcherProvider,
-    private val checkInWarningMatcher: CheckInWarningMatcher,
+    private val dispatcherProvider: DispatcherProvider,
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -39,11 +39,16 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 },
                 {
                     checkInWarningOverlaps.clear()
-                    checkInWarningOverlaps.addAll(
-                        (1..100).flatMap {
-                            findMatches(checkIns, DummyCheckInPackage)
-                        }
-                    )
+                    val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
+                    val warningPackages = listOf(1..360).map {
+                        DummyCheckInPackage
+                    }
+                    val matches = launchMatching(splitCheckIns, warningPackages, dispatcherProvider.IO)
+                        .awaitAll()
+                        .flatten()
+
+                    checkInWarningOverlaps.addAll(matches)
+
                     if (checkInWarningOverlaps.size < 100) {
                         val text = checkInWarningOverlaps.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
                             stringBuilder
@@ -95,7 +100,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     interface Factory : SimpleCWAViewModelFactory<EventRegistrationTestFragmentViewModel>
 }
 
-val checkIns = (1L..10L).map {
+val checkIns = (1L..100L).map {
     createCheckIn(
         id = it,
         traceLocationGuid = it.toString(),
