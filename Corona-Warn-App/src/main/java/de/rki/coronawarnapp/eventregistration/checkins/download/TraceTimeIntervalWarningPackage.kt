@@ -7,5 +7,5 @@ interface TraceTimeIntervalWarningPackage {
     /**
      * Hides the file reading
      */
-    suspend fun extractTraceTimeIntervalWarning(): List<TraceWarning.TraceTimeIntervalWarning>
+    suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning>
 }
