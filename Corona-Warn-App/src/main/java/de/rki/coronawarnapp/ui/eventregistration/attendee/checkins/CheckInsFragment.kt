@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBin
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.collections.replaceAll
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
 import de.rki.coronawarnapp.util.list.onSwipeItem
@@ -54,7 +55,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     )
     private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBindingLazy()
     private val checkInsAdapter = CheckInsAdapter()
-    private val positions = mutableListOf<Int>()
+    private val swipeExcludedPositions = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +79,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
             onSwipeItem(
                 context = requireContext(),
-                excludedPositions = positions
+                excludedPositions = swipeExcludedPositions
             ) { position, direction ->
                 val checkInsItem = checkInsAdapter.data[position]
                 if (checkInsItem.isSwipeable()) {
@@ -90,12 +91,12 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         viewModel.checkins.observe2(this) { items ->
             checkInsAdapter.update(items)
             binding.apply {
-                checkInsList.isGone = items.isEmpty()
-                emptyListInfoContainer.isGone = items.isNotEmpty()
-                scanCheckinQrcodeFab.isGone = items.any { it is CameraPermissionVH.Item }
                 val index = items.indexOfFirst { it is CameraPermissionVH.Item }
-                positions.clear()
-                positions.add(index)
+                swipeExcludedPositions.replaceAll(listOf(index))
+
+                scanCheckinQrcodeFab.isGone = items.any { it is CameraPermissionVH.Item }
+                emptyListInfoContainer.isGone = items.isNotEmpty()
+                checkInsList.isGone = items.isEmpty()
             }
         }
 
