@@ -124,7 +124,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         val description get() = traceLocation.description
         val typeRes get() = mapTraceLocationToTitleRes(traceLocation.type)
         val address get() = traceLocation.address
-        val checkInEnd get() = checkInEndOffset.toReadableDuration(suffix = "Std")
+        val checkInEnd get() = checkInEndOffset.toReadableDuration()
         val eventInFutureDateText get() = traceLocation.startDate?.toDateTime()?.toString(dateFormatter) ?: ""
         val eventInFutureTimeText get() = traceLocation.startDate?.toDateTime()?.toString(timeFormatter) ?: ""
     }

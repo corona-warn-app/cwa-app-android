@@ -107,9 +107,11 @@ val traceLocationCategories = listOf(
     )
 )
 
+@StringRes
 fun mapTraceLocationToTitleRes(type: TraceLocationOuterClass.TraceLocationType) =
     mapTraceLocationToTitleRes(type.number)
 
+@StringRes
 fun mapTraceLocationToTitleRes(type: Int): Int {
     val category = traceLocationCategories.find { it.type.ordinal == type }
     return category?.title ?: R.string.tracelocation_organizer_category_other_location_title

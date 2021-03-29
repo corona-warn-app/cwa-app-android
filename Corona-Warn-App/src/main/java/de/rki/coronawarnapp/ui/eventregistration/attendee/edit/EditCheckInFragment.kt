@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.edit
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -13,7 +14,6 @@ import de.rki.coronawarnapp.databinding.FragmentEditCheckInBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -66,9 +66,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
         viewModel.events.observe2(this) { navEvent ->
             when (navEvent) {
                 EditCheckInNavigation.BackNavigation -> popBackStack()
-                EditCheckInNavigation.ConfirmNavigation -> {
-                    popBackStack()
-                }
+                EditCheckInNavigation.ConfirmNavigation -> popBackStack()
             }
         }
 
@@ -84,7 +82,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
                 editCheckinEditCardCheckoutDate.text = uiState.checkInEndDate
                 editCheckinEditCardCheckoutTime.text = uiState.checkInEndTime
 
-                editCheckinDurationEditHintCard.setGone(!uiState.diaryWarningVisible)
+                editCheckinDurationEditHintCard.isGone = !uiState.diaryWarningVisible
             }
         }
 

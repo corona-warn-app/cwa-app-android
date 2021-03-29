@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.confirm
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -10,7 +11,6 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -53,10 +53,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
         viewModel.events.observe2(this) { navEvent ->
             when (navEvent) {
                 ConfirmCheckInNavigation.BackNavigation -> popBackStack()
-                ConfirmCheckInNavigation.ConfirmNavigation -> {
-                    // TODO Navigate to the rightful destination
-                    popBackStack()
-                }
+                ConfirmCheckInNavigation.ConfirmNavigation -> popBackStack()
             }
         }
 
@@ -68,9 +65,9 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
                 confirmCheckinSettingsCardCheckoutToggle.isChecked = uiState.createJournalEntry
                 confirmCheckinSettingsCardCheckoutTime.text = uiState.checkInEnd
 
-                confirmCheckinEventInPastCard.setGone(!uiState.eventInPastVisible)
+                confirmCheckinEventInPastCard.isGone = !uiState.eventInPastVisible
 
-                confirmCheckinEventInFutureCard.setGone(!uiState.eventInFutureVisible)
+                confirmCheckinEventInFutureCard.isGone = !uiState.eventInFutureVisible
                 confirmCheckinEventInFutureCardText.text = getString(
                     R.string.confirm_checkin_event_in_future_card_text,
                     uiState.eventInFutureDateText,
