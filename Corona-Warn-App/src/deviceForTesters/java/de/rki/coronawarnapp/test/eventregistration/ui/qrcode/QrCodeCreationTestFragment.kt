@@ -86,7 +86,7 @@ class QrCodeCreationTestFragment : Fragment(R.layout.fragment_test_qrcode_creati
         }
 
         viewModel.qrCodePosterTemplate.observe2(this) { vectorDrawableBytes ->
-            binding.downloadedQrCodePoster.text = vectorDrawableBytes.toStringUtf8()
+            binding.downloadedQrCodePoster.text = vectorDrawableBytes.utf8()
         }
     }
 }
