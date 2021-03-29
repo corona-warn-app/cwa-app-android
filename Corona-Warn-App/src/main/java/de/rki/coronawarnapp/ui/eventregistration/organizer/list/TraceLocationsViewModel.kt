@@ -21,7 +21,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
     private val timeStamper: TimeStamper
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val showDeleteSingleDialog = SingleLiveEvent<TraceLocation>()
+    val events = SingleLiveEvent<TraceLocationEvent>()
 
     val traceLocations: LiveData<List<TraceLocationItem>> = traceLocationRepository.allTraceLocations
         .map { traceLocations ->
@@ -36,7 +36,12 @@ class TraceLocationsViewModel @AssistedInject constructor(
                     onCheckIn = { /* TODO */ },
                     onDuplicate = { /* TODO */ },
                     onShowPrint = { /* TODO */ },
-                    onClearItem = { showDeleteSingleDialog.postValue(it) }
+                    onClearItem = { events.postValue(TraceLocationEvent.ConfirmDeleteItem(it)) },
+                    onSwipeItem = { traceLocation, position ->
+                        events.postValue(
+                            TraceLocationEvent.ConfirmSwipeItem(traceLocation, position)
+                        )
+                    }
                 )
             }
         }

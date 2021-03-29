@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -15,6 +16,8 @@ import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsList
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.list.isSwipeable
+import de.rki.coronawarnapp.util.list.onSwipeItem
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
@@ -47,6 +50,15 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             onScroll {
                 onScrollChange(it)
             }
+            onSwipeItem(
+                context = requireContext(),
+                excludedPositions = listOf() // TODO exclude items from swiping such as Camera permission item
+            ) { position, direction ->
+                val traceLocationItem = traceLocationsAdapter.data[position]
+                if (traceLocationItem.isSwipeable()) {
+                    traceLocationItem.onSwipe(position, direction)
+                }
+            }
         }
 
         binding.toolbar.setOnClickListener {
@@ -61,8 +73,15 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             }
         }
 
-        viewModel.showDeleteSingleDialog.observe2(this) {
-            showDeleteSingleDialog(it)
+        viewModel.events.observe2(this) {
+            when (it) {
+                is TraceLocationEvent.ConfirmDeleteItem -> {
+                    showDeleteSingleDialog(it.traceLocation, null)
+                }
+                is TraceLocationEvent.ConfirmSwipeItem -> {
+                    showDeleteSingleDialog(it.traceLocation, it.position)
+                }
+            }
         }
 
         binding.qrCodeFab.apply {
@@ -113,18 +132,28 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         DialogHelper.showDialog(deleteAllDialog)
     }
 
-    private fun showDeleteSingleDialog(traceLocation: TraceLocation) {
-        val deleteAllDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.trace_location_organiser_list_delete_single_popup_title,
-            R.string.trace_location_organiser_list_delete_single_popup_message,
-            R.string.trace_location_organiser_list_delete_all_popup_positive_button,
-            R.string.trace_location_organiser_list_delete_all_popup_negative_button,
-            positiveButtonFunction = {
+    private fun showDeleteSingleDialog(traceLocation: TraceLocation, position: Int?) {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(R.string.trace_location_organiser_list_delete_single_popup_title)
+            setMessage(R.string.trace_location_organiser_list_delete_single_popup_message)
+            setPositiveButton(R.string.trace_location_organiser_list_delete_all_popup_positive_button) { _, _ ->
                 viewModel.deleteSingleTraceLocation(traceLocation)
             }
-        )
-        DialogHelper.showDialog(deleteAllDialog)
+            setNegativeButton(R.string.trace_location_organiser_list_delete_all_popup_negative_button) { _, _ ->
+                position?.let {
+                    traceLocationsAdapter.notifyItemChanged(
+                        position
+                    )
+                }
+            }
+            setOnCancelListener {
+                position?.let {
+                    traceLocationsAdapter.notifyItemChanged(
+                        position
+                    )
+                }
+            }
+        }.show()
     }
 
     private fun onScrollChange(extend: Boolean) =

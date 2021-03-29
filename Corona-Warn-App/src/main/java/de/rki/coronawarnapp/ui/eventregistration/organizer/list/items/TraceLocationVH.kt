@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsItem
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsAdapter
+import de.rki.coronawarnapp.util.list.SwipeConsumer
 
 class TraceLocationVH(parent: ViewGroup) :
     TraceLocationsAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsItemBinding>(
@@ -70,7 +71,9 @@ class TraceLocationVH(parent: ViewGroup) :
         val onDuplicate: (TraceLocation) -> Unit,
         val onShowPrint: (TraceLocation) -> Unit,
         val onClearItem: (TraceLocation) -> Unit,
-    ) : TraceLocationItem {
+        val onSwipeItem: (TraceLocation, Int) -> Unit
+    ) : TraceLocationItem, SwipeConsumer {
         override val stableId: Long = traceLocation.guid.hashCode().toLong()
+        override fun onSwipe(position: Int, direction: Int) = onSwipeItem(traceLocation, position)
     }
 }
