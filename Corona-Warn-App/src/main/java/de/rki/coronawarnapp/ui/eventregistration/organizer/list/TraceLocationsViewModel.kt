@@ -22,7 +22,6 @@ class TraceLocationsViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val showDeleteSingleDialog = SingleLiveEvent<TraceLocation>()
-    val createNewTraceLocationEvent = SingleLiveEvent<Unit>()
 
     val traceLocations: LiveData<List<TraceLocationItem>> = traceLocationRepository.allTraceLocations
         .map { traceLocations ->
@@ -49,10 +48,6 @@ class TraceLocationsViewModel @AssistedInject constructor(
 
     fun deleteSingleTraceLocation(traceLocation: TraceLocation) {
         traceLocationRepository.deleteTraceLocation(traceLocation)
-    }
-
-    fun createNewTraceLocation() {
-        createNewTraceLocationEvent.postValue(Unit)
     }
 
     @AssistedFactory

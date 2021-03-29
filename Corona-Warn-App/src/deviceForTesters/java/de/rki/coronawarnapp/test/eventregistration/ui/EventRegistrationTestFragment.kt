@@ -56,7 +56,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             }
 
             showOrganizerList.setOnClickListener {
-                findNavController().navigate(R.id.traceLocationOrganizerTraceLocationsListFragment)
+                findNavController().navigate(R.id.traceLocationOrganizerListFragment)
             }
 
             generateTestTraceLocations.setOnClickListener {

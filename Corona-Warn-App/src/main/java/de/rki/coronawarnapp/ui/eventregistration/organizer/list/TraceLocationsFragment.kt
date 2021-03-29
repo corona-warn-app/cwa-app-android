@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
@@ -16,7 +18,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -64,15 +65,15 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             showDeleteSingleDialog(it)
         }
 
-        viewModel.createNewTraceLocationEvent.observe2(this) {
-            doNavigate(
-                TraceLocationsFragmentDirections
-                    .actionTraceLocationOrganizerTraceLocationsListFragmentToTraceLocationOrganizerCategoriesFragment()
-            )
-        }
-
-        binding.qrCodeFab.setOnClickListener {
-            viewModel.createNewTraceLocation()
+        binding.qrCodeFab.apply {
+            setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_traceLocationOrganizerListFragment_to_traceLocationOrganizerCategoriesFragment,
+                    null,
+                    null,
+                    FragmentNavigatorExtras(this to transitionName)
+                )
+            }
         }
     }
 
@@ -126,7 +127,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         DialogHelper.showDialog(deleteAllDialog)
     }
 
-    fun onScrollChange(extend: Boolean) =
+    private fun onScrollChange(extend: Boolean) =
         with(binding.qrCodeFab) {
             if (extend) extend() else shrink()
         }
