@@ -143,6 +143,7 @@ class EditCheckInViewModel @AssistedInject constructor(
         val checkInStartTime: String get() = checkInStartInstant.toDateTime().toString(timeFormatter)
         val checkInEndDate: String get() = checkInEndInstant.toDateTime().toString(dateFormatter)
         val checkInEndTime: String get() = checkInEndInstant.toDateTime().toString(timeFormatter)
+        val canSaveChanges: Boolean get() = checkInStartInstant.isBefore(checkInEndInstant)
     }
 
     sealed class DateTimePickerEvent {

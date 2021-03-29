@@ -83,6 +83,8 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
                 editCheckinEditCardCheckoutTime.text = uiState.checkInEndTime
 
                 editCheckinDurationEditHintCard.isGone = !uiState.diaryWarningVisible
+
+                editCheckinConfirmButton.isEnabled = uiState.canSaveChanges
             }
         }
 
