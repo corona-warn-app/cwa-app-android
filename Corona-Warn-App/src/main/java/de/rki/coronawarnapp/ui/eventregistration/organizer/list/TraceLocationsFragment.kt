@@ -50,10 +50,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             onScroll {
                 onScrollChange(it)
             }
-            onSwipeItem(
-                context = requireContext(),
-                excludedPositions = listOf() // TODO exclude items from swiping such as Camera permission item
-            ) { position, direction ->
+            onSwipeItem(context = requireContext()) { position, direction ->
                 val traceLocationItem = traceLocationsAdapter.data[position]
                 if (traceLocationItem.isSwipeable()) {
                     traceLocationItem.onSwipe(position, direction)
