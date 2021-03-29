@@ -124,6 +124,15 @@
     <!-- XTXT: Save button text -->
     <string name="tracelocation_organizer_save">"Speichern"</string>
 
+    <!-- XMSG: generic error message body with status code -->
+    <string name="tracelocation_generic_qr_code_error_body_with_error_code">"QR-Code konnte nicht erstellt werden. Bitte versuchen Sie es später noch mal (Fehlercode %d)"</string>
+    <!-- XMSG: generic web request error without status code -->
+    <string name="tracelocation_generic_qr_code_error_body">"QR-Code konnte nicht erstellt werden. Bitte versuchen Sie es später noch mal."</string>
+    <!-- XMSG: Dialog body for generic web request network error -->
+    <string name="tracelocation_generic_network_error_body">"Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind."</string>
+    <!-- XHED: error message title -->
+    <string name="tracelocation_generic_error_title">"Fehler"</string>
+
     <!--    Trace Location Homescreen Card-->
     <!-- XHED: Headline for trace location creation card -->
     <string name="create_trace_location_card_headline">"Sie planen eine\nVeranstaltung?"</string>
@@ -140,4 +149,14 @@
     <string name="tracelocation_notification_autocheckout_title">"Sie wurden automatisch ausgecheckt."</string>
     <!-- XTXT: Description of the automatic check-out notification. -->
     <string name="tracelocation_notification_autocheckout_description">"Bitte passen Sie Ihre Aufenthaltsdauer gegebenenfalls an."</string>
+    <!--  Organizer Flow: Event Detail Screen-->
+    <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
+    <string name="trace_location_event_detail_qr_code_accessibility">"QR-Code"</string>
+    <!-- XHED: Organizer Flow : Accessibility title for event-overview -->
+    <string name="trace_location_event_detail_title_accessibility">"Event-Ansicht"</string>
+    <!-- XBUT: Organizer Flow : Title for show print version button -->
+    <string name="trace_location_event_detail_show_print_qr_code_button">"Druckversion anzeigen"</string>
+    <!-- XBUT: Organizer Flow : Title for save as template button -->
+    <string name="trace_location_event_detail_save_as_template_button">"Als Vorlage verwenden"</string>
+
 </resources>
