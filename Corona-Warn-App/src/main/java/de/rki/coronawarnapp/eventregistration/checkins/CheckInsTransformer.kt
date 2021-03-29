@@ -38,17 +38,17 @@ class CheckInsTransformer @Inject constructor(
      * @param symptoms [Symptoms] symptoms to calculate transmission risk level
      */
     suspend fun transform(checkIns: List<CheckIn>, symptoms: Symptoms): List<CheckInOuterClass.CheckIn> {
-
-        val submissionParamContainer = appConfigProvider
+        val presenceTracing = appConfigProvider
             .getAppConfig()
             .presenceTracing
-            .submissionParameters
 
+        val submissionParams = presenceTracing.submissionParameters
+        val trvMappings = presenceTracing.riskCalculationParameters.transmissionRiskValueMapping
         val transmissionVector = transmissionDeterminator.determine(symptoms)
 
         return checkIns.flatMap { originalCheckIn ->
             Timber.d("Transforming check-in=$originalCheckIn")
-            val derivedTimes = submissionParamContainer.deriveTime(
+            val derivedTimes = submissionParams.deriveTime(
                 originalCheckIn.checkInStart.seconds,
                 originalCheckIn.checkInEnd.seconds
             )
@@ -63,25 +63,17 @@ class CheckInsTransformer @Inject constructor(
                     checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
                 )
                 derivedCheckIn.splitByMidnightUTC().mapNotNull { checkIn ->
-                    checkIn.toOuterCheckIn(transmissionVector)
+                    checkIn.toOuterCheckIn(transmissionVector, trvMappings)
                 }
             }
         }
     }
 
-    private suspend fun CheckIn.toOuterCheckIn(
-        transmissionVector: TransmissionRiskVector
+    private fun CheckIn.toOuterCheckIn(
+        transmissionVector: TransmissionRiskVector,
+        trvMappings: List<TransmissionRiskValueMapping>
     ): CheckInOuterClass.CheckIn? {
-        val trvMappings: List<TransmissionRiskValueMapping> =
-            appConfigProvider.getAppConfig()
-                .presenceTracing
-                .riskCalculationParameters
-                .transmissionRiskValueMapping
-
-        val transmissionRiskLevel = determineRiskTransmission(
-            timeStamper.nowUTC,
-            transmissionVector
-        )
+        val transmissionRiskLevel = determineRiskTransmission(timeStamper.nowUTC, transmissionVector)
 
         // Find transmissionRiskValue for matched transmissionRiskLevel - default 0.0 if no match
         val transmissionRiskValue = trvMappings.find {
