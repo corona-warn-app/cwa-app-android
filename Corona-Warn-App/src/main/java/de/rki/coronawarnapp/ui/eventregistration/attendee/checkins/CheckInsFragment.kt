@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.collections.replaceAll
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -66,40 +67,77 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         super.onViewCreated(view, savedInstanceState)
         setupMenu(binding.toolbar)
 
-        binding.checkInsList.apply {
-            adapter = checkInsAdapter
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
-            itemAnimator = DefaultItemAnimator()
-
-            with(binding.scanCheckinQrcodeFab) {
-                onScroll { extend ->
-                    if (extend) extend() else shrink()
-                }
-            }
-
-            onSwipeItem(
-                context = requireContext(),
-                excludedPositions = swipeExcludedPositions
-            ) { position, direction ->
-                val checkInsItem = checkInsAdapter.data[position]
-                if (checkInsItem.isSwipeable()) {
-                    checkInsItem.onSwipe(position, direction)
-                }
-            }
-        }
+        bindRecycler()
+        bindFAB()
 
         viewModel.checkins.observe2(this) { items ->
-            checkInsAdapter.update(items)
-            binding.apply {
-                val index = items.indexOfFirst { it is CameraPermissionVH.Item }
-                swipeExcludedPositions.replaceAll(listOf(index))
-
-                scanCheckinQrcodeFab.isGone = items.any { it is CameraPermissionVH.Item }
-                emptyListInfoContainer.isGone = items.isNotEmpty()
-                checkInsList.isGone = items.isEmpty()
-            }
+            updateViews(items)
         }
 
+        viewModel.events.observe2(this) {
+            onNavigationEvent(it)
+        }
+
+        viewModel.errorEvent.observe2(this) {
+            val errorForHumans = it.tryHumanReadableError(requireContext())
+            Toast.makeText(requireContext(), errorForHumans.description, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun onNavigationEvent(event: CheckInEvent?) {
+        when (event) {
+            is CheckInEvent.ConfirmCheckIn -> doNavigate(
+                CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
+                    verifiedTraceLocation = event.verifiedTraceLocation,
+                    editCheckInId = 0,
+                )
+            )
+
+            is CheckInEvent.ConfirmSwipeItem -> showRemovalConfirmation(event.checkIn, event.position)
+
+            is CheckInEvent.ConfirmRemoveItem -> showRemovalConfirmation(event.checkIn, null)
+
+            is CheckInEvent.ConfirmRemoveAll -> showRemovalConfirmation(null, null)
+
+            is CheckInEvent.EditCheckIn -> doNavigate(
+                CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
+                    verifiedTraceLocation = null,
+                    editCheckInId = event.checkInId,
+                )
+            )
+
+            is CheckInEvent.ShowInformation -> Toast.makeText(
+                requireContext(),
+                "TODO ¯\\_(ツ)_/¯",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            is CheckInEvent.OpenDeviceSettings -> openDeviceSettings()
+        }
+    }
+
+    private fun updateViews(items: List<CheckInsItem>) {
+        checkInsAdapter.update(items)
+        binding.apply {
+            val index = items.indexOfFirst { it is CameraPermissionVH.Item }
+            swipeExcludedPositions.replaceAll(listOf(index))
+
+            scanCheckinQrcodeFab.isGone = items.any { it is CameraPermissionVH.Item }
+            emptyListInfoContainer.isGone = items.isNotEmpty()
+            checkInsList.isGone = items.isEmpty()
+        }
+    }
+
+    private fun openDeviceSettings() {
+        startActivity(
+            Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+            )
+        )
+    }
+
+    private fun bindFAB() {
         binding.scanCheckinQrcodeFab.apply {
             setOnClickListener {
                 findNavController().navigate(
@@ -122,53 +160,29 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 }
             }
         }
+    }
 
-        viewModel.events.observe2(this) {
-            when (it) {
-                is CheckInEvent.ConfirmCheckIn -> {
-                    doNavigate(
-                        CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
-                            verifiedTraceLocation = it.verifiedTraceLocation,
-                            editCheckInId = 0,
-                        )
-                    )
-                }
+    private fun bindRecycler() {
+        binding.checkInsList.apply {
+            adapter = checkInsAdapter
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            itemAnimator = DefaultItemAnimator()
 
-                is CheckInEvent.ConfirmSwipeItem -> {
-                    showRemovalConfirmation(it.checkIn, it.position)
-                }
-                is CheckInEvent.ConfirmRemoveItem -> {
-                    showRemovalConfirmation(it.checkIn, null)
-                }
-                is CheckInEvent.ConfirmRemoveAll -> {
-                    showRemovalConfirmation(null, null)
-                }
-                is CheckInEvent.EditCheckIn -> {
-                    doNavigate(
-                        CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
-                            verifiedTraceLocation = null,
-                            editCheckInId = it.checkInId,
-                        )
-                    )
-                }
-                is CheckInEvent.ShowInformation -> {
-                    Toast.makeText(requireContext(), "TODO ¯\\_(ツ)_/¯", Toast.LENGTH_SHORT).show()
-                }
-
-                is CheckInEvent.OpenDeviceSettings -> {
-                    startActivity(
-                        Intent(
-                            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                            Uri.parse("package:" + BuildConfig.APPLICATION_ID)
-                        )
-                    )
+            with(binding.scanCheckinQrcodeFab) {
+                onScroll { extend ->
+                    if (extend) extend() else shrink()
                 }
             }
-        }
 
-        viewModel.errorEvent.observe2(this) {
-            val errorForHumans = it.tryHumanReadableError(requireContext())
-            Toast.makeText(requireContext(), errorForHumans.description, Toast.LENGTH_LONG).show()
+            onSwipeItem(
+                context = requireContext(),
+                excludedPositions = swipeExcludedPositions
+            ) { position, direction ->
+                val checkInsItem = checkInsAdapter.data[position]
+                if (checkInsItem.isSwipeable()) {
+                    checkInsItem.onSwipe(position, direction)
+                }
+            }
         }
     }
 
