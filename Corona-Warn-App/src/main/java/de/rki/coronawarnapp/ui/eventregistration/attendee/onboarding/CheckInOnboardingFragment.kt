@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class CheckInOnboardingFragment : Fragment(R.layout.fragment_check_in_onboarding), AutoInject {
+class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onboarding), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 

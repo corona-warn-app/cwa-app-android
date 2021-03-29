@@ -14,8 +14,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/trace_location_onboarding_title" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/check_in_onboarding_acknowledge"
+        style="@style/buttonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/trace_location_onboarding_body_confirm"
@@ -162,8 +163,8 @@
                 <TextView
                     android:id="@+id/check_in_onboarding_body3"
                     style="@style/body1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="300dp"
+                    android:layout_height="111dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="2dp"
                     android:focusable="true"

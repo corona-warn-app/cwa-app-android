@@ -8,7 +8,7 @@
         android:id="@+id/checkInOnboardingFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.onboarding.CheckInOnboardingFragment"
         android:label="CheckInOnboardingFragment"
-        tools:layout="@layout/fragment_check_in_onboarding">
+        tools:layout="@layout/fragment_trace_location_onboarding">
         <action
             android:id="@+id/action_checkInOnboardingFragment_to_checkInsFragment"
             app:destination="@id/checkInsFragment" />
