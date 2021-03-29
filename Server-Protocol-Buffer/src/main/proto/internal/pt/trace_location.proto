@@ -2,37 +2,31 @@
 syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.pt;
 
-
 message QRCodePayload {
   uint32 version = 1;
   TraceLocation locationData = 2;
   CrowdNotifierData crowdNotifierData = 3;
+  // byte sequence of CWALocationData
+  bytes vendorData = 4;
 }
 
 message TraceLocation {
+  uint32 version = 1;
   // max. 100 characters
-  string description = 1;
+  string description = 2;
   // max. 100 characters
-  string address = 2;
+  string address = 3;
 
   // UNIX timestamp (in seconds)
-  uint64 startTimestamp = 6;
+  uint64 startTimestamp = 5;
   // UNIX timestamp (in seconds)
-  uint64 endTimestamp = 7;
-  
-  TraceLocationType type = 8;
-  uint32 defaultCheckInLengthInMinutes = 9;
+  uint64 endTimestamp = 6;
 }
 
 message CrowdNotifierData {
   uint32 version = 1;
-  bytes masterPublicKey = 2;
+  bytes publicKey = 2;
   bytes cryptographicSeed = 3;
-}
-
-message SignedTraceLocation {
-  bytes location = 1 [deprecated = true];
-  bytes signature = 2 [deprecated = true];
 }
 
 enum TraceLocationType {
@@ -52,4 +46,10 @@ enum TraceLocationType {
   LOCATION_TYPE_TEMPORARY_PRIVATE_EVENT = 11;
   LOCATION_TYPE_TEMPORARY_WORSHIP_SERVICE = 12;
 
+}
+
+message CWALocationData {
+  uint32 version = 1;
+  TraceLocationType type = 2;
+  uint32 defaultCheckInLengthInMinutes = 3;
 }

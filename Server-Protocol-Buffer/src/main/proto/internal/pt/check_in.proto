@@ -2,7 +2,6 @@
 syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.pt;
 
-import "internal/pt/trace_location.proto";
 
 message CheckIn {
   bytes locationId = 1;
