@@ -100,7 +100,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/bullet_point_size"
-        android:paddingStart="@dimen/spacing_normal"
         android:paddingBottom="@dimen/spacing_normal"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
