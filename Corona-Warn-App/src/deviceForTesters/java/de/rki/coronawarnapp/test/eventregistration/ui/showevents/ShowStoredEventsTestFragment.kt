@@ -3,14 +3,17 @@ package de.rki.coronawarnapp.test.eventregistration.ui.showevents
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestShowstoredeventsBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class ShowStoredEventsTestFragment : Fragment(R.layout.fragment_test_showstoredevents), AutoInject {
@@ -29,6 +32,33 @@ class ShowStoredEventsTestFragment : Fragment(R.layout.fragment_test_showstorede
 
         binding.deleteAllEvents.setOnClickListener {
             vm.deleteAllEvents()
+        }
+
+        binding.duplicateFirstEvents.setOnClickListener { _ ->
+            vm.storedEvents.value?.firstOrNull()?.let {
+                duplicateLocation(it)
+            }
+        }
+
+        binding.duplicateLastEvent.setOnClickListener { _ ->
+            vm.storedEvents.value?.lastOrNull()?.let {
+                duplicateLocation(it)
+            }
+        }
+    }
+
+    private fun duplicateLocation(traceLocation: TraceLocation) {
+        val category = traceLocationCategories.find { it.type == traceLocation.type }
+        if (category == null) {
+            Timber.e("Category not found event = $traceLocation")
+        } else {
+            findNavController().navigate(
+                ShowStoredEventsTestFragmentDirections
+                    .actionTraceLocationOrganizerCategoriesFragmentToTraceLocationCreateFragment(
+                        category,
+                        traceLocation
+                    )
+            )
         }
     }
 

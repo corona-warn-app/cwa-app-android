@@ -166,7 +166,11 @@
         android:id="@+id/showStoredEventsTestFragment"
         android:name="de.rki.coronawarnapp.test.eventregistration.ui.showevents.ShowStoredEventsTestFragment"
         android:label="ShowStoredEventsTestFragment"
-        tools:layout="@layout/fragment_test_showstoredevents" />
+        tools:layout="@layout/fragment_test_showstoredevents" >
+        <action
+            android:id="@+id/action_traceLocationOrganizerCategoriesFragment_to_traceLocationCreateFragment"
+            app:destination="@id/traceLocationCreateFragment" />
+    </fragment>
     <fragment
         android:id="@+id/traceLocationOrganizerCategoriesFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment"
@@ -185,6 +189,11 @@
         <argument
             android:name="category"
             app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory" />
+        <argument
+            android:name="originalItem"
+            app:nullable="true"
+            android:defaultValue="@null"
+            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation" />
     </fragment>
 
 </navigation>

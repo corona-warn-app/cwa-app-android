@@ -116,6 +116,20 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             it.hideKeyboard()
             viewModel.send()
         }
+
+        if (savedInstanceState == null) {
+            navArgs.originalItem?.let {
+                binding.apply {
+                    descriptionInputEdit.setText(it.description)
+                    placeInputEdit.setText(it.address)
+                }
+                viewModel.apply {
+                    begin = LocalDateTime(it.startDate)
+                    end = LocalDateTime(it.endDate)
+                    checkInLength = Duration.standardMinutes(it.defaultCheckInLengthInMinutes?.toLong() ?: 0L)
+                }
+            }
+        }
     }
 
     private fun getErrorDialogInstance(exception: Exception): DialogHelper.DialogInstance {
