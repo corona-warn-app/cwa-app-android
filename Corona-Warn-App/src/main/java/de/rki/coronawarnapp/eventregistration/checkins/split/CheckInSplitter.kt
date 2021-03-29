@@ -15,14 +15,14 @@ import kotlin.math.ceil
  */
 fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     Timber.d("Starting splitByMidnightUTC ...")
-    if (checkInStart.toLocalDate() == checkInEnd.toLocalDate()) return listOf(this)
+
     val startTimeSeconds = checkInStart.seconds
     val endTimeSeconds = checkInEnd.seconds
+    if (endTimeSeconds < startTimeSeconds) return listOf()
+    if (checkInStart.toLocalDate() == checkInEnd.toLocalDate()) return listOf(this)
+
     val durationSecondsUTC = endTimeSeconds - startTimeSeconds.toMidnightUTC()
-
     Timber.i("durationSecondsUTC=$durationSecondsUTC")
-
-    if (durationSecondsUTC <= 0) return listOf(this)
 
     val durationDays = ceil(durationSecondsUTC.toDouble() / DAY_IN_SECONDS).toLong()
     Timber.i("durationDays=$durationDays")

@@ -10,9 +10,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.joda.time.Duration
 import org.joda.time.Instant
+import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
-suspend fun launchMatching(
+suspend fun createMatchingLaunchers(
     checkIns: List<CheckIn>,
     warningPackages: List<TraceTimeIntervalWarningPackage>,
     coroutineContext: CoroutineContext
@@ -42,8 +43,14 @@ internal suspend fun findMatches(
         .extractTraceTimeIntervalWarnings()
         .flatMap { warning ->
             checkIns
-                .mapNotNull {
-                    it.calculateOverlap(warning)
+                .mapNotNull { checkIn ->
+                    checkIn.calculateOverlap(warning).also { overlap ->
+                        if (overlap == null) {
+                            Timber.d("No match/overlap found for $checkIn and $warning")
+                        } else {
+                            Timber.i("Overlap found $overlap")
+                        }
+                    }
                 }
         }
 }

@@ -20,7 +20,7 @@ class CheckInWarningMatcher @Inject constructor(
 
         val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
 
-        return launchMatching(splitCheckIns, warningPackages, dispatcherProvider.IO)
+        return createMatchingLaunchers(splitCheckIns, warningPackages, dispatcherProvider.IO)
             .awaitAll()
             .flatten()
     }
