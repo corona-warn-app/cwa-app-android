@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.eventregistration.TraceLocationPreferences
-import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
@@ -96,7 +95,7 @@ internal class DataResetTest : BaseTest() {
         coVerify(exactly = 1) { downloadDiagnosisKeysSettings.clear() }
         coVerify(exactly = 1) { riskLevelStorage.clear() }
         coVerify(exactly = 1) { contactDiaryPreferences.clear() }
-        coVerify(exactly = 1) { traceLocationPreferences.clear()}
+        coVerify(exactly = 1) { traceLocationPreferences.clear() }
         coVerify(exactly = 1) { cwaSettings.clear() }
         coVerify(exactly = 1) { surveySettings.clear() }
         coVerify(exactly = 1) { analyticsSettings.clear() }
