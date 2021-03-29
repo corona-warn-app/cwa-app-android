@@ -103,7 +103,7 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <android.widget.Button
+        <Button
             style="@style/buttonPrimary"
             android:id="@+id/new_release_info_next_button"
             android:layout_width="0dp"

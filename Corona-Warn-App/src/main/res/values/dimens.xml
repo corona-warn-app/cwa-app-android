@@ -152,4 +152,7 @@
     <dimen name="contact_diary_nested_recyclerview_margin">60dp</dimen>
     <dimen name="statistics_card_height">328dp</dimen>
     <dimen name="statistics_card_width">300dp</dimen>
+
+    <!-- Swipe to delete icons left or right margin from the edge-->
+    <dimen name="swipe_icon_margin">33dp</dimen>
 </resources>

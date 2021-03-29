@@ -22,7 +22,7 @@ import org.joda.time.Instant
 object TracingData {
 
     private val todayAtNineFiftyFive = Instant.now().toDateTime()
-        .withTime(9,55,0,0).toInstant()
+        .withTime(9, 55, 0, 0).toInstant()
 
     val TRACING_DISABLED = Pair(
         TracingDetailsState(
