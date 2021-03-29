@@ -75,7 +75,7 @@
         </LinearLayout>
 
     </ScrollView>
-    <android.widget.Button
+    <Button
         android:id="@+id/upload_action"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
