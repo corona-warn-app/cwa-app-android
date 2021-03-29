@@ -37,7 +37,6 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-
             appBarLayout.addOnOffsetChangedListener(
                 AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
                     title.alpha = (

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -21,6 +22,7 @@ import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import javax.inject.Inject
+import kotlin.math.abs
 
 class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInject {
     private val navArgs by navArgs<EditCheckInFragmentArgs>()
@@ -40,6 +42,14 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            appBarLayout.addOnOffsetChangedListener(
+                AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                    title.alpha = (
+                        1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.6f))
+                        )
+                }
+            )
+
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
 
             editCheckinEditCardCheckinDate.setOnClickListener {
