@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeInfoFragmentBinding
+import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -18,6 +19,8 @@ import javax.inject.Inject
 class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_qr_code_info_fragment), AutoInject {
 
     private val binding: TraceLocationOrganizerQrCodeInfoFragmentBinding by viewBindingLazy()
+
+    @Inject lateinit var settings: TraceLocationOrganizerSettings
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: TraceLocationQRInfoViewModel by cwaViewModels { viewModelFactory }
@@ -34,7 +37,10 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
             when (it) {
                 is TraceLocationQRInfoNavigationEvents.NavigateToDataPrivacy ->
                     findNavController().navigate("coronawarnapp://contactdiary/dataPrivacy".toUri())
-                is TraceLocationQRInfoNavigationEvents.NavigateToMyQrCodes -> {/*TODO: navigate to QR*/}
+                is TraceLocationQRInfoNavigationEvents.NavigateToMyQrCodes -> {
+                    settings.qrInfoAcknowledged = true
+                    // TODO: Add navigation to Meine QR-Codes screen
+                }
             }
         }
     }

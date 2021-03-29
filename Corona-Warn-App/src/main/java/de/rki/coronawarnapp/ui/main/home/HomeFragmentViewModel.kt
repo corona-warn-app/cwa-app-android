@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
@@ -47,6 +48,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
+import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
@@ -83,9 +85,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
     private val appShortcutsHelper: AppShortcutsHelper,
     private val tracingSettings: TracingSettings,
+    private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
+
+    private val mutableIsQrInfoAcknowledged = MutableLiveData<Boolean>()
+    val isQRInfoAcknowledged: LiveData<Boolean> = mutableIsQrInfoAcknowledged
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
@@ -321,6 +327,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun tracingExplanationWasShown() {
         cwaSettings.wasTracingExplanationDialogShown = true
+    }
+
+    fun wasQRInfoWasAcknowledged() {
+        mutableIsQrInfoAcknowledged.value = traceLocationOrganizerSettings.qrInfoAcknowledged
     }
 
     @AssistedFactory

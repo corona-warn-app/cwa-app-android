@@ -140,7 +140,7 @@
                 layout="@layout/trace_location_privacy_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_small"
                 app:layout_constraintEnd_toEndOf="parent"

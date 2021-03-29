@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -80,7 +81,19 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         vm.openTraceLocationOrganizerFlow.observe2(this) {
-            doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
+            vm.wasQRInfoWasAcknowledged()
+            val nestedGraph = findNavController().graph.findNode(R.id.trace_location_organizer_nav_graph) as NavGraph
+
+            if (vm.isQRInfoAcknowledged.value == true) {
+                /*TODO: set nested graph start destination to Meine QR-Codes fragment and navigate
+                    below piece of code is only provisional for easier testing
+                 */
+                nestedGraph.startDestination = R.id.traceLocationOrganizerCategoriesFragment
+                doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
+            } else {
+                nestedGraph.startDestination = R.id.traceLocationOrganizerQRInfoFragment
+                doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
+            }
         }
 
         vm.popupEvents.observe2(this) { event ->
