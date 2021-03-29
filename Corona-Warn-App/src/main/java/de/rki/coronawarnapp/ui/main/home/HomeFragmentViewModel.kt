@@ -89,6 +89,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
+    val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
@@ -240,7 +241,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
 
-            add(CreateTraceLocationCard.Item(onClickAction = { /** Todo: Add navigation on click */ }))
+            add(CreateTraceLocationCard.Item(onClickAction = { openTraceLocationOrganizerFlow.postValue(Unit) }))
 
             add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
         }

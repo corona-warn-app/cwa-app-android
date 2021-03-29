@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
@@ -76,6 +77,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         vm.openFAQUrlEvent.observe2(this) {
             ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
+        }
+
+        vm.openTraceLocationOrganizerFlow.observe2(this) {
+            doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
         }
 
         vm.popupEvents.observe2(this) { event ->
