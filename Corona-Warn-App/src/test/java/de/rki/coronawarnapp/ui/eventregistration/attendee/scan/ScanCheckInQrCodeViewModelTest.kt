@@ -2,24 +2,33 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.scan
 
 import com.google.zxing.Result
 import com.journeyapps.barcodescanner.BarcodeResult
+import de.rki.coronawarnapp.util.permission.CameraPermissionSettings
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
+import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
 class ScanCheckInQrCodeViewModelTest : BaseTest() {
 
     private lateinit var viewModel: ScanCheckInQrCodeViewModel
+    @MockK lateinit var cameraPermissionSettings: CameraPermissionSettings
 
     @BeforeEach
     fun setup() {
-        viewModel = ScanCheckInQrCodeViewModel()
+        MockKAnnotations.init(this)
+        viewModel = ScanCheckInQrCodeViewModel(
+            cameraPermissionSettings
+        )
     }
 
     @Test
@@ -38,5 +47,13 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
         viewModel.onScanResult(mockedResult)
         viewModel.events.getOrAwaitValue() shouldBe
             ScanCheckInQrCodeNavigation.ScanResultNavigation("https://coronawarn.app/E1/SOME_PATH_GOES_HERE")
+    }
+
+    @Test
+    fun `Camera settings is saved when user denies it`() {
+        every { cameraPermissionSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
+        viewModel.onCameraDeniedPermanently()
+
+        verify { cameraPermissionSettings.isCameraDeniedPermanently }
     }
 }
