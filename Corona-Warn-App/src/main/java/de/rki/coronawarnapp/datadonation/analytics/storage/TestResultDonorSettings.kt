@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
@@ -14,7 +15,8 @@ import javax.inject.Singleton
 
 @Singleton
 class TestResultDonorSettings @Inject constructor(
-    @AppContext private val context: Context
+    @AppContext private val context: Context,
+    private val timeStamper: TimeStamper
 ) {
     private val prefs by lazy {
         context.getSharedPreferences("analytics_testResultDonor", Context.MODE_PRIVATE)
@@ -97,7 +99,7 @@ class TestResultDonorSettings @Inject constructor(
         testScannedAfterConsent.update { true }
         testResultAtRegistration.update { testResult }
         if (testResult in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)) {
-            finalTestResultReceivedAt.update { Instant.now() }
+            finalTestResultReceivedAt.update { timeStamper.nowUTC }
         }
 
         riskLevelAtTestRegistration.update { lastRiskResult.toMetadataRiskLevel() }
