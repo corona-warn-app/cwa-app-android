@@ -6,8 +6,10 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
+import de.rki.coronawarnapp.server.protocols.internal.v2
+    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
+import de.rki.coronawarnapp.server.protocols.internal.v2
+    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
