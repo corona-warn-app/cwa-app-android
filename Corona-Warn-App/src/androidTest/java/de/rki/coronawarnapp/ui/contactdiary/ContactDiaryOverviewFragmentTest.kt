@@ -25,12 +25,10 @@ import io.mockk.spyk
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchInMainActivity
@@ -48,9 +46,6 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
     @MockK lateinit var exporter: ContactDiaryExporter
 
     private lateinit var viewModel: ContactDiaryOverviewViewModel
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {
@@ -97,9 +92,15 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
         takeScreenshot<ContactDiaryOverviewFragment>("2")
     }
 
+
+
     private fun contactDiaryOverviewItemLiveData(): LiveData<List<DiaryOverviewItem>> {
         val data = mutableListOf<DiaryOverviewItem>()
         data.add(OverviewSubHeaderItem)
+
+        TODO("FIXME!!")
+
+        /*
         val dayData = (0 until ContactDiaryOverviewViewModel.DAY_COUNT)
             .map { LocalDate.now().minusDays(it) }
             .mapIndexed { index, localDate ->
@@ -124,6 +125,8 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
                 }
             }
         data.addAll(dayData)
+
+         */
         return MutableLiveData(data)
     }
 }

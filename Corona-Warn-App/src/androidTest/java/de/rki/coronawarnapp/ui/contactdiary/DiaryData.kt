@@ -16,6 +16,9 @@ import org.joda.time.LocalDate
 
 object DiaryData {
 
+    //TODO("FIXME!!")
+
+    /*
     val DATA_ITEMS = listOf(
         DayOverviewItem.Data(
             R.drawable.ic_contact_diary_location_item,
@@ -61,6 +64,8 @@ object DiaryData {
         bodyExtended = R.string.contact_diary_risk_body_extended,
         drawableId = R.drawable.ic_low_risk_alert
     )
+
+     */
 
     val LOCATIONS: List<DiaryLocationListItem> = listOf(
         DiaryLocationListItem(

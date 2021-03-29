@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.storage
 
+import android.content.ContentValues
+import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
@@ -13,10 +15,12 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncoun
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterWrapper
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration1To2
+import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration2To3
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.junit.Rule
 import org.junit.Test
@@ -110,7 +114,8 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             locationId = 1,
             locationName = "Location1",
             phoneNumber = null,
-            emailAddress = null
+            emailAddress = null,
+            null
         )
         runBlocking { daoDb.locationDao().allEntries().first() }.single() shouldBe location
 
@@ -131,7 +136,8 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
                 date = LocalDate.parse("2020-04-20"),
                 fkLocationId = 1,
                 duration = null,
-                circumstances = null
+                circumstances = null,
+                null
             )
         )
 
@@ -149,6 +155,79 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
                 circumstances = null
             )
         )
+    }
+
+    @Test
+    fun migrate2To3() {
+        val location = ContactDiaryLocationEntity(
+            locationId = 1,
+            locationName = "Why do you want to have this information?",
+            phoneNumber = "I'm not going to tell you yet",
+            emailAddress = "I'mnotgoingtotell@you.yet",
+            traceLocationGUID = null
+        )
+
+        val locationVisit = ContactDiaryLocationVisitEntity(
+            id = 2,
+            date = LocalDate.parse("2020-12-31"),
+            fkLocationId = 1,
+            duration = Duration.standardMinutes(13),
+            circumstances = "That's none of your business",
+            null
+        )
+
+        val locationAfter = location.copy(traceLocationGUID = "jshrgu-aifhioaio-aofsjof-samofp-kjsadngsgf")
+        val locationVisitAfter = locationVisit.copy(checkInID = 101)
+
+        val locationValues = ContentValues().apply {
+            put("locationId", location.locationId)
+            put("locationName", location.locationName)
+            put("phoneNumber", location.phoneNumber)
+            put("emailAddress", location.emailAddress)
+        }
+
+        val locationVisitValues = ContentValues().apply {
+            put("id", locationVisit.id)
+            put("date", locationVisit.date.toString())
+            put("fkLocationId", locationVisit.fkLocationId)
+            put("duration", locationVisit.duration?.millis)
+            put("circumstances", locationVisit.circumstances)
+        }
+
+        helper.createDatabase(DB_NAME, 2).apply {
+            insert("locations", SQLiteDatabase.CONFLICT_FAIL, locationValues)
+            insert("locationvisits", SQLiteDatabase.CONFLICT_FAIL, locationVisitValues)
+
+            close()
+        }
+
+        // Run migration
+        helper.runMigrationsAndValidate(
+            DB_NAME,
+            3,
+            true,
+            ContactDiaryDatabaseMigration2To3
+        )
+
+        val daoDb = ContactDiaryDatabase.Factory(
+            ctx = ApplicationProvider.getApplicationContext()
+        ).create(databaseName = DB_NAME)
+
+        runBlocking {
+            daoDb.locationVisitDao().allEntries().first().single() shouldBe ContactDiaryLocationVisitWrapper(
+                contactDiaryLocationEntity = location,
+                contactDiaryLocationVisitEntity = locationVisit
+            )
+
+            // Test if new attributes are added correctly
+            daoDb.locationDao().update(locationAfter)
+            daoDb.locationVisitDao().update(locationVisitAfter)
+
+            daoDb.locationVisitDao().allEntries().first().single() shouldBe ContactDiaryLocationVisitWrapper(
+                contactDiaryLocationEntity = locationAfter,
+                contactDiaryLocationVisitEntity = locationVisitAfter
+            )
+        }
     }
 
     @Test
@@ -173,6 +252,26 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
                 2,
                 true,
                 ContactDiaryDatabaseMigration1To2
+            )
+        }
+    }
+
+    @Test
+    fun migrate2To3_failure_throws() {
+        helper.createDatabase(DB_NAME, 2).apply {
+            execSQL("DROP TABLE IF EXISTS locations")
+            // Has incompatible existing column phoneNumber of wrong type
+            execSQL("CREATE TABLE IF NOT EXISTS `locations` (`locationId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `locationName` TEXT NOT NULL, `phoneNumber` TEXT, `emailAddress` TEXT, `traceLocationGUID` INTEGER)")
+            close()
+        }
+
+        shouldThrow<SQLiteException> {
+            // Run migration
+            helper.runMigrationsAndValidate(
+                DB_NAME,
+                3,
+                true,
+                ContactDiaryDatabaseMigration2To3
             )
         }
     }
