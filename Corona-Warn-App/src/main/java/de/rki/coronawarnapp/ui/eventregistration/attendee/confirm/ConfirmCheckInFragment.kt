@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentConfirmCheckInBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.Duration
 import javax.inject.Inject
+import kotlin.math.abs
 
 class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), AutoInject {
     private val navArgs by navArgs<ConfirmCheckInFragmentArgs>()
@@ -35,6 +37,15 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+
+            appBarLayout.addOnOffsetChangedListener(
+                AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                    title.alpha = (
+                        1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.6f))
+                        )
+                }
+            )
+
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
 
             confirmCheckinSettingsCardCheckoutToggle.setOnCheckedChangeListener { _, isChecked ->
