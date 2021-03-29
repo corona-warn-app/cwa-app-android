@@ -65,18 +65,6 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         binding.calculateRisk.setOnClickListener {
             Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
         }
-
-        viewModel.checkInOverlaps.observe2(this) {
-            val text = it.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
-                stringBuilder
-                    .append("CheckIn Id ${checkInOverlap.checkInId}")
-                    .append("Date ${checkInOverlap.localDate}")
-                    .append("Min. ${checkInOverlap.overlap.standardMinutes}")
-                    .append("\n")
-            }
-            binding.resultText.text = text
-            binding.resultText.visibility = View.VISIBLE
-        }
     }
 
     companion object {
