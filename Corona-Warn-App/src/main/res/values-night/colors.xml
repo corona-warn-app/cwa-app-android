@@ -71,4 +71,6 @@
 
     <!-- Trace location -->
     <color name="colorTraceLocationIconDateBackground">#434445</color>
+    <color name="colorTraceLocationGradientBackground">#000000</color>
+
 </resources>
