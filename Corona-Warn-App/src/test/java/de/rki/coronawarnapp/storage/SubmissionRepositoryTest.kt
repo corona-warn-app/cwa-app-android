@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.storage
 
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
@@ -55,6 +56,7 @@ class SubmissionRepositoryTest : BaseTest() {
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var tracingSettings: TracingSettings
+    @MockK lateinit var testResultDataCollector: TestResultDataCollector
 
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
@@ -94,6 +96,9 @@ class SubmissionRepositoryTest : BaseTest() {
         coEvery { tekHistoryStorage.clear() } just Runs
 
         every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { testResultDataCollector.updatePendingTestResultReceivedTime(any()) } just Runs
+        coEvery { testResultDataCollector.saveTestResultAnalyticsSettings(any()) } just Runs
+        every { testResultDataCollector.clear() } just Runs
     }
 
     fun createInstance(scope: CoroutineScope) = SubmissionRepository(
@@ -105,7 +110,8 @@ class SubmissionRepositoryTest : BaseTest() {
         deadmanNotificationScheduler = deadmanNotificationScheduler,
         backgroundNoise = backgroundNoise,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        tracingSettings = tracingSettings
+        tracingSettings = tracingSettings,
+        testResultDataCollector = testResultDataCollector
     )
 
     @Test
@@ -127,6 +133,7 @@ class SubmissionRepositoryTest : BaseTest() {
         submissionRepository.removeTestFromDevice()
 
         verify(exactly = 1) {
+            testResultDataCollector.clear()
             registrationTokenPreference.update(any())
             submissionSettings.devicePairingSuccessfulAt = null
             submissionSettings.initialTestResultReceivedAt = null
@@ -156,6 +163,8 @@ class SubmissionRepositoryTest : BaseTest() {
             submissionSettings.devicePairingSuccessfulAt = any()
             backgroundNoise.scheduleDummyPattern()
         }
+
+        coVerify { testResultDataCollector.saveTestResultAnalyticsSettings(any()) }
     }
 
     @Test
@@ -176,6 +185,10 @@ class SubmissionRepositoryTest : BaseTest() {
             registrationTokenPreference.update(any())
             submissionSettings.devicePairingSuccessfulAt = any()
             backgroundNoise.scheduleDummyPattern()
+        }
+
+        coVerify(exactly = 0) {
+            testResultDataCollector.saveTestResultAnalyticsSettings(any())
         }
     }
 
@@ -329,5 +342,13 @@ class SubmissionRepositoryTest : BaseTest() {
         submissionRepository.updateTestResult(TestResult.NEGATIVE)
 
         verify(exactly = 0) { submissionSettings.initialTestResultReceivedAt = null }
+    }
+
+    @Test
+    fun `updateTestResult updates test result donor data`() = runBlockingTest {
+        val submissionRepository = createInstance(scope = this)
+        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+
+        verify { testResultDataCollector.updatePendingTestResultReceivedTime(any()) }
     }
 }
