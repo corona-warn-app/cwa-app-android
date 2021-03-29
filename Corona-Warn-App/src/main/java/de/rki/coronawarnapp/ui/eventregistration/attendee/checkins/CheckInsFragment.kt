@@ -70,8 +70,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             adapter = checkInsAdapter
             addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             itemAnimator = DefaultItemAnimator()
-            onScroll { extend ->
-                if (extend) binding.scanCheckinQrcodeFab.extend() else binding.scanCheckinQrcodeFab.shrink()
+
+            with(binding.scanCheckinQrcodeFab) {
+                onScroll { extend ->
+                    if (extend) extend() else shrink()
+                }
             }
 
             onSwipeItem(
