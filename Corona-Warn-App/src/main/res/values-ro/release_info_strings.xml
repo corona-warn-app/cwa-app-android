@@ -17,20 +17,24 @@
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
         <item>"A fost adăugată Elveția la înregistrarea transnațională a expunerilor în jurnal"</item>
+        <item>"Modificarea mozaicurilor riscului"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
         <item>"Utilizatorii aplicației Corona-Warn pot schimba acum ID-uri aleatorii criptate cu utilizatorii aplicației oficiale de avertizare din Elveția. Aceasta înseamnă că avertizările pot fi acum trimise și primite de utilizatorii aplicației din Elveția."</item>
+        <item>"Mozaicurile riscului nu mai conțin numărul de zile active sau nota că aplicația este activă permanent."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
     </string-array>
 
