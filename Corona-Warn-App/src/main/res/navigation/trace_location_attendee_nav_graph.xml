@@ -48,5 +48,14 @@
         <action
             android:id="@+id/action_checkInsFragment_to_editCheckInFragment"
             app:destination="@id/editCheckInFragment" />
+        <action
+            android:id="@+id/action_checkInsFragment_to_qrCodeDetailFragment"
+            app:destination="@id/qrCodeDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/qrCodeDetailFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment"
+        android:label="QrCodeDetailFragment"
+        tools:layout="@layout/trace_location_organizer_qr_code_detail_fragment" />
+
 </navigation>
