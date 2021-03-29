@@ -1944,15 +1944,15 @@
     <!-- ####################################
        Trace Location
     ###################################### -->
-    <string name="event_checkin_onboarding_title">Einchecken</string>
-    <string name="event_checkin_onboarding_title2">Infektionsketten schnell und sicher unterbrechen</string>
-    <string name="event_checkin_onboarding_subheadline">Scannen Sie den QR-Code zu einem Event oder Ort, um sich einzuchecken und so Ihre Anwesenheit für dieses Event oder diesen Ort auf Ihrem Smartphone zu speichern.</string>
-    <string name="event_checkin_onboarding_body_warning">Jeder Check-in wird bei der Ermittlung des Risikostatus zusätzlich berücksichtigt. Wird eine eingecheckte Person später positiv getestet, können Sie gewarnt werden, wenn Sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben.</string>
-    <string name="event_checkin_onboarding_body_stay">Bitte geben Sie Ihre Aufenthaltszeit so genau wie möglich an, damit gezielt gewarnt werden kann.</string>
-    <string name="event_checkin_onboarding_body_consent2">Die App merkt sich für 16 Tage, bei welchen Events oder Orten Sie sich eingecheckt haben.</string>
-    <string name="event_checkin_onboarding_body_consent3">Wenn Sie einen QR-Code einscannen, um sich einzuchecken, wird auf Ihrem Smartphone ein Eintrag für das Event oder den Ort angelegt.</string>
-    <string name="event_checkin_onboarding_body_consent4">Wenn ein zeitgleich mit Ihnen eingecheckter Nutzer später positiv getestet wird und eine Warnung auslöst, werden Sie automatisch anhand der Event-ID gewarnt – auch wenn Ihr Smartphone keine Zufalls-IDs des positiv getesteten Nutzers empfangen hat.</string>
-    <string name="event_checkin_onboarding_body_consent5">Falls Sie später selbst eine Warnung auslösen, werden automatisch alle anderen Nutzer, die zeitgleich mit Ihnen bei einem unter „Meine Check-ins“ eingetragenen Event oder Ort eingecheckt waren, anhand der Event-ID gewarnt.</string>
-    <string name="event_checkin_onboarding_body_consent6">Unter „Meine Check-ins“ können Sie einen Check-in jederzeit löschen. In diesem Fall werden Sie nur gewarnt, wenn Ihr Smartphone die Zufalls-IDs des positiv getesteten Nutzers empfangen und eine Risiko-Begegnung ermittelt hat.</string>
-    <string name="event_checkin_onboarding_body_confirm">Einverstanden</string>
+    <string name="trace_location_onboarding_title">Einchecken</string>
+    <string name="trace_location_onboarding_title2">Infektionsketten schnell und sicher unterbrechen</string>
+    <string name="trace_location_onboarding_subheadline">Scannen Sie den QR-Code zu einem Event oder Ort, um sich einzuchecken und so Ihre Anwesenheit für dieses Event oder diesen Ort auf Ihrem Smartphone zu speichern.</string>
+    <string name="trace_location_onboarding_body_warning">Jeder Check-in wird bei der Ermittlung des Risikostatus zusätzlich berücksichtigt. Wird eine eingecheckte Person später positiv getestet, können Sie gewarnt werden, wenn Sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben.</string>
+    <string name="trace_location_onboarding_body_stay">Bitte geben Sie Ihre Aufenthaltszeit so genau wie möglich an, damit gezielt gewarnt werden kann.</string>
+    <string name="trace_location_onboarding_body_consent2">Die App merkt sich für 16 Tage, bei welchen Events oder Orten Sie sich eingecheckt haben.</string>
+    <string name="trace_location_onboarding_body_consent3">Wenn Sie einen QR-Code einscannen, um sich einzuchecken, wird auf Ihrem Smartphone ein Eintrag für das Event oder den Ort angelegt.</string>
+    <string name="trace_location_onboarding_body_consent4">Wenn ein zeitgleich mit Ihnen eingecheckter Nutzer später positiv getestet wird und eine Warnung auslöst, werden Sie automatisch anhand der Event-ID gewarnt – auch wenn Ihr Smartphone keine Zufalls-IDs des positiv getesteten Nutzers empfangen hat.</string>
+    <string name="trace_location_onboarding_body_consent5">Falls Sie später selbst eine Warnung auslösen, werden automatisch alle anderen Nutzer, die zeitgleich mit Ihnen bei einem unter „Meine Check-ins“ eingetragenen Event oder Ort eingecheckt waren, anhand der Event-ID gewarnt.</string>
+    <string name="trace_location_onboarding_body_consent6">Unter „Meine Check-ins“ können Sie einen Check-in jederzeit löschen. In diesem Fall werden Sie nur gewarnt, wenn Ihr Smartphone die Zufalls-IDs des positiv getesteten Nutzers empfangen und eine Risiko-Begegnung ermittelt hat.</string>
+    <string name="trace_location_onboarding_body_confirm">Einverstanden</string>
 </resources>
