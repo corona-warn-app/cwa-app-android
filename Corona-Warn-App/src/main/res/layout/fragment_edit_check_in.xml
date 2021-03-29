@@ -231,7 +231,7 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="edit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_textedit_checkin_duration_edit_hint_card_text" />
+                        android:text="@string/edit_checkin_duration_edit_hint_card_text" />
                 </LinearLayout>
 
             </LinearLayout>
