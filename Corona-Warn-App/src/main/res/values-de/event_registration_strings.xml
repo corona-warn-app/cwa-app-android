@@ -131,5 +131,23 @@
     <string name="create_trace_location_card_subtitle">"Sie planen ein Event oder haben ein Geschäft? Erstellen Sie einen QR-Code, mit dem sich Ihre Gäste bei Ankunft einchecken können."</string>
     <!-- XTXT: Text for trace location creation card -->
     <string name="create_trace_location_card_button">"QR-Code erstellen"</string>
+    <!-- XTXT: Text for content description of tile image -->
+    <string name="create_trace_location_card_content_description">"Eine Person zeigt auf ein Flipchart."</string>
+
+    <!--    Trace Location QR Code Info Screen-->
+    <!-- XTXT: Text for content description of info screen image -->
+    <string name="trace_location_qr_info_content_description">"Eine Person zeigt auf ein Flipchart, zwei Personen sitzen daneben und schauen auf das Flipchart."</string>
+    <!-- XHED: Headline for trace location creation card -->
+    <string name="trace_location_qr_info_headline_text">"Mehr Sicherheit für Sie und Ihre Gäste"</string>
+    <!-- XTXT: Text for subtitle of qr info screen -->
+    <string name="trace_location_qr_info_subtitle_text">"Erstellen Sie einen QR-Code, den Ihre Gäste bei ihrer Ankunft scannen können. So können sie bei Bedarf andere Gäste warnen oder von ihnen gewarnt werden."</string>
+    <!-- XTXT: Text for tracing icon of qr info screen -->
+    <string name="trace_location_qr_info_tracing_text">"Jeder Check-in wird bei der Ermittlung des Risikostatus zusätzlich berücksichtigt. Wird eine eingecheckte Person später positiv getestet, können die Gäste gewarnt werden, wenn sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben."</string>
+    <!-- XTXT: Text for qr icon of qr info screen -->
+    <string name="trace_location_qr_info_qr_code_text">"Stellen Sie den QR-Code Ihren Gästen entweder über Ihr Smartphone oder in ausgedruckter Form zur Verfügung."</string>
+    <!-- XTXT: Text for time sheet icon of qr info screen -->
+    <string name="trace_location_qr_info_time_text">"Wenn Sie dauerhaft einen QR-Code verwenden, sollten Sie diesen einmal täglich neu erstellen außerhalb der Öffnungszeiten."</string>
+    <!-- XTXT: Text for I understand button -->
+    <string name="acknowledge_button">"Enverstanden"</string>
 
 </resources>
