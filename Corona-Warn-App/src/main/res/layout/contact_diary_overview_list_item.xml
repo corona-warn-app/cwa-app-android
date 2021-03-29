@@ -8,12 +8,28 @@
     android:layout_height="wrap_content"
     android:focusable="true">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/day_recycler_view"
+    <include
+        android:id="@+id/day_header"
+        layout="@layout/contact_diary_overview_day_list_item_header"/>
+
+    <include
+        android:id="@+id/day_risk_enf"
+        layout="@layout/contact_diary_overview_day_list_item_risk_enf" />
+
+    <include
+        android:id="@+id/day_risk_event"
+        layout="@layout/contact_diary_overview_day_list_item_risk_event" />
+
+    <include
+        android:id="@+id/day_contact"
+        layout="@layout/contact_diary_overview_day_list_item_contact" />
+
+    <androidx.constraintlayout.helper.widget.Flow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:constraint_referenced_ids="day_header,day_risk_enf,day_risk_event,day_contact"
+        app:flow_maxElementsWrap="1"
+        app:flow_wrapMode="chain"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

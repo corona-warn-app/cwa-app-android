@@ -7,7 +7,7 @@
     android:layout_height="64dp">
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/date"
         style="@style/contactDiaryListItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

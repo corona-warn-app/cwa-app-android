@@ -69,15 +69,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     ) { dateList, locationVisists, personEncounters, riskLevelPerDateList, traceLocationCheckInRiskList ->
         mutableListOf<DiaryOverviewItem>().apply {
             add(OverviewSubHeaderItem)
-            addAll(
-                createListItemList(
-                    dateList,
-                    locationVisists,
-                    personEncounters,
-                    riskLevelPerDateList,
-                    traceLocationCheckInRiskList
-                )
-            )
+            addAll(createListItemList(dateList, locationVisists, personEncounters, riskLevelPerDateList, traceLocationCheckInRiskList))
         }.toList()
     }.asLiveData(dispatcherProvider.Default)
 
@@ -98,11 +90,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         traceLocationCheckInRiskList: List<TraceLocationCheckInRisk>
     ): List<DiaryOverviewItem> {
         Timber.v(
-            "createListItemList(dateList=%s, " +
-                "visits=%s, " +
-                "encounters=%s, " +
-                "riskLevelPerDateList=%s, " +
-                "traceLocationCheckInRiskList=%s",
+            "createListItemList(dateList=%s, visits=%s, encounters=%s, riskLevelPerDateList=%s, traceLocationCheckInRiskList=%s",
             dateList,
             visits,
             encounters,
@@ -114,8 +102,6 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             val visitsForDate = visits.filter { it.date == date }
             val encountersForDate = encounters.filter { it.date == date }
             val traceLocationCheckInRisksForDate = traceLocationCheckInRiskList.filter { it.localDate == date }
-
-            val headerItem = HeaderItem(date) { openDayFragment(it.date) }
 
             val coreItemData =
                 encountersForDate.map { it.toContactItemData() } + visitsForDate.map { it.toContactItemData() }
@@ -129,25 +115,17 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 ?.toRisk(coreItemData.isNotEmpty())
 
             val riskeventItem = visitsForDate
-                .map {
-                    it to traceLocationCheckInRisksForDate.find {
-                        checkInRisk ->
-                        checkInRisk.checkInId == it.checkInID
-                    }
-                }
+                .map { it to traceLocationCheckInRisksForDate.find { checkInRisk -> checkInRisk.checkInId == it.checkInID } }
                 .toMap()
                 .filter { it.value != null }
                 .toRiskEventItem()
 
-            // Items will be shown in order they are added to list
-            val items: List<DayDataItem> = listOf(
-                headerItem,
-                riskEnf,
-                riskeventItem,
-                contactItem
-            ).mapNotNull { it }
-
-            DayOverviewItem(date = date, dayData = items) { onItemPress(it) }
+            DayOverviewItem(
+                date = date,
+                riskEnfItem = riskEnf,
+                riskEventItem = riskeventItem,
+                contactItem = contactItem
+            ) { onItemPress(it) }
         }
     }
 
@@ -201,7 +179,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             riskInfoAddition = R.string.contact_diary_event_risk_high
         )
 
-        val lowRiskEvent = RiskEventItem.Event(
+        val lowRiskEvent =  RiskEventItem.Event(
             name = "Test low risk",
             bulledPointColor = R.color.colorBulletPointLowRisk
         )
@@ -212,6 +190,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             drawableId = R.drawable.ic_high_risk_alert,
             events = listOf(highRiskEvent, lowRiskEvent)
         )
+
 
         if (isEmpty()) return null
 
