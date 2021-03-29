@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -16,8 +17,13 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationCreateFragmentBinding
+import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
+import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
+import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -28,6 +34,7 @@ import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.joda.time.LocalTime
+import java.lang.Exception
 import javax.inject.Inject
 
 class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_fragment), AutoInject {
@@ -53,11 +60,24 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             popBackStack()
         }
 
+        viewModel.result.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is TraceLocationCreateViewModel.Result.Error -> {
+                    DialogHelper.showDialog(getErrorDialogInstance(result.exception))
+                }
+                is TraceLocationCreateViewModel.Result.Success -> {
+                    // TODO: will be handled in another PR
+                    Toast.makeText(context, "Done! TODO: redirect to another screen", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             binding.apply {
                 toolbar.setSubtitle(state.title)
                 valueStart.text = state.getBegin(requireContext().getLocale())
                 valueEnd.text = state.getEnd(requireContext().getLocale())
+                progressBar.isVisible = state.isRequestInProgress
                 layoutBegin.isVisible = state.isDateVisible
                 layoutEnd.isVisible = state.isDateVisible
                 valueLengthOfStay.text = state.getCheckInLength(resources)
@@ -66,11 +86,11 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
 
         binding.descriptionInputEdit.doOnTextChanged { text, _, _, _ ->
-            viewModel.description = text?.toString()
+            viewModel.description = text.toString()
         }
 
         binding.placeInputEdit.doOnTextChanged { text, _, _, _ ->
-            viewModel.address = text?.toString()
+            viewModel.address = text.toString()
         }
 
         binding.layoutBegin.setOnClickListener {
@@ -93,8 +113,51 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
 
         binding.buttonSubmit.setOnClickListener {
+            it.hideKeyboard()
             viewModel.send()
         }
+    }
+
+    private fun getErrorDialogInstance(exception: Exception): DialogHelper.DialogInstance {
+        return when (exception) {
+            is CwaUnknownHostException, is NetworkReadTimeoutException, is NetworkConnectTimeoutException -> {
+                DialogHelper.DialogInstance(
+                    requireActivity(),
+                    R.string.tracelocation_generic_error_title,
+                    R.string.tracelocation_generic_network_error_body,
+                    R.string.errors_generic_button_positive
+                )
+            }
+            is CwaWebException -> {
+                DialogHelper.DialogInstance(
+                    requireActivity(),
+                    R.string.tracelocation_generic_error_title,
+                    getString(R.string.tracelocation_generic_qr_code_error_body_with_error_code, exception.statusCode),
+                    R.string.errors_generic_button_positive
+                )
+            }
+            else -> {
+                DialogHelper.DialogInstance(
+                    requireActivity(),
+                    R.string.tracelocation_generic_error_title,
+                    R.string.tracelocation_generic_qr_code_error_body,
+                    R.string.errors_generic_button_positive,
+                    R.string.errors_generic_button_negative,
+                    negativeButtonFunction = { showExceptionDetails(exception) }
+                )
+            }
+        }
+    }
+
+    private fun showExceptionDetails(exception: Exception) {
+        DialogHelper.showDialog(
+            DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.errors_generic_headline,
+                exception.toString(),
+                R.string.errors_generic_button_positive
+            )
+        )
     }
 
     private fun showDatePicker(

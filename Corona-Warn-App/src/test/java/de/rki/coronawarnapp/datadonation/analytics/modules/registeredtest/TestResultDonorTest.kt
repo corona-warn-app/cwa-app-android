@@ -140,7 +140,7 @@ class TestResultDonorTest : BaseTest() {
     }
 
     @Test
-    fun `No donation when test is  POSITIVE and HighRisk but riskLevelTurnedRedTime is missing`() =
+    fun `No donation when test is POSITIVE and HighRisk but riskLevelTurnedRedTime is missing`() =
         runBlockingTest {
             with(testResultDonorSettings) {
                 every { testScannedAfterConsent } returns mockFlowPreference(true)
@@ -166,7 +166,7 @@ class TestResultDonorTest : BaseTest() {
         }
 
     @Test
-    fun `No donation when test is  POSITIVE and HighRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() =
+    fun `Donation when test is POSITIVE and HighRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() =
         runBlockingTest {
             with(testResultDonorSettings) {
                 every { testScannedAfterConsent } returns mockFlowPreference(true)
@@ -176,11 +176,16 @@ class TestResultDonorTest : BaseTest() {
                 every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
                 every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             }
-            testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
+
+            val donation = testResultDonor.beginDonation(TestRequest)
+            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            donation.testResultMetadata.apply {
+                daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe -1
+            }
         }
 
     @Test
-    fun `No donation when test is NEGATIVE and HighRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() =
+    fun `Donation when test is NEGATIVE and HighRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() =
         runBlockingTest {
             with(testResultDonorSettings) {
                 every { testScannedAfterConsent } returns mockFlowPreference(true)
@@ -190,11 +195,15 @@ class TestResultDonorTest : BaseTest() {
                 every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
                 every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             }
-            testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
+            val donation = testResultDonor.beginDonation(TestRequest)
+            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            donation.testResultMetadata.apply {
+                daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe -1
+            }
         }
 
     @Test
-    fun `No donation when test is  POSITIVE and LowRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() =
+    fun `Donation when test is  POSITIVE and LowRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() =
         runBlockingTest {
             with(testResultDonorSettings) {
                 every { testScannedAfterConsent } returns mockFlowPreference(true)
@@ -203,11 +212,16 @@ class TestResultDonorTest : BaseTest() {
                 every { riskLevelTurnedRedTime } returns mockFlowPreference(null)
                 every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
             }
-            testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
+
+            val donation = testResultDonor.beginDonation(TestRequest)
+            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            donation.testResultMetadata.apply {
+                daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe -1
+            }
         }
 
     @Test
-    fun `No donation when test is NEGATIVE and LowRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() =
+    fun `Donation when test is NEGATIVE and LowRisk but mostRecentDateWithHighOrLowRiskLevel is missing`() =
         runBlockingTest {
             with(testResultDonorSettings) {
                 every { testScannedAfterConsent } returns mockFlowPreference(true)
@@ -216,7 +230,11 @@ class TestResultDonorTest : BaseTest() {
                 every { riskLevelTurnedRedTime } returns mockFlowPreference(null)
                 every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
             }
-            testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
+            val donation = testResultDonor.beginDonation(TestRequest)
+            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            donation.testResultMetadata.apply {
+                daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe -1
+            }
         }
 
     @Test
