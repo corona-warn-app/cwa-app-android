@@ -27,6 +27,6 @@ class TraceLocationDbCleanUpScheduler @Inject constructor(
     }
 
     companion object {
-        const val PERIODIC_WORK_NAME = "TraceLocationCleanUpPeriodicWork"
+        private const val PERIODIC_WORK_NAME = "TraceLocationCleanUpPeriodicWork"
     }
 }

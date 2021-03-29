@@ -22,7 +22,7 @@ class TraceLocationDbCleanUpPeriodicWorker @AssistedInject constructor(
             traceLocationCleaner.cleanUp()
             checkInCleaner.cleanUp()
         } catch (exception: Exception) {
-            Timber.e("Work in TraceLocationDbCleanUpPeriodicWorker failed: $exception")
+            Timber.e(exception, "Work in TraceLocationDbCleanUpPeriodicWorker failed")
             return Result.failure()
         }
         Timber.d("Work in TraceLocationDbCleanUpPeriodicWorker successfully completed!")

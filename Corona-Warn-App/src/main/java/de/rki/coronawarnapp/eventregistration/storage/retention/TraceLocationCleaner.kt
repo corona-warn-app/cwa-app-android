@@ -5,7 +5,8 @@ import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationReposito
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTimeConstants
+import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Reusable
@@ -15,20 +16,20 @@ class TraceLocationCleaner @Inject constructor(
 ) {
 
     suspend fun cleanUp() {
+        Timber.d("Starting to clean up stale trace locations.")
         val retentionThreshold = (timeStamper.nowUTC.seconds - RETENTION_SECONDS)
         traceLocationRepository.allTraceLocations.first()
             .filter {
-                // filter out permanent trace locations without an endDate
-                it.endDate != null
-            }.filter {
-                it.endDate!!.seconds < retentionThreshold
+                it.endDate != null && it.endDate.seconds < retentionThreshold
             }.forEach {
+                Timber.d("Cleaning up stale trace location: %s", it)
                 traceLocationRepository.deleteTraceLocation(it)
             }
+        Timber.d("Clean up of stale trace locations completed.")
     }
 
     companion object {
         private const val RETENTION_DAYS = 15
-        private const val RETENTION_SECONDS = RETENTION_DAYS * DateTimeConstants.SECONDS_PER_DAY
+        private val RETENTION_SECONDS = TimeUnit.DAYS.toSeconds(RETENTION_DAYS.toLong())
     }
 }
