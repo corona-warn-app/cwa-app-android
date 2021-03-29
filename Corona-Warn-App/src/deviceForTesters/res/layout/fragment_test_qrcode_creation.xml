@@ -46,6 +46,16 @@
             app:layout_constraintStart_toEndOf="@+id/sharePDF"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/downloadQrCodePosterTemplate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Download Poster Template (result below qr code)"
+            app:layout_constraintStart_toStartOf="@id/generateQrCode"
+            app:layout_constraintEnd_toEndOf="@id/printPDF"
+            app:layout_constraintTop_toBottomOf="@id/generateQrCode" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/qrCodeTextLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -54,7 +64,7 @@
             android:layout_margin="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/printPDF">
+            app:layout_constraintTop_toBottomOf="@id/downloadQrCodePosterTemplate">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/qrCodeText"
                 android:layout_width="match_parent"
@@ -92,16 +102,6 @@
                 app:layout_constraintVertical_bias="0.25" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/downloadQrCodePosterTemplate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Download Poster Template"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pdfPage" />
-
         <TextView
             android:id="@+id/downloadedQrCodePoster"
             android:layout_width="match_parent"
@@ -109,7 +109,7 @@
             android:layout_margin="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/downloadQrCodePosterTemplate" />
+            app:layout_constraintTop_toBottomOf="@id/pdfPage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
