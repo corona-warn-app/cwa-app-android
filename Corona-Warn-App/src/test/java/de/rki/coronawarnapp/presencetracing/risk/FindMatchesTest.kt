@@ -45,7 +45,7 @@ class FindMatchesTest {
             val result = findMatches(listOf(checkIn1, checkIn2), warningPackage)
             result.size shouldBe 1
             result[0].checkInId shouldBe 3L
-            result[0].roundedMinutes shouldBe  15
+            result[0].roundedMinutes shouldBe 15
         }
     }
 }
