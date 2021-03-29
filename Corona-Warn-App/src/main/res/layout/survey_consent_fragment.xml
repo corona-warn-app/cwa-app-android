@@ -221,7 +221,7 @@
 
         </ScrollView>
 
-        <android.widget.Button
+        <Button
             android:id="@+id/survey_next_button"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
