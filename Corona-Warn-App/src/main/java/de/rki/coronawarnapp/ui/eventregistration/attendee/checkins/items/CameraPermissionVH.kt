@@ -17,13 +17,18 @@ class CameraPermissionVH(parent: ViewGroup) :
     override val onBindData: TraceLocationAttendeeCheckinsItemCameraBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { _, _ ->
-        // No-op
+    ) -> Unit = { item, _ ->
+        openSettings.setOnClickListener {
+            item.onOpenSettings()
+        }
+        itemView.setOnClickListener {
+            item.onOpenSettings()
+        }
     }
 
     data class Item(
         val onOpenSettings: () -> Unit
     ) : CheckInsItem {
-        override val stableId: Long = this::class.simpleName.hashCode().toLong()
+        override val stableId: Long = Item::class.simpleName.hashCode().toLong()
     }
 }

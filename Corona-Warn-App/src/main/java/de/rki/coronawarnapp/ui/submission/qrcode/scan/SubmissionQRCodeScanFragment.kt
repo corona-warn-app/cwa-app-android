@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.CameraPermissionHelper
+import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -185,6 +185,7 @@ class SubmissionQRCodeScanFragment :
             } else {
                 // user permanently denied access to the camera
                 showCameraPermissionDeniedDialog()
+                viewModel.onCameraDeniedPermanently()
             }
         }
     }

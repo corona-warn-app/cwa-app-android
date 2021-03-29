@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveC
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.PastCheckInVH
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.permission.CameraPermissionProvider
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -30,31 +31,17 @@ import timber.log.Timber
 class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     @Assisted private val deepLink: String?,
-    @Assisted private val permissionDenied: Boolean = false,
     dispatcherProvider: DispatcherProvider,
     @AppScope private val appScope: CoroutineScope,
     private val traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier,
     private val qrCodeUriParser: QRCodeUriParser,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
+    private val cameraPermissionProvider: CameraPermissionProvider
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
     val errorEvent = SingleLiveEvent<Throwable>()
-
-    val checkins: LiveData<List<CheckInsItem>> = combine(
-        checkInsRepository.allCheckIns,
-        flowOf(permissionDenied)
-    ) { checkIns, denied ->
-        mutableListOf<CheckInsItem>().apply {
-            // Camera permission item
-            if (denied) {
-                add(CameraPermissionVH.Item(onOpenSettings = {}))
-            }
-            // CheckIns items
-            addAll(mapCheckIns(checkIns))
-        }
-    }.asLiveData(context = dispatcherProvider.Default)
 
     init {
         deepLink?.let {
@@ -67,6 +54,20 @@ class CheckInsViewModel @AssistedInject constructor(
         }
         savedState.set(SKEY_LAST_DEEPLINK, deepLink)
     }
+
+    val checkins: LiveData<List<CheckInsItem>> = combine(
+        checkInsRepository.allCheckIns,
+        cameraPermissionProvider.deniedPermanently
+    ) { checkIns, denied ->
+        mutableListOf<CheckInsItem>().apply {
+            // Camera permission item
+            if (denied) {
+                add(cameraPermissionItem())
+            }
+            // CheckIns items
+            addAll(mapCheckIns(checkIns))
+        }
+    }.asLiveData(context = dispatcherProvider.Default)
 
     fun onRemoveCheckInConfirmed(checkIn: CheckIn?) {
         Timber.d("removeCheckin(checkIn=%s)", checkIn)
@@ -83,6 +84,12 @@ class CheckInsViewModel @AssistedInject constructor(
         Timber.d("onRemovaAllCheckIns()")
         events.postValue(CheckInEvent.ConfirmRemoveAll)
     }
+
+    private fun cameraPermissionItem() = CameraPermissionVH.Item(
+        onOpenSettings = {
+            events.postValue(CheckInEvent.OpenDeviceSettings)
+        }
+    )
 
     private fun mapCheckIns(checkIns: List<CheckIn>): List<CheckInsItem> = checkIns
         .sortedWith(compareBy<CheckIn> { it.completed }.thenByDescending { it.checkInEnd })
@@ -151,8 +158,7 @@ class CheckInsViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<CheckInsViewModel> {
         fun create(
             savedState: SavedStateHandle,
-            deepLink: String?,
-            permissionDenied: Boolean
+            deepLink: String?
         ): CheckInsViewModel
     }
 }

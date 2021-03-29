@@ -14,7 +14,7 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentScanCheckInQrCodeBinding
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsFragment
-import de.rki.coronawarnapp.util.CameraPermissionHelper
+import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -97,6 +97,7 @@ class ScanCheckInQrCodeFragment :
             } else {
                 // User permanently denied access to the camera
                 showCameraPermissionDeniedDialog()
+                viewModel.onCameraDeniedPermanently()
             }
         }
     }

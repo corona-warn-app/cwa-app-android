@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.util.CameraPermissionHelper.hasCameraPermission
+import de.rki.coronawarnapp.util.permission.CameraPermissionHelper.hasCameraPermission
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

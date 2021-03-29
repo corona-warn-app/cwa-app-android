@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
-import android.Manifest.permission.CAMERA
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -16,12 +17,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.Hold
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
 import de.rki.coronawarnapp.util.list.onSwipeItem
@@ -34,7 +35,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import timber.log.Timber
 import javax.inject.Inject
 
 class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_fragment), AutoInject {
@@ -48,8 +48,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             factory as CheckInsViewModel.Factory
             factory.create(
                 savedState = savedState,
-                deepLink = navArgs.uri,
-                permissionDenied = permissionDeniedPermanently()
+                deepLink = navArgs.uri
             )
         }
     )
@@ -154,6 +153,15 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 is CheckInEvent.ShowInformation -> {
                     Toast.makeText(requireContext(), "TODO ¯\\_(ツ)_/¯", Toast.LENGTH_SHORT).show()
                 }
+
+                is CheckInEvent.OpenDeviceSettings -> {
+                    startActivity(
+                        Intent(
+                            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+                        )
+                    )
+                }
             }
         }
 
@@ -197,15 +205,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 else -> onOptionsItemSelected(it)
             }
         }
-    }
-
-    private fun permissionDeniedPermanently(): Boolean {
-        val permissionDenied = !CameraPermissionHelper.hasCameraPermission(requireContext()) &&
-            !shouldShowRequestPermissionRationale(CAMERA)
-
-        Timber.d("permissionDenied=$permissionDenied")
-
-        return permissionDenied
     }
 
     companion object {
