@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplat
 import de.rki.coronawarnapp.environment.eventregistration.qrcodeposter.QrCodePosterTemplateModule
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
@@ -64,7 +65,7 @@ class QrCodePosterTemplateApiV1Test : BaseIOTest() {
     }
 
     @Test
-    fun `should set ETag header of previously received response`() {
+    fun `should set ETag header of previously received response and return cached response`() {
 
         // first mocked response returns a body and ETag
         webServer.enqueue(
@@ -98,6 +99,8 @@ class QrCodePosterTemplateApiV1Test : BaseIOTest() {
         runBlocking {
             createAPI().getQrCodePosterTemplate().apply {
                 code() shouldBe 200
+                raw().cacheResponse shouldNotBe null
+                raw().networkResponse!!.code shouldBe 304
                 // cached poster template should be returned
                 body()!!.string() shouldBe "Poster Template"
                 headers()["ETag"] shouldBe "ETAG_OF_MOCKED_RESPONSE"
