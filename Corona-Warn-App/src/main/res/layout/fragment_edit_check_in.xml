@@ -61,7 +61,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="72dp"
-                            app:srcCompat="@drawable/ic_cwa_logo" />
+                            app:srcCompat="@drawable/ic_cwa_logo_white" />
 
                     </LinearLayout>
                 </com.google.android.material.appbar.MaterialToolbar>

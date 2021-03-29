@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/trace_location_gradient_background">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -81,7 +81,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="72dp"
-                            app:srcCompat="@drawable/ic_cwa_logo" />
+                            app:srcCompat="@drawable/ic_cwa_logo_white" />
 
                         <TextView
                             android:id="@+id/confirm_checkin_title"
@@ -193,10 +193,10 @@
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/confirm_checkin_settings_card_checkout_toggle"
                         android:layout_width="match_parent"
-                        android:theme="@style/switchBase"
-                        android:textSize="14sp"
                         android:layout_height="wrap_content"
-                        android:text="@string/confirm_checkin_settings_card_checkout_toggle_label" />
+                        android:text="@string/confirm_checkin_settings_card_checkout_toggle_label"
+                        android:textSize="14sp"
+                        android:theme="@style/switchBase" />
 
                     <View
                         android:layout_width="match_parent"
