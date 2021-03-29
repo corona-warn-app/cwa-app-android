@@ -36,7 +36,7 @@ class CheckInsViewModel @AssistedInject constructor(
     private val qrCodeUriParser: QRCodeUriParser,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
-    private val cameraPermissionProvider: CameraPermissionProvider
+    cameraPermissionProvider: CameraPermissionProvider
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
