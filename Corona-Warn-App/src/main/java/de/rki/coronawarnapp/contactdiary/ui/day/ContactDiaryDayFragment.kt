@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayFragmentsAda
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
 import de.rki.coronawarnapp.contactdiary.ui.location.ContactDiaryAddLocationFragmentArgs
 import de.rki.coronawarnapp.contactdiary.ui.person.ContactDiaryAddPersonFragmentArgs
+import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -70,6 +71,7 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             }
 
             contactDiaryDayHeader.setNavigationOnClickListener {
+                view.hideKeyboard()
                 viewModel.onBackPressed()
             }
         }

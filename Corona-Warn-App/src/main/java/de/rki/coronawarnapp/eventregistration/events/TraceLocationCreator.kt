@@ -46,6 +46,5 @@ class TraceLocationCreator @Inject constructor(
     }
 }
 
-// TODO: Finalize Error Handling in a future PR when it was specified in TechSpecs
 class InvalidSignatureException(message: String?, cause: Throwable?) : Exception(message, cause)
 class SignatureValidationFailedException(message: String?, cause: Throwable?) : Exception(message, cause)

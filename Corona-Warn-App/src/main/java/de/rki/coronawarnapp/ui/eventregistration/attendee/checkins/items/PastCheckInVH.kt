@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemPastBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
-import org.joda.time.Instant
+import de.rki.coronawarnapp.util.list.SwipeConsumer
 import org.joda.time.format.DateTimeFormat
 
 class PastCheckInVH(parent: ViewGroup) :
@@ -23,7 +23,7 @@ class PastCheckInVH(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
         val checkInStartUserTZ = item.checkin.checkInStart.toUserTimeZone()
-        val checkInEndUserTZ = (item.checkin.checkInEnd ?: Instant.EPOCH).toUserTimeZone()
+        val checkInEndUserTZ = item.checkin.checkInEnd.toUserTimeZone()
 
         description.text = item.checkin.description
         address.text = item.checkin.address
@@ -42,13 +42,17 @@ class PastCheckInVH(parent: ViewGroup) :
                 else -> false
             }
         }
+
+        itemView.setOnClickListener { item.onCardClicked(item.checkin) }
     }
 
     data class Item(
         val checkin: CheckIn,
         val onCardClicked: (CheckIn) -> Unit,
-        val onRemoveItem: (CheckIn) -> Unit
-    ) : CheckInsItem {
+        val onRemoveItem: (CheckIn) -> Unit,
+        val onSwipeItem: (CheckIn, Int) -> Unit
+    ) : CheckInsItem, SwipeConsumer {
         override val stableId: Long = checkin.id
+        override fun onSwipe(position: Int, direction: Int) = onSwipeItem(checkin, position)
     }
 }
