@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate
 
+import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
@@ -21,7 +22,10 @@ class QrCodePosterTemplateServer @Inject constructor(
         val response = api.getQrCodePosterTemplate()
         Timber.d("Received: %s", response)
 
-        if (!response.isSuccessful) throw HttpException(response)
+        if (!response.isSuccessful) {
+            // TODO return cached or default response
+            throw HttpException(response)
+        }
         if (response.body() == null) {
             throw IllegalStateException("Response is successful, but body is empty.")
         }
@@ -44,7 +48,14 @@ class QrCodePosterTemplateServer @Inject constructor(
             throw QrCodePosterTemplateInvalidResponseException(message = "Invalid Signature!")
         }
 
-        return QrCodePosterTemplate.QRCodePosterTemplateAndroid.parseFrom(exportBinary)
+        return try {
+            QrCodePosterTemplate.QRCodePosterTemplateAndroid.parseFrom(exportBinary)
+        } catch (exception: InvalidProtocolBufferException) {
+            throw QrCodePosterTemplateInvalidResponseException(
+                message = "InvalidProtocolBufferException",
+                cause = exception
+            )
+        }
     }
 
     companion object {
