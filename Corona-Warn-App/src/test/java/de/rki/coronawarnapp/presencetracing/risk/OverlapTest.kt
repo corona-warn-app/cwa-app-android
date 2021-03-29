@@ -9,8 +9,9 @@ import okio.ByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.Test
+import testhelpers.BaseTest
 
-class OverlapTest {
+class OverlapTest : BaseTest() {
 
     @Test
     fun `returns null if guids do not match`() {
