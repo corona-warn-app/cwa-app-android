@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.presencetracing.warning.download
 
 import dagger.Lazy
 import de.rki.coronawarnapp.diagnosiskeys.server.DownloadInfo
-import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeWarningApiV1
-import de.rki.coronawarnapp.eventregistration.checkins.download.WarningPackageIds
+import de.rki.coronawarnapp.presencetracing.warning.WarningPackageIds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException

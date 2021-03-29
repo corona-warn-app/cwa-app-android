@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.download
+package de.rki.coronawarnapp.presencetracing.warning.download
 
 import de.rki.coronawarnapp.presencetracing.warning.WarningPackageIds
 import okhttp3.ResponseBody
