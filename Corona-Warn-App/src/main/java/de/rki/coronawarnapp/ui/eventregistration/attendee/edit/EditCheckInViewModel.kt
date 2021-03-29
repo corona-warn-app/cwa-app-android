@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.edit
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -136,7 +137,7 @@ class EditCheckInViewModel @AssistedInject constructor(
         private val checkInEndInstant: Instant
     ) {
         val description: String get() = checkIn.description
-        val typeRes: Int get() = mapTraceLocationToTitleRes(checkIn.type)
+        @get:StringRes val typeRes: Int get() = mapTraceLocationToTitleRes(checkIn.type)
         val address: String get() = checkIn.address
         val diaryWarningVisible: Boolean get() = checkIn.createJournalEntry
         val checkInStartDate: String get() = checkInStartInstant.toDateTime().toString(dateFormatter)
