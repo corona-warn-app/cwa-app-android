@@ -35,7 +35,7 @@ suspend fun createMatchingLaunchers(
     }
 }
 
-internal suspend fun findMatches(
+suspend fun findMatches(
     checkIns: List<CheckIn>,
     warningPackage: TraceTimeIntervalWarningPackage
 ): List<CheckInWarningOverlap> {
