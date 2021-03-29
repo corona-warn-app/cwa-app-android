@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
 import timber.log.Timber
 
 class CheckInsViewModel @AssistedInject constructor(
