@@ -118,7 +118,7 @@
 
                 <LinearLayout
                     android:id="@+id/confirm_checkin_info_card"
-                    style="@style/Card"
+                    style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
@@ -152,7 +152,7 @@
 
                 <LinearLayout
                     android:id="@+id/confirm_checkin_event_in_future_card"
-                    style="@style/Card"
+                    style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
@@ -168,7 +168,7 @@
 
                 <LinearLayout
                     android:id="@+id/confirm_checkin_event_in_past_card"
-                    style="@style/Card"
+                    style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
@@ -183,7 +183,7 @@
 
                 <LinearLayout
                     android:id="@+id/confirm_checkin_settings_card"
-                    style="@style/Card"
+                    style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
@@ -222,21 +222,26 @@
                             android:layout_height="0dp"
                             android:layout_weight="1" />
 
-                        <TextView
-                            android:id="@+id/confirm_checkin_settings_card_checkout_time"
-                            style="@style/body2Medium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="03:00" />
 
-                        <TextView
-                            android:id="@+id/confirm_checkin_settings_card_checkout_time_tag"
-                            style="@style/body2Medium"
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_mega_tiny"
-                            android:text="Std" />
+                            android:layout_height="wrap_content">
 
+                            <TextView
+                                android:id="@+id/confirm_checkin_settings_card_checkout_time"
+                                style="@style/body2Medium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="03:00" />
+
+                            <TextView
+                                android:id="@+id/confirm_checkin_settings_card_checkout_time_tag"
+                                style="@style/body2Medium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_mega_tiny"
+                                android:text="@string/tracelocation_organizer_duration_suffix" />
+                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>

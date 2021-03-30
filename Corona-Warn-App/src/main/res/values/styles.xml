@@ -207,6 +207,11 @@
         <item name="android:elevation">@dimen/elevation_strong</item>
     </style>
 
+    <style name="Card.NoElevation">
+        <item name="android:elevation">@dimen/elevation_none</item>
+    </style>
+
+
     <style name="Card.NoPadding">
         <item name="android:padding">@dimen/no_padding</item>
     </style>

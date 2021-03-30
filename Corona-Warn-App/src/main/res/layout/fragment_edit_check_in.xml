@@ -107,7 +107,7 @@
 
                 <LinearLayout
                     android:id="@+id/edit_checkin_info_card"
-                    style="@style/Card"
+                    style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
@@ -141,7 +141,7 @@
 
                 <LinearLayout
                     android:id="@+id/edit_checkin_edit_card"
-                    style="@style/Card"
+                    style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
@@ -220,7 +220,7 @@
 
                 <LinearLayout
                     android:id="@+id/edit_checkin_duration_edit_hint_card"
-                    style="@style/Card"
+                    style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
