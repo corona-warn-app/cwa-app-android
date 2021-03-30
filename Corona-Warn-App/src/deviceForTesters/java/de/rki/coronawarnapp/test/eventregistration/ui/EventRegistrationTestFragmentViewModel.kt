@@ -3,25 +3,18 @@ package de.rki.coronawarnapp.test.eventregistration.ui
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.download.DummyCheckInPackage
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskCalculator
-import de.rki.coronawarnapp.presencetracing.risk.createMatchingLaunchers
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.awaitAll
-import okio.ByteString
 import okio.ByteString.Companion.toByteString
 import org.joda.time.DateTime
-import org.joda.time.Instant
 import timber.log.Timber
 import java.util.UUID
 
@@ -48,13 +41,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 },
                 {
                     checkInWarningOverlaps.clear()
-                    val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
-                    val warningPackages = listOf(1..360).map {
-                        DummyCheckInPackage
-                    }
-                    val matches = createMatchingLaunchers(splitCheckIns, warningPackages, dispatcherProvider.IO)
-                        .awaitAll()
-                        .flatten()
+                    val matches = checkInWarningMatcher.execute()
 
                     checkInWarningOverlaps.addAll(matches)
 
@@ -201,35 +188,3 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<EventRegistrationTestFragmentViewModel>
 }
-
-val checkIns = (1L..100L).map {
-    createCheckIn(
-        id = it,
-        traceLocationGuid = it.toString(),
-        startDateStr = "2021-03-04T09:50+01:00",
-        endDateStr = "2021-03-04T10:05:15+01:00"
-    )
-}
-
-fun createCheckIn(
-    id: Long = 1L,
-    traceLocationGuid: String,
-    startDateStr: String,
-    endDateStr: String
-) = CheckIn(
-    id = id,
-    guid = traceLocationGuid,
-    version = 1,
-    type = 2,
-    description = "My birthday party",
-    address = "Malibu",
-    traceLocationStart = Instant.parse(startDateStr),
-    traceLocationEnd = null,
-    defaultCheckInLengthInMinutes = null,
-    traceLocationBytes = ByteString.EMPTY,
-    signature = ByteString.EMPTY,
-    checkInStart = Instant.parse(startDateStr),
-    checkInEnd = Instant.parse(endDateStr),
-    completed = false,
-    createJournalEntry = false
-)

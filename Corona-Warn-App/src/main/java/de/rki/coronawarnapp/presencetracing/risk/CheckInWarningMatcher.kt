@@ -26,41 +26,56 @@ class CheckInWarningMatcher @Inject constructor(
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     private val dispatcherProvider: DispatcherProvider
 ) {
-    suspend fun execute() {
+    suspend fun execute(): List<CheckInWarningOverlap> {
 
         val checkIns = checkInsRepository.allCheckIns.firstOrNull()
         val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull()
 
         if (checkIns.isNullOrEmpty() || warningPackages.isNullOrEmpty()) {
+            Timber.i("No check-ins or packages available. Deleting all matches.")
             presenceTracingRiskRepository.deleteAllMatches()
-            Timber.i("No check-ins or packages available. Deleted all matches.")
-            return
+            return emptyList()
         }
 
         val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
 
-        val matches = createMatchingLaunchers(splitCheckIns, warningPackages, dispatcherProvider.IO)
+        val matchLists = createMatchingLaunchers(splitCheckIns, warningPackages, dispatcherProvider.IO)
             .awaitAll()
-            .flatten()
 
+        if (matchLists.contains(null)) {
+            Timber.e("Error occurred during matching. Deleting all stale matches.")
+            presenceTracingRiskRepository.deleteAllMatches()
+            //TODO report calculation failed to show on home card
+            return emptyList()
+        }
+
+        val matches = matchLists.filterNotNull().flatten()
         presenceTracingRiskRepository.replaceAllMatches(matches)
+        return matches
     }
 }
 
-suspend fun createMatchingLaunchers(
+@VisibleForTesting(otherwise = PRIVATE)
+internal suspend fun createMatchingLaunchers(
     checkIns: List<CheckIn>,
     warningPackages: List<TraceTimeIntervalWarningPackage>,
     coroutineContext: CoroutineContext
-): Collection<Deferred<List<CheckInWarningOverlap>>> {
+): Collection<Deferred<List<CheckInWarningOverlap>?>> {
 
     val launcher: CoroutineScope.(
         List<CheckIn>,
         List<TraceTimeIntervalWarningPackage>
-    ) -> Deferred<List<CheckInWarningOverlap>> =
+    ) -> Deferred<List<CheckInWarningOverlap>?> =
         { list, packageChunk ->
             async {
-                packageChunk.flatMap {
-                    findMatches(list, it)
+                try {
+
+                    packageChunk.flatMap {
+                        findMatches(list, it)
+                    }
+                } catch (e: Throwable) {
+                    Timber.e("Failed to process packages $packageChunk")
+                    null
                 }
             }
         }
@@ -98,7 +113,7 @@ internal suspend fun findMatches(
 
 @VisibleForTesting(otherwise = PRIVATE)
 internal fun CheckIn.calculateOverlap(
-    warning: TraceWarning.TraceTimeIntervalWarning
+    warning: TraceWarning.TraceTimeIntervalWarning,
     traceWarningPackageId: Long
 ): CheckInWarningOverlap? {
 
