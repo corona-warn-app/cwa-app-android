@@ -62,7 +62,7 @@ class CheckInsTransformer @Inject constructor(
                     checkInStart = derivedTimes.startTimeSeconds.secondsToInstant(),
                     checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
                 )
-                
+
                 derivedCheckIn.splitByMidnightUTC().mapNotNull { checkIn ->
                     checkIn.toOuterCheckIn(now, transmissionVector, trvMappings)
                 }
