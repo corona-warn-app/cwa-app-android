@@ -111,4 +111,3 @@ fun CheckIn.calculateOverlap(
         endTime = Instant.ofEpochMilli(overlapEndTimestamp)
     )
 }
-

@@ -53,4 +53,3 @@ class PresenceTracingRiskMapper @Inject constructor(
         return presenceTracingRiskCalculationParamContainer
     }
 }
-
