@@ -44,7 +44,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     ): CheckIn = CheckIn(
         traceLocationBytes = traceLocationBytes,
         signature = signature,
-        guid = "",// traceLocation.id,
+        guid = "", // traceLocation.id,
         guidHash = "".toByteArray().toByteString(), // traceLocation.guid.toByteArray().toByteString().sha256(),
         version = traceLocation.version,
         type = traceLocation.type.number,

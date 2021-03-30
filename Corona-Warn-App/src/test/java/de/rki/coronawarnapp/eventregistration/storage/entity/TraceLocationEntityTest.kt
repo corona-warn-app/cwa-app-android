@@ -14,7 +14,7 @@ internal class TraceLocationEntityTest : BaseTest() {
     @Test
     fun `toTraceLocationEntity() should map to TraceLocationEntity correctly with all arguments`() {
         TraceLocation(
-            guid = "TestGuid",
+            id = 1,
             version = 1,
             type = LOCATION_TYPE_TEMPORARY_OTHER,
             description = "TestTraceLocation",
@@ -22,10 +22,10 @@ internal class TraceLocationEntityTest : BaseTest() {
             startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
             endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 15,
-            byteRepresentation = "byteRepresentation".toByteArray().toByteString(),
-            signature = "signature".toByteArray().toByteString()
+            cryptographicSeed = "seed byte array".toByteArray().toByteString(),
+            cnPublicKey = "cnPublicKey"
         ).toTraceLocationEntity() shouldBe TraceLocationEntity(
-            guid = "TestGuid",
+            id = 1,
             version = 1,
             type = LOCATION_TYPE_TEMPORARY_OTHER,
             description = "TestTraceLocation",
@@ -33,15 +33,15 @@ internal class TraceLocationEntityTest : BaseTest() {
             startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
             endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 15,
-            byteRepresentationBase64 = "byteRepresentation".toByteArray().toByteString().base64(),
-            signatureBase64 = "signature".toByteArray().toByteString().base64()
+            cryptographicSeedBase64 = "seed byte array".toByteArray().toByteString().base64(),
+            cnPublicKey = "cnPublicKey"
         )
     }
 
     @Test
     fun `toTraceLocationEntity() should map to TraceLocationEntity correctly with some arguments as null`() {
         TraceLocation(
-            guid = "TestGuid",
+            id = 1,
             version = 1,
             type = LOCATION_TYPE_PERMANENT_OTHER,
             description = "TestTraceLocation",
@@ -49,10 +49,10 @@ internal class TraceLocationEntityTest : BaseTest() {
             startDate = null,
             endDate = null,
             defaultCheckInLengthInMinutes = null,
-            byteRepresentation = "byteRepresentation".toByteArray().toByteString(),
-            signature = "signature".toByteArray().toByteString()
+            cryptographicSeed = "seed byte array".toByteArray().toByteString(),
+            cnPublicKey = "cnPublicKey"
         ).toTraceLocationEntity() shouldBe TraceLocationEntity(
-            guid = "TestGuid",
+            id = 1,
             version = 1,
             type = LOCATION_TYPE_PERMANENT_OTHER,
             description = "TestTraceLocation",
@@ -60,8 +60,8 @@ internal class TraceLocationEntityTest : BaseTest() {
             startDate = null,
             endDate = null,
             defaultCheckInLengthInMinutes = null,
-            byteRepresentationBase64 = "byteRepresentation".toByteArray().toByteString().base64(),
-            signatureBase64 = "signature".toByteArray().toByteString().base64()
+            cryptographicSeedBase64 = "seed byte array".toByteArray().toByteString().base64(),
+            cnPublicKey = "cnPublicKey"
         )
     }
 }

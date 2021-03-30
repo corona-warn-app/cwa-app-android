@@ -1,12 +1,15 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import android.os.Parcelable
+import de.rki.coronawarnapp.eventregistration.events.TraceLocationUserInput
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import kotlinx.parcelize.Parcelize
 import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
+import java.security.SecureRandom
 
 const val TRACE_LOCATION_VERSION = 1
 
@@ -42,4 +45,17 @@ fun TraceLocationEntity.toTraceLocation() = TraceLocation(
     cryptographicSeed = cryptographicSeedBase64.decodeBase64()!!,
     cnPublicKey = cnPublicKey,
     version = version
+)
+
+fun TraceLocationUserInput.toTraceLocation(secureRandom: SecureRandom) = TraceLocation(
+    type = type,
+    description = description,
+    address = address,
+    startDate = startDate,
+    endDate = endDate,
+    defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
+    // cryptographic seed is a sequence of 16 random bytes
+    cryptographicSeed = ByteArray(16).apply { secureRandom.nextBytes(this) }.toByteString(),
+    cnPublicKey = "hardcoded public key TODO: replace with real one",
+    version = de.rki.coronawarnapp.eventregistration.events.TRACE_LOCATION_VERSION
 )

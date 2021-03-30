@@ -24,6 +24,7 @@ data class TraceLocationEntity(
 
 fun TraceLocation.toTraceLocationEntity(): TraceLocationEntity =
     TraceLocationEntity(
+        id = id,
         type = type,
         description = description,
         address = address,

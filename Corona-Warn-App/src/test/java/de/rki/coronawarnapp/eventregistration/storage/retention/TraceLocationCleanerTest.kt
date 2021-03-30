@@ -81,15 +81,14 @@ internal class TraceLocationCleanerTest : BaseTest() {
         }
 
     private fun createTraceLocationWithEndDate(endDate: Instant?) = TraceLocation(
-        guid = "Guid",
+        id = 1,
         type = TraceLocationOuterClass.TraceLocationType.UNRECOGNIZED,
         description = "",
         address = "",
         startDate = null,
         endDate = endDate,
         defaultCheckInLengthInMinutes = 30,
-        byteRepresentation = "".toByteArray().toByteString(),
-        signature = "".toByteArray().toByteString(),
-        version = 1,
+        cryptographicSeed = "seed byte array".toByteArray().toByteString(),
+        cnPublicKey = "cnPublicKey"
     )
 }
