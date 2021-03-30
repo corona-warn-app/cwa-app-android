@@ -28,7 +28,7 @@ data class VerifiedTraceLocation(
 
     @IgnoredOnParcel val traceLocation: TraceLocation by lazy {
         TraceLocation(
-            guid = protoTraceLocation.guid,
+            // guid = protoTraceLocation.guid,
             version = protoTraceLocation.version,
             type = protoTraceLocation.type,
             description = protoTraceLocation.description,
@@ -36,8 +36,10 @@ data class VerifiedTraceLocation(
             startDate = protoTraceLocation.startTimestamp.toInstant(),
             endDate = protoTraceLocation.endTimestamp.toInstant(),
             defaultCheckInLengthInMinutes = protoTraceLocation.defaultCheckInLengthInMinutes,
-            byteRepresentation = traceLocationBytes,
-            signature = signature,
+            // byteRepresentation = traceLocationBytes,
+            // signature = signature,
+            cryptographicSeed = "".toByteArray().toByteString(),
+            cnPublicKey = ""
         )
     }
 
