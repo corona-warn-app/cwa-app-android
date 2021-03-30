@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.formatter.TestResult
-import de.rki.coronawarnapp.util.permission.CameraPermissionSettings
+import de.rki.coronawarnapp.util.permission.CameraSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -25,7 +25,7 @@ import testhelpers.preferences.mockFlowPreference
 class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var cameraPermissionSettings: CameraPermissionSettings
+    @MockK lateinit var cameraSettings: CameraSettings
 
     @BeforeEach
     fun setUp() {
@@ -34,7 +34,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
         submissionRepository,
-        cameraPermissionSettings
+        cameraSettings
     )
 
     @Test
@@ -72,9 +72,9 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     @Test
     fun `Camera settings is saved when user denies it`() {
-        every { cameraPermissionSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
+        every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
         createViewModel().onCameraDeniedPermanently()
 
-        verify { cameraPermissionSettings.isCameraDeniedPermanently }
+        verify { cameraSettings.isCameraDeniedPermanently }
     }
 }

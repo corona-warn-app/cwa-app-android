@@ -7,11 +7,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CameraPermissionSettings @Inject constructor(
+class CameraSettings @Inject constructor(
     @AppContext private val context: Context
 ) {
     private val prefs by lazy {
-        context.getSharedPreferences("camera.permission.settings", Context.MODE_PRIVATE)
+        context.getSharedPreferences("camera.settings", Context.MODE_PRIVATE)
     }
 
     val isCameraDeniedPermanently = prefs.createFlowPreference(

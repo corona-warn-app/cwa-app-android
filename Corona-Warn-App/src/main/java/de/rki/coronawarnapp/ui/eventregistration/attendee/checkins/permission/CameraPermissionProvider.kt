@@ -3,15 +3,15 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.permission
 import android.content.Context
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
-import de.rki.coronawarnapp.util.permission.CameraPermissionSettings
+import de.rki.coronawarnapp.util.permission.CameraSettings
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CameraPermissionProvider @Inject constructor(
     @AppContext private val context: Context,
-    private val cameraPermissionSettings: CameraPermissionSettings
+    private val cameraSettings: CameraSettings
 ) {
-    val deniedPermanently = cameraPermissionSettings
+    val deniedPermanently = cameraSettings
         .isCameraDeniedPermanently
         .flow
         .map { deniedPermanently ->
