@@ -4,13 +4,13 @@ import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
+import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.v2
-    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
-import de.rki.coronawarnapp.server.protocols.internal.v2
-    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
@@ -91,21 +91,21 @@ class CheckInsTransformerTest : BaseTest() {
         description = "restaurant_3",
         address = "address_3",
         traceLocationStart = Instant.parse("2021-03-04T09:00:00Z"),
-        traceLocationEnd = Instant.parse("2021-03-06T11:00:00Z"),
+        traceLocationEnd = Instant.parse("2021-03-10T11:00:00Z"),
         defaultCheckInLengthInMinutes = 10,
         traceLocationBytes = TRACE_LOCATION_3.decodeBase64()!!,
         signature = "c2lnbmF0dXJlMQ==".decodeBase64()!!,
         checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
-        checkInEnd = Instant.parse("2021-03-06T09:45:00Z"),
+        checkInEnd = Instant.parse("2021-03-10T09:45:00Z"),
         completed = false,
         createJournalEntry = false
     )
 
-    private val presenceTracingConfig = PresenceTracingSubmissionParamContainer(
+    private val submissionParams = PresenceTracingSubmissionParamContainer(
         durationFilters = listOf(
             DurationFilter.newBuilder()
                 .setDropIfMinutesInRange(
-                    RiskCalculationParametersOuterClass.Range.newBuilder()
+                    Range.newBuilder()
                         .setMin(0.0)
                         .setMax(10.0)
                         .setMaxExclusive(true)
@@ -116,7 +116,7 @@ class CheckInsTransformerTest : BaseTest() {
         aerosoleDecayLinearFunctions = listOf(
             AerosoleDecayFunctionLinear.newBuilder()
                 .setMinutesRange(
-                    RiskCalculationParametersOuterClass.Range.newBuilder()
+                    Range.newBuilder()
                         .setMin(0.0)
                         .setMax(30.0)
                         .build()
@@ -126,7 +126,7 @@ class CheckInsTransformerTest : BaseTest() {
                 .build(),
             AerosoleDecayFunctionLinear.newBuilder()
                 .setMinutesRange(
-                    RiskCalculationParametersOuterClass.Range.newBuilder()
+                    Range.newBuilder()
                         .setMin(30.0)
                         .setMax(9999.0)
                         .setMinExclusive(true)
@@ -138,15 +138,42 @@ class CheckInsTransformerTest : BaseTest() {
         )
     )
 
+    private val transmissionRiskValueMappings: List<TransmissionRiskValueMapping> = listOf(
+        TransmissionRiskValueMapping.newBuilder()
+            .setTransmissionRiskLevel(1)
+            .setTransmissionRiskValue(2.0)
+            .build(),
+        TransmissionRiskValueMapping.newBuilder()
+            .setTransmissionRiskLevel(2)
+            .setTransmissionRiskValue(2.0)
+            .build(),
+        TransmissionRiskValueMapping.newBuilder()
+            .setTransmissionRiskLevel(4)
+            .setTransmissionRiskValue(2.0)
+            .build(),
+        TransmissionRiskValueMapping.newBuilder()
+            .setTransmissionRiskLevel(6)
+            .setTransmissionRiskValue(0.0) // CheckIn will be excluded ,as TRV here = 0
+            .build(),
+        // No transmissionMapping for TRL = 7 and therefore one of the check-ins is excluded
+        TransmissionRiskValueMapping.newBuilder()
+            .setTransmissionRiskLevel(8)
+            .setTransmissionRiskValue(2.0)
+            .build()
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns Instant.parse("2021-03-08T10:00:00Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-11T10:00:00Z")
         every { symptoms.symptomIndication } returns Symptoms.Indication.POSITIVE
         every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDate())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { presenceTracing } returns PresenceTracingConfigContainer(
-                submissionParameters = presenceTracingConfig
+                submissionParameters = submissionParams,
+                riskCalculationParameters = PresenceTracingRiskCalculationParamContainer(
+                    transmissionRiskValueMapping = transmissionRiskValueMappings
+                )
             )
         }
         checkInTransformer = CheckInsTransformer(
@@ -168,7 +195,7 @@ class CheckInsTransformerTest : BaseTest() {
         )
 
         with(outCheckIns) {
-            size shouldBe 4
+            size shouldBe 6 // 3 check-ins with TRL = 1 and  3 other check-ins with TRL = 2, 4, 8
             // Check In 1 is excluded from submission due to time deriving
             // Check In 2 mapping and transformation
             get(0).apply {
@@ -205,7 +232,7 @@ class CheckInsTransformerTest : BaseTest() {
                     startTimestamp shouldBe 0
                     endTimestamp shouldBe 0
                     defaultCheckInLengthInMinutes shouldBe 0
-                    transmissionRiskLevel shouldBe 4
+                    transmissionRiskLevel shouldBe 1
                 }
             }
 
@@ -219,12 +246,12 @@ class CheckInsTransformerTest : BaseTest() {
                 description = "restaurant_3",
                 address = "address_3",
                 traceLocationStart = Instant.parse("2021-03-04T09:00:00Z"),
-                traceLocationEnd = Instant.parse("2021-03-06T11:00:00Z"),
+                traceLocationEnd = Instant.parse("2021-03-10T11:00:00Z")
                 defaultCheckInLengthInMinutes = 10,
                 traceLocationBytes = EMPTY,
                 signature = "c2lnbmF0dXJlMQ==".decodeBase64()!!,
                 checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
-                checkInEnd = Instant.parse("2021-03-06T09:45:00Z"),
+                checkInEnd = Instant.parse("2021-03-10T09:45:00Z"),
                 completed = false,         // Not mapped - client specific
                 createJournalEntry = false // Not mapped - client specific
              */
@@ -243,9 +270,9 @@ class CheckInsTransformerTest : BaseTest() {
                     description shouldBe "restaurant_3"
                     address shouldBe "address_3"
                     startTimestamp shouldBe Instant.parse("2021-03-04T09:00:00Z").seconds
-                    endTimestamp shouldBe Instant.parse("2021-03-06T11:00:00Z").seconds
+                    endTimestamp shouldBe Instant.parse("2021-03-10T11:00:00Z").seconds
                     defaultCheckInLengthInMinutes shouldBe 10
-                    transmissionRiskLevel shouldBe 4
+                    transmissionRiskLevel shouldBe 1
                 }
             }
 
@@ -263,9 +290,9 @@ class CheckInsTransformerTest : BaseTest() {
                     description shouldBe "restaurant_3"
                     address shouldBe "address_3"
                     startTimestamp shouldBe Instant.parse("2021-03-04T09:00:00Z").seconds
-                    endTimestamp shouldBe Instant.parse("2021-03-06T11:00:00Z").seconds
+                    endTimestamp shouldBe Instant.parse("2021-03-10T11:00:00Z").seconds
                     defaultCheckInLengthInMinutes shouldBe 10
-                    transmissionRiskLevel shouldBe 6
+                    transmissionRiskLevel shouldBe 1
                 }
             }
 
@@ -274,7 +301,7 @@ class CheckInsTransformerTest : BaseTest() {
                 // Start time from splitted check-in 3
                 startIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
                 // End time for splitted check-in 3
-                endIntervalNumber shouldBe Instant.parse("2021-03-06T10:20:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                endIntervalNumber shouldBe Instant.parse("2021-03-07T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
                 signedLocation.signature shouldBe ByteString.copyFrom("signature1".toByteArray())
                 parseLocation(signedLocation.location).apply {
                     guid shouldBe "trace_location_3"
@@ -283,9 +310,49 @@ class CheckInsTransformerTest : BaseTest() {
                     description shouldBe "restaurant_3"
                     address shouldBe "address_3"
                     startTimestamp shouldBe Instant.parse("2021-03-04T09:00:00Z").seconds
-                    endTimestamp shouldBe Instant.parse("2021-03-06T11:00:00Z").seconds
+                    endTimestamp shouldBe Instant.parse("2021-03-10T11:00:00Z").seconds
                     defaultCheckInLengthInMinutes shouldBe 10
-                    transmissionRiskLevel shouldBe 7
+                    transmissionRiskLevel shouldBe 2
+                }
+            }
+
+            // Splitted CheckIn 4
+            get(4).apply {
+                // Start time from splitted check-in 4
+                startIntervalNumber shouldBe Instant.parse("2021-03-07T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                // End time for splitted check-in 4
+                endIntervalNumber shouldBe Instant.parse("2021-03-08T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                signedLocation.signature shouldBe ByteString.copyFrom("signature1".toByteArray())
+                parseLocation(signedLocation.location).apply {
+                    guid shouldBe "trace_location_3"
+                    version shouldBe 1
+                    type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_RETAIL
+                    description shouldBe "restaurant_3"
+                    address shouldBe "address_3"
+                    startTimestamp shouldBe Instant.parse("2021-03-04T09:00:00Z").seconds
+                    endTimestamp shouldBe Instant.parse("2021-03-10T11:00:00Z").seconds
+                    defaultCheckInLengthInMinutes shouldBe 10
+                    transmissionRiskLevel shouldBe 4
+                }
+            }
+
+            // Splitted CheckIn 5
+            get(5).apply {
+                // Start time from splitted check-in 5
+                startIntervalNumber shouldBe Instant.parse("2021-03-10T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                // End time for splitted check-in 5
+                endIntervalNumber shouldBe Instant.parse("2021-03-10T10:20:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                signedLocation.signature shouldBe ByteString.copyFrom("signature1".toByteArray())
+                parseLocation(signedLocation.location).apply {
+                    guid shouldBe "trace_location_3"
+                    version shouldBe 1
+                    type shouldBe TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_RETAIL
+                    description shouldBe "restaurant_3"
+                    address shouldBe "address_3"
+                    startTimestamp shouldBe Instant.parse("2021-03-04T09:00:00Z").seconds
+                    endTimestamp shouldBe Instant.parse("2021-03-10T11:00:00Z").seconds
+                    defaultCheckInLengthInMinutes shouldBe 10
+                    transmissionRiskLevel shouldBe 8
                 }
             }
         }
@@ -301,6 +368,6 @@ class CheckInsTransformerTest : BaseTest() {
         private const val TRACE_LOCATION_2 =
             "ChB0cmFjZV9sb2NhdGlvbl8yEAEYAiIMcmVzdGF1cmFudF8yKglhZGRyZXNzXzI="
         private const val TRACE_LOCATION_3 =
-            "ChB0cmFjZV9sb2NhdGlvbl8zEAEYAyIMcmVzdGF1cmFudF8zKglhZGRyZXNzXzMwkMOCggY4sMGNggZACg=="
+            "ChB0cmFjZV9sb2NhdGlvbl8zEAEYAyIMcmVzdGF1cmFudF8zKglhZGRyZXNzXzMwkMOCggY4sM2iggZACg=="
     }
 }
