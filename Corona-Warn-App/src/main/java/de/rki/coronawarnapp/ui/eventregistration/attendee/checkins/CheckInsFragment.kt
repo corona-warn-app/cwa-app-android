@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -37,6 +38,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import javax.inject.Inject
 
 class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_fragment), AutoInject {
@@ -129,12 +131,17 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     }
 
     private fun openDeviceSettings() {
-        startActivity(
-            Intent(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+        try {
+            startActivity(
+                Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+                )
             )
-        )
+        } catch (e: ActivityNotFoundException) {
+            Timber.e(e, "Could not open device settings")
+            Toast.makeText(requireContext(), R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun bindFAB() {
