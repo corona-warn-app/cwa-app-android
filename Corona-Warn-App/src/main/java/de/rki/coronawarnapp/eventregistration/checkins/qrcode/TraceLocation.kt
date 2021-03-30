@@ -23,7 +23,7 @@ data class TraceLocation(
     val endDate: Instant?,
     val defaultCheckInLengthInMinutes: Int?,
     val cryptographicSeed: ByteString,
-    val cnPublicKey: String,
+    val cnPublicKey: String = "hardcoded public key TODO: replace with real one",
     val version: Int = TRACE_LOCATION_VERSION,
 ) : Parcelable {
 
@@ -55,7 +55,5 @@ fun TraceLocationUserInput.toTraceLocation(secureRandom: SecureRandom) = TraceLo
     endDate = endDate,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
     // cryptographic seed is a sequence of 16 random bytes
-    cryptographicSeed = ByteArray(16).apply { secureRandom.nextBytes(this) }.toByteString(),
-    cnPublicKey = "hardcoded public key TODO: replace with real one",
-    version = de.rki.coronawarnapp.eventregistration.events.TRACE_LOCATION_VERSION
+    cryptographicSeed = ByteArray(16).apply { secureRandom.nextBytes(this) }.toByteString()
 )
