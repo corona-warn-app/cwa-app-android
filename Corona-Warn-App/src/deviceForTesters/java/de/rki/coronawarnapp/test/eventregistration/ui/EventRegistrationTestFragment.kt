@@ -58,6 +58,14 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             startCreateEventFlowButton.setOnClickListener {
                 findNavController().navigate(R.id.traceLocationOrganizerCategoriesFragment)
             }
+
+            showOrganizerList.setOnClickListener {
+                findNavController().navigate(R.id.traceLocationOrganizerListFragment)
+            }
+
+            generateTestTraceLocations.setOnClickListener {
+                viewModel.generateTestTraceLocations()
+            }
         }
         binding.runMatcher.setOnClickListener {
             Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
