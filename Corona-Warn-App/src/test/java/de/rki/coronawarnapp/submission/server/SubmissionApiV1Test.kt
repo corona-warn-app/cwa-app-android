@@ -81,7 +81,7 @@ class SubmissionApiV1Test : BaseTest() {
             .setRequestPadding(ByteString.copyFromUtf8("fakeKeyPadding"))
             .build()
 
-        api.submitKeys(
+        api.submitPayload(
             authCode = "testAuthCode",
             fake = "0",
             headerPadding = "testPadding",
