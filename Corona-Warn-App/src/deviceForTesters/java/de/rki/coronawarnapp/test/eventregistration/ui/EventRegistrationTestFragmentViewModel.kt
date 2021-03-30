@@ -5,32 +5,30 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.download.DummyCheckInPackage
-import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.presencetracing.risk.CheckInRiskPerDay
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskCalculator
-import de.rki.coronawarnapp.presencetracing.risk.launchMatching
+import de.rki.coronawarnapp.presencetracing.risk.createMatchingLaunchers
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import okio.ByteString.Companion.toByteString
-import org.joda.time.DateTime
-import java.util.UUID
 import kotlinx.coroutines.awaitAll
 import okio.ByteString
+import okio.ByteString.Companion.toByteString
+import org.joda.time.DateTime
 import org.joda.time.Instant
 import timber.log.Timber
+import java.util.UUID
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val traceLocationRepository: TraceLocationRepository,
-    private val checkInWarningMatcher: CheckInWarningMatcher
-    private val dispatcherProvider: DispatcherProvider,
+    private val checkInWarningMatcher: CheckInWarningMatcher,
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -54,7 +52,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                     val warningPackages = listOf(1..360).map {
                         DummyCheckInPackage
                     }
-                    val matches = launchMatching(splitCheckIns, warningPackages, dispatcherProvider.IO)
+                    val matches = createMatchingLaunchers(splitCheckIns, warningPackages, dispatcherProvider.IO)
                         .awaitAll()
                         .flatten()
 

@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.presencetracing.risk
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
+import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class PresenceTracingRiskMapper @Inject constructor(
 
     suspend fun lookupRiskStatePerDay(normalizedTime: Double): RiskState {
         return getNormalizedTimePerDayToRiskLevelMapping()?.find {
-            it.normalizedTimeRange.isInRange(normalizedTime)
+            it.normalizedTimeRange.inRange(normalizedTime)
         }
             ?.riskLevel
             ?.mapToRiskState() ?: RiskState.CALCULATION_FAILED
@@ -29,7 +29,7 @@ class PresenceTracingRiskMapper @Inject constructor(
 
     suspend fun lookupRiskStatePerCheckIn(normalizedTime: Double): RiskState {
         return getNormalizedTimePerCheckInToRiskLevelMapping()?.find {
-            it.normalizedTimeRange.isInRange(normalizedTime)
+            it.normalizedTimeRange.inRange(normalizedTime)
         }
             ?.riskLevel
             ?.mapToRiskState() ?: RiskState.CALCULATION_FAILED
@@ -54,10 +54,3 @@ class PresenceTracingRiskMapper @Inject constructor(
     }
 }
 
-private fun RiskCalculationParametersOuterClass.Range.isInRange(value: Double): Boolean {
-    if (minExclusive && value <= min) return false
-    if (!minExclusive && value < min) return false
-    if (maxExclusive && value >= max) return false
-    if (!maxExclusive && value > max) return false
-    return true
-}

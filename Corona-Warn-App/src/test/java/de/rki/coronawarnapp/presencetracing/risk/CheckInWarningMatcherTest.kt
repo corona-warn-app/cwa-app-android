@@ -69,7 +69,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return listOf(warning1, warning2)
             }
 
-            override val id: Long
+            override val warningPackageId: Long
                 get() = 1L
         }
 
@@ -118,7 +118,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return listOf(warning1, warning2)
             }
 
-            override val id: Long
+            override val warningPackageId: Long
                 get() = 1L
         }
 
@@ -153,7 +153,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return listOf()
             }
 
-            override val id: Long
+            override val warningPackageId: Long
                 get() = 1L
         }
 
@@ -190,7 +190,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return listOf(warning1, warning2)
             }
 
-            override val id: Long
+            override val warningPackageId: Long
                 get() = 1L
         }
 
@@ -227,7 +227,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return warnings
             }
 
-            override val id: Long
+            override val warningPackageId: Long
                 get() = 1L
         }
 

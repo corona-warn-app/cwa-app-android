@@ -36,7 +36,7 @@ object DummyCheckInPackage : TraceTimeIntervalWarningPackage {
         return warnings
     }
 
-    override val id: Long
+    override val warningPackageId: Long
         get() = 1L
 }
 

@@ -9,5 +9,8 @@ interface TraceTimeIntervalWarningPackage {
      */
     suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning>
 
-    val id: Long
+    /**
+     * Numeric identifier representing the hour since epoch, used in the Api endpoint
+     */
+    val warningPackageId: Long
 }
