@@ -9,7 +9,8 @@ class CameraPermissionVH(parent: ViewGroup) :
     BaseCheckInVH<CameraPermissionVH.Item, TraceLocationAttendeeCheckinsItemCameraBinding>(
         layoutRes = R.layout.trace_location_attendee_checkins_item_camera,
         parent = parent
-    ), Movable {
+    ),
+    Movable {
 
     override val viewBinding: Lazy<TraceLocationAttendeeCheckinsItemCameraBinding> = lazy {
         TraceLocationAttendeeCheckinsItemCameraBinding.bind(itemView)
