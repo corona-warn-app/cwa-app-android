@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerCategoryFragmentBinding
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.TraceLocationCategoryAdapter
@@ -22,6 +23,13 @@ class TraceLocationCategoryFragment : Fragment(R.layout.trace_location_organizer
     private val vm: TraceLocationCategoryViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: TraceLocationOrganizerCategoryFragmentBinding by viewBindingLazy()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
