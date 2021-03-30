@@ -9,7 +9,6 @@
         android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment"
         android:label="TraceLocationCategoryFragment"
         tools:layout="@layout/trace_location_organizer_category_fragment">
-
         <action
             android:id="@+id/action_traceLocationOrganizerCategoriesFragment_to_traceLocationCreateFragment"
             app:destination="@id/traceLocationCreateFragment" />
@@ -22,6 +21,11 @@
         <argument
             android:name="category"
             app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory" />
+        <argument
+            android:name="originalItem"
+            android:defaultValue="@null"
+            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation"
+            app:nullable="true" />
         <action
             android:id="@+id/action_traceLocationCreateFragment_to_traceLocationOrganizerListFragment"
             app:destination="@id/traceLocationOrganizerListFragment" />
@@ -31,7 +35,6 @@
         android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragment"
         android:label="TraceLocationCategoryFragment"
         tools:layout="@layout/trace_location_organizer_trace_locations_list_fragment">
-
         <action
             android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationOrganizerCategoriesFragment"
             app:destination="@id/traceLocationOrganizerCategoriesFragment" />

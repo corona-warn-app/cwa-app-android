@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -25,6 +24,7 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -66,8 +66,10 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                     DialogHelper.showDialog(getErrorDialogInstance(result.exception))
                 }
                 is TraceLocationCreateViewModel.Result.Success -> {
-                    // TODO: will be handled in another PR
-                    Toast.makeText(context, "Done! TODO: redirect to another screen", Toast.LENGTH_SHORT).show()
+                    doNavigate(
+                        TraceLocationCreateFragmentDirections
+                            .actionTraceLocationCreateFragmentToTraceLocationOrganizerListFragment()
+                    )
                 }
             }
         }
