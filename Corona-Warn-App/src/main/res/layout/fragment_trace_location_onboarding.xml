@@ -44,6 +44,7 @@
                 android:layout_height="190dp"
                 android:src="@drawable/checkin_motivation"
                 android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
