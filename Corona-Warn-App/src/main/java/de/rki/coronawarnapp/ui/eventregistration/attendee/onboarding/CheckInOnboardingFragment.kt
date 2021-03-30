@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentCheckInOnboardingBinding
+import de.rki.coronawarnapp.databinding.FragmentTraceLocationOnboardingBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -18,7 +18,7 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val viewModel: CheckInOnboardingViewModel by cwaViewModels { viewModelFactory }
-    private val binding: FragmentCheckInOnboardingBinding by viewBindingLazy()
+    private val binding: FragmentTraceLocationOnboardingBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
