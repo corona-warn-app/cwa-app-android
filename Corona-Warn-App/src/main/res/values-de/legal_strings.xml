@@ -15,13 +15,13 @@
     <!-- XHED: Page subheadline for consent sub section your consent  -->
     <string name="submission_consent_your_consent_subsection_headline">"Ihr Einverständnis"</string>
     <!-- YTXT: Body for consent sub section your consent subtext -->
-    <string name="submission_consent_your_consent_subsection_tapping_agree">"Durch Antippen von „Einverstanden“ willigen Sie wie folgt ein:"</string>
+    <string name="submission_consent_your_consent_subsection_tapping_agree">"Durch Antippen von „Einverstanden“ willigen Sie in folgende Schritte ein:"</string>
     <!-- YTXT: Body for consent sub section your consent subtext first point  -->
     <string name="submission_consent_your_consent_subsection_first_point">"<b>Die App ruft Ihr Testergebnis ab.</b> Wenn Sie es sich später anders überlegen, können Sie den Test in der App entfernen."</string>
     <!-- YTXT: Body for consent sub section your consent subtext second point  -->
-    <string name="submission_consent_your_consent_subsection_second_point">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von offiziellen Corona-Apps der oben genannten Länder. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>"</string>
+    <string name="submission_consent_your_consent_subsection_second_point">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von Corona-Apps der oben genannten Länder und Nutzer, die zeitgleich am selben Event oder Ort wie Sie eingecheckt waren.\n\nWenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
-    <string name="submission_consent_your_consent_subsection_third_point">"Sie können Ihr Einverständnis jederzeit zurücknehmen. Die Einstellung hierfür finden Sie unter „Test anzeigen“. Vor dem Teilen werden Sie nochmal auf Ihr Einverständnis hingewiesen und um Freigabe Ihres Testergebnisses gebeten."</string>
+    <string name="submission_consent_your_consent_subsection_third_point">"Sie können Ihr Einverständnis jederzeit zurücknehmen. Die Einstellung hierfür finden Sie unter „Test anzeigen“. Vor dem Teilen werden Sie nochmal auf Ihr Einverständnis hingewiesen."</string>
     <!-- YTXT: Body for your consent screen agreement share test results -->
     <string name="submission_your_consent_agreement_share_test_results">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer zu warnen, denen Sie begegnet sind.</b>\n\n<b>Die Warnung erreicht Nutzer von offiziellen Corona-Apps der folgenden teilnehmenden Länder:</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms -->

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
@@ -37,17 +38,17 @@ class CheckInsTransformer @Inject constructor(
      * @param symptoms [Symptoms] symptoms to calculate transmission risk level
      */
     suspend fun transform(checkIns: List<CheckIn>, symptoms: Symptoms): List<CheckInOuterClass.CheckIn> {
-
-        val submissionParamContainer = appConfigProvider
+        val presenceTracing = appConfigProvider
             .getAppConfig()
             .presenceTracing
-            .submissionParameters
 
+        val submissionParams = presenceTracing.submissionParameters
+        val trvMappings = presenceTracing.riskCalculationParameters.transmissionRiskValueMapping
         val transmissionVector = transmissionDeterminator.determine(symptoms)
-
+        val now = timeStamper.nowUTC
         return checkIns.flatMap { originalCheckIn ->
             Timber.d("Transforming check-in=$originalCheckIn")
-            val derivedTimes = submissionParamContainer.deriveTime(
+            val derivedTimes = submissionParams.deriveTime(
                 originalCheckIn.checkInStart.seconds,
                 originalCheckIn.checkInEnd.seconds
             )
@@ -61,16 +62,32 @@ class CheckInsTransformer @Inject constructor(
                     checkInStart = derivedTimes.startTimeSeconds.secondsToInstant(),
                     checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
                 )
-                derivedCheckIn.splitByMidnightUTC().map { checkIn ->
-                    checkIn.toOuterCheckIn(transmissionVector)
+
+                derivedCheckIn.splitByMidnightUTC().mapNotNull { checkIn ->
+                    checkIn.toOuterCheckIn(now, transmissionVector, trvMappings)
                 }
             }
         }
     }
 
     private fun CheckIn.toOuterCheckIn(
-        transmissionVector: TransmissionRiskVector
-    ): CheckInOuterClass.CheckIn {
+        now: Instant,
+        transmissionVector: TransmissionRiskVector,
+        trvMappings: List<TransmissionRiskValueMapping>
+    ): CheckInOuterClass.CheckIn? {
+        val transmissionRiskLevel = determineRiskTransmission(now, transmissionVector)
+
+        // Find transmissionRiskValue for matched transmissionRiskLevel - default 0.0 if no match
+        val transmissionRiskValue = trvMappings.find {
+            it.transmissionRiskLevel == transmissionRiskLevel
+        }?.transmissionRiskValue ?: 0.0
+
+        // Exclude check-in with TRV = 0.0
+        if (transmissionRiskValue == 0.0) {
+            Timber.d("CheckIn has TRL=$transmissionRiskLevel is excluded from submission (TRV=0)")
+            return null // Not mapped
+        }
+
         val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder()
             .setLocation(traceLocationBytes.toProtoByteString())
             .setSignature(signature.toProtoByteString())
@@ -80,9 +97,7 @@ class CheckInsTransformer @Inject constructor(
             .setSignedLocation(signedTraceLocation)
             .setStartIntervalNumber(checkInStart.derive10MinutesInterval().toInt())
             .setEndIntervalNumber(checkInEnd.derive10MinutesInterval().toInt())
-            .setTransmissionRiskLevel(
-                determineRiskTransmission(timeStamper.nowUTC, transmissionVector)
-            )
+            .setTransmissionRiskLevel(transmissionRiskLevel)
             .build()
     }
 }
