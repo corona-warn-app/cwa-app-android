@@ -53,7 +53,8 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                                 .append("Min. ${checkInOverlap.overlap.standardMinutes}")
                                 .append("\n")
                         }
-                        checkInOverlapsText.postValue(text.toString())
+                        if (text.isBlank()) checkInOverlapsText.postValue("No matches found")
+                        else checkInOverlapsText.postValue(text.toString())
                     } else {
                         checkInOverlapsText.postValue("Output too large. ${checkInWarningOverlaps.size} lines")
                     }
@@ -83,7 +84,8 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                                 .append("RiskState ${checkInRiskPerDay.riskState}")
                                 .append("\n")
                         }
-                        checkInRiskPerDayText.postValue(text.toString())
+                        if (text.isBlank()) checkInRiskPerDayText.postValue("No matches found")
+                        else checkInRiskPerDayText.postValue(text.toString())
                     } else {
                         checkInRiskPerDayText.postValue("Output too large. ${riskStates.size} lines")
                     }
