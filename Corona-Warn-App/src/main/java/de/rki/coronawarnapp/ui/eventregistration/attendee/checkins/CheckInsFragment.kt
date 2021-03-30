@@ -58,7 +58,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     )
     private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBindingLazy()
     private val checkInsAdapter = CheckInsAdapter()
-    private val swipeExcludedPositions = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,9 +120,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     private fun updateViews(items: List<CheckInsItem>) {
         checkInsAdapter.update(items)
         binding.apply {
-            val index = items.indexOfFirst { it is CameraPermissionVH.Item }
-            swipeExcludedPositions.replaceAll(listOf(index))
-
             scanCheckinQrcodeFab.isGone = items.any { it is CameraPermissionVH.Item }
             emptyListInfoContainer.isGone = items.isNotEmpty()
             checkInsList.isGone = items.isEmpty()
@@ -183,7 +179,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
             onSwipeItem(
                 context = requireContext(),
-                excludedPositions = swipeExcludedPositions
             ) { position, direction ->
                 val checkInsItem = checkInsAdapter.data[position]
                 if (checkInsItem.isSwipeable()) {
