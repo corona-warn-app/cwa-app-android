@@ -14,6 +14,9 @@ abstract class TraceLocationDao {
     @Query("SELECT * FROM traceLocations")
     abstract fun allEntries(): Flow<List<TraceLocationEntity>>
 
+    @Query("SELECT * FROM traceLocations WHERE guid = :guid")
+    abstract fun entryForId(guid: String): TraceLocationEntity?
+
     @Insert
     abstract suspend fun insert(traceLocation: TraceLocationEntity)
 

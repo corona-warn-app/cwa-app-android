@@ -6,6 +6,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
@@ -45,10 +46,6 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 }
             )
 
-            title.text = vm.titleText
-            subtitle.text = vm.subtitleText
-            eventDate.text = vm.eventDate
-
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)
                 navigationContentDescription = getString(R.string.accessibility_close)
@@ -73,6 +70,15 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 }
                 QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> { /* TODO */
                 }
+            }
+        }
+
+        vm.uiState.observe2(this) { uiState ->
+            with(binding) {
+                title.text = uiState.description
+                subtitle.text = uiState.address
+
+                eventDate.text = "${uiState.startDate}, ${uiState.startTime} - ${uiState.endTime}"
             }
         }
     }

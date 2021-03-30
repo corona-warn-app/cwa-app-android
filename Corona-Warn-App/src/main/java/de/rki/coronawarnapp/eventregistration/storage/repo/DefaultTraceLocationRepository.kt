@@ -1,9 +1,12 @@
 package de.rki.coronawarnapp.eventregistration.storage.repo
 
+import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocation
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocations
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
+import de.rki.coronawarnapp.eventregistration.storage.entity.toCheckIn
 import de.rki.coronawarnapp.eventregistration.storage.entity.toTraceLocationEntity
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +29,13 @@ class DefaultTraceLocationRepository @Inject constructor(
 
     private val traceLocationDao: TraceLocationDao by lazy {
         traceLocationDatabase.traceLocationDao()
+    }
+
+    override suspend fun traceLocationForId(guid: String): TraceLocation {
+        val checkIn = traceLocationDao.entryForId(guid)
+            ?: throw IllegalArgumentException("No traceLocation found for ID=$guid")
+
+        return checkIn.toTraceLocation()
     }
 
     override val allTraceLocations: Flow<List<TraceLocation>>
