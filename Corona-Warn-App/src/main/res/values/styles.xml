@@ -149,6 +149,12 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
+    <style name="buttonTraceLocation" parent="button">
+        <item name="android:backgroundTint">@color/button_trace_location</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="buttonIcon">
         <item name="android:background">@drawable/circle_ripple</item>
         <item name="android:backgroundTint">@color/button_back</item>
