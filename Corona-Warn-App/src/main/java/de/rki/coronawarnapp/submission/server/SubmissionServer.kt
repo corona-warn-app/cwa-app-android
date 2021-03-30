@@ -2,9 +2,12 @@ package de.rki.coronawarnapp.submission.server
 
 import com.google.protobuf.ByteString
 import dagger.Lazy
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
+import de.rki.coronawarnapp.util.PaddingTool.checkInPadding
+import de.rki.coronawarnapp.util.PaddingTool.keyPadding
 
 import de.rki.coronawarnapp.util.PaddingTool.requestPadding
 import kotlinx.coroutines.Dispatchers
@@ -12,11 +15,11 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.math.max
 
 @Singleton
 class SubmissionServer @Inject constructor(
-    private val submissionApi: Lazy<SubmissionApiV1>
+    private val submissionApi: Lazy<SubmissionApiV1>,
+    private val appConfigProvider: AppConfigProvider
 ) {
 
     private val api: SubmissionApiV1
@@ -30,51 +33,77 @@ class SubmissionServer @Inject constructor(
         val checkIns: List<CheckInOuterClass.CheckIn>
     )
 
-    suspend fun submitKeysToServer(
+    suspend fun submitPayload(
         data: SubmissionData
     ) = withContext(Dispatchers.IO) {
-        Timber.d("submitKeysToServer()")
+        Timber.d("submitPayload()")
+
         val authCode = data.authCode
         val keyList = data.keyList
-        Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
+        val checkInList = data.checkIns
 
-        val randomAdditions = 0 // prepare for random addition of keys
-        val fakeKeyCount = max(
-            MIN_KEY_COUNT_FOR_SUBMISSION + randomAdditions - keyList.size,
-            0
+        Timber.d(
+            "Writing %s Keys and %s CheckIns to the Submission Payload.",
+            keyList.size,
+            checkInList.size
         )
-        val fakeKeyPadding = requestPadding(FAKE_KEY_SIZE * fakeKeyCount)
+
+        val plausibleParameters = appConfigProvider
+            .getAppConfig()
+            .presenceTracing
+            .plausibleDeniabilityParameters
+
+        val keyPadding = keyPadding(keyList.size)
+        val checkInPadding = checkInPadding(plausibleParameters, checkInList.size)
+        val requestPadding = keyPadding + checkInPadding
+        Timber.d(
+            "keyPadding=%s\ncheckInPadding=%s\nrequestPadding=%s",
+            keyPadding,
+            checkInPadding,
+            requestPadding
+        )
 
         val submissionPayload = SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
-            .setRequestPadding(ByteString.copyFromUtf8(fakeKeyPadding))
+            .setRequestPadding(ByteString.copyFromUtf8(requestPadding))
             .setConsentToFederation(data.consentToFederation)
             .addAllVisitedCountries(data.visitedCountries)
             .addAllCheckIns(data.checkIns)
             .build()
 
-        api.submitKeys(
+        api.submitPayload(
             authCode = authCode,
             fake = "0",
-            headerPadding = EMPTY_HEADER,
+            headerPadding = EMPTY_STRING,
             requestBody = submissionPayload
         )
     }
 
-    suspend fun submitKeysToServerFake() = withContext(Dispatchers.IO) {
-        Timber.d("submitKeysToServerFake()")
+    suspend fun submitFakePayload() = withContext(Dispatchers.IO) {
+        Timber.d("submitFakePayload()")
 
-        val randomAdditions = 0 // prepare for random addition of keys
-        val fakeKeyCount = MIN_KEY_COUNT_FOR_SUBMISSION + randomAdditions
+        val plausibleParameters = appConfigProvider
+            .getAppConfig()
+            .presenceTracing
+            .plausibleDeniabilityParameters
 
-        val fakeKeyPadding = requestPadding(FAKE_KEY_SIZE * fakeKeyCount)
+        val fakeKeyPadding = keyPadding(keyListSize = 0)
+        val fakeCheckInPadding = checkInPadding(plausibleParameters, checkInListSize = 0)
+        val fakeRequestPadding = fakeKeyPadding + fakeCheckInPadding
+
+        Timber.d(
+            "fakeKeyPadding=%s\nfakeCheckInPadding=%s\nfakeRequestPadding=%s",
+            fakeKeyPadding,
+            fakeCheckInPadding,
+            fakeRequestPadding
+        )
 
         val submissionPayload = SubmissionPayload.newBuilder()
-            .setRequestPadding(ByteString.copyFromUtf8(fakeKeyPadding))
+            .setRequestPadding(ByteString.copyFromUtf8(fakeRequestPadding))
             .build()
 
-        api.submitKeys(
-            authCode = EMPTY_HEADER,
+        api.submitPayload(
+            authCode = EMPTY_STRING,
             fake = "1",
             headerPadding = requestPadding(PADDING_LENGTH_HEADER_SUBMISSION_FAKE),
             requestBody = submissionPayload
@@ -82,9 +111,7 @@ class SubmissionServer @Inject constructor(
     }
 
     companion object {
-        const val EMPTY_HEADER = ""
-        const val PADDING_LENGTH_HEADER_SUBMISSION_FAKE = 36
-        const val MIN_KEY_COUNT_FOR_SUBMISSION = 14
-        const val FAKE_KEY_SIZE = (1 * 16 /* key data*/) + (3 * 4 /* 3x int32*/)
+        private const val EMPTY_STRING = ""
+        private const val PADDING_LENGTH_HEADER_SUBMISSION_FAKE = 36
     }
 }
