@@ -91,6 +91,9 @@
 
     <!-- Trace location -->
     <color name="colorTraceLocationIconDateBackground">#FFFFFF</color>
+    <color name="colorTraceLocationGradientBackground">#F5F5F5</color>
+    <color name="colorTraceLocationButtonTextColor">#F5F5F5</color>
+
 
     <!-- QR Code Scan -->
     <color name="colorQrCodeScanToolbar">#000000</color>
