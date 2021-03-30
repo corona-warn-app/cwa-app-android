@@ -205,44 +205,43 @@
                         android:layout_marginVertical="@dimen/spacing_small"
                         android:background="?android:attr/listDivider" />
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
                             style="@style/body2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/spacing_normal"
-                            android:text="@string/confirm_checkin_settings_card_checkout_time_label" />
+                            android:text="@string/confirm_checkin_settings_card_checkout_time_label"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/confirm_checkin_settings_card_checkout_time"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/confirm_checkin_settings_card_checkout_time"
+                            style="@style/body2Medium"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/spacing_mega_tiny"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/confirm_checkin_settings_card_checkout_time_tag"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="03:00" />
 
-                            <TextView
-                                android:id="@+id/confirm_checkin_settings_card_checkout_time"
-                                style="@style/body2Medium"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="03:00" />
-
-                            <TextView
-                                android:id="@+id/confirm_checkin_settings_card_checkout_time_tag"
-                                style="@style/body2Medium"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_mega_tiny"
-                                android:text="@string/tracelocation_organizer_duration_suffix" />
-                        </LinearLayout>
-                    </LinearLayout>
+                        <TextView
+                            android:id="@+id/confirm_checkin_settings_card_checkout_time_tag"
+                            style="@style/body2Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/confirm_checkin_settings_card_checkout_time_tag"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </LinearLayout>
 
