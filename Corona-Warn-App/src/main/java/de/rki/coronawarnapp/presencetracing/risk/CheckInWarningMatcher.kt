@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.risk
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import org.joda.time.Instant
 import timber.log.Timber
+import java.lang.reflect.Modifier.PRIVATE
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -50,24 +52,31 @@ suspend fun createMatchingLaunchers(
     warningPackages: List<TraceTimeIntervalWarningPackage>,
     coroutineContext: CoroutineContext
 ): Collection<Deferred<List<CheckInWarningOverlap>>> {
+
     val launcher: CoroutineScope.(
         List<CheckIn>,
-        TraceTimeIntervalWarningPackage
+        List<TraceTimeIntervalWarningPackage>
     ) -> Deferred<List<CheckInWarningOverlap>> =
-        { list, warningPackage ->
+        { list, packageChunk ->
             async {
-                findMatches(list, warningPackage)
+                packageChunk.flatMap {
+                    findMatches(list, it)
+                }
             }
         }
 
-    return warningPackages.map { warningPackage ->
+    // at most 4 parallel processes
+    val chunkSize = (checkIns.size / 4) + 1
+
+    return warningPackages.chunked(chunkSize).map { packageChunk ->
         withContext(context = coroutineContext) {
-            launcher(checkIns, warningPackage)
+            launcher(checkIns, packageChunk)
         }
     }
 }
 
-suspend fun findMatches(
+@VisibleForTesting(otherwise = PRIVATE)
+internal suspend fun findMatches(
     checkIns: List<CheckIn>,
     warningPackage: TraceTimeIntervalWarningPackage
 ): List<CheckInWarningOverlap> {
@@ -87,8 +96,9 @@ suspend fun findMatches(
         }
 }
 
-fun CheckIn.calculateOverlap(
-    warning: TraceWarning.TraceTimeIntervalWarning,
+@VisibleForTesting(otherwise = PRIVATE)
+internal fun CheckIn.calculateOverlap(
+    warning: TraceWarning.TraceTimeIntervalWarning
     traceWarningPackageId: Long
 ): CheckInWarningOverlap? {
 
