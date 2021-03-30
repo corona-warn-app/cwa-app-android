@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.list
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
