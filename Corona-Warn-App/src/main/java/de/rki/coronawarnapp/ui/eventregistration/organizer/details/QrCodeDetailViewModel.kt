@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
@@ -44,30 +43,28 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     init {
 
         launch {
-            val traceLocation = traceLocationRepository.traceLocationForId(eventId?: "")
+            val traceLocation = traceLocationRepository.traceLocationForId(eventId ?: "")
 
-            if(titleFlow.value == null) {
-                titleFlow.value = traceLocation.description;
+            if (titleFlow.value == null) {
+                titleFlow.value = traceLocation.description
             }
 
-            if(subtitleFlow.value == null) {
-                subtitleFlow.value = traceLocation.address;
+            if (subtitleFlow.value == null) {
+                subtitleFlow.value = traceLocation.address
             }
 
-            if(startTimeFlow.value == null) {
-                startTimeFlow.value = traceLocation.startDate;
+            if (startTimeFlow.value == null) {
+                startTimeFlow.value = traceLocation.startDate
             }
 
-            if(endTimeFlow.value == null) {
-                endTimeFlow.value = traceLocation.endDate;
+            if (endTimeFlow.value == null) {
+                endTimeFlow.value = traceLocation.endDate
             }
 
             traceLocationFlow.value = traceLocation
 
             createQrCode("Hello World!")
-
         }
-
     }
 
     val uiState = combine(
@@ -82,7 +79,6 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         )
     }.asLiveData()
 
-
     data class UiState(
         private val traceLocation: TraceLocation,
         private val startInstant: Instant,
@@ -96,10 +92,8 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         val endDate: String get() = endInstant.toDateTime().toString(dateFormatter)
     }
 
-
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
     val errorMessage = SingleLiveEvent<String>()
-
     val routeToScreen: SingleLiveEvent<QrCodeDetailNavigationEvents> = SingleLiveEvent()
 
     /**

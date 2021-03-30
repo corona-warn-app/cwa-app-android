@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.list
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -15,7 +14,6 @@ import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInEvent
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable

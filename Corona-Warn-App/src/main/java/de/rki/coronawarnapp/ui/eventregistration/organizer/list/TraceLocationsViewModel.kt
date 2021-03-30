@@ -4,11 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewNavigationEvents
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInEvent
 import de.rki.coronawarnapp.ui.eventregistration.organizer.list.items.TraceLocationItem
 import de.rki.coronawarnapp.ui.eventregistration.organizer.list.items.TraceLocationVH
 import de.rki.coronawarnapp.util.TimeStamper

@@ -65,7 +65,6 @@ class TraceLocationVH(parent: ViewGroup) :
         checkinAction.setOnClickListener { item.onCheckIn(item.traceLocation) }
 
         itemView.setOnClickListener { item.onCardClicked(item.traceLocation) }
-
     }
 
     data class Item(
