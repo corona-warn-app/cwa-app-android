@@ -62,18 +62,21 @@ class CheckInsTransformer @Inject constructor(
                     checkInStart = derivedTimes.startTimeSeconds.secondsToInstant(),
                     checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
                 )
+
+                val now = timeStamper.nowUTC
                 derivedCheckIn.splitByMidnightUTC().mapNotNull { checkIn ->
-                    checkIn.toOuterCheckIn(transmissionVector, trvMappings)
+                    checkIn.toOuterCheckIn(now, transmissionVector, trvMappings)
                 }
             }
         }
     }
 
     private fun CheckIn.toOuterCheckIn(
+        now: Instant,
         transmissionVector: TransmissionRiskVector,
         trvMappings: List<TransmissionRiskValueMapping>
     ): CheckInOuterClass.CheckIn? {
-        val transmissionRiskLevel = determineRiskTransmission(timeStamper.nowUTC, transmissionVector)
+        val transmissionRiskLevel = determineRiskTransmission(now, transmissionVector)
 
         // Find transmissionRiskValue for matched transmissionRiskLevel - default 0.0 if no match
         val transmissionRiskValue = trvMappings.find {
