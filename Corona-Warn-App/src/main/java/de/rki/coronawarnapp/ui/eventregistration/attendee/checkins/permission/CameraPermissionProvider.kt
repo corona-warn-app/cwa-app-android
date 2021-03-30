@@ -9,13 +9,12 @@ import javax.inject.Inject
 
 class CameraPermissionProvider @Inject constructor(
     @AppContext private val context: Context,
-    private val cameraSettings: CameraSettings
+    cameraSettings: CameraSettings
 ) {
     val deniedPermanently = cameraSettings
         .isCameraDeniedPermanently
         .flow
         .map { deniedPermanently ->
-            deniedPermanently &&
-                !CameraPermissionHelper.hasCameraPermission(context)
+            deniedPermanently && !CameraPermissionHelper.hasCameraPermission(context)
         }
 }
