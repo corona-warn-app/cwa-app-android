@@ -17,8 +17,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemHeaderBin
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEnfBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEventBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
-import de.rki.coronawarnapp.util.lists.decorations.VerticalDividerItemDecorationExcludeLast
-import de.rki.coronawarnapp.util.lists.diffutil.update
 import org.joda.time.LocalDate
 
 class DayOverviewVH(parent: ViewGroup) :
@@ -70,7 +68,8 @@ class DayOverviewVH(parent: ViewGroup) :
         }
     }
 
-    private fun ContactDiaryOverviewDayListItemRiskEventBinding.apply(riskEventItem: RiskEventItem?) = this.apply {
+    private fun ContactDiaryOverviewDayListItemRiskEventBinding
+    .apply(riskEventItem: RiskEventItem?) {
         root.isGone = riskEventItem == null
 
         riskEventItem?.let {
@@ -90,7 +89,7 @@ class DayOverviewVH(parent: ViewGroup) :
         }
     }
 
-    private fun ContactDiaryOverviewDayListItemContactBinding.apply(contactItem: ContactItem?) = this.apply {
+    private fun ContactDiaryOverviewDayListItemContactBinding.apply(contactItem: ContactItem?) {
         root.isGone = contactItem == null
 
         contactItem?.let {
