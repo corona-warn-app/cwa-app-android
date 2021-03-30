@@ -50,5 +50,13 @@ class CameraPermissionProviderTest : BaseTest() {
         cameraPermissionProvider().deniedPermanently.first() shouldBe false
     }
 
+    @Test
+    fun `User is very kind and gave the permission - just ask`() = runBlockingTest {
+        every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
+        every { CameraPermissionHelper.hasCameraPermission(any()) } returns true
+
+        cameraPermissionProvider().deniedPermanently.first() shouldBe false
+    }
+
     private fun cameraPermissionProvider() = CameraPermissionProvider(context, cameraSettings)
 }
