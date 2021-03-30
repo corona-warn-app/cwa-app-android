@@ -8,5 +8,7 @@ data class PresenceTracingConfigContainer(
     override val riskCalculationParameters: PresenceTracingRiskCalculationParamContainer =
         PresenceTracingRiskCalculationParamContainer(),
     override val submissionParameters: PresenceTracingSubmissionParamContainer =
-        PresenceTracingSubmissionParamContainer()
+        PresenceTracingSubmissionParamContainer(),
+    override val plausibleDeniabilityParameters: PlausibleDeniabilityParametersContainer =
+        PlausibleDeniabilityParametersContainer()
 ) : PresenceTracingConfig

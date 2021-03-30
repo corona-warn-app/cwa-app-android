@@ -8,6 +8,7 @@ interface PresenceTracingConfig {
     val revokedTraceLocationVersions: List<Int>
     val riskCalculationParameters: PresenceTracingRiskCalculationParamContainer
     val submissionParameters: PresenceTracingSubmissionParamContainer
+    val plausibleDeniabilityParameters: PlausibleDeniabilityParametersContainer
 
     interface Mapper : ConfigMapper<PresenceTracingConfig>
 }
