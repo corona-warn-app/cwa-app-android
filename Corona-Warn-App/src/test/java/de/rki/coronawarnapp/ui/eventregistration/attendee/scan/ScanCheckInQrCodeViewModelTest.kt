@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.scan
 
 import com.google.zxing.Result
 import com.journeyapps.barcodescanner.BarcodeResult
-import de.rki.coronawarnapp.util.permission.CameraPermissionSettings
+import de.rki.coronawarnapp.util.permission.CameraSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -21,13 +21,13 @@ import testhelpers.preferences.mockFlowPreference
 class ScanCheckInQrCodeViewModelTest : BaseTest() {
 
     private lateinit var viewModel: ScanCheckInQrCodeViewModel
-    @MockK lateinit var cameraPermissionSettings: CameraPermissionSettings
+    @MockK lateinit var cameraSettings: CameraSettings
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         viewModel = ScanCheckInQrCodeViewModel(
-            cameraPermissionSettings
+            cameraSettings
         )
     }
 
@@ -51,9 +51,9 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
 
     @Test
     fun `Camera settings is saved when user denies it`() {
-        every { cameraPermissionSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
+        every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
         viewModel.onCameraDeniedPermanently()
 
-        verify { cameraPermissionSettings.isCameraDeniedPermanently }
+        verify { cameraSettings.isCameraDeniedPermanently }
     }
 }

@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.formatter.TestResult
-import de.rki.coronawarnapp.util.permission.CameraPermissionSettings
+import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -23,7 +23,7 @@ import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
-    private val cameraPermissionSettings: CameraPermissionSettings
+    private val cameraSettings: CameraSettings
 ) : CWAViewModel() {
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
@@ -102,7 +102,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     }
 
     fun onCameraDeniedPermanently() {
-        cameraPermissionSettings.isCameraDeniedPermanently.update { true }
+        cameraSettings.isCameraDeniedPermanently.update { true }
     }
 
     @AssistedFactory
