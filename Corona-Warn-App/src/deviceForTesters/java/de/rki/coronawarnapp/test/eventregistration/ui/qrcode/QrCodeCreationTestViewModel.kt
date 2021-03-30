@@ -18,6 +18,7 @@ import okio.ByteString
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 
 class QrCodeCreationTestViewModel @AssistedInject constructor(
@@ -31,7 +32,7 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
     val errorMessage = SingleLiveEvent<String>()
     val sharingIntent = SingleLiveEvent<FileSharing.FileIntentProvider>()
-    val qrCodePosterTemplate = SingleLiveEvent<ByteString>()
+    val qrCodePosterTemplate = SingleLiveEvent<File>()
 
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
@@ -92,8 +93,20 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
         launch {
             try {
                 val posterTemplate = posterTemplateServer.downloadQrCodePosterTemplate()
-                qrCodePosterTemplate.postValue(posterTemplate.template.toByteArray().toByteString())
+
+                FileOutputStream(File(context.cacheDir, "poster.pdf")).use {
+                    it.write(posterTemplate.template.toByteArray())
+                }
+
+                Timber.d("posterTemplate=[x=%s, y=%s, side=%s, descriptionTextBox=%s]",
+                    posterTemplate.offsetX,
+                    posterTemplate.offsetY,
+                    posterTemplate.qrCodeSideLength,
+                    posterTemplate.descriptionTextBox
+                )
+                qrCodePosterTemplate.postValue(File(context.cacheDir, "poster.pdf"))
             } catch (exception: Exception) {
+                Timber.e(exception, "Download failed")
                 errorMessage.postValue("Downloading Poster Template failed: ${exception.message}")
             }
         }

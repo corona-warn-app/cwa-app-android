@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.test.eventregistration.ui.qrcode
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.pdf.PdfRenderer
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
 import android.print.PrintAttributes
 import android.print.PrintManager
 import android.view.View
@@ -85,8 +88,22 @@ class QrCodeCreationTestFragment : Fragment(R.layout.fragment_test_qrcode_creati
             viewModel.downloadQrCodePosterTemplate()
         }
 
-        viewModel.qrCodePosterTemplate.observe2(this) { vectorDrawableBytes ->
-            binding.downloadedQrCodePoster.text = vectorDrawableBytes.utf8()
+        viewModel.qrCodePosterTemplate.observe2(this) { file ->
+            val input = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+            val renderer = PdfRenderer(input)
+
+            val page = renderer.openPage(0)
+            val density = 4
+            val bitmap = Bitmap.createBitmap(
+                resources.displayMetrics,
+                page.width * density,
+                page.height * density,
+                Bitmap.Config.ARGB_8888
+            )
+            page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
+            binding.downloadedQrCodePoster.setImageBitmap(bitmap)
+            page.close()
+            renderer.close()
         }
     }
 }
