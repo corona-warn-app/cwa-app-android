@@ -125,7 +125,7 @@
  <!-- XTXT: Second vulletpoint subtitle for privacy card -->
  <string name="trace_location_pricacy_card_second_bulletpoint_subtitle_text" translatable="false">"The more accurate your information, the more reliably your guests can be warned."</string>
  <!-- XTXT: Third bulletpoint text for privacy card -->
- <string name="trace_location_privacy_card_third_bulletpoint_text" translatable="false">"Please display the QR code in such a way that all your guests can scan it while observing the social distancing and hygiene rules (at least 1.5 metres)."</string>
+ <string name="trace_location_privacy_card_third_bulletpoint_text" translatable="false">"Please display the QR code in such a way that all your guests can scan it while observing the social distancing and hygiene rules (at least 1.5 meters)."</string>
  <!-- XTXT: Fourth bulletpoint text for privacy card -->
  <string name="trace_location_privacy_card_fourth_bulletpoint_text" translatable="false">"We recommend creating new QR codes for places at regular intervals, so that warnings are as reliable as possible over time and in order to prevent the QR codes from being misused."</string>
 
