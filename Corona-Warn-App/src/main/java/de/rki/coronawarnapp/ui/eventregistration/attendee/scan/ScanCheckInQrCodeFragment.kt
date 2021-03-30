@@ -50,7 +50,8 @@ class ScanCheckInQrCodeFragment :
             checkInQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
                 binding.checkInQrCodeScanPreview.setTorch(isChecked)
             }
-            checkInQrCodeScanClose.setOnClickListener { viewModel.onNavigateUp() }
+
+            checkInQrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
             checkInQrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
             checkInQrCodeScanViewfinderView.setCameraPreview(binding.checkInQrCodeScanPreview)
         }

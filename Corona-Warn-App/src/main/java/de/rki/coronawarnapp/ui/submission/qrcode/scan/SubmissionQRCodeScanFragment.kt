@@ -45,20 +45,22 @@ class SubmissionQRCodeScanFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-            binding.submissionQrCodeScanPreview.setTorch(
-                isChecked
-            )
+        with(binding) {
+            submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
+                binding.submissionQrCodeScanPreview.setTorch(
+                    isChecked
+                )
+            }
+
+            submissionQrCodeScanToolbar.setNavigationOnClickListener {
+                viewModel.onClosePressed()
+            }
+
+            submissionQrCodeScanPreview.decoderFactory =
+                DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+
+            submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
         }
-
-        binding.submissionQrCodeScanClose.setOnClickListener {
-            viewModel.onClosePressed()
-        }
-
-        binding.submissionQrCodeScanPreview.decoderFactory =
-            DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-
-        binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
         viewModel.scanStatusValue.observe2(this) {
             if (ScanStatus.INVALID == it) {
