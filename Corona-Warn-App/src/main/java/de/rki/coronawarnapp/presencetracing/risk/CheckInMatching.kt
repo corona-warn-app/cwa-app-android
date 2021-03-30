@@ -1,3 +1,4 @@
+
 package de.rki.coronawarnapp.presencetracing.risk
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="HardcodedText">
 
     <LinearLayout
@@ -141,8 +141,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:textIsSelectable="true"
                 android:text="After creating an event in the app, it is sent to the server and returned together with a guid and a signature."
+                android:textIsSelectable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/event_title" />
@@ -169,6 +169,16 @@
                 app:layout_constraintTop_toBottomOf="@id/events_body" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/show_qr_code_detail_fragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Open Organizer Fragment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/create_event_button" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/start_create_event_flow_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -176,8 +186,29 @@
                 android:text="Start Create Event Flow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/create_event_button"
-                app:layout_constraintTop_toBottomOf="@id/create_event_button" />
+                app:layout_constraintTop_toBottomOf="@id/show_qr_code_detail_fragment" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/show_organizer_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Show Organizer List"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/start_create_event_flow_button"
+                app:layout_constraintTop_toBottomOf="@id/start_create_event_flow_button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/generate_test_trace_locations"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Generate test trace locations"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/show_organizer_list"
+                app:layout_constraintTop_toBottomOf="@id/show_organizer_list" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
