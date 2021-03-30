@@ -112,7 +112,7 @@
 
     <!-- Trace Location QR Info Privacy Strings -->
     <!-- XHED: Title for privacy card -->
-    <string name="trace_location_privacy_card_title_text">"Datenschutz und\nDatensicherheit"</string>
+    <string name="trace_location_privacy_card_title_text">"Datenschutz und Datensicherheit"</string>
     <!-- XTXT: Subtitle for privacy card -->
     <string name="trace_location_privacy_card_subtitle_text">"Wenn Sie auf „Weiter“ tippen, können Sie einen QR-Code für Ihre Gäste erstellen."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
