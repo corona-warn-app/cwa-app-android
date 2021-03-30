@@ -8,7 +8,7 @@ import retrofit2.http.POST
 interface SubmissionApiV1 {
 
     @POST("version/v1/diagnosis-keys")
-    suspend fun submitKeys(
+    suspend fun submitPayload(
         @Header("cwa-authorization") authCode: String?,
         @Header("cwa-fake") fake: String,
         @Header("cwa-header-padding") headerPadding: String?,
