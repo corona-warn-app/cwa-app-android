@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"İptal"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"QR kodu çerçeveye sığdırın."</string>
+    <string name="submission_qr_code_scan_title">"QR kodu çerçeveye sığdırın."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body">"QR kodu çerçeveye sığdırın."</string>
+    <string name="submission_qr_code_scan_body">"QR kodu çerçeveye sığdırın."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->

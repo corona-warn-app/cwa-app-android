@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Cancel"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"Position the QR code in the frame."</string>
+    <string name="submission_qr_code_scan_title">"Position the QR code in the frame."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body">"Position the QR code in the frame."</string>
+    <string name="submission_qr_code_scan_body">"Position the QR code in the frame."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->

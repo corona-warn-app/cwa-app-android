@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Anuluj"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"Ustaw kod QR w ramce."</string>
+    <string name="submission_qr_code_scan_title">"Ustaw kod QR w ramce."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body">"Ustaw kod QR w ramce."</string>
+    <string name="submission_qr_code_scan_body">"Ustaw kod QR w ramce."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
