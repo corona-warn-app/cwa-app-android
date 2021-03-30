@@ -17,6 +17,8 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemHeaderBin
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEnfBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEventBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
+import de.rki.coronawarnapp.util.lists.decorations.VerticalDividerItemDecorationExcludeLast
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import org.joda.time.LocalDate
 
 class DayOverviewVH(parent: ViewGroup) :
