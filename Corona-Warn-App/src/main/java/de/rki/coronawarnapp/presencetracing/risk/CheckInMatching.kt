@@ -18,19 +18,25 @@ suspend fun createMatchingLaunchers(
     warningPackages: List<TraceTimeIntervalWarningPackage>,
     coroutineContext: CoroutineContext
 ): Collection<Deferred<List<CheckInWarningOverlap>>> {
+
     val launcher: CoroutineScope.(
         List<CheckIn>,
-        TraceTimeIntervalWarningPackage
+        List<TraceTimeIntervalWarningPackage>
     ) -> Deferred<List<CheckInWarningOverlap>> =
-        { list, warningPackage ->
+        { list, packageChunk ->
             async {
-                findMatches(list, warningPackage)
+                packageChunk.flatMap {
+                    findMatches(list, it)
+                }
             }
         }
 
-    return warningPackages.map { warningPackage ->
+    // at most 4 parallel processes
+    val chunkSize = (checkIns.size / 4) + 1
+
+    return warningPackages.chunked(chunkSize).map { packageChunk ->
         withContext(context = coroutineContext) {
-            launcher(checkIns, warningPackage)
+            launcher(checkIns, packageChunk)
         }
     }
 }
