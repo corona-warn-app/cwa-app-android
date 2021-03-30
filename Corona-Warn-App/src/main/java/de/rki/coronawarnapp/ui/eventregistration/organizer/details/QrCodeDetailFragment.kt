@@ -20,8 +20,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.DateTime
-import java.time.Instant
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -97,14 +95,14 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
                     eventDate.isGone = false
                     eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
-                        requireContext().getString (
+                        requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration,
                             startTime.toLocalDate().toString("dd.MM.yy"),
                             startTime.toLocalTime().toString("HH:mm"),
                             endTime.toLocalTime().toString("HH:mm")
                         )
                     } else {
-                        requireContext().getString (
+                        requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration_multiple_days,
                             startTime.toLocalDate().toString("dd.MM.yy"),
                             endTime.toLocalTime().toString("HH:mm"),

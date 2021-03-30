@@ -81,7 +81,6 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         val endDateTime: Instant? get() = endInstant
     }
 
-
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
     val errorMessage = SingleLiveEvent<String>()
     val routeToScreen: SingleLiveEvent<QrCodeDetailNavigationEvents> = SingleLiveEvent()
