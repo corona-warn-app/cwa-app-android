@@ -159,4 +159,58 @@
     <!-- XTXT: Text for I understand button -->
     <string name="acknowledge_button">"Enverstanden"</string>
 
+    <!-- ####################################
+       Event Organiser Trace Locations List
+    ###################################### -->
+
+    <!-- XHED: Event organiser qr codes list: title -->
+    <string name="trace_location_organiser_list_title">"Meine QR-Codes"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_new_button">"QR-Code"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_codes_title">"Noch keine QR Codes erstellt"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_codes_subtitle">"Hier werden alle QR-Codes angezeigt, die Sie für ein Ort oder Event erstellt haben. Sie können die QR-Codes löschen, wenn diese nicht mehr verwendet werden sollen."</string>
+
+    <!-- XBUT: Event organiser qr codes list: menu: information button  -->
+    <string name="trace_location_organizer_list_menu_information_btn">"Information"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
+    <string name="trace_location_organizer_list_menu_remove_all_btn">"Alle entfernen"</string>
+
+    <!-- XHED:  Event organiser qr codes list: delete single popup title -->
+    <string name="trace_location_organiser_list_delete_single_popup_title">"Wollen Sie den QR-Code wirklich entfernen?"</string>
+    <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
+    <string name="trace_location_organiser_list_delete_single_popup_message">"Bitte denken Sie daran, dass der QR-Code “Jahrestreffen der deutschen SAP Anwendergruppe” danach nicht mehr zum Einchecken verwendet werden kann."</string>
+
+    <!-- XHED:  Event organiser qr codes list: delete all popup title -->
+    <string name="trace_location_organiser_list_delete_all_popup_title">"Wollen Sie wirklich alle QR-Codes entfernen?"</string>
+    <!-- XTXT:  Event organiser qr codes list: delete all popup message -->
+    <string name="trace_location_organiser_list_delete_all_popup_message">"Bitte denken Sie daran, dass diese QR-Codes danach nicht mehr zum Einchecken verwendet werden können."</string>
+    <!-- XBUT:  Event organiser qr codes list: delete all popup negative button -->
+    <string name="trace_location_organiser_list_delete_all_popup_negative_button">"Abbrechen"</string>
+    <!-- XBUT:  Event organiser qr codes list: delete all popup positive button -->
+    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Entfernen"</string>
+
+    <!-- XTXT: Event organiser list item: duration-->
+    <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s Uhr"</string>
+    <!-- XBUT: Event organiser list item: checkin button -->
+    <string name="trace_location_organizer_list_item_action_checkin">Selbst einchecken</string>
+
+    <!-- XBUT: Event organiser list item: menu: information button  -->
+    <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Duplizieren"</string>
+    <!-- XBUT: Event organiser list item: menu: show print button  -->
+    <string name="trace_location_organizer_list_item_menu_show_print_btn">"Druckversion anzeigen"</string>
+    <!-- XBUT: Event organiser list item: menu: clear button  -->
+    <string name="trace_location_organizer_list_item_menu_clear_btn">"Löschen"</string>
+
+    <!--  Organizer Flow: Event Detail Screen-->
+    <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
+    <string name="trace_location_event_detail_qr_code_accessibility">"QR-Code"</string>
+    <!-- XHED: Organizer Flow : Accessibility title for event-overview -->
+    <string name="trace_location_event_detail_title_accessibility">"Event-Ansicht"</string>
+    !-- XBUT: Organizer Flow : Title for show print version button -->
+    <string name="trace_location_event_detail_show_print_qr_code_button">"Druckversion anzeigen"</string>
+    <!-- XBUT: Organizer Flow : Title for save as template button -->
+    <string name="trace_location_event_detail_save_as_template_button">"Als Vorlage verwenden"</string>
+
 </resources>

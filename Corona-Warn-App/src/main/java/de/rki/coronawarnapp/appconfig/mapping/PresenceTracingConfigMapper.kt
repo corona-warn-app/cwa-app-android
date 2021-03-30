@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.appconfig.mapping
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
@@ -13,6 +14,9 @@ import de.rki.coronawarnapp.server.protocols.internal.v2
     .PresenceTracingParametersOuterClass.PresenceTracingRiskCalculationParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2
     .PresenceTracingParametersOuterClass.PresenceTracingParameters.QRCodeErrorCorrectionLevel
+import de.rki.coronawarnapp.server.protocols.internal.v2
+    .PresenceTracingParametersOuterClass.PresenceTracingPlausibleDeniabilityParameters
+
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,7 +29,8 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
                 qrCodeErrorCorrectionLevel = ErrorCorrectionLevel.H,
                 revokedTraceLocationVersions = emptyList(),
                 riskCalculationParameters = PresenceTracingRiskCalculationParamContainer(),
-                submissionParameters = PresenceTracingSubmissionParamContainer()
+                submissionParameters = PresenceTracingSubmissionParamContainer(),
+                plausibleDeniabilityParameters = PlausibleDeniabilityParametersContainer()
             )
         }
 
@@ -54,6 +59,14 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
             else -> ErrorCorrectionLevel.H
         }
 
+    private fun PresenceTracingPlausibleDeniabilityParameters.mapPlausibleDeniabilityParameters() =
+        PlausibleDeniabilityParametersContainer(
+            checkInSizesInBytes = checkInSizesInBytesList,
+            probabilityToFakeCheckInsIfNoCheckIns = probabilityToFakeCheckInsIfNoCheckIns,
+            probabilityToFakeCheckInsIfSomeCheckIns = probabilityToFakeCheckInsIfSomeCheckIns,
+            numberOfFakeCheckInsFunctionParameters = numberOfFakeCheckInsFunctionParametersOrBuilderList
+        )
+
     private fun AppConfigAndroid.ApplicationConfigurationAndroid.presenceTracingConfig() =
         presenceTracingParameters.run {
             val riskCalculationParameters = if (hasRiskCalculationParameters()) {
@@ -70,11 +83,19 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
                 PresenceTracingSubmissionParamContainer()
             }
 
+            val plausibleDeniabilityParameters = if (hasPlausibleDeniabilityParameters()) {
+                plausibleDeniabilityParameters.mapPlausibleDeniabilityParameters()
+            } else {
+                Timber.w("plausibleDeniabilityParameters are missing")
+                PlausibleDeniabilityParametersContainer()
+            }
+
             PresenceTracingConfigContainer(
                 qrCodeErrorCorrectionLevel = qrCodeErrorCorrectionLevel.mapErrorCorrection(),
                 revokedTraceLocationVersions = revokedTraceLocationVersionsList.orEmpty(),
                 riskCalculationParameters = riskCalculationParameters,
-                submissionParameters = submissionParameters
+                submissionParameters = submissionParameters,
+                plausibleDeniabilityParameters = plausibleDeniabilityParameters
             )
         }
 }
