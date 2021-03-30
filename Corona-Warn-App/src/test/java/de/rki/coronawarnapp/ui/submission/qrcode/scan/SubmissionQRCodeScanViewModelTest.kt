@@ -73,7 +73,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @Test
     fun `Camera settings is saved when user denies it`() {
         every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
-        createViewModel().onCameraDeniedPermanently()
+        createViewModel().setCameraDeniedPermanently(true)
 
         verify { cameraSettings.isCameraDeniedPermanently }
     }

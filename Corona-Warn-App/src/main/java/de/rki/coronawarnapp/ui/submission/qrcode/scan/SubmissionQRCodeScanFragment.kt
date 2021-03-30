@@ -182,10 +182,11 @@ class SubmissionQRCodeScanFragment :
         ) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                 showCameraPermissionRationaleDialog()
+                viewModel.setCameraDeniedPermanently(false)
             } else {
                 // user permanently denied access to the camera
                 showCameraPermissionDeniedDialog()
-                viewModel.onCameraDeniedPermanently()
+                viewModel.setCameraDeniedPermanently(true)
             }
         }
     }

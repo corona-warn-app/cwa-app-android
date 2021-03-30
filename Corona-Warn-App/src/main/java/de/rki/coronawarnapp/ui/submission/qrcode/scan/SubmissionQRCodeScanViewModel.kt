@@ -101,8 +101,9 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
     }
 
-    fun onCameraDeniedPermanently() {
-        cameraSettings.isCameraDeniedPermanently.update { true }
+    fun setCameraDeniedPermanently(denied: Boolean) {
+        Timber.d("setCameraDeniedPermanently(denied=$denied)")
+        cameraSettings.isCameraDeniedPermanently.update { denied }
     }
 
     @AssistedFactory
