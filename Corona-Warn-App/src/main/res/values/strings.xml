@@ -1963,6 +1963,10 @@
     <string name="trace_location_onboarding_body_warning">Jeder Check-in wird bei der Ermittlung des Risikostatus zusätzlich berücksichtigt. Wird eine eingecheckte Person später positiv getestet, können Sie gewarnt werden, wenn Sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben.</string>
     <!-- YMSG: Onboarding trace location warning -->
     <string name="trace_location_onboarding_body_stay">Bitte geben Sie Ihre Aufenthaltszeit so genau wie möglich an, damit gezielt gewarnt werden kann.</string>
+    <!-- XHED: Title for the trace location onboarding consent card -->
+    <string name="trace_location_onboarding_card_title">Ihr Einverständnis</string>
+    <!-- YMSG: Onboarding trace location bullet points introduction -->
+    <string name="trace_location_onboarding_body_intro">Durch Antippen von „Einverstanden“ willigen Sie in folgende Schritte ein:</string>
     <!-- YMSG: Onboarding trace location bullet points -->
     <string name="trace_location_onboarding_body_consent2">Die App merkt sich für 16 Tage, bei welchen Events oder Orten Sie sich eingecheckt haben.</string>
     <!-- YMSG: Onboarding trace location bullet points -->

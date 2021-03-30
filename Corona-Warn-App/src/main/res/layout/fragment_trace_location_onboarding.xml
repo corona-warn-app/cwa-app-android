@@ -129,21 +129,32 @@
                 app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_stay">
 
                 <TextView
-                    android:id="@+id/check_in_onboarding_more_text"
+                    android:id="@+id/check_in_onboarding_card_title"
                     style="@style/headline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ihr Einverständnis"
+                    android:text="@string/trace_location_onboarding_card_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/check_in_onboarding_card_subtitle"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trace_location_onboarding_body_intro"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/check_in_onboarding_card_title" />
 
                 <ImageView
                     android:id="@+id/check_in_onboarding_bulletpoint1"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:src="@drawable/bullet_point"
-                    android:layout_marginTop="22dp"
-                    app:layout_constraintTop_toBottomOf="@+id/check_in_onboarding_more_text"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintTop_toBottomOf="@+id/check_in_onboarding_card_subtitle"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
@@ -158,15 +169,15 @@
                     android:text="@string/trace_location_onboarding_body_consent2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/check_in_onboarding_bulletpoint1"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_more_text" />
+                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_card_subtitle" />
 
                 <TextView
                     android:id="@+id/check_in_onboarding_body3"
                     style="@style/subtitle"
-                    android:layout_width="300dp"
-                    android:layout_height="111dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:focusable="true"
                     android:text="@string/trace_location_onboarding_body_consent3"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -225,11 +236,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="4dp"
                     android:focusable="true"
                     android:text="@string/trace_location_onboarding_body_consent6"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/check_in_onboarding_bulletpoint2"
                     app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body5" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
