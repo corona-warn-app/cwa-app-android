@@ -31,11 +31,10 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     private val startTimeFlow = MutableStateFlow<Instant?>(null)
     private val endTimeFlow = MutableStateFlow<Instant?>(null)
 
-    private val eventId = ""
     init {
 
         launch {
-            val traceLocation = traceLocationRepository.traceLocationForId(eventId ?: "")
+            val traceLocation = traceLocationRepository.traceLocationForId(traceLocationId ?: "")
 
             if (titleFlow.value == null) {
                 titleFlow.value = traceLocation.description
