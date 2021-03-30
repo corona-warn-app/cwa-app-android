@@ -3,12 +3,13 @@ package de.rki.coronawarnapp.eventregistration.storage
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 
 object TraceLocationDatabaseData {
 
     val testTraceLocation1 = TraceLocationEntity(
-        guid = "TestGuid1",
+        id = 1,
         version = 1,
         type = LOCATION_TYPE_TEMPORARY_OTHER,
         description = "TestTraceLocation1",
@@ -16,12 +17,12 @@ object TraceLocationDatabaseData {
         startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
         endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
         defaultCheckInLengthInMinutes = null,
-        byteRepresentationBase64 = "byteRepresentationBase64",
-        signatureBase64 = "signature1"
+        cryptographicSeedBase64 = "seed byte array".toByteArray().toByteString().base64(),
+        cnPublicKey = "cnPublicKey"
     )
 
     val testTraceLocation2 = TraceLocationEntity(
-        guid = "TestGuid2",
+        id = 2,
         version = 1,
         type = LOCATION_TYPE_PERMANENT_OTHER,
         description = "TestTraceLocation2",
@@ -29,7 +30,7 @@ object TraceLocationDatabaseData {
         startDate = null,
         endDate = null,
         defaultCheckInLengthInMinutes = 15,
-        byteRepresentationBase64 = "byteRepresentationBase64",
-        signatureBase64 = "signature2"
+        cryptographicSeedBase64 = "seed byte array".toByteArray().toByteString().base64(),
+        cnPublicKey = "cnPublicKey"
     )
 }
