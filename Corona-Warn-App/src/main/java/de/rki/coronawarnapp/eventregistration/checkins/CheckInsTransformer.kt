@@ -45,7 +45,7 @@ class CheckInsTransformer @Inject constructor(
         val submissionParams = presenceTracing.submissionParameters
         val trvMappings = presenceTracing.riskCalculationParameters.transmissionRiskValueMapping
         val transmissionVector = transmissionDeterminator.determine(symptoms)
-
+        val now = timeStamper.nowUTC
         return checkIns.flatMap { originalCheckIn ->
             Timber.d("Transforming check-in=$originalCheckIn")
             val derivedTimes = submissionParams.deriveTime(
@@ -62,8 +62,7 @@ class CheckInsTransformer @Inject constructor(
                     checkInStart = derivedTimes.startTimeSeconds.secondsToInstant(),
                     checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
                 )
-
-                val now = timeStamper.nowUTC
+                
                 derivedCheckIn.splitByMidnightUTC().mapNotNull { checkIn ->
                     checkIn.toOuterCheckIn(now, transmissionVector, trvMappings)
                 }
