@@ -32,7 +32,9 @@ class TraceLocationSettings @Inject constructor(
         NOT_ONBOARDED(0),
         ONBOARDED_2_0(1)
     }
-}
 
-private const val key_status = "trace_location_onboardingstatus"
-private const val name = "trace_location_localdata"
+    companion object {
+        private const val key_status = "trace_location_onboardingstatus"
+        private const val name = "trace_location_localdata"
+    }
+}
