@@ -45,7 +45,7 @@ class CheckInWarningMatcher @Inject constructor(
         if (matchLists.contains(null)) {
             Timber.e("Error occurred during matching. Deleting all stale matches.")
             presenceTracingRiskRepository.deleteAllMatches()
-            //TODO report calculation failed to show on home card
+            // TODO report calculation failed to show on home card
             return emptyList()
         }
 
