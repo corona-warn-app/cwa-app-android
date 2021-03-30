@@ -77,11 +77,10 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     ) {
         val description: String get() = traceLocation.description
         val address: String get() = traceLocation.address
-        val startTime: String get() = startInstant?.toDateTime()?.toString(timeFormatter) ?: ""
-        val startDate: String get() = startInstant?.toDateTime()?.toString(dateFormatter) ?: ""
-        val endTime: String get() = endInstant?.toDateTime()?.toString(timeFormatter) ?: ""
-        val endDate: String get() = endInstant?.toDateTime()?.toString(dateFormatter) ?: ""
+        val startDateTime: Instant? get() = startInstant
+        val endDateTime: Instant? get() = endInstant
     }
+
 
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
     val errorMessage = SingleLiveEvent<String>()

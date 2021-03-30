@@ -6,6 +6,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
@@ -19,6 +20,8 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import org.joda.time.DateTime
+import java.time.Instant
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -87,7 +90,31 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 title.text = uiState.description
                 subtitle.text = uiState.address
 
-                eventDate.text = "${uiState.startDate}, ${uiState.startTime} - ${uiState.endTime}"
+                if (uiState.startDateTime != null && uiState.endDateTime != null) {
+
+                    val startTime = uiState.startDateTime!!.toDateTime()
+                    val endTime = uiState.endDateTime!!.toDateTime()
+
+                    eventDate.isGone = false
+                    eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
+                        requireContext().getString (
+                            R.string.trace_location_organizer_detail_item_duration,
+                            startTime.toLocalDate().toString("dd.MM.yy"),
+                            startTime.toLocalTime().toString("HH:mm"),
+                            endTime.toLocalTime().toString("HH:mm")
+                        )
+                    } else {
+                        requireContext().getString (
+                            R.string.trace_location_organizer_detail_item_duration_multiple_days,
+                            startTime.toLocalDate().toString("dd.MM.yy"),
+                            endTime.toLocalTime().toString("HH:mm"),
+                            endTime.toLocalDate().toString("dd.MM.yy"),
+                            endTime.toLocalTime().toString("HH:mm")
+                        )
+                    }
+                } else {
+                    eventDate.isGone = true
+                }
             }
         }
     }
