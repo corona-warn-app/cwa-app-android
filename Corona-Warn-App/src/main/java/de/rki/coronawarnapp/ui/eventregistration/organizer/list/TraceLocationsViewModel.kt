@@ -26,9 +26,6 @@ class TraceLocationsViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<TraceLocationEvent>()
 
-    //val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
-
-
     val traceLocations: LiveData<List<TraceLocationItem>> = traceLocationRepository.allTraceLocations
         .map { traceLocations ->
             traceLocations

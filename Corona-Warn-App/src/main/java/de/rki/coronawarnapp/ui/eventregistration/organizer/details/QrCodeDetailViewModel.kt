@@ -20,7 +20,7 @@ import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 
 class QrCodeDetailViewModel @AssistedInject constructor(
-    //@Assisted private val eventId: String?,
+    @Assisted private val traceLocationId: String?,
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
     private val traceLocationRepository: DefaultTraceLocationRepository
@@ -120,15 +120,11 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<QrCodeDetailViewModel>
-
-    /*
-    @AssistedFactory
     interface Factory : CWAViewModelFactory<QrCodeDetailViewModel> {
         fun create(
-            eventId: String?
+            traceLocationId: String?
         ): QrCodeDetailViewModel
-    } */
+    }
 }
 
 private val dateFormatter by lazy {

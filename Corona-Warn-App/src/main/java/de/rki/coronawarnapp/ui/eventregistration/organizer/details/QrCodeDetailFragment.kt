@@ -8,6 +8,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import de.rki.coronawarnapp.R
@@ -19,6 +20,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -26,7 +28,16 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val vm: QrCodeDetailViewModel by cwaViewModels { viewModelFactory }
+    private val navArgs by navArgs<QrCodeDetailFragmentArgs>()
+
+    private val vm: QrCodeDetailViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as QrCodeDetailViewModel.Factory
+            factory.create(if (navArgs.traceLocationId == "") null else navArgs.traceLocationId)
+        }
+    )
+
     private val binding: TraceLocationOrganizerQrCodeDetailFragmentBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

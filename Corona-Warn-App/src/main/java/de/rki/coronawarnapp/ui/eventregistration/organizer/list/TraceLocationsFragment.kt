@@ -15,6 +15,7 @@ import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInEvent
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
@@ -22,6 +23,7 @@ import de.rki.coronawarnapp.util.list.onSwipeItem
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -78,6 +80,13 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 }
                 is TraceLocationEvent.ConfirmSwipeItem -> {
                     showDeleteSingleDialog(it.traceLocation, it.position)
+                }
+                is TraceLocationEvent.OpenDetailItem -> {
+                    doNavigate(
+                        TraceLocationsFragmentDirections.actionTraceLocationOrganizerListFragmentToQrCodeDetailFragment(
+                            traceLocationId = it.guid,
+                        )
+                    )
                 }
             }
         }
