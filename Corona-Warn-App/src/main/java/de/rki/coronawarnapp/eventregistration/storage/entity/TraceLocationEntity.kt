@@ -10,7 +10,7 @@ import org.joda.time.Instant
 @Entity(tableName = "traceLocations")
 data class TraceLocationEntity(
 
-    @PrimaryKey @ColumnInfo(name = "guid") val guid: String,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0L,
     @ColumnInfo(name = "version") val version: Int,
     @ColumnInfo(name = "type") val type: TraceLocationOuterClass.TraceLocationType,
     @ColumnInfo(name = "description") val description: String,
@@ -18,20 +18,19 @@ data class TraceLocationEntity(
     @ColumnInfo(name = "startDate") val startDate: Instant?,
     @ColumnInfo(name = "endDate") val endDate: Instant?,
     @ColumnInfo(name = "defaultCheckInLengthInMinutes") val defaultCheckInLengthInMinutes: Int?,
-    @ColumnInfo(name = "byteRepresentationBase64") val byteRepresentationBase64: String,
-    @ColumnInfo(name = "signatureBase64") val signatureBase64: String
+    @ColumnInfo(name = "cryptographicSeedBase64") val cryptographicSeedBase64: String,
+    @ColumnInfo(name = "cnPublicKey") val cnPublicKey: String
 )
 
 fun TraceLocation.toTraceLocationEntity(): TraceLocationEntity =
     TraceLocationEntity(
-        guid = guid,
         type = type,
         description = description,
         address = address,
         startDate = startDate,
         endDate = endDate,
         defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-        byteRepresentationBase64 = byteRepresentation.base64(),
-        signatureBase64 = signature.base64(),
+        cryptographicSeedBase64 = cryptographicSeed.base64(),
+        cnPublicKey = cnPublicKey,
         version = version
     )
