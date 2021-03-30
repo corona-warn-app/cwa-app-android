@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.firstOrNull
+import timber.log.Timber
 import javax.inject.Inject
 
 class CheckInWarningMatcher @Inject constructor(
@@ -21,6 +22,7 @@ class CheckInWarningMatcher @Inject constructor(
 
         if (checkIns.isNullOrEmpty() || warningPackages.isNullOrEmpty()) {
             presenceTracingRiskRepository.deleteAllMatches()
+            Timber.i("No check-ins or packages available. Deleted all matches.")
             return
         }
 
