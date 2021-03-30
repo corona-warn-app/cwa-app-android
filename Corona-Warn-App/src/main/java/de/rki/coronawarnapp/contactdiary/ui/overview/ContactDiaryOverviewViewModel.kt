@@ -14,10 +14,8 @@ import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTask
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayDataItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.header.HeaderItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
@@ -69,7 +67,15 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     ) { dateList, locationVisists, personEncounters, riskLevelPerDateList, traceLocationCheckInRiskList ->
         mutableListOf<DiaryOverviewItem>().apply {
             add(OverviewSubHeaderItem)
-            addAll(createListItemList(dateList, locationVisists, personEncounters, riskLevelPerDateList, traceLocationCheckInRiskList))
+            addAll(
+                createListItemList(
+                    dateList,
+                    locationVisists,
+                    personEncounters,
+                    riskLevelPerDateList,
+                    traceLocationCheckInRiskList
+                )
+            )
         }.toList()
     }.asLiveData(dispatcherProvider.Default)
 
@@ -114,7 +120,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 .firstOrNull { riskLevelPerDate -> riskLevelPerDate.day == date }
                 ?.toRisk(coreItemData.isNotEmpty())
 
-            val riskeventItem = visitsForDate
+            val riskEventItem = visitsForDate
                 .map { it to traceLocationCheckInRisksForDate.find { checkInRisk -> checkInRisk.checkInId == it.checkInID } }
                 .toMap()
                 .filter { it.value != null }
@@ -123,7 +129,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             DayOverviewItem(
                 date = date,
                 riskEnfItem = riskEnf,
-                riskEventItem = riskeventItem,
+                riskEventItem = riskEventItem,
                 contactItem = contactItem
             ) { onItemPress(it) }
         }
@@ -172,26 +178,6 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     )
 
     private fun Map<ContactDiaryLocationVisit, TraceLocationCheckInRisk?>.toRiskEventItem(): RiskEventItem? {
-
-        val highRiskEvent = RiskEventItem.Event(
-            name = "Test high risk",
-            bulledPointColor = R.color.colorBulletPointHighRisk,
-            riskInfoAddition = R.string.contact_diary_event_risk_high
-        )
-
-        val lowRiskEvent =  RiskEventItem.Event(
-            name = "Test low risk",
-            bulledPointColor = R.color.colorBulletPointLowRisk
-        )
-
-        return RiskEventItem(
-            title = R.string.contact_diary_high_risk_title,
-            body = R.string.contact_diary_event_risk_body,
-            drawableId = R.drawable.ic_high_risk_alert,
-            events = listOf(highRiskEvent, lowRiskEvent)
-        )
-
-
         if (isEmpty()) return null
 
         val isHighRisk = values.any { it?.riskState == RiskState.INCREASED_RISK }
