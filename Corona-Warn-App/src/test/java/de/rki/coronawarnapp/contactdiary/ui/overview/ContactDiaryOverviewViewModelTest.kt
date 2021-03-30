@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounte
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
 import de.rki.coronawarnapp.contactdiary.util.ContactDiaryData
 import de.rki.coronawarnapp.contactdiary.util.mockStringsForContactDiaryExporterTests
@@ -59,6 +61,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { contactDiaryRepository.locationVisits } returns flowOf(emptyList())
         every { contactDiaryRepository.personEncounters } returns flowOf(emptyList())
         every { riskLevelStorage.aggregatedRiskPerDateResults } returns flowOf(emptyList())
+        every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(emptyList())
 
         mockStringsForContactDiaryExporterTests(context)
         every { timeStamper.nowUTC } returns Instant.now()
@@ -137,8 +140,7 @@ open class ContactDiaryOverviewViewModelTest {
     fun `navigate to day fragment with correct day`() {
         val listItem = DayOverviewItem(
             date = date,
-            data = emptyList(),
-            risk = null
+            contactItem = ContactItem(emptyList())
         ) {}
 
         with(createInstance()) {
@@ -163,12 +165,12 @@ open class ContactDiaryOverviewViewModelTest {
         } as DayOverviewItem
 
         with(item) {
-            data.validate(
+            contactItem!!.data.validate(
                 hasPerson = true,
                 hasLocation = true
             )
 
-            risk!!.validate(
+            riskEnfItem!!.validate(
                 highRisk = false,
                 dueToLowEncounters = false,
                 hasPersonOrLocation = true
@@ -185,12 +187,9 @@ open class ContactDiaryOverviewViewModelTest {
         } as DayOverviewItem
 
         with(item) {
-            data.validate(
-                hasPerson = false,
-                hasLocation = false
-            )
+            contactItem shouldBe null
 
-            risk!!.validate(
+            riskEnfItem!!.validate(
                 highRisk = false,
                 dueToLowEncounters = false,
                 hasPersonOrLocation = false
@@ -213,12 +212,12 @@ open class ContactDiaryOverviewViewModelTest {
         } as DayOverviewItem
 
         with(item) {
-            data.validate(
+            contactItem!!.data.validate(
                 hasPerson = true,
                 hasLocation = true
             )
 
-            risk!!.validate(
+            riskEnfItem!!.validate(
                 highRisk = true,
                 dueToLowEncounters = false,
                 hasPersonOrLocation = true
@@ -239,12 +238,9 @@ open class ContactDiaryOverviewViewModelTest {
         } as DayOverviewItem
 
         with(item) {
-            data.validate(
-                hasPerson = false,
-                hasLocation = false
-            )
+            contactItem shouldBe null
 
-            risk!!.validate(
+            riskEnfItem!!.validate(
                 highRisk = true,
                 dueToLowEncounters = false,
                 hasPersonOrLocation = false
@@ -267,12 +263,12 @@ open class ContactDiaryOverviewViewModelTest {
         } as DayOverviewItem
 
         with(item) {
-            data.validate(
+            contactItem!!.data.validate(
                 hasPerson = true,
                 hasLocation = true
             )
 
-            risk!!.validate(
+            riskEnfItem!!.validate(
                 highRisk = true,
                 dueToLowEncounters = true,
                 hasPersonOrLocation = true
@@ -293,12 +289,9 @@ open class ContactDiaryOverviewViewModelTest {
         } as DayOverviewItem
 
         with(item) {
-            data.validate(
-                hasPerson = false,
-                hasLocation = false
-            )
+            contactItem shouldBe null
 
-            risk!!.validate(
+            riskEnfItem!!.validate(
                 highRisk = true,
                 dueToLowEncounters = true,
                 hasPersonOrLocation = false
@@ -332,7 +325,7 @@ open class ContactDiaryOverviewViewModelTest {
         }
     }
 
-    private fun List<DayOverviewItem.Data>.validate(hasPerson: Boolean, hasLocation: Boolean) {
+    private fun List<ContactItem.Data>.validate(hasPerson: Boolean, hasLocation: Boolean) {
         var count = 0
         if (hasPerson) count++
         if (hasLocation) count++
@@ -340,17 +333,17 @@ open class ContactDiaryOverviewViewModelTest {
         size shouldBe count
         forEach {
             when (it.type) {
-                DayOverviewItem.Type.PERSON -> {
+                ContactItem.Type.PERSON -> {
                     it.drawableId shouldBe R.drawable.ic_contact_diary_person_item
                 }
-                DayOverviewItem.Type.LOCATION -> {
+                ContactItem.Type.LOCATION -> {
                     it.drawableId shouldBe R.drawable.ic_contact_diary_location_item
                 }
             }
         }
     }
 
-    private fun DayOverviewItem.Risk.validate(
+    private fun RiskEnfItem.validate(
         highRisk: Boolean,
         dueToLowEncounters: Boolean,
         hasPersonOrLocation: Boolean
