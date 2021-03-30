@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.risk
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
@@ -17,6 +18,7 @@ import kotlinx.coroutines.withContext
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
+import java.lang.reflect.Modifier.PRIVATE
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -66,7 +68,8 @@ suspend fun createMatchingLaunchers(
     }
 }
 
-suspend fun findMatches(
+@VisibleForTesting(otherwise = PRIVATE)
+internal suspend fun findMatches(
     checkIns: List<CheckIn>,
     warningPackage: TraceTimeIntervalWarningPackage
 ): List<CheckInWarningOverlap> {
@@ -86,7 +89,8 @@ suspend fun findMatches(
         }
 }
 
-fun CheckIn.calculateOverlap(
+@VisibleForTesting(otherwise = PRIVATE)
+internal fun CheckIn.calculateOverlap(
     warning: TraceWarning.TraceTimeIntervalWarning
 ): CheckInWarningOverlap? {
 
