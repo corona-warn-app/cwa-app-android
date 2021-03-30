@@ -65,22 +65,22 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     ) { traceLocation, startTime, endTime ->
         UiState(
             traceLocation = traceLocation,
-            startInstant = startTime ?: traceLocation.startDate!!,
-            endInstant = endTime ?: traceLocation.endDate!!
+            startInstant = startTime ?: traceLocation.startDate,
+            endInstant = endTime ?: traceLocation.endDate
         )
     }.asLiveData()
 
     data class UiState(
         private val traceLocation: TraceLocation,
-        private val startInstant: Instant,
-        private val endInstant: Instant
+        private val startInstant: Instant?,
+        private val endInstant: Instant?
     ) {
         val description: String get() = traceLocation.description
         val address: String get() = traceLocation.address
-        val startTime: String get() = startInstant.toDateTime().toString(timeFormatter)
-        val startDate: String get() = startInstant.toDateTime().toString(dateFormatter)
-        val endTime: String get() = endInstant.toDateTime().toString(timeFormatter)
-        val endDate: String get() = endInstant.toDateTime().toString(dateFormatter)
+        val startTime: String get() = startInstant?.toDateTime()?.toString(timeFormatter) ?: ""
+        val startDate: String get() = startInstant?.toDateTime()?.toString(dateFormatter) ?: ""
+        val endTime: String get() = endInstant?.toDateTime()?.toString(timeFormatter) ?: ""
+        val endDate: String get() = endInstant?.toDateTime()?.toString(dateFormatter) ?: ""
     }
 
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
