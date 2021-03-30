@@ -1010,8 +1010,6 @@
     <string name="submission_consent_main_headline_body">"Your consent is needed before you can retrieve your test result and warn others."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Retrieve Test Result"</string>
-    <!-- YTXT: Body for Submission Consent call test result body  -->
-    <string name="submission_consent_call_test_result_body">"In the next step, scan the QR code on your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Only scan your own test."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
