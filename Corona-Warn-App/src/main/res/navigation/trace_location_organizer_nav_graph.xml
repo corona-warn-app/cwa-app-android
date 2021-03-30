@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationOrganizerCategoriesFragment"
             app:destination="@id/traceLocationOrganizerCategoriesFragment" />
+        <action
+            android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationCreateFragment"
+            app:destination="@id/traceLocationCreateFragment" />
     </fragment>
 
 </navigation>
