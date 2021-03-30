@@ -1008,8 +1008,12 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Cancel"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"Position the QR code in the frame."</string>
+    <string name="qr_code_scan_title">"QR-Code Scan"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body">"Position the QR code in the frame."</string>
+
+    <!-- Old Scan screen names below (should be overwritten by translation) -->
+    <string name="submission_qr_code_scan_title">"QR-Code Scan"</string>
     <string name="submission_qr_code_scan_body">"Position the QR code in the frame."</string>
 
     <!-- QR Code Consent Screen -->
@@ -1019,8 +1023,6 @@
     <string name="submission_consent_main_headline_body">"Your consent is needed before you can retrieve your test result and warn others."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Retrieve Test Result"</string>
-    <!-- YTXT: Body for Submission Consent call test result body  -->
-    <string name="submission_consent_call_test_result_body">"In the next step, scan the QR code on your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Only scan your own test."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
@@ -1029,6 +1031,8 @@
     <string name="submission_consent_help_by_warning_others_headline">"Please help others you have encountered by warning them!"</string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body">"If you have been diagnosed with coronavirus, you can warn others through the app. The warning feature works in several countries. The following countries are currently participating:"</string>
+    <!-- YTXT: Body for consent help by warning others - info about events -->
+    <string name="submission_consent_help_by_warning_others_body_event">"Es werden auch Ihre Mitmenschen gewarnt, die zeitgleich mit Ihnen an denselben Events oder Orten eingecheckt waren."</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Detailed Information on Data Processing and Your Consent"</string>
     <!-- YTXT: Body for consent main section first point  -->
@@ -1039,6 +1043,8 @@
     <string name="submission_consent_main_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"You must be at least 16 years old to grant your consent."</string>
+    <!-- YTXT: Body for consent main section final id consent  -->
+    <string name="submission_consent_main_id_consent">"Erteilen Sie im nächsten Schritt Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs."</string>
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"A person is holding a smartphone. A QR code on a test symbolizes the code to be scanned."</string>
 
@@ -1352,6 +1358,8 @@
     <string name="submission_status_card_body_negative">"You have been diagnosed negative for SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"If you have tested positive for coronavirus, you can warn others."</string>
+    <!-- YTXT: Button text for submission status fetch ready -->
+    <string name="submission_status_card_retrieve_test_result">"Testergebnis abrufen"</string>
     <!-- YTXT: Body text for submission status fetch failed -->
     <string name="submission_status_card_body_failed">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the test. You can then add another."</string>
     <!-- XBUT: submission status card unregistered button -->
