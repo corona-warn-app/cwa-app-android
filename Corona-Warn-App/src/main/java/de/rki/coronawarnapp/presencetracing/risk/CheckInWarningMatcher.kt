@@ -77,7 +77,7 @@ class CheckInWarningMatcher @Inject constructor(
                             }
                         }
                     } catch (e: Throwable) {
-                        Timber.e("Failed to process packages $packageChunk")
+                        Timber.e(e, "Failed to process packages $packageChunk")
                         null
                     }
                 }

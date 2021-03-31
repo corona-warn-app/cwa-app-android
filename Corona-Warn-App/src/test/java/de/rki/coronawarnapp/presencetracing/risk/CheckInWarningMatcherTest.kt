@@ -32,6 +32,8 @@ class CheckInWarningMatcherTest : BaseTest() {
         MockKAnnotations.init(this)
         coEvery { presenceTracingRiskRepository.replaceAllMatches(any()) } just Runs
         coEvery { presenceTracingRiskRepository.deleteAllMatches() } just Runs
+
+        coEvery { traceWarningRepository.markPackageProcessed(any()) } just Runs
     }
 
     @Test
@@ -78,7 +80,10 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 1) { presenceTracingRiskRepository.replaceAllMatches(any()) }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.replaceAllMatches(any())
+                traceWarningRepository.markPackageProcessed(warningPackage.packageId)
+            }
             coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
@@ -127,7 +132,10 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 1) { presenceTracingRiskRepository.replaceAllMatches(emptyList()) }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.replaceAllMatches(emptyList())
+                traceWarningRepository.markPackageProcessed(warningPackage.packageId)
+            }
             coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
@@ -162,7 +170,10 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 1) { presenceTracingRiskRepository.replaceAllMatches(emptyList()) }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.replaceAllMatches(emptyList())
+                traceWarningRepository.markPackageProcessed(warningPackage.packageId)
+            }
             coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
@@ -199,7 +210,10 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 0) { presenceTracingRiskRepository.replaceAllMatches(any()) }
+            coVerify(exactly = 0) {
+                presenceTracingRiskRepository.replaceAllMatches(any())
+                traceWarningRepository.markPackageProcessed(any())
+            }
             coVerify(exactly = 1) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
