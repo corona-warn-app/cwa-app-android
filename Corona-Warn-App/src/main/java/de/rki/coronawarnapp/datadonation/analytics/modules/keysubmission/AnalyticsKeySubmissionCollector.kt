@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
-import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
@@ -35,7 +33,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         analyticsKeySubmissionStorage.testRegisteredAt.update { testRegisteredAt.millis }
 
         val lastRiskResult = riskLevelStorage
-            .latestAndLastSuccessful
+            .latestAndLastSuccessfulEwRiskLevelResult
             .first()
             .tryLatestResultsWithDefaults()
             .lastCalculated

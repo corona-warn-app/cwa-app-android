@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -31,7 +31,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @MockK lateinit var analyticsKeySubmissionStorage: AnalyticsKeySubmissionStorage
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
-    @MockK lateinit var riskLevelResult: RiskLevelResult
+    @MockK lateinit var ewRiskLevelResult: EwRiskLevelResult
 
     private val now = Instant.now()
 
@@ -44,16 +44,16 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @Test
     fun `save test registered`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        every { riskLevelResult.riskState } returns RiskState.INCREASED_RISK
+        every { ewRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
         coEvery {
-            riskLevelStorage.latestAndLastSuccessful
-        } returns flowOf(listOf(riskLevelResult))
+            riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult
+        } returns flowOf(listOf(ewRiskLevelResult))
         every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp } returns now.minus(
             Hours.hours(2).toStandardDuration()
         )
         val testRegisteredAt = mockFlowPreference(now.millis)
         coEvery { analyticsKeySubmissionStorage.testRegisteredAt } returns testRegisteredAt
-        every { riskLevelResult.wasSuccessfullyCalculated } returns true
+        every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
         val riskLevelAtTestRegistration = mockFlowPreference(-1)
         every { analyticsKeySubmissionStorage.riskLevelAtTestRegistration } returns riskLevelAtTestRegistration
         val hoursSinceHighRiskWarningAtTestRegistration = mockFlowPreference(-1)

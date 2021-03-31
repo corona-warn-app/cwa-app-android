@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.risk.storage
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
-import de.rki.coronawarnapp.risk.RiskLevelTaskResult
-import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao
@@ -29,7 +29,7 @@ object RiskStorageTestData {
         )
     )
 
-    val testAggregatedRiskResult = AggregatedRiskResult(
+    val testAggregatedRiskResult = EwAggregatedRiskResult(
         totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         totalMinimumDistinctEncountersWithLowRisk = 1,
         totalMinimumDistinctEncountersWithHighRisk = 2,
@@ -39,9 +39,9 @@ object RiskStorageTestData {
         numberOfDaysWithHighRisk = 6
     )
 
-    val testRisklevelResult = RiskLevelTaskResult(
+    val testRisklevelResult = EwRiskLevelTaskResult(
         calculatedAt = Instant.ofEpochMilli(9999L),
-        aggregatedRiskResult = testAggregatedRiskResult,
+        ewAggregatedRiskResult = testAggregatedRiskResult,
         exposureWindows = null
     )
 
@@ -75,7 +75,7 @@ object RiskStorageTestData {
         }.build().let { setScanInstances(listOf(it)) }
     }.build()
 
-    val testAggregatedRiskPerDateResult = AggregatedRiskPerDateResult(
+    val testAggregatedRiskPerDateResult = ExposureWindowDayRisk(
         dateMillisSinceEpoch = 9999L,
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,
@@ -90,8 +90,8 @@ object RiskStorageTestData {
     )
 
     val testRisklevelResultWithAggregatedRiskPerDateResult = testRisklevelResult.copy(
-        aggregatedRiskResult = testAggregatedRiskResult.copy(
-            aggregatedRiskPerDateResults = listOf(testAggregatedRiskPerDateResult)
+        ewAggregatedRiskResult = testAggregatedRiskResult.copy(
+            exposureWindowDayRisks = listOf(testAggregatedRiskPerDateResult)
         )
     )
 }

@@ -1,0 +1,45 @@
+package de.rki.coronawarnapp.presencetracing.risk
+
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
+import org.joda.time.Instant
+import org.joda.time.LocalDate
+
+data class PtRiskLevelResult(
+    val calculatedAt: Instant,
+    val riskState: RiskState,
+    val failureReason: EwRiskLevelResult.FailureReason? =  null,
+    // added from db
+    val traceLocationCheckInRiskStates: List<TraceLocationCheckInRisk>? = null,
+    val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null
+) {
+
+    val wasSuccessfullyCalculated: Boolean
+        get() = riskState != RiskState.CALCULATION_FAILED
+
+    val numberOfDaysWithHighRisk: Int
+        get() = presenceTracingDayRisk?.count { it.riskState == RiskState.INCREASED_RISK }?: 0
+
+    val numberOfDaysWithLowRisk: Int
+        get() = presenceTracingDayRisk?.count { it.riskState == RiskState.LOW_RISK }?: 0
+
+    val mostRecentDateWithHighRisk: LocalDate?
+        get() = presenceTracingDayRisk
+            ?.filter { it.riskState == RiskState.INCREASED_RISK }
+            ?.maxByOrNull { it.localDateUtc }
+            ?.localDateUtc
+
+    val mostRecentDateWithLowRisk: LocalDate?
+        get() = presenceTracingDayRisk
+            ?.filter { it.riskState == RiskState.LOW_RISK }
+            ?.maxByOrNull { it.localDateUtc }
+            ?.localDateUtc
+
+    val daysWithEncounters: Int
+        get() = when (riskState) {
+            RiskState.INCREASED_RISK -> numberOfDaysWithHighRisk
+            RiskState.LOW_RISK -> numberOfDaysWithLowRisk
+            else -> 0
+        }
+}

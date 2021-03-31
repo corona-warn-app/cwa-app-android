@@ -1,19 +1,19 @@
 package de.rki.coronawarnapp.risk.storage.internal.riskresults
 
-import de.rki.coronawarnapp.risk.RiskLevelResult
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import java.util.UUID
 
-fun RiskLevelResult.toPersistedRiskResult(
+fun EwRiskLevelResult.toPersistedRiskResult(
     id: String = UUID.randomUUID().toString()
 ) = PersistedRiskLevelResultDao(
     id = id,
     calculatedAt = calculatedAt,
-    aggregatedRiskResult = aggregatedRiskResult?.toPersistedAggregatedRiskResult(),
+    aggregatedRiskResult = ewAggregatedRiskResult?.toPersistedAggregatedRiskResult(),
     failureReason = failureReason
 )
 
-fun AggregatedRiskResult.toPersistedAggregatedRiskResult() = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
+fun EwAggregatedRiskResult.toPersistedAggregatedRiskResult() = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
     totalRiskLevel = totalRiskLevel,
     totalMinimumDistinctEncountersWithLowRisk = totalMinimumDistinctEncountersWithLowRisk,
     totalMinimumDistinctEncountersWithHighRisk = totalMinimumDistinctEncountersWithHighRisk,

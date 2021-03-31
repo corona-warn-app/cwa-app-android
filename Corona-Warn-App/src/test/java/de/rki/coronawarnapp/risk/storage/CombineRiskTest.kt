@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.risk.storage
 
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
+import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
 import io.kotest.matchers.shouldBe
 import org.joda.time.LocalDate
@@ -25,25 +25,25 @@ class CombineRiskTest {
             localDateUtc = LocalDate(2021, 3, 22),
             riskState = RiskState.CALCULATION_FAILED
         )
-        val ewRisk = AggregatedRiskPerDateResult(
+        val ewRisk = ExposureWindowDayRisk(
             dateMillisSinceEpoch = Instant.parse("2021-03-22T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.HIGH,
             0,
             0
         )
-        val ewRisk2 = AggregatedRiskPerDateResult(
+        val ewRisk2 = ExposureWindowDayRisk(
             dateMillisSinceEpoch = Instant.parse("2021-03-19T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.LOW,
             0,
             0
         )
-        val ewRisk3 = AggregatedRiskPerDateResult(
+        val ewRisk3 = ExposureWindowDayRisk(
             dateMillisSinceEpoch = Instant.parse("2021-03-20T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.UNSPECIFIED,
             0,
             0
         )
-        val ewRisk4 = AggregatedRiskPerDateResult(
+        val ewRisk4 = ExposureWindowDayRisk(
             dateMillisSinceEpoch = Instant.parse("2021-03-15T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.UNSPECIFIED,
             0,
@@ -51,8 +51,8 @@ class CombineRiskTest {
         )
 
         val ptRiskList: List<PresenceTracingDayRisk> = listOf(ptRisk, ptRisk2, ptRisk3)
-        val ewRiskList: List<AggregatedRiskPerDateResult> = listOf(ewRisk, ewRisk2, ewRisk3, ewRisk4)
-        val result = combineRisk(ptRiskList, ewRiskList)
+        val exposureWindowDayRiskList: List<ExposureWindowDayRisk> = listOf(ewRisk, ewRisk2, ewRisk3, ewRisk4)
+        val result = combineRisk(ptRiskList, exposureWindowDayRiskList)
         result.size shouldBe 5
         result.find {
             it.localDate == LocalDate(2021, 3, 15)

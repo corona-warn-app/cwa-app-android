@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.contactdiary.retention
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
-import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
+import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
@@ -124,10 +124,10 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     @Test
     fun `test risk per date results`() = runBlockingTest {
         val instance = createInstance()
-        val list: List<AggregatedRiskPerDateResult> = testDates.map { createAggregatedRiskPerDateResult(Instant.parse(it)) }
+        val list: List<ExposureWindowDayRisk> = testDates.map { createAggregatedRiskPerDateResult(Instant.parse(it)) }
         val filteredList = list.filter { instance.isOutOfRetention(it.localDateUtc) }
 
-        every { riskLevelStorage.aggregatedRiskPerDateResults } returns flowOf(list)
+        every { riskLevelStorage.ewDayRiskStates } returns flowOf(list)
         coEvery { riskLevelStorage.deleteAggregatedRiskPerDateResults(any()) } just runs
 
         filteredList.size shouldBe 1
@@ -135,7 +135,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         coVerify { riskLevelStorage.deleteAggregatedRiskPerDateResults(filteredList) }
     }
 
-    private fun createAggregatedRiskPerDateResult(date: Instant) = AggregatedRiskPerDateResult(
+    private fun createAggregatedRiskPerDateResult(date: Instant) = ExposureWindowDayRisk(
         dateMillisSinceEpoch = date.millis,
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,

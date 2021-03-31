@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
-import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
+import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
@@ -50,7 +50,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val locationVisitsFlow = contactDiaryRepository.locationVisits
     private val personEncountersFlow = contactDiaryRepository.personEncounters
 
-    private val riskLevelPerDateFlow = riskLevelStorage.aggregatedRiskPerDateResults
+    private val riskLevelPerDateFlow = riskLevelStorage.ewDayRiskStates
 
     val listItems = combine(
         flowOf(dates),
@@ -77,7 +77,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         dateList: List<LocalDate>,
         visits: List<ContactDiaryLocationVisit>,
         encounters: List<ContactDiaryPersonEncounter>,
-        riskLevelPerDateList: List<AggregatedRiskPerDateResult>
+        riskLevelPerDateList: List<ExposureWindowDayRisk>
     ): List<DiaryOverviewItem> {
         Timber.v(
             "createListItemList(dateList=%s, visits=%s, encounters=%s, riskLevelPerDateList=%s",
@@ -95,7 +95,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         }
     }
 
-    private fun AggregatedRiskPerDateResult.toRisk(locationOrPerson: Boolean): DayOverviewItem.Risk {
+    private fun ExposureWindowDayRisk.toRisk(locationOrPerson: Boolean): DayOverviewItem.Risk {
         @StringRes val title: Int
         @StringRes var body: Int = R.string.contact_diary_risk_body
         @DrawableRes val drawableId: Int

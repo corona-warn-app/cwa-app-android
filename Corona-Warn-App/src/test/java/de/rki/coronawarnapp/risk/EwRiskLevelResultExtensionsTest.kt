@@ -1,24 +1,22 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
-import io.kotest.matchers.longs.shouldBeInRange
-import io.kotest.matchers.shouldBe
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import io.mockk.mockk
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class RiskLevelResultExtensionsTest : BaseTest() {
+class EwRiskLevelResultExtensionsTest : BaseTest() {
 
     private fun createRiskLevelResult(
         hasResult: Boolean,
         calculatedAt: Instant
-    ): RiskLevelResult = object : RiskLevelResult {
+    ): EwRiskLevelResult = object : EwRiskLevelResult {
         override val calculatedAt: Instant = calculatedAt
-        override val aggregatedRiskResult: AggregatedRiskResult? = if (hasResult) mockk() else null
-        override val failureReason: RiskLevelResult.FailureReason?
-            get() = if (!hasResult) RiskLevelResult.FailureReason.UNKNOWN else null
+        override val ewAggregatedRiskResult: EwAggregatedRiskResult? = if (hasResult) mockk() else null
+        override val failureReason: EwRiskLevelResult.FailureReason?
+            get() = if (!hasResult) EwRiskLevelResult.FailureReason.UNKNOWN else null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
@@ -26,7 +24,7 @@ class RiskLevelResultExtensionsTest : BaseTest() {
 
     @Test
     fun `getLatestAndLastSuccessful on empty results`() {
-        val emptyResults = emptyList<RiskLevelResult>()
+        val emptyResults = emptyList<EwRiskLevelResult>()
 
         emptyResults.tryLatestResultsWithDefaults().apply {
             lastCalculated.apply {

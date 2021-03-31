@@ -2,12 +2,10 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata
 
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,13 +20,13 @@ class ExposureRiskMetadataDonor @Inject constructor(
         val previousMetadata = analyticsSettings.previousExposureRiskMetadata.value
 
         val lastRiskResult = riskLevelStorage
-            .latestAndLastSuccessful
+            .latestAndLastSuccessfulEwRiskLevelResult
             .first()
             .tryLatestResultsWithDefaults()
             .lastCalculated
 
         val riskLevelForMetadata = lastRiskResult.toMetadataRiskLevel()
-        val mostRecentDateAtRiskLevel = lastRiskResult.lastRiskEncounterAt?.seconds ?: -1
+        val mostRecentDateAtRiskLevel = lastRiskResult.lastRiskEncounterAt.seconds ?: -1
 
         val newMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(riskLevelForMetadata)
@@ -75,7 +73,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
     }
 }
 
-private fun RiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
+private fun EwRiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
     when (riskState) {
         RiskState.LOW_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
         RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH

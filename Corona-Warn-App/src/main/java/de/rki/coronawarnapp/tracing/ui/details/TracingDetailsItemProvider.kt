@@ -36,7 +36,7 @@ class TracingDetailsItemProvider @Inject constructor(
 
     val state: Flow<List<DetailsItem>> = combine(
         tracingStatus.generalStatus,
-        riskLevelStorage.latestAndLastSuccessful,
+        riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult,
         surveys.availableSurveys
     ) { status,
         riskLevelResults,
@@ -47,7 +47,7 @@ class TracingDetailsItemProvider @Inject constructor(
         mutableListOf<DetailsItem>().apply {
             if (status != Status.TRACING_INACTIVE &&
                 latestCalc.riskState == RiskState.LOW_RISK &&
-                latestCalc.matchedKeyCount > 0
+                latestCalc.ewRiskLevelResult.matchedKeyCount > 0
             ) {
                 add(AdditionalInfoLowRiskBox.Item)
             }
@@ -81,7 +81,7 @@ class TracingDetailsItemProvider @Inject constructor(
                 }
                 latestCalc.riskState == RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
                     riskState = latestCalc.riskState,
-                    matchedKeyCount = latestCalc.matchedKeyCount
+                    matchedKeyCount = latestCalc.ewRiskLevelResult.matchedKeyCount
                 )
                 latestCalc.riskState == RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
                     riskState = latestCalc.riskState,

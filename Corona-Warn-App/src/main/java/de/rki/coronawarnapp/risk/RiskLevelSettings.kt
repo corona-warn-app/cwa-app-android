@@ -41,11 +41,20 @@ class RiskLevelSettings @Inject constructor(
             putLong(PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP, value?.millis ?: 0L)
         }
 
+    var lastChangeCheckedRiskLevelCombinedTimestamp: Instant?
+        get() = prefs.getLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED, 0L).let {
+            if (it != 0L) Instant.ofEpochMilli(it) else null
+        }
+        set(value) = prefs.edit {
+            putLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED, value?.millis ?: 0L)
+        }
+
     companion object {
         private const val NAME_SHARED_PREFS = "risklevel_localdata"
         private const val PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID = "risklevel.config.identifier.last"
         private const val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP = "PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID"
         private const val PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP =
             "PKEY_RISKLEVEL_CALC_LAST_CHANGE_TO_HIGH_RISKLEVEL"
+        private const val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED = "PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED"
     }
 }

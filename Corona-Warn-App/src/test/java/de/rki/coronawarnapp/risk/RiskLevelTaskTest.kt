@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.task.Task
@@ -113,9 +113,9 @@ class RiskLevelTaskTest : BaseTest() {
         every { configData.isDeviceTimeCorrect } returns false
         every { configData.localOffset } returns Duration.standardHours(5)
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            failureReason = RiskLevelResult.FailureReason.INCORRECT_DEVICE_TIME
+            failureReason = EwRiskLevelResult.FailureReason.INCORRECT_DEVICE_TIME
         )
     }
 
@@ -129,9 +129,9 @@ class RiskLevelTaskTest : BaseTest() {
             }
         }
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            failureReason = RiskLevelResult.FailureReason.NO_INTERNET
+            failureReason = EwRiskLevelResult.FailureReason.NO_INTERNET
         )
     }
 
@@ -139,9 +139,9 @@ class RiskLevelTaskTest : BaseTest() {
     fun `risk calculation is skipped if tracing is disabled`() = runBlockingTest {
         every { enfClient.isTracingEnabled } returns flowOf(false)
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            failureReason = RiskLevelResult.FailureReason.TRACING_OFF
+            failureReason = EwRiskLevelResult.FailureReason.TRACING_OFF
         )
     }
 
@@ -149,9 +149,9 @@ class RiskLevelTaskTest : BaseTest() {
     fun `risk calculation is skipped if results are not existing while in background mode`() = runBlockingTest {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf()
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            failureReason = RiskLevelResult.FailureReason.OUTDATED_RESULTS
+            failureReason = EwRiskLevelResult.FailureReason.OUTDATED_RESULTS
         )
     }
 
@@ -159,9 +159,9 @@ class RiskLevelTaskTest : BaseTest() {
     fun `risk calculation is skipped if results are not existing while no background mode`() = runBlockingTest {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf()
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            failureReason = RiskLevelResult.FailureReason.OUTDATED_RESULTS_MANUAL
+            failureReason = EwRiskLevelResult.FailureReason.OUTDATED_RESULTS_MANUAL
         )
     }
 
@@ -178,9 +178,9 @@ class RiskLevelTaskTest : BaseTest() {
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         every { timeStamper.nowUTC } returns now
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
-            failureReason = RiskLevelResult.FailureReason.OUTDATED_RESULTS
+            failureReason = EwRiskLevelResult.FailureReason.OUTDATED_RESULTS
         )
     }
 
@@ -197,9 +197,9 @@ class RiskLevelTaskTest : BaseTest() {
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
         every { timeStamper.nowUTC } returns now
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
-            failureReason = RiskLevelResult.FailureReason.OUTDATED_RESULTS_MANUAL
+            failureReason = EwRiskLevelResult.FailureReason.OUTDATED_RESULTS_MANUAL
         )
     }
 
@@ -218,9 +218,9 @@ class RiskLevelTaskTest : BaseTest() {
         every { submissionSettings.isAllowedToSubmitKeys } returns true
         every { submissionSettings.hasViewedTestResult.value } returns true
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
-            failureReason = RiskLevelResult.FailureReason.POSITIVE_TEST_RESULT
+            failureReason = EwRiskLevelResult.FailureReason.POSITIVE_TEST_RESULT
         )
     }
 
@@ -232,7 +232,7 @@ class RiskLevelTaskTest : BaseTest() {
             }
         }
         val now = Instant.parse("2020-12-28")
-        val aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+        val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
             every { isIncreasedRisk() } returns true
         }
 
@@ -245,10 +245,10 @@ class RiskLevelTaskTest : BaseTest() {
         every { submissionSettings.isAllowedToSubmitKeys } returns true
         every { submissionSettings.hasViewedTestResult.value } returns false
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
             failureReason = null,
-            aggregatedRiskResult = aggregatedRiskResult,
+            ewAggregatedRiskResult = aggregatedRiskResult,
             listOf()
         )
     }
@@ -261,7 +261,7 @@ class RiskLevelTaskTest : BaseTest() {
             }
         }
         val now = Instant.parse("2020-12-28")
-        val aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+        val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
             every { isIncreasedRisk() } returns true
         }
 
@@ -272,10 +272,10 @@ class RiskLevelTaskTest : BaseTest() {
         every { timeStamper.nowUTC } returns now
         coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
             failureReason = null,
-            aggregatedRiskResult = aggregatedRiskResult,
+            ewAggregatedRiskResult = aggregatedRiskResult,
             listOf()
         )
     }

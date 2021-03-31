@@ -5,9 +5,9 @@ import android.content.res.Resources
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
+import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.ProtoRiskLevel
-import de.rki.coronawarnapp.risk.RiskLevelTaskResult
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
@@ -36,7 +36,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
 
     @MockK(relaxed = true) lateinit var context: Context
     @MockK(relaxed = true) lateinit var resources: Resources
-    @MockK(relaxed = true) lateinit var aggregatedRiskResult: AggregatedRiskResult
+    @MockK(relaxed = true) lateinit var ewAggregatedRiskResult: EwAggregatedRiskResult
 
     @MockK lateinit var tracingStatus: GeneralTracingStatus
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
@@ -64,25 +64,25 @@ class TracingDetailsItemProviderTest : BaseTest() {
         availableSurveys: List<Surveys.Type> = emptyList()
     ) {
         every { tracingStatus.generalStatus } returns flowOf(status)
-        every { aggregatedRiskResult.totalRiskLevel } returns riskLevel
+        every { ewAggregatedRiskResult.totalRiskLevel } returns riskLevel
         every { installTimeProvider.daysSinceInstallation } returns daysSinceInstallation
         every { surveys.availableSurveys } returns flowOf(availableSurveys)
 
         if (riskLevel == ProtoRiskLevel.LOW) {
-            every { aggregatedRiskResult.isLowRisk() } returns true
+            every { ewAggregatedRiskResult.isLowRisk() } returns true
         } else if (riskLevel == ProtoRiskLevel.HIGH) {
-            every { aggregatedRiskResult.isIncreasedRisk() } returns true
+            every { ewAggregatedRiskResult.isIncreasedRisk() } returns true
         }
 
         val exposureWindow: ExposureWindow = mockk()
 
-        val riskLevelResult = RiskLevelTaskResult(
+        val riskLevelResult = EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            aggregatedRiskResult = aggregatedRiskResult,
+            ewAggregatedRiskResult = ewAggregatedRiskResult,
             exposureWindows = listOf(exposureWindow)
         )
         every { riskLevelResult.matchedKeyCount } returns matchedKeyCount
-        every { riskLevelStorage.latestAndLastSuccessful } returns flowOf(listOf(riskLevelResult))
+        every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(listOf(riskLevelResult))
     }
 
     @Test
