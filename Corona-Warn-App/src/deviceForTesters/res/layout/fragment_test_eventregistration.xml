@@ -82,12 +82,18 @@
                 android:text="Run matcher" />
 
             <TextView
-                android:id="@+id/resultText"
+                android:id="@+id/matchingRuntimeText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="Matching result"
-                android:visibility="gone" />
+                android:text="Matching runtime:" />
+
+            <TextView
+                android:id="@+id/matchingResultText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Matching result:" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/calculateRisk"
@@ -95,6 +101,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="Calculate risk" />
+
+            <TextView
+                android:id="@+id/riskCalculationRuntimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Risk calculation runtime:" />
+
+            <TextView
+                android:id="@+id/riskCalculationResultText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Risk calculation result:" />
 
         </LinearLayout>
 
