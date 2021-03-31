@@ -7,8 +7,6 @@ import java.security.SecureRandom
 import javax.inject.Inject
 import javax.inject.Singleton
 
-const val TRACE_LOCATION_VERSION = 1
-
 @Singleton
 class TraceLocationCreator @Inject constructor(
     private val repository: TraceLocationRepository,
