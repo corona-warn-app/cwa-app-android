@@ -4,6 +4,6 @@ import org.joda.time.LocalDate
 
 interface TraceLocationCheckInRisk {
     val checkInId: Long
-    val localDate: LocalDate
+    val localDateUtc: LocalDate
     val riskState: RiskState
 }

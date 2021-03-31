@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.eventregistration.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.GeneralNotifications
@@ -63,6 +64,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var submissionSettings: SubmissionSettings
     @Inject lateinit var onboardingSettings: OnboardingSettings
     @Inject lateinit var autoCheckOut: AutoCheckOut
+    @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -110,6 +112,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         riskLevelChangeDetector.launch()
         autoSubmission.setup()
         autoCheckOut.setupMonitor()
+        traceLocationDbCleanupScheduler.scheduleDaily()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

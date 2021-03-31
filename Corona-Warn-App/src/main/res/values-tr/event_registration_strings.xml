@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+             Event Registration
+    ###################################### -->
+
+    <!-- XHED: My check-ins: screen title -->
+    <string name="trace_location_checkins_title">"Check-In’lerim"</string>
+    <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_label">"Henüz hiçbir giriş yok"</string>
+    <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description">"Bir etkinliğe ya da yere check-in yapmak için QR kod taradığınızda otomatik olarak bir giriş oluşturulur."</string>
+    <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
+    <string name="trace_location_checkins_empty_illustration_accessibility">"Arka planda QR kod sembolü bulunan bir bina."</string>
+
+    <!-- XBUT: My check-ins: Scan QR Code button -->
+    <string name="trace_location_checkins_action_scan_qrcode">"QR Kodu Tara"</string>
+
+    <!-- XBUT: My check-ins: menu entry to remove all -->
+    <string name="trace_location_checkins_menu_remove_all">"Tümünü Kaldır"</string>
+    <!-- XBUT: My check-ins: menu entry to show information -->
+    <string name="trace_location_checkins_menu_information">"Bilgi"</string>
+
+    <!-- XHED: My checkin-ins: card title if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_title">"Kamera Erişimine İzin Ver"</string>
+    <!-- XTXT: My checkin-ins: card description if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_description">"Akıllı telefonunuzun kamerasını kullanarak QR kodları taramak için uygulamanın cihaz ayarlarında kamera erişimine izin vermeniz gerekir."</string>
+    <!-- XBUT: My checkin-ins: card description if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_action">"Ayarları Aç"</string>
+
+    <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
+    <string name="trace_location_checkins_remove_all_title">"Tüm girişleri gerçekten kaldırmak istiyor musunuz?"</string>
+    <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
+    <string name="trace_location_checkins_remove_single_title">"Bu girişi gerçekten kaldırmak istiyor musunuz?"</string>
+    <!-- XTXT: My checkin-ins: Confirmation dialog description when removing all/single items -->
+    <string name="trace_location_checkins_remove_message">"Bundan sonra bu yere veya etkinliğe aynı anda check in yapan kişilere uyarı gönderemeyecek ya da bu kişilerden uyarı alamayacaksınız."</string>
+
+    <!-- XBUT: My check-ins card: Menu, remove item -->
+    <string name="trace_location_checkins_menu_remove_item">"Kaldır"</string>
+    <!-- XBUT: My check-ins card: Active event, checkout button -->
+    <string name="trace_location_checkins_card_action_checkout">"Şimdi Check Out Yap"</string>
+    <!-- XTXT: My check-ins card: Active event, duration label in highlight view -->
+    <string name="trace_location_checkins_card_highlight_duration_label">"Süre"</string>
+    <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
+    <string name="trace_location_checkins_card_automatic_checkout_info">"%1$s - %2$s sonra otomatik olarak check out yap."</string>
+
+    <!-- XHED: Title of the category list screen of the event creation  -->
+    <string name="tracelocation_organizer_category_title">"QR Kod Oluştur"</string>
+
+    <!-- XHED: Title of location types in the category list screen of the event creation -->
+    <string name="tracelocation_organizer_category_type_location_header">"Yer"</string>
+
+    <!-- XTXT: Title for the retail category  -->
+    <string name="tracelocation_organizer_category_retail_title">"Mağaza"</string>
+    <!-- XTXT: Subtitle for the retail category  -->
+    <string name="tracelocation_organizer_category_retail_subtitle">"Dükkan, satış katı"</string>
+
+    <!-- XTXT: Title for the food service category  -->
+    <string name="tracelocation_organizer_category_food_service_title">"Konaklama"</string>
+    <!-- XTXT: Subtitle for the food service category  -->
+    <string name="tracelocation_organizer_category_food_service_subtitle">"Kafe, bar, restoran, otel"</string>
+
+    <!-- XTXT: Title for the craft category  -->
+    <string name="tracelocation_organizer_category_craft_title">"Esnaf"</string>
+    <!-- XTXT: Subtitle for the craft category  -->
+    <string name="tracelocation_organizer_category_craft_subtitle">"Kuaför, marangoz"</string>
+
+    <!-- XTXT: Title for the workplace category  -->
+    <string name="tracelocation_organizer_category_workplace_title">"İşyeri"</string>
+    <!-- XTXT: Subtitle for the workplace category  -->
+    <string name="tracelocation_organizer_category_workplace_subtitle">"Ofis, konferans odası, kafeterya"</string>
+
+    <!-- XTXT: Title for the educational institution category  -->
+    <string name="tracelocation_organizer_category_educational_institution_title">"Eğitim yeri"</string>
+    <!-- XTXT: Subtitle for the educational institution category  -->
+    <string name="tracelocation_organizer_category_educational_institution_subtitle">"Sınıf, amfi, kütüphane"</string>
+
+    <!-- XTXT: Title for the public building category  -->
+    <string name="tracelocation_organizer_category_public_building_title">"Kamu binası"</string>
+    <!-- XTXT: Subtitle for the public building category  -->
+    <string name="tracelocation_organizer_category_public_building_subtitle">"Belediye, müze"</string>
+
+    <!-- XTXT: Title for other location  -->
+    <string name="tracelocation_organizer_category_other_location_title">"Diğer yer"</string>
+
+    <!-- XHED: Title of event types in the category list screen of the event creation -->
+    <string name="tracelocation_organizer_category_type_event_header">"Etkinlik"</string>
+
+    <!-- XTXT: Title for the cultural event category  -->
+    <string name="tracelocation_organizer_category_cultural_event_title">"Kültürel etkinlik"</string>
+    <!-- XTXT: Subtitle for the cultural event category  -->
+    <string name="tracelocation_organizer_category_cultural_event_subtitle">"Konser, sanat sergisi"</string>
+
+    <!-- XTXT: Title for the club activity category  -->
+    <string name="tracelocation_organizer_category_club_activity_title">"Kulüp faaliyetleri"</string>
+    <!-- XTXT: Subtitle for the club activity category  -->
+    <string name="tracelocation_organizer_category_club_activity_subtitle">"Spor antrenmanı, genel toplantı"</string>
+
+    <!-- XTXT: Title for the private event category  -->
+    <string name="tracelocation_organizer_category_private_event_title">"Özel parti"</string>
+    <!-- XTXT: Subtitle for the private event category  -->
+    <string name="tracelocation_organizer_category_private_event_subtitle">"Doğum günü, aile toplantısı"</string>
+
+    <!-- XTXT: Title for the worship service category  -->
+    <string name="tracelocation_organizer_category_worship_service_title">"Dini tören"</string>
+
+    <!-- XTXT: Title for other event  -->
+    <string name="tracelocation_organizer_category_other_event_title">"Diğer etkinlik"</string>
+
+    <!-- XTXT: Title for event description  -->
+    <string name="tracelocation_organizer_add_event_description">"Tanım"</string>
+    <!-- XTXT: Title for event location  -->
+    <string name="tracelocation_organizer_add_event_location">"Yer"</string>
+    <!-- XTXT: Title for event length of stay  -->
+    <string name="tracelocation_organizer_add_event_length_of_stay">"Tipik Kalış"</string>
+    <!-- XTXT: Description for event length of stay  -->
+    <string name="tracelocation_organizer_add_event_length_of_stay_description">"Konukların genellikle ne kadar süreyle sizinle birlikte kaldığını belirtin."</string>
+    <!-- XTXT: Title for event start time  -->
+    <string name="tracelocation_organizer_add_event_begin">"Başlangıç"</string>
+    <!-- XTXT: Title for event end time  -->
+    <string name="tracelocation_organizer_add_event_end">"Bitiş"</string>
+    <!-- XTXT: Duration suffix -->
+    <string name="tracelocation_organizer_duration_suffix">"sa"</string>
+    <!-- XTXT: Save button text -->
+    <string name="tracelocation_organizer_save">"Kaydet"</string>
+
+    <!-- XMSG: generic error message body with status code -->
+    <string name="tracelocation_generic_qr_code_error_body_with_error_code">"QR kod oluşturulamadı. Lütfen daha sonra tekrar deneyin (hata kodu %d)."</string>
+    <!-- XMSG: generic web request error without status code -->
+    <string name="tracelocation_generic_qr_code_error_body">"QR kod oluşturulamadı. Lütfen daha sonra tekrar deneyin."</string>
+    <!-- XMSG: Dialog body for generic web request network error -->
+    <string name="tracelocation_generic_network_error_body">"İnternet bağlantınız kesilmiş olabilir. Lütfen internet bağlantınızın olduğundan emin olun."</string>
+    <!-- XHED: error message title -->
+    <string name="tracelocation_generic_error_title">"Hata"</string>
+
+    <!--    Trace Location Homescreen Card-->
+    <!-- XHED: Headline for trace location creation card -->
+    <string name="create_trace_location_card_headline">"Bir etkinlik mi\nplanlıyorsunuz?"</string>
+    <!-- XTXT: Subtitle for trace location creation card -->
+    <string name="create_trace_location_card_subtitle">"Bir etkinlik planlıyor ya da işletme mi çalıştırıyorsunuz? Konuklarınızın geldiklerinde check in yapabilmeleri için bir QR kod oluşturun."</string>
+    <!-- XTXT: Text for trace location creation card -->
+    <string name="create_trace_location_card_button">"QR Kod Oluştur"</string>
+
+    <!-- ####################################
+       Event Organiser Trace Locations List
+    ###################################### -->
+
+    <!-- XHED: Event organiser qr codes list: title -->
+    <string name="trace_location_organiser_list_title">"QR Kodlarım"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_new_button">"QR kod"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_codes_title">"Henüz hiçbir QR kod oluşturulmadı"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_codes_subtitle">"Bir yer ya da etkinlik için oluşturduğunuz tüm QR kodlar burada görüntülenir. Artık kullanmayı planlamadığınız QR kodları silebilirsiniz."</string>
+
+    <!-- XBUT: Event organiser qr codes list: menu: information button  -->
+    <string name="trace_location_organizer_list_menu_information_btn">"Bilgi"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
+    <string name="trace_location_organizer_list_menu_remove_all_btn">"Tümünü Kaldır"</string>
+
+    <!-- XHED:  Event organiser qr codes list: delete single popup title -->
+    <string name="trace_location_organiser_list_delete_single_popup_title">"QR kodu kaldırmak istiyor musunuz?"</string>
+    <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
+    <string name="trace_location_organiser_list_delete_single_popup_message">"Lütfen unutmayın; QR kodu kaldırırsanız artık check in yaparken bunu kullanamazsınız."</string>
+
+    <!-- XHED:  Event organiser qr codes list: delete all popup title -->
+    <string name="trace_location_organiser_list_delete_all_popup_title">"Tüm QR kodları gerçekten kaldırmak istiyor musunuz?"</string>
+    <!-- XTXT:  Event organiser qr codes list: delete all popup message -->
+    <string name="trace_location_organiser_list_delete_all_popup_message">"Lütfen unutmayın; bu QR kodları kaldırırsanız artık check in yaparken bunları kullanamazsınız."</string>
+    <!-- XBUT:  Event organiser qr codes list: delete all popup negative button -->
+    <string name="trace_location_organiser_list_delete_all_popup_negative_button">"İptal Et"</string>
+    <!-- XBUT:  Event organiser qr codes list: delete all popup positive button -->
+    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Kaldır"</string>
+
+    <!-- XTXT: Event organiser list item: duration-->
+    <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>
+    <!-- XBUT: Event organiser list item: checkin button -->
+    <string name="trace_location_organizer_list_item_action_checkin">"Check In"</string>
+
+    <!-- XBUT: Event organiser list item: menu: information button  -->
+    <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Çoğalt"</string>
+    <!-- XBUT: Event organiser list item: menu: show print button  -->
+    <string name="trace_location_organizer_list_item_menu_show_print_btn">"Basılı Versiyonu Görüntüle"</string>
+    <!-- XBUT: Event organiser list item: menu: clear button  -->
+    <string name="trace_location_organizer_list_item_menu_clear_btn">"Sil"</string>
+
+    <!--  Organizer Flow: Event Detail Screen-->
+    <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
+    <string name="trace_location_event_detail_qr_code_accessibility">"QR kod"</string>
+    <!-- XHED: Organizer Flow : Accessibility title for event-overview -->
+    <string name="trace_location_event_detail_title_accessibility">"Etkinlik Görünümü"</string>
+    !-- XBUT: Organizer Flow : Title for show print version button --&gt;
+    <string name="trace_location_event_detail_show_print_qr_code_button">"Basılı Versiyonu Görüntüle"</string>
+    <!-- XBUT: Organizer Flow : Title for save as template button -->
+    <string name="trace_location_event_detail_save_as_template_button">"Şablon olarak kullan"</string>
+
+</resources>

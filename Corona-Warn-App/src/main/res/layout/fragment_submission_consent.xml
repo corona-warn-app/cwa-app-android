@@ -73,6 +73,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:countryList="@{countries}"/>
 
+                <TextView
+                    android:id="@+id/submission_consent_hint"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:layout_constraintTop_toBottomOf="@id/countryList"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    android:text="@string/submission_consent_help_by_warning_others_body_event"
+                    style="@style/subtitle" />
+
                 <include layout="@layout/include_submission_consent_body"
                     android:id="@+id/include_submission_consent_body"
                     android:layout_width="0dp"
@@ -81,7 +92,7 @@
                     android:layout_marginHorizontal="@dimen/guideline_card"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/countryList"/>
+                    app:layout_constraintTop_toBottomOf="@id/submission_consent_hint"/>
 
                 <FrameLayout
                     android:id="@+id/divider"

@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
+import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.eventregistration.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -103,6 +105,14 @@ class MockProvider {
     // For Analytics one time worker
     @Provides
     fun analytics(): Analytics = mockk()
+
+    // For TraceLocation clean up periodic worker
+    @Provides
+    fun traceLocationCleanUpScheduler(): TraceLocationDbCleanUpScheduler = mockk()
+
+    // For TraceLocation clean up periodic worker
+    @Provides
+    fun traceLocationRepository(): TraceLocationRepository = mockk()
 
     @Provides
     fun taskController(): TaskController = mockk()

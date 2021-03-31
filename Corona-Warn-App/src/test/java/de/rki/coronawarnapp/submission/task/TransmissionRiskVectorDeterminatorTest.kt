@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NEGATIVE
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NO_INFORMATION
 import de.rki.coronawarnapp.submission.Symptoms.Indication.POSITIVE
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -108,5 +108,5 @@ class TransmissionRiskVectorDeterminatorTest {
     }
 
     private fun Instant.startMinusDays(days: Int): Symptoms.StartOf =
-        Symptoms.StartOf.Date(this.toLocalDate().minusDays(days))
+        Symptoms.StartOf.Date(this.toLocalDateUtc().minusDays(days))
 }

@@ -82,12 +82,18 @@
                 android:text="Run matcher" />
 
             <TextView
-                android:id="@+id/resultText"
+                android:id="@+id/matchingRuntimeText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="Matching result"
-                android:visibility="gone" />
+                android:text="Matching runtime:" />
+
+            <TextView
+                android:id="@+id/matchingResultText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Matching result:" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/calculateRisk"
@@ -95,6 +101,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="Calculate risk" />
+
+            <TextView
+                android:id="@+id/riskCalculationRuntimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Risk calculation runtime:" />
+
+            <TextView
+                android:id="@+id/riskCalculationResultText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Risk calculation result:" />
 
         </LinearLayout>
 
@@ -167,6 +187,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/create_event_button"
                 app:layout_constraintTop_toBottomOf="@id/show_qr_code_detail_fragment" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/show_organizer_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Show Organizer List"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/start_create_event_flow_button"
+                app:layout_constraintTop_toBottomOf="@id/start_create_event_flow_button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/generate_test_trace_locations"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Generate test trace locations"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/show_organizer_list"
+                app:layout_constraintTop_toBottomOf="@id/show_organizer_list" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
