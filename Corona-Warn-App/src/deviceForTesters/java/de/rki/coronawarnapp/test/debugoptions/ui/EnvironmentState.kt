@@ -8,8 +8,7 @@ data class EnvironmentState(
     val urlSubmission: String,
     val urlDownload: String,
     val urlVerification: String,
-    val urlDataDonation: String,
-    val urlCreateTraceLocation: String
+    val urlDataDonation: String
 ) {
     companion object {
         internal fun EnvironmentSetup.toEnvironmentState() = EnvironmentState(
@@ -18,8 +17,7 @@ data class EnvironmentState(
             urlSubmission = submissionCdnUrl,
             urlDownload = downloadCdnUrl,
             urlVerification = verificationCdnUrl,
-            urlDataDonation = dataDonationCdnUrl,
-            urlCreateTraceLocation = traceLocationCdnUrl
+            urlDataDonation = dataDonationCdnUrl
         )
     }
 }
