@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 
@@ -81,7 +81,7 @@ data class IncreasedRisk(
 
         return context.getString(
             stringRes,
-            lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
+            lastEncounterAt.toLocalDateUtc().toString(DateTimeFormat.mediumDate())
         )
     }
 }
@@ -149,7 +149,7 @@ data class LowRisk(
 
         return context.getString(
             stringRes,
-            lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
+            lastEncounterAt.toLocalDateUtc().toString(DateTimeFormat.mediumDate())
         )
     }
 
