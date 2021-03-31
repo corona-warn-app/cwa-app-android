@@ -6,7 +6,6 @@ import android.print.PrintManager
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.content.getSystemService
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.QrCodePosterFragmentBinding
