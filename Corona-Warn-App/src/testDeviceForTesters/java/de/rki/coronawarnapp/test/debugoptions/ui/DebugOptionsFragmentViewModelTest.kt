@@ -36,7 +36,6 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
         every { environmentSetup.downloadCdnUrl } returns "downloadUrl"
         every { environmentSetup.verificationCdnUrl } returns "verificationUrl"
         every { environmentSetup.dataDonationCdnUrl } returns "dataDonationUrl"
-        every { environmentSetup.traceLocationCdnUrl } returns "createTraceLocationUrl"
         every { environmentSetup.qrCodePosterTemplateCdnUrl } returns "qrCodePosterTemplateUrl"
 
         every { environmentSetup.currentEnvironment = any() } answers {

@@ -100,7 +100,10 @@
         android:id="@+id/contactDiaryInformationPrivacyFragment"
         android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
         android:label="InformationPrivacyFragment"
-        tools:layout="@layout/fragment_information_privacy" />
+        tools:layout="@layout/fragment_information_privacy">
+        <deepLink
+            app:uri="coronawarnapp://contactdiary/dataPrivacy"/>
+    </fragment>
     <fragment
         android:id="@+id/contactDiaryOverviewFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment"

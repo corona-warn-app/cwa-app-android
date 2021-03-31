@@ -9,8 +9,8 @@ data class EnvironmentState(
     val urlDownload: String,
     val urlVerification: String,
     val urlDataDonation: String,
-    val urlCreateTraceLocation: String,
     val urlQrCodePosterTemplate: String
+
 ) {
     companion object {
         internal fun EnvironmentSetup.toEnvironmentState() = EnvironmentState(
@@ -20,7 +20,6 @@ data class EnvironmentState(
             urlDownload = downloadCdnUrl,
             urlVerification = verificationCdnUrl,
             urlDataDonation = dataDonationCdnUrl,
-            urlCreateTraceLocation = traceLocationCdnUrl,
             urlQrCodePosterTemplate = qrCodePosterTemplateCdnUrl
         )
     }

@@ -18,7 +18,8 @@ fun ContactDiaryLocationVisitWrapper.toContactDiaryLocationVisit(): ContactDiary
         date = this.contactDiaryLocationVisitEntity.date,
         contactDiaryLocation = this.contactDiaryLocationEntity,
         duration = contactDiaryLocationVisitEntity.duration,
-        circumstances = contactDiaryLocationVisitEntity.circumstances
+        circumstances = contactDiaryLocationVisitEntity.circumstances,
+        checkInID = this.contactDiaryLocationVisitEntity.checkInID
     )
 
 fun List<ContactDiaryLocationVisitWrapper>.toContactDiaryLocationVisitSortedList(): List<ContactDiaryLocationVisit> =
