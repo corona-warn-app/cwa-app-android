@@ -103,13 +103,13 @@ open class ContactDiaryOverviewViewModelTest {
 
     private val traceLocationCheckInRiskLow = object : TraceLocationCheckInRisk {
         override val checkInId: Long = 147
-        override val localDate: LocalDate = date
+        override val localDateUtc: LocalDate = date
         override val riskState: RiskState = RiskState.LOW_RISK
     }
 
     private val traceLocationCheckInRiskHigh = object : TraceLocationCheckInRisk {
         override val checkInId: Long = 148
-        override val localDate: LocalDate = date
+        override val localDateUtc: LocalDate = date
         override val riskState: RiskState = RiskState.INCREASED_RISK
     }
 
