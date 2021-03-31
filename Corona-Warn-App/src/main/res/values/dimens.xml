@@ -31,6 +31,7 @@
     <!-- elevation -->
     <dimen name="elevation_strong">10dp</dimen>
     <dimen name="elevation_weak">4dp</dimen>
+    <dimen name="elevation_none">0dp</dimen>
 
     <!-- default spacing for guidelines -->
     <dimen name="guideline_card">12dp</dimen>
