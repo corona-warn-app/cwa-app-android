@@ -5,8 +5,8 @@ import androidx.work.ListenableWorker
 import androidx.work.Operation
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -44,7 +44,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var submissionService: SubmissionService
     @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
-    @MockK lateinit var notificationHelper: NotificationHelper
+    @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var appComponent: ApplicationComponent
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool

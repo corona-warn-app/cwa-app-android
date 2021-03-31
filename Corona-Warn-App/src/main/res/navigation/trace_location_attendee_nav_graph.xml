@@ -11,8 +11,13 @@
         tools:layout="@layout/fragment_confirm_check_in">
         <argument
             android:name="verifiedTraceLocation"
-            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation"
-            app:nullable="true" />
+            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation" />
+    </fragment>
+    <fragment
+        android:id="@+id/editCheckInFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.edit.EditCheckInFragment"
+        android:label="EditCheckInFragment"
+        tools:layout="@layout/fragment_edit_check_in">
         <argument
             android:name="editCheckInId"
             app:argType="long" />
@@ -40,6 +45,8 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
-
+        <action
+            android:id="@+id/action_checkInsFragment_to_editCheckInFragment"
+            app:destination="@id/editCheckInFragment" />
     </fragment>
 </navigation>

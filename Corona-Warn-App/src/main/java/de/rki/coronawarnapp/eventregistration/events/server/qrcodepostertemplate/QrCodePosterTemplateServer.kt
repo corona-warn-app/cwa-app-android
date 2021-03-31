@@ -52,7 +52,7 @@ class QrCodePosterTemplateServer @Inject constructor(
             QrCodePosterTemplate.QRCodePosterTemplateAndroid.parseFrom(exportBinary)
         } catch (exception: InvalidProtocolBufferException) {
             throw QrCodePosterTemplateInvalidResponseException(
-                message = "InvalidProtocolBufferException",
+                message = "QR Code poster template could not be parsed",
                 cause = exception
             )
         }

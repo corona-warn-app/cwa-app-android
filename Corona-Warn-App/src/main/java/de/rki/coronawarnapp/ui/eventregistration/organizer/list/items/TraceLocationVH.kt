@@ -75,7 +75,7 @@ class TraceLocationVH(parent: ViewGroup) :
         val onDeleteItem: (TraceLocation) -> Unit,
         val onSwipeItem: (TraceLocation, Int) -> Unit
     ) : TraceLocationItem, SwipeConsumer {
-        override val stableId: Long = traceLocation.guid.hashCode().toLong()
+        override val stableId: Long = traceLocation.id.hashCode().toLong()
         override fun onSwipe(position: Int, direction: Int) = onSwipeItem(traceLocation, position)
     }
 }

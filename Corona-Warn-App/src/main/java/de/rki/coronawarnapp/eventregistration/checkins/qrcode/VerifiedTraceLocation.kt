@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
 import okio.ByteString
+import okio.ByteString.Companion.encode
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import java.util.concurrent.TimeUnit
@@ -28,7 +29,7 @@ data class VerifiedTraceLocation(
 
     @IgnoredOnParcel val traceLocation: TraceLocation by lazy {
         TraceLocation(
-            guid = protoTraceLocation.guid,
+            // guid = protoTraceLocation.guid,
             version = protoTraceLocation.version,
             type = protoTraceLocation.type,
             description = protoTraceLocation.description,
@@ -36,8 +37,10 @@ data class VerifiedTraceLocation(
             startDate = protoTraceLocation.startTimestamp.toInstant(),
             endDate = protoTraceLocation.endTimestamp.toInstant(),
             defaultCheckInLengthInMinutes = protoTraceLocation.defaultCheckInLengthInMinutes,
-            byteRepresentation = traceLocationBytes,
-            signature = signature,
+            // byteRepresentation = traceLocationBytes,
+            // signature = signature,
+            cryptographicSeed = "".encode(),
+            cnPublicKey = ""
         )
     }
 

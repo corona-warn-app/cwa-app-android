@@ -11,7 +11,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
-import okio.ByteString.Companion.toByteString
+import okio.ByteString.Companion.encode
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDateTime
@@ -199,7 +199,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
         )
 
     private val dummyTraceLocation = TraceLocation(
-        guid = "TestGuid1",
+        id = 1,
         version = 1,
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
         description = "TestTraceLocation1",
@@ -207,8 +207,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
         startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
         endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
         defaultCheckInLengthInMinutes = 15,
-        byteRepresentation = "byteRepresentation".toByteArray().toByteString(),
-        signature = "signature".toByteArray().toByteString()
+        cryptographicSeed = "seed byte array".encode(),
+        cnPublicKey = "cnPublicKey"
     )
 
     companion object {

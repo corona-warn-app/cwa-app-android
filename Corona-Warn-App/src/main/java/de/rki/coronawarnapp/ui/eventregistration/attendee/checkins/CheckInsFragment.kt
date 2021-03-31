@@ -93,8 +93,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         when (event) {
             is CheckInEvent.ConfirmCheckIn -> doNavigate(
                 CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
-                    verifiedTraceLocation = event.verifiedTraceLocation,
-                    editCheckInId = 0,
+                    verifiedTraceLocation = event.verifiedTraceLocation
                 )
             )
 
@@ -105,9 +104,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             is CheckInEvent.ConfirmRemoveAll -> showRemovalConfirmation(null, null)
 
             is CheckInEvent.EditCheckIn -> doNavigate(
-                CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
-                    verifiedTraceLocation = null,
-                    editCheckInId = event.checkInId,
+                CheckInsFragmentDirections.actionCheckInsFragmentToEditCheckInFragment(
+                    editCheckInId = event.checkInId
                 )
             )
 
