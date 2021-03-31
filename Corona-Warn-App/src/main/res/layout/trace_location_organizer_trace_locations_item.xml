@@ -70,7 +70,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toBottomOf="@id/address"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="21.01.21 18:00 - 22.02.21 21:00 Uhr 21.01.21 18:00 - 22.02.21 21:00 Uhr" />
 
     <ImageButton

@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.CameraPermissionHelper
+import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -45,20 +45,22 @@ class SubmissionQRCodeScanFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-            binding.submissionQrCodeScanPreview.setTorch(
-                isChecked
-            )
+        with(binding) {
+            submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
+                binding.submissionQrCodeScanPreview.setTorch(
+                    isChecked
+                )
+            }
+
+            submissionQrCodeScanToolbar.setNavigationOnClickListener {
+                viewModel.onClosePressed()
+            }
+
+            submissionQrCodeScanPreview.decoderFactory =
+                DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+
+            submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
         }
-
-        binding.submissionQrCodeScanClose.setOnClickListener {
-            viewModel.onClosePressed()
-        }
-
-        binding.submissionQrCodeScanPreview.decoderFactory =
-            DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-
-        binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
         viewModel.scanStatusValue.observe2(this) {
             if (ScanStatus.INVALID == it) {
@@ -182,9 +184,11 @@ class SubmissionQRCodeScanFragment :
         ) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                 showCameraPermissionRationaleDialog()
+                viewModel.setCameraDeniedPermanently(false)
             } else {
                 // user permanently denied access to the camera
                 showCameraPermissionDeniedDialog()
+                viewModel.setCameraDeniedPermanently(true)
             }
         }
     }

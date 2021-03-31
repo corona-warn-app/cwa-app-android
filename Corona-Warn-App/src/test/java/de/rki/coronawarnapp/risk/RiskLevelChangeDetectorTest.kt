@@ -5,7 +5,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
-import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
 import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
@@ -41,7 +41,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var notificationManagerCompat: NotificationManagerCompat
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
-    @MockK lateinit var notificationHelper: NotificationHelper
+    @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var surveys: Surveys
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var tracingSettings: TracingSettings
@@ -80,8 +80,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
-        override val traceLocationCheckInRiskStates: List<TraceLocationCheckInRisk>
-            get() = emptyList() // TODO
     }
 
     private fun createInstance(scope: CoroutineScope) = RiskLevelChangeDetector(

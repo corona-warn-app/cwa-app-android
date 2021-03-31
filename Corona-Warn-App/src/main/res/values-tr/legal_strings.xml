@@ -19,9 +19,9 @@
     <!-- YTXT: Body for consent sub section your consent subtext first point  -->
     <string name="submission_consent_your_consent_subsection_first_point" translatable="false">"<b>Uygulama, test sonucunuzu çağırır.</b>Daha sonra fikrinizi değiştirirseniz, söz konusu testi Uygulamadan kaldırabilirsiniz."</string>
     <!-- YTXT: Body for consent sub section your consent subtext second point  -->
-    <string name="submission_consent_your_consent_subsection_second_point" translatable="false">"<b>Korona testiniz pozitif çıkmışsa, Uygulama karşılaştığınız kullanıcıları uyarmak üzere test sonucunuzu paylaşır. Bu, yukarıda belirtilen ülkelerdeki resmi Korona uygulamalarının kullanıcıları için geçerlidir. Ayrıca semptomlarınızın başlangıcı hakkında bilgi verirseniz, bu veri de paylaşılacaktır.</b>"</string>
+    <string name="submission_consent_your_consent_subsection_second_point" translatable="false">"<b>Korona testiniz pozitif çıkmışsa, Uygulama karşılaştığınız kullanıcıları uyarmak üzere test sonucunuzu paylaşır. Bu ise yukarıda adı geçen ülkelerdeki Korona uygulamalarının sizinle aynı olay veya konumda giriş denetimi yaptıran kullanıcılarını etkiler.\n\nAyrıca semptomlarınızın başlangıcı hakkında bilgi verirseniz, bu veri de paylaşılacaktır.</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
-    <string name="submission_consent_your_consent_subsection_third_point" translatable="false">"Verdiğiniz rıza beyanını istediğiniz zaman geri alabilirsiniz. Bunun ayarını, “Testi Göster” altında bulabilirsiniz. Paylaşmadan önce, rıza beyanınıza ilişkin yeniden bilgilendirilecek ve test sonucunuzu yayınlamaya izin vermeniz istenecektir."</string>
+    <string name="submission_consent_your_consent_subsection_third_point" translatable="false">"Verdiğiniz rıza beyanını istediğiniz zaman geri alabilirsiniz. Bunun ayarını, “Testi Göster” altında bulabilirsiniz. Paylaşmadan önce, rıza beyanınıza ilişkin yeniden bilgilendirileceksiniz."</string>
     <!-- YTXT: Body for your consent screen agreement share test results -->
     <string name="submission_your_consent_agreement_share_test_results" translatable="false">"<b>Korona testiniz pozitif çıkmışsa, Uygulama karşılaştığınız kullanıcıları uyarmak üzere test sonucunuzu paylaşır.</b>\n\n<b>Bu uyarı, yukarıda belirtilen ülkelerdeki resmi Korona uygulamalarının kullanıcılarına ulaşabilir:</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms -->
@@ -109,4 +109,22 @@
     <string name="debugging_debuglog_share_privacy_card_bullet_point_2" translatable="false">"Rapor RKI’ye gönderilmeden önce, Uygulamanızın orijinal olduğu bir kez kontrol edilir. Bunun için, akıllı telefonunuz tarafından benzersiz bir kimlik kodu oluşturulur ve Apple’ın Uygulamanızın orijinal ürün olduğunu RKI’ye doğrulaması için ABD veya diğer bir üçüncü ülkedeki Apple’a aktarılır. Bu kimlik kodu, akıllı telefonunuzun sürümü ve Uygulama hakkında veriler içerir. Apple, böylece kim olduğunuzu ortaya çıkarabilir ve akıllı telefonunuzun orijinallik kontrolünün yapıldığını anlayabilir. Apple, Uygulamadan daha fazla bilgi almaz."</string>
     <!-- YTXT: Second body section for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_body_2" translatable="false">"Gönderimden sonra hata raporu kimlik numarasını teknik desteğe bildirirseniz, sağlanan diğer bilgilerin, hata raporu kimliğinin ve hata raporunun silinmesini istediğiniz zaman talep edebilirsiniz. Aksi halde bu hata raporu 14 gün sonra otomatik olarak silinecektir."</string>
+
+    <!-- Trace Location QR Info Privacy Strings -->
+    <!-- XHED: Title for privacy card -->
+    <string name="trace_location_privacy_card_title_text" translatable="false">"Veri gizliliği ve veri güvenliği"</string>
+    <!-- XTXT: Subtitle for privacy card -->
+    <string name="trace_location_privacy_card_subtitle_text" translatable="false">"“Devam”a tıklarsanız, konuklarınız için bir QR kodu oluşturabilirsiniz."</string>
+    <!-- XTXT: First bulletpoint title for privacy card -->
+    <string name="trace_location_privacy_card_first_bulletpoint_title_text" translatable="false">"Olay veya konumla ilgili verileriniz, yazdırılabilir biçimde bir QR kodunda kaydedilecektir."</string>
+    <!-- XTXT: First bulletpoint subtitle for privacy card -->
+    <string name="trace_location_privacy_card_fist_bulletpoint_subtitle_text" translatable="false">"Daha sonra konuklarınız, Uygulama ile QR kodu tarayabilir."</string>
+    <!-- XTXT: Second bulleptoint title for privacy card -->
+    <string name="trace_location_privacy_card_second_bulletpoint_title_text" translatable="false">"Lütfen olayınızın veya konumunuzun adı, kategorisi ve saati ve kalış süresi ile ilgili olarak mümkün olduğunca kesin bilgi sağlayın."</string>
+    <!-- XTXT: Second vulletpoint subtitle for privacy card -->
+    <string name="trace_location_pricacy_card_second_bulletpoint_subtitle_text" translatable="false">"Verdiğinizi bilgiler ne kadar kesin olursa, konuklarınız da o kadar güvenilir bir biçimde uyarılabilir."</string>
+    <!-- XTXT: Third bulletpoint text for privacy card -->
+    <string name="trace_location_privacy_card_third_bulletpoint_text" translatable="false">"Lütfen tüm konuklarınızın QR kodu, mesafe ve hijyen kuralları çerçevesinde (en az 1,5 metre) tarayabilmesi için gerekli ortamı sağlayın."</string>
+    <!-- XTXT: Fourth bulletpoint text for privacy card -->
+    <string name="trace_location_privacy_card_fourth_bulletpoint_text" translatable="false">"Kalıcı ve güvenilir uyarılar tetiklemek ve QR kodların suistimal edilmesinin önüne geçmek adına, konumlar için olan QR kodları düzenli aralıklarla yeniden oluşturmanızı öneririz."</string>
 </resources>

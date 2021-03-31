@@ -207,6 +207,11 @@
         <item name="android:elevation">@dimen/elevation_strong</item>
     </style>
 
+    <style name="Card.NoElevation">
+        <item name="android:elevation">@dimen/elevation_none</item>
+    </style>
+
+
     <style name="Card.NoPadding">
         <item name="android:padding">@dimen/no_padding</item>
     </style>
@@ -391,11 +396,11 @@
     </style>
 
     <!-- ####################################
-            Registration
+            QR Code Scan
     ###################################### -->
-    <style name="registrationQRCodeScanBody">
+    <style name="qrCodeScanBody">
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/colorStableLight</item>
+        <item name="android:textColor">@color/colorQrCodeScanToolbar</item>
         <item name="android:textSize">14sp</item>
     </style>
 

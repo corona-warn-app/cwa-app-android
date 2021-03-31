@@ -18,14 +18,12 @@ import kotlin.math.min
 /**
  * On [RecyclerView] item swipe listener
  * @param context [Context]
- * @param excludedPositions excluded positions from swiping factory
  * @param onSwipe on swipe callback. It passes item's position and swipe direction
  *
  * Usage:
  * ```
  * RecyclerView.onSwipeItem(
- *   context = requireContext(),
- *   excludedPositions = listOf(0, 1)
+ *   context = requireContext()
  * ) { position, direction ->
  *   // Do operation here
  * }
@@ -33,13 +31,11 @@ import kotlin.math.min
  */
 fun RecyclerView.onSwipeItem(
     context: Context,
-    excludedPositions: List<Int> = emptyList(),
     onSwipe: (position: Int, direction: Int) -> Unit
 ) {
     ItemTouchHelper(
         SwipeCallback(
             context,
-            excludedPositions,
             onSwipe
         )
     ).attachToRecyclerView(this)
@@ -50,7 +46,6 @@ fun RecyclerView.onSwipeItem(
  */
 private class SwipeCallback(
     context: Context,
-    private val excludedPositions: List<Int>,
     private val action: (position: Int, direction: Int) -> Unit
 ) : ItemTouchHelper.SimpleCallback(
     0,
@@ -108,7 +103,7 @@ private class SwipeCallback(
     }
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-        if (viewHolder.adapterPosition in excludedPositions) return 0
+        if (viewHolder.isMovable()) return viewHolder.movementFlags
         return super.getMovementFlags(recyclerView, viewHolder)
     }
 

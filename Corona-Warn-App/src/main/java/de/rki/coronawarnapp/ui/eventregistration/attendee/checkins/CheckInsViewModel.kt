@@ -8,21 +8,24 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCodeVerifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveCheckInVH
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.PastCheckInVH
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.permission.CameraPermissionProvider
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import timber.log.Timber
 
 class CheckInsViewModel @AssistedInject constructor(
@@ -34,49 +37,11 @@ class CheckInsViewModel @AssistedInject constructor(
     private val qrCodeUriParser: QRCodeUriParser,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
+    private val cameraPermissionProvider: CameraPermissionProvider
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
     val errorEvent = SingleLiveEvent<Throwable>()
-
-    val checkins: LiveData<List<CheckInsItem>> = checkInsRepository.allCheckIns
-        .map { checkins ->
-            checkins.sortedWith(compareBy<CheckIn> { it.completed }.thenByDescending { it.checkInEnd })
-        }
-        .map { checkins ->
-            checkins.map { checkin ->
-                when {
-                    !checkin.completed -> ActiveCheckInVH.Item(
-                        checkin = checkin,
-                        onCardClicked = { events.postValue(CheckInEvent.EditCheckIn(it.id)) },
-                        onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) },
-                        onCheckout = { doCheckOutNow(it) },
-                        onSwipeItem = { checkIn, position ->
-                            events.postValue(
-                                CheckInEvent.ConfirmSwipeItem(
-                                    checkIn,
-                                    position
-                                )
-                            )
-                        }
-                    )
-                    else -> PastCheckInVH.Item(
-                        checkin = checkin,
-                        onCardClicked = { events.postValue(CheckInEvent.EditCheckIn(it.id)) },
-                        onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) },
-                        onSwipeItem = { checkIn, position ->
-                            events.postValue(
-                                CheckInEvent.ConfirmSwipeItem(
-                                    checkIn,
-                                    position
-                                )
-                            )
-                        }
-                    )
-                }
-            }
-        }
-        .asLiveData(context = dispatcherProvider.Default)
 
     init {
         deepLink?.let {
@@ -90,15 +55,20 @@ class CheckInsViewModel @AssistedInject constructor(
         savedState.set(SKEY_LAST_DEEPLINK, deepLink)
     }
 
-    private fun doCheckOutNow(checkIn: CheckIn) = launch(scope = appScope) {
-        Timber.d("doCheckOutNow(checkIn=%s)", checkIn)
-        try {
-            checkOutHandler.checkOut(checkIn.id)
-        } catch (e: Exception) {
-            Timber.e(e, "Checkout failed for %s", checkIn)
-            errorEvent.postValue(e)
+    val checkins: LiveData<List<CheckInsItem>> = combine(
+        intervalFlow(1000),
+        checkInsRepository.allCheckIns,
+        cameraPermissionProvider.deniedPermanently
+    ) { _, checkIns, denied ->
+        mutableListOf<CheckInsItem>().apply {
+            // Camera permission item
+            if (denied) {
+                add(cameraPermissionItem())
+            }
+            // CheckIns items
+            addAll(mapCheckIns(checkIns))
         }
-    }
+    }.asLiveData(context = dispatcherProvider.Default)
 
     fun onRemoveCheckInConfirmed(checkIn: CheckIn?) {
         Timber.d("removeCheckin(checkIn=%s)", checkIn)
@@ -116,6 +86,49 @@ class CheckInsViewModel @AssistedInject constructor(
         events.postValue(CheckInEvent.ConfirmRemoveAll)
     }
 
+    private fun cameraPermissionItem() = CameraPermissionVH.Item(
+        onOpenSettings = {
+            events.postValue(CheckInEvent.OpenDeviceSettings)
+        }
+    )
+
+    private fun mapCheckIns(checkIns: List<CheckIn>): List<CheckInsItem> = run {
+        val active = checkIns.filter { !it.completed }.sortedBy { it.checkInEnd }
+        val completed = checkIns.filter { it.completed }.sortedByDescending { it.checkInEnd }
+        active + completed
+    }
+        .map { checkin ->
+            when {
+                !checkin.completed -> ActiveCheckInVH.Item(
+                    checkin = checkin,
+                    onCardClicked = { events.postValue(CheckInEvent.EditCheckIn(it.id)) },
+                    onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) },
+                    onCheckout = { doCheckOutNow(it) },
+                    onSwipeItem = { checkIn, position ->
+                        events.postValue(CheckInEvent.ConfirmSwipeItem(checkIn, position))
+                    }
+                )
+                else -> PastCheckInVH.Item(
+                    checkin = checkin,
+                    onCardClicked = { events.postValue(CheckInEvent.EditCheckIn(it.id)) },
+                    onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) },
+                    onSwipeItem = { checkIn, position ->
+                        events.postValue(CheckInEvent.ConfirmSwipeItem(checkIn, position))
+                    }
+                )
+            }
+        }
+
+    private fun doCheckOutNow(checkIn: CheckIn) = launch(scope = appScope) {
+        Timber.d("doCheckOutNow(checkIn=%s)", checkIn)
+        try {
+            checkOutHandler.checkOut(checkIn.id)
+        } catch (e: Exception) {
+            Timber.e(e, "Checkout failed for %s", checkIn)
+            errorEvent.postValue(e)
+        }
+    }
+
     private fun verifyUri(uri: String) = launch {
         try {
             Timber.i("uri: $uri")
@@ -129,6 +142,10 @@ class CheckInsViewModel @AssistedInject constructor(
             Timber.d(e, "TraceLocation verification failed")
             e.report(ExceptionCategory.INTERNAL)
         }
+    }
+
+    fun checkCameraSettings() {
+        cameraPermissionProvider.checkSettings()
     }
 
     companion object {
