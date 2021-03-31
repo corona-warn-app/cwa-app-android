@@ -144,6 +144,13 @@
         <action
             android:id="@+id/action_eventRegistrationTestFragment_to_ShowStoredEventsTestFragment"
             app:destination="@id/showStoredEventsTestFragment" />
+        <action
+            android:id="@+id/action_eventRegistrationTestFragment_to_traceLocationOrganizerListFragment"
+            app:destination="@id/traceLocationOrganizerListFragment" />
+        <action
+            android:id="@+id/action_eventRegistrationTestFragment_to_qrCodeDetailFragment"
+            app:destination="@id/qrCodeDetailFragment" />
+
     </fragment>
 
     <fragment
@@ -171,11 +178,25 @@
         android:id="@+id/traceLocationOrganizerCategoriesFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment"
         android:label="TraceLocationCategoryFragment"
-        tools:layout="@layout/trace_location_organizer_category_fragment">
-
+        tools:layout="@layout/trace_location_organizer_category_fragment" />
+    <fragment
+        android:id="@+id/qrCodeDetailFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment"
+        android:label="QrCodeDetailFragment"
+        tools:layout="@layout/trace_location_organizer_qr_code_detail_fragment" >
         <action
             android:id="@+id/action_traceLocationOrganizerCategoriesFragment_to_traceLocationCreateFragment"
             app:destination="@id/traceLocationCreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/traceLocationOrganizerListFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragment"
+        android:label="TraceLocationCategoryFragment"
+        tools:layout="@layout/trace_location_organizer_trace_locations_list_fragment">
+
+        <action
+            android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationOrganizerCategoriesFragment"
+            app:destination="@id/traceLocationOrganizerCategoriesFragment" />
     </fragment>
     <fragment
         android:id="@+id/traceLocationCreateFragment"

@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"A fost adăugată Elveția la înregistrarea transnațională a expunerilor în jurnal"</item>
+        <item>"Faceți check-in cu codul QR pentru a urmări eficient lanțurile de infectare"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Utilizatorii aplicației Corona-Warn pot schimba acum ID-uri aleatorii criptate cu utilizatorii aplicației oficiale de avertizare din Elveția. Aceasta înseamnă că avertizările pot fi acum trimise și primite de utilizatorii aplicației din Elveția."</item>
+        <item>"Acum, aplicația Corona-Warn vă permite să faceți check-in la evenimente și în locuri. Organizatorii de evenimente și proprietarii de magazine pot utiliza aplicația pentru a crea un cod QR. Apoi, invitații pot scana acest cod QR atunci când sosesc, pentru a-și înregistra prezența. De asemenea, aplicația poate crea la cerere o intrare în jurnal. Dacă o persoană care a făcut check-in la acest eveniment sau în acest loc este diagnosticată ulterior cu coronavirus, toate persoanele care au făcut check-in în același timp sunt notificate automat."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

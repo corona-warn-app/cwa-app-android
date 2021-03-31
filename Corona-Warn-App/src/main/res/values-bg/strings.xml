@@ -900,7 +900,7 @@
     <!-- YTXT: First body section for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_section_one">"Необходимо е да дадете своето съгласие, за да може да изпратите записания отчет за грешките до отдела по техническа поддръжка на института „Роберт Кох“."</string>
     <!-- YTXT: Second body section for bugreporting share log screen -->
-    <string name="debugging_debuglog_share_log_section_two">"След изпращането ще получите ИД на отчета за грешките. Този ИД може да се използва например за предоставяне на допълнителна информация на отдела по поддръжка и за присъединяването му към Вашия отчет. Ако не посочите ИД на отчета за грешките, техническият отдел на института „Роберт Кох“ не може да асоциира отчета с вас."</string>
+    <string name="debugging_debuglog_share_log_section_two">"След изпращането ще получите ИД на отчета за грешките. Този ИД може да се използва например за предоставяне на допълнителна информация на отдела по поддръжка и за присъединяването му към Вашия отчет. Ако не посочите ИД на отчета за грешките, техническият отдел на института „Роберт Кох“ не може да асоциира отчета с Вас."</string>
     <!-- YTXT: Privacy Information section for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_privacy_information">"Подробна информация относно обработката на тези данни и рисковете относно защитата на данните в САЩ и други държави"</string>
     <!-- XBUT: Button for bugreporting share log screen -->
@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Отказ"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"Позиционирайте QR кода в рамката."</string>
+    <string name="qr_code_scan_title">"Сканиране на QR кода"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="submission_qr_code_scan_body">"Позиционирайте QR кода в рамката."</string>
+    <string name="qr_code_scan_body">"Позиционирайте QR кода в рамката."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1010,26 +1010,28 @@
     <string name="submission_consent_main_headline_body">"За да можете да получите резултата от Вашия тест и да предупредите останалите, трябва да дадете своето съгласие."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Извличане на резултат от тест"</string>
-    <!-- YTXT: Body for Submission Consent call test result body  -->
-    <string name="submission_consent_call_test_result_body">"В следващата стъпка сканирайте QR кода от Вашия тест, за да получите резултата."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Сканирайте само Вашия собствен тест."</string>
+    <string name="submission_consent_call_test_result_scan_your_test_only">"Сега сканирайте QR кода от Вашия тест, за да получите резултата."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Можете да сканирате Вашия тест само веднъж. Приложението не може да обработва няколко теста едновременно."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Моля, помогнете на хората, с които сте имали контакт, като ги предупредите!"</string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body">"Ако Ви е поставена диагноза „коронавирус“, можете да предупредите останалите с помощта на приложението. Функцията за предупреждаване работи в няколко държави. Към момента това са:"</string>
+    <!-- YTXT: Body for consent help by warning others - info about events -->
+    <string name="submission_consent_help_by_warning_others_body_event">"Ще бъдат предупредени и хората, които са се регистрирали за същите събития или места по същото време."</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Подробна информация за обработването на данни и Вашето съгласие"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Вашето съгласие е доброволно."</string>
+    <string name="submission_consent_main_first_point">"Можете да получите резултата от Вашия тест, без да е необходимо да го споделяте. Ако обаче споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
     <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point">"Можете да получите резултата от Вашия тест, без да е необходимо да го споделяте, но ако споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
+    <string name="submission_consent_main_second_point">"Вашата самоличност няма да бъде разкрита. Другите потребители няма да узнаят кой е споделил резултата от теста си."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Вашата самоличност няма да бъде разкрита. Другите потребители няма да узнаят кой е споделил резултата от теста си."</string>
+    <string name="submission_consent_main_third_point">"В раздела „Моите регистрации“ виждате събитията и местата, чиито регистрирани гости ще бъдат предупредени. Можете да изтриете отделни регистрации от списъка, за да ги изключите от процеса на предупреждаване."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"За да дадете съгласието си, трябва да имате навършени 16 години."</string>
+    <!-- YTXT: Body for consent main section final id consent  -->
+    <string name="submission_consent_main_id_consent">"В следващата стъпка давате съгласие за достъп до случайно генерирани ИД кодове."</string>
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"Човек държи смартфон. QR кодът на теста е кодът, който трябва да бъде сканиран."</string>
 
@@ -1345,6 +1347,8 @@
     <string name="submission_status_card_body_failed">"Вашият тест е направен преди повече от 21 дни и вече не е валиден. Моля, изтрийте го, за да можете да добавите друг след това."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"Ако резултатът от Вашия тест за коронавирус е положителен, можете да предупредите останалите."</string>
+    <!-- YTXT: Button text for submission status fetch ready -->
+    <string name="submission_status_card_retrieve_test_result">"Извличане на резултат от тест"</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Следващи стъпки"</string>
     <!-- XBUT: submission status card show results button -->
@@ -1804,6 +1808,8 @@
     <string name="bottom_nav_home_title">"Начален екран"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Дневник"</string>
+    <!-- XHED: Title for BottomNav check-in screen title -->
+    <string name="bottom_nav_check_ins_title">"Регистрация"</string>
 
     <!-- ####################################
            Data Donation & Survey
@@ -1921,4 +1927,46 @@
     <string name="duration_dialog_ok_button">"OK"</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">"00:00"</string>
+    <!-- XTXT: Duration hours text -->
+    <string name="duration_hours">"ч"</string>
+    <!-- XTXT: Duration minutes text -->
+    <string name="duration_minutes">"мин"</string>
+
+    <!-- Scan check in QR Code-->
+    <!-- XTXT: Scan check in QR-Code  FAB text-->
+    <string name="scan_check_in_qr_code">"Сканиране на QR код"</string>
+
+    <!-- ####################################
+        Generic
+    ###################################### -->
+    <!-- XACT: Button/Dialog label to cancel something-->
+    <string name="generic_action_abort">"Отказ"</string>
+    <!-- XACT: Button/Dialog label to remove something-->
+    <string name="generic_action_remove">"Изтриване"</string>
+
+    <!-- ####################################
+       Trace Location
+    ###################################### -->
+    <!-- XHED: Title for the trace location onboarding -->
+    <string name="trace_location_onboarding_title">"Регистрация"</string>
+    <!-- XTXT: subtitle for the trace location onboarding -->
+    <string name="trace_location_onboarding_title2">"Бързо и надеждно прекъсване на веригите на заразяване"</string>
+    <!-- YMSG: Onboarding trace location intro section -->
+    <string name="trace_location_onboarding_subheadline">"Сканирайте QR кода, за да регистрирате своето присъствие на дадено място или събитие."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_warning">"Всяка регистрация се взема предвид също и при изчисляване на Вашия статус на риск. При диагностициране на дадено лице с коронавирус Вие ще получите уведомление, ако по същото време или в рамките на 30 минути след това сте се намирали в едно и също помещение с него."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_stay">"Моля, отбележете продължителността на престоя си възможно най-точно, за да може да получите адекватни предупреждения."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent2">"Приложението запазва данните за събитията и местата, в които сте регистрирали през последните 16 дни."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent3">"Когато сканирате QR код, за да се регистрирате, във Вашия смартфон се създава запис за това събитие или място."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent4">"Ако друг потребител, регистриран по същото време и от същото място или събитие, изпрати предупреждение, след като бъде диагностициран с коронавирус, Вие ще получите предупреждението въз основа на идентификационния код на събитието дори ако във Вашия смартфон не е получен случаен идентификатор от заразеното лице."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent5">"Ако от своя страна Вие изпратите предупреждение, въз основа на идентификационния код на място или събитие от раздела “Моите регистрации” ще бъдат предупредени всички останали потребители, които са се регистрирали от него по същото време."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent6">"Може да изтриете регистрация от раздела „Моите регистрации“ по всяко време. В този случай само Вие ще получите предупреждение, ако в смартфона Ви има получени случайни ИД на лице, диагностицирано с коронавирус, и е установено потенциално излагане на риск."</string>
+    <!-- XACT: Button/Dialog label to consent-->
+    <string name="trace_location_onboarding_body_confirm">"Приемам"</string>
 </resources>

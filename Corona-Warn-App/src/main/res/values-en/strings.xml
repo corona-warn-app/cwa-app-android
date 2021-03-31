@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Cancel"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"Position the QR code in the frame."</string>
+    <string name="qr_code_scan_title">"QR Code Scan"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="submission_qr_code_scan_body">"Position the QR code in the frame."</string>
+    <string name="qr_code_scan_body">"Position the QR code in the frame."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1010,26 +1010,28 @@
     <string name="submission_consent_main_headline_body">"Your consent is needed before you can retrieve your test result and warn others."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Retrieve Test Result"</string>
-    <!-- YTXT: Body for Submission Consent call test result body  -->
-    <string name="submission_consent_call_test_result_body">"In the next step, scan the QR code on your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Only scan your own test."</string>
+    <string name="submission_consent_call_test_result_scan_your_test_only">"Now scan the QR code for your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Your test can only be scanned once. The app cannot manage multiple tests at the same time."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Please help others you have encountered by warning them!"</string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body">"If you have been diagnosed with coronavirus, you can warn others through the app. The warning feature works in several countries. The following countries are currently participating:"</string>
+    <!-- YTXT: Body for consent help by warning others - info about events -->
+    <string name="submission_consent_help_by_warning_others_body_event">"People who were checked in to the same events or places at the same time as you were will also be warned."</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Detailed Information on Data Processing and Your Consent"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Your consent is voluntary."</string>
+    <string name="submission_consent_main_first_point">"You can retrieve your test result even if you do not want to share it. But if you share your test result, you will help to protect others against infection."</string>
     <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point">"You can retrieve your test result even if you do not choose to share it. But if you share your test result, you will help to protect others against infection."</string>
+    <string name="submission_consent_main_second_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
+    <string name="submission_consent_main_third_point">"Under “My Check-Ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"You must be at least 16 years old to grant your consent."</string>
+    <!-- YTXT: Body for consent main section final id consent  -->
+    <string name="submission_consent_main_id_consent">"In the next step, grant your consent to access the random IDs."</string>
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"A person is holding a smartphone. A QR code on a test symbolizes the code to be scanned."</string>
 
@@ -1345,6 +1347,8 @@
     <string name="submission_status_card_body_failed">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the test. You can then add another."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"If you have tested positive for coronavirus, you can warn others."</string>
+    <!-- YTXT: Button text for submission status fetch ready -->
+    <string name="submission_status_card_retrieve_test_result">"Retrieve Test Result"</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Next Steps"</string>
     <!-- XBUT: submission status card show results button -->
@@ -1804,6 +1808,8 @@
     <string name="bottom_nav_home_title">"Start Screen"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Journal"</string>
+    <!-- XHED: Title for BottomNav check-in screen title -->
+    <string name="bottom_nav_check_ins_title">"Check In"</string>
 
     <!-- ####################################
            Data Donation & Survey
@@ -1921,4 +1927,46 @@
     <string name="duration_dialog_ok_button">"OK"</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">"00:00"</string>
+    <!-- XTXT: Duration hours text -->
+    <string name="duration_hours">"hours"</string>
+    <!-- XTXT: Duration minutes text -->
+    <string name="duration_minutes">"minutes"</string>
+
+    <!-- Scan check in QR Code-->
+    <!-- XTXT: Scan check in QR-Code  FAB text-->
+    <string name="scan_check_in_qr_code">"Scan QR Code"</string>
+
+    <!-- ####################################
+        Generic
+    ###################################### -->
+    <!-- XACT: Button/Dialog label to cancel something-->
+    <string name="generic_action_abort">"Cancel"</string>
+    <!-- XACT: Button/Dialog label to remove something-->
+    <string name="generic_action_remove">"Remove"</string>
+
+    <!-- ####################################
+       Trace Location
+    ###################################### -->
+    <!-- XHED: Title for the trace location onboarding -->
+    <string name="trace_location_onboarding_title">"Check In"</string>
+    <!-- XTXT: subtitle for the trace location onboarding -->
+    <string name="trace_location_onboarding_title2">"Interrupt chains of infection quickly and reliably"</string>
+    <!-- YMSG: Onboarding trace location intro section -->
+    <string name="trace_location_onboarding_subheadline">"Scan the QR code for an event or place to check in and record your presence at this event or place on your smartphone."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_warning">"Every check-in is also taken into account when calculating your risk status. If someone who checked in to this event or place is diagnosed with coronavirus later, you can be notified if you were in the same room at the same time or up to 30 minutes after the diagnosed person."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_stay">"Please specify your length of stay as precisely as possible to enable targeted warnings."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent2">"The app keeps the events and places you have checked in to for 16 days."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent3">"When you scan a QR code to check in, an entry for the event or place is created on your smartphone."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent4">"If another user who checked in at the same time is subsequently diagnosed with coronavirus and triggers a warning, you will be warned automatically based on the event ID – even if your smartphone did not receive any random Ids from the infected user."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent5">"If you trigger a warning yourself later, all other users who were checked in to an event or place listed under “My Check-Ins” at the same time are warned based on the event ID."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent6">"You can delete a check-in under “My Check-Ins” at any time. In this case, you will only be warned if your smartphone received the random IDs of a user diagnosed with coronavirus and identified a potential exposure."</string>
+    <!-- XACT: Button/Dialog label to consent-->
+    <string name="trace_location_onboarding_body_confirm">"Accept"</string>
 </resources>

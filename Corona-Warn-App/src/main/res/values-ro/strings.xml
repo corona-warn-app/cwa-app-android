@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Anulare"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"Poziționați codul QR în cadru."</string>
+    <string name="qr_code_scan_title">"Scanare cod QR"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="submission_qr_code_scan_body">"Poziționați codul QR în cadru."</string>
+    <string name="qr_code_scan_body">"Poziționați codul QR în cadru."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1010,26 +1010,28 @@
     <string name="submission_consent_main_headline_body">"Consimțământul dvs. este necesar înainte de a putea regăsi rezultatul testului dvs. și a-i avertiza pe ceilalți."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Aflarea rezultatului testului"</string>
-    <!-- YTXT: Body for Submission Consent call test result body  -->
-    <string name="submission_consent_call_test_result_body">"La pasul următor, scanați codul QR de pe testul dvs. și aflați rezultatul testului."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Scanați doar codul propriului dvs. test."</string>
+    <string name="submission_consent_call_test_result_scan_your_test_only">"Acum scanați codul QR de pe testul dvs. și aflați rezultatul testului."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Testul dvs. poate fi scanat o singură dată. Aplicația nu poate gestiona mai multe teste simultan."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Vă rugăm să îi ajutați pe ceilalți cu care v-ați întâlnit, avertizându-i!"</string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body">"Dacă ați fost diagnosticat cu coronavirus, puteți să îi avertizați pe ceilalți prin intermediul aplicației. Caracteristica de avertizare funcționează în câteva țări. Următoarele țări participă în prezent:"</string>
+    <!-- YTXT: Body for consent help by warning others - info about events -->
+    <string name="submission_consent_help_by_warning_others_body_event">"Persoanele care au făcut check-in la aceleași evenimente sau în aceleași locuri în același timp cu dvs. vor fi, de asemenea, avertizate."</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Informații detaliate privind Prelucrarea datelor și Consimțământul dvs."</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Consimțământul dvs. este voluntar."</string>
+    <string name="submission_consent_main_first_point">"Puteți afla rezultatul testului dvs. chiar dacă nu doriți să îl partajați. Dar dacă partajați rezultatul testului dvs., veți ajuta la protejarea celorlalți împotriva infectării."</string>
     <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point">"Puteți afla rezultatul testului dvs. chiar dacă nu alegeți să îl partajați. Dar dacă partajați rezultatul testului dvs., vă vom ajuta să îi protejați pe ceilalți împotriva infecției."</string>
+    <string name="submission_consent_main_second_point">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
+    <string name="submission_consent_main_third_point">"La „Check-inurile mele”, puteți vedea evenimentele și locurile ale căror invitați cu check-inul făcut vor fi avertizați. Puteți elimina check-inuri individuale din listă pentru a le exclude din procesul de avertizare."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Trebuie să aveți cel puțin 16 ani pentru a vă acorda consimțământul."</string>
+    <!-- YTXT: Body for consent main section final id consent  -->
+    <string name="submission_consent_main_id_consent">"În etapa următoare, acordați-vă consimțământul pentru a accesa ID-urile aleatorii."</string>
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"O persoană ține în mână un smartphone. Un cod QR de pe un test simbolizează codul care va fi scanat."</string>
 
@@ -1194,7 +1196,7 @@
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
-    <string name="submission_done_title">"Vă mulţumim"</string>
+    <string name="submission_done_title">"Vă mulțumim"</string>
     <!-- YTXT: Body text for completed submission page -->
     <string name="submission_done_body">"Datorită sprijinului dvs., alte persoane pot fi acum avertizate și pot reacționa adecvat."</string>
     <!-- XHED: Page subtitle for completed submission page -->
@@ -1345,6 +1347,8 @@
     <string name="submission_status_card_body_failed">"Testul dvs. are o vechime de peste 21 de zile și, prin urmare, nu mai este relevant. Vă rugăm să ștergeți testul. Apoi puteți adăuga altul."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"Dacă ați fost testat pozitiv la coronavirus, îi puteți avertiza pe ceilalți."</string>
+    <!-- YTXT: Button text for submission status fetch ready -->
+    <string name="submission_status_card_retrieve_test_result">"Aflați rezultatul testului"</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Pașii următori"</string>
     <!-- XBUT: submission status card show results button -->
@@ -1804,6 +1808,8 @@
     <string name="bottom_nav_home_title">"Ecran inițial"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Jurnal"</string>
+    <!-- XHED: Title for BottomNav check-in screen title -->
+    <string name="bottom_nav_check_ins_title">"Check-in"</string>
 
     <!-- ####################################
            Data Donation & Survey
@@ -1921,4 +1927,46 @@
     <string name="duration_dialog_ok_button">"OK"</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">"00:00"</string>
+    <!-- XTXT: Duration hours text -->
+    <string name="duration_hours">"ore"</string>
+    <!-- XTXT: Duration minutes text -->
+    <string name="duration_minutes">"minute"</string>
+
+    <!-- Scan check in QR Code-->
+    <!-- XTXT: Scan check in QR-Code  FAB text-->
+    <string name="scan_check_in_qr_code">"Scanare cod QR"</string>
+
+    <!-- ####################################
+        Generic
+    ###################################### -->
+    <!-- XACT: Button/Dialog label to cancel something-->
+    <string name="generic_action_abort">"Anulare"</string>
+    <!-- XACT: Button/Dialog label to remove something-->
+    <string name="generic_action_remove">"Eliminare"</string>
+
+    <!-- ####################################
+       Trace Location
+    ###################################### -->
+    <!-- XHED: Title for the trace location onboarding -->
+    <string name="trace_location_onboarding_title">"Check-in"</string>
+    <!-- XTXT: subtitle for the trace location onboarding -->
+    <string name="trace_location_onboarding_title2">"Întrerupeți rapid și cu încredere lanțurile de infectare"</string>
+    <!-- YMSG: Onboarding trace location intro section -->
+    <string name="trace_location_onboarding_subheadline">"Scanați codul QR pentru un eveniment sau loc pentru a face check-in și a vă înregistra prezența la acesta pe smartphone-ul dvs."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_warning">"La calcularea stării riscului dvs. este luat în calcul și fiecare check-in. Dacă o persoană care a făcut check-in la acest eveniment sau în acest loc este diagnosticată ulterior cu coronavirus, puteți fi notificat dacă ați fost în aceeași cameră în același timp sau în decurs de 30 de minute după persoana diagnosticată."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_stay">"Specificați durata șederii cât mai precis posibil pentru a permite avertizările exacte."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent2">"Aplicația păstrează evenimentele și locurile în care ați făcut check-in timp de 16 zile."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent3">"Când scanați un cod QR pentru a face check-in, este creată o intrare pentru eveniment sau loc pe smartphone-ul dvs."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent4">"Dacă un alt utilizator care a făcut check-in în același timp este diagnosticat ulterior cu coronavirus și declanșează un avertisment, veți fi avertizat automat pe baza ID-ului de eveniment, chiar dacă smartphone-ul dvs. nu a primit niciun ID aleatoriu de la utilizatorul infectat."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent5">"Dacă ulterior declanșați dvs. un avertisment, toți ceilalți utilizatori care au făcut check-in la evenimentul sau în locul enumerat la „Check-inurile mele” în același timp cu dvs. sunt avertizați pe baza ID-ului de eveniment."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent6">"Puteți oricând șterge un check-in din „Check-inurile mele”. În acest caz, veți fi avertizat doar dacă smartphone-ul dvs. a primit ID-urile aleatorii ale unui utilizator diagnosticat cu coronavirus și a identificat o posibilă expunere."</string>
+    <!-- XACT: Button/Dialog label to consent-->
+    <string name="trace_location_onboarding_body_confirm">"Accept"</string>
 </resources>

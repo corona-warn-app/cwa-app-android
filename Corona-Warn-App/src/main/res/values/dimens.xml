@@ -118,9 +118,9 @@
     <dimen name="submission_tan_total_digit_spacing">6dp</dimen>
     <dimen name="submission_tan_total_group_spacing">16dp</dimen>
 
-    <!-- Submission QR Code Scan -->
-    <dimen name="submission_scan_qr_code_viewfinder_size">240dp</dimen>
-    <dimen name="submission_scan_qr_code_viewfinder_center_offset">120dp</dimen>
+    <!-- QR Code Scan -->
+    <dimen name="scan_qr_code_viewfinder_size">300dp</dimen>
+    <dimen name="scan_qr_code_viewfinder_center_offset">150dp</dimen>
 
     <!-- Submission Country Select -->
     <dimen name="submission_country_selection_country_icon_size">40dp</dimen>
@@ -148,4 +148,7 @@
     <dimen name="contact_diary_nested_recyclerview_margin">60dp</dimen>
     <dimen name="statistics_card_height">328dp</dimen>
     <dimen name="statistics_card_width">300dp</dimen>
+
+    <!-- Swipe to delete icons left or right margin from the edge-->
+    <dimen name="swipe_icon_margin">33dp</dimen>
 </resources>

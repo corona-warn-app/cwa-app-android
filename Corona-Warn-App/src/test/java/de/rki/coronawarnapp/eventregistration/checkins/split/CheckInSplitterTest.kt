@@ -18,7 +18,6 @@ class CheckInSplitterTest : BaseTest() {
     private val defaultCheckIn = CheckIn(
         id = 1L,
         guid = "eventOne",
-        guidHash = EMPTY,
         version = 1,
         type = 1,
         description = "Restaurant",
@@ -47,6 +46,55 @@ class CheckInSplitterTest : BaseTest() {
 
         checkIn.splitByMidnightUTC().apply {
             size shouldBe 1 // No splitting
+            get(0) shouldBe checkIn
+        }
+    }
+
+    @Test
+    fun `end time before start time same day is filtered`() {
+        /*
+           localCheckIn = { start: '2021-03-05 09:45', end: '2021-03-04 09:30' }
+           splitInto = [{ } // filtered
+        */
+        val checkIn = defaultCheckIn.copy(
+            checkInStart = Instant.parse("2021-03-04T09:45:00Z"),
+            checkInEnd = Instant.parse("2021-03-04T09:30:00Z")
+        )
+
+        checkIn.splitByMidnightUTC().apply {
+            size shouldBe 0 // inconsistent data is filtered out
+        }
+    }
+
+    @Test
+    fun `end time and date before start time is filtered`() {
+        /*
+           localCheckIn = { start: '2021-03-05 09:45', end: '2021-03-04 09:30' }
+           splitInto = [{ } // filtered
+        */
+        val checkIn = defaultCheckIn.copy(
+            checkInStart = Instant.parse("2021-03-05T09:45:00Z"),
+            checkInEnd = Instant.parse("2021-03-04T09:30:00Z")
+        )
+
+        checkIn.splitByMidnightUTC().apply {
+            size shouldBe 0 // inconsistent data is filtered out
+        }
+    }
+
+    @Test
+    fun `end time equals start time returns check-in`() {
+        /*
+           localCheckIn = { start: '2021-03-04 09:30', end: '2021-03-04 09:30' }
+           splitInto = [{ } // filtered
+        */
+        val checkIn = defaultCheckIn.copy(
+            checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
+            checkInEnd = Instant.parse("2021-03-04T09:30:00Z")
+        )
+
+        checkIn.splitByMidnightUTC().apply {
+            size shouldBe 1 // inconsistent data is filtered out
             get(0) shouldBe checkIn
         }
     }

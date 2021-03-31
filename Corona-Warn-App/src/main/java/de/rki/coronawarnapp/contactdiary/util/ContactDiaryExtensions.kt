@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -43,11 +44,11 @@ fun LocalDate.toFormattedDayForAccessibility(locale: Locale): String {
         DateTimeFormat.longDate().withLocale(locale).print(this)
 }
 
-fun View.focusAndShowKeyboard() {
+fun EditText.focusAndShowKeyboard() {
     /**
      * This is to be called when the window already has focus.
      */
-    fun View.showTheKeyboardNow() {
+    fun EditText.showTheKeyboardNow() {
         if (isFocused) {
             post {
                 val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -57,6 +58,7 @@ fun View.focusAndShowKeyboard() {
     }
 
     requestFocus()
+    this.setSelection(this.text.length)
     if (hasWindowFocus()) {
         showTheKeyboardNow()
     }

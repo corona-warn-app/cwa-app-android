@@ -1000,9 +1000,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Abbrechen"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"Positionieren Sie den QR-Code in den Rahmen."</string>
+    <string name="qr_code_scan_title">"QR-Code Scan"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="submission_qr_code_scan_body">"Positionieren Sie den QR-Code in den Rahmen."</string>
+    <string name="qr_code_scan_body">"Positionieren Sie den QR-Code in den Rahmen."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1011,26 +1011,28 @@
     <string name="submission_consent_main_headline_body">"Bevor Sie Ihr Testergebnis abrufen und andere warnen können, ist Ihr Einverständnis erforderlich."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Testergebnis abrufen"</string>
-    <!-- YTXT: Body for Submission Consent call test result body  -->
-    <string name="submission_consent_call_test_result_body">"Scannen Sie im nächsten Schritt den QR-Code auf Ihrem Test und rufen Sie Ihr Testergebnis ab."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Scannen Sie nur Ihren eigenen Test."</string>
+    <string name="submission_consent_call_test_result_scan_your_test_only">"Scannen Sie nun per QR-Code Ihren eigenen Test und rufen Sie Ihr Testergebnis ab."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Ihr Test kann nur einmal gescannt werden. Die App kann nicht gleichzeitig mehrere Tests verwalten."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Helfen Sie mit, indem Sie andere warnen, denen Sie begegnet sind!"</string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body">"Wenn Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen. Die Warnung funktioniert in mehreren Ländern. Derzeit nehmen folgende Länder teil:"</string>
+    <!-- YTXT: Body for consent help by warning others - info about events -->
+    <string name="submission_consent_help_by_warning_others_body_event">"Es werden auch Ihre Mitmenschen gewarnt, die zeitgleich mit Ihnen an denselben Events oder Orten eingecheckt waren."</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Ihr Einverständnis ist freiwillig."</string>
+    <string name="submission_consent_main_first_point">"Sie können Ihr Testergebnis auch abrufen, wenn Sie dieses nicht teilen möchten. Wenn Sie Ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
     <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point">"Sie können Ihr Testergebnis auch abrufen, wenn Sie dies nicht teilen. Wenn Sie ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
+    <string name="submission_consent_main_second_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
+    <string name="submission_consent_main_third_point">"Unter „Meine Check-ins“ können Sie Ihre Events und Orte einsehen, deren eingecheckte Gäste gewarnt werden. Sie können einzelne Check-ins auch entfernen und so von der Warnung ausschließen."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
+    <!-- YTXT: Body for consent main section final id consent  -->
+    <string name="submission_consent_main_id_consent">"Erteilen Sie im nächsten Schritt Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs."</string>
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"Eine Person hält ein Smartphone. Ein QR-Code auf einem Test symbolisiert den zu scannenden Code."</string>
 
@@ -1346,6 +1348,8 @@
     <string name="submission_status_card_body_failed">"Ihr Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neuen Test hinzufügen."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"Warnen Sie Ihre Mitmenschen, wenn Sie positiv auf Corona getestet wurden."</string>
+    <!-- YTXT: Button text for submission status fetch ready -->
+    <string name="submission_status_card_retrieve_test_result">"Testergebnis abrufen"</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Nächste Schritte"</string>
     <!-- XBUT: submission status card show results button -->
@@ -1940,4 +1944,30 @@
     <string name="generic_action_abort">Abbrechen</string>
     <!-- XACT: Button/Dialog label to remove something-->
     <string name="generic_action_remove">Entfernen</string>
+
+    <!-- ####################################
+       Trace Location
+    ###################################### -->
+    <!-- XHED: Title for the trace location onboarding -->
+    <string name="trace_location_onboarding_title">Einchecken</string>
+    <!-- XTXT: subtitle for the trace location onboarding -->
+    <string name="trace_location_onboarding_title2">Infektionsketten schnell und sicher unterbrechen</string>
+    <!-- YMSG: Onboarding trace location intro section -->
+    <string name="trace_location_onboarding_subheadline">Scannen Sie den QR-Code zu einem Event oder Ort, um sich einzuchecken und so Ihre Anwesenheit für dieses Event oder diesen Ort auf Ihrem Smartphone zu speichern.</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_warning">Jeder Check-in wird bei der Ermittlung des Risikostatus zusätzlich berücksichtigt. Wird eine eingecheckte Person später positiv getestet, können Sie gewarnt werden, wenn Sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben.</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_stay">Bitte geben Sie Ihre Aufenthaltszeit so genau wie möglich an, damit gezielt gewarnt werden kann.</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent2">Die App merkt sich für 16 Tage, bei welchen Events oder Orten Sie sich eingecheckt haben.</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent3">Wenn Sie einen QR-Code einscannen, um sich einzuchecken, wird auf Ihrem Smartphone ein Eintrag für das Event oder den Ort angelegt.</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent4">Wenn ein zeitgleich mit Ihnen eingecheckter Nutzer später positiv getestet wird und eine Warnung auslöst, werden Sie automatisch anhand der Event-ID gewarnt – auch wenn Ihr Smartphone keine Zufalls-IDs des positiv getesteten Nutzers empfangen hat.</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent5">Falls Sie später selbst eine Warnung auslösen, werden automatisch alle anderen Nutzer, die zeitgleich mit Ihnen bei einem unter „Meine Check-ins“ eingetragenen Event oder Ort eingecheckt waren, anhand der Event-ID gewarnt.</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent6">Unter „Meine Check-ins“ können Sie einen Check-in jederzeit löschen. In diesem Fall werden Sie nur gewarnt, wenn Ihr Smartphone die Zufalls-IDs des positiv getesteten Nutzers empfangen und eine Risiko-Begegnung ermittelt hat.</string>
+    <!-- XACT: Button/Dialog label to consent-->
+    <string name="trace_location_onboarding_body_confirm">Einverstanden</string>
 </resources>

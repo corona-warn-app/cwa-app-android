@@ -50,12 +50,24 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                 findNavController().navigate(R.id.showStoredEventsTestFragment)
             }
 
+            showQrCodeDetailFragment.setOnClickListener {
+                findNavController().navigate(R.id.qrCodeDetailFragment)
+            }
+
             startCreateEventFlowButton.setOnClickListener {
                 findNavController().navigate(R.id.traceLocationOrganizerCategoriesFragment)
             }
+
+            showOrganizerList.setOnClickListener {
+                findNavController().navigate(R.id.traceLocationOrganizerListFragment)
+            }
+
+            generateTestTraceLocations.setOnClickListener {
+                viewModel.generateTestTraceLocations()
+            }
         }
         binding.runMatcher.setOnClickListener {
-            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
+            viewModel.runMatcher()
         }
 
         binding.downloadReportedCheckIns.setOnClickListener {
@@ -63,7 +75,23 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         }
 
         binding.calculateRisk.setOnClickListener {
-            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
+            viewModel.runRiskCalculationPerCheckInDay()
+        }
+
+        viewModel.checkInOverlapsText.observe2(this) {
+            binding.matchingResultText.text = it
+        }
+
+        viewModel.checkInRiskPerDayText.observe2(this) {
+            binding.riskCalculationResultText.text = it
+        }
+
+        viewModel.matchingRuntime.observe2(this) {
+            binding.matchingRuntimeText.text = "Matching runtime in millis: $it"
+        }
+
+        viewModel.riskCalculationRuntime.observe2(this) {
+            binding.riskCalculationRuntimeText.text = "Risk calculation runtime in millis: $it"
         }
 
         binding.runPTWarningTask.setOnClickListener {

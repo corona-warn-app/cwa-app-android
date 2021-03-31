@@ -42,10 +42,12 @@ import io.mockk.spyk
 import io.mockk.verify
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchInMainActivity
@@ -71,6 +73,9 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var tracingSettings: TracingSettings
 
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
+
+    @get:Rule
+    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {
@@ -105,6 +110,15 @@ class HomeFragmentTest : BaseUITest() {
         // also scroll down and capture a screenshot of the faq card
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view)).perform(recyclerScrollTo())
         takeScreenshot<HomeFragment>("faq_card")
+    }
+
+    @Screenshot
+    @Test
+    fun captureHomeFragmentLowRiskNoEncountersWithoutInstallTime() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            HomeData.Tracing.LOW_RISK_ITEM_NO_ENCOUNTERS_WITHOUT_INSTALL_TIME
+        )
+        captureHomeFragment("low_risk_no_encounters_without_install_time")
     }
 
     @Screenshot
