@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import okio.ByteString.Companion.toByteString
+import okio.ByteString.Companion.encode
 import org.joda.time.DateTime
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
@@ -38,7 +38,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 startDate = null,
                 endDate = null,
                 defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".toByteArray().toByteString(),
+                cryptographicSeed = "".encode(),
                 cnPublicKey = ""
             )
             traceLocationRepository.addTraceLocation(permanent)
@@ -50,7 +50,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 startDate = DateTime.now().plusHours(2).toInstant(),
                 endDate = DateTime.now().plusHours(3).toInstant(),
                 defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".toByteArray().toByteString(),
+                cryptographicSeed = "".encode(),
                 cnPublicKey = ""
             )
             traceLocationRepository.addTraceLocation(oneDayEvent)
@@ -62,7 +62,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 startDate = DateTime.now().plusHours(2).toInstant(),
                 endDate = DateTime.now().plusDays(5).plusHours(2).toInstant(),
                 defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".toByteArray().toByteString(),
+                cryptographicSeed = "".encode(),
                 cnPublicKey = ""
             )
             traceLocationRepository.addTraceLocation(partyHardEvent)
@@ -74,7 +74,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 startDate = null,
                 endDate = null,
                 defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".toByteArray().toByteString(),
+                cryptographicSeed = "".encode(),
                 cnPublicKey = ""
             )
             traceLocationRepository.addTraceLocation(oldPermanent)
@@ -86,7 +86,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
                 endDate = DateTime.now().minusSeconds(15 * 86400 - 10).toInstant(),
                 defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".toByteArray().toByteString(),
+                cryptographicSeed = "".encode(),
                 cnPublicKey = ""
             )
             traceLocationRepository.addTraceLocation(oldTemporaryOne)
@@ -98,7 +98,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
                 endDate = DateTime.now().minusSeconds(15 * 86400).toInstant(),
                 defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".toByteArray().toByteString(),
+                cryptographicSeed = "".encode(),
                 cnPublicKey = ""
             )
             traceLocationRepository.addTraceLocation(oldTemporaryTwo)
@@ -110,7 +110,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
                 endDate = DateTime.now().minusSeconds(15 * 86400 + 10).toInstant(),
                 defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".toByteArray().toByteString(),
+                cryptographicSeed = "".encode(),
                 cnPublicKey = ""
             )
             traceLocationRepository.addTraceLocation(oldTemporaryThree)

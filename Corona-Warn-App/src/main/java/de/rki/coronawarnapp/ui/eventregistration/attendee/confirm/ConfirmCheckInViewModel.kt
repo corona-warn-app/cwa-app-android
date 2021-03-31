@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocat
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import okio.ByteString.Companion.toByteString
+import okio.ByteString.Companion.encode
 import org.joda.time.Duration
 import org.joda.time.Instant
 
@@ -45,7 +45,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         traceLocationBytes = traceLocationBytes,
         signature = signature,
         guid = "", // traceLocation.id,
-        guidHash = "".toByteArray().toByteString(), // traceLocation.guid.toByteArray().toByteString().sha256(),
+        guidHash = "".encode(), // traceLocation.guid.toByteArray().toByteString().sha256(),
         version = traceLocation.version,
         type = traceLocation.type.number,
         description = traceLocation.description,

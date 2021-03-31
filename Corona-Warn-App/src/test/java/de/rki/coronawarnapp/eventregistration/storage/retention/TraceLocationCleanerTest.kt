@@ -12,7 +12,7 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
-import okio.ByteString.Companion.toByteString
+import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -88,7 +88,7 @@ internal class TraceLocationCleanerTest : BaseTest() {
         startDate = null,
         endDate = endDate,
         defaultCheckInLengthInMinutes = 30,
-        cryptographicSeed = "seed byte array".toByteArray().toByteString(),
+        cryptographicSeed = "seed byte array".encode(),
         cnPublicKey = "cnPublicKey"
     )
 }

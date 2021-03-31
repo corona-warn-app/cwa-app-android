@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
 import io.kotest.matchers.shouldBe
-import okio.ByteString.Companion.toByteString
+import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -22,7 +22,7 @@ internal class TraceLocationEntityTest : BaseTest() {
             startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
             endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 15,
-            cryptographicSeed = "seed byte array".toByteArray().toByteString(),
+            cryptographicSeed = "seed byte array".encode(),
             cnPublicKey = "cnPublicKey"
         ).toTraceLocationEntity() shouldBe TraceLocationEntity(
             id = 1,
@@ -33,7 +33,7 @@ internal class TraceLocationEntityTest : BaseTest() {
             startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
             endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 15,
-            cryptographicSeedBase64 = "seed byte array".toByteArray().toByteString().base64(),
+            cryptographicSeedBase64 = "seed byte array".encode().base64(),
             cnPublicKey = "cnPublicKey"
         )
     }
@@ -49,7 +49,7 @@ internal class TraceLocationEntityTest : BaseTest() {
             startDate = null,
             endDate = null,
             defaultCheckInLengthInMinutes = null,
-            cryptographicSeed = "seed byte array".toByteArray().toByteString(),
+            cryptographicSeed = "seed byte array".encode(),
             cnPublicKey = "cnPublicKey"
         ).toTraceLocationEntity() shouldBe TraceLocationEntity(
             id = 1,
@@ -60,7 +60,7 @@ internal class TraceLocationEntityTest : BaseTest() {
             startDate = null,
             endDate = null,
             defaultCheckInLengthInMinutes = null,
-            cryptographicSeedBase64 = "seed byte array".toByteArray().toByteString().base64(),
+            cryptographicSeedBase64 = "seed byte array".encode().base64(),
             cnPublicKey = "cnPublicKey"
         )
     }

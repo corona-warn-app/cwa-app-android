@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.eventregistration.storage
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
-import okio.ByteString.Companion.toByteString
+import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 
 object TraceLocationDatabaseData {
@@ -17,7 +17,7 @@ object TraceLocationDatabaseData {
         startDate = Instant.parse("2021-01-01T12:00:00.000Z"),
         endDate = Instant.parse("2021-01-01T18:00:00.000Z"),
         defaultCheckInLengthInMinutes = null,
-        cryptographicSeedBase64 = "seed byte array".toByteArray().toByteString().base64(),
+        cryptographicSeedBase64 = "seed byte array".encode().base64(),
         cnPublicKey = "cnPublicKey"
     )
 
@@ -30,7 +30,7 @@ object TraceLocationDatabaseData {
         startDate = null,
         endDate = null,
         defaultCheckInLengthInMinutes = 15,
-        cryptographicSeedBase64 = "seed byte array".toByteArray().toByteString().base64(),
+        cryptographicSeedBase64 = "seed byte array".encode().base64(),
         cnPublicKey = "cnPublicKey"
     )
 }

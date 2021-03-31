@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
 import okio.ByteString
+import okio.ByteString.Companion.encode
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import java.util.concurrent.TimeUnit
@@ -38,7 +39,7 @@ data class VerifiedTraceLocation(
             defaultCheckInLengthInMinutes = protoTraceLocation.defaultCheckInLengthInMinutes,
             // byteRepresentation = traceLocationBytes,
             // signature = signature,
-            cryptographicSeed = "".toByteArray().toByteString(),
+            cryptographicSeed = "".encode(),
             cnPublicKey = ""
         )
     }
