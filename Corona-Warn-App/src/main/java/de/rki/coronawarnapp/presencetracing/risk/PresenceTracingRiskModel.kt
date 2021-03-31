@@ -25,7 +25,7 @@ data class CheckInRiskPerDay(
 data class CheckInWarningOverlap(
     val checkInId: Long,
     val transmissionRiskLevel: Int,
-    val traceWarningPackageId: Long,
+    val traceWarningPackageId: String,
     val startTime: Instant,
     val endTime: Instant
 ) {

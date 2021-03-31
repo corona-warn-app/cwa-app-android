@@ -13,6 +13,8 @@ import testhelpers.BaseTest
 
 class OverlapTest : BaseTest() {
 
+    val id = "id"
+
     @Test
     fun `returns null if guids do not match`() {
         createCheckIn(
@@ -26,7 +28,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         ) shouldBe null
     }
 
@@ -43,7 +45,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         ) shouldBe null
     }
 
@@ -60,7 +62,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         ) shouldBe null
     }
 
@@ -77,7 +79,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         ) shouldBe null
     }
 
@@ -94,7 +96,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         ) shouldBe null
     }
 
@@ -111,7 +113,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 12
     }
 
@@ -128,7 +130,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 15
     }
 
@@ -145,7 +147,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 13
     }
 
@@ -162,7 +164,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 2
     }
 
@@ -179,7 +181,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 30
     }
 
@@ -196,7 +198,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 60
     }
 
@@ -213,7 +215,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 6
     }
 
@@ -230,7 +232,7 @@ class OverlapTest : BaseTest() {
                 period = 6,
                 transmissionRiskLevel = 8
             ),
-            traceWarningPackageId = 1L
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 5
     }
 }

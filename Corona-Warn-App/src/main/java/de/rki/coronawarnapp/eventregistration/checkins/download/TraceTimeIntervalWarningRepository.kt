@@ -36,8 +36,8 @@ object DummyCheckInPackage : TraceTimeIntervalWarningPackage {
         return warnings
     }
 
-    override val warningPackageId: Long
-        get() = 1L
+    override val warningPackageId: String
+        get() = "id"
 }
 
 val warnings = (1L..1000L).map {

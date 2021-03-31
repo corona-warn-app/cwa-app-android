@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.risk
 
+import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -87,18 +88,18 @@ interface TraceTimeIntervalMatchDao {
 
 @Entity
 data class TraceTimeIntervalMatchEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long? = null,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long? = null,
     @ForeignKey(
         entity = TraceLocationCheckInEntity::class,
         parentColumns = ["id"],
         childColumns = ["checkInId"],
         onDelete = ForeignKey.CASCADE
     )
-    val checkInId: Long,
-    val traceWarningPackageId: Long,
-    val transmissionRiskLevel: Int,
-    val startTimeMillis: Long,
-    val endTimeMillis: Long
+    @ColumnInfo(name = "checkInId") val checkInId: Long,
+    @ColumnInfo(name = "traceWarningPackageId") val traceWarningPackageId: String,
+    @ColumnInfo(name = "transmissionRiskLevel") val transmissionRiskLevel: Int,
+    @ColumnInfo(name = "startTimeMillis") val startTimeMillis: Long,
+    @ColumnInfo(name = "endTimeMillis") val endTimeMillis: Long
 )
 
 private fun CheckInWarningOverlap.toEntity() = TraceTimeIntervalMatchEntity(

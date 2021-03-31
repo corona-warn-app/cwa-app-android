@@ -114,7 +114,7 @@ internal suspend fun findMatches(
 @VisibleForTesting(otherwise = PRIVATE)
 internal fun CheckIn.calculateOverlap(
     warning: TraceWarning.TraceTimeIntervalWarning,
-    traceWarningPackageId: Long
+    traceWarningPackageId: String
 ): CheckInWarningOverlap? {
 
     if (warning.locationGuidHash != locationGuidHash) return null

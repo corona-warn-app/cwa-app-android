@@ -12,5 +12,5 @@ interface TraceTimeIntervalWarningPackage {
     /**
      * Numeric identifier representing the hour since epoch, used in the Api endpoint
      */
-    val warningPackageId: Long
+    val warningPackageId: String
 }
