@@ -61,6 +61,9 @@
         <action
             android:id="@+id/action_traceLocationsFragment_to_qrCodePosterFragment"
             app:destination="@id/qrCodePosterFragment" />
+        <action
+            android:id="@+id/action_traceLocationsFragment_to_traceLocationCreateFragment"
+            app:destination="@id/traceLocationCreateFragment" />
     </fragment>
 
     <fragment
@@ -81,9 +84,6 @@
         <argument
             android:name="locationID"
             app:argType="string" />
-        <action
-            android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationCreateFragment"
-            app:destination="@id/traceLocationCreateFragment" />
     </fragment>
 
 </navigation>

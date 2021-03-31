@@ -86,7 +86,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 }
                 is TraceLocationEvent.QrCodePrint -> doNavigate(
                     TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
-                        it.traceLocation.guid
+                        it.traceLocation.cnPublicKey
                     )
                 )
 
@@ -162,11 +162,10 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             Timber.e("Category not found, traceLocation = $traceLocation")
         } else {
             findNavController().navigate(
-                TraceLocationsFragmentDirections
-                    .actionTraceLocationOrganizerListFragmentToTraceLocationCreateFragment(
-                        category,
-                        traceLocation
-                    )
+                TraceLocationsFragmentDirections.actionTraceLocationsFragmentToTraceLocationCreateFragment(
+                    category,
+                    traceLocation
+                )
             )
         }
     }
