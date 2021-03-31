@@ -141,6 +141,12 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     ) {
         Timber.d("onCircumstancesChanged(item=%s, circumstances=%s)", item, circumstances)
         val encounter = item.personEncounter ?: return
+
+        if (encounter.circumstances.isNullOrBlank() && circumstances.isBlank()) {
+            Timber.d("onCircumstancesChanged but there is nothing to be updated")
+            return
+        }
+
         launchOnAppScope {
             val sanitized = circumstances.trim().trimToLength(250)
             contactDiaryRepository.updatePersonEncounter(encounter.id) {
