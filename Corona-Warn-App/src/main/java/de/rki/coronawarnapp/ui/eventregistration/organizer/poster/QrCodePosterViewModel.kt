@@ -3,24 +3,18 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.poster
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.PosterImageProvider
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.Template
-import de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate.QrCodePosterTemplateServer
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
-import java.io.File
-import java.io.FileOutputStream
 
 class QrCodePosterViewModel @AssistedInject constructor(
     @Assisted private val locationID: String,
