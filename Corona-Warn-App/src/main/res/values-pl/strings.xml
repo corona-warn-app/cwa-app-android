@@ -1010,8 +1010,6 @@
     <string name="submission_consent_main_headline_body">"Zanim pobierzesz wynik testu i będziesz ostrzegać innych musisz wyrazić zgodę."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Pobierz wynik testu"</string>
-    <!-- YTXT: Body for Submission Consent call test result body  -->
-    <string name="submission_consent_call_test_result_body">"W następnym kroku zeskanuj kod QR ze swojego testu i pobierz wynik testu."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Zeskanuj tylko swój własny test."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
