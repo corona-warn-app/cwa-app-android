@@ -236,12 +236,11 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     android:focusable="true"
                     android:text="@string/trace_location_onboarding_body_consent6"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/check_in_onboarding_bulletpoint2"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body5" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
