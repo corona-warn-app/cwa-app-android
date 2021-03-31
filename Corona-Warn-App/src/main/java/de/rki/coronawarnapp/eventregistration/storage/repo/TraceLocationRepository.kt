@@ -9,7 +9,7 @@ interface TraceLocationRepository {
 
     suspend fun traceLocationForId(guid: String): TraceLocation
 
-    fun addTraceLocation(traceLocation: TraceLocation)
+    suspend fun addTraceLocation(traceLocation: TraceLocation): TraceLocation
 
     fun deleteTraceLocation(traceLocation: TraceLocation)
 

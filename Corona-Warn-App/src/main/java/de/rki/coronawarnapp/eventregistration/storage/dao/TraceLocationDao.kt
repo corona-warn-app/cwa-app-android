@@ -18,7 +18,10 @@ abstract class TraceLocationDao {
     abstract fun entryForId(guid: String): TraceLocationEntity?
 
     @Insert
-    abstract suspend fun insert(traceLocation: TraceLocationEntity)
+    abstract suspend fun insert(traceLocation: TraceLocationEntity): Long
+
+    @Query("SELECT * FROM traceLocations WHERE id = :id")
+    abstract suspend fun entityForId(id: Long): TraceLocationEntity
 
     @Delete
     abstract suspend fun delete(traceLocation: TraceLocationEntity)
