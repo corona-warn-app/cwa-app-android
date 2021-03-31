@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
+import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.statistics.Statistics
@@ -71,6 +72,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
+    @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
 
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
 
@@ -273,7 +275,8 @@ class HomeFragmentTest : BaseUITest() {
             statisticsProvider = statisticsProvider,
             deadmanNotificationScheduler = deadmanNotificationScheduler,
             appShortcutsHelper = appShortcutsHelper,
-            tracingSettings = tracingSettings
+            tracingSettings = tracingSettings,
+            traceLocationOrganizerSettings = traceLocationOrganizerSettings
         )
     )
 

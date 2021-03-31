@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "045f436da2688334351a33abc2186810",
+    "identityHash": "3017a63593d3342376a56b56743815b7",
     "entities": [
       {
         "tableName": "checkin",
@@ -110,12 +110,12 @@
       },
       {
         "tableName": "traceLocations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `startDate` TEXT, `endDate` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `byteRepresentationBase64` TEXT NOT NULL, `signatureBase64` TEXT NOT NULL, PRIMARY KEY(`guid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `startDate` TEXT, `endDate` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `cryptographicSeedBase64` TEXT NOT NULL, `cnPublicKey` TEXT NOT NULL)",
         "fields": [
           {
-            "fieldPath": "guid",
-            "columnName": "guid",
-            "affinity": "TEXT",
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -161,23 +161,23 @@
             "notNull": false
           },
           {
-            "fieldPath": "byteRepresentationBase64",
-            "columnName": "byteRepresentationBase64",
+            "fieldPath": "cryptographicSeedBase64",
+            "columnName": "cryptographicSeedBase64",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "signatureBase64",
-            "columnName": "signatureBase64",
+            "fieldPath": "cnPublicKey",
+            "columnName": "cnPublicKey",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "guid"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -236,7 +236,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '045f436da2688334351a33abc2186810')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3017a63593d3342376a56b56743815b7')"
     ]
   }
 }

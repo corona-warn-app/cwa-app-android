@@ -30,3 +30,20 @@ fun HasStableId?.isSwipeable(): Boolean {
     }
     return this != null && this is SwipeConsumer
 }
+
+/**
+ * Indicates whether [RecyclerView.ViewHolder]'s can be moved (Dragged, Swiped) or not
+ * by default movementFlags = ACTION_STATE_IDLE which indicates that the view does not move
+ * this behaviour can be overridden and provide any flag from [ItemTouchHelper]
+ */
+interface Movable {
+    val movementFlags: Int get() = ItemTouchHelper.ACTION_STATE_IDLE
+}
+
+@OptIn(ExperimentalContracts::class)
+fun RecyclerView.ViewHolder?.isMovable(): Boolean {
+    contract {
+        returns(true) implies (this@isMovable is Movable)
+    }
+    return this != null && this is Movable
+}

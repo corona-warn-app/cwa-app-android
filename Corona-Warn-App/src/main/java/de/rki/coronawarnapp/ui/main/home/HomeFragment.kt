@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavGraph
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
@@ -76,6 +78,18 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         vm.openFAQUrlEvent.observe2(this) {
             ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
+        }
+
+        vm.openTraceLocationOrganizerFlow.observe2(this) {
+            vm.wasQRInfoWasAcknowledged()
+            val nestedGraph = findNavController().graph.findNode(R.id.trace_location_organizer_nav_graph) as NavGraph
+
+            if (vm.wasQRInfoWasAcknowledged()) {
+                nestedGraph.startDestination = R.id.traceLocationOrganizerListFragment
+            } else {
+                nestedGraph.startDestination = R.id.traceLocationOrganizerQRInfoFragment
+            }
+            doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
         }
 
         vm.popupEvents.observe2(this) { event ->

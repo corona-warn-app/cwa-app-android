@@ -41,7 +41,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             // TODO bind final UI
             args.verifiedTraceLocation?.let {
                 val traceLocation = it.traceLocation
-                eventGuid.text = "GUID: %s".format(traceLocation.guid)
+                eventGuid.text = "ID: %s".format(traceLocation.id)
                 startTime.text = "Start time: %s".format(traceLocation.startDate)
                 endTime.text = "End time: %s".format(traceLocation.endDate)
                 description.text = "Description: %s".format(traceLocation.description)
