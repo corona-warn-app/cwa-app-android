@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.details
 
 import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
@@ -29,7 +31,8 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         createQrCode()
     }
 
-    val qrCodeBitmap = SingleLiveEvent<Bitmap>()
+    private val bitmapLiveData = MutableLiveData<Bitmap>()
+    val qrCodeBitmap: LiveData<Bitmap> = bitmapLiveData
     val routeToScreen: SingleLiveEvent<QrCodeDetailNavigationEvents> = SingleLiveEvent()
 
     /**
@@ -37,7 +40,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
      */
     private fun createQrCode() = launch(context = dispatcher.IO) {
         try {
-            qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(qrCodeText))
+            bitmapLiveData.postValue(qrCodeGenerator.createQrCode(qrCodeText))
         } catch (e: Exception) {
             Timber.d(e, "Qr code creation failed")
             e.report(ExceptionCategory.INTERNAL)
