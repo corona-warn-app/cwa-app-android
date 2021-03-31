@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Days
 import org.joda.time.Instant
@@ -108,8 +108,8 @@ class CheckInsTransformer @Inject constructor(
  * @param transmissionVector [TransmissionRiskVector]
  */
 fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: TransmissionRiskVector): Int {
-    val startMidnight = checkInStart.toLocalDate().toDateTimeAtStartOfDay()
-    val nowMidnight = now.toLocalDate().toDateTimeAtStartOfDay()
+    val startMidnight = checkInStart.toLocalDateUtc().toDateTimeAtStartOfDay()
+    val nowMidnight = now.toLocalDateUtc().toDateTimeAtStartOfDay()
     val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
     return transmissionVector.raw.getOrElse(ageInDays) { 1 } // Default value
 }

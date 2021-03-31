@@ -72,7 +72,6 @@ internal class CheckInCleanerTest : BaseTest() {
     private fun createCheckIn(checkOutDate: Instant) = CheckIn(
         guid = "",
         version = 1,
-        guidHash = "".toByteArray().toByteString(),
         type = 1,
         description = "",
         address = "",

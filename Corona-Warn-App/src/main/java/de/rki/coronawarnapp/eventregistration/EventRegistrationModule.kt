@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import de.rki.coronawarnapp.environment.eventregistration.createtracelocation.CreateTraceLocationModule
 import de.rki.coronawarnapp.environment.eventregistration.qrcodeposter.QrCodePosterTemplateModule
-import de.rki.coronawarnapp.eventregistration.checkins.download.DownloadedCheckInsRepo
-import de.rki.coronawarnapp.eventregistration.checkins.download.FakeDownloadedCheckInsRepo
+import de.rki.coronawarnapp.eventregistration.checkins.download.FakeTraceTimeIntervalWarningRepository
+import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningRepository
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 
@@ -22,5 +22,6 @@ abstract class EventRegistrationModule {
         TraceLocationRepository
 
     @Binds
-    abstract fun downloadedCheckInsRepo(repository: FakeDownloadedCheckInsRepo): DownloadedCheckInsRepo
+    abstract fun traceTimeIntervalWarningRepository(repository: FakeTraceTimeIntervalWarningRepository):
+        TraceTimeIntervalWarningRepository
 }
