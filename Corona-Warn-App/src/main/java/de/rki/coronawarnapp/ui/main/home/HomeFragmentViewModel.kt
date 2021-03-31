@@ -47,9 +47,10 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
+import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
-import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
+import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
@@ -83,12 +84,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
     private val appShortcutsHelper: AppShortcutsHelper,
     private val tracingSettings: TracingSettings,
+    private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
+    val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
@@ -240,7 +243,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
 
-            add(CreateTraceLocationCard.Item(onClickAction = { /** Todo: Add navigation on click */ }))
+            add(CreateTraceLocationCard.Item(onClickAction = { openTraceLocationOrganizerFlow.postValue(Unit) }))
 
             add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
         }
@@ -321,6 +324,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun tracingExplanationWasShown() {
         cwaSettings.wasTracingExplanationDialogShown = true
     }
+
+    fun wasQRInfoWasAcknowledged() = traceLocationOrganizerSettings.qrInfoAcknowledged
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
