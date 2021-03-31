@@ -53,7 +53,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         traceLocationStart = traceLocation.startDate,
         traceLocationEnd = traceLocation.endDate,
         defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
-        checkInStart = checkInStart.minus(Duration.standardDays(7)),
+        checkInStart = checkInStart,
         checkInEnd = checkInEnd,
         completed = completed,
         createJournalEntry = createJournalEntry,

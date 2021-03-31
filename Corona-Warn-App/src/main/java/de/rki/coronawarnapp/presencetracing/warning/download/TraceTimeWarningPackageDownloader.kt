@@ -31,7 +31,11 @@ class TraceTimeWarningPackageDownloader @Inject constructor(
     data class DownloadResult(
         val successful: Boolean,
         val newPackages: Collection<TraceWarningPackageMetadata>
-    )
+    ) {
+        override fun toString(): String {
+            return "DownloadResult(successful=$successful, newPackages.size=${newPackages.size})"
+        }
+    }
 
     suspend fun launchDownloads(
         location: LocationCode,
@@ -79,30 +83,28 @@ class TraceTimeWarningPackageDownloader @Inject constructor(
                 hourInterval = metaData.hourInterval
             )
 
-            val binary = if (downloadInfo.isEmptyPkg) {
-                Timber.tag(TAG).w("Empty package for %s", metaData)
-                byteArrayOf()
-            } else {
+            if (!downloadInfo.isEmptyPkg) {
                 val fileMap = downloadInfo.readBody().unzip().readIntoMap()
-                getValidatedBinary(metaData, fileMap)
-            }
 
-            if (saveTo.exists()) {
-                Timber.tag(TAG).w("File existed, overwriting: %s", saveTo)
-                if (saveTo.delete()) {
-                    Timber.tag(TAG).e("%s exists, but can't be deleted.", saveTo)
+                val binary = getValidatedBinary(metaData, fileMap)
+                if (saveTo.exists()) {
+                    Timber.tag(TAG).w("File existed, overwriting: %s", saveTo)
+                    if (saveTo.delete()) {
+                        Timber.tag(TAG).e("%s exists, but can't be deleted.", saveTo)
+                    }
                 }
+
+                saveTo.writeBytes(binary)
+                Timber.tag(TAG).v("%d bytes written to %s.", binary.size, saveTo)
+            } else {
+                Timber.tag(TAG).w("Empty package for %s", metaData)
             }
-
-            saveTo.writeBytes(binary)
-            Timber.tag(TAG).v("%d bytes written to %s.", binary.size, saveTo)
-
 
             Timber.tag(TAG).v("Download finished: %s -> %s", metaData, downloadInfo)
 
             val eTag = requireNotNull(downloadInfo.etag) { "Server provided no ETAG!" }
 
-            return repository.markDownloadComplete(metaData, eTag)
+            return repository.markDownloadComplete(metaData, eTag, downloadInfo.isEmptyPkg)
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Download failed: %s", metaData)
             repository.deleteFile(saveTo)

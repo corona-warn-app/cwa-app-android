@@ -65,6 +65,10 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         binding.calculateRisk.setOnClickListener {
             Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
         }
+
+        binding.runPTWarningTask.setOnClickListener {
+            viewModel.runWarningPackageTask()
+        }
     }
 
     companion object {

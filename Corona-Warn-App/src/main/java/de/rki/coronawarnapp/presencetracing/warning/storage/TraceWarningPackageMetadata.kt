@@ -16,6 +16,7 @@ data class TraceWarningPackageMetadata(
     @ColumnInfo(name = "hourInterval") val hourInterval: HourInterval,
     @ColumnInfo(name = "eTag") val eTag: String? = null,
     @ColumnInfo(name = "downloaded") val isDownloaded: Boolean = false,
+    @ColumnInfo(name = "emptyPkg") val isEmptyPkg: Boolean = false,
     @ColumnInfo(name = "processed") val isProcessed: Boolean = false
 ) {
 
@@ -31,7 +32,7 @@ data class TraceWarningPackageMetadata(
     )
 
     @Transient
-    val fileName: String = "$packageId.zip"
+    val fileName: String = "$packageId.bin"
 
     companion object {
         fun calcluateId(
@@ -45,6 +46,7 @@ data class TraceWarningPackageMetadata(
         @PrimaryKey @ColumnInfo(name = "id") val packageId: WarningPackageId,
         @ColumnInfo(name = "eTag") val eTag: String?,
         @ColumnInfo(name = "downloaded") val isDownloaded: Boolean,
+        @ColumnInfo(name = "emptyPkg") val isEmptyPkg: Boolean,
         @ColumnInfo(name = "processed") val isProcessed: Boolean,
     )
 

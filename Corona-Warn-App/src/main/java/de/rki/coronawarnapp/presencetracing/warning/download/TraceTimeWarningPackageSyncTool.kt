@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackageM
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.util.HourInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.deriveHourInterval
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.debug.measureTime
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,13 +25,16 @@ class TraceTimeWarningPackageSyncTool @Inject constructor(
     private val server: TraceTimeWarningServer,
     private val repository: TraceTimeIntervalWarningRepository,
     private val configProvider: AppConfigProvider,
-    private val dispatcherProvider: DispatcherProvider,
     private val checkInRepository: CheckInRepository,
     private val downloader: TraceTimeWarningPackageDownloader
 ) {
 
     suspend fun syncPackages(): SyncResult {
-        return syncPackagesForLocation(LocationCode("DE"))
+        repository.cleanMetadata()
+        return measureTime(
+            { Timber.tag(TAG).d("syncPackagesForLocation(DE), took %dms", it) },
+            { syncPackagesForLocation(LocationCode("DE")) }
+        )
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -51,9 +54,7 @@ class TraceTimeWarningPackageSyncTool @Inject constructor(
 
         val downloadConfig: KeyDownloadConfig = configProvider.getAppConfig()
 
-        cleanUpRevokedPackages(downloadConfig).also {
-            Timber.tag(TAG).d("Cleaned up TraceWarning ids: %s", it)
-        }
+        cleanUpRevokedPackages(downloadConfig)
 
         val intervalDiscovery: TraceTimeWarningApiV1.DiscoveryResult = try {
             server.getAvailableIds(location)
@@ -67,9 +68,7 @@ class TraceTimeWarningPackageSyncTool @Inject constructor(
             intervalDiscovery.oldest
         )
 
-        cleanUpIrrelevantPackages(location, firstRelevantInterval).also {
-            Timber.tag(TAG).d("Removed irrelevant packages: %s", it)
-        }
+        cleanUpIrrelevantPackages(location, firstRelevantInterval)
 
         if (firstRelevantInterval > intervalDiscovery.latest) {
             Timber.tag(TAG).d("Known server IDs are older then ours newest, aborting early.")
@@ -122,7 +121,9 @@ class TraceTimeWarningPackageSyncTool @Inject constructor(
 
         repository.delete(toDelete)
 
-        return toDelete
+        return toDelete.also {
+            Timber.tag(TAG).d("Cleaned up TraceWarning ids: %s", it)
+        }
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -136,7 +137,9 @@ class TraceTimeWarningPackageSyncTool @Inject constructor(
 
         repository.delete(toDelete)
 
-        return toDelete
+        return toDelete.also {
+            Timber.tag(TAG).d("Removed irrelevant packages: %s", it)
+        }
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -145,14 +148,11 @@ class TraceTimeWarningPackageSyncTool @Inject constructor(
         firstRelevant: HourInterval,
         lastRelevant: HourInterval
     ): List<HourInterval> {
-        val alreadyProcessed = repository.getMetaDataForLocation(location)
+        val metadatas = repository.getMetaDataForLocation(location)
 
         return (firstRelevant..lastRelevant).filter { interval ->
-            val metadata = alreadyProcessed.find {
-                it.hourInterval == interval
-            } ?: return@filter false
-
-            !metadata.isProcessed
+            // If there is no metadata, it's unknown, so we want to download it
+            metadatas.none { it.hourInterval == interval }
         }
     }
 

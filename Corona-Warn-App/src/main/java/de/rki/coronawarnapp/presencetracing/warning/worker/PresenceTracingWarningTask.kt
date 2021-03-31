@@ -1,23 +1,26 @@
 package de.rki.coronawarnapp.presencetracing.warning.worker
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.presencetracing.warning.download.TraceTimeWarningPackageSyncTool
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
+import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Provider
 
 class PresenceTracingWarningTask @Inject constructor(
-    private val appConfigProvider: AppConfigProvider,
     private val timeStamper: TimeStamper,
+    private val syncTool: TraceTimeWarningPackageSyncTool,
 ) : Task<DefaultProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -29,7 +32,9 @@ class PresenceTracingWarningTask @Inject constructor(
         Timber.d("Running with arguments=%s", arguments)
         val nowUTC = timeStamper.nowUTC
 
-        val configData: ConfigData = appConfigProvider.getAppConfig()
+        syncTool.syncPackages()
+
+        // TODO run matcher
 
         Result(calculatedAt = nowUTC)
     } catch (error: Exception) {
@@ -53,6 +58,27 @@ class PresenceTracingWarningTask @Inject constructor(
     data class Result(
         val calculatedAt: Instant
     ) : Task.Result
+
+    data class Config(
+        override val executionTimeout: Duration = Duration.standardMinutes(8), // TODO unit-test that not > 9 min
+
+        override val collisionBehavior: TaskFactory.Config.CollisionBehavior = TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
+
+    ) : TaskFactory.Config
+
+    class Factory @Inject constructor(
+        private val taskByDagger: Provider<PresenceTracingWarningTask>,
+        private val appConfigProvider: AppConfigProvider
+    ) : TaskFactory<DefaultProgress, Task.Result> {
+
+        override suspend fun createConfig(): TaskFactory.Config = Config(
+            executionTimeout = appConfigProvider.getAppConfig().overallDownloadTimeout
+        )
+
+        override val taskProvider: () -> Task<DefaultProgress, Task.Result> = {
+            taskByDagger.get()
+        }
+    }
 
     companion object {
         private const val TAG = "TraceTimeWarningTask"

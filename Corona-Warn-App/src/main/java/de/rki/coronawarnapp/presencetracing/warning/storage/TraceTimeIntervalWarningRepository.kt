@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.HourInterval
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.io.File
@@ -66,13 +67,18 @@ class TraceTimeIntervalWarningRepository @Inject constructor(
         return dao.getAllMetaDataForLocation(location.identifier)
     }
 
-    suspend fun markDownloadComplete(metadata: TraceWarningPackageMetadata, eTag: String): TraceWarningPackageMetadata {
+    suspend fun markDownloadComplete(
+        metadata: TraceWarningPackageMetadata,
+        eTag: String,
+        isEmptyPkg: Boolean
+    ): TraceWarningPackageMetadata {
         Timber.tag(TAG).d("markDownloadComplete(metaData=%s, eTag=%s)", metadata, eTag)
         val update = TraceWarningPackageMetadata.UpdateDownload(
             packageId = metadata.packageId,
             eTag = eTag,
             isDownloaded = true,
             isProcessed = false,
+            isEmptyPkg = isEmptyPkg,
         )
         Timber.tag(TAG).d("Metadata marked as complete: %s", update)
         dao.updateMetaData(update)
@@ -80,6 +86,7 @@ class TraceTimeIntervalWarningRepository @Inject constructor(
             eTag = eTag,
             isDownloaded = true,
             isProcessed = false,
+            isEmptyPkg = isEmptyPkg,
         )
     }
 
@@ -90,12 +97,19 @@ class TraceTimeIntervalWarningRepository @Inject constructor(
             isProcessed = true,
         )
         dao.updateMetaData(update)
+
+        dao.get(packageId)?.also {
+            val file = getPathForMetaData(it)
+            if (file.delete()) {
+                Timber.tag(TAG).v("Deleted processed file: %s", file)
+            }
+        }
     }
 
     fun deleteFile(path: File) = path.delete()
 
     suspend fun delete(metadata: List<TraceWarningPackageMetadata>) {
-        Timber.tag(TAG).d("delete(metaData=%s)", metadata)
+        Timber.tag(TAG).d("delete(metaData=%s)", metadata.map { it.packageId })
         dao.deleteByIds(metadata.map { it.packageId })
         metadata.map { getPathForMetaData(it) }.forEach {
             if (it.exists()) {
@@ -114,6 +128,40 @@ class TraceTimeIntervalWarningRepository @Inject constructor(
 
         if (!storageDir.deleteRecursively()) {
             Timber.tag(TAG).e("Failed to delete all TraceWarningPackage files.")
+        }
+    }
+
+    suspend fun cleanMetadata() {
+        Timber.tag(TAG).d("cleanMetadata()")
+        val allMetadata = allMetaData.first()
+
+        // Lost files, system deleted cache?
+        run {
+            val shouldHaveFile = allMetadata.filter { it.isDownloaded && !it.isProcessed && !it.isEmptyPkg }
+            val toDelete = shouldHaveFile.filter { !getPathForMetaData(it).exists() }
+            if (toDelete.isNotEmpty()) {
+                Timber.tag(TAG).w("%d Metadata items lost their file", toDelete.size)
+            }
+            delete(toDelete)
+        }
+
+        // Shouldn't have a file, but has one? Gremlins?
+        run {
+            val shouldNotHaveFile = allMetadata.filter { it.isDownloaded && (it.isProcessed || it.isEmptyPkg) }
+            val toDelete = shouldNotHaveFile.filter { getPathForMetaData(it).exists() }
+            if (toDelete.isNotEmpty()) {
+                Timber.tag(TAG).w("%d Metadata items have unexpected files", toDelete.size)
+            }
+            delete(toDelete)
+        }
+
+        // File without owner?
+        storageDir.listFiles()?.forEach { file ->
+            val orphan = allMetadata.none { getPathForMetaData(it) == file }
+
+            if (orphan && file.delete()) {
+                Timber.tag(TAG).w("Deleted orphaned file: %s", file)
+            }
         }
     }
 }
