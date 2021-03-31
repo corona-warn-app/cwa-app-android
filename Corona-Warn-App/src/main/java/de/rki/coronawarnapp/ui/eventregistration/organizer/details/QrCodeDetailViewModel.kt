@@ -3,6 +3,9 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.details
 import android.graphics.Bitmap
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -23,29 +26,30 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     val eventDate = "21.01.2021, 18:00 - 21:00 Uhr"
 
     init {
-        createQrCode(qrCodeText)
+        createQrCode()
     }
 
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
-    val errorMessage = SingleLiveEvent<String>()
-
     val routeToScreen: SingleLiveEvent<QrCodeDetailNavigationEvents> = SingleLiveEvent()
 
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
      */
-    fun createQrCode(input: String) = launch(context = dispatcher.IO) {
-
+    private fun createQrCode() = launch(context = dispatcher.IO) {
         try {
-            qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(input))
+            qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(qrCodeText))
         } catch (e: Exception) {
             Timber.d(e, "Qr code creation failed")
-            errorMessage.postValue(e.localizedMessage ?: "QR code creation failed")
+            e.report(ExceptionCategory.INTERNAL)
         }
     }
 
     fun onBackButtonPress() {
         routeToScreen.postValue(QrCodeDetailNavigationEvents.NavigateBack)
+    }
+
+    fun onPrintQrCode() {
+        routeToScreen.postValue(QrCodeDetailNavigationEvents.NavigateToPrintFragment(qrCodeText))
     }
 
     @AssistedFactory

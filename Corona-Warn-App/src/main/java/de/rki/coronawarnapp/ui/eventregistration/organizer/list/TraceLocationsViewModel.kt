@@ -35,8 +35,8 @@ class TraceLocationsViewModel @AssistedInject constructor(
                     traceLocation = traceLocation,
                     onCheckIn = { /* TODO */ },
                     onDuplicate = { /* TODO */ },
-                    onShowPrint = { /* TODO */ },
-                    onClearItem = { events.postValue(TraceLocationEvent.ConfirmDeleteItem(it)) },
+                    onShowPrint = { events.postValue(TraceLocationEvent.ConfirmDeleteItem(it)) },
+                    onClearItem = { events.postValue(TraceLocationEvent.QrCodePrint(traceLocation)) },
                     onSwipeItem = { traceLocation, position ->
                         events.postValue(
                             TraceLocationEvent.ConfirmSwipeItem(traceLocation, position)

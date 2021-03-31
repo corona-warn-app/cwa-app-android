@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -25,7 +26,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val vm: QrCodeDetailViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: QrCodeDetailViewModel by cwaViewModels { viewModelFactory }
     private val binding: TraceLocationOrganizerQrCodeDetailFragmentBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,18 +46,22 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 }
             )
 
-            title.text = vm.titleText
-            subtitle.text = vm.subtitleText
-            eventDate.text = vm.eventDate
+            title.text = viewModel.titleText
+            subtitle.text = viewModel.subtitleText
+            eventDate.text = viewModel.eventDate
 
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)
                 navigationContentDescription = getString(R.string.accessibility_close)
-                setNavigationOnClickListener { vm.onBackButtonPress() }
+                setNavigationOnClickListener { viewModel.onBackButtonPress() }
+            }
+
+            qrCodePrintButton.setOnClickListener {
+                viewModel.onPrintQrCode()
             }
         }
 
-        vm.qrCodeBitmap.observe2(this) {
+        viewModel.qrCodeBitmap.observe2(this) {
             binding.qrCodeImage.apply {
                 val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
                 resourceId.cornerRadius = it.width * 0.1f
@@ -64,15 +69,16 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             }
         }
 
-        vm.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe2(this) {
             when (it) {
-                QrCodeDetailNavigationEvents.NavigateBack -> {
-                    popBackStack()
-                }
-                QrCodeDetailNavigationEvents.NavigateToPrintFragment -> { /* TODO */
-                }
+                QrCodeDetailNavigationEvents.NavigateBack -> popBackStack()
+
                 QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> { /* TODO */
                 }
+
+                is QrCodeDetailNavigationEvents.NavigateToPrintFragment -> doNavigate(
+                    QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.qrCode)
+                )
             }
         }
     }

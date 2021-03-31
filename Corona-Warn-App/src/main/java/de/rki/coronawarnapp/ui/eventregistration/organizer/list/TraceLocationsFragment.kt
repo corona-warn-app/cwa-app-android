@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.util.list.onSwipeItem
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -78,13 +79,18 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 is TraceLocationEvent.ConfirmSwipeItem -> {
                     showDeleteSingleDialog(it.traceLocation, it.position)
                 }
+                is TraceLocationEvent.QrCodePrint -> doNavigate(
+                    TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
+                        it.traceLocation.guid
+                    )
+                )
             }
         }
 
         binding.qrCodeFab.apply {
             setOnClickListener {
                 findNavController().navigate(
-                    R.id.action_traceLocationOrganizerListFragment_to_traceLocationOrganizerCategoriesFragment,
+                    R.id.action_traceLocationsFragment_to_traceLocationCategoryFragment,
                     null,
                     null,
                     FragmentNavigatorExtras(this to transitionName)
@@ -137,18 +143,10 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 viewModel.deleteSingleTraceLocation(traceLocation)
             }
             setNegativeButton(R.string.trace_location_organiser_list_delete_all_popup_negative_button) { _, _ ->
-                position?.let {
-                    traceLocationsAdapter.notifyItemChanged(
-                        position
-                    )
-                }
+                position?.let { traceLocationsAdapter.notifyItemChanged(position) }
             }
             setOnCancelListener {
-                position?.let {
-                    traceLocationsAdapter.notifyItemChanged(
-                        position
-                    )
-                }
+                position?.let { traceLocationsAdapter.notifyItemChanged(position) }
             }
         }.show()
     }
