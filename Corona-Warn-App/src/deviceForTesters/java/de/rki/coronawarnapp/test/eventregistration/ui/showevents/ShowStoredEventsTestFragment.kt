@@ -34,15 +34,15 @@ class ShowStoredEventsTestFragment : Fragment(R.layout.fragment_test_showstorede
 
     private fun TraceLocation.getSimpleUIString(): String {
         return listOf(
-            "guid = $guid",
+            "id = $id",
             "type = $type",
             "description = $description",
             "location = $address",
             "startTime = $startDate",
             "endTime = $endDate",
             "defaultCheckInLengthInMinutes = $defaultCheckInLengthInMinutes",
-            "signature = $signature",
-            "version = $version"
+            "cryptographicSeed = $cryptographicSeed",
+            "cnPublicKey = $cnPublicKey"
         ).joinToString(separator = "\n")
     }
 }

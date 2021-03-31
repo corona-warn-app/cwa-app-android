@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.events.server
 
-import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationUserInput
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
@@ -29,12 +28,6 @@ object TraceLocationData {
             .setDefaultCheckInLengthInMinutes(180)
             .build()
 
-    val signedTraceLocationTemporary: TraceLocationOuterClass.SignedTraceLocation =
-        TraceLocationOuterClass.SignedTraceLocation.newBuilder()
-            .setLocation(traceLocationTemporary.toByteString())
-            .setSignature(ByteString.copyFromUtf8("ServerSignature"))
-            .build()
-
     private val traceLocationPermanent: TraceLocationOuterClass.TraceLocation =
         TraceLocationOuterClass.TraceLocation.newBuilder()
             .setGuid("serverGeneratedGuid")
@@ -43,11 +36,5 @@ object TraceLocationData {
             .setDescription("IceCream Shop")
             .setAddress("IceCream Wonderland Street 1")
             .setDefaultCheckInLengthInMinutes(30)
-            .build()
-
-    val signedTraceLocationPermanent: TraceLocationOuterClass.SignedTraceLocation =
-        TraceLocationOuterClass.SignedTraceLocation.newBuilder()
-            .setLocation(traceLocationPermanent.toByteString())
-            .setSignature(ByteString.copyFromUtf8("ServerSignature"))
             .build()
 }

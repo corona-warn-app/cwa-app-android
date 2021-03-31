@@ -52,21 +52,16 @@ class CreateEventTestFragment : Fragment(R.layout.fragment_test_createevent), Au
             createEvent()
             it.hideKeyboard()
         }
-        sendToServerButton.setOnClickListener {
-            createEvent(sendToServer = true)
-            it.hideKeyboard()
-        }
     }
 
-    private fun FragmentTestCreateeventBinding.createEvent(sendToServer: Boolean = false) {
+    private fun FragmentTestCreateeventBinding.createEvent() {
         vm.createEvent(
             eventOrLocationSpinner.editText!!.text.toString(),
             eventDescription.text.toString(),
             eventAddress.text.toString(),
             eventStartEditText.text.toString(),
             eventEndEditText.text.toString(),
-            eventDefaultCheckinLengthInMinutes.text.toString(),
-            sendToServer
+            eventDefaultCheckinLengthInMinutes.text.toString()
         )
     }
 
