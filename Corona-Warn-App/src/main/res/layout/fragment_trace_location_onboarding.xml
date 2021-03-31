@@ -90,7 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="@string/trace_location_onboarding_subheadline"
+                android:text="@string/trace_location_onboarding_body_warning"
                 app:layout_constraintTop_toTopOf="@id/check_in_warning_image"
                 app:layout_constraintStart_toEndOf="@id/check_in_warning_image"
                 app:layout_constraintEnd_toEndOf="parent" />
