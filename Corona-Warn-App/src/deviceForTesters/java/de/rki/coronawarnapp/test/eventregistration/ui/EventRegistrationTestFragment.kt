@@ -76,33 +76,23 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         }
 
         binding.calculateRisk.setOnClickListener {
-            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
+            viewModel.runRiskCalculationPerCheckInDay()
         }
 
-        viewModel.checkInOverlaps.observe2(this) {
-            val text = it.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
-                stringBuilder
-                    .append("CheckIn Id ${checkInOverlap.checkInId}")
-                    .append("Date ${checkInOverlap.localDate}")
-                    .append("Min. ${checkInOverlap.overlap.standardMinutes}")
-                    .append("\n")
-            }
-            binding.matchingResultText.text =
-                if (text.isNotBlank()) text
-                else "No matches found"
+        viewModel.checkInOverlapsText.observe2(this) {
+            binding.matchingResultText.text = it
         }
 
-        viewModel.checkInRiskPerDayList.observe2(this) {
-            val text = it.fold(StringBuilder()) { stringBuilder, checkInRiskPerDay ->
-                stringBuilder
-                    .append("CheckIn Id ${checkInRiskPerDay.checkInId}")
-                    .append("Date ${checkInRiskPerDay.localDate}")
-                    .append("RiskState ${checkInRiskPerDay.riskState}")
-                    .append("\n")
-            }
-            binding.riskCalculationResultText.text =
-                if (text.isNotBlank()) text
-                else "No risk results available"
+        viewModel.checkInRiskPerDayText.observe2(this) {
+            binding.riskCalculationResultText.text = it
+        }
+
+        viewModel.matchingRuntime.observe2(this) {
+            binding.matchingRuntimeText.text = "Matching runtime in millis: $it"
+        }
+
+        viewModel.riskCalculationRuntime.observe2(this) {
+            binding.riskCalculationRuntimeText.text = "Risk calculation runtime in millis: $it"
         }
     }
 

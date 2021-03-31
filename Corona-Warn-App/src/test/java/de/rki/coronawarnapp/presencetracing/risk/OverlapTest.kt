@@ -13,6 +13,8 @@ import testhelpers.BaseTest
 
 class OverlapTest : BaseTest() {
 
+    val id = "id"
+
     @Test
     fun `returns null if guids do not match`() {
         createCheckIn(
@@ -25,7 +27,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         ) shouldBe null
     }
 
@@ -41,7 +44,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         ) shouldBe null
     }
 
@@ -57,7 +61,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         ) shouldBe null
     }
 
@@ -73,7 +78,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         ) shouldBe null
     }
 
@@ -89,7 +95,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         ) shouldBe null
     }
 
@@ -105,7 +112,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 12
     }
 
@@ -121,7 +129,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 15
     }
 
@@ -137,7 +146,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 13
     }
 
@@ -153,7 +163,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 2
     }
 
@@ -169,7 +180,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 30
     }
 
@@ -185,7 +197,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 60
     }
 
@@ -201,7 +214,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 6
     }
 
@@ -217,7 +231,8 @@ class OverlapTest : BaseTest() {
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8
-            )
+            ),
+            traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 5
     }
 }

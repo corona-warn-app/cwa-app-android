@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk.storage
 
+import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindow
@@ -43,6 +44,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     @MockK lateinit var riskResultTables: RiskResultsDao
     @MockK lateinit var exposureWindowTables: ExposureWindowsDao
     @MockK lateinit var aggregatedRiskPerDateResultDao: AggregatedRiskPerDateResultDao
+    @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
 
     @BeforeEach
     fun setup() {
@@ -64,6 +66,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         every { aggregatedRiskPerDateResultDao.allEntries() } returns emptyFlow()
         coEvery { aggregatedRiskPerDateResultDao.insertRisk(any()) } just Runs
+        coEvery { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
+        coEvery { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
     }
 
     private fun createInstance(
@@ -73,7 +77,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
         onDeletedOrphanedExposureWindows: () -> Unit = {}
     ) = object : BaseRiskLevelStorage(
         scope = scope,
-        riskResultDatabaseFactory = databaseFactory
+        riskResultDatabaseFactory = databaseFactory,
+        presenceTracingRiskRepository = presenceTracingRiskRepository
     ) {
         override val storedResultLimit: Int = storedResultLimit
 

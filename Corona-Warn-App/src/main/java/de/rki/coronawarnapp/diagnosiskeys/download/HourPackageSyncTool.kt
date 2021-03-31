@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.storage.DeviceStorage
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
@@ -143,7 +143,7 @@ class HourPackageSyncTool @Inject constructor(
             return null
         }
 
-        val today = now.toLocalDate()
+        val today = now.toLocalDateUtc()
 
         val availableHours = run {
             val hoursToday = try {

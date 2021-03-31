@@ -40,6 +40,8 @@ class FindMatchesTest {
             override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
+            override val warningPackageId: String
+                get() = "id"
         }
         runBlockingTest {
             val result = findMatches(listOf(checkIn1, checkIn2), warningPackage)
