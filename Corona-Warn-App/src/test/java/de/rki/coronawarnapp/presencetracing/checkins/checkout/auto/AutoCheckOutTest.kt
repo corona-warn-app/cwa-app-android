@@ -38,7 +38,6 @@ class AutoCheckOutTest : BaseTest() {
     private val baseCheckin = CheckIn(
         id = 0L,
         guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
-        guidHash = ByteString.EMPTY,
         version = 1,
         type = 2,
         description = "brothers birthday",
