@@ -24,11 +24,12 @@ class QrCodeGenerator @Inject constructor(
      * Decodes input String into a QR Code [Bitmap]
      * @param input [String]
      * @param length [Int] QR Code side length
+     * @param margin [Int] QR Code side's margin
      *
      * @throws [Exception] it could throw [IllegalArgumentException] , [WriterException]
      * or exception while creating the bitmap
      */
-    suspend fun createQrCode(input: String, length: Int = 1000): Bitmap {
+    suspend fun createQrCode(input: String, length: Int = 1000, margin: Int = 1): Bitmap {
         val correctionLevel = appConfigProvider
             .getAppConfig()
             .presenceTracing
@@ -36,7 +37,8 @@ class QrCodeGenerator @Inject constructor(
         Timber.i("correctionLevel=$correctionLevel")
 
         val hints = mapOf(
-            EncodeHintType.ERROR_CORRECTION to correctionLevel
+            EncodeHintType.ERROR_CORRECTION to correctionLevel,
+            EncodeHintType.MARGIN to margin
         )
         return MultiFormatWriter().encode(
             input,
