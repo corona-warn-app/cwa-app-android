@@ -1,146 +1,162 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
              Event Registration
     ###################################### -->
 
     <!-- XHED: My check-ins: screen title -->
-    <string name="trace_location_checkins_title">Meine Check-ins</string>
+    <string name="trace_location_checkins_title">"My Check-Ins"</string>
     <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_label">Noch keine Einträge vorhanden</string>
+    <string name="trace_location_checkins_empty_label">"No entries yet"</string>
     <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_description">Wenn Sie einen QR-Code scannen, um sich für ein Event oder einen Ort einzuchecken, wird automatisch ein Eintrag angelegt.</string>
+    <string name="trace_location_checkins_empty_description">"When you scan a QR code to check in to an event or place, an entry is created automatically."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
-    <string name="trace_location_checkins_empty_illustration_accessibility">Gebäude mit QR-Code-Symbol im Hintergrund.</string>
+    <string name="trace_location_checkins_empty_illustration_accessibility">"A building with a QR code symbol in the background."</string>
 
     <!-- XBUT: My check-ins: Scan QR Code button -->
-    <string name="trace_location_checkins_action_scan_qrcode">QR-Code scannen</string>
+    <string name="trace_location_checkins_action_scan_qrcode">"Scan QR Code"</string>
 
     <!-- XBUT: My check-ins: menu entry to remove all -->
-    <string name="trace_location_checkins_menu_remove_all">Alle entfernen</string>
+    <string name="trace_location_checkins_menu_remove_all">"Remove All"</string>
     <!-- XBUT: My check-ins: menu entry to show information -->
-    <string name="trace_location_checkins_menu_information">Informationen</string>
+    <string name="trace_location_checkins_menu_information">"Information"</string>
 
     <!-- XHED: My checkin-ins: card title if camera permissions were permanently declined. -->
-    <string name="trace_location_checkins_camera_permission_title">Zugriff auf Kamera erlauben</string>
+    <string name="trace_location_checkins_camera_permission_title">"Allow Access to Camera"</string>
     <!-- XTXT: My checkin-ins: card description if camera permissions were permanently declined. -->
-    <string name="trace_location_checkins_camera_permission_description">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräte-Einstellungen zur App zulassen.</string>
+    <string name="trace_location_checkins_camera_permission_description">"To use your smartphone camera to scan QR codes, you have to allow access to the camera in the device settings for the app."</string>
     <!-- XBUT: My checkin-ins: card description if camera permissions were permanently declined. -->
-    <string name="trace_location_checkins_camera_permission_action">Einstellungen  öffnen</string>
+    <string name="trace_location_checkins_camera_permission_action">"Open Settings"</string>
 
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
-    <string name="trace_location_checkins_remove_all_title">Wollen Sie wirklich alle Einträge entfernen?</string>
+    <string name="trace_location_checkins_remove_all_title">"Do you really want to remove all entries?"</string>
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
-    <string name="trace_location_checkins_remove_single_title">Wollen Sie diesen Eintrag wirklich entfernen?</string>
+    <string name="trace_location_checkins_remove_single_title">"Do you really want to remove this entry?"</string>
     <!-- XTXT: My checkin-ins: Confirmation dialog description when removing all/single items -->
-    <string name="trace_location_checkins_remove_message">Sie können dann Personen, die zur selben Zeit für diesen Ort oder Event eingecheckt waren, bei Bedarf nicht mehr warnen oder von ihnen gewarnt werden.</string>
+    <string name="trace_location_checkins_remove_message">"You will no longer be able to warn people who were checked in to this place or event at the same time, nor will you be warned by them."</string>
 
     <!-- XBUT: My check-ins card: Menu, remove item -->
-    <string name="trace_location_checkins_menu_remove_item">Entfernen</string>
+    <string name="trace_location_checkins_menu_remove_item">"Remove"</string>
     <!-- XBUT: My check-ins card: Active event, checkout button -->
-    <string name="trace_location_checkins_card_action_checkout">Jetzt auschecken</string>
+    <string name="trace_location_checkins_card_action_checkout">"Check Out Now"</string>
     <!-- XTXT: My check-ins card: Active event, duration label in highlight view -->
-    <string name="trace_location_checkins_card_highlight_duration_label">Dauer</string>
+    <string name="trace_location_checkins_card_highlight_duration_label">"Duration"</string>
     <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
-    <string name="trace_location_checkins_card_automatic_checkout_info">"%1$s - Automatisch auschecken nach %2$s."</string>
-
+    <string name="trace_location_checkins_card_automatic_checkout_info">"%1$s - check out automatically after %2$s."</string>
 
     <!-- XHED: Title of the category list screen of the event creation  -->
-    <string name="tracelocation_organizer_category_title">QR-Code erstellen</string>
+    <string name="tracelocation_organizer_category_title">"Create QR Code"</string>
 
     <!-- XHED: Title of location types in the category list screen of the event creation -->
-    <string name="tracelocation_organizer_category_type_location_header">Ort</string>
+    <string name="tracelocation_organizer_category_type_location_header">"Place"</string>
 
     <!-- XTXT: Title for the retail category  -->
-    <string name="tracelocation_organizer_category_retail_title">Einzelhandel</string>
+    <string name="tracelocation_organizer_category_retail_title">"Retail"</string>
     <!-- XTXT: Subtitle for the retail category  -->
-    <string name="tracelocation_organizer_category_retail_subtitle">Geschäft, Verkaufsraum</string>
+    <string name="tracelocation_organizer_category_retail_subtitle">"Store, sales floor"</string>
 
     <!-- XTXT: Title for the food service category  -->
-    <string name="tracelocation_organizer_category_food_service_title">Gastronomiebetrieb</string>
+    <string name="tracelocation_organizer_category_food_service_title">"Hospitality"</string>
     <!-- XTXT: Subtitle for the food service category  -->
-    <string name="tracelocation_organizer_category_food_service_subtitle">Café, Kneipe, Restaurant, Hotel</string>
+    <string name="tracelocation_organizer_category_food_service_subtitle">"Cafe, bar, restaurant, hotel"</string>
 
     <!-- XTXT: Title for the craft category  -->
-    <string name="tracelocation_organizer_category_craft_title">Handwerksbetrieb</string>
+    <string name="tracelocation_organizer_category_craft_title">"Craft business"</string>
     <!-- XTXT: Subtitle for the craft category  -->
-    <string name="tracelocation_organizer_category_craft_subtitle">Friseur, Schreinerei</string>
+    <string name="tracelocation_organizer_category_craft_subtitle">"Hairdresser, carpenter"</string>
 
     <!-- XTXT: Title for the workplace category  -->
-    <string name="tracelocation_organizer_category_workplace_title">Arbeitsstätte</string>
+    <string name="tracelocation_organizer_category_workplace_title">"Workplace"</string>
     <!-- XTXT: Subtitle for the workplace category  -->
-    <string name="tracelocation_organizer_category_workplace_subtitle">Büro, Konferenzraum, Kantine</string>
+    <string name="tracelocation_organizer_category_workplace_subtitle">"Office, conference room, cafeteria"</string>
 
     <!-- XTXT: Title for the educational institution category  -->
-    <string name="tracelocation_organizer_category_educational_institution_title">Bildungsstätte</string>
+    <string name="tracelocation_organizer_category_educational_institution_title">"Education facility"</string>
     <!-- XTXT: Subtitle for the educational institution category  -->
-    <string name="tracelocation_organizer_category_educational_institution_subtitle">Klassenzimmer, Vorlesungssaal, Bibliothek</string>
+    <string name="tracelocation_organizer_category_educational_institution_subtitle">"Classroom, lecture hall, library"</string>
 
     <!-- XTXT: Title for the public building category  -->
-    <string name="tracelocation_organizer_category_public_building_title">öffentliches Gebäude</string>
+    <string name="tracelocation_organizer_category_public_building_title">"Public building"</string>
     <!-- XTXT: Subtitle for the public building category  -->
-    <string name="tracelocation_organizer_category_public_building_subtitle">Bürgeramt, Museum</string>
+    <string name="tracelocation_organizer_category_public_building_subtitle">"Municipal office, museum"</string>
 
     <!-- XTXT: Title for other location  -->
-    <string name="tracelocation_organizer_category_other_location_title">anderer Ort</string>
+    <string name="tracelocation_organizer_category_other_location_title">"Other place"</string>
 
     <!-- XHED: Title of event types in the category list screen of the event creation -->
-    <string name="tracelocation_organizer_category_type_event_header">Event</string>
+    <string name="tracelocation_organizer_category_type_event_header">"Event"</string>
 
     <!-- XTXT: Title for the cultural event category  -->
-    <string name="tracelocation_organizer_category_cultural_event_title">Kulturveranstaltung</string>
+    <string name="tracelocation_organizer_category_cultural_event_title">"Cultural event"</string>
     <!-- XTXT: Subtitle for the cultural event category  -->
-    <string name="tracelocation_organizer_category_cultural_event_subtitle">Konzert, Kunstausstellung</string>
+    <string name="tracelocation_organizer_category_cultural_event_subtitle">"Concert, art exhibit"</string>
 
     <!-- XTXT: Title for the club activity category  -->
-    <string name="tracelocation_organizer_category_club_activity_title">Vereinsaktivität</string>
+    <string name="tracelocation_organizer_category_club_activity_title">"Club activities"</string>
     <!-- XTXT: Subtitle for the club activity category  -->
-    <string name="tracelocation_organizer_category_club_activity_subtitle">Sporttraining, Mitgliederversammlung</string>
+    <string name="tracelocation_organizer_category_club_activity_subtitle">"Sports training, general meeting"</string>
 
     <!-- XTXT: Title for the private event category  -->
-    <string name="tracelocation_organizer_category_private_event_title">private Feier</string>
+    <string name="tracelocation_organizer_category_private_event_title">"Private party"</string>
     <!-- XTXT: Subtitle for the private event category  -->
-    <string name="tracelocation_organizer_category_private_event_subtitle">Geburtstag, Familienfeier</string>
+    <string name="tracelocation_organizer_category_private_event_subtitle">"Birthday, family gathering"</string>
 
     <!-- XTXT: Title for the worship service category  -->
-    <string name="tracelocation_organizer_category_worship_service_title">Gottesdienst</string>
+    <string name="tracelocation_organizer_category_worship_service_title">"Religious service"</string>
 
     <!-- XTXT: Title for other event  -->
-    <string name="tracelocation_organizer_category_other_event_title">anderes Event</string>
+    <string name="tracelocation_organizer_category_other_event_title">"Other event"</string>
 
     <!-- XTXT: Title for event description  -->
-    <string name="tracelocation_organizer_add_event_description">"Bezeichnung"</string>
+    <string name="tracelocation_organizer_add_event_description">"Description"</string>
     <!-- XTXT: Title for event location  -->
-    <string name="tracelocation_organizer_add_event_location">"Ort"</string>
+    <string name="tracelocation_organizer_add_event_location">"Place"</string>
     <!-- XTXT: Title for event length of stay  -->
-    <string name="tracelocation_organizer_add_event_length_of_stay">"Typische Aufenthaltsdauer"</string>
+    <string name="tracelocation_organizer_add_event_length_of_stay">"Typical Stay"</string>
     <!-- XTXT: Description for event length of stay  -->
-    <string name="tracelocation_organizer_add_event_length_of_stay_description">"Geben Sie an wie lange sich Gäste üblicherweise bei Ihnen aufhalten."</string>
+    <string name="tracelocation_organizer_add_event_length_of_stay_description">"Specify how long guests usually stay with you."</string>
     <!-- XTXT: Title for event start time  -->
-    <string name="tracelocation_organizer_add_event_begin">"Beginn"</string>
+    <string name="tracelocation_organizer_add_event_begin">"Start"</string>
     <!-- XTXT: Title for event end time  -->
-    <string name="tracelocation_organizer_add_event_end">"Ende"</string>
+    <string name="tracelocation_organizer_add_event_end">"End"</string>
     <!-- XTXT: Duration suffix -->
-    <string name="tracelocation_organizer_duration_suffix">"Std."</string>
+    <string name="tracelocation_organizer_duration_suffix">"hrs"</string>
     <!-- XTXT: Save button text -->
-    <string name="tracelocation_organizer_save">"Speichern"</string>
+    <string name="tracelocation_organizer_save">"Save"</string>
 
     <!-- XMSG: generic error message body with status code -->
-    <string name="tracelocation_generic_qr_code_error_body_with_error_code">"QR-Code konnte nicht erstellt werden. Bitte versuchen Sie es später noch mal (Fehlercode %d)"</string>
+    <string name="tracelocation_generic_qr_code_error_body_with_error_code">"The QR code could not be created. Please try again later (error code %d)."</string>
     <!-- XMSG: generic web request error without status code -->
-    <string name="tracelocation_generic_qr_code_error_body">"QR-Code konnte nicht erstellt werden. Bitte versuchen Sie es später noch mal."</string>
+    <string name="tracelocation_generic_qr_code_error_body">"The QR code could not be created. Please try again later."</string>
     <!-- XMSG: Dialog body for generic web request network error -->
-    <string name="tracelocation_generic_network_error_body">"Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind."</string>
+    <string name="tracelocation_generic_network_error_body">"Your Internet connection may have been lost. Please ensure that you are connected to the Internet."</string>
     <!-- XHED: error message title -->
-    <string name="tracelocation_generic_error_title">"Fehler"</string>
+    <string name="tracelocation_generic_error_title">"Error"</string>
 
     <!--    Trace Location Homescreen Card-->
     <!-- XHED: Headline for trace location creation card -->
-    <string name="create_trace_location_card_headline">"Sie planen eine\nVeranstaltung?"</string>
+    <string name="create_trace_location_card_headline">"Planning an\nevent?"</string>
     <!-- XTXT: Subtitle for trace location creation card -->
-    <string name="create_trace_location_card_subtitle">"Sie planen ein Event oder haben ein Geschäft? Erstellen Sie einen QR-Code, mit dem sich Ihre Gäste bei Ankunft einchecken können."</string>
+    <string name="create_trace_location_card_subtitle">"Are you planning an event or do you run a business? Create a QR code so your guests can check in when they arrive."</string>
     <!-- XTXT: Text for trace location creation card -->
-    <string name="create_trace_location_card_button">"QR-Code erstellen"</string>
+    <string name="create_trace_location_card_button">"Create QR Code"</string>
+    <!-- XTXT: Text for content description of tile image -->
+    <string name="create_trace_location_card_content_description">"Eine Person zeigt auf ein Flipchart."</string>
+
+    <!--    Trace Location QR Code Info Screen-->
+    <!-- XTXT: Text for content description of info screen image -->
+    <string name="trace_location_qr_info_content_description">"Eine Person zeigt auf ein Flipchart, zwei Personen sitzen daneben und schauen auf das Flipchart."</string>
+    <!-- XHED: Headline for trace location creation card -->
+    <string name="trace_location_qr_info_headline_text">"Mehr Sicherheit für Sie und Ihre Gäste"</string>
+    <!-- XTXT: Text for subtitle of qr info screen -->
+    <string name="trace_location_qr_info_subtitle_text">"Erstellen Sie einen QR-Code, den Ihre Gäste bei ihrer Ankunft scannen können. So können sie bei Bedarf andere Gäste warnen oder von ihnen gewarnt werden."</string>
+    <!-- XTXT: Text for tracing icon of qr info screen -->
+    <string name="trace_location_qr_info_tracing_text">"Jeder Check-in wird bei der Ermittlung des Risikostatus zusätzlich berücksichtigt. Wird eine eingecheckte Person später positiv getestet, können die Gäste gewarnt werden, wenn sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben."</string>
+    <!-- XTXT: Text for qr icon of qr info screen -->
+    <string name="trace_location_qr_info_qr_code_text">"Stellen Sie den QR-Code Ihren Gästen entweder über Ihr Smartphone oder in ausgedruckter Form zur Verfügung."</string>
+    <!-- XTXT: Text for time sheet icon of qr info screen -->
+    <string name="trace_location_qr_info_time_text">"Wenn Sie dauerhaft einen QR-Code verwenden, sollten Sie diesen einmal täglich neu erstellen außerhalb der Öffnungszeiten."</string>
+    <!-- XTXT: Text for I understand button -->
+    <string name="acknowledge_button">"Enverstanden"</string>
 
 
     <!-- ####################################
@@ -148,37 +164,37 @@
     ###################################### -->
 
     <!-- XHED: Event organiser qr codes list: title -->
-    <string name="trace_location_organiser_list_title">"Meine QR-Codes"</string>
+    <string name="trace_location_organiser_list_title">"My QR Codes"</string>
     <!-- XBUT: Event organiser qr codes list: new qr code button  -->
-    <string name="trace_location_organiser_list_new_button">"QR-Code"</string>
+    <string name="trace_location_organiser_list_new_button">"QR Code"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
-    <string name="trace_location_organiser_list_no_codes_title">"Noch keine QR Codes erstellt"</string>
+    <string name="trace_location_organiser_list_no_codes_title">"No QR codes created yet"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
-    <string name="trace_location_organiser_list_no_codes_subtitle">"Hier werden alle QR-Codes angezeigt, die Sie für ein Ort oder Event erstellt haben. Sie können die QR-Codes löschen, wenn diese nicht mehr verwendet werden sollen."</string>
+    <string name="trace_location_organiser_list_no_codes_subtitle">"All the QR codes you have created for a place or event are displayed here. You can delete QR codes that you no longer intend to use."</string>
 
     <!-- XBUT: Event organiser qr codes list: menu: information button  -->
     <string name="trace_location_organizer_list_menu_information_btn">"Information"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
-    <string name="trace_location_organizer_list_menu_remove_all_btn">"Alle entfernen"</string>
+    <string name="trace_location_organizer_list_menu_remove_all_btn">"Remove All"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
-    <string name="trace_location_organiser_list_delete_single_popup_title">"Wollen Sie den QR-Code wirklich entfernen?"</string>
+    <string name="trace_location_organiser_list_delete_single_popup_title">"Do you want to remove the QR code?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
-    <string name="trace_location_organiser_list_delete_single_popup_message">"Bitte denken Sie daran, dass der QR-Code “Jahrestreffen der deutschen SAP Anwendergruppe” danach nicht mehr zum Einchecken verwendet werden kann."</string>
+    <string name="trace_location_organiser_list_delete_single_popup_message">"Please consider that if you do, the QR code can no longer be used for check-ins."</string>
 
     <!-- XHED:  Event organiser qr codes list: delete all popup title -->
-    <string name="trace_location_organiser_list_delete_all_popup_title">"Wollen Sie wirklich alle QR-Codes entfernen?"</string>
+    <string name="trace_location_organiser_list_delete_all_popup_title">"Do you really want to remove all QR codes?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete all popup message -->
-    <string name="trace_location_organiser_list_delete_all_popup_message">"Bitte denken Sie daran, dass diese QR-Codes danach nicht mehr zum Einchecken verwendet werden können."</string>
+    <string name="trace_location_organiser_list_delete_all_popup_message">"Please consider that if you do, these QR codes can no longer be used for check-ins."</string>
     <!-- XBUT:  Event organiser qr codes list: delete all popup negative button -->
-    <string name="trace_location_organiser_list_delete_all_popup_negative_button">"Abbrechen"</string>
+    <string name="trace_location_organiser_list_delete_all_popup_negative_button">"Cancel"</string>
     <!-- XBUT:  Event organiser qr codes list: delete all popup positive button -->
-    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Entfernen"</string>
+    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Remove"</string>
 
     <!-- XTXT: Event organiser list item: duration-->
-    <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s Uhr"</string>
+    <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>
     <!-- XBUT: Event organiser list item: checkin button -->
-    <string name="trace_location_organizer_list_item_action_checkin">Selbst einchecken</string>
+    <string name="trace_location_organizer_list_item_action_checkin">"Check In"</string>
 
     <!-- XTXT: Event organizer detail qr-code: duration with date -->
     <string name="trace_location_organizer_detail_item_duration">"%1$s, %2$s - %3$s Uhr"</string>
@@ -186,20 +202,20 @@
     <string name="trace_location_organizer_detail_item_duration_multiple_days">"%1$s, %2$s - %3$s, %4$s Uhr"</string>
 
     <!-- XBUT: Event organiser list item: menu: information button  -->
-    <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Duplizieren"</string>
+    <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Duplicate"</string>
     <!-- XBUT: Event organiser list item: menu: show print button  -->
-    <string name="trace_location_organizer_list_item_menu_show_print_btn">"Druckversion anzeigen"</string>
+    <string name="trace_location_organizer_list_item_menu_show_print_btn">"Display Print Version"</string>
     <!-- XBUT: Event organiser list item: menu: clear button  -->
-    <string name="trace_location_organizer_list_item_menu_clear_btn">"Löschen"</string>
+    <string name="trace_location_organizer_list_item_menu_clear_btn">"Delete"</string>
 
     <!--  Organizer Flow: Event Detail Screen-->
     <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
-    <string name="trace_location_event_detail_qr_code_accessibility">"QR-Code"</string>
+    <string name="trace_location_event_detail_qr_code_accessibility">"QR Code"</string>
     <!-- XHED: Organizer Flow : Accessibility title for event-overview -->
-    <string name="trace_location_event_detail_title_accessibility">"Event-Ansicht"</string>
-    !-- XBUT: Organizer Flow : Title for show print version button -->
-    <string name="trace_location_event_detail_show_print_qr_code_button">"Druckversion anzeigen"</string>
+    <string name="trace_location_event_detail_title_accessibility">"Event View"</string>
+    <!-- XBUT: Organizer Flow : Title for show print version button -->
+    <string name="trace_location_event_detail_show_print_qr_code_button">"Display Print Version"</string>
     <!-- XBUT: Organizer Flow : Title for save as template button -->
-    <string name="trace_location_event_detail_save_as_template_button">"Als Vorlage verwenden"</string>
+    <string name="trace_location_event_detail_save_as_template_button">"Use as Template"</string>
 
 </resources>
