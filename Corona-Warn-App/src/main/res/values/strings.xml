@@ -1012,10 +1012,6 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Position the QR code in the frame."</string>
 
-    <!-- Old Scan screen names below (should be overwritten by translation) -->
-    <string name="submission_qr_code_scan_title">"QR-Code Scan"</string>
-    <string name="submission_qr_code_scan_body">"Position the QR code in the frame."</string>
-
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
     <string name="submission_consent_main_headline">"Your Consent"</string>
