@@ -29,7 +29,8 @@ data class ContactDiaryLocationVisitEntity(
     @ColumnInfo(name = "date") val date: LocalDate,
     @ColumnInfo(name = "fkLocationId") val fkLocationId: Long,
     @ColumnInfo(name = "duration") val duration: Duration?,
-    @ColumnInfo(name = "circumstances") val circumstances: String?
+    @ColumnInfo(name = "circumstances") val circumstances: String?,
+    @ColumnInfo(name = "checkInID") val checkInID: Long?
 )
 
 fun ContactDiaryLocationVisit.toContactDiaryLocationVisitEntity(): ContactDiaryLocationVisitEntity =
@@ -38,5 +39,6 @@ fun ContactDiaryLocationVisit.toContactDiaryLocationVisitEntity(): ContactDiaryL
         date = this.date,
         fkLocationId = this.contactDiaryLocation.locationId,
         duration = this.duration,
-        circumstances = this.circumstances?.trimToLength(250)
+        circumstances = this.circumstances?.trimToLength(250),
+        checkInID = this.checkInID
     )

@@ -9,15 +9,12 @@
     android:paddingBottom="@dimen/spacing_small">
 
     <View
-        android:id="@+id/contact_diary_overview_item_risk_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/card_divider"
-        android:layout_marginBottom="@dimen/spacing_small"
         android:background="?android:attr/listDivider"
-        android:paddingBottom="@dimen/spacing_small"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/contact_diary_overview_risk_item_image"
@@ -29,7 +26,7 @@
         android:scaleType="centerInside"
         app:layout_constraintEnd_toStartOf="@id/contact_diary_overview_item_risk_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_item_risk_divider"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_high_risk_alert" />
 
     <TextView
