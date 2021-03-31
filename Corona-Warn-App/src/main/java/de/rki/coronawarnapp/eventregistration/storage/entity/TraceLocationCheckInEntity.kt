@@ -11,7 +11,6 @@ import org.joda.time.Instant
 data class TraceLocationCheckInEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0L,
     @ColumnInfo(name = "guid") val guid: String,
-    @ColumnInfo(name = "guidHashBase64") val guidHashBase64: String,
     @ColumnInfo(name = "version") val version: Int,
     @ColumnInfo(name = "type") val type: Int,
     @ColumnInfo(name = "description") val description: String,
@@ -30,7 +29,6 @@ data class TraceLocationCheckInEntity(
 fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     id = id,
     guid = guid,
-    guidHash = guidHashBase64.decodeBase64()!!,
     version = version,
     type = type,
     description = description,
