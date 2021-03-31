@@ -5,6 +5,7 @@ import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.setOnCheckedChangeListener
+import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
@@ -26,6 +27,7 @@ class DiaryPersonViewHolder(
 
         mainBox.apply {
             header.setOnClickListenerThrottled {
+                hideKeyboard()
                 it.contentDescription = item.onClickDescription.get(context)
                 it.sendAccessibilityEvent(AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
                 item.onItemClick(item)
@@ -45,6 +47,7 @@ class DiaryPersonViewHolder(
                 null -> clearChecked()
             }
             setOnCheckedChangeListener { checkedId ->
+                hideKeyboard()
                 when (checkedId) {
                     R.id.duration_above_15 -> DurationClassification.MORE_THAN_15_MINUTES
                     R.id.duration_below_15 -> DurationClassification.LESS_THAN_15_MINUTES
@@ -61,6 +64,7 @@ class DiaryPersonViewHolder(
                 null -> clearChecked()
             }
             setOnCheckedChangeListener { checkedId ->
+                hideKeyboard()
                 when (checkedId) {
                     R.id.mask_with -> true
                     R.id.mask_without -> false
@@ -77,6 +81,7 @@ class DiaryPersonViewHolder(
                 null -> clearChecked()
             }
             setOnCheckedChangeListener { checkedId ->
+                hideKeyboard()
                 when (checkedId) {
                     R.id.environment_outside -> true
                     R.id.environment_inside -> false
