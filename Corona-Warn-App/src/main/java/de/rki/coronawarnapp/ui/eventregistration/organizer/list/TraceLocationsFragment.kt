@@ -81,7 +81,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 is TraceLocationEvent.ConfirmSwipeItem -> {
                     showDeleteSingleDialog(it.traceLocation, it.position)
                 }
-                is TraceLocationEvent.OpenDetailItem -> {
+                is TraceLocationEvent.StartQrCodeDetailFragment -> {
                     doNavigate(
                         TraceLocationsFragmentDirections.actionTraceLocationOrganizerListFragmentToQrCodeDetailFragment(
                             traceLocationId = it.id,

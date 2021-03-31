@@ -42,7 +42,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
                             TraceLocationEvent.ConfirmSwipeItem(traceLocation, position)
                         )
                     },
-                    onCardClicked = { events.postValue(TraceLocationEvent.OpenDetailItem(it.id)) },
+                    onCardClicked = { events.postValue(TraceLocationEvent.StartQrCodeDetailFragment(it.id)) },
                 )
             }
         }
