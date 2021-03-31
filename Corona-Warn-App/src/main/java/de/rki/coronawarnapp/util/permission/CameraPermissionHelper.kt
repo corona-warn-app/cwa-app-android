@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util
+package de.rki.coronawarnapp.util.permission
 
 import android.Manifest
 import android.content.Context
