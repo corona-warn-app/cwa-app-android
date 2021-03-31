@@ -6,6 +6,7 @@ import android.print.PrintManager
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.content.getSystemService
+import androidx.core.view.postDelayed
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.QrCodePosterFragmentBinding
@@ -44,7 +45,9 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
                 qrCodeImage.setImageBitmap(poster.qrCode)
                 progressBar.hide()
 
-                viewModel.createPDF(binding.qrCodePoster)
+                binding.qrCodePoster.postDelayed(delayInMillis = 1000) {
+                    viewModel.createPDF(binding.qrCodePoster)
+                }
             }
         }
 
