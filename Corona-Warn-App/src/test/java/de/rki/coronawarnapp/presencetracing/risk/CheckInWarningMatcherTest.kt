@@ -69,8 +69,8 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return listOf(warning1, warning2)
             }
 
-            override val warningPackageId: Long
-                get() = 1L
+            override val warningPackageId: String
+                get() = "id"
         }
 
         every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
@@ -118,8 +118,8 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return listOf(warning1, warning2)
             }
 
-            override val warningPackageId: Long
-                get() = 1L
+            override val warningPackageId: String
+                get() = "id"
         }
 
         every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
@@ -153,8 +153,8 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return listOf()
             }
 
-            override val warningPackageId: Long
-                get() = 1L
+            override val warningPackageId: String
+                get() = "id"
         }
 
         every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
@@ -190,8 +190,8 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return listOf(warning1, warning2)
             }
 
-            override val warningPackageId: Long
-                get() = 1L
+            override val warningPackageId: String
+                get() = "id"
         }
 
         every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
@@ -227,8 +227,8 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return warnings
             }
 
-            override val warningPackageId: Long
-                get() = 1L
+            override val warningPackageId: String
+                get() = "id"
         }
 
         every { checkInsRepository.allCheckIns } returns flowOf(checkIns)
