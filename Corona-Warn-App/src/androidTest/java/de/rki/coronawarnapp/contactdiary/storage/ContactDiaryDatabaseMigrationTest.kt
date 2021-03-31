@@ -115,7 +115,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             locationName = "Location1",
             phoneNumber = null,
             emailAddress = null,
-            null
+            traceLocationGUID = null
         )
         runBlocking { daoDb.locationDao().allEntries().first() }.single() shouldBe location
 
@@ -137,7 +137,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
                 fkLocationId = 1,
                 duration = null,
                 circumstances = null,
-                null
+                checkInID = null
             )
         )
 
@@ -173,7 +173,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             fkLocationId = 1,
             duration = Duration.standardMinutes(13),
             circumstances = "That's none of your business",
-            null
+            checkInID = null
         )
 
         val locationAfter = location.copy(traceLocationGUID = "jshrgu-aifhioaio-aofsjof-samofp-kjsadngsgf")
