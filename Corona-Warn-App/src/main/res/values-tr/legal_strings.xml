@@ -21,7 +21,7 @@
     <!-- YTXT: Body for consent sub section your consent subtext second point  -->
     <string name="submission_consent_your_consent_subsection_second_point" translatable="false">"<b>Korona testiniz pozitif çıkmışsa, Uygulama karşılaştığınız kullanıcıları uyarmak üzere test sonucunuzu paylaşır. Bu ise yukarıda adı geçen ülkelerdeki Korona uygulamalarının sizinle aynı olay veya konumda giriş denetimi yaptıran kullanıcılarını etkiler.\n\nAyrıca semptomlarınızın başlangıcı hakkında bilgi verirseniz, bu veri de paylaşılacaktır.</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
-    <string name="submission_consent_your_consent_subsection_third_point" translatable="false">"Verdiğiniz rıza beyanını istediğiniz zaman geri alabilirsiniz. Bunun ayarını, “Testi Göster” altında bulabilirsiniz. Paylaşmadan önce, rıza beyanınıza ilişkin yeniden bilgilendirilecek ve test sonucunuzu yayınlamaya izin vermeniz istenecektir."</string>
+    <string name="submission_consent_your_consent_subsection_third_point" translatable="false">"Verdiğiniz rıza beyanını istediğiniz zaman geri alabilirsiniz. Bunun ayarını, “Testi Göster” altında bulabilirsiniz. Paylaşmadan önce, rıza beyanınıza ilişkin yeniden bilgilendirileceksiniz."</string>
     <!-- YTXT: Body for your consent screen agreement share test results -->
     <string name="submission_your_consent_agreement_share_test_results" translatable="false">"<b>Korona testiniz pozitif çıkmışsa, Uygulama karşılaştığınız kullanıcıları uyarmak üzere test sonucunuzu paylaşır.</b>\n\n<b>Bu uyarı, yukarıda belirtilen ülkelerdeki resmi Korona uygulamalarının kullanıcılarına ulaşabilir:</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms -->

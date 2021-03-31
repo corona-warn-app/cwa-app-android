@@ -43,7 +43,6 @@ class CheckInsTransformerTest : BaseTest() {
     private val checkIn1 = CheckIn(
         id = 1L,
         guid = "trace_location_1",
-        guidHash = EMPTY,
         version = 1,
         type = 1,
         description = "restaurant_1",
@@ -68,7 +67,6 @@ class CheckInsTransformerTest : BaseTest() {
     private val checkIn2 = CheckIn(
         id = 2L,
         guid = "trace_location_2",
-        guidHash = EMPTY,
         version = 1,
         type = 2,
         description = "restaurant_2",
@@ -88,7 +86,6 @@ class CheckInsTransformerTest : BaseTest() {
     private val checkIn3 = CheckIn(
         id = 3L,
         guid = "trace_location_3",
-        guidHash = EMPTY,
         version = 1,
         type = 3,
         description = "restaurant_3",
