@@ -86,25 +86,25 @@ object DiaryData {
     val HIGH_RISK_EVENT = RiskEventItem.Event(
         name = HIGH_RISK_EVENT_LOCATION.name,
         bulledPointColor = R.color.colorBulletPointHighRisk,
-        riskInfoAddition = R.string.contact_diary_event_risk_high
+        riskInfoAddition = R.string.contact_diary_trace_location_risk_high
     )
 
     val LOW_RISK_EVENT = RiskEventItem.Event(
         name = LOW_RISK_EVENT_LOCATION.name,
         bulledPointColor = R.color.colorBulletPointLowRisk,
-        riskInfoAddition = R.string.contact_diary_event_risk_low
+        riskInfoAddition = R.string.contact_diary_trace_location_risk_low
     )
 
     val HIGH_RISK_EVENT_ITEM = RiskEventItem(
         title = R.string.contact_diary_high_risk_title,
-        body = R.string.contact_diary_event_risk_body,
+        body = R.string.contact_diary_trace_location_risk_body,
         drawableId = R.drawable.ic_high_risk_alert,
         events = listOf(HIGH_RISK_EVENT, LOW_RISK_EVENT)
     )
 
     val LOW_RISK_EVENT_ITEM = RiskEventItem(
         title = R.string.contact_diary_low_risk_title,
-        body = R.string.contact_diary_event_risk_body,
+        body = R.string.contact_diary_trace_location_risk_body,
         drawableId = R.drawable.ic_low_risk_alert,
         events = listOf(LOW_RISK_EVENT)
     )

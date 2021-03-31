@@ -452,12 +452,12 @@ open class ContactDiaryOverviewViewModelTest {
 
             with(riskEventItem!!.events) {
                 find { it.name == locationEventLowRisk.locationName }!!.also {
-                    it.riskInfoAddition shouldBe R.string.contact_diary_event_risk_low
+                    it.riskInfoAddition shouldBe R.string.contact_diary_trace_location_risk_low
                     it.bulledPointColor shouldBe R.color.colorBulletPointLowRisk
                 }
 
                 find { it.name == locationEventHighRisk.locationName }!!.also {
-                    it.riskInfoAddition shouldBe R.string.contact_diary_event_risk_high
+                    it.riskInfoAddition shouldBe R.string.contact_diary_trace_location_risk_high
                     it.bulledPointColor shouldBe R.color.colorBulletPointHighRisk
                 }
             }
@@ -536,7 +536,7 @@ open class ContactDiaryOverviewViewModelTest {
     }
 
     private fun RiskEventItem.validate(highRisk: Boolean) {
-        body shouldBe R.string.contact_diary_event_risk_body
+        body shouldBe R.string.contact_diary_trace_location_risk_body
 
         when (highRisk) {
             true -> {
