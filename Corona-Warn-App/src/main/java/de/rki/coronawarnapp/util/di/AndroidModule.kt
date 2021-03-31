@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util.di
 
 import android.app.ActivityManager
+import android.app.AlarmManager
 import android.app.Application
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
@@ -76,4 +77,9 @@ class AndroidModule {
 
     @Provides
     fun applicationInfo(@AppContext context: Context): ApplicationInfo = context.applicationInfo
+
+    @Provides
+    fun alarmManager(
+        @AppContext context: Context
+    ): AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 }

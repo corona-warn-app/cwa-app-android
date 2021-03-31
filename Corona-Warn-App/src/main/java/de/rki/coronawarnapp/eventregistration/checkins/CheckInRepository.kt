@@ -28,6 +28,11 @@ class CheckInRepository @Inject constructor(
         .allEntries()
         .map { list -> list.map { it.toCheckIn() } }
 
+    suspend fun getCheckInById(checkInId: Long): CheckIn? {
+        Timber.d("getCheckInById(checkInId=$checkInId)")
+        return checkInDao.entryForId(checkInId)?.toCheckIn()
+    }
+
     suspend fun addCheckIn(checkIn: CheckIn) = withContext(NonCancellable) {
         Timber.d("addCheckIn(checkIn=%s)", checkIn)
         if (checkIn.id != 0L) throw IllegalArgumentException("ID will be set by DB, ID should be 0!")
