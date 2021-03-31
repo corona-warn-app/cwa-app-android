@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="@dimen/spacing_mega_tiny"
-    android:focusable="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/bullet_point_image"
@@ -13,20 +13,21 @@
         android:layout_height="@dimen/bullet_point_size_contact_diary"
         android:baseline="@dimen/bullet_point_baseline_offset_contact_diary"
         android:importantForAccessibility="no"
-        android:src="@drawable/bullet_point"
         app:layout_constraintBaseline_toBaselineOf="@id/event_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bullet_point" />
+
     <TextView
         android:id="@+id/event_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/bullet_point_spacing_after_contact_diary"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/bullet_point_image"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Jahrestreffen der deutschen SAP Anwendergruppe (niedriges Risiko)" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

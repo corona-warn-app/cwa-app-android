@@ -27,9 +27,9 @@
         android:layout_marginEnd="@dimen/spacing_small"
         android:importantForAccessibility="no"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_contact_diary_right_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_contact_diary_right_arrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
