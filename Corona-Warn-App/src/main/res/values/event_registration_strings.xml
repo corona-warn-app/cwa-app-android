@@ -212,6 +212,35 @@
     <!-- XBUT: Event organiser list item: menu: clear button  -->
     <string name="trace_location_organizer_list_item_menu_clear_btn">"Delete"</string>
 
+
+    <!-- Trace Location Checkin Confirmation -->
+    <!-- XHED: Checkin Confirm: title for screen -->
+    <string name="confirm_checkin_title_text">"Einchecken für:"</string>
+    <!-- XTXT: Checkin Confirm: text for event is in future info card -->
+    <string name="confirm_checkin_event_in_future_card_text">"Das Event beginnt erst am %1$s um %2$s Uhr. Wollen Sie jetzt bereits einchecken?"</string>
+    <!-- XTXT: Checkin Confirm: text for event is in past info card -->
+    <string name="confirm_checkin_event_in_past_card_text">"Das Event ist beendet. Wollen Sie nachträglich einchecken?"</string>
+    <!-- XTXT: Checkin Confirm: label for save to contact diary toggle -->
+    <string name="confirm_checkin_settings_card_checkout_toggle_label">"Nach dem Auschecken in mein Kontakt-Tagebuch eintragen?"</string>
+    <!-- XTXT: Checkin Confirm: label for checkout delay selection -->
+    <string name="confirm_checkin_settings_card_checkout_time_label">"Automatisch auschecken nach"</string>
+    <!-- XTXT: Checkin Confirm: time length label for checkout delay selection -->
+    <string name="confirm_checkin_settings_card_checkout_time_tag">"Std"</string>
+    <!-- XBUT: Checkin Confirm: Checkin Button -->
+    <string name="confirm_checkin_confirm_button_text">"Einchecken"</string>
+
+    <!-- Trace Location Checkin Editing -->
+    <!-- XHED: Checkin Edit: title for screen -->
+    <string name="edit_checkin_title_text">"Aufenthaltsdauer anpassen für:"</string>
+    <!-- XTXT: Checkin Edit: label for checkout time -->
+    <string name="edit_checkin_edit_card_checkout_time_label">"Ausgecheckt"</string>
+    <!-- XTXT: Checkin Edit: label for checkin time -->
+    <string name="edit_checkin_edit_card_checkin_time_label">"Eingecheckt"</string>
+    <!-- XTXT: Checkin Edit: hint for unchanged contact diary checkin duration -->
+    <string name="edit_checkin_duration_edit_hint_card_text">"Die Aufenthaltsdauer wird nicht automatisch in Ihrem Kontakt-Tagebuch angepasst."</string>
+    <!-- XBUT: Checkin Edit: Save Button -->
+    <string name="edit_checkin_confirm_button_text">"Speichern"</string>
+
     <!--  Organizer Flow: Event Detail Screen-->
     <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
     <string name="trace_location_event_detail_qr_code_accessibility">"QR Code"</string>

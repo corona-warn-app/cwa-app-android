@@ -54,4 +54,11 @@ class CheckInRepository @Inject constructor(
         Timber.d("clear()")
         checkInDao.deleteAll()
     }
+
+    suspend fun checkInForId(checkInId: Long): CheckIn {
+        val checkIn = checkInDao.entryForId(checkInId)
+            ?: throw IllegalArgumentException("No checkIn found for ID=$checkInId")
+
+        return checkIn.toCheckIn()
+    }
 }
