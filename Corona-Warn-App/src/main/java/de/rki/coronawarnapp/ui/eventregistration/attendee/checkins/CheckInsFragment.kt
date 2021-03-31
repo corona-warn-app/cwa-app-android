@@ -84,6 +84,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkCameraSettings()
+    }
+
     private fun onNavigationEvent(event: CheckInEvent?) {
         when (event) {
             is CheckInEvent.ConfirmCheckIn -> doNavigate(

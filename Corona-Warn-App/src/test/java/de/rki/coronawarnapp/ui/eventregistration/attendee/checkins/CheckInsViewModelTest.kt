@@ -163,6 +163,15 @@ class CheckInsViewModelTest : BaseTest() {
         }
     }
 
+    @Test
+    fun `Check camera settings`() = runBlockingTest {
+        every { cameraPermissionProvider.checkSettings() } just Runs
+        createInstance(deepLink = null, scope = this).apply {
+            checkCameraSettings()
+            verify { cameraPermissionProvider.checkSettings() }
+        }
+    }
+
     private fun createInstance(deepLink: String?, scope: CoroutineScope) =
         CheckInsViewModel(
             savedState = savedState,

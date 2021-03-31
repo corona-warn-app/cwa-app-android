@@ -8,6 +8,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
+import io.mockk.verify
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
@@ -56,6 +57,24 @@ class CameraPermissionProviderTest : BaseTest() {
         every { CameraPermissionHelper.hasCameraPermission(any()) } returns true
 
         cameraPermissionProvider().deniedPermanently.first() shouldBe false
+    }
+
+    @Test
+    fun `User permitted the camera later on`() = runBlockingTest {
+        every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(true)
+        every { CameraPermissionHelper.hasCameraPermission(any()) } returns true
+
+        cameraPermissionProvider().checkSettings()
+        verify(exactly = 2) { cameraSettings.isCameraDeniedPermanently }
+    }
+
+    @Test
+    fun `User didn't permit the camera later on`() = runBlockingTest {
+        every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(true)
+        every { CameraPermissionHelper.hasCameraPermission(any()) } returns false
+
+        cameraPermissionProvider().checkSettings()
+        verify(exactly = 1) { cameraSettings.isCameraDeniedPermanently }
     }
 
     private fun cameraPermissionProvider() = CameraPermissionProvider(context, cameraSettings)

@@ -36,7 +36,7 @@ class CheckInsViewModel @AssistedInject constructor(
     private val qrCodeUriParser: QRCodeUriParser,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
-    cameraPermissionProvider: CameraPermissionProvider
+    private val cameraPermissionProvider: CameraPermissionProvider
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
@@ -137,6 +137,10 @@ class CheckInsViewModel @AssistedInject constructor(
             Timber.d(e, "TraceLocation verification failed")
             e.report(ExceptionCategory.INTERNAL)
         }
+    }
+
+    fun checkCameraSettings() {
+        cameraPermissionProvider.checkSettings()
     }
 
     companion object {
