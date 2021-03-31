@@ -22,14 +22,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="QRCode, PDF event registration" />
+                android:text="QRCode Creation, Poster Template download, PDF creation/printing/sharing" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/testQrCodeCreation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:text="QR Code Creation" />
+                android:text="QR Code and Poster Creation" />
 
         </LinearLayout>
 

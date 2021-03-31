@@ -69,4 +69,14 @@ class TraceLocationDaoTest : BaseTestInstrumentation() {
         traceLocationDao.deleteAll()
         traceLocationsFlow.first() shouldBe emptyList()
     }
+
+    @Test
+    fun entryForIdShouldReturnCorrectEntry() = runBlocking {
+        traceLocationDao.insert(testTraceLocation1)
+        traceLocationDao.insert(testTraceLocation2)
+
+        traceLocationDao.entityForId(0) shouldBe null
+        traceLocationDao.entityForId(1) shouldBe testTraceLocation1
+        traceLocationDao.entityForId(2) shouldBe testTraceLocation2
+    }
 }
