@@ -1,120 +1,158 @@
 package de.rki.coronawarnapp.presencetracing.warning.download
 
+import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningRepository
-import de.rki.coronawarnapp.eventregistration.checkins.download.TraceWarningPackageMetadataEntity
-import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceTimeWarningApiV1
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceTimeWarningServer
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceTimeIntervalWarningRepository
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackageMetadata
 import de.rki.coronawarnapp.storage.DeviceStorage
+import de.rki.coronawarnapp.util.HourInterval
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.deriveHourInterval
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 import timber.log.Timber
-import java.io.File
-import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.max
 
 @Reusable
 class TraceTimeWarningPackageSyncTool @Inject constructor(
     private val deviceStorage: DeviceStorage,
-    private val gateway: TraceTimeWarningGateway,
+    private val server: TraceTimeWarningServer,
     private val repository: TraceTimeIntervalWarningRepository,
     private val configProvider: AppConfigProvider,
     private val dispatcherProvider: DispatcherProvider,
-    private val checkInRepository: CheckInRepository
+    private val checkInRepository: CheckInRepository,
+    private val downloader: TraceTimeWarningPackageDownloader
 ) {
 
-    private val successfulEmptyResult: SyncResult
-        get() = SyncResult(successful = true)
+    suspend fun syncPackages(): SyncResult {
+        return syncPackagesForLocation(LocationCode("DE"))
+    }
 
-    private val failureResult: SyncResult
-        get() = SyncResult(successful = false)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun syncPackagesForLocation(location: LocationCode): SyncResult {
+        Timber.tag(TAG).d("syncTraceWarningPackages(location=%s)", location)
 
-    internal suspend fun syncTraceWarningPackages(): SyncResult {
-
-        val oldestCheckIn = checkInRepository.allCheckIns.first().minByOrNull {
-            it.checkInStart
+        val oldestCheckIn = checkInRepository.allCheckIns.first().minByOrNull { it.checkInStart }.also {
+            Timber.tag(TAG).d("Our oldest check-in is %s", it)
         }
+
         if (oldestCheckIn == null) {
-            repository.deleteAllPackages()
-            return successfulEmptyResult
+            Timber.tag(TAG).w("There were no checkins, cleaning up package metadata, aborting early.")
+            val metaDataForLocation = repository.getMetaDataForLocation(location)
+            repository.delete(metaDataForLocation)
+            return SyncResult(successful = true)
         }
 
         val downloadConfig: KeyDownloadConfig = configProvider.getAppConfig()
-        // TODO
-        // Clean up Revoked Packages: if the Configuration Parameter .keyDownloadParameters.revokedTraceWarningPackages
-        // contains an ETag that matches any of the ETags in the Database Table for TraceWarningPackageMetadata,
-        // the corresponding record is removed from the database table.
-        // deleteRevokedPackages()
 
-        val response = gateway.getAvailableWarningPackageIds()
-        if (!response.isSuccessful) {
-            return failureResult
-        }
-        val packageIds = response.body() ?: return successfulEmptyResult
-
-        val firstRelevantPackage = max(oldestCheckIn.checkInStart.millis / 3600000, packageIds.oldest)
-        val downloadedPackages = getDownloadedPackageMetadata()
-
-        val stalePackages = findStalePackages(downloadedPackages, firstRelevantPackage)
-        repository.deleteStalePackage(stalePackages)
-
-        if (firstRelevantPackage > packageIds.latest) {
-            successfulEmptyResult
+        cleanUpRevokedPackages(downloadConfig).also {
+            Timber.tag(TAG).d("Cleaned up TraceWarning ids: %s", it)
         }
 
-        val missingPackageIds = findMissingPackageIds(downloadedPackages, firstRelevantPackage, packageIds.latest)
-        if (missingPackageIds.isEmpty()) {
-            successfulEmptyResult
+        val intervalDiscovery: TraceTimeWarningApiV1.DiscoveryResult = try {
+            server.getAvailableIds(location)
+        } catch (e: Exception) {
+            Timber.tag(TAG).w(e, "Failed to discover available IDs.")
+            return SyncResult(successful = false)
         }
 
-        requireStorageSpaceFor(missingPackageIds.size)
-
-        val downloads = launchDownloads(
-            packageIds = missingPackageIds,
-            downloadTimeoutMillis = downloadConfig.individualDownloadTimeout.millis
+        val firstRelevantInterval: HourInterval = max(
+            oldestCheckIn.checkInStart.deriveHourInterval(),
+            intervalDiscovery.oldest
         )
 
-        val downloadedPackageIds = downloads.awaitAll().filterNotNull().also {
-            Timber.tag(TAG).v("Downloaded keyfile: %s", it.joinToString("\n"))
+        cleanUpIrrelevantPackages(location, firstRelevantInterval).also {
+            Timber.tag(TAG).d("Removed irrelevant packages: %s", it)
         }
-        Timber.tag(TAG).i("Download success: ${downloadedPackageIds.size}/${downloads.size}")
+
+        if (firstRelevantInterval > intervalDiscovery.latest) {
+            Timber.tag(TAG).d("Known server IDs are older then ours newest, aborting early.")
+            return SyncResult(successful = true)
+        }
+
+        val missingHourIntervals = determineIntervalsToDownload(
+            location = location,
+            firstRelevant = oldestCheckIn.checkInStart.deriveHourInterval(),
+            lastRelevant = intervalDiscovery.latest
+        )
+
+        if (missingHourIntervals.isEmpty()) {
+            Timber.tag(TAG).d("There are no missing intervals for %s", location)
+            return SyncResult(successful = true)
+        }
+
+        requireStorageSpaceFor(missingHourIntervals.size)
+
+        val downloadResult = downloader.launchDownloads(
+            location = location,
+            hourIntervals = missingHourIntervals,
+            downloadTimeout = downloadConfig.individualDownloadTimeout
+        )
+        Timber.tag(TAG).i("Download result: %s", downloadResult)
 
         return SyncResult(
-            successful = downloads.size == downloadedPackageIds.size,
-            newPackages = downloadedPackageIds
+            successful = downloadResult.successful,
+            newPackages = downloadResult.newPackages,
         )
     }
 
-    private fun findStalePackages(
-        downloaded: List<TraceWarningPackageMetadataEntity>,
-        oldestRelevantId: WarningPackageId
-    )
-    : List<WarningPackageId> =
-        downloaded.filter {
-            it.packageId < oldestRelevantId
-        }.map {
-            it.packageId
+    /**
+     * Returns true if any of our cached keys were revoked
+     */
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun cleanUpRevokedPackages(
+        config: KeyDownloadConfig
+    ): List<TraceWarningPackageMetadata> {
+        val revokedKeyPackages = config.revokedTraceWarningPackages
+
+        if (revokedKeyPackages.isEmpty()) {
+            Timber.tag(TAG).d("No revoked key packages to delete.")
+            return emptyList()
         }
 
-    private fun findMissingPackageIds(
-        downloaded: List<TraceWarningPackageMetadataEntity>,
-        firstRelevantId: WarningPackageId,
-        lastRelevantId: WarningPackageId)
-    : List<WarningPackageId> {
-        return (firstRelevantId..lastRelevantId).filter { packageId ->
-            val metadata = downloaded.find { it.packageId == packageId}?: return@filter false
-            // TODO what about ongoing downloads?
-            !(metadata.isDownloadComplete && File(metadata.absolutePath).exists())
+        val badEtags = revokedKeyPackages.map { it.etag }
+        val toDelete = repository.allMetaData.first().filter { badEtags.contains(it.eTag) }
+        Timber.tag(TAG).d("Revoked key packages matched %s", toDelete)
+
+        repository.delete(toDelete)
+
+        return toDelete
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun cleanUpIrrelevantPackages(
+        location: LocationCode,
+        oldestRelevantInterval: HourInterval
+    ): List<TraceWarningPackageMetadata> {
+        val downloaded = repository.getMetaDataForLocation(location)
+        val toDelete = downloaded.filter { it.hourInterval < oldestRelevantInterval }
+        Timber.tag(TAG).d("Removing irrelevant ids older than %d: %s", oldestRelevantInterval, toDelete)
+
+        repository.delete(toDelete)
+
+        return toDelete
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun determineIntervalsToDownload(
+        location: LocationCode,
+        firstRelevant: HourInterval,
+        lastRelevant: HourInterval
+    ): List<HourInterval> {
+        val alreadyProcessed = repository.getMetaDataForLocation(location)
+
+        return (firstRelevant..lastRelevant).filter { interval ->
+            val metadata = alreadyProcessed.find {
+                it.hourInterval == interval
+            } ?: return@filter false
+
+            !metadata.isProcessed
         }
     }
 
@@ -126,101 +164,10 @@ class TraceTimeWarningPackageSyncTool @Inject constructor(
         }
     }
 
-    private fun getDownloadedPackageMetadata(): List<TraceWarningPackageMetadataEntity> =
-        repository.packageMetadataEntities
-        .filter { metadata ->
-            val complete = metadata.isDownloadComplete
-            val exists = File(metadata.absolutePath).exists()
-            if (complete && !exists) {
-                Timber.tag(TAG).v("Incomplete download, will overwrite: %s", metadata)
-            }
-            // We overwrite not completed ones
-            complete && exists
-        }
-
-    private suspend fun launchDownloads(
-        packageIds: List<WarningPackageId>,
-        downloadTimeoutMillis: Long
-    ): Collection<Deferred<WarningPackageId?>> {
-        val launcher: CoroutineScope.(WarningPackageId) -> Deferred<WarningPackageId?> =
-            { packageId ->
-                async {
-                    val metadata = repository.createMetadata(packageId, LocationCode(Locale.GERMANY.country))
-                    val file = File(metadata.absolutePath)
-                    downloadTraceWarningPackage(packageId, file, downloadTimeoutMillis)
-                }
-            }
-
-        Timber.tag(TAG).d("Launching %d downloads.", packageIds.size)
-
-        return packageIds.map { warningPackageId ->
-            withContext(context = dispatcherProvider.IO) {
-                launcher(warningPackageId)
-            }
-        }
-    }
-
-    private suspend fun downloadTraceWarningPackage(
-        warningPackageId: WarningPackageId,
-        saveToFile: File,
-        downloadTimeoutMillis: Long
-    ): Long? {
-        try {
-
-            val downloadInfo = withTimeout(downloadTimeoutMillis) {
-                gateway.downloadWarningPackageFile(
-                    warningPackageId = warningPackageId,
-                    saveTo = saveToFile
-                )
-            }
-            Timber.tag(TAG).v("Download finished: warningPackageId %s -> %s", warningPackageId, saveToFile)
-
-            //TODO
-            //Verify Signature: for each downloaded TraceWarningPackage that is not empty
-            // (i.e. not a zip file, cwa-empty-pkg header set), the signature shall be verified.
-            // If signature verification fails, the TraceWarningPackage is discarded and not considered as
-            // successfully downloaded.
-
-            val eTag = requireNotNull(downloadInfo.etag) { "Server provided no ETAG!" }
-
-            repository.markDownloadComplete(warningPackageId, eTag, saveToFile)
-            return warningPackageId
-        } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "Download failed: %s", warningPackageId)
-            repository.deleteFile(saveToFile)
-            return null
-        }
-    }
-
-    /**
-     * Returns true if any of our cached keys were revoked
-     */
-    internal fun deleteRevokedPackages(
-        revokedKeyPackages: Collection<KeyDownloadConfig.RevokedKeyPackage>
-    ): Boolean {
-        if (revokedKeyPackages.isEmpty()) {
-            Timber.tag(TAG).d("No revoked key packages to delete.")
-            return false
-        }
-
-        val badEtags = revokedKeyPackages.map { it.etag }
-        val toDelete = repository.packageMetadataEntities.filter { badEtags.contains(it.eTag) }
-
-        return if (toDelete.isEmpty()) {
-            Timber.tag(TAG).d("No local cached keys matched the revoked ones.")
-            false
-        } else {
-            Timber.tag(TAG).w("Deleting revoked cached keys: %s", toDelete.joinToString("\n"))
-            repository.deleteStalePackage(toDelete.map { it.packageId })
-            true
-        }
-    }
-
     data class SyncResult(
         val successful: Boolean,
-        val newPackages: List<WarningPackageId> = emptyList()
+        val newPackages: Collection<TraceWarningPackageMetadata> = emptyList()
     )
-
 }
 
 private const val TAG = "TraceWarningSyncTool"
@@ -228,4 +175,3 @@ private const val TAG = "TraceWarningSyncTool"
 // TODO check size
 // ~22KB
 private const val APPROX_FILE_SIZE = 22 * 1024L
-

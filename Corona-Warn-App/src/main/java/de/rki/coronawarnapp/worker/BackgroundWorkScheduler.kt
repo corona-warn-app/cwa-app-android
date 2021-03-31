@@ -75,16 +75,13 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
      * @see isWorkActive
      */
     fun startWorkScheduler() {
-        val notificationBody = StringBuilder()
-        notificationBody.append("Jobs starting: ")
-        val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
-        logWorkActiveStatus(
-            WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag,
-            isPeriodicWorkActive
-        )
+        val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag).also {
+            Timber.d("DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER isPeriodicWorkActive=$it")
+        }
+
         if (!isPeriodicWorkActive) {
             WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
-            notificationBody.append("[DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK] ")
+            Timber.d("Starting DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK")
         }
         if (!submissionSettings.isSubmissionSuccessful) {
             if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
@@ -93,10 +90,9 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
             ) {
                 WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
                 tracingSettings.initialPollingForTestResultTimeStamp = System.currentTimeMillis()
-                notificationBody.append("[DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER]")
+                Timber.d("Starting DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER")
             }
         }
-        Timber.d("Background Job Starting: %s", notificationBody)
     }
 
     /**
@@ -294,10 +290,4 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
             { it.run() }
         ).also { Timber.d("Canceling all work with tag ${workTag.tag}") }
 
-    /**
-     * Log work active status
-     */
-    private fun logWorkActiveStatus(tag: String, active: Boolean) {
-        Timber.d("Work type $tag is active: $active")
-    }
 }

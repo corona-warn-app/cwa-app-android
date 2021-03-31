@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.presencetracing.warning.download.TraceTimeWarningPac
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import timber.log.Timber
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     private val dispatcherProvider: DispatcherProvider,
@@ -14,7 +15,8 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
 
     fun downloadWarningPackages() {
         launch {
-            syncTool.syncTraceWarningPackages()
+            Timber.d("downloadWarningPackages()")
+            syncTool.syncPackages()
         }
     }
 

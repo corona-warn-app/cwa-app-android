@@ -26,7 +26,8 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
             individualDownloadTimeout = rawParameters.individualTimeout(),
             overallDownloadTimeout = rawParameters.overAllTimeout(),
             revokedDayPackages = rawParameters.mapDayEtags(),
-            revokedHourPackages = rawParameters.mapHourEtags()
+            revokedHourPackages = rawParameters.mapHourEtags(),
+            revokedTraceWarningPackages = rawParameters.mapTraceWarningEtags()
         )
     }
 
@@ -81,11 +82,28 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
         }
     }
 
+    private fun KeyDownloadParametersAndroid?.mapTraceWarningEtags(): List<RevokedKeyPackage.TraceWarning> {
+        if (this == null) return emptyList()
+
+        return this.revokedTraceWarningPackagesList.mapNotNull {
+            try {
+                RevokedKeyPackage.TraceWarning(
+                    etag = it.etag,
+                    region = LocationCode("DE"),
+                )
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to parse revoked TraceWarning metadata: %s", it)
+                null
+            }
+        }
+    }
+
     data class KeyDownloadConfigContainer(
         override val individualDownloadTimeout: Duration,
         override val overallDownloadTimeout: Duration,
         override val revokedDayPackages: Collection<KeyDownloadConfig.RevokedKeyPackage.Day>,
-        override val revokedHourPackages: Collection<KeyDownloadConfig.RevokedKeyPackage.Hour>
+        override val revokedHourPackages: Collection<KeyDownloadConfig.RevokedKeyPackage.Hour>,
+        override val revokedTraceWarningPackages: Collection<KeyDownloadConfig.RevokedKeyPackage.TraceWarning>
     ) : KeyDownloadConfig
 
     companion object {
@@ -109,4 +127,9 @@ internal sealed class RevokedKeyPackage : KeyDownloadConfig.RevokedKeyPackage {
         override val day: LocalDate,
         override val hour: LocalTime
     ) : RevokedKeyPackage(), KeyDownloadConfig.RevokedKeyPackage.Hour
+
+    data class TraceWarning(
+        override val etag: String,
+        override val region: LocationCode
+    ) : RevokedKeyPackage(), KeyDownloadConfig.RevokedKeyPackage.TraceWarning
 }

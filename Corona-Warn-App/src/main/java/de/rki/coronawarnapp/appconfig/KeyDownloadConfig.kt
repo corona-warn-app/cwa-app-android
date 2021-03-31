@@ -16,6 +16,8 @@ interface KeyDownloadConfig {
 
     val revokedHourPackages: Collection<RevokedKeyPackage.Hour>
 
+    val revokedTraceWarningPackages: Collection<RevokedKeyPackage.TraceWarning>
+
     interface RevokedKeyPackage {
         val etag: String
         val region: LocationCode
@@ -27,6 +29,8 @@ interface KeyDownloadConfig {
         interface Hour : Day, RevokedKeyPackage {
             val hour: LocalTime
         }
+
+        interface TraceWarning : RevokedKeyPackage
     }
 
     interface Mapper : ConfigMapper<KeyDownloadConfig>
