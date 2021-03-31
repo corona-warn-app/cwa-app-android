@@ -95,7 +95,8 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
                     it.write(posterTemplate.template.toByteArray())
                 }
 
-                Timber.d("posterTemplate=[x=%s, y=%s, side=%s, descriptionTextBox=%s]",
+                Timber.d(
+                    "posterTemplate=[x=%s, y=%s, side=%s, descriptionTextBox=%s]",
                     posterTemplate.offsetX,
                     posterTemplate.offsetY,
                     posterTemplate.qrCodeSideLength,

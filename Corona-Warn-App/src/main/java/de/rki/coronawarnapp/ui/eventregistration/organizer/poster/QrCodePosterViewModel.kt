@@ -10,9 +10,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 class QrCodePosterViewModel @AssistedInject constructor(
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
-) : CWAViewModel()
-{
-
+) : CWAViewModel() {
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<QrCodePosterViewModel>
