@@ -33,7 +33,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as QrCodeDetailViewModel.Factory
-            factory.create(if (navArgs.traceLocationId == "") null else navArgs.traceLocationId)
+            factory.create(navArgs.traceLocationId)
         }
     )
 
