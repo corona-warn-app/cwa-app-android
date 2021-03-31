@@ -30,7 +30,7 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }
-            traceLocationQrInfoPrivacyInformation.setOnClickListener { vm.openPrivacyCard() }
+            privacyInformation.setOnClickListener { vm.openPrivacyCard() }
             traceLocationQrInfoUnderstandButton.setOnClickListener { vm.navigateToMyQRCodes() }
         }
 
@@ -40,7 +40,10 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
                     findNavController().navigate("coronawarnapp://contactdiary/dataPrivacy".toUri())
                 is TraceLocationQRInfoNavigationEvents.NavigateToMyQrCodes -> {
                     settings.qrInfoAcknowledged = true
-                    doNavigate(TraceLocationQRInfoFragmentDirections.actionTraceLocationOrganizerQRInfoFragmentToTraceLocationOrganizerListFragment())
+                    doNavigate(
+                        TraceLocationQRInfoFragmentDirections
+                            .actionTraceLocationOrganizerQRInfoFragmentToTraceLocationOrganizerListFragment()
+                    )
                 }
             }
         }
