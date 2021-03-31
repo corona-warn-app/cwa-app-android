@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.deadman
 
 import android.content.Context
-import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.mockk.MockKAnnotations
@@ -14,7 +14,7 @@ class DeadmanNotificationSenderTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var foregroundState: ForegroundState
-    @MockK lateinit var notificationHelper: NotificationHelper
+    @MockK lateinit var notificationHelper: GeneralNotifications
 
     @BeforeEach
     fun setup() {

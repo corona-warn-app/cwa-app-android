@@ -43,7 +43,9 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_traceLocationCreateFragment_to_traceLocationOrganizerListFragment"
-            app:destination="@id/traceLocationOrganizerListFragment" />
+            app:destination="@id/traceLocationOrganizerListFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/traceLocationOrganizerListFragment"

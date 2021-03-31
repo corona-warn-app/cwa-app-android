@@ -30,10 +30,6 @@
     <!-- ####################################
                Notification
     ###################################### -->
-    <!-- XTXT: Notification channel name for os settings -->
-    <string name="notification_name">"Corona-Warn-App"</string>
-    <!-- XTXT: Notification channel description for os settings -->
-    <string name="notification_description">"Powiadomienia od Corona-Warn-App"</string>
     <!-- XHED: Notification title -->
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
