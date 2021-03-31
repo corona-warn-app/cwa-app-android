@@ -77,6 +77,8 @@
     <color name="colorContactDiaryListItem">#F5F5F5</color>
     <color name="colorContactDiaryListItemPressed">#D7D7D7</color>
     <color name="colorContactDiaryBackground">#FFFFFF</color>
+    <color name="colorBulletPointHighRisk">#BF0F2D</color>
+    <color name="colorBulletPointLowRisk">#5D6E80</color>
 
     <!-- Statistics -->
     <color name="colorStatisticsValueLabel">#747576</color>

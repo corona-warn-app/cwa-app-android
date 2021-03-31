@@ -5,7 +5,6 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.CREATE_TRACELOCATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DATA_DONATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DOWNLOAD
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.LOG_UPLOAD
@@ -35,7 +34,7 @@ class EnvironmentSetup @Inject constructor(
         DOWNLOAD("DOWNLOAD_CDN_URL"),
         VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION"),
         DATA_DONATION("DATA_DONATION_CDN_URL"),
-        CREATE_TRACELOCATION("CREATE_TRACELOCATION_URL"),
+        QRCODE_POSTER_TEMPLATE("QRCODE_POSTER_TEMPLATE_URL"),
         LOG_UPLOAD("LOG_UPLOAD_SERVER_URL"),
         SAFETYNET_API_KEY("SAFETYNET_API_KEY")
     }
@@ -117,8 +116,8 @@ class EnvironmentSetup @Inject constructor(
         get() = getEnvironmentValue(DOWNLOAD).asString
     val dataDonationCdnUrl: String
         get() = getEnvironmentValue(DATA_DONATION).asString
-    val traceLocationCdnUrl: String
-        get() = getEnvironmentValue(CREATE_TRACELOCATION).asString
+    val qrCodePosterTemplateCdnUrl: String
+        get() = getEnvironmentValue(EnvKey.QRCODE_POSTER_TEMPLATE).asString
 
     val appConfigVerificationKey: String
         get() = getEnvironmentValue(VERIFICATION_KEYS).asString

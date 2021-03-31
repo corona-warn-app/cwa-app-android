@@ -80,5 +80,13 @@ class QrCodeCreationTestFragment : Fragment(R.layout.fragment_test_qrcode_creati
         binding.generateQrCode.setOnClickListener {
             viewModel.createQrCode(binding.qrCodeText.text.toString())
         }
+
+        binding.downloadQrCodePosterTemplate.setOnClickListener {
+            viewModel.downloadQrCodePosterTemplate()
+        }
+
+        viewModel.qrCodePosterTemplate.observe2(this) { vectorDrawableBytes ->
+            binding.downloadedQrCodePoster.text = vectorDrawableBytes.utf8()
+        }
     }
 }

@@ -6,14 +6,15 @@ import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
@@ -32,7 +33,7 @@ class RiskLevelChangeDetector @Inject constructor(
     private val riskLevelSettings: RiskLevelSettings,
     private val notificationManagerCompat: NotificationManagerCompat,
     private val foregroundState: ForegroundState,
-    private val notificationHelper: NotificationHelper,
+    private val notificationHelper: GeneralNotifications,
     private val surveys: Surveys,
     private val submissionSettings: SubmissionSettings,
     private val tracingSettings: TracingSettings,
@@ -121,9 +122,14 @@ class RiskLevelChangeDetector @Inject constructor(
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {
+                val notification = notificationHelper.newBaseBuilder().apply {
+                    setContentTitle(context.getString(R.string.notification_headline))
+                    setContentTextExpandable(context.getString(R.string.notification_body))
+                }.build()
+
                 notificationHelper.sendNotification(
-                    content = context.getString(R.string.notification_body),
-                    notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+                    notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID,
+                    notification = notification,
                 )
             } else {
                 Timber.d("App is in foreground, not sending notifications")

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
-import android.content.Context
 import androidx.lifecycle.Observer
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.matchers.shouldBe
@@ -24,7 +23,6 @@ import testhelpers.flakyTest
 class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var environmentSetup: EnvironmentSetup
-    @MockK private lateinit var context: Context
 
     private var currentEnvironment = EnvironmentSetup.Type.DEV
 
@@ -38,11 +36,10 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
         every { environmentSetup.downloadCdnUrl } returns "downloadUrl"
         every { environmentSetup.verificationCdnUrl } returns "verificationUrl"
         every { environmentSetup.dataDonationCdnUrl } returns "dataDonationUrl"
-        every { environmentSetup.traceLocationCdnUrl } returns "createTraceLocationUrl"
+        every { environmentSetup.qrCodePosterTemplateCdnUrl } returns "qrCodePosterTemplateUrl"
 
         every { environmentSetup.currentEnvironment = any() } answers {
             currentEnvironment = arg(0)
-            Unit
         }
         every { environmentSetup.currentEnvironment } answers {
             currentEnvironment
