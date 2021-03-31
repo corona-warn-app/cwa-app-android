@@ -97,16 +97,16 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                     eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
                         requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration,
-                            startTime.toLocalDate().toString("dd.MM.yy"),
+                            startTime.toLocalDate().toString("dd.MM.yyyy"),
                             startTime.toLocalTime().toString("HH:mm"),
                             endTime.toLocalTime().toString("HH:mm")
                         )
                     } else {
                         requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration_multiple_days,
-                            startTime.toLocalDate().toString("dd.MM.yy"),
+                            startTime.toLocalDate().toString("dd.MM.yyyy"),
                             endTime.toLocalTime().toString("HH:mm"),
-                            endTime.toLocalDate().toString("dd.MM.yy"),
+                            endTime.toLocalDate().toString("dd.MM.yyyy"),
                             endTime.toLocalTime().toString("HH:mm")
                         )
                     }
