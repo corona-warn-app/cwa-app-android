@@ -2,8 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "045f436da2688334351a33abc2186810",
-    "identityHash": "1e74dfec0694229ba814672c9ddf66f3",
+    "identityHash": "3017a63593d3342376a56b56743815b7",
     "entities": [
       {
         "tableName": "checkin",
@@ -237,8 +236,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '045f436da2688334351a33abc2186810')",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1e74dfec0694229ba814672c9ddf66f3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3017a63593d3342376a56b56743815b7')"
     ]
   }
 }
