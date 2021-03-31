@@ -13,7 +13,6 @@ class CheckInTransmissionRiskLevelTest : BaseTest() {
     private val checkIn = CheckIn(
         id = 1L,
         guid = "trace_location_1",
-        guidHash = EMPTY,
         version = 1,
         type = 2,
         description = "restaurant_1",

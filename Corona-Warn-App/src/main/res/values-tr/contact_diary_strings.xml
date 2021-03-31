@@ -124,7 +124,7 @@
     <!-- XTXT: Description for contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_description">"Enfeksiyon riskinizi daha iyi tahmin etmenize yardımcı olacak notları bu bölüme girebilirsiniz."</string>
     <!-- XTXT: Body for contact diary comment info screen -->
-    <string name="contact_diary_comment_info_screen_body">"Başka insanlara ne kadar yakın olduğunuz ya da yaptığınız şeyler gibi hava kalitesini etkileyebilecek ve riskin artmasına neden olabilecek koşulları yazın (örnekler: “yakın bir şekilde birlikte oturduk”, “spor yaptık”, “az alan vardı”, “şarkı söyledik”).\n\nEnfekte olmanız halinde bu bilgiler, kamu sağlığı yetkilisinin potansiyel enfeksiyon zincirlerini takip etmesine de yardımcı olabilir."</string>
+    <string name="contact_diary_comment_info_screen_body">"Başka insanlarla ne kadar yakın olduğunuz ve ne yaptığınız (örnekler: “yakın bir şekilde birlikte oturduk”, “spor yaptık”, “az mesafe vardı”, “şarkı söyledik”) gibi, karşılaşmanıza veya konaklamanıza dair enfeksiyon riskiniz üzerinde bir etkisi olabilecek ek koşulları buraya yazabilirsiniz.\n\nBu notlar daha sonra hafızanızı tazelemenize yardımcı olabilir. Gerekirse erken aşamada bir arada olduğunuz kişileri uyarmanızı sağlayacak ve kamu sağlığı yetkililerinin potansiyel enfeksiyon zincirlerini takip edebilmesine yardımcı olacaktır."</string>
 
     <!-- XTXT: location (description for screen readers) -->
     <string name="accessibility_location">"Yer %s"</string>
