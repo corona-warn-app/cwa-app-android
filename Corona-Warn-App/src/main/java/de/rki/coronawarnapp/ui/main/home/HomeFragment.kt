@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -86,13 +85,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             val nestedGraph = findNavController().graph.findNode(R.id.trace_location_organizer_nav_graph) as NavGraph
 
             if (vm.wasQRInfoWasAcknowledged()) {
-                Timber.v("QRInfo aknowledged")
                 nestedGraph.startDestination = R.id.traceLocationOrganizerListFragment
-                doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
             } else {
                 nestedGraph.startDestination = R.id.traceLocationOrganizerQRInfoFragment
-                doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
             }
+            doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
         }
 
         vm.popupEvents.observe2(this) { event ->
