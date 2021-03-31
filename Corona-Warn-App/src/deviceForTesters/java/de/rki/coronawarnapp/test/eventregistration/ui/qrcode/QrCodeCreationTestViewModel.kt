@@ -6,7 +6,7 @@ import android.graphics.pdf.PdfDocument
 import android.view.View
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate.QrCodePosterTemplateServer
 import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
@@ -14,6 +14,8 @@ import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import okio.ByteString
+import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -23,12 +25,13 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
     private val fileSharing: FileSharing,
     private val qrCodeGenerator: QrCodeGenerator,
     @AppContext private val context: Context,
-    private val appConfigProvider: AppConfigProvider,
+    private val posterTemplateServer: QrCodePosterTemplateServer
 ) : CWAViewModel(dispatcher) {
 
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
     val errorMessage = SingleLiveEvent<String>()
     val sharingIntent = SingleLiveEvent<FileSharing.FileIntentProvider>()
+    val qrCodePosterTemplate = SingleLiveEvent<ByteString>()
 
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
@@ -83,6 +86,17 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
         val dir = File(context.filesDir, "events")
         if (!dir.exists()) dir.mkdirs()
         return File(dir, "CoronaWarnApp-Event.pdf")
+    }
+
+    fun downloadQrCodePosterTemplate() {
+        launch {
+            try {
+                val posterTemplate = posterTemplateServer.downloadQrCodePosterTemplate()
+                qrCodePosterTemplate.postValue(posterTemplate.template.toByteArray().toByteString())
+            } catch (exception: Exception) {
+                errorMessage.postValue("Downloading Poster Template failed: ${exception.message}")
+            }
+        }
     }
 
     @AssistedFactory
