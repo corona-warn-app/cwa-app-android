@@ -63,7 +63,7 @@ class TraceLocationVH(parent: ViewGroup) :
         }
 
         checkinAction.setOnClickListener { item.onCheckIn(item.traceLocation) }
-        itemView.setOnClickListener { item.onClickItem(item.traceLocation) }
+        itemView.setOnClickListener { item.onClickItem(item.traceLocation, adapterPosition) }
     }
 
     data class Item(
@@ -71,7 +71,7 @@ class TraceLocationVH(parent: ViewGroup) :
         val onCheckIn: (TraceLocation) -> Unit,
         val onDuplicate: (TraceLocation) -> Unit,
         val onShowPrint: (TraceLocation) -> Unit,
-        val onClickItem: (TraceLocation) -> Unit,
+        val onClickItem: (TraceLocation, Int) -> Unit,
         val onDeleteItem: (TraceLocation) -> Unit,
         val onSwipeItem: (TraceLocation, Int) -> Unit
     ) : TraceLocationItem, SwipeConsumer {

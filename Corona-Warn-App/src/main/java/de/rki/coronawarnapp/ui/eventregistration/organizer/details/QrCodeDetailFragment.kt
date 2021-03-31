@@ -9,6 +9,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
@@ -28,6 +29,13 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
     private val viewModel: QrCodeDetailViewModel by cwaViewModels { viewModelFactory }
     private val binding: TraceLocationOrganizerQrCodeDetailFragmentBinding by viewBindingLazy()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

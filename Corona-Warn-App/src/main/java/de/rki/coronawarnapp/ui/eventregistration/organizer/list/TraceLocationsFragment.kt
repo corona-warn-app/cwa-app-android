@@ -84,9 +84,18 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                         it.traceLocation.guid
                     )
                 )
-                is TraceLocationEvent.QrCodeDetails -> doNavigate(
-                    TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodeDetailFragment()
-                )
+
+                is TraceLocationEvent.QrCodeDetails ->
+                    binding.recyclerView.findViewHolderForAdapterPosition(it.position)?.itemView?.let { view ->
+                        // Set it on the fly to avoid confusion of recycler's items
+                        view.transitionName = "trace_location_container_transition"
+                        findNavController().navigate(
+                            R.id.action_traceLocationsFragment_to_qrCodeDetailFragment,
+                            null,
+                            null,
+                            FragmentNavigatorExtras(view to view.transitionName)
+                        )
+                    }
             }
         }
 
