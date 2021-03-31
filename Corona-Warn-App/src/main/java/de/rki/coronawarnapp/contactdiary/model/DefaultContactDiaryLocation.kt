@@ -5,7 +5,7 @@ data class DefaultContactDiaryLocation(
     override var locationName: String,
     override val phoneNumber: String? = null,
     override val emailAddress: String? = null,
-    override val traceLocationGUID: String? = null
+    override val traceLocationID: String? = null
 ) : ContactDiaryLocation {
     override val stableId: Long
         get() = locationId

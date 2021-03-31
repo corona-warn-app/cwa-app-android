@@ -115,7 +115,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             locationName = "Location1",
             phoneNumber = null,
             emailAddress = null,
-            traceLocationGUID = null
+            traceLocationID = null
         )
         runBlocking { daoDb.locationDao().allEntries().first() }.single() shouldBe location
 
@@ -164,7 +164,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             locationName = "Why do you want to have this information?",
             phoneNumber = "I'm not going to tell you yet",
             emailAddress = "I'mnotgoingtotell@you.yet",
-            traceLocationGUID = null
+            traceLocationID = null
         )
 
         val locationVisit = ContactDiaryLocationVisitEntity(
@@ -176,7 +176,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             checkInID = null
         )
 
-        val locationAfter = location.copy(traceLocationGUID = "jshrgu-aifhioaio-aofsjof-samofp-kjsadngsgf")
+        val locationAfter = location.copy(traceLocationID = "jshrgu-aifhioaio-aofsjof-samofp-kjsadngsgf")
         val locationVisitAfter = locationVisit.copy(checkInID = 101)
 
         val locationValues = ContentValues().apply {

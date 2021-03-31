@@ -78,13 +78,13 @@ open class ContactDiaryOverviewViewModelTest {
     private val locationEventLowRisk = DefaultContactDiaryLocation(
         locationId = 456,
         locationName = "Jahrestreffen der deutschen SAP Anwendergruppe",
-        traceLocationGUID = "12ab-34cd-56ef-78gh-456"
+        traceLocationID = "12ab-34cd-56ef-78gh-456"
     )
 
     private val locationEventHighRisk = DefaultContactDiaryLocation(
         locationId = 457,
         locationName = "Kiosk",
-        traceLocationGUID = "12ab-34cd-56ef-78gh-457"
+        traceLocationID = "12ab-34cd-56ef-78gh-457"
     )
 
     private val locationEventLowRiskVisit = DefaultContactDiaryLocationVisit(

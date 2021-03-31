@@ -30,7 +30,7 @@ class ContactDiaryEditLocationsViewModelTest {
         override val phoneNumber: String? = null
         override val emailAddress: String? = null
         override val stableId = 1L
-        override val traceLocationGUID: String? = null
+        override val traceLocationID: String? = null
     }
     private val locationList = listOf(location)
 

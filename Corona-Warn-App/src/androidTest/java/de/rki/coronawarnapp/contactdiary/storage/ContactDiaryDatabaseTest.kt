@@ -37,7 +37,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         locationName = "Rewe Wiesloch",
         emailAddress = "location-emailAddress",
         phoneNumber = "location-phoneNumber",
-        traceLocationGUID = "a-b-c-d"
+        traceLocationID = "a-b-c-d"
     )
     private val personEncounter = ContactDiaryPersonEncounterEntity(
         id = 3,

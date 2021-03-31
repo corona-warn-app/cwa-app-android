@@ -34,8 +34,8 @@ object ContactDiaryDatabaseMigration2To3 : Migration(2, 3) {
     }
 
     private val migrateLocationsTable: SupportSQLiteDatabase.() -> Unit = {
-        Timber.d("Table 'locations': Add column 'traceLocationGUID'")
-        execSQL("ALTER TABLE `locations` ADD COLUMN `traceLocationGUID` TEXT")
+        Timber.d("Table 'locations': Add column 'traceLocationID'")
+        execSQL("ALTER TABLE `locations` ADD COLUMN `traceLocationID` TEXT")
     }
 
     private val migrateLocationVisitTable: SupportSQLiteDatabase.() -> Unit = {
