@@ -257,11 +257,11 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun migrate2To3_failure_throws() {
+    fun migrate2To3_failure_throws_SQLiteException() {
         helper.createDatabase(DB_NAME, 2).apply {
             execSQL("DROP TABLE IF EXISTS locations")
-            // Has incompatible existing column phoneNumber of wrong type
-            execSQL("CREATE TABLE IF NOT EXISTS `locations` (`locationId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `locationName` TEXT NOT NULL, `phoneNumber` TEXT, `emailAddress` TEXT, `traceLocationGUID` INTEGER)")
+            // Has incompatible existing column traceLocationID of wrong type
+            execSQL("CREATE TABLE IF NOT EXISTS `locations` (`locationId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `locationName` TEXT NOT NULL, `phoneNumber` TEXT, `emailAddress` TEXT, `traceLocationID` INTEGER)")
             close()
         }
 
