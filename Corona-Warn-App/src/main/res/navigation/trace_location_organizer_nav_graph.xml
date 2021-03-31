@@ -11,6 +11,12 @@
         android:label="TraceLocationQRInfoFragment"
         tools:layout="@layout/trace_location_organizer_qr_code_info_fragment">
 
+
+        <action
+            android:id="@+id/action_traceLocationOrganizerQRInfoFragment_to_traceLocationOrganizerListFragment"
+            app:destination="@id/traceLocationOrganizerListFragment"
+            app:popUpTo="@id/traceLocationOrganizerQRInfoFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

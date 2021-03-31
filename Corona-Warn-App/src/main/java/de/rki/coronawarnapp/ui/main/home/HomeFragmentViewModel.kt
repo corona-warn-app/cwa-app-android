@@ -90,9 +90,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
 
-    private val mutableIsQrInfoAcknowledged = MutableLiveData<Boolean>()
-    val isQRInfoAcknowledged: LiveData<Boolean> = mutableIsQrInfoAcknowledged
-
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
     val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
@@ -329,9 +326,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         cwaSettings.wasTracingExplanationDialogShown = true
     }
 
-    fun wasQRInfoWasAcknowledged() {
-        mutableIsQrInfoAcknowledged.value = traceLocationOrganizerSettings.qrInfoAcknowledged
-    }
+    fun wasQRInfoWasAcknowledged() = traceLocationOrganizerSettings.qrInfoAcknowledged
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>

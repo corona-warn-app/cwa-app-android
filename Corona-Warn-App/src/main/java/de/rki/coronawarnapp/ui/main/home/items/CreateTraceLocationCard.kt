@@ -20,14 +20,9 @@ class CreateTraceLocationCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        itemView.setOnClickListener {
-            val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-            curItem.onClickAction(item)
-        }
-        createTraceLocationCardButton.setOnClickListener {
-            val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-            curItem.onClickAction(item)
-        }
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        itemView.setOnClickListener { curItem.onClickAction(item) }
+        createTraceLocationCardButton.setOnClickListener { curItem.onClickAction(item) }
     }
 
     data class Item(val onClickAction: (Item) -> Unit) : HomeItem, HasPayloadDiffer {

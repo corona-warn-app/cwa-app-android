@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -84,11 +85,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             vm.wasQRInfoWasAcknowledged()
             val nestedGraph = findNavController().graph.findNode(R.id.trace_location_organizer_nav_graph) as NavGraph
 
-            if (vm.isQRInfoAcknowledged.value == true) {
-                /*TODO: set nested graph start destination to Meine QR-Codes fragment and navigate
-                    below piece of code is only provisional for easier testing
-                 */
-                nestedGraph.startDestination = R.id.traceLocationOrganizerCategoriesFragment
+            if (vm.wasQRInfoWasAcknowledged()) {
+                Timber.v("QRInfo aknowledged")
+                nestedGraph.startDestination = R.id.traceLocationOrganizerListFragment
                 doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
             } else {
                 nestedGraph.startDestination = R.id.traceLocationOrganizerQRInfoFragment
