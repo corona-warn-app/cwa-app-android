@@ -26,7 +26,6 @@ class CheckOutHandlerTest : BaseTest() {
     private val testCheckIn = CheckIn(
         id = 42L,
         guid = "eventOne",
-        guidHash = ByteString.EMPTY,
         version = 1,
         type = 1,
         description = "Restaurant",
