@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeInterva
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningRepository
 import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -15,7 +14,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
-import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
@@ -25,35 +23,59 @@ import kotlin.coroutines.CoroutineContext
 class CheckInWarningMatcher @Inject constructor(
     private val checkInsRepository: CheckInRepository,
     private val traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository,
+    private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     private val dispatcherProvider: DispatcherProvider
 ) {
     suspend fun execute(): List<CheckInWarningOverlap> {
-        val checkIns = checkInsRepository.allCheckIns.firstOrNull() ?: return emptyList()
 
-        val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull() ?: return emptyList()
+        val checkIns = checkInsRepository.allCheckIns.firstOrNull()
+        val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull()
+
+        if (checkIns.isNullOrEmpty() || warningPackages.isNullOrEmpty()) {
+            Timber.i("No check-ins or packages available. Deleting all matches.")
+            presenceTracingRiskRepository.deleteAllMatches()
+            return emptyList()
+        }
 
         val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
 
-        return createMatchingLaunchers(splitCheckIns, warningPackages, dispatcherProvider.IO)
+        val matchLists = createMatchingLaunchers(splitCheckIns, warningPackages, dispatcherProvider.IO)
             .awaitAll()
-            .flatten()
+
+        if (matchLists.contains(null)) {
+            Timber.e("Error occurred during matching. Deleting all stale matches.")
+            presenceTracingRiskRepository.deleteAllMatches()
+            // TODO report calculation failed to show on home card
+            return emptyList()
+        }
+
+        val matches = matchLists.filterNotNull().flatten()
+        presenceTracingRiskRepository.replaceAllMatches(matches)
+        return matches
     }
 }
 
-suspend fun createMatchingLaunchers(
+@VisibleForTesting(otherwise = PRIVATE)
+internal suspend fun createMatchingLaunchers(
     checkIns: List<CheckIn>,
     warningPackages: List<TraceTimeIntervalWarningPackage>,
     coroutineContext: CoroutineContext
-): Collection<Deferred<List<CheckInWarningOverlap>>> {
+): Collection<Deferred<List<CheckInWarningOverlap>?>> {
 
     val launcher: CoroutineScope.(
         List<CheckIn>,
         List<TraceTimeIntervalWarningPackage>
-    ) -> Deferred<List<CheckInWarningOverlap>> =
+    ) -> Deferred<List<CheckInWarningOverlap>?> =
         { list, packageChunk ->
             async {
-                packageChunk.flatMap {
-                    findMatches(list, it)
+                try {
+
+                    packageChunk.flatMap {
+                        findMatches(list, it)
+                    }
+                } catch (e: Throwable) {
+                    Timber.e("Failed to process packages $packageChunk")
+                    null
                 }
             }
         }
@@ -78,7 +100,7 @@ internal suspend fun findMatches(
         .flatMap { warning ->
             checkIns
                 .mapNotNull { checkIn ->
-                    checkIn.calculateOverlap(warning).also { overlap ->
+                    checkIn.calculateOverlap(warning, warningPackage.warningPackageId).also { overlap ->
                         if (overlap == null) {
                             Timber.d("No match/overlap found for $checkIn and $warning")
                         } else {
@@ -91,7 +113,8 @@ internal suspend fun findMatches(
 
 @VisibleForTesting(otherwise = PRIVATE)
 internal fun CheckIn.calculateOverlap(
-    warning: TraceWarning.TraceTimeIntervalWarning
+    warning: TraceWarning.TraceTimeIntervalWarning,
+    traceWarningPackageId: String
 ): CheckInWarningOverlap? {
 
     if (warning.locationGuidHash != locationGuidHash) return null
@@ -107,11 +130,9 @@ internal fun CheckIn.calculateOverlap(
 
     return CheckInWarningOverlap(
         checkInId = id,
-        localDate = Instant.ofEpochMilli(warningStartTimestamp).toLocalDate(),
-        overlap = Duration(overlapMillis),
-        transmissionRiskLevel = warning.transmissionRiskLevel
+        transmissionRiskLevel = warning.transmissionRiskLevel,
+        traceWarningPackageId = traceWarningPackageId,
+        startTime = Instant.ofEpochMilli(overlapStartTimestamp),
+        endTime = Instant.ofEpochMilli(overlapEndTimestamp)
     )
 }
-
-// converts number of 10min intervals into milliseconds
-private fun Int.tenMinIntervalToMillis() = this * 600L * 1000L

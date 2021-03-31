@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -167,7 +167,7 @@ class CheckInsTransformerTest : BaseTest() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-11T10:00:00Z")
         every { symptoms.symptomIndication } returns Symptoms.Indication.POSITIVE
-        every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDate())
+        every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDateUtc())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { presenceTracing } returns PresenceTracingConfigContainer(
                 submissionParameters = submissionParams,
