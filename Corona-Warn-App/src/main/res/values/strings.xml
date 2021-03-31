@@ -1967,6 +1967,10 @@
     <string name="trace_location_onboarding_body_warning">"Every check-in is also taken into account when calculating your risk status. If someone who checked in to this event or place is diagnosed with coronavirus later, you can be notified if you were in the same room at the same time or up to 30 minutes after the diagnosed person."</string>
     <!-- YMSG: Onboarding trace location warning -->
     <string name="trace_location_onboarding_body_stay">"Please specify your length of stay as precisely as possible to enable targeted warnings."</string>
+    <!-- XHED: Title for the trace location onboarding consent card -->
+    <string name="trace_location_onboarding_card_title">Ihr Einverständnis</string>
+    <!-- YMSG: Onboarding trace location bullet points introduction -->
+    <string name="trace_location_onboarding_body_intro">Durch Antippen von „Einverstanden“ willigen Sie in folgende Schritte ein:</string>
     <!-- YMSG: Onboarding trace location bullet points -->
     <string name="trace_location_onboarding_body_consent2">"The app keeps the events and places you have checked in to for 16 days."</string>
     <!-- YMSG: Onboarding trace location bullet points -->
