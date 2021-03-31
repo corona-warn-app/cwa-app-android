@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.presencetracing.warning.worker
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.presencetracing.warning.download.TraceTimeWarningPackageSyncTool
+import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -20,7 +20,7 @@ import javax.inject.Provider
 
 class PresenceTracingWarningTask @Inject constructor(
     private val timeStamper: TimeStamper,
-    private val syncTool: TraceTimeWarningPackageSyncTool,
+    private val syncTool: TraceWarningPackageSyncTool,
 ) : Task<DefaultProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()

@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.presencetracing.warning.download
 import dagger.Reusable
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceTimeWarningServer
-import de.rki.coronawarnapp.presencetracing.warning.storage.TraceTimeIntervalWarningRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackageMetadata
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.util.HourInterval
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
@@ -21,8 +21,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class TraceTimeWarningPackageDownloader @Inject constructor(
-    private val repository: TraceTimeIntervalWarningRepository,
+class TraceWarningPackageDownloader @Inject constructor(
+    private val repository: TraceWarningRepository,
     private val dispatcherProvider: DispatcherProvider,
     private val server: TraceTimeWarningServer,
     private val signatureValidation: SignatureValidation,
@@ -116,11 +116,11 @@ class TraceTimeWarningPackageDownloader @Inject constructor(
         metaData: TraceWarningPackageMetadata,
         fileMap: Map<String, ByteArray>
     ): ByteArray {
-        val signature = fileMap[EXPORT_SIGNATURE_NAME] ?: throw TraceTimeWarningPackageValidationException(
+        val signature = fileMap[EXPORT_SIGNATURE_NAME] ?: throw TraceWarningPackageValidationException(
             message = "Signature was null for ${metaData.packageId}(${metaData.eTag})."
         )
 
-        val binary = fileMap[EXPORT_BINARY_NAME] ?: throw TraceTimeWarningPackageValidationException(
+        val binary = fileMap[EXPORT_BINARY_NAME] ?: throw TraceWarningPackageValidationException(
             message = "Binary was null for ${metaData.packageId}(${metaData.eTag})."
         )
 
@@ -130,15 +130,18 @@ class TraceTimeWarningPackageDownloader @Inject constructor(
         )
 
         if (!hasValidSignature) {
-            throw TraceTimeWarningPackageValidationException(
+            throw TraceWarningPackageValidationException(
                 message = "Signature didn't match for ${metaData.packageId}(${metaData.eTag})."
             )
         }
 
         return binary
     }
+
+    companion object {
+        private const val TAG = "TraceWarningDownloader"
+        private const val EXPORT_BINARY_NAME = "export.bin"
+        private const val EXPORT_SIGNATURE_NAME = "export.sig"
+    }
 }
 
-private const val TAG = "TraceWarningDownloader"
-private const val EXPORT_BINARY_NAME = "export.bin"
-private const val EXPORT_SIGNATURE_NAME = "export.sig"

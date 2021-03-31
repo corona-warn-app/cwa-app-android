@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.presencetracing.risk
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
-import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningRepository
 import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
@@ -22,14 +22,14 @@ import kotlin.coroutines.CoroutineContext
 
 class CheckInWarningMatcher @Inject constructor(
     private val checkInsRepository: CheckInRepository,
-    private val traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository,
+    private val traceWarningRepository: TraceWarningRepository,
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     private val dispatcherProvider: DispatcherProvider
 ) {
     suspend fun execute(): List<CheckInWarningOverlap> {
 
         val checkIns = checkInsRepository.allCheckIns.firstOrNull()
-        val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull()
+        val warningPackages = traceWarningRepository.unprocessedWarningPackages.firstOrNull()
 
         if (checkIns.isNullOrEmpty() || warningPackages.isNullOrEmpty()) {
             Timber.i("No check-ins or packages available. Deleting all matches.")
@@ -39,8 +39,11 @@ class CheckInWarningMatcher @Inject constructor(
 
         val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
 
-        val matchLists = createMatchingLaunchers(splitCheckIns, warningPackages, dispatcherProvider.IO)
-            .awaitAll()
+        val matchLists = createMatchingLaunchers(
+            checkIns = splitCheckIns,
+            warningPackages = warningPackages,
+            coroutineContext = dispatcherProvider.IO
+        ).awaitAll()
 
         if (matchLists.contains(null)) {
             Timber.e("Error occurred during matching. Deleting all stale matches.")
@@ -53,39 +56,40 @@ class CheckInWarningMatcher @Inject constructor(
         presenceTracingRiskRepository.replaceAllMatches(matches)
         return matches
     }
-}
 
-@VisibleForTesting(otherwise = PRIVATE)
-internal suspend fun createMatchingLaunchers(
-    checkIns: List<CheckIn>,
-    warningPackages: List<TraceTimeIntervalWarningPackage>,
-    coroutineContext: CoroutineContext
-): Collection<Deferred<List<CheckInWarningOverlap>?>> {
+    @VisibleForTesting(otherwise = PRIVATE)
+    internal suspend fun createMatchingLaunchers(
+        checkIns: List<CheckIn>,
+        warningPackages: List<TraceWarningPackage>,
+        coroutineContext: CoroutineContext
+    ): Collection<Deferred<List<CheckInWarningOverlap>?>> {
 
-    val launcher: CoroutineScope.(
-        List<CheckIn>,
-        List<TraceTimeIntervalWarningPackage>
-    ) -> Deferred<List<CheckInWarningOverlap>?> =
-        { list, packageChunk ->
-            async {
-                try {
-
-                    packageChunk.flatMap {
-                        findMatches(list, it)
+        val launcher: CoroutineScope.(
+            List<CheckIn>,
+            List<TraceWarningPackage>
+        ) -> Deferred<List<CheckInWarningOverlap>?> =
+            { list, packageChunk ->
+                async {
+                    try {
+                        packageChunk.flatMap { warningPackage ->
+                            findMatches(list, warningPackage).also {
+                                traceWarningRepository.markPackageProcessed(warningPackage.packageId)
+                            }
+                        }
+                    } catch (e: Throwable) {
+                        Timber.e("Failed to process packages $packageChunk")
+                        null
                     }
-                } catch (e: Throwable) {
-                    Timber.e("Failed to process packages $packageChunk")
-                    null
                 }
             }
-        }
 
-    // at most 4 parallel processes
-    val chunkSize = (checkIns.size / 4) + 1
+        // at most 4 parallel processes
+        val chunkSize = (checkIns.size / 4) + 1
 
-    return warningPackages.chunked(chunkSize).map { packageChunk ->
-        withContext(context = coroutineContext) {
-            launcher(checkIns, packageChunk)
+        return warningPackages.chunked(chunkSize).map { packageChunk ->
+            withContext(context = coroutineContext) {
+                launcher(checkIns, packageChunk)
+            }
         }
     }
 }
@@ -93,14 +97,14 @@ internal suspend fun createMatchingLaunchers(
 @VisibleForTesting(otherwise = PRIVATE)
 internal suspend fun findMatches(
     checkIns: List<CheckIn>,
-    warningPackage: TraceTimeIntervalWarningPackage
+    warningPackage: TraceWarningPackage
 ): List<CheckInWarningOverlap> {
     return warningPackage
-        .extractTraceTimeIntervalWarnings()
+        .extractWarnings()
         .flatMap { warning ->
             checkIns
                 .mapNotNull { checkIn ->
-                    checkIn.calculateOverlap(warning, warningPackage.warningPackageId).also { overlap ->
+                    checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
                         if (overlap == null) {
                             Timber.d("No match/overlap found for $checkIn and $warning")
                         } else {

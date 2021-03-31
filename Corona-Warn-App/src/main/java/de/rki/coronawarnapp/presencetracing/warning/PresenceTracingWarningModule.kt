@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
-import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceTimeWarningApiV1
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningApiV1
 import de.rki.coronawarnapp.presencetracing.warning.worker.PresenceTracingWarningTask
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
@@ -31,13 +31,13 @@ class PresenceTracingWarningModule {
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory,
-    ): TraceTimeWarningApiV1 {
+    ): TraceWarningApiV1 {
 
         return Retrofit.Builder()
             .client(client)
             .baseUrl(url)
             .addConverterFactory(gsonConverterFactory)
             .build()
-            .create(TraceTimeWarningApiV1::class.java)
+            .create(TraceWarningApiV1::class.java)
     }
 }

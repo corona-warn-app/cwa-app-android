@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.presencetracing.warning.storage
 
 import android.content.Context
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.presencetracing.warning.TraceTimeIntervalWarningPackage
 import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.util.HourInterval
 import de.rki.coronawarnapp.util.TimeStamper
@@ -17,7 +16,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TraceTimeIntervalWarningRepository @Inject constructor(
+class TraceWarningRepository @Inject constructor(
     @AppContext private val context: Context,
     private val factory: TraceWarningDatabase.Factory,
     private val timeStamper: TimeStamper
@@ -37,20 +36,20 @@ class TraceTimeIntervalWarningRepository @Inject constructor(
         }
     }
 
-    fun getPathForMetaData(metaData: TraceWarningPackageMetadata): File {
-        return File(storageDir, metaData.fileName)
-    }
-
-    val newWarningPackages: Flow<List<TraceTimeIntervalWarningPackage>> = dao.getAllMetaData()
+    val unprocessedWarningPackages: Flow<List<TraceWarningPackage>> = dao.getAllMetaData()
         .map { metadatas -> metadatas.filter { !it.isProcessed } }
         .map { metaDatas ->
             metaDatas.map { metaData ->
                 TraceWarningPackageContainer(
-                    id = metaData.packageId,
+                    packageId = metaData.packageId,
                     packagePath = getPathForMetaData(metaData)
                 )
             }
         }
+
+    fun getPathForMetaData(metaData: TraceWarningPackageMetadata): File {
+        return File(storageDir, metaData.fileName)
+    }
 
     val allMetaData = dao.getAllMetaData()
 
@@ -166,6 +165,8 @@ class TraceTimeIntervalWarningRepository @Inject constructor(
             }
         }
     }
-}
 
-private val TAG = TraceTimeIntervalWarningRepository::class.java.simpleName
+    companion object {
+        private val TAG = TraceWarningRepository::class.java.simpleName
+    }
+}

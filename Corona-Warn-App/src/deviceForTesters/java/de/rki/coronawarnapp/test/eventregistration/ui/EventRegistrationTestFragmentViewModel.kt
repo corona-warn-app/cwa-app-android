@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationReposito
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskCalculator
+import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
 import de.rki.coronawarnapp.presencetracing.warning.worker.PresenceTracingWarningTask
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.task.TaskController
@@ -27,6 +28,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     private val checkInWarningMatcher: CheckInWarningMatcher,
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
     private val taskController: TaskController,
+    private val syncTool: TraceWarningPackageSyncTool,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val checkInWarningOverlaps = mutableListOf<CheckInWarningOverlap>()
@@ -44,6 +46,13 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                     PresenceTracingWarningTask::class, originTag = "EventRegistrationTestFragmentViewModel"
                 )
             )
+        }
+    }
+
+    fun downloadWarningPackages() {
+        launch {
+            Timber.d("downloadWarningPackages()")
+            syncTool.syncPackages()
         }
     }
 

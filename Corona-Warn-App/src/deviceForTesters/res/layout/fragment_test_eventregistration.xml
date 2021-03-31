@@ -68,6 +68,13 @@
                 android:text="Download, matching &amp; risk calculation" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/runPTWarningTask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Start task (run all)" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/downloadReportedCheckIns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

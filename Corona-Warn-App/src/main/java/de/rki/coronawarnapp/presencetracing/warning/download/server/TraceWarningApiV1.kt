@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Streaming
 
-interface TraceTimeWarningApiV1 {
+interface TraceWarningApiV1 {
 
     @Keep
     data class DiscoveryResult(

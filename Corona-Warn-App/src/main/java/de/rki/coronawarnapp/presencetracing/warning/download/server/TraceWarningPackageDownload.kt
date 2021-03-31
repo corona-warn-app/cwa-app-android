@@ -4,7 +4,7 @@ import okhttp3.ResponseBody
 import retrofit2.Response
 import java.io.InputStream
 
-data class TraceTimeWarningDownload(val response: Response<ResponseBody>) {
+data class TraceWarningPackageDownload(val response: Response<ResponseBody>) {
 
     private val headers = response.headers()
 

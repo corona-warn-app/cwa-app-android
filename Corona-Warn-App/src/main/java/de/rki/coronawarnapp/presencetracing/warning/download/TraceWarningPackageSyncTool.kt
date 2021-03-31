@@ -6,10 +6,10 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceTimeWarningApiV1
 import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceTimeWarningServer
-import de.rki.coronawarnapp.presencetracing.warning.storage.TraceTimeIntervalWarningRepository
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningApiV1
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackageMetadata
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.util.HourInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.deriveHourInterval
@@ -20,13 +20,13 @@ import javax.inject.Inject
 import kotlin.math.max
 
 @Reusable
-class TraceTimeWarningPackageSyncTool @Inject constructor(
+class TraceWarningPackageSyncTool @Inject constructor(
     private val deviceStorage: DeviceStorage,
     private val server: TraceTimeWarningServer,
-    private val repository: TraceTimeIntervalWarningRepository,
+    private val repository: TraceWarningRepository,
     private val configProvider: AppConfigProvider,
     private val checkInRepository: CheckInRepository,
-    private val downloader: TraceTimeWarningPackageDownloader
+    private val downloader: TraceWarningPackageDownloader
 ) {
 
     suspend fun syncPackages(): SyncResult {
@@ -56,7 +56,7 @@ class TraceTimeWarningPackageSyncTool @Inject constructor(
 
         cleanUpRevokedPackages(downloadConfig)
 
-        val intervalDiscovery: TraceTimeWarningApiV1.DiscoveryResult = try {
+        val intervalDiscovery: TraceWarningApiV1.DiscoveryResult = try {
             server.getAvailableIds(location)
         } catch (e: Exception) {
             Timber.tag(TAG).w(e, "Failed to discover available IDs.")
@@ -168,10 +168,11 @@ class TraceTimeWarningPackageSyncTool @Inject constructor(
         val successful: Boolean,
         val newPackages: Collection<TraceWarningPackageMetadata> = emptyList()
     )
+
+    companion object {
+        private const val TAG = "TraceWarningSyncTool"
+
+        // TODO check size
+        private const val APPROX_FILE_SIZE = 22 * 1024L // ~22KB
+    }
 }
-
-private const val TAG = "TraceWarningSyncTool"
-
-// TODO check size
-// ~22KB
-private const val APPROX_FILE_SIZE = 22 * 1024L

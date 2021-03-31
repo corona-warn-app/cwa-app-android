@@ -12,15 +12,15 @@ import javax.inject.Singleton
 
 @Singleton
 class TraceTimeWarningServer @Inject constructor(
-    private val traceTimeWarningApi: Lazy<TraceTimeWarningApiV1>
+    private val traceWarningApi: Lazy<TraceWarningApiV1>
 ) {
 
-    private val warningApi: TraceTimeWarningApiV1
-        get() = traceTimeWarningApi.get()
+    private val warningApi: TraceWarningApiV1
+        get() = traceWarningApi.get()
 
     suspend fun getAvailableIds(
         location: LocationCode
-    ): TraceTimeWarningApiV1.DiscoveryResult = withContext(Dispatchers.IO) {
+    ): TraceWarningApiV1.DiscoveryResult = withContext(Dispatchers.IO) {
         warningApi.getWarningPackageIds(location.identifier).also {
             Timber.d("getAvailableIds(location=%s): %s", location, it)
         }
@@ -29,7 +29,7 @@ class TraceTimeWarningServer @Inject constructor(
     suspend fun downloadPackage(
         location: LocationCode,
         hourInterval: HourInterval
-    ): TraceTimeWarningDownload = withContext(Dispatchers.IO) {
+    ): TraceWarningPackageDownload = withContext(Dispatchers.IO) {
         Timber.tag(TAG).v("downloadPackage(location=%s, hourInterval=%s)", location, hourInterval)
 
         val response = warningApi.downloadKeyFileForHour(
@@ -37,7 +37,7 @@ class TraceTimeWarningServer @Inject constructor(
             hourInterval
         )
 
-        val downloadInfo = TraceTimeWarningDownload(response)
+        val downloadInfo = TraceWarningPackageDownload(response)
 
         if (response.isSuccessful) {
             Timber.tag(TAG).v("TraceTimeWarning download available: %s", downloadInfo)
@@ -47,6 +47,8 @@ class TraceTimeWarningServer @Inject constructor(
             throw HttpException(response)
         }
     }
-}
 
-private val TAG = TraceTimeWarningServer::class.java.simpleName
+    companion object {
+        private val TAG = TraceTimeWarningServer::class.java.simpleName
+    }
+}

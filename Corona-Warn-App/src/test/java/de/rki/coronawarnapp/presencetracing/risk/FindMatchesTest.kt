@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.risk
 
-import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
+import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runBlockingTest
@@ -36,11 +37,12 @@ class FindMatchesTest {
             period = 6,
             transmissionRiskLevel = 8
         )
-        val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+        val warningPackage = object : TraceWarningPackage {
+            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
-            override val warningPackageId: String
+
+            override val packageId: WarningPackageId
                 get() = "id"
         }
         runBlockingTest {

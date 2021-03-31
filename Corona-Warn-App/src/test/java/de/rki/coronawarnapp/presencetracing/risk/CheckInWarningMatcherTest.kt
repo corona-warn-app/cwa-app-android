@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.presencetracing.risk
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
-import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningRepository
+import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.debug.measureTime
 import io.mockk.MockKAnnotations
@@ -23,7 +24,7 @@ import timber.log.Timber
 class CheckInWarningMatcherTest : BaseTest() {
 
     @MockK lateinit var checkInsRepository: CheckInRepository
-    @MockK lateinit var traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository
+    @MockK lateinit var traceWarningRepository: TraceWarningRepository
     @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
 
     @BeforeEach
@@ -64,16 +65,16 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
 
-        val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+        val warningPackage = object : TraceWarningPackage {
+            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
 
-            override val warningPackageId: String
+            override val packageId: WarningPackageId
                 get() = "id"
         }
 
-        every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
+        every { traceWarningRepository.unprocessedWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {
             createInstance().execute()
@@ -113,16 +114,16 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
 
-        val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+        val warningPackage = object : TraceWarningPackage {
+            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
 
-            override val warningPackageId: String
+            override val packageId: WarningPackageId
                 get() = "id"
         }
 
-        every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
+        every { traceWarningRepository.unprocessedWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {
             createInstance().execute()
@@ -148,16 +149,16 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
 
-        val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+        val warningPackage = object : TraceWarningPackage {
+            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf()
             }
 
-            override val warningPackageId: String
+            override val packageId: WarningPackageId
                 get() = "id"
         }
 
-        every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
+        every { traceWarningRepository.unprocessedWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {
             createInstance().execute()
@@ -185,16 +186,16 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         every { checkInsRepository.allCheckIns } returns flowOf(listOf())
 
-        val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+        val warningPackage = object : TraceWarningPackage {
+            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
 
-            override val warningPackageId: String
+            override val packageId: WarningPackageId
                 get() = "id"
         }
 
-        every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
+        every { traceWarningRepository.unprocessedWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {
             createInstance().execute()
@@ -222,17 +223,17 @@ class CheckInWarningMatcherTest : BaseTest() {
             )
         }
 
-        val warningPackage = object : TraceTimeIntervalWarningPackage {
-            override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+        val warningPackage = object : TraceWarningPackage {
+            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return warnings
             }
 
-            override val warningPackageId: String
+            override val packageId: WarningPackageId
                 get() = "id"
         }
 
         every { checkInsRepository.allCheckIns } returns flowOf(checkIns)
-        every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
+        every { traceWarningRepository.unprocessedWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {
             measureTime(
@@ -244,7 +245,7 @@ class CheckInWarningMatcherTest : BaseTest() {
 
     private fun createInstance() = CheckInWarningMatcher(
         checkInsRepository,
-        traceTimeIntervalWarningRepository,
+        traceWarningRepository,
         presenceTracingRiskRepository,
         TestDispatcherProvider()
     )
