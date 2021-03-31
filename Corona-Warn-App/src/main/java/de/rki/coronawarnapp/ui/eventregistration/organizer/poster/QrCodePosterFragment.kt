@@ -36,6 +36,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
             viewModel.poster.observe(viewLifecycleOwner) { poster ->
                 posterImage.setImageBitmap(poster.template.image)
                 qrCodeImage.setImageBitmap(poster.qrCode)
+                progressBar.hide()
             }
         }
     }
