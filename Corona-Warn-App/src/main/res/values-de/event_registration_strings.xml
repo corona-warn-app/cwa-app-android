@@ -114,7 +114,7 @@
     <!-- XTXT: Title for event length of stay  -->
     <string name="tracelocation_organizer_add_event_length_of_stay">"Typische Aufenthaltsdauer"</string>
     <!-- XTXT: Description for event length of stay  -->
-    <string name="tracelocation_organizer_add_event_length_of_stay_description">"Geben Sie an wie lange sich Gäste üblicherweise bei Ihnen aufhalten."</string>
+    <string name="tracelocation_organizer_add_event_length_of_stay_description">"Geben Sie an, wie lange sich Gäste üblicherweise bei Ihnen aufhalten."</string>
     <!-- XTXT: Title for event start time  -->
     <string name="tracelocation_organizer_add_event_begin">"Beginn"</string>
     <!-- XTXT: Title for event end time  -->
