@@ -1,7 +1,12 @@
 package de.rki.coronawarnapp.risk.storage
 
+import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingDayRisk
+import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.risk.mapToRiskState
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
@@ -14,12 +19,13 @@ import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import java.lang.reflect.Modifier.PRIVATE
 
 abstract class BaseRiskLevelStorage constructor(
     private val riskResultDatabaseFactory: RiskResultDatabase.Factory,
+    presenceTracingRiskRepository: PresenceTracingRiskRepository,
     scope: CoroutineScope
 ) : RiskLevelStorage {
 
@@ -135,9 +141,6 @@ abstract class BaseRiskLevelStorage constructor(
             .shareLatest(tag = TAG, scope = scope)
     }
 
-    override val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>>
-        get() = flowOf(emptyList<TraceLocationCheckInRisk>()) // TODO("Not yet implemented")
-
     private suspend fun insertAggregatedRiskPerDateResults(
         aggregatedRiskPerDateResults: List<AggregatedRiskPerDateResult>
     ) {
@@ -162,6 +165,20 @@ abstract class BaseRiskLevelStorage constructor(
         }
     }
 
+    override val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
+        presenceTracingRiskRepository.traceLocationCheckInRiskStates
+
+    override val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>> =
+        presenceTracingRiskRepository.presenceTracingDayRisk
+
+    override val aggregatedDayRisk: Flow<List<AggregatedDayRisk>>
+        get() = combine(
+            presenceTracingDayRisk,
+            aggregatedRiskPerDateResults
+        ) { ptRiskList, ewRiskList ->
+            combineRisk(ptRiskList, ewRiskList)
+        }
+
     internal abstract suspend fun storeExposureWindows(storedResultId: String, result: RiskLevelResult)
 
     internal abstract suspend fun deletedOrphanedExposureWindows()
@@ -174,4 +191,30 @@ abstract class BaseRiskLevelStorage constructor(
     companion object {
         private const val TAG = "RiskLevelStorage"
     }
+}
+
+@VisibleForTesting(otherwise = PRIVATE)
+internal fun combineRisk(
+    ptRiskList: List<PresenceTracingDayRisk>,
+    ewRiskList: List<AggregatedRiskPerDateResult>
+): List<AggregatedDayRisk> {
+    val allDates = ptRiskList.map { it.localDateUtc }.plus(ewRiskList.map { it.localDateUtc }).distinct()
+    return allDates.map { date ->
+        val ptRisk = ptRiskList.find { it.localDateUtc == date }
+        val ewRisk = ewRiskList.find { it.localDateUtc == date }
+        AggregatedDayRisk(
+            date,
+            max(
+                ptRisk?.riskState,
+                ewRisk?.riskLevel?.mapToRiskState()
+            )
+        )
+    }
+}
+
+@VisibleForTesting(otherwise = PRIVATE)
+internal fun max(left: RiskState?, right: RiskState?): RiskState {
+    return if (left == RiskState.INCREASED_RISK || right == RiskState.INCREASED_RISK) RiskState.INCREASED_RISK
+    else if (left == RiskState.LOW_RISK || right == RiskState.LOW_RISK) RiskState.LOW_RISK
+    else RiskState.CALCULATION_FAILED
 }

@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.submission.task
 import dagger.Reusable
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import javax.inject.Inject
 
@@ -31,7 +31,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminator @Inject constructor(
     private fun determinePositiveIndication(symptoms: Symptoms): DaysSinceOnsetOfSymptomsVector {
         return when (symptoms.startOfSymptoms) {
             is Symptoms.StartOf.Date -> createDaysSinceOnsetOfSymptomsVectorWith(
-                symptoms.startOfSymptoms.date.ageInDays(timeStamper.nowUTC.toLocalDate())
+                symptoms.startOfSymptoms.date.ageInDays(timeStamper.nowUTC.toLocalDateUtc())
             )
             is Symptoms.StartOf.LastSevenDays ->
                 createDaysSinceOnsetOfSymptomsVectorWith(701)

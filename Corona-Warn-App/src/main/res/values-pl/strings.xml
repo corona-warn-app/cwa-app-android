@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Anuluj"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"Ustaw kod QR w ramce."</string>
+    <string name="qr_code_scan_title">"Skan kodu QR"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="submission_qr_code_scan_body">"Ustaw kod QR w ramce."</string>
+    <string name="qr_code_scan_body">"Ustaw kod QR w ramce."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1011,23 +1011,27 @@
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Pobierz wynik testu"</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Zeskanuj tylko swój własny test."</string>
+    <string name="submission_consent_call_test_result_scan_your_test_only">"Zeskanuj teraz kod QR dla swojego testu i pobierz wynik testu."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Test można zeskanować tylko raz. Aplikacja nie może zarządzać wieloma testami jednocześnie."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Pomóż osobom, z którymi miałeś(-aś) kontakt, ostrzegając ich!"</string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body">"Jeśli zdiagnozowano u Ciebie koronawirusa, możesz ostrzec innych za pośrednictwem aplikacji. Funkcja ostrzegania działa w kilku krajach. Obecnie są to następujące kraje:"</string>
+    <!-- YTXT: Body for consent help by warning others - info about events -->
+    <string name="submission_consent_help_by_warning_others_body_event">"Osoby, które zameldowały swoją obecność w tych samych wydarzeniach lub miejscach w tym samym czasie co Ty, również zostaną ostrzeżone."</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Szczegółowe informacje na temat przetwarzania danych i Twojej zgodzie"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Twoja zgoda jest dobrowolna."</string>
+    <string name="submission_consent_main_first_point">"Możesz pobrać swój wynik testu, nawet jeśli nie zamierzasz go udostępniać. Jeśli jednak zdecydujesz się na jego udostępnienie, pomożesz chronić innych przed zakażeniem."</string>
     <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point">"Możesz pobrać swój wynik testu, nawet jeśli nie zamierzasz go udostępniać. Jeśli jednak zdecydujesz się na jego udostępnienie, pomożesz chronić innych przed zakażeniem."</string>
+    <string name="submission_consent_main_second_point">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swój wynik testu."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swoje wyniki testów."</string>
+    <string name="submission_consent_main_third_point">"W sekcji „Moje zameldowania” znajdują się wydarzenia i miejsca, których zameldowani goście zostaną ostrzeżeni. Możesz usunąć pojedyncze zameldowania z listy, aby wykluczyć je z procesu ostrzegania."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Aby wyrazić zgodę, musisz mieć ukończone 16 lat."</string>
+    <!-- YTXT: Body for consent main section final id consent  -->
+    <string name="submission_consent_main_id_consent">"W kolejnym kroku wyraź zgodę na dostęp do losowych identyfikatorów."</string>
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"Osoba trzyma smartfon. Kod QR w teście symbolizuje kod do zeskanowania."</string>
 
@@ -1343,6 +1347,8 @@
     <string name="submission_status_card_body_failed">"Twój test ma więcej niż 21 dni i stracił ważność. Usuń test. Będziesz mieć wówczas możliwość dodania kolejnego."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"Jeśli masz pozytywny wynik testu na obecność koronawirusa, możesz ostrzec innych."</string>
+    <!-- YTXT: Button text for submission status fetch ready -->
+    <string name="submission_status_card_retrieve_test_result">"Pobierz wynik testu"</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Następne kroki"</string>
     <!-- XBUT: submission status card show results button -->
@@ -1802,6 +1808,8 @@
     <string name="bottom_nav_home_title">"Ekran początkowy"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Dziennik"</string>
+    <!-- XHED: Title for BottomNav check-in screen title -->
+    <string name="bottom_nav_check_ins_title">"Zamelduj się"</string>
 
     <!-- ####################################
            Data Donation & Survey
@@ -1919,4 +1927,46 @@
     <string name="duration_dialog_ok_button">"OK"</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">"00:00"</string>
+    <!-- XTXT: Duration hours text -->
+    <string name="duration_hours">"godz."</string>
+    <!-- XTXT: Duration minutes text -->
+    <string name="duration_minutes">"min."</string>
+
+    <!-- Scan check in QR Code-->
+    <!-- XTXT: Scan check in QR-Code  FAB text-->
+    <string name="scan_check_in_qr_code">"Skanuj kod QR"</string>
+
+    <!-- ####################################
+        Generic
+    ###################################### -->
+    <!-- XACT: Button/Dialog label to cancel something-->
+    <string name="generic_action_abort">"Anuluj"</string>
+    <!-- XACT: Button/Dialog label to remove something-->
+    <string name="generic_action_remove">"Usuń"</string>
+
+    <!-- ####################################
+       Trace Location
+    ###################################### -->
+    <!-- XHED: Title for the trace location onboarding -->
+    <string name="trace_location_onboarding_title">"Zamelduj się"</string>
+    <!-- XTXT: subtitle for the trace location onboarding -->
+    <string name="trace_location_onboarding_title2">"Przerywaj łańcuchy zakażeń w szybki i skuteczny sposób"</string>
+    <!-- YMSG: Onboarding trace location intro section -->
+    <string name="trace_location_onboarding_subheadline">"Zeskanuj kod QR dla wydarzenia lub miejsca, aby się zameldować i zarejestrować na smartfonie swoją obecność na tym wydarzeniu lub w miejscu."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_warning">"Każde zameldowanie jest również brane pod uwagę przy obliczaniu statusu ryzyka. Jeśli u osoby, która zameldowała się na tym wydarzeniu lub w miejscu, zostanie później zdiagnozowany koronawirus, zostaniesz powiadomiony(-a), jeśli przebywałeś(-aś) w tym samym pomieszczeniu w tym samym czasie lub do 30 minut po opuszczeniu pomieszczenia przez zdiagnozowaną osobę."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_stay">"Określ długość pobytu jak najdokładniej, aby ostrzeżenia mogły zostać odpowiednio dopasowane."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent2">"Aplikacja przechowuje wydarzenia i miejsca, w których się zameldowałeś(-aś), przez 16 dni."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent3">"Gdy zeskanujesz kod QR, aby się zameldować, na Twoim smartfonie zostanie utworzony wpis dotyczący danego wydarzenia lub miejsca."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent4">"Jeśli u innego użytkownika, który zameldował się w tym samym czasie, zostanie zdiagnozowany koronawirus i uruchomione zostanie ostrzeżenie, otrzymasz automatyczne ostrzeżenie na podstawie identyfikatora wydarzenia – nawet jeśli zarażony użytkownik nie wyśle na Twój smartfon losowego identyfikatora."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent5">"Jeśli w późniejszym czasie uruchomisz ostrzeżenie, wszyscy inni użytkownicy, którzy w tym samym czasie zameldowali swoją obecność w wydarzeniu lub w miejscu wymienionym w obszarze „Moje zameldowania”, otrzymają ostrzeżenie na podstawie identyfikatora wydarzenia."</string>
+    <!-- YMSG: Onboarding trace location bullet points -->
+    <string name="trace_location_onboarding_body_consent6">"W każdej chwili możesz usunąć zameldowanie w obszarze „Moje zameldowania”. W takim przypadku otrzymasz ostrzeżenie tylko wtedy, gdy na Twój smartfon wysłany zostanie losowy identyfikator użytkownika, u którego zdiagnozowano koronawirusa, i zidentyfikowane zostanie potencjalne narażenie."</string>
+    <!-- XACT: Button/Dialog label to consent-->
+    <string name="trace_location_onboarding_body_confirm">"Akceptuj"</string>
 </resources>
