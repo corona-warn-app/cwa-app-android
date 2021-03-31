@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
-import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ScanStatus
@@ -9,7 +8,6 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -24,7 +22,6 @@ import testhelpers.extensions.InstantExecutorExtension
 class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var testResultDataCollector: TestResultDataCollector
 
     @BeforeEach
     fun setUp() {
@@ -32,8 +29,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     }
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
-        submissionRepository,
-        testResultDataCollector
+        submissionRepository
     )
 
     @Test
@@ -67,7 +63,5 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
         coEvery { submissionRepository.asyncRegisterDeviceViaGUID(any()) } returns TestResult.POSITIVE
         viewModel.doDeviceRegistration(mockResult)
-
-        coVerify { testResultDataCollector.saveTestResultAnalyticsSettings(any()) }
     }
 }

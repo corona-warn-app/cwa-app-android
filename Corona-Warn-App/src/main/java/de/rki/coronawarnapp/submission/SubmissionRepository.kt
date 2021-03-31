@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
@@ -27,6 +28,7 @@ import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Suppress("LongParameterList")
 @Singleton
 class SubmissionRepository @Inject constructor(
     private val submissionSettings: SubmissionSettings,
@@ -37,7 +39,8 @@ class SubmissionRepository @Inject constructor(
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
     private val backgroundNoise: BackgroundNoise,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    private val tracingSettings: TracingSettings
+    private val tracingSettings: TracingSettings,
+    private val testResultDataCollector: TestResultDataCollector
 ) {
     private val testResultReceivedDateFlowInternal =
         MutableStateFlow((submissionSettings.initialTestResultReceivedAt ?: timeStamper.nowUTC).toDate())
@@ -142,10 +145,11 @@ class SubmissionRepository @Inject constructor(
         submissionSettings.registrationToken.update {
             registrationData.registrationToken
         }
-        updateTestResult(registrationData.testResult)
+        updateTestResult(registrationData.testResult) // This saves initial time
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
         backgroundNoise.scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
+        testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult) // This saves received at
         return registrationData.testResult
     }
 
@@ -158,6 +162,8 @@ class SubmissionRepository @Inject constructor(
     @VisibleForTesting
     fun updateTestResult(testResult: TestResult) {
         testResultFlow.value = testResult
+
+        testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
 
         if (testResult == TestResult.POSITIVE) {
             submissionSettings.isAllowedToSubmitKeys = true
@@ -208,6 +214,7 @@ class SubmissionRepository @Inject constructor(
         submissionSettings.isAllowedToSubmitKeys = false
         tracingSettings.isTestResultAvailableNotificationSent = false
         submissionSettings.isSubmissionSuccessful = false
+        testResultDataCollector.clear()
     }
 
     private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {
