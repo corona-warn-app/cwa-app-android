@@ -10,5 +10,5 @@ sealed class TraceLocationEvent {
 
     data class ConfirmSwipeItem(val traceLocation: TraceLocation, val position: Int) : TraceLocationEvent()
 
-    data class OpenDetailItem(val guid: String) : TraceLocationEvent()
+    data class OpenDetailItem(val id: Long) : TraceLocationEvent()
 }

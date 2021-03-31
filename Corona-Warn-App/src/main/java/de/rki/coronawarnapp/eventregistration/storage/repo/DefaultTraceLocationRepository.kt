@@ -29,9 +29,9 @@ class DefaultTraceLocationRepository @Inject constructor(
         traceLocationDatabase.traceLocationDao()
     }
 
-    override suspend fun traceLocationForId(guid: String): TraceLocation {
-        val checkIn = traceLocationDao.entryForId(guid)
-            ?: throw IllegalArgumentException("No traceLocation found for ID=$guid")
+    override suspend fun traceLocationForId(id: Long): TraceLocation {
+        val checkIn = traceLocationDao.entryForId(id)
+            ?: throw IllegalArgumentException("No traceLocation found for ID=$id")
 
         return checkIn.toTraceLocation()
     }

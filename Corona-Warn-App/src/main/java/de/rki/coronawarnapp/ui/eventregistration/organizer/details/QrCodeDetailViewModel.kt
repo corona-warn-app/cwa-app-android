@@ -18,7 +18,7 @@ import org.joda.time.Instant
 import timber.log.Timber
 
 class QrCodeDetailViewModel @AssistedInject constructor(
-    @Assisted private val traceLocationId: String?,
+    @Assisted private val traceLocationId: Long?,
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
     private val traceLocationRepository: DefaultTraceLocationRepository
@@ -33,7 +33,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     init {
 
         launch {
-            val traceLocation = traceLocationRepository.traceLocationForId(traceLocationId ?: "")
+            val traceLocation = traceLocationRepository.traceLocationForId(traceLocationId ?: 0L)
 
             if (titleFlow.value == null) {
                 titleFlow.value = traceLocation.description
@@ -108,7 +108,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<QrCodeDetailViewModel> {
         fun create(
-            traceLocationId: String?
+            traceLocationId: Long?
         ): QrCodeDetailViewModel
     }
 }

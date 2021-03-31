@@ -7,7 +7,7 @@ interface TraceLocationRepository {
 
     val allTraceLocations: Flow<List<TraceLocation>>
 
-    suspend fun traceLocationForId(guid: String): TraceLocation
+    suspend fun traceLocationForId(id: Long): TraceLocation
 
     suspend fun addTraceLocation(traceLocation: TraceLocation): TraceLocation
 

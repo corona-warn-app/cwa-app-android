@@ -84,7 +84,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 is TraceLocationEvent.OpenDetailItem -> {
                     doNavigate(
                         TraceLocationsFragmentDirections.actionTraceLocationOrganizerListFragmentToQrCodeDetailFragment(
-                            traceLocationId = it.guid,
+                            traceLocationId = it.id,
                         )
                     )
                 }
