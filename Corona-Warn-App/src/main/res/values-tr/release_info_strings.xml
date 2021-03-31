@@ -16,25 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Uluslararası Maruz Kalma Günlüğüne İsviçre Eklendi"</item>
-        <item>"Risk Kutucuklarındaki Değişiklik"</item>
+        <item>"Enfeksiyon zincirlerini etkili bir biçimde takip etmek için QR kod ile check in"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Corona-Warn-App kullanıcıları artık şifrelenmiş rastgele kimlikleri, İsviçre’de resmi uyarı uygulamasının kullanıcıları ile değiştirebilir. Buna göre, artık İsviçre’deki uygulama kullanıcıları ile uyarı alışverişi yapılabilir."</item>
-        <item>"Artık risk kutucukları etkin gün sayısını veya uygulamanın kalıcı olarak etkin olduğuna yönelik notu içermemektedir."</item>
+        <item>"CWA artık etkinliklere ve yerlere check in yapabilmenizi sağlar. Etkinlik organizatörleri ve mağaza sahipleri uygulamayı kullanarak bir QR kod oluşturabilir. Ardından konuklar geldiklerinde bu QR kodu tarayarak katılımlarını kayıt altına alabilir. Uygulama, talep üzerine günce girişi oluşturma seçeneği de sunmaktadır. Bu etkinliğe ya da yere check in yapan bir kişi daha sonra koronavirüs tanısı alırsa aynı anda check in yapmış herkese otomatik olarak uyarı gönderilir."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
     </string-array>
 
