@@ -41,14 +41,16 @@ class TraceTimeIntervalWarningRepository @Inject constructor(
         return File(storageDir, metaData.fileName)
     }
 
-    val allWarningPackages: Flow<List<TraceTimeIntervalWarningPackage>> = dao.getAllMetaData().map { metaDatas ->
-        metaDatas.map { metaData ->
-            TraceWarningPackageContainer(
-                id = metaData.packageId,
-                packagePath = getPathForMetaData(metaData)
-            )
+    val newWarningPackages: Flow<List<TraceTimeIntervalWarningPackage>> = dao.getAllMetaData()
+        .map { metadatas -> metadatas.filter { !it.isProcessed } }
+        .map { metaDatas ->
+            metaDatas.map { metaData ->
+                TraceWarningPackageContainer(
+                    id = metaData.packageId,
+                    packagePath = getPathForMetaData(metaData)
+                )
+            }
         }
-    }
 
     val allMetaData = dao.getAllMetaData()
 
