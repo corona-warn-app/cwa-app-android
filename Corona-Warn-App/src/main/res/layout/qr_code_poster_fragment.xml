@@ -11,12 +11,12 @@
         style="@style/CWAToolbar.BackArrow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="3dp"
-        app:title="@string/trace_location_organiser_poster_share"
+        android:elevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_trace_location_qr_code_poster" />
+        app:menu="@menu/menu_trace_location_qr_code_poster"
+        app:title="@string/trace_location_organiser_poster_title" />
     <ScrollView
         android:id="@+id/qr_code_poster"
         android:layout_width="match_parent"
