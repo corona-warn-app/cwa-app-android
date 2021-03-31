@@ -54,7 +54,9 @@ class QrCodeDetailViewModel @AssistedInject constructor(
 
             traceLocationFlow.value = traceLocation
 
-            createQrCode("Hello World!")
+            createQrCode("HTTPS://E.CORONAWARN.APP/C1/BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBGGC5LOMNUCAUD"+
+                "BOJ2HSGGTQ6SACIHXQ6SACKA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFF"+
+                "BU2SQCEEAJAUCJSQJ7WDM675MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI=")
         }
     }
 
@@ -88,7 +90,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
      */
-    fun createQrCode(input: String) = launch(context = dispatcher.IO) {
+    private fun createQrCode(input: String) = launch(context = dispatcher.IO) {
 
         try {
             qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(input))
@@ -108,12 +110,4 @@ class QrCodeDetailViewModel @AssistedInject constructor(
             traceLocationId: String?
         ): QrCodeDetailViewModel
     }
-}
-
-private val dateFormatter by lazy {
-    DateTimeFormat.forPattern("dd.MM.yyyy")
-}
-
-private val timeFormatter by lazy {
-    DateTimeFormat.forPattern("HH:mm")
 }
