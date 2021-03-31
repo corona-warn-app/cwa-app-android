@@ -37,7 +37,7 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
         val overlap = CheckInWarningOverlap(
             checkInId = 1L,
             transmissionRiskLevel = 4,
-            traceWarningPackageId = 1L,
+            traceWarningPackageId = "id",
             startTime = Instant.parse("2021-03-15T05:00:00.000Z"),
             endTime = Instant.parse("2021-03-15T05:30:00.000Z")
         )
@@ -45,7 +45,7 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
         val overlap2 = CheckInWarningOverlap(
             checkInId = 2L,
             transmissionRiskLevel = 6,
-            traceWarningPackageId = 1L,
+            traceWarningPackageId = "id",
             startTime = Instant.parse("2021-03-15T05:00:00.000Z"),
             endTime = Instant.parse("2021-03-15T05:45:00.000Z")
         )
