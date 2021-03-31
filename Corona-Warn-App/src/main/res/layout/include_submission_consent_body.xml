@@ -100,7 +100,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/bullet_point_size"
-        android:paddingStart="@dimen/spacing_normal"
         android:paddingBottom="@dimen/spacing_normal"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -145,6 +144,18 @@
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:itemText="@{@string/submission_consent_main_fourth_point}"
+        style="@style/subtitle" />
+
+    <TextView
+        android:id="@+id/submission_consent_hint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="24dp"
+        app:layout_constraintTop_toBottomOf="@id/submission_consent_main_fourth_point"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        android:text="@string/submission_consent_main_id_consent"
         style="@style/subtitle" />
 
     <include layout="@layout/merge_guidelines_side" />

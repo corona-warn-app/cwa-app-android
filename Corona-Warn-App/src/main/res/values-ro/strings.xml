@@ -1010,8 +1010,6 @@
     <string name="submission_consent_main_headline_body">"Consimțământul dvs. este necesar înainte de a putea regăsi rezultatul testului dvs. și a-i avertiza pe ceilalți."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Aflarea rezultatului testului"</string>
-    <!-- YTXT: Body for Submission Consent call test result body  -->
-    <string name="submission_consent_call_test_result_body">"La pasul următor, scanați codul QR de pe testul dvs. și aflați rezultatul testului."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Scanați doar codul propriului dvs. test."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
