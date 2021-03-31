@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -26,8 +27,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import timber.log.Timber
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 
 class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
@@ -60,7 +59,7 @@ class CheckInsViewModel @AssistedInject constructor(
         intervalFlow(1000),
         checkInsRepository.allCheckIns,
         cameraPermissionProvider.deniedPermanently
-    ) { checkIns, denied ->
+    ) { _, checkIns, denied ->
         mutableListOf<CheckInsItem>().apply {
             // Camera permission item
             if (denied) {
