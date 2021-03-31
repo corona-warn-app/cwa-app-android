@@ -128,7 +128,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             val riskEventItem = visitsForDate
                 .map {
                     it to traceLocationCheckInRisksForDate.find {
-                            checkInRisk ->
+                        checkInRisk ->
                         checkInRisk.checkInId == it.checkInID
                     }
                 }

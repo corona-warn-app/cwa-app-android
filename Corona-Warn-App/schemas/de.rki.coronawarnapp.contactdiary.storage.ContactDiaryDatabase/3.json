@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "f962ae2729d9b71eb3ed3fc51a110b95",
+    "identityHash": "0c01fcfc2460488a75680c56f829ab79",
     "entities": [
       {
         "tableName": "locations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`locationId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `locationName` TEXT NOT NULL, `phoneNumber` TEXT, `emailAddress` TEXT, `traceLocationGUID` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`locationId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `locationName` TEXT NOT NULL, `phoneNumber` TEXT, `emailAddress` TEXT, `traceLocationID` TEXT)",
         "fields": [
           {
             "fieldPath": "locationId",
@@ -33,8 +33,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "traceLocationGUID",
-            "columnName": "traceLocationGUID",
+            "fieldPath": "traceLocationID",
+            "columnName": "traceLocationID",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -238,7 +238,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f962ae2729d9b71eb3ed3fc51a110b95')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c01fcfc2460488a75680c56f829ab79')"
     ]
   }
 }
