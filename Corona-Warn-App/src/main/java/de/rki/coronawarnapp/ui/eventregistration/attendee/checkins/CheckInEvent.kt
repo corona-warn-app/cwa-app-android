@@ -16,4 +16,6 @@ sealed class CheckInEvent {
     data class ConfirmSwipeItem(val checkIn: CheckIn, val position: Int) : CheckInEvent()
 
     object ShowInformation : CheckInEvent()
+
+    object OpenDeviceSettings : CheckInEvent()
 }

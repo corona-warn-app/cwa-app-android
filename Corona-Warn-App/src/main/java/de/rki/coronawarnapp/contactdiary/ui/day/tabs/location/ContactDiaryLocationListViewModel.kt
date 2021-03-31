@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.joda.time.Duration
 import org.joda.time.LocalDate
+import timber.log.Timber
 
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
     val dispatcherProvider: DispatcherProvider,
@@ -112,6 +113,12 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         circumstances: String
     ) {
         val visit = item.visit ?: return
+
+        if (visit.circumstances.isNullOrBlank() && circumstances.isBlank()) {
+            Timber.d("onCircumstancesChanged but there is nothing to be updated")
+            return
+        }
+
         val sanitized = circumstances.trim().trimToLength(250)
         launchOnAppScope {
             contactDiaryRepository.updateLocationVisit(visit.id) {

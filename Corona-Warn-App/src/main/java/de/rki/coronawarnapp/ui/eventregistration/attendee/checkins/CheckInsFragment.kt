@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -15,9 +18,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.Hold
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
@@ -31,6 +37,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import javax.inject.Inject
 
 class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_fragment), AutoInject {
@@ -42,7 +49,10 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, savedState ->
             factory as CheckInsViewModel.Factory
-            factory.create(savedState = savedState, deepLink = navArgs.uri)
+            factory.create(
+                savedState = savedState,
+                deepLink = navArgs.uri
+            )
         }
     )
     private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBindingLazy()
@@ -57,33 +67,84 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         super.onViewCreated(view, savedInstanceState)
         setupMenu(binding.toolbar)
 
-        binding.checkInsList.apply {
-            adapter = checkInsAdapter
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
-            itemAnimator = DefaultItemAnimator()
-            onScroll { extend ->
-                if (extend) binding.scanCheckinQrcodeFab.extend() else binding.scanCheckinQrcodeFab.shrink()
-            }
+        bindRecycler()
+        bindFAB()
 
-            onSwipeItem(
-                context = requireContext(),
-                excludedPositions = listOf() // TODO exclude items from swiping such as Camera permission item
-            ) { position, direction ->
-                val checkInsItem = checkInsAdapter.data[position]
-                if (checkInsItem.isSwipeable()) {
-                    checkInsItem.onSwipe(position, direction)
-                }
-            }
+        viewModel.checkins.observe2(this) { items ->
+            updateViews(items)
         }
 
-        viewModel.checkins.observe2(this) {
-            checkInsAdapter.update(it)
-            binding.apply {
-                checkInsList.isGone = it.isEmpty()
-                emptyListInfoContainer.isGone = it.isNotEmpty()
-            }
+        viewModel.events.observe2(this) {
+            onNavigationEvent(it)
         }
 
+        viewModel.errorEvent.observe2(this) {
+            val errorForHumans = it.tryHumanReadableError(requireContext())
+            Toast.makeText(requireContext(), errorForHumans.description, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkCameraSettings()
+    }
+
+    private fun onNavigationEvent(event: CheckInEvent?) {
+        when (event) {
+            is CheckInEvent.ConfirmCheckIn -> doNavigate(
+                CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
+                    verifiedTraceLocation = event.verifiedTraceLocation,
+                    editCheckInId = 0,
+                )
+            )
+
+            is CheckInEvent.ConfirmSwipeItem -> showRemovalConfirmation(event.checkIn, event.position)
+
+            is CheckInEvent.ConfirmRemoveItem -> showRemovalConfirmation(event.checkIn, null)
+
+            is CheckInEvent.ConfirmRemoveAll -> showRemovalConfirmation(null, null)
+
+            is CheckInEvent.EditCheckIn -> doNavigate(
+                CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
+                    verifiedTraceLocation = null,
+                    editCheckInId = event.checkInId,
+                )
+            )
+
+            is CheckInEvent.ShowInformation -> Toast.makeText(
+                requireContext(),
+                "TODO ¯\\_(ツ)_/¯",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            is CheckInEvent.OpenDeviceSettings -> openDeviceSettings()
+        }
+    }
+
+    private fun updateViews(items: List<CheckInsItem>) {
+        checkInsAdapter.update(items)
+        binding.apply {
+            scanCheckinQrcodeFab.isGone = items.any { it is CameraPermissionVH.Item }
+            emptyListInfoContainer.isGone = items.isNotEmpty()
+            checkInsList.isGone = items.isEmpty()
+        }
+    }
+
+    private fun openDeviceSettings() {
+        try {
+            startActivity(
+                Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+                )
+            )
+        } catch (e: ActivityNotFoundException) {
+            Timber.e(e, "Could not open device settings")
+            Toast.makeText(requireContext(), R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun bindFAB() {
         binding.scanCheckinQrcodeFab.apply {
             setOnClickListener {
                 findNavController().navigate(
@@ -106,42 +167,28 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 }
             }
         }
+    }
 
-        viewModel.events.observe2(this) {
-            when (it) {
-                is CheckInEvent.ConfirmCheckIn -> {
-                    doNavigate(
-                        CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
-                            verifiedTraceLocation = it.verifiedTraceLocation
-                        )
-                    )
-                }
+    private fun bindRecycler() {
+        binding.checkInsList.apply {
+            adapter = checkInsAdapter
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            itemAnimator = DefaultItemAnimator()
 
-                is CheckInEvent.ConfirmSwipeItem -> {
-                    showRemovalConfirmation(it.checkIn, it.position)
-                }
-                is CheckInEvent.ConfirmRemoveItem -> {
-                    showRemovalConfirmation(it.checkIn, null)
-                }
-                is CheckInEvent.ConfirmRemoveAll -> {
-                    showRemovalConfirmation(null, null)
-                }
-                is CheckInEvent.EditCheckIn -> {
-                    doNavigate(
-                        CheckInsFragmentDirections.actionCheckInsFragmentToEditCheckInFragment(
-                            editCheckInId = it.checkInId,
-                        )
-                    )
-                }
-                is CheckInEvent.ShowInformation -> {
-                    Toast.makeText(requireContext(), "TODO ¯\\_(ツ)_/¯", Toast.LENGTH_SHORT).show()
+            with(binding.scanCheckinQrcodeFab) {
+                onScroll { extend ->
+                    if (extend) extend() else shrink()
                 }
             }
-        }
 
-        viewModel.errorEvent.observe2(this) {
-            val errorForHumans = it.tryHumanReadableError(requireContext())
-            Toast.makeText(requireContext(), errorForHumans.description, Toast.LENGTH_LONG).show()
+            onSwipeItem(
+                context = requireContext(),
+            ) { position, direction ->
+                val checkInsItem = checkInsAdapter.data[position]
+                if (checkInsItem.isSwipeable()) {
+                    checkInsItem.onSwipe(position, direction)
+                }
+            }
         }
     }
 
@@ -156,19 +203,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 viewModel.onRemoveCheckInConfirmed(checkIn)
             }
             setNegativeButton(R.string.generic_action_abort) { _, _ ->
-                position?.let {
-                    checkInsAdapter.notifyItemChanged(
-                        position
-                    )
-                }
+                position?.let { checkInsAdapter.notifyItemChanged(position) }
             }
 
             setOnCancelListener {
-                position?.let {
-                    checkInsAdapter.notifyItemChanged(
-                        position
-                    )
-                }
+                position?.let { checkInsAdapter.notifyItemChanged(position) }
             }
         }.show()
 
