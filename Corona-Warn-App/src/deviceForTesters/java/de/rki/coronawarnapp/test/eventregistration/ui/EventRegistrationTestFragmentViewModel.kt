@@ -4,9 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.CheckInMatcher
-import de.rki.coronawarnapp.eventregistration.checkins.riskcalculation.CheckInOverlap
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.risk.CheckInRiskPerDay
+import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
+import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -17,15 +18,16 @@ import java.util.UUID
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     private val dispatcherProvider: DispatcherProvider,
-    private val checkInMatcher: CheckInMatcher,
-    private val traceLocationRepository: TraceLocationRepository
+    private val traceLocationRepository: TraceLocationRepository,
+    private val checkInWarningMatcher: CheckInWarningMatcher
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val checkInOverlaps = MutableLiveData<List<CheckInOverlap>>()
+    val checkInOverlaps = MutableLiveData<List<CheckInWarningOverlap>>()
+    val checkInRiskPerDayList = MutableLiveData<List<CheckInRiskPerDay>>()
 
     fun runMatcher() {
         launch {
-            val overlaps = checkInMatcher.execute()
+            val overlaps = checkInWarningMatcher.execute()
             checkInOverlaps.postValue(overlaps)
         }
     }
