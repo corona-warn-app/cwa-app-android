@@ -7,7 +7,6 @@ import android.os.ParcelFileDescriptor
 import de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate.QrCodePosterTemplateServer
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate.QRCodePosterTemplateAndroid.QRCodeTextBoxAndroid
 import de.rki.coronawarnapp.util.di.AppContext
-import org.intellij.lang.annotations.Flow
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -53,8 +52,8 @@ class PosterTemplateProvider @Inject constructor(
             bitmap = bitmap,
             width = page.width,
             height = page.height,
-            offsetX = 0.160f,/* TODO poster.offsetX*/
-            offsetY = 0.095f,/* TODO poster.offsetY*/
+            offsetX = 0.160f, /* TODO poster.offsetX*/
+            offsetY = 0.095f, /* TODO poster.offsetY*/
             qrCodeLength = 1000/* TODO poster.qrCodeSideLength*/,
             textBox = poster.descriptionTextBox
         )
