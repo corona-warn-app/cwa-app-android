@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c31733edef274290a6e7ea088c56fd67",
+    "identityHash": "3017a63593d3342376a56b56743815b7",
     "entities": [
       {
         "tableName": "checkin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `traceLocationBytesBase64` TEXT NOT NULL, `signatureBase64` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -61,18 +61,6 @@
             "columnName": "defaultCheckInLengthInMinutes",
             "affinity": "INTEGER",
             "notNull": false
-          },
-          {
-            "fieldPath": "traceLocationBytesBase64",
-            "columnName": "traceLocationBytesBase64",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "signatureBase64",
-            "columnName": "signatureBase64",
-            "affinity": "TEXT",
-            "notNull": true
           },
           {
             "fieldPath": "checkInStart",
@@ -186,7 +174,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c31733edef274290a6e7ea088c56fd67')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3017a63593d3342376a56b56743815b7')"
     ]
   }
 }

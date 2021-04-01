@@ -134,7 +134,7 @@ internal fun CheckIn.calculateOverlap(
     traceWarningPackageId: String
 ): CheckInWarningOverlap? {
 
-    if (warning.locationGuidHash != locationGuidHash) return null
+    if (warning.locationIdHash != locationGuidHash) return null
 
     val warningStartMillis = warning.startIntervalNumber.tenMinIntervalToMillis()
     val warningEndMillis = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
