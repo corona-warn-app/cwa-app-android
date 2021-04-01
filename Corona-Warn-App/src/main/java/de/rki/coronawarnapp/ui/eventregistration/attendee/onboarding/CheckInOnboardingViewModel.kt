@@ -21,7 +21,7 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
         events.value = CheckInOnboardingNavigation.DataProtectionNavigation
     }
 
-    fun onBackButtonPress(){
+    fun onBackButtonPress() {
         events.value = CheckInOnboardingNavigation.AcknowledgedNavigation
     }
 
