@@ -30,7 +30,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as QrCodePosterViewModel.Factory
-            factory.create(args.traceLocationId ?: 0L)
+            factory.create(args.traceLocationId)
         }
     )
 
