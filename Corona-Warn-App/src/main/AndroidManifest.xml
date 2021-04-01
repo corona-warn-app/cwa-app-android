@@ -23,6 +23,8 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name="de.rki.coronawarnapp.CoronaWarnApplication"
         android:allowBackup="false"
@@ -51,6 +53,19 @@
         <receiver
             android:name=".notification.NotificationReceiver"
             android:enabled="true" />
+        <receiver
+            android:name="de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutReceiver"
+            android:enabled="true" />
+        <receiver
+            android:name="de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutBootRestoreReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".ui.launcher.LauncherActivity"

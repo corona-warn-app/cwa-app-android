@@ -8,11 +8,11 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCodeVerifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CheckInsItem
@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.PastChe
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.permission.CameraPermissionProvider
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -55,9 +56,10 @@ class CheckInsViewModel @AssistedInject constructor(
     }
 
     val checkins: LiveData<List<CheckInsItem>> = combine(
+        intervalFlow(1000),
         checkInsRepository.allCheckIns,
         cameraPermissionProvider.deniedPermanently
-    ) { checkIns, denied ->
+    ) { _, checkIns, denied ->
         mutableListOf<CheckInsItem>().apply {
             // Camera permission item
             if (denied) {
@@ -90,8 +92,11 @@ class CheckInsViewModel @AssistedInject constructor(
         }
     )
 
-    private fun mapCheckIns(checkIns: List<CheckIn>): List<CheckInsItem> = checkIns
-        .sortedWith(compareBy<CheckIn> { it.completed }.thenByDescending { it.checkInEnd })
+    private fun mapCheckIns(checkIns: List<CheckIn>): List<CheckInsItem> = run {
+        val active = checkIns.filter { !it.completed }.sortedBy { it.checkInEnd }
+        val completed = checkIns.filter { it.completed }.sortedByDescending { it.checkInEnd }
+        active + completed
+    }
         .map { checkin ->
             when {
                 !checkin.completed -> ActiveCheckInVH.Item(

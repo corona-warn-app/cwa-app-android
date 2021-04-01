@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCodeVerifier
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.PastCheckInVH
@@ -29,7 +29,6 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
@@ -101,44 +100,52 @@ class CheckInsViewModelTest : BaseTest() {
     fun `Check-Ins sorting`() = runBlockingTest {
         val checkIn1 = mockk<CheckIn>().apply {
             every { id } returns 1
-            every { checkInEnd } returns Instant.parse("2020-04-01T00:00:00.000Z")
-            every { completed } returns true
+            every { checkInEnd } returns Instant.parse("2020-04-01T10:00:00.000Z")
+            every { completed } returns false
         }
 
         val checkIn2 = mockk<CheckIn>().apply {
             every { id } returns 2
-            every { checkInEnd } returns Instant.parse("2020-04-01T10:00:00.000Z")
+            every { checkInEnd } returns Instant.parse("2020-04-01T12:00:00.000Z")
             every { completed } returns false
         }
 
         val checkIn3 = mockk<CheckIn>().apply {
             every { id } returns 3
-            every { checkInEnd } returns Instant.parse("2020-04-01T12:00:00.000Z")
-            every { completed } returns false
+            every { checkInEnd } returns Instant.parse("2020-04-01T11:00:00.000Z")
+            every { completed } returns true
         }
 
-        val checkIns = listOf(checkIn1, checkIn2, checkIn3)
+        val checkIn4 = mockk<CheckIn>().apply {
+            every { id } returns 4
+            every { checkInEnd } returns Instant.parse("2020-04-01T00:00:00.000Z")
+            every { completed } returns true
+        }
+
+        val checkIns = listOf(checkIn1, checkIn2, checkIn3, checkIn4)
         every { checkInsRepository.allCheckIns } returns flowOf(checkIns)
 
         createInstance(deepLink = null, scope = this).apply {
-
             checkins.getOrAwaitValue().apply {
-                size shouldBe 3
+                size shouldBe 4
 
                 // Item1
-                val item1 = get(0)
-                item1.shouldBeInstanceOf<ActiveCheckInVH.Item>()
-                item1.checkin shouldBe checkIn3
-
-                // Item2
-                val item2 = get(1)
-                item2.shouldBeInstanceOf<ActiveCheckInVH.Item>()
-                item2.checkin shouldBe checkIn2
-
-                // Item3
-                val item3 = get(2)
-                item3.shouldBeInstanceOf<PastCheckInVH.Item>()
-                item3.checkin shouldBe checkIn1
+                get(0).apply {
+                    this as ActiveCheckInVH.Item
+                    this.checkin shouldBe checkIn1
+                }
+                get(1).apply {
+                    this as ActiveCheckInVH.Item
+                    this.checkin shouldBe checkIn2
+                }
+                get(2).apply {
+                    this as PastCheckInVH.Item
+                    this.checkin shouldBe checkIn3
+                }
+                get(3).apply {
+                    this as PastCheckInVH.Item
+                    this.checkin shouldBe checkIn4
+                }
             }
         }
     }

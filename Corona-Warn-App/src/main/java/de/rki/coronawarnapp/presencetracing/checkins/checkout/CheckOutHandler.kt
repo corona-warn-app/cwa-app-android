@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.checkout
+package de.rki.coronawarnapp.presencetracing.checkins.checkout
 
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
@@ -19,7 +19,7 @@ class CheckOutHandler @Inject constructor(
      * Could happen on raceconditions, you should catch this, should be rare though.
      */
     suspend fun checkOut(checkInId: Long, checkOutAt: Instant = timeStamper.nowUTC) {
-        Timber.d("checkOut(checkInId=$checkInId)")
+        Timber.d("checkOut(checkInId=$checkInId, checkOutAt=%s)", checkOutAt)
 
         var createJournalEntry = false
         repository.updateCheckIn(checkInId) {

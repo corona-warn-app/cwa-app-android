@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationOneTimeWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationPeriodicWorker
 import de.rki.coronawarnapp.eventregistration.storage.retention.TraceLocationDbCleanUpPeriodicWorker
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutWorker
 import de.rki.coronawarnapp.submission.auto.SubmissionWorker
 import de.rki.coronawarnapp.worker.BackgroundNoiseOneTimeWorker
 import de.rki.coronawarnapp.worker.BackgroundNoisePeriodicWorker
@@ -95,6 +96,13 @@ abstract class WorkerBinder {
     @WorkerKey(DataDonationAnalyticsPeriodicWorker::class)
     abstract fun dataDonationAnalyticsPeriodicWorker(
         factory: DataDonationAnalyticsPeriodicWorker.Factory
+    ): InjectedWorkerFactory<out ListenableWorker>
+
+    @Binds
+    @IntoMap
+    @WorkerKey(AutoCheckOutWorker::class)
+    abstract fun autoCheckOutWorker(
+        factory: AutoCheckOutWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 
     @Binds

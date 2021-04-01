@@ -31,10 +31,10 @@
     <!-- ####################################
                Notification
     ###################################### -->
-    <!-- XTXT: Notification channel name for os settings -->
-    <string name="notification_name">"Corona-Warn-App"</string>
-    <!-- XTXT: Notification channel description for os settings -->
-    <string name="notification_description">"Benachrichtigungen aus der Corona-Warn-App"</string>
+    <!-- XHED: Title of the notification channel for general CWA notifications (e.g. risk change) -->
+    <string name="general_notification_channel_title">"Allgemein"</string>
+    <!-- XTXT: Description of the notification channel for general CWA notifications (e.g. risk change) -->
+    <string name="general_notification_channel_description">"Erinnerungen, Hinweise und allgemeine Benachrichtigungen, z.B. zu Ihrem Risikostatus."</string>
     <!-- XHED: Notification title -->
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
