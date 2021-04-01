@@ -38,14 +38,24 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
             when (it) {
                 is TraceLocationQRInfoNavigationEvents.NavigateToDataPrivacy ->
                     findNavController().navigate("coronawarnapp://contactdiary/dataPrivacy".toUri())
+
                 is TraceLocationQRInfoNavigationEvents.NavigateToMyQrCodes -> {
-                    settings.qrInfoAcknowledged = true
-                    doNavigate(
-                        TraceLocationQRInfoFragmentDirections
-                            .actionTraceLocationOrganizerQRInfoFragmentToTraceLocationOrganizerListFragment()
-                    )
+
+                    if (isAlreadyOnboarded()) {
+                        popBackStack()
+                    } else {
+                        settings.qrInfoAcknowledged = true
+                        doNavigate(
+                            TraceLocationQRInfoFragmentDirections
+                                .actionTraceLocationOrganizerQRInfoFragmentToTraceLocationOrganizerListFragment()
+                        )
+                    }
                 }
             }
         }
+    }
+
+    private fun isAlreadyOnboarded(): Boolean {
+        return settings.qrInfoAcknowledged
     }
 }
