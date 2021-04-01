@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.eventregistration.storage
 
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 
 object CheckInDatabaseData {
@@ -16,8 +15,6 @@ object CheckInDatabaseData {
         traceLocationStart = Instant.parse("2021-01-01T12:00:00.000Z"),
         traceLocationEnd = Instant.parse("2021-01-01T15:00:00.000Z"),
         defaultCheckInLengthInMinutes = 15,
-        traceLocationBytesBase64 = "",
-        signatureBase64 = "Signature".toByteArray().toByteString().base64(),
         checkInStart = Instant.parse("2021-01-01T12:30:00.000Z"),
         checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
         completed = false,
@@ -33,8 +30,6 @@ object CheckInDatabaseData {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
-        traceLocationBytesBase64 = "",
-        signatureBase64 = "Signature".toByteArray().toByteString().base64(),
         checkInStart = Instant.parse("2021-01-01T12:30:00.000Z"),
         checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
         completed = false,

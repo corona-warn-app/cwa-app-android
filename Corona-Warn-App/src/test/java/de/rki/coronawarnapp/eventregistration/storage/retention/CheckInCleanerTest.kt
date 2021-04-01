@@ -12,7 +12,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
-import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -78,8 +77,6 @@ internal class CheckInCleanerTest : BaseTest() {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = 30,
-        traceLocationBytes = "".toByteArray().toByteString(),
-        signature = "".toByteArray().toByteString(),
         // checkInStart not relevant for this that's,
         checkInStart = Instant.parse("1970-01-01T00:00:00.000Z"),
         checkInEnd = checkOutDate,

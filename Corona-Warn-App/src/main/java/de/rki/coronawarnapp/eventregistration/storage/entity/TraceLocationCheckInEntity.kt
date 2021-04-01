@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 
 @Entity(tableName = "checkin")
@@ -18,8 +17,6 @@ data class TraceLocationCheckInEntity(
     @ColumnInfo(name = "traceLocationStart") val traceLocationStart: Instant?,
     @ColumnInfo(name = "traceLocationEnd") val traceLocationEnd: Instant?,
     @ColumnInfo(name = "defaultCheckInLengthInMinutes") val defaultCheckInLengthInMinutes: Int?,
-    @ColumnInfo(name = "traceLocationBytesBase64") val traceLocationBytesBase64: String,
-    @ColumnInfo(name = "signatureBase64") val signatureBase64: String,
     @ColumnInfo(name = "checkInStart") val checkInStart: Instant,
     @ColumnInfo(name = "checkInEnd") val checkInEnd: Instant,
     @ColumnInfo(name = "completed") val completed: Boolean,
@@ -36,8 +33,6 @@ fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     traceLocationStart = traceLocationStart,
     traceLocationEnd = traceLocationEnd,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-    traceLocationBytes = traceLocationBytesBase64.decodeBase64()!!,
-    signature = signatureBase64.decodeBase64()!!,
     checkInStart = checkInStart,
     checkInEnd = checkInEnd,
     completed = completed,
