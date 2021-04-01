@@ -1,12 +1,13 @@
 package de.rki.coronawarnapp.eventregistration.events
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocation
+import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runBlockingTest
@@ -20,13 +21,15 @@ internal class TraceLocationCreatorTest : BaseTest() {
 
     @MockK lateinit var repository: TraceLocationRepository
     @RelaxedMockK lateinit var secureRandom: SecureRandom
+    @MockK private lateinit var environmentSetup: EnvironmentSetup
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+        every { environmentSetup.crowdNotifierPublicKey } returns "cnPublicKey123"
     }
 
-    private fun createInstance() = TraceLocationCreator(repository, secureRandom)
+    private fun createInstance() = TraceLocationCreator(repository, secureRandom, environmentSetup)
 
     @Test
     fun `createTraceLocation() should return traceLocation and store it in repository when everything works fine`() =
@@ -41,7 +44,7 @@ internal class TraceLocationCreatorTest : BaseTest() {
                 defaultCheckInLengthInMinutes = 180
             )
 
-            val expectedTraceLocation = userInput.toTraceLocation(secureRandom)
+            val expectedTraceLocation = userInput.toTraceLocation(secureRandom, "cnPublicKey123")
 
             coEvery { repository.addTraceLocation(any()) } returns expectedTraceLocation
 

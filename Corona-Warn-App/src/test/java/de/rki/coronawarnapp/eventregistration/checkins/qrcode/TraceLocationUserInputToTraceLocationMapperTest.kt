@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import de.rki.coronawarnapp.eventregistration.events.TraceLocationUserInput
+import de.rki.coronawarnapp.eventregistration.events.toTraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -38,7 +39,7 @@ internal class TraceLocationUserInputToTraceLocationMapperTest {
             startDate = Instant.parse("2020-01-01T14:00:00.000Z"),
             endDate = Instant.parse("2020-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 180
-        ).toTraceLocation(secureRandom) shouldBe TraceLocation(
+        ).toTraceLocation(secureRandom, "cnPublicKey123") shouldBe TraceLocation(
             id = 0,
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_PRIVATE_EVENT,
             description = "Top Secret Private Event",
@@ -47,7 +48,7 @@ internal class TraceLocationUserInputToTraceLocationMapperTest {
             endDate = Instant.parse("2020-01-01T18:00:00.000Z"),
             defaultCheckInLengthInMinutes = 180,
             cryptographicSeed = "2cc2b48c50aefe53b3974ed91e6b4ea9".decodeHex().toByteArray().toByteString(),
-            cnPublicKey = "hardcoded public key TODO: replace with real one"
+            cnPublicKey = "cnPublicKey123"
         )
     }
 }
