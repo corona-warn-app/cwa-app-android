@@ -1,10 +1,14 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import okio.ByteString.Companion.decodeBase64
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import testhelpers.BaseTestInstrumentation
@@ -18,6 +22,36 @@ class VerifiedTraceLocationTest : BaseTestInstrumentation() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
+    }
+
+    //TODO: Ugly but kinda works
+    @Test
+    fun verifyTraceLocationIdGenerationHash1() {
+        val base64Payload = "CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekAT" +
+            "D3h6QBGmUIARJbMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEst" +
+            "cUIRcyk35OYDJ95/hTg3UVhsaDXKT0zK7NhHPXoyzipEnOp3GyNXDVpaPi3" +
+            "cAfQmxeuFMZAIX2+6A5XhoEMTIzNCIECAEQAg=="
+        val base64LocationID = "jNcJTCajd9Sen6Tbexl2Yb7O3J7ps47b6k4+QMT4xS0="
+
+        val qrCodePayload =
+            TraceLocationOuterClass.QRCodePayload.parseFrom(base64Payload.decodeBase64()!!.toByteArray())
+        val instance = VerifiedTraceLocation(qrCodePayload)
+
+        instance.traceLocationID.sha256().base64() shouldBe base64LocationID
+    }
+
+    @Test
+    fun verifyTraceLocationIdGenerationHash2() {
+        val base64Payload = "CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmUIARJ" +
+            "bMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT" +
+            "0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5XhoEMTIzNCIGCAEQARgK"
+        val base64LocationID = "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
+
+        val qrCodePayload =
+            TraceLocationOuterClass.QRCodePayload.parseFrom(base64Payload.decodeBase64()!!.toByteArray())
+        val instance = VerifiedTraceLocation(qrCodePayload)
+
+        instance.traceLocationID.sha256().base64() shouldBe base64LocationID
     }
 
     /* disabled because of incompatibilities due to latest tech spec changes... needs to be re-written anyway
