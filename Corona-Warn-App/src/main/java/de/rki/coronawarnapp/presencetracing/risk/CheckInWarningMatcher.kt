@@ -28,10 +28,13 @@ class CheckInWarningMatcher @Inject constructor(
 ) {
     suspend fun execute(): List<CheckInWarningOverlap> {
 
+        presenceTracingRiskRepository.deleteStaleData()
+
         val checkIns = checkInsRepository.allCheckIns.firstOrNull()
         if (checkIns.isNullOrEmpty()) {
             Timber.i("No check-ins available. Deleting all matches.")
             presenceTracingRiskRepository.deleteAllMatches()
+            presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList())
             return emptyList()
         }
 
@@ -57,9 +60,10 @@ class CheckInWarningMatcher @Inject constructor(
             return emptyList()
         }
 
-        //delete matches from new packages
+        //delete stale matches from new packages and mark packages as processed
         warningPackages.forEach {
             presenceTracingRiskRepository.deleteMatchesOfPackage(it.warningPackageId)
+            presenceTracingRiskRepository.markPackageProcessed(it.warningPackageId)
         }
         val matches = matchLists.filterNotNull().flatten()
 

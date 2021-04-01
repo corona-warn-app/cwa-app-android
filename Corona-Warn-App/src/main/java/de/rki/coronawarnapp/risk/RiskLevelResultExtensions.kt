@@ -6,6 +6,24 @@ import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.CombinedEwPtRiskLevelResult
 import org.joda.time.Instant
 
+fun List<EwRiskLevelResult>.tryLatestEwResultsWithDefaults(): DisplayableEwRiskResults {
+    val latestCalculation = this.maxByOrNull { it.calculatedAt }
+        ?: EwInitialLowRiskLevelResult
+
+    val lastSuccessfullyCalculated = this.filter { it.wasSuccessfullyCalculated }
+        .maxByOrNull { it.calculatedAt } ?: EwUndeterminedRiskLevelResult
+
+    return DisplayableEwRiskResults(
+        lastCalculated = latestCalculation,
+        lastSuccessfullyCalculated = lastSuccessfullyCalculated
+    )
+}
+
+data class DisplayableEwRiskResults(
+    val lastCalculated: EwRiskLevelResult,
+    val lastSuccessfullyCalculated: EwRiskLevelResult
+)
+
 fun List<CombinedEwPtRiskLevelResult>.tryLatestResultsWithDefaults(): DisplayableRiskResults {
     val latestCalculation = this.maxByOrNull { it.calculatedAt }
         ?: initialLowLevelEwRiskLevelResult
@@ -29,7 +47,7 @@ private val undeterminedEwRiskLevelResult = CombinedEwPtRiskLevelResult(
         calculatedAt = Instant.EPOCH,
         riskState = RiskState.CALCULATION_FAILED
     ),
-    UndeterminedRiskLevelResult
+    EwUndeterminedRiskLevelResult
 )
 
 private val initialLowLevelEwRiskLevelResult = CombinedEwPtRiskLevelResult(
@@ -37,10 +55,10 @@ private val initialLowLevelEwRiskLevelResult = CombinedEwPtRiskLevelResult(
         calculatedAt = Instant.now(),
         riskState = RiskState.LOW_RISK
     ),
-    InitialLowLevelRiskLevelResult
+    EwInitialLowRiskLevelResult
 )
 
-private object InitialLowLevelRiskLevelResult : EwRiskLevelResult {
+private object EwInitialLowRiskLevelResult : EwRiskLevelResult {
     override val calculatedAt: Instant = Instant.now()
     override val riskState: RiskState = RiskState.LOW_RISK
     override val failureReason: EwRiskLevelResult.FailureReason? = null
@@ -50,7 +68,7 @@ private object InitialLowLevelRiskLevelResult : EwRiskLevelResult {
     override val daysWithEncounters: Int = 0
 }
 
-private object UndeterminedRiskLevelResult : EwRiskLevelResult {
+private object EwUndeterminedRiskLevelResult : EwRiskLevelResult {
     override val calculatedAt: Instant = Instant.EPOCH
     override val riskState: RiskState = RiskState.CALCULATION_FAILED
     override val failureReason: EwRiskLevelResult.FailureReason? = null

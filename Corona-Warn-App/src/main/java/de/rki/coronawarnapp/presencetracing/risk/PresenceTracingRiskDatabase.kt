@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import de.rki.coronawarnapp.util.database.CommonConverters
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
 
@@ -17,7 +16,7 @@ import javax.inject.Inject
     version = 1,
     exportSchema = true
 )
-@TypeConverters(CommonConverters::class)
+@TypeConverters(RiskStateConverter::class)
 abstract class PresenceTracingRiskDatabase : RoomDatabase() {
 
     abstract fun presenceTracingRiskLevelResultDao(): PresenceTracingRiskLevelResultDao

@@ -8,6 +8,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import androidx.room.TypeConverter
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
@@ -77,6 +78,10 @@ class PresenceTracingRiskRepository @Inject constructor(
         val fifteenDaysAgo = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
         traceTimeIntervalMatchDao.deleteOlderThan(fifteenDaysAgo.millis)
         riskLevelResultDao.deleteOlderThan(fifteenDaysAgo.millis)
+    }
+
+    internal suspend fun markPackageProcessed(warningPackageId: String) {
+     // TODO
     }
 
     internal suspend fun deleteMatchesOfPackage(warningPackageId: String) {
@@ -186,3 +191,24 @@ private fun PtRiskLevelResult.toEntity() = PresenceTracingRiskLevelResultEntity(
     calculatedAtMillis = calculatedAt.millis,
     riskState = riskState
 )
+
+class RiskStateConverter {
+    @TypeConverter
+    fun toRiskStateCode(value: Int?): RiskState? = value?.toRiskState()
+
+    @TypeConverter
+    fun fromRiskStateCode(code: RiskState?): Int? = code?.toCode()
+
+    private fun RiskState.toCode() = when(this) {
+        RiskState.CALCULATION_FAILED -> 0
+        RiskState.LOW_RISK -> 1
+        RiskState.INCREASED_RISK -> 2
+    }
+
+    private fun Int.toRiskState() = when(this) {
+        0 -> RiskState.CALCULATION_FAILED
+        1 -> RiskState.LOW_RISK
+        2 -> RiskState.INCREASED_RISK
+        else -> null
+    }
+}
