@@ -55,7 +55,6 @@ class RiskLevelChangeDetector @Inject constructor(
             .catch { Timber.e(it, "App config change checks failed.") }
             .launchIn(appScope)
 
-        // TODO
         riskLevelStorage.latestCombinedEwPtRiskLevelResults
             .map { results ->
                 results.sortedBy { it.calculatedAt }.takeLast(2)

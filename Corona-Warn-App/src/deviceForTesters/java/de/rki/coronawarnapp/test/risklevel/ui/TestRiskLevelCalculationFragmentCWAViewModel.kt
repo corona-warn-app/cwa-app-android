@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
+import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -110,18 +110,18 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .asLiveData()
 
     val additionalRiskCalcInfo = combine(
-        riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult,
+        riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult,
         exposureDetectionTracker.latestSubmission()
     ) { riskLevelResults, latestSubmission ->
 
-        val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults()
+        val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestEwResultsWithDefaults()
 
         createAdditionalRiskCalcInfo(
-            latestCalc.ewRiskLevelResult.calculatedAt,
-            riskLevel = latestCalc.ewRiskLevelResult.riskState,
-            riskLevelLastSuccessfulCalculated = latestSuccessfulCalc.ewRiskLevelResult.riskState,
-            matchedKeyCount = latestCalc.ewRiskLevelResult.matchedKeyCount,
-            daysSinceLastExposure = latestCalc.ewRiskLevelResult.daysWithEncounters,
+            latestCalc.calculatedAt,
+            riskLevel = latestCalc.riskState,
+            riskLevelLastSuccessfulCalculated = latestSuccessfulCalc.riskState,
+            matchedKeyCount = latestCalc.matchedKeyCount,
+            daysSinceLastExposure = latestCalc.daysWithEncounters,
             lastKeySubmission = latestSubmission?.startedAt
         )
     }.asLiveData()

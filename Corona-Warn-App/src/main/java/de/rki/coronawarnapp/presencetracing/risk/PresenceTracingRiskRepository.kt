@@ -51,6 +51,9 @@ class PresenceTracingRiskRepository @Inject constructor(
         presenceTracingRiskCalculator.calculateNormalizedTime(it)
     }
 
+    private val fifteenDaysAgo: Instant
+        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
+
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
         normalizedTime.map {
             presenceTracingRiskCalculator.calculateCheckInRiskPerDay(it)
@@ -63,8 +66,7 @@ class PresenceTracingRiskRepository @Inject constructor(
 
     internal suspend fun reportSuccessfulCalculation(list: List<CheckInWarningOverlap>) {
         traceTimeIntervalMatchDao.insert(list.map { it.toEntity() })
-        val fifteenDaysAgo = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration()).toLocalDateUtc()
-        val last14days = normalizedTime.first().filter { it.localDateUtc.isAfter(fifteenDaysAgo) }
+        val last14days = normalizedTime.first().filter { it.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc()) }
         val risk = presenceTracingRiskCalculator.calculateTotalRisk(last14days)
         add(
             PtRiskLevelResult(
@@ -75,7 +77,6 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     internal suspend fun deleteStaleData() {
-        val fifteenDaysAgo = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
         traceTimeIntervalMatchDao.deleteOlderThan(fifteenDaysAgo.millis)
         riskLevelResultDao.deleteOlderThan(fifteenDaysAgo.millis)
     }
@@ -92,9 +93,17 @@ class PresenceTracingRiskRepository @Inject constructor(
         traceTimeIntervalMatchDao.deleteAll()
     }
 
-    fun latestAndLastSuccessful() = riskLevelResultDao.latestAndLastSuccessful().map { it.map { it.toModel() } }
+    fun latestAndLastSuccessful() = riskLevelResultDao.latestAndLastSuccessful().map { list ->
+        list.map { entity ->
+            entity.toModel()
+        }
+    }
 
-    fun latestEntries(limit: Int) = riskLevelResultDao.latestEntries(limit).map { it.map { it.toModel() } }
+    fun latestEntries(limit: Int) = riskLevelResultDao.latestEntries(limit).map { list ->
+        list.map { entity ->
+            entity.toModel()
+        }
+    }
 
     fun add(riskLevelResult: PtRiskLevelResult) {
         riskLevelResultDao.insert(riskLevelResult.toEntity())
@@ -164,7 +173,7 @@ private fun TraceTimeIntervalMatchEntity.toModel() = CheckInWarningOverlap(
 @Suppress("MaxLineLength")
 @Dao
 interface PresenceTracingRiskLevelResultDao {
-    @Query("SELECT * FROM (SELECT * FROM PresenceTracingRiskLevelResultEntity ORDER BY calculatedAtMillis DESC LIMIT 1) UNION ALL SELECT * FROM (SELECT * FROM PresenceTracingRiskLevelResultEntity where riskState is not 0 ORDER BY calculatedAtMillis DESC LIMIT 1)")
+    @Query("SELECT * FROM (SELECT * FROM PresenceTracingRiskLevelResultEntity ORDER BY calculatedAtMillis DESC LIMIT 1) UNION ALL SELECT * FROM (SELECT * FROM PresenceTracingRiskLevelResultEntity where riskStateCode is not 0 ORDER BY calculatedAtMillis DESC LIMIT 1)")
     fun latestAndLastSuccessful(): Flow<List<PresenceTracingRiskLevelResultEntity>>
 
     @Query("SELECT * FROM PresenceTracingRiskLevelResultEntity ORDER BY calculatedAtMillis DESC LIMIT :limit")
@@ -180,7 +189,7 @@ interface PresenceTracingRiskLevelResultDao {
 @Entity
 data class PresenceTracingRiskLevelResultEntity(
     @PrimaryKey @ColumnInfo(name = "calculatedAtMillis") val calculatedAtMillis: Long,
-    val riskState: RiskState
+    @ColumnInfo(name = "riskStateCode")val riskState: RiskState
 )
 
 private fun PresenceTracingRiskLevelResultEntity.toModel() = PtRiskLevelResult(
