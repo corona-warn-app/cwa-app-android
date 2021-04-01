@@ -74,6 +74,9 @@
         <action
             android:id="@+id/action_checkInsFragment_to_qrCodeDetailFragment"
             app:destination="@id/qrCodeDetailFragment" />
+        <action
+            android:id="@+id/action_checkInsFragment_to_checkInOnboardingFragment"
+            app:destination="@id/checkInOnboardingFragment" />
     </fragment>
     <fragment
         android:id="@+id/qrCodeDetailFragment"

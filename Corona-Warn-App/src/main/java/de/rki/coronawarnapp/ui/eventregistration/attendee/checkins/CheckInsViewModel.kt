@@ -86,6 +86,11 @@ class CheckInsViewModel @AssistedInject constructor(
         events.postValue(CheckInEvent.ConfirmRemoveAll)
     }
 
+    fun onInformationClicked() {
+        Timber.d("onInformationClicked()")
+        events.postValue(CheckInEvent.ShowInformation)
+    }
+
     private fun cameraPermissionItem() = CameraPermissionVH.Item(
         onOpenSettings = {
             events.postValue(CheckInEvent.OpenDeviceSettings)
