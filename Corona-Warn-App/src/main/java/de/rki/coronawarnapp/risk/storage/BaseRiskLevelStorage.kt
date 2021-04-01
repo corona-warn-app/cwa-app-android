@@ -216,7 +216,9 @@ abstract class BaseRiskLevelStorage constructor(
                     CombinedEwPtRiskLevelResult(
                         ewRiskLevelResult = lastSuccessfulEwResult,
                         // current ptDayRiskStates belong to the last successful calculation - ugly
-                        ptRiskLevelResult = lastSuccessfulPtResult.copy(presenceTracingDayRisk = ptDayRiskStates.first())
+                        ptRiskLevelResult = lastSuccessfulPtResult.copy(
+                            presenceTracingDayRisk = ptDayRiskStates.first()
+                        )
                     )
                 )
             }
