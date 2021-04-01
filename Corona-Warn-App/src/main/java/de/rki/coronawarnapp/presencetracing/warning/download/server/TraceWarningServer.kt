@@ -11,7 +11,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TraceTimeWarningServer @Inject constructor(
+class TraceWarningServer @Inject constructor(
     private val traceWarningApi: Lazy<TraceWarningApiV1>
 ) {
 
@@ -49,6 +49,6 @@ class TraceTimeWarningServer @Inject constructor(
     }
 
     companion object {
-        private val TAG = TraceTimeWarningServer::class.java.simpleName
+        private val TAG = TraceWarningServer::class.java.simpleName
     }
 }

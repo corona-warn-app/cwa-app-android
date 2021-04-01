@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.presencetracing.warning.download
 
 import dagger.Reusable
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceTimeWarningServer
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningServer
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackageMetadata
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.util.HourInterval
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class TraceWarningPackageDownloader @Inject constructor(
     private val repository: TraceWarningRepository,
     private val dispatcherProvider: DispatcherProvider,
-    private val server: TraceTimeWarningServer,
+    private val server: TraceWarningServer,
     private val signatureValidation: SignatureValidation,
 ) {
 
@@ -75,40 +75,49 @@ class TraceWarningPackageDownloader @Inject constructor(
 
     private suspend fun downloadPackageForMetaData(
         metaData: TraceWarningPackageMetadata
-    ): TraceWarningPackageMetadata? {
-        val saveTo = repository.getPathForMetaData(metaData)
-        try {
-            val downloadInfo = server.downloadPackage(
-                location = metaData.location,
-                hourInterval = metaData.hourInterval
-            )
+    ): TraceWarningPackageMetadata? = try {
+        val downloadInfo = server.downloadPackage(
+            location = metaData.location,
+            hourInterval = metaData.hourInterval
+        )
 
-            if (!downloadInfo.isEmptyPkg) {
-                val fileMap = downloadInfo.readBody().unzip().readIntoMap()
+        if (!downloadInfo.isEmptyPkg) {
+            val fileMap = downloadInfo.readBody().unzip().readIntoMap()
+            val rawProtoBuf = getValidatedBinary(metaData, fileMap)
+            writeProtoBufToFile(metaData, rawProtoBuf)
+        } else {
+            Timber.tag(TAG).w("Empty package for %s", metaData)
+        }
 
-                val binary = getValidatedBinary(metaData, fileMap)
-                if (saveTo.exists()) {
-                    Timber.tag(TAG).w("File existed, overwriting: %s", saveTo)
-                    if (saveTo.delete()) {
-                        Timber.tag(TAG).e("%s exists, but can't be deleted.", saveTo)
-                    }
+        Timber.tag(TAG).v("Download finished: %s -> %s", metaData, downloadInfo)
+
+        val eTag = requireNotNull(downloadInfo.etag) { "Server provided no ETAG!" }
+
+        repository.markDownloadComplete(metaData, eTag, downloadInfo.isEmptyPkg)
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "Download failed: %s", metaData)
+        null
+    }
+
+    private fun writeProtoBufToFile(
+        metaData: TraceWarningPackageMetadata,
+        rawProtoBuf: ByteArray,
+    ) {
+        if (rawProtoBuf.isNotEmpty()) {
+            val saveTo = repository.getPathForMetaData(metaData)
+            if (saveTo.exists()) {
+                Timber.tag(TAG).w("File existed, overwriting: %s", saveTo)
+                if (saveTo.delete()) {
+                    Timber.tag(TAG).e("%s exists, but can't be deleted.", saveTo)
                 }
-
-                saveTo.writeBytes(binary)
-                Timber.tag(TAG).v("%d bytes written to %s.", binary.size, saveTo)
-            } else {
-                Timber.tag(TAG).w("Empty package for %s", metaData)
             }
-
-            Timber.tag(TAG).v("Download finished: %s -> %s", metaData, downloadInfo)
-
-            val eTag = requireNotNull(downloadInfo.etag) { "Server provided no ETAG!" }
-
-            return repository.markDownloadComplete(metaData, eTag, downloadInfo.isEmptyPkg)
-        } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "Download failed: %s", metaData)
-            repository.deleteFile(saveTo)
-            return null
+            try {
+                saveTo.writeBytes(rawProtoBuf)
+            } catch (e: Exception) {
+                Timber.tag(TAG).e(e, "Failed to write %s to %s", metaData, saveTo)
+                saveTo.delete()
+            }
+            Timber.tag(TAG).v("%d bytes written to %s.", rawProtoBuf.size, saveTo)
         }
     }
 
@@ -144,4 +153,3 @@ class TraceWarningPackageDownloader @Inject constructor(
         private const val EXPORT_SIGNATURE_NAME = "export.sig"
     }
 }
-

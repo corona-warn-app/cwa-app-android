@@ -42,7 +42,8 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
             Timber.d("runWarningPackageTask()")
             taskController.submit(
                 DefaultTaskRequest(
-                    PresenceTracingWarningTask::class, originTag = "EventRegistrationTestFragmentViewModel"
+                    PresenceTracingWarningTask::class,
+                    originTag = "EventRegistrationTestFragmentViewModel"
                 )
             )
         }

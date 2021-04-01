@@ -29,4 +29,3 @@ interface TraceWarningApiV1 {
         @Path("timeId") timeId: Long
     ): Response<ResponseBody>
 }
-
