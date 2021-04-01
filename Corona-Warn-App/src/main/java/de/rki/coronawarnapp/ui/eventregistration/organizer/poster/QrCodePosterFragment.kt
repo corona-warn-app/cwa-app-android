@@ -12,6 +12,8 @@ import androidx.core.view.postDelayed
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.QrCodePosterFragmentBinding
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
@@ -20,6 +22,7 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInject {
@@ -43,29 +46,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
             viewModel.poster.observe(viewLifecycleOwner) { poster ->
-                val template = poster.template ?: return@observe
-
-                Timber.d("template=$template")
-
-                val posterLayoutParam = posterImage.layoutParams as ConstraintLayout.LayoutParams
-                val dimensionRatio = "%s:%s".format(template.width, template.height)
-                posterLayoutParam.dimensionRatio = dimensionRatio
-                Timber.d("dimensionRatio=$dimensionRatio")
-
-                qrCodeImage.setImageBitmap(poster.qrCode)
-                posterImage.setImageBitmap(template.bitmap)
-
-                // Position QR Code image
-                topGuideline.setGuidelinePercent(template.offsetY)
-                startGuideline.setGuidelinePercent(template.offsetX)
-                endGuideline.setGuidelinePercent(1 - template.offsetX)
-
-                progressBar.hide()
-                if (poster.hasImages()) {
-                    binding.qrCodePoster.postDelayed(delayInMillis = 1_000) {
-                        viewModel.createPDF(binding.qrCodePoster, getString(R.string.app_name))
-                    }
-                }
+                bindPoster(poster)
             }
         }
 
@@ -74,31 +55,67 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         }
     }
 
+    private fun QrCodePosterFragmentBinding.bindPoster(poster: Poster) {
+        val template = poster.template ?: return
+
+        Timber.d("template=$template")
+
+        // Adjust poster image dimension ratio
+        val posterLayoutParam = posterImage.layoutParams as ConstraintLayout.LayoutParams
+        val dimensionRatio = "%s:%s".format(template.width, template.height)
+        posterLayoutParam.dimensionRatio = dimensionRatio
+        Timber.d("dimensionRatio=$dimensionRatio")
+
+        // Display images
+        qrCodeImage.setImageBitmap(poster.qrCode)
+        posterImage.setImageBitmap(template.bitmap)
+
+        // Position QR Code image based on data provided by server
+        topGuideline.setGuidelinePercent(template.offsetY)
+        startGuideline.setGuidelinePercent(template.offsetX)
+        endGuideline.setGuidelinePercent(1 - template.offsetX)
+
+        progressBar.hide()
+
+        // Create trace location PDF poster for printing and sharing
+        if (poster.hasImages()) {
+            binding.qrCodePoster.postDelayed(delayInMillis = 1_000) {
+                viewModel.createPDF(binding.qrCodePoster, getString(R.string.app_name))
+            }
+        }
+    }
+
     private fun onShareIntent(fileIntent: FileSharing.FileIntentProvider) {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.action_print -> {
-                    val printingManger = context?.getSystemService<PrintManager>()
-                    Timber.i("PrintingManager=$printingManger")
-                    if (printingManger != null) {
-                        printingManger.print(
-                            getString(R.string.app_name),
-                            PrintingAdapter(fileIntent.file),
-                            PrintAttributes
-                                .Builder()
-                                .setMediaSize(PrintAttributes.MediaSize.ISO_A3)
-                                .build()
-                        )
-                    } else {
-                        Toast.makeText(requireContext(), R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
-                    }
-
-                    true
-                }
-
+                R.id.action_print -> printFile(fileIntent.file).run { true }
                 R.id.action_share -> startActivity(fileIntent.intent(requireActivity())).run { true }
                 else -> false
             }
+        }
+    }
+
+    private fun printFile(file: File) {
+        val printingManger = context?.getSystemService<PrintManager>()
+        Timber.i("PrintingManager=$printingManger")
+        if (printingManger != null) {
+            try {
+                val job = printingManger.print(
+                    getString(R.string.app_name),
+                    PrintingAdapter(file),
+                    PrintAttributes
+                        .Builder()
+                        .setMediaSize(PrintAttributes.MediaSize.ISO_A3)
+                        .build()
+                )
+
+                Timber.d("JobState=%s", job.info.state)
+            } catch (e: Exception) {
+                Timber.d(e, "Printing job failed")
+                e.report(ExceptionCategory.INTERNAL)
+            }
+        } else {
+            Toast.makeText(requireContext(), R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
         }
     }
 }
