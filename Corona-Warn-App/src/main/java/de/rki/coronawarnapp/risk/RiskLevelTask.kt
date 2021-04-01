@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.risk.EwRiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -46,7 +47,8 @@ class RiskLevelTask @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage,
     private val keyCacheRepository: KeyCacheRepository,
     private val submissionSettings: SubmissionSettings,
-    private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
+    private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector,
+    private val autoCheckOut: AutoCheckOut,
 ) : Task<DefaultProgress, EwRiskLevelTaskResult> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -56,6 +58,12 @@ class RiskLevelTask @Inject constructor(
 
     override suspend fun run(arguments: Task.Arguments): EwRiskLevelTaskResult = try {
         Timber.d("Running with arguments=%s", arguments)
+
+        autoCheckOut.apply {
+            Timber.tag(TAG).d("Processing overdue check-outs before risk calculation.")
+            processOverDueCheckouts()
+            refreshAlarm()
+        }
 
         val configData: ConfigData = appConfigProvider.getAppConfig()
 

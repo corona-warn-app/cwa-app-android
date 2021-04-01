@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemPastBin
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.list.SwipeConsumer
+import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.format.DateTimeFormat
 
 class PastCheckInVH(parent: ViewGroup) :
@@ -21,12 +22,14 @@ class PastCheckInVH(parent: ViewGroup) :
     override val onBindData: TraceLocationAttendeeCheckinsItemPastBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
-        val checkInStartUserTZ = item.checkin.checkInStart.toUserTimeZone()
-        val checkInEndUserTZ = item.checkin.checkInEnd.toUserTimeZone()
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
-        description.text = item.checkin.description
-        address.text = item.checkin.address
+        val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
+        val checkInEndUserTZ = curItem.checkin.checkInEnd.toUserTimeZone()
+
+        description.text = curItem.checkin.description
+        address.text = curItem.checkin.address
 
         checkoutInfo.text = run {
             val dayFormatted = checkInStartUserTZ.toLocalDate().toString(DateTimeFormat.mediumDate())
@@ -38,21 +41,24 @@ class PastCheckInVH(parent: ViewGroup) :
 
         menuAction.setupMenu(R.menu.menu_trace_location_attendee_checkin_item) {
             when (it.itemId) {
-                R.id.menu_remove_item -> item.onRemoveItem(item.checkin).let { true }
+                R.id.menu_remove_item -> curItem.onRemoveItem(curItem.checkin).let { true }
                 else -> false
             }
         }
 
-        itemView.setOnClickListener { item.onCardClicked(item.checkin) }
+        itemView.setOnClickListener { curItem.onCardClicked(curItem.checkin) }
     }
 
     data class Item(
         val checkin: CheckIn,
         val onCardClicked: (CheckIn) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit,
-        val onSwipeItem: (CheckIn, Int) -> Unit
-    ) : CheckInsItem, SwipeConsumer {
+        val onSwipeItem: (CheckIn, Int) -> Unit,
+    ) : CheckInsItem, HasPayloadDiffer, SwipeConsumer {
         override val stableId: Long = checkin.id
+
+        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
+
         override fun onSwipe(position: Int, direction: Int) = onSwipeItem(checkin, position)
     }
 }

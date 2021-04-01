@@ -116,7 +116,7 @@
                     tools:text="DataDonation: ?" />
 
                 <TextView
-                    android:id="@+id/environment_url_tracelocation"
+                    android:id="@+id/environment_url_qrcode_poster_template"
                     style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/environment_url_datadonation"
-                    tools:text="Create TraceLocation: ?" />
+                    tools:text="QR-Code poster template: ?" />
 
                 <RadioGroup
                     android:id="@+id/environment_toggle_group"
@@ -135,7 +135,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_url_tracelocation" />
+                    app:layout_constraintTop_toBottomOf="@+id/environment_url_qrcode_poster_template" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

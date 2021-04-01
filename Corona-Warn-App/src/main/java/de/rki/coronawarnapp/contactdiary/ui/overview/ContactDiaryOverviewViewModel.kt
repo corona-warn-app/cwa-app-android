@@ -15,7 +15,12 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
+import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
@@ -51,16 +56,26 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val personEncountersFlow = contactDiaryRepository.personEncounters
 
     private val riskLevelPerDateFlow = riskLevelStorage.ewDayRiskStates
+    private val traceLocationCheckInRiskFlow = riskLevelStorage.traceLocationCheckInRiskStates
 
     val listItems = combine(
         flowOf(dates),
         locationVisitsFlow,
         personEncountersFlow,
-        riskLevelPerDateFlow
-    ) { dateList, locationVisists, personEncounters, riskLevelPerDateList ->
+        riskLevelPerDateFlow,
+        traceLocationCheckInRiskFlow
+    ) { dateList, locationVisists, personEncounters, riskLevelPerDateList, traceLocationCheckInRiskList ->
         mutableListOf<DiaryOverviewItem>().apply {
             add(OverviewSubHeaderItem)
-            addAll(createListItemList(dateList, locationVisists, personEncounters, riskLevelPerDateList))
+            addAll(
+                createListItemList(
+                    dateList,
+                    locationVisists,
+                    personEncounters,
+                    riskLevelPerDateList,
+                    traceLocationCheckInRiskList
+                )
+            )
         }.toList()
     }.asLiveData(dispatcherProvider.Default)
 
@@ -77,25 +92,60 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         dateList: List<LocalDate>,
         visits: List<ContactDiaryLocationVisit>,
         encounters: List<ContactDiaryPersonEncounter>,
-        riskLevelPerDateList: List<ExposureWindowDayRisk>
+        riskLevelPerDateList: List<ExposureWindowDayRisk>,
+        traceLocationCheckInRiskList: List<TraceLocationCheckInRisk>
     ): List<DiaryOverviewItem> {
         Timber.v(
-            "createListItemList(dateList=%s, visits=%s, encounters=%s, riskLevelPerDateList=%s",
+            "createListItemList(" +
+                "dateList=%s, " +
+                "visits=%s, " +
+                "encounters=%s, " +
+                "riskLevelPerDateList=%s, " +
+                "traceLocationCheckInRiskList=%s",
             dateList,
             visits,
             encounters,
-            riskLevelPerDateList
+            riskLevelPerDateList,
+            traceLocationCheckInRiskList
         )
         return dateList.map { date ->
-            val dayData = getEncountersForDate(encounters, date) + getVisitsForDate(visits, date)
-            val risk = riskLevelPerDateList
+
+            val visitsForDate = visits.filter { it.date == date }
+            val encountersForDate = encounters.filter { it.date == date }
+            val traceLocationCheckInRisksForDate = traceLocationCheckInRiskList.filter { it.localDateUtc == date }
+
+            val coreItemData =
+                encountersForDate.map { it.toContactItemData() } + visitsForDate.map { it.toContactItemData() }
+            val contactItem = when (coreItemData.isNotEmpty()) {
+                true -> ContactItem(data = coreItemData)
+                false -> null
+            }
+
+            val riskEnf = riskLevelPerDateList
                 .firstOrNull { riskLevelPerDate -> riskLevelPerDate.localDateUtc == date }
-                ?.toRisk(dayData.isNotEmpty())
-            DayOverviewItem(date = date, data = dayData, risk = risk) { onItemPress(it) }
+                ?.toRisk(coreItemData.isNotEmpty())
+
+            val riskEventItem = visitsForDate
+                .map {
+                    it to traceLocationCheckInRisksForDate.find {
+                        checkInRisk ->
+                        checkInRisk.checkInId == it.checkInID
+                    }
+                }
+                .toMap()
+                .filter { it.value != null }
+                .toRiskEventItem()
+
+            DayOverviewItem(
+                date = date,
+                riskEnfItem = riskEnf,
+                riskEventItem = riskEventItem,
+                contactItem = contactItem
+            ) { onItemPress(it) }
         }
     }
 
-    private fun ExposureWindowDayRisk.toRisk(locationOrPerson: Boolean): DayOverviewItem.Risk {
+    private fun ExposureWindowDayRisk.toRisk(locationOrPerson: Boolean): RiskEnfItem {
         @StringRes val title: Int
         @StringRes var body: Int = R.string.contact_diary_risk_body
         @DrawableRes val drawableId: Int
@@ -116,47 +166,95 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             drawableId = R.drawable.ic_low_risk_alert
         }
 
-        return DayOverviewItem.Risk(title, body, bodyExtend, drawableId)
+        return RiskEnfItem(title, body, bodyExtend, drawableId)
     }
 
-    private fun getEncountersForDate(
-        personEncounterList: List<ContactDiaryPersonEncounter>,
-        date: LocalDate
-    ) = personEncounterList
-        .filter { personEncounter -> personEncounter.date == date }
-        .map { personEncounter ->
-            DayOverviewItem.Data(
-                R.drawable.ic_contact_diary_person_item,
-                name = personEncounter.contactDiaryPerson.fullName,
-                duration = null,
-                attributes = getPersonAttributes(personEncounter),
-                circumstances = personEncounter.circumstances,
-                DayOverviewItem.Type.PERSON
+    private fun ContactDiaryPersonEncounter.toContactItemData(): ContactItem.Data = ContactItem.Data(
+        drawableId = R.drawable.ic_contact_diary_person_item,
+        name = contactDiaryPerson.fullName,
+        duration = null,
+        attributes = getPersonAttributes(this),
+        circumstances = circumstances,
+        type = ContactItem.Type.PERSON
+    )
+
+    private fun ContactDiaryLocationVisit.toContactItemData(): ContactItem.Data = ContactItem.Data(
+        drawableId = R.drawable.ic_contact_diary_location_item,
+        name = contactDiaryLocation.locationName,
+        duration = duration,
+        attributes = null,
+        circumstances = circumstances,
+        type = ContactItem.Type.LOCATION
+    )
+
+    private fun Map<ContactDiaryLocationVisit, TraceLocationCheckInRisk?>.toRiskEventItem(): RiskEventItem? {
+        if (isEmpty()) return null
+
+        val isHighRisk = values.any { it?.riskState == RiskState.INCREASED_RISK }
+
+        val body: Int = R.string.contact_diary_trace_location_risk_body
+        val drawableID: Int
+        val title: Int
+
+        when (isHighRisk) {
+            true -> {
+                drawableID = R.drawable.ic_high_risk_alert
+                title = R.string.contact_diary_high_risk_title
+            }
+            false -> {
+                drawableID = R.drawable.ic_low_risk_alert
+                title = R.string.contact_diary_low_risk_title
+            }
+        }
+
+        val events = mapNotNull { entry ->
+            if (entry.value == null) return null
+
+            val name = entry.key.contactDiaryLocation.locationName
+
+            val bulletPointColor: Int
+            var riskInfoAddition: Int?
+
+            when (entry.value?.riskState == RiskState.INCREASED_RISK) {
+                true -> {
+                    bulletPointColor = R.color.colorBulletPointHighRisk
+                    riskInfoAddition = R.string.contact_diary_trace_location_risk_high
+                }
+                false -> {
+                    bulletPointColor = R.color.colorBulletPointLowRisk
+                    riskInfoAddition = R.string.contact_diary_trace_location_risk_low
+                }
+            }
+
+            if (size < 2) riskInfoAddition = null
+
+            RiskEventItem.Event(
+                name = name,
+                bulledPointColor = bulletPointColor,
+                riskInfoAddition = riskInfoAddition
             )
         }
 
-    private fun getVisitsForDate(
-        locationVisitList: List<ContactDiaryLocationVisit>,
-        date: LocalDate
-    ) = locationVisitList
-        .filter { locationVisit -> locationVisit.date == date }
-        .map { locationVisit ->
-            DayOverviewItem.Data(
-                R.drawable.ic_contact_diary_location_item,
-                locationVisit.contactDiaryLocation.locationName,
-                duration = locationVisit.duration,
-                attributes = null,
-                circumstances = locationVisit.circumstances,
-                DayOverviewItem.Type.LOCATION
-            )
-        }
+        if (events.isEmpty()) return null
+
+        return RiskEventItem(
+            title = title,
+            body = body,
+            drawableId = drawableID,
+            events = events
+        )
+    }
 
     fun onBackButtonPress() {
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToMainActivity)
     }
 
     fun onItemPress(listItem: DayOverviewItem) {
-        routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(listItem.date))
+        openDayFragment(listItem.date)
+    }
+
+    private fun openDayFragment(date: LocalDate) {
+        routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(date))
     }
 
     private fun getPersonAttributes(personEncounter: ContactDiaryPersonEncounter): List<Int> =

@@ -14,6 +14,7 @@ interface ContactDiaryLocationVisit {
      */
     val duration: Duration?
     val circumstances: String?
+    val checkInID: Long?
 }
 
 fun List<ContactDiaryLocationVisit>.sortByNameAndIdASC(): List<ContactDiaryLocationVisit> =

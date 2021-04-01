@@ -10,22 +10,24 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.DiaryLocationListItem
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.DiaryPersonListItem
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 
 object DiaryData {
 
     val DATA_ITEMS = listOf(
-        DayOverviewItem.Data(
+        ContactItem.Data(
             R.drawable.ic_contact_diary_location_item,
             "Supermarkt",
             Duration.standardMinutes(30),
             attributes = null,
             circumstances = null,
-            DayOverviewItem.Type.LOCATION
+            ContactItem.Type.LOCATION
         ),
-        DayOverviewItem.Data(
+        ContactItem.Data(
             R.drawable.ic_contact_diary_person_item,
             "Erika Musterfrau",
             null,
@@ -34,32 +36,77 @@ object DiaryData {
                 R.string.contact_diary_person_encounter_environment_outside
             ),
             null,
-            DayOverviewItem.Type.PERSON
+            ContactItem.Type.PERSON
         ),
-        DayOverviewItem.Data(
+        ContactItem.Data(
             R.drawable.ic_contact_diary_location_item,
             "Büro",
             null,
             null,
             null,
-            DayOverviewItem.Type.LOCATION
+            ContactItem.Type.LOCATION
         )
     )
 
-    val HIGH_RISK = DayOverviewItem.Risk(
+    val HIGH_RISK = RiskEnfItem(
         title = R.string.contact_diary_high_risk_title,
         body = R.string.contact_diary_risk_body,
         bodyExtended = R.string.contact_diary_risk_body_extended,
         drawableId = R.drawable.ic_high_risk_alert
     )
 
-    val HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS = HIGH_RISK.copy(body = R.string.contact_diary_risk_body_high_risk_due_to_low_risk_encounters)
+    val HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS =
+        HIGH_RISK.copy(body = R.string.contact_diary_risk_body_high_risk_due_to_low_risk_encounters)
 
-    val LOW_RISK = DayOverviewItem.Risk(
+    val LOW_RISK = RiskEnfItem(
         title = R.string.contact_diary_low_risk_title,
         body = R.string.contact_diary_risk_body,
         bodyExtended = R.string.contact_diary_risk_body_extended,
         drawableId = R.drawable.ic_low_risk_alert
+    )
+
+    val LOW_RISK_EVENT_LOCATION = ContactItem.Data(
+        R.drawable.ic_contact_diary_location_item,
+        "Jahrestreffen der deutsche SAP Anwendergruppe",
+        Duration.standardMinutes(25),
+        attributes = null,
+        circumstances = "Hauptstr 3, 69115 Heidelberg",
+        ContactItem.Type.LOCATION
+    )
+
+    val HIGH_RISK_EVENT_LOCATION = ContactItem.Data(
+        R.drawable.ic_contact_diary_location_item,
+        "Kiosk",
+        Duration.standardMinutes(15),
+        attributes = null,
+        circumstances = null,
+        ContactItem.Type.LOCATION
+    )
+
+    val HIGH_RISK_EVENT = RiskEventItem.Event(
+        name = HIGH_RISK_EVENT_LOCATION.name,
+        bulledPointColor = R.color.colorBulletPointHighRisk,
+        riskInfoAddition = R.string.contact_diary_trace_location_risk_high
+    )
+
+    val LOW_RISK_EVENT = RiskEventItem.Event(
+        name = LOW_RISK_EVENT_LOCATION.name,
+        bulledPointColor = R.color.colorBulletPointLowRisk,
+        riskInfoAddition = R.string.contact_diary_trace_location_risk_low
+    )
+
+    val HIGH_RISK_EVENT_ITEM = RiskEventItem(
+        title = R.string.contact_diary_high_risk_title,
+        body = R.string.contact_diary_trace_location_risk_body,
+        drawableId = R.drawable.ic_high_risk_alert,
+        events = listOf(HIGH_RISK_EVENT, LOW_RISK_EVENT)
+    )
+
+    val LOW_RISK_EVENT_ITEM = RiskEventItem(
+        title = R.string.contact_diary_low_risk_title,
+        body = R.string.contact_diary_trace_location_risk_body,
+        drawableId = R.drawable.ic_low_risk_alert,
+        events = listOf(LOW_RISK_EVENT)
     )
 
     val LOCATIONS: List<DiaryLocationListItem> = listOf(
