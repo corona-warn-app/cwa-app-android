@@ -67,13 +67,11 @@ interface RiskLevelStorage {
 
     /** PRESENCE TRACING RISK RESULT
      * Risk level per date/day aggregated over check-ins
-     * Used by contact diary overview
      */
     val ptDayRiskStates: Flow<List<PresenceTracingDayRisk>>
 
     /** COMBINED RISK RESULT
      * Risk level per date/day aggregated form Exposure Windows and Presence Tracing
-     * Used by contact diary overview
      */
     val combinedEwPtDayRisk: Flow<List<CombinedEwPtDayRisk>>
 

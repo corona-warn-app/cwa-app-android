@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
-import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +25,7 @@ import org.joda.time.Instant
 import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
 import kotlin.math.max
+import de.rki.coronawarnapp.util.flow.combine as flowCombine
 
 abstract class BaseRiskLevelStorage constructor(
     private val riskResultDatabaseFactory: RiskResultDatabase.Factory,
@@ -85,12 +85,6 @@ abstract class BaseRiskLevelStorage constructor(
         }
         .shareLatest(tag = TAG, scope = scope)
 
-    override val latestAndLastSuccessfulEwRiskLevelResult: Flow<List<EwRiskLevelResult>> = riskResultsTables.latestAndLastSuccessful()
-        .map { results ->
-            Timber.v("Mapping latestAndLastSuccessful:\n%s", results.joinToString("\n"))
-            results.combineWithWindows(null)
-        }
-        .shareLatest(tag = TAG, scope = scope)
 
     override suspend fun storeResult(resultEw: EwRiskLevelResult) {
         Timber.d("Storing result (exposureWindows.size=%s)", resultEw.exposureWindows?.size)
@@ -176,26 +170,78 @@ abstract class BaseRiskLevelStorage constructor(
         presenceTracingRiskRepository.presenceTracingDayRisk
 
     override val combinedEwPtDayRisk: Flow<List<CombinedEwPtDayRisk>>
-        get() = combine(
+        get() = flowCombine(
             ptDayRiskStates,
             ewDayRiskStates
         ) { ptRiskList, ewRiskList ->
             combineRisk(ptRiskList, ewRiskList)
         }
 
+    override val latestAndLastSuccessfulEwRiskLevelResult: Flow<List<EwRiskLevelResult>> = riskResultsTables.latestAndLastSuccessful()
+        .map { results ->
+            Timber.v("Mapping latestAndLastSuccessful:\n%s", results.joinToString("\n"))
+            results.combineWithWindows(null)
+        }
+        .shareLatest(tag = TAG, scope = scope)
 
-    private val latestAndLastSuccessfulPtRiskLevelResult: Flow<List<PtRiskLevelResult>>
-        get() = TODO()
+    private val latestAndLastSuccessfulPtRiskLevelResult: Flow<List<PtRiskLevelResult>> =
+        presenceTracingRiskRepository
+            .latestAndLastSuccessful()
+            .shareLatest(tag = TAG, scope = scope)
+
 
     override val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<List<CombinedEwPtRiskLevelResult>>
         get() = combine(
             latestAndLastSuccessfulEwRiskLevelResult,
-            latestAndLastSuccessfulPtRiskLevelResult) {
-
+            latestAndLastSuccessfulPtRiskLevelResult
+        ) { ewRiskLevelResults, ptRiskLevelResults ->
+            val latestEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt }
+            val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt }
+            val combinedList = mutableListOf<CombinedEwPtRiskLevelResult>()
+            if (latestEwResult != null && latestPtResult != null) {
+                combinedList.add(CombinedEwPtRiskLevelResult(
+                    ewRiskLevelResult = latestEwResult,
+                    ptRiskLevelResult = latestPtResult
+                ))
+            }
+            val lastSuccessfulEwResult = ewRiskLevelResults.filter { it.wasSuccessfullyCalculated }.maxByOrNull { it.calculatedAt }
+            val lastSuccessfulPtResult = ptRiskLevelResults.filter { it.wasSuccessfullyCalculated }.maxByOrNull { it.calculatedAt }
+            if (lastSuccessfulEwResult != null && lastSuccessfulPtResult != null) {
+                combinedList.add(CombinedEwPtRiskLevelResult(
+                    ewRiskLevelResult = lastSuccessfulEwResult,
+                    ptRiskLevelResult = lastSuccessfulPtResult
+                ))
+            }
+            combinedList
         }
 
+    private val latestPtRiskLevelResults: Flow<List<PtRiskLevelResult>> =
+        presenceTracingRiskRepository.latestEntries(2)
+        .shareLatest(tag = TAG, scope = scope)
+
     override val latestCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
-        get() = TODO("Not yet implemented")
+        get() = combine(
+            latestEwRiskLevelResults, latestPtRiskLevelResults
+        ) {  ewRiskLevelResults, ptRiskLevelResults ->
+            val latestEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt }
+            val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt }
+            val olderEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt }
+            val olderPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt }
+            val combinedList = mutableListOf<CombinedEwPtRiskLevelResult>()
+            if (latestEwResult != null && latestPtResult != null) {
+                combinedList.add(CombinedEwPtRiskLevelResult(
+                    ewRiskLevelResult = latestEwResult,
+                    ptRiskLevelResult = latestPtResult
+                ))
+            }
+            if (olderEwResult != null && olderPtResult != null) {
+                combinedList.add(CombinedEwPtRiskLevelResult(
+                    ewRiskLevelResult = olderEwResult,
+                    ptRiskLevelResult = olderPtResult
+                ))
+            }
+            combinedList
+        }
 
     internal abstract suspend fun storeExposureWindows(storedResultId: String, resultEw: EwRiskLevelResult)
 

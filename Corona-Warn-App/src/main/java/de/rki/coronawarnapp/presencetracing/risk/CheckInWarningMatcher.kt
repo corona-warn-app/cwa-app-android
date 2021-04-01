@@ -29,28 +29,42 @@ class CheckInWarningMatcher @Inject constructor(
     suspend fun execute(): List<CheckInWarningOverlap> {
 
         val checkIns = checkInsRepository.allCheckIns.firstOrNull()
+        if (checkIns.isNullOrEmpty()) {
+            Timber.i("No check-ins available. Deleting all matches.")
+            presenceTracingRiskRepository.deleteAllMatches()
+            return emptyList()
+        }
+
         val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull()
 
-        if (checkIns.isNullOrEmpty() || warningPackages.isNullOrEmpty()) {
-            Timber.i("No check-ins or packages available. Deleting all matches.")
-            presenceTracingRiskRepository.deleteAllMatches()
+        if (warningPackages.isNullOrEmpty()) {
+            // nothing to be done here
             return emptyList()
         }
 
         val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
 
-        val matchLists = createMatchingLaunchers(splitCheckIns, warningPackages, dispatcherProvider.IO)
+        val matchLists = createMatchingLaunchers(
+            splitCheckIns,
+            warningPackages,
+            dispatcherProvider.IO
+        )
             .awaitAll()
 
         if (matchLists.contains(null)) {
-            Timber.e("Error occurred during matching. Deleting all stale matches.")
-            presenceTracingRiskRepository.deleteAllMatches()
-            // TODO report calculation failed to show on home card
+            Timber.e("Error occurred during matching. Abort calculation.")
+            presenceTracingRiskRepository.reportFailedCalculation()
             return emptyList()
         }
 
+        //delete matches from new packages
+        warningPackages.forEach {
+            presenceTracingRiskRepository.deleteMatchesOfPackage(it.warningPackageId)
+        }
         val matches = matchLists.filterNotNull().flatten()
-        presenceTracingRiskRepository.replaceAllMatches(matches)
+
+        presenceTracingRiskRepository.reportSuccessfulCalculation(matches)
+
         return matches
     }
 }
@@ -69,7 +83,6 @@ internal suspend fun createMatchingLaunchers(
         { list, packageChunk ->
             async {
                 try {
-
                     packageChunk.flatMap {
                         findMatches(list, it)
                     }
@@ -119,12 +132,12 @@ internal fun CheckIn.calculateOverlap(
 
     if (warning.locationGuidHash != locationGuidHash) return null
 
-    val warningStartTimestamp = warning.startIntervalNumber.tenMinIntervalToMillis()
-    val warningEndTimestamp = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
+    val warningStartMillis = warning.startIntervalNumber.tenMinIntervalToMillis()
+    val warningEndMillis = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
 
-    val overlapStartTimestamp = kotlin.math.max(checkInStart.millis, warningStartTimestamp)
-    val overlapEndTimestamp = kotlin.math.min(checkInEnd.millis, warningEndTimestamp)
-    val overlapMillis = overlapEndTimestamp - overlapStartTimestamp
+    val overlapStartMillis = kotlin.math.max(checkInStart.millis, warningStartMillis)
+    val overlapEndMillis = kotlin.math.min(checkInEnd.millis, warningEndMillis)
+    val overlapMillis = overlapEndMillis - overlapStartMillis
 
     if (overlapMillis <= 0) return null
 
@@ -132,7 +145,7 @@ internal fun CheckIn.calculateOverlap(
         checkInId = id,
         transmissionRiskLevel = warning.transmissionRiskLevel,
         traceWarningPackageId = traceWarningPackageId,
-        startTime = Instant.ofEpochMilli(overlapStartTimestamp),
-        endTime = Instant.ofEpochMilli(overlapEndTimestamp)
+        startTime = Instant.ofEpochMilli(overlapStartMillis),
+        endTime = Instant.ofEpochMilli(overlapEndMillis)
     )
 }
