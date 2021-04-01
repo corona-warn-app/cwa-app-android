@@ -80,7 +80,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="24dp"
-                android:src="@drawable/checkin_warning"
+                android:src="@drawable/trace_location_warning"
                 android:layout_marginStart="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/check_in_onboarding_subtitle"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -101,7 +101,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="24dp"
-                android:src="@drawable/checkin_stay"
+                android:src="@drawable/trace_location_stay"
                 android:layout_marginStart="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/check_in_onboarding_warning"
                 app:layout_constraintStart_toStartOf="parent" />
