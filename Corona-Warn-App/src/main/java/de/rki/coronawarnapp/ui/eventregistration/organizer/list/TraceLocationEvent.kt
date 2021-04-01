@@ -9,4 +9,6 @@ sealed class TraceLocationEvent {
     data class ConfirmDeleteItem(val traceLocation: TraceLocation) : TraceLocationEvent()
 
     data class ConfirmSwipeItem(val traceLocation: TraceLocation, val position: Int) : TraceLocationEvent()
+
+    data class StartQrCodeDetailFragment(val id: Long) : TraceLocationEvent()
 }
