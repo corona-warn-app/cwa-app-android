@@ -14,6 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
@@ -134,7 +135,7 @@ internal fun CheckIn.calculateOverlap(
     traceWarningPackageId: String
 ): CheckInWarningOverlap? {
 
-    if (warning.locationIdHash != locationGuidHash) return null
+    if (warning.locationIdHash.toByteArray().toByteString() != traceLocationIdHash) return null
 
     val warningStartMillis = warning.startIntervalNumber.tenMinIntervalToMillis()
     val warningEndMillis = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
