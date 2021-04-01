@@ -93,23 +93,23 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
                 isDateVisible = category.uiType == TraceLocationUIType.EVENT,
                 isSendEnable = when (category.uiType) {
                     TraceLocationUIType.LOCATION -> {
-                        description.trim().length in 1..100 &&
-                            address.trim().length in 0..100 &&
+                        description.isTextFormattedCorrectly() &&
+                            address.isTextFormattedCorrectly() &&
                             checkInLength > Duration.ZERO &&
                             !requestInProgress
                     }
                     TraceLocationUIType.EVENT -> {
-                        description.trim().length in 1..100 &&
-                            address.trim().length in 0..100 &&
-                            begin != null &&
-                            end != null &&
-                            end?.isAfter(begin) == true &&
+                        description.isTextFormattedCorrectly() &&
+                            address.isTextFormattedCorrectly() &&
+                            begin != null && end != null && end?.isAfter(begin) == true &&
                             !requestInProgress
                     }
                 }
             )
         )
     }
+
+    private fun String.isTextFormattedCorrectly() = trim().length in 1..100 && !contains('\n')
 
     data class UIState(
         private val begin: LocalDateTime? = null,
