@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.eventregistration.events
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import okio.ByteString
 import okio.ByteString.Companion.toByteString
 import java.security.SecureRandom
 import javax.inject.Inject
@@ -17,19 +18,22 @@ class TraceLocationCreator @Inject constructor(
 
     suspend fun createTraceLocation(traceLocationUserInput: TraceLocationUserInput): TraceLocation {
         val cnPublicKey = environmentSetup.crowdNotifierPublicKey
-        val traceLocation = traceLocationUserInput.toTraceLocation(secureRandom, cnPublicKey)
+
+        // cryptographic seed is a sequence of 16 random bytes
+        val cryptographicSeed = ByteArray(16).apply { secureRandom.nextBytes(this) }.toByteString()
+
+        val traceLocation = traceLocationUserInput.toTraceLocation(cryptographicSeed, cnPublicKey)
         return repository.addTraceLocation(traceLocation)
     }
 }
 
-fun TraceLocationUserInput.toTraceLocation(secureRandom: SecureRandom, cnPublicKey: String) = TraceLocation(
+fun TraceLocationUserInput.toTraceLocation(cryptographicSeed: ByteString, cnPublicKey: String) = TraceLocation(
     type = type,
     description = description,
     address = address,
     startDate = startDate,
     endDate = endDate,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-    // cryptographic seed is a sequence of 16 random bytes
-    cryptographicSeed = ByteArray(16).apply { secureRandom.nextBytes(this) }.toByteString(),
+    cryptographicSeed = cryptographicSeed,
     cnPublicKey = cnPublicKey
 )

@@ -11,11 +11,14 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.decodeHex
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.security.SecureRandom
+import kotlin.random.Random
 
 internal class TraceLocationCreatorTest : BaseTest() {
 
@@ -27,6 +30,11 @@ internal class TraceLocationCreatorTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { environmentSetup.crowdNotifierPublicKey } returns "cnPublicKey123"
+
+        every { secureRandom.nextBytes(any()) } answers {
+            val byteArray = arg<ByteArray>(0)
+            Random(0).nextBytes(byteArray)
+        }
     }
 
     private fun createInstance() = TraceLocationCreator(repository, secureRandom, environmentSetup)
@@ -44,7 +52,10 @@ internal class TraceLocationCreatorTest : BaseTest() {
                 defaultCheckInLengthInMinutes = 180
             )
 
-            val expectedTraceLocation = userInput.toTraceLocation(secureRandom, "cnPublicKey123")
+            val expectedTraceLocation = userInput.toTraceLocation(
+                cryptographicSeed = "2cc2b48c50aefe53b3974ed91e6b4ea9".decodeHex().toByteArray().toByteString(),
+                cnPublicKey = "cnPublicKey123"
+            )
 
             coEvery { repository.addTraceLocation(any()) } returns expectedTraceLocation
 
