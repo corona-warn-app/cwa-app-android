@@ -16,10 +16,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationCreateFragmentBinding
-import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
-import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
-import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.DialogHelper
@@ -134,34 +130,14 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     }
 
     private fun getErrorDialogInstance(exception: Exception): DialogHelper.DialogInstance {
-        return when (exception) {
-            is CwaUnknownHostException, is NetworkReadTimeoutException, is NetworkConnectTimeoutException -> {
-                DialogHelper.DialogInstance(
-                    requireActivity(),
-                    R.string.tracelocation_generic_error_title,
-                    R.string.tracelocation_generic_network_error_body,
-                    R.string.errors_generic_button_positive
-                )
-            }
-            is CwaWebException -> {
-                DialogHelper.DialogInstance(
-                    requireActivity(),
-                    R.string.tracelocation_generic_error_title,
-                    getString(R.string.tracelocation_generic_qr_code_error_body_with_error_code, exception.statusCode),
-                    R.string.errors_generic_button_positive
-                )
-            }
-            else -> {
-                DialogHelper.DialogInstance(
-                    requireActivity(),
-                    R.string.tracelocation_generic_error_title,
-                    R.string.tracelocation_generic_qr_code_error_body,
-                    R.string.errors_generic_button_positive,
-                    R.string.errors_generic_button_negative,
-                    negativeButtonFunction = { showExceptionDetails(exception) }
-                )
-            }
-        }
+        return DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.tracelocation_generic_error_title,
+            R.string.tracelocation_generic_qr_code_error_body,
+            R.string.errors_generic_button_positive,
+            R.string.errors_generic_button_negative,
+            negativeButtonFunction = { showExceptionDetails(exception) }
+        )
     }
 
     private fun showExceptionDetails(exception: Exception) {
