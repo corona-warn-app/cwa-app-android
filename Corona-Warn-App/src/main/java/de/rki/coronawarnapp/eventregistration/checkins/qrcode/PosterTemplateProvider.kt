@@ -49,7 +49,7 @@ class PosterTemplateProvider @Inject constructor(
         file.delete()
 
         return Template(
-            image = bitmap,
+            bitmap = bitmap,
             offsetX = poster.offsetX,
             offsetY = poster.offsetY,
             qrCodeLength = poster.qrCodeSideLength,
@@ -59,7 +59,7 @@ class PosterTemplateProvider @Inject constructor(
 }
 
 data class Template(
-    val image: Bitmap?,
+    val bitmap: Bitmap?,
     val offsetX: Float,
     val offsetY: Float,
     val qrCodeLength: Int,

@@ -99,4 +99,6 @@ class QrCodePosterViewModel @AssistedInject constructor(
 data class Poster(
     val qrCode: Bitmap? = null,
     val template: Template? = null
-)
+) {
+    fun hasImages(): Boolean = qrCode != null && template?.bitmap != null
+}

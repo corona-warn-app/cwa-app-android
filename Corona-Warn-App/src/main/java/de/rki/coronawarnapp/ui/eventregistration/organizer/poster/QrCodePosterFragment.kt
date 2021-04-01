@@ -42,12 +42,13 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
             viewModel.poster.observe(viewLifecycleOwner) { poster ->
-                posterImage.setImageBitmap(poster.template?.image)
+                posterImage.setImageBitmap(poster.template?.bitmap)
                 qrCodeImage.setImageBitmap(poster.qrCode)
                 progressBar.hide()
-
-                binding.qrCodePoster.postDelayed(delayInMillis = 1_000) {
-                    viewModel.createPDF(binding.qrCodePoster, getString(R.string.app_name))
+                if (poster.hasImages()) {
+                    binding.qrCodePoster.postDelayed(delayInMillis = 1_000) {
+                        viewModel.createPDF(binding.qrCodePoster, getString(R.string.app_name))
+                    }
                 }
             }
         }
