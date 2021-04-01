@@ -13,12 +13,13 @@ fun EwRiskLevelResult.toPersistedRiskResult(
     failureReason = failureReason
 )
 
-fun EwAggregatedRiskResult.toPersistedAggregatedRiskResult() = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
-    totalRiskLevel = totalRiskLevel,
-    totalMinimumDistinctEncountersWithLowRisk = totalMinimumDistinctEncountersWithLowRisk,
-    totalMinimumDistinctEncountersWithHighRisk = totalMinimumDistinctEncountersWithHighRisk,
-    mostRecentDateWithLowRisk = mostRecentDateWithLowRisk,
-    mostRecentDateWithHighRisk = mostRecentDateWithHighRisk,
-    numberOfDaysWithLowRisk = numberOfDaysWithLowRisk,
-    numberOfDaysWithHighRisk = numberOfDaysWithHighRisk
-)
+fun EwAggregatedRiskResult.toPersistedAggregatedRiskResult() =
+    PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
+        totalRiskLevel = totalRiskLevel,
+        totalMinimumDistinctEncountersWithLowRisk = totalMinimumDistinctEncountersWithLowRisk,
+        totalMinimumDistinctEncountersWithHighRisk = totalMinimumDistinctEncountersWithHighRisk,
+        mostRecentDateWithLowRisk = mostRecentDateWithLowRisk,
+        mostRecentDateWithHighRisk = mostRecentDateWithHighRisk,
+        numberOfDaysWithLowRisk = numberOfDaysWithLowRisk,
+        numberOfDaysWithHighRisk = numberOfDaysWithHighRisk
+    )

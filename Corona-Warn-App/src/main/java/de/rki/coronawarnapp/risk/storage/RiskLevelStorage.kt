@@ -96,7 +96,8 @@ data class CombinedEwPtRiskLevelResult(
     val riskState: RiskState = max(ptRiskLevelResult.riskState, ewRiskLevelResult.riskState)
 
     val wasSuccessfullyCalculated: Boolean
-        get() = ewRiskLevelResult.ewAggregatedRiskResult != null && ptRiskLevelResult.riskState != RiskState.CALCULATION_FAILED
+        get() = ewRiskLevelResult.ewAggregatedRiskResult != null &&
+            ptRiskLevelResult.riskState != RiskState.CALCULATION_FAILED
 
     val calculatedAt : Instant = max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt)
 

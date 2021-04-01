@@ -178,7 +178,8 @@ abstract class BaseRiskLevelStorage constructor(
             combineRisk(ptRiskList, ewRiskList)
         }
 
-    override val latestAndLastSuccessfulEwRiskLevelResult: Flow<List<EwRiskLevelResult>> = riskResultsTables.latestAndLastSuccessful()
+    override val latestAndLastSuccessfulEwRiskLevelResult: Flow<List<EwRiskLevelResult>> = riskResultsTables
+        .latestAndLastSuccessful()
         .map { results ->
             Timber.v("Mapping latestAndLastSuccessful:\n%s", results.joinToString("\n"))
             results.combineWithWindows(null)
@@ -206,8 +207,10 @@ abstract class BaseRiskLevelStorage constructor(
                     ptRiskLevelResult = latestPtResult
                 ))
             }
-            val lastSuccessfulEwResult = ewRiskLevelResults.filter { it.wasSuccessfullyCalculated }.maxByOrNull { it.calculatedAt }
-            val lastSuccessfulPtResult = ptRiskLevelResults.filter { it.wasSuccessfullyCalculated }.maxByOrNull { it.calculatedAt }
+            val lastSuccessfulEwResult = ewRiskLevelResults
+                .filter { it.wasSuccessfullyCalculated }.maxByOrNull { it.calculatedAt }
+            val lastSuccessfulPtResult = ptRiskLevelResults
+                .filter { it.wasSuccessfullyCalculated }.maxByOrNull { it.calculatedAt }
             if (lastSuccessfulEwResult != null && lastSuccessfulPtResult != null) {
                 combinedList.add(CombinedEwPtRiskLevelResult(
                     ewRiskLevelResult = lastSuccessfulEwResult,

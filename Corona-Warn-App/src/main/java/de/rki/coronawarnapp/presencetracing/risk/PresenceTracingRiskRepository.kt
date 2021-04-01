@@ -22,6 +22,7 @@ import org.joda.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Suppress("MaxLineLength")
 @Singleton
 class PresenceTracingRiskRepository @Inject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
