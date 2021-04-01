@@ -79,6 +79,9 @@
         <argument
             android:name="traceLocationId"
             app:argType="long" />
+        <action
+            android:id="@+id/action_qrCodeDetailFragment_to_qrCodePosterFragment"
+            app:destination="@id/qrCodePosterFragment" />
     </fragment>
 
     <fragment
@@ -87,8 +90,8 @@
         android:label="qr_code_poster_fragment"
         tools:layout="@layout/qr_code_poster_fragment">
         <argument
-            android:name="locationID"
-            app:argType="string" />
+            android:name="traceLocationId"
+            app:argType="long" />
     </fragment>
 
 </navigation>

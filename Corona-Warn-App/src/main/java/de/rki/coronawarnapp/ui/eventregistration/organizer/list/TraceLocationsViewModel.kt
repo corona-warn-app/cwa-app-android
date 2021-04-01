@@ -35,17 +35,18 @@ class TraceLocationsViewModel @AssistedInject constructor(
                     traceLocation = traceLocation,
                     onCheckIn = { /* TODO */ },
                     onDuplicate = { events.postValue(TraceLocationEvent.DuplicateItem(it)) },
-                    onShowPrint = { events.postValue(TraceLocationEvent.QrCodePrint(it)) },
-                    onClickItem = { location, position ->
-                        events.postValue(TraceLocationEvent.QrCodeDetails(location, position))
-                    },
+                    onShowPrint = { events.postValue(TraceLocationEvent.StartQrCodePosterFragment(it)) },
                     onDeleteItem = { events.postValue(TraceLocationEvent.ConfirmDeleteItem(it)) },
                     onSwipeItem = { location, position ->
                         events.postValue(
                             TraceLocationEvent.ConfirmSwipeItem(location, position)
                         )
                     },
-                    onCardClicked = { events.postValue(TraceLocationEvent.StartQrCodeDetailFragment(it.id)) },
+                    onCardClicked = { traceLocation, position ->
+                        events.postValue(
+                            TraceLocationEvent.StartQrCodeDetailFragment(traceLocation.id, position)
+                        )
+                    },
                 )
             }
         }

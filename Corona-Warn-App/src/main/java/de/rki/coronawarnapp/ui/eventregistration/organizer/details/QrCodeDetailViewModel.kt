@@ -99,7 +99,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     private fun createQrCode(input: String) = launch(context = dispatcher.IO) {
 
         try {
-            bitmapLiveData.postValue(qrCodeGenerator.createQrCode(qrCodeText))
+            bitmapLiveData.postValue(qrCodeGenerator.createQrCode(input))
         } catch (e: Exception) {
             Timber.d(e, "Qr code creation failed")
             e.report(ExceptionCategory.INTERNAL)
@@ -111,7 +111,9 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     }
 
     fun onPrintQrCode() {
-        routeToScreen.postValue(QrCodeDetailNavigationEvents.NavigateToPrintFragment(qrCodeText))
+        routeToScreen.postValue(
+            QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment(traceLocationId ?: 0L)
+        )
     }
 
     @AssistedFactory

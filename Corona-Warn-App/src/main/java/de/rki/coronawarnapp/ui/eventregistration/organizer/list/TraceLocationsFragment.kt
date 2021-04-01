@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.traceLocationCategories
+import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragmentArgs
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
@@ -81,22 +82,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                     showDeleteSingleDialog(it.traceLocation, it.position)
                 }
                 is TraceLocationEvent.StartQrCodeDetailFragment -> {
-                    doNavigate(
-                        TraceLocationsFragmentDirections.actionTraceLocationOrganizerListFragmentToQrCodeDetailFragment(
-                            traceLocationId = it.id,
-                        )
-                    )
-                }
-                is TraceLocationEvent.DuplicateItem -> {
-                    openCreateEventFragment(it.traceLocation)
-                }
-                is TraceLocationEvent.QrCodePrint -> doNavigate(
-                    TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
-                        it.traceLocation.cnPublicKey
-                    )
-                )
 
-                is TraceLocationEvent.QrCodeDetails -> {
                     val navigatorExtras = binding.recyclerView.findViewHolderForAdapterPosition(it.position)?.itemView
                         ?.run {
                             // Set it on the fly to avoid confusion of recycler's items
@@ -106,11 +92,19 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
 
                     findNavController().navigate(
                         R.id.action_traceLocationsFragment_to_qrCodeDetailFragment,
-                        null,
+                        QrCodeDetailFragmentArgs(traceLocationId = it.id).toBundle(),
                         null,
                         navigatorExtras
                     )
                 }
+                is TraceLocationEvent.DuplicateItem -> {
+                    openCreateEventFragment(it.traceLocation)
+                }
+                is TraceLocationEvent.StartQrCodePosterFragment -> doNavigate(
+                    TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
+                        it.traceLocation.id
+                    )
+                )
             }
         }
 
@@ -137,7 +131,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             when (it.itemId) {
                 R.id.menu_information -> {
                     findNavController().navigate(
-                        R.id.action_traceLocationOrganizerListFragment_to_traceLocationOrganizerQRInfoFragment
+                        R.id.action_traceLocationOrganizerListFragment_to_traceLocationInfoFragment
                     )
                     true
                 }

@@ -38,6 +38,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             factory.create(navArgs.traceLocationId)
         }
     )
+
     private val binding: TraceLocationOrganizerQrCodeDetailFragmentBinding by viewBindingLazy()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,10 +64,6 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                         )
                 }
             )
-
-            title.text = viewModel.titleText
-            subtitle.text = viewModel.subtitleText
-            eventDate.text = viewModel.eventDate
 
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)
@@ -94,8 +91,8 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> { /* TODO */
                 }
 
-                is QrCodeDetailNavigationEvents.NavigateToPrintFragment -> doNavigate(
-                    QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.qrCode)
+                is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> doNavigate(
+                    QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
                 )
             }
         }
