@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.poster
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
+import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
@@ -55,6 +58,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun QrCodePosterFragmentBinding.bindPoster(poster: Poster) {
         val template = poster.template ?: return
 
@@ -82,6 +86,18 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
             binding.qrCodePoster.postDelayed(delayInMillis = 1_000) {
                 viewModel.createPDF(binding.qrCodePoster, getString(R.string.app_name))
             }
+        }
+
+        val textBox = poster.template.textBox
+        with(infoText) {
+            // TODO provide location info
+            text = "Vereinsaktivität: Jahrestreffen der deutschen SAP Anwendergruppe" +
+                "\nHauptstr 3, 69115 Heidelberg, 27.03.2021 19:30-23:55 Uhr"
+
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, textBox.fontSize.toFloat())
+            setTextColor(Color.parseColor(textBox.fontColor))
+            // TODO textStartGuideline.setGuidelinePercent(textBox.offsetX)
+            // TODO textTopGuideline.setGuidelinePercent(textBox.offsetY)
         }
     }
 

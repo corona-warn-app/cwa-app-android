@@ -70,6 +70,31 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.095" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/text_start_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.13" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/text_top_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.61" />
+
+        <TextView
+            android:id="@+id/info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/text_start_guideline"
+            app:layout_constraintTop_toTopOf="@id/text_top_guideline"
+            tools:ignore="SmallSp"
+            tools:text="Vereinsaktivität: Jahrestreffen der deutschen SAP Anwendergruppe\nHauptstr 3, 69115 Heidelberg"
+            tools:textColor="#000000"
+            tools:textSize="10sp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
