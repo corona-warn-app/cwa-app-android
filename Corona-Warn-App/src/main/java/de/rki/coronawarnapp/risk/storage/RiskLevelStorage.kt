@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -97,7 +98,7 @@ data class CombinedEwPtRiskLevelResult(
     val wasSuccessfullyCalculated: Boolean
         get() = ewRiskLevelResult.ewAggregatedRiskResult != null && ptRiskLevelResult.riskState != RiskState.CALCULATION_FAILED
 
-    val calculatedAt = max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt)
+    val calculatedAt : Instant = max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt)
 
     val daysWithEncounters : Int
         get() = when (riskState) {
@@ -105,14 +106,17 @@ data class CombinedEwPtRiskLevelResult(
                 (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0) +
                 ptRiskLevelResult.numberOfDaysWithHighRisk
             }
-            RiskState.LOW_RISK -> ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0
+            RiskState.LOW_RISK -> (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0) +
+                ptRiskLevelResult.numberOfDaysWithLowRisk
             else -> 0
         }
 
-    val lastRiskEncounterAt: Instant?
+    val lastRiskEncounterAt: LocalDate?
         get() = if (riskState == RiskState.INCREASED_RISK) {
-            ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithHighRisk
+            max(ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithHighRisk?.toLocalDateUtc(),
+                ptRiskLevelResult.mostRecentDateWithHighRisk)
         } else {
-            ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithLowRisk
+            max(ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithLowRisk?.toLocalDateUtc(),
+            ptRiskLevelResult.mostRecentDateWithLowRisk)
         }
 }

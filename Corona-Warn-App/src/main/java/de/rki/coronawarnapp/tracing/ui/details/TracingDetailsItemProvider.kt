@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCa
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
@@ -85,7 +86,7 @@ class TracingDetailsItemProvider @Inject constructor(
                 )
                 latestCalc.riskState == RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
                     riskState = latestCalc.riskState,
-                    lastEncounteredAt = latestCalc.lastRiskEncounterAt ?: Instant.EPOCH
+                    lastEncounteredAt = latestCalc.lastRiskEncounterAt ?: Instant.EPOCH.toLocalDateUtc()
                 )
                 else -> null
             }?.let { add(it) }

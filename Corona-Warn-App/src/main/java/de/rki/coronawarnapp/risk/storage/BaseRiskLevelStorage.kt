@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
 import kotlin.math.max
@@ -276,7 +277,6 @@ internal fun combineRisk(
     }
 }
 
-@VisibleForTesting(otherwise = PRIVATE)
 internal fun max(left: RiskState?, right: RiskState?): RiskState {
     return if (left == RiskState.INCREASED_RISK || right == RiskState.INCREASED_RISK) RiskState.INCREASED_RISK
     else if (left == RiskState.LOW_RISK || right == RiskState.LOW_RISK) RiskState.LOW_RISK
@@ -285,4 +285,11 @@ internal fun max(left: RiskState?, right: RiskState?): RiskState {
 
 internal fun max(left: Instant, right: Instant): Instant {
     return Instant.ofEpochMilli(max(left.millis, right.millis))
+}
+
+internal fun max(left: LocalDate?, right: LocalDate?): LocalDate? {
+    if (left == null) return right
+    if (right == null) return left
+    return if (left.isAfter(right)) left
+    else right
 }
