@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.risk.storage.internal
 
-import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindow
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindowDaoWrapper
@@ -34,8 +34,8 @@ class PersistedRiskResultDaoTest : BaseTest() {
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe listOf(testExposureWindow)
             failureReason shouldBe null
-            aggregatedRiskResult shouldNotBe null
-            aggregatedRiskResult?.apply {
+            ewAggregatedRiskResult shouldNotBe null
+            ewAggregatedRiskResult?.apply {
                 totalRiskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
                 totalMinimumDistinctEncountersWithLowRisk shouldBe 89
                 totalMinimumDistinctEncountersWithHighRisk shouldBe 59
@@ -69,8 +69,8 @@ class PersistedRiskResultDaoTest : BaseTest() {
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe null
             failureReason shouldBe null
-            aggregatedRiskResult shouldNotBe null
-            aggregatedRiskResult?.apply {
+            ewAggregatedRiskResult shouldNotBe null
+            ewAggregatedRiskResult?.apply {
                 totalRiskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
                 totalMinimumDistinctEncountersWithLowRisk shouldBe 89
                 totalMinimumDistinctEncountersWithHighRisk shouldBe 59
@@ -89,14 +89,14 @@ class PersistedRiskResultDaoTest : BaseTest() {
         PersistedRiskLevelResultDao(
             id = "",
             calculatedAt = Instant.ofEpochMilli(931161601L),
-            failureReason = RiskLevelResult.FailureReason.TRACING_OFF,
+            failureReason = EwRiskLevelResult.FailureReason.TRACING_OFF,
             aggregatedRiskResult = null
         ).toRiskResult().apply {
             riskState shouldBe RiskState.CALCULATION_FAILED
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe null
-            failureReason shouldBe RiskLevelResult.FailureReason.TRACING_OFF
-            aggregatedRiskResult shouldBe null
+            failureReason shouldBe EwRiskLevelResult.FailureReason.TRACING_OFF
+            ewAggregatedRiskResult shouldBe null
         }
     }
 }

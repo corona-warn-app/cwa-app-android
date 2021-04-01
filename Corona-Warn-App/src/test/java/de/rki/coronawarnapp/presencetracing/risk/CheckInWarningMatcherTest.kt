@@ -29,12 +29,16 @@ class CheckInWarningMatcherTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { presenceTracingRiskRepository.replaceAllMatches(any()) } just Runs
+        coEvery { presenceTracingRiskRepository.reportSuccessfulCalculation(any()) } just Runs
         coEvery { presenceTracingRiskRepository.deleteAllMatches() } just Runs
+        coEvery { presenceTracingRiskRepository.deleteStaleData() } just Runs
+        // TODO tests
+        coEvery { presenceTracingRiskRepository.deleteMatchesOfPackage(any()) } just Runs
+        coEvery { presenceTracingRiskRepository.markPackageProcessed(any()) } just Runs
     }
 
     @Test
-    fun `replaces matches`() {
+    fun `reports new matches`() {
         val checkIn1 = createCheckIn(
             id = 2L,
             traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
@@ -77,13 +81,13 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 1) { presenceTracingRiskRepository.replaceAllMatches(any()) }
+            coVerify(exactly = 1) { presenceTracingRiskRepository.reportSuccessfulCalculation(any()) }
             coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
 
     @Test
-    fun `replace with empty list if no matches found`() {
+    fun `report empty list if no matches found`() {
         val checkIn1 = createCheckIn(
             id = 2L,
             traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
@@ -126,13 +130,13 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 1) { presenceTracingRiskRepository.replaceAllMatches(emptyList()) }
+            coVerify(exactly = 1) { presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList()) }
             coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
 
     @Test
-    fun `replace with empty list if package is empty`() {
+    fun `report empty list if package is empty`() {
         val checkIn1 = createCheckIn(
             id = 2L,
             traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
@@ -161,7 +165,7 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 1) { presenceTracingRiskRepository.replaceAllMatches(emptyList()) }
+            coVerify(exactly = 1) { presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList()) }
             coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
@@ -198,7 +202,7 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 0) { presenceTracingRiskRepository.replaceAllMatches(any()) }
+            coVerify(exactly = 1) { presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList()) }
             coVerify(exactly = 1) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
