@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.util.list.onSwipeItem
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -78,6 +79,13 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 }
                 is TraceLocationEvent.ConfirmSwipeItem -> {
                     showDeleteSingleDialog(it.traceLocation, it.position)
+                }
+                is TraceLocationEvent.StartQrCodeDetailFragment -> {
+                    doNavigate(
+                        TraceLocationsFragmentDirections.actionTraceLocationOrganizerListFragmentToQrCodeDetailFragment(
+                            traceLocationId = it.id,
+                        )
+                    )
                 }
                 is TraceLocationEvent.DuplicateItem -> {
                     openCreateEventFragment(it.traceLocation)
