@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.ui.eventregistration.TraceLocationPreferences
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -44,6 +45,7 @@ class DataReset @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryRepository: ContactDiaryRepository,
     private var contactDiaryPreferences: ContactDiaryPreferences,
+    private var traceLocationPreferences: TraceLocationPreferences,
     private val cwaSettings: CWASettings,
     private val statisticsProvider: StatisticsProvider,
     private val surveySettings: SurveySettings,
@@ -78,6 +80,7 @@ class DataReset @Inject constructor(
         downloadDiagnosisKeysSettings.clear()
         riskLevelStorage.clear()
         contactDiaryPreferences.clear()
+        traceLocationPreferences.clear()
         cwaSettings.clear()
         surveySettings.clear()
         analyticsSettings.clear()

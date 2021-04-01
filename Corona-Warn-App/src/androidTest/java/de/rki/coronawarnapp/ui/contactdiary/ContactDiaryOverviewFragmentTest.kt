@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmen
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
@@ -100,10 +101,11 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
     private fun contactDiaryOverviewItemLiveData(): LiveData<List<DiaryOverviewItem>> {
         val data = mutableListOf<DiaryOverviewItem>()
         data.add(OverviewSubHeaderItem)
+
         val dayData = (0 until ContactDiaryOverviewViewModel.DAY_COUNT)
             .map { LocalDate.now().minusDays(it) }
             .mapIndexed { index, localDate ->
-                val dayData = mutableListOf<DayOverviewItem.Data>().apply {
+                val dayData = mutableListOf<ContactItem.Data>().apply {
                     if (index == 1) {
                         add(DiaryData.DATA_ITEMS[0])
                         add(DiaryData.DATA_ITEMS[1])
@@ -111,19 +113,40 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
                         add(DiaryData.DATA_ITEMS[2])
                     }
                 }
-                val risk = when (index % 5) {
+
+                val riskEnf = when (index % 5) {
                     3 -> DiaryData.HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS
                     else -> null // DiaryData.LOW_RISK OR DiaryData.HIGH_RISK POSSIBLE
                 }
+
+                val riskEvent = when (index) {
+                    6 -> {
+                        dayData.add(DiaryData.LOW_RISK_EVENT_LOCATION)
+                        DiaryData.LOW_RISK_EVENT_ITEM
+                    }
+
+                    7 -> {
+                        dayData.apply {
+                            add(DiaryData.LOW_RISK_EVENT_LOCATION)
+                            add(DiaryData.HIGH_RISK_EVENT_LOCATION)
+                        }
+                        DiaryData.HIGH_RISK_EVENT_ITEM
+                    }
+
+                    else -> null
+                }
+
                 DayOverviewItem(
                     date = localDate,
-                    data = dayData,
-                    risk = risk
+                    contactItem = ContactItem(dayData),
+                    riskEnfItem = riskEnf,
+                    riskEventItem = riskEvent
                 ) {
                     // onClick
                 }
             }
         data.addAll(dayData)
+
         return MutableLiveData(data)
     }
 }

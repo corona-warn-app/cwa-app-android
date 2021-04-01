@@ -14,6 +14,7 @@ import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
@@ -26,6 +27,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_locations_list_fragment), AutoInject {
@@ -78,6 +80,9 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 is TraceLocationEvent.ConfirmSwipeItem -> {
                     showDeleteSingleDialog(it.traceLocation, it.position)
                 }
+                is TraceLocationEvent.DuplicateItem -> {
+                    openCreateEventFragment(it.traceLocation)
+                }
             }
         }
 
@@ -127,6 +132,21 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             }
         )
         DialogHelper.showDialog(deleteAllDialog)
+    }
+
+    private fun openCreateEventFragment(traceLocation: TraceLocation) {
+        val category = traceLocationCategories.find { it.type == traceLocation.type }
+        if (category == null) {
+            Timber.e("Category not found, traceLocation = $traceLocation")
+        } else {
+            findNavController().navigate(
+                TraceLocationsFragmentDirections
+                    .actionTraceLocationOrganizerListFragmentToTraceLocationCreateFragment(
+                        category,
+                        traceLocation
+                    )
+            )
+        }
     }
 
     private fun showDeleteSingleDialog(traceLocation: TraceLocation, position: Int?) {

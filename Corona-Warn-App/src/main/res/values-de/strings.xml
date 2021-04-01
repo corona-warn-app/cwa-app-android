@@ -1974,4 +1974,10 @@
     <string name="trace_location_onboarding_body_consent6">Unter „Meine Check-ins“ können Sie einen Check-in jederzeit löschen. In diesem Fall werden Sie nur gewarnt, wenn Ihr Smartphone die Zufalls-IDs des positiv getesteten Nutzers empfangen und eine Risiko-Begegnung ermittelt hat.</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">Einverstanden</string>
+    <!--  XHED: Trace location check-ins camera permission card title-->
+    <string name="trace_location_attendee_camera_card_title">Zugriff auf Kamera erlauben</string>
+    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
+    <string name="trace_location_attendee_camera_card_subtitle">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräte-Einstellungen zur App zulassen.</string>
+    <!--  XBUT: Trace location check-ins camera permission card button-->
+    <string name="trace_location_attendee_camera_card_button">Einstellungen öffnen</string>
 </resources>

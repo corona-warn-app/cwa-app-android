@@ -1983,4 +1983,10 @@
     <string name="trace_location_onboarding_body_consent6">"You can delete a check-in under “My Check-Ins” at any time. In this case, you will only be warned if your smartphone received the random IDs of a user diagnosed with coronavirus and identified a potential exposure."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Accept"</string>
+    <!--  XHED: Trace location check-ins camera permission card title-->
+    <string name="trace_location_attendee_camera_card_title">Zugriff auf Kamera erlauben</string>
+    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
+    <string name="trace_location_attendee_camera_card_subtitle">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräte-Einstellungen zur App zulassen.</string>
+    <!--  XBUT: Trace location check-ins camera permission card button-->
+    <string name="trace_location_attendee_camera_card_button">Einstellungen öffnen</string>
 </resources>

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationListItemBinding
@@ -56,6 +57,7 @@ class DiaryLocationViewHolder(
         }
 
         durationInput.setOnClickListener {
+            it.hideKeyboard()
             circumstances.clearFocus()
             item.onDurationDialog(item, durationInput.text.toString())
         }
