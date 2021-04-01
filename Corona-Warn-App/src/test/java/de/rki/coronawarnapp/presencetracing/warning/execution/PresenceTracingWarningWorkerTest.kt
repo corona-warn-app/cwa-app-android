@@ -62,7 +62,7 @@ class PresenceTracingWarningWorkerTest : BaseTest() {
             id = slot.captured.id,
             arguments = slot.captured.arguments,
             type = PresenceTracingWarningTask::class,
-            originTag = "TraceTimeWarningWorker",
+            originTag = "PresenceTracingWarningWorker",
         )
     }
 
