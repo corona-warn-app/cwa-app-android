@@ -1953,16 +1953,6 @@
     <string name="trace_location_onboarding_body_warning">"Всяка регистрация се взема предвид също и при изчисляване на Вашия статус на риск. При диагностициране на дадено лице с коронавирус Вие ще получите уведомление, ако по същото време или в рамките на 30 минути след това сте се намирали в едно и също помещение с него."</string>
     <!-- YMSG: Onboarding trace location warning -->
     <string name="trace_location_onboarding_body_stay">"Моля, отбележете продължителността на престоя си възможно най-точно, за да може да получите адекватни предупреждения."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent2">"Приложението запазва данните за събитията и местата, в които сте регистрирали през последните 16 дни."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent3">"Когато сканирате QR код, за да се регистрирате, във Вашия смартфон се създава запис за това събитие или място."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent4">"Ако друг потребител, регистриран по същото време и от същото място или събитие, изпрати предупреждение, след като бъде диагностициран с коронавирус, Вие ще получите предупреждението въз основа на идентификационния код на събитието дори ако във Вашия смартфон не е получен случаен идентификатор от заразеното лице."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent5">"Ако от своя страна Вие изпратите предупреждение, въз основа на идентификационния код на място или събитие от раздела “Моите регистрации” ще бъдат предупредени всички останали потребители, които са се регистрирали от него по същото време."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent6">"Може да изтриете регистрация от раздела „Моите регистрации“ по всяко време. В този случай само Вие ще получите предупреждение, ако в смартфона Ви има получени случайни ИД на лице, диагностицирано с коронавирус, и е установено потенциално излагане на риск."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Приемам"</string>
 </resources>

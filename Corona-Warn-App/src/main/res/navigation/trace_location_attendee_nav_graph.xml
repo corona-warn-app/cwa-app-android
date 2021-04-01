@@ -3,7 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/trace_location_attendee_nav_graph"
-    app:startDestination="@id/checkInsFragment">
+    app:startDestination="@id/checkInOnboardingFragment">
+    <fragment
+        android:id="@+id/checkInOnboardingFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.onboarding.CheckInOnboardingFragment"
+        android:label="CheckInOnboardingFragment"
+        tools:layout="@layout/fragment_trace_location_onboarding">
+        <action
+            android:id="@+id/action_checkInOnboardingFragment_to_checkInsFragment"
+            app:destination="@id/checkInsFragment"
+            app:popUpTo="@id/trace_location_attendee_nav_graph"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_checkInOnboardingFragment_to_privacyFragment"
+            app:destination="@id/checkInPrivacyFragment" />
+        <argument
+            android:name="showBottomNav"
+            android:defaultValue="true"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkInPrivacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="InformationPrivacyFragment"
+        tools:layout="@layout/fragment_information_privacy" />
     <fragment
         android:id="@+id/confirmCheckInFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInFragment"
@@ -48,6 +71,12 @@
         <action
             android:id="@+id/action_checkInsFragment_to_editCheckInFragment"
             app:destination="@id/editCheckInFragment" />
+        <action
+            android:id="@+id/action_checkInsFragment_to_qrCodeDetailFragment"
+            app:destination="@id/qrCodeDetailFragment" />
+        <action
+            android:id="@+id/action_checkInsFragment_to_checkInOnboardingFragment"
+            app:destination="@id/checkInOnboardingFragment" />
     </fragment>
 
 </navigation>
