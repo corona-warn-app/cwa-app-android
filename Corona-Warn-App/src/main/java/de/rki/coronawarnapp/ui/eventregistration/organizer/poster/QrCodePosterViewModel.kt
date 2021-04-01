@@ -73,13 +73,12 @@ class QrCodePosterViewModel @AssistedInject constructor(
 
     private fun generatePoster() = launch(context = dispatcher.IO) {
         try {
-            // TODO Generate Qr Code info from traceLocationId
+            // TODO Generate Qr Code info from reading location by traceLocationId
+            val input = "HTTPS://E.CORONAWARN.APP/C1/BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBGGC5LOMNUCAUD" +
+                "BOJ2HSGGTQ6SACIHXQ6SACKA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFF" +
+                "BU2SQCEEAJAUCJSQJ7WDM675MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI="
             val template = posterTemplateProvider.template()
-            val qrCode = qrCodeGenerator.createQrCode(
-                "HTTPS://E.CORONAWARN.APP/C1/BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBGGC5LOMNUCAUD" +
-                    "BOJ2HSGGTQ6SACIHXQ6SACKA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFF" +
-                    "BU2SQCEEAJAUCJSQJ7WDM675MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI="
-            )
+            val qrCode = qrCodeGenerator.createQrCode(input, template.qrCodeLength, margin = 0)
             posterLiveData.postValue(Poster(qrCode, template))
         } catch (e: Exception) {
             Timber.d(e, "Generating poster failed")

@@ -6,6 +6,7 @@ import android.print.PrintManager
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.getSystemService
 import androidx.core.view.postDelayed
 import androidx.navigation.fragment.navArgs
@@ -42,8 +43,23 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
             viewModel.poster.observe(viewLifecycleOwner) { poster ->
-                posterImage.setImageBitmap(poster.template?.bitmap)
+                val template = poster.template ?: return@observe
+
+                Timber.d("template=$template")
+
+                val posterLayoutParam = posterImage.layoutParams as ConstraintLayout.LayoutParams
+                val dimensionRatio = "%s:%s".format(template.width, template.height)
+                posterLayoutParam.dimensionRatio = dimensionRatio
+                Timber.d("dimensionRatio=$dimensionRatio")
+
                 qrCodeImage.setImageBitmap(poster.qrCode)
+                posterImage.setImageBitmap(template.bitmap)
+
+                // Position QR Code image
+                topGuideline.setGuidelinePercent(template.offsetY)
+                startGuideline.setGuidelinePercent(template.offsetX)
+                endGuideline.setGuidelinePercent(1 - template.offsetX)
+
                 progressBar.hide()
                 if (poster.hasImages()) {
                     binding.qrCodePoster.postDelayed(delayInMillis = 1_000) {
