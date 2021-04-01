@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -46,7 +47,8 @@ class CheckInRepositoryTest : BaseTest() {
         shouldThrow<IllegalArgumentException> {
             val checkIn = CheckIn(
                 id = 1L,
-                guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
+                traceLocationId = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
+                traceLocationIdHash = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
                 version = 1,
                 type = 2,
                 description = "brothers birthday",
@@ -54,6 +56,8 @@ class CheckInRepositoryTest : BaseTest() {
                 traceLocationStart = Instant.EPOCH,
                 traceLocationEnd = null,
                 defaultCheckInLengthInMinutes = null,
+                cryptographicSeed = "cryptographicSeed".encode(),
+                cnPublicKey = "cnPublicKey",
                 checkInStart = Instant.EPOCH,
                 checkInEnd = Instant.EPOCH,
                 completed = false,
@@ -72,7 +76,8 @@ class CheckInRepositoryTest : BaseTest() {
             createInstance(scope = this).addCheckIn(
                 CheckIn(
                     id = 0L,
-                    guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
+                    traceLocationId = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
+                    traceLocationIdHash = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
                     version = 1,
                     type = 2,
                     description = "brothers birthday",
@@ -80,6 +85,8 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = time,
                     traceLocationEnd = null,
                     defaultCheckInLengthInMinutes = null,
+                    cryptographicSeed = "cryptographicSeed".encode(),
+                    cnPublicKey = "cnPublicKey",
                     checkInStart = time,
                     checkInEnd = end,
                     completed = false,
@@ -90,7 +97,8 @@ class CheckInRepositoryTest : BaseTest() {
                 checkInDao.insert(
                     TraceLocationCheckInEntity(
                         id = 0L,
-                        guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
+                        traceLocationIdBase64 = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode().base64(),
+                        traceLocationIdHashBase64 = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode().base64(),
                         version = 1,
                         type = 2,
                         description = "brothers birthday",
@@ -98,6 +106,8 @@ class CheckInRepositoryTest : BaseTest() {
                         traceLocationStart = time,
                         traceLocationEnd = null,
                         defaultCheckInLengthInMinutes = null,
+                        cryptographicSeedBase64 = "cryptographicSeed".encode().base64(),
+                        cnPublicKey = "cnPublicKey",
                         checkInStart = time,
                         checkInEnd = end,
                         completed = false,
@@ -132,7 +142,8 @@ class CheckInRepositoryTest : BaseTest() {
         allEntriesFlow.value = listOf(
             TraceLocationCheckInEntity(
                 id = 1L,
-                guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                traceLocationIdBase64 = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode().base64(),
+                traceLocationIdHashBase64 = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode().base64(),
                 version = 1,
                 type = 2,
                 description = "sisters birthday",
@@ -140,6 +151,8 @@ class CheckInRepositoryTest : BaseTest() {
                 traceLocationStart = start,
                 traceLocationEnd = end,
                 defaultCheckInLengthInMinutes = null,
+                cryptographicSeedBase64 = "cryptographicSeed".encode().base64(),
+                cnPublicKey = "cnPublicKey",
                 checkInStart = start,
                 checkInEnd = end,
                 completed = false,
@@ -150,7 +163,8 @@ class CheckInRepositoryTest : BaseTest() {
             createInstance(scope = this).allCheckIns.first() shouldBe listOf(
                 CheckIn(
                     id = 1L,
-                    guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
+                    traceLocationId = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
+                    traceLocationIdHash = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
                     version = 1,
                     type = 2,
                     description = "sisters birthday",
@@ -158,6 +172,8 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = start,
                     traceLocationEnd = end,
                     defaultCheckInLengthInMinutes = null,
+                    cryptographicSeed = "cryptographicSeed".encode(),
+                    cnPublicKey = "cnPublicKey",
                     checkInStart = start,
                     checkInEnd = end,
                     completed = false,

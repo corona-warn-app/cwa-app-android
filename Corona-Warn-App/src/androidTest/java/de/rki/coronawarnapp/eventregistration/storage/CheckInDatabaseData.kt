@@ -2,12 +2,14 @@ package de.rki.coronawarnapp.eventregistration.storage
 
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 
 object CheckInDatabaseData {
 
     val testCheckIn = TraceLocationCheckInEntity(
-        guid = "testGuid1",
+        traceLocationIdBase64 = "traceLocationId1".encode().base64(),
+        traceLocationIdHashBase64 = "traceLocationIdHash1".encode().base64(),
         version = 1,
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER.number,
         description = "testDescription1",
@@ -15,6 +17,8 @@ object CheckInDatabaseData {
         traceLocationStart = Instant.parse("2021-01-01T12:00:00.000Z"),
         traceLocationEnd = Instant.parse("2021-01-01T15:00:00.000Z"),
         defaultCheckInLengthInMinutes = 15,
+        cryptographicSeedBase64 = "cryptographicSeed".encode().base64(),
+        cnPublicKey = "cnPublicKey",
         checkInStart = Instant.parse("2021-01-01T12:30:00.000Z"),
         checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
         completed = false,
@@ -22,7 +26,8 @@ object CheckInDatabaseData {
     )
 
     val testCheckInWithoutCheckOutTime = TraceLocationCheckInEntity(
-        guid = "testGuid2",
+        traceLocationIdBase64 = "traceLocationId1".encode().base64(),
+        traceLocationIdHashBase64 = "traceLocationIdHash1".encode().base64(),
         version = 1,
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER.number,
         description = "testDescription2",
@@ -30,6 +35,8 @@ object CheckInDatabaseData {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
+        cryptographicSeedBase64 = "cryptographicSeed".encode().base64(),
+        cnPublicKey = "cnPublicKey",
         checkInStart = Instant.parse("2021-01-01T12:30:00.000Z"),
         checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
         completed = false,

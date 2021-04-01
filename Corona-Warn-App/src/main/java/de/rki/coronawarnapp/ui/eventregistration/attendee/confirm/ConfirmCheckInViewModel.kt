@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import okio.ByteString.Companion.encode
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
@@ -89,7 +90,8 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         completed: Boolean = false,
         createJournalEntry: Boolean = true
     ): CheckIn = CheckIn(
-        guid = "", // traceLocation.id,
+        traceLocationId = "calculated tracelocation id".encode(),
+        traceLocationIdHash = "tracelocation id hash".encode(),
         version = traceLocation.version,
         type = traceLocation.type.number,
         description = traceLocation.description,
@@ -97,6 +99,8 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         traceLocationStart = traceLocation.startDate,
         traceLocationEnd = traceLocation.endDate,
         defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
+        cryptographicSeed = "cryptographicSeed".encode(),
+        cnPublicKey = "cnPublicKey",
         checkInStart = checkInStart,
         checkInEnd = checkInEnd,
         completed = completed,
