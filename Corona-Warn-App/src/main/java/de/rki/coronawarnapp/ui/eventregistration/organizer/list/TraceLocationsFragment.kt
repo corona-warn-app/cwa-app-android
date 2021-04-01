@@ -108,7 +108,8 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_information -> {
-                    Toast.makeText(requireContext(), "Information // TODO", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(
+                        R.id.action_traceLocationOrganizerListFragment_to_traceLocationOrganizerQRInfoFragment)
                     true
                 }
                 R.id.menu_remove_all -> {
