@@ -7,8 +7,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -29,7 +29,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
-    private val notificationHelper: NotificationHelper,
+    private val notificationHelper: GeneralNotifications,
     private val submissionSettings: SubmissionSettings,
     private val submissionService: SubmissionService,
     private val timeStamper: TimeStamper,

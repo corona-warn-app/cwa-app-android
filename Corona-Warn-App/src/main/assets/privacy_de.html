@@ -76,12 +76,11 @@
     2. Ist die Nutzung der App freiwillig?
 </h1>
 <p>
-    Die Nutzung der App ist freiwillig. Es ist allein Ihre Entscheidung, ob Sie
-    die App installieren, welche App-Funktionen Sie nutzen und ob Sie Daten mit
-    anderen teilen. Alle App-Funktionen, die eine Weitergabe Ihrer Begegnungs-
-    oder Gesundheitsdaten erfordern, holen vorher Ihr ausdrückliches
-    Einverständnis ein. Falls Sie ein Einverständnis nicht erteilen oder
-    nachträglich zurücknehmen, entstehen Ihnen keine Nachteile.
+    Die Nutzung der App ist freiwillig. Es ist allein Ihre Entscheidung, ob Sie die App
+    installieren, welche App-Funktionen Sie nutzen und ob Sie Daten mit anderen teilen. Alle
+    App-Funktionen, die eine Weitergabe Ihrer personenbezogenen Daten an das RKI oder an andere
+    Nutzer erfordern, holen vorher Ihr ausdrückliches Einverständnis ein. Falls Sie ein
+    Einverständnis nicht erteilen oder nachträglich zurücknehmen, entstehen Ihnen keine Nachteile.
 </p>
 <h1>
     3. Auf welcher Rechtsgrundlage werden Ihre Daten verarbeitet?
@@ -93,7 +92,7 @@
     lit. a DSGVO. Sie können ein einmal erteiltes Einverständnis jederzeit
     wieder zurücknehmen (sogenanntes Widerrufsrecht). Weitere Informationen zu
     Ihrem Widerrufsrecht finden Sie unter Punkt 12. Die Verarbeitung von
-    Zugriffsdaten für den Abruf der täglichen Statistiken (siehe hierzu Punkt 6
+    Zugriffsdaten für die Bereitstellung der täglichen Statistiken (siehe hierzu Punkt 6
     d.) erfolgt im Rahmen der Information der Öffentlichkeit durch das RKI gem.
     § 4 Abs. 4 BGA-NachfG auf Basis von Art. 6 Abs. 1 S. 1 lit e. DSGVO i.V.m §
     3 BDSG.
@@ -117,10 +116,10 @@
     persönliche Details zu schließen.
 </p>
 <p>
-    Die App verzichtet daher auch grundsätzlich auf
+    Die App verzichtet daher auch standardmäßig auf
     die Auswertung Ihres Nutzungsverhaltens durch Analyse-Tools. Nur wenn Sie ausdrücklich der
     freiwilligen Datenspende zustimmen, werden bestimmte Daten über Ihre Nutzung der App an das RKI
-    übermittelt (siehe hierzu Punkt 5 e.).
+    übermittelt (siehe hierzu Punkt 5 f.).
 </p>
 <p>
     Die von der App verarbeiteten Daten lassen sich den folgenden Kategorien
@@ -235,7 +234,56 @@
     </li>
 </ul>
 <h2>
-    c. Gesundheitsdaten
+    c. Event-Daten
+</h2>
+<p>
+    Wenn Sie ein Event (beispielsweise eine Feier oder ein Konzert) oder einen Ort (beispielsweise
+    ein Geschäft oder ein Restaurant) besuchen, können Sie Ihren Aufenthalt in der App erfassen.
+    Hierfür können Veranstalter von Events oder Inhaber eines Geschäfts den Gästen einen QR-Code zur
+    Verfügung stellen.
+</p>
+<p>
+    Als Gast können Sie diesen QR-Code beim Ankommen mit der App einfach einscannen und sich so
+    „einchecken“. Beim Verlassen des Events oder Ortes können Sie sich in der App wieder
+    „auschecken“. Die App merkt sich dann, dass und wann Sie bei dem betreffenden Event oder Ort
+    gewesen sind. Sollte ein Gast später Corona-positiv getestet werden und über die App eine
+    Warnung auslösen, werden alle Gäste gewarnt, die zeitgleich eingecheckt waren.
+</p>
+<p>
+    Wenn Sie als Gast einen QR-Code scannen, werden die vom Gastgeber angegebenen Event-Details
+    (Bezeichnung des Events/Ortes, Adresse/Ort, typische Aufenthaltsdauer und ggf. Startzeit des
+    Events) sowie die Check-in-Zeit auf Ihrem Smartphone gespeichert. Zudem leitet Ihre App anhand
+    der im QR-Code enthaltenen Informationen eine dem Event eindeutig zuordenbare verschlüsselte
+    Kennung (im Folgenden: Event-ID) ab. Aus der Event-ID ergeben sich keine Rückschlüssel auf das
+    Event oder den Ort. Wenn Sie sich in der App auschecken oder nach Ablauf der vom Gastgeber
+    voreingestellten Zeit automatisch ausgecheckt werden, wird der Auscheck-Zeitpunkt auf Ihrem
+    Smartphone gespeichert.
+</p>
+<p>
+    Außerdem wird standardmäßig ein Eintrag in Ihrem Kontakt-Tagebuch angelegt. Die Einzelheiten
+    hierzu werden unter Punkt 5.e. und 6.e. erläutert. Wenn Sie für ein Event oder Ort keinen
+    Eintrag in Ihrem Kontakt-Tagebuch anlegen möchten, können Sie diese Funktion einfach über den
+    entsprechenden Schieberegler ausschalten.
+</p>
+<p>
+    Sie können Ihre bisherigen Check-Ins unter „Meine Check-ins“ überprüfen, löschen und den
+    Auscheck-Zeitpunkt anpassen.
+</p>
+<p>
+    Wenn Sie als Gastgeber einen QR-Code für Ihre Gäste erstellen, werden im QR-Code die von Ihnen
+    angegebenen Event-Details sowie eine zufällige Kennzahl gespeichert. Die zufällige Kennzahl
+    gewährleistet, dass unterschiedliche Orte und Events, für die dieselben Event-Details festgelegt
+    wurden, später über unterschiedliche Event-IDs verfügen. Die von Ihnen erstellten QR-Codes sind
+    auf Ihrem Smartphone gespeichert. Sie können Ihre selbst erstellten QR-Codes unter „Meine
+    QR-Codes“ jederzeit löschen.
+</p>
+<p>
+    Die Nutzung des Event-Check-Ins ist freiwillig. Sie entscheiden selbst darüber, ob Sie für Ihr
+    Event oder Ihren Ort einen QR-Code erstellen und ob Sie sich bei einem Event oder Ort
+    einchecken.
+</p>
+<h2>
+    d. Gesundheitsdaten
 </h2>
 <p>
     Gesundheitsdaten sind alle Daten, die Informationen zum Gesundheitszustand
@@ -252,8 +300,8 @@
         wenn Sie über die App ein Testergebnis abrufen
     </li>
     <li>
-        wenn Sie Ihre Begegnungen über die App vor einer möglichen Ansteckung
-        warnen
+        wenn Sie Ihre Begegnungen und Gäste von zeitgleich besuchten Events oder Orten über die App
+        vor einer möglichen Ansteckung warnen
     </li>
     <li>
         wenn Sie Angaben zum Beginn von eventuellen Corona-Symptomen machen
@@ -263,15 +311,16 @@
     Die Einzelheiten werden unter Punkt 6 erläutert.
 </p>
 <h2>
-    d. Einträge im Kontakt-Tagebuch
+    e. Einträge im Kontakt-Tagebuch
 </h2>
 <p>
-    Wenn Sie im Kontakt-Tagebuch notieren, wann und wo Sie welche Personen getroffen haben, werden
-    diese Angaben verschlüsselt auf Ihrem Smartphone gespeichert. Die Kontakt-Tagebuch-Einträge
-    dienen nur Ihnen als Gedächtnisstütze. Das RKI oder andere Stellen können auf die Einträge im
-    Kontakt-Tagebuch nicht zugreifen. Das Kontakt-Tagebuch kann Ihnen helfen, Ihre persönlichen
-    Kontakte der letzten 14 Tage nachzuvollziehen. Falls Sie Corona-positiv getestet werden sollten
-    und das Gesundheitsamt Ihre Mithilfe bei der Kontaktnachverfolgung erbittet, können Sie dem
+    Wenn Sie im Kontakt-Tagebuch notieren, wann und wo Sie welche Personen getroffen haben und
+    Umstände der Begegnung oder Kontaktdaten zu Personen und Orten vermerken, werden diese Angaben
+    verschlüsselt auf Ihrem Smartphone gespeichert. Die Kontakt-Tagebuch-Einträge dienen nur Ihnen
+    als Gedächtnisstütze. Das RKI oder andere Stellen können auf die Einträge im Kontakt-Tagebuch
+    nicht zugreifen. Das Kontakt-Tagebuch kann Ihnen helfen, Ihre persönlichen Kontakte der letzten
+    14 Tage nachzuvollziehen. Falls Sie Corona-positiv getestet werden sollten und das
+    Gesundheitsamt Ihre Mithilfe bei der Kontaktnachverfolgung erbittet, können Sie dem
     Gesundheitsamt somit schnell die benötigten Informationen mitteilen.
 </p>
 <p>
@@ -284,7 +333,7 @@
     Verfügung stellen können.
 </p>
 <h2>
-    e. Nutzungsdaten (Datenspende)
+    f. Nutzungsdaten (Datenspende)
 </h2>
 <p>
     Wenn Sie die Datenspende aktivieren, übermittelt die App bestimmte Daten über Ihre App-Nutzung
@@ -354,56 +403,6 @@
     unter Punkt 5 h. und Punkt 11).
 </p>
 <h2>
-    f. Inhalte der Fehlerberichte
-</h2>
-<p>
-    Um den technischen Support der App bei der Fehleranalyse zu unterstützen, können Sie in der App
-    einen Fehlerbericht aufzeichnen. Wenn Sie die Aufzeichnung des Fehlerberichts starten, werden
-</p>
-<ul>
-    <li>Ihre Bedienschritte in der App,</li>
-    <li>die technischen Schritte und Abläufe sowie Statusmeldungen
-        <ul>
-            <li>zur Risiko-Ermittlung (z.B. zur Funktionsweise der Verarbeitung der Begegnungsdaten,
-                der Berechnung des Ansteckungsrisikos, der Aktualisierung der Positiv-Listen, der
-                Anzeige des errechneten Risikostatus),
-            </li>
-            <li>zum Abruf und der Anzeige von Testergebnissen und</li>
-            <li>zu möglichen Vorgängen zur Warnung Anderer (z.B. die Berechnung von
-                Übertragungsrisiko-Werten und die technische Bereitstellung Ihrer Zufalls-IDs durch
-                Ihr Smartphone)
-            </li>
-        </ul>
-    </li>
-</ul>
-<p>
-    umfassend aufgezeichnet und auf Ihrem Smartphone gespeichert. Im Fehlerbericht können auch
-    Gesundheitsdaten enthalten sein, weil auch die technischen Schritte und Abläufe im Zusammenhang
-    mit der Erkennung einer Risiko-Begegnung aufgezeichnet werden.
-</p>
-<p>
-    Der Fehlerbericht enthält jedoch keine Informationen über QR-Codes für die Testregistrierung,
-    das in Ihrer App gespeicherte Token (siehe dazu oben Punkt 6 b. unter „Testergebnis abrufen“)
-    und Einträge in Ihrem Kontakt-Tagebuch. Der Fehlerbericht enthält auch nicht Ihren Namen oder
-    andere Angaben, mit denen Sie vom RKI identifiziert werden können.
-</p>
-<p>
-    Sie können die Aufzeichnung des Fehlerberichts jederzeit stoppen und den Fehlerbericht löschen.
-    Wenn Sie sich entscheiden, den Fehlerbericht mit dem RKI zu teilen, erhalten Sie über die App
-    eine Kennung zu Ihrem Fehlerbericht (Fehlerbericht-ID). Mit der Fehlerbericht-ID ermöglichen Sie
-    dem RKI die Zuordnung Ihres Fehlerberichts zu weiteren Informationen, die Sie dem technischen
-    Support gesondert mitteilen, z.B. wenn Sie noch eine Fehlerbeschreibung per E-Mail bereitstellen
-    möchten. Wenn Sie dem technischen Support Ihre Fehlerbericht-ID mitteilen, kann anhand dieser
-    weiteren Informationen möglicherweise eine Verbindung zu Ihrer Person hergestellt werden.
-</p>
-<p>
-    Die Erstellung und Übersendung eines Fehlerberichts an das RKI ist freiwillig. Sie entscheiden
-    selbst darüber, ob Sie einen Fehlerbericht aufzeichnen möchten und diesen an den technischen
-    Support der App übersenden. Die Übersendung des Fehlerberichts setzt die Bestätigung der
-    Echtheit Ihrer App voraus (Beachten Sie bitte die weiteren Informationen hierzu unter Punkt 5 h.
-    und Punkt 11).
-</p>
-<h2>
     g. Teilnahme an einer Befragung
 </h2>
 <p>
@@ -419,7 +418,7 @@
     Befragung teilnehmen möchten und Daten hierfür an das RKI übermittelt werden sollen. Die
     Befragungen finden auf einer Webseite außerhalb der App statt, auf die Sie weitergeleitet
     werden. Die Teilnahme an einer Befragung setzt die Bestätigung der Echtheit Ihrer App voraus
-    (Beachten Sie bitte die weitere Informationen hierzu unter Punkt 5 g. und Punkt 11).
+    (Beachten Sie bitte die weitere Informationen hierzu unter Punkt 5 h. und Punkt 11).
 </p>
 <h2>
     h. Bestätigung der Echtheit Ihrer App
@@ -451,34 +450,42 @@
     Die Risiko-Ermittlung ist eine Hauptfunktion der App. Sie dient dazu, Sie
     bei möglichen Begegnungen mit Corona-positiv getesteten Personen
     (Risiko-Begegnungen) länderübergreifend zu warnen, Ihr persönliches
-    Ansteckungsrisiko zu bewerten und Ihnen Verhaltens- und Gesundheitshinweise
-    zu geben.
+    Ansteckungsrisiko zu bewerten und Ihnen Verhaltens- und
+    Gesundheitshinweise zu geben.
 </p>
 <p>
-    Hierzu ruft die App vom Serversystem mehrmals täglich eine aktuelle Liste
-    mit den Zufalls-IDs und eventuellen Angaben zum Symptombeginn von Nutzern
-    ab, die Corona-positiv getestet wurden und über die offizielle Corona-App
-    eines am länderübergreifenden Warnsystem teilnehmenden Landes (siehe hierzu
-    Punkt 7) eine Warnung ausgelöst haben (im Folgenden: <strong>Positiv-Liste</strong>). Die
-    Zufalls-IDs in der Positiv-Liste
-    enthalten zusätzlich einen Übertragungsrisiko-Wert und eine Angabe zur Art
-    der Diagnose (siehe hierzu Punkt 6 c.).
+    Hierzu ruft die App vom Serversystem mehrmals täglich eine aktuelle Positiv-Liste mit den
+    Angaben von Nutzern, die über die offizielle Corona-App eines am länderübergreifenden Warnsystem
+    teilnehmenden Landes (siehe hierzu Punkt 7) eine Warnung ausgelöst haben ab. Diese Positiv-Liste
+    enthält die Zufalls-IDs der warnenden Nutzer sowie eventuelle Angaben zum Symptombeginn.. Falls
+    die warnenden Nutzer bei einem Event eingecheckt waren, enthält die Positiv-Liste auch die
+    betreffenden Event-IDs und die Dauer des Check-ins (Eincheck- und Auscheck-Zeit).
 </p>
 <p>
-    Die App gibt die Zufalls-IDs aus der Positiv-Liste an das
-    COVID-19-Benachrichtigungssystem weiter, welches diese mit den
-    aufgezeichneten Zufalls-IDs Ihrer Begegnungen abgleicht. Wenn das
-    COVID-19-Benachrichtigungssystem dabei eine Übereinstimmung feststellt,
+    Die Zufalls-IDs und Event-IDs in den Positiv-Listen enthalten zusätzlich einen
+    Übertragungsrisiko-Wert und eine Angabe zur Art der Diagnose (siehe hierzu Punkt 6 c.).
+</p>
+<p>
+    Die App gibt die Zufalls-IDs aus der Positiv-Liste an das COVID-19-Benachrichtigungssystem
+    weiter, welches diese mit den aufgezeichneten Zufalls-IDs Ihrer Begegnungen abgleicht. Wenn
+    das COVID-19-Benachrichtigungssystem dabei eine Übereinstimmung feststellt,
     übergibt es der App die zu der jeweiligen Risiko-Begegnung aufgezeichneten
-    Begegnungsdaten. Diese Begegnungsdaten und die Angaben in der Positiv-Liste
-    (Übertragungsrisiko-Wert, Angaben zum Symptombeginn) werden von der App
-    bewertet, um Ihr Ansteckungsrisiko zu ermitteln. Die Regeln für die
-    Bewertung dieser Informationen (beispielsweise welchen Einfluss die Dauer
-    eines Kontakts auf das Ansteckungsrisiko hat) basieren auf den aktuellen
-    wissenschaftlichen Erkenntnissen des RKI. Bei neuen Erkenntnissen kann das
-    RKI die Bewertungsregeln aktualisieren, indem die Bewertungs-Einstellungen
-    der App angepasst werden. Die neuen Bewertungs-Einstellungen werden in
-    diesem Fall zusammen mit der Positiv-Liste an die App übermittelt.
+    Begegnungsdaten.
+</p>
+<p>
+    Ebenso gleicht die App Event-IDs aus der Positiv-Liste mit den Event-IDs Ihrer Check-Ins ab, um
+    festzustellen, ob Sie sich zeitgleich mit Corona-positiv getesteten Nutzern bei einem Event oder
+    Ort aufgehalten haben.
+</p>
+<p>
+    Diese Begegnungsdaten, Event-IDs (einschließlich der zugehörigen Eincheck- und Auscheck-Zeiten)
+    und die Angaben in den Positiv-Listen (Übertragungsrisiko-Wert, Angaben zum Symptombeginn)
+    werden von der App bewertet, um Ihr Ansteckungsrisiko zu ermitteln. Die Regeln für die Bewertung
+    dieser Informationen (beispielsweise welchen Einfluss die Dauer eines Kontakts auf das
+    Ansteckungsrisiko hat) basieren auf den aktuellen wissenschaftlichen Erkenntnissen des RKI. Bei
+    neuen Erkenntnissen kann das RKI die Bewertungsregeln aktualisieren, indem die
+    Bewertungs-Einstellungen der App angepasst werden. Die neuen Bewertungs-Einstellungen werden in
+    diesem Fall zusammen mit den Positiv-Listen an die App übermittelt.
 </p>
 <p>
     Das Ansteckungsrisiko wird ausschließlich offline in der App berechnet und
@@ -488,14 +495,14 @@
 </p>
 <p>
     Sollte für Sie ein Ansteckungsrisiko ermittelt werden, wird dies in der App angezeigt. Sollte
-    ein erhöhtes Risiko angezeigt werden, bedeutet dies, dass Sie eine oder mehrere Begegnungen mit
-    anderen Nutzern hatten, die später Corona-positiv getestet wurden und eine Warnung ausgelöst
-    haben. Das für die letzten 14 Tage jeweils berechnete Risiko wird Ihnen in der Kalenderansicht
-    des Kontakt-Tagebuchs angezeigt. Bitte vermeiden Sie falsche Rückschlüsse auf die Quelle des
-    Risikos: Ein für einen Tag berechnetes und angezeigtes Risiko kann auf eine unbemerkte Begegnung
-    mit Ihnen unbekannten Nutzern zurückgehen und muss nicht im Zusammenhang mit den von Ihnen im
-    Kontakt-Tagebuch eingetragenen Personen oder Orten stehen.
+    ein erhöhtes Risiko angezeigt werden, bedeutet dies, dass Sie mit anderen Nutzern, die später
+    Corona-positiv getestet wurden und eine Warnung ausgelöst haben, eine oder mehrere Begegnungen
+    hatten oder dass Sie zeitgleich mit solchen Nutzern bei einem Event oder Ort eingecheckt waren.
 </p>
+<p>
+</p>
+Das für die letzten 14 Tage jeweils berechnete Risiko wird Ihnen in der Kalenderansicht des Kontakt-Tagebuchs angezeigt. Bitte vermeiden Sie falsche Rückschlüsse auf die Quelle des Risikos: Ein für einen Tag berechnetes und angezeigtes Risiko kann auf eine unbemerkte Begegnung mit Ihnen unbekannten Nutzern zurückgehen und muss nicht im Zusammenhang mit den von Ihnen im Kontakt-Tagebuch eingetragenen Personen, Orten oder Events stehen.
+<p>
 <h2>
     b. Testergebnis abrufen
 </h2>
@@ -611,29 +618,23 @@
     <u>Wenn Sie Ihr Testergebnis nicht in der App abgerufen haben:</u>
 </p>
 <p>
-    Auch wenn Sie Ihr positives Testergebnis nicht in der App abgerufen haben,
-    können Sie Ihre Mitmenschen warnen. Wählen Sie hierzu das Verfahren „TAN
-    anfragen“. Die App fordert Sie dann auf, die Hotline der App anzurufen. Ein
-    Hotline-Mitarbeiter wird Ihnen dann einige Fragen stellen, um
-    sicherzugehen, dass Sie tatsächlich Corona-positiv getestet worden sind.
-    Damit soll verhindert werden, dass versehentlich oder absichtlich
-    Falschwarnungen ausgelöst werden. Nach ausreichender Beantwortung dieser
-    Fragen werden Sie nach Ihrer Handy-/Telefonnummer und Ihrem Namen gefragt.
-    Dies dient dazu, Sie später zurückrufen zu können, um Ihnen eine sogenannte
-    TeleTAN zur Eingabe in der App mitzuteilen. Ihre Handy-/Telefonnummer und
-    Ihr Name werden nur zu diesem Zweck vorübergehend gespeichert und
-    spätestens nach einer Stunde gelöscht. Unmittelbar nach Ihrem Anruf wird
-    der Hotline-Mitarbeiter über einen speziellen Zugang zum Serversystem eine
-    einmalige TeleTAN erzeugen und Sie zurückrufen, um Ihnen diese mitzuteilen.
-    Eine TeleTAN ist nur eine Stunde gültig und wird daher unmittelbar nach der
-    Weitergabe an Sie, spätestens aber nach Ablauf einer Stunde, von der
-    Hotline gelöscht. Nach Eingabe einer gültigen TeleTAN in der App wird diese
-    an das Serversystem übermittelt. Anhand der TeleTAN wird somit die
-    Überprüfung ermöglicht, dass tatsächlich ein positives Testergebnis
-    vorliegt und Falschmeldungen können vermieden werden. Anschließend erhält
-    die App vom Serversystem einen Token, wie dies auch nach dem Scan eines
-    gültigen QR-Codes der Fall ist (siehe oben Punkt 6 b. unter „Testergebnis
-    abrufen“).
+    Auch wenn Sie Ihr positives Testergebnis nicht in der App abgerufen haben, können Sie Ihre
+    Mitmenschen warnen. Wählen Sie hierzu das Verfahren „TAN anfragen“. Die App fordert Sie dann
+    auf, die Hotline der App anzurufen. Ein Hotline-Mitarbeiter wird Ihnen dann einige Fragen
+    stellen, um sicherzugehen, dass Sie tatsächlich Corona-positiv getestet worden sind. Damit soll
+    verhindert werden, dass versehentlich oder absichtlich Falschwarnungen ausgelöst werden. Nach
+    ausreichender Beantwortung dieser Fragen werden Sie nach Ihrer Handy-/Telefonnummer und Ihrem
+    Namen gefragt. Dies dient dazu, Sie später zurückrufen zu können, um Ihnen eine einmalige TAN
+    zur Eingabe in der App mitzuteilen. Ihre Handy-/Telefonnummer und Ihr Name werden nur zu diesem
+    Zweck vorübergehend gespeichert und spätestens nach einer Stunde gelöscht. Unmittelbar nach
+    Ihrem Anruf wird der Hotline-Mitarbeiter über einen speziellen Zugang zum Serversystem eine
+    einmalige TAN erzeugen und Sie zurückrufen, um Ihnen diese mitzuteilen. Eine TAN ist nur eine
+    Stunde gültig und wird daher unmittelbar nach der Weitergabe an Sie, spätestens aber nach Ablauf
+    einer Stunde, von der Hotline gelöscht. Nach Eingabe einer gültigen TAN in der App wird diese an
+    das Serversystem übermittelt. Anhand der TAN wird somit die Überprüfung ermöglicht, dass
+    tatsächlich ein positives Testergebnis vorliegt und Falschmeldungen können vermieden werden.
+    Anschließend erhält die App vom Serversystem einen Token, wie dies auch nach dem Scan eines
+    gültigen QR-Codes der Fall ist (siehe oben Punkt 6 b. unter „Testergebnis abrufen“).
 </p>
 <p>
     Bitte beachten Sie, dass Ihre Warnung in seltenen Fällen dazu führen kann, dass Personen in
@@ -672,7 +673,7 @@
     f. Datenspende
 </h2>
 <p>
-    Die Datenspende ist eine Zusatzfunktion der App. Die im Rahmen der Datenspende an das RKI
+    Die Datenspende ist eine Zusatzfunktionen der App. Die im Rahmen der Datenspende an das RKI
     übermittelten Nutzungsdaten und weiteren freiwilligen Angaben dienen der Bewertung der
     Wirksamkeit der App und sie werden ausgewertet, um folgende Verbesserungen zu ermöglichen:
 </p>
@@ -710,24 +711,7 @@
     oder wen Sie getroffen haben.
 </p>
 <h2>
-    g. Fehlerberichte
-</h2>
-<p>
-    Das RKI ist bemüht, eine fehlerfreie App anzubieten. Aufgrund der großen Anzahl verschiedener
-    Systeme kann dies jedoch nicht immer gewährleistet werden. Um den technischen Support der App
-    bei der Fehleranalyse zu unterstützen, können Sie den in Ihrer App erstellten Fehlerbericht an
-    das RKI übermitteln. Das RKI wird den Fehlerbericht auswerten, um die Ursache der in Ihrer App
-    auftretenden Fehler erkennen und beseitigen zu können.
-</p>
-<p>
-    Die Fehlerberichte werden ohne jeden Zusammenhang mit Ihrem Namen oder Ihrer Identität
-    vorübergehend gespeichert und im Rahmen der Fehleranalyse ausgewertet. Das RKI erfährt also
-    nicht, wer Sie sind oder wen Sie getroffen haben. Beachten Sie bitte, dass sich Hinweise auf
-    Ihre Identität ergeben können, wenn Sie dem technischen Support Ihre Fehlerbericht-ID unter
-    Offenlegung Ihrer Identität (z. B. per E-Mail) mitteilen.
-</p>
-<h2>
-    h. Befragungen
+    g. Befragungen
 </h2>
 <p>
     Befragungen finden auf einer Webseite außerhalb der App statt, auf die Sie weitergeleitet
@@ -736,7 +720,7 @@
     Befragung auf der Befragungs-Webseite beschrieben.
 </p>
 <h2>
-    i. Bestätigung der Echtheit Ihrer App
+    h. Bestätigung der Echtheit Ihrer App
 </h2>
 <p>
     Zur Bestätigung der Echtheit Ihrer App wird eine Funktion des Betriebssystems Ihres Smartphones
@@ -794,8 +778,8 @@
         innerhalb der EU betriebenen Austausch-Server werden in einem Beschluss der EU-Kommission
         festgelegt (Durchführungsbeschluss (EU) 2020/1023 vom 15. Juli 2020, abrufbar unter <a
                 href="https://eur-lex.europa.eu/eli/dec_impl/2020/1023/oj">
-            https://eur-lex.europa.eu/eli/dec_impl/2020/1023/oj
-        </a>. Für die Verarbeitung der in den Positiv-Listen enthaltenen Angaben (Zufalls-IDs und
+            https://eur-lex.europa.eu/eli/dec_impl/2020/1023/oj</a>.
+        Für die Verarbeitung der in den Positiv-Listen enthaltenen Angaben (Zufalls-IDs und
         eventuelle Angaben zum Symptombeginn) auf den Austausch-Servern zur Ermöglichung der
         länderübergreifenden Risiko-Ermittlung und Warnung ist das RKI danach mit den jeweils
         zuständigen Gesundheitsbehörden der teilnehmenden Länder gemeinsam verantwortlich.
@@ -815,8 +799,8 @@
 <p>
     Bitte beachten Sie, dass sich die Liste der teilnehmenden Länder ändern
     kann. Die aktuelle Liste mit Angaben zu den jeweils verantwortlichen
-    Gesundheitsbehörden finden Sie in den FAQ: abrufbar unter
-    https://www.coronawarn.app/de/faq/#interoperability_countries .
+    Gesundheitsbehörden finden Sie in den FAQ: abrufbar unter <a
+        href="https://www.coronawarn.app/de/faq/#interoperability_countries">https://www.coronawarn.app/de/faq/#interoperability_countries</a>.
 </p>
 <h1>
     8. Welche Berechtigungen benötigt die App?
@@ -881,8 +865,8 @@
 </p>
 <ul>
     <li>
-        Die Funktion „Testergebnis abrufen“ benötigt Zugriff auf die Kamera, um
-        den QR-Code scannen zu können.
+        Die Funktionen „Testergebnis abrufen“ und „Event-Check-In“ benötigen Zugriff auf die Kamera,
+        um QR-Codes scannen zu können.
     </li>
 </ul>
 <h2>
@@ -906,8 +890,8 @@
 </p>
 <ul>
     <li>
-        Die Funktion „Testergebnis abrufen“ benötigt Zugriff auf die Kamera, um
-        den QR-Code scannen zu können.
+        Die Funktionen „Testergebnis abrufen“ und „Event-Check-In“ benötigen Zugriff auf die Kamera,
+        um QR-Codes scannen zu können.
     </li>
 </ul>
 <h1>
@@ -952,15 +936,7 @@
     übermittelt werden, werden nach 180 Tagen gelöscht.
 </p>
 <h2>
-    d. Fehlerberichte
-</h2>
-<p>
-    Sie können einen aufgezeichneten Fehlerbericht auf Ihrem Smartphone jederzeit löschen.
-    Fehlerberichte, die Sie an den technischen Support übersandt haben, werden spätestens nach 14
-    Tagen gelöscht.
-</p>
-<h2>
-    e. Bestätigung der Echtheit Ihrer App
+    d. Bestätigung der Echtheit Ihrer App
 </h2>
 <p>
     Die Kennungen, die Ihr Smartphone zur Bestätigung der Echtheit Ihrer App erzeugt, werden nach 30
@@ -1065,34 +1041,46 @@
     c. Einverständnis „Andere warnen“
 </h2>
 <p>
-    Ihr Einverständnis zur Übermittlung Ihres Testergebnisses (genauer gesagt:
-    Ihrer Zufalls-IDs der letzten Tage) zur Warnung Ihrer Mitmenschen können
-    Sie zurücknehmen, indem Sie den Test anzeigen und anschließend „Andere
-    warnen“ deaktivieren. Diese Möglichkeit besteht, solange Sie Ihre
-    Zufalls-IDs noch nicht zur Warnung anderer Nutzer übermittelt haben.
+    Ihr Einverständnis zur Übermittlung Ihres Testergebnisses (genauer gesagt: Ihrer Zufalls-IDs und
+    Event-IDs sowie der erfassten Eincheck- und Auscheck-Zeiten der letzten 14 Tage) zur Warnung
+    Ihrer Mitmenschen können Sie zurücknehmen, indem Sie den Test anzeigen und anschließend „Andere
+    warnen“ deaktivieren. Sie können unter „Meine Check-Ins“ auch Einträge zu Events oder Orten
+    löschen, und so verhindern, dass Daten zu diesen Events im Rahmen der Warnung verwendet werden.
+    Diese Möglichkeit besteht, solange Sie Ihre Zufalls-IDs und Event-IDs noch nicht zur Warnung
+    anderer Nutzer übermittelt haben.
 </p>
 <p>
-    Nachdem Sie Ihre Zufalls-IDs übermittelt haben, können Sie Ihr
-    Einverständnis nur zurücknehmen, indem Sie die App löschen. Ihre bereits an
-    das Serversystem übermittelten Zufalls-IDs werden dadurch aus dem
-    App-Speicher gelöscht und können dann nicht mehr Ihrer Person oder Ihrem
-    Smartphone zugeordnet werden. Wenn Sie erneut eine Warnung auslösen
-    möchten, müssen Sie die App erneut installieren und Ihr Einverständnis
-    erneut abgeben. Ein Testergebnis, dass Ihrer App bereits zugeordnet und zur
-    Warnung anderer übermittelt wurde, kann nicht erneut verwendet werden, um
-    andere zu warnen.
+    Nachdem Sie Ihre Zufalls-IDs übermittelt haben, können Sie Ihr Einverständnis insoweit nur
+    zurücknehmen, indem Sie die App löschen. Ihre bereits an das Serversystem übermittelten
+    Zufalls-IDs werden dadurch aus dem App-Speicher gelöscht und können dann nicht mehr Ihrer Person
+    oder Ihrem Smartphone zugeordnet werden. Wenn Sie erneut eine Warnung auslösen möchten, müssen
+    Sie die App erneut installieren und Ihr Einverständnis erneut abgeben. Ein Testergebnis, dass
+    Ihrer App bereits zugeordnet und zur Warnung anderer übermittelt wurde, kann nicht erneut
+    verwendet werden, um andere zu warnen.
 </p>
 <p>
-    Das RKI hat keine Möglichkeit, um Ihre bereits übermittelten Zufalls-IDs
-    und Übertragungsrisiko-Werte aus den vom Serversystem verteilten
-    Positiv-Listen und von Smartphones der Nutzer zu löschen. Um auch Ihre im
-    COVID-19-Benachrichtigungssystem Ihres Smartphones gespeicherten
-    Begegnungsdaten zu löschen, können Sie in den Systemeinstellungen Ihres
-    Smartphones möglicherweise eine manuelle Löschung vornehmen. Beachten Sie
-    hierzu auch die Hinweise unter Punkt 5 b.
+    Um bereits an das Serversystem übermittelte Event-IDs aus dem App-Speicher zu löschen, können
+    Sie unter „Meine Check-Ins“ auch Einträge zu Events oder Orten löschen. Event-IDs können dann
+    nicht mehr Ihrer Person oder Ihrem Smartphone zugeordnet werden.
+</p>
+<p>
+    Das RKI hat keine Möglichkeit, um Ihre bereits übermittelten Zufalls-IDs, Event-IDs und
+    Übertragungsrisiko-Werte aus den vom Serversystem verteilten Positiv-Listen und von Smartphones
+    der Nutzer zu löschen. Um auch Ihre im COVID-19-Benachrichtigungssystem Ihres Smartphones
+    gespeicherten Begegnungsdaten zu löschen, können Sie in den Systemeinstellungen Ihres
+    Smartphones möglicherweise eine manuelle Löschung vornehmen. Beachten Sie hierzu auch die
+    Hinweise unter Punkt 5 b.
 </p>
 <h2>
-    d. Einverständnis „Datenspende“
+    d. Einverständnis „Event-Check-In“
+</h2>
+<p>
+    Sie können unter „Meine Check-Ins“ Einträge zu Events oder Orten jederzeit löschen. So
+    verhindern Sie, dass Daten zu diesen Events im Rahmen der Funktion „Andere warnen“ verwendet
+    werden und Event-IDs Ihrer Person oder Ihrem Smartphone zugeordnet werden können.
+</p>
+<h2>
+    e. Einverständnis „Datenspende“
 </h2>
 <p>
     Sie können Ihr Einverständnis in die Datenspende jederzeit zurücknehmen, indem Sie „Daten
@@ -1100,17 +1088,6 @@
     weiteren freiwilligen Angaben nicht weiter täglich an das RKI übermitteln. Wenn Sie die
     Datenspende wieder erlauben möchten, können Sie die Funktion in den Einstellungen erneut
     aktivieren.
-</p>
-<h2>
-    e. Einverständnis „Fehlerberichte“
-</h2>
-<p>
-    Ihr Einverständnis zur Analyse von bereits an das RKI übermittelten Fehlerberichten können Sie
-    zurücknehmen, indem Sie dem technischen Support unter Nennung Ihrer Fehlerbericht-ID mitteilen,
-    dass Sie die Analyse des Fehlerberichts nicht mehr wünschen. Ihr Fehlerbericht wird dann
-    gelöscht. Bitte beachten Sie, dass das RKI dabei Ihre Identität erfahren kann. Wenn Sie dem
-    technischen Support Ihre Fehlerbericht-ID nicht mitteilen, wird der übermittelte Fehlerbericht
-    automatisch nach 14 Tagen gelöscht.
 </p>
 <h2>
     f. Einverständnis „Befragung“
@@ -1143,9 +1120,7 @@
     </li>
     <li>
         das Recht, den behördlichen
-        <a
-                href="https://www.rki.de/DE/Content/Institut/OrgEinheiten/Datenschutz/Datenschutz_node.html"
-        >
+        <a href="https://www.rki.de/DE/Content/Institut/OrgEinheiten/Datenschutz/Datenschutz_node.html">
             Datenschutzbeauftragten des RKI
         </a>
         zu kontaktieren und Ihr Anliegen vorzubringen (Art. 38 Abs. 4 DSGVO)
@@ -1190,5 +1165,5 @@
     datenschutz@rki.de.
 </p>
 <p>
-    Stand: 24.03.2021
+    Stand: 16.04.2021
 </p>

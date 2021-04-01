@@ -2,14 +2,28 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/event_organizer_nav_graph">
+    android:id="@+id/trace_location_organizer_nav_graph"
+    app:startDestination="@id/traceLocationOrganizerQRInfoFragment">
+
+    <fragment
+        android:id="@+id/traceLocationOrganizerQRInfoFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragment"
+        android:label="TraceLocationQRInfoFragment"
+        tools:layout="@layout/trace_location_organizer_qr_code_info_fragment">
+
+
+        <action
+            android:id="@+id/action_traceLocationOrganizerQRInfoFragment_to_traceLocationOrganizerListFragment"
+            app:destination="@id/traceLocationOrganizerListFragment"
+            app:popUpTo="@id/traceLocationOrganizerQRInfoFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/traceLocationOrganizerCategoriesFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment"
         android:label="TraceLocationCategoryFragment"
         tools:layout="@layout/trace_location_organizer_category_fragment">
-
         <action
             android:id="@+id/action_traceLocationOrganizerCategoriesFragment_to_traceLocationCreateFragment"
             app:destination="@id/traceLocationCreateFragment" />
@@ -22,19 +36,28 @@
         <argument
             android:name="category"
             app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory" />
+        <argument
+            android:name="originalItem"
+            android:defaultValue="@null"
+            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation"
+            app:nullable="true" />
         <action
             android:id="@+id/action_traceLocationCreateFragment_to_traceLocationOrganizerListFragment"
-            app:destination="@id/traceLocationOrganizerListFragment" />
+            app:destination="@id/traceLocationOrganizerListFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/traceLocationOrganizerListFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragment"
         android:label="TraceLocationCategoryFragment"
         tools:layout="@layout/trace_location_organizer_trace_locations_list_fragment">
-
         <action
             android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationOrganizerCategoriesFragment"
             app:destination="@id/traceLocationOrganizerCategoriesFragment" />
+        <action
+            android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationCreateFragment"
+            app:destination="@id/traceLocationCreateFragment" />
     </fragment>
 
 </navigation>

@@ -123,12 +123,8 @@
     <!-- XTXT: Save button text -->
     <string name="tracelocation_organizer_save">"Save"</string>
 
-    <!-- XMSG: generic error message body with status code -->
-    <string name="tracelocation_generic_qr_code_error_body_with_error_code">"The QR code could not be created. Please try again later (error code %d)."</string>
     <!-- XMSG: generic web request error without status code -->
     <string name="tracelocation_generic_qr_code_error_body">"The QR code could not be created. Please try again later."</string>
-    <!-- XMSG: Dialog body for generic web request network error -->
-    <string name="tracelocation_generic_network_error_body">"Your Internet connection may have been lost. Please ensure that you are connected to the Internet."</string>
     <!-- XHED: error message title -->
     <string name="tracelocation_generic_error_title">"Error"</string>
 
@@ -189,7 +185,7 @@
     <string name="trace_location_event_detail_qr_code_accessibility">"QR Code"</string>
     <!-- XHED: Organizer Flow : Accessibility title for event-overview -->
     <string name="trace_location_event_detail_title_accessibility">"Event View"</string>
-    !-- XBUT: Organizer Flow : Title for show print version button --&gt;
+    <!-- XBUT: Organizer Flow : Title for show print version button -->
     <string name="trace_location_event_detail_show_print_qr_code_button">"Display Print Version"</string>
     <!-- XBUT: Organizer Flow : Title for save as template button -->
     <string name="trace_location_event_detail_save_as_template_button">"Use as Template"</string>
