@@ -22,7 +22,6 @@ import org.joda.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Suppress("MaxLineLength")
 @Singleton
 class PresenceTracingRiskRepository @Inject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
@@ -82,7 +81,7 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     internal suspend fun markPackageProcessed(warningPackageId: String) {
-     // TODO
+        // TODO
     }
 
     internal suspend fun deleteMatchesOfPackage(warningPackageId: String) {
@@ -162,6 +161,7 @@ private fun TraceTimeIntervalMatchEntity.toModel() = CheckInWarningOverlap(
     endTime = Instant.ofEpochMilli(endTimeMillis)
 )
 
+@Suppress("MaxLineLength")
 @Dao
 interface PresenceTracingRiskLevelResultDao {
     @Query("SELECT * FROM (SELECT * FROM PresenceTracingRiskLevelResultEntity ORDER BY calculatedAtMillis DESC LIMIT 1) UNION ALL SELECT * FROM (SELECT * FROM PresenceTracingRiskLevelResultEntity where riskState is not 0 ORDER BY calculatedAtMillis DESC LIMIT 1)")
@@ -200,13 +200,13 @@ class RiskStateConverter {
     @TypeConverter
     fun fromRiskStateCode(code: RiskState?): Int? = code?.toCode()
 
-    private fun RiskState.toCode() = when(this) {
+    private fun RiskState.toCode() = when (this) {
         RiskState.CALCULATION_FAILED -> 0
         RiskState.LOW_RISK -> 1
         RiskState.INCREASED_RISK -> 2
     }
 
-    private fun Int.toRiskState() = when(this) {
+    private fun Int.toRiskState() = when (this) {
         0 -> RiskState.CALCULATION_FAILED
         1 -> RiskState.LOW_RISK
         2 -> RiskState.INCREASED_RISK

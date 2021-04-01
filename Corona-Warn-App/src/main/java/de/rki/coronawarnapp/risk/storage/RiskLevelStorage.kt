@@ -99,25 +99,31 @@ data class CombinedEwPtRiskLevelResult(
         get() = ewRiskLevelResult.ewAggregatedRiskResult != null &&
             ptRiskLevelResult.riskState != RiskState.CALCULATION_FAILED
 
-    val calculatedAt : Instant = max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt)
+    val calculatedAt: Instant = max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt)
 
-    val daysWithEncounters : Int
+    val daysWithEncounters: Int
         get() = when (riskState) {
             RiskState.INCREASED_RISK -> {
                 (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0) +
-                ptRiskLevelResult.numberOfDaysWithHighRisk
+                    ptRiskLevelResult.numberOfDaysWithHighRisk
             }
-            RiskState.LOW_RISK -> (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0) +
-                ptRiskLevelResult.numberOfDaysWithLowRisk
+            RiskState.LOW_RISK -> {
+                (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0) +
+                    ptRiskLevelResult.numberOfDaysWithLowRisk
+            }
             else -> 0
         }
 
     val lastRiskEncounterAt: LocalDate?
         get() = if (riskState == RiskState.INCREASED_RISK) {
-            max(ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithHighRisk?.toLocalDateUtc(),
-                ptRiskLevelResult.mostRecentDateWithHighRisk)
+            max(
+                ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithHighRisk?.toLocalDateUtc(),
+                ptRiskLevelResult.mostRecentDateWithHighRisk
+            )
         } else {
-            max(ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithLowRisk?.toLocalDateUtc(),
-            ptRiskLevelResult.mostRecentDateWithLowRisk)
+            max(
+                ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithLowRisk?.toLocalDateUtc(),
+                ptRiskLevelResult.mostRecentDateWithLowRisk
+            )
         }
 }

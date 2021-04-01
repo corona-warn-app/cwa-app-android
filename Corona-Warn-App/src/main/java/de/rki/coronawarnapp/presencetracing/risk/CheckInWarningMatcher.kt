@@ -60,7 +60,7 @@ class CheckInWarningMatcher @Inject constructor(
             return emptyList()
         }
 
-        //delete stale matches from new packages and mark packages as processed
+        // delete stale matches from new packages and mark packages as processed
         warningPackages.forEach {
             presenceTracingRiskRepository.deleteMatchesOfPackage(it.warningPackageId)
             presenceTracingRiskRepository.markPackageProcessed(it.warningPackageId)

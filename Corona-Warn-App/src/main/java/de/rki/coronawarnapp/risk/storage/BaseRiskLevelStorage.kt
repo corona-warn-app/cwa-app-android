@@ -86,7 +86,6 @@ abstract class BaseRiskLevelStorage constructor(
         }
         .shareLatest(tag = TAG, scope = scope)
 
-
     override suspend fun storeResult(resultEw: EwRiskLevelResult) {
         Timber.d("Storing result (exposureWindows.size=%s)", resultEw.exposureWindows?.size)
 
@@ -191,7 +190,6 @@ abstract class BaseRiskLevelStorage constructor(
             .latestAndLastSuccessful()
             .shareLatest(tag = TAG, scope = scope)
 
-
     // TODO maybe refactor
     override val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<List<CombinedEwPtRiskLevelResult>>
         get() = combine(
@@ -202,21 +200,25 @@ abstract class BaseRiskLevelStorage constructor(
             val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt }
             val combinedList = mutableListOf<CombinedEwPtRiskLevelResult>()
             if (latestEwResult != null && latestPtResult != null) {
-                combinedList.add(CombinedEwPtRiskLevelResult(
-                    ewRiskLevelResult = latestEwResult,
-                    ptRiskLevelResult = latestPtResult
-                ))
+                combinedList.add(
+                    CombinedEwPtRiskLevelResult(
+                        ewRiskLevelResult = latestEwResult,
+                        ptRiskLevelResult = latestPtResult
+                    )
+                )
             }
             val lastSuccessfulEwResult = ewRiskLevelResults
                 .filter { it.wasSuccessfullyCalculated }.maxByOrNull { it.calculatedAt }
             val lastSuccessfulPtResult = ptRiskLevelResults
                 .filter { it.wasSuccessfullyCalculated }.maxByOrNull { it.calculatedAt }
             if (lastSuccessfulEwResult != null && lastSuccessfulPtResult != null) {
-                combinedList.add(CombinedEwPtRiskLevelResult(
-                    ewRiskLevelResult = lastSuccessfulEwResult,
-                    // current ptDayRiskStates belong to the last successful calculation - ugly
-                    ptRiskLevelResult = lastSuccessfulPtResult.copy(presenceTracingDayRisk = ptDayRiskStates.first())
-                ))
+                combinedList.add(
+                    CombinedEwPtRiskLevelResult(
+                        ewRiskLevelResult = lastSuccessfulEwResult,
+                        // current ptDayRiskStates belong to the last successful calculation - ugly
+                        ptRiskLevelResult = lastSuccessfulPtResult.copy(presenceTracingDayRisk = ptDayRiskStates.first())
+                    )
+                )
             }
             combinedList
         }
@@ -230,23 +232,27 @@ abstract class BaseRiskLevelStorage constructor(
         get() = combine(
             latestEwRiskLevelResults,
             latestPtRiskLevelResults
-        ) {  ewRiskLevelResults, ptRiskLevelResults ->
+        ) { ewRiskLevelResults, ptRiskLevelResults ->
             val latestEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt }
             val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt }
             val olderEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt }
             val olderPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt }
             val combinedList = mutableListOf<CombinedEwPtRiskLevelResult>()
             if (latestEwResult != null && latestPtResult != null) {
-                combinedList.add(CombinedEwPtRiskLevelResult(
-                    ewRiskLevelResult = latestEwResult,
-                    ptRiskLevelResult = latestPtResult
-                ))
+                combinedList.add(
+                    CombinedEwPtRiskLevelResult(
+                        ewRiskLevelResult = latestEwResult,
+                        ptRiskLevelResult = latestPtResult
+                    )
+                )
             }
             if (olderEwResult != null && olderPtResult != null) {
-                combinedList.add(CombinedEwPtRiskLevelResult(
-                    ewRiskLevelResult = olderEwResult,
-                    ptRiskLevelResult = olderPtResult
-                ))
+                combinedList.add(
+                    CombinedEwPtRiskLevelResult(
+                        ewRiskLevelResult = olderEwResult,
+                        ptRiskLevelResult = olderPtResult
+                    )
+                )
             }
             combinedList
         }

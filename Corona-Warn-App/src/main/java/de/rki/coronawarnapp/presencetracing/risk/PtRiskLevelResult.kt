@@ -14,10 +14,10 @@ data class PtRiskLevelResult(
         get() = riskState != RiskState.CALCULATION_FAILED
 
     val numberOfDaysWithHighRisk: Int
-        get() = presenceTracingDayRisk?.count { it.riskState == RiskState.INCREASED_RISK }?: 0
+        get() = presenceTracingDayRisk?.count { it.riskState == RiskState.INCREASED_RISK } ?: 0
 
     val numberOfDaysWithLowRisk: Int
-        get() = presenceTracingDayRisk?.count { it.riskState == RiskState.LOW_RISK }?: 0
+        get() = presenceTracingDayRisk?.count { it.riskState == RiskState.LOW_RISK } ?: 0
 
     val mostRecentDateWithHighRisk: LocalDate?
         get() = presenceTracingDayRisk
