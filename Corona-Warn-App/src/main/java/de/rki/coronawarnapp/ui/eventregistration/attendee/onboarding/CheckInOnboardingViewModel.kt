@@ -21,6 +21,8 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
         events.value = CheckInOnboardingNavigation.DataProtectionNavigation
     }
 
+    val isOnboardingComplete = settings.onboardingStatus == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<CheckInOnboardingViewModel>
 }

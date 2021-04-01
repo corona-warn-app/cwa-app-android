@@ -25,6 +25,8 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
 
         with(binding) {
             checkInOnboardingAcknowledge.setOnClickListener { viewModel.onAcknowledged() }
+            // TODO if consent is already given: should the text be changed?
+            if (viewModel.isOnboardingComplete) checkInOnboardingAcknowledge.visibility = View.GONE
             checkInOnboardingPrivacy.setOnClickListener { viewModel.onPrivacy() }
         }
 
