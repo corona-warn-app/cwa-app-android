@@ -21,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -36,7 +37,8 @@ class AutoCheckOutTest : BaseTest() {
 
     private val baseCheckin = CheckIn(
         id = 0L,
-        guid = "41da2115-eba2-49bd-bf17-adb3d635ddaf",
+        traceLocationId = "traceLocationId1".encode(),
+        traceLocationIdHash = "traceLocationIdHash1".encode(),
         version = 1,
         type = 2,
         description = "brothers birthday",
@@ -44,6 +46,8 @@ class AutoCheckOutTest : BaseTest() {
         traceLocationStart = Instant.EPOCH,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
+        cryptographicSeed = "cryptographicSeed".encode(),
+        cnPublicKey = "cnPublicKey",
         checkInStart = Instant.EPOCH,
         checkInEnd = Instant.EPOCH,
         completed = false,

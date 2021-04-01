@@ -23,6 +23,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -40,7 +41,8 @@ class CheckInsTransformerTest : BaseTest() {
     // CheckIn can not be derived
     private val checkIn1 = CheckIn(
         id = 1L,
-        guid = "trace_location_1",
+        traceLocationId = "traceLocationId1".encode(),
+        traceLocationIdHash = "traceLocationIdHash1".encode(),
         version = 1,
         type = 1,
         description = "restaurant_1",
@@ -48,6 +50,8 @@ class CheckInsTransformerTest : BaseTest() {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
+        cryptographicSeed = "cryptographicSeed".encode(),
+        cnPublicKey = "cnPublicKey",
         checkInStart = Instant.parse("2021-03-04T10:21:00Z"),
         checkInEnd = Instant.parse("2021-03-04T10:29:00Z"),
         completed = false,
@@ -62,7 +66,8 @@ class CheckInsTransformerTest : BaseTest() {
      */
     private val checkIn2 = CheckIn(
         id = 2L,
-        guid = "trace_location_2",
+        traceLocationId = "traceLocationId2".encode(),
+        traceLocationIdHash = "traceLocationIdHash2".encode(),
         version = 1,
         type = 2,
         description = "restaurant_2",
@@ -70,6 +75,8 @@ class CheckInsTransformerTest : BaseTest() {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
+        cryptographicSeed = "cryptographicSeed".encode(),
+        cnPublicKey = "cnPublicKey",
         checkInStart = Instant.parse("2021-03-04T10:20:00Z"),
         checkInEnd = Instant.parse("2021-03-04T10:30:00Z"),
         completed = false,
@@ -79,7 +86,8 @@ class CheckInsTransformerTest : BaseTest() {
     // CheckIn that can be derived and can be splitted
     private val checkIn3 = CheckIn(
         id = 3L,
-        guid = "trace_location_3",
+        traceLocationId = "traceLocationId3".encode(),
+        traceLocationIdHash = "traceLocationIdHash3".encode(),
         version = 1,
         type = 3,
         description = "restaurant_3",
@@ -87,6 +95,8 @@ class CheckInsTransformerTest : BaseTest() {
         traceLocationStart = Instant.parse("2021-03-04T09:00:00Z"),
         traceLocationEnd = Instant.parse("2021-03-10T11:00:00Z"),
         defaultCheckInLengthInMinutes = 10,
+        cryptographicSeed = "cryptographicSeed".encode(),
+        cnPublicKey = "cnPublicKey",
         checkInStart = Instant.parse("2021-03-04T09:30:00Z"),
         checkInEnd = Instant.parse("2021-03-10T09:45:00Z"),
         completed = false,

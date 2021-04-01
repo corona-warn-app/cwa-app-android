@@ -12,6 +12,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -69,7 +70,8 @@ internal class CheckInCleanerTest : BaseTest() {
         }
 
     private fun createCheckIn(checkOutDate: Instant) = CheckIn(
-        guid = "",
+        traceLocationId = "traceLocationId1".encode(),
+        traceLocationIdHash = "traceLocationIdHash1".encode(),
         version = 1,
         type = 1,
         description = "",
@@ -77,7 +79,9 @@ internal class CheckInCleanerTest : BaseTest() {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = 30,
-        // checkInStart not relevant for this that's,
+        cryptographicSeed = "cryptographicSeed".encode(),
+        cnPublicKey = "cnPublicKey",
+        // checkInStart not relevant for this
         checkInStart = Instant.parse("1970-01-01T00:00:00.000Z"),
         checkInEnd = checkOutDate,
         completed = true,
