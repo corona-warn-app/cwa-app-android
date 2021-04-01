@@ -24,7 +24,7 @@ class VerifiedTraceLocationTest : BaseTestInstrumentation() {
         every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
     }
 
-    //TODO: Ugly but kinda works
+    // TODO: Ugly but kinda works
     @Test
     fun verifyTraceLocationIdGenerationHash1() {
         val base64Payload = "CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekAT" +
