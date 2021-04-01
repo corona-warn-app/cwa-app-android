@@ -1,45 +1,169 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
-import de.rki.coronawarnapp.environment.EnvironmentSetup
-import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import org.junit.Before
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
-import testhelpers.BaseTestInstrumentation
-
-@RunWith(JUnit4::class)
+/*@RunWith(JUnit4::class)
 class VerifiedTraceLocationTest : BaseTestInstrumentation() {
 
-    @MockK lateinit var environmentSetup: EnvironmentSetup
+@MockK lateinit var environmentSetup: EnvironmentSetup
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-        every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
-    }
+@Before
+fun setUp() {
+    MockKAnnotations.init(this)
+    every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
+}
 
-    /* disabled because of incompatibilities due to latest tech spec changes... needs to be re-written anyway
+disabled because of incompatibilities due to latest tech spec changes... needs to be re-written anyway
 
 @Test
 fun verifyEventSuccess() = runBlockingTest {
-    val instant = Instant.ofEpochMilli(2687960 * 1_000L)
-    shouldNotThrowAny {
-        val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
-        verifyResult.apply {
-            traceLocation.description shouldBe "My Birthday Party"
-            traceLocation.isBeforeStartTime(instant) shouldBe false
-            traceLocation.isAfterEndTime(instant) shouldBe false
-        }
+val instant = Instant.ofEpochMilli(2687960 * 1_000L)
+shouldNotThrowAny {
+    val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
+    verifyResult.apply {
+        traceLocation.description shouldBe "My Birthday Party"
+        traceLocation.isBeforeStartTime(instant) shouldBe false
+        traceLocation.isAfterEndTime(instant) shouldBe false
     }
+}
 }
 
 @Test
 fun verifyParcelization() = runBlockingTest {
-    val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
+val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
 
-    val expectedTraceLocation = TraceLocation(
+val expectedTraceLocation = TraceLocation(
+    guid = "3055331c-2306-43f3-9742-6d8fab54e848",
+    version = 1,
+    type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
+    description = "My Birthday Party",
+    address = "at my place",
+    startDate = Instant.ofEpochSecond(2687955),
+    endDate = Instant.ofEpochSecond(2687991),
+    defaultCheckInLengthInMinutes = 0,
+    byteRepresentation = verifyResult.traceLocationBytes,
+    signature = verifyResult.signature.toByteArray().toByteString(),
+)
+
+verifyResult.traceLocation shouldBe expectedTraceLocation
+
+val bundle = Bundle().apply {
+    putParcelable("test", verifyResult.traceLocation)
+}
+
+val parcelRaw = Parcel.obtain().apply {
+    writeBundle(bundle)
+}.marshall()
+
+val restoredParcel = Parcel.obtain().apply {
+    unmarshall(parcelRaw, 0, parcelRaw.size)
+    setDataPosition(0)
+}
+
+val restoredData = restoredParcel.readBundle()!!.run {
+    classLoader = TraceLocation::class.java.classLoader
+    getParcelable<TraceLocation>("test")
+}
+restoredData shouldBe expectedTraceLocation
+}
+
+@Test
+fun verifyEventStartTimeWaning() = runBlockingTest {
+val instant = Instant.ofEpochMilli(2687940 * 1_000L)
+shouldNotThrowAny {
+    val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
+    verifyResult.apply {
+        traceLocation.description shouldBe "My Birthday Party"
+        traceLocation.isBeforeStartTime(instant) shouldBe true
+        traceLocation.isAfterEndTime(instant) shouldBe false
+    }
+}
+}
+
+@Test
+fun verifyEventEndTimeWarning() = runBlockingTest {
+val instant = Instant.now()
+shouldNotThrowAny {
+    val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
+    verifyResult.apply {
+        traceLocation.description shouldBe "My Birthday Party"
+        traceLocation.isBeforeStartTime(instant) shouldBe false
+        traceLocation.isAfterEndTime(instant) shouldBe true
+    }
+}
+}
+
+@Test
+fun verifyEventWithInvalidKey() = runBlockingTest {
+every { environmentSetup.appConfigVerificationKey } returns INVALID_PUB_KEY
+shouldThrow<InvalidQRCodeSignatureException> {
+    traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
+}
+}
+
+@Test
+fun eventHasMalformedData() = runBlockingTest {
+shouldThrow<InvalidQRCodeDataException> {
+    traceLocationQRCodeVerifier.verify(
+        INVALID_ENCODED_EVENT.decodeBase32().toByteArray()
+    )
+}
+}
+
+@Test
+fun decodingTest1() = runBlockingTest {
+val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+    ENCODED_EVENT1.decodeBase32().toByteArray()
+)
+val expectedSignature =
+    "MEQCIGVKfqPF2851IrEyDeVMazlRnIzLX16H6r1TB37PRzjbAiBGP13ADQcbQZsztKUCZMRcvnv5Mgdo0LY/v3qFMnrUkQ=="
+
+val base32 = signedTraceLocation.toByteArray().toByteString().base32()
+
+shouldNotThrowAny {
+    val verifyResult = traceLocationQRCodeVerifier.verify(base32.decodeBase32().toByteArray())
+
+    verifyResult.apply {
+        traceLocation.description shouldBe "My Birthday Party"
+        signedTraceLocation.signature.toByteArray().toByteString().base64() shouldBe expectedSignature
+    }
+}
+}
+
+@Test
+fun decodingTest2() = runBlockingTest {
+val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+    ENCODED_EVENT2.decodeBase32().toByteArray()
+)
+val expectedSignature =
+    "MEQCIDWRTM4ujn1GFPuHlgpUnQIWwwzwI8abxSrF5Er2I5HaAiAbucxg+6d3nC/Iwzo7AXehJAS20TRX1S2rl0LO8kcYxA=="
+
+val base32 = signedTraceLocation.toByteArray().toByteString().base32()
+
+shouldNotThrowAny {
+    val verifyResult = traceLocationQRCodeVerifier.verify(base32.decodeBase32().toByteArray())
+
+    verifyResult.apply {
+        traceLocation.description shouldBe "Icecream Shop"
+        signedTraceLocation.signature.toByteArray().toByteString().base64() shouldBe expectedSignature
+    }
+}
+}
+
+@Test
+fun testVerifiedTraceLocationMapping() {
+shouldNotThrowAny {
+    val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.parseFrom(
+        ENCODED_EVENT1.decodeBase32().toByteArray()
+    )
+
+    val traceLocation = TraceLocationOuterClass.TraceLocation.parseFrom(
+        ENCODED_EVENT1_LOCATION.decodeBase32().toByteArray()
+    )
+    val verifiedTraceLocation = VerifiedTraceLocation(
+        protoSignedTraceLocation = signedTraceLocation,
+        protoTraceLocation = traceLocation
+    ).traceLocation
+
+    verifiedTraceLocation shouldBe TraceLocation(
         guid = "3055331c-2306-43f3-9742-6d8fab54e848",
         version = 1,
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
@@ -48,146 +172,13 @@ fun verifyParcelization() = runBlockingTest {
         startDate = Instant.ofEpochSecond(2687955),
         endDate = Instant.ofEpochSecond(2687991),
         defaultCheckInLengthInMinutes = 0,
-        byteRepresentation = verifyResult.traceLocationBytes,
-        signature = verifyResult.signature.toByteArray().toByteString(),
+        byteRepresentation = signedTraceLocation.location.toByteArray().toByteString(),
+        signature = signedTraceLocation.signature.toByteArray().toByteString()
     )
-
-    verifyResult.traceLocation shouldBe expectedTraceLocation
-
-    val bundle = Bundle().apply {
-        putParcelable("test", verifyResult.traceLocation)
-    }
-
-    val parcelRaw = Parcel.obtain().apply {
-        writeBundle(bundle)
-    }.marshall()
-
-    val restoredParcel = Parcel.obtain().apply {
-        unmarshall(parcelRaw, 0, parcelRaw.size)
-        setDataPosition(0)
-    }
-
-    val restoredData = restoredParcel.readBundle()!!.run {
-        classLoader = TraceLocation::class.java.classLoader
-        getParcelable<TraceLocation>("test")
-    }
-    restoredData shouldBe expectedTraceLocation
+}
 }
 
-@Test
-fun verifyEventStartTimeWaning() = runBlockingTest {
-    val instant = Instant.ofEpochMilli(2687940 * 1_000L)
-    shouldNotThrowAny {
-        val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
-        verifyResult.apply {
-            traceLocation.description shouldBe "My Birthday Party"
-            traceLocation.isBeforeStartTime(instant) shouldBe true
-            traceLocation.isAfterEndTime(instant) shouldBe false
-        }
-    }
-}
 
-@Test
-fun verifyEventEndTimeWarning() = runBlockingTest {
-    val instant = Instant.now()
-    shouldNotThrowAny {
-        val verifyResult = traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
-        verifyResult.apply {
-            traceLocation.description shouldBe "My Birthday Party"
-            traceLocation.isBeforeStartTime(instant) shouldBe false
-            traceLocation.isAfterEndTime(instant) shouldBe true
-        }
-    }
-}
-
-@Test
-fun verifyEventWithInvalidKey() = runBlockingTest {
-    every { environmentSetup.appConfigVerificationKey } returns INVALID_PUB_KEY
-    shouldThrow<InvalidQRCodeSignatureException> {
-        traceLocationQRCodeVerifier.verify(ENCODED_EVENT1.decodeBase32().toByteArray())
-    }
-}
-
-@Test
-fun eventHasMalformedData() = runBlockingTest {
-    shouldThrow<InvalidQRCodeDataException> {
-        traceLocationQRCodeVerifier.verify(
-            INVALID_ENCODED_EVENT.decodeBase32().toByteArray()
-        )
-    }
-}
-
-@Test
-fun decodingTest1() = runBlockingTest {
-    val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.parseFrom(
-        ENCODED_EVENT1.decodeBase32().toByteArray()
-    )
-    val expectedSignature =
-        "MEQCIGVKfqPF2851IrEyDeVMazlRnIzLX16H6r1TB37PRzjbAiBGP13ADQcbQZsztKUCZMRcvnv5Mgdo0LY/v3qFMnrUkQ=="
-
-    val base32 = signedTraceLocation.toByteArray().toByteString().base32()
-
-    shouldNotThrowAny {
-        val verifyResult = traceLocationQRCodeVerifier.verify(base32.decodeBase32().toByteArray())
-
-        verifyResult.apply {
-            traceLocation.description shouldBe "My Birthday Party"
-            signedTraceLocation.signature.toByteArray().toByteString().base64() shouldBe expectedSignature
-        }
-    }
-}
-
-@Test
-fun decodingTest2() = runBlockingTest {
-    val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.parseFrom(
-        ENCODED_EVENT2.decodeBase32().toByteArray()
-    )
-    val expectedSignature =
-        "MEQCIDWRTM4ujn1GFPuHlgpUnQIWwwzwI8abxSrF5Er2I5HaAiAbucxg+6d3nC/Iwzo7AXehJAS20TRX1S2rl0LO8kcYxA=="
-
-    val base32 = signedTraceLocation.toByteArray().toByteString().base32()
-
-    shouldNotThrowAny {
-        val verifyResult = traceLocationQRCodeVerifier.verify(base32.decodeBase32().toByteArray())
-
-        verifyResult.apply {
-            traceLocation.description shouldBe "Icecream Shop"
-            signedTraceLocation.signature.toByteArray().toByteString().base64() shouldBe expectedSignature
-        }
-    }
-}
-
-@Test
-fun testVerifiedTraceLocationMapping() {
-    shouldNotThrowAny {
-        val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.parseFrom(
-            ENCODED_EVENT1.decodeBase32().toByteArray()
-        )
-
-        val traceLocation = TraceLocationOuterClass.TraceLocation.parseFrom(
-            ENCODED_EVENT1_LOCATION.decodeBase32().toByteArray()
-        )
-        val verifiedTraceLocation = VerifiedTraceLocation(
-            protoSignedTraceLocation = signedTraceLocation,
-            protoTraceLocation = traceLocation
-        ).traceLocation
-
-        verifiedTraceLocation shouldBe TraceLocation(
-            guid = "3055331c-2306-43f3-9742-6d8fab54e848",
-            version = 1,
-            type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
-            description = "My Birthday Party",
-            address = "at my place",
-            startDate = Instant.ofEpochSecond(2687955),
-            endDate = Instant.ofEpochSecond(2687991),
-            defaultCheckInLengthInMinutes = 0,
-            byteRepresentation = signedTraceLocation.location.toByteArray().toByteString(),
-            signature = signedTraceLocation.signature.toByteArray().toByteString()
-        )
-    }
-}
-
-*/
 
     companion object {
 
@@ -232,3 +223,5 @@ fun testVerifiedTraceLocationMapping() {
             "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5Xg=="
     }
 }
+
+ */
