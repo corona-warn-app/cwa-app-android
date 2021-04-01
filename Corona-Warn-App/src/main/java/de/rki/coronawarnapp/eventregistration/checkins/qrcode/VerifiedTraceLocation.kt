@@ -7,6 +7,9 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
+import okio.Buffer
+import okio.ByteString
+import okio.ByteString.Companion.encode
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import java.util.concurrent.TimeUnit
@@ -35,6 +38,17 @@ data class VerifiedTraceLocation(
             cryptographicSeed = protoQrCodePayload.crowdNotifierData.cryptographicSeed.toByteArray().toByteString(),
             cnPublicKey = protoQrCodePayload.crowdNotifierData.publicKey.toStringUtf8()
         )
+    }
+
+    @IgnoredOnParcel private val traceLocationHeader: ByteString by lazy {
+        "CWA-GUID".encode(Charsets.UTF_8)
+    }
+
+    @IgnoredOnParcel val traceLocationID: ByteString by lazy {
+        Buffer()
+            .write(traceLocationHeader)
+            .write(protoQrCodePayload.toByteArray())
+            .readByteString()
     }
 
     /**
