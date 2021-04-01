@@ -104,8 +104,23 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         binding.mainBottomNavigation.setupWithNavController2(navController) {
             vm.onBottomNavSelected()
         }
-        vm.isOnboardingDone.observe(this) { isOnboardingDone ->
-            startNestedGraphDestination(navController, isOnboardingDone)
+        vm.isContactDiaryOnboardingDone.observe(this) { isOnboardingDone ->
+            startContactDiaryNestedGraphDestination(navController, isOnboardingDone)
+        }
+        vm.isTraceLocationOnboardingDone.observe(this) { isOnboardingDone ->
+            startTraceLocationNestedGraphDestination(navController, isOnboardingDone)
+        }
+
+        vm.activeCheckIns.observe(this) { count ->
+            val targetId = R.id.trace_location_attendee_nav_graph
+            binding.mainBottomNavigation.apply {
+                if (count > 0) {
+                    val badge = getOrCreateBadge(targetId)
+                    badge.number = count
+                } else {
+                    removeBadge(targetId)
+                }
+            }
         }
 
         if (savedInstanceState == null) {
@@ -132,7 +147,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             R.id.contact_diary_nav_graph
         val nestedGraph = navController.graph.findNode(R.id.contact_diary_nav_graph) as NavGraph
 
-        if (vm.isOnboardingDone.value == true) {
+        if (vm.isContactDiaryOnboardingDone.value == true) {
             nestedGraph.startDestination = R.id.contactDiaryOverviewFragment
             navController.navigate(
                 ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
@@ -145,12 +160,21 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
     }
 
-    private fun startNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {
+    private fun startContactDiaryNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {
         val nestedGraph = navController.graph.findNode(R.id.contact_diary_nav_graph) as NavGraph
         nestedGraph.startDestination = if (isOnboardingDone) {
             R.id.contactDiaryOverviewFragment
         } else {
             R.id.contactDiaryOnboardingFragment
+        }
+    }
+
+    private fun startTraceLocationNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {
+        val nestedGraph = navController.graph.findNode(R.id.trace_location_attendee_nav_graph) as NavGraph
+        nestedGraph.startDestination = if (isOnboardingDone) {
+            R.id.checkInsFragment
+        } else {
+            R.id.checkInOnboardingFragment
         }
     }
 

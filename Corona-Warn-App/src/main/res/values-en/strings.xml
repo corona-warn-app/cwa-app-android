@@ -1953,16 +1953,6 @@
     <string name="trace_location_onboarding_body_warning">"Every check-in is also taken into account when calculating your risk status. If someone who checked in to this event or place is diagnosed with coronavirus later, you can be notified if you were in the same room at the same time or up to 30 minutes after the diagnosed person."</string>
     <!-- YMSG: Onboarding trace location warning -->
     <string name="trace_location_onboarding_body_stay">"Please specify your length of stay as precisely as possible to enable targeted warnings."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent2">"The app keeps the events and places you have checked in to for 16 days."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent3">"When you scan a QR code to check in, an entry for the event or place is created on your smartphone."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent4">"If another user who checked in at the same time is subsequently diagnosed with coronavirus and triggers a warning, you will be warned automatically based on the event ID – even if your smartphone did not receive any random Ids from the infected user."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent5">"If you trigger a warning yourself later, all other users who were checked in to an event or place listed under “My Check-Ins” at the same time are warned based on the event ID."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent6">"You can delete a check-in under “My Check-Ins” at any time. In this case, you will only be warned if your smartphone received the random IDs of a user diagnosed with coronavirus and identified a potential exposure."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Accept"</string>
 </resources>

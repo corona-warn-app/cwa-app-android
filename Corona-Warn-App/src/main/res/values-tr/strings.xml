@@ -1953,16 +1953,6 @@
     <string name="trace_location_onboarding_body_warning">"Risk durumunuz hesaplanırken her bir check-in de dikkate alınır. Bu etkinliğe veya yere check in yapan biri daha sonra koronavirüs tanısı alırsa tanı alan kişi ile aynı anda ya da bu kişi odadan çıktıktan sonra en fazla 30 dakika içinde aynı odada bulunmuşsanız size uyarı gönderilebilir."</string>
     <!-- YMSG: Onboarding trace location warning -->
     <string name="trace_location_onboarding_body_stay">"Hedeflenen uyarıları etkinleştirmek için lütfen kalış sürenizi mümkün olduğunca net bir biçimde belirtin."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent2">"Uygulama, check in yaptığınız etkinlikleri ve yerleri 16 gün süreyle saklar."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent3">"Check in yapmak için bir QR kod taradığınızda akıllı telefonunuzda bir etkinllik veya yer girişi oluşturulur."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent4">"Aynı anda check in yapmış başka bir kullanıcı daha sonra koronavirüs tanısı alırsa ve bir uyarı tetiklerse etkinlik kimliğine göre otomatik olarak uyarı alırsınız; bunun içi akıllı telefonunuzun enfekte olan kullanıcıdan rastgele kimlik almış olması şartı aranmaz."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent5">"Siz daha sonra bir uyarı tetiklerseniz “Check-In’lerim” bölümünde listelenen bir etkinliğe veya yere check in yapmış olan diğer tüm kullanıcılara etkinlik kimliğine göre uyarı gönderilir."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent6">"Bir check-in’i dilediğiniz zaman “Check-In’lerim” bölümünden silebilirsiniz. Silmeniz halinde yalnızca, koronavirüs tanısı almış ve potansiyel maruz kalma durumu belirlenmiş bir kullanıcıdan akıllı telefonunuza rastgele kimlikler gönderilmişse uyarı alırsınız."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Kabul Et"</string>
 </resources>
