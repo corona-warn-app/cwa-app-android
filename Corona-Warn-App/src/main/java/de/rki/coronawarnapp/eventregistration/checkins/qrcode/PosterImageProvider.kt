@@ -34,15 +34,16 @@ class PosterImageProvider @Inject constructor(
         val renderer = PdfRenderer(input)
 
         val page = renderer.openPage(0)
-        val density = 4
+        val scale = (context.resources.displayMetrics.density / page.width * page.height).toInt()
+        Timber.d("scale=$scale")
         val bitmap = Bitmap.createBitmap(
             context.resources.displayMetrics,
-            page.width * density,
-            page.height * density,
+            page.width * scale,
+            page.height * scale,
             Bitmap.Config.ARGB_8888
         )
 
-        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
+        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
         page.close()
         renderer.close()
         file.delete()

@@ -1,16 +1,16 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.poster
 
 import android.os.Bundle
-import android.print.PrintAttributes
 import android.print.PrintManager
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.core.view.postDelayed
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.QrCodePosterFragmentBinding
-import de.rki.coronawarnapp.test.eventregistration.ui.PrintingAdapter
+import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -41,12 +41,12 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
             viewModel.poster.observe(viewLifecycleOwner) { poster ->
-                posterImage.setImageBitmap(poster.template.image)
+                posterImage.setImageBitmap(poster.template?.image)
                 qrCodeImage.setImageBitmap(poster.qrCode)
                 progressBar.hide()
 
-                binding.qrCodePoster.postDelayed(delayInMillis = 1000) {
-                    viewModel.createPDF(binding.qrCodePoster)
+                binding.qrCodePoster.postDelayed(delayInMillis = 1_000) {
+                    viewModel.createPDF(binding.qrCodePoster, getString(R.string.app_name))
                 }
             }
         }
@@ -64,15 +64,12 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
                     Timber.i("PrintingManager=$printingManger")
                     if (printingManger != null) {
                         printingManger.print(
-                            "CoronaWarnApp",
+                            getString(R.string.app_name),
                             PrintingAdapter(fileIntent.file),
-                            PrintAttributes
-                                .Builder()
-                                .setMediaSize(PrintAttributes.MediaSize.ISO_A3)
-                                .build()
+                            null
                         )
                     } else {
-                        // TODO
+                        Toast.makeText(requireContext(), R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
                     }
 
                     true

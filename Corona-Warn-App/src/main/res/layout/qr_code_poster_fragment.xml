@@ -17,58 +17,53 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_trace_location_qr_code_poster"
         app:title="@string/trace_location_organiser_poster_title" />
-    <ScrollView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/qr_code_poster"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/poster_image"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@android:color/white">
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/poster_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/qr_code_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+            tools:layout_height="200dp"
+            tools:layout_width="200dp"
+            tools:src="@drawable/ic_qrcode"
+            tools:tint="@android:color/black" />
 
-            <ImageView
-                android:id="@+id/qr_code_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="32dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.06"
-                tools:layout_height="200dp"
-                tools:layout_width="200dp"
-                tools:src="@drawable/ic_qrcode"
-                tools:tint="@android:color/black" />
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:hideAnimationBehavior="inward"
+            app:indicatorColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                app:hideAnimationBehavior="inward"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

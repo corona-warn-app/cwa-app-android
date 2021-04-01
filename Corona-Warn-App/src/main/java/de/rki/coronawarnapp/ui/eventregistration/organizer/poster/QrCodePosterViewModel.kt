@@ -44,14 +44,13 @@ class QrCodePosterViewModel @AssistedInject constructor(
      * as a sharing [FileSharing.ShareIntentProvider]
      */
     @Suppress("BlockingMethodInNonBlockingContext")
-    fun createPDF(view: View) = launch(context = dispatcher.IO) {
+    fun createPDF(view: View, title: String) = launch(context = dispatcher.IO) {
         try {
-            val file = File(view.context.cacheDir, "CoronaWarnApp-Event.pdf")
-            val pageInfo = PdfDocument.PageInfo.Builder(
-                view.width,
-                view.height,
-                1
-            ).create()
+
+            val directory = File(view.context.cacheDir, "poster").apply { if (!exists()) mkdirs() }
+            val file = File(directory, "CoronaWarnApp.pdf")
+
+            val pageInfo = PdfDocument.PageInfo.Builder(view.width, view.height, 1).create()
 
             PdfDocument().apply {
                 startPage(pageInfo).apply {
@@ -65,9 +64,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
                 }
             }
 
-            sharingIntent.postValue(
-                fileSharing.getFileIntentProvider(file, "Scan and Help")
-            )
+            sharingIntent.postValue(fileSharing.getFileIntentProvider(file, title))
         } catch (e: Exception) {
             Timber.d(e, "Creating pdf failed")
             e.report(ExceptionCategory.INTERNAL)
@@ -77,13 +74,11 @@ class QrCodePosterViewModel @AssistedInject constructor(
     private fun generatePoster() = launch(context = dispatcher.IO) {
         try {
             val template = posterImageProvider.posterTemplate()
-            val qrCode = qrCodeGenerator.createQrCode(locationID, 700)
-
-            posterLiveData.postValue(
-                Poster(qrCode = qrCode, template = template)
-            )
+            val qrCode = qrCodeGenerator.createQrCode(locationID)
+            posterLiveData.postValue(Poster(qrCode, template))
         } catch (e: Exception) {
             Timber.d(e, "Generating poster failed")
+            posterLiveData.postValue(Poster())
             e.report(ExceptionCategory.INTERNAL)
         }
     }
@@ -96,4 +91,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
     }
 }
 
-data class Poster(val qrCode: Bitmap?, val template: Template)
+data class Poster(
+    val qrCode: Bitmap? = null,
+    val template: Template? = null
+)

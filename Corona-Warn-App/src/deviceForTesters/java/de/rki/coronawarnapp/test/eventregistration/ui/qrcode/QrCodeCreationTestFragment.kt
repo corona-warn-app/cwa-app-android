@@ -14,7 +14,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestQrcodeCreationBinding
-import de.rki.coronawarnapp.test.eventregistration.ui.PrintingAdapter
+import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
