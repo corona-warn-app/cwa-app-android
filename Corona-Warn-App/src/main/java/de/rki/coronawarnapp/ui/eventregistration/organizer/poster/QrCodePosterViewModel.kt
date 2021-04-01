@@ -11,6 +11,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.PosterTemplateProvider
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.Template
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -23,7 +24,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 class QrCodePosterViewModel @AssistedInject constructor(
-    @Assisted private val locationID: String,
+    @Assisted private val traceLocationId: Long,
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
     private val posterTemplateProvider: PosterTemplateProvider,
@@ -73,8 +74,13 @@ class QrCodePosterViewModel @AssistedInject constructor(
 
     private fun generatePoster() = launch(context = dispatcher.IO) {
         try {
+            // TODO Generate Qr Code info from traceLocationId
             val template = posterTemplateProvider.template()
-            val qrCode = qrCodeGenerator.createQrCode(locationID)
+            val qrCode = qrCodeGenerator.createQrCode(
+                "HTTPS://E.CORONAWARN.APP/C1/BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBGGC5LOMNUCAUD" +
+                    "BOJ2HSGGTQ6SACIHXQ6SACKA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFF" +
+                    "BU2SQCEEAJAUCJSQJ7WDM675MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI="
+            )
             posterLiveData.postValue(Poster(qrCode, template))
         } catch (e: Exception) {
             Timber.d(e, "Generating poster failed")
@@ -86,7 +92,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<QrCodePosterViewModel> {
         fun create(
-            locationID: String
+            traceLocationId: Long
         ): QrCodePosterViewModel
     }
 }
