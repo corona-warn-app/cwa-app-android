@@ -41,7 +41,7 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
 
                 is TraceLocationQRInfoNavigationEvents.NavigateToMyQrCodes -> {
 
-                    if(wasOnboardingAlreadyCompleted()) {
+                    if (isAlreadyOnboarded()) {
                         popBackStack()
                     } else {
                         settings.qrInfoAcknowledged = true
@@ -55,7 +55,7 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
         }
     }
 
-    private fun wasOnboardingAlreadyCompleted(): Boolean {
+    private fun isAlreadyOnboarded(): Boolean {
         return settings.qrInfoAcknowledged
     }
 }
