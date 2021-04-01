@@ -38,6 +38,11 @@ class TraceTimeWarningWorkerTest : BaseTest() {
         mockkStatic("de.rki.coronawarnapp.task.TaskControllerExtensionsKt")
 
         coEvery { taskController.submitBlocking(any()) } returns taskResult
+
+        taskResult.apply {
+            every { isSuccessful } returns true
+            every { error } returns null
+        }
     }
 
     private fun createWorker() = PresenceTracingWarningWorker(
@@ -48,7 +53,6 @@ class TraceTimeWarningWorkerTest : BaseTest() {
 
     @Test
     fun `worker runs task with user activity check enabled`() = runBlockingTest {
-        every { taskResult.error } returns null
         val slot = slot<TaskRequest>()
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
 
@@ -58,8 +62,9 @@ class TraceTimeWarningWorkerTest : BaseTest() {
 
         slot.captured shouldBe DefaultTaskRequest(
             id = slot.captured.id,
+            arguments = slot.captured.arguments,
             type = PresenceTracingWarningTask::class,
-            originTag = "TraceTimeWarningWorker"
+            originTag = "TraceTimeWarningWorker",
         )
     }
 
