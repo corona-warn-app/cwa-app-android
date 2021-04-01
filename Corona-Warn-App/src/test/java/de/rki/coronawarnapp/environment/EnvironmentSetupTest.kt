@@ -68,6 +68,7 @@ class EnvironmentSetupTest : BaseTest() {
                 dataDonationCdnUrl shouldBe "https://datadonation-${env.rawKey}"
                 logUploadServerUrl shouldBe "https://logupload-${env.rawKey}"
                 qrCodePosterTemplateCdnUrl shouldBe "https://qrcodepostertemplate-${env.rawKey}"
+                crowdNotifierPublicKey shouldBe "123_abc-${env.rawKey}"
             }
         }
     }
@@ -126,7 +127,8 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.EnvKey.LOG_UPLOAD.rawKey shouldBe "LOG_UPLOAD_SERVER_URL"
         EnvironmentSetup.EnvKey.SAFETYNET_API_KEY.rawKey shouldBe "SAFETYNET_API_KEY"
         EnvironmentSetup.EnvKey.QRCODE_POSTER_TEMPLATE.rawKey shouldBe "QRCODE_POSTER_TEMPLATE_URL"
-        EnvironmentSetup.EnvKey.values().size shouldBe 9
+        EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY.rawKey shouldBe "CROWD_NOTIFIER_PUBLIC_KEY"
+        EnvironmentSetup.EnvKey.values().size shouldBe 10
     }
 
     companion object {
@@ -149,7 +151,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-PROD",
                     "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-PROD",
                     "SAFETYNET_API_KEY": "placeholder-PROD",
-                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-PROD"
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-PROD",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-PROD"                    
                 },
                 "DEV": {
                     "USE_EUR_KEY_PKGS" : false,
@@ -160,7 +163,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-DEV",
                     "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-DEV",
                     "SAFETYNET_API_KEY": "placeholder-DEV",
-                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-DEV"
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-DEV",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-DEV"
                },
                 "INT": {
                     "USE_EUR_KEY_PKGS" : false,
@@ -171,7 +175,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-INT",
                     "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-INT",
                     "SAFETYNET_API_KEY": "placeholder-INT",
-                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT"
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-INT"
                 },
                 "WRU": {
                     "USE_EUR_KEY_PKGS" : false,
@@ -183,7 +188,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-WRU",
                     "SAFETYNET_API_KEY": "placeholder-WRU",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU",
-                    "CREATE_TRACELOCATION_URL": "https://tracelocation-WRU"
+                    "CREATE_TRACELOCATION_URL": "https://tracelocation-WRU",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU"
                 },
                 "WRU-XD": {
                     "USE_EUR_KEY_PKGS" : true,
@@ -194,7 +200,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU-XD",
                     "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-WRU-XD",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XD",
-                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XD"
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XD",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU-XD"
                 },
                 "WRU-XA": {
                     "USE_EUR_KEY_PKGS" : true,
@@ -205,7 +212,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU-XA",
                     "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-WRU-XA",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XA",
-                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XA"
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XA",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU-XA"
                 },
                 "LOCAL": {
                     "USE_EUR_KEY_PKGS" : true,
@@ -216,7 +224,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-LOCAL",
                     "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-LOCAL",
                     "SAFETYNET_API_KEY": "placeholder-LOCAL",
-                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-LOCAL"
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-LOCAL",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-LOCAL"
                 }
             }
         """
