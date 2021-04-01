@@ -63,7 +63,7 @@ class TraceLocationVH(parent: ViewGroup) :
         }
 
         checkinAction.setOnClickListener { item.onCheckIn(item.traceLocation) }
-        itemView.setOnClickListener { item.onClickItem(item.traceLocation, adapterPosition) }
+        itemView.setOnClickListener { item.onCardClicked(item.traceLocation) }
     }
 
     data class Item(
@@ -71,9 +71,9 @@ class TraceLocationVH(parent: ViewGroup) :
         val onCheckIn: (TraceLocation) -> Unit,
         val onDuplicate: (TraceLocation) -> Unit,
         val onShowPrint: (TraceLocation) -> Unit,
-        val onClickItem: (TraceLocation, Int) -> Unit,
         val onDeleteItem: (TraceLocation) -> Unit,
-        val onSwipeItem: (TraceLocation, Int) -> Unit
+        val onSwipeItem: (TraceLocation, Int) -> Unit,
+        val onCardClicked: (TraceLocation) -> Unit
     ) : TraceLocationItem, SwipeConsumer {
         override val stableId: Long = traceLocation.id.hashCode().toLong()
         override fun onSwipe(position: Int, direction: Int) = onSwipeItem(traceLocation, position)

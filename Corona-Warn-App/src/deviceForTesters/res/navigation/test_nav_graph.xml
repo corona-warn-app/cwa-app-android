@@ -145,10 +145,6 @@
             android:id="@+id/action_eventRegistrationTestFragment_to_ShowStoredEventsTestFragment"
             app:destination="@id/showStoredEventsTestFragment" />
 
-        <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_qrCodeDetailFragment"
-            app:destination="@id/qrCodeDetailFragment" />
-
     </fragment>
 
     <fragment
@@ -172,32 +168,5 @@
         android:name="de.rki.coronawarnapp.test.eventregistration.ui.showevents.ShowStoredEventsTestFragment"
         android:label="ShowStoredEventsTestFragment"
         tools:layout="@layout/fragment_test_showstoredevents" />
-    <fragment
-        android:id="@+id/traceLocationOrganizerCategoriesFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment"
-        android:label="TraceLocationCategoryFragment"
-        tools:layout="@layout/trace_location_organizer_category_fragment">
-        <action
-            android:id="@+id/action_traceLocationOrganizerCategoriesFragment_to_traceLocationCreateFragment"
-            app:destination="@id/traceLocationCreateFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/traceLocationCreateFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragment"
-        android:label="trace_location_create_fragment"
-        tools:layout="@layout/trace_location_create_fragment">
-        <argument
-            android:name="category"
-            app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory" />
-        <argument
-            android:name="originalItem"
-            android:defaultValue="@null"
-            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation"
-            app:nullable="true" />
-<!--        <action-->
-<!--            android:id="@+id/action_traceLocationCreateFragment_to_traceLocationOrganizerListFragment"-->
-<!--            app:destination="@id/traceLocationOrganizerListFragment" />-->
-    </fragment>
 
 </navigation>

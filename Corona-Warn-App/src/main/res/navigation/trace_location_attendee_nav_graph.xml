@@ -49,4 +49,5 @@
             android:id="@+id/action_checkInsFragment_to_editCheckInFragment"
             app:destination="@id/editCheckInFragment" />
     </fragment>
+
 </navigation>

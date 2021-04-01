@@ -51,10 +51,6 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                 findNavController().navigate(R.id.showStoredEventsTestFragment)
             }
 
-            startCreateEventFlowButton.setOnClickListener {
-                findNavController().navigate(R.id.traceLocationOrganizerCategoriesFragment)
-            }
-
             generateTestTraceLocations.setOnClickListener {
                 viewModel.generateTestTraceLocations()
             }

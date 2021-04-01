@@ -6,7 +6,9 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.transition.MaterialContainerTransform
@@ -19,7 +21,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -27,7 +29,15 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val viewModel: QrCodeDetailViewModel by cwaViewModels { viewModelFactory }
+    private val navArgs by navArgs<QrCodeDetailFragmentArgs>()
+
+    private val viewModel: QrCodeDetailViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as QrCodeDetailViewModel.Factory
+            factory.create(navArgs.traceLocationId)
+        }
+    )
     private val binding: TraceLocationOrganizerQrCodeDetailFragmentBinding by viewBindingLazy()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +97,39 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 is QrCodeDetailNavigationEvents.NavigateToPrintFragment -> doNavigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.qrCode)
                 )
+            }
+        }
+
+        viewModel.uiState.observe2(this) { uiState ->
+            with(binding) {
+                title.text = uiState.description
+                subtitle.text = uiState.address
+
+                if (uiState.startDateTime != null && uiState.endDateTime != null) {
+
+                    val startTime = uiState.startDateTime!!.toDateTime()
+                    val endTime = uiState.endDateTime!!.toDateTime()
+
+                    eventDate.isGone = false
+                    eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
+                        requireContext().getString(
+                            R.string.trace_location_organizer_detail_item_duration,
+                            startTime.toLocalDate().toString("dd.MM.yyyy"),
+                            startTime.toLocalTime().toString("HH:mm"),
+                            endTime.toLocalTime().toString("HH:mm")
+                        )
+                    } else {
+                        requireContext().getString(
+                            R.string.trace_location_organizer_detail_item_duration_multiple_days,
+                            startTime.toLocalDate().toString("dd.MM.yyyy"),
+                            endTime.toLocalTime().toString("HH:mm"),
+                            endTime.toLocalDate().toString("dd.MM.yyyy"),
+                            endTime.toLocalTime().toString("HH:mm")
+                        )
+                    }
+                } else {
+                    eventDate.isGone = true
+                }
             }
         }
     }
