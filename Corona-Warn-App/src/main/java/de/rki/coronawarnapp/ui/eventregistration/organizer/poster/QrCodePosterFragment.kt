@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.poster
 
 import android.os.Bundle
+import android.print.PrintAttributes
 import android.print.PrintManager
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -66,7 +67,10 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
                         printingManger.print(
                             getString(R.string.app_name),
                             PrintingAdapter(fileIntent.file),
-                            null
+                            PrintAttributes
+                                .Builder()
+                                .setMediaSize(PrintAttributes.MediaSize.ISO_A3)
+                                .build()
                         )
                     } else {
                         Toast.makeText(requireContext(), R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
