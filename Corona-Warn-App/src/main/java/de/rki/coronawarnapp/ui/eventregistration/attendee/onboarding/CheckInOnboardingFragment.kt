@@ -3,8 +3,10 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.onboarding
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTraceLocationOnboardingBinding
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -19,6 +21,7 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
 
     private val viewModel: CheckInOnboardingViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentTraceLocationOnboardingBinding by viewBindingLazy()
+    private val args by navArgs<CheckInOnboardingFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,6 +31,14 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
             // TODO if consent is already given: should the text be changed?
             if (viewModel.isOnboardingComplete) checkInOnboardingAcknowledge.visibility = View.GONE
             checkInOnboardingPrivacy.setOnClickListener { viewModel.onPrivacy() }
+
+            if (!args.showBottomNav) {
+                checkInOnboardingToolbar.apply {
+                    navigationIcon = context.getDrawableCompat(R.drawable.ic_close)
+                    navigationContentDescription = getString(R.string.accessibility_close)
+                    setNavigationOnClickListener { viewModel.onBackButtonPress() }
+                }
+            }
         }
 
         viewModel.events.observe2(this) { navEvent ->

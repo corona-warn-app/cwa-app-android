@@ -110,7 +110,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             )
 
             is CheckInEvent.ShowInformation ->
-                doNavigate(CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment())
+                doNavigate(CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false))
 
             is CheckInEvent.OpenDeviceSettings -> openDeviceSettings()
         }

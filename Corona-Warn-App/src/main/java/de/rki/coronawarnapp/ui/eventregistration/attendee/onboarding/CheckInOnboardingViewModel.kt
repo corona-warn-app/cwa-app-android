@@ -21,6 +21,10 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
         events.value = CheckInOnboardingNavigation.DataProtectionNavigation
     }
 
+    fun onBackButtonPress(){
+        events.value = CheckInOnboardingNavigation.AcknowledgedNavigation
+    }
+
     val isOnboardingComplete = settings.onboardingStatus == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
 
     @AssistedFactory
