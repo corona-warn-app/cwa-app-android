@@ -1,15 +1,12 @@
 package de.rki.coronawarnapp.presencetracing.risk
 
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class PtRiskLevelResult(
     val calculatedAt: Instant,
     val riskState: RiskState,
-    // added from db
-    val traceLocationCheckInRiskStates: List<TraceLocationCheckInRisk>? = null,
     val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null
 ) {
 

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.risk.storage
 
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
-import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +20,7 @@ class DefaultRiskLevelStorage @Inject constructor(
     // Taken from TimeVariables.MAX_STALE_EXPOSURE_RISK_RANGE
     override val storedResultLimit: Int = 2 * 6
 
-    override suspend fun storeExposureWindows(storedResultId: String, result: RiskLevelResult) {
+    override suspend fun storeExposureWindows(storedResultId: String, result: EwRiskLevelResult) {
         Timber.d("storeExposureWindows(): NOOP")
         // NOOP
     }

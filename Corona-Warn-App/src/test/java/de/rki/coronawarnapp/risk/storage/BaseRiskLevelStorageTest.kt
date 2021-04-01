@@ -66,8 +66,12 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         every { aggregatedRiskPerDateResultDao.allEntries() } returns emptyFlow()
         coEvery { aggregatedRiskPerDateResultDao.insertRisk(any()) } just Runs
+
+        // TODO proper tests
         coEvery { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
         coEvery { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
+        coEvery { presenceTracingRiskRepository.latestAndLastSuccessful() } returns emptyFlow()
+        coEvery { presenceTracingRiskRepository.latestEntries(any()) } returns emptyFlow()
     }
 
     private fun createInstance(

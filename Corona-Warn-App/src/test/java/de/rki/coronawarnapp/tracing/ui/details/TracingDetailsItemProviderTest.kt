@@ -5,9 +5,12 @@ import android.content.res.Resources
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.ProtoRiskLevel
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
+import de.rki.coronawarnapp.risk.storage.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
@@ -76,13 +79,24 @@ class TracingDetailsItemProviderTest : BaseTest() {
 
         val exposureWindow: ExposureWindow = mockk()
 
-        val riskLevelResult = EwRiskLevelTaskResult(
+        val ewRiskLevelTaskResult = EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
             ewAggregatedRiskResult = ewAggregatedRiskResult,
             exposureWindows = listOf(exposureWindow)
         )
-        every { riskLevelResult.matchedKeyCount } returns matchedKeyCount
-        every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(listOf(riskLevelResult))
+
+        val ptRiskLevelResult = PtRiskLevelResult(
+            calculatedAt = Instant.EPOCH,
+            riskState = RiskState.CALCULATION_FAILED
+        )
+        val combined = CombinedEwPtRiskLevelResult(
+            ewRiskLevelResult = ewRiskLevelTaskResult,
+            ptRiskLevelResult = ptRiskLevelResult
+        )
+        every { ewRiskLevelTaskResult.matchedKeyCount } returns matchedKeyCount
+        every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(listOf(ewRiskLevelTaskResult))
+        // TODO tests
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(listOf(combined))
     }
 
     @Test

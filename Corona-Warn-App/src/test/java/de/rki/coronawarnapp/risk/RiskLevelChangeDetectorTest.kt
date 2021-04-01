@@ -66,6 +66,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
         every { testResultDonorSettings.riskLevelTurnedRedTime } returns mockFlowPreference(null)
         every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
+        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns flowOf(listOf())
     }
 
     private fun createRiskLevel(
@@ -135,6 +136,8 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         }
     }
 
+    // TODO test if risk level change for combined risk triggers notification
+
     @Test
     fun `risklevel went from HIGH to LOW`() {
         every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
@@ -151,12 +154,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                submissionSettings.isSubmissionSuccessful
-                foregroundState.isInForeground
                 surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
             }
         }
     }
+
+    // TODO test if risk level change for combined risk triggers notification
 
     @Test
     fun `risklevel went from LOW to HIGH`() {
@@ -174,8 +177,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                submissionSettings.isSubmissionSuccessful
-                foregroundState.isInForeground
                 surveys wasNot Called
             }
         }

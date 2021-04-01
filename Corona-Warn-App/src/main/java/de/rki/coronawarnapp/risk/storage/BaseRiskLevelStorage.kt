@@ -191,6 +191,7 @@ abstract class BaseRiskLevelStorage constructor(
             .shareLatest(tag = TAG, scope = scope)
 
 
+    // TODO maybe refactor
     override val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<List<CombinedEwPtRiskLevelResult>>
         get() = combine(
             latestAndLastSuccessfulEwRiskLevelResult,
@@ -210,19 +211,22 @@ abstract class BaseRiskLevelStorage constructor(
             if (lastSuccessfulEwResult != null && lastSuccessfulPtResult != null) {
                 combinedList.add(CombinedEwPtRiskLevelResult(
                     ewRiskLevelResult = lastSuccessfulEwResult,
-                    ptRiskLevelResult = lastSuccessfulPtResult
+                    // current ptDayRiskStates belong to the last successful calculation - ugly
+                    ptRiskLevelResult = lastSuccessfulPtResult.copy(presenceTracingDayRisk = ptDayRiskStates.first())
                 ))
             }
             combinedList
         }
 
     private val latestPtRiskLevelResults: Flow<List<PtRiskLevelResult>> =
-        presenceTracingRiskRepository.latestEntries(2)
-        .shareLatest(tag = TAG, scope = scope)
+        presenceTracingRiskRepository
+            .latestEntries(2)
+            .shareLatest(tag = TAG, scope = scope)
 
     override val latestCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
         get() = combine(
-            latestEwRiskLevelResults, latestPtRiskLevelResults
+            latestEwRiskLevelResults,
+            latestPtRiskLevelResults
         ) {  ewRiskLevelResults, ptRiskLevelResults ->
             val latestEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt }
             val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt }

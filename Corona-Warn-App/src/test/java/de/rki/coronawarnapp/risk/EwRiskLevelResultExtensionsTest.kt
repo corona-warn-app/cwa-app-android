@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
+import io.kotest.matchers.longs.shouldBeInRange
+import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
@@ -26,7 +28,7 @@ class EwRiskLevelResultExtensionsTest : BaseTest() {
     fun `getLatestAndLastSuccessful on empty results`() {
         val emptyResults = emptyList<EwRiskLevelResult>()
 
-        emptyResults.tryLatestResultsWithDefaults().apply {
+        emptyResults.tryLatestEwResultsWithDefaults().apply {
             lastCalculated.apply {
                 riskState shouldBe RiskState.LOW_RISK
                 val now = Instant.now().millis
@@ -45,7 +47,7 @@ class EwRiskLevelResultExtensionsTest : BaseTest() {
             createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH.plus(1))
         )
 
-        results.tryLatestResultsWithDefaults().apply {
+        results.tryLatestEwResultsWithDefaults().apply {
             lastCalculated.calculatedAt shouldBe Instant.EPOCH.plus(1)
             lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH.plus(1)
         }
@@ -59,7 +61,7 @@ class EwRiskLevelResultExtensionsTest : BaseTest() {
             createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(2))
         )
 
-        results.tryLatestResultsWithDefaults().apply {
+        results.tryLatestEwResultsWithDefaults().apply {
             lastCalculated.calculatedAt shouldBe Instant.EPOCH.plus(2)
             lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH.plus(1)
         }
@@ -74,7 +76,7 @@ class EwRiskLevelResultExtensionsTest : BaseTest() {
             createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(13))
         )
 
-        results.tryLatestResultsWithDefaults().apply {
+        results.tryLatestEwResultsWithDefaults().apply {
             lastCalculated.calculatedAt shouldBe Instant.EPOCH.plus(13)
             lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH
         }
