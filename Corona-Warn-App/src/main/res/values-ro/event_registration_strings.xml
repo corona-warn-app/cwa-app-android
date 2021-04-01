@@ -123,12 +123,8 @@
     <!-- XTXT: Save button text -->
     <string name="tracelocation_organizer_save">"Salvare"</string>
 
-    <!-- XMSG: generic error message body with status code -->
-    <string name="tracelocation_generic_qr_code_error_body_with_error_code">"Codul QR nu a putut fi creat. Încercați din nou mai târziu (cod de eroare %d)."</string>
     <!-- XMSG: generic web request error without status code -->
     <string name="tracelocation_generic_qr_code_error_body">"Codul QR nu a putut fi creat. Încercați din nou mai târziu."</string>
-    <!-- XMSG: Dialog body for generic web request network error -->
-    <string name="tracelocation_generic_network_error_body">"Se poate să fi pierdut conexiunea la internet. Asigurați-vă că sunteți conectat la internet."</string>
     <!-- XHED: error message title -->
     <string name="tracelocation_generic_error_title">"Eroare"</string>
 
