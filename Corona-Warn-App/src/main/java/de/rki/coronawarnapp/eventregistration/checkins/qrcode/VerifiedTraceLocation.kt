@@ -7,40 +7,33 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
-import okio.ByteString
-import okio.ByteString.Companion.encode
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import java.util.concurrent.TimeUnit
 
 @Parcelize
-@TypeParceler<TraceLocationOuterClass.SignedTraceLocation, SignedTraceLocationParceler>()
 @TypeParceler<TraceLocationOuterClass.TraceLocation, TraceLocationParceler>()
+@TypeParceler<TraceLocationOuterClass.QRCodePayload, QrCodePayloadParceler>()
 data class VerifiedTraceLocation(
-    private val protoSignedTraceLocation: TraceLocationOuterClass.SignedTraceLocation,
-    private val protoTraceLocation: TraceLocationOuterClass.TraceLocation
+    private val protoQrCodePayload: TraceLocationOuterClass.QRCodePayload
 ) : Parcelable {
 
-    val traceLocationBytes: ByteString
-        get() = protoSignedTraceLocation.location.toByteArray().toByteString()
-
-    val signature: ByteString
-        get() = protoSignedTraceLocation.signature.toByteArray().toByteString()
+    @IgnoredOnParcel private val vendorData by lazy {
+        TraceLocationOuterClass.CWALocationData.parseFrom(protoQrCodePayload.vendorData)
+    }
 
     @IgnoredOnParcel val traceLocation: TraceLocation by lazy {
+
         TraceLocation(
-            // guid = protoTraceLocation.guid,
-            version = protoTraceLocation.version,
-            type = protoTraceLocation.type,
-            description = protoTraceLocation.description,
-            address = protoTraceLocation.address,
-            startDate = protoTraceLocation.startTimestamp.toInstant(),
-            endDate = protoTraceLocation.endTimestamp.toInstant(),
-            defaultCheckInLengthInMinutes = protoTraceLocation.defaultCheckInLengthInMinutes,
-            // byteRepresentation = traceLocationBytes,
-            // signature = signature,
-            cryptographicSeed = "".encode(),
-            cnPublicKey = ""
+            version = protoQrCodePayload.version,
+            type = vendorData.type,
+            description = protoQrCodePayload.locationData.description,
+            address = protoQrCodePayload.locationData.address,
+            startDate = protoQrCodePayload.locationData.startTimestamp.toInstant(),
+            endDate = protoQrCodePayload.locationData.endTimestamp.toInstant(),
+            defaultCheckInLengthInMinutes = vendorData.defaultCheckInLengthInMinutes,
+            cryptographicSeed = protoQrCodePayload.crowdNotifierData.cryptographicSeed.toByteArray().toByteString(),
+            cnPublicKey = protoQrCodePayload.crowdNotifierData.publicKey.toStringUtf8()
         )
     }
 
@@ -49,20 +42,6 @@ data class VerifiedTraceLocation(
      */
     private fun Long.toInstant() =
         if (this == 0L) null else Instant.ofEpochMilli(TimeUnit.SECONDS.toMillis(this))
-}
-
-private object SignedTraceLocationParceler : Parceler<TraceLocationOuterClass.SignedTraceLocation> {
-    override fun create(parcel: Parcel): TraceLocationOuterClass.SignedTraceLocation {
-        val rawSignedTraceLocation = ByteArray(parcel.readInt())
-        parcel.readByteArray(rawSignedTraceLocation)
-        return TraceLocationOuterClass.SignedTraceLocation.parseFrom(rawSignedTraceLocation)
-    }
-
-    override fun TraceLocationOuterClass.SignedTraceLocation.write(parcel: Parcel, flags: Int) {
-        val rawSignedTraceLocation = toByteArray()
-        parcel.writeInt(rawSignedTraceLocation.size)
-        parcel.writeByteArray(rawSignedTraceLocation)
-    }
 }
 
 private object TraceLocationParceler : Parceler<TraceLocationOuterClass.TraceLocation> {
@@ -76,5 +55,19 @@ private object TraceLocationParceler : Parceler<TraceLocationOuterClass.TraceLoc
         val rawTraceLocation = toByteArray()
         parcel.writeInt(rawTraceLocation.size)
         parcel.writeByteArray(rawTraceLocation)
+    }
+}
+
+private object QrCodePayloadParceler : Parceler<TraceLocationOuterClass.QRCodePayload> {
+    override fun create(parcel: Parcel): TraceLocationOuterClass.QRCodePayload {
+        val rawSignedTraceLocation = ByteArray(parcel.readInt())
+        parcel.readByteArray(rawSignedTraceLocation)
+        return TraceLocationOuterClass.QRCodePayload.parseFrom(rawSignedTraceLocation)
+    }
+
+    override fun TraceLocationOuterClass.QRCodePayload.write(parcel: Parcel, flags: Int) {
+        val rawSignedTraceLocation = toByteArray()
+        parcel.writeInt(rawSignedTraceLocation.size)
+        parcel.writeByteArray(rawSignedTraceLocation)
     }
 }
