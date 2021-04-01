@@ -11,10 +11,16 @@
         tools:layout="@layout/fragment_trace_location_onboarding">
         <action
             android:id="@+id/action_checkInOnboardingFragment_to_checkInsFragment"
-            app:destination="@id/checkInsFragment" />
+            app:destination="@id/checkInsFragment"
+            app:popUpTo="@id/trace_location_attendee_nav_graph"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_checkInOnboardingFragment_to_privacyFragment"
             app:destination="@id/checkInPrivacyFragment" />
+        <argument
+            android:name="showBottomNav"
+            android:defaultValue="true"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/checkInPrivacyFragment"
