@@ -61,6 +61,9 @@
         <action
             android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationCreateFragment"
             app:destination="@id/traceLocationCreateFragment" />
+        <action
+            android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationOrganizerQRInfoFragment"
+            app:destination="@id/traceLocationOrganizerQRInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/qrCodeDetailFragment"
