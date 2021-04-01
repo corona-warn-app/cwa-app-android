@@ -2,10 +2,13 @@ package de.rki.coronawarnapp.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.eventregistration.TraceLocationSettings
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.CWADebug
@@ -15,6 +18,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 class MainActivityViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -22,7 +26,9 @@ class MainActivityViewModel @AssistedInject constructor(
     private val backgroundModeStatus: BackgroundModeStatus,
     private val contactDiarySettings: ContactDiarySettings,
     private val backgroundNoise: BackgroundNoise,
-    private val onboardingSettings: OnboardingSettings
+    private val onboardingSettings: OnboardingSettings,
+    private val traceLocationSettings: TraceLocationSettings,
+    private val checkInRepository: CheckInRepository,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -31,8 +37,14 @@ class MainActivityViewModel @AssistedInject constructor(
 
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
-    private val mutableIsOnboardingDone = MutableLiveData<Boolean>()
-    val isOnboardingDone: LiveData<Boolean> = mutableIsOnboardingDone
+    private val mutableIsContactDiaryOnboardingDone = MutableLiveData<Boolean>()
+    val isContactDiaryOnboardingDone: LiveData<Boolean> = mutableIsContactDiaryOnboardingDone
+    private val mutableIsTraceLocationOnboardingDone = MutableLiveData<Boolean>()
+    val isTraceLocationOnboardingDone: LiveData<Boolean> = mutableIsTraceLocationOnboardingDone
+
+    val activeCheckIns = checkInRepository.allCheckIns
+        .map { checkins -> checkins.filter { !it.completed }.size }
+        .asLiveData(context = dispatcherProvider.Default)
 
     init {
         if (CWADebug.isDeviceForTestersBuild) {
@@ -69,7 +81,8 @@ class MainActivityViewModel @AssistedInject constructor(
     }
 
     fun onBottomNavSelected() {
-        mutableIsOnboardingDone.value = contactDiarySettings.isOnboardingDone
+        mutableIsContactDiaryOnboardingDone.value = contactDiarySettings.isOnboardingDone
+        mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {

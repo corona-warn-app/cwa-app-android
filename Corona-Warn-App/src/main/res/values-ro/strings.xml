@@ -1953,16 +1953,6 @@
     <string name="trace_location_onboarding_body_warning">"La calcularea stării riscului dvs. este luat în calcul și fiecare check-in. Dacă o persoană care a făcut check-in la acest eveniment sau în acest loc este diagnosticată ulterior cu coronavirus, puteți fi notificat dacă ați fost în aceeași cameră în același timp sau în decurs de 30 de minute după persoana diagnosticată."</string>
     <!-- YMSG: Onboarding trace location warning -->
     <string name="trace_location_onboarding_body_stay">"Specificați durata șederii cât mai precis posibil pentru a permite avertizările exacte."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent2">"Aplicația păstrează evenimentele și locurile în care ați făcut check-in timp de 16 zile."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent3">"Când scanați un cod QR pentru a face check-in, este creată o intrare pentru eveniment sau loc pe smartphone-ul dvs."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent4">"Dacă un alt utilizator care a făcut check-in în același timp este diagnosticat ulterior cu coronavirus și declanșează un avertisment, veți fi avertizat automat pe baza ID-ului de eveniment, chiar dacă smartphone-ul dvs. nu a primit niciun ID aleatoriu de la utilizatorul infectat."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent5">"Dacă ulterior declanșați dvs. un avertisment, toți ceilalți utilizatori care au făcut check-in la evenimentul sau în locul enumerat la „Check-inurile mele” în același timp cu dvs. sunt avertizați pe baza ID-ului de eveniment."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent6">"Puteți oricând șterge un check-in din „Check-inurile mele”. În acest caz, veți fi avertizat doar dacă smartphone-ul dvs. a primit ID-urile aleatorii ale unui utilizator diagnosticat cu coronavirus și a identificat o posibilă expunere."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Accept"</string>
 </resources>

@@ -109,11 +109,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 )
             )
 
-            is CheckInEvent.ShowInformation -> Toast.makeText(
-                requireContext(),
-                "TODO ¯\\_(ツ)_/¯",
-                Toast.LENGTH_SHORT
-            ).show()
+            is CheckInEvent.ShowInformation ->
+                doNavigate(CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false))
 
             is CheckInEvent.OpenDeviceSettings -> openDeviceSettings()
         }
@@ -214,7 +211,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_information -> {
-                    Toast.makeText(requireContext(), "Information // TODO", Toast.LENGTH_SHORT).show()
+                    viewModel.onInformationClicked()
                     true
                 }
                 R.id.menu_remove_all -> {
