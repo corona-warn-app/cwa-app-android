@@ -16,7 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
-import okio.ByteString.Companion.EMPTY
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -55,8 +54,6 @@ class CheckInRepositoryTest : BaseTest() {
                 traceLocationStart = Instant.EPOCH,
                 traceLocationEnd = null,
                 defaultCheckInLengthInMinutes = null,
-                traceLocationBytes = EMPTY,
-                signature = EMPTY,
                 checkInStart = Instant.EPOCH,
                 checkInEnd = Instant.EPOCH,
                 completed = false,
@@ -83,8 +80,6 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = time,
                     traceLocationEnd = null,
                     defaultCheckInLengthInMinutes = null,
-                    traceLocationBytes = EMPTY,
-                    signature = EMPTY,
                     checkInStart = time,
                     checkInEnd = end,
                     completed = false,
@@ -103,8 +98,6 @@ class CheckInRepositoryTest : BaseTest() {
                         traceLocationStart = time,
                         traceLocationEnd = null,
                         defaultCheckInLengthInMinutes = null,
-                        traceLocationBytesBase64 = "",
-                        signatureBase64 = "",
                         checkInStart = time,
                         checkInEnd = end,
                         completed = false,
@@ -147,8 +140,6 @@ class CheckInRepositoryTest : BaseTest() {
                 traceLocationStart = start,
                 traceLocationEnd = end,
                 defaultCheckInLengthInMinutes = null,
-                traceLocationBytesBase64 = "",
-                signatureBase64 = "",
                 checkInStart = start,
                 checkInEnd = end,
                 completed = false,
@@ -160,7 +151,6 @@ class CheckInRepositoryTest : BaseTest() {
                 CheckIn(
                     id = 1L,
                     guid = "6e5530ce-1afc-4695-a4fc-572e6443eacd",
-                    traceLocationBytes = EMPTY,
                     version = 1,
                     type = 2,
                     description = "sisters birthday",
@@ -168,7 +158,6 @@ class CheckInRepositoryTest : BaseTest() {
                     traceLocationStart = start,
                     traceLocationEnd = end,
                     defaultCheckInLengthInMinutes = null,
-                    signature = EMPTY,
                     checkInStart = start,
                     checkInEnd = end,
                     completed = false,

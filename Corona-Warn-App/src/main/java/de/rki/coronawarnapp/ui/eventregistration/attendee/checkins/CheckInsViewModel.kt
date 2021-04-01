@@ -8,11 +8,13 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.InvalidQRCodeDataException
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCodeVerifier
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CheckInsItem
@@ -33,7 +35,6 @@ class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val deepLink: String?,
     dispatcherProvider: DispatcherProvider,
     @AppScope private val appScope: CoroutineScope,
-    private val traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier,
     private val qrCodeUriParser: QRCodeUriParser,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
@@ -137,12 +138,17 @@ class CheckInsViewModel @AssistedInject constructor(
     private fun verifyUri(uri: String) = launch {
         try {
             Timber.i("uri: $uri")
-            val signedTraceLocation = qrCodeUriParser.getSignedTraceLocation(uri)
+            val qrCodePayloadRaw = qrCodeUriParser.getQrCodePayload(uri)?.toByteArray()
                 ?: throw IllegalArgumentException("Invalid uri: $uri")
 
-            val verifyResult = traceLocationQRCodeVerifier.verify(signedTraceLocation.toByteArray())
-            Timber.i("verifyResult: $verifyResult")
-            events.postValue(CheckInEvent.ConfirmCheckIn(verifyResult))
+            val qrCodePayload = try {
+                TraceLocationOuterClass.QRCodePayload.parseFrom(qrCodePayloadRaw)
+            } catch (e: Exception) {
+                throw InvalidQRCodeDataException(cause = e, message = "QR-code data could not be parsed.")
+            }
+
+            val verifiedTraceLocation = VerifiedTraceLocation(qrCodePayload)
+            events.postValue(CheckInEvent.ConfirmCheckIn(verifiedTraceLocation))
         } catch (e: Exception) {
             Timber.d(e, "TraceLocation verification failed")
             e.report(ExceptionCategory.INTERNAL)

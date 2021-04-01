@@ -13,12 +13,12 @@ class QRCodeUriParserTest : BaseTest() {
     @ParameterizedTest
     @ArgumentsSource(ValidUrlProvider::class)
     fun `Valid URLs`(input: String) {
-        createInstance().getSignedTraceLocation(input) shouldNotBe null
+        createInstance().getQrCodePayload(input) shouldNotBe null
     }
 
     @ParameterizedTest
     @ArgumentsSource(InvalidUrlProvider::class)
     fun `Invalid URLs`(input: String) {
-        createInstance().getSignedTraceLocation(input) shouldBe null
+        createInstance().getQrCodePayload(input) shouldBe null
     }
 }

@@ -3,8 +3,6 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.pt;
 
 
-import "internal/pt/check_in.proto";
-
 message TraceWarningPackage {
   // hours since UNIX Epoch
   uint32 intervalNumber = 1;
@@ -13,7 +11,7 @@ message TraceWarningPackage {
 }
 
 message TraceTimeIntervalWarning {
-  bytes locationGuidHash = 1; // Hash of the Location GUID
+  bytes locationIdHash = 1; // SHA-256 of the Location ID
   // 10-minute intervals since UNIX Epoch
   uint32 startIntervalNumber = 2;
   // Number of 10-minute intervals to which the warning applies
