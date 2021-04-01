@@ -10,9 +10,7 @@ import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
@@ -28,7 +26,6 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -77,18 +74,9 @@ class SubmissionServerTest : BaseTest() {
     @Test
     fun `genuine submission - empty checkInPadding`(): Unit = runBlocking {
         val testKeyData = ByteString.copyFrom("TestKeyDataGoogle", Charsets.UTF_8)
-        val signedTraceLocation = ByteString.copyFrom(
-            "ChB0cmFjZV9sb2NhdGlvbl8zEAEYAyIMcmVzdGF1cmFudF8zKglhZGRyZXNzXzMwkMOCggY4sMGNggZACg=="
-                .decodeBase64()!!.toByteArray()
-        )
         val checkIn = CheckInOuterClass.CheckIn.newBuilder()
             .setEndIntervalNumber(0)
             .setStartIntervalNumber(0)
-            .setSignedLocation(
-                TraceLocationOuterClass.SignedTraceLocation.parseFrom(
-                    signedTraceLocation
-                )
-            )
             .build()
 
         val server = createServer()
@@ -154,18 +142,9 @@ class SubmissionServerTest : BaseTest() {
             )
         }
         val testKeyData = ByteString.copyFrom("TestKeyDataGoogle", Charsets.UTF_8)
-        val signedTraceLocation = ByteString.copyFrom(
-            "ChB0cmFjZV9sb2NhdGlvbl8zEAEYAyIMcmVzdGF1cmFudF8zKglhZGRyZXNzXzMwkMOCggY4sMGNggZACg=="
-                .decodeBase64()!!.toByteArray()
-        )
         val checkIn = CheckInOuterClass.CheckIn.newBuilder()
             .setEndIntervalNumber(0)
             .setStartIntervalNumber(0)
-            .setSignedLocation(
-                TraceLocationOuterClass.SignedTraceLocation.parseFrom(
-                    signedTraceLocation
-                )
-            )
             .build()
 
         val server = createServer()

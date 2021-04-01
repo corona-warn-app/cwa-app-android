@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationQRCodeVerifier
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
@@ -38,7 +37,6 @@ import testhelpers.extensions.getOrAwaitValue
 class CheckInsViewModelTest : BaseTest() {
 
     @MockK lateinit var savedState: SavedStateHandle
-    @MockK lateinit var traceLocationQRCodeVerifier: TraceLocationQRCodeVerifier
     @MockK lateinit var qrCodeUriParser: QRCodeUriParser
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var checkOutHandler: CheckOutHandler
@@ -82,15 +80,13 @@ class CheckInsViewModelTest : BaseTest() {
     @Test
     fun `DeepLink verification`() = runBlockingTest {
         every { savedState.get<String>(any()) } returns null
-        every { qrCodeUriParser.getSignedTraceLocation(any()) } returns ByteString.EMPTY
-        every { traceLocationQRCodeVerifier.verify(any()) } returns mockk()
+        every { qrCodeUriParser.getQrCodePayload(any()) } returns ByteString.EMPTY
 
         createInstance(deepLink = DEEP_LINK, scope = this).apply {
             events.getOrAwaitValue().shouldBeInstanceOf<CheckInEvent.ConfirmCheckIn>()
             verify {
                 savedState.get<String>(any())
-                qrCodeUriParser.getSignedTraceLocation(any())
-                traceLocationQRCodeVerifier.verify(any())
+                qrCodeUriParser.getQrCodePayload(any())
                 savedState.set(any(), any<String>())
             }
         }
@@ -185,7 +181,6 @@ class CheckInsViewModelTest : BaseTest() {
             deepLink = deepLink,
             dispatcherProvider = TestDispatcherProvider(),
             appScope = scope,
-            traceLocationQRCodeVerifier = traceLocationQRCodeVerifier,
             qrCodeUriParser = qrCodeUriParser,
             checkInsRepository = checkInsRepository,
             checkOutHandler = checkOutHandler,
