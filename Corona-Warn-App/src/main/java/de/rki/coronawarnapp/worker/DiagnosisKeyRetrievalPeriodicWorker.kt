@@ -18,7 +18,8 @@ import timber.log.Timber
  */
 class DiagnosisKeyRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
-    @Assisted workerParams: WorkerParameters
+    @Assisted workerParams: WorkerParameters,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
     /**
@@ -30,7 +31,7 @@ class DiagnosisKeyRetrievalPeriodicWorker @AssistedInject constructor(
 
         var result = Result.success()
         try {
-            BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
+            backgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
         } catch (e: Exception) {
             Timber.tag(TAG).w(
                 e,

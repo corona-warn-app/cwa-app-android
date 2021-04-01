@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import timber.log.Timber
 
 /**
@@ -34,6 +33,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     private val submissionService: SubmissionService,
     private val timeStamper: TimeStamper,
     private val tracingSettings: TracingSettings,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -42,7 +42,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             Timber.tag(TAG).d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
-            BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
+            backgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
             Timber.tag(TAG).d("$id Rescheduled background worker")
 
             return Result.failure()
@@ -117,7 +117,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
 
     private fun stopWorker() {
         tracingSettings.initialPollingForTestResultTimeStamp = 0L
-        BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
+        backgroundWorkScheduler.stopDiagnosisTestResultPeriodicWork()
         Timber.tag(TAG).d("$id: Background worker stopped")
     }
 

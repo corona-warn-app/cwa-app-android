@@ -1,14 +1,18 @@
 package de.rki.coronawarnapp.worker
 
+import androidx.annotation.VisibleForTesting
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.Operation
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.util.di.ApplicationComponent
+import de.rki.coronawarnapp.storage.TracingSettings
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import timber.log.Timber
 import java.util.concurrent.ExecutionException
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Singleton class for background work handling
@@ -17,11 +21,12 @@ import java.util.concurrent.ExecutionException
  * @see BackgroundConstants
  * @see BackgroundWorkHelper
  */
-object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
-
-    fun init(component: ApplicationComponent) {
-        component.inject(this)
-    }
+@Singleton
+class BackgroundWorkScheduler @Inject constructor(
+    private val backgroundWorkBuilder: BackgroundWorkBuilder,
+    private val submissionSettings: SubmissionSettings,
+    private val tracingSettings: TracingSettings,
+) {
 
     /**
      * Enum class for work tags
@@ -174,6 +179,10 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
         WorkType.BACKGROUND_NOISE_PERIODIC_WORK.start()
     }
 
+    fun stopBackgroundNoisePeriodicWork() {
+        WorkType.BACKGROUND_NOISE_PERIODIC_WORK.start()
+    }
+
     /**
      * Schedule background noise one time work
      *
@@ -181,6 +190,10 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
      */
     fun scheduleBackgroundNoiseOneTimeWork() {
         WorkType.BACKGROUND_NOISE_ONE_TIME_WORK.start()
+    }
+
+    fun stopDiagnosisTestResultPeriodicWork() {
+        WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
     }
 
     /**
@@ -206,10 +219,11 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
      *
      * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK
      */
-    private fun enqueueDiagnosisKeyBackgroundPeriodicWork() = workManager.enqueueUniquePeriodicWork(
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun enqueueDiagnosisKeyBackgroundPeriodicWork() = workManager.enqueueUniquePeriodicWork(
         WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.uniqueName,
         ExistingPeriodicWorkPolicy.REPLACE,
-        buildDiagnosisKeyRetrievalPeriodicWork()
+        backgroundWorkBuilder.buildDiagnosisKeyRetrievalPeriodicWork()
     ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK) }
 
     /**
@@ -223,7 +237,7 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
     private fun enqueueDiagnosisKeyBackgroundOneTimeWork() = workManager.enqueueUniqueWork(
         WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK.uniqueName,
         ExistingWorkPolicy.REPLACE,
-        buildDiagnosisKeyRetrievalOneTimeWork()
+        backgroundWorkBuilder.buildDiagnosisKeyRetrievalOneTimeWork()
     ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK) }
 
     /**
@@ -239,7 +253,7 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
         workManager.enqueueUniquePeriodicWork(
             WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.uniqueName,
             ExistingPeriodicWorkPolicy.REPLACE,
-            buildDiagnosisTestResultRetrievalPeriodicWork()
+            backgroundWorkBuilder.buildDiagnosisTestResultRetrievalPeriodicWork()
         ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER) }
 
     /**
@@ -254,7 +268,7 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
         workManager.enqueueUniquePeriodicWork(
             WorkType.BACKGROUND_NOISE_PERIODIC_WORK.uniqueName,
             ExistingPeriodicWorkPolicy.REPLACE,
-            buildBackgroundNoisePeriodicWork()
+            backgroundWorkBuilder.buildBackgroundNoisePeriodicWork()
         ).also { it.logOperationSchedule(WorkType.BACKGROUND_NOISE_PERIODIC_WORK) }
 
     /**
@@ -269,7 +283,7 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
         workManager.enqueueUniqueWork(
             WorkType.BACKGROUND_NOISE_ONE_TIME_WORK.uniqueName,
             ExistingWorkPolicy.REPLACE,
-            buildBackgroundNoiseOneTimeWork()
+            backgroundWorkBuilder.buildBackgroundNoiseOneTimeWork()
         ).also { it.logOperationSchedule(WorkType.BACKGROUND_NOISE_ONE_TIME_WORK) }
 
     /**
@@ -289,5 +303,4 @@ object BackgroundWorkScheduler : BackgroundWorkSchedulerBase() {
             { Timber.d("All work with tag ${workTag.tag} canceled.") },
             { it.run() }
         ).also { Timber.d("Canceling all work with tag ${workTag.tag}") }
-
 }

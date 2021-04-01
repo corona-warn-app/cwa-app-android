@@ -28,7 +28,8 @@ class WatchdogService @Inject constructor(
     private val taskController: TaskController,
     private val backgroundModeStatus: BackgroundModeStatus,
     @ProcessLifecycle private val processLifecycleOwner: LifecycleOwner,
-    private val onboardingSettings: OnboardingSettings
+    private val onboardingSettings: OnboardingSettings,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) {
 
     private val powerManager by lazy {
@@ -65,7 +66,7 @@ class WatchdogService @Inject constructor(
             if (state.isFailed) {
                 Timber.tag(TAG).e(state.error, "RetrieveDiagnosisKeysTransaction failed")
                 // retry the key retrieval in case of an error with a scheduled work
-                BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
+                backgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
             }
 
             if (wifiLock.isHeld) wifiLock.release()
@@ -75,7 +76,7 @@ class WatchdogService @Inject constructor(
         // if the user is onboarded we will schedule period background jobs
         // in case the app was force stopped and woken up again by the Google WakeUpService
         if (onboardingSettings.isOnboarded) {
-            BackgroundWorkScheduler.startWorkScheduler()
+            backgroundWorkScheduler.startWorkScheduler()
         }
     }
 

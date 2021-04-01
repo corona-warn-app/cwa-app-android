@@ -50,7 +50,7 @@ class PresenceTracingWarningWorkerTest : BaseTest() {
     )
 
     @Test
-    fun `worker runs task with user activity check enabled`() = runBlockingTest {
+    fun `worker runs task`() = runBlockingTest {
         val slot = slot<TaskRequest>()
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
 
@@ -67,7 +67,8 @@ class PresenceTracingWarningWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `task errors are rethrown `() = runBlockingTest {
+    fun `task errors lead to retry`() = runBlockingTest {
+        every { taskResult.isSuccessful } returns false
         every { taskResult.error } returns Exception()
 
         val worker = createWorker()
