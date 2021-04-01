@@ -123,12 +123,8 @@
     <!-- XTXT: Save button text -->
     <string name="tracelocation_organizer_save">"Kaydet"</string>
 
-    <!-- XMSG: generic error message body with status code -->
-    <string name="tracelocation_generic_qr_code_error_body_with_error_code">"QR kod oluşturulamadı. Lütfen daha sonra tekrar deneyin (hata kodu %d)."</string>
     <!-- XMSG: generic web request error without status code -->
     <string name="tracelocation_generic_qr_code_error_body">"QR kod oluşturulamadı. Lütfen daha sonra tekrar deneyin."</string>
-    <!-- XMSG: Dialog body for generic web request network error -->
-    <string name="tracelocation_generic_network_error_body">"İnternet bağlantınız kesilmiş olabilir. Lütfen internet bağlantınızın olduğundan emin olun."</string>
     <!-- XHED: error message title -->
     <string name="tracelocation_generic_error_title">"Hata"</string>
 

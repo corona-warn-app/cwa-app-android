@@ -123,12 +123,8 @@
     <!-- XTXT: Save button text -->
     <string name="tracelocation_organizer_save">"Zapisz"</string>
 
-    <!-- XMSG: generic error message body with status code -->
-    <string name="tracelocation_generic_qr_code_error_body_with_error_code">"Kod QR nie mógł zostać utworzony. Spróbuj ponownie później (kod błędu %d)."</string>
     <!-- XMSG: generic web request error without status code -->
     <string name="tracelocation_generic_qr_code_error_body">"Kod QR nie mógł zostać utworzony. Spróbuj ponownie później."</string>
-    <!-- XMSG: Dialog body for generic web request network error -->
-    <string name="tracelocation_generic_network_error_body">"Twoje połączenie z Internetem mogło zostać utracone. Zadbaj o jego przywrócenie."</string>
     <!-- XHED: error message title -->
     <string name="tracelocation_generic_error_title">"Błąd"</string>
 

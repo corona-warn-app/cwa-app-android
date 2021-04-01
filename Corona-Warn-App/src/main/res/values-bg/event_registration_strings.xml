@@ -123,12 +123,8 @@
     <!-- XTXT: Save button text -->
     <string name="tracelocation_organizer_save">"Запазване"</string>
 
-    <!-- XMSG: generic error message body with status code -->
-    <string name="tracelocation_generic_qr_code_error_body_with_error_code">"Създаването на QR код е неуспешно. Моля, опитайте отново по-късно (код на грешката %d)."</string>
     <!-- XMSG: generic web request error without status code -->
     <string name="tracelocation_generic_qr_code_error_body">"Създаването на QR код е неуспешно. Моля, опитайте отново по-късно."</string>
-    <!-- XMSG: Dialog body for generic web request network error -->
-    <string name="tracelocation_generic_network_error_body">"Възможно е да нямате достъп до интернет. Моля, проверете дали имате връзка."</string>
     <!-- XHED: error message title -->
     <string name="tracelocation_generic_error_title">"Грешка"</string>
 
