@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import androidx.work.impl.workers.DiagnosticsWorker
-import de.rki.coronawarnapp.worker.DiagnosisKeyRetrievalOneTimeWorker
+import de.rki.coronawarnapp.diagnosiskeys.execution.DiagnosisKeyRetrievalWorker
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
@@ -22,15 +22,15 @@ class CWAWorkerFactoryTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var workerParameters: WorkerParameters
-    @MockK lateinit var ourWorker: DiagnosisKeyRetrievalOneTimeWorker
-    @MockK lateinit var ourFactory: DiagnosisKeyRetrievalOneTimeWorker.Factory
+    @MockK lateinit var ourWorker: DiagnosisKeyRetrievalWorker
+    @MockK lateinit var ourFactory: DiagnosisKeyRetrievalWorker.Factory
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { ourFactory.create(context, workerParameters) } returns ourWorker
-        workerFactories[DiagnosisKeyRetrievalOneTimeWorker::class.java] = Provider { ourFactory }
+        workerFactories[DiagnosisKeyRetrievalWorker::class.java] = Provider { ourFactory }
     }
 
     fun createInstance() = CWAWorkerFactory(
@@ -42,7 +42,7 @@ class CWAWorkerFactoryTest : BaseTest() {
         val instance = createInstance()
         instance.createWorker(
             context,
-            DiagnosisKeyRetrievalOneTimeWorker::class.qualifiedName!!,
+            DiagnosisKeyRetrievalWorker::class.qualifiedName!!,
             workerParameters
         ) shouldBe ourWorker
     }

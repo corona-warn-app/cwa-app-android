@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.presencetracing.warning.execution
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.google.android.gms.common.api.ApiException
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -12,7 +11,6 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
-import de.rki.coronawarnapp.worker.BackgroundConstants
 import timber.log.Timber
 
 class PresenceTracingWarningWorker @AssistedInject constructor(
@@ -22,26 +20,27 @@ class PresenceTracingWarningWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result = try {
-        Timber.tag(TAG).v("TraceTimeWarningTask for download and calculation triggered")
+        Timber.tag(TAG).v("$id: doWork() started. Run attempt: $runAttemptCount")
+
         val taskState = taskController.submitBlocking(
-            DefaultTaskRequest(PresenceTracingWarningTask::class, originTag = "TraceTimeWarningWorker")
+            DefaultTaskRequest(PresenceTracingWarningTask::class, originTag = TAG)
         )
 
-        Timber.tag(TAG).d("TraceTimeWarningTask result: %s", taskState)
         when {
             taskState.isSuccessful -> {
+                Timber.tag(TAG).d("$id: PresenceTracingWarningTask finished successfully.")
                 Result.success()
             }
-            runAttemptCount < BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD -> {
+            else -> {
+                taskState.error?.let {
+                    Timber.tag(TAG).w(it, "$id: Error during PresenceTracingWarningTask.")
+                }
                 Result.retry()
             }
-            else -> {
-                Result.failure()
-            }
         }
-    } catch (e: ApiException) {
-        e.reportProblem(TAG, "Failed to submit TraceTimeWarningTask")
-        Result.failure()
+    } catch (e: Exception) {
+        e.reportProblem(TAG, "PresenceTracingWarningTask failed exceptionally, will retry.")
+        Result.retry()
     }
 
     @AssistedFactory

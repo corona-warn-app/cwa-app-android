@@ -79,4 +79,17 @@ class PresenceTracingWarningWorkerTest : BaseTest() {
             taskController.submitBlocking(any())
         }
     }
+
+    @Test
+    fun `taskcontroller errors lead to retry`() = runBlockingTest {
+        coEvery { taskController.submitBlocking(any()) } throws Exception()
+
+        val worker = createWorker()
+
+        worker.doWork() shouldBe ListenableWorker.Result.retry()
+
+        coVerify {
+            taskController.submitBlocking(any())
+        }
+    }
 }

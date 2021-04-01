@@ -12,59 +12,6 @@ import javax.inject.Singleton
 class BackgroundWorkBuilder @Inject constructor() {
 
     /**
-     * Build diagnosis key periodic work request
-     * Set "kind delay" for accessibility reason.
-     * Backoff criteria set to Linear type.
-     *
-     * The launchInterval is 60 minutes as we want to check every hour, for new hour packages on the CDN.
-     *
-     * @see WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER
-     * @see BackgroundConstants.KIND_DELAY
-     * @see BackgroundConstants.BACKOFF_INITIAL_DELAY
-     * @see BackoffPolicy.LINEAR
-     */
-    fun buildDiagnosisKeyRetrievalPeriodicWork() =
-        PeriodicWorkRequestBuilder<DiagnosisKeyRetrievalPeriodicWorker>(60, TimeUnit.MINUTES)
-            .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
-            .setInitialDelay(
-                BackgroundConstants.KIND_DELAY,
-                TimeUnit.MINUTES
-            )
-            .setBackoffCriteria(
-                BackoffPolicy.EXPONENTIAL,
-                BackgroundConstants.BACKOFF_INITIAL_DELAY,
-                TimeUnit.MINUTES
-            )
-            .build()
-
-    /**
-     * Build diagnosis key one time work request
-     * Set random initial delay for security reason.
-     * Backoff criteria set to Linear type.
-     *
-     * @return OneTimeWorkRequest
-     *
-     * @see WorkTag.DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER
-     * @see buildDiagnosisKeyRetrievalOneTimeWork
-     * @see BackgroundConstants.BACKOFF_INITIAL_DELAY
-     * @see BackoffPolicy.LINEAR
-     */
-    fun buildDiagnosisKeyRetrievalOneTimeWork() =
-        OneTimeWorkRequestBuilder<DiagnosisKeyRetrievalOneTimeWorker>()
-            .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER.tag)
-            .setConstraints(BackgroundWorkHelper.getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
-            .setInitialDelay(
-                BackgroundConstants.KIND_DELAY,
-                TimeUnit.MINUTES
-            )
-            .setBackoffCriteria(
-                BackoffPolicy.EXPONENTIAL,
-                BackgroundConstants.BACKOFF_INITIAL_DELAY,
-                TimeUnit.MINUTES
-            )
-            .build()
-
-    /**
      * Build diagnosis Test Result periodic work request
      * Set "kind delay" for accessibility reason.
      *

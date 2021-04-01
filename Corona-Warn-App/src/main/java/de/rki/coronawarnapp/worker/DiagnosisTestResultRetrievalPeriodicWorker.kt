@@ -42,7 +42,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             Timber.tag(TAG).d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
-            backgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
+            backgroundWorkScheduler.scheduleDiagnosisTestResultPeriodicWork()
             Timber.tag(TAG).d("$id Rescheduled background worker")
 
             return Result.failure()
