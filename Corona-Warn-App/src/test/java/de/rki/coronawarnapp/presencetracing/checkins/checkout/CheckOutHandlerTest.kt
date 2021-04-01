@@ -10,8 +10,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
-import okio.ByteString
-import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -33,8 +31,6 @@ class CheckOutHandlerTest : BaseTest() {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
-        traceLocationBytes = ByteString.EMPTY,
-        signature = "signature".toByteArray().toByteString(),
         checkInStart = Instant.EPOCH,
         checkInEnd = Instant.EPOCH.plus(100),
         completed = false,

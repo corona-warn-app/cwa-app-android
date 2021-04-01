@@ -21,7 +21,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import okio.ByteString
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -45,8 +44,6 @@ class AutoCheckOutTest : BaseTest() {
         traceLocationStart = Instant.EPOCH,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
-        traceLocationBytes = ByteString.EMPTY,
-        signature = ByteString.EMPTY,
         checkInStart = Instant.EPOCH,
         checkInEnd = Instant.EPOCH,
         completed = false,
