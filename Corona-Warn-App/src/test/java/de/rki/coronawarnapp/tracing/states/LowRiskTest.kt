@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.states
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -44,7 +45,7 @@ internal class LowRiskTest {
     @Test
     fun `Active tracing row should be gone in low risk card on the home screen when there are encounters`() {
         defaultRisk
-            .copy(daysWithEncounters = 1, lastEncounterAt = Instant.now())
+            .copy(daysWithEncounters = 1, lastEncounterAt = Instant.now().toLocalDateUtc())
             .isGoneOnContentLowView(context) shouldBe true
     }
 
@@ -58,7 +59,7 @@ internal class LowRiskTest {
     @Test
     fun `Active tracing row should be shown in low risk detail screen when there are encounters`() {
         defaultRisk
-            .copy(daysWithEncounters = 1, lastEncounterAt = Instant.now(), isInDetailsMode = true)
+            .copy(daysWithEncounters = 1, lastEncounterAt = Instant.now().toLocalDateUtc(), isInDetailsMode = true)
             .isGoneOnContentLowView(context) shouldBe false
     }
 }

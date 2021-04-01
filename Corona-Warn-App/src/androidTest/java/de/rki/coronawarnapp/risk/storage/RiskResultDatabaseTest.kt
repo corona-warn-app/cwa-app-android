@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.risk.storage
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
@@ -53,7 +53,7 @@ class RiskResultDatabaseTest {
             numberOfDaysWithLowRisk = 4,
             numberOfDaysWithHighRisk = 5
         ),
-        failureReason = RiskLevelResult.FailureReason.TRACING_OFF
+        failureReason = EwRiskLevelResult.FailureReason.TRACING_OFF
     )
 
     private val newestEntryFailed = PersistedRiskLevelResultDao(
@@ -69,7 +69,7 @@ class RiskResultDatabaseTest {
             numberOfDaysWithLowRisk = 4,
             numberOfDaysWithHighRisk = 5
         ),
-        failureReason = RiskLevelResult.FailureReason.TRACING_OFF
+        failureReason = EwRiskLevelResult.FailureReason.TRACING_OFF
     )
 
     @Test

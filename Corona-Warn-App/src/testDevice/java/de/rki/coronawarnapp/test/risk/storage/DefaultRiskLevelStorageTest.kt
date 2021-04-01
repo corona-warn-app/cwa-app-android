@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.test.risk.storage
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
-import de.rki.coronawarnapp.risk.RiskLevelTaskResult
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.DefaultRiskLevelStorage
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
@@ -48,9 +48,9 @@ class DefaultRiskLevelStorageTest : BaseTest() {
         ),
         failureReason = null
     )
-    private val testRisklevelResult = RiskLevelTaskResult(
+    private val testRisklevelResult = EwRiskLevelTaskResult(
         calculatedAt = Instant.ofEpochMilli(9999L),
-        aggregatedRiskResult = AggregatedRiskResult(
+        ewAggregatedRiskResult = EwAggregatedRiskResult(
             totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
             totalMinimumDistinctEncountersWithLowRisk = 1,
             totalMinimumDistinctEncountersWithHighRisk = 2,
@@ -88,6 +88,8 @@ class DefaultRiskLevelStorageTest : BaseTest() {
 
         every { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
         every { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
+        every { presenceTracingRiskRepository.latestAndLastSuccessful() } returns emptyFlow()
+        every { presenceTracingRiskRepository.latestEntries(any()) } returns emptyFlow()
     }
 
     private fun createInstance(

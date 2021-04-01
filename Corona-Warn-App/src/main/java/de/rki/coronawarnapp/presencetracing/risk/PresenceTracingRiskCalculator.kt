@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.risk
 
+import de.rki.coronawarnapp.risk.RiskState
 import javax.inject.Inject
 
 class PresenceTracingRiskCalculator @Inject constructor(
@@ -49,4 +50,14 @@ class PresenceTracingRiskCalculator @Inject constructor(
                 )
             }
         }
+
+    suspend fun calculateTotalRisk(list: List<CheckInNormalizedTime>): RiskState {
+        if (list.isEmpty()) return RiskState.LOW_RISK
+        val riskPerDay = calculateCheckInRiskPerDay(list)
+        if (riskPerDay.find { it.riskState == RiskState.INCREASED_RISK } != null)
+            return RiskState.INCREASED_RISK
+        if (riskPerDay.find { it.riskState == RiskState.LOW_RISK } != null)
+            return RiskState.LOW_RISK
+        return RiskState.CALCULATION_FAILED
+    }
 }
