@@ -1,8 +1,9 @@
-package de.rki.coronawarnapp.presencetracing.warning.worker
+package de.rki.coronawarnapp.presencetracing.warning.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
@@ -21,6 +22,7 @@ import javax.inject.Provider
 class PresenceTracingWarningTask @Inject constructor(
     private val timeStamper: TimeStamper,
     private val syncTool: TraceWarningPackageSyncTool,
+    private val checkInWarningMatcher: CheckInWarningMatcher,
 ) : Task<DefaultProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -32,9 +34,13 @@ class PresenceTracingWarningTask @Inject constructor(
         Timber.d("Running with arguments=%s", arguments)
         val nowUTC = timeStamper.nowUTC
 
+        Timber.tag(TAG).d("Running package sync.")
         syncTool.syncPackages()
 
-        // TODO run matcher
+        checkCancel()
+
+        Timber.tag(TAG).d("Running check-in matcher.")
+        checkInWarningMatcher.execute()
 
         Result(calculatedAt = nowUTC)
     } catch (error: Exception) {

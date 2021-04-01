@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.warning.worker
+package de.rki.coronawarnapp.presencetracing.warning.execution
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -27,6 +27,7 @@ class PresenceTracingWarningWorker @AssistedInject constructor(
             DefaultTaskRequest(PresenceTracingWarningTask::class, originTag = "TraceTimeWarningWorker")
         )
 
+        Timber.tag(TAG).d("TraceTimeWarningTask result: %s", taskState)
         when {
             taskState.isSuccessful -> {
                 Result.success()

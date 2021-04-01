@@ -6,7 +6,7 @@ import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningApiV1
-import de.rki.coronawarnapp.presencetracing.warning.worker.PresenceTracingWarningTask
+import de.rki.coronawarnapp.presencetracing.warning.execution.PresenceTracingWarningTask
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey

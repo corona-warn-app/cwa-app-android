@@ -1,10 +1,8 @@
-package de.rki.coronawarnapp.presencetracing.warning
+package de.rki.coronawarnapp.presencetracing.warning.execution
 
 import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.presencetracing.warning.worker.PresenceTracingWarningTask
-import de.rki.coronawarnapp.presencetracing.warning.worker.PresenceTracingWarningWorker
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskRequest
 import de.rki.coronawarnapp.task.TaskState
@@ -24,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class TraceTimeWarningWorkerTest : BaseTest() {
+class PresenceTracingWarningWorkerTest : BaseTest() {
 
     @RelaxedMockK lateinit var workerParams: WorkerParameters
     @MockK lateinit var context: Context
