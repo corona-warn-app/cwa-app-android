@@ -1953,16 +1953,6 @@
     <string name="trace_location_onboarding_body_warning">"Każde zameldowanie jest również brane pod uwagę przy obliczaniu statusu ryzyka. Jeśli u osoby, która zameldowała się na tym wydarzeniu lub w miejscu, zostanie później zdiagnozowany koronawirus, zostaniesz powiadomiony(-a), jeśli przebywałeś(-aś) w tym samym pomieszczeniu w tym samym czasie lub do 30 minut po opuszczeniu pomieszczenia przez zdiagnozowaną osobę."</string>
     <!-- YMSG: Onboarding trace location warning -->
     <string name="trace_location_onboarding_body_stay">"Określ długość pobytu jak najdokładniej, aby ostrzeżenia mogły zostać odpowiednio dopasowane."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent2">"Aplikacja przechowuje wydarzenia i miejsca, w których się zameldowałeś(-aś), przez 16 dni."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent3">"Gdy zeskanujesz kod QR, aby się zameldować, na Twoim smartfonie zostanie utworzony wpis dotyczący danego wydarzenia lub miejsca."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent4">"Jeśli u innego użytkownika, który zameldował się w tym samym czasie, zostanie zdiagnozowany koronawirus i uruchomione zostanie ostrzeżenie, otrzymasz automatyczne ostrzeżenie na podstawie identyfikatora wydarzenia – nawet jeśli zarażony użytkownik nie wyśle na Twój smartfon losowego identyfikatora."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent5">"Jeśli w późniejszym czasie uruchomisz ostrzeżenie, wszyscy inni użytkownicy, którzy w tym samym czasie zameldowali swoją obecność w wydarzeniu lub w miejscu wymienionym w obszarze „Moje zameldowania”, otrzymają ostrzeżenie na podstawie identyfikatora wydarzenia."</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent6">"W każdej chwili możesz usunąć zameldowanie w obszarze „Moje zameldowania”. W takim przypadku otrzymasz ostrzeżenie tylko wtedy, gdy na Twój smartfon wysłany zostanie losowy identyfikator użytkownika, u którego zdiagnozowano koronawirusa, i zidentyfikowane zostanie potencjalne narażenie."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Akceptuj"</string>
 </resources>
