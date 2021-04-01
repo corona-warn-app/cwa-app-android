@@ -1,22 +1,22 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 import org.joda.time.Instant
 import org.junit.Test
 import testhelpers.BaseTest
 
-class RiskLevelResultTest : BaseTest() {
+class EwRiskLevelResultTest : BaseTest() {
 
     private fun createRiskLevel(
-        aggregatedRiskResult: AggregatedRiskResult?,
-        failureReason: RiskLevelResult.FailureReason?
-    ): RiskLevelResult = object : RiskLevelResult {
+        ewAggregatedRiskResult: EwAggregatedRiskResult?,
+        failureReason: EwRiskLevelResult.FailureReason?
+    ): EwRiskLevelResult = object : EwRiskLevelResult {
         override val calculatedAt: Instant = Instant.EPOCH
-        override val aggregatedRiskResult: AggregatedRiskResult? = aggregatedRiskResult
-        override val failureReason: RiskLevelResult.FailureReason? = failureReason
+        override val ewAggregatedRiskResult: EwAggregatedRiskResult? = ewAggregatedRiskResult
+        override val failureReason: EwRiskLevelResult.FailureReason? = failureReason
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
@@ -25,12 +25,12 @@ class RiskLevelResultTest : BaseTest() {
     @Test
     fun testUnsuccessfulRistLevels() {
         createRiskLevel(
-            aggregatedRiskResult = null,
-            failureReason = RiskLevelResult.FailureReason.UNKNOWN
+            ewAggregatedRiskResult = null,
+            failureReason = EwRiskLevelResult.FailureReason.UNKNOWN
         ).wasSuccessfullyCalculated shouldBe false
 
         createRiskLevel(
-            aggregatedRiskResult = mockk(),
+            ewAggregatedRiskResult = mockk(),
             failureReason = null
         ).wasSuccessfullyCalculated shouldBe true
     }

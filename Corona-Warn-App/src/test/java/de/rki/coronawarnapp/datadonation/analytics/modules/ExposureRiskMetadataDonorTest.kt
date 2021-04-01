@@ -4,8 +4,8 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.risk.RiskLevelResult
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
@@ -25,8 +25,8 @@ import testhelpers.preferences.mockFlowPreference
 class ExposureRiskMetadataDonorTest : BaseTest() {
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var analyticsSettings: AnalyticsSettings
-    @MockK lateinit var highAggregatedRiskResult: AggregatedRiskResult
-    @MockK lateinit var lowAggregatedRiskResult: AggregatedRiskResult
+    @MockK lateinit var highEwAggregatedRiskResult: EwAggregatedRiskResult
+    @MockK lateinit var lowEwAggregatedRiskResult: EwAggregatedRiskResult
 
     private val baseDate: Instant = Instant.ofEpochMilli(101010)
 
@@ -34,20 +34,20 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { highAggregatedRiskResult.isIncreasedRisk() } returns true
-        every { highAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
-        every { lowAggregatedRiskResult.isIncreasedRisk() } returns false
-        every { lowAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
+        every { highEwAggregatedRiskResult.isIncreasedRisk() } returns true
+        every { highEwAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
+        every { lowEwAggregatedRiskResult.isIncreasedRisk() } returns false
+        every { lowEwAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
     }
 
     private fun createRiskLevelResult(
-        aggregatedRiskResult: AggregatedRiskResult?,
-        failureReason: RiskLevelResult.FailureReason?,
+        ewAggregatedRiskResult: EwAggregatedRiskResult?,
+        failureReason: EwRiskLevelResult.FailureReason?,
         calculatedAt: Instant
-    ): RiskLevelResult = object : RiskLevelResult {
+    ): EwRiskLevelResult = object : EwRiskLevelResult {
         override val calculatedAt: Instant = calculatedAt
-        override val aggregatedRiskResult: AggregatedRiskResult? = aggregatedRiskResult
-        override val failureReason: RiskLevelResult.FailureReason? = failureReason
+        override val ewAggregatedRiskResult: EwAggregatedRiskResult? = ewAggregatedRiskResult
+        override val failureReason: EwRiskLevelResult.FailureReason? = failureReason
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
@@ -68,16 +68,16 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .build()
 
         every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(null)
-        every { riskLevelStorage.latestAndLastSuccessful } returns flowOf(
+        every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(
             listOf(
                 createRiskLevelResult(
-                    aggregatedRiskResult = highAggregatedRiskResult,
+                    ewAggregatedRiskResult = highEwAggregatedRiskResult,
                     failureReason = null,
                     calculatedAt = baseDate
                 ),
                 createRiskLevelResult(
-                    aggregatedRiskResult = lowAggregatedRiskResult,
-                    failureReason = RiskLevelResult.FailureReason.UNKNOWN,
+                    ewAggregatedRiskResult = lowEwAggregatedRiskResult,
+                    failureReason = EwRiskLevelResult.FailureReason.UNKNOWN,
                     calculatedAt = baseDate
                 )
             )
@@ -118,16 +118,16 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
         every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(initialMetadata)
 
-        every { riskLevelStorage.latestAndLastSuccessful } returns flowOf(
+        every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(
             listOf(
                 createRiskLevelResult(
-                    aggregatedRiskResult = highAggregatedRiskResult,
+                    ewAggregatedRiskResult = highEwAggregatedRiskResult,
                     failureReason = null,
                     calculatedAt = baseDate
                 ),
                 createRiskLevelResult(
-                    aggregatedRiskResult = lowAggregatedRiskResult,
-                    failureReason = RiskLevelResult.FailureReason.UNKNOWN,
+                    ewAggregatedRiskResult = lowEwAggregatedRiskResult,
+                    failureReason = EwRiskLevelResult.FailureReason.UNKNOWN,
                     calculatedAt = baseDate
                 )
             )

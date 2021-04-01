@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.risk.storage
 
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
-import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindow
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindowDaoWrapper
@@ -66,14 +66,18 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         every { aggregatedRiskPerDateResultDao.allEntries() } returns emptyFlow()
         coEvery { aggregatedRiskPerDateResultDao.insertRisk(any()) } just Runs
+
+        // TODO proper tests
         coEvery { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
         coEvery { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
+        coEvery { presenceTracingRiskRepository.latestAndLastSuccessful() } returns emptyFlow()
+        coEvery { presenceTracingRiskRepository.latestEntries(any()) } returns emptyFlow()
     }
 
     private fun createInstance(
         scope: CoroutineScope = TestCoroutineScope(),
         storedResultLimit: Int = 10,
-        onStoreExposureWindows: (String, RiskLevelResult) -> Unit = { id, result -> },
+        onStoreExposureWindows: (String, EwRiskLevelResult) -> Unit = { id, result -> },
         onDeletedOrphanedExposureWindows: () -> Unit = {}
     ) = object : BaseRiskLevelStorage(
         scope = scope,
@@ -82,8 +86,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
     ) {
         override val storedResultLimit: Int = storedResultLimit
 
-        override suspend fun storeExposureWindows(storedResultId: String, result: RiskLevelResult) {
-            onStoreExposureWindows(storedResultId, result)
+        override suspend fun storeExposureWindows(storedResultId: String, resultEw: EwRiskLevelResult) {
+            onStoreExposureWindows(storedResultId, resultEw)
         }
 
         override suspend fun deletedOrphanedExposureWindows() {
@@ -102,7 +106,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             allEntries shouldBe testPersistedAggregatedRiskPerDateResultFlow
             allEntries.first().map { it.toAggregatedRiskPerDateResult() } shouldBe listOf(testAggregatedRiskPerDateResult)
 
-            val aggregatedRiskPerDateResults = instance.aggregatedRiskPerDateResults.first()
+            val aggregatedRiskPerDateResults = instance.ewDayRiskStates.first()
             aggregatedRiskPerDateResults shouldNotBe listOf(testPersistedAggregatedRiskPerDateResult)
             aggregatedRiskPerDateResults shouldBe listOf(testAggregatedRiskPerDateResult)
         }
@@ -127,7 +131,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         runBlockingTest {
             val instance = createInstance()
-            instance.allRiskLevelResults.first() shouldBe listOf(testRisklevelResult)
+            instance.allEwRiskLevelResults.first() shouldBe listOf(testRisklevelResult)
         }
     }
 
@@ -139,7 +143,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest {
             val instance = createInstance()
             val riskLevelResult = testRisklevelResult.copy(exposureWindows = listOf(testExposureWindow))
-            instance.allRiskLevelResults.first() shouldBe listOf(riskLevelResult)
+            instance.allEwRiskLevelResults.first() shouldBe listOf(riskLevelResult)
 
             verify {
                 riskResultTables.allEntries()
@@ -157,7 +161,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             val instance = createInstance(scope = this)
 
             val riskLevelResult = testRisklevelResult.copy(exposureWindows = listOf(testExposureWindow))
-            instance.latestRiskLevelResults.first() shouldBe listOf(riskLevelResult)
+            instance.latestEwRiskLevelResults.first() shouldBe listOf(riskLevelResult)
 
             verify {
                 riskResultTables.latestEntries(2)
@@ -176,7 +180,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             val instance = createInstance(scope = this)
 
             val riskLevelResult = testRisklevelResult.copy(exposureWindows = listOf(testExposureWindow))
-            instance.latestAndLastSuccessful.first() shouldBe listOf(riskLevelResult)
+            instance.latestAndLastSuccessfulEwRiskLevelResult.first() shouldBe listOf(riskLevelResult)
 
             verify {
                 riskResultTables.latestAndLastSuccessful()
@@ -204,7 +208,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `storeResult works`() = runBlockingTest {
-        val mockStoreWindows: (String, RiskLevelResult) -> Unit = spyk()
+        val mockStoreWindows: (String, EwRiskLevelResult) -> Unit = spyk()
         val mockDeleteOrphanedWindows: () -> Unit = spyk()
 
         val instance = createInstance(

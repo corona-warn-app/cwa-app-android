@@ -7,7 +7,7 @@ import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration1To2
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration2To3
@@ -129,7 +129,7 @@ class RiskResultDatabaseMigrationTest : BaseTestInstrumentation() {
             monotonicId = 3,
             id = "0235fef8-4332-4a43-b7d8-f5eacb54a6ee",
             calculatedAt = Instant.parse("2020-12-31T16:28:25.400Z"),
-            failureReason = RiskLevelResult.FailureReason.TRACING_OFF,
+            failureReason = EwRiskLevelResult.FailureReason.TRACING_OFF,
             aggregatedRiskResult = null
         )
 

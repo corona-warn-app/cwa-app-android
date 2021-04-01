@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.risk.storage.internal.riskresults
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
+import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 
 @Suppress("MaxLineLength")
@@ -14,8 +14,8 @@ data class PersistedAggregatedRiskPerDateResult(
     @ColumnInfo(name = "minimumDistinctEncountersWithLowRisk") val minimumDistinctEncountersWithLowRisk: Int,
     @ColumnInfo(name = "minimumDistinctEncountersWithHighRisk") val minimumDistinctEncountersWithHighRisk: Int
 ) {
-    fun toAggregatedRiskPerDateResult(): AggregatedRiskPerDateResult =
-        AggregatedRiskPerDateResult(
+    fun toAggregatedRiskPerDateResult(): ExposureWindowDayRisk =
+        ExposureWindowDayRisk(
             dateMillisSinceEpoch = dateMillisSinceEpoch,
             riskLevel = riskLevel,
             minimumDistinctEncountersWithLowRisk = minimumDistinctEncountersWithLowRisk,
@@ -23,7 +23,7 @@ data class PersistedAggregatedRiskPerDateResult(
         )
 }
 
-fun AggregatedRiskPerDateResult.toPersistedAggregatedRiskPerDateResult(): PersistedAggregatedRiskPerDateResult =
+fun ExposureWindowDayRisk.toPersistedAggregatedRiskPerDateResult(): PersistedAggregatedRiskPerDateResult =
     PersistedAggregatedRiskPerDateResult(
         dateMillisSinceEpoch = dateMillisSinceEpoch,
         riskLevel = riskLevel,
