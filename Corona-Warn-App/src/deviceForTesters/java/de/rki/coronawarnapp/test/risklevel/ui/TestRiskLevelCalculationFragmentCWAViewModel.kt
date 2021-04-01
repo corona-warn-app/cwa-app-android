@@ -16,9 +16,9 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTra
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
+import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -71,7 +71,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     val dataResetEvent = SingleLiveEvent<String>()
     val shareFileEvent = SingleLiveEvent<File>()
 
-    private val lastRiskResult = riskLevelStorage.allRiskLevelResults.map { results ->
+    private val lastRiskResult = riskLevelStorage.allEwRiskLevelResults.map { results ->
         results.maxByOrNull { it.calculatedAt }
     }
 
@@ -85,7 +85,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
             if (it.wasSuccessfullyCalculated) {
                 // wasSuccessfullyCalculated check for aggregatedRiskResult != null
-                it.aggregatedRiskResult!!.toReadableString()
+                it.ewAggregatedRiskResult!!.toReadableString()
             } else {
                 var notAvailable = "Aggregated risk result is not available"
                 it.failureReason?.let { failureReason -> notAvailable += " because ${failureReason.failureCode}" }
@@ -94,7 +94,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         }
         .asLiveData()
 
-    private fun AggregatedRiskResult.toReadableString(): String = StringBuilder()
+    private fun EwAggregatedRiskResult.toReadableString(): String = StringBuilder()
         .appendLine("Total RiskLevel: $totalRiskLevel")
         .appendLine("Total Minimum Distinct Encounters With High Risk: $totalMinimumDistinctEncountersWithHighRisk")
         .appendLine("Total Minimum Distinct Encounters With Low Risk: $totalMinimumDistinctEncountersWithLowRisk")
@@ -110,11 +110,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .asLiveData()
 
     val additionalRiskCalcInfo = combine(
-        riskLevelStorage.latestAndLastSuccessful,
+        riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult,
         exposureDetectionTracker.latestSubmission()
     ) { riskLevelResults, latestSubmission ->
 
-        val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults()
+        val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestEwResultsWithDefaults()
 
         createAdditionalRiskCalcInfo(
             latestCalc.calculatedAt,

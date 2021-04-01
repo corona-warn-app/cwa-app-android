@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.databinding.TracingDetailsItemRiskdetailsIncreasedVi
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox.Item
-import org.joda.time.Instant
+import org.joda.time.LocalDate
 
 class DetailsIncreasedRiskBox(
     parent: ViewGroup,
@@ -35,7 +35,7 @@ class DetailsIncreasedRiskBox(
 
     data class Item(
         val riskState: RiskState,
-        val lastEncounteredAt: Instant
+        val lastEncounteredAt: LocalDate
     ) : RiskDetailsStateItem {
 
         fun getRiskDetailsRiskLevelBody(context: Context): String {

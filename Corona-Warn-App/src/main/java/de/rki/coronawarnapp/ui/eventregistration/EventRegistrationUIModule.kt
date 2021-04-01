@@ -16,10 +16,10 @@ import de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocatio
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragmentModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragment
 import de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragmentModule
-import de.rki.coronawarnapp.ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragment
-import de.rki.coronawarnapp.ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragmentModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragment
 import de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragmentModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragment
+import de.rki.coronawarnapp.ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragmentModule
 
 @Module
 internal abstract class EventRegistrationUIModule {

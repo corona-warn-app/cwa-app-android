@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
 
-class AggregatedRiskPerDateResultTest : BaseTest() {
+class ExposureWindowDayRiskTest : BaseTest() {
 
     @Test
     fun `day is correct`() {
@@ -34,7 +34,7 @@ class AggregatedRiskPerDateResultTest : BaseTest() {
         tomorrowAggregatedRiskPerDateResult.localDateUtc shouldBe tomorrowLocalDate
     }
 
-    private fun createAggregatedRiskPerDateResult(date: Instant) = AggregatedRiskPerDateResult(
+    private fun createAggregatedRiskPerDateResult(date: Instant) = ExposureWindowDayRisk(
         dateMillisSinceEpoch = date.millis,
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,

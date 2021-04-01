@@ -36,7 +36,7 @@ class TracingStateProvider @AssistedInject constructor(
         tracingRepository.tracingProgress.onEach {
             Timber.v("tracingProgress: $it")
         },
-        riskLevelStorage.latestAndLastSuccessful.onEach {
+        riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult.onEach {
             Timber.v("riskLevelResults: $it")
         },
         exposureDetectionTracker.latestSubmission().onEach {

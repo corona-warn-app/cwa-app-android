@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
 
-data class AggregatedRiskPerDateResult(
+data class ExposureWindowDayRisk(
     val dateMillisSinceEpoch: Long,
     val riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel,
     val minimumDistinctEncountersWithLowRisk: Int,
