@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.PosterImageProvider
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.PosterTemplateProvider
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.Template
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -26,7 +26,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
     @Assisted private val locationID: String,
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
-    private val posterImageProvider: PosterImageProvider,
+    private val posterTemplateProvider: PosterTemplateProvider,
     private val fileSharing: FileSharing
 
 ) : CWAViewModel(dispatcher) {
@@ -73,7 +73,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
 
     private fun generatePoster() = launch(context = dispatcher.IO) {
         try {
-            val template = posterImageProvider.posterTemplate()
+            val template = posterTemplateProvider.template()
             val qrCode = qrCodeGenerator.createQrCode(locationID)
             posterLiveData.postValue(Poster(qrCode, template))
         } catch (e: Exception) {

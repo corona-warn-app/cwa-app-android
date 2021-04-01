@@ -12,14 +12,14 @@ import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
 
-class PosterImageProvider @Inject constructor(
+class PosterTemplateProvider @Inject constructor(
     private val posterTemplateServer: QrCodePosterTemplateServer,
     @AppContext private val context: Context
 ) {
     @Suppress("BlockingMethodInNonBlockingContext")
-    suspend fun posterTemplate(): Template {
+    suspend fun template(): Template {
         val poster = posterTemplateServer.downloadQrCodePosterTemplate()
-        val file = File(context.cacheDir, "poster.pdf")
+        val file = File(context.cacheDir, "template.pdf")
         FileOutputStream(file).use { it.write(poster.template.toByteArray()) }
 
         Timber.d(
