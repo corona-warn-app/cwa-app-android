@@ -1989,4 +1989,6 @@
     <string name="trace_location_attendee_camera_card_subtitle">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräte-Einstellungen zur App zulassen.</string>
     <!--  XBUT: Trace location check-ins camera permission card button-->
     <string name="trace_location_attendee_camera_card_button">Einstellungen öffnen</string>
+    <!--  YMSG: Trace location onboarding image description-->
+    <string name="trace_location_onboarding_content_description">Drei Personen an einem Stehtisch, zwei von ihnen schauen auf ihr Smartphone.</string>
 </resources>

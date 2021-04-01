@@ -42,9 +42,10 @@
                 android:id="@+id/check_in_onboarding_image"
                 android:layout_width="0dp"
                 android:layout_height="190dp"
-                android:src="@drawable/checkin_motivation"
+                android:src="@drawable/trace_location_onboarding"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="4dp"
+                android:contentDescription="@string/trace_location_onboarding_content_description"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
