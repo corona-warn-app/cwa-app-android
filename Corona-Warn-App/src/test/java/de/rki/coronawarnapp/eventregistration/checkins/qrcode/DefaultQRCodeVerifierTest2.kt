@@ -1,13 +1,11 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.util.decodeBase32
-import io.kotest.matchers.shouldBe
-import okio.ByteString.Companion.toByteString
-import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class DefaultQRCodeVerifierTest2 : BaseTest() {
+
+    /* Disabled, because new protobuf doesn't include signed traceLocation, we should write tests for the parsing of
+    QrCodePayload protobuf ...
 
     @Test
     fun `protobuf decoding 1`() {
@@ -61,4 +59,6 @@ class DefaultQRCodeVerifierTest2 : BaseTest() {
         signedTraceLocation.location.toByteArray().toByteString()
             .base64() shouldBe "CiRmY2E4NGIzNy02MWMwLTRhN2MtYjJmOC04MjVjYWRkNTA2Y2YQARgBIg1JY2VjcmVhbSBTaG9wKg1NYWluIFN0cmVldCAxMAA4AEAK"
     }
+
+     */
 }
