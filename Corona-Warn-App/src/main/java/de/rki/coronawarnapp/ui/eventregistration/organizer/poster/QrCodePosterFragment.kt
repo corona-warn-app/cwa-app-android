@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
 import android.util.TypedValue
-import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.getSystemService
-import androidx.core.view.postDelayed
 import androidx.core.widget.TextViewCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.QrCodePosterFragmentBinding
@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate.QRCodePosterTemplateAndroid.QRCodeTextBoxAndroid
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
-import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -62,8 +61,9 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
     }
 
     private fun QrCodePosterFragmentBinding.bindPoster(poster: Poster) {
+        Timber.d("poster=$poster")
         progressBar.hide()
-        val template = poster.template ?: return
+        val template = poster.template ?: return // Exist early
         Timber.d("template=$template")
 
         // Adjust poster image dimensions ratio to have a proper printing preview
@@ -82,13 +82,21 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         endGuideline.setGuidelinePercent(1 - template.offsetX)
 
         // Create trace location PDF poster for printing and sharing
-        if (poster.hasImages()) {
-            binding.qrCodePoster.postDelayed(delayInMillis = 1_000) {
-                viewModel.createPDF(binding.qrCodePoster, getString(R.string.app_name))
-            }
-        }
+        if (poster.hasImages()) onPosterDrawn()
 
+        // Bind text info
         bindTextBox(poster.template.textBox)
+    }
+
+    private fun onPosterDrawn() = with(binding.qrCodePoster) {
+        viewTreeObserver.addOnGlobalLayoutListener(
+            object : OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    viewModel.createPDF(binding.qrCodePoster, getString(R.string.app_name))
+                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            }
+        )
     }
 
     @SuppressLint("SetTextI18n")
