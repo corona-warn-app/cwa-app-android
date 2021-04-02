@@ -11,6 +11,7 @@ import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class PosterTemplateProvider @Inject constructor(
     private val posterTemplateServer: QrCodePosterTemplateServer,
@@ -18,15 +19,15 @@ class PosterTemplateProvider @Inject constructor(
 ) {
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun template(): Template {
-        val poster = posterTemplateServer.downloadQrCodePosterTemplate()
+        val templateData = posterTemplateServer.downloadQrCodePosterTemplate()
         val file = File(context.cacheDir, "template.pdf")
-        FileOutputStream(file).use { it.write(poster.template.toByteArray()) }
+        FileOutputStream(file).use { it.write(templateData.template.toByteArray()) }
 
         val fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
         val renderer = PdfRenderer(fileDescriptor)
 
         val page = renderer.openPage(0)
-        val scale = (context.resources.displayMetrics.density / page.width * page.height).toInt()
+        val scale = (context.resources.displayMetrics.density / page.width * page.height).roundToInt()
         Timber.d("scale=$scale")
         val bitmap = Bitmap.createBitmap(
             context.resources.displayMetrics,
@@ -47,7 +48,7 @@ class PosterTemplateProvider @Inject constructor(
             offsetX = 0.160f, /* TODO poster.offsetX*/
             offsetY = 0.095f, /* TODO poster.offsetY*/
             qrCodeLength = 1000/* TODO poster.qrCodeSideLength*/,
-            textBox = poster.descriptionTextBox
+            textBox = templateData.descriptionTextBox
         )
     }
 }
