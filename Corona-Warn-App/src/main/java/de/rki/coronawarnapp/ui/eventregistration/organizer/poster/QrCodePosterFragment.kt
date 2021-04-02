@@ -63,7 +63,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
     private fun QrCodePosterFragmentBinding.bindPoster(poster: Poster) {
         Timber.d("poster=$poster")
         progressBar.hide()
-        val template = poster.template ?: return // Exist early
+        val template = poster.template ?: return // Exit early
         Timber.d("template=$template")
 
         // Adjust poster image dimensions ratio to have a proper printing preview
