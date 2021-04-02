@@ -12,12 +12,15 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.getSystemService
 import androidx.core.view.postDelayed
+import androidx.core.widget.TextViewCompat
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.QrCodePosterFragmentBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate.QRCodePosterTemplateAndroid.QRCodeTextBoxAndroid
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
+import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -58,17 +61,16 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun QrCodePosterFragmentBinding.bindPoster(poster: Poster) {
+        progressBar.hide()
         val template = poster.template ?: return
-
         Timber.d("template=$template")
 
-        // Adjust poster image dimension ratio
+        // Adjust poster image dimensions ratio to have a proper printing preview
         val posterLayoutParam = posterImage.layoutParams as ConstraintLayout.LayoutParams
-        val dimensionRatio = "%s:%s".format(template.width, template.height)
-        posterLayoutParam.dimensionRatio = dimensionRatio
+        val dimensionRatio = template.run { "$width:$height" } // W:H
         Timber.d("dimensionRatio=$dimensionRatio")
+        posterLayoutParam.dimensionRatio = dimensionRatio
 
         // Display images
         qrCodeImage.setImageBitmap(poster.qrCode)
@@ -79,8 +81,6 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         startGuideline.setGuidelinePercent(template.offsetX)
         endGuideline.setGuidelinePercent(1 - template.offsetX)
 
-        progressBar.hide()
-
         // Create trace location PDF poster for printing and sharing
         if (poster.hasImages()) {
             binding.qrCodePoster.postDelayed(delayInMillis = 1_000) {
@@ -88,18 +88,34 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
             }
         }
 
-        val textBox = poster.template.textBox
+        bindTextBox(poster.template.textBox)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun QrCodePosterFragmentBinding.bindTextBox(textBox: QRCodeTextBoxAndroid) =
         with(infoText) {
             // TODO provide location info
             text = "Vereinsaktivität: Jahrestreffen der deutschen SAP Anwendergruppe" +
                 "\nHauptstr 3, 69115 Heidelberg, 27.03.2021 19:30-23:55 Uhr"
 
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, textBox.fontSize.toFloat())
+            val minFontSize = textBox.fontSize - 6
+            val maxFontSize = textBox.fontSize
+            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
+                infoText,
+                minFontSize,
+                maxFontSize,
+                1,
+                TypedValue.COMPLEX_UNIT_SP
+            )
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, maxFontSize.toFloat())
             setTextColor(Color.parseColor(textBox.fontColor))
-            // TODO textStartGuideline.setGuidelinePercent(textBox.offsetX)
-            // TODO textTopGuideline.setGuidelinePercent(textBox.offsetY)
+            /* TODO
+                textEndGuideline.setGuidelinePercent(1 - textBox.offsetX)
+                textStartGuideline.setGuidelinePercent(textBox.offsetX)
+                textTopGuideline.setGuidelinePercent(textBox.offsetY)
+                setTypeface()
+            */
         }
-    }
 
     private fun onShareIntent(fileIntent: FileSharing.FileIntentProvider) {
         binding.toolbar.setOnMenuItemClickListener {

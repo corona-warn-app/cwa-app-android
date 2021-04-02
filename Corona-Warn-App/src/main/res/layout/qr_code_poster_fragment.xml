@@ -75,7 +75,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.13" />
+            app:layout_constraintGuide_percent="0.132" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/text_end_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.87" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/text_top_guideline"
@@ -86,8 +93,10 @@
 
         <TextView
             android:id="@+id/info_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="@id/text_end_guideline"
             app:layout_constraintStart_toStartOf="@id/text_start_guideline"
             app:layout_constraintTop_toTopOf="@id/text_top_guideline"
             tools:ignore="SmallSp"

@@ -34,6 +34,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     private val subtitleFlow = MutableStateFlow<String?>(null)
     private val startTimeFlow = MutableStateFlow<Instant?>(null)
     private val endTimeFlow = MutableStateFlow<Instant?>(null)
+    private val bitmapLiveData = MutableLiveData<Bitmap>()
 
     init {
 
@@ -89,7 +90,6 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         val endDateTime: Instant? get() = endInstant
     }
 
-    private val bitmapLiveData = MutableLiveData<Bitmap>()
     val qrCodeBitmap: LiveData<Bitmap> = bitmapLiveData
     val routeToScreen: SingleLiveEvent<QrCodeDetailNavigationEvents> = SingleLiveEvent()
 
