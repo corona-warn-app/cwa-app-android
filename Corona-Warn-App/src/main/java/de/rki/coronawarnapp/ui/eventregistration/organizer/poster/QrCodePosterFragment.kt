@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.poster
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
@@ -19,6 +18,7 @@ import de.rki.coronawarnapp.databinding.QrCodePosterFragmentBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate.QRCodePosterTemplateAndroid.QRCodeTextBoxAndroid
+import de.rki.coronawarnapp.ui.color.parseColor
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
@@ -116,7 +116,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
                 TypedValue.COMPLEX_UNIT_SP
             )
             setTextSize(TypedValue.COMPLEX_UNIT_SP, maxFontSize.toFloat())
-            setTextColor(Color.parseColor(textBox.fontColor))
+            setTextColor(textBox.fontColor.parseColor())
             /* TODO
                 textEndGuideline.setGuidelinePercent(1 - textBox.offsetX)
                 textStartGuideline.setGuidelinePercent(textBox.offsetX)
