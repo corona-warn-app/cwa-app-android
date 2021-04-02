@@ -4,7 +4,6 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import androidx.work.await
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.execution.DiagnosisKeyRetrievalWorkBuilder
 import de.rki.coronawarnapp.presencetracing.warning.execution.PresenceTracingWarningTask
@@ -14,6 +13,7 @@ import de.rki.coronawarnapp.task.TaskState
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.await
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
