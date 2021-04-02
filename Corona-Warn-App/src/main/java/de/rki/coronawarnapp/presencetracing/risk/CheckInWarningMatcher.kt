@@ -23,7 +23,7 @@ import kotlin.coroutines.CoroutineContext
 
 class CheckInWarningMatcher @Inject constructor(
     private val checkInsRepository: CheckInRepository,
-    private val traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository,
+    private val traceWarningRepository: TraceWarningRepository,
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     private val dispatcherProvider: DispatcherProvider
 ) {
@@ -39,7 +39,7 @@ class CheckInWarningMatcher @Inject constructor(
             return emptyList()
         }
 
-        val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull()
+        val warningPackages = traceWarningRepository.unprocessedWarningPackages.firstOrNull()
 
         if (warningPackages.isNullOrEmpty()) {
             // nothing to be done here
@@ -52,8 +52,7 @@ class CheckInWarningMatcher @Inject constructor(
             splitCheckIns,
             warningPackages,
             dispatcherProvider.IO
-        )
-            .awaitAll()
+        ).awaitAll()
 
         if (matchLists.contains(null)) {
             Timber.e("Error occurred during matching. Abort calculation.")
@@ -61,14 +60,17 @@ class CheckInWarningMatcher @Inject constructor(
             return emptyList()
         }
 
-        // delete stale matches from new packages and mark packages as processed
         warningPackages.forEach {
-            presenceTracingRiskRepository.deleteMatchesOfPackage(it.warningPackageId)
-            presenceTracingRiskRepository.markPackageProcessed(it.warningPackageId)
+            // delete stale matches that are superseeded by a new package
+            presenceTracingRiskRepository.deleteMatchesOfPackage(it.packageId)
         }
         val matches = matchLists.filterNotNull().flatten()
 
         presenceTracingRiskRepository.reportSuccessfulCalculation(matches)
+
+        warningPackages.forEach {
+            traceWarningRepository.markPackageProcessed(it.packageId)
+        }
 
         return matches
     }
@@ -90,26 +92,24 @@ class CheckInWarningMatcher @Inject constructor(
                         packageChunk.flatMap {
                             findMatches(list, it)
                             packageChunk.flatMap { warningPackage ->
-                                findMatches(list, warningPackage).also {
-                                    traceWarningRepository.markPackageProcessed(warningPackage.packageId)
-                                }
+                                findMatches(list, warningPackage)
                             }
-                        } catch (e: Throwable) {
-                            Timber.e(e, "Failed to process packages $packageChunk")
-                            null
                         }
-                    }
-                }
-
-                // at most 4 parallel processes
-                val chunkSize = (checkIns.size / 4) + 1
-
-                return warningPackages.chunked(chunkSize).map { packageChunk ->
-                    withContext(context = coroutineContext) {
-                        launcher(checkIns, packageChunk)
+                    } catch (e: Throwable) {
+                        Timber.e(e, "Failed to process packages $packageChunk")
+                        null
                     }
                 }
             }
+
+        // at most 4 parallel processes
+        val chunkSize = (checkIns.size / 4) + 1
+
+        return warningPackages.chunked(chunkSize).map { packageChunk ->
+            withContext(context = coroutineContext) {
+                launcher(checkIns, packageChunk)
+            }
+        }
     }
 }
 

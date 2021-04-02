@@ -81,10 +81,6 @@ class PresenceTracingRiskRepository @Inject constructor(
         riskLevelResultDao.deleteOlderThan(fifteenDaysAgo.millis)
     }
 
-    internal suspend fun markPackageProcessed(warningPackageId: String) {
-        // TODO
-    }
-
     internal suspend fun deleteMatchesOfPackage(warningPackageId: String) {
         traceTimeIntervalMatchDao.deleteMatchesForPackage(warningPackageId)
     }

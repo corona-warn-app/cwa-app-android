@@ -37,8 +37,14 @@ class CheckInWarningMatcherTest : BaseTest() {
         coEvery { presenceTracingRiskRepository.deleteStaleData() } just Runs
         // TODO tests
         coEvery { presenceTracingRiskRepository.deleteMatchesOfPackage(any()) } just Runs
-        coEvery { presenceTracingRiskRepository.markPackageProcessed(any()) } just Runs
     }
+
+    private fun createInstance() = CheckInWarningMatcher(
+        checkInsRepository,
+        traceWarningRepository,
+        presenceTracingRiskRepository,
+        TestDispatcherProvider()
+    )
 
     @Test
     fun `reports new matches`() {
@@ -184,7 +190,6 @@ class CheckInWarningMatcherTest : BaseTest() {
 
     @Test
     fun `deletes all matches if no check-ins`() {
-
         val warning1 = createWarning(
             traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
@@ -214,10 +219,7 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 1) {
-                presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList())
-                traceWarningRepository.markPackageProcessed(warningPackage.packageId)
-            }
+            coVerify(exactly = 1) { presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList()) }
             coVerify(exactly = 1) { presenceTracingRiskRepository.deleteAllMatches() }
         }
     }
@@ -261,10 +263,111 @@ class CheckInWarningMatcherTest : BaseTest() {
         }
     }
 
-    private fun createInstance() = CheckInWarningMatcher(
-        checkInsRepository,
-        traceWarningRepository,
-        presenceTracingRiskRepository,
-        TestDispatcherProvider()
-    )
+    @Test
+    fun `warning packages are marked as processed`() {
+        val checkIn1 = createCheckIn(
+            id = 2L,
+            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            startDateStr = "2021-03-04T10:15+01:00",
+            endDateStr = "2021-03-04T10:17+01:00"
+        )
+        val checkIn2 = createCheckIn(
+            id = 3L,
+            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            startDateStr = "2021-03-04T09:15+01:00",
+            endDateStr = "2021-03-04T10:12+01:00"
+        )
+        every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
+
+        val warningPackage1 = object : TraceWarningPackage {
+            override suspend fun extractWarnings() = listOf(
+                createWarning(
+                    traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+                    startIntervalDateStr = "2021-03-04T10:00+01:00",
+                    period = 6,
+                    transmissionRiskLevel = 8
+                )
+            )
+
+            override val packageId: WarningPackageId = "id1"
+        }
+        val warningPackage2 = object : TraceWarningPackage {
+            override suspend fun extractWarnings() = listOf(
+                createWarning(
+                    traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+                    startIntervalDateStr = "2021-03-04T10:00+01:00",
+                    period = 6,
+                    transmissionRiskLevel = 8
+                )
+            )
+
+            override val packageId: WarningPackageId = "id2"
+        }
+
+        every { traceWarningRepository.unprocessedWarningPackages } returns flowOf(
+            listOf(warningPackage1, warningPackage2)
+        )
+
+        runBlockingTest {
+            createInstance().execute()
+        }
+
+        coVerify(exactly = 1) {
+            presenceTracingRiskRepository.reportSuccessfulCalculation(any())
+            traceWarningRepository.markPackageProcessed(warningPackage1.packageId)
+            traceWarningRepository.markPackageProcessed(warningPackage2.packageId)
+        }
+        coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
+    }
+
+//    @Test
+//    fun `partial processing is possible on exceptions`() {
+//        val checkIn1 = createCheckIn(
+//            id = 2L,
+//            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+//            startDateStr = "2021-03-04T10:15+01:00",
+//            endDateStr = "2021-03-04T10:17+01:00"
+//        )
+//        val checkIn2 = createCheckIn(
+//            id = 3L,
+//            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+//            startDateStr = "2021-03-04T09:15+01:00",
+//            endDateStr = "2021-03-04T10:12+01:00"
+//        )
+//        every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
+//
+//        val warningPackage1 = object : TraceWarningPackage {
+//            override suspend fun extractWarnings() = throw Exception()
+//
+//            override val packageId: WarningPackageId = "id1"
+//        }
+//        val warningPackage2 = object : TraceWarningPackage {
+//            override suspend fun extractWarnings() = listOf(
+//                createWarning(
+//                    traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+//                    startIntervalDateStr = "2021-03-04T10:00+01:00",
+//                    period = 6,
+//                    transmissionRiskLevel = 8
+//                )
+//            )
+//
+//            override val packageId: WarningPackageId = "id2"
+//        }
+//
+//        every { traceWarningRepository.unprocessedWarningPackages } returns flowOf(
+//            listOf(warningPackage1, warningPackage2)
+//        )
+//
+//        runBlockingTest {
+//            createInstance().execute()
+//        }
+//
+//        coVerify(exactly = 1) {
+//            traceWarningRepository.markPackageProcessed(warningPackage2.packageId)
+//        }
+//        coVerify(exactly = 0) {
+//            presenceTracingRiskRepository.reportSuccessfulCalculation(any())
+//            presenceTracingRiskRepository.deleteAllMatches()
+//        }
+//    }
 }
