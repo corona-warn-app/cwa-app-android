@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -28,33 +26,6 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding) {
-            scanCheckInQrCode.setOnClickListener {
-                doNavigate(
-                    EventRegistrationTestFragmentDirections
-                        .actionEventRegistrationTestFragmentToScanCheckInQrCodeFragment()
-                )
-            }
-
-            testQrCodeCreation.setOnClickListener {
-                doNavigate(
-                    EventRegistrationTestFragmentDirections
-                        .actionEventRegistrationTestFragmentToTestQrCodeCreationFragment()
-                )
-            }
-
-            createEventButton.setOnClickListener {
-                findNavController().navigate(R.id.createEventTestFragment)
-            }
-
-            showEventsButton.setOnClickListener {
-                findNavController().navigate(R.id.showStoredEventsTestFragment)
-            }
-
-            generateTestTraceLocations.setOnClickListener {
-                viewModel.generateTestTraceLocations()
-            }
-        }
         binding.runMatcher.setOnClickListener {
             viewModel.runMatcher()
         }
