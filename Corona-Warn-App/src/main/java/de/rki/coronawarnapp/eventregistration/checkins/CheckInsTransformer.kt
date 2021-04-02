@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.eventregistration.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
@@ -88,13 +87,8 @@ class CheckInsTransformer @Inject constructor(
             return null // Not mapped
         }
 
-        val signedTraceLocation = TraceLocationOuterClass.SignedTraceLocation.newBuilder()
-            .setLocation(traceLocationBytes.toProtoByteString())
-            .setSignature(signature.toProtoByteString())
-            .build()
-
         return CheckInOuterClass.CheckIn.newBuilder()
-            .setSignedLocation(signedTraceLocation)
+            // .locationId = TODO: Set calculated trace location
             .setStartIntervalNumber(checkInStart.derive10MinutesInterval().toInt())
             .setEndIntervalNumber(checkInEnd.derive10MinutesInterval().toInt())
             .setTransmissionRiskLevel(transmissionRiskLevel)

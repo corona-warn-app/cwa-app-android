@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.eventregistration.checkins
 
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import io.kotest.matchers.shouldBe
-import okio.ByteString.Companion.EMPTY
-import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -12,7 +11,8 @@ class CheckInTransmissionRiskLevelTest : BaseTest() {
 
     private val checkIn = CheckIn(
         id = 1L,
-        guid = "trace_location_1",
+        traceLocationId = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
+        traceLocationIdHash = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
         version = 1,
         type = 2,
         description = "restaurant_1",
@@ -20,8 +20,8 @@ class CheckInTransmissionRiskLevelTest : BaseTest() {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
-        traceLocationBytes = EMPTY,
-        signature = "c2lnbmF0dXJlMQ==".decodeBase64()!!,
+        cryptographicSeed = "cryptographicSeed".encode(),
+        cnPublicKey = "cnPublicKey",
         checkInStart = Instant.parse("2021-03-04T10:20:00Z"),
         checkInEnd = Instant.parse("2021-03-04T10:30:00Z"),
         completed = false,

@@ -14,6 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
@@ -22,38 +23,53 @@ import kotlin.coroutines.CoroutineContext
 
 class CheckInWarningMatcher @Inject constructor(
     private val checkInsRepository: CheckInRepository,
-    private val traceWarningRepository: TraceWarningRepository,
+    private val traceTimeIntervalWarningRepository: TraceTimeIntervalWarningRepository,
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     private val dispatcherProvider: DispatcherProvider
 ) {
     suspend fun execute(): List<CheckInWarningOverlap> {
 
-        val checkIns = checkInsRepository.allCheckIns.firstOrNull()
-        val warningPackages = traceWarningRepository.unprocessedWarningPackages.firstOrNull()
+        presenceTracingRiskRepository.deleteStaleData()
 
-        if (checkIns.isNullOrEmpty() || warningPackages.isNullOrEmpty()) {
-            Timber.i("No check-ins or packages available. Deleting all matches.")
+        val checkIns = checkInsRepository.allCheckIns.firstOrNull()
+        if (checkIns.isNullOrEmpty()) {
+            Timber.i("No check-ins available. Deleting all matches.")
             presenceTracingRiskRepository.deleteAllMatches()
+            presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList())
+            return emptyList()
+        }
+
+        val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull()
+
+        if (warningPackages.isNullOrEmpty()) {
+            // nothing to be done here
             return emptyList()
         }
 
         val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
 
         val matchLists = createMatchingLaunchers(
-            checkIns = splitCheckIns,
-            warningPackages = warningPackages,
-            coroutineContext = dispatcherProvider.IO
-        ).awaitAll()
+            splitCheckIns,
+            warningPackages,
+            dispatcherProvider.IO
+        )
+            .awaitAll()
 
         if (matchLists.contains(null)) {
-            Timber.e("Error occurred during matching. Deleting all stale matches.")
-            presenceTracingRiskRepository.deleteAllMatches()
-            // TODO report calculation failed to show on home card
+            Timber.e("Error occurred during matching. Abort calculation.")
+            presenceTracingRiskRepository.reportFailedCalculation()
             return emptyList()
         }
 
+        // delete stale matches from new packages and mark packages as processed
+        warningPackages.forEach {
+            presenceTracingRiskRepository.deleteMatchesOfPackage(it.warningPackageId)
+            presenceTracingRiskRepository.markPackageProcessed(it.warningPackageId)
+        }
         val matches = matchLists.filterNotNull().flatten()
-        presenceTracingRiskRepository.replaceAllMatches(matches)
+
+        presenceTracingRiskRepository.reportSuccessfulCalculation(matches)
+
         return matches
     }
 
@@ -71,26 +87,29 @@ class CheckInWarningMatcher @Inject constructor(
             { list, packageChunk ->
                 async {
                     try {
-                        packageChunk.flatMap { warningPackage ->
-                            findMatches(list, warningPackage).also {
-                                traceWarningRepository.markPackageProcessed(warningPackage.packageId)
+                        packageChunk.flatMap {
+                            findMatches(list, it)
+                            packageChunk.flatMap { warningPackage ->
+                                findMatches(list, warningPackage).also {
+                                    traceWarningRepository.markPackageProcessed(warningPackage.packageId)
+                                }
                             }
+                        } catch (e: Throwable) {
+                            Timber.e(e, "Failed to process packages $packageChunk")
+                            null
                         }
-                    } catch (e: Throwable) {
-                        Timber.e(e, "Failed to process packages $packageChunk")
-                        null
+                    }
+                }
+
+                // at most 4 parallel processes
+                val chunkSize = (checkIns.size / 4) + 1
+
+                return warningPackages.chunked(chunkSize).map { packageChunk ->
+                    withContext(context = coroutineContext) {
+                        launcher(checkIns, packageChunk)
                     }
                 }
             }
-
-        // at most 4 parallel processes
-        val chunkSize = (checkIns.size / 4) + 1
-
-        return warningPackages.chunked(chunkSize).map { packageChunk ->
-            withContext(context = coroutineContext) {
-                launcher(checkIns, packageChunk)
-            }
-        }
     }
 }
 
@@ -121,14 +140,14 @@ internal fun CheckIn.calculateOverlap(
     traceWarningPackageId: String
 ): CheckInWarningOverlap? {
 
-    if (warning.locationGuidHash != locationGuidHash) return null
+    if (warning.locationIdHash.toByteArray().toByteString() != traceLocationIdHash) return null
 
-    val warningStartTimestamp = warning.startIntervalNumber.tenMinIntervalToMillis()
-    val warningEndTimestamp = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
+    val warningStartMillis = warning.startIntervalNumber.tenMinIntervalToMillis()
+    val warningEndMillis = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
 
-    val overlapStartTimestamp = kotlin.math.max(checkInStart.millis, warningStartTimestamp)
-    val overlapEndTimestamp = kotlin.math.min(checkInEnd.millis, warningEndTimestamp)
-    val overlapMillis = overlapEndTimestamp - overlapStartTimestamp
+    val overlapStartMillis = kotlin.math.max(checkInStart.millis, warningStartMillis)
+    val overlapEndMillis = kotlin.math.min(checkInEnd.millis, warningEndMillis)
+    val overlapMillis = overlapEndMillis - overlapStartMillis
 
     if (overlapMillis <= 0) return null
 
@@ -136,7 +155,7 @@ internal fun CheckIn.calculateOverlap(
         checkInId = id,
         transmissionRiskLevel = warning.transmissionRiskLevel,
         traceWarningPackageId = traceWarningPackageId,
-        startTime = Instant.ofEpochMilli(overlapStartTimestamp),
-        endTime = Instant.ofEpochMilli(overlapEndTimestamp)
+        startTime = Instant.ofEpochMilli(overlapStartMillis),
+        endTime = Instant.ofEpochMilli(overlapEndMillis)
     )
 }

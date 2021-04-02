@@ -50,18 +50,6 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                 findNavController().navigate(R.id.showStoredEventsTestFragment)
             }
 
-            showQrCodeDetailFragment.setOnClickListener {
-                findNavController().navigate(R.id.qrCodeDetailFragment)
-            }
-
-            startCreateEventFlowButton.setOnClickListener {
-                findNavController().navigate(R.id.traceLocationOrganizerCategoriesFragment)
-            }
-
-            showOrganizerList.setOnClickListener {
-                findNavController().navigate(R.id.traceLocationOrganizerListFragment)
-            }
-
             generateTestTraceLocations.setOnClickListener {
                 viewModel.generateTestTraceLocations()
             }

@@ -10,8 +10,6 @@ import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationConverters
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
-import de.rki.coronawarnapp.presencetracing.risk.TraceTimeIntervalMatchDao
-import de.rki.coronawarnapp.presencetracing.risk.TraceTimeIntervalMatchEntity
 import de.rki.coronawarnapp.util.database.CommonConverters
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
@@ -19,8 +17,7 @@ import javax.inject.Inject
 @Database(
     entities = [
         TraceLocationCheckInEntity::class,
-        TraceLocationEntity::class,
-        TraceTimeIntervalMatchEntity::class
+        TraceLocationEntity::class
     ],
     version = 1,
     exportSchema = true
@@ -30,7 +27,6 @@ abstract class TraceLocationDatabase : RoomDatabase() {
 
     abstract fun eventCheckInDao(): CheckInDao
     abstract fun traceLocationDao(): TraceLocationDao
-    abstract fun traceTimeIntervalMatchDao(): TraceTimeIntervalMatchDao
 
     class Factory @Inject constructor(@AppContext private val context: Context) {
         fun create() = Room

@@ -89,9 +89,8 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         completed: Boolean = false,
         createJournalEntry: Boolean = true
     ): CheckIn = CheckIn(
-        traceLocationBytes = traceLocationBytes,
-        signature = signature,
-        guid = "", // traceLocation.id,
+        traceLocationId = verifiedTraceLocation.traceLocationID,
+        traceLocationIdHash = verifiedTraceLocation.traceLocationID.sha256(),
         version = traceLocation.version,
         type = traceLocation.type.number,
         description = traceLocation.description,
@@ -99,6 +98,8 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         traceLocationStart = traceLocation.startDate,
         traceLocationEnd = traceLocation.endDate,
         defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
+        cryptographicSeed = traceLocation.cryptographicSeed,
+        cnPublicKey = traceLocation.cnPublicKey,
         checkInStart = checkInStart,
         checkInEnd = checkInEnd,
         completed = completed,

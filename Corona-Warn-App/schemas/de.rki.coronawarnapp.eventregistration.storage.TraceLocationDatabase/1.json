@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3017a63593d3342376a56b56743815b7",
+    "identityHash": "1dc5f8a56361d50b8bb18050bce59d20",
     "entities": [
       {
         "tableName": "checkin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `traceLocationBytesBase64` TEXT NOT NULL, `signatureBase64` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `traceLocationIdBase64` TEXT NOT NULL, `traceLocationIdHashBase64` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `cryptographicSeedBase64` TEXT NOT NULL, `cnPublicKey` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,8 +15,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "guid",
-            "columnName": "guid",
+            "fieldPath": "traceLocationIdBase64",
+            "columnName": "traceLocationIdBase64",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "traceLocationIdHashBase64",
+            "columnName": "traceLocationIdHashBase64",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -63,14 +69,14 @@
             "notNull": false
           },
           {
-            "fieldPath": "traceLocationBytesBase64",
-            "columnName": "traceLocationBytesBase64",
+            "fieldPath": "cryptographicSeedBase64",
+            "columnName": "cryptographicSeedBase64",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "signatureBase64",
-            "columnName": "signatureBase64",
+            "fieldPath": "cnPublicKey",
+            "columnName": "cnPublicKey",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -181,62 +187,12 @@
         },
         "indices": [],
         "foreignKeys": []
-      },
-      {
-        "tableName": "TraceTimeIntervalMatchEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `checkInId` INTEGER NOT NULL, `traceWarningPackageId` TEXT NOT NULL, `transmissionRiskLevel` INTEGER NOT NULL, `startTimeMillis` INTEGER NOT NULL, `endTimeMillis` INTEGER NOT NULL)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "checkInId",
-            "columnName": "checkInId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "traceWarningPackageId",
-            "columnName": "traceWarningPackageId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "transmissionRiskLevel",
-            "columnName": "transmissionRiskLevel",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "startTimeMillis",
-            "columnName": "startTimeMillis",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "endTimeMillis",
-            "columnName": "endTimeMillis",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": true
-        },
-        "indices": [],
-        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3017a63593d3342376a56b56743815b7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1dc5f8a56361d50b8bb18050bce59d20')"
     ]
   }
 }

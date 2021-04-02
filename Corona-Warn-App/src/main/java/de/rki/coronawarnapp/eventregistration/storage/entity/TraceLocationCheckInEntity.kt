@@ -10,7 +10,8 @@ import org.joda.time.Instant
 @Entity(tableName = "checkin")
 data class TraceLocationCheckInEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0L,
-    @ColumnInfo(name = "guid") val guid: String,
+    @ColumnInfo(name = "traceLocationIdBase64") val traceLocationIdBase64: String,
+    @ColumnInfo(name = "traceLocationIdHashBase64") val traceLocationIdHashBase64: String,
     @ColumnInfo(name = "version") val version: Int,
     @ColumnInfo(name = "type") val type: Int,
     @ColumnInfo(name = "description") val description: String,
@@ -18,8 +19,8 @@ data class TraceLocationCheckInEntity(
     @ColumnInfo(name = "traceLocationStart") val traceLocationStart: Instant?,
     @ColumnInfo(name = "traceLocationEnd") val traceLocationEnd: Instant?,
     @ColumnInfo(name = "defaultCheckInLengthInMinutes") val defaultCheckInLengthInMinutes: Int?,
-    @ColumnInfo(name = "traceLocationBytesBase64") val traceLocationBytesBase64: String,
-    @ColumnInfo(name = "signatureBase64") val signatureBase64: String,
+    @ColumnInfo(name = "cryptographicSeedBase64") val cryptographicSeedBase64: String,
+    @ColumnInfo(name = "cnPublicKey") val cnPublicKey: String,
     @ColumnInfo(name = "checkInStart") val checkInStart: Instant,
     @ColumnInfo(name = "checkInEnd") val checkInEnd: Instant,
     @ColumnInfo(name = "completed") val completed: Boolean,
@@ -28,7 +29,8 @@ data class TraceLocationCheckInEntity(
 
 fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     id = id,
-    guid = guid,
+    traceLocationId = traceLocationIdBase64.decodeBase64()!!,
+    traceLocationIdHash = traceLocationIdHashBase64.decodeBase64()!!,
     version = version,
     type = type,
     description = description,
@@ -36,8 +38,8 @@ fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     traceLocationStart = traceLocationStart,
     traceLocationEnd = traceLocationEnd,
     defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-    traceLocationBytes = traceLocationBytesBase64.decodeBase64()!!,
-    signature = signatureBase64.decodeBase64()!!,
+    cryptographicSeed = cryptographicSeedBase64.decodeBase64()!!,
+    cnPublicKey = cnPublicKey,
     checkInStart = checkInStart,
     checkInEnd = checkInEnd,
     completed = completed,

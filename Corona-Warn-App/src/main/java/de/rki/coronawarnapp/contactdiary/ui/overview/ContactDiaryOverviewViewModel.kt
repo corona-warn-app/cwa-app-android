@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskE
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
-import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
+import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
@@ -55,7 +55,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val locationVisitsFlow = contactDiaryRepository.locationVisits
     private val personEncountersFlow = contactDiaryRepository.personEncounters
 
-    private val riskLevelPerDateFlow = riskLevelStorage.aggregatedRiskPerDateResults
+    private val riskLevelPerDateFlow = riskLevelStorage.ewDayRiskStates
     private val traceLocationCheckInRiskFlow = riskLevelStorage.traceLocationCheckInRiskStates
 
     val listItems = combine(
@@ -92,7 +92,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         dateList: List<LocalDate>,
         visits: List<ContactDiaryLocationVisit>,
         encounters: List<ContactDiaryPersonEncounter>,
-        riskLevelPerDateList: List<AggregatedRiskPerDateResult>,
+        riskLevelPerDateList: List<ExposureWindowDayRisk>,
         traceLocationCheckInRiskList: List<TraceLocationCheckInRisk>
     ): List<DiaryOverviewItem> {
         Timber.v(
@@ -145,7 +145,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         }
     }
 
-    private fun AggregatedRiskPerDateResult.toRisk(locationOrPerson: Boolean): RiskEnfItem {
+    private fun ExposureWindowDayRisk.toRisk(locationOrPerson: Boolean): RiskEnfItem {
         @StringRes val title: Int
         @StringRes var body: Int = R.string.contact_diary_risk_body
         @DrawableRes val drawableId: Int

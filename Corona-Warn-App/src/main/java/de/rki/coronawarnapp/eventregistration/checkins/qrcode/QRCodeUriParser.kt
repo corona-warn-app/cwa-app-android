@@ -15,7 +15,7 @@ class QRCodeUriParser @Inject constructor() {
      * https://e.coronawarn.app/c1/SIGNED_TRACE_LOCATION_BASE32
      * HTTPS://E.CORONAWARN.APP/C1/SIGNED_TRACE_LOCATION_BASE32
      */
-    fun getSignedTraceLocation(maybeUri: String): ByteString? = URI.create(maybeUri).run {
+    fun getQrCodePayload(maybeUri: String): ByteString? = URI.create(maybeUri).run {
         if (!scheme.equals(SCHEME, true)) return@run null
         if (!authority.equals(AUTHORITY, true)) return@run null
 

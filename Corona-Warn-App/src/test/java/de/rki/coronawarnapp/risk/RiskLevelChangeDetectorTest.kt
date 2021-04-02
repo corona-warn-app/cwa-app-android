@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
 import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
@@ -66,17 +66,18 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
         every { testResultDonorSettings.riskLevelTurnedRedTime } returns mockFlowPreference(null)
         every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
+        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns flowOf(listOf())
     }
 
     private fun createRiskLevel(
         riskState: RiskState,
         calculatedAt: Instant = Instant.EPOCH,
-        aggregatedRiskResult: AggregatedRiskResult? = null
-    ): RiskLevelResult = object : RiskLevelResult {
+        ewAggregatedRiskResult: EwAggregatedRiskResult? = null
+    ): EwRiskLevelResult = object : EwRiskLevelResult {
         override val riskState: RiskState = riskState
         override val calculatedAt: Instant = calculatedAt
-        override val aggregatedRiskResult: AggregatedRiskResult? = aggregatedRiskResult
-        override val failureReason: RiskLevelResult.FailureReason? = null
+        override val ewAggregatedRiskResult: EwAggregatedRiskResult? = ewAggregatedRiskResult
+        override val failureReason: EwRiskLevelResult.FailureReason? = null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
@@ -98,7 +99,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `nothing happens if there is only one result yet`() {
-        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(listOf(createRiskLevel(LOW_RISK)))
+        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(listOf(createRiskLevel(LOW_RISK)))
 
         runBlockingTest {
             val instance = createInstance(scope = this)
@@ -115,7 +116,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `no risklevel change, nothing should happen`() {
-        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
                 createRiskLevel(LOW_RISK),
                 createRiskLevel(LOW_RISK)
@@ -135,9 +136,11 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         }
     }
 
+    // TODO test if risk level change for combined risk triggers notification
+
     @Test
     fun `risklevel went from HIGH to LOW`() {
-        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
                 createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1)),
                 createRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
@@ -151,16 +154,16 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                submissionSettings.isSubmissionSuccessful
-                foregroundState.isInForeground
                 surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
             }
         }
     }
 
+    // TODO test if risk level change for combined risk triggers notification
+
     @Test
     fun `risklevel went from LOW to HIGH`() {
-        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
                 createRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
                 createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
@@ -174,8 +177,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                submissionSettings.isSubmissionSuccessful
-                foregroundState.isInForeground
                 surveys wasNot Called
             }
         }
@@ -183,7 +184,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `risklevel went from LOW to HIGH but it is has already been processed`() {
-        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
                 createRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
                 createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
@@ -208,12 +209,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     fun `riskLevelTurnedRedTime is only set once`() {
         testResultDonorSettings.riskLevelTurnedRedTime.update { Instant.EPOCH.plus(1) }
 
-        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
                 createRiskLevel(
                     INCREASED_RISK,
                     calculatedAt = Instant.EPOCH.plus(2),
-                    aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+                    ewAggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
                         every { isIncreasedRisk() } returns true
                     }
                 ),
@@ -242,12 +243,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `mostRecentDateWithHighOrLowRiskLevel is updated every time`() {
-        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
                 createRiskLevel(
                     INCREASED_RISK,
                     calculatedAt = Instant.EPOCH.plus(1),
-                    aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+                    ewAggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
                         every { mostRecentDateWithHighRisk } returns Instant.EPOCH.plus(10)
                         every { isIncreasedRisk() } returns true
                     }
@@ -264,12 +265,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
         testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(10)
 
-        every { riskLevelStorage.latestRiskLevelResults } returns flowOf(
+        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
                 createRiskLevel(
                     INCREASED_RISK,
                     calculatedAt = Instant.EPOCH.plus(1),
-                    aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+                    ewAggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
                         every { mostRecentDateWithLowRisk } returns Instant.EPOCH.plus(20)
                         every { isIncreasedRisk() } returns false
                     }

@@ -28,6 +28,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
 import java.util.Date
 
@@ -71,7 +72,7 @@ object HomeData {
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = false,
                 lastExposureDetectionTime = todayAtNineFiftyFive,
-                lastEncounterAt = todayAtNineFiftyFive,
+                lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc(),
                 allowManualUpdate = false,
                 daysWithEncounters = 1,
                 daysSinceInstallation = 4
@@ -87,7 +88,7 @@ object HomeData {
                 lastExposureDetectionTime = todayAtNineFiftyFive,
                 allowManualUpdate = false,
                 daysWithEncounters = 1,
-                lastEncounterAt = todayAtNineFiftyFive
+                lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
             ),
             onCardClick = {},
             onUpdateClick = {}

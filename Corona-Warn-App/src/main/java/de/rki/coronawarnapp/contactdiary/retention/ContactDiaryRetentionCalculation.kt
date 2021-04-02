@@ -53,7 +53,7 @@ class ContactDiaryRetentionCalculation @Inject constructor(
     }
 
     suspend fun clearObsoleteRiskPerDate() {
-        val list = riskLevelStorage.aggregatedRiskPerDateResults.first()
+        val list = riskLevelStorage.ewDayRiskStates.first()
         Timber.d("Aggregated Risk Per Date Results total count: ${list.size}")
         val toDeleteList = list.filter { risk -> isOutOfRetention(risk.localDateUtc) }
         Timber.d("AggregatedRiskPerDateResult to be deleted count: ${toDeleteList.size}")

@@ -10,8 +10,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
-import okio.ByteString
-import okio.ByteString.Companion.toByteString
+import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,7 +24,8 @@ class CheckOutHandlerTest : BaseTest() {
 
     private val testCheckIn = CheckIn(
         id = 42L,
-        guid = "eventOne",
+        traceLocationId = "traceLocationId1".encode(),
+        traceLocationIdHash = "traceLocationIdHash1".encode(),
         version = 1,
         type = 1,
         description = "Restaurant",
@@ -33,8 +33,8 @@ class CheckOutHandlerTest : BaseTest() {
         traceLocationStart = null,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
-        traceLocationBytes = ByteString.EMPTY,
-        signature = "signature".toByteArray().toByteString(),
+        cryptographicSeed = "cryptographicSeed".encode(),
+        cnPublicKey = "cnPublicKey",
         checkInStart = Instant.EPOCH,
         checkInEnd = Instant.EPOCH.plus(100),
         completed = false,

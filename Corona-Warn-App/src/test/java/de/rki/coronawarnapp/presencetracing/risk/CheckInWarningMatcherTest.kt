@@ -30,36 +30,40 @@ class CheckInWarningMatcherTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { presenceTracingRiskRepository.replaceAllMatches(any()) } just Runs
+        coEvery { presenceTracingRiskRepository.reportSuccessfulCalculation(any()) } just Runs
         coEvery { presenceTracingRiskRepository.deleteAllMatches() } just Runs
 
         coEvery { traceWarningRepository.markPackageProcessed(any()) } just Runs
+        coEvery { presenceTracingRiskRepository.deleteStaleData() } just Runs
+        // TODO tests
+        coEvery { presenceTracingRiskRepository.deleteMatchesOfPackage(any()) } just Runs
+        coEvery { presenceTracingRiskRepository.markPackageProcessed(any()) } just Runs
     }
 
     @Test
-    fun `replaces matches`() {
+    fun `reports new matches`() {
         val checkIn1 = createCheckIn(
             id = 2L,
-            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startDateStr = "2021-03-04T10:15+01:00",
             endDateStr = "2021-03-04T10:17+01:00"
         )
         val checkIn2 = createCheckIn(
             id = 3L,
-            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startDateStr = "2021-03-04T09:15+01:00",
             endDateStr = "2021-03-04T10:12+01:00"
         )
 
         val warning1 = createWarning(
-            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
         )
 
         val warning2 = createWarning(
-            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
@@ -81,7 +85,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         runBlockingTest {
             createInstance().execute()
             coVerify(exactly = 1) {
-                presenceTracingRiskRepository.replaceAllMatches(any())
+                presenceTracingRiskRepository.reportSuccessfulCalculation(any())
                 traceWarningRepository.markPackageProcessed(warningPackage.packageId)
             }
             coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
@@ -89,29 +93,29 @@ class CheckInWarningMatcherTest : BaseTest() {
     }
 
     @Test
-    fun `replace with empty list if no matches found`() {
+    fun `report empty list if no matches found`() {
         val checkIn1 = createCheckIn(
             id = 2L,
-            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startDateStr = "2021-03-04T10:15+01:00",
             endDateStr = "2021-03-04T10:17+01:00"
         )
         val checkIn2 = createCheckIn(
             id = 3L,
-            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startDateStr = "2021-03-04T09:15+01:00",
             endDateStr = "2021-03-04T10:12+01:00"
         )
 
         val warning1 = createWarning(
-            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
         )
 
         val warning2 = createWarning(
-            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
@@ -133,7 +137,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         runBlockingTest {
             createInstance().execute()
             coVerify(exactly = 1) {
-                presenceTracingRiskRepository.replaceAllMatches(emptyList())
+                presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList())
                 traceWarningRepository.markPackageProcessed(warningPackage.packageId)
             }
             coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
@@ -141,16 +145,16 @@ class CheckInWarningMatcherTest : BaseTest() {
     }
 
     @Test
-    fun `replace with empty list if package is empty`() {
+    fun `report empty list if package is empty`() {
         val checkIn1 = createCheckIn(
             id = 2L,
-            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startDateStr = "2021-03-04T10:15+01:00",
             endDateStr = "2021-03-04T10:17+01:00"
         )
         val checkIn2 = createCheckIn(
             id = 3L,
-            traceLocationGuid = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
             startDateStr = "2021-03-04T09:15+01:00",
             endDateStr = "2021-03-04T10:12+01:00"
         )
@@ -171,7 +175,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         runBlockingTest {
             createInstance().execute()
             coVerify(exactly = 1) {
-                presenceTracingRiskRepository.replaceAllMatches(emptyList())
+                presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList())
                 traceWarningRepository.markPackageProcessed(warningPackage.packageId)
             }
             coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
@@ -182,14 +186,14 @@ class CheckInWarningMatcherTest : BaseTest() {
     fun `deletes all matches if no check-ins`() {
 
         val warning1 = createWarning(
-            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
         )
 
         val warning2 = createWarning(
-            traceLocationGuid = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
             startIntervalDateStr = "2021-03-04T10:00+01:00",
             period = 6,
             transmissionRiskLevel = 8
@@ -210,9 +214,9 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 0) {
-                presenceTracingRiskRepository.replaceAllMatches(any())
-                traceWarningRepository.markPackageProcessed(any())
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList())
+                traceWarningRepository.markPackageProcessed(warningPackage.packageId)
             }
             coVerify(exactly = 1) { presenceTracingRiskRepository.deleteAllMatches() }
         }
@@ -223,14 +227,14 @@ class CheckInWarningMatcherTest : BaseTest() {
         val checkIns = (1L..100L).map {
             createCheckIn(
                 id = it,
-                traceLocationGuid = it.toString(),
+                traceLocationId = it.toString(),
                 startDateStr = "2021-03-04T09:50+01:00",
                 endDateStr = "2021-03-04T10:05:15+01:00"
             )
         }
         val warnings = (1L..1000L).map {
             createWarning(
-                traceLocationGuid = it.toString(),
+                traceLocationId = it.toString(),
                 startIntervalDateStr = "2021-03-04T10:00+01:00",
                 period = 6,
                 transmissionRiskLevel = 8

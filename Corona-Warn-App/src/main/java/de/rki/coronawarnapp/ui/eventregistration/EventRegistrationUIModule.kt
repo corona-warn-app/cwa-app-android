@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsFragm
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsModule
 import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInModule
+import de.rki.coronawarnapp.ui.eventregistration.attendee.onboarding.CheckInOnboardingFragment
+import de.rki.coronawarnapp.ui.eventregistration.attendee.onboarding.CheckInOnboardingModule
 import de.rki.coronawarnapp.ui.eventregistration.attendee.edit.EditCheckInFragment
 import de.rki.coronawarnapp.ui.eventregistration.attendee.edit.EditCheckInModule
 import de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeFragment
@@ -14,10 +16,10 @@ import de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocatio
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragmentModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragment
 import de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragmentModule
-import de.rki.coronawarnapp.ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragment
-import de.rki.coronawarnapp.ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragmentModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragment
 import de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragmentModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragment
+import de.rki.coronawarnapp.ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragmentModule
 
 @Module
 internal abstract class EventRegistrationUIModule {
@@ -33,6 +35,9 @@ internal abstract class EventRegistrationUIModule {
 
     @ContributesAndroidInjector(modules = [CheckInsModule::class])
     abstract fun checkInsFragment(): CheckInsFragment
+
+    @ContributesAndroidInjector(modules = [CheckInOnboardingModule::class])
+    abstract fun checkInOnboardingFragment(): CheckInOnboardingFragment
 
     @ContributesAndroidInjector(modules = [TraceLocationCategoryFragmentModule::class])
     abstract fun traceLocationCategoryFragment(): TraceLocationCategoryFragment

@@ -1,21 +1,21 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import org.joda.time.Instant
 
-interface RiskLevelResult {
+interface EwRiskLevelResult {
     val calculatedAt: Instant
 
     val riskState: RiskState
         get() = when {
-            aggregatedRiskResult?.isIncreasedRisk() == true -> RiskState.INCREASED_RISK
-            aggregatedRiskResult?.isLowRisk() == true -> RiskState.LOW_RISK
+            ewAggregatedRiskResult?.isIncreasedRisk() == true -> RiskState.INCREASED_RISK
+            ewAggregatedRiskResult?.isLowRisk() == true -> RiskState.LOW_RISK
             else -> RiskState.CALCULATION_FAILED
         }
 
     val failureReason: FailureReason?
-    val aggregatedRiskResult: AggregatedRiskResult?
+    val ewAggregatedRiskResult: EwAggregatedRiskResult?
 
     /**
      * This will only be filled in deviceForTester builds
@@ -23,30 +23,30 @@ interface RiskLevelResult {
     val exposureWindows: List<ExposureWindow>?
 
     val wasSuccessfullyCalculated: Boolean
-        get() = aggregatedRiskResult != null
+        get() = ewAggregatedRiskResult != null
 
     val isIncreasedRisk: Boolean
-        get() = aggregatedRiskResult?.isIncreasedRisk() ?: false
+        get() = ewAggregatedRiskResult?.isIncreasedRisk() ?: false
 
     val matchedKeyCount: Int
         get() = if (isIncreasedRisk) {
-            aggregatedRiskResult?.totalMinimumDistinctEncountersWithHighRisk ?: 0
+            ewAggregatedRiskResult?.totalMinimumDistinctEncountersWithHighRisk ?: 0
         } else {
-            aggregatedRiskResult?.totalMinimumDistinctEncountersWithLowRisk ?: 0
+            ewAggregatedRiskResult?.totalMinimumDistinctEncountersWithLowRisk ?: 0
         }
 
     val daysWithEncounters: Int
         get() = if (isIncreasedRisk) {
-            aggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0
+            ewAggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0
         } else {
-            aggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0
+            ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0
         }
 
     val lastRiskEncounterAt: Instant?
         get() = if (isIncreasedRisk) {
-            aggregatedRiskResult?.mostRecentDateWithHighRisk
+            ewAggregatedRiskResult?.mostRecentDateWithHighRisk
         } else {
-            aggregatedRiskResult?.mostRecentDateWithLowRisk
+            ewAggregatedRiskResult?.mostRecentDateWithLowRisk
         }
 
     enum class FailureReason(val failureCode: String) {

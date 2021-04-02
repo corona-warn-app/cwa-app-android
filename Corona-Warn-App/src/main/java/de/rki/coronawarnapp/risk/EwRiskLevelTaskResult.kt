@@ -1,42 +1,42 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.task.Task
 import org.joda.time.Instant
 
-data class RiskLevelTaskResult(
+data class EwRiskLevelTaskResult(
     override val calculatedAt: Instant,
-    override val failureReason: RiskLevelResult.FailureReason?,
-    override val aggregatedRiskResult: AggregatedRiskResult?,
+    override val failureReason: EwRiskLevelResult.FailureReason?,
+    override val ewAggregatedRiskResult: EwAggregatedRiskResult?,
     override val exposureWindows: List<ExposureWindow>?
-) : Task.Result, RiskLevelResult {
+) : Task.Result, EwRiskLevelResult {
 
     constructor(
         calculatedAt: Instant,
-        aggregatedRiskResult: AggregatedRiskResult,
+        ewAggregatedRiskResult: EwAggregatedRiskResult,
         exposureWindows: List<ExposureWindow>?
     ) : this(
         calculatedAt = calculatedAt,
-        aggregatedRiskResult = aggregatedRiskResult,
+        ewAggregatedRiskResult = ewAggregatedRiskResult,
         exposureWindows = exposureWindows,
         failureReason = null
     )
 
     constructor(
         calculatedAt: Instant,
-        failureReason: RiskLevelResult.FailureReason
+        failureReason: EwRiskLevelResult.FailureReason
     ) : this(
         calculatedAt = calculatedAt,
         failureReason = failureReason,
-        aggregatedRiskResult = null,
+        ewAggregatedRiskResult = null,
         exposureWindows = null
     )
 
     override fun toString(): String = "RiskLevelTaskResult(" +
         "calculatedAt=$calculatedAt, " +
         "failureReason=$failureReason, " +
-        "aggregatedRiskResult=$aggregatedRiskResult, " +
+        "ewAggregatedRiskResult=$ewAggregatedRiskResult, " +
         "exposureWindows.size=${exposureWindows?.size}" +
         ")"
 }
