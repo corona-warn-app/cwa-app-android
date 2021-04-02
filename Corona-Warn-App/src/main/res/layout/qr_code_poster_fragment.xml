@@ -106,9 +106,9 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:indeterminate="true"
         app:hideAnimationBehavior="inward"
