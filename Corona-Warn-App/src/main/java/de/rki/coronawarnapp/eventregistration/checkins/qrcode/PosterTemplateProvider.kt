@@ -22,16 +22,8 @@ class PosterTemplateProvider @Inject constructor(
         val file = File(context.cacheDir, "template.pdf")
         FileOutputStream(file).use { it.write(poster.template.toByteArray()) }
 
-        Timber.d(
-            "posterTemplate=[x=%s, y=%s, side=%s, descriptionTextBox=%s]",
-            poster.offsetX,
-            poster.offsetY,
-            poster.qrCodeSideLength,
-            poster.descriptionTextBox
-        )
-
-        val input = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
-        val renderer = PdfRenderer(input)
+        val fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+        val renderer = PdfRenderer(fileDescriptor)
 
         val page = renderer.openPage(0)
         val scale = (context.resources.displayMetrics.density / page.width * page.height).toInt()
