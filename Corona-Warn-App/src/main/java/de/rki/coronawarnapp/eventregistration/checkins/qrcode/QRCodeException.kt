@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
-open class QRCodeException constructor(
-    message: String? = null,
-    cause: Throwable? = null
-) : Exception(message, cause)
+sealed class QRCodeException constructor(message: String? = null) : Exception(message)
+
+class InvalidQrCodeUriException constructor(message: String? = null) : QRCodeException(message)
+class InvalidQrCodeDataException constructor(message: String? = null) : QRCodeException(message)
+class InvalidQrCodePayloadException constructor(message: String? = null) : QRCodeException(message)

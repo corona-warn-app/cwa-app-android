@@ -13,9 +13,16 @@ import javax.inject.Inject
 
 @Reusable
 class QRCodeUriParser @Inject constructor(
-    private val appConfigProvider: AppConfigProvider
+    private val configProvider: AppConfigProvider
 ) {
 
+    /**
+     * Parse [QRCodePayload] from [input]
+     *
+     * @throws [Exception] such as [QRCodeException],
+     * exceptions from [URI.create]
+     * and possible decoding exceptions
+     */
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun getQrCodePayload(input: String): QRCodePayload {
         Timber.d("input=$input")
@@ -34,18 +41,18 @@ class QRCodeUriParser @Inject constructor(
             PayloadEncoding.BASE32 -> payload.decodeBase32()
             PayloadEncoding.BASE64 -> payload.decodeBase64()
             else -> null
-        } ?: throw IllegalArgumentException("Payload decoding failed")
+        } ?: throw InvalidQrCodeDataException("Payload decoding failed")
 
         return QRCodePayload.parseFrom(rawPayload.toByteArray())
     }
 
     private suspend fun descriptor(input: String): PresenceTracingQRCodeDescriptorOrBuilder {
-        val descriptors = appConfigProvider.getAppConfig().presenceTracing.qrCodeDescriptors
+        val descriptors = configProvider.getAppConfig().presenceTracing.qrCodeDescriptors
         Timber.d("descriptors=$descriptors")
         val descriptor = descriptors.find { it.regexPattern.toRegex(RegexOption.IGNORE_CASE).matches(input) }
         if (descriptor == null) {
             Timber.d("Invalid URI - no matchedDescriptor")
-            throw IllegalArgumentException("Invalid URI - no matchedDescriptor")
+            throw InvalidQrCodeUriException("Invalid URI - no matchedDescriptor")
         }
         Timber.d("descriptor=$descriptor")
         return descriptor
@@ -61,7 +68,7 @@ class QRCodeUriParser @Inject constructor(
 
         if (encodedPayloadGroupIndex !in groups.indices) {
             Timber.d("Invalid payload - group index is out of bounds")
-            throw IllegalArgumentException("Invalid payload - group index is out of bounds")
+            throw InvalidQrCodePayloadException("Invalid payload - group index is out of bounds")
         }
         return groups
     }
