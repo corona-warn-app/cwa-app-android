@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
-import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.eventregistration.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC

@@ -74,7 +74,6 @@ class QRCodeUriParserTest : BaseTest() {
                     }
                     vendorData shouldBe expected.vendorData
                 }*/
-
         }
 
     @ParameterizedTest

@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBin
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CheckInsItem
-import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
 import de.rki.coronawarnapp.util.list.onSwipeItem
@@ -38,7 +37,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.lang.Exception
-import java.lang.reflect.Executable
 import java.net.URLEncoder
 import javax.inject.Inject
 
