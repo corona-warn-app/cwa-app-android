@@ -107,5 +107,3 @@ fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: Transmis
     val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
     return transmissionVector.raw.getOrElse(ageInDays) { 1 } // Default value
 }
-
-private fun okio.ByteString.toProtoByteString() = ByteString.copyFrom(toByteArray())
