@@ -45,12 +45,37 @@ class QRCodeUriParserTest : BaseTest() {
     fun createInstance() = QRCodeUriParser(configProvider)
 
     @ParameterizedTest
-    @ArgumentsSource(ValidUrlProvider::class)
-    fun `Valid URLs`(
+    @ArgumentsSource(Base64UrlProvider::class)
+    fun `Base64 Valid URLs`(
         input: String,
         expectedPayload: QRCodePayload,
         expectedVendorData: CWALocationData
     ) = runBlockingTest {
+        val qrCodePayload = createInstance().getQrCodePayload(input)
+        qrCodePayload shouldBe expectedPayload
+        CWALocationData.parseFrom(qrCodePayload.vendorData) shouldBe expectedVendorData
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(Base32UrlProvider::class)
+    fun `Base32 Valid URLs`(
+        input: String,
+        expectedPayload: QRCodePayload,
+        expectedVendorData: CWALocationData
+    ) = runBlockingTest {
+        coEvery { configProvider.getAppConfig() } returns mockk<ConfigData>().apply {
+            every { presenceTracing } returns PresenceTracingConfigContainer(
+                qrCodeDescriptors = listOf(
+                    PresenceTracingQRCodeDescriptor.newBuilder()
+                        .setVersionGroupIndex(0)
+                        .setEncodedPayloadGroupIndex(1)
+                        .setPayloadEncoding(PayloadEncoding.BASE32)
+                        .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
+                        .build()
+                )
+            )
+        }
+
         val qrCodePayload = createInstance().getQrCodePayload(input)
         qrCodePayload shouldBe expectedPayload
         CWALocationData.parseFrom(qrCodePayload.vendorData) shouldBe expectedVendorData

@@ -12,13 +12,13 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import java.util.stream.Stream
 
-class ValidUrlProvider : ArgumentsProvider {
+class Base32UrlProvider : ArgumentsProvider {
     override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
         return Stream.of(
             Arguments.of(
-                "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmoIARJgO" +
-                    "MTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-vox" +
-                    "Q1EcFJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC",
+                "https://e.coronawarn.app?v=1#BAARELAIAEJBCTLZEBBGS4TUNBSGC6JAKBQXE5DZDIFWC5BANV4SA4DMMFRWKKGTQ6SA" +
+                    "CMHXQ6SACGTFBAAREWZQLEYBGBQHFKDERTR5AIAQMCBKQZEM4PIDAEDQGQQAARZ3BRFS24KCCFZSSN7E4YBSPXT7QU4DO" +
+                    "UKYNRUDLSSPJTFOZWCHHV5DFTRKISOOU5Y3ENLQ2WS2HYW5YAPUE3C6XBJRSAEF6352AOK6DICDCMRTGQRAICABCABA",
                 QRCodePayload.newBuilder()
                     .setVersion(1)
                     .setCrowdNotifierData(
@@ -44,9 +44,9 @@ class ValidUrlProvider : ArgumentsProvider {
                     .build()
             ),
             Arguments.of(
-                "https://e.coronawarn.app?v=1#CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmoIARJgOMTa6eYSiaDv8lW1" +
-                    "3xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ" +
-                    "1EcFJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgYIARABGAo",
+                "https://e.coronawarn.app?v=1#BAAREIAIAEJA2SLDMVRXEZLBNUQFG2DPOANA2TLBNFXCAU3UOJSWK5BAGENGKCABCJNTA" +
+                    "WJQCMDAOKUGJDHD2AQBAYECVBSIZY6QGAIHANBAABDTWDCLFVYUEELTFE36JZQDE7PH7BJYG5IVQ3DIGXFE6TGK5TMEOPL" +
+                    "2GLHCURE45J3RWI2XBVNFUPRN3QA7IJWF5OCTDEAIL5X3UA4V4GQEGEZDGNBCAYEACEABDAFA",
                 QRCodePayload.newBuilder()
                     .setVersion(1)
                     .setCrowdNotifierData(
@@ -76,7 +76,6 @@ class ValidUrlProvider : ArgumentsProvider {
     companion object {
         const val CRYPTOGRAPHIC_SEED = "MTIzNA=="
         const val PUB_KEY =
-            "OMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9" +
-                "eq+voxQ1EcFJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UD"
+            "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5Xg=="
     }
 }
