@@ -6,6 +6,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.eventregistration.events.TraceLocationUrlGenerator
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -21,6 +22,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     @Assisted private val traceLocationId: Long?,
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
+    private val traceLocationUrlGenerator: TraceLocationUrlGenerator,
     private val traceLocationRepository: DefaultTraceLocationRepository
 ) : CWAViewModel() {
 
@@ -53,11 +55,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
 
             traceLocationFlow.value = traceLocation
 
-            createQrCode(
-                "HTTPS://E.CORONAWARN.APP/C1/BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBGGC5LOMNUCAUD" +
-                    "BOJ2HSGGTQ6SACIHXQ6SACKA6CJEDARQCEEAPHGEZ5JI2K2T422L5U3SMZY5DGCPUZ2RQACAYEJ3HQYMAFF" +
-                    "BU2SQCEEAJAUCJSQJ7WDM675MCMOD3L2UL7ECJU7TYERH23B746RQTABO3CTI="
-            )
+            createQrCode(traceLocation)
         }
     }
 
@@ -91,9 +89,10 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
      */
-    private fun createQrCode(input: String) = launch(context = dispatcher.IO) {
-
+    private fun createQrCode(traceLocation: TraceLocation) = launch(context = dispatcher.IO) {
         try {
+            val input = traceLocationUrlGenerator.traceLocationUrl(traceLocation)
+            Timber.d("input=$input")
             qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(input))
         } catch (e: Exception) {
             Timber.d(e, "Qr code creation failed")
