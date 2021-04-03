@@ -181,7 +181,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun navigateByIntentUri(intent: Intent?) {
         val uri = intent?.data ?: return
         Timber.i("Uri:$uri")
-        navController.navigate(CheckInsFragment.createCheckInUri(uri.toString()))
+        val rootUri = uri.toString().replace(".app/?", ".app?")
+        navController.navigate(CheckInsFragment.createCheckInUri(rootUri))
     }
 
     /**
