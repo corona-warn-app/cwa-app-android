@@ -50,31 +50,11 @@ class QRCodeUriParserTest : BaseTest() {
         input: String,
         expectedPayload: QRCodePayload,
         expectedVendorData: CWALocationData
-    ) =
-        runBlockingTest {
-            val qrCodePayload = createInstance().getQrCodePayload(input)
-            qrCodePayload shouldBe expectedPayload
-            CWALocationData.parseFrom(qrCodePayload.vendorData) shouldBe expectedVendorData
-
-            /*  qrCodePayload.apply {
-                    version shouldBe expected.version
-                    crowdNotifierData.apply {
-                        cryptographicSeed shouldBe expected.crowdNotifierData.cryptographicSeed
-                        version shouldBe expected.crowdNotifierData.version
-                        publicKey shouldBe expected.crowdNotifierData.publicKey
-
-                    }
-
-                    locationData.apply {
-                        description shouldBe  expected.locationData.description
-                        address shouldBe  expected.locationData.address
-                        version shouldBe  expected.locationData.version
-                        startTimestamp shouldBe  expected.locationData.startTimestamp
-                        endTimestamp shouldBe  expected.locationData.endTimestamp
-                    }
-                    vendorData shouldBe expected.vendorData
-                }*/
-        }
+    ) = runBlockingTest {
+        val qrCodePayload = createInstance().getQrCodePayload(input)
+        qrCodePayload shouldBe expectedPayload
+        CWALocationData.parseFrom(qrCodePayload.vendorData) shouldBe expectedVendorData
+    }
 
     @ParameterizedTest
     @ArgumentsSource(InvalidUrlProvider::class)
