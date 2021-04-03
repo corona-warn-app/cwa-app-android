@@ -131,6 +131,18 @@
                     tools:src="@drawable/ic_qrcode"
                     tools:tint="@android:color/black" />
 
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_bar"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    app:hideAnimationBehavior="inward"
+                    app:indicatorColor="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="@id/qrCodeImage"
+                    app:layout_constraintEnd_toEndOf="@id/qrCodeImage"
+                    app:layout_constraintStart_toStartOf="@id/qrCodeImage"
+                    app:layout_constraintTop_toTopOf="@id/qrCodeImage" />
+
                 <TextView
                     android:id="@+id/eventDate"
                     style="@style/headline6Sixteen"

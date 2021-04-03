@@ -77,6 +77,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
         }
 
         viewModel.qrCodeBitmap.observe2(this) {
+            binding.progressBar.hide()
             binding.qrCodeImage.apply {
                 val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
                 resourceId.cornerRadius = it.width * 0.1f
