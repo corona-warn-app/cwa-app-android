@@ -41,6 +41,7 @@ class QRCodeUriParser @Inject constructor(
 
     private suspend fun descriptor(input: String): PresenceTracingQRCodeDescriptorOrBuilder {
         val descriptors = appConfigProvider.getAppConfig().presenceTracing.qrCodeDescriptors
+        Timber.d("descriptors=$descriptors")
         val descriptor = descriptors.find { it.regexPattern.toRegex(RegexOption.IGNORE_CASE).matches(input) }
         if (descriptor == null) {
             Timber.d("Invalid URI - no matchedDescriptor")

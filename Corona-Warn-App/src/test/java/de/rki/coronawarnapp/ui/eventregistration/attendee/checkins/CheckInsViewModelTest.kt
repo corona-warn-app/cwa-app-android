@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.PastCheckInVH
@@ -80,11 +81,12 @@ class CheckInsViewModelTest : BaseTest() {
     @Test
     fun `DeepLink verification`() = runBlockingTest {
         every { savedState.get<String>(any()) } returns null
-        every { qrCodeUriParser.getQrCodePayload(any()) } returns ByteString.EMPTY
+        coEvery { qrCodeUriParser.getQrCodePayload(any()) } returns
+            TraceLocationOuterClass.QRCodePayload.newBuilder().build()
 
         createInstance(deepLink = DEEP_LINK, scope = this).apply {
             events.getOrAwaitValue().shouldBeInstanceOf<CheckInEvent.ConfirmCheckIn>()
-            verify {
+            coVerify {
                 savedState.get<String>(any())
                 qrCodeUriParser.getQrCodePayload(any())
                 savedState.set(any(), any<String>())
