@@ -79,7 +79,8 @@ class CheckInWarningMatcherTest : BaseTest() {
             createInstance().execute()
             coVerify(exactly = 1) {
                 presenceTracingRiskRepository.reportSuccessfulCalculation(
-                    listOf(warningPackage), any()
+                    listOf(warningPackage),
+                    any()
                 )
             }
             coVerify(exactly = 0) {
@@ -279,7 +280,8 @@ class CheckInWarningMatcherTest : BaseTest() {
             createInstance().execute()
             coVerify(exactly = 0) {
                 presenceTracingRiskRepository.reportSuccessfulCalculation(
-                    listOf(warningPackage), any()
+                    listOf(warningPackage),
+                    any()
                 )
             }
             coVerify(exactly = 0) {

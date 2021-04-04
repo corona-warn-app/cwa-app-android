@@ -226,7 +226,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
                 riskResultTables.latestEntries(2)
                 exposureWindowTables.getWindowsForResult(listOf(testRiskLevelResultDao.id))
                 presenceTracingRiskRepository.latestEntries(2)
-
             }
         }
     }
