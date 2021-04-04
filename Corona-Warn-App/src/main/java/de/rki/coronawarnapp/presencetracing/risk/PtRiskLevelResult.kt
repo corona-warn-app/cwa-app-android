@@ -49,6 +49,6 @@ val ptUndeterminedRiskLevelResult: PtRiskLevelResult by lazy {
 
 val ptInitialLowRiskLevelResult: PtRiskLevelResult
     get() = PtRiskLevelResult(
-        calculatedAt = Instant.now(),
+        calculatedAt = Instant.EPOCH,
         riskState = RiskState.LOW_RISK
     )
