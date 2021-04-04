@@ -4,11 +4,18 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.mapToRiskState
+import de.rki.coronawarnapp.presencetracing.risk.ptInitialLowRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.ptUndeterminedRiskLevelResult
+import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
+import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
+import de.rki.coronawarnapp.risk.EwInitialLowRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
+import de.rki.coronawarnapp.risk.EwUndeterminedRiskLevelResult
+import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
@@ -30,7 +37,7 @@ import de.rki.coronawarnapp.util.flow.combine as flowCombine
 
 abstract class BaseRiskLevelStorage constructor(
     private val riskResultDatabaseFactory: RiskResultDatabase.Factory,
-    presenceTracingRiskRepository: PresenceTracingRiskRepository,
+    private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     scope: CoroutineScope
 ) : RiskLevelStorage {
 
@@ -190,39 +197,39 @@ abstract class BaseRiskLevelStorage constructor(
             .latestAndLastSuccessful()
             .shareLatest(tag = TAG, scope = scope)
 
-    // TODO maybe refactor
-    override val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<List<CombinedEwPtRiskLevelResult>>
+    // used for risk state in tracing state/details
+    // TODO: unclear how results should be combined for the last successful (do both need to be successful?)
+    override val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<LastCombinedRiskResults>
         get() = combine(
             latestAndLastSuccessfulEwRiskLevelResult,
             latestAndLastSuccessfulPtRiskLevelResult
         ) { ewRiskLevelResults, ptRiskLevelResults ->
-            val latestEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt }
-            val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt }
-            val combinedList = mutableListOf<CombinedEwPtRiskLevelResult>()
-            if (latestEwResult != null && latestPtResult != null) {
-                combinedList.add(
-                    CombinedEwPtRiskLevelResult(
-                        ewRiskLevelResult = latestEwResult,
-                        ptRiskLevelResult = latestPtResult
-                    )
-                )
-            }
+
+            val latestEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt } ?: EwInitialLowRiskLevelResult
+            val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt } ?: ptInitialLowRiskLevelResult
+            val last = CombinedEwPtRiskLevelResult(
+                ewRiskLevelResult = latestEwResult,
+                ptRiskLevelResult = latestPtResult
+            )
+
             val lastSuccessfulEwResult = ewRiskLevelResults
-                .filter { it.wasSuccessfullyCalculated }.maxByOrNull { it.calculatedAt }
+                .filter { it.wasSuccessfullyCalculated }
+                .maxByOrNull { it.calculatedAt }
+                ?: EwUndeterminedRiskLevelResult
             val lastSuccessfulPtResult = ptRiskLevelResults
-                .filter { it.wasSuccessfullyCalculated }.maxByOrNull { it.calculatedAt }
-            if (lastSuccessfulEwResult != null && lastSuccessfulPtResult != null) {
-                combinedList.add(
-                    CombinedEwPtRiskLevelResult(
-                        ewRiskLevelResult = lastSuccessfulEwResult,
-                        // current ptDayRiskStates belong to the last successful calculation - ugly
-                        ptRiskLevelResult = lastSuccessfulPtResult.copy(
-                            presenceTracingDayRisk = ptDayRiskStates.first()
-                        )
-                    )
-                )
-            }
-            combinedList
+                .filter { it.wasSuccessfullyCalculated }
+                .maxByOrNull { it.calculatedAt }
+                ?: ptUndeterminedRiskLevelResult
+            val lastSuccessful = if (last.wasSuccessfullyCalculated) last
+            else CombinedEwPtRiskLevelResult(
+                ewRiskLevelResult = lastSuccessfulEwResult,
+                ptRiskLevelResult = lastSuccessfulPtResult
+            )
+
+            LastCombinedRiskResults(
+                lastCalculated = last,
+                lastSuccessfullyCalculated = lastSuccessful
+            )
         }
 
     private val latestPtRiskLevelResults: Flow<List<PtRiskLevelResult>> =
@@ -230,31 +237,54 @@ abstract class BaseRiskLevelStorage constructor(
             .latestEntries(2)
             .shareLatest(tag = TAG, scope = scope)
 
+    // used for risk level change detector to trigger notification
     override val latestCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
         get() = combine(
             latestEwRiskLevelResults,
             latestPtRiskLevelResults
         ) { ewRiskLevelResults, ptRiskLevelResults ->
-            val latestEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt }
-            val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt }
-            val olderEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt }
-            val olderPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt }
+
             val combinedList = mutableListOf<CombinedEwPtRiskLevelResult>()
-            if (latestEwResult != null && latestPtResult != null) {
-                combinedList.add(
-                    CombinedEwPtRiskLevelResult(
-                        ewRiskLevelResult = latestEwResult,
-                        ptRiskLevelResult = latestPtResult
-                    )
+
+            val latestEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt } ?: EwInitialLowRiskLevelResult
+            val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt } ?: ptInitialLowRiskLevelResult
+
+            combinedList.add(
+                CombinedEwPtRiskLevelResult(
+                    ewRiskLevelResult = latestEwResult,
+                    ptRiskLevelResult = latestPtResult
                 )
-            }
-            if (olderEwResult != null && olderPtResult != null) {
-                combinedList.add(
-                    CombinedEwPtRiskLevelResult(
-                        ewRiskLevelResult = olderEwResult,
-                        ptRiskLevelResult = olderPtResult
+            )
+
+            val olderEwResult = ewRiskLevelResults.minByOrNull { it.calculatedAt } ?: EwInitialLowRiskLevelResult
+            val olderPtResult = ptRiskLevelResults.minByOrNull { it.calculatedAt } ?: ptInitialLowRiskLevelResult
+
+            if (latestEwResult.calculatedAt > latestPtResult.calculatedAt) {
+                if (latestEwResult != olderEwResult)
+                    combinedList.add(
+                        CombinedEwPtRiskLevelResult(
+                            ewRiskLevelResult = olderEwResult,
+                            ptRiskLevelResult = latestPtResult
+                        )
                     )
-                )
+            } else if (latestEwResult.calculatedAt < latestPtResult.calculatedAt) {
+                if (latestPtResult != olderPtResult) {
+                    combinedList.add(
+                        CombinedEwPtRiskLevelResult(
+                            ewRiskLevelResult = latestEwResult,
+                            ptRiskLevelResult = olderPtResult
+                        )
+                    )
+                }
+            } else if (latestEwResult.calculatedAt == latestPtResult.calculatedAt) {
+                if (latestPtResult != olderPtResult && latestEwResult != olderEwResult) {
+                    combinedList.add(
+                        CombinedEwPtRiskLevelResult(
+                            ewRiskLevelResult = olderEwResult,
+                            ptRiskLevelResult = olderPtResult
+                        )
+                    )
+                }
             }
             combinedList
         }
@@ -266,6 +296,7 @@ abstract class BaseRiskLevelStorage constructor(
     override suspend fun clear() {
         Timber.w("clear() - Clearing stored risklevel/exposure-detection results.")
         database.clearAllTables()
+        presenceTracingRiskRepository.clearAllTables()
     }
 
     companion object {

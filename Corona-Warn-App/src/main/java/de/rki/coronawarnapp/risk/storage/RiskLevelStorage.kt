@@ -1,15 +1,13 @@
 package de.rki.coronawarnapp.risk.storage
 
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingDayRisk
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
+import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
+import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
-import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
+import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import kotlinx.coroutines.flow.Flow
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 
 interface RiskLevelStorage {
 
@@ -51,7 +49,7 @@ interface RiskLevelStorage {
      * Can be 0-2 entries.
      * Newest item first.
      */
-    val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<List<CombinedEwPtRiskLevelResult>>
+    val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<LastCombinedRiskResults>
 
     /** EXPOSURE WINDOW RISK RESULT
      * Risk level per date/day
@@ -81,49 +79,4 @@ interface RiskLevelStorage {
     suspend fun storeResult(resultEw: EwRiskLevelResult)
 
     suspend fun clear()
-}
-
-data class CombinedEwPtDayRisk(
-    val localDate: LocalDate,
-    val riskState: RiskState
-)
-
-data class CombinedEwPtRiskLevelResult(
-    val ptRiskLevelResult: PtRiskLevelResult,
-    val ewRiskLevelResult: EwRiskLevelResult
-) {
-
-    val riskState: RiskState = max(ptRiskLevelResult.riskState, ewRiskLevelResult.riskState)
-
-    val wasSuccessfullyCalculated: Boolean
-        get() = ewRiskLevelResult.ewAggregatedRiskResult != null &&
-            ptRiskLevelResult.riskState != RiskState.CALCULATION_FAILED
-
-    val calculatedAt: Instant = max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt)
-
-    val daysWithEncounters: Int
-        get() = when (riskState) {
-            RiskState.INCREASED_RISK -> {
-                (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0) +
-                    ptRiskLevelResult.numberOfDaysWithHighRisk
-            }
-            RiskState.LOW_RISK -> {
-                (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0) +
-                    ptRiskLevelResult.numberOfDaysWithLowRisk
-            }
-            else -> 0
-        }
-
-    val lastRiskEncounterAt: LocalDate?
-        get() = if (riskState == RiskState.INCREASED_RISK) {
-            max(
-                ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithHighRisk?.toLocalDateUtc(),
-                ptRiskLevelResult.mostRecentDateWithHighRisk
-            )
-        } else {
-            max(
-                ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithLowRisk?.toLocalDateUtc(),
-                ptRiskLevelResult.mostRecentDateWithLowRisk
-            )
-        }
 }

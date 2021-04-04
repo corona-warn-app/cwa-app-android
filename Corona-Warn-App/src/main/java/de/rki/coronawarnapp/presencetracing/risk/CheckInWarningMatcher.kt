@@ -31,18 +31,26 @@ class CheckInWarningMatcher @Inject constructor(
 
         presenceTracingRiskRepository.deleteStaleData()
 
+        val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull()
+
         val checkIns = checkInsRepository.allCheckIns.firstOrNull()
         if (checkIns.isNullOrEmpty()) {
             Timber.i("No check-ins available. Deleting all matches.")
             presenceTracingRiskRepository.deleteAllMatches()
-            presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList())
+            presenceTracingRiskRepository.reportSuccessfulCalculation(
+                warningPackages = warningPackages,
+                overlapList = emptyList()
+            )
             return emptyList()
         }
 
-        val warningPackages = traceTimeIntervalWarningRepository.allWarningPackages.firstOrNull()
-
         if (warningPackages.isNullOrEmpty()) {
             // nothing to be done here
+            Timber.i("No new warning packages available.")
+            presenceTracingRiskRepository.reportSuccessfulCalculation(
+                warningPackages = warningPackages,
+                overlapList = emptyList()
+            )
             return emptyList()
         }
 
@@ -61,14 +69,9 @@ class CheckInWarningMatcher @Inject constructor(
             return emptyList()
         }
 
-        // delete stale matches from new packages and mark packages as processed
-        warningPackages.forEach {
-            presenceTracingRiskRepository.deleteMatchesOfPackage(it.warningPackageId)
-            presenceTracingRiskRepository.markPackageProcessed(it.warningPackageId)
-        }
         val matches = matchLists.filterNotNull().flatten()
 
-        presenceTracingRiskRepository.reportSuccessfulCalculation(matches)
+        presenceTracingRiskRepository.reportSuccessfulCalculation(warningPackages, matches)
 
         return matches
     }

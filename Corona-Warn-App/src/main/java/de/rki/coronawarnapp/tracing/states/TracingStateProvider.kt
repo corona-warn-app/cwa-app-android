@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTra
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
@@ -51,10 +50,8 @@ class TracingStateProvider @AssistedInject constructor(
         latestSubmission,
         isBackgroundJobEnabled ->
 
-        val (
-            latestCalc,
-            latestSuccessfulCalc
-        ) = riskLevelResults.tryLatestResultsWithDefaults()
+        val latestCalc = riskLevelResults.lastCalculated
+        val latestSuccessfulCalc = riskLevelResults.lastSuccessfullyCalculated
 
         return@combine when {
             tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> TracingDisabled(

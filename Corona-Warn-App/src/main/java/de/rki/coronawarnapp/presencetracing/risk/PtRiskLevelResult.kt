@@ -7,6 +7,7 @@ import org.joda.time.LocalDate
 data class PtRiskLevelResult(
     val calculatedAt: Instant,
     val riskState: RiskState,
+    // only available for the last successful calculation, otherwise null
     val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null
 ) {
 
@@ -38,3 +39,16 @@ data class PtRiskLevelResult(
             else -> 0
         }
 }
+
+val ptUndeterminedRiskLevelResult: PtRiskLevelResult by lazy {
+    PtRiskLevelResult(
+        calculatedAt = Instant.EPOCH,
+        riskState = RiskState.CALCULATION_FAILED
+    )
+}
+
+val ptInitialLowRiskLevelResult: PtRiskLevelResult
+    get() = PtRiskLevelResult(
+        calculatedAt = Instant.now(),
+        riskState = RiskState.LOW_RISK
+    )

@@ -1,7 +1,11 @@
 package de.rki.coronawarnapp.risk.storage
 
+import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewCalculatedAt
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindow
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindowDaoWrapper
@@ -14,6 +18,7 @@ import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.AggregatedR
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.ExposureWindowsDao
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.Factory
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.RiskResultsDao
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -32,6 +37,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -72,6 +78,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         coEvery { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
         coEvery { presenceTracingRiskRepository.latestAndLastSuccessful() } returns emptyFlow()
         coEvery { presenceTracingRiskRepository.latestEntries(any()) } returns emptyFlow()
+        coEvery { presenceTracingRiskRepository.clearAllTables() } just Runs
     }
 
     private fun createInstance(
@@ -104,11 +111,26 @@ class BaseRiskLevelStorageTest : BaseTest() {
             val instance = createInstance()
             val allEntries = instance.aggregatedRiskPerDateResultTables.allEntries()
             allEntries shouldBe testPersistedAggregatedRiskPerDateResultFlow
-            allEntries.first().map { it.toAggregatedRiskPerDateResult() } shouldBe listOf(testAggregatedRiskPerDateResult)
+            allEntries.first().map { it.toAggregatedRiskPerDateResult() } shouldBe listOf(
+                testAggregatedRiskPerDateResult
+            )
 
             val aggregatedRiskPerDateResults = instance.ewDayRiskStates.first()
             aggregatedRiskPerDateResults shouldNotBe listOf(testPersistedAggregatedRiskPerDateResult)
             aggregatedRiskPerDateResults shouldBe listOf(testAggregatedRiskPerDateResult)
+        }
+    }
+
+    @Test
+    fun `ptDayRiskStates are returned from database`() {
+        val testPresenceTracingDayRiskFlow = flowOf(listOf(testPresenceTracingDayRisk))
+        every { presenceTracingRiskRepository.presenceTracingDayRisk } returns testPresenceTracingDayRiskFlow
+
+        runBlockingTest {
+            val instance = createInstance()
+
+            val states = instance.ptDayRiskStates.first()
+            states shouldBe listOf(testPresenceTracingDayRisk)
         }
     }
 
@@ -170,6 +192,45 @@ class BaseRiskLevelStorageTest : BaseTest() {
         }
     }
 
+    @Test
+    fun `latestCombinedEwPtRiskLevelResults are returned from database and mapped`() {
+        every { riskResultTables.latestEntries(any()) } returns flowOf(listOf(testRiskLevelResultDao))
+        every { exposureWindowTables.getWindowsForResult(any()) } returns flowOf(listOf(testExposureWindowDaoWrapper))
+        val calculatedAt = ewCalculatedAt.plus(6000L)
+        every { presenceTracingRiskRepository.latestEntries(2) } returns flowOf(
+            listOf(
+                PtRiskLevelResult(
+                    calculatedAt = calculatedAt,
+                    presenceTracingDayRisk = null,
+                    riskState = RiskState.CALCULATION_FAILED
+                ),
+                PtRiskLevelResult(
+                    calculatedAt = ewCalculatedAt.minus(1000L),
+                    presenceTracingDayRisk = listOf(testPresenceTracingDayRisk),
+                    riskState = RiskState.INCREASED_RISK
+                )
+            )
+        )
+        runBlockingTest2(ignoreActive = true) {
+            val instance = createInstance(scope = this)
+
+            val riskLevelResults = instance.latestCombinedEwPtRiskLevelResults.first()
+            riskLevelResults.size shouldBe 2
+
+            riskLevelResults[0].calculatedAt shouldBe calculatedAt
+            riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
+            riskLevelResults[1].calculatedAt shouldBe ewCalculatedAt
+            riskLevelResults[1].riskState shouldBe RiskState.INCREASED_RISK
+
+            verify {
+                riskResultTables.latestEntries(2)
+                exposureWindowTables.getWindowsForResult(listOf(testRiskLevelResultDao.id))
+                presenceTracingRiskRepository.latestEntries(2)
+
+            }
+        }
+    }
+
     // This just tests the mapping, the correctness of the SQL statement is validated in an instrumentation test
     @Test
     fun `latestAndLastSuccessful with exposure windows are returned from database and mapped`() {
@@ -190,7 +251,46 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `errors when storing risklevel result are rethrown`() = runBlockingTest {
+    fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult are combined`() {
+        val calculatedAt = ewCalculatedAt.plus(6000L)
+        every { presenceTracingRiskRepository.latestAndLastSuccessful() } returns flowOf(
+            listOf(
+                PtRiskLevelResult(
+                    calculatedAt = calculatedAt,
+                    presenceTracingDayRisk = null,
+                    riskState = RiskState.CALCULATION_FAILED
+                ),
+                PtRiskLevelResult(
+                    calculatedAt = ewCalculatedAt.minus(1000L),
+                    presenceTracingDayRisk = listOf(testPresenceTracingDayRisk),
+                    riskState = RiskState.INCREASED_RISK
+                )
+            )
+        )
+        every { presenceTracingRiskRepository.presenceTracingDayRisk } returns flowOf(listOf(testPresenceTracingDayRisk))
+
+        every { riskResultTables.latestAndLastSuccessful() } returns flowOf(listOf(testRiskLevelResultDao))
+        every { exposureWindowTables.getWindowsForResult(any()) } returns flowOf(listOf(testExposureWindowDaoWrapper))
+
+        runBlockingTest2(ignoreActive = true) {
+            val instance = createInstance(scope = this)
+
+            val riskLevelResult = instance.latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
+
+            riskLevelResult.lastCalculated.calculatedAt shouldBe calculatedAt
+            riskLevelResult.lastCalculated.riskState shouldBe RiskState.INCREASED_RISK
+            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe calculatedAt
+            riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.INCREASED_RISK
+
+            verify {
+                presenceTracingRiskRepository.latestAndLastSuccessful()
+                presenceTracingRiskRepository.presenceTracingDayRisk
+            }
+        }
+    }
+
+    @Test
+    fun `errors when storing risk level result are rethrown`() = runBlockingTest {
         coEvery { riskResultTables.insertEntry(any()) } throws IllegalStateException("No body expects the...")
         val instance = createInstance()
         shouldThrow<java.lang.IllegalStateException> {
@@ -242,6 +342,14 @@ class BaseRiskLevelStorageTest : BaseTest() {
     @Test
     fun `clear works`() = runBlockingTest {
         createInstance().clear()
-        verify { database.clearAllTables() }
+        coVerify {
+            database.clearAllTables()
+            presenceTracingRiskRepository.clearAllTables()
+        }
     }
 }
+
+private val testPresenceTracingDayRisk = PresenceTracingDayRisk(
+    Instant.now().toLocalDateUtc(),
+    RiskState.INCREASED_RISK
+)
