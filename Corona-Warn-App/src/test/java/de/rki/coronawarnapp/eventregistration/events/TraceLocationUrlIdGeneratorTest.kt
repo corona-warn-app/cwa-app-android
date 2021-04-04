@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.events
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TRACE_LOCATION_VERSION
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
@@ -10,7 +9,7 @@ import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class TraceLocationUrlGeneratorTest : BaseTest() {
+class TraceLocationUrlIdGeneratorTest : BaseTest() {
 
     @Test
     fun `traceLocationUrl 1`() = runBlockingTest {
@@ -24,9 +23,9 @@ class TraceLocationUrlGeneratorTest : BaseTest() {
             defaultCheckInLengthInMinutes = null,
             cryptographicSeed = CRYPTOGRAPHIC_SEED.decodeBase64()!!,
             cnPublicKey = PUB_KEY,
-            version = TRACE_LOCATION_VERSION
+            version = TraceLocation.VERSION
         )
-        createInstance().traceLocationUrl(traceLocation) shouldBe
+        createInstance().urlForQrCode(traceLocation) shouldBe
             "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmoIAR" +
             "JgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ1EcFJ" +
             "QkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
@@ -44,15 +43,15 @@ class TraceLocationUrlGeneratorTest : BaseTest() {
             defaultCheckInLengthInMinutes = 10,
             cryptographicSeed = CRYPTOGRAPHIC_SEED.decodeBase64()!!,
             cnPublicKey = PUB_KEY,
-            version = TRACE_LOCATION_VERSION
+            version = TraceLocation.VERSION
         )
-        createInstance().traceLocationUrl(traceLocation) shouldBe
+        createInstance().urlForQrCode(traceLocation) shouldBe
             "https://e.coronawarn.app?v=1#CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmoIARJgOMTa6eYSiaDv8l" +
             "W13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ1EcFJQkEIujVwoCNK0MNG" +
             "uDK1ayjGxeDc4UDGgQxMjM0IgYIARABGAo"
     }
 
-    private fun createInstance() = TraceLocationUrlGenerator()
+    private fun createInstance() = TraceLocationUrlIdGenerator()
 
     companion object {
         const val CRYPTOGRAPHIC_SEED = "MTIzNA=="

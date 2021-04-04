@@ -8,8 +8,6 @@ import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 
-const val TRACE_LOCATION_VERSION = 1
-
 @Parcelize
 data class TraceLocation(
     val id: Long = 0L,
@@ -21,12 +19,19 @@ data class TraceLocation(
     val defaultCheckInLengthInMinutes: Int?,
     val cryptographicSeed: ByteString,
     val cnPublicKey: String,
-    val version: Int = TRACE_LOCATION_VERSION,
+    val version: Int = VERSION,
 ) : Parcelable {
 
     fun isBeforeStartTime(now: Instant): Boolean = startDate?.isAfter(now) ?: false
 
     fun isAfterEndTime(now: Instant): Boolean = endDate?.isBefore(now) ?: false
+
+    companion object {
+        /**
+         * Trace location version. This is a static data and not calculated from [TraceLocation]
+         */
+        const val VERSION = 1
+    }
 }
 
 fun List<TraceLocationEntity>.toTraceLocations() = this.map { it.toTraceLocation() }
