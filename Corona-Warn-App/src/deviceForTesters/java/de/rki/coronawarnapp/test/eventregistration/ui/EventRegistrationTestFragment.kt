@@ -82,6 +82,16 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         viewModel.riskCalculationRuntime.observe2(this) {
             binding.riskCalculationRuntimeText.text = "Risk calculation runtime in millis: $it"
         }
+
+        viewModel.lastLocationData.observe(viewLifecycleOwner) {
+            it?.let { scannedData ->
+                with(binding) {
+                    lastTraceLocation.text = scannedData.traceLocation.toString()
+                    lastTraceLocationId.text = scannedData.id
+                    lastTraceLocationUrl.text = scannedData.url
+                }
+            }
+        }
     }
 
     companion object {

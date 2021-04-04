@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.test.eventregistration.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.eventregistration.events.TraceLocationId
+import de.rki.coronawarnapp.eventregistration.events.TraceLocationUrl
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
@@ -13,16 +17,25 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.map
 import okio.ByteString.Companion.encode
+import okio.ByteString.Companion.toByteString
 import org.joda.time.DateTime
 import timber.log.Timber
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
-    private val dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: DispatcherProvider,
     private val traceLocationRepository: TraceLocationRepository,
     private val checkInWarningMatcher: CheckInWarningMatcher,
-    private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator
+    private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
+    private val traceLocationId: TraceLocationId,
+    private val traceLocationUrl: TraceLocationUrl,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    val lastLocationData: LiveData<LastLocationData?> =
+        traceLocationRepository.allTraceLocations
+            .map { lastLocationData(it) }
+            .asLiveData(dispatcherProvider.Default)
 
     private val checkInWarningOverlaps = mutableListOf<CheckInWarningOverlap>()
     val checkInOverlapsText = MutableLiveData<String>()
@@ -181,6 +194,25 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
+    private fun lastLocationData(it: List<TraceLocation>): LastLocationData? {
+        val traceLocation = it.maxByOrNull { traceLocation -> traceLocation.id }
+        return if (traceLocation != null) {
+            LastLocationData(
+                traceLocation = traceLocation,
+                id = traceLocationId.locationId(traceLocation).toByteString().base64(),
+                url = traceLocationUrl.locationUrl(traceLocation)
+            )
+        } else {
+            null
+        }
+    }
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<EventRegistrationTestFragmentViewModel>
 }
+
+data class LastLocationData(
+    val traceLocation: TraceLocation,
+    val id: String,
+    val url: String
+)
