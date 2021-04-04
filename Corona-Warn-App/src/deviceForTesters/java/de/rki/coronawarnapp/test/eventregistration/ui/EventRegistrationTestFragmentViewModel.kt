@@ -126,7 +126,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
         val checkIn = it.maxByOrNull { checkIn -> checkIn.id } ?: return null
 
         val traceLocation = TraceLocation(
-            id = 0,
+            id = checkIn.id,
             type = TraceLocationOuterClass.TraceLocationType.forNumber(checkIn.type),
             description = checkIn.description,
             address = checkIn.address,
