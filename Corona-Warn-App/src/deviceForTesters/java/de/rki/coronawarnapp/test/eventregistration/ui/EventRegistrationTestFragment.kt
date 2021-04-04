@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -80,21 +81,23 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         }
 
         viewModel.lastOrganiserLocation.observe(viewLifecycleOwner) {
-            it?.let { scannedData ->
+            binding.lastOrganiserLocationCard.isVisible = it != null
+            it?.let { data ->
                 with(binding) {
-                    lastOrganiserLocation.text = scannedData.traceLocation.toString()
-                    lastOrganiserLocationId.text = scannedData.id
-                    lastOrganiserLocationUrl.text = scannedData.url
+                    lastOrganiserLocation.text = data.traceLocation.toString()
+                    lastOrganiserLocationId.text = "ID: " + data.id
+                    lastOrganiserLocationUrl.text = "URL: " + data.url
                 }
             }
         }
 
         viewModel.lastAttendeeLocation.observe(viewLifecycleOwner) {
-            it?.let { scannedData ->
+            binding.lastAttendeeLocationCard.isVisible = it != null
+            it?.let { data ->
                 with(binding) {
-                    lastAttendeeLocation.text = scannedData.traceLocation.toString()
-                    lastAttendeeLocationId.text = scannedData.id
-                    lastAttendeeLocationUrl.text = scannedData.url
+                    lastAttendeeLocation.text = data.traceLocation.toString()
+                    lastAttendeeLocationId.text = "ID: " + data.id
+                    lastAttendeeLocationUrl.text = "URL: " + data.url
                 }
             }
         }

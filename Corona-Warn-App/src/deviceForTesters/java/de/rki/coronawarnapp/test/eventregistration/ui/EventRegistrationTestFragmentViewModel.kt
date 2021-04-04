@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
-import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 

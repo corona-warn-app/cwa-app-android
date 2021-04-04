@@ -119,6 +119,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lastOrganiserLocationCard"
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,7 +131,7 @@
                 style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Last organiser location (ID/URL)" />
+                android:text="Last organiser location" />
 
             <TextView
                 android:id="@+id/lastOrganiserLocation"
@@ -156,6 +157,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lastAttendeeLocationCard"
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,7 +169,7 @@
                 style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Last attendee location (ID/URL)" />
+                android:text="Last attendee location" />
 
             <TextView
                 android:id="@+id/lastAttendeeLocation"
