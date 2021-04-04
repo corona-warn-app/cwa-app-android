@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.events
 
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.QRCodePayload
 import okio.ByteString.Companion.toByteString
 import javax.inject.Inject
@@ -18,6 +19,15 @@ class TraceLocationId @Inject constructor() {
         val totalByteSequence = cwaDomain + payloadBytes
         return totalByteSequence.toByteString().sha256().toByteArray()
     }
+
+    /**
+     *  Returns a byte sequence that serves as an identifier for the trace location.
+     *  The ID is the byte representation of SHA-256 hash.
+     *
+     *  @param traceLocation [TraceLocation]
+     */
+    fun locationId(traceLocation: TraceLocation): ByteArray =
+        locationId(traceLocation.qrCodePayload())
 
     companion object {
         private const val CWA_GUID = "CWA-GUID"
