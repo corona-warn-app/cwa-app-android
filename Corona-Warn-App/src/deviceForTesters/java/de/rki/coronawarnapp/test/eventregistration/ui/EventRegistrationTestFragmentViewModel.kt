@@ -104,6 +104,12 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     }
 
     private fun lastLocationData(it: List<TraceLocation>): LastLocationData? {
+        val traceLocation = it.maxByOrNull { traceLocation -> traceLocation.id } ?: return null
+        return LastLocationData(
+            traceLocation = traceLocation,
+            id = traceLocationId.locationId(traceLocation).toByteString().base64(),
+            url = traceLocationUrl.locationUrl(traceLocation)
+        )
     }
 
     @AssistedFactory
