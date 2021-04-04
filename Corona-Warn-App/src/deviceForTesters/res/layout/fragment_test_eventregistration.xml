@@ -130,17 +130,17 @@
                 style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Last location (ID/URL)" />
+                android:text="Last organiser location (ID/URL)" />
 
             <TextView
-                android:id="@+id/lastTraceLocation"
+                android:id="@+id/lastOrganiserLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textIsSelectable="true" />
 
             <TextView
-                android:id="@+id/lastTraceLocationUrl"
+                android:id="@+id/lastOrganiserLocationUrl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -148,12 +148,48 @@
                 android:textIsSelectable="true" />
 
             <TextView
-                android:id="@+id/lastTraceLocationId"
+                android:id="@+id/lastOrganiserLocationId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textIsSelectable="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_tiny"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Last attendee location (ID/URL)" />
+
+            <TextView
+                android:id="@+id/lastAttendeeLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textIsSelectable="true" />
 
+            <TextView
+                android:id="@+id/lastAttendeeLocationUrl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:autoLink="web"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/lastAttendeeLocationId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textIsSelectable="true" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

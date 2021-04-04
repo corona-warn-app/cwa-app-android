@@ -50,10 +50,6 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             showEventsButton.setOnClickListener {
                 findNavController().navigate(R.id.showStoredEventsTestFragment)
             }
-
-            generateTestTraceLocations.setOnClickListener {
-                viewModel.generateTestTraceLocations()
-            }
         }
         binding.runMatcher.setOnClickListener {
             viewModel.runMatcher()
@@ -83,12 +79,22 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             binding.riskCalculationRuntimeText.text = "Risk calculation runtime in millis: $it"
         }
 
-        viewModel.lastLocationData.observe(viewLifecycleOwner) {
+        viewModel.lastOrganiserLocation.observe(viewLifecycleOwner) {
             it?.let { scannedData ->
                 with(binding) {
-                    lastTraceLocation.text = scannedData.traceLocation.toString()
-                    lastTraceLocationId.text = scannedData.id
-                    lastTraceLocationUrl.text = scannedData.url
+                    lastOrganiserLocation.text = scannedData.traceLocation.toString()
+                    lastOrganiserLocationId.text = scannedData.id
+                    lastOrganiserLocationUrl.text = scannedData.url
+                }
+            }
+        }
+
+        viewModel.lastAttendeeLocation.observe(viewLifecycleOwner) {
+            it?.let { scannedData ->
+                with(binding) {
+                    lastAttendeeLocation.text = scannedData.traceLocation.toString()
+                    lastAttendeeLocationId.text = scannedData.id
+                    lastAttendeeLocationUrl.text = scannedData.url
                 }
             }
         }
