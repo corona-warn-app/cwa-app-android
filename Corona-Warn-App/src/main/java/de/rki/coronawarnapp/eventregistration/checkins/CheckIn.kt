@@ -24,6 +24,7 @@ data class CheckIn(
     val completed: Boolean,
     val createJournalEntry: Boolean
 ) {
+    // TODO calculate hash for matching
     // val locationGuidHash: com.google.protobuf.ByteString by lazy { copyFromUtf8(guid.toSHA256()) }
 }
 

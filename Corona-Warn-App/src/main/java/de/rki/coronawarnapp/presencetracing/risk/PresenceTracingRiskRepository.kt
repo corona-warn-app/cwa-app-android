@@ -43,7 +43,7 @@ class PresenceTracingRiskRepository @Inject constructor(
         database.presenceTracingRiskLevelResultDao()
     }
 
-    private val matchesOfLast14Days = traceTimeIntervalMatchDao.allMatches()
+    private val matchesOfLast14DaysPlusToday = traceTimeIntervalMatchDao.allMatches()
         .map { list ->
             list.map {
                 it.toModel()
@@ -51,7 +51,7 @@ class PresenceTracingRiskRepository @Inject constructor(
                 .filter { it.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc()) }
         }
 
-    private val normalizedTime = matchesOfLast14Days.map {
+    private val normalizedTimeOfLast14DaysPlusToday = matchesOfLast14DaysPlusToday.map {
         presenceTracingRiskCalculator.calculateNormalizedTime(it)
     }
 
@@ -59,12 +59,12 @@ class PresenceTracingRiskRepository @Inject constructor(
         get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
 
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
-        normalizedTime.map {
+        normalizedTimeOfLast14DaysPlusToday.map {
             presenceTracingRiskCalculator.calculateCheckInRiskPerDay(it)
         }
 
     val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>> =
-        normalizedTime.map {
+        normalizedTimeOfLast14DaysPlusToday.map {
             presenceTracingRiskCalculator.calculateAggregatedRiskPerDay(it)
         }
 
@@ -83,8 +83,8 @@ class PresenceTracingRiskRepository @Inject constructor(
             traceTimeIntervalMatchDao.insert(overlapList.map { it.toEntity() })
         }
 
-        val last14days = normalizedTime.first()
-        val risk = presenceTracingRiskCalculator.calculateTotalRisk(last14days)
+        val last14daysPlusToday = normalizedTimeOfLast14DaysPlusToday.first()
+        val risk = presenceTracingRiskCalculator.calculateTotalRisk(last14daysPlusToday)
         addResult(
             PtRiskLevelResult(
                 timeStamper.nowUTC,
