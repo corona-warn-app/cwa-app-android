@@ -9,10 +9,10 @@ import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class TraceLocationUrlIdGeneratorTest : BaseTest() {
+class TraceLocationUrlTest : BaseTest() {
 
     @Test
-    fun `traceLocationUrl 1`() = runBlockingTest {
+    fun `locationUrl 1`() = runBlockingTest {
         val traceLocation = TraceLocation(
             id = 1,
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
@@ -25,14 +25,15 @@ class TraceLocationUrlIdGeneratorTest : BaseTest() {
             cnPublicKey = PUB_KEY,
             version = TraceLocation.VERSION
         )
-        createInstance().urlForQrCode(traceLocation) shouldBe
+
+        createInstance().locationUrl(traceLocation) shouldBe
             "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmoIAR" +
             "JgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ1EcFJ" +
             "QkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
     }
 
     @Test
-    fun `traceLocationUrl 2`() = runBlockingTest {
+    fun `locationUrl 2`() = runBlockingTest {
         val traceLocation = TraceLocation(
             id = 2,
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER,
@@ -45,13 +46,14 @@ class TraceLocationUrlIdGeneratorTest : BaseTest() {
             cnPublicKey = PUB_KEY,
             version = TraceLocation.VERSION
         )
-        createInstance().urlForQrCode(traceLocation) shouldBe
+
+        createInstance().locationUrl(traceLocation) shouldBe
             "https://e.coronawarn.app?v=1#CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmoIARJgOMTa6eYSiaDv8l" +
             "W13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ1EcFJQkEIujVwoCNK0MNG" +
             "uDK1ayjGxeDc4UDGgQxMjM0IgYIARABGAo"
     }
 
-    private fun createInstance() = TraceLocationUrlIdGenerator()
+    private fun createInstance() = TraceLocationUrl()
 
     companion object {
         const val CRYPTOGRAPHIC_SEED = "MTIzNA=="

@@ -11,35 +11,35 @@ import de.rki.coronawarnapp.util.toProtoByteString
 import okio.ByteString.Companion.decodeBase64
 import javax.inject.Inject
 
-class TraceLocationUrlIdGenerator @Inject constructor() {
+class TraceLocationUrl @Inject constructor() {
 
     /**
      * Return a url for [TraceLocation] to be used as an input for [QrCodeGenerator]
      * URL format https://e.coronawarn.app?v=1#QR_CODE_PAYLOAD_BASE64URL
      */
-    fun urlForQrCode(traceLocation: TraceLocation): String {
-        val payloadBytes = qrCodePayload(traceLocation).toByteArray()
+    fun locationUrl(traceLocation: TraceLocation): String {
+        val payloadBytes = traceLocation.qrCodePayload().toByteArray()
         val base64Url = BaseEncoding.base64Url().omitPadding().encode(payloadBytes)
         return AUTHORITY.plus(base64Url)
     }
 
-    private fun qrCodePayload(traceLocation: TraceLocation): QRCodePayload {
+    private fun TraceLocation.qrCodePayload(): QRCodePayload {
         val vendorData = CWALocationData.newBuilder()
-            .setType(traceLocation.type)
-            .setDefaultCheckInLengthInMinutes(traceLocation.defaultCheckInLengthInMinutes ?: 0)
+            .setType(type)
+            .setDefaultCheckInLengthInMinutes(defaultCheckInLengthInMinutes ?: 0)
             .setVersion(TraceLocation.VERSION)
             .build()
 
         val crowdNotifierData = TraceLocationOuterClass.CrowdNotifierData.newBuilder()
-            .setCryptographicSeed(traceLocation.cryptographicSeed.toProtoByteString())
-            .setPublicKey(traceLocation.cnPublicKey.decodeBase64()!!.toProtoByteString())
+            .setCryptographicSeed(cryptographicSeed.toProtoByteString())
+            .setPublicKey(cnPublicKey.decodeBase64()!!.toProtoByteString())
             .setVersion(TraceLocation.VERSION)
 
         val locationData = TraceLocationOuterClass.TraceLocation.newBuilder()
-            .setDescription(traceLocation.description)
-            .setAddress(traceLocation.address)
-            .setStartTimestamp(traceLocation.startDate?.seconds ?: 0)
-            .setEndTimestamp(traceLocation.endDate?.seconds ?: 0)
+            .setDescription(description)
+            .setAddress(address)
+            .setStartTimestamp(startDate?.seconds ?: 0)
+            .setEndTimestamp(endDate?.seconds ?: 0)
             .setVersion(TraceLocation.VERSION)
             .build()
 

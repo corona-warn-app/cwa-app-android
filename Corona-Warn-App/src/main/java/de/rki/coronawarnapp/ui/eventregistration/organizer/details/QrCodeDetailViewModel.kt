@@ -6,7 +6,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.events.TraceLocationUrlIdGenerator
+import de.rki.coronawarnapp.eventregistration.events.TraceLocationUrl
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -22,7 +22,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     @Assisted private val traceLocationId: Long?,
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
-    private val traceLocationUrlIdGenerator: TraceLocationUrlIdGenerator,
+    private val traceLocationUrl: TraceLocationUrl,
     private val traceLocationRepository: DefaultTraceLocationRepository
 ) : CWAViewModel() {
 
@@ -91,7 +91,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
      */
     private fun createQrCode(traceLocation: TraceLocation) = launch(context = dispatcher.IO) {
         try {
-            val input = traceLocationUrlIdGenerator.urlForQrCode(traceLocation)
+            val input = traceLocationUrl.locationUrl(traceLocation)
             Timber.d("input=$input")
             qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(input))
         } catch (e: Exception) {
