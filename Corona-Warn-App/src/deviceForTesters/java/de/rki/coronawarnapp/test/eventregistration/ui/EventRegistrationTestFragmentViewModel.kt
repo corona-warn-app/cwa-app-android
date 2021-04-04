@@ -12,15 +12,12 @@ import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationReposito
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskCalculator
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
-import okio.ByteString.Companion.encode
 import okio.ByteString.Companion.toByteString
-import org.joda.time.DateTime
 import timber.log.Timber
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
@@ -106,105 +103,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun generateTestTraceLocations() {
-        launch {
-            val permanent = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_FOOD_SERVICE,
-                description = "SAP Kantine WDF20",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = null,
-                endDate = null,
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(permanent)
-
-            val oneDayEvent = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
-                description = "Jahrestreffen der deutschen SAP Anwendergruppe (one day)",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = DateTime.now().plusHours(2).toInstant(),
-                endDate = DateTime.now().plusHours(3).toInstant(),
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(oneDayEvent)
-
-            val partyHardEvent = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CLUB_ACTIVITY,
-                description = "Jahrestreffen der deutschen SAP Anwendergruppe (many days)",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = DateTime.now().plusHours(2).toInstant(),
-                endDate = DateTime.now().plusDays(5).plusHours(2).toInstant(),
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(partyHardEvent)
-
-            val oldPermanent = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_FOOD_SERVICE,
-                description = "SAP Kantine MOW07",
-                address = "Moscow, Kosmodomianskaya 52/7",
-                startDate = null,
-                endDate = null,
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(oldPermanent)
-
-            val oldTemporaryOne = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CLUB_ACTIVITY,
-                description = "Old temporary 1",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
-                endDate = DateTime.now().minusSeconds(15 * 86400 - 10).toInstant(),
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(oldTemporaryOne)
-
-            val oldTemporaryTwo = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CLUB_ACTIVITY,
-                description = "Old temporary 2",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
-                endDate = DateTime.now().minusSeconds(15 * 86400).toInstant(),
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(oldTemporaryTwo)
-
-            val oldTemporaryThree = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CLUB_ACTIVITY,
-                description = "Old temporary 3",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
-                endDate = DateTime.now().minusSeconds(15 * 86400 + 10).toInstant(),
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(oldTemporaryThree)
-        }
-    }
-
     private fun lastLocationData(it: List<TraceLocation>): LastLocationData? {
-        val traceLocation = it.maxByOrNull { traceLocation -> traceLocation.id }
-        return if (traceLocation != null) {
-            LastLocationData(
-                traceLocation = traceLocation,
-                id = traceLocationId.locationId(traceLocation).toByteString().base64(),
-                url = traceLocationUrl.locationUrl(traceLocation)
-            )
-        } else {
-            null
-        }
     }
 
     @AssistedFactory
