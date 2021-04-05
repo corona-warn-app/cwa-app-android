@@ -68,7 +68,6 @@ class RiskLevelChangeDetector @Inject constructor(
     }
 
     private suspend fun checkCombinedRiskForStateChanges(results: List<CombinedEwPtRiskLevelResult>) {
-        // TODO refactor
         val oldResult = results.first()
         val newResult = results.last()
 
@@ -84,10 +83,7 @@ class RiskLevelChangeDetector @Inject constructor(
         Timber.d("Last combined state was $oldRiskState and current state is $newRiskState")
 
         // Check sending a notification when risk level changes
-        if (hasHighLowLevelChanged(oldRiskState, newRiskState)) {
-            checkSendingNotification()
-            Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskState")
-        }
+        checkSendingNotification(oldRiskState, newRiskState)
     }
 
     private fun checkEwRiskForStateChanges(results: List<EwRiskLevelResult>) {
@@ -146,8 +142,11 @@ class RiskLevelChangeDetector @Inject constructor(
         }
     }
 
-    private suspend fun checkSendingNotification() {
-        if (!submissionSettings.isSubmissionSuccessful) {
+    private suspend fun checkSendingNotification(
+        oldRiskState: RiskState,
+        newRiskState: RiskState
+    ) {
+        if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !submissionSettings.isSubmissionSuccessful) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {
@@ -163,6 +162,7 @@ class RiskLevelChangeDetector @Inject constructor(
             } else {
                 Timber.d("App is in foreground, not sending notifications")
             }
+            Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskState")
         }
     }
 

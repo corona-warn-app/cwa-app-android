@@ -51,12 +51,12 @@ class TracingStateProvider @AssistedInject constructor(
         isBackgroundJobEnabled ->
 
         val latestCalc = riskLevelResults.lastCalculated
-        val lastSuccessfullyCalculated = riskLevelResults.lastSuccessfullyCalculated
+        val lastSuccessfullyCalc = riskLevelResults.lastSuccessfullyCalculated
 
         return@combine when {
             tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> TracingDisabled(
                 isInDetailsMode = isDetailsMode,
-                riskState = lastSuccessfullyCalculated.riskState,
+                riskState = lastSuccessfullyCalc.riskState,
                 lastExposureDetectionTime = latestSubmission?.startedAt
             )
             tracingProgress != TracingProgress.Idle -> TracingInProgress(
@@ -83,7 +83,7 @@ class TracingStateProvider @AssistedInject constructor(
             )
             else -> TracingFailed(
                 isInDetailsMode = isDetailsMode,
-                riskState = lastSuccessfullyCalculated.riskState,
+                riskState = lastSuccessfullyCalc.riskState,
                 lastExposureDetectionTime = latestSubmission?.startedAt
             )
         }
