@@ -28,7 +28,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
+import okio.ByteString.Companion.encode
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
+import kotlin.random.Random
 
 class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
@@ -157,6 +161,26 @@ class CheckInsViewModel @AssistedInject constructor(
 
     fun checkCameraSettings() {
         cameraPermissionProvider.checkSettings()
+    }
+
+    fun addFakeCheckin() = launch {
+        CheckIn(
+            traceLocationId = "traceLocationId1#${Random.nextInt()}".encode(),
+            traceLocationIdHash = "traceLocationIdHash1".encode(),
+            version = 1,
+            type = 1,
+            description = "Random Entry #${Random.nextInt(1, 4096)}",
+            address = "Around the corner",
+            traceLocationStart = null,
+            traceLocationEnd = null,
+            defaultCheckInLengthInMinutes = null,
+            cryptographicSeed = "cryptographicSeed".encode(),
+            cnPublicKey = "cnPublicKey",
+            checkInStart = Instant.now().minus(Duration.standardMinutes(Random.nextLong(1, 10))),
+            checkInEnd = Instant.now().plus(Duration.standardMinutes(Random.nextLong(1, 10))),
+            completed = false,
+            createJournalEntry = true
+        ).let { checkInsRepository.addCheckIn(it) }
     }
 
     companion object {
