@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
@@ -53,8 +54,8 @@ open class ContactDiaryOverviewViewModelTest {
     @MockK lateinit var context: Context
 
     private val testDispatcherProvider = TestDispatcherProvider()
-    private val date = LocalDate.now()
-    private val dateMillis = date.toDateTimeAtStartOfDay(DateTimeZone.UTC).millis
+    private val dateNow = Instant.now().toLocalDateUtc()
+    private val dateMillis = dateNow.toDateTimeAtStartOfDay(DateTimeZone.UTC).millis
 
     @BeforeEach
     fun refresh() {
@@ -72,8 +73,8 @@ open class ContactDiaryOverviewViewModelTest {
 
     private val person = DefaultContactDiaryPerson(123, "Romeo")
     private val location = DefaultContactDiaryLocation(124, "Rewe")
-    private val personEncounter = DefaultContactDiaryPersonEncounter(125, date, person)
-    private val locationVisit = DefaultContactDiaryLocationVisit(126, date, location)
+    private val personEncounter = DefaultContactDiaryPersonEncounter(125, dateNow, person)
+    private val locationVisit = DefaultContactDiaryLocationVisit(126, dateNow, location)
 
     private val locationEventLowRisk = DefaultContactDiaryLocation(
         locationId = 456,
@@ -89,27 +90,27 @@ open class ContactDiaryOverviewViewModelTest {
 
     private val locationEventLowRiskVisit = DefaultContactDiaryLocationVisit(
         id = 458,
-        date = date,
+        date = dateNow,
         contactDiaryLocation = locationEventLowRisk,
         checkInID = 147L
     )
 
     private val locationEventHighRiskVisit = DefaultContactDiaryLocationVisit(
         id = 459,
-        date = date,
+        date = dateNow,
         contactDiaryLocation = locationEventHighRisk,
         checkInID = 148L
     )
 
     private val traceLocationCheckInRiskLow = object : TraceLocationCheckInRisk {
         override val checkInId: Long = 147
-        override val localDateUtc: LocalDate = date
+        override val localDateUtc: LocalDate = dateNow
         override val riskState: RiskState = RiskState.LOW_RISK
     }
 
     private val traceLocationCheckInRiskHigh = object : TraceLocationCheckInRisk {
         override val checkInId: Long = 148
-        override val localDateUtc: LocalDate = date
+        override val localDateUtc: LocalDate = dateNow
         override val riskState: RiskState = RiskState.INCREASED_RISK
     }
 
@@ -165,7 +166,7 @@ open class ContactDiaryOverviewViewModelTest {
             size shouldBe ContactDiaryOverviewViewModel.DAY_COUNT
 
             var days = 0
-            forEach { it.date shouldBe date.minusDays(days++) }
+            forEach { it.date shouldBe dateNow.minusDays(days++) }
         }
     }
 
@@ -180,7 +181,7 @@ open class ContactDiaryOverviewViewModelTest {
     @Test
     fun `navigate to day fragment with correct day`() {
         val listItem = DayOverviewItem(
-            date = date,
+            date = dateNow,
             contactItem = ContactItem(emptyList())
         ) {}
 
@@ -202,7 +203,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { riskLevelStorage.ewDayRiskStates } returns flowOf(listOf(aggregatedRiskPerDateResultLowRisk))
 
         val item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
@@ -224,7 +225,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { riskLevelStorage.ewDayRiskStates } returns flowOf(listOf(aggregatedRiskPerDateResultLowRisk))
 
         val item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
@@ -249,7 +250,7 @@ open class ContactDiaryOverviewViewModelTest {
         )
 
         val item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
@@ -275,7 +276,7 @@ open class ContactDiaryOverviewViewModelTest {
         )
 
         val item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
@@ -300,7 +301,7 @@ open class ContactDiaryOverviewViewModelTest {
         )
 
         val item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
@@ -326,7 +327,7 @@ open class ContactDiaryOverviewViewModelTest {
         )
 
         val item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
@@ -347,7 +348,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationEventHighRiskVisit))
 
         var item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
@@ -365,7 +366,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationEventLowRiskVisit))
 
         item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
@@ -382,7 +383,7 @@ open class ContactDiaryOverviewViewModelTest {
     @Test
     fun `risk event item is null if no trace location check in risk exist`() {
         val item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         item.riskEventItem shouldBe null
@@ -394,7 +395,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(listOf(traceLocationCheckInRiskLow))
 
         val item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
@@ -414,7 +415,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(listOf(traceLocationCheckInRiskHigh))
 
         val item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
@@ -444,7 +445,7 @@ open class ContactDiaryOverviewViewModelTest {
         )
 
         val item = createInstance().listItems.getOrAwaitValue().first {
-            it is DayOverviewItem && it.date == date
+            it is DayOverviewItem && it.date == dateNow
         } as DayOverviewItem
 
         with(item) {
