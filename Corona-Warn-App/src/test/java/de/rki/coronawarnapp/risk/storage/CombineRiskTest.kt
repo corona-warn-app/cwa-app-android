@@ -159,4 +159,3 @@ private fun createEwRiskLevelResult(
     override val matchedKeyCount: Int = 0
     override val daysWithEncounters: Int = 0
 }
-
