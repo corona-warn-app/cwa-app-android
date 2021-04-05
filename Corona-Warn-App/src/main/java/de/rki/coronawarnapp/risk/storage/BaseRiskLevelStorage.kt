@@ -291,10 +291,9 @@ internal fun combineEwPtRiskLevelResults(
     }
 }
 
-// TODO not sure what the initial results should be - low or failed?
 private object EwInitialRiskLevelResult : EwRiskLevelResult {
     override val calculatedAt: Instant = Instant.EPOCH
-    override val riskState: RiskState = RiskState.LOW_RISK
+    override val riskState: RiskState = RiskState.CALCULATION_FAILED
     override val failureReason: EwRiskLevelResult.FailureReason? = null
     override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
     override val exposureWindows: List<ExposureWindow>? = null
@@ -305,7 +304,7 @@ private object EwInitialRiskLevelResult : EwRiskLevelResult {
 private val ptInitialRiskLevelResult: PtRiskLevelResult by lazy {
     PtRiskLevelResult(
         calculatedAt = Instant.EPOCH,
-        riskState = RiskState.LOW_RISK
+        riskState = RiskState.CALCULATION_FAILED
     )
 }
 

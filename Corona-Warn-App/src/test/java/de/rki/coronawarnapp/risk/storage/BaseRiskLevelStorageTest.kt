@@ -256,7 +256,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
             // result from the combination with initial ew low risk result
             riskLevelResults[1].calculatedAt shouldBe ewCalculatedAt.minus(400L)
-            riskLevelResults[1].riskState shouldBe RiskState.LOW_RISK
+            riskLevelResults[1].riskState shouldBe RiskState.CALCULATION_FAILED
 
             verify {
                 riskResultTables.latestEntries(2)
