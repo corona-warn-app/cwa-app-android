@@ -8,8 +8,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.events.locationId
-import de.rki.coronawarnapp.eventregistration.events.locationUrl
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap

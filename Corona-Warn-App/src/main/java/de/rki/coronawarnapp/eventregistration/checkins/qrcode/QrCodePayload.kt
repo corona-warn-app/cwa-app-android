@@ -1,13 +1,15 @@
-package de.rki.coronawarnapp.eventregistration.events
+package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.CWALocationData
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.CrowdNotifierData
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.QRCodePayload
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
+import de.rki.coronawarnapp.util.toOkioByteString
 import de.rki.coronawarnapp.util.toProtoByteString
 import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.toByteString
 
 fun TraceLocation.qrCodePayload(): QRCodePayload {
     val vendorData = CWALocationData.newBuilder()
@@ -35,4 +37,19 @@ fun TraceLocation.qrCodePayload(): QRCodePayload {
         .setLocationData(locationData)
         .setVersion(TraceLocation.VERSION)
         .build()
+}
+
+fun QRCodePayload.traceLocation(): TraceLocation {
+    val cwaLocationData = CWALocationData.parseFrom(vendorData)
+    return TraceLocation(
+        version = version,
+        type = cwaLocationData.type,
+        defaultCheckInLengthInMinutes = cwaLocationData.defaultCheckInLengthInMinutes,
+        description = locationData.description,
+        address = locationData.address,
+        startDate = locationData.startTimestamp.secondsToInstant(),
+        endDate = locationData.endTimestamp.secondsToInstant(),
+        cryptographicSeed = crowdNotifierData.cryptographicSeed.toByteArray().toByteString(),
+        cnPublicKey = crowdNotifierData.publicKey.toOkioByteString().base64()
+    )
 }

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.events
 
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.traceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
@@ -18,7 +19,7 @@ class TraceLocationIdTest : BaseTest() {
         val qrCodePayload = TraceLocationOuterClass.QRCodePayload.parseFrom(
             qrCodePayloadBase64.decodeBase64()!!.toByteArray()
         )
-        qrCodePayload.locationId.base64() shouldBe "jNcJTCajd9Sen6Tbexl2Yb7O3J7ps47b6k4+QMT4xS0="
+        qrCodePayload.traceLocation().locationId.base64() shouldBe "jNcJTCajd9Sen6Tbexl2Yb7O3J7ps47b6k4+QMT4xS0="
     }
 
     @Test
@@ -29,7 +30,7 @@ class TraceLocationIdTest : BaseTest() {
         val qrCodePayload = TraceLocationOuterClass.QRCodePayload.parseFrom(
             qrCodePayloadBase64.decodeBase64()!!.toByteArray()
         )
-        qrCodePayload.locationId.base64() shouldBe "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
+        qrCodePayload.traceLocation().locationId.base64() shouldBe "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
     }
 
     @Test

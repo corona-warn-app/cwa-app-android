@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
-import de.rki.coronawarnapp.eventregistration.events.locationId
-import de.rki.coronawarnapp.eventregistration.events.qrCodePayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
