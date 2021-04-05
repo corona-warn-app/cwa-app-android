@@ -103,28 +103,31 @@ class TraceWarningPackageDownloader @Inject constructor(
         metaData: TraceWarningPackageMetadata,
         rawProtoBuf: ByteArray,
     ) {
-        if (rawProtoBuf.isNotEmpty()) {
-            val saveTo = repository.getPathForMetaData(metaData)
-            if (saveTo.exists()) {
-                Timber.tag(TAG).w("File existed, overwriting: %s", saveTo)
-                if (saveTo.delete()) {
-                    Timber.tag(TAG).e("%s exists, but can't be deleted.", saveTo)
-                }
-            }
-            try {
-                saveTo.parentFile?.let {
-                    if (!it.exists() && it.mkdir()) {
-                        Timber.w("Had to create parent dir: %s", it)
-                    }
-                }
-                saveTo.writeBytes(rawProtoBuf)
-            } catch (e: Exception) {
-                Timber.tag(TAG).e(e, "Failed to write %s to %s", metaData, saveTo)
-                saveTo.delete()
-                throw e
-            }
-            Timber.tag(TAG).v("%d bytes written to %s.", rawProtoBuf.size, saveTo)
+        if (rawProtoBuf.isEmpty()) {
+            Timber.tag(TAG).d("rawProtoBuf was empty for  %s", metaData.packageId)
+            return
         }
+
+        val saveTo = repository.getPathForMetaData(metaData)
+        if (saveTo.exists()) {
+            Timber.tag(TAG).w("File existed, overwriting: %s", saveTo)
+            if (saveTo.delete()) {
+                Timber.tag(TAG).e("%s exists, but can't be deleted.", saveTo)
+            }
+        }
+        try {
+            saveTo.parentFile?.let {
+                if (!it.exists() && it.mkdir()) {
+                    Timber.w("Had to create parent dir: %s", it)
+                }
+            }
+            saveTo.writeBytes(rawProtoBuf)
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to write %s to %s", metaData, saveTo)
+            saveTo.delete()
+            throw e
+        }
+        Timber.tag(TAG).v("%d bytes written to %s.", rawProtoBuf.size, saveTo)
     }
 
     private fun getValidatedBinary(
