@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.toOkioByteString
 import de.rki.coronawarnapp.util.toProtoByteString
 import okio.ByteString.Companion.decodeBase64
-import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 
 fun TraceLocation.qrCodePayload(): QRCodePayload {
@@ -50,7 +49,7 @@ fun QRCodePayload.traceLocation(): TraceLocation {
         address = locationData.address,
         startDate = locationData.startTimestamp.instant(),
         endDate = locationData.endTimestamp.instant(),
-        cryptographicSeed = crowdNotifierData.cryptographicSeed.toByteArray().toByteString(),
+        cryptographicSeed = crowdNotifierData.cryptographicSeed.toOkioByteString(),
         cnPublicKey = crowdNotifierData.publicKey.toOkioByteString().base64()
     )
 }
