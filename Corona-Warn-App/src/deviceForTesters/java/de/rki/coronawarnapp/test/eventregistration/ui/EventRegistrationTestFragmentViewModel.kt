@@ -8,8 +8,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.events.TraceLocationId
-import de.rki.coronawarnapp.eventregistration.events.TraceLocationUrl
+import de.rki.coronawarnapp.eventregistration.events.locationId
+import de.rki.coronawarnapp.eventregistration.events.locationUrl
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
-import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
@@ -28,9 +27,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     traceLocationRepository: TraceLocationRepository,
     checkInRepository: CheckInRepository,
     private val checkInWarningMatcher: CheckInWarningMatcher,
-    private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
-    private val traceLocationId: TraceLocationId,
-    private val traceLocationUrl: TraceLocationUrl,
+    private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val lastOrganiserLocation: LiveData<LastLocationData?> =
@@ -116,8 +113,8 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
         val traceLocation = it.maxByOrNull { traceLocation -> traceLocation.id } ?: return null
         return LastLocationData(
             traceLocation = traceLocation,
-            id = traceLocationId.locationId(traceLocation).toByteString().base64(),
-            url = traceLocationUrl.locationUrl(traceLocation)
+            id = traceLocation.locationId.base64(),
+            url = traceLocation.locationUrl
         )
     }
 
@@ -139,8 +136,8 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
 
         return LastLocationData(
             traceLocation = traceLocation,
-            id = traceLocationId.locationId(traceLocation).toByteString().base64(),
-            url = traceLocationUrl.locationUrl(traceLocation)
+            id = traceLocation.locationId.base64(),
+            url = traceLocation.locationUrl
         )
     }
 

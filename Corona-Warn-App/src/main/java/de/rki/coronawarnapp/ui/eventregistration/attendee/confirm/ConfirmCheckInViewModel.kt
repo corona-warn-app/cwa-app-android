@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.eventregistration.events.locationId
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.mapTraceLocationToTitleRes
@@ -89,8 +90,10 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         completed: Boolean = false,
         createJournalEntry: Boolean = true
     ): CheckIn = CheckIn(
-        traceLocationId = verifiedTraceLocation.traceLocationID,
-        traceLocationIdHash = verifiedTraceLocation.traceLocationID.sha256(),
+        traceLocationId = verifiedTraceLocation.traceLocation.locationId,
+        // TODO verify this. According to the specs locationId is the byte representation of the SHA-256 hash.
+        //  Does not make sense to have another column traceLocationIdHash
+        traceLocationIdHash = verifiedTraceLocation.traceLocation.locationId,
         version = traceLocation.version,
         type = traceLocation.type.number,
         description = traceLocation.description,

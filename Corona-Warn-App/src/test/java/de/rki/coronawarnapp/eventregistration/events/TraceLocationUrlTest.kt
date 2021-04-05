@@ -26,7 +26,7 @@ class TraceLocationUrlTest : BaseTest() {
             version = TraceLocation.VERSION
         )
 
-        createInstance().locationUrl(traceLocation) shouldBe
+        traceLocation.locationUrl shouldBe
             "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmoIAR" +
             "JgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ1EcFJ" +
             "QkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
@@ -47,13 +47,11 @@ class TraceLocationUrlTest : BaseTest() {
             version = TraceLocation.VERSION
         )
 
-        createInstance().locationUrl(traceLocation) shouldBe
+        traceLocation.locationUrl shouldBe
             "https://e.coronawarn.app?v=1#CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmoIARJgOMTa6eYSiaDv8l" +
             "W13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ1EcFJQkEIujVwoCNK0MNG" +
             "uDK1ayjGxeDc4UDGgQxMjM0IgYIARABGAo"
     }
-
-    private fun createInstance() = TraceLocationUrl()
 
     companion object {
         private const val CRYPTOGRAPHIC_SEED = "MTIzNA=="

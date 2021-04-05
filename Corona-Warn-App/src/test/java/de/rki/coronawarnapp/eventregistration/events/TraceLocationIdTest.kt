@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
-import okio.ByteString.Companion.toByteString
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -19,8 +18,7 @@ class TraceLocationIdTest : BaseTest() {
         val qrCodePayload = TraceLocationOuterClass.QRCodePayload.parseFrom(
             qrCodePayloadBase64.decodeBase64()!!.toByteArray()
         )
-        createInstance().locationId(qrCodePayload).toByteString().base64() shouldBe
-            "jNcJTCajd9Sen6Tbexl2Yb7O3J7ps47b6k4+QMT4xS0="
+        qrCodePayload.locationId.base64() shouldBe "jNcJTCajd9Sen6Tbexl2Yb7O3J7ps47b6k4+QMT4xS0="
     }
 
     @Test
@@ -31,8 +29,7 @@ class TraceLocationIdTest : BaseTest() {
         val qrCodePayload = TraceLocationOuterClass.QRCodePayload.parseFrom(
             qrCodePayloadBase64.decodeBase64()!!.toByteArray()
         )
-        createInstance().locationId(qrCodePayload).toByteString().base64() shouldBe
-            "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
+        qrCodePayload.locationId.base64() shouldBe "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
     }
 
     @Test
@@ -49,8 +46,7 @@ class TraceLocationIdTest : BaseTest() {
             cnPublicKey = PUB_KEY,
             version = TraceLocation.VERSION
         )
-        createInstance().locationId(traceLocation).toByteString().base64() shouldBe
-            "jNcJTCajd9Sen6Tbexl2Yb7O3J7ps47b6k4+QMT4xS0="
+        traceLocation.locationId.base64() shouldBe "jNcJTCajd9Sen6Tbexl2Yb7O3J7ps47b6k4+QMT4xS0="
     }
 
     @Test
@@ -68,11 +64,8 @@ class TraceLocationIdTest : BaseTest() {
             version = TraceLocation.VERSION
         )
 
-        createInstance().locationId(traceLocation).toByteString().base64() shouldBe
-            "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
+        traceLocation.locationId.base64() shouldBe "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
     }
-
-    private fun createInstance() = TraceLocationId()
 
     companion object {
         private const val CRYPTOGRAPHIC_SEED = "MTIzNA=="
