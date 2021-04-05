@@ -14,45 +14,34 @@ import testhelpers.BaseTestInstrumentation
 class VerifiedTraceLocationTest : BaseTestInstrumentation() {
     @Test
     fun verifyTraceLocationMapping1() {
-        val base64Payload = "CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekAT" +
-            "D3h6QBGmUIARJbMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEst" +
-            "cUIRcyk35OYDJ95/hTg3UVhsaDXKT0zK7NhHPXoyzipEnOp3GyNXDVpaPi3" +
-            "cAfQmxeuFMZAIX2+6A5XhoEMTIzNCIECAEQAg=="
-
         val qrCodePayload = TraceLocationOuterClass.QRCodePayload.parseFrom(
-            base64Payload.decodeBase64()!!.toByteArray()
+            BASE64_PAYLOAD_1.decodeBase64()!!.toByteArray()
         )
 
-        VerifiedTraceLocation(qrCodePayload).traceLocation.apply {
-            locationId.base64() shouldBe "jNcJTCajd9Sen6Tbexl2Yb7O3J7ps47b6k4+QMT4xS0="
-            qrCodePayload() shouldBe qrCodePayload
-        }
+        VerifiedTraceLocation(qrCodePayload).traceLocation
+            .apply {
+                locationId.base64() shouldBe "jNcJTCajd9Sen6Tbexl2Yb7O3J7ps47b6k4+QMT4xS0="
+                qrCodePayload() shouldBe qrCodePayload
+            }
     }
 
     @Test
     fun verifyTraceLocationMapping2() {
-        val base64Payload = "CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmUIARJ" +
-            "bMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT" +
-            "0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5XhoEMTIzNCIGCAEQARgK"
-
         val qrCodePayload = TraceLocationOuterClass.QRCodePayload.parseFrom(
-            base64Payload.decodeBase64()!!.toByteArray()
+            BASE64_PAYLOAD_2.decodeBase64()!!.toByteArray()
         )
 
-        VerifiedTraceLocation(qrCodePayload).traceLocation.apply {
-            locationId.base64() shouldBe "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
-            qrCodePayload() shouldBe qrCodePayload
-        }
+        VerifiedTraceLocation(qrCodePayload).traceLocation
+            .apply {
+                locationId.base64() shouldBe "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
+                qrCodePayload() shouldBe qrCodePayload
+            }
     }
 
     @Test
     fun parcelization() {
-        val base64Payload = "CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmUIARJ" +
-            "bMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT" +
-            "0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5XhoEMTIzNCIGCAEQARgK"
-
         val qrCodePayload = TraceLocationOuterClass.QRCodePayload.parseFrom(
-            base64Payload.decodeBase64()!!.toByteArray()
+            BASE64_PAYLOAD_2.decodeBase64()!!.toByteArray()
         )
 
         val expectedVerifiedLocation = VerifiedTraceLocation(qrCodePayload)
@@ -75,5 +64,16 @@ class VerifiedTraceLocationTest : BaseTestInstrumentation() {
             getParcelable<VerifiedTraceLocation>("verifiedTraceLocation")
         }
         restoredData shouldBe expectedVerifiedLocation
+    }
+
+    companion object {
+        private const val BASE64_PAYLOAD_1 = "CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekAT" +
+            "D3h6QBGmUIARJbMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEst" +
+            "cUIRcyk35OYDJ95/hTg3UVhsaDXKT0zK7NhHPXoyzipEnOp3GyNXDVpaPi3" +
+            "cAfQmxeuFMZAIX2+6A5XhoEMTIzNCIECAEQAg=="
+
+        private const val BASE64_PAYLOAD_2 = "CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmUIARJ" +
+            "bMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT" +
+            "0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5XhoEMTIzNCIGCAEQARgK"
     }
 }
