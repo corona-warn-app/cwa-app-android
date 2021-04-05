@@ -27,19 +27,29 @@ class CWAWorkerFactory @Inject constructor(
     ): ListenableWorker? {
         Timber.v("Checking in known worker factories for %s", workerClassName)
         val ourWorkerFactories = factories.entries.find {
-            Class.forName(workerClassName).isAssignableFrom(it.key)
+            try {
+                Class.forName(workerClassName).isAssignableFrom(it.key)
+            } catch (e: ClassNotFoundException) {
+                Timber.e(e, "Failed to create worker class $workerClassName")
+                false
+            }
         }?.value
 
-        return if (ourWorkerFactories != null) {
+        if (ourWorkerFactories != null) {
             Timber.v("It's one of ours, creating worker for %s with %s", workerClassName, workerParameters)
-            ourWorkerFactories.get().create(appContext, workerParameters).also {
+            return ourWorkerFactories.get().create(appContext, workerParameters).also {
                 Timber.i("Our worker was created: %s", it)
             }
-        } else {
+        }
+
+        return try {
             Timber.w("Unknown worker class, trying direct instantiation on %s", workerClassName)
             workerClassName.toNewWorkerInstance(appContext, workerParameters).also {
                 Timber.i("Unknown worker was created: %s", it)
             }
+        } catch (e: ClassNotFoundException) {
+            Timber.w(e, "Failed to create unknown worker class: %s", workerClassName)
+            null
         }
     }
 

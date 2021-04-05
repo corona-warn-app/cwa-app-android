@@ -55,4 +55,20 @@ class CWAWorkerFactoryTest : BaseTest() {
         val worker2 = instance.createWorker(context, DiagnosticsWorker::class.qualifiedName!!, workerParameters)
         worker1 shouldNotBe worker2
     }
+
+    /**
+     * Workers are initialized based on their class name.
+     * That class name is stored as part of the worker arguments.
+     * If we refactor a worker, the previously used classname will be unknown.
+     * Returning null will cause the periodic worker to be dequeued.
+     */
+    @Test
+    fun `class names that can not be instantiated are treated like an unknown worker`() {
+        val instance = createInstance()
+        instance.createWorker(
+            context,
+            "abc.im.a.ghost.def",
+            workerParameters
+        ) shouldBe null
+    }
 }
