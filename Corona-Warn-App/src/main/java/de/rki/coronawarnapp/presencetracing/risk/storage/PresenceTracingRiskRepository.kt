@@ -15,8 +15,6 @@ import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
-import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
-import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -34,7 +32,6 @@ class PresenceTracingRiskRepository @Inject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
     private val databaseFactory: PresenceTracingRiskDatabase.Factory,
     private val timeStamper: TimeStamper,
-    private val traceWarningRepository: TraceWarningRepository,
 ) {
 
     private val database by lazy {
@@ -74,47 +71,45 @@ class PresenceTracingRiskRepository @Inject constructor(
             presenceTracingRiskCalculator.calculateAggregatedRiskPerDay(it)
         }
 
-    internal suspend fun reportSuccessfulCalculation(
-        warningPackages: List<TraceWarningPackage>?,
-        overlapList: List<CheckInWarningOverlap>?
+    /**
+     * We delete warning packages after processing, we need to store the latest matches independent of success state
+     * For a future update we should look into partial processing.
+     */
+    internal suspend fun reportCalculation(
+        successful: Boolean,
+        overlaps: List<CheckInWarningOverlap> = emptyList()
     ) {
-        // delete stale matches from new packages and mark packages as processed
-        warningPackages?.forEach {
-            traceTimeIntervalMatchDao.deleteMatchesForPackage(it.packageId)
-            // TODO move somewhere else, not this classes responsibility
-            traceWarningRepository.markPackageProcessed(it.packageId)
+        Timber.v("reportCalculation(successful=%b, overlaps=%s)", successful, overlaps)
+
+        val nowUTC = timeStamper.nowUTC
+
+        // delete stale matches from new packages, old matches are superseeded
+        overlaps.map { it.traceWarningPackageId }.forEach {
+            traceTimeIntervalMatchDao.deleteMatchesForPackage(it)
         }
 
-        overlapList?.let {
-            traceTimeIntervalMatchDao.insert(overlapList.map { it.toEntity() })
+        if (overlaps.isNotEmpty()) {
+            traceTimeIntervalMatchDao.insert(overlaps.map { it.toEntity() })
         }
 
-        val last14daysPlusToday = normalizedTimeOfLast14DaysPlusToday.first()
-        val risk = presenceTracingRiskCalculator.calculateTotalRisk(last14daysPlusToday)
-        addResult(
-            PtRiskLevelResult(
-                timeStamper.nowUTC,
-                risk
-            )
-        )
-    }
-
-    fun reportFailedCalculation() {
-        // leave matches alone!
-        addResult(
-            PtRiskLevelResult(
-                timeStamper.nowUTC,
-                RiskState.CALCULATION_FAILED
-            )
-        )
+        val result = if (successful) {
+            val last14daysPlusToday = normalizedTimeOfLast14DaysPlusToday.first()
+            val risk = presenceTracingRiskCalculator.calculateTotalRisk(last14daysPlusToday)
+            PtRiskLevelResult(nowUTC, risk)
+        } else {
+            PtRiskLevelResult(nowUTC, RiskState.CALCULATION_FAILED)
+        }
+        addResult(result)
     }
 
     internal suspend fun deleteStaleData() {
+        Timber.d("deleteStaleData()")
         traceTimeIntervalMatchDao.deleteOlderThan(fifteenDaysAgo.millis)
         riskLevelResultDao.deleteOlderThan(fifteenDaysAgo.millis)
     }
 
     suspend fun deleteAllMatches() {
+        Timber.d("deleteAllMatches()")
         traceTimeIntervalMatchDao.deleteAll()
     }
 

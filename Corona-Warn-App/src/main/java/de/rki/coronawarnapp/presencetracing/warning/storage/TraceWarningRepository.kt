@@ -99,18 +99,22 @@ class TraceWarningRepository @Inject constructor(
         )
     }
 
-    suspend fun markPackageProcessed(packageId: WarningPackageId) {
-        Timber.tag(TAG).d("markPackageProcessed(packageId=%s)", packageId)
-        val update = TraceWarningPackageMetadata.UpdateProcessed(
-            packageId = packageId,
-            isProcessed = true,
-        )
-        dao.updateMetaData(update)
+    suspend fun markPackagesProcessed(packageIds: List<WarningPackageId>) {
+        Timber.tag(TAG).v("markPackagesProcessed(packageIds=%s)", packageIds)
 
-        dao.get(packageId)?.also {
-            val file = getPathForMetaData(it)
-            if (file.delete()) {
-                Timber.tag(TAG).v("Deleted processed file: %s", file)
+        packageIds.forEach { packageId ->
+            Timber.tag(TAG).d("markPackageProcessed(packageId=%s)", packageId)
+            val update = TraceWarningPackageMetadata.UpdateProcessed(
+                packageId = packageId,
+                isProcessed = true,
+            )
+            dao.updateMetaData(update)
+
+            dao.get(packageId)?.also {
+                val file = getPathForMetaData(it)
+                if (file.delete()) {
+                    Timber.tag(TAG).v("Deleted processed file: %s", file)
+                }
             }
         }
     }

@@ -65,9 +65,11 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                 },
                 {
                     checkInWarningOverlaps.clear()
-                    val matches = checkInWarningMatcher.execute()
 
-                    checkInWarningOverlaps.addAll(matches)
+                    // TODO
+//                    val matches = checkInWarningMatcherexecute()
+//
+//                    checkInWarningOverlaps.addAll(matches)
 
                     if (checkInWarningOverlaps.size < 100) {
                         val text = checkInWarningOverlaps.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
