@@ -201,7 +201,7 @@ abstract class BaseRiskLevelStorage constructor(
                 .sortedByDescending { it.calculatedAt }
 
             LastCombinedRiskResults(
-                lastCalculated = combinedResults.firstOrNull() ?: initialCombined,
+                lastCalculated = combinedResults.firstOrNull() ?: currentCombinedLowRisk,
                 lastSuccessfullyCalculated = combinedResults.find { it.wasSuccessfullyCalculated } ?: initialCombined
             )
         }
@@ -308,7 +308,30 @@ private val ptInitialRiskLevelResult: PtRiskLevelResult by lazy {
     )
 }
 
+private val ewCurrentLowRiskLevelResult
+    get() = object : EwRiskLevelResult {
+        override val calculatedAt: Instant = Instant.now()
+        override val riskState: RiskState = RiskState.LOW_RISK
+        override val failureReason: EwRiskLevelResult.FailureReason? = null
+        override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
+        override val exposureWindows: List<ExposureWindow>? = null
+        override val matchedKeyCount: Int = 0
+        override val daysWithEncounters: Int = 0
+    }
+
+private val ptCurrentLowRiskLevelResult: PtRiskLevelResult
+    get() = PtRiskLevelResult(
+        calculatedAt = Instant.now(),
+        riskState = RiskState.LOW_RISK
+    )
+
 private val initialCombined = CombinedEwPtRiskLevelResult(
     ptInitialRiskLevelResult,
     EwInitialRiskLevelResult
 )
+
+private val currentCombinedLowRisk: CombinedEwPtRiskLevelResult
+    get() = CombinedEwPtRiskLevelResult(
+        ptCurrentLowRiskLevelResult,
+        ewCurrentLowRiskLevelResult
+    )

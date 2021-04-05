@@ -46,8 +46,7 @@ class TracingDetailsItemProvider @Inject constructor(
 
         mutableListOf<DetailsItem>().apply {
             if (status != Status.TRACING_INACTIVE &&
-                // TODO not sure which risk state should be used here
-                latestCalc.ewRiskLevelResult.riskState == RiskState.LOW_RISK &&
+                latestCalc.riskState == RiskState.LOW_RISK &&
                 latestCalc.ewRiskLevelResult.matchedKeyCount > 0
             ) {
                 add(AdditionalInfoLowRiskBox.Item)
