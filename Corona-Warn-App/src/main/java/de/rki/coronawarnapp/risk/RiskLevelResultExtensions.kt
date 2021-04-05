@@ -22,7 +22,7 @@ data class DisplayableEwRiskResults(
     val lastSuccessfullyCalculated: EwRiskLevelResult
 )
 
-object EwInitialLowRiskLevelResult : EwRiskLevelResult {
+private object EwInitialLowRiskLevelResult : EwRiskLevelResult {
     override val calculatedAt: Instant = Instant.now()
     override val riskState: RiskState = RiskState.LOW_RISK
     override val failureReason: EwRiskLevelResult.FailureReason? = null
@@ -32,7 +32,7 @@ object EwInitialLowRiskLevelResult : EwRiskLevelResult {
     override val daysWithEncounters: Int = 0
 }
 
-object EwUndeterminedRiskLevelResult : EwRiskLevelResult {
+private object EwUndeterminedRiskLevelResult : EwRiskLevelResult {
     override val calculatedAt: Instant = Instant.EPOCH
     override val riskState: RiskState = RiskState.CALCULATION_FAILED
     override val failureReason: EwRiskLevelResult.FailureReason? = null

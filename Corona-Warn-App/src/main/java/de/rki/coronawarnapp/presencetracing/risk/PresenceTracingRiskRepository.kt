@@ -8,7 +8,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.PrimaryKey
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
@@ -68,7 +67,6 @@ class PresenceTracingRiskRepository @Inject constructor(
             presenceTracingRiskCalculator.calculateAggregatedRiskPerDay(it)
         }
 
-    @Transaction
     internal suspend fun reportSuccessfulCalculation(
         warningPackages: List<TraceTimeIntervalWarningPackage>?,
         overlapList: List<CheckInWarningOverlap>?
@@ -93,7 +91,6 @@ class PresenceTracingRiskRepository @Inject constructor(
         )
     }
 
-    @Transaction
     fun reportFailedCalculation() {
         // leave matches alone!
         addResult(
@@ -117,13 +114,22 @@ class PresenceTracingRiskRepository @Inject constructor(
         traceTimeIntervalMatchDao.deleteAll()
     }
 
-    fun latestAndLastSuccessful() = riskLevelResultDao.latestAndLastSuccessful().map { list ->
-        list.map { entity ->
-            entity.toModel(presenceTracingDayRisk.first())
+    fun latestEntries(limit: Int) = riskLevelResultDao.latestEntries(limit).map { list ->
+        var lastSuccessfulFound = false
+        list.sortedByDescending {
+            it.calculatedAtMillis
         }
+            .map { entity ->
+                if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
+                    lastSuccessfulFound = true
+                    entity.toModel(presenceTracingDayRisk.first())
+                } else {
+                    entity.toModel(null)
+                }
+            }
     }
 
-    fun latestEntries(limit: Int) = riskLevelResultDao.latestEntries(limit).map { list ->
+    fun allEntries() = riskLevelResultDao.allEntries().map { list ->
         var lastSuccessfulFound = false
         list.sortedByDescending {
             it.calculatedAtMillis
@@ -206,11 +212,12 @@ private fun TraceTimeIntervalMatchEntity.toModel() = CheckInWarningOverlap(
 @Suppress("MaxLineLength")
 @Dao
 interface PresenceTracingRiskLevelResultDao {
-    @Query("SELECT * FROM (SELECT * FROM PresenceTracingRiskLevelResultEntity ORDER BY calculatedAtMillis DESC LIMIT 1) UNION ALL SELECT * FROM (SELECT * FROM PresenceTracingRiskLevelResultEntity where riskStateCode is not 0 ORDER BY calculatedAtMillis DESC LIMIT 1)")
-    fun latestAndLastSuccessful(): Flow<List<PresenceTracingRiskLevelResultEntity>>
 
     @Query("SELECT * FROM PresenceTracingRiskLevelResultEntity ORDER BY calculatedAtMillis DESC LIMIT :limit")
     fun latestEntries(limit: Int): Flow<List<PresenceTracingRiskLevelResultEntity>>
+
+    @Query("SELECT * FROM PresenceTracingRiskLevelResultEntity")
+    fun allEntries(): Flow<List<PresenceTracingRiskLevelResultEntity>>
 
     @Insert(onConflict = REPLACE)
     fun insert(entity: PresenceTracingRiskLevelResultEntity)

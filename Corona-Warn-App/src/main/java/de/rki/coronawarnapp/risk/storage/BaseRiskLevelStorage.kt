@@ -1,21 +1,20 @@
 package de.rki.coronawarnapp.risk.storage
 
 import androidx.annotation.VisibleForTesting
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.mapToRiskState
 import de.rki.coronawarnapp.presencetracing.risk.ptInitialLowRiskLevelResult
-import de.rki.coronawarnapp.presencetracing.risk.ptUndeterminedRiskLevelResult
 import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
-import de.rki.coronawarnapp.risk.EwInitialLowRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
-import de.rki.coronawarnapp.risk.EwUndeterminedRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
@@ -192,43 +191,24 @@ abstract class BaseRiskLevelStorage constructor(
         }
         .shareLatest(tag = TAG, scope = scope)
 
-    private val latestAndLastSuccessfulPtRiskLevelResult: Flow<List<PtRiskLevelResult>> =
-        presenceTracingRiskRepository
-            .latestAndLastSuccessful()
-            .shareLatest(tag = TAG, scope = scope)
-
     // used for risk state in tracing state/details
-    // TODO: unclear how results should be combined for the last successful (do both need to be successful?)
     override val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<LastCombinedRiskResults>
         get() = combine(
-            latestAndLastSuccessfulEwRiskLevelResult,
-            latestAndLastSuccessfulPtRiskLevelResult
+            allEwRiskLevelResults,
+            presenceTracingRiskRepository.allEntries()
         ) { ewRiskLevelResults, ptRiskLevelResults ->
 
-            val latestEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt } ?: EwInitialLowRiskLevelResult
-            val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt } ?: ptInitialLowRiskLevelResult
-            val last = CombinedEwPtRiskLevelResult(
-                ewRiskLevelResult = latestEwResult,
-                ptRiskLevelResult = latestPtResult
-            )
+            val combinedResults = combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
+                .sortedByDescending { it.calculatedAt }
 
-            val lastSuccessfulEwResult = ewRiskLevelResults
-                .filter { it.wasSuccessfullyCalculated }
-                .maxByOrNull { it.calculatedAt }
-                ?: EwUndeterminedRiskLevelResult
-            val lastSuccessfulPtResult = ptRiskLevelResults
-                .filter { it.wasSuccessfullyCalculated }
-                .maxByOrNull { it.calculatedAt }
-                ?: ptUndeterminedRiskLevelResult
-            val lastSuccessful = if (last.wasSuccessfullyCalculated) last
-            else CombinedEwPtRiskLevelResult(
-                ewRiskLevelResult = lastSuccessfulEwResult,
-                ptRiskLevelResult = lastSuccessfulPtResult
+            val initialCombined = CombinedEwPtRiskLevelResult(
+                ptInitialLowRiskLevelResult,
+                EwInitialLowRiskLevelResult
             )
 
             LastCombinedRiskResults(
-                lastCalculated = last,
-                lastSuccessfullyCalculated = lastSuccessful
+                lastCalculated = combinedResults.firstOrNull() ?: initialCombined,
+                lastSuccessfullyCalculated = combinedResults.find { it.wasSuccessfullyCalculated } ?: initialCombined
             )
         }
 
@@ -243,50 +223,9 @@ abstract class BaseRiskLevelStorage constructor(
             latestEwRiskLevelResults,
             latestPtRiskLevelResults
         ) { ewRiskLevelResults, ptRiskLevelResults ->
-
-            val combinedList = mutableListOf<CombinedEwPtRiskLevelResult>()
-
-            val latestEwResult = ewRiskLevelResults.maxByOrNull { it.calculatedAt } ?: EwInitialLowRiskLevelResult
-            val latestPtResult = ptRiskLevelResults.maxByOrNull { it.calculatedAt } ?: ptInitialLowRiskLevelResult
-
-            combinedList.add(
-                CombinedEwPtRiskLevelResult(
-                    ewRiskLevelResult = latestEwResult,
-                    ptRiskLevelResult = latestPtResult
-                )
-            )
-
-            val olderEwResult = ewRiskLevelResults.minByOrNull { it.calculatedAt } ?: EwInitialLowRiskLevelResult
-            val olderPtResult = ptRiskLevelResults.minByOrNull { it.calculatedAt } ?: ptInitialLowRiskLevelResult
-
-            if (latestEwResult.calculatedAt > latestPtResult.calculatedAt) {
-                if (latestEwResult != olderEwResult)
-                    combinedList.add(
-                        CombinedEwPtRiskLevelResult(
-                            ewRiskLevelResult = olderEwResult,
-                            ptRiskLevelResult = latestPtResult
-                        )
-                    )
-            } else if (latestEwResult.calculatedAt < latestPtResult.calculatedAt) {
-                if (latestPtResult != olderPtResult) {
-                    combinedList.add(
-                        CombinedEwPtRiskLevelResult(
-                            ewRiskLevelResult = latestEwResult,
-                            ptRiskLevelResult = olderPtResult
-                        )
-                    )
-                }
-            } else if (latestEwResult.calculatedAt == latestPtResult.calculatedAt) {
-                if (latestPtResult != olderPtResult && latestEwResult != olderEwResult) {
-                    combinedList.add(
-                        CombinedEwPtRiskLevelResult(
-                            ewRiskLevelResult = olderEwResult,
-                            ptRiskLevelResult = olderPtResult
-                        )
-                    )
-                }
-            }
-            combinedList
+            combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
+                .sortedByDescending { it.calculatedAt }
+                .take(2)
         }
 
     internal abstract suspend fun storeExposureWindows(storedResultId: String, resultEw: EwRiskLevelResult)
@@ -338,4 +277,32 @@ internal fun max(left: LocalDate?, right: LocalDate?): LocalDate? {
     if (right == null) return left
     return if (left.isAfter(right)) left
     else right
+}
+
+@VisibleForTesting(otherwise = PRIVATE)
+internal fun combineEwPtRiskLevelResults(
+    ptRiskResults: List<PtRiskLevelResult>,
+    ewRiskResults: List<EwRiskLevelResult>
+): List<CombinedEwPtRiskLevelResult> {
+    val allDates = ptRiskResults.map { it.calculatedAt }.plus(ewRiskResults.map { it.calculatedAt }).distinct()
+    val sortedPtResults = ptRiskResults.sortedByDescending { it.calculatedAt }
+    val sortedEwResults = ewRiskResults.sortedByDescending { it.calculatedAt }
+    return allDates.map { date ->
+        val ptRisk = sortedPtResults.find { it.calculatedAt <= date } ?: ptInitialLowRiskLevelResult
+        val ewRisk = sortedEwResults.find { it.calculatedAt <= date } ?: EwInitialLowRiskLevelResult
+        CombinedEwPtRiskLevelResult(
+            ptRisk,
+            ewRisk
+        )
+    }
+}
+
+private object EwInitialLowRiskLevelResult : EwRiskLevelResult {
+    override val calculatedAt: Instant = Instant.EPOCH
+    override val riskState: RiskState = RiskState.LOW_RISK
+    override val failureReason: EwRiskLevelResult.FailureReason? = null
+    override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
+    override val exposureWindows: List<ExposureWindow>? = null
+    override val matchedKeyCount: Int = 0
+    override val daysWithEncounters: Int = 0
 }

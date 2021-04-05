@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.risk
 
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
-import de.rki.coronawarnapp.presencetracing.risk.ptInitialLowRiskLevelResult
-import de.rki.coronawarnapp.presencetracing.risk.ptUndeterminedRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.max
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
@@ -23,8 +21,7 @@ data class CombinedEwPtRiskLevelResult(
     }
 
     val wasSuccessfullyCalculated: Boolean by lazy {
-        ewRiskLevelResult.wasSuccessfullyCalculated ||
-            ptRiskLevelResult.wasSuccessfullyCalculated
+        riskState != RiskState.CALCULATION_FAILED
     }
 
     val calculatedAt: Instant by lazy {
@@ -60,30 +57,7 @@ data class CombinedEwPtRiskLevelResult(
     }
 }
 
-fun List<CombinedEwPtRiskLevelResult>.tryLatestCombinedResultsWithDefaults(): LastCombinedRiskResults {
-    val latestCalculation = this.maxByOrNull { it.calculatedAt }
-        ?: combinedInitialLowLevelRiskLevelResult
-
-    val lastSuccessfullyCalculated = this.filter { it.wasSuccessfullyCalculated }
-        .maxByOrNull { it.calculatedAt } ?: combinedUndeterminedRiskLevelResult
-
-    return LastCombinedRiskResults(
-        lastCalculated = latestCalculation,
-        lastSuccessfullyCalculated = lastSuccessfullyCalculated
-    )
-}
-
 data class LastCombinedRiskResults(
     val lastCalculated: CombinedEwPtRiskLevelResult,
     val lastSuccessfullyCalculated: CombinedEwPtRiskLevelResult
-)
-
-private val combinedUndeterminedRiskLevelResult = CombinedEwPtRiskLevelResult(
-    ptUndeterminedRiskLevelResult,
-    EwUndeterminedRiskLevelResult
-)
-
-private val combinedInitialLowLevelRiskLevelResult = CombinedEwPtRiskLevelResult(
-    ptInitialLowRiskLevelResult,
-    EwInitialLowRiskLevelResult
 )
