@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.util.toOkioByteString
 import de.rki.coronawarnapp.util.toProtoByteString
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
+import org.joda.time.Instant
 
 fun TraceLocation.qrCodePayload(): QRCodePayload {
     val vendorData = CWALocationData.newBuilder()
@@ -47,9 +48,11 @@ fun QRCodePayload.traceLocation(): TraceLocation {
         defaultCheckInLengthInMinutes = cwaLocationData.defaultCheckInLengthInMinutes,
         description = locationData.description,
         address = locationData.address,
-        startDate = locationData.startTimestamp.secondsToInstant(),
-        endDate = locationData.endTimestamp.secondsToInstant(),
+        startDate = locationData.startTimestamp.instant(),
+        endDate = locationData.endTimestamp.instant(),
         cryptographicSeed = crowdNotifierData.cryptographicSeed.toByteArray().toByteString(),
         cnPublicKey = crowdNotifierData.publicKey.toOkioByteString().base64()
     )
 }
+
+private fun Long.instant(): Instant? = if (this == 0L) null else secondsToInstant()
