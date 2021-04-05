@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.mapToRiskState
-import de.rki.coronawarnapp.presencetracing.risk.ptInitialLowRiskLevelResult
 import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
@@ -254,7 +253,7 @@ internal fun combineRisk(
         val ewRisk = exposureWindowDayRiskList.find { it.localDateUtc == date }
         CombinedEwPtDayRisk(
             date,
-            max(
+            combine(
                 ptRisk?.riskState,
                 ewRisk?.riskLevel?.mapToRiskState()
             )
@@ -262,7 +261,7 @@ internal fun combineRisk(
     }
 }
 
-internal fun max(left: RiskState?, right: RiskState?): RiskState {
+internal fun combine(left: RiskState?, right: RiskState?): RiskState {
     return if (left == RiskState.INCREASED_RISK || right == RiskState.INCREASED_RISK) RiskState.INCREASED_RISK
     else if (left == RiskState.LOW_RISK || right == RiskState.LOW_RISK) RiskState.LOW_RISK
     else RiskState.CALCULATION_FAILED
@@ -305,4 +304,11 @@ private object EwInitialLowRiskLevelResult : EwRiskLevelResult {
     override val exposureWindows: List<ExposureWindow>? = null
     override val matchedKeyCount: Int = 0
     override val daysWithEncounters: Int = 0
+}
+
+private val ptInitialLowRiskLevelResult: PtRiskLevelResult by lazy {
+    PtRiskLevelResult(
+        calculatedAt = Instant.EPOCH,
+        riskState = RiskState.LOW_RISK
+    )
 }

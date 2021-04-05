@@ -73,13 +73,13 @@ class CombineRiskTest {
 
     @Test
     fun `max RiskState works`() {
-        max(RiskState.INCREASED_RISK, RiskState.INCREASED_RISK) shouldBe RiskState.INCREASED_RISK
-        max(RiskState.INCREASED_RISK, RiskState.LOW_RISK) shouldBe RiskState.INCREASED_RISK
-        max(RiskState.INCREASED_RISK, RiskState.CALCULATION_FAILED) shouldBe RiskState.INCREASED_RISK
-        max(RiskState.LOW_RISK, RiskState.INCREASED_RISK) shouldBe RiskState.INCREASED_RISK
-        max(RiskState.CALCULATION_FAILED, RiskState.INCREASED_RISK) shouldBe RiskState.INCREASED_RISK
-        max(RiskState.LOW_RISK, RiskState.LOW_RISK) shouldBe RiskState.LOW_RISK
-        max(RiskState.CALCULATION_FAILED, RiskState.LOW_RISK) shouldBe RiskState.LOW_RISK
-        max(RiskState.CALCULATION_FAILED, RiskState.CALCULATION_FAILED) shouldBe RiskState.CALCULATION_FAILED
+        combine(RiskState.INCREASED_RISK, RiskState.INCREASED_RISK) shouldBe RiskState.INCREASED_RISK
+        combine(RiskState.INCREASED_RISK, RiskState.LOW_RISK) shouldBe RiskState.INCREASED_RISK
+        combine(RiskState.INCREASED_RISK, RiskState.CALCULATION_FAILED) shouldBe RiskState.INCREASED_RISK
+        combine(RiskState.LOW_RISK, RiskState.INCREASED_RISK) shouldBe RiskState.INCREASED_RISK
+        combine(RiskState.CALCULATION_FAILED, RiskState.INCREASED_RISK) shouldBe RiskState.INCREASED_RISK
+        combine(RiskState.LOW_RISK, RiskState.LOW_RISK) shouldBe RiskState.LOW_RISK
+        combine(RiskState.CALCULATION_FAILED, RiskState.LOW_RISK) shouldBe RiskState.LOW_RISK
+        combine(RiskState.CALCULATION_FAILED, RiskState.CALCULATION_FAILED) shouldBe RiskState.CALCULATION_FAILED
     }
 }

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.risk
 
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.risk.storage.combine
 import de.rki.coronawarnapp.risk.storage.max
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
@@ -17,7 +18,7 @@ data class CombinedEwPtRiskLevelResult(
 ) {
 
     val riskState: RiskState by lazy {
-        max(ptRiskLevelResult.riskState, ewRiskLevelResult.riskState)
+        combine(ptRiskLevelResult.riskState, ewRiskLevelResult.riskState)
     }
 
     val wasSuccessfullyCalculated: Boolean by lazy {

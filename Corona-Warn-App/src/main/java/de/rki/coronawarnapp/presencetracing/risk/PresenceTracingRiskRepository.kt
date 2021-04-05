@@ -240,7 +240,7 @@ private fun PresenceTracingRiskLevelResultEntity.toModel(
 ) = PtRiskLevelResult(
     calculatedAt = Instant.ofEpochMilli((calculatedAtMillis)),
     riskState = riskState,
-    presenceTracingDayRisk = if (riskState != RiskState.CALCULATION_FAILED) presenceTracingDayRisk else null
+    presenceTracingDayRisk = presenceTracingDayRisk
 )
 
 private fun PtRiskLevelResult.toEntity() = PresenceTracingRiskLevelResultEntity(

@@ -39,16 +39,3 @@ data class PtRiskLevelResult(
             else -> 0
         }
 }
-
-val ptUndeterminedRiskLevelResult: PtRiskLevelResult by lazy {
-    PtRiskLevelResult(
-        calculatedAt = Instant.EPOCH,
-        riskState = RiskState.CALCULATION_FAILED
-    )
-}
-
-val ptInitialLowRiskLevelResult: PtRiskLevelResult
-    get() = PtRiskLevelResult(
-        calculatedAt = Instant.EPOCH,
-        riskState = RiskState.LOW_RISK
-    )
