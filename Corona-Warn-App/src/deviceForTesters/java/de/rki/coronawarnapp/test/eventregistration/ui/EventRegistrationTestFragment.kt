@@ -92,7 +92,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             it?.let { traceLocation ->
                 with(binding) {
                     lastOrganiserLocation.text = traceLocationText(traceLocation)
-                    lastOrganiserLocationId.text = styleText("ID", traceLocation.locationId)
+                    lastOrganiserLocationId.text = styleText("ID", traceLocation.locationId.base64())
                     lastOrganiserLocationUrl.text = styleText("URL", traceLocation.locationUrl)
                 }
             }
@@ -103,7 +103,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             it?.let { traceLocation ->
                 with(binding) {
                     lastAttendeeLocation.text = traceLocationText(traceLocation)
-                    lastAttendeeLocationId.text = styleText("ID", traceLocation.locationId)
+                    lastAttendeeLocationId.text = styleText("ID", traceLocation.locationId.base64())
                     lastAttendeeLocationUrl.text = styleText("URL", traceLocation.locationUrl)
                 }
             }
