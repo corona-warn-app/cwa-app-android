@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
+import android.os.Bundle
+import android.os.Parcel
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
@@ -41,5 +43,37 @@ class VerifiedTraceLocationTest : BaseTestInstrumentation() {
             locationId.base64() shouldBe "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
             qrCodePayload() shouldBe qrCodePayload
         }
+    }
+
+    @Test
+    fun parcelization() {
+        val base64Payload = "CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmUIARJ" +
+            "bMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT" +
+            "0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5XhoEMTIzNCIGCAEQARgK"
+
+        val qrCodePayload = TraceLocationOuterClass.QRCodePayload.parseFrom(
+            base64Payload.decodeBase64()!!.toByteArray()
+        )
+
+        val expectedVerifiedLocation = VerifiedTraceLocation(qrCodePayload)
+
+        val bundle = Bundle().apply {
+            putParcelable("verifiedTraceLocation", expectedVerifiedLocation)
+        }
+
+        val parcelRaw = Parcel.obtain().apply {
+            writeBundle(bundle)
+        }.marshall()
+
+        val restoredParcel = Parcel.obtain().apply {
+            unmarshall(parcelRaw, 0, parcelRaw.size)
+            setDataPosition(0)
+        }
+
+        val restoredData = restoredParcel.readBundle()!!.run {
+            classLoader = VerifiedTraceLocation::class.java.classLoader
+            getParcelable<VerifiedTraceLocation>("verifiedTraceLocation")
+        }
+        restoredData shouldBe expectedVerifiedLocation
     }
 }
