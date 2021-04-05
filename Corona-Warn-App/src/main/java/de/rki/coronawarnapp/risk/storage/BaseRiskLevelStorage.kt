@@ -200,11 +200,6 @@ abstract class BaseRiskLevelStorage constructor(
             val combinedResults = combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
                 .sortedByDescending { it.calculatedAt }
 
-            val initialCombined = CombinedEwPtRiskLevelResult(
-                ptInitialLowRiskLevelResult,
-                EwInitialLowRiskLevelResult
-            )
-
             LastCombinedRiskResults(
                 lastCalculated = combinedResults.firstOrNull() ?: initialCombined,
                 lastSuccessfullyCalculated = combinedResults.find { it.wasSuccessfullyCalculated } ?: initialCombined
@@ -287,8 +282,8 @@ internal fun combineEwPtRiskLevelResults(
     val sortedPtResults = ptRiskResults.sortedByDescending { it.calculatedAt }
     val sortedEwResults = ewRiskResults.sortedByDescending { it.calculatedAt }
     return allDates.map { date ->
-        val ptRisk = sortedPtResults.find { it.calculatedAt <= date } ?: ptInitialLowRiskLevelResult
-        val ewRisk = sortedEwResults.find { it.calculatedAt <= date } ?: EwInitialLowRiskLevelResult
+        val ptRisk = sortedPtResults.find { it.calculatedAt <= date } ?: ptInitialRiskLevelResult
+        val ewRisk = sortedEwResults.find { it.calculatedAt <= date } ?: EwInitialRiskLevelResult
         CombinedEwPtRiskLevelResult(
             ptRisk,
             ewRisk
@@ -296,7 +291,8 @@ internal fun combineEwPtRiskLevelResults(
     }
 }
 
-private object EwInitialLowRiskLevelResult : EwRiskLevelResult {
+// TODO not sure what the initial results should be - low or failed?
+private object EwInitialRiskLevelResult : EwRiskLevelResult {
     override val calculatedAt: Instant = Instant.EPOCH
     override val riskState: RiskState = RiskState.LOW_RISK
     override val failureReason: EwRiskLevelResult.FailureReason? = null
@@ -306,9 +302,14 @@ private object EwInitialLowRiskLevelResult : EwRiskLevelResult {
     override val daysWithEncounters: Int = 0
 }
 
-private val ptInitialLowRiskLevelResult: PtRiskLevelResult by lazy {
+private val ptInitialRiskLevelResult: PtRiskLevelResult by lazy {
     PtRiskLevelResult(
         calculatedAt = Instant.EPOCH,
         riskState = RiskState.LOW_RISK
     )
 }
+
+private val initialCombined = CombinedEwPtRiskLevelResult(
+    ptInitialRiskLevelResult,
+    EwInitialRiskLevelResult
+)

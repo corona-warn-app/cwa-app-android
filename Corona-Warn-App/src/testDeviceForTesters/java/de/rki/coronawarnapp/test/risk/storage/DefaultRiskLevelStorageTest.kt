@@ -85,7 +85,6 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
         coEvery { exposureWindowTables.insertScanInstances(any()) } just Runs
         coEvery { exposureWindowTables.deleteByRiskResultId(any()) } returns 1
 
-        // TODO tests
         every { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
         every { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
         every { presenceTracingRiskRepository.allEntries() } returns emptyFlow()

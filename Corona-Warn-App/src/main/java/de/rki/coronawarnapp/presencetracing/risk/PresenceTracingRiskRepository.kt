@@ -122,6 +122,7 @@ class PresenceTracingRiskRepository @Inject constructor(
             .map { entity ->
                 if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
                     lastSuccessfulFound = true
+                    // add risk per day to the last successful result
                     entity.toModel(presenceTracingDayRisk.first())
                 } else {
                     entity.toModel(null)
@@ -137,6 +138,7 @@ class PresenceTracingRiskRepository @Inject constructor(
             .map { entity ->
                 if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
                     lastSuccessfulFound = true
+                    // add risk per day to the last successful result
                     entity.toModel(presenceTracingDayRisk.first())
                 } else {
                     entity.toModel(null)
