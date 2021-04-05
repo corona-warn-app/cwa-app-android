@@ -9,8 +9,9 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.TypeConverter
-import de.rki.coronawarnapp.eventregistration.checkins.download.TraceTimeIntervalWarningPackage
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -27,7 +28,8 @@ import javax.inject.Singleton
 class PresenceTracingRiskRepository @Inject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
     private val databaseFactory: PresenceTracingRiskDatabase.Factory,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val traceWarningRepository: TraceWarningRepository,
 ) {
 
     private val database by lazy {
@@ -68,13 +70,14 @@ class PresenceTracingRiskRepository @Inject constructor(
         }
 
     internal suspend fun reportSuccessfulCalculation(
-        warningPackages: List<TraceTimeIntervalWarningPackage>?,
+        warningPackages: List<TraceWarningPackage>?,
         overlapList: List<CheckInWarningOverlap>?
     ) {
         // delete stale matches from new packages and mark packages as processed
         warningPackages?.forEach {
-            traceTimeIntervalMatchDao.deleteMatchesForPackage(it.warningPackageId)
-            markPackageProcessed(it.warningPackageId)
+            traceTimeIntervalMatchDao.deleteMatchesForPackage(it.packageId)
+            // TODO move somewhere else, not this classes responsibility
+            traceWarningRepository.markPackageProcessed(it.packageId)
         }
 
         overlapList?.let {
@@ -230,7 +233,7 @@ interface PresenceTracingRiskLevelResultDao {
 @Entity
 data class PresenceTracingRiskLevelResultEntity(
     @PrimaryKey @ColumnInfo(name = "calculatedAtMillis") val calculatedAtMillis: Long,
-    @ColumnInfo(name = "riskStateCode")val riskState: RiskState
+    @ColumnInfo(name = "riskStateCode") val riskState: RiskState
 )
 
 private fun PresenceTracingRiskLevelResultEntity.toModel(

@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
-import de.rki.coronawarnapp.util.debug.measureTime
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -19,7 +18,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import timber.log.Timber
 
 class CheckInWarningMatcherTest : BaseTest() {
 
@@ -311,46 +309,6 @@ class CheckInWarningMatcherTest : BaseTest() {
         }
     }
 
-
-    @Test
-    fun `test mass data`() {
-        val checkIns = (1L..100L).map {
-            createCheckIn(
-                id = it,
-                traceLocationId = it.toString(),
-                startDateStr = "2021-03-04T09:50+01:00",
-                endDateStr = "2021-03-04T10:05:15+01:00"
-            )
-        }
-        val warnings = (1L..1000L).map {
-            createWarning(
-                traceLocationId = it.toString(),
-                startIntervalDateStr = "2021-03-04T10:00+01:00",
-                period = 6,
-                transmissionRiskLevel = 8
-            )
-        }
-
-        val warningPackage = object : TraceWarningPackage {
-            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
-                return warnings
-            }
-
-            override val packageId: WarningPackageId
-                get() = "id"
-        }
-
-        every { checkInsRepository.allCheckIns } returns flowOf(checkIns)
-        every { traceWarningRepository.unprocessedWarningPackages } returns flowOf(listOf(warningPackage))
-
-        runBlockingTest {
-            measureTime(
-                { Timber.d("Time to compare 200 checkIns with 1000 warnings: $it millis") },
-                { createInstance().execute() }
-            )
-        }
-    }
-
     @Test
     fun `warning packages are marked as processed`() {
         val checkIn1 = createCheckIn(
@@ -401,7 +359,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            presenceTracingRiskRepository.reportSuccessfulCalculation(any())
+            presenceTracingRiskRepository.reportSuccessfulCalculation(any(), any())
             traceWarningRepository.markPackageProcessed(warningPackage1.packageId)
             traceWarningRepository.markPackageProcessed(warningPackage2.packageId)
         }
