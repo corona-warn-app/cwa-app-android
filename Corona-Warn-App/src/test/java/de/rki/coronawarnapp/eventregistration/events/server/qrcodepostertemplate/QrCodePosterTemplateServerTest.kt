@@ -4,9 +4,11 @@ import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -20,6 +22,7 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
 
     @MockK lateinit var api: QrCodePosterTemplateApiV1
     @MockK lateinit var signatureValidation: SignatureValidation
+    @MockK lateinit var templateCache: QrCodePosterTemplateCache
 
     /**
      * Info: [QrCodePosterTemplateApiV1Test] is testing if the ETag is set correctly
@@ -30,11 +33,14 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { signatureValidation.hasValidSignature(any(), any()) } returns true
+        every { templateCache.saveTemplate(any()) } just Runs
+        every { templateCache.getTemplate() } returns "CACHE".toByteArray()
     }
 
     private fun createInstance() = QrCodePosterTemplateServer(
         api = api,
-        signatureValidation = signatureValidation
+        signatureValidation = signatureValidation,
+        templateCache = templateCache
     )
 
     @Test
@@ -62,16 +68,14 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
     }
 
     @Test
-    fun `should throw exception if signature is invalid`() = runBlockingTest {
+    fun `should fallback to cached or default template if signature is invalid`() = runBlockingTest {
         every { signatureValidation.hasValidSignature(any(), any()) } returns false
 
         coEvery {
             api.getQrCodePosterTemplate()
         } returns Response.success(POSTER_BUNDLE.toResponseBody())
 
-        shouldThrow<QrCodePosterTemplateInvalidResponseException> {
-            createInstance().downloadQrCodePosterTemplate()
-        }
+        createInstance().getTemplateFromApiOrCache() shouldBe "CACHE".toByteArray()
     }
 
     @Test
@@ -86,13 +90,12 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
     }
 
     @Test
-    fun `should return default poster template when response is not successful`() = runBlockingTest {
-        // TODO
-    }
+    fun `should fallback to cached or default template when response is not successful`() = runBlockingTest {
+        coEvery {
+            api.getQrCodePosterTemplate()
+        } returns Response.error(404, "ERROR".toResponseBody())
 
-    @Test
-    fun `should return latest cached template when response is not successful`() = runBlockingTest {
-        // TODO
+        createInstance().getTemplateFromApiOrCache() shouldBe "CACHE".toByteArray()
     }
 
     companion object {

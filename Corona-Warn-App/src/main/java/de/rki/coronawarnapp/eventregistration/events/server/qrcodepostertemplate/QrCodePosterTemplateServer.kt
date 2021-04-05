@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate
 
+import androidx.annotation.VisibleForTesting
 import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
@@ -30,7 +31,8 @@ class QrCodePosterTemplateServer @Inject constructor(
         }
     }
 
-    private suspend fun getTemplateFromApiOrCache(): ByteArray {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    suspend fun getTemplateFromApiOrCache(): ByteArray {
         return try {
             val response = api.getQrCodePosterTemplate()
             if (response.body() == null) {
