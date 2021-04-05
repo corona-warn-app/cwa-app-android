@@ -8,8 +8,6 @@ import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor.PayloadEncoding
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingRiskCalculationParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingParameters.QRCodeErrorCorrectionLevel
@@ -94,14 +92,7 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
                 riskCalculationParameters = riskCalculationParameters,
                 submissionParameters = submissionParameters,
                 plausibleDeniabilityParameters = plausibleDeniabilityParameters,
-                qrCodeDescriptors = qrCodeDescriptorsOrBuilderList +
-                    // TODO remove
-                    PresenceTracingQRCodeDescriptor.newBuilder()
-                        .setEncodedPayloadGroupIndex(1)
-                        .setPayloadEncoding(PayloadEncoding.BASE64)
-                        .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
-                        .setVersionGroupIndex(0)
-                        .build()
+                qrCodeDescriptors = qrCodeDescriptorsOrBuilderList
             )
         }
 }
