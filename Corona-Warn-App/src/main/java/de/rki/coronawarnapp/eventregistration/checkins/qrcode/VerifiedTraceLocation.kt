@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 import android.os.Parcel
 import android.os.Parcelable
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.util.toOkioByteString
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
@@ -36,7 +37,7 @@ data class VerifiedTraceLocation(
             endDate = protoQrCodePayload.locationData.endTimestamp.toInstant(),
             defaultCheckInLengthInMinutes = vendorData.defaultCheckInLengthInMinutes,
             cryptographicSeed = protoQrCodePayload.crowdNotifierData.cryptographicSeed.toByteArray().toByteString(),
-            cnPublicKey = protoQrCodePayload.crowdNotifierData.publicKey.toStringUtf8()
+            cnPublicKey = protoQrCodePayload.crowdNotifierData.publicKey.toOkioByteString().base64()
         )
     }
 
