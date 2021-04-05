@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.presencetracing.warning.execution
+package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
+import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException

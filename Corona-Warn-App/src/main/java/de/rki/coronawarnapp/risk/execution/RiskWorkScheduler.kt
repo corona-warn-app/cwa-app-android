@@ -6,8 +6,8 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.execution.DiagnosisKeyRetrievalWorkBuilder
-import de.rki.coronawarnapp.presencetracing.warning.execution.PresenceTracingWarningTask
-import de.rki.coronawarnapp.presencetracing.warning.execution.PresenceTracingWarningWorkBuilder
+import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
+import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningWorkBuilder
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskState
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest

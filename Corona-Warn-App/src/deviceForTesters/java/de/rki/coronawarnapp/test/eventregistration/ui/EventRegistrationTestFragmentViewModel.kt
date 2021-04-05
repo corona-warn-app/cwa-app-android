@@ -5,11 +5,11 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
-import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
-import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskCalculator
+import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
+import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
+import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
 import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
-import de.rki.coronawarnapp.presencetracing.warning.execution.PresenceTracingWarningTask
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest

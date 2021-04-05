@@ -1,6 +1,6 @@
-package de.rki.coronawarnapp.presencetracing.warning.execution
+package de.rki.coronawarnapp.presencetracing.risk.execution
 
-import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
+import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldNotBe

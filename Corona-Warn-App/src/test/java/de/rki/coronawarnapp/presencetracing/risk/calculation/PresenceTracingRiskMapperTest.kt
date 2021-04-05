@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.risk
+package de.rki.coronawarnapp.presencetracing.risk.calculation
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData

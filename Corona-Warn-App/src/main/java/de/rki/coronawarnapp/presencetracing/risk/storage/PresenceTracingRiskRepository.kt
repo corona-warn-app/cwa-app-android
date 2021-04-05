@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.risk
+package de.rki.coronawarnapp.presencetracing.risk.storage
 
 import androidx.room.ColumnInfo
 import androidx.room.Dao
@@ -10,6 +10,11 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
+import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.RiskState

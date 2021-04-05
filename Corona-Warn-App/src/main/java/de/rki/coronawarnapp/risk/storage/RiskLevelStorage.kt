@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.risk.storage
 
-import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.risk
+package de.rki.coronawarnapp.presencetracing.risk.calculation
 
 import com.google.protobuf.ByteString.copyFromUtf8
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn

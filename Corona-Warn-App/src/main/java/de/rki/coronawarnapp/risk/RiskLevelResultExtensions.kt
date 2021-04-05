@@ -23,6 +23,7 @@ data class DisplayableEwRiskResults(
 )
 
 private object EwInitialLowRiskLevelResult : EwRiskLevelResult {
+    // TODO this causes flaky tests as this is set in memory, once.
     override val calculatedAt: Instant = Instant.now()
     override val riskState: RiskState = RiskState.LOW_RISK
     override val failureReason: EwRiskLevelResult.FailureReason? = null

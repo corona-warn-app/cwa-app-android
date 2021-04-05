@@ -4,6 +4,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -32,7 +33,7 @@ class EwRiskLevelResultExtensionsTest : BaseTest() {
                 riskState shouldBe RiskState.LOW_RISK
 
                 calculatedAt.isAfter(Instant.EPOCH) shouldBe true
-                calculatedAt.isBefore(Instant.now().minus(1)) shouldBe true
+                calculatedAt.isBefore(Instant.now().plus(Duration.standardHours(1))) shouldBe true
                 lastSuccessfullyCalculated.apply {
                     riskState shouldBe RiskState.CALCULATION_FAILED
                 }

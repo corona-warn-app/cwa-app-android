@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.risk
+package de.rki.coronawarnapp.presencetracing.risk.calculation
 
 import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage

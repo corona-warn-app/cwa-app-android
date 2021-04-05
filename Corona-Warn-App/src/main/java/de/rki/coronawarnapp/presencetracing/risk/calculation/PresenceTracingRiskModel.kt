@@ -1,5 +1,6 @@
-package de.rki.coronawarnapp.presencetracing.risk
+package de.rki.coronawarnapp.presencetracing.risk.calculation
 
+import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.DateTimeConstants

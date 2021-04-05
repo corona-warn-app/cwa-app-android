@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.warning.execution
+package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints

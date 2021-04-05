@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.warning.execution
+package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import android.content.Context
 import androidx.work.ListenableWorker

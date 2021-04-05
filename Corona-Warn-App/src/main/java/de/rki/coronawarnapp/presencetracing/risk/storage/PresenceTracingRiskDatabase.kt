@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.risk
+package de.rki.coronawarnapp.presencetracing.risk.storage
 
 import android.content.Context
 import androidx.room.Database
@@ -27,6 +27,8 @@ abstract class PresenceTracingRiskDatabase : RoomDatabase() {
             .databaseBuilder(context, PresenceTracingRiskDatabase::class.java, DATABASE_NAME)
             .build()
     }
-}
 
-private const val DATABASE_NAME = "PresenceTracingRisk_db"
+    companion object {
+        private const val DATABASE_NAME = "PresenceTracingRisk_db"
+    }
+}

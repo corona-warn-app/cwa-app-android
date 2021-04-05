@@ -28,7 +28,7 @@ class TraceWarningRepository @Inject constructor(
         File(context.cacheDir, "trace_warning_packages").apply {
             if (!exists()) {
                 if (mkdirs()) {
-                    Timber.d("Trace warning package directory created: %s", this)
+                    Timber.tag(TAG).d("Trace warning package directory created: %s", this)
                 } else {
                     throw IOException("Trace warning package directory creation failed: $this")
                 }
@@ -37,8 +37,16 @@ class TraceWarningRepository @Inject constructor(
     }
 
     val unprocessedWarningPackages: Flow<List<TraceWarningPackage>> = dao.getAllMetaData()
-        .map { metadatas -> metadatas.filter { !it.isProcessed } }
+        .map { metadatas ->
+            Timber.tag(TAG).v("Known packages: ${metadatas.size}")
+            metadatas.filter { !it.isProcessed }
+        }
+        .map { unprocessed ->
+            Timber.tag(TAG).v("Unprocessed packages: ${unprocessed.size}")
+            unprocessed.filter { !it.isEmptyPkg }
+        }
         .map { metaDatas ->
+            Timber.tag(TAG).v("There are ${metaDatas.size} unprocessed non-empty warning packages.")
             metaDatas.map { metaData ->
                 TraceWarningPackageContainer(
                     packageId = metaData.packageId,
@@ -106,8 +114,6 @@ class TraceWarningRepository @Inject constructor(
             }
         }
     }
-
-    fun deleteFile(path: File) = path.delete()
 
     suspend fun delete(metadata: List<TraceWarningPackageMetadata>) {
         Timber.tag(TAG).d("delete(metaData=%s)", metadata.map { it.packageId })

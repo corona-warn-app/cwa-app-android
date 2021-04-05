@@ -6,11 +6,15 @@ import java.io.File
 
 data class TraceWarningPackageContainer(
     override val packageId: WarningPackageId,
-    val packagePath: File,
+    private val packagePath: File,
 ) : TraceWarningPackage {
 
     private val warningPackage by lazy<TraceWarning.TraceWarningPackage> {
-        TraceWarning.TraceWarningPackage.parseFrom(packagePath.readBytes())
+        if (packagePath.exists()) {
+            TraceWarning.TraceWarningPackage.parseFrom(packagePath.readBytes())
+        } else {
+            TraceWarning.TraceWarningPackage.getDefaultInstance()
+        }
     }
 
     override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {

@@ -1,9 +1,10 @@
-package de.rki.coronawarnapp.presencetracing.risk
+package de.rki.coronawarnapp.presencetracing.risk.calculation
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
+import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
@@ -129,7 +130,7 @@ internal suspend fun findMatches(
                 .mapNotNull { checkIn ->
                     checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
                         if (overlap == null) {
-                            Timber.d("No match/overlap found for $checkIn and $warning")
+                            Timber.v("No match/overlap found for $checkIn and $warning")
                         } else {
                             Timber.i("Overlap found $overlap")
                         }
