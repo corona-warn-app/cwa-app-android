@@ -1,5 +1,6 @@
-package de.rki.coronawarnapp.risk
+package de.rki.coronawarnapp.presencetracing.risk
 
+import de.rki.coronawarnapp.risk.RiskState
 import org.joda.time.LocalDate
 
 interface TraceLocationCheckInRisk {

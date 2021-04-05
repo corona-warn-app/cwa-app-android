@@ -30,13 +30,12 @@ class CheckInWarningMatcherTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { presenceTracingRiskRepository.reportSuccessfulCalculation(any()) } just Runs
+        coEvery { presenceTracingRiskRepository.reportSuccessfulCalculation(any(), any()) } just Runs
         coEvery { presenceTracingRiskRepository.deleteAllMatches() } just Runs
 
         coEvery { traceWarningRepository.markPackageProcessed(any()) } just Runs
         coEvery { presenceTracingRiskRepository.deleteStaleData() } just Runs
-        // TODO tests
-        coEvery { presenceTracingRiskRepository.deleteMatchesOfPackage(any()) } just Runs
+        coEvery { presenceTracingRiskRepository.reportFailedCalculation() } just Runs
     }
 
     private fun createInstance() = CheckInWarningMatcher(
@@ -91,10 +90,21 @@ class CheckInWarningMatcherTest : BaseTest() {
         runBlockingTest {
             createInstance().execute()
             coVerify(exactly = 1) {
-                presenceTracingRiskRepository.reportSuccessfulCalculation(any())
+                presenceTracingRiskRepository.reportSuccessfulCalculation(
+                    listOf(warningPackage),
+                    any()
+                )
                 traceWarningRepository.markPackageProcessed(warningPackage.packageId)
             }
-            coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
+            coVerify(exactly = 0) {
+                presenceTracingRiskRepository.deleteAllMatches()
+            }
+            coVerify(exactly = 0) {
+                presenceTracingRiskRepository.reportFailedCalculation()
+            }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.deleteStaleData()
+            }
         }
     }
 
@@ -143,10 +153,18 @@ class CheckInWarningMatcherTest : BaseTest() {
         runBlockingTest {
             createInstance().execute()
             coVerify(exactly = 1) {
-                presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList())
+                presenceTracingRiskRepository.reportSuccessfulCalculation(listOf(warningPackage), emptyList())
                 traceWarningRepository.markPackageProcessed(warningPackage.packageId)
             }
-            coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
+            coVerify(exactly = 0) {
+                presenceTracingRiskRepository.deleteAllMatches()
+            }
+            coVerify(exactly = 0) {
+                presenceTracingRiskRepository.reportFailedCalculation()
+            }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.deleteStaleData()
+            }
         }
     }
 
@@ -181,10 +199,21 @@ class CheckInWarningMatcherTest : BaseTest() {
         runBlockingTest {
             createInstance().execute()
             coVerify(exactly = 1) {
-                presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList())
+                presenceTracingRiskRepository.reportSuccessfulCalculation(
+                    warningPackages = listOf(warningPackage),
+                    overlapList = emptyList()
+                )
                 traceWarningRepository.markPackageProcessed(warningPackage.packageId)
             }
-            coVerify(exactly = 0) { presenceTracingRiskRepository.deleteAllMatches() }
+            coVerify(exactly = 0) {
+                presenceTracingRiskRepository.deleteAllMatches()
+            }
+            coVerify(exactly = 0) {
+                presenceTracingRiskRepository.reportFailedCalculation()
+            }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.deleteStaleData()
+            }
         }
     }
 
@@ -219,10 +248,69 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         runBlockingTest {
             createInstance().execute()
-            coVerify(exactly = 1) { presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList()) }
-            coVerify(exactly = 1) { presenceTracingRiskRepository.deleteAllMatches() }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.reportSuccessfulCalculation(listOf(warningPackage), emptyList())
+            }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.deleteAllMatches()
+            }
+            coVerify(exactly = 0) {
+                presenceTracingRiskRepository.reportFailedCalculation()
+            }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.deleteStaleData()
+            }
         }
     }
+
+    @Test
+    fun `report failure if matching throws exception`() {
+        val checkIn1 = createCheckIn(
+            id = 2L,
+            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            startDateStr = "2021-03-04T10:15+01:00",
+            endDateStr = "2021-03-04T10:17+01:00"
+        )
+        val checkIn2 = createCheckIn(
+            id = 3L,
+            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            startDateStr = "2021-03-04T09:15+01:00",
+            endDateStr = "2021-03-04T10:12+01:00"
+        )
+
+        every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
+
+        val warningPackage = object : TraceWarningPackage {
+            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+                throw Exception()
+            }
+
+            override val packageId: String
+                get() = "id"
+        }
+
+        every { traceWarningRepository.unprocessedWarningPackages } returns flowOf(listOf(warningPackage))
+
+        runBlockingTest {
+            createInstance().execute()
+            coVerify(exactly = 0) {
+                presenceTracingRiskRepository.reportSuccessfulCalculation(
+                    listOf(warningPackage),
+                    any()
+                )
+            }
+            coVerify(exactly = 0) {
+                presenceTracingRiskRepository.deleteAllMatches()
+            }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.reportFailedCalculation()
+            }
+            coVerify(exactly = 1) {
+                presenceTracingRiskRepository.deleteStaleData()
+            }
+        }
+    }
+
 
     @Test
     fun `test mass data`() {

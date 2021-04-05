@@ -31,18 +31,26 @@ class CheckInWarningMatcher @Inject constructor(
 
         presenceTracingRiskRepository.deleteStaleData()
 
+        val warningPackages = traceWarningRepository.unprocessedWarningPackages.firstOrNull()
+
         val checkIns = checkInsRepository.allCheckIns.firstOrNull()
         if (checkIns.isNullOrEmpty()) {
             Timber.i("No check-ins available. Deleting all matches.")
             presenceTracingRiskRepository.deleteAllMatches()
-            presenceTracingRiskRepository.reportSuccessfulCalculation(emptyList())
+            presenceTracingRiskRepository.reportSuccessfulCalculation(
+                warningPackages = warningPackages,
+                overlapList = emptyList()
+            )
             return emptyList()
         }
 
-        val warningPackages = traceWarningRepository.unprocessedWarningPackages.firstOrNull()
-
         if (warningPackages.isNullOrEmpty()) {
             // nothing to be done here
+            Timber.i("No new warning packages available.")
+            presenceTracingRiskRepository.reportSuccessfulCalculation(
+                warningPackages = warningPackages,
+                overlapList = emptyList()
+            )
             return emptyList()
         }
 
@@ -60,13 +68,9 @@ class CheckInWarningMatcher @Inject constructor(
             return emptyList()
         }
 
-        warningPackages.forEach {
-            // delete stale matches that are superseeded by a new package
-            presenceTracingRiskRepository.deleteMatchesOfPackage(it.packageId)
-        }
         val matches = matchLists.filterNotNull().flatten()
 
-        presenceTracingRiskRepository.reportSuccessfulCalculation(matches)
+        presenceTracingRiskRepository.reportSuccessfulCalculation(warningPackages, matches)
 
         warningPackages.forEach {
             traceWarningRepository.markPackageProcessed(it.packageId)
@@ -140,6 +144,7 @@ internal fun CheckIn.calculateOverlap(
     traceWarningPackageId: String
 ): CheckInWarningOverlap? {
 
+    // TODO this is not correct anymore
     if (warning.locationIdHash.toByteArray().toByteString() != traceLocationIdHash) return null
 
     val warningStartMillis = warning.startIntervalNumber.tenMinIntervalToMillis()

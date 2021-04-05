@@ -7,6 +7,7 @@ import org.joda.time.LocalDate
 data class PtRiskLevelResult(
     val calculatedAt: Instant,
     val riskState: RiskState,
+    // only available for the last calculation if successful, otherwise null
     val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null
 ) {
 
