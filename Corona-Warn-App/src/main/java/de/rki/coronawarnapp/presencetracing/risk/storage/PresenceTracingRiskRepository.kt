@@ -54,6 +54,13 @@ class PresenceTracingRiskRepository @Inject constructor(
                 .filter { it.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc()) }
         }
 
+    val checkInWarningOverlaps: Flow<List<CheckInWarningOverlap>> =
+        traceTimeIntervalMatchDao.allMatches().map { matchEntities ->
+            matchEntities.map {
+                it.toModel()
+            }
+        }
+
     private val normalizedTimeOfLast14DaysPlusToday = matchesOfLast14DaysPlusToday.map {
         presenceTracingRiskCalculator.calculateNormalizedTime(it)
     }
@@ -194,7 +201,7 @@ data class TraceTimeIntervalMatchEntity(
     @ColumnInfo(name = "endTimeMillis") val endTimeMillis: Long
 )
 
-private fun CheckInWarningOverlap.toEntity() = TraceTimeIntervalMatchEntity(
+internal fun CheckInWarningOverlap.toEntity() = TraceTimeIntervalMatchEntity(
     checkInId = checkInId,
     traceWarningPackageId = traceWarningPackageId,
     transmissionRiskLevel = transmissionRiskLevel,
@@ -202,7 +209,7 @@ private fun CheckInWarningOverlap.toEntity() = TraceTimeIntervalMatchEntity(
     endTimeMillis = endTime.millis
 )
 
-private fun TraceTimeIntervalMatchEntity.toModel() = CheckInWarningOverlap(
+internal fun TraceTimeIntervalMatchEntity.toModel() = CheckInWarningOverlap(
     checkInId = checkInId,
     traceWarningPackageId = traceWarningPackageId,
     transmissionRiskLevel = transmissionRiskLevel,

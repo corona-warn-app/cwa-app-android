@@ -5,18 +5,19 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
-import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
-import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
+import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import okio.ByteString.Companion.encode
 import org.joda.time.DateTime
 import timber.log.Timber
@@ -24,69 +25,55 @@ import timber.log.Timber
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val traceLocationRepository: TraceLocationRepository,
-    private val checkInWarningMatcher: CheckInWarningMatcher,
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
     private val taskController: TaskController,
-    private val syncTool: TraceWarningPackageSyncTool,
+    private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
+    private val traceWarningRepository: TraceWarningRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val checkInWarningOverlaps = mutableListOf<CheckInWarningOverlap>()
-    val checkInOverlapsText = MutableLiveData<String>()
-    val matchingRuntime = MutableLiveData<Long>()
+    val presenceTracingWarningTaskResult = MutableLiveData<String>()
+    val taskRunTime = MutableLiveData<Long>()
     val riskCalculationRuntime = MutableLiveData<Long>()
 
     val checkInRiskPerDayText = MutableLiveData<String>()
 
-    fun runWarningPackageTask() {
-        launch {
-            Timber.d("runWarningPackageTask()")
-            taskController.submit(
-                DefaultTaskRequest(
-                    PresenceTracingWarningTask::class,
-                    originTag = "EventRegistrationTestFragmentViewModel"
-                )
+    fun runPresenceTracingWarningTask() = launch {
+        Timber.d("runWarningPackageTask()")
+        presenceTracingWarningTaskResult.postValue("")
+        taskRunTime.postValue(-1L)
+
+        val start = System.currentTimeMillis()
+        taskController.submitBlocking(
+            DefaultTaskRequest(
+                PresenceTracingWarningTask::class,
+                originTag = "EventRegistrationTestFragmentViewModel"
             )
+        )
+        val stop = System.currentTimeMillis()
+        taskRunTime.postValue(stop - start)
+
+        val warningPackages = traceWarningRepository.allMetaData.first()
+        val overlaps = presenceTracingRiskRepository.checkInWarningOverlaps.first()
+        val lastResult = presenceTracingRiskRepository.latestEntries(1).first().singleOrNull()
+
+        val infoText = when {
+            !lastResult!!.wasSuccessfullyCalculated -> "Last calculation failed"
+            overlaps.isEmpty() -> "No matches found (${warningPackages.size} warning packages)."
+            overlaps.size > 100 -> "Output too large. ${overlaps.size} lines"
+            overlaps.isNotEmpty() -> overlaps.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
+                stringBuilder
+                    .append("CheckIn Id ${checkInOverlap.checkInId}, ")
+                    .append("Date ${checkInOverlap.localDateUtc}, ")
+                    .append("Min. ${checkInOverlap.overlap.standardMinutes}")
+                    .append("\n")
+            }.toString()
+            else -> "Unknown state"
         }
+        presenceTracingWarningTaskResult.postValue(infoText)
     }
 
-    fun downloadWarningPackages() {
-        launch {
-            Timber.d("downloadWarningPackages()")
-            syncTool.syncPackages()
-        }
-    }
-
-    fun runMatcher() {
-        launch {
-            measureTime(
-                {
-                    Timber.d("Time to find matches: $it millis")
-                    matchingRuntime.postValue(it)
-                },
-                {
-                    checkInWarningOverlaps.clear()
-
-                    // TODO
-//                    val matches = checkInWarningMatcherexecute()
-//
-//                    checkInWarningOverlaps.addAll(matches)
-
-                    if (checkInWarningOverlaps.size < 100) {
-                        val text = checkInWarningOverlaps.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
-                            stringBuilder
-                                .append("CheckIn Id ${checkInOverlap.checkInId}, ")
-                                .append("Date ${checkInOverlap.localDateUtc}, ")
-                                .append("Min. ${checkInOverlap.overlap.standardMinutes}")
-                                .append("\n")
-                        }
-                        if (text.isBlank()) checkInOverlapsText.postValue("No matches found")
-                        else checkInOverlapsText.postValue(text.toString())
-                    } else {
-                        checkInOverlapsText.postValue("Output too large. ${checkInWarningOverlaps.size} lines")
-                    }
-                }
-            )
-        }
+    fun resetProcessedWarningPackages() = launch {
+        traceWarningRepository.clear()
     }
 
     fun runRiskCalculationPerCheckInDay() {
@@ -97,6 +84,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                     riskCalculationRuntime.postValue(it)
                 },
                 {
+                    val checkInWarningOverlaps = presenceTracingRiskRepository.checkInWarningOverlaps.first()
                     val normalizedTimePerCheckInDayList =
                         presenceTracingRiskCalculator.calculateNormalizedTime(checkInWarningOverlaps)
                     val riskStates =

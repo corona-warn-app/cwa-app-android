@@ -112,10 +112,16 @@ class TraceWarningPackageDownloader @Inject constructor(
                 }
             }
             try {
+                saveTo.parentFile?.let {
+                    if (!it.exists() && it.mkdir()) {
+                        Timber.w("Had to create parent dir: %s", it)
+                    }
+                }
                 saveTo.writeBytes(rawProtoBuf)
             } catch (e: Exception) {
                 Timber.tag(TAG).e(e, "Failed to write %s to %s", metaData, saveTo)
                 saveTo.delete()
+                throw e
             }
             Timber.tag(TAG).v("%d bytes written to %s.", rawProtoBuf.size, saveTo)
         }

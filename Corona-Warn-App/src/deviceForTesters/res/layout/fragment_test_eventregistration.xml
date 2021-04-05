@@ -68,38 +68,30 @@
                 android:text="Download, matching &amp; risk calculation" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/reset_processed_warning_packages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Reset processed packages" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/runPTWarningTask"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="Start task (run all)" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/downloadReportedCheckIns"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:text="download check-ins" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/runMatcher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="Run matcher" />
+                android:text="Run task (download+matching)" />
 
             <TextView
-                android:id="@+id/matchingRuntimeText"
+                android:id="@+id/task_run_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="Matching runtime:" />
 
             <TextView
-                android:id="@+id/matchingResultText"
+                android:id="@+id/tracing_warning_task_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:text="Matching result:" />
 
             <com.google.android.material.button.MaterialButton
@@ -120,7 +112,6 @@
                 android:id="@+id/riskCalculationResultText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:text="Risk calculation result:" />
 
         </LinearLayout>

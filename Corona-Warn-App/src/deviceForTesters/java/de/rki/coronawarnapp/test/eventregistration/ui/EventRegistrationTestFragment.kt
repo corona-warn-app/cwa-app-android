@@ -54,28 +54,25 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                 viewModel.generateTestTraceLocations()
             }
         }
-        binding.runMatcher.setOnClickListener {
-            viewModel.runMatcher()
-        }
 
-        binding.downloadReportedCheckIns.setOnClickListener {
-            viewModel.downloadWarningPackages()
+        binding.resetProcessedWarningPackages.setOnClickListener {
+            viewModel.resetProcessedWarningPackages()
         }
 
         binding.calculateRisk.setOnClickListener {
             viewModel.runRiskCalculationPerCheckInDay()
         }
 
-        viewModel.checkInOverlapsText.observe2(this) {
-            binding.matchingResultText.text = it
+        viewModel.presenceTracingWarningTaskResult.observe2(this) {
+            binding.tracingWarningTaskResult.text = it
         }
 
         viewModel.checkInRiskPerDayText.observe2(this) {
             binding.riskCalculationResultText.text = it
         }
 
-        viewModel.matchingRuntime.observe2(this) {
-            binding.matchingRuntimeText.text = "Matching runtime in millis: $it"
+        viewModel.taskRunTime.observe2(this) {
+            binding.taskRunTime.text = "Task finished in ${it}ms"
         }
 
         viewModel.riskCalculationRuntime.observe2(this) {
@@ -83,7 +80,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         }
 
         binding.runPTWarningTask.setOnClickListener {
-            viewModel.runWarningPackageTask()
+            viewModel.runPresenceTracingWarningTask()
         }
     }
 
