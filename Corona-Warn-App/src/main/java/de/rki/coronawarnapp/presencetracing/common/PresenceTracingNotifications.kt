@@ -19,18 +19,18 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Helper to send notifications on the notification channel for trace location related events.
+ * Helper to send notifications on the notification channel for presence tracing related events.
  *
  * Also see **[de.rki.coronawarnapp.notification.GeneralNotifications]**
  */
 @Reusable
-class TraceLocationNotifications @Inject constructor(
+class PresenceTracingNotifications @Inject constructor(
     @AppContext private val context: Context,
     private val apiLevel: ApiLevel,
     private val notificationManagerCompat: NotificationManagerCompat,
 ) {
 
-    private val channelId = "${context.packageName}.notification.traceLocationChannelId"
+    private val channelId = "${context.packageName}.notification.presenceTracingChannelId"
     private var isNotificationChannelSetup = false
 
     @TargetApi(Build.VERSION_CODES.O)
