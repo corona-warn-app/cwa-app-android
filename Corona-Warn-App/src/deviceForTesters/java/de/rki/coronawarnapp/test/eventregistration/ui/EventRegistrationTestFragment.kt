@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -88,28 +89,28 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
 
         viewModel.lastOrganiserLocation.observe(viewLifecycleOwner) {
             binding.lastOrganiserLocationCard.isVisible = it != null
-            it?.let { data ->
+            it?.let { traceLocation ->
                 with(binding) {
-                    lastOrganiserLocation.text = traceLocation(data)
-                    lastOrganiserLocationId.text = styleText("ID", data.id)
-                    lastOrganiserLocationUrl.text = styleText("URL", data.url)
+                    lastOrganiserLocation.text = traceLocationText(traceLocation)
+                    lastOrganiserLocationId.text = styleText("ID", traceLocation.locationId)
+                    lastOrganiserLocationUrl.text = styleText("URL", traceLocation.locationUrl)
                 }
             }
         }
 
         viewModel.lastAttendeeLocation.observe(viewLifecycleOwner) {
             binding.lastAttendeeLocationCard.isVisible = it != null
-            it?.let { data ->
+            it?.let { traceLocation ->
                 with(binding) {
-                    lastAttendeeLocation.text = traceLocation(data)
-                    lastAttendeeLocationId.text = styleText("ID", data.id)
-                    lastAttendeeLocationUrl.text = styleText("URL", data.url)
+                    lastAttendeeLocation.text = traceLocationText(traceLocation)
+                    lastAttendeeLocationId.text = styleText("ID", traceLocation.locationId)
+                    lastAttendeeLocationUrl.text = styleText("URL", traceLocation.locationUrl)
                 }
             }
         }
     }
 
-    private fun traceLocation(data: LastLocationData): SpannedString = with(data.traceLocation) {
+    private fun traceLocationText(traceLocation: TraceLocation): SpannedString = with(traceLocation) {
         buildSpannedString {
             append("TraceLocation [\n")
             append(styleText("Id", id))

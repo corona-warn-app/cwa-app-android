@@ -28,12 +28,12 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val lastOrganiserLocation: LiveData<LastLocationData?> =
+    val lastOrganiserLocation: LiveData<TraceLocation?> =
         traceLocationRepository.allTraceLocations
             .map { lastLocationData(it) }
             .asLiveData(dispatcherProvider.Default)
 
-    val lastAttendeeLocation: LiveData<LastLocationData?> =
+    val lastAttendeeLocation: LiveData<TraceLocation?> =
         checkInRepository.allCheckIns
             .map { lastAttendeeLocationData(it) }
             .asLiveData(dispatcherProvider.Default)
@@ -107,19 +107,13 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    private fun lastLocationData(it: List<TraceLocation>): LastLocationData? {
-        val traceLocation = it.maxByOrNull { traceLocation -> traceLocation.id } ?: return null
-        return LastLocationData(
-            traceLocation = traceLocation,
-            id = traceLocation.locationId.base64(),
-            url = traceLocation.locationUrl
-        )
-    }
+    private fun lastLocationData(it: List<TraceLocation>): TraceLocation? =
+        it.maxByOrNull { traceLocation -> traceLocation.id }
 
-    private fun lastAttendeeLocationData(it: List<CheckIn>): LastLocationData? {
+    private fun lastAttendeeLocationData(it: List<CheckIn>): TraceLocation? {
         val checkIn = it.maxByOrNull { checkIn -> checkIn.id } ?: return null
 
-        val traceLocation = TraceLocation(
+        return TraceLocation(
             id = checkIn.id,
             type = TraceLocationOuterClass.TraceLocationType.forNumber(checkIn.type),
             description = checkIn.description,
@@ -131,20 +125,8 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
             cnPublicKey = checkIn.cnPublicKey,
             version = checkIn.version
         )
-
-        return LastLocationData(
-            traceLocation = traceLocation,
-            id = traceLocation.locationId.base64(),
-            url = traceLocation.locationUrl
-        )
     }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<EventRegistrationTestFragmentViewModel>
 }
-
-data class LastLocationData(
-    val traceLocation: TraceLocation,
-    val id: String,
-    val url: String
-)
