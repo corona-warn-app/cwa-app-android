@@ -117,6 +117,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 if (count > 0) {
                     val badge = getOrCreateBadge(targetId)
                     badge.number = count
+                    badge.badgeTextColor = getColor(android.R.color.white)
                 } else {
                     removeBadge(targetId)
                 }

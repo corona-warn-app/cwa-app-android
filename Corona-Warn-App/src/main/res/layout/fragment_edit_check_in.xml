@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="270dp"
                     app:layout_collapseMode="parallax"
-                    app:srcCompat="@drawable/trace_location_view_cardhighlight_gradient_all_corners" />
+                    app:srcCompat="@drawable/trace_location_view_cardhighlight_gradient" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
