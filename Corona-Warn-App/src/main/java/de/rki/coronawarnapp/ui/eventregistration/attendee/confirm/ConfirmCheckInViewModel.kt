@@ -89,11 +89,10 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         completed: Boolean = false,
         createJournalEntry: Boolean = true
     ): CheckIn {
-        val traceLocationId = verifiedTraceLocation.traceLocation.locationId
+        val traceLocation = verifiedTraceLocation.traceLocation
         return CheckIn(
-            traceLocationId = traceLocationId,
-            // sha256() Hash of locationId ,which is itself a sha256() Hash
-            traceLocationIdHash = traceLocationId.sha256(),
+            traceLocationId = traceLocation.locationId,
+            traceLocationIdHash = traceLocation.locationIdHash,
             version = traceLocation.version,
             type = traceLocation.type.number,
             description = traceLocation.description,

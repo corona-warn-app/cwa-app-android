@@ -49,6 +49,14 @@ data class TraceLocation(
         totalByteSequence.toByteString().sha256()
     }
 
+    /**
+     *  Returns SHA-256 hash of [locationId] which itself is SHA-256 hash
+     */
+    @IgnoredOnParcel
+    val locationIdHash: ByteString by lazy {
+        locationId.sha256()
+    }
+
     fun isBeforeStartTime(now: Instant): Boolean = startDate?.isAfter(now) ?: false
 
     fun isAfterEndTime(now: Instant): Boolean = endDate?.isBefore(now) ?: false
