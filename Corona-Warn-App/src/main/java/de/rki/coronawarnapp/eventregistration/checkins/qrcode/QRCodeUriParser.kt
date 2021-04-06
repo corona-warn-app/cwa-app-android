@@ -1,46 +1,86 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
+import com.google.common.io.BaseEncoding
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.QRCodePayload
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptorOrBuilder
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor.PayloadEncoding
 import de.rki.coronawarnapp.util.decodeBase32
-import okio.ByteString
+import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import java.net.URI
 import javax.inject.Inject
 
 @Reusable
-class QRCodeUriParser @Inject constructor() {
+class QRCodeUriParser @Inject constructor(
+    private val configProvider: AppConfigProvider
+) {
 
     /**
-     * Validate that QRCode scanned uri matches the following formulas:
-     * https://e.coronawarn.app/c1/SIGNED_TRACE_LOCATION_BASE32
-     * HTTPS://E.CORONAWARN.APP/C1/SIGNED_TRACE_LOCATION_BASE32
+     * Parse [QRCodePayload] from [input]
+     *
+     * @throws [Exception] such as [QRCodeException],
+     * exceptions from [URI.create]
+     * and possible decoding exceptions
      */
-    fun getQrCodePayload(maybeUri: String): ByteString? = URI.create(maybeUri).run {
-        if (!scheme.equals(SCHEME, true)) return@run null
-        if (!authority.equals(AUTHORITY, true)) return@run null
-
-        if (!path.substringBeforeLast("/").equals(PATH_PREFIX, true)) return@run null
-
-        val rawData = path.substringAfterLast("/")
-        val paddingDiff = 8 - (rawData.length % 8)
-        val maybeBase32 = rawData + createPadding(paddingDiff)
-
-        if (!maybeBase32.matches(BASE32_REGEX)) return@run null
-
-        return@run try {
-            maybeBase32.decodeBase32()
+    @Suppress("BlockingMethodInNonBlockingContext")
+    suspend fun getQrCodePayload(input: String): QRCodePayload {
+        Timber.d("input=$input")
+        try {
+            URI.create(input) // Verify it is a valid uri
         } catch (e: Exception) {
-            Timber.w(e, "Data wasn't base32: %s", maybeBase32)
-            null
+            Timber.d(e, "Invalid URI")
+            throw InvalidQrCodeUriException("Invalid URI", e)
         }
+
+        val descriptor = descriptor(input)
+        val groups = descriptor.matchedGroups(input)
+
+        val payload = groups[descriptor.encodedPayloadGroupIndex]
+        Timber.d("payload=$payload")
+
+        val encoding = PayloadEncoding.forNumber(descriptor.payloadEncoding.number)
+        Timber.d("encoding=$encoding")
+
+        val rawPayload = try {
+            when (encoding) {
+                PayloadEncoding.BASE32 -> payload.decodeBase32()
+                PayloadEncoding.BASE64 -> BaseEncoding.base64Url().decode(payload).toByteString()
+                else -> null
+            }
+        } catch (e: Exception) {
+            Timber.d(e, "Payload decoding failed")
+            null
+        } ?: throw InvalidQrCodeDataException("Payload decoding failed")
+
+        return QRCodePayload.parseFrom(rawPayload.toByteArray())
     }
 
-    companion object {
-        private fun createPadding(length: Int) = (0 until length).joinToString(separator = "") { "=" }
+    private suspend fun descriptor(input: String): PresenceTracingQRCodeDescriptorOrBuilder {
+        val descriptors = configProvider.getAppConfig().presenceTracing.qrCodeDescriptors
+        Timber.d("descriptors=$descriptors")
+        val descriptor = descriptors.find { it.regexPattern.toRegex(RegexOption.IGNORE_CASE).matches(input) }
+        if (descriptor == null) {
+            Timber.d("Invalid URI - no matchedDescriptor")
+            throw InvalidQrCodeUriException("Invalid URI - no matchedDescriptor")
+        }
+        Timber.d("descriptor=$descriptor")
+        return descriptor
+    }
 
-        private const val SCHEME = "https"
-        private const val AUTHORITY = "e.coronawarn.app"
-        private const val PATH_PREFIX = "/c1"
-        private val BASE32_REGEX = "^([A-Z2-7=]{8})+$".toRegex(RegexOption.IGNORE_CASE)
+    private fun PresenceTracingQRCodeDescriptorOrBuilder.matchedGroups(
+        input: String
+    ): List<String> {
+        val groups = regexPattern
+            .toRegex(RegexOption.IGNORE_CASE).find(input) // Find matched result [MatchResult]
+            ?.destructured?.toList().orEmpty() // Destructured groups - excluding the zeroth group (Whole String)
+        Timber.d("groups=$groups")
+
+        if (encodedPayloadGroupIndex !in groups.indices) {
+            Timber.d("Invalid payload - group index is out of bounds")
+            throw InvalidQrCodePayloadException("Invalid payload - group index is out of bounds")
+        }
+        return groups
     }
 }

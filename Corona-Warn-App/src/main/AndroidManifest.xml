@@ -85,7 +85,6 @@
 
                 <data
                     android:host="e.coronawarn.app"
-                    android:pathPrefix="/"
                     android:scheme="https" />
             </intent-filter>
         </activity>
