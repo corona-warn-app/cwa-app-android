@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptorOrBuilder
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor.PayloadEncoding
 import de.rki.coronawarnapp.util.decodeBase32
-import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import java.net.URI

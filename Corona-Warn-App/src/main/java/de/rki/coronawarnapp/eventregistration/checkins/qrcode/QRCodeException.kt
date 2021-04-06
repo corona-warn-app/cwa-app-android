@@ -16,5 +16,6 @@ class InvalidQrCodePayloadException constructor(
 ) : QRCodeException(message, cause)
 
 class InvalidQrCodeDataException constructor(
-    message: String? = null, cause: Throwable? = null
+    message: String? = null,
+    cause: Throwable? = null
 ) : QRCodeException(message, cause)
