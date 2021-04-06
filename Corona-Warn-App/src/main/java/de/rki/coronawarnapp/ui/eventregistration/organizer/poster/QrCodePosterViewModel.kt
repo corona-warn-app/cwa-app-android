@@ -11,6 +11,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.PosterTemplateProvider
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.Template
+import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -27,6 +28,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
     private val posterTemplateProvider: PosterTemplateProvider,
+    private val traceLocationRepository: TraceLocationRepository,
     private val fileSharing: FileSharing
 
 ) : CWAViewModel(dispatcher) {
@@ -72,15 +74,14 @@ class QrCodePosterViewModel @AssistedInject constructor(
 
     private fun generatePoster() = launch(context = dispatcher.IO) {
         try {
-            // TODO Generate Qr Code info from reading location by traceLocationId
-            val input =
-                "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBG" +
-                    "moIARJgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1" +
-                    "MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ1Ec" +
-                    "FJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
+            val traceLocation = traceLocationRepository.traceLocationForId(traceLocationId)
             val template = posterTemplateProvider.template()
             Timber.d("template=$template")
-            val qrCode = qrCodeGenerator.createQrCode(input, template.qrCodeLength, margin = 0)
+            val qrCode = qrCodeGenerator.createQrCode(
+                input = traceLocation.locationUrl,
+                length = template.qrCodeLength,
+                margin = 0
+            )
             posterLiveData.postValue(Poster(qrCode, template))
         } catch (e: Exception) {
             Timber.d(e, "Generating poster failed")
