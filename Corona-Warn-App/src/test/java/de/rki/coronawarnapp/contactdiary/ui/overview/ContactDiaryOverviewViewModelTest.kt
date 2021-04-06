@@ -427,6 +427,7 @@ open class ContactDiaryOverviewViewModelTest {
                 name shouldBe locationEventLowRisk.locationName
                 riskInfoAddition shouldBe null
                 bulledPointColor shouldBe R.color.colorBulletPointLowRisk
+                description shouldBe checkInLow.description
             }
         }
     }
@@ -448,6 +449,7 @@ open class ContactDiaryOverviewViewModelTest {
                 name shouldBe locationEventHighRisk.locationName
                 riskInfoAddition shouldBe null
                 bulledPointColor shouldBe R.color.colorBulletPointHighRisk
+                description shouldBe checkInHigh.description
             }
         }
     }
