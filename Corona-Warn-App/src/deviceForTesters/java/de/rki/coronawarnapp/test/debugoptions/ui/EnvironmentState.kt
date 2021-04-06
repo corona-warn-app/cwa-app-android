@@ -12,8 +12,7 @@ data class EnvironmentState(
     val logUpload: String,
     val pubKeyCrowdNotifier: String,
     val pubKeyAppConfig: String,
-
-    ) {
+) {
     companion object {
         internal fun EnvironmentSetup.toEnvironmentState() = EnvironmentState(
             current = currentEnvironment,
