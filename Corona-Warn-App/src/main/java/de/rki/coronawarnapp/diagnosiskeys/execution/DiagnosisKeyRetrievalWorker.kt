@@ -27,7 +27,7 @@ class DiagnosisKeyRetrievalWorker @AssistedInject constructor(
             DefaultTaskRequest(
                 DownloadDiagnosisKeysTask::class,
                 DownloadDiagnosisKeysTask.Arguments(),
-                originTag = "DiagnosisKeyRetrievalOneTimeWorker"
+                originTag = "DiagnosisKeyRetrievalWorker"
             )
         )
 

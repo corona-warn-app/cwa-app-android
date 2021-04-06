@@ -79,7 +79,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             binding.riskCalculationRuntimeText.text = "Risk calculation runtime in millis: $it"
         }
 
-        binding.runPTWarningTask.setOnClickListener {
+        binding.runPtWarningTask.setOnClickListener {
             viewModel.runPresenceTracingWarningTask()
         }
     }

@@ -75,7 +75,7 @@
                 android:text="Reset processed packages" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/runPTWarningTask"
+                android:id="@+id/run_pt_warning_task"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
