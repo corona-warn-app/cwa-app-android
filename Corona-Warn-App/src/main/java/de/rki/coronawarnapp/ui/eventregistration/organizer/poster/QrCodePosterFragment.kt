@@ -63,6 +63,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
     private fun QrCodePosterFragmentBinding.bindPoster(poster: Poster) {
         Timber.d("poster=$poster")
         progressBar.hide()
+
         val template = poster.template ?: return // Exit early
         Timber.d("template=$template")
 
@@ -85,7 +86,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         if (poster.hasImages()) onPosterDrawn()
 
         // Bind text info
-        bindTextBox(poster.template.textBox)
+        bindTextBox(poster.infoText, poster.template.textBox)
     }
 
     private fun onPosterDrawn() = with(binding.qrCodePoster) {
@@ -99,31 +100,27 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         )
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun QrCodePosterFragmentBinding.bindTextBox(textBox: QRCodeTextBoxAndroid) =
-        with(infoText) {
-            // TODO provide location info
-            text = "Vereinsaktivität: Jahrestreffen der deutschen SAP Anwendergruppe" +
-                "\nHauptstr 3, 69115 Heidelberg, 27.03.2021 19:30-23:55 Uhr"
-
-            val minFontSize = textBox.fontSize - 6
-            val maxFontSize = textBox.fontSize
-            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
-                infoText,
-                minFontSize,
-                maxFontSize,
-                1,
-                TypedValue.COMPLEX_UNIT_SP
-            )
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, maxFontSize.toFloat())
-            setTextColor(textBox.fontColor.parseColor())
-            /* TODO
-                textEndGuideline.setGuidelinePercent(1 - textBox.offsetX)
-                textStartGuideline.setGuidelinePercent(textBox.offsetX)
-                textTopGuideline.setGuidelinePercent(textBox.offsetY)
-                setTypeface()
-            */
-        }
+    private fun QrCodePosterFragmentBinding.bindTextBox(
+        infoText: String,
+        textBox: QRCodeTextBoxAndroid
+    ) = with(infoTextView) {
+        text = infoText
+        val minFontSize = textBox.fontSize - 6
+        val maxFontSize = textBox.fontSize
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
+            infoTextView,
+            minFontSize,
+            maxFontSize,
+            1,
+            TypedValue.COMPLEX_UNIT_SP
+        )
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, maxFontSize.toFloat())
+        setTextColor(textBox.fontColor.parseColor())
+        textEndGuideline.setGuidelinePercent(1 - textBox.offsetX)
+        textStartGuideline.setGuidelinePercent(textBox.offsetX)
+        textTopGuideline.setGuidelinePercent(textBox.offsetY)
+        // TODO setTypeface()
+    }
 
     private fun onShareIntent(fileIntent: FileSharing.FileIntentProvider) {
         binding.toolbar.setOnMenuItemClickListener {

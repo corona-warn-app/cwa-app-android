@@ -82,7 +82,16 @@ class QrCodePosterViewModel @AssistedInject constructor(
                 length = template.qrCodeLength,
                 margin = 0
             )
-            posterLiveData.postValue(Poster(qrCode, template))
+
+            val textInfo = buildString {
+                append(traceLocation.description)
+                appendLine()
+                append(traceLocation.address)
+
+            }
+            posterLiveData.postValue(
+                Poster(qrCode, template, textInfo)
+            )
         } catch (e: Exception) {
             Timber.d(e, "Generating poster failed")
             posterLiveData.postValue(Poster())
@@ -100,7 +109,8 @@ class QrCodePosterViewModel @AssistedInject constructor(
 
 data class Poster(
     val qrCode: Bitmap? = null,
-    val template: Template? = null
+    val template: Template? = null,
+    val infoText: String = ""
 ) {
     fun hasImages(): Boolean = qrCode != null && template?.bitmap != null
 }

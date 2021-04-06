@@ -92,7 +92,7 @@
             app:layout_constraintGuide_percent="0.61" />
 
         <TextView
-            android:id="@+id/info_text"
+            android:id="@+id/info_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="2"
