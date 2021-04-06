@@ -51,6 +51,8 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
             toolbar.setNavigationOnClickListener { popBackStack() }
             viewModel.poster.observe(viewLifecycleOwner) { poster ->
                 bindPoster(poster)
+                // Avoid creating blank PDF
+                if (poster.hasImages()) onPosterDrawn()
             }
         }
 
@@ -81,9 +83,6 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         startGuideline.setGuidelinePercent(template.offsetX)
         endGuideline.setGuidelinePercent(1 - template.offsetX)
 
-        // Create trace location PDF poster for printing and sharing
-        if (poster.hasImages()) onPosterDrawn()
-
         // Bind text info
         bindTextBox(poster.infoText, poster.template.textBox)
     }
@@ -92,7 +91,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         viewTreeObserver.addOnGlobalLayoutListener(
             object : OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    viewModel.createPDF(binding.qrCodePoster, getString(R.string.app_name))
+                    viewModel.createPDF(binding.qrCodePoster)
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             }
@@ -134,24 +133,24 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
     private fun printFile(file: File) {
         val printingManger = context?.getSystemService<PrintManager>()
         Timber.i("PrintingManager=$printingManger")
-        if (printingManger != null) {
-            try {
-                val job = printingManger.print(
-                    getString(R.string.app_name),
-                    PrintingAdapter(file),
-                    PrintAttributes
-                        .Builder()
-                        .setMediaSize(PrintAttributes.MediaSize.ISO_A3)
-                        .build()
-                )
-
-                Timber.d("JobState=%s", job.info.state)
-            } catch (e: Exception) {
-                Timber.d(e, "Printing job failed")
-                e.report(ExceptionCategory.INTERNAL)
-            }
-        } else {
+        if (printingManger == null) {
             Toast.makeText(requireContext(), R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
+            return
+        }
+
+        try {
+            val job = printingManger.print(
+                getString(R.string.app_name),
+                PrintingAdapter(file),
+                PrintAttributes.Builder()
+                    .setMediaSize(PrintAttributes.MediaSize.ISO_A3)
+                    .build()
+            )
+
+            Timber.d("JobState=%s", job.info.state)
+        } catch (e: Exception) {
+            Timber.d(e, "Printing job failed")
+            e.report(ExceptionCategory.INTERNAL)
         }
     }
 }

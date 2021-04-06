@@ -30,7 +30,6 @@ class QrCodePosterViewModel @AssistedInject constructor(
     private val posterTemplateProvider: PosterTemplateProvider,
     private val traceLocationRepository: TraceLocationRepository,
     private val fileSharing: FileSharing
-
 ) : CWAViewModel(dispatcher) {
 
     private val posterLiveData = MutableLiveData<Poster>()
@@ -46,7 +45,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
      * as a sharing [FileSharing.ShareIntentProvider]
      */
     @Suppress("BlockingMethodInNonBlockingContext")
-    fun createPDF(view: View, title: String) = launch(context = dispatcher.IO) {
+    fun createPDF(view: View) = launch(context = dispatcher.IO) {
         try {
             val directory = File(view.context.cacheDir, "poster").apply { if (!exists()) mkdirs() }
             val file = File(directory, "cwa-qr-code.pdf")
@@ -65,7 +64,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
                 }
             }
 
-            sharingIntent.postValue(fileSharing.getFileIntentProvider(file, title))
+            sharingIntent.postValue(fileSharing.getFileIntentProvider(file, traceLocation().description))
         } catch (e: Exception) {
             Timber.d(e, "Creating pdf failed")
             e.report(ExceptionCategory.INTERNAL)
@@ -74,7 +73,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
 
     private fun generatePoster() = launch(context = dispatcher.IO) {
         try {
-            val traceLocation = traceLocationRepository.traceLocationForId(traceLocationId)
+            val traceLocation = traceLocation()
             val template = posterTemplateProvider.template()
             Timber.d("template=$template")
             val qrCode = qrCodeGenerator.createQrCode(
@@ -97,6 +96,8 @@ class QrCodePosterViewModel @AssistedInject constructor(
             e.report(ExceptionCategory.INTERNAL)
         }
     }
+
+    private suspend fun traceLocation() = traceLocationRepository.traceLocationForId(traceLocationId)
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<QrCodePosterViewModel> {
