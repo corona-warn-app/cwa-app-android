@@ -93,7 +93,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             )
         )
     }
-
+    @Suppress("LongParameterList")
     private fun createListItemList(
         dateList: List<LocalDate>,
         visits: List<ContactDiaryLocationVisit>,
