@@ -153,7 +153,7 @@
     <!-- XTXT: Text for time sheet icon of qr info screen -->
     <string name="trace_location_qr_info_time_text">"Wenn Sie dauerhaft einen QR-Code verwenden, sollten Sie diesen einmal täglich außerhalb der Öffnungszeiten neu erstellen."</string>
     <!-- XTXT: Text for I understand button -->
-    <string name="acknowledge_button">"Enverstanden"</string>
+    <string name="acknowledge_button">"Einverstanden"</string>
 
     <!-- XHED: Title of the notification channel for event registration related notifications. -->
     <string name="tracelocation_notification_channel_title">"Check-ins"</string>
