@@ -102,7 +102,7 @@
                     tools:text="DataDonation: ?" />
 
                 <TextView
-                    android:id="@+id/environment_log_upload"
+                    android:id="@+id/environment_url_log_upload"
                     style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
