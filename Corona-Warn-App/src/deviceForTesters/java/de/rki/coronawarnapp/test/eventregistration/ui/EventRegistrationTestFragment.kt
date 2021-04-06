@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -69,6 +70,11 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                     lastOrganiserLocation.text = traceLocationText(traceLocation)
                     lastOrganiserLocationId.text = styleText("ID", traceLocation.locationId.base64())
                     lastOrganiserLocationUrl.text = styleText("URL", traceLocation.locationUrl)
+                    qrcodeButton.setOnClickListener {
+                        doNavigate(
+                            EventRegistrationTestFragment
+                        )
+                    }
                 }
             }
         }
