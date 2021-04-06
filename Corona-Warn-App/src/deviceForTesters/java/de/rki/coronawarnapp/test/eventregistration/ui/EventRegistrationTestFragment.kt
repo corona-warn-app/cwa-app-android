@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.SpannedString
 import android.view.View
-import android.widget.Toast
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color

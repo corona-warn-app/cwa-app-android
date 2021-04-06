@@ -53,7 +53,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
 
     fun runPresenceTracingWarningTask() = launch {
         Timber.d("runWarningPackageTask()")
-        presenceTracingWarningTaskResult.postValue("")
+        presenceTracingWarningTaskResult.postValue("Running")
         taskRunTime.postValue(-1L)
 
         val start = System.currentTimeMillis()
