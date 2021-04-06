@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBin
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CheckInsItem
-import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
 import de.rki.coronawarnapp.util.list.onSwipeItem
@@ -37,6 +36,8 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
+import java.lang.Exception
+import java.net.URLEncoder
 import javax.inject.Inject
 
 class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_fragment), AutoInject {
@@ -148,13 +149,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     FragmentNavigatorExtras(this to transitionName)
                 )
             }
-            // TODO Remove once feature is done
-            if (CWADebug.isDeviceForTestersBuild) {
-                setOnLongClickListener {
-                    viewModel.addFakeCheckin()
-                    true
-                }
-            }
         }
     }
 
@@ -218,6 +212,14 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     }
 
     companion object {
-        fun createCheckInUri(rootUri: String): Uri = "coronawarnapp://check-ins/$rootUri".toUri()
+        fun createCheckInUri(rootUri: String): Uri {
+            val encodedUrl = try {
+                URLEncoder.encode(rootUri, Charsets.UTF_8.name())
+            } catch (e: Exception) {
+                Timber.d(e, "URL Encoding failed url($rootUri)")
+                rootUri // Pass original
+            }
+            return "coronawarnapp://check-ins/$encodedUrl".toUri()
+        }
     }
 }
