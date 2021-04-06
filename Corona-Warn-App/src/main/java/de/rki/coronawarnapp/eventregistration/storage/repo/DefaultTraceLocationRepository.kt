@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocations
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.toTraceLocationEntity
+import de.rki.coronawarnapp.eventregistration.storage.retention.isWithinRetention
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +20,8 @@ import javax.inject.Singleton
 @Singleton
 class DefaultTraceLocationRepository @Inject constructor(
     traceLocationDatabaseFactory: TraceLocationDatabase.Factory,
-    @AppScope private val appScope: CoroutineScope
+    @AppScope private val appScope: CoroutineScope,
+    private val timeStamper: TimeStamper
 ) : TraceLocationRepository {
 
     private val traceLocationDatabase: TraceLocationDatabase by lazy {
@@ -38,6 +41,13 @@ class DefaultTraceLocationRepository @Inject constructor(
 
     override val allTraceLocations: Flow<List<TraceLocation>>
         get() = traceLocationDao.allEntries().map { it.toTraceLocations() }
+
+    override val traceLocationsWithinRetention: Flow<List<TraceLocation>>
+        get() = allTraceLocations.map { traceLocationList ->
+            traceLocationList.filter { traceLocation ->
+                isWithinRetention(traceLocation, timeStamper)
+            }
+        }
 
     override suspend fun addTraceLocation(traceLocation: TraceLocation): TraceLocation {
         Timber.d("Add trace location: %s", traceLocation)

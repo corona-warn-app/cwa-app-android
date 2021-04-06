@@ -26,10 +26,17 @@ class CheckInRepository @Inject constructor(
         traceLocationDatabase.eventCheckInDao()
     }
 
+    /**
+     * Returns all stored check-ins
+     */
     val allCheckIns: Flow<List<CheckIn>> = checkInDao
         .allEntries()
         .map { list -> list.map { it.toCheckIn() } }
 
+    /**
+     * Returns check-ins that are within the retention period. Even though we have a worker that deletes all stale
+     * check-ins it's still possible to have stale check-ins in the database because the worker only runs once a day.
+     */
     val checkInsWithinRetention: Flow<List<CheckIn>> = allCheckIns.map { checkInList ->
         checkInList.filter { checkIn ->
             isWithinRetention(checkIn, timeStamper)

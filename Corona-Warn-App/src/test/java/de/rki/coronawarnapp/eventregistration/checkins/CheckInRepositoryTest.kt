@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.eventregistration.checkins
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.CheckInDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
-import de.rki.coronawarnapp.eventregistration.storage.entity.toCheckIn
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -196,13 +195,20 @@ class CheckInRepositoryTest : BaseTest() {
         // Jan 1st 2020, 00:00 should get deleted
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-16T00:00:00.000Z")
 
-        val checkInWithinRetention = createCheckIn(Instant.parse("2020-01-01T00:00:00.000Z")).toEntity()
-        val staleCheckIn = createCheckIn(Instant.parse("2019-12-31T23:59:59.000Z")).toEntity()
+        val checkInWithinRetention = createCheckIn(Instant.parse("2020-01-01T00:00:00.000Z"))
 
-        every { checkInDao.allEntries() } returns flowOf(listOf(staleCheckIn, checkInWithinRetention))
+        // should be filtered out
+        val staleCheckIn = createCheckIn(Instant.parse("2019-12-31T23:59:59.000Z"))
+
+        every { checkInDao.allEntries() } returns flowOf(
+            listOf(
+                staleCheckIn.toEntity(),
+                checkInWithinRetention.toEntity()
+            )
+        )
 
         createInstance(scope = this).checkInsWithinRetention.first() shouldBe
-            listOf(checkInWithinRetention.toCheckIn())
+            listOf(checkInWithinRetention)
     }
 
     private fun createCheckIn(checkOutDate: Instant) = CheckIn(

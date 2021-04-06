@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.ui.eventregistration.organizer.list.items.TraceLocationItem
 import de.rki.coronawarnapp.ui.eventregistration.organizer.list.items.TraceLocationVH
-import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -17,17 +16,14 @@ import kotlinx.coroutines.flow.map
 
 class TraceLocationsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val traceLocationRepository: TraceLocationRepository,
-    private val timeStamper: TimeStamper
+    private val traceLocationRepository: TraceLocationRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<TraceLocationEvent>()
 
-    val traceLocations: LiveData<List<TraceLocationItem>> = traceLocationRepository.allTraceLocations
+    val traceLocations: LiveData<List<TraceLocationItem>> = traceLocationRepository.traceLocationsWithinRetention
         .map { traceLocations ->
-            traceLocations
-                .filter { it.endDate == null || it.endDate.isAfter(timeStamper.nowUTC.toDateTime().minusDays(15)) }
-                .sortedBy { it.description }
+            traceLocations.sortedBy { it.description }
         }
         .map { traceLocations ->
             traceLocations.map { traceLocation ->
