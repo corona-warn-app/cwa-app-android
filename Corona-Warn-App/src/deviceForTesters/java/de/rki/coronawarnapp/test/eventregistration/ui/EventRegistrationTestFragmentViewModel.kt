@@ -65,7 +65,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                     .append("CheckIn Id ${checkInOverlap.checkInId}, ")
                     .append("Date ${checkInOverlap.localDateUtc}, ")
                     .append("Min. ${checkInOverlap.overlap.standardMinutes}")
-                    .append("\n")
+                    .appendLine()
             }.toString()
             else -> "Unknown state"
         }
