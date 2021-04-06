@@ -156,7 +156,6 @@ class CheckInsViewModel @AssistedInject constructor(
     fun addFakeCheckin() = launch {
         CheckIn(
             traceLocationId = "traceLocationId1#${Random.nextInt()}".encode(),
-            traceLocationIdHash = "traceLocationIdHash1".encode(),
             version = 1,
             type = 1,
             description = "Random Entry #${Random.nextInt(1, 4096)}",

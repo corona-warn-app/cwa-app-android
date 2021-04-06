@@ -86,7 +86,7 @@ class TraceWarningPackageDownloader @Inject constructor(
             val rawProtoBuf = getValidatedBinary(metaData, fileMap)
             writeProtoBufToFile(metaData, rawProtoBuf)
         } else {
-            Timber.tag(TAG).w("Empty package for %s", metaData)
+            Timber.tag(TAG).v("Empty package for %s", metaData)
         }
 
         Timber.tag(TAG).v("Download finished: %s -> %s", metaData, downloadInfo)

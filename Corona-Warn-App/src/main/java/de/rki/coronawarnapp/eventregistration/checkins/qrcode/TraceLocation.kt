@@ -42,7 +42,7 @@ data class TraceLocation(
      *  The ID is the byte representation of SHA-256 hash.
      */
     @IgnoredOnParcel
-    val locationId: ByteString by lazy {
+    val locationId: TraceLocationId by lazy {
         val cwaDomain = CWA_GUID.toByteArray()
         val payloadBytes = qrCodePayload().toByteArray()
         val totalByteSequence = cwaDomain + payloadBytes
@@ -50,12 +50,13 @@ data class TraceLocation(
     }
 
     /**
-     *  Returns SHA-256 hash of [locationId] which itself is SHA-256 hash
+     *  Returns SHA-256 hash of [locationId] which itself may also be SHA-256 hash.
+     *  For privacy reasons TraceTimeIntervalWarnings only offer a hash of the actual locationId.
+     *
+     *  @see [de.rki.coronawarnapp.eventregistration.checkins.CheckIn]
      */
     @IgnoredOnParcel
-    val locationIdHash: ByteString by lazy {
-        locationId.sha256()
-    }
+    val locationIdHash: ByteString by lazy { locationId.toTraceLocationIdHash() }
 
     fun isBeforeStartTime(now: Instant): Boolean = startDate?.isAfter(now) ?: false
 
@@ -71,6 +72,10 @@ data class TraceLocation(
         private const val CWA_GUID = "CWA-GUID"
     }
 }
+
+typealias TraceLocationId = ByteString
+
+fun TraceLocationId.toTraceLocationIdHash() = sha256()
 
 fun List<TraceLocationEntity>.toTraceLocations() = this.map { it.toTraceLocation() }
 

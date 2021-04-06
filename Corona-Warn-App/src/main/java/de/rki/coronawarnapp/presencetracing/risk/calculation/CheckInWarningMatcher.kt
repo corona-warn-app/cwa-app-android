@@ -6,12 +6,12 @@ import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.toOkioByteString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
@@ -107,9 +107,9 @@ internal suspend fun findMatches(
                 .mapNotNull { checkIn ->
                     checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
                         if (overlap == null) {
-                            Timber.v("No match/overlap found for $checkIn and $warning")
+                            Timber.v("No match found for $checkIn and $warning")
                         } else {
-                            Timber.i("Overlap found $overlap")
+                            Timber.i("Overlap was found $overlap")
                         }
                     }
                 }
@@ -122,8 +122,11 @@ internal fun CheckIn.calculateOverlap(
     traceWarningPackageId: String
 ): CheckInWarningOverlap? {
 
-    // TODO this is not correct anymore
-    if (warning.locationIdHash.toByteArray().toByteString() != traceLocationIdHash) return null
+    Timber.i("%s to %s", warning.locationIdHash.toOkioByteString(), traceLocationIdHash)
+
+    if (warning.locationIdHash.toOkioByteString() != traceLocationIdHash) return null
+
+    Timber.i("traceLocationIdHash match for %s", traceLocationIdHash)
 
     val warningStartMillis = warning.startIntervalNumber.tenMinIntervalToMillis()
     val warningEndMillis = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()

@@ -1,11 +1,15 @@
 package de.rki.coronawarnapp.eventregistration.events
 
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationId
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocationIdHash
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.traceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
+import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.decodeHex
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -66,6 +70,31 @@ class TraceLocationIdTest : BaseTest() {
         )
 
         traceLocation.locationId.base64() shouldBe "GMuCjqNmOdYyrFhyvFNTVEeLaZh+uShgUoY0LYJo4YQ="
+    }
+
+    /**
+     * Match server calculation
+     * https://github.com/corona-warn-app/cwa-server/blob/5ce7d27a74fbf4f2ed560772f97ac17e2189ad33/common/persistence/src/test/java/app/coronawarn/server/common/persistence/service/TraceTimeIntervalWarningServiceTest.java#L141
+     */
+    @Test
+    fun `test tracelocation hash generation`() {
+        val locationId = "afa27b44d43b02a9fea41d13cedc2e4016cfcf87c5dbf990e593669aa8ce286d"
+        val locationIdByte: ByteString = locationId.decodeHex()
+        val hashedLocationId: ByteString = locationIdByte.sha256()
+
+        val expectedLocationIdHash = "0f37dac11d1b8118ea0b44303400faa5e3b876da9d758058b5ff7dc2e5da8230"
+
+        hashedLocationId.hex() shouldBe expectedLocationIdHash
+        hashedLocationId shouldBe expectedLocationIdHash.decodeHex()
+    }
+
+    @Test
+    fun `turn location ID into locationID hash`() {
+        val traceLocationIdHex = "afa27b44d43b02a9fea41d13cedc2e4016cfcf87c5dbf990e593669aa8ce286d"
+        val expectedLocationIdHashHex = "0f37dac11d1b8118ea0b44303400faa5e3b876da9d758058b5ff7dc2e5da8230"
+
+        val traceLocationId: TraceLocationId = traceLocationIdHex.decodeHex()
+        traceLocationId.toTraceLocationIdHash() shouldBe expectedLocationIdHashHex.decodeHex()
     }
 
     companion object {
