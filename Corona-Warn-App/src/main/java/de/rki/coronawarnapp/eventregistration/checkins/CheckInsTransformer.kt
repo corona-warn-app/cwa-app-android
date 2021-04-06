@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
-import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.eventregistration.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
@@ -107,5 +106,3 @@ fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: Transmis
     val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
     return transmissionVector.raw.getOrElse(ageInDays) { 1 } // Default value
 }
-
-private fun okio.ByteString.toProtoByteString() = ByteString.copyFrom(toByteArray())
