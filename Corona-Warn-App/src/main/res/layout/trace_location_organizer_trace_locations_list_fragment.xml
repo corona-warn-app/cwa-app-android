@@ -13,7 +13,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/contact_diary_background"
-        android:elevation="@dimen/elevation_weak"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,9 +23,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:clipToPadding="false"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         android:paddingBottom="@dimen/spacing_huge"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
