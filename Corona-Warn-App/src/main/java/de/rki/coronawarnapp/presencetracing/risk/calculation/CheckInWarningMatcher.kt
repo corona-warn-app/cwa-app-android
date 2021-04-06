@@ -122,8 +122,6 @@ internal fun CheckIn.calculateOverlap(
     traceWarningPackageId: String
 ): CheckInWarningOverlap? {
 
-    Timber.i("%s to %s", warning.locationIdHash.toOkioByteString(), traceLocationIdHash)
-
     if (warning.locationIdHash.toOkioByteString() != traceLocationIdHash) return null
 
     Timber.i("traceLocationIdHash match for %s", traceLocationIdHash)
