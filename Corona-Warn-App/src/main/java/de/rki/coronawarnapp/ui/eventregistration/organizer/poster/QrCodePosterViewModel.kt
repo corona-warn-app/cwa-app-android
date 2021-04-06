@@ -49,7 +49,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
     fun createPDF(view: View, title: String) = launch(context = dispatcher.IO) {
         try {
             val directory = File(view.context.cacheDir, "poster").apply { if (!exists()) mkdirs() }
-            val file = File(directory, "CoronaWarnApp.pdf")
+            val file = File(directory, "cwa-qr-code.pdf")
 
             val pageInfo = PdfDocument.PageInfo.Builder(view.width, view.height, 1).create()
 
