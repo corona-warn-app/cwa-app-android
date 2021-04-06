@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.poster
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.view.View
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.PosterTemplateProvider
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.Template
