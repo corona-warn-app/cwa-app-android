@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
+import com.google.common.io.BaseEncoding
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.QRCodePayload
@@ -7,6 +8,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParamete
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor.PayloadEncoding
 import de.rki.coronawarnapp.util.decodeBase32
 import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import java.net.URI
 import javax.inject.Inject
@@ -26,7 +28,12 @@ class QRCodeUriParser @Inject constructor(
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun getQrCodePayload(input: String): QRCodePayload {
         Timber.d("input=$input")
-        URI.create(input) // Verify it is a valid uri
+        try {
+            URI.create(input) // Verify it is a valid uri
+        } catch (e: Exception) {
+            Timber.d(e, "Invalid URI")
+            throw InvalidQrCodeUriException("Invalid URI")
+        }
 
         val descriptor = descriptor(input)
         val groups = descriptor.matchedGroups(input)
@@ -37,10 +44,15 @@ class QRCodeUriParser @Inject constructor(
         val encoding = PayloadEncoding.forNumber(descriptor.payloadEncoding.number)
         Timber.d("encoding=$encoding")
 
-        val rawPayload = when (encoding) {
-            PayloadEncoding.BASE32 -> payload.decodeBase32()
-            PayloadEncoding.BASE64 -> payload.decodeBase64()
-            else -> null
+        val rawPayload = try {
+            when (encoding) {
+                PayloadEncoding.BASE32 -> payload.decodeBase32()
+                PayloadEncoding.BASE64 -> BaseEncoding.base64Url().decode(payload).toByteString()
+                else -> null
+            }
+        } catch (e: Exception) {
+            Timber.d(e, "Payload decoding failed")
+            throw InvalidQrCodeDataException("Payload decoding failed", e)
         } ?: throw InvalidQrCodeDataException("Payload decoding failed")
 
         return QRCodePayload.parseFrom(rawPayload.toByteArray())
