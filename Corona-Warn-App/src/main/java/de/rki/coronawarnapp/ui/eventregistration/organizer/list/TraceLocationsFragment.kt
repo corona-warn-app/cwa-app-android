@@ -90,6 +90,9 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 is TraceLocationEvent.DuplicateItem -> {
                     openCreateEventFragment(it.traceLocation)
                 }
+                is TraceLocationEvent.SelfCheckIn -> { it.traceLocation
+                    // VerifiedTraceLocation arg to confirmCheckInFragment
+                }
             }
         }
 

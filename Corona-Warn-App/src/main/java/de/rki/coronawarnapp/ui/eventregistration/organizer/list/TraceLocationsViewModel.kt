@@ -33,7 +33,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
             traceLocations.map { traceLocation ->
                 TraceLocationVH.Item(
                     traceLocation = traceLocation,
-                    onCheckIn = { /* TODO */ },
+                    onCheckIn = { events.postValue(TraceLocationEvent.SelfCheckIn(it)) },
                     onDuplicate = { events.postValue(TraceLocationEvent.DuplicateItem(it)) },
                     onShowPrint = { /* TODO */ },
                     onClearItem = { events.postValue(TraceLocationEvent.ConfirmDeleteItem(it)) },
