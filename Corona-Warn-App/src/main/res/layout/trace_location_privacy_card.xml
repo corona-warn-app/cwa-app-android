@@ -41,7 +41,8 @@
 
     <TextView
         android:id="@+id/first_bulletpoint_title"
-        style="@style/subtitleBoldSixteen"
+        style="@style/subtitle"
+        android:textStyle="bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_normal"
@@ -54,6 +55,7 @@
     <TextView
         android:id="@+id/first_bulletpoint_subtitle"
         style="@style/subtitle"
+        android:textStyle="bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/trace_location_privacy_card_fist_bulletpoint_subtitle_text"
@@ -71,7 +73,8 @@
 
     <TextView
         android:id="@+id/second_bulletpoint_title"
-        style="@style/subtitleBoldSixteen"
+        style="@style/subtitle"
+        android:textStyle="bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
