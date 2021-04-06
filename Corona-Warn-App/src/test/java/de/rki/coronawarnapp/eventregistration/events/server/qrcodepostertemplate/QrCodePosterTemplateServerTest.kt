@@ -51,12 +51,12 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
 
         createInstance().downloadQrCodePosterTemplate().apply {
             template.toStringUtf8().substring(0, 22) shouldBe "<vector xmlns:android="
-            offsetX shouldBe 10
-            offsetY shouldBe 10
+            offsetX shouldBe 10.0f
+            offsetY shouldBe 10.0f
             qrCodeSideLength shouldBe 100
             with(descriptionTextBox) {
-                offsetX shouldBe 10
-                offsetY shouldBe 50
+                offsetX shouldBe 0.0f
+                offsetY shouldBe 0.0f
                 width shouldBe 100
                 height shouldBe 20
                 fontSize shouldBe 10
@@ -130,6 +130,7 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
                 "</vector>\n"""))
             .build()*/
 
+        // TODO update this bundle to send PDF file not XML
         private val POSTER_BUNDLE = (
             "504b03040a000000080014867d52008c85fefb000000ab0100000a0000006578706f72742e62" +
                 "696e7d90cf4bc33014c7071e949c0415bc0825bbc8685f9676edbad216440fbb78f61c9a6a8ae912da9089ff80ffb66957700e" +
