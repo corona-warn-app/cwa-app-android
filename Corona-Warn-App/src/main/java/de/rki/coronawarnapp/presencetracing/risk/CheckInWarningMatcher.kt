@@ -31,7 +31,7 @@ class CheckInWarningMatcher @Inject constructor(
 
         presenceTracingRiskRepository.deleteStaleData()
 
-        val checkIns = checkInsRepository.allCheckIns.firstOrNull()
+        val checkIns = checkInsRepository.checkInsWithinRetention.firstOrNull()
         if (checkIns.isNullOrEmpty()) {
             Timber.i("No check-ins available. Deleting all matches.")
             presenceTracingRiskRepository.deleteAllMatches()

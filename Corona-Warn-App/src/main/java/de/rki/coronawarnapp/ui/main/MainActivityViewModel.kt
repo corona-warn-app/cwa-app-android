@@ -42,7 +42,7 @@ class MainActivityViewModel @AssistedInject constructor(
     private val mutableIsTraceLocationOnboardingDone = MutableLiveData<Boolean>()
     val isTraceLocationOnboardingDone: LiveData<Boolean> = mutableIsTraceLocationOnboardingDone
 
-    val activeCheckIns = checkInRepository.allCheckIns
+    val activeCheckIns = checkInRepository.checkInsWithinRetention
         .map { checkins -> checkins.filter { !it.completed }.size }
         .asLiveData(context = dispatcherProvider.Default)
 

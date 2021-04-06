@@ -66,7 +66,7 @@ class CheckInWarningMatcherTest : BaseTest() {
             transmissionRiskLevel = 8
         )
 
-        every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
+        every { checkInsRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn1, checkIn2))
 
         val warningPackage = object : TraceTimeIntervalWarningPackage {
             override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
@@ -115,7 +115,7 @@ class CheckInWarningMatcherTest : BaseTest() {
             transmissionRiskLevel = 8
         )
 
-        every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
+        every { checkInsRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn1, checkIn2))
 
         val warningPackage = object : TraceTimeIntervalWarningPackage {
             override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
@@ -150,7 +150,7 @@ class CheckInWarningMatcherTest : BaseTest() {
             endDateStr = "2021-03-04T10:12+01:00"
         )
 
-        every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn1, checkIn2))
+        every { checkInsRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn1, checkIn2))
 
         val warningPackage = object : TraceTimeIntervalWarningPackage {
             override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
@@ -187,7 +187,7 @@ class CheckInWarningMatcherTest : BaseTest() {
             transmissionRiskLevel = 8
         )
 
-        every { checkInsRepository.allCheckIns } returns flowOf(listOf())
+        every { checkInsRepository.checkInsWithinRetention } returns flowOf(listOf())
 
         val warningPackage = object : TraceTimeIntervalWarningPackage {
             override suspend fun extractTraceTimeIntervalWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
@@ -235,7 +235,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 get() = "id"
         }
 
-        every { checkInsRepository.allCheckIns } returns flowOf(checkIns)
+        every { checkInsRepository.checkInsWithinRetention } returns flowOf(checkIns)
         every { traceTimeIntervalWarningRepository.allWarningPackages } returns flowOf(listOf(warningPackage))
 
         runBlockingTest {

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.eventregistration.checkins
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.CheckInDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.toCheckIn
+import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -13,7 +14,8 @@ import javax.inject.Singleton
 
 @Singleton
 class CheckInRepository @Inject constructor(
-    traceLocationDatabaseFactory: TraceLocationDatabase.Factory
+    traceLocationDatabaseFactory: TraceLocationDatabase.Factory,
+    private val timeStamper: TimeStamper
 ) {
 
     private val traceLocationDatabase: TraceLocationDatabase by lazy {
@@ -27,6 +29,12 @@ class CheckInRepository @Inject constructor(
     val allCheckIns: Flow<List<CheckIn>> = checkInDao
         .allEntries()
         .map { list -> list.map { it.toCheckIn() } }
+
+    val checkInsWithinRetention: Flow<List<CheckIn>> = allCheckIns.map { checkInList ->
+        checkInList.filter { checkIn ->
+            isWithinRetention(checkIn, timeStamper)
+        }
+    }
 
     suspend fun getCheckInById(checkInId: Long): CheckIn? {
         Timber.d("getCheckInById(checkInId=$checkInId)")
