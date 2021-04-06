@@ -88,25 +88,27 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         ),
         completed: Boolean = false,
         createJournalEntry: Boolean = true
-    ): CheckIn = CheckIn(
-        traceLocationId = verifiedTraceLocation.traceLocation.locationId,
-        // TODO verify this. According to the specs locationId is the byte representation of the SHA-256 hash.
-        //  Does not make sense to have another column traceLocationIdHash
-        traceLocationIdHash = verifiedTraceLocation.traceLocation.locationId,
-        version = traceLocation.version,
-        type = traceLocation.type.number,
-        description = traceLocation.description,
-        address = traceLocation.address,
-        traceLocationStart = traceLocation.startDate,
-        traceLocationEnd = traceLocation.endDate,
-        defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
-        cryptographicSeed = traceLocation.cryptographicSeed,
-        cnPublicKey = traceLocation.cnPublicKey,
-        checkInStart = checkInStart,
-        checkInEnd = checkInEnd,
-        completed = completed,
-        createJournalEntry = createJournalEntry,
-    )
+    ): CheckIn {
+        val traceLocationId = verifiedTraceLocation.traceLocation.locationId
+        return CheckIn(
+            traceLocationId = traceLocationId,
+            // sha256() Hash of locationId ,which is itself a sha256() Hash
+            traceLocationIdHash = traceLocationId.sha256(),
+            version = traceLocation.version,
+            type = traceLocation.type.number,
+            description = traceLocation.description,
+            address = traceLocation.address,
+            traceLocationStart = traceLocation.startDate,
+            traceLocationEnd = traceLocation.endDate,
+            defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
+            cryptographicSeed = traceLocation.cryptographicSeed,
+            cnPublicKey = traceLocation.cnPublicKey,
+            checkInStart = checkInStart,
+            checkInEnd = checkInEnd,
+            completed = completed,
+            createJournalEntry = createJournalEntry,
+        )
+    }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<ConfirmCheckInViewModel> {
