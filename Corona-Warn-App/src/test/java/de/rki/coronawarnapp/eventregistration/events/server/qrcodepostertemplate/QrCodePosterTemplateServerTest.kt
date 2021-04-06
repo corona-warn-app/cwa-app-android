@@ -4,11 +4,9 @@ import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -22,7 +20,7 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
 
     @MockK lateinit var api: QrCodePosterTemplateApiV1
     @MockK lateinit var signatureValidation: SignatureValidation
-    @MockK lateinit var templateCache: QrCodePosterTemplateCache
+    @MockK lateinit var defaultTemplateSource: DefaultQrCodePosterTemplateSource
 
     /**
      * Info: [QrCodePosterTemplateApiV1Test] is testing if the ETag is set correctly
@@ -33,14 +31,13 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { signatureValidation.hasValidSignature(any(), any()) } returns true
-        every { templateCache.saveTemplate(any()) } just Runs
-        every { templateCache.getTemplate() } returns "CACHE".toByteArray()
+        every { defaultTemplateSource.getDefaultQrCodePosterTemplate() } returns "CACHE".toByteArray()
     }
 
     private fun createInstance() = QrCodePosterTemplateServer(
         api = api,
         signatureValidation = signatureValidation,
-        templateCache = templateCache
+        defaultTemplateSource = defaultTemplateSource
     )
 
     @Test

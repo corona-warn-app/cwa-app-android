@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class QrCodePosterTemplateServer @Inject constructor(
     private val api: QrCodePosterTemplateApiV1,
-    private val templateCache: QrCodePosterTemplateCache,
+    private val defaultTemplateSource: DefaultQrCodePosterTemplateSource,
     private val signatureValidation: SignatureValidation
 ) {
     suspend fun downloadQrCodePosterTemplate(): QrCodePosterTemplate.QRCodePosterTemplateAndroid {
@@ -57,11 +57,10 @@ class QrCodePosterTemplateServer @Inject constructor(
                 throw QrCodePosterTemplateInvalidResponseException(message = "Invalid Signature!")
             }
 
-            templateCache.saveTemplate(exportBinary)
             exportBinary
         } catch (exception: Exception) {
             Timber.e(exception, "Response is not successful, trying to load template from cache")
-            templateCache.getTemplate()
+            defaultTemplateSource.getDefaultQrCodePosterTemplate()
         }
     }
 
