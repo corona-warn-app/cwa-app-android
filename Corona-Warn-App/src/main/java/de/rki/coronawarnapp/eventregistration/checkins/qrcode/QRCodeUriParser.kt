@@ -51,7 +51,7 @@ class QRCodeUriParser @Inject constructor(
             }
         } catch (e: Exception) {
             Timber.d(e, "Payload decoding failed")
-            throw InvalidQrCodeDataException("Payload decoding failed", e)
+            null
         } ?: throw InvalidQrCodeDataException("Payload decoding failed")
 
         return QRCodePayload.parseFrom(rawPayload.toByteArray())
