@@ -73,8 +73,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         mutableListOf<DiaryOverviewItem>().apply {
             add(OverviewSubHeaderItem)
             addAll(
-                createListItemList(
-                    dateList,
+                dateList.createListItemList(
                     locationVisists,
                     personEncounters,
                     riskLevelPerDateList,
@@ -93,9 +92,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             )
         )
     }
-    @Suppress("LongParameterList")
-    private fun createListItemList(
-        dateList: List<LocalDate>,
+
+    private fun List<LocalDate>.createListItemList(
         visits: List<ContactDiaryLocationVisit>,
         encounters: List<ContactDiaryPersonEncounter>,
         riskLevelPerDateList: List<ExposureWindowDayRisk>,
@@ -110,14 +108,14 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 "riskLevelPerDateList=%s, " +
                 "traceLocationCheckInRiskList=%s," +
                 "checkInList=%s",
-            dateList,
+            this,
             visits,
             encounters,
             riskLevelPerDateList,
             traceLocationCheckInRiskList,
             checkInList
         )
-        return dateList.map { date ->
+        return map { date ->
 
             val visitsForDate = visits.filter { it.date == date }
             val encountersForDate = encounters.filter { it.date == date }
