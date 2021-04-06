@@ -8,13 +8,11 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.InvalidQRCodeDataException
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.CheckInsItem
@@ -138,15 +136,7 @@ class CheckInsViewModel @AssistedInject constructor(
     private fun verifyUri(uri: String) = launch {
         try {
             Timber.i("uri: $uri")
-            val qrCodePayloadRaw = qrCodeUriParser.getQrCodePayload(uri)?.toByteArray()
-                ?: throw IllegalArgumentException("Invalid uri: $uri")
-
-            val qrCodePayload = try {
-                TraceLocationOuterClass.QRCodePayload.parseFrom(qrCodePayloadRaw)
-            } catch (e: Exception) {
-                throw InvalidQRCodeDataException(cause = e, message = "QR-code data could not be parsed.")
-            }
-
+            val qrCodePayload = qrCodeUriParser.getQrCodePayload(uri)
             val verifiedTraceLocation = VerifiedTraceLocation(qrCodePayload)
             events.postValue(CheckInEvent.ConfirmCheckIn(verifiedTraceLocation))
         } catch (e: Exception) {
