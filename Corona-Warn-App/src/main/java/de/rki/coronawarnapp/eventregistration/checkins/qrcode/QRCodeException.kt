@@ -5,9 +5,15 @@ sealed class QRCodeException constructor(
     cause: Throwable? = null
 ) : Exception(message, cause)
 
-class InvalidQrCodeUriException constructor(message: String? = null) : QRCodeException(message)
+class InvalidQrCodeUriException constructor(
+    message: String? = null,
+    cause: Throwable? = null
+) : QRCodeException(message, cause)
 
-class InvalidQrCodePayloadException constructor(message: String? = null) : QRCodeException(message)
+class InvalidQrCodePayloadException constructor(
+    message: String? = null,
+    cause: Throwable? = null
+) : QRCodeException(message, cause)
 
 class InvalidQrCodeDataException constructor(
     message: String? = null, cause: Throwable? = null

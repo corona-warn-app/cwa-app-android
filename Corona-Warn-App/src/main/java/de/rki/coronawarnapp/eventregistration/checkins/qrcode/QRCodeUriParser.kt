@@ -32,7 +32,7 @@ class QRCodeUriParser @Inject constructor(
             URI.create(input) // Verify it is a valid uri
         } catch (e: Exception) {
             Timber.d(e, "Invalid URI")
-            throw InvalidQrCodeUriException("Invalid URI")
+            throw InvalidQrCodeUriException("Invalid URI", e)
         }
 
         val descriptor = descriptor(input)
