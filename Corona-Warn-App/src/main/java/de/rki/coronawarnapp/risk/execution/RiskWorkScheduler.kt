@@ -102,8 +102,8 @@ class RiskWorkScheduler @Inject constructor(
         get() = state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
 
     companion object {
-        private const val WORKER_ID_DIAGNOSIS_KEY_DOWNLOAD = "DiagnosisKeyBackgroundPeriodicWork"
-        private const val WORKER_ID_PRESENCE_TRACING = "de.rki.coronawarnapp.worker.PresenceTracingWarningWorker"
+        private const val WORKER_ID_DIAGNOSIS_KEY_DOWNLOAD = "DiagnosisKeyRetrievalWorker"
+        private const val WORKER_ID_PRESENCE_TRACING = "PresenceTracingWarningWorker"
         private const val TAG = "RiskWorkScheduler"
     }
 }
