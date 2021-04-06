@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.util.HourInterval
 import org.joda.time.Instant
 
-@Entity
+@Entity(tableName = "TraceWarningPackageMetadata")
 data class TraceWarningPackageMetadata(
     @PrimaryKey @ColumnInfo(name = "id") val packageId: WarningPackageId,
     @ColumnInfo(name = "createdAt") val createdAt: Instant,
