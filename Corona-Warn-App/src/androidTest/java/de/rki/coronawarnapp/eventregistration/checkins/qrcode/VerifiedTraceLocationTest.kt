@@ -21,7 +21,7 @@ class VerifiedTraceLocationTest : BaseTestInstrumentation() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
+        every { environmentSetup.appConfigPublicKey } returns PUB_KEY
     }
 
     // TODO: Ugly but kinda works
