@@ -58,7 +58,7 @@ open class ContactDiaryOverviewViewModelTest {
 
     private val testDispatcherProvider = TestDispatcherProvider()
     private val date = LocalDate.parse("2021-04-07")
-    private val dateMillis = date.toDateTimeAtCurrentTime(DateTimeZone.UTC).millis
+    private val dateMillis = date.toDateTimeAtStartOfDay(DateTimeZone.UTC).millis
 
     @BeforeEach
     fun refresh() {
