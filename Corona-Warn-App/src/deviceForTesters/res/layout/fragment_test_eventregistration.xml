@@ -123,7 +123,8 @@
                 android:text="Qr Code"
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/colorAccent"
-                app:icon="@drawable/ic_qrcode" />
+                app:icon="@drawable/ic_qrcode"
+                app:iconTint="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout
