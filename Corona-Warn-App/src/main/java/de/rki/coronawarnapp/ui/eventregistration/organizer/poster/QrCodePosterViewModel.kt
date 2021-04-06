@@ -87,7 +87,6 @@ class QrCodePosterViewModel @AssistedInject constructor(
                 append(traceLocation.description)
                 appendLine()
                 append(traceLocation.address)
-
             }
             posterLiveData.postValue(
                 Poster(qrCode, template, textInfo)

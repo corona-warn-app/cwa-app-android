@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.poster
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
