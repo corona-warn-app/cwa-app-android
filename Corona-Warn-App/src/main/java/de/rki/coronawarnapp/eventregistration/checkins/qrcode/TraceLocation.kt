@@ -1,14 +1,16 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import android.os.Parcelable
+import com.google.common.io.BaseEncoding
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeGenerator
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
-
-const val TRACE_LOCATION_VERSION = 1
 
 @Parcelize
 data class TraceLocation(
@@ -21,12 +23,53 @@ data class TraceLocation(
     val defaultCheckInLengthInMinutes: Int?,
     val cryptographicSeed: ByteString,
     val cnPublicKey: String,
-    val version: Int = TRACE_LOCATION_VERSION,
+    val version: Int = VERSION,
 ) : Parcelable {
+
+    /**
+     * Return a url for [TraceLocation] to be used as an input for [QrCodeGenerator]
+     * URL format https://e.coronawarn.app?v=1#QR_CODE_PAYLOAD_BASE64URL
+     */
+    @IgnoredOnParcel
+    val locationUrl: String by lazy {
+        val payloadBytes = qrCodePayload().toByteArray()
+        val base64Url = BaseEncoding.base64Url().omitPadding().encode(payloadBytes)
+        AUTHORITY.plus(base64Url)
+    }
+
+    /**
+     *  Returns a byte sequence that serves as an identifier for the trace location.
+     *  The ID is the byte representation of SHA-256 hash.
+     */
+    @IgnoredOnParcel
+    val locationId: ByteString by lazy {
+        val cwaDomain = CWA_GUID.toByteArray()
+        val payloadBytes = qrCodePayload().toByteArray()
+        val totalByteSequence = cwaDomain + payloadBytes
+        totalByteSequence.toByteString().sha256()
+    }
+
+    /**
+     *  Returns SHA-256 hash of [locationId] which itself is SHA-256 hash
+     */
+    @IgnoredOnParcel
+    val locationIdHash: ByteString by lazy {
+        locationId.sha256()
+    }
 
     fun isBeforeStartTime(now: Instant): Boolean = startDate?.isAfter(now) ?: false
 
     fun isAfterEndTime(now: Instant): Boolean = endDate?.isBefore(now) ?: false
+
+    companion object {
+        /**
+         * Trace location version. This is a static data and not calculated from [TraceLocation]
+         */
+        const val VERSION = 1
+
+        private const val AUTHORITY = "https://e.coronawarn.app?v=$VERSION#"
+        private const val CWA_GUID = "CWA-GUID"
+    }
 }
 
 fun List<TraceLocationEntity>.toTraceLocations() = this.map { it.toTraceLocation() }
