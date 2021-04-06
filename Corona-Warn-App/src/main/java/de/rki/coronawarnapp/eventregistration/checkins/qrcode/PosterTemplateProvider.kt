@@ -45,9 +45,9 @@ class PosterTemplateProvider @Inject constructor(
             bitmap = bitmap,
             width = page.width,
             height = page.height,
-            offsetX = 0.160f, /* TODO poster.offsetX*/
-            offsetY = 0.095f, /* TODO poster.offsetY*/
-            qrCodeLength = 1000/* TODO poster.qrCodeSideLength*/,
+            offsetX = templateData.offsetX,
+            offsetY = templateData.offsetY,
+            qrCodeLength = templateData.qrCodeSideLength,
             textBox = templateData.descriptionTextBox
         )
     }

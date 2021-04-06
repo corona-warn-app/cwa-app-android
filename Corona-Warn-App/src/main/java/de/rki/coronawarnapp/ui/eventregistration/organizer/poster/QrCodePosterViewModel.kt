@@ -79,6 +79,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
                     "MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ1Ec" +
                     "FJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
             val template = posterTemplateProvider.template()
+            Timber.d("template=$template")
             val qrCode = qrCodeGenerator.createQrCode(input, template.qrCodeLength, margin = 0)
             posterLiveData.postValue(Poster(qrCode, template))
         } catch (e: Exception) {
