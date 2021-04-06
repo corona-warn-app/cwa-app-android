@@ -9,9 +9,11 @@ data class EnvironmentState(
     val urlDownload: String,
     val urlVerification: String,
     val urlDataDonation: String,
-    val urlQrCodePosterTemplate: String
+    val logUpload: String,
+    val pubKeyCrowdNotifier: String,
+    val pubKeyAppConfig: String,
 
-) {
+    ) {
     companion object {
         internal fun EnvironmentSetup.toEnvironmentState() = EnvironmentState(
             current = currentEnvironment,
@@ -20,7 +22,9 @@ data class EnvironmentState(
             urlDownload = downloadCdnUrl,
             urlVerification = verificationCdnUrl,
             urlDataDonation = dataDonationCdnUrl,
-            urlQrCodePosterTemplate = qrCodePosterTemplateCdnUrl
+            logUpload = logUploadServerUrl,
+            pubKeyCrowdNotifier = crowdNotifierPublicKey,
+            pubKeyAppConfig = appConfigPublicKey,
         )
     }
 }

@@ -54,7 +54,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/new_debuglog_screen_explanation" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/environment_container"
                 style="@style/Card"
                 android:layout_width="match_parent"
@@ -66,77 +67,71 @@
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Server environment"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:text="Server environments" />
 
                 <TextView
                     android:id="@+id/environment_cdnurl_download"
-                    style="@style/body2"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_title"
                     tools:text="Download: ?" />
 
                 <TextView
                     android:id="@+id/environment_cdnurl_submission"
-                    style="@style/body2"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_download"
+                    android:layout_marginTop="4dp"
                     tools:text="Submission: ?" />
 
                 <TextView
                     android:id="@+id/environment_cdnurl_verification"
-                    style="@style/body2"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_submission"
+                    android:layout_marginTop="4dp"
                     tools:text="Verification: ?" />
 
                 <TextView
                     android:id="@+id/environment_url_datadonation"
-                    style="@style/body2"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_verification"
+                    android:layout_marginTop="4dp"
                     tools:text="DataDonation: ?" />
 
                 <TextView
-                    android:id="@+id/environment_url_qrcode_poster_template"
-                    style="@style/body2"
+                    android:id="@+id/environment_log_upload"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_url_datadonation"
-                    tools:text="QR-Code poster template: ?" />
+                    android:layout_marginTop="4dp"
+                    tools:text="LogUpload: ?" />
+
+                <TextView
+                    android:id="@+id/environment_pubkey_appconfig"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="AppConfigPubKey: ?" />
+
+                <TextView
+                    android:id="@+id/environment_pubkey_crowdnotifier"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="CrowdNotifierPubKey: ?" />
 
                 <RadioGroup
                     android:id="@+id/environment_toggle_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_url_qrcode_poster_template" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

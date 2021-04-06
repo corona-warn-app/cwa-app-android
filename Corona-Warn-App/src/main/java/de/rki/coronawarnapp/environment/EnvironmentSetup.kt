@@ -35,7 +35,6 @@ class EnvironmentSetup @Inject constructor(
         DOWNLOAD("DOWNLOAD_CDN_URL"),
         VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION"),
         DATA_DONATION("DATA_DONATION_CDN_URL"),
-        QRCODE_POSTER_TEMPLATE("QRCODE_POSTER_TEMPLATE_URL"),
         LOG_UPLOAD("LOG_UPLOAD_SERVER_URL"),
         SAFETYNET_API_KEY("SAFETYNET_API_KEY"),
         CROWD_NOTIFIER_PUBLIC_KEY("CROWD_NOTIFIER_PUBLIC_KEY")
@@ -48,6 +47,7 @@ class EnvironmentSetup @Inject constructor(
         WRU("WRU"),
         WRU_XA("WRU-XA"), // (aka ACME),
         WRU_XD("WRU-XD"), // (aka Germany)
+        TESTER_MOCK("TESTER-MOCK"), // (aka Germany)
         LOCAL("LOCAL"); // Emulator/CLI tooling
 
         companion object {
@@ -118,10 +118,8 @@ class EnvironmentSetup @Inject constructor(
         get() = getEnvironmentValue(DOWNLOAD).asString
     val dataDonationCdnUrl: String
         get() = getEnvironmentValue(DATA_DONATION).asString
-    val qrCodePosterTemplateCdnUrl: String
-        get() = getEnvironmentValue(EnvKey.QRCODE_POSTER_TEMPLATE).asString
 
-    val appConfigVerificationKey: String
+    val appConfigPublicKey: String
         get() = getEnvironmentValue(VERIFICATION_KEYS).asString
 
     val useEuropeKeyPackageFiles: Boolean

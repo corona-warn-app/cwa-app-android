@@ -70,7 +70,9 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                 environmentCdnurlSubmission.text = "Submission CDN:\n${state.urlSubmission}"
                 environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"
                 environmentUrlDatadonation.text = "DataDonation:\n${state.urlDataDonation}"
-                environmentUrlQrcodePosterTemplate.text = "QR-Code Poster Template:\n${state.urlQrCodePosterTemplate}"
+                environmentLogUpload.text = "LogUpload:\n${state.logUpload}"
+                environmentPubkeyCrowdnotifier.text = "CrowdNotifierPubKey:\n${state.pubKeyCrowdNotifier}"
+                environmentPubkeyAppconfig.text = "AppConfigPubKey:\n${state.pubKeyAppConfig}"
             }
         }
         vm.environmentChangeEvent.observe2(this) {
