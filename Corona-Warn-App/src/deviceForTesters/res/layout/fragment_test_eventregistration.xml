@@ -2,6 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroller"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="HardcodedText">
@@ -120,6 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Qr Code"
+                android:textColor="@android:color/white"
                 app:backgroundTint="@color/colorAccent"
                 app:icon="@drawable/ic_qrcode" />
         </LinearLayout>

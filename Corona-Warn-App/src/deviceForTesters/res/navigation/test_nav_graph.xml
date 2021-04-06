@@ -133,12 +133,17 @@
         android:label="EventRegistrationTestFragment"
         tools:layout="@layout/fragment_test_eventregistration">
         <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_qrCodePosterFragment2"
-            app:destination="@id/qrCodePosterFragment2" />
+            android:id="@+id/action_eventRegistrationTestFragment_to_qrCodePosterFragmentTest"
+            app:destination="@id/qrCodePosterFragmentTest" />
     </fragment>
     <fragment
-        android:id="@+id/qrCodePosterFragment2"
+        android:id="@+id/qrCodePosterFragmentTest"
         android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.poster.QrCodePosterFragment"
         android:label="qr_code_poster_fragment"
-        tools:layout="@layout/qr_code_poster_fragment" />
+        tools:layout="@layout/qr_code_poster_fragment">
+
+        <argument
+            android:name="traceLocationId"
+            app:argType="long" />
+    </fragment>
 </navigation>

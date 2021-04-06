@@ -72,7 +72,8 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                     lastOrganiserLocationUrl.text = styleText("URL", traceLocation.locationUrl)
                     qrcodeButton.setOnClickListener {
                         doNavigate(
-                            EventRegistrationTestFragment
+                            EventRegistrationTestFragmentDirections
+                                .actionEventRegistrationTestFragmentToQrCodePosterFragmentTest(traceLocation.id)
                         )
                     }
                 }
