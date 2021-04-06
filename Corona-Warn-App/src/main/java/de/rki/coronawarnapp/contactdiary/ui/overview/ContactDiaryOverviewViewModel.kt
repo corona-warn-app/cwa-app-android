@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.overview
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.distinctUntilChanged
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
@@ -77,7 +78,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 )
             )
         }.toList()
-    }.asLiveData(dispatcherProvider.Default)
+    }
+        .asLiveData(dispatcherProvider.Default)
+        .distinctUntilChanged()
 
     init {
         taskController.submit(
@@ -127,8 +130,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
             val riskEventItem = visitsForDate
                 .map {
-                    it to traceLocationCheckInRisksForDate.find {
-                        checkInRisk ->
+                    it to traceLocationCheckInRisksForDate.find { checkInRisk ->
                         checkInRisk.checkInId == it.checkInID
                     }
                 }
@@ -228,8 +230,12 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
             if (size < 2) riskInfoAddition = null
 
+            //TODO(Get CheckIn from DB)
+            val description = "TODO"
+
             RiskEventItem.Event(
                 name = name,
+                description = description,
                 bulledPointColor = bulletPointColor,
                 riskInfoAddition = riskInfoAddition
             )
