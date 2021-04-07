@@ -11,7 +11,6 @@ import androidx.core.text.color
 import androidx.core.text.scale
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
@@ -36,29 +35,6 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding) {
-            scanCheckInQrCode.setOnClickListener {
-                doNavigate(
-                    EventRegistrationTestFragmentDirections
-                        .actionEventRegistrationTestFragmentToScanCheckInQrCodeFragment()
-                )
-            }
-
-            testQrCodeCreation.setOnClickListener {
-                doNavigate(
-                    EventRegistrationTestFragmentDirections
-                        .actionEventRegistrationTestFragmentToTestQrCodeCreationFragment()
-                )
-            }
-
-            createEventButton.setOnClickListener {
-                findNavController().navigate(R.id.createEventTestFragment)
-            }
-
-            showEventsButton.setOnClickListener {
-                findNavController().navigate(R.id.showStoredEventsTestFragment)
-            }
-        }
         binding.runMatcher.setOnClickListener {
             viewModel.runMatcher()
         }
@@ -94,6 +70,12 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                     lastOrganiserLocation.text = traceLocationText(traceLocation)
                     lastOrganiserLocationId.text = styleText("ID", traceLocation.locationId.base64())
                     lastOrganiserLocationUrl.text = styleText("URL", traceLocation.locationUrl)
+                    qrcodeButton.setOnClickListener {
+                        doNavigate(
+                            EventRegistrationTestFragmentDirections
+                                .actionEventRegistrationTestFragmentToQrCodePosterFragmentTest(traceLocation.id)
+                        )
+                    }
                 }
             }
         }

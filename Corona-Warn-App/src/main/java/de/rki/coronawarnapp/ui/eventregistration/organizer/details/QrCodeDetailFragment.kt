@@ -11,10 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -29,7 +31,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
     private val navArgs by navArgs<QrCodeDetailFragmentArgs>()
 
-    private val vm: QrCodeDetailViewModel by cwaViewModelsAssisted(
+    private val viewModel: QrCodeDetailViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as QrCodeDetailViewModel.Factory
@@ -38,6 +40,13 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
     )
 
     private val binding: TraceLocationOrganizerQrCodeDetailFragmentBinding by viewBindingLazy()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,11 +68,16 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)
                 navigationContentDescription = getString(R.string.accessibility_close)
-                setNavigationOnClickListener { vm.onBackButtonPress() }
+                setNavigationOnClickListener { viewModel.onBackButtonPress() }
+            }
+
+            qrCodePrintButton.setOnClickListener {
+                viewModel.onPrintQrCode()
             }
         }
 
-        vm.qrCodeBitmap.observe2(this) {
+        viewModel.qrCodeBitmap.observe2(this) {
+            binding.progressBar.hide()
             binding.qrCodeImage.apply {
                 val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
                 resourceId.cornerRadius = it.width * 0.1f
@@ -71,19 +85,20 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             }
         }
 
-        vm.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe2(this) {
             when (it) {
-                QrCodeDetailNavigationEvents.NavigateBack -> {
-                    popBackStack()
-                }
-                QrCodeDetailNavigationEvents.NavigateToPrintFragment -> { /* TODO */
-                }
+                QrCodeDetailNavigationEvents.NavigateBack -> popBackStack()
+
                 QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> { /* TODO */
                 }
+
+                is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> doNavigate(
+                    QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
+                )
             }
         }
 
-        vm.uiState.observe2(this) { uiState ->
+        viewModel.uiState.observe2(this) { uiState ->
             with(binding) {
                 title.text = uiState.description
                 subtitle.text = uiState.address

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.organizer.details
+package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -6,6 +6,7 @@ import android.graphics.Color
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
+import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -19,22 +20,31 @@ class QrCodeGenerator @Inject constructor(
     @AppContext private val context: Context,
 ) {
 
-    suspend fun createQrCode(input: String, size: Int = 1000): Bitmap? {
-
-        val qrCodeErrorCorrectionLevel = appConfigProvider
+    /**
+     * Decodes input String into a QR Code [Bitmap]
+     * @param input [String]
+     * @param length [Int] QR Code side length
+     * @param margin [Int] QR Code side's margin
+     *
+     * @throws [Exception] it could throw [IllegalArgumentException] , [WriterException]
+     * or exception while creating the bitmap
+     */
+    suspend fun createQrCode(input: String, length: Int = 1000, margin: Int = 1): Bitmap {
+        val correctionLevel = appConfigProvider
             .getAppConfig()
             .presenceTracing
             .qrCodeErrorCorrectionLevel
-        Timber.i("QrCodeErrorCorrectionLevel: $qrCodeErrorCorrectionLevel")
-        val hints = mapOf(
-            EncodeHintType.ERROR_CORRECTION to qrCodeErrorCorrectionLevel
-        )
+        Timber.i("correctionLevel=$correctionLevel")
 
+        val hints = mapOf(
+            EncodeHintType.ERROR_CORRECTION to correctionLevel,
+            EncodeHintType.MARGIN to margin
+        )
         return MultiFormatWriter().encode(
             input,
             BarcodeFormat.QR_CODE,
-            size,
-            size,
+            length,
+            length,
             hints
         ).toBitmap()
     }
