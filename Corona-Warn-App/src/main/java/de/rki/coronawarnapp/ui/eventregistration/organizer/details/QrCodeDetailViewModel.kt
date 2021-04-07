@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.details
 
 import android.graphics.Bitmap
-import androidx.lifecycle.asLiveData
-import dagger.assisted.Assisted
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider

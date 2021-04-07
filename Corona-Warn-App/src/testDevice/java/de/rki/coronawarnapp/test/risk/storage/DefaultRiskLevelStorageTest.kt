@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.test.risk.storage
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.DefaultRiskLevelStorage
@@ -88,7 +88,7 @@ class DefaultRiskLevelStorageTest : BaseTest() {
 
         every { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
         every { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
-        every { presenceTracingRiskRepository.latestAndLastSuccessful() } returns emptyFlow()
+        every { presenceTracingRiskRepository.allEntries() } returns emptyFlow()
         every { presenceTracingRiskRepository.latestEntries(any()) } returns emptyFlow()
     }
 

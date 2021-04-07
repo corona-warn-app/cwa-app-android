@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
-import io.kotest.matchers.longs.shouldBeInRange
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -31,11 +31,12 @@ class EwRiskLevelResultExtensionsTest : BaseTest() {
         emptyResults.tryLatestEwResultsWithDefaults().apply {
             lastCalculated.apply {
                 riskState shouldBe RiskState.LOW_RISK
-                val now = Instant.now().millis
-                calculatedAt.millis shouldBeInRange ((now - 60 * 1000L)..now + 60 * 1000L)
-            }
-            lastSuccessfullyCalculated.apply {
-                riskState shouldBe RiskState.CALCULATION_FAILED
+
+                calculatedAt.isAfter(Instant.EPOCH) shouldBe true
+                calculatedAt.isBefore(Instant.now().plus(Duration.standardHours(1))) shouldBe true
+                lastSuccessfullyCalculated.apply {
+                    riskState shouldBe RiskState.CALCULATION_FAILED
+                }
             }
         }
     }
