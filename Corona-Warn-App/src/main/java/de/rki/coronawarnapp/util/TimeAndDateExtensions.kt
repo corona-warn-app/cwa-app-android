@@ -75,6 +75,11 @@ object TimeAndDateExtensions {
         seconds / TimeUnit.MINUTES.toSeconds(10) // 10 min in seconds
 
     /**
+     * Derive a UNIX timestamp (in seconds) and returns the corresponding 10-minute interval
+     */
+    fun Instant.deriveHourInterval(): HourInterval = millis / 3600000
+
+    /**
      * Converts milliseconds to human readable format hh:mm:ss
      *
      * @return String
@@ -110,3 +115,5 @@ object TimeAndDateExtensions {
 
     fun Instant.toUserTimeZone() = this.toDateTime(DateTimeZone.forTimeZone(TimeZone.getDefault()))
 }
+
+typealias HourInterval = Long

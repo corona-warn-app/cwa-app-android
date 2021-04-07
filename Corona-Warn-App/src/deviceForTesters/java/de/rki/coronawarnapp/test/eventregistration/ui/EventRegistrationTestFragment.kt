@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.SpannedString
 import android.view.View
-import android.widget.Toast
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
@@ -35,32 +34,32 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.runMatcher.setOnClickListener {
-            viewModel.runMatcher()
-        }
-
-        binding.downloadReportedCheckIns.setOnClickListener {
-            Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
+        binding.resetProcessedWarningPackages.setOnClickListener {
+            viewModel.resetProcessedWarningPackages()
         }
 
         binding.calculateRisk.setOnClickListener {
             viewModel.runRiskCalculationPerCheckInDay()
         }
 
-        viewModel.checkInOverlapsText.observe2(this) {
-            binding.matchingResultText.text = it
+        viewModel.presenceTracingWarningTaskResult.observe2(this) {
+            binding.tracingWarningTaskResult.text = it
         }
 
         viewModel.checkInRiskPerDayText.observe2(this) {
             binding.riskCalculationResultText.text = it
         }
 
-        viewModel.matchingRuntime.observe2(this) {
-            binding.matchingRuntimeText.text = "Matching runtime in millis: $it"
+        viewModel.taskRunTime.observe2(this) {
+            binding.taskRunTime.text = "Task finished in ${it}ms"
         }
 
         viewModel.riskCalculationRuntime.observe2(this) {
             binding.riskCalculationRuntimeText.text = "Risk calculation runtime in millis: $it"
+        }
+
+        binding.runPtWarningTask.setOnClickListener {
+            viewModel.runPresenceTracingWarningTask()
         }
 
         viewModel.lastOrganiserLocation.observe(viewLifecycleOwner) {

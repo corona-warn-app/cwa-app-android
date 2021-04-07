@@ -25,7 +25,6 @@ class CheckOutHandlerTest : BaseTest() {
     private val testCheckIn = CheckIn(
         id = 42L,
         traceLocationId = "traceLocationId1".encode(),
-        traceLocationIdHash = "traceLocationIdHash1".encode(),
         version = 1,
         type = 1,
         description = "Restaurant",

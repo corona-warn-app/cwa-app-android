@@ -38,7 +38,6 @@ class AutoCheckOutTest : BaseTest() {
     private val baseCheckin = CheckIn(
         id = 0L,
         traceLocationId = "traceLocationId1".encode(),
-        traceLocationIdHash = "traceLocationIdHash1".encode(),
         version = 1,
         type = 2,
         description = "brothers birthday",

@@ -10,16 +10,6 @@ import java.util.concurrent.TimeUnit
 object BackgroundConstants {
 
     /**
-     * Tag for diagnosis key retrieval one time work
-     */
-    const val DIAGNOSIS_KEY_ONE_TIME_WORKER_TAG = "DIAGNOSIS_KEY_ONE_TIME_WORKER"
-
-    /**
-     * Tag for diagnosis key retrieval periodic work
-     */
-    const val DIAGNOSIS_KEY_PERIODIC_WORKER_TAG = "DIAGNOSIS_KEY_PERIODIC_WORKER"
-
-    /**
      * Tag for background polling tp check test result periodic work
      */
     const val DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG = "DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER"
@@ -33,16 +23,6 @@ object BackgroundConstants {
      * Tag for background noise playbook one time work
      */
     const val BACKGROUND_NOISE_ONE_TIME_WORKER_TAG = "BACKGROUND_NOISE_PERIODIC_WORKER"
-
-    /**
-     * Unique name for diagnosis key retrieval one time work
-     */
-    const val DIAGNOSIS_KEY_ONE_TIME_WORK_NAME = "DiagnosisKeyBackgroundOneTimeWork"
-
-    /**
-     * Unique name for diagnosis key retrieval periodic work
-     */
-    const val DIAGNOSIS_KEY_PERIODIC_WORK_NAME = "DiagnosisKeyBackgroundPeriodicWork"
 
     /**
      * Unique name for diagnosis test result retrieval periodic work
