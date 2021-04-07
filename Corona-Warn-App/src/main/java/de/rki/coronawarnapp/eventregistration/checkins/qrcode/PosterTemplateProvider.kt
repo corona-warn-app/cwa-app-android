@@ -6,7 +6,9 @@ import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
 import de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate.QrCodePosterTemplateServer
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate.QRCodePosterTemplateAndroid.QRCodeTextBoxAndroid
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -15,10 +17,11 @@ import kotlin.math.roundToInt
 
 class PosterTemplateProvider @Inject constructor(
     private val posterTemplateServer: QrCodePosterTemplateServer,
+    private val dispatcherProvider: DispatcherProvider,
     @AppContext private val context: Context
 ) {
     @Suppress("BlockingMethodInNonBlockingContext")
-    suspend fun template(): Template {
+    suspend fun template(): Template = withContext(dispatcherProvider.IO) {
         val templateData = posterTemplateServer.downloadQrCodePosterTemplate()
         val file = File(context.cacheDir, "template.pdf")
         FileOutputStream(file).use { it.write(templateData.template.toByteArray()) }
@@ -41,7 +44,7 @@ class PosterTemplateProvider @Inject constructor(
         renderer.close()
         file.delete()
 
-        return Template(
+        Template(
             bitmap = bitmap,
             width = page.width,
             height = page.height,
