@@ -61,7 +61,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             }
         }
 
-        binding.toolbar.setOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             popBackStack()
         }
 
