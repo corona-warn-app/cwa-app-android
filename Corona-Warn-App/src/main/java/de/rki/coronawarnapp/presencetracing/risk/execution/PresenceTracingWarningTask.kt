@@ -133,11 +133,9 @@ class PresenceTracingWarningTask @Inject constructor(
     ) : Task.Result
 
     data class Config(
-        override val executionTimeout: Duration = Duration.standardMinutes(8), // TODO unit-test that not > 9 min
-
+        override val executionTimeout: Duration = Duration.standardMinutes(9),
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
-
     ) : TaskFactory.Config
 
     class Factory @Inject constructor(

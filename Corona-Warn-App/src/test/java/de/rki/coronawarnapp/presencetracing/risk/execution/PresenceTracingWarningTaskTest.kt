@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningReposito
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.comparables.shouldBeLessThan
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -24,6 +25,7 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -172,6 +174,13 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coVerify(exactly = 0) {
             traceWarningRepository.markPackagesProcessed(any())
         }
+    }
+
+    @Test
+    fun `task timeout is constrained to less than 9min`() {
+        // Worker execution time
+        val maxDuration = Duration.standardMinutes(9).plus(1)
+        PresenceTracingWarningTask.Config().executionTimeout shouldBeLessThan maxDuration
     }
 
     companion object {
