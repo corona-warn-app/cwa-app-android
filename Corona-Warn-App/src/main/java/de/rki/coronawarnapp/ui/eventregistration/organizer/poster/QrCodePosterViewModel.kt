@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.ref.WeakReference
 
 class QrCodePosterViewModel @AssistedInject constructor(
     @Assisted private val traceLocationId: Long,
@@ -47,14 +48,16 @@ class QrCodePosterViewModel @AssistedInject constructor(
     @Suppress("BlockingMethodInNonBlockingContext")
     fun createPDF(view: View) = launch(context = dispatcher.IO) {
         try {
+            val weakViewRef = WeakReference(view) // Accessing view in background thread
             val directory = File(view.context.cacheDir, "poster").apply { if (!exists()) mkdirs() }
             val file = File(directory, "cwa-qr-code.pdf")
 
-            val pageInfo = PdfDocument.PageInfo.Builder(view.width, view.height, 1).create()
+            val weakView = weakViewRef.get() ?: return@launch // View is not existing anymore
+            val pageInfo = PdfDocument.PageInfo.Builder(weakView.width, weakView.height, 1).create()
 
             PdfDocument().apply {
                 startPage(pageInfo).apply {
-                    view.draw(canvas)
+                    weakView.draw(canvas)
                     finishPage(this)
                 }
 
