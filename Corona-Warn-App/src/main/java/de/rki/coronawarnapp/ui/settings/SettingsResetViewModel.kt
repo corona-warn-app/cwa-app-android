@@ -19,7 +19,8 @@ class SettingsResetViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val dataReset: DataReset,
     private val shareTestResultNotificationService: ShareTestResultNotificationService,
-    private val shortcutsHelper: AppShortcutsHelper
+    private val shortcutsHelper: AppShortcutsHelper,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val clickEvent: SingleLiveEvent<SettingsEvents> = SingleLiveEvent()
@@ -39,7 +40,7 @@ class SettingsResetViewModel @AssistedInject constructor(
                 // only stop tracing if it is currently enabled
                 if (isTracingEnabled) {
                     InternalExposureNotificationClient.asyncStop()
-                    BackgroundWorkScheduler.stopWorkScheduler()
+                    backgroundWorkScheduler.stopWorkScheduler()
                 }
             } catch (apiException: ApiException) {
                 apiException.report(

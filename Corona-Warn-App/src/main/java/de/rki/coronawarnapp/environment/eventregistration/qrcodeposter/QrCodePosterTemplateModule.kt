@@ -4,8 +4,8 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.environment.BaseEnvironmentModule
-import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
+import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate.QrCodePosterTemplateApiV1
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
@@ -23,7 +23,7 @@ class QrCodePosterTemplateModule : BaseEnvironmentModule() {
     @QrCodePosterTemplate
     fun cacheDir(
         @AppContext context: Context
-    ): File = File(context.cacheDir, "qrCodePoster")
+    ): File = File(context.cacheDir, "poster")
 
     @Singleton
     @Provides
@@ -33,18 +33,10 @@ class QrCodePosterTemplateModule : BaseEnvironmentModule() {
     ): Cache = Cache(File(cacheDir, "cache_http"), CACHE_SIZE_5MB)
 
     @Singleton
-    @QrCodePosterTemplate
-    @Provides
-    fun provideQrCodePosterTemplateCDNServerUrl(environment: EnvironmentSetup): String {
-        val url = environment.qrCodePosterTemplateCdnUrl
-        return requireValidUrl(url)
-    }
-
-    @Singleton
     @Provides
     fun api(
         @DownloadCDNHttpClient client: OkHttpClient,
-        @QrCodePosterTemplate url: String,
+        @DownloadCDNServerUrl url: String,
         @QrCodePosterTemplate cache: Cache
     ): QrCodePosterTemplateApiV1 {
         val httpClient = client.newBuilder().apply {

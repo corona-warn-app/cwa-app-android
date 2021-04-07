@@ -88,23 +88,25 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         ),
         completed: Boolean = false,
         createJournalEntry: Boolean = true
-    ): CheckIn = CheckIn(
-        traceLocationId = verifiedTraceLocation.traceLocationID,
-        traceLocationIdHash = verifiedTraceLocation.traceLocationID.sha256(),
-        version = traceLocation.version,
-        type = traceLocation.type.number,
-        description = traceLocation.description,
-        address = traceLocation.address,
-        traceLocationStart = traceLocation.startDate,
-        traceLocationEnd = traceLocation.endDate,
-        defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
-        cryptographicSeed = traceLocation.cryptographicSeed,
-        cnPublicKey = traceLocation.cnPublicKey,
-        checkInStart = checkInStart,
-        checkInEnd = checkInEnd,
-        completed = completed,
-        createJournalEntry = createJournalEntry,
-    )
+    ): CheckIn {
+        val traceLocation = verifiedTraceLocation.traceLocation
+        return CheckIn(
+            traceLocationId = traceLocation.locationId,
+            version = traceLocation.version,
+            type = traceLocation.type.number,
+            description = traceLocation.description,
+            address = traceLocation.address,
+            traceLocationStart = traceLocation.startDate,
+            traceLocationEnd = traceLocation.endDate,
+            defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
+            cryptographicSeed = traceLocation.cryptographicSeed,
+            cnPublicKey = traceLocation.cnPublicKey,
+            checkInStart = checkInStart,
+            checkInEnd = checkInEnd,
+            completed = completed,
+            createJournalEntry = createJournalEntry,
+        )
+    }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<ConfirmCheckInViewModel> {

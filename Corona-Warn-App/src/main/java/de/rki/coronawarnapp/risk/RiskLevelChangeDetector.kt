@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettin
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-import de.rki.coronawarnapp.risk.storage.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
@@ -49,7 +48,7 @@ class RiskLevelChangeDetector @Inject constructor(
             }
             .filter { it.size == 2 }
             .onEach {
-                Timber.v("Checking for risklevel change.")
+                Timber.v("Checking for ew risklevel change.")
                 checkEwRiskForStateChanges(it)
             }
             .catch { Timber.e(it, "App config change checks failed.") }
@@ -61,7 +60,7 @@ class RiskLevelChangeDetector @Inject constructor(
             }
             .filter { it.size == 2 }
             .onEach {
-                Timber.v("Checking for risklevel change.")
+                Timber.v("Checking for combined risklevel change.")
                 checkCombinedRiskForStateChanges(it)
             }
             .catch { Timber.e(it, "App config change checks failed.") }
@@ -69,7 +68,6 @@ class RiskLevelChangeDetector @Inject constructor(
     }
 
     private suspend fun checkCombinedRiskForStateChanges(results: List<CombinedEwPtRiskLevelResult>) {
-        // TODO refactor
         val oldResult = results.first()
         val newResult = results.last()
 
@@ -164,7 +162,6 @@ class RiskLevelChangeDetector @Inject constructor(
             } else {
                 Timber.d("App is in foreground, not sending notifications")
             }
-
             Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskState")
         }
     }

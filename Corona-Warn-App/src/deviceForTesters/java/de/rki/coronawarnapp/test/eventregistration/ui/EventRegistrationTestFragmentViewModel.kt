@@ -1,65 +1,94 @@
 package de.rki.coronawarnapp.test.eventregistration.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningMatcher
-import de.rki.coronawarnapp.presencetracing.risk.CheckInWarningOverlap
-import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingRiskCalculator
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
+import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
+import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import okio.ByteString.Companion.encode
-import org.joda.time.DateTime
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import kotlin.system.measureTimeMillis
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
-    private val dispatcherProvider: DispatcherProvider,
-    private val traceLocationRepository: TraceLocationRepository,
-    private val checkInWarningMatcher: CheckInWarningMatcher,
-    private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator
+    dispatcherProvider: DispatcherProvider,
+    traceLocationRepository: TraceLocationRepository,
+    checkInRepository: CheckInRepository,
+    private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
+    private val taskController: TaskController,
+    private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
+    private val traceWarningRepository: TraceWarningRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val checkInWarningOverlaps = mutableListOf<CheckInWarningOverlap>()
-    val checkInOverlapsText = MutableLiveData<String>()
-    val matchingRuntime = MutableLiveData<Long>()
+    val lastOrganiserLocation: LiveData<TraceLocation?> =
+        traceLocationRepository.allTraceLocations
+            .map { lastLocationData(it) }
+            .asLiveData(dispatcherProvider.Default)
+
+    val lastAttendeeLocation: LiveData<TraceLocation?> =
+        checkInRepository.allCheckIns
+            .map { lastAttendeeLocationData(it) }
+            .asLiveData(dispatcherProvider.Default)
+
+    val presenceTracingWarningTaskResult = MutableLiveData<String>()
+    val taskRunTime = MutableLiveData<Long>()
     val riskCalculationRuntime = MutableLiveData<Long>()
 
     val checkInRiskPerDayText = MutableLiveData<String>()
 
-    fun runMatcher() {
-        launch {
-            measureTime(
-                {
-                    Timber.d("Time to find matches: $it millis")
-                    matchingRuntime.postValue(it)
-                },
-                {
-                    checkInWarningOverlaps.clear()
-                    val matches = checkInWarningMatcher.execute()
+    fun runPresenceTracingWarningTask() = launch {
+        Timber.d("runWarningPackageTask()")
+        presenceTracingWarningTaskResult.postValue("Running")
+        taskRunTime.postValue(-1L)
 
-                    checkInWarningOverlaps.addAll(matches)
-
-                    if (checkInWarningOverlaps.size < 100) {
-                        val text = checkInWarningOverlaps.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
-                            stringBuilder
-                                .append("CheckIn Id ${checkInOverlap.checkInId}, ")
-                                .append("Date ${checkInOverlap.localDateUtc}, ")
-                                .append("Min. ${checkInOverlap.overlap.standardMinutes}")
-                                .append("\n")
-                        }
-                        if (text.isBlank()) checkInOverlapsText.postValue("No matches found")
-                        else checkInOverlapsText.postValue(text.toString())
-                    } else {
-                        checkInOverlapsText.postValue("Output too large. ${checkInWarningOverlaps.size} lines")
-                    }
-                }
+        val duration = measureTimeMillis {
+            taskController.submitBlocking(
+                DefaultTaskRequest(
+                    PresenceTracingWarningTask::class,
+                    originTag = "EventRegistrationTestFragmentViewModel"
+                )
             )
         }
+        taskRunTime.postValue(duration)
+
+        val warningPackages = traceWarningRepository.allMetaData.first()
+        val overlaps = presenceTracingRiskRepository.checkInWarningOverlaps.first()
+        val lastResult = presenceTracingRiskRepository.latestEntries(1).first().singleOrNull()
+
+        val infoText = when {
+            !lastResult!!.wasSuccessfullyCalculated -> "Last calculation failed"
+            overlaps.isEmpty() -> "No matches found (${warningPackages.size} warning packages)."
+            overlaps.size > 100 -> "Output too large. ${overlaps.size} lines"
+            overlaps.isNotEmpty() -> overlaps.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
+                stringBuilder
+                    .append("CheckIn Id ${checkInOverlap.checkInId}, ")
+                    .append("Date ${checkInOverlap.localDateUtc}, ")
+                    .append("Min. ${checkInOverlap.overlap.standardMinutes}")
+                    .appendLine()
+            }.toString()
+            else -> "Unknown state"
+        }
+        presenceTracingWarningTaskResult.postValue(infoText)
+    }
+
+    fun resetProcessedWarningPackages() = launch {
+        traceWarningRepository.clear()
     }
 
     fun runRiskCalculationPerCheckInDay() {
@@ -70,6 +99,7 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
                     riskCalculationRuntime.postValue(it)
                 },
                 {
+                    val checkInWarningOverlaps = presenceTracingRiskRepository.checkInWarningOverlaps.first()
                     val normalizedTimePerCheckInDayList =
                         presenceTracingRiskCalculator.calculateNormalizedTime(checkInWarningOverlaps)
                     val riskStates =
@@ -93,92 +123,24 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun generateTestTraceLocations() {
-        launch {
-            val permanent = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_FOOD_SERVICE,
-                description = "SAP Kantine WDF20",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = null,
-                endDate = null,
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(permanent)
+    private fun lastLocationData(it: List<TraceLocation>): TraceLocation? =
+        it.maxByOrNull { traceLocation -> traceLocation.id }
 
-            val oneDayEvent = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
-                description = "Jahrestreffen der deutschen SAP Anwendergruppe (one day)",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = DateTime.now().plusHours(2).toInstant(),
-                endDate = DateTime.now().plusHours(3).toInstant(),
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(oneDayEvent)
+    private fun lastAttendeeLocationData(it: List<CheckIn>): TraceLocation? {
+        val checkIn = it.maxByOrNull { checkIn -> checkIn.id } ?: return null
 
-            val partyHardEvent = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CLUB_ACTIVITY,
-                description = "Jahrestreffen der deutschen SAP Anwendergruppe (many days)",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = DateTime.now().plusHours(2).toInstant(),
-                endDate = DateTime.now().plusDays(5).plusHours(2).toInstant(),
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(partyHardEvent)
-
-            val oldPermanent = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_FOOD_SERVICE,
-                description = "SAP Kantine MOW07",
-                address = "Moscow, Kosmodomianskaya 52/7",
-                startDate = null,
-                endDate = null,
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(oldPermanent)
-
-            val oldTemporaryOne = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CLUB_ACTIVITY,
-                description = "Old temporary 1",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
-                endDate = DateTime.now().minusSeconds(15 * 86400 - 10).toInstant(),
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(oldTemporaryOne)
-
-            val oldTemporaryTwo = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CLUB_ACTIVITY,
-                description = "Old temporary 2",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
-                endDate = DateTime.now().minusSeconds(15 * 86400).toInstant(),
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(oldTemporaryTwo)
-
-            val oldTemporaryThree = TraceLocation(
-                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CLUB_ACTIVITY,
-                description = "Old temporary 3",
-                address = "Hauptstr. 3, 69115 Heidelberg",
-                startDate = DateTime.now().minusSeconds(16 * 86400).toInstant(),
-                endDate = DateTime.now().minusSeconds(15 * 86400 + 10).toInstant(),
-                defaultCheckInLengthInMinutes = 60,
-                cryptographicSeed = "".encode(),
-                cnPublicKey = ""
-            )
-            traceLocationRepository.addTraceLocation(oldTemporaryThree)
-        }
+        return TraceLocation(
+            id = checkIn.id,
+            type = TraceLocationOuterClass.TraceLocationType.forNumber(checkIn.type),
+            description = checkIn.description,
+            address = checkIn.address,
+            startDate = checkIn.traceLocationStart,
+            endDate = checkIn.traceLocationEnd,
+            defaultCheckInLengthInMinutes = checkIn.defaultCheckInLengthInMinutes,
+            cryptographicSeed = checkIn.cryptographicSeed,
+            cnPublicKey = checkIn.cnPublicKey,
+            version = checkIn.version
+        )
     }
 
     @AssistedFactory

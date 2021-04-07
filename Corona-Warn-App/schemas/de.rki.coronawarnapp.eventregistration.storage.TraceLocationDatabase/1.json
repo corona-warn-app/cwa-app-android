@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1dc5f8a56361d50b8bb18050bce59d20",
+    "identityHash": "5117ed4caaa7ecd70051902d844cc665",
     "entities": [
       {
         "tableName": "checkin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `traceLocationIdBase64` TEXT NOT NULL, `traceLocationIdHashBase64` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `cryptographicSeedBase64` TEXT NOT NULL, `cnPublicKey` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `traceLocationIdBase64` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `cryptographicSeedBase64` TEXT NOT NULL, `cnPublicKey` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `completed` INTEGER NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -17,12 +17,6 @@
           {
             "fieldPath": "traceLocationIdBase64",
             "columnName": "traceLocationIdBase64",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "traceLocationIdHashBase64",
-            "columnName": "traceLocationIdHashBase64",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -192,7 +186,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1dc5f8a56361d50b8bb18050bce59d20')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5117ed4caaa7ecd70051902d844cc665')"
     ]
   }
 }

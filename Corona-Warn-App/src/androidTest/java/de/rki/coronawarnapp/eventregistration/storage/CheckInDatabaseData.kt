@@ -9,7 +9,6 @@ object CheckInDatabaseData {
 
     val testCheckIn = TraceLocationCheckInEntity(
         traceLocationIdBase64 = "traceLocationId1".encode().base64(),
-        traceLocationIdHashBase64 = "traceLocationIdHash1".encode().base64(),
         version = 1,
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER.number,
         description = "testDescription1",
@@ -27,7 +26,6 @@ object CheckInDatabaseData {
 
     val testCheckInWithoutCheckOutTime = TraceLocationCheckInEntity(
         traceLocationIdBase64 = "traceLocationId1".encode().base64(),
-        traceLocationIdHashBase64 = "traceLocationIdHash1".encode().base64(),
         version = 1,
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER.number,
         description = "testDescription2",
