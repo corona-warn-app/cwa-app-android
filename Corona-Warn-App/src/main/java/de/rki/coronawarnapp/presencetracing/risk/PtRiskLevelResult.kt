@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.risk
 
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.RiskState
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -7,6 +8,7 @@ import org.joda.time.LocalDate
 data class PtRiskLevelResult(
     val calculatedAt: Instant,
     val riskState: RiskState,
+    // only available for the last calculation if successful, otherwise null
     val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null
 ) {
 

@@ -14,9 +14,11 @@ import org.joda.time.Instant
 
 object RiskStorageTestData {
 
+    val ewCalculatedAt = Instant.ofEpochMilli(9999L)
+
     val testRiskLevelResultDao = PersistedRiskLevelResultDao(
         id = "riskresult-id",
-        calculatedAt = Instant.ofEpochMilli(9999L),
+        calculatedAt = ewCalculatedAt,
         failureReason = null,
         aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
             totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
@@ -40,7 +42,7 @@ object RiskStorageTestData {
     )
 
     val testRisklevelResult = EwRiskLevelTaskResult(
-        calculatedAt = Instant.ofEpochMilli(9999L),
+        calculatedAt = ewCalculatedAt,
         ewAggregatedRiskResult = testAggregatedRiskResult,
         exposureWindows = null
     )
@@ -76,14 +78,14 @@ object RiskStorageTestData {
     }.build()
 
     val testAggregatedRiskPerDateResult = ExposureWindowDayRisk(
-        dateMillisSinceEpoch = 9999L,
+        dateMillisSinceEpoch = ewCalculatedAt.millis,
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,
         minimumDistinctEncountersWithHighRisk = 0
     )
 
     val testPersistedAggregatedRiskPerDateResult = PersistedAggregatedRiskPerDateResult(
-        dateMillisSinceEpoch = 9999L,
+        dateMillisSinceEpoch = ewCalculatedAt.millis,
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,
         minimumDistinctEncountersWithHighRisk = 0

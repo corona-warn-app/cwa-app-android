@@ -34,7 +34,8 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     tracingStatus: GeneralTracingStatus,
     installTimeProvider: InstallTimeProvider,
     private val backgroundStatus: BackgroundModeStatus,
-    tracingPermissionHelperFactory: TracingPermissionHelper.Factory
+    tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val loggingPeriod: LiveData<PeriodLoggedBox.Item> =
@@ -75,7 +76,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
                             if (!backgroundStatus.isIgnoringBatteryOptimizations.first()) {
                                 events.postValue(Event.ManualCheckingDialog)
                             }
-                            BackgroundWorkScheduler.startWorkScheduler()
+                            backgroundWorkScheduler.startWorkScheduler()
                         }
                         isTracingSwitchChecked.postValue(isTracingEnabled)
                     }
@@ -109,7 +110,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
                 launch {
                     if (InternalExposureNotificationClient.asyncIsEnabled()) {
                         InternalExposureNotificationClient.asyncStop()
-                        BackgroundWorkScheduler.stopWorkScheduler()
+                        backgroundWorkScheduler.stopWorkScheduler()
                     }
                 }
             }

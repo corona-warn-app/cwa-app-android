@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutNotification
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
+import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AppContext
@@ -143,4 +144,7 @@ class MockProvider {
 
     @Provides
     fun checkOutNotification(): CheckOutNotification = mockk()
+
+    @Provides
+    fun riskWorkScheduler(): RiskWorkScheduler = mockk()
 }

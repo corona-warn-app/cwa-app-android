@@ -65,6 +65,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var onboardingSettings: OnboardingSettings
     @Inject lateinit var autoCheckOut: AutoCheckOut
     @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
+    @Inject lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -82,8 +83,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             Timber.v("Completing application injection")
             compPreview.inject(this)
         }
-
-        BackgroundWorkScheduler.init(component)
 
         Timber.plant(rollingLogHistory)
 

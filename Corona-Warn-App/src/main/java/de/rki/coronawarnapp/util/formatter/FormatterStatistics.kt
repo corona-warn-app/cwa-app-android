@@ -8,31 +8,32 @@ import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatsItem
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
 fun StatsItem.getPrimaryLabel(context: Context): String {
     val today = LocalDate()
     val yesterday = today.minusDays(1)
-    val day = LocalDate(updatedAt)
+    val updatedAtDate = LocalDate(updatedAt.toUserTimeZone())
     val dateTimeFormatter = DateTimeFormat.mediumDate().withLocale(context.getLocale())
 
     return when (this) {
         is InfectionStats,
-        is KeySubmissionsStats -> when (day) {
+        is KeySubmissionsStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_today)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
-            else -> dateTimeFormatter.print(day)
+            else -> dateTimeFormatter.print(updatedAtDate)
         }
-        is IncidenceStats -> when (day) {
+        is IncidenceStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_today)
             yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(day))
+            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
         }
-        is SevenDayRValue -> when (day) {
+        is SevenDayRValue -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_current)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(day))
+            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
         }
     }
 }
