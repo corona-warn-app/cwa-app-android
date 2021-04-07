@@ -10,11 +10,12 @@ import kotlin.random.Random
 @Singleton
 class BackgroundNoise @Inject constructor(
     private val submissionSettings: SubmissionSettings,
-    private val playbook: Playbook
+    private val playbook: Playbook,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler
 ) {
     fun scheduleDummyPattern() {
         if (BackgroundConstants.NUMBER_OF_DAYS_TO_RUN_PLAYBOOK > 0)
-            BackgroundWorkScheduler.scheduleBackgroundNoisePeriodicWork()
+            backgroundWorkScheduler.scheduleBackgroundNoisePeriodicWork()
     }
 
     suspend fun foregroundScheduleCheck() {

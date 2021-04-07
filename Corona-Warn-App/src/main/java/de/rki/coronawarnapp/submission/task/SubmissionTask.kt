@@ -41,7 +41,8 @@ class SubmissionTask @Inject constructor(
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
     private val checkInsRepository: CheckInRepository,
     private val checkInsTransformer: CheckInsTransformer,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -176,9 +177,9 @@ class SubmissionTask @Inject constructor(
 
     private fun setSubmissionFinished() {
         Timber.tag(TAG).d("setSubmissionFinished()")
-        BackgroundWorkScheduler.stopWorkScheduler()
+        backgroundWorkScheduler.stopWorkScheduler()
         submissionSettings.isSubmissionSuccessful = true
-        BackgroundWorkScheduler.startWorkScheduler()
+        backgroundWorkScheduler.startWorkScheduler()
 
         shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()

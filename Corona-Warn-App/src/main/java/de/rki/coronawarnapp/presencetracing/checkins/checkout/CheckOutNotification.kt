@@ -5,7 +5,7 @@ import androidx.core.app.NotificationCompat
 import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.presencetracing.common.TraceLocationNotifications
+import de.rki.coronawarnapp.presencetracing.common.PresenceTracingNotifications
 import de.rki.coronawarnapp.ui.launcher.LauncherActivity
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class CheckOutNotification @Inject constructor(
     @AppContext private val context: Context,
     private val foregroundState: ForegroundState,
-    private val notificationHelper: TraceLocationNotifications,
+    private val notificationHelper: PresenceTracingNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
 

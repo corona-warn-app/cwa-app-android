@@ -52,7 +52,6 @@ class CheckInRepositoryTest : BaseTest() {
             val checkIn = CheckIn(
                 id = 1L,
                 traceLocationId = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
-                traceLocationIdHash = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
                 version = 1,
                 type = 2,
                 description = "brothers birthday",
@@ -81,7 +80,6 @@ class CheckInRepositoryTest : BaseTest() {
                 CheckIn(
                     id = 0L,
                     traceLocationId = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
-                    traceLocationIdHash = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
                     version = 1,
                     type = 2,
                     description = "brothers birthday",
@@ -102,7 +100,6 @@ class CheckInRepositoryTest : BaseTest() {
                     TraceLocationCheckInEntity(
                         id = 0L,
                         traceLocationIdBase64 = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode().base64(),
-                        traceLocationIdHashBase64 = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode().base64(),
                         version = 1,
                         type = 2,
                         description = "brothers birthday",
@@ -147,7 +144,6 @@ class CheckInRepositoryTest : BaseTest() {
             TraceLocationCheckInEntity(
                 id = 1L,
                 traceLocationIdBase64 = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode().base64(),
-                traceLocationIdHashBase64 = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode().base64(),
                 version = 1,
                 type = 2,
                 description = "sisters birthday",
@@ -168,7 +164,6 @@ class CheckInRepositoryTest : BaseTest() {
                 CheckIn(
                     id = 1L,
                     traceLocationId = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
-                    traceLocationIdHash = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
                     version = 1,
                     type = 2,
                     description = "sisters birthday",
