@@ -153,7 +153,7 @@
         tools:layout="@layout/fragment_settings_reset">
         <action
             android:id="@+id/action_settingsResetFragment_to_mainFragment"
-            app:destination="@id/trace_location_organizer_nav_graph" />
+            app:destination="@id/mainFragment" />
     </fragment>
 
     <!-- Information -->
@@ -267,7 +267,7 @@
         tools:layout="@layout/fragment_submission_no_consent_positive_other_warning">
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_mainFragment"
-            app:destination="@id/trace_location_organizer_nav_graph"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
@@ -371,7 +371,7 @@
         tools:layout="@layout/fragment_submission_result_ready">
         <action
             android:id="@+id/action_submissionResultReadyFragment_to_mainFragment"
-            app:destination="@id/trace_location_organizer_nav_graph"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
@@ -395,7 +395,7 @@
             app:destination="@id/submissionSymptomCalendarFragment" />
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_mainFragment"
-            app:destination="@id/trace_location_organizer_nav_graph"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
@@ -414,7 +414,7 @@
             app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
         <action
             android:id="@+id/action_submissionSymptomCalendarFragment_to_mainFragment"
-            app:destination="@id/trace_location_organizer_nav_graph"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
@@ -437,7 +437,7 @@
         android:label="SubmissionTestResultConsentFragment">
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_homeFragment"
-            app:destination="@id/trace_location_organizer_nav_graph"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
@@ -450,7 +450,7 @@
         android:label="SubmissionTestResultNoConsentFragment">
         <action
             android:id="@+id/action_submissionTestResultNoConsentFragment_to_homeFragment"
-            app:destination="@id/trace_location_organizer_nav_graph"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
@@ -477,7 +477,7 @@
         tools:layout="@layout/fragment_submission_test_result_available">
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_mainFragment"
-            app:destination="@id/trace_location_organizer_nav_graph"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
