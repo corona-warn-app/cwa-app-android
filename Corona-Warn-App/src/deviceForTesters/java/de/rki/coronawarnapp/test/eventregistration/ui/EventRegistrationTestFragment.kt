@@ -10,7 +10,6 @@ import androidx.core.text.color
 import androidx.core.text.scale
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
@@ -59,6 +58,10 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
             }
         }
 
+        binding.runMatcher.setOnClickListener {
+            viewModel.runMatcher()
+        }
+
         binding.resetProcessedWarningPackages.setOnClickListener {
             viewModel.resetProcessedWarningPackages()
         }
@@ -94,6 +97,12 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                     lastOrganiserLocation.text = traceLocationText(traceLocation)
                     lastOrganiserLocationId.text = styleText("ID", traceLocation.locationId.base64())
                     lastOrganiserLocationUrl.text = styleText("URL", traceLocation.locationUrl)
+                    qrcodeButton.setOnClickListener {
+                        doNavigate(
+                            EventRegistrationTestFragmentDirections
+                                .actionEventRegistrationTestFragmentToQrCodePosterFragmentTest(traceLocation.id)
+                        )
+                    }
                 }
             }
         }

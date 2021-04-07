@@ -1,12 +1,17 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.details
 
 import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -18,7 +23,7 @@ import org.joda.time.Instant
 import timber.log.Timber
 
 class QrCodeDetailViewModel @AssistedInject constructor(
-    @Assisted private val traceLocationId: Long?,
+    @Assisted private val traceLocationId: Long,
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
     private val traceLocationRepository: DefaultTraceLocationRepository
@@ -29,11 +34,12 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     private val subtitleFlow = MutableStateFlow<String?>(null)
     private val startTimeFlow = MutableStateFlow<Instant?>(null)
     private val endTimeFlow = MutableStateFlow<Instant?>(null)
+    private val bitmapLiveData = MutableLiveData<Bitmap>()
 
     init {
 
         launch {
-            val traceLocation = traceLocationRepository.traceLocationForId(traceLocationId ?: 0L)
+            val traceLocation = traceLocationRepository.traceLocationForId(traceLocationId)
 
             if (titleFlow.value == null) {
                 titleFlow.value = traceLocation.description
@@ -80,8 +86,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         val endDateTime: Instant? get() = endInstant
     }
 
-    val qrCodeBitmap = SingleLiveEvent<Bitmap>()
-    val errorMessage = SingleLiveEvent<String>()
+    val qrCodeBitmap: LiveData<Bitmap> = bitmapLiveData
     val routeToScreen: SingleLiveEvent<QrCodeDetailNavigationEvents> = SingleLiveEvent()
 
     /**
@@ -91,10 +96,10 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         try {
             val input = traceLocation.locationUrl
             Timber.d("input=$input")
-            qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(input))
+            bitmapLiveData.postValue(qrCodeGenerator.createQrCode(input))
         } catch (e: Exception) {
             Timber.d(e, "Qr code creation failed")
-            errorMessage.postValue(e.localizedMessage ?: "QR code creation failed")
+            e.report(ExceptionCategory.INTERNAL)
         }
     }
 
@@ -102,10 +107,16 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         routeToScreen.postValue(QrCodeDetailNavigationEvents.NavigateBack)
     }
 
+    fun onPrintQrCode() {
+        routeToScreen.postValue(
+            QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment(traceLocationId)
+        )
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<QrCodeDetailViewModel> {
         fun create(
-            traceLocationId: Long?
+            traceLocationId: Long
         ): QrCodeDetailViewModel
     }
 }

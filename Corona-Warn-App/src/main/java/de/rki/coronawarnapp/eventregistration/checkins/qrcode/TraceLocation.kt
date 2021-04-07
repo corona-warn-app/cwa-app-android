@@ -4,7 +4,6 @@ import android.os.Parcelable
 import com.google.common.io.BaseEncoding
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeGenerator
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import okio.ByteString

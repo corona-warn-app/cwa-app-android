@@ -23,7 +23,7 @@ class QrCodePosterTemplateModule : BaseEnvironmentModule() {
     @QrCodePosterTemplate
     fun cacheDir(
         @AppContext context: Context
-    ): File = File(context.cacheDir, "qrCodePoster")
+    ): File = File(context.cacheDir, "poster")
 
     @Singleton
     @Provides
