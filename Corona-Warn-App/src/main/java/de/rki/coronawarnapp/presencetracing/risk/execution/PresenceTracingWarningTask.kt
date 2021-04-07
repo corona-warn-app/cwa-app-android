@@ -95,7 +95,7 @@ class PresenceTracingWarningTask @Inject constructor(
         )
         Timber.tag(TAG).i("Check-in matcher result: %s", matcherResult)
 
-        val overlaps = matcherResult.processedPackages.map { it.overlaps }.flatten()
+        val overlaps = matcherResult.processedPackages.flatMap { it.overlaps }
         val overlapsDistinct = overlaps.distinct()
         if (overlaps.size != overlapsDistinct.size) {
             IllegalArgumentException("Matched overlaps are not distinct").also {
