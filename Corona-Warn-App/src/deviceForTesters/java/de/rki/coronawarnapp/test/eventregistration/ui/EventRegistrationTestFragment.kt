@@ -34,34 +34,6 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding) {
-            scanCheckInQrCode.setOnClickListener {
-                doNavigate(
-                    EventRegistrationTestFragmentDirections
-                        .actionEventRegistrationTestFragmentToScanCheckInQrCodeFragment()
-                )
-            }
-
-            testQrCodeCreation.setOnClickListener {
-                doNavigate(
-                    EventRegistrationTestFragmentDirections
-                        .actionEventRegistrationTestFragmentToTestQrCodeCreationFragment()
-                )
-            }
-
-            createEventButton.setOnClickListener {
-                findNavController().navigate(R.id.createEventTestFragment)
-            }
-
-            showEventsButton.setOnClickListener {
-                findNavController().navigate(R.id.showStoredEventsTestFragment)
-            }
-        }
-
-        binding.runMatcher.setOnClickListener {
-            viewModel.runMatcher()
-        }
-
         binding.resetProcessedWarningPackages.setOnClickListener {
             viewModel.resetProcessedWarningPackages()
         }
