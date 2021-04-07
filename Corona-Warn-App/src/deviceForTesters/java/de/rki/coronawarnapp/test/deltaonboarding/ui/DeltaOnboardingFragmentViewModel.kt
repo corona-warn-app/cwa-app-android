@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.BuildConfigWrap
+import de.rki.coronawarnapp.eventregistration.TraceLocationSettings
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     private val settings: CWASettings,
+    private val traceLocationSettings: TraceLocationSettings,
     private val contactDiarySettings: ContactDiarySettings,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -43,8 +45,19 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
 
     fun isDeltaOnboardingDone() = settings.wasInteroperabilityShownAtLeastOnce
 
-    fun setDeltaOboardinDone(value: Boolean) {
+    fun setDeltaOboardingDone(value: Boolean) {
         settings.wasInteroperabilityShownAtLeastOnce = value
+    }
+
+    fun isAttendeeOboardingDone() =
+        traceLocationSettings.onboardingStatus == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
+
+    fun setAttendeeOboardingDone(value: Boolean) {
+        traceLocationSettings.onboardingStatus =
+            if (value)
+                TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
+            else
+                TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
     }
 
     @AssistedFactory
