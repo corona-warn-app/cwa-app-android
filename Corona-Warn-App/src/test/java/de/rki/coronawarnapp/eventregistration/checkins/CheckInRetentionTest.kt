@@ -27,7 +27,6 @@ internal class CheckInRetentionTest {
 
     private fun createCheckIn(checkOutDate: Instant) = CheckIn(
         traceLocationId = "traceLocationId1".encode(),
-        traceLocationIdHash = "traceLocationIdHash1".encode(),
         version = 1,
         type = 1,
         description = "",
