@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toProtoByteString
 import org.joda.time.Days
 import org.joda.time.Instant
 import timber.log.Timber
@@ -87,7 +88,7 @@ class CheckInsTransformer @Inject constructor(
         }
 
         return CheckInOuterClass.CheckIn.newBuilder()
-            // .locationId = TODO: Set calculated trace location
+            .setLocationId(traceLocationId.toProtoByteString())
             .setStartIntervalNumber(checkInStart.derive10MinutesInterval().toInt())
             .setEndIntervalNumber(checkInEnd.derive10MinutesInterval().toInt())
             .setTransmissionRiskLevel(transmissionRiskLevel)
