@@ -78,13 +78,10 @@ class ActiveCheckInVH(parent: ViewGroup) :
         }
 
         checkoutAction.setOnClickListener { curItem.onCheckout(curItem.checkin) }
-
-        itemView.setOnClickListener { curItem.onCardClicked(curItem.checkin) }
     }
 
     data class Item(
         val checkin: CheckIn,
-        val onCardClicked: (CheckIn) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit,
         val onCheckout: (CheckIn) -> Unit,
         val onSwipeItem: (CheckIn, Int) -> Unit,
