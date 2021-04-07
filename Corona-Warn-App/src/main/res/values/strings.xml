@@ -1977,4 +1977,10 @@
     <string name="trace_location_attendee_camera_card_button">Einstellungen öffnen</string>
     <!--  YMSG: Trace location onboarding image description-->
     <string name="trace_location_onboarding_content_description">Drei Personen an einem Stehtisch, zwei von ihnen schauen auf ihr Smartphone.</string>
+    <!-- XMIT: Trace location poster print -->
+    <string name="trace_location_organiser_poster_print">"Print"</string>
+    <!-- XMIT: Trace location poster share -->
+    <string name="trace_location_organiser_poster_share">"Share"</string>
+    <!-- XHED: Trace location poster title -->
+    <string name="trace_location_organiser_poster_title">"Print version"</string>
 </resources>

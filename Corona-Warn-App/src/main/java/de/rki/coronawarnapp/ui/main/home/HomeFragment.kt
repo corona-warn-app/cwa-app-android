@@ -35,7 +35,7 @@ import javax.inject.Inject
 class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: HomeFragmentViewModel by cwaViewModels(
+    private val viewModel: HomeFragmentViewModel by cwaViewModels(
         ownerProducer = { requireActivity().viewModelStore },
         factoryProducer = { viewModelFactory }
     )
@@ -53,7 +53,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         homeMenu.setupMenu(binding.toolbar)
 
-        vm.tracingHeaderState.observe2(this) {
+        viewModel.tracingHeaderState.observe2(this) {
             binding.tracingHeader = it
         }
 
@@ -64,11 +64,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             adapter = homeAdapter
         }
 
-        vm.homeItems.observe2(this) {
+        viewModel.homeItems.observe2(this) {
             homeAdapter.update(it)
         }
 
-        vm.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe2(this) {
             doNavigate(it)
         }
 
@@ -76,25 +76,28 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
 
-        vm.openFAQUrlEvent.observe2(this) {
+        viewModel.openFAQUrlEvent.observe2(this) {
             ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
         }
 
-        vm.openTraceLocationOrganizerFlow.observe2(this) {
-            if (vm.wasQRInfoWasAcknowledged()) {
-                val nestedGraph =
-                    findNavController().graph.findNode(R.id.trace_location_organizer_nav_graph) as NavGraph
-                nestedGraph.startDestination = R.id.traceLocationOrganizerListFragment
+        viewModel.openTraceLocationOrganizerFlow.observe2(this) {
+            viewModel.wasQRInfoWasAcknowledged()
+            val nestedGraph = findNavController().graph.findNode(R.id.trace_location_organizer_nav_graph) as NavGraph
+
+            if (viewModel.wasQRInfoWasAcknowledged()) {
+                nestedGraph.startDestination = R.id.traceLocationsFragment
+            } else {
+                nestedGraph.startDestination = R.id.traceLocationInfoFragment
             }
             doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
         }
 
-        vm.popupEvents.observe2(this) { event ->
+        viewModel.popupEvents.observe2(this) { event ->
             when (event) {
                 HomeFragmentEvents.ShowErrorResetDialog -> {
                     RecoveryByResetDialogFactory(this).showDialog(
                         detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
-                        onPositive = { vm.errorResetDialogDismissed() }
+                        onPositive = { viewModel.errorResetDialogDismissed() }
                     )
                 }
                 HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog()
@@ -106,29 +109,29 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 }
                 HomeFragmentEvents.ShowTracingExplanation -> {
                     tracingExplanationDialog.show {
-                        vm.tracingExplanationWasShown()
+                        viewModel.tracingExplanationWasShown()
                     }
                 }
             }
         }
 
-        vm.showPopUps()
+        viewModel.showPopUps()
 
-        vm.showLoweredRiskLevelDialog.observe2(this) {
+        viewModel.showLoweredRiskLevelDialog.observe2(this) {
             if (it) showRiskLevelLoweredDialog()
         }
-        vm.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
+        viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (!showDialog) return@observe2
-            deviceTimeIncorrectDialog.show { vm.userHasAcknowledgedIncorrectDeviceTime() }
+            deviceTimeIncorrectDialog.show { viewModel.userHasAcknowledgedIncorrectDeviceTime() }
         }
 
-        vm.observeTestResultToSchedulePositiveTestResultReminder()
+        viewModel.observeTestResultToSchedulePositiveTestResultReminder()
     }
 
     override fun onResume() {
         super.onResume()
-        vm.refreshRequiredData()
-        vm.restoreAppShortcuts()
+        viewModel.refreshRequiredData()
+        viewModel.restoreAppShortcuts()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
@@ -140,7 +143,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             R.string.submission_test_result_dialog_remove_test_button_positive,
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
-                vm.deregisterWarningAccepted()
+                viewModel.deregisterWarningAccepted()
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
@@ -157,7 +160,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             R.string.dialog_reactivate_risk_calculation_button_positive,
             R.string.dialog_reactivate_risk_calculation_button_negative,
             positiveButtonFunction = {
-                vm.reenableRiskCalculation()
+                viewModel.reenableRiskCalculation()
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
@@ -174,7 +177,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             positiveButton = R.string.risk_lowered_dialog_button_confirm,
             negativeButton = null,
             cancelable = false,
-            positiveButtonFunction = { vm.userHasAcknowledgedTheLoweredRiskLevel() }
+            positiveButtonFunction = { viewModel.userHasAcknowledgedTheLoweredRiskLevel() }
         )
 
         DialogHelper.showDialog(riskLevelLoweredDialog).apply {
