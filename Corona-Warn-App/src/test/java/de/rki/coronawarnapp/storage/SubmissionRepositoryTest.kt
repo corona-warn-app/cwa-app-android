@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -57,6 +58,7 @@ class SubmissionRepositoryTest : BaseTest() {
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var testResultDataCollector: TestResultDataCollector
+    @MockK lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
 
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
@@ -99,6 +101,10 @@ class SubmissionRepositoryTest : BaseTest() {
         every { testResultDataCollector.updatePendingTestResultReceivedTime(any()) } just Runs
         coEvery { testResultDataCollector.saveTestResultAnalyticsSettings(any()) } just Runs
         every { testResultDataCollector.clear() } just Runs
+
+        backgroundWorkScheduler.apply {
+            every { startWorkScheduler() } just Runs
+        }
     }
 
     fun createInstance(scope: CoroutineScope) = SubmissionRepository(
@@ -111,7 +117,8 @@ class SubmissionRepositoryTest : BaseTest() {
         backgroundNoise = backgroundNoise,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         tracingSettings = tracingSettings,
-        testResultDataCollector = testResultDataCollector
+        testResultDataCollector = testResultDataCollector,
+        backgroundWorkScheduler = backgroundWorkScheduler
     )
 
     @Test

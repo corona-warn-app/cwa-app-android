@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.worker
 
 import android.content.Context
 import androidx.work.ListenableWorker
-import androidx.work.Operation
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.notification.GeneralNotifications
@@ -18,7 +17,6 @@ import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.formatter.TestResult
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -48,9 +46,10 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     @MockK lateinit var appComponent: ApplicationComponent
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
-    @MockK lateinit var operation: Operation
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var tracingSettings: TracingSettings
+    @MockK lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
+
     @RelaxedMockK lateinit var workerParams: WorkerParameters
     private val currentInstant = Instant.ofEpochSecond(1611764225)
     private val registrationToken = "test token"
@@ -72,8 +71,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
         every { submissionSettings.registrationToken } returns mockFlowPreference(registrationToken)
 
-        mockkObject(BackgroundWorkScheduler)
-        every { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() } returns operation
+        every { backgroundWorkScheduler.stopDiagnosisTestResultPeriodicWork() } just Runs
     }
 
     @Test
@@ -83,7 +81,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
-            verify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
+            verify(exactly = 1) { backgroundWorkScheduler.stopDiagnosisTestResultPeriodicWork() }
             result shouldBe ListenableWorker.Result.success()
         }
     }
@@ -95,7 +93,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
-            verify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
+            verify(exactly = 1) { backgroundWorkScheduler.stopDiagnosisTestResultPeriodicWork() }
             result shouldBe ListenableWorker.Result.success()
         }
     }
@@ -109,7 +107,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
-            verify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
+            verify(exactly = 1) { backgroundWorkScheduler.stopDiagnosisTestResultPeriodicWork() }
             result shouldBe ListenableWorker.Result.success()
         }
     }
@@ -228,7 +226,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
                     NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
                 )
             }
-            coVerify(exactly = 0) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
+            coVerify(exactly = 0) { backgroundWorkScheduler.stopDiagnosisTestResultPeriodicWork() }
             result shouldBe ListenableWorker.Result.success()
         }
     }
@@ -240,7 +238,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify(exactly = 1) { submissionService.asyncRequestTestResult(any()) }
-            coVerify(exactly = 0) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
+            coVerify(exactly = 0) { backgroundWorkScheduler.stopDiagnosisTestResultPeriodicWork() }
             result shouldBe ListenableWorker.Result.retry()
         }
     }
@@ -253,6 +251,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         submissionSettings,
         submissionService,
         timeStamper,
-        tracingSettings
+        tracingSettings,
+        backgroundWorkScheduler,
     )
 }

@@ -5,11 +5,9 @@ import android.net.wifi.WifiManager
 import android.os.PowerManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
+import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.task.TaskController
-import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.ProcessLifecycle
@@ -28,7 +26,9 @@ class WatchdogService @Inject constructor(
     private val taskController: TaskController,
     private val backgroundModeStatus: BackgroundModeStatus,
     @ProcessLifecycle private val processLifecycleOwner: LifecycleOwner,
-    private val onboardingSettings: OnboardingSettings
+    private val onboardingSettings: OnboardingSettings,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
+    private val riskWorkScheduler: RiskWorkScheduler,
 ) {
 
     private val powerManager by lazy {
@@ -55,18 +55,8 @@ class WatchdogService @Inject constructor(
 
             Timber.tag(TAG).d("Automatic mode is on, check if we have downloaded keys already today")
 
-            val state = taskController.submitBlocking(
-                DefaultTaskRequest(
-                    DownloadDiagnosisKeysTask::class,
-                    DownloadDiagnosisKeysTask.Arguments(),
-                    originTag = "WatchdogService"
-                )
-            )
-            if (state.isFailed) {
-                Timber.tag(TAG).e(state.error, "RetrieveDiagnosisKeysTransaction failed")
-                // retry the key retrieval in case of an error with a scheduled work
-                BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
-            }
+            val results = riskWorkScheduler.runRiskTasksNow()
+            Timber.tag(TAG).d("runRiskTasksNow() results: %s", results)
 
             if (wifiLock.isHeld) wifiLock.release()
             if (wakeLock.isHeld) wakeLock.release()
@@ -75,7 +65,7 @@ class WatchdogService @Inject constructor(
         // if the user is onboarded we will schedule period background jobs
         // in case the app was force stopped and woken up again by the Google WakeUpService
         if (onboardingSettings.isOnboarded) {
-            BackgroundWorkScheduler.startWorkScheduler()
+            backgroundWorkScheduler.startWorkScheduler()
         }
     }
 

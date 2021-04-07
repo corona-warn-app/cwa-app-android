@@ -42,7 +42,6 @@ class CheckInsTransformerTest : BaseTest() {
     private val checkIn1 = CheckIn(
         id = 1L,
         traceLocationId = "traceLocationId1".encode(),
-        traceLocationIdHash = "traceLocationIdHash1".encode(),
         version = 1,
         type = 1,
         description = "restaurant_1",
@@ -67,7 +66,6 @@ class CheckInsTransformerTest : BaseTest() {
     private val checkIn2 = CheckIn(
         id = 2L,
         traceLocationId = "traceLocationId2".encode(),
-        traceLocationIdHash = "traceLocationIdHash2".encode(),
         version = 1,
         type = 2,
         description = "restaurant_2",
@@ -87,7 +85,6 @@ class CheckInsTransformerTest : BaseTest() {
     private val checkIn3 = CheckIn(
         id = 3L,
         traceLocationId = "traceLocationId3".encode(),
-        traceLocationIdHash = "traceLocationIdHash3".encode(),
         version = 1,
         type = 3,
         description = "restaurant_3",

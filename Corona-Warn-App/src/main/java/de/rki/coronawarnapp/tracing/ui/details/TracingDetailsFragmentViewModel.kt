@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.AlreadyGiv
 import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.Needed
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
@@ -81,7 +80,7 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
         riskLevelResults,
         isBackgroundJobEnabled ->
 
-        val (latestCalc, _) = riskLevelResults.tryLatestResultsWithDefaults()
+        val latestCalc = riskLevelResults.lastCalculated
 
         val isRestartButtonEnabled = !isBackgroundJobEnabled || latestCalc.riskState == RiskState.CALCULATION_FAILED
 

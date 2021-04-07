@@ -37,7 +37,7 @@ class TraceLocationNotificationsTest : BaseTest() {
         }
     }
 
-    fun createInstance() = TraceLocationNotifications(
+    fun createInstance() = PresenceTracingNotifications(
         context = context,
         apiLevel = apiLevel,
         notificationManagerCompat = notificationManager

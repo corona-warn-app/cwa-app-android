@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
@@ -43,7 +42,7 @@ class TracingDetailsItemProvider @Inject constructor(
         riskLevelResults,
         availableSurveys ->
 
-        val (latestCalc, _) = riskLevelResults.tryLatestResultsWithDefaults()
+        val latestCalc = riskLevelResults.lastCalculated
 
         mutableListOf<DetailsItem>().apply {
             if (status != Status.TRACING_INACTIVE &&
