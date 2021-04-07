@@ -17,6 +17,7 @@ data class RiskEventItem(
 
     data class Event(
         val name: String,
+        val description: String,
         @ColorRes val bulledPointColor: Int,
         @StringRes val riskInfoAddition: Int? = null
     )

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.eventregistration.ui
+package de.rki.coronawarnapp.ui.print
 
 import android.os.Bundle
 import android.os.CancellationSignal
