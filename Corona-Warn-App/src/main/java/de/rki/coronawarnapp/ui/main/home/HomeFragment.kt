@@ -81,13 +81,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         vm.openTraceLocationOrganizerFlow.observe2(this) {
-            vm.wasQRInfoWasAcknowledged()
-            val nestedGraph = findNavController().graph.findNode(R.id.trace_location_organizer_nav_graph) as NavGraph
-
             if (vm.wasQRInfoWasAcknowledged()) {
+                val nestedGraph =
+                    findNavController().graph.findNode(R.id.trace_location_organizer_nav_graph) as NavGraph
                 nestedGraph.startDestination = R.id.traceLocationOrganizerListFragment
-            } else {
-                nestedGraph.startDestination = R.id.traceLocationOrganizerQRInfoFragment
             }
             doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
         }
