@@ -86,15 +86,14 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
         if (this == null) return emptyList()
 
         return this.revokedTraceWarningPackagesList.mapNotNull {
-            try {
-                RevokedKeyPackage.TraceWarning(
-                    etag = it.etag,
-                    region = LocationCode("DE"),
-                )
-            } catch (e: Exception) {
-                Timber.e(e, "Failed to parse revoked TraceWarning metadata: %s", it)
-                null
+            if (it.etag == null) {
+                Timber.e("TraceWarningPackageMeta data had no ETAG: %s", it)
+                return@mapNotNull null
             }
+            RevokedKeyPackage.TraceWarning(
+                etag = it.etag,
+                region = LocationCode("DE"),
+            )
         }
     }
 
