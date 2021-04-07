@@ -6,6 +6,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentConfirmCheckInBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
@@ -30,6 +31,11 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             factory.create(navArgs.verifiedTraceLocation)
         }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+    }
 
     private val binding: FragmentConfirmCheckInBinding by viewBindingLazy()
 
