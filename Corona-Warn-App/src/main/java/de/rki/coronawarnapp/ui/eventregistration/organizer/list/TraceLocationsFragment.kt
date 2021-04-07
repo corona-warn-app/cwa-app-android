@@ -111,7 +111,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                     findNavController().navigate(
                         CheckInsFragment.createCheckInUri(it.traceLocation.locationUrl),
                         NavOptions.Builder()
-                            .setPopUpTo(R.id.traceLocationOrganizerListFragment, true)
+                            .setPopUpTo(R.id.checkInsFragment, true)
                             .build()
                     )
                 }
