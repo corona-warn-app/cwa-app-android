@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.traceLocationCategories
+import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragmentArgs
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
@@ -81,22 +82,36 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                     showDeleteSingleDialog(it.traceLocation, it.position)
                 }
                 is TraceLocationEvent.StartQrCodeDetailFragment -> {
-                    doNavigate(
-                        TraceLocationsFragmentDirections.actionTraceLocationOrganizerListFragmentToQrCodeDetailFragment(
-                            traceLocationId = it.id,
-                        )
+
+                    val navigatorExtras = binding.recyclerView.findViewHolderForAdapterPosition(it.position)?.itemView
+                        ?.run {
+                            // Set it on the fly to avoid confusion of recycler's items
+                            this.transitionName = "trace_location_container_transition"
+                            FragmentNavigatorExtras(this to this.transitionName)
+                        }
+
+                    findNavController().navigate(
+                        R.id.action_traceLocationsFragment_to_qrCodeDetailFragment,
+                        QrCodeDetailFragmentArgs(traceLocationId = it.id).toBundle(),
+                        null,
+                        navigatorExtras
                     )
                 }
                 is TraceLocationEvent.DuplicateItem -> {
                     openCreateEventFragment(it.traceLocation)
                 }
+                is TraceLocationEvent.StartQrCodePosterFragment -> doNavigate(
+                    TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
+                        it.traceLocation.id
+                    )
+                )
             }
         }
 
         binding.qrCodeFab.apply {
             setOnClickListener {
                 findNavController().navigate(
-                    R.id.action_traceLocationOrganizerListFragment_to_traceLocationOrganizerCategoriesFragment,
+                    R.id.action_traceLocationsFragment_to_traceLocationCategoryFragment,
                     null,
                     null,
                     FragmentNavigatorExtras(this to transitionName)
@@ -116,7 +131,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             when (it.itemId) {
                 R.id.menu_information -> {
                     findNavController().navigate(
-                        R.id.action_traceLocationOrganizerListFragment_to_traceLocationOrganizerQRInfoFragment
+                        R.id.action_traceLocationOrganizerListFragment_to_traceLocationInfoFragment
                     )
                     true
                 }
@@ -149,11 +164,10 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             Timber.e("Category not found, traceLocation = $traceLocation")
         } else {
             findNavController().navigate(
-                TraceLocationsFragmentDirections
-                    .actionTraceLocationOrganizerListFragmentToTraceLocationCreateFragment(
-                        category,
-                        traceLocation
-                    )
+                TraceLocationsFragmentDirections.actionTraceLocationsFragmentToTraceLocationCreateFragment(
+                    category,
+                    traceLocation
+                )
             )
         }
     }
@@ -166,18 +180,10 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 viewModel.deleteSingleTraceLocation(traceLocation)
             }
             setNegativeButton(R.string.trace_location_organiser_list_delete_all_popup_negative_button) { _, _ ->
-                position?.let {
-                    traceLocationsAdapter.notifyItemChanged(
-                        position
-                    )
-                }
+                position?.let { traceLocationsAdapter.notifyItemChanged(position) }
             }
             setOnCancelListener {
-                position?.let {
-                    traceLocationsAdapter.notifyItemChanged(
-                        position
-                    )
-                }
+                position?.let { traceLocationsAdapter.notifyItemChanged(position) }
             }
         }.show()
     }
