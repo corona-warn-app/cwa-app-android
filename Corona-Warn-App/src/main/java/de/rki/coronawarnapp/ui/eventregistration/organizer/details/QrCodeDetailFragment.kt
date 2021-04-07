@@ -74,6 +74,8 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             qrCodePrintButton.setOnClickListener {
                 viewModel.onPrintQrCode()
             }
+
+            root.transitionName = navArgs.traceLocationId.toString()
         }
 
         viewModel.qrCodeBitmap.observe2(this) {
