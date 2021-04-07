@@ -92,7 +92,6 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         val traceLocation = verifiedTraceLocation.traceLocation
         return CheckIn(
             traceLocationId = traceLocation.locationId,
-            traceLocationIdHash = traceLocation.locationIdHash,
             version = traceLocation.version,
             type = traceLocation.type.number,
             description = traceLocation.description,

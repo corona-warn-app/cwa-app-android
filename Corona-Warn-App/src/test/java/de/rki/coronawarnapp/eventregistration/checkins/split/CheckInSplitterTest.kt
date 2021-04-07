@@ -16,7 +16,6 @@ class CheckInSplitterTest : BaseTest() {
     private val defaultCheckIn = CheckIn(
         id = 1L,
         traceLocationId = "traceLocationId1".encode(),
-        traceLocationIdHash = "traceLocationIdHash1".encode(),
         version = 1,
         type = 1,
         description = "Restaurant",

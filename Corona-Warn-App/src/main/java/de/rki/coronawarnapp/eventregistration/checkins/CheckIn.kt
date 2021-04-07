@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationId
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocationIdHash
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import okio.ByteString
-import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 
 @Suppress("LongParameterList")
 data class CheckIn(
     val id: Long = 0L,
-    val traceLocationId: ByteString = "TODO: calculate".encode(),
-    val traceLocationIdHash: ByteString = "TODO: calculate".encode(),
+    val traceLocationId: TraceLocationId,
     val version: Int,
     val type: Int,
     val description: String,
@@ -24,13 +24,18 @@ data class CheckIn(
     val completed: Boolean,
     val createJournalEntry: Boolean
 ) {
-    // val locationGuidHash: com.google.protobuf.ByteString by lazy { copyFromUtf8(guid.toSHA256()) }
+    /**
+     *  Returns SHA-256 hash of [traceLocationId] which itself may also be SHA-256 hash.
+     *  For privacy reasons TraceTimeIntervalWarnings only offer a hash of the actual locationId.
+     *
+     *  @see [de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation]
+     */
+    val traceLocationIdHash by lazy { traceLocationId.toTraceLocationIdHash() }
 }
 
 fun CheckIn.toEntity() = TraceLocationCheckInEntity(
     id = id,
     traceLocationIdBase64 = traceLocationId.base64(),
-    traceLocationIdHashBase64 = traceLocationIdHash.base64(),
     version = version,
     type = type,
     description = description,

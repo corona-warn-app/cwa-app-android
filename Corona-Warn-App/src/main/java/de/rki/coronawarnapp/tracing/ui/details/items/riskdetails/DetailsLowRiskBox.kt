@@ -50,6 +50,7 @@ class DetailsLowRiskBox(
     ) : RiskDetailsStateItem {
 
         fun getRiskDetailsRiskLevelBody(c: Context): String {
+            // TODO consider pt encounters?
             return c.getString(
                 if (matchedKeyCount > 0) R.string.risk_details_information_body_low_risk_with_encounter
                 else R.string.risk_details_information_body_low_risk

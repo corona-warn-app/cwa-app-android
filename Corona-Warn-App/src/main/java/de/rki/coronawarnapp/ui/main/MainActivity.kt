@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
     @Inject lateinit var submissionSettings: SubmissionSettings
+    @Inject lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -190,7 +191,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      */
     override fun onResume() {
         super.onResume()
-        scheduleWork()
+        backgroundWorkScheduler.startWorkScheduler()
         vm.doBackgroundNoiseCheck()
         contactDiaryWorkScheduler.schedulePeriodic()
         dataDonationAnalyticsScheduler.schedulePeriodic()
@@ -271,9 +272,4 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     fun goBack() {
         onBackPressed()
     }
-
-    /**
-     * Scheduling for a download of keys every hour.
-     */
-    private fun scheduleWork() = BackgroundWorkScheduler.startWorkScheduler()
 }

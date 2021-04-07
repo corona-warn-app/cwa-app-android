@@ -30,7 +30,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -63,6 +62,7 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var checkInsTransformer: CheckInsTransformer
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
 
     private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
 
@@ -80,9 +80,8 @@ class SubmissionTaskTest : BaseTest() {
         every { submissionSettings.registrationToken } returns registrationToken
         every { submissionSettings.isSubmissionSuccessful = any() } just Runs
 
-        mockkObject(BackgroundWorkScheduler)
-        every { BackgroundWorkScheduler.stopWorkScheduler() } just Runs
-        every { BackgroundWorkScheduler.startWorkScheduler() } just Runs
+        every { backgroundWorkScheduler.stopWorkScheduler() } just Runs
+        every { backgroundWorkScheduler.startWorkScheduler() } just Runs
 
         every { tekBatch.keys } returns listOf(tek)
         every { tekHistoryStorage.tekData } returns flowOf(listOf(tekBatch))
@@ -131,7 +130,8 @@ class SubmissionTaskTest : BaseTest() {
         testResultAvailableNotificationService = testResultAvailableNotificationService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         checkInsRepository = checkInRepository,
-        checkInsTransformer = checkInsTransformer
+        checkInsTransformer = checkInsTransformer,
+        backgroundWorkScheduler = backgroundWorkScheduler,
     )
 
     @Test
@@ -183,9 +183,9 @@ class SubmissionTaskTest : BaseTest() {
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
-            BackgroundWorkScheduler.stopWorkScheduler()
+            backgroundWorkScheduler.stopWorkScheduler()
             submissionSettings.isSubmissionSuccessful = true
-            BackgroundWorkScheduler.startWorkScheduler()
+            backgroundWorkScheduler.startWorkScheduler()
 
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
