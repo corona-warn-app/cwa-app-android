@@ -43,3 +43,7 @@ License: Apache-2.0
 Files: gradlew gradlew.bat
 Copyright: Copyright 2015 the original author or authors.
 License: Apache-2.0
+
+Files: Corona-Warn-App/libs/play-services-nearby-exposurenotification-18.0.3.aar
+Copyright: Copyright 2020 Google LLC
+License: Apache-2.0
