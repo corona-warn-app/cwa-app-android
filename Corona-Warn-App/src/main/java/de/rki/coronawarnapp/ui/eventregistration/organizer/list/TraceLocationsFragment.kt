@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsList
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragmentArgs
-import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.isSwipeable
