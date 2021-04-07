@@ -34,7 +34,10 @@ class TraceLocationsViewModel @AssistedInject constructor(
         }
         .combine(checkInsRepository.allCheckIns) { traceLocations, checkIns ->
             traceLocations.map { traceLocation ->
-                Pair(traceLocation, checkIns.firstOrNull { traceLocation.locationId == it.traceLocationId } == null)
+                Pair(
+                    traceLocation,
+                    checkIns.firstOrNull { traceLocation.locationId == it.traceLocationId && !it.completed} == null
+                )
             }
         }
         .map { traceLocations ->
