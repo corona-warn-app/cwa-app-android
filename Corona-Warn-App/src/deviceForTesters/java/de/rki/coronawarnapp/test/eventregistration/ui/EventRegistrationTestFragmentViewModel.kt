@@ -24,10 +24,11 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import kotlin.system.measureTimeMillis
 
 class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val traceLocationRepository: TraceLocationRepository,
+    traceLocationRepository: TraceLocationRepository,
     checkInRepository: CheckInRepository,
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
     private val taskController: TaskController,
@@ -56,15 +57,15 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
         presenceTracingWarningTaskResult.postValue("Running")
         taskRunTime.postValue(-1L)
 
-        val start = System.currentTimeMillis()
-        taskController.submitBlocking(
-            DefaultTaskRequest(
-                PresenceTracingWarningTask::class,
-                originTag = "EventRegistrationTestFragmentViewModel"
+        val duration = measureTimeMillis {
+            taskController.submitBlocking(
+                DefaultTaskRequest(
+                    PresenceTracingWarningTask::class,
+                    originTag = "EventRegistrationTestFragmentViewModel"
+                )
             )
-        )
-        val stop = System.currentTimeMillis()
-        taskRunTime.postValue(stop - start)
+        }
+        taskRunTime.postValue(duration)
 
         val warningPackages = traceWarningRepository.allMetaData.first()
         val overlaps = presenceTracingRiskRepository.checkInWarningOverlaps.first()
