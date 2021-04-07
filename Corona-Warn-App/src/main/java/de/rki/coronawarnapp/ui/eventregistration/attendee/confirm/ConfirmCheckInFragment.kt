@@ -34,7 +34,9 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     private val binding: FragmentConfirmCheckInBinding by viewBindingLazy()

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -26,7 +27,9 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +45,7 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                 checkInOnboardingToolbar.apply {
                     navigationIcon = context.getDrawableCompat(R.drawable.ic_close)
                     navigationContentDescription = getString(R.string.accessibility_close)
-                    setNavigationOnClickListener { viewModel.onBackButtonPress() }
+                    setNavigationOnClickListener { popBackStack() }
                 }
             }
         }

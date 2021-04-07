@@ -89,7 +89,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     private fun onNavigationEvent(event: CheckInEvent?) {
         when (event) {
             is CheckInEvent.ConfirmCheckIn -> {
-                exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+                setupAxisTransition()
                 doNavigate(
                     CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
                         verifiedTraceLocation = event.verifiedTraceLocation
@@ -104,7 +104,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             is CheckInEvent.ConfirmRemoveAll -> showRemovalConfirmation(null, null)
 
             is CheckInEvent.EditCheckIn -> {
-                exitTransition = Hold()
+                setupHoldTransition()
                 val navigatorExtras = binding.checkInsList.layoutManager
                     ?.findViewByPosition(event.position)?.run {
                         FragmentNavigatorExtras(this to transitionName)
@@ -118,7 +118,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             }
 
             is CheckInEvent.ShowInformation -> {
-                exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+                setupAxisTransition()
                 doNavigate(CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false))
             }
             is CheckInEvent.OpenDeviceSettings -> openDeviceSettings()
@@ -151,7 +151,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     private fun bindFAB() {
         binding.scanCheckinQrcodeFab.apply {
             setOnClickListener {
-                exitTransition = Hold()
+                setupHoldTransition()
                 findNavController().navigate(
                     R.id.action_checkInsFragment_to_scanCheckInQrCodeFragment,
                     null,
@@ -160,6 +160,16 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 )
             }
         }
+    }
+
+    private fun setupHoldTransition() {
+        exitTransition = Hold()
+        reenterTransition = Hold()
+    }
+
+    private fun setupAxisTransition() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     private fun bindRecycler() {
