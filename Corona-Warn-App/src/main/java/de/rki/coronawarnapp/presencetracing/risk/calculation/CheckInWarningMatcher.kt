@@ -27,11 +27,11 @@ class CheckInWarningMatcher @Inject constructor(
     ): Result {
         val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
 
-        val matchLists: List<List<MatchesPerPackage>?> = createMatchingLaunchers(
+        val matchLists: List<List<MatchesPerPackage>?> = runMatchingLaunchers(
             splitCheckIns,
             warningPackages,
             dispatcherProvider.IO
-        ).awaitAll()
+        )
 
         val successful = if (matchLists.contains(null)) {
             Timber.e("Calculation partially failed.")
@@ -53,11 +53,11 @@ class CheckInWarningMatcher @Inject constructor(
     )
 
     @VisibleForTesting(otherwise = PRIVATE)
-    internal suspend fun createMatchingLaunchers(
+    internal suspend fun runMatchingLaunchers(
         checkIns: List<CheckIn>,
         warningPackages: List<TraceWarningPackage>,
         coroutineContext: CoroutineContext
-    ): List<Deferred<List<MatchesPerPackage>?>> {
+    ): List<List<MatchesPerPackage>?> {
 
         val launcher: CoroutineScope.(
             List<CheckIn>,
@@ -84,7 +84,7 @@ class CheckInWarningMatcher @Inject constructor(
             withContext(context = coroutineContext) {
                 launcher(checkIns, packageChunk)
             }
-        }
+        }.awaitAll()
     }
 
     data class MatchesPerPackage(
