@@ -59,7 +59,7 @@ class QrCodePosterTemplateServer @Inject constructor(
 
             exportBinary
         } catch (exception: Exception) {
-            Timber.e(exception, "Response is not successful, trying to load template from cache")
+            Timber.d(exception, "Response is not successful, trying to load template from cache")
             defaultTemplateSource.getDefaultQrCodePosterTemplate()
         }
     }
