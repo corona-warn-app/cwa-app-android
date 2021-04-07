@@ -48,7 +48,8 @@ class AutoCheckOut @Inject constructor(
             }
             .distinctUntilChanged()
             .onEach {
-                Timber.tag(TAG).i("Check-in was added or removed, refreshing alarm.")
+                Timber.tag(TAG).i("Check-ins changed, checking for overdue items, refreshing alarm.")
+                processOverDueCheckouts()
                 refreshAlarm()
             }
             .launchIn(appScope)
@@ -93,7 +94,7 @@ class AutoCheckOut @Inject constructor(
             val nowUTC = timeStamper.nowUTC
             val snapshot = repository.allCheckIns.firstOrNull() ?: emptyList()
             snapshot
-                .filter { !it.completed && nowUTC.isAfter(it.checkInEnd) }
+                .filter { !it.completed && (nowUTC.isAfter(it.checkInEnd) || nowUTC.isEqual(it.checkInEnd)) }
                 .sortedBy { it.checkInEnd }
         }.also {
             Timber.tag(TAG).d("${it.size} checkins are overdue for auto checkout: %s", it)
