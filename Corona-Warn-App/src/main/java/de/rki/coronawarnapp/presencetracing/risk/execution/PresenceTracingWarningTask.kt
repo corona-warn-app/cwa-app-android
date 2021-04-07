@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -96,10 +97,18 @@ class PresenceTracingWarningTask @Inject constructor(
         )
         Timber.tag(TAG).i("Check-in matcher result: %s", matcherResult)
 
+        val overlaps = matcherResult.processedPackages.map { it.overlaps }.flatten()
+        val overlapsDistinct = overlaps.distinct()
+        if (overlaps.size != overlapsDistinct.size) {
+            IllegalArgumentException("Matched overlaps are not distinct").also {
+                it.reportProblem(TAG, "CheckInWarningMatcher results are not distinct.")
+            }
+        }
+
         // Partial processing: if calculation was not successful, but some packages were processed, we still save them
         presenceTracingRiskRepository.reportCalculation(
             successful = matcherResult.successful,
-            overlaps = matcherResult.processedPackages.map { it.overlaps }.flatten(),
+            overlaps = overlapsDistinct,
         )
 
         // markPackagesProcessed only after reportCalculation, if there is an exception, then we can process again.

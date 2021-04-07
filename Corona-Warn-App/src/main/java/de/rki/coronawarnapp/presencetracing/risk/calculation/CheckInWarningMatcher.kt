@@ -65,12 +65,10 @@ class CheckInWarningMatcher @Inject constructor(
         ) -> Deferred<List<MatchesPerPackage>?> = { list, packageChunk ->
             async {
                 try {
-                    packageChunk.flatMap {
-                        findMatches(list, it)
-                        packageChunk.map { warningPackage ->
-                            val overlaps = findMatches(list, warningPackage)
-                            MatchesPerPackage(warningPackage = it, overlaps = overlaps)
-                        }
+                    packageChunk.map {
+                        val overlaps = findMatches(list, it)
+                        Timber.d("%d overlaps for %s", overlaps.size, it.packageId)
+                        MatchesPerPackage(warningPackage = it, overlaps = overlaps)
                     }
                 } catch (e: Throwable) {
                     Timber.e(e, "Failed to process packages $packageChunk")
