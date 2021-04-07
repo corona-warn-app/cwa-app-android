@@ -109,7 +109,7 @@ internal suspend fun findMatches(
                         if (overlap == null) {
                             Timber.v("No match found for $checkIn and $warning")
                         } else {
-                            Timber.i("Overlap was found $overlap")
+                            Timber.w("Overlap was found $overlap")
                         }
                     }
                 }
@@ -121,10 +121,7 @@ internal fun CheckIn.calculateOverlap(
     warning: TraceWarning.TraceTimeIntervalWarning,
     traceWarningPackageId: String
 ): CheckInWarningOverlap? {
-
     if (warning.locationIdHash.toOkioByteString() != traceLocationIdHash) return null
-
-    Timber.i("traceLocationIdHash match for %s", traceLocationIdHash)
 
     val warningStartMillis = warning.startIntervalNumber.tenMinIntervalToMillis()
     val warningEndMillis = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
@@ -133,7 +130,10 @@ internal fun CheckIn.calculateOverlap(
     val overlapEndMillis = kotlin.math.min(checkInEnd.millis, warningEndMillis)
     val overlapMillis = overlapEndMillis - overlapStartMillis
 
-    if (overlapMillis <= 0) return null
+    if (overlapMillis <= 0) {
+        Timber.i("No overlap (%dms) with match %s (%s)", overlapMillis, description, traceLocationIdHash)
+        return null
+    }
 
     return CheckInWarningOverlap(
         checkInId = id,
