@@ -71,7 +71,9 @@ class PresenceTracingWarningTask @Inject constructor(
         Timber.tag(TAG).d("There are %d check-ins to match against.", checkIns.size)
 
         if (checkIns.isEmpty()) {
-            Timber.tag(TAG).i("No check-ins available. We are done.")
+            Timber.tag(TAG).i("No check-ins available. Deleting all matches.")
+            presenceTracingRiskRepository.deleteAllMatches()
+
             presenceTracingRiskRepository.reportCalculation(successful = true)
 
             return Result(calculatedAt = nowUTC)
