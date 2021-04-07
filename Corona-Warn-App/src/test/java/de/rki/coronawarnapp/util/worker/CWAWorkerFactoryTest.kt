@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import androidx.work.impl.workers.DiagnosticsWorker
-import de.rki.coronawarnapp.worker.DiagnosisKeyRetrievalOneTimeWorker
+import de.rki.coronawarnapp.diagnosiskeys.execution.DiagnosisKeyRetrievalWorker
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
@@ -22,15 +22,15 @@ class CWAWorkerFactoryTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var workerParameters: WorkerParameters
-    @MockK lateinit var ourWorker: DiagnosisKeyRetrievalOneTimeWorker
-    @MockK lateinit var ourFactory: DiagnosisKeyRetrievalOneTimeWorker.Factory
+    @MockK lateinit var ourWorker: DiagnosisKeyRetrievalWorker
+    @MockK lateinit var ourFactory: DiagnosisKeyRetrievalWorker.Factory
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { ourFactory.create(context, workerParameters) } returns ourWorker
-        workerFactories[DiagnosisKeyRetrievalOneTimeWorker::class.java] = Provider { ourFactory }
+        workerFactories[DiagnosisKeyRetrievalWorker::class.java] = Provider { ourFactory }
     }
 
     fun createInstance() = CWAWorkerFactory(
@@ -42,7 +42,7 @@ class CWAWorkerFactoryTest : BaseTest() {
         val instance = createInstance()
         instance.createWorker(
             context,
-            DiagnosisKeyRetrievalOneTimeWorker::class.qualifiedName!!,
+            DiagnosisKeyRetrievalWorker::class.qualifiedName!!,
             workerParameters
         ) shouldBe ourWorker
     }
@@ -54,5 +54,21 @@ class CWAWorkerFactoryTest : BaseTest() {
         worker1 shouldNotBe null
         val worker2 = instance.createWorker(context, DiagnosticsWorker::class.qualifiedName!!, workerParameters)
         worker1 shouldNotBe worker2
+    }
+
+    /**
+     * Workers are initialized based on their class name.
+     * That class name is stored as part of the worker arguments.
+     * If we refactor a worker, the previously used classname will be unknown.
+     * Returning null will cause the periodic worker to be dequeued.
+     */
+    @Test
+    fun `class names that can not be instantiated are treated like an unknown worker`() {
+        val instance = createInstance()
+        instance.createWorker(
+            context,
+            "abc.im.a.ghost.def",
+            workerParameters
+        ) shouldBe null
     }
 }

@@ -12,7 +12,6 @@ class CheckInTransmissionRiskLevelTest : BaseTest() {
     private val checkIn = CheckIn(
         id = 1L,
         traceLocationId = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
-        traceLocationIdHash = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
         version = 1,
         type = 2,
         description = "restaurant_1",
