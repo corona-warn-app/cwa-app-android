@@ -7,13 +7,16 @@ interface TraceLocationRepository {
 
     /**
      * Returns all stored trace locations
+     *
+     * Attention: this could also include trace locations that are older than
+     * the retention period. Therefore, you should probably use [traceLocationsWithinRetention]
      */
     val allTraceLocations: Flow<List<TraceLocation>>
 
     /**
      * Returns trace locations that are within the retention period. Even though we have a worker that deletes all stale
-     * trace locations it's still possible to have stale check-ins in the database because the worker only runs once a
-     * day.
+     * trace locations it's still possible to have stale trace-locations in the database because the worker only runs
+     * once a day.
      */
     val traceLocationsWithinRetention: Flow<List<TraceLocation>>
 

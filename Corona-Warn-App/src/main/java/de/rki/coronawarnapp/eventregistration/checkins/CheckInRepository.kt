@@ -28,6 +28,9 @@ class CheckInRepository @Inject constructor(
 
     /**
      * Returns all stored check-ins
+     *
+     * Attention: this could also include check-ins that are older than
+     * the retention period. Therefore, you should probably use [checkInsWithinRetention]
      */
     val allCheckIns: Flow<List<CheckIn>> = checkInDao
         .allEntries()

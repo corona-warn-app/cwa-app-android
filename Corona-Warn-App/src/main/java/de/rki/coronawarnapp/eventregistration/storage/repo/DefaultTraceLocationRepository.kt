@@ -39,9 +39,20 @@ class DefaultTraceLocationRepository @Inject constructor(
         return checkIn.toTraceLocation()
     }
 
+    /**
+     * Returns all stored trace locations
+     *
+     * Attention: this could also include trace locations that are older than
+     * the retention period. Therefore, you should probably use [traceLocationsWithinRetention]
+     */
     override val allTraceLocations: Flow<List<TraceLocation>>
         get() = traceLocationDao.allEntries().map { it.toTraceLocations() }
 
+    /**
+     * Returns trace locations that are within the retention period. Even though we have a worker that deletes all stale
+     * trace locations it's still possible to have stale trace-locations in the database because the worker only runs
+     * once a day.
+     */
     override val traceLocationsWithinRetention: Flow<List<TraceLocation>>
         get() = allTraceLocations.map { traceLocationList ->
             val now = timeStamper.nowUTC
