@@ -16,7 +16,7 @@ import testhelpers.EmptyApplication
 
 @Config(sdk = [Build.VERSION_CODES.P], application = EmptyApplication::class)
 @RunWith(RobolectricTestRunner::class)
-class DefaultQrCodePosterTemplateSanityCheck : BaseTest() {
+class DefaultQrCodePosterTemplateTest : BaseTest() {
 
     private val templateName = "default_qr_code_poster_template_android.bin"
     private val checkSumName = "default_qr_code_poster_template_android.sha256"
