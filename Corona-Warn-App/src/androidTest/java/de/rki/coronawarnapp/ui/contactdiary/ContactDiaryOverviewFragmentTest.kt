@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.TimeStamper
@@ -47,6 +48,7 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var exporter: ContactDiaryExporter
+    @MockK lateinit var checkInRepository: CheckInRepository
 
     private lateinit var viewModel: ContactDiaryOverviewViewModel
 
@@ -63,6 +65,7 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
                 contactDiaryRepository = contactDiaryRepository,
                 riskLevelStorage = riskLevelStorage,
                 timeStamper = timeStamper,
+                checkInRepository = checkInRepository,
                 exporter = exporter
             )
         )
