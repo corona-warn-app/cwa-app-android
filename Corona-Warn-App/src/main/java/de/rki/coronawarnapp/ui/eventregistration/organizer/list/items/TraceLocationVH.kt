@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.list.items
 
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsItemBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
@@ -63,7 +63,7 @@ class TraceLocationVH(parent: ViewGroup) :
             }
         }
 
-        checkinAction.isInvisible = !item.canCheckIn
+        checkinAction.isVisible = item.canCheckIn
         checkinAction.setOnClickListener { item.onCheckIn(item.traceLocation) }
         itemView.setOnClickListener { item.onCardClicked(item.traceLocation, adapterPosition) }
     }
