@@ -20,7 +20,7 @@ import testhelpers.EmptyApplication
 
 @Config(sdk = [Build.VERSION_CODES.P], application = EmptyApplication::class)
 @RunWith(RobolectricTestRunner::class)
-class DefaultAppConfigSanityCheck : BaseTest() {
+class DefaultAppConfigTest : BaseTest() {
 
     private val configName = "default_app_config_android.bin"
     private val checkSumName = "default_app_config_android.sha256"
