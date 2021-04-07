@@ -1971,7 +1971,7 @@
     <!-- XMIT: Trace location poster print -->
     <string name="trace_location_organiser_poster_print">"Drucken"</string>
     <!-- XMIT: Trace location poster share -->
-    <string name="trace_location_organiser_poster_share">"Share"</string>
+    <string name="trace_location_organiser_poster_share">"Teilen"</string>
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Druckversion"</string>
 </resources>
