@@ -73,7 +73,7 @@ class PresenceTracingWarningTask @Inject constructor(
 
         presenceTracingRiskRepository.deleteStaleData()
 
-        val checkIns = checkInsRepository.allCheckIns.firstOrNull() ?: emptyList()
+        val checkIns = checkInsRepository.checkInsWithinRetention.firstOrNull() ?: emptyList()
         Timber.tag(TAG).d("There are %d check-ins to match against.", checkIns.size)
 
         if (checkIns.isEmpty()) {

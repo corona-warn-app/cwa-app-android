@@ -41,7 +41,7 @@ class TraceWarningPackageSyncTool @Inject constructor(
     internal suspend fun syncPackagesForLocation(location: LocationCode): SyncResult {
         Timber.tag(TAG).d("syncTraceWarningPackages(location=%s)", location)
 
-        val oldestCheckIn = checkInRepository.allCheckIns.first().minByOrNull { it.checkInStart }.also {
+        val oldestCheckIn = checkInRepository.checkInsWithinRetention.first().minByOrNull { it.checkInStart }.also {
             Timber.tag(TAG).d("Our oldest check-in is %s", it)
         }
 

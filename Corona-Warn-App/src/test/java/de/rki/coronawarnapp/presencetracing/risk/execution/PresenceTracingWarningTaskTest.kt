@@ -64,7 +64,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             coEvery { markPackagesProcessed(any()) } just Runs
         }
 
-        coEvery { checkInsRepository.allCheckIns } returns flowOf(listOf(CHECKIN_1, CHECKIN_2))
+        coEvery { checkInsRepository.checkInsWithinRetention } returns flowOf(listOf(CHECKIN_1, CHECKIN_2))
 
         presenceTracingRiskRepository.apply {
             coEvery { deleteAllMatches() } just Runs
@@ -89,7 +89,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coVerifySequence {
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
-            checkInsRepository.allCheckIns
+            checkInsRepository.checkInsWithinRetention
             traceWarningRepository.unprocessedWarningPackages
 
             checkInWarningMatcher.process(any(), any())
@@ -120,14 +120,14 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
     @Test
     fun `there are no check-ins to match against`() = runBlockingTest {
-        coEvery { checkInsRepository.allCheckIns } returns flowOf(emptyList())
+        coEvery { checkInsRepository.checkInsWithinRetention } returns flowOf(emptyList())
 
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
-            checkInsRepository.allCheckIns
+            checkInsRepository.checkInsWithinRetention
 
             presenceTracingRiskRepository.deleteAllMatches()
             presenceTracingRiskRepository.reportCalculation(successful = true)
@@ -143,7 +143,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coVerifySequence {
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
-            checkInsRepository.allCheckIns
+            checkInsRepository.checkInsWithinRetention
             traceWarningRepository.unprocessedWarningPackages
 
             presenceTracingRiskRepository.reportCalculation(successful = true)
@@ -180,7 +180,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coVerifySequence {
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
-            checkInsRepository.allCheckIns
+            checkInsRepository.checkInsWithinRetention
             traceWarningRepository.unprocessedWarningPackages
 
             checkInWarningMatcher.process(any(), any())

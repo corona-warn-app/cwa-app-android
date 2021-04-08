@@ -223,7 +223,6 @@
                     style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:layout_marginTop="@dimen/spacing_tiny">
 
@@ -233,6 +232,17 @@
                         android:layout_height="wrap_content"
                         android:text="@string/edit_checkin_duration_edit_hint_card_text" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/edit_checkin_wrong_input_warning"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/edit_checkin_wrong_input_warning_text"
+                    android:textColor="@color/colorTextSemanticRed"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
