@@ -18,7 +18,7 @@
             android:layout_marginEnd="@dimen/spacing_small"
             android:accessibilityHeading="true"
             android:focusable="false"
-            android:text="@string/ag_homescreen_card_pcr_title"
+            android:text="@string/ag_homescreen_card_rapidtest_title"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:focusable="false"
-            android:text="@string/ag_homescreen_card_status_result_available"
+            android:text="@string/ag_homescreen_card_rapidtest_status_outdated_test"
             android:textColor="@color/colorTextSemanticNeutral"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/spacing_small"
             android:focusable="false"
-            android:text="@string/ag_homescreen_card_body_result_available"
+            android:text="@string/ag_homescreen_card_rapidtest_body_outdated_test"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subtitle" />
@@ -56,10 +56,11 @@
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/title"
-            app:srcCompat="@drawable/ic_main_illustration_invalid" />
+            app:srcCompat="@drawable/ic_test_result_illustration_outdated_card" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/button_barrier"
@@ -77,12 +78,12 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="@dimen/card_padding"
             android:layout_marginBottom="@dimen/card_padding"
-            android:text="@string/submission_status_card_button_show_results"
+            android:text="@string/ag_homescreen_card_rapidtest_dont_show_anymore_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_barrier" />
-
+            app:layout_constraintTop_toBottomOf="@+id/button_barrier" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

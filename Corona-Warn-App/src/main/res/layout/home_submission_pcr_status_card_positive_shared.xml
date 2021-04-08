@@ -83,7 +83,7 @@
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginBottom="32dp"
             android:focusable="false"
-            android:text="@string/ag_homescreen_card_body_result_date"
+            android:text="@string/ag_homescreen_card_pcr_body_result_date"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/body" />
@@ -158,7 +158,7 @@
             android:focusable="false"
             android:importantForAccessibility="no"
             android:padding="10dp"
-            android:src="@drawable/ic_submission_home"
+            android:src="@drawable/ic_submission_home_cards"
             app:layout_constraintEnd_toStartOf="@id/contagious_subtitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_subtitle"

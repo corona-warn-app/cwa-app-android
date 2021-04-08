@@ -8,8 +8,6 @@
     <string name="ag_homescreen_card_test_register_title">"Test registrieren"</string>
     <!-- XTXT: Register test homescreen card: body -->
     <string name="ag_homescreen_card_test_register_body">"Nutzen Sie die App, um Ihre Testergebnisse abrufen und schneller warnen zu können."</string>
-    <!-- XBUT: Register test homescreen card: button -->
-    <string name="ag_homescreen_card_test_register_button">"Nächste Schritte"</string>
 
     <!-- ####################################
         Homescreen cards - common buttons
@@ -52,10 +50,6 @@
     <string name="ag_homescreen_card_body_result_negative">"Das Virus SARS-CoV-2 wurde bei Ihnen nicht nachgewiesen."</string>
     <!-- XTXT: homescreen card: body - positive -->
     <string name="ag_homescreen_card_body_result_positive">"Das Virus SARS-CoV-2 wurde bei Ihnen nachgewiesen."</string>
-    <!-- XTXT: homescreen card: body - negative -->
-    <string name="ag_homescreen_card_body_result_date">"Durchgeführt am %1$s"</string>
-
-
 
     <!-- ####################################
         Homescreen cards - rapid test
@@ -72,16 +66,10 @@
     <!-- Body -->
     <!-- XTXT: rapid test homescreen card: body - no result -->
     <string name="ag_homescreen_card_rapidtest_body_no_result">"Die Auswertung Ihres Schnelltests ist noch nicht abgeschlossen."</string>
-    <!-- XTXT: rapid test homescreen card: body - result available -->
-<!--    <string name="ag_homescreen_card_rapidtest_body_result_available">"Warnen Sie Ihre Mitmenschen, wenn Sie positiv auf Corona getestet wurden."</string>-->
-    <!-- XTXT: rapid test homescreen card: body - error -->
-<!--    <string name="ag_homescreen_card_rapidtest_body_error">"Ihr Test konnte nicht ausgewertet werden."</string>-->
     <!-- XTXT: rapid test homescreen card: body - outdated test -->
     <string name="ag_homescreen_card_rapidtest_body_outdated_test">"Ihr Schnelltest ist älter als 48 Stunden und wird hier nicht mehr angezeigt. Der Eintrag im Kontakt-Tagebuch bleibt erhalten."</string>
-    <!-- XTXT: rapid test homescreen card: body - result negative -->
-    <string name="ag_homescreen_card_rapidtest_body_result_negative">"Das Virus SARS-CoV-2 wurde bei Ihnen nicht nachgewiesen."</string>
-    <!-- XTXT: rapid test homescreen card: body - result positive -->
-    <string name="ag_homescreen_card_rapidtest_body_result_positive">"Das Virus SARS-CoV-2 wurde bei Ihnen nachgewiesen."</string>
+    <!-- XTXT: homescreen card: body - negative -->
+    <string name="ag_homescreen_card_rapid_body_result_date">"Durchgeführt am %1$s"</string>
 
     <!-- ####################################
         Homescreen cards - PCR
@@ -94,15 +82,7 @@
     <!-- Body -->
     <!-- XTXT: PCR homescreen card: body - no result -->
     <string name="ag_homescreen_card_pcr_body_no_result">"Die Auswertung Ihres PCR-Tests ist noch nicht abgeschlossen."</string>
-    <!-- XTXT: PCR homescreen card: body - result available TODO: attention here -> possible duplication - check with ag_homescreen_card_rapidtest_body_result_available -->
-<!--    <string name="ag_homescreen_card_pcr_body_result_available">"Warnen Sie Ihre Mitmenschen, wenn Sie positiv auf Corona getestet wurden."</string>-->
-    <!-- XTXT: PCR homescreen card: body - error TODO: attention here -> possible duplication - check with ag_homescreen_card_rapidtest_body_error -->
-<!--    <string name="ag_homescreen_card_pcr_body_error">"Ihr Test konnte nicht ausgewertet werden."</string>-->
-    <!-- XTXT: PCR homescreen card: body - not valid test -->
-    <string name="ag_homescreen_card_pcr_body_not_valid_test">"Ihr Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neuen Test hinzufügen. "</string>
-    <!-- XTXT: PCR homescreen card: body - result negative -->
-    <string name="ag_homescreen_card_pcr_body_result_negative">"Das Virus SARS-CoV-2 wurde bei Ihnen nicht nachgewiesen."</string>
-    <!-- XTXT: PCR homescreen card: body - result positive -->
-    <string name="ag_homescreen_card_pcr_body_result_positive">"Das Virus SARS-CoV-2 wurde bei Ihnen nachgewiesen."</string>
+    <!-- XTXT: homescreen card: body - negative -->
+    <string name="ag_homescreen_card_pcr_body_result_date">"Test registriert am %1$s"</string>
 
 </resources>

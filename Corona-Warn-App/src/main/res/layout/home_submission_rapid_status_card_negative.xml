@@ -18,7 +18,7 @@
             android:layout_marginEnd="@dimen/spacing_small"
             android:accessibilityHeading="true"
             android:focusable="false"
-            android:text="@string/ag_homescreen_card_pcr_title"
+            android:text="@string/ag_homescreen_card_rapidtest_title"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -89,7 +89,7 @@
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginBottom="32dp"
             android:focusable="false"
-            android:text="@string/ag_homescreen_card_pcr_body_result_date"
+            android:text="@string/ag_homescreen_card_rapid_body_result_date"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
