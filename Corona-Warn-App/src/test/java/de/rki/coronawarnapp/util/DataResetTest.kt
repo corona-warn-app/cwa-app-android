@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.OnboardingSettings
@@ -52,6 +53,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var traceLocationRepository: TraceLocationRepository
+    @MockK lateinit var traceWarningRepository: TraceWarningRepository
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
 
@@ -82,7 +84,8 @@ internal class DataResetTest : BaseTest() {
         submissionSettings = submissionSettings,
         traceLocationRepository = traceLocationRepository,
         checkInRepository = checkInRepository,
-        traceLocationSettings = traceLocationSettings
+        traceLocationSettings = traceLocationSettings,
+        traceWarningRepository = traceWarningRepository
     )
 
     @Test
@@ -112,7 +115,7 @@ internal class DataResetTest : BaseTest() {
         coVerify(exactly = 1) { statisticsProvider.clear() }
 
         coVerify(exactly = 1) { bugReportingSettings.clear() }
-
+        coVerify(exactly = 1) { traceWarningRepository.clear() }
         coVerify(exactly = 1) { traceLocationRepository.deleteAllTraceLocations() }
         coVerify(exactly = 1) { checkInRepository.clear() }
     }
