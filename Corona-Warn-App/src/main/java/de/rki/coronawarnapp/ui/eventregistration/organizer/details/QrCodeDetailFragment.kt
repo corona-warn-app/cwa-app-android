@@ -8,12 +8,15 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragmentBinding
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -22,6 +25,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -74,14 +78,9 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             qrCodePrintButton.setOnClickListener {
                 viewModel.onPrintQrCode()
             }
-        }
 
-        viewModel.qrCodeBitmap.observe2(this) {
-            binding.progressBar.hide()
-            binding.qrCodeImage.apply {
-                val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
-                resourceId.cornerRadius = it.width * 0.1f
-                setImageDrawable(resourceId)
+            qrCodeCloneButton.setOnClickListener {
+                viewModel.duplicateTraceLocation()
             }
         }
 
@@ -89,8 +88,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             when (it) {
                 QrCodeDetailNavigationEvents.NavigateBack -> popBackStack()
 
-                QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> { /* TODO */
-                }
+                is QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> openCreateEventFragment(it.traceLocation)
 
                 is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> doNavigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
@@ -128,6 +126,15 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 } else {
                     eventDate.isGone = true
                 }
+
+                uiState.bitmap?.let {
+                    binding.progressBar.hide()
+                    binding.qrCodeImage.apply {
+                        val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
+                        resourceId.cornerRadius = it.width * 0.1f
+                        setImageDrawable(resourceId)
+                    }
+                }
             }
         }
     }
@@ -144,6 +151,20 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
         behavior.overlayTop = ((width) / 2) - 24
+    }
+
+    private fun openCreateEventFragment(traceLocation: TraceLocation) {
+        val category = traceLocationCategories.find { it.type == traceLocation.type }
+        if (category == null) {
+            Timber.e("Category not found, traceLocation = $traceLocation")
+        } else {
+            findNavController().navigate(
+                QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToTraceLocationCreateFragment(
+                    category,
+                    traceLocation
+                )
+            )
+        }
     }
 
     override fun onResume() {
