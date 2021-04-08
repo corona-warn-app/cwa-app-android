@@ -37,8 +37,15 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
 
-        val checkinDuration = Duration(checkInStartUserTZ, Instant.now())
-        highlightDuration.text = highlightDurationForamtter.print(checkinDuration.toPeriod())
+        highlightDuration.text = kotlin.run {
+            val currentDuration = Duration(checkInStartUserTZ, Instant.now())
+            val saneDuration = if (currentDuration.isShorterThan(Duration.ZERO)) {
+                Duration.ZERO
+            } else {
+                currentDuration
+            }
+            highlightDurationForamtter.print(saneDuration.toPeriod())
+        }
 
         description.text = curItem.checkin.description
         address.text = curItem.checkin.address

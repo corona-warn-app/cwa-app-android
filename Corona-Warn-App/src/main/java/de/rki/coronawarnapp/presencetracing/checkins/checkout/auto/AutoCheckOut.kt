@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.sync.Mutex
@@ -40,15 +39,10 @@ class AutoCheckOut @Inject constructor(
     fun setupMonitor() {
         repository.allCheckIns
             .onStart { Timber.tag(TAG).v("Monitoring check-ins.") }
-            .map { checkins ->
-                Timber.tag(TAG).v("CheckIns changed")
-                val completed = checkins.filter { it.completed }.map { it.id }
-                val notCompleted = checkins.filter { !it.completed }.map { it.id }
-                completed to notCompleted
-            }
             .distinctUntilChanged()
             .onEach {
-                Timber.tag(TAG).i("Check-in was added or removed, refreshing alarm.")
+                Timber.tag(TAG).i("Check-ins changed, checking for overdue items, refreshing alarm.")
+                processOverDueCheckouts()
                 refreshAlarm()
             }
             .launchIn(appScope)
@@ -93,7 +87,7 @@ class AutoCheckOut @Inject constructor(
             val nowUTC = timeStamper.nowUTC
             val snapshot = repository.allCheckIns.firstOrNull() ?: emptyList()
             snapshot
-                .filter { !it.completed && nowUTC.isAfter(it.checkInEnd) }
+                .filter { !it.completed && (nowUTC.isAfter(it.checkInEnd) || nowUTC.isEqual(it.checkInEnd)) }
                 .sortedBy { it.checkInEnd }
         }.also {
             Timber.tag(TAG).d("${it.size} checkins are overdue for auto checkout: %s", it)

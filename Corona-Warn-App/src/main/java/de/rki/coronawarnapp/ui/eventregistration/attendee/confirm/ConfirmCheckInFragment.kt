@@ -59,7 +59,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
                 viewModel.createJournalEntryToggled(isChecked)
             }
 
-            confirmCheckinSettingsCardCheckoutTime.setOnClickListener {
+            confirmCheckinSettingsCardCheckoutTimeRow.setOnClickListener {
                 viewModel.dateSelectorClicked()
             }
 
