@@ -104,12 +104,16 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                     setupAxisTransition()
                     openCreateEventFragment(it.traceLocation)
                 }
-                is TraceLocationEvent.StartQrCodePosterFragment -> doNavigate(
+                is TraceLocationEvent.StartQrCodePosterFragment -> {
                     setupAxisTransition()
-                    TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
-                        it.traceLocation.id
+                    doNavigate(
+
+                        TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
+                            it.traceLocation.id
+                        )
                     )
-                )
+                }
+
                 is TraceLocationEvent.SelfCheckIn -> {
                     findNavController().navigate(
                         CheckInsFragment.createCheckInUri(it.traceLocation.locationUrl),
