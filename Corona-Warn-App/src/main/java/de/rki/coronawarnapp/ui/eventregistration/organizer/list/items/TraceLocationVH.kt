@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.list.items
 
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsItemBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
@@ -62,6 +63,7 @@ class TraceLocationVH(parent: ViewGroup) :
             }
         }
 
+        checkinAction.isVisible = item.canCheckIn
         checkinAction.setOnClickListener { item.onCheckIn(item.traceLocation) }
         itemView.apply {
             setOnClickListener { item.onCardClicked(item.traceLocation, adapterPosition) }
@@ -71,6 +73,7 @@ class TraceLocationVH(parent: ViewGroup) :
 
     data class Item(
         val traceLocation: TraceLocation,
+        val canCheckIn: Boolean,
         val onCheckIn: (TraceLocation) -> Unit,
         val onDuplicate: (TraceLocation) -> Unit,
         val onShowPrint: (TraceLocation) -> Unit,
