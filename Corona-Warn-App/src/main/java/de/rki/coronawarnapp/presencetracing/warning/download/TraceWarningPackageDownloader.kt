@@ -18,6 +18,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import org.joda.time.Duration
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 @Reusable
@@ -32,9 +33,7 @@ class TraceWarningPackageDownloader @Inject constructor(
         val successful: Boolean,
         val newPackages: Collection<TraceWarningPackageMetadata>
     ) {
-        override fun toString(): String {
-            return "DownloadResult(successful=$successful, newPackages.size=${newPackages.size})"
-        }
+        override fun toString(): String = "DownloadResult(successful=$successful, newPackages.size=${newPackages.size})"
     }
 
     suspend fun launchDownloads(
@@ -42,6 +41,8 @@ class TraceWarningPackageDownloader @Inject constructor(
         hourIntervals: List<HourInterval>,
         downloadTimeout: Duration
     ): DownloadResult {
+        Timber.tag(TAG).d("Launching %d downloads ($location): %s", hourIntervals.size, hourIntervals)
+
         val launcher: CoroutineScope.(HourInterval) -> Deferred<TraceWarningPackageMetadata?> = { hourInterval ->
             async {
                 val metadata = repository.createMetadata(location, hourInterval)
@@ -50,8 +51,6 @@ class TraceWarningPackageDownloader @Inject constructor(
                 }
             }
         }
-
-        Timber.tag(TAG).d("Launching %d downloads.", hourIntervals.size)
 
         val launchedDownloads: Collection<Deferred<TraceWarningPackageMetadata?>> =
             hourIntervals.map { warningPackageId ->
@@ -81,12 +80,17 @@ class TraceWarningPackageDownloader @Inject constructor(
             hourInterval = metaData.hourInterval
         )
 
+        val saveTo = repository.getPathForMetaData(metaData)
+
         if (!downloadInfo.isEmptyPkg) {
             val fileMap = downloadInfo.readBody().unzip().readIntoMap()
             val rawProtoBuf = getValidatedBinary(metaData, fileMap)
-            writeProtoBufToFile(metaData, rawProtoBuf)
+            writeProtoBufToFile(metaData, rawProtoBuf, saveTo)
         } else {
             Timber.tag(TAG).v("Empty package for %s", metaData)
+            if (saveTo.exists() && saveTo.delete()) {
+                Timber.tag(TAG).w("Download file exists for a package that should be empty, deleting: %s", saveTo)
+            }
         }
 
         Timber.tag(TAG).v("Download finished: %s -> %s", metaData, downloadInfo)
@@ -102,13 +106,13 @@ class TraceWarningPackageDownloader @Inject constructor(
     private fun writeProtoBufToFile(
         metaData: TraceWarningPackageMetadata,
         rawProtoBuf: ByteArray,
+        saveTo: File,
     ) {
         if (rawProtoBuf.isEmpty()) {
             Timber.tag(TAG).d("rawProtoBuf was empty for  %s", metaData.packageId)
             return
         }
 
-        val saveTo = repository.getPathForMetaData(metaData)
         if (saveTo.exists()) {
             Timber.tag(TAG).w("File existed, overwriting: %s", saveTo)
             if (saveTo.delete()) {
