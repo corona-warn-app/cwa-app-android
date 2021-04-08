@@ -60,7 +60,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     private val riskLevelPerDateFlow = riskLevelStorage.ewDayRiskStates
     private val traceLocationCheckInRiskFlow = riskLevelStorage.traceLocationCheckInRiskStates
-    private val allCheckInsFlow = checkInRepository.allCheckIns
+    private val checkInsWithinRetentionFlow = checkInRepository.checkInsWithinRetention
 
     val listItems = combine(
         flowOf(dates),
@@ -68,7 +68,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         personEncountersFlow,
         riskLevelPerDateFlow,
         traceLocationCheckInRiskFlow,
-        allCheckInsFlow
+        checkInsWithinRetentionFlow
     ) { dateList, locationVisists, personEncounters, riskLevelPerDateList, traceLocationCheckInRiskList, checkInList ->
         mutableListOf<DiaryOverviewItem>().apply {
             add(OverviewSubHeaderItem)
