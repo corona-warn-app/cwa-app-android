@@ -46,7 +46,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(9000)
-        coEvery { syncTool.syncPackages() } returns mockk()
+        coEvery { syncTool.syncPackages() } returns TraceWarningPackageSyncTool.SyncResult(successful = true)
         coEvery { checkInWarningMatcher.process(any(), any()) } answers {
             CheckInWarningMatcher.Result(
                 successful = true,
@@ -147,6 +147,26 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             traceWarningRepository.unprocessedWarningPackages
 
             presenceTracingRiskRepository.reportCalculation(successful = true)
+        }
+    }
+
+    @Test
+    fun `report failure if downloads fail`() = runBlockingTest {
+        coEvery { syncTool.syncPackages() } returns TraceWarningPackageSyncTool.SyncResult(successful = false)
+
+        createInstance().run(mockk()) shouldNotBe null
+
+        coVerifySequence {
+            syncTool.syncPackages()
+
+            presenceTracingRiskRepository.reportCalculation(
+                successful = false,
+                overlaps = emptyList()
+            )
+        }
+
+        coVerify(exactly = 0) {
+            traceWarningRepository.markPackagesProcessed(any())
         }
     }
 
