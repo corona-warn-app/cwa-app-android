@@ -7,12 +7,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragmentArgs
 import de.rki.coronawarnapp.util.DialogHelper
@@ -105,6 +107,14 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                         it.traceLocation.id
                     )
                 )
+                is TraceLocationEvent.SelfCheckIn -> {
+                    findNavController().navigate(
+                        CheckInsFragment.createCheckInUri(it.traceLocation.locationUrl),
+                        NavOptions.Builder()
+                            .setPopUpTo(R.id.checkInsFragment, true)
+                            .build()
+                    )
+                }
             }
         }
 
