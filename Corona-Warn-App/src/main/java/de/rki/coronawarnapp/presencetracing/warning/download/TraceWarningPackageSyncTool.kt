@@ -167,7 +167,10 @@ class TraceWarningPackageSyncTool @Inject constructor(
     data class SyncResult(
         val successful: Boolean,
         val newPackages: Collection<TraceWarningPackageMetadata> = emptyList()
-    )
+    ) {
+        override fun toString(): String =
+            "SyncResult(successful=$successful, newPackages=${newPackages.joinToString(",") { it.packageId }})"
+    }
 
     companion object {
         private const val TAG = "TraceWarningSyncTool"
