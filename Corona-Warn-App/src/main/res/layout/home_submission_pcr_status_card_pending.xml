@@ -14,11 +14,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/card_padding"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="@dimen/spacing_small"
             android:accessibilityHeading="true"
             android:focusable="false"
-            android:text="@string/submission_status_card_title_available"
+            android:text="@string/ag_homescreen_card_pcr_title"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,14 +29,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
             android:focusable="false"
-            android:text="@string/submission_status_card_subtitle_invalid"
+            android:text="@string/ag_homescreen_card_status_no_result"
             android:textColor="@color/colorTextSemanticNeutral"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
         <TextView
             android:id="@+id/body"
@@ -44,10 +44,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/spacing_small"
             android:focusable="false"
-            android:text="@string/submission_status_card_body_invalid"
+            android:text="@string/ag_homescreen_card_pcr_body_no_result"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subtitle" />
@@ -59,7 +59,7 @@
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/title"
-            app:srcCompat="@drawable/ic_main_illustration_invalid" />
+            app:srcCompat="@drawable/ic_main_illustration_pending" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/button_barrier"
@@ -74,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="@dimen/card_padding"
             android:layout_marginBottom="@dimen/card_padding"
             android:text="@string/submission_status_card_button_show_results"
@@ -82,7 +82,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_barrier" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

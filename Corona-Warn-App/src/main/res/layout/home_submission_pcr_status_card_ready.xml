@@ -14,11 +14,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/card_padding"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="@dimen/spacing_small"
             android:accessibilityHeading="true"
             android:focusable="false"
-            android:text="@string/submission_status_card_title_available"
+            android:text="@string/ag_homescreen_card_pcr_title"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,14 +29,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
             android:focusable="false"
-            android:text="@string/submission_status_card_subtitle_negative"
-            android:textColor="@color/colorTextSemanticGreen"
+            android:text="@string/ag_homescreen_card_status_result_available"
+            android:textColor="@color/colorTextSemanticNeutral"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
         <TextView
             android:id="@+id/body"
@@ -44,10 +44,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/spacing_small"
             android:focusable="false"
-            android:text="@string/submission_status_card_body_negative"
+            android:text="@string/ag_homescreen_card_body_result_available"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subtitle" />
@@ -56,10 +56,10 @@
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_main_illustration_negative"
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/title" />
+            app:layout_constraintTop_toTopOf="@id/title"
+            app:srcCompat="@drawable/ic_main_illustration_invalid" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/button_barrier"
@@ -74,14 +74,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="@dimen/card_padding"
             android:layout_marginBottom="@dimen/card_padding"
-            android:text="@string/submission_status_card_button_show_results"
+            android:text="@string/submission_status_card_retrieve_test_result"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_barrier" />
+            app:layout_constraintTop_toBottomOf="@id/button_barrier" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
