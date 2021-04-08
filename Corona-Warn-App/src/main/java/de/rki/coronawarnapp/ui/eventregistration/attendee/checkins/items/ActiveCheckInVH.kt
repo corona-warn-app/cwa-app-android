@@ -78,10 +78,16 @@ class ActiveCheckInVH(parent: ViewGroup) :
         }
 
         checkoutAction.setOnClickListener { curItem.onCheckout(curItem.checkin) }
+
+        itemView.apply {
+            setOnClickListener { curItem.onCardClicked(curItem.checkin, adapterPosition) }
+            transitionName = item.checkin.id.toString()
+        }
     }
 
     data class Item(
         val checkin: CheckIn,
+        val onCardClicked: (CheckIn, Int) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit,
         val onCheckout: (CheckIn) -> Unit,
         val onSwipeItem: (CheckIn, Int) -> Unit,
