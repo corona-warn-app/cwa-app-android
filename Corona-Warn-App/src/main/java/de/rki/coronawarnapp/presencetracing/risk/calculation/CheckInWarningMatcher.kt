@@ -25,6 +25,8 @@ class CheckInWarningMatcher @Inject constructor(
         checkIns: List<CheckIn>,
         warningPackages: List<TraceWarningPackage>
     ): Result {
+        Timber.tag(TAG).d("Processing ${checkIns.size} checkins and ${warningPackages.size} warning pkgs.")
+
         val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
 
         val matchLists: List<List<MatchesPerPackage>?> = runMatchingLaunchers(
@@ -34,13 +36,12 @@ class CheckInWarningMatcher @Inject constructor(
         )
 
         val successful = if (matchLists.contains(null)) {
-            Timber.e("Calculation partially failed.")
+            Timber.tag(TAG).e("Calculation partially failed: %s", matchLists)
             false
         } else {
-            Timber.d("Matching was successful.")
+            Timber.tag(TAG).d("Matching was successful.")
             true
         }
-
         return Result(
             successful = successful,
             processedPackages = matchLists.filterNotNull().flatten()
@@ -67,11 +68,11 @@ class CheckInWarningMatcher @Inject constructor(
                 try {
                     packageChunk.map {
                         val overlaps = findMatches(list, it)
-                        Timber.d("%d overlaps for %s", overlaps.size, it.packageId)
+                        Timber.tag(TAG).d("%d overlaps for %s", overlaps.size, it.packageId)
                         MatchesPerPackage(warningPackage = it, overlaps = overlaps)
                     }
                 } catch (e: Throwable) {
-                    Timber.e(e, "Failed to process packages $packageChunk")
+                    Timber.tag(TAG).e(e, "Failed to process packages $packageChunk")
                     null
                 }
             }
@@ -105,9 +106,9 @@ internal suspend fun findMatches(
                 .mapNotNull { checkIn ->
                     checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
                         if (overlap == null) {
-                            Timber.v("No match found for $checkIn and $warning")
+                            Timber.tag(TAG).v("No match found for $checkIn and $warning")
                         } else {
-                            Timber.w("Overlap was found $overlap")
+                            Timber.tag(TAG).w("Overlap was found $overlap")
                         }
                     }
                 }
@@ -129,7 +130,7 @@ internal fun CheckIn.calculateOverlap(
     val overlapMillis = overlapEndMillis - overlapStartMillis
 
     if (overlapMillis <= 0) {
-        Timber.i("No overlap (%dms) with match %s (%s)", overlapMillis, description, traceLocationIdHash)
+        Timber.tag(TAG).i("Match without overlap (%dms) (%s, %s)", overlapMillis, description, traceLocationIdHash)
         return null
     }
 
@@ -141,3 +142,5 @@ internal fun CheckIn.calculateOverlap(
         endTime = Instant.ofEpochMilli(overlapEndMillis)
     )
 }
+
+private const val TAG = "CheckInWarningMatcher"
