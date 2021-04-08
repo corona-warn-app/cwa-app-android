@@ -1,14 +1,16 @@
 package de.rki.coronawarnapp.presencetracing.checkins.checkout
 
-import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.runs
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
@@ -20,7 +22,7 @@ class CheckOutHandlerTest : BaseTest() {
 
     @MockK lateinit var repository: CheckInRepository
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var diaryRepository: ContactDiaryRepository
+    @MockK lateinit var contactJournalEntryCreator: ContactJournalEntryCreator
 
     private val testCheckIn = CheckIn(
         id = 42L,
@@ -52,12 +54,14 @@ class CheckOutHandlerTest : BaseTest() {
             val callback: (CheckIn) -> CheckIn = arg(1)
             updatedCheckIn = callback(testCheckIn)
         }
+
+        coEvery { contactJournalEntryCreator.createEntry(any()) } just runs
     }
 
     private fun createInstance() = CheckOutHandler(
         repository = repository,
         timeStamper = timeStamper,
-        diaryRepository = diaryRepository,
+        contactJournalEntryCreator = contactJournalEntryCreator
     )
 
     @Test
@@ -68,7 +72,11 @@ class CheckOutHandlerTest : BaseTest() {
             checkInEnd = nowUTC,
             completed = true
         )
-        // TODO journal creation
+
+        coVerify(exactly = 1) {
+            contactJournalEntryCreator.createEntry(any())
+        }
+
         // TODO cancel auto checkouts
     }
 }
