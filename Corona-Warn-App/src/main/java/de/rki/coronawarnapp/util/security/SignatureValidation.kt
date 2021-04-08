@@ -26,7 +26,7 @@ class SignatureValidation @Inject constructor(
 
     // Public keys within this server environment
     private val publicKeys by lazy {
-        environmentSetup.appConfigVerificationKey.split(KEY_DELIMITER)
+        environmentSetup.appConfigPublicKey.split(KEY_DELIMITER)
             .mapNotNull { pubKeyBase64 -> Base64.decode(pubKeyBase64, Base64.DEFAULT) }
             .map { pubKeyBinary -> keyFactory.generatePublic(X509EncodedKeySpec(pubKeyBinary)) }
             .onEach { Timber.tag(TAG).v("ENV PubKey: %s", it) }

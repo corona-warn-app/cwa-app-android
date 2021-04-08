@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
-import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.eventregistration.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
@@ -14,6 +13,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toProtoByteString
 import org.joda.time.Days
 import org.joda.time.Instant
 import timber.log.Timber
@@ -88,7 +88,7 @@ class CheckInsTransformer @Inject constructor(
         }
 
         return CheckInOuterClass.CheckIn.newBuilder()
-            // .locationId = TODO: Set calculated trace location
+            .setLocationId(traceLocationId.toProtoByteString())
             .setStartIntervalNumber(checkInStart.derive10MinutesInterval().toInt())
             .setEndIntervalNumber(checkInEnd.derive10MinutesInterval().toInt())
             .setTransmissionRiskLevel(transmissionRiskLevel)
@@ -107,5 +107,3 @@ fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: Transmis
     val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
     return transmissionVector.raw.getOrElse(ageInDays) { 1 } // Default value
 }
-
-private fun okio.ByteString.toProtoByteString() = ByteString.copyFrom(toByteArray())

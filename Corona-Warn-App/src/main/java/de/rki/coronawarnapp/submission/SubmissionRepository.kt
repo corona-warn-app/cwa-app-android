@@ -40,7 +40,8 @@ class SubmissionRepository @Inject constructor(
     private val backgroundNoise: BackgroundNoise,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val tracingSettings: TracingSettings,
-    private val testResultDataCollector: TestResultDataCollector
+    private val testResultDataCollector: TestResultDataCollector,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) {
     private val testResultReceivedDateFlowInternal =
         MutableStateFlow((submissionSettings.initialTestResultReceivedAt ?: timeStamper.nowUTC).toDate())
@@ -192,7 +193,7 @@ class SubmissionRepository @Inject constructor(
             submissionSettings.initialTestResultReceivedAt = currentTime
             testResultReceivedDateFlowInternal.value = currentTime.toDate()
             if (testResult == TestResult.PENDING) {
-                BackgroundWorkScheduler.startWorkScheduler()
+                backgroundWorkScheduler.startWorkScheduler()
             }
         } else {
             testResultReceivedDateFlowInternal.value = initialTestResultReceivedTimestamp.toDate()

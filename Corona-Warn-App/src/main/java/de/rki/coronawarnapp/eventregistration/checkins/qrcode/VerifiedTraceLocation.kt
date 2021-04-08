@@ -7,12 +7,6 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
-import okio.Buffer
-import okio.ByteString
-import okio.ByteString.Companion.encode
-import okio.ByteString.Companion.toByteString
-import org.joda.time.Instant
-import java.util.concurrent.TimeUnit
 
 @Parcelize
 @TypeParceler<TraceLocationOuterClass.TraceLocation, TraceLocationParceler>()
@@ -20,42 +14,7 @@ import java.util.concurrent.TimeUnit
 data class VerifiedTraceLocation(
     private val protoQrCodePayload: TraceLocationOuterClass.QRCodePayload
 ) : Parcelable {
-
-    @IgnoredOnParcel private val vendorData by lazy {
-        TraceLocationOuterClass.CWALocationData.parseFrom(protoQrCodePayload.vendorData)
-    }
-
-    @IgnoredOnParcel val traceLocation: TraceLocation by lazy {
-
-        TraceLocation(
-            version = protoQrCodePayload.version,
-            type = vendorData.type,
-            description = protoQrCodePayload.locationData.description,
-            address = protoQrCodePayload.locationData.address,
-            startDate = protoQrCodePayload.locationData.startTimestamp.toInstant(),
-            endDate = protoQrCodePayload.locationData.endTimestamp.toInstant(),
-            defaultCheckInLengthInMinutes = vendorData.defaultCheckInLengthInMinutes,
-            cryptographicSeed = protoQrCodePayload.crowdNotifierData.cryptographicSeed.toByteArray().toByteString(),
-            cnPublicKey = protoQrCodePayload.crowdNotifierData.publicKey.toStringUtf8()
-        )
-    }
-
-    @IgnoredOnParcel private val traceLocationHeader: ByteString by lazy {
-        "CWA-GUID".encode(Charsets.UTF_8)
-    }
-
-    @IgnoredOnParcel val traceLocationID: ByteString by lazy {
-        Buffer()
-            .write(traceLocationHeader)
-            .write(protoQrCodePayload.toByteArray())
-            .readByteString()
-    }
-
-    /**
-     * Converts time in seconds into [Instant]
-     */
-    private fun Long.toInstant() =
-        if (this == 0L) null else Instant.ofEpochMilli(TimeUnit.SECONDS.toMillis(this))
+    @IgnoredOnParcel val traceLocation: TraceLocation = protoQrCodePayload.traceLocation()
 }
 
 private object TraceLocationParceler : Parceler<TraceLocationOuterClass.TraceLocation> {

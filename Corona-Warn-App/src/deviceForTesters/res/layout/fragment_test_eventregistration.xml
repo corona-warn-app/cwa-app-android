@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroller"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="HardcodedText">
@@ -11,49 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <LinearLayout
-            style="@style/Card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="QRCode Creation, Poster Template download, PDF creation/printing/sharing" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/testQrCodeCreation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:text="QR Code and Poster Creation" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/Card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_tiny"
-            android:layout_marginBottom="@dimen/spacing_tiny"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="QRCode scanning" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/scanCheckInQrCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:text="Scan check in QR code" />
-
-        </LinearLayout>
 
         <LinearLayout
             style="@style/Card"
@@ -68,31 +25,30 @@
                 android:text="Download, matching &amp; risk calculation" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/downloadReportedCheckIns"
+                android:id="@+id/reset_processed_warning_packages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:text="download check-ins" />
+                android:text="Reset processed packages" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/runMatcher"
+                android:id="@+id/run_pt_warning_task"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="Run matcher" />
+                android:text="Run task (download+matching)" />
 
             <TextView
-                android:id="@+id/matchingRuntimeText"
+                android:id="@+id/task_run_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="Matching runtime:" />
 
             <TextView
-                android:id="@+id/matchingResultText"
+                android:id="@+id/tracing_warning_task_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:text="Matching result:" />
 
             <com.google.android.material.button.MaterialButton
@@ -113,72 +69,103 @@
                 android:id="@+id/riskCalculationResultText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:text="Risk calculation result:" />
 
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/event_container"
+        <LinearLayout
+            android:id="@+id/lastOrganiserLocationCard"
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_marginHorizontal="@dimen/spacing_tiny"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/event_title"
                 style="@style/headline6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="Events"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/events_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:text="After creating an event in the app, it is sent to the server and returned together with a guid and a signature."
+                android:text="Last organiser location" />
+
+            <TextView
+                android:id="@+id/lastOrganiserLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_title" />
+                tools:text="Location" />
+
+            <TextView
+                android:id="@+id/lastOrganiserLocationUrl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:autoLink="web"
+                android:textIsSelectable="true"
+                tools:text="URL" />
+
+            <TextView
+                android:id="@+id/lastOrganiserLocationId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textIsSelectable="true"
+                tools:text="ID" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/create_event_button"
-                android:layout_width="0dp"
+                android:id="@+id/qrcode_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="Create Event"
-                app:layout_constraintEnd_toStartOf="@+id/show_events_button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/events_body" />
+                android:layout_gravity="center"
+                android:text="Qr Code"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/colorAccent"
+                app:icon="@drawable/ic_qrcode"
+                app:iconTint="@android:color/white" />
+        </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/show_events_button"
-                android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/lastAttendeeLocationCard"
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_tiny"
+            android:layout_marginTop="10dp"
+
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/headline6"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Show stored Events"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/create_event_button"
-                app:layout_constraintTop_toBottomOf="@id/events_body" />
+                android:text="Last attendee location" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/generate_test_trace_locations"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/lastAttendeeLocation"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Generate test trace locations"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/show_events_button"
-                app:layout_constraintTop_toBottomOf="@id/show_events_button" />
+                android:layout_margin="10dp"
+                android:textIsSelectable="true"
+                tools:text="Location" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/lastAttendeeLocationUrl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:autoLink="web"
+                android:textIsSelectable="true"
+                tools:text="URL" />
+
+            <TextView
+                android:id="@+id/lastAttendeeLocationId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textIsSelectable="true"
+                tools:text="ID" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -63,11 +63,10 @@ class EnvironmentSetupTest : BaseTest() {
                 downloadCdnUrl shouldBe "https://download-${env.rawKey}"
                 submissionCdnUrl shouldBe "https://submission-${env.rawKey}"
                 verificationCdnUrl shouldBe "https://verification-${env.rawKey}"
-                appConfigVerificationKey shouldBe "12345678-${env.rawKey}"
+                appConfigPublicKey shouldBe "12345678-${env.rawKey}"
                 safetyNetApiKey shouldBe "placeholder-${env.rawKey}"
                 dataDonationCdnUrl shouldBe "https://datadonation-${env.rawKey}"
                 logUploadServerUrl shouldBe "https://logupload-${env.rawKey}"
-                qrCodePosterTemplateCdnUrl shouldBe "https://qrcodepostertemplate-${env.rawKey}"
                 crowdNotifierPublicKey shouldBe "123_abc-${env.rawKey}"
             }
         }
@@ -115,8 +114,9 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.Type.WRU.rawKey shouldBe "WRU"
         EnvironmentSetup.Type.WRU_XA.rawKey shouldBe "WRU-XA"
         EnvironmentSetup.Type.WRU_XD.rawKey shouldBe "WRU-XD"
+        EnvironmentSetup.Type.TESTER_MOCK.rawKey shouldBe "TESTER-MOCK"
         EnvironmentSetup.Type.LOCAL.rawKey shouldBe "LOCAL"
-        EnvironmentSetup.Type.values().size shouldBe 7
+        EnvironmentSetup.Type.values().size shouldBe 8
 
         EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS.rawKey shouldBe "USE_EUR_KEY_PKGS"
         EnvironmentSetup.EnvKey.SUBMISSION.rawKey shouldBe "SUBMISSION_CDN_URL"
@@ -126,9 +126,8 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.EnvKey.DATA_DONATION.rawKey shouldBe "DATA_DONATION_CDN_URL"
         EnvironmentSetup.EnvKey.LOG_UPLOAD.rawKey shouldBe "LOG_UPLOAD_SERVER_URL"
         EnvironmentSetup.EnvKey.SAFETYNET_API_KEY.rawKey shouldBe "SAFETYNET_API_KEY"
-        EnvironmentSetup.EnvKey.QRCODE_POSTER_TEMPLATE.rawKey shouldBe "QRCODE_POSTER_TEMPLATE_URL"
         EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY.rawKey shouldBe "CROWD_NOTIFIER_PUBLIC_KEY"
-        EnvironmentSetup.EnvKey.values().size shouldBe 10
+        EnvironmentSetup.EnvKey.values().size shouldBe 9
     }
 
     companion object {
@@ -137,6 +136,7 @@ class EnvironmentSetupTest : BaseTest() {
             EnvironmentSetup.Type.PRODUCTION,
             EnvironmentSetup.Type.WRU_XD,
             EnvironmentSetup.Type.WRU_XA,
+            EnvironmentSetup.Type.TESTER_MOCK,
             EnvironmentSetup.Type.LOCAL
         )
         private const val GOOD_JSON =
@@ -149,7 +149,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-PROD",
                     "DATA_DONATION_CDN_URL": "https://datadonation-PROD",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-PROD",
-                    "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-PROD",
                     "SAFETYNET_API_KEY": "placeholder-PROD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-PROD",
                     "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-PROD"                    
@@ -161,7 +160,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-DEV",
                     "DATA_DONATION_CDN_URL": "https://datadonation-DEV",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-DEV",
-                    "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-DEV",
                     "SAFETYNET_API_KEY": "placeholder-DEV",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-DEV",
                     "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-DEV"
@@ -173,7 +171,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-INT",
                     "DATA_DONATION_CDN_URL": "https://datadonation-INT",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-INT",
-                    "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-INT",
                     "SAFETYNET_API_KEY": "placeholder-INT",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT",
                     "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-INT"
@@ -185,7 +182,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-WRU",
                     "DATA_DONATION_CDN_URL": "https://datadonation-WRU",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU",
-                    "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-WRU",
                     "SAFETYNET_API_KEY": "placeholder-WRU",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU",
                     "CREATE_TRACELOCATION_URL": "https://tracelocation-WRU",
@@ -198,7 +194,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-WRU-XD",
                     "DATA_DONATION_CDN_URL": "https://datadonation-WRU-XD",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU-XD",
-                    "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-WRU-XD",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XD",
                     "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU-XD"
@@ -210,10 +205,20 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-WRU-XA",
                     "DATA_DONATION_CDN_URL": "https://datadonation-WRU-XA",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU-XA",
-                    "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-WRU-XA",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XA",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XA",
                     "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU-XA"
+                },
+                "TESTER-MOCK": {
+                    "USE_EUR_KEY_PKGS" : true,
+                    "SUBMISSION_CDN_URL": "https://submission-TESTER-MOCK",
+                    "DOWNLOAD_CDN_URL": "https://download-TESTER-MOCK",
+                    "VERIFICATION_CDN_URL": "https://verification-TESTER-MOCK",
+                    "DATA_DONATION_CDN_URL": "https://datadonation-TESTER-MOCK",
+                    "LOG_UPLOAD_SERVER_URL": "https://logupload-TESTER-MOCK",
+                    "SAFETYNET_API_KEY": "placeholder-TESTER-MOCK",
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-TESTER-MOCK",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-TESTER-MOCK"
                 },
                 "LOCAL": {
                     "USE_EUR_KEY_PKGS" : true,
@@ -222,7 +227,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-LOCAL",
                     "DATA_DONATION_CDN_URL": "https://datadonation-LOCAL",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-LOCAL",
-                    "QRCODE_POSTER_TEMPLATE_URL": "https://qrcodepostertemplate-LOCAL",
                     "SAFETYNET_API_KEY": "placeholder-LOCAL",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-LOCAL",
                     "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-LOCAL"
