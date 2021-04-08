@@ -177,6 +177,7 @@
                         android:id="@+id/settings_tracing_status_bluetooth"
                         gone="@{!settingsTracingState.isBluetoothCardVisible()}"
                         layout="@layout/include_tracing_status_card"
+                        android:layout_marginBottom="@dimen/spacing_small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:body="@{@string/settings_tracing_status_bluetooth_body}"
@@ -213,7 +214,6 @@
                     <TextView
                         android:id="@id/risk_details_period_logged_body_notice"
                         style="@style/subtitle"
-                        gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
@@ -226,7 +226,6 @@
                     <TextView
                         android:id="@+id/risk_details_period_logged_days"
                         style="@style/subtitle"
-                        gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
