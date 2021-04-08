@@ -46,12 +46,15 @@ class PastCheckInVH(parent: ViewGroup) :
             }
         }
 
-        itemView.setOnClickListener { curItem.onCardClicked(curItem.checkin) }
+        itemView.apply {
+            setOnClickListener { curItem.onCardClicked(curItem.checkin, adapterPosition) }
+            transitionName = item.checkin.id.toString()
+        }
     }
 
     data class Item(
         val checkin: CheckIn,
-        val onCardClicked: (CheckIn) -> Unit,
+        val onCardClicked: (CheckIn, Int) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit,
         val onSwipeItem: (CheckIn, Int) -> Unit,
     ) : CheckInsItem, HasPayloadDiffer, SwipeConsumer {

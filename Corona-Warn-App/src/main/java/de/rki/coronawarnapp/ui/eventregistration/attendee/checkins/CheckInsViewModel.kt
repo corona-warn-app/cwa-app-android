@@ -105,6 +105,9 @@ class CheckInsViewModel @AssistedInject constructor(
             when {
                 !checkin.completed -> ActiveCheckInVH.Item(
                     checkin = checkin,
+                    onCardClicked = { checkIn, position ->
+                        events.postValue(CheckInEvent.EditCheckIn(checkIn.id, position))
+                    },
                     onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) },
                     onCheckout = { doCheckOutNow(it) },
                     onSwipeItem = { checkIn, position ->
@@ -113,7 +116,9 @@ class CheckInsViewModel @AssistedInject constructor(
                 )
                 else -> PastCheckInVH.Item(
                     checkin = checkin,
-                    onCardClicked = { events.postValue(CheckInEvent.EditCheckIn(it.id)) },
+                    onCardClicked = { checkIn, position ->
+                        events.postValue(CheckInEvent.EditCheckIn(checkIn.id, position))
+                    },
                     onRemoveItem = { events.postValue(CheckInEvent.ConfirmRemoveItem(it)) },
                     onSwipeItem = { checkIn, position ->
                         events.postValue(CheckInEvent.ConfirmSwipeItem(checkIn, position))
