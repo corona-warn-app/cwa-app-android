@@ -55,6 +55,8 @@ class ContactJournalEntryCreatorTest : BaseTest() {
         every { contactDiaryRepo.locations } returns flowOf(emptyList())
 
         coEvery { contactDiaryRepo.addLocationVisit(any()) } just runs
+
+        coEvery { contactDiaryRepo.addLocation(any()) } returns testLocation
     }
 
     private fun createInstance() = ContactJournalEntryCreator(
@@ -80,6 +82,28 @@ class ContactJournalEntryCreatorTest : BaseTest() {
         coVerify(exactly = 0) {
             contactDiaryRepo.locations
             contactDiaryRepo.addLocationVisit(any())
+        }
+    }
+
+    @Test
+    fun `Creates location if missing`() = runBlockingTest {
+        every { contactDiaryRepo.locations } returns flowOf(emptyList()) andThen flowOf(listOf(testLocation))
+
+        // Repo returns an empty list for the first call, so location is missing and a new location should be created and added
+        val instance = createInstance()
+        instance.createEntry(testCheckIn)
+
+        coVerify(exactly = 1) {
+            contactDiaryRepo.addLocation(any())
+        }
+
+        // Location with trace location id already exists, so that location will be used
+        instance.createEntry(testCheckIn)
+        instance.createEntry(testCheckIn)
+        instance.createEntry(testCheckIn)
+
+        coVerify(exactly = 1) {
+            contactDiaryRepo.addLocation(any())
         }
     }
 }
