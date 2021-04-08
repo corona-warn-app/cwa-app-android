@@ -39,6 +39,13 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
     private val binding: TraceLocationOrganizerTraceLocationsListFragmentBinding by viewBindingLazy()
     private val traceLocationsAdapter = TraceLocationsAdapter()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupMenu(binding.toolbar)
