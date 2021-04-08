@@ -70,7 +70,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { contactDiaryRepository.personEncounters } returns flowOf(emptyList())
         every { riskLevelStorage.ewDayRiskStates } returns flowOf(emptyList())
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(emptyList())
-        every { checkInRepository.allCheckIns } returns flowOf(emptyList())
+        every { checkInRepository.checkInsWithinRetention } returns flowOf(emptyList())
 
         mockStringsForContactDiaryExporterTests(context)
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(dateMillis)
@@ -362,7 +362,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { riskLevelStorage.ewDayRiskStates } returns flowOf(listOf(aggregatedRiskPerDateResultLowRisk))
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(listOf(traceLocationCheckInRiskHigh))
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationEventHighRiskVisit))
-        every { checkInRepository.allCheckIns } returns flowOf(listOf(checkInHigh))
+        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkInHigh))
 
         var item = createInstance().listItems.getOrAwaitValue().first {
             it is DayOverviewItem && it.date == date
@@ -385,7 +385,7 @@ open class ContactDiaryOverviewViewModelTest {
         )
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(listOf(traceLocationCheckInRiskLow))
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationEventLowRiskVisit))
-        every { checkInRepository.allCheckIns } returns flowOf(listOf(checkInLow))
+        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkInLow))
 
         item = createInstance().listItems.getOrAwaitValue().first {
             it is DayOverviewItem && it.date == date
@@ -415,7 +415,7 @@ open class ContactDiaryOverviewViewModelTest {
     fun `low risk event by attending event with low risk`() {
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationEventLowRiskVisit))
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(listOf(traceLocationCheckInRiskLow))
-        every { checkInRepository.allCheckIns } returns flowOf(listOf(checkInLow))
+        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkInLow))
 
         val item = createInstance().listItems.getOrAwaitValue().first {
             it is DayOverviewItem && it.date == date
@@ -437,7 +437,7 @@ open class ContactDiaryOverviewViewModelTest {
     fun `high risk event by attending event with high risk`() {
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationEventHighRiskVisit))
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(listOf(traceLocationCheckInRiskHigh))
-        every { checkInRepository.allCheckIns } returns flowOf(listOf(checkInHigh))
+        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkInHigh))
 
         val item = createInstance().listItems.getOrAwaitValue().first {
             it is DayOverviewItem && it.date == date
@@ -470,7 +470,7 @@ open class ContactDiaryOverviewViewModelTest {
             )
         )
 
-        every { checkInRepository.allCheckIns } returns flowOf(listOf(checkInHigh, checkInLow))
+        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkInHigh, checkInLow))
 
         val item = createInstance().listItems.getOrAwaitValue().first {
             it is DayOverviewItem && it.date == date
