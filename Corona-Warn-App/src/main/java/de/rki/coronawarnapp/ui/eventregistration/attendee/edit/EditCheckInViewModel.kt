@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -33,10 +34,10 @@ class EditCheckInViewModel @AssistedInject constructor(
             val checkIn = checkInRepository.checkInForId(editCheckInId ?: 0)
 
             if (checkInStartTime.value == null) {
-                checkInStartTime.value = checkIn.checkInStart
+                checkInStartTime.value = checkIn.checkInStart.toDateTime().toInstant()
             }
             if (checkInEndTime.value == null) {
-                checkInEndTime.value = checkIn.checkInEnd
+                checkInEndTime.value = checkIn.checkInEnd.toDateTime().toInstant()
             }
 
             checkInFlow.value = checkIn
@@ -50,13 +51,13 @@ class EditCheckInViewModel @AssistedInject constructor(
 
     val uiState = combine(
         checkInFlow.filterNotNull(),
-        checkInStartTime,
-        checkInEndTime
+        checkInStartTime.filterNotNull(),
+        checkInEndTime.filterNotNull()
     ) { checkIn, checkInStartTime, checkInEndTime ->
         UiState(
             checkIn = checkIn,
-            checkInStartInstant = checkInStartTime ?: checkIn.checkInStart,
-            checkInEndInstant = checkInEndTime ?: checkIn.checkInEnd
+            checkInStartInstant = checkInStartTime,
+            checkInEndInstant = checkInEndTime
         )
     }.asLiveData()
 
@@ -144,7 +145,15 @@ class EditCheckInViewModel @AssistedInject constructor(
         val checkInStartTime: String get() = checkInStartInstant.toDateTime().toString(timeFormatter)
         val checkInEndDate: String get() = checkInEndInstant.toDateTime().toString(dateFormatter)
         val checkInEndTime: String get() = checkInEndInstant.toDateTime().toString(timeFormatter)
-        val canSaveChanges: Boolean get() = checkInStartInstant.isBefore(checkInEndInstant)
+        val saveButtonEnabled: Boolean get() = isInputValid()
+        val wrongInputErrorShown: Boolean get() = !saveButtonEnabled
+
+        private fun isInputValid(): Boolean {
+            val startBeforeEnd = checkInStartInstant.isBefore(checkInEndInstant)
+            val lessThan24h = Days.daysBetween(checkInStartInstant, checkInEndInstant).days < 1
+
+            return startBeforeEnd and lessThan24h
+        }
     }
 
     sealed class DateTimePickerEvent {

@@ -10,6 +10,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentEditCheckInBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -35,6 +36,13 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
             factory.create(if (navArgs.editCheckInId == 0L) null else navArgs.editCheckInId)
         }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
+    }
 
     private val binding: FragmentEditCheckInBinding by viewBindingLazy()
 
@@ -71,6 +79,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
             editCheckinConfirmButton.setOnClickListener {
                 viewModel.onSaveClicked()
             }
+            root.transitionName = navArgs.editCheckInId.toString()
         }
 
         viewModel.events.observe2(this) { navEvent ->
@@ -94,7 +103,9 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
 
                 editCheckinDurationEditHintCard.isGone = !uiState.diaryWarningVisible
 
-                editCheckinConfirmButton.isEnabled = uiState.canSaveChanges
+                editCheckinConfirmButton.isEnabled = uiState.saveButtonEnabled
+
+                editCheckinWrongInputWarning.isGone = !uiState.wrongInputErrorShown
             }
         }
 
