@@ -56,8 +56,10 @@ class ContactJournalEntryCreator @Inject constructor(
     private fun CheckIn.locationName(): String {
         val nameParts = mutableListOf(description, address)
 
-        if (traceLocationStart != null && traceLocationStart.millis > 0 && traceLocationEnd != null && traceLocationEnd.millis > 0) {
-            nameParts.add("$traceLocationStart - $traceLocationEnd")
+        if (traceLocationStart != null && traceLocationEnd != null) {
+            if (traceLocationStart.millis > 0 && traceLocationEnd.millis > 0) {
+                nameParts.add("$traceLocationStart - $traceLocationEnd")
+            }
         }
 
         return nameParts.joinToString(separator = ", ")
