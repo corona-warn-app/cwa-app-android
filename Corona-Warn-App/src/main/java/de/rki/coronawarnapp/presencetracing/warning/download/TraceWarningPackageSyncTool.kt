@@ -77,7 +77,7 @@ class TraceWarningPackageSyncTool @Inject constructor(
 
         val missingHourIntervals = determineIntervalsToDownload(
             location = location,
-            firstRelevant = oldestCheckIn.checkInStart.deriveHourInterval(),
+            firstRelevant = firstRelevantInterval,
             lastRelevant = intervalDiscovery.latest
         )
 
