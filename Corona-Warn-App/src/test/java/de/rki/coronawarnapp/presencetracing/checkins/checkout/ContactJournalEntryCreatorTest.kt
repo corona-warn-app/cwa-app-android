@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class ContactJournalEntryCreatorTest: BaseTest() {
+class ContactJournalEntryCreatorTest : BaseTest() {
 
     @MockK lateinit var contactDiaryRepo: ContactDiaryRepository
 
@@ -82,6 +82,4 @@ class ContactJournalEntryCreatorTest: BaseTest() {
             contactDiaryRepo.addLocationVisit(any())
         }
     }
-
-
 }
