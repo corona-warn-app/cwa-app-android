@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:contentDescription="@string/tracelocation_organizer_category_title"
+    android:background="@color/colorBackground"
     tools:context=".ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -133,7 +134,7 @@
                 android:text="@string/trace_location_qr_info_time_text"
                 app:layout_constraintTop_toTopOf="@id/trace_location_qr_time_sheet_icon"
                 app:layout_constraintStart_toEndOf="@id/trace_location_qr_time_sheet_icon"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <include
                 android:id="@+id/privacy_card"
@@ -160,7 +161,7 @@
                 app:layout_constraintTop_toBottomOf="@id/privacy_card"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
