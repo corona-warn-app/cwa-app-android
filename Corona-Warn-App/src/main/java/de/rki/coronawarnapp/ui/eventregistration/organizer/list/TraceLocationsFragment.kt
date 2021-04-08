@@ -122,7 +122,6 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                             .build()
                     )
                 }
-
             }
         }
 
