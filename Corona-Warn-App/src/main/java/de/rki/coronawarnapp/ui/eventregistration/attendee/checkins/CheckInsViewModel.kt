@@ -56,7 +56,7 @@ class CheckInsViewModel @AssistedInject constructor(
 
     val checkins: LiveData<List<CheckInsItem>> = combine(
         intervalFlow(1000),
-        checkInsRepository.allCheckIns,
+        checkInsRepository.checkInsWithinRetention,
         cameraPermissionProvider.deniedPermanently
     ) { _, checkIns, denied ->
         mutableListOf<CheckInsItem>().apply {

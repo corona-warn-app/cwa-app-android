@@ -46,7 +46,7 @@ class CheckInsViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { savedState.set(any(), any<String>()) } just Runs
-        every { checkInsRepository.allCheckIns } returns flowOf()
+        every { checkInsRepository.checkInsWithinRetention } returns flowOf()
         every { cameraPermissionProvider.deniedPermanently } returns flowOf(false)
     }
 
@@ -120,7 +120,7 @@ class CheckInsViewModelTest : BaseTest() {
         }
 
         val checkIns = listOf(checkIn1, checkIn2, checkIn3, checkIn4)
-        every { checkInsRepository.allCheckIns } returns flowOf(checkIns)
+        every { checkInsRepository.checkInsWithinRetention } returns flowOf(checkIns)
 
         createInstance(deepLink = null, scope = this).apply {
             checkins.getOrAwaitValue().apply {
@@ -155,7 +155,7 @@ class CheckInsViewModelTest : BaseTest() {
             every { completed } returns false
         }
 
-        every { checkInsRepository.allCheckIns } returns flowOf(listOf(checkIn))
+        every { checkInsRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn))
         every { cameraPermissionProvider.deniedPermanently } returns flowOf(true)
 
         createInstance(deepLink = null, scope = this).apply {
