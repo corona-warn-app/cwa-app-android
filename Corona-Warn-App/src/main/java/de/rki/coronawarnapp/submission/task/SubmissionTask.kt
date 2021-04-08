@@ -165,7 +165,6 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()
-        checkInsRepository.clear()
         submissionSettings.symptoms.update { null }
 
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)

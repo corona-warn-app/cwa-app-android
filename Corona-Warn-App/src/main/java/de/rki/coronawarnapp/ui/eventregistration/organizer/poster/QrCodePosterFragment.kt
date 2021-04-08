@@ -12,6 +12,7 @@ import androidx.core.content.getSystemService
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.QrCodePosterFragmentBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -43,6 +44,13 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
     )
 
     private val binding: QrCodePosterFragmentBinding by viewBindingLazy()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
