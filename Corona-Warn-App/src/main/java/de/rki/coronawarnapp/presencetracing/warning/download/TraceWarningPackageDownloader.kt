@@ -88,6 +88,9 @@ class TraceWarningPackageDownloader @Inject constructor(
             writeProtoBufToFile(metaData, rawProtoBuf, saveTo)
         } else {
             Timber.tag(TAG).v("Empty package for %s", metaData)
+            if (saveTo.exists() && saveTo.delete()) {
+                Timber.tag(TAG).w("Download file exists for a package that should be empty, deleting: %s", saveTo)
+            }
         }
 
         Timber.tag(TAG).v("Download finished: %s -> %s", metaData, downloadInfo)
