@@ -45,14 +45,14 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
 
     fun isDeltaOnboardingDone() = settings.wasInteroperabilityShownAtLeastOnce
 
-    fun setDeltaOboardingDone(value: Boolean) {
+    fun setDeltaOnboardingDone(value: Boolean) {
         settings.wasInteroperabilityShownAtLeastOnce = value
     }
 
-    fun isAttendeeOboardingDone() =
+    fun isAttendeeOnboardingDone() =
         traceLocationSettings.onboardingStatus == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
 
-    fun setAttendeeOboardingDone(value: Boolean) {
+    fun setAttendeeOnboardingDone(value: Boolean) {
         traceLocationSettings.onboardingStatus =
             if (value)
                 TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0

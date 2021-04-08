@@ -26,7 +26,7 @@ class DeltaonboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
 
         binding.switchContactJournalOnboarding.isChecked = viewModel.isContactJournalOnboardingDone()
         binding.switchDeltaOnboarding.isChecked = viewModel.isDeltaOnboardingDone()
-        binding.switchAttendeeOnboarding.isChecked = viewModel.isAttendeeOboardingDone()
+        binding.switchAttendeeOnboarding.isChecked = viewModel.isAttendeeOnboardingDone()
         viewModel.changelogVersion.observe(viewLifecycleOwner) {
             binding.lastChangelogEdittext.setText(it.toString())
         }
@@ -49,11 +49,11 @@ class DeltaonboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
         }
 
         binding.switchDeltaOnboarding.setOnCheckedChangeListener { _, value ->
-            viewModel.setDeltaOboardingDone(value)
+            viewModel.setDeltaOnboardingDone(value)
         }
 
         binding.switchAttendeeOnboarding.setOnCheckedChangeListener { _, value ->
-            viewModel.setAttendeeOboardingDone(value)
+            viewModel.setAttendeeOnboardingDone(value)
         }
     }
 
