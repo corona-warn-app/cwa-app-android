@@ -59,11 +59,17 @@ class PresenceTracingWarningTask @Inject constructor(
 
     private suspend fun doWork(): Result {
         val nowUTC = timeStamper.nowUTC
-
-        Timber.tag(TAG).d("Running package sync.")
-        syncTool.syncPackages()
-
         checkCancel()
+
+        val syncResult = syncTool.syncPackages()
+
+        if (syncResult.successful) {
+            Timber.tag(TAG).d("TraceWarningPackage sync successful: %s", syncResult)
+        } else {
+            Timber.tag(TAG).w("WarningPackage sync failed: %s", syncResult)
+            presenceTracingRiskRepository.reportCalculation(successful = false)
+            return Result(calculatedAt = nowUTC)
+        }
 
         presenceTracingRiskRepository.deleteStaleData()
 

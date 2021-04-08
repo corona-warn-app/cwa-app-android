@@ -63,9 +63,13 @@ class TraceWarningPackageSyncTool @Inject constructor(
             return SyncResult(successful = false)
         }
 
-        val firstRelevantInterval: HourInterval = max(
-            oldestCheckIn.checkInStart.deriveHourInterval(),
-            intervalDiscovery.oldest
+        val oldestCheckInInterval = oldestCheckIn.checkInStart.deriveHourInterval()
+        val firstRelevantInterval: HourInterval = max(oldestCheckInInterval, intervalDiscovery.oldest)
+        Timber.tag(TAG).d(
+            "Oldest-server=%s & Oldest-local=%s => first-relevant=%s",
+            intervalDiscovery.oldest,
+            oldestCheckInInterval,
+            firstRelevantInterval
         )
 
         cleanUpIrrelevantPackages(location, firstRelevantInterval)
@@ -77,7 +81,7 @@ class TraceWarningPackageSyncTool @Inject constructor(
 
         val missingHourIntervals = determineIntervalsToDownload(
             location = location,
-            firstRelevant = oldestCheckIn.checkInStart.deriveHourInterval(),
+            firstRelevant = firstRelevantInterval,
             lastRelevant = intervalDiscovery.latest
         )
 
@@ -148,12 +152,17 @@ class TraceWarningPackageSyncTool @Inject constructor(
         firstRelevant: HourInterval,
         lastRelevant: HourInterval
     ): List<HourInterval> {
-        val metadatas = repository.getMetaDataForLocation(location)
+        val metadatas = repository.getMetaDataForLocation(location).filter { it.isDownloaded }
+        Timber.tag(TAG).d("We already have downloads for %s", metadatas.joinToString(", ") { it.packageId })
 
-        return (firstRelevant..lastRelevant).filter { interval ->
-            // If there is no metadata, it's unknown, so we want to download it
-            metadatas.none { it.hourInterval == interval }
-        }
+        return (firstRelevant..lastRelevant)
+            .filter { interval ->
+                // If there is no metadata, it's unknown, so we want to download it
+                metadatas.none { it.hourInterval == interval }
+            }
+            .also {
+                Timber.tag(TAG).d("Missing intervals for %s are %s", location, it)
+            }
     }
 
     private suspend fun requireStorageSpaceFor(size: Int): DeviceStorage.CheckResult {
@@ -167,7 +176,10 @@ class TraceWarningPackageSyncTool @Inject constructor(
     data class SyncResult(
         val successful: Boolean,
         val newPackages: Collection<TraceWarningPackageMetadata> = emptyList()
-    )
+    ) {
+        override fun toString(): String =
+            "SyncResult(successful=$successful, newPackages=${newPackages.joinToString(",") { it.packageId }})"
+    }
 
     companion object {
         private const val TAG = "TraceWarningSyncTool"
