@@ -114,7 +114,6 @@ class SubmissionTaskTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
 
         every { checkInRepository.allCheckIns } returns flowOf(emptyList())
-        coEvery { checkInRepository.clear() } just Runs
         coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
@@ -177,7 +176,6 @@ class SubmissionTaskTest : BaseTest() {
             analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
             tekHistoryStorage.clear()
-            checkInRepository.clear()
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 
