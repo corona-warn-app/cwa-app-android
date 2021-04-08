@@ -25,6 +25,8 @@ class CheckInWarningMatcher @Inject constructor(
         checkIns: List<CheckIn>,
         warningPackages: List<TraceWarningPackage>
     ): Result {
+        Timber.tag(TAG).d("Processing ${checkIns.size} checkins and ${warningPackages.size} warning pkgs.")
+
         val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
 
         val matchLists: List<List<MatchesPerPackage>?> = runMatchingLaunchers(
@@ -34,13 +36,12 @@ class CheckInWarningMatcher @Inject constructor(
         )
 
         val successful = if (matchLists.contains(null)) {
-            Timber.tag(TAG).e("Calculation partially failed.")
+            Timber.tag(TAG).e("Calculation partially failed: %s", matchLists)
             false
         } else {
             Timber.tag(TAG).d("Matching was successful.")
             true
         }
-
         return Result(
             successful = successful,
             processedPackages = matchLists.filterNotNull().flatten()
