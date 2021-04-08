@@ -12,7 +12,7 @@ abstract class PresenceTracingTestFragmentModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(PresenceTracingTestViewModel::class)
-    abstract fun testEventRegistrationFragment(
+    abstract fun testPresenceTracingFragment(
         factory: PresenceTracingTestViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

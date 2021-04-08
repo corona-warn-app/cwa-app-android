@@ -72,7 +72,7 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
                     qrcodeButton.setOnClickListener {
                         doNavigate(
                             PresenceTracingTestFragmentDirections
-                                .actionPresenceTracingTestFragmentToQrCodePosterFragmentTest(traceLocation.id)
+                                .actionPresenceTracingTestFragmentToQrCodePosterTestFragment(traceLocation.id)
                         )
                     }
                 }

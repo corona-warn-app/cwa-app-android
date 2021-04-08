@@ -22,14 +22,14 @@ import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentModule
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundModule
+import de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragment
+import de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragmentModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragmentModule
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragmentModule
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragmentModule
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragmentModule
 
 @Module
 abstract class MainActivityTestModule {
@@ -73,6 +73,6 @@ abstract class MainActivityTestModule {
     @ContributesAndroidInjector(modules = [PresenceTracingTestFragmentModule::class])
     abstract fun eventRegistration(): PresenceTracingTestFragment
 
-    @ContributesAndroidInjector(modules = [QrCodeDetailFragmentModule::class])
-    abstract fun showEventDetail(): QrCodeDetailFragment
+    @ContributesAndroidInjector(modules = [QrCodePosterTestFragmentModule::class])
+    abstract fun showEventDetail(): QrCodePosterTestFragment
 }
