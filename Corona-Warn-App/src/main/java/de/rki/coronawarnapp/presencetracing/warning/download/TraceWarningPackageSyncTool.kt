@@ -66,7 +66,7 @@ class TraceWarningPackageSyncTool @Inject constructor(
         val oldestCheckInInterval = oldestCheckIn.checkInStart.deriveHourInterval()
         val firstRelevantInterval: HourInterval = max(oldestCheckInInterval, intervalDiscovery.oldest)
         Timber.tag(TAG).d(
-            "Oldest-server=%d & Oldest-local=%d => first-relevant=%d",
+            "Oldest-server=%s & Oldest-local=%s => first-relevant=%s",
             intervalDiscovery.oldest,
             oldestCheckInInterval,
             firstRelevantInterval
