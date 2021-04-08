@@ -129,11 +129,11 @@
         tools:layout="@layout/fragment_test_deltaonboarding" />
     <fragment
         android:id="@+id/eventRegistrationTestFragment"
-        android:name="de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragment"
+        android:name="de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragment"
         android:label="EventRegistrationTestFragment"
-        tools:layout="@layout/fragment_test_eventregistration">
+        tools:layout="@layout/fragment_test_presence_tracing">
         <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_qrCodePosterFragmentTest"
+            android:id="@+id/action_presenceTracingTestFragment_to_qrCodePosterFragmentTest"
             app:destination="@id/qrCodePosterFragmentTest" />
     </fragment>
     <fragment

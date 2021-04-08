@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.eventregistration.ui
+package de.rki.coronawarnapp.test.presencetracing.ui
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class EventRegistrationTestFragmentModule {
+abstract class PresenceTracingTestFragmentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(EventRegistrationTestFragmentViewModel::class)
+    @CWAViewModelKey(PresenceTracingTestViewModel::class)
     abstract fun testEventRegistrationFragment(
-        factory: EventRegistrationTestFragmentViewModel.Factory
+        factory: PresenceTracingTestViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
