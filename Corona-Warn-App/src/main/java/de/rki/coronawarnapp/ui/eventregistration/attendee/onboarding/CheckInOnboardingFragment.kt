@@ -26,6 +26,10 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (viewModel.isOnboardingComplete && args.uri != null) {
+            doNavigate(CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(args.uri))
+        }
+
         with(binding) {
             checkInOnboardingAcknowledge.setOnClickListener { viewModel.onAcknowledged() }
             // TODO if consent is already given: should the text be changed?
@@ -45,7 +49,7 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
             doNavigate(
                 when (navEvent) {
                     CheckInOnboardingNavigation.AcknowledgedNavigation ->
-                        CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment()
+                        CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(args.uri)
                     CheckInOnboardingNavigation.DataProtectionNavigation ->
                         CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToPrivacyFragment()
                 }
