@@ -61,6 +61,14 @@ data class TraceLocation(
 
     fun isAfterEndTime(now: Instant): Boolean = endDate?.isBefore(now) ?: false
 
+    fun getDefaultAutoCheckoutLengthInMinutes(now: Instant): Int {
+        if (defaultCheckInLengthInMinutes != null) {
+            return defaultCheckInLengthInMinutes
+        } else {
+            return -1
+        }
+    }
+
     companion object {
         /**
          * Trace location version. This is a static data and not calculated from [TraceLocation]

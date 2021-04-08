@@ -30,7 +30,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     private val createJournalEntry = MutableStateFlow(true)
     private val checkInLength = MutableStateFlow(
         Duration.standardMinutes(
-            verifiedTraceLocation.traceLocation.defaultCheckInLengthInMinutes?.toLong() ?: 0L
+            verifiedTraceLocation.traceLocation.getDefaultAutoCheckoutLengthInMinutes(timeStamper.nowUTC).toLong()
         )
     )
 
