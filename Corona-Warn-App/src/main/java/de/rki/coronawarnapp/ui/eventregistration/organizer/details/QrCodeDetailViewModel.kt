@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -65,11 +66,14 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     }
 
     fun duplicateTraceLocation() {
-        routeToScreen.postValue(
-            traceLocation?.let {
-                QrCodeDetailNavigationEvents.NavigateToDuplicateFragment(it)
+        traceLocation?.let {
+            val category = traceLocationCategories.find { category -> category.type == it.type }
+            if (category == null) {
+                Timber.e("Category not found, traceLocation = $traceLocation")
+            } else {
+                routeToScreen.postValue(QrCodeDetailNavigationEvents.NavigateToDuplicateFragment(it, category))
             }
-        )
+        }
     }
 
     data class UiState(
