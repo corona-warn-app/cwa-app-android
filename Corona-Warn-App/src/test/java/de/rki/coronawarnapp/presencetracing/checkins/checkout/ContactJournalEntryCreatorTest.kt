@@ -45,7 +45,7 @@ class ContactJournalEntryCreatorTest : BaseTest() {
     private val testLocation = DefaultContactDiaryLocation(
         locationId = 123L,
         locationName = "${testCheckIn.description}, ${testCheckIn.address}, ${testCheckIn.traceLocationStart} - ${testCheckIn.traceLocationEnd}",
-        traceLocationID = testCheckIn.traceLocationId.utf8()
+        traceLocationID = testCheckIn.traceLocationId
     )
 
     @BeforeEach

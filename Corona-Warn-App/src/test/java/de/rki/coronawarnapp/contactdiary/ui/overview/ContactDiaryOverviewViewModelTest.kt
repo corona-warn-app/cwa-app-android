@@ -35,6 +35,7 @@ import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -69,7 +70,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { contactDiaryRepository.personEncounters } returns flowOf(emptyList())
         every { riskLevelStorage.ewDayRiskStates } returns flowOf(emptyList())
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(emptyList())
-        every { checkInRepository.checkInsWithinRetention } returns flowOf(emptyList())
+        every { checkInRepository.allCheckIns } returns flowOf(emptyList())
 
         mockStringsForContactDiaryExporterTests(context)
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(dateMillis)
@@ -83,13 +84,13 @@ open class ContactDiaryOverviewViewModelTest {
     private val locationEventLowRisk = DefaultContactDiaryLocation(
         locationId = 456,
         locationName = "Jahrestreffen der deutschen SAP Anwendergruppe",
-        traceLocationID = "12ab-34cd-56ef-78gh-456"
+        traceLocationID = "12ab-34cd-56ef-78gh-456".decodeBase64()
     )
 
     private val locationEventHighRisk = DefaultContactDiaryLocation(
         locationId = 457,
         locationName = "Kiosk",
-        traceLocationID = "12ab-34cd-56ef-78gh-457"
+        traceLocationID = "12ab-34cd-56ef-78gh-457".decodeBase64()
     )
 
     private val locationEventLowRiskVisit = DefaultContactDiaryLocationVisit(
@@ -361,7 +362,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { riskLevelStorage.ewDayRiskStates } returns flowOf(listOf(aggregatedRiskPerDateResultLowRisk))
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(listOf(traceLocationCheckInRiskHigh))
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationEventHighRiskVisit))
-        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkInHigh))
+        every { checkInRepository.allCheckIns } returns flowOf(listOf(checkInHigh))
 
         var item = createInstance().listItems.getOrAwaitValue().first {
             it is DayOverviewItem && it.date == date
@@ -384,7 +385,7 @@ open class ContactDiaryOverviewViewModelTest {
         )
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(listOf(traceLocationCheckInRiskLow))
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationEventLowRiskVisit))
-        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkInLow))
+        every { checkInRepository.allCheckIns } returns flowOf(listOf(checkInLow))
 
         item = createInstance().listItems.getOrAwaitValue().first {
             it is DayOverviewItem && it.date == date
@@ -414,7 +415,7 @@ open class ContactDiaryOverviewViewModelTest {
     fun `low risk event by attending event with low risk`() {
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationEventLowRiskVisit))
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(listOf(traceLocationCheckInRiskLow))
-        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkInLow))
+        every { checkInRepository.allCheckIns } returns flowOf(listOf(checkInLow))
 
         val item = createInstance().listItems.getOrAwaitValue().first {
             it is DayOverviewItem && it.date == date
@@ -436,7 +437,7 @@ open class ContactDiaryOverviewViewModelTest {
     fun `high risk event by attending event with high risk`() {
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationEventHighRiskVisit))
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(listOf(traceLocationCheckInRiskHigh))
-        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkInHigh))
+        every { checkInRepository.allCheckIns } returns flowOf(listOf(checkInHigh))
 
         val item = createInstance().listItems.getOrAwaitValue().first {
             it is DayOverviewItem && it.date == date
@@ -469,7 +470,7 @@ open class ContactDiaryOverviewViewModelTest {
             )
         )
 
-        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkInHigh, checkInLow))
+        every { checkInRepository.allCheckIns } returns flowOf(listOf(checkInHigh, checkInLow))
 
         val item = createInstance().listItems.getOrAwaitValue().first {
             it is DayOverviewItem && it.date == date
