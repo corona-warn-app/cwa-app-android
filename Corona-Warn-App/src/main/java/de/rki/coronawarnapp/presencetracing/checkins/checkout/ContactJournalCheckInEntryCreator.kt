@@ -17,27 +17,25 @@ import javax.inject.Inject
 import kotlin.math.roundToLong
 
 @Reusable
-class ContactJournalEntryCreator @Inject constructor(
+class ContactJournalCheckInEntryCreator @Inject constructor(
     private val diaryRepository: ContactDiaryRepository
 ) {
 
     suspend fun createEntry(checkIn: CheckIn) {
-        if (checkIn.createJournalEntry) {
-            Timber.d("Creating journal entry for %s", this)
+        Timber.d("Creating journal entry for %s", this)
 
-            // 1. Create location if missing
-            val location: ContactDiaryLocation = diaryRepository.locations.first()
-                .find { it.traceLocationID == checkIn.traceLocationId } ?: checkIn.toLocation()
+        // 1. Create location if missing
+        val location: ContactDiaryLocation = diaryRepository.locations.first()
+            .find { it.traceLocationID == checkIn.traceLocationId } ?: checkIn.toLocation()
 
-            // 2. Split CheckIn by Midnight UTC
-            val splitCheckIns = checkIn.splitByMidnightUTC()
-            Timber.d("Split %s into %s ", this, splitCheckIns)
+        // 2. Split CheckIn by Midnight UTC
+        val splitCheckIns = checkIn.splitByMidnightUTC()
+        Timber.d("Split %s into %s ", this, splitCheckIns)
 
-            // 3. Create LocationVisit
-            splitCheckIns
-                .map { it.toLocationVisit(location) }
-                .forEach { diaryRepository.addLocationVisit(it) }
-        }
+        // 3. Create LocationVisit
+        splitCheckIns
+            .map { it.toLocationVisit(location) }
+            .forEach { diaryRepository.addLocationVisit(it) }
     }
 
     private suspend fun CheckIn.toLocation(): ContactDiaryLocation {

@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class ContactJournalEntryCreatorTest : BaseTest() {
+class ContactJournalCheckInEntryCreatorTest : BaseTest() {
 
     @MockK lateinit var contactDiaryRepo: ContactDiaryRepository
 
@@ -40,8 +40,6 @@ class ContactJournalEntryCreatorTest : BaseTest() {
         createJournalEntry = true
     )
 
-    private val textCheckInDontCreate = testCheckIn.copy(createJournalEntry = false)
-
     private val testLocation = DefaultContactDiaryLocation(
         locationId = 123L,
         locationName = "${testCheckIn.description}, ${testCheckIn.address}, ${testCheckIn.traceLocationStart} - ${testCheckIn.traceLocationEnd}",
@@ -59,31 +57,9 @@ class ContactJournalEntryCreatorTest : BaseTest() {
         coEvery { contactDiaryRepo.addLocation(any()) } returns testLocation
     }
 
-    private fun createInstance() = ContactJournalEntryCreator(
+    private fun createInstance() = ContactJournalCheckInEntryCreator(
         diaryRepository = contactDiaryRepo
     )
-
-    @Test
-    fun `Creates entry if create journal entry is true`() = runBlockingTest {
-        every { contactDiaryRepo.locations } returns flowOf(listOf(testLocation))
-        createInstance().createEntry(testCheckIn)
-
-        coVerify(exactly = 1) {
-            contactDiaryRepo.locations
-            contactDiaryRepo.addLocationVisit(any())
-        }
-    }
-
-    @Test
-    fun `Does not create entry if create journal entry is false`() = runBlockingTest {
-        every { contactDiaryRepo.locations } returns flowOf(listOf(testLocation))
-        createInstance().createEntry(textCheckInDontCreate)
-
-        coVerify(exactly = 0) {
-            contactDiaryRepo.locations
-            contactDiaryRepo.addLocationVisit(any())
-        }
-    }
 
     @Test
     fun `Creates location if missing`() = runBlockingTest {

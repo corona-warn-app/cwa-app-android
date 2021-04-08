@@ -12,7 +12,7 @@ import javax.inject.Inject
 class CheckOutHandler @Inject constructor(
     private val repository: CheckInRepository,
     private val timeStamper: TimeStamper,
-    private val contactJournalEntryCreator: ContactJournalEntryCreator
+    private val contactJournalCheckInEntryCreator: ContactJournalCheckInEntryCreator
 ) {
     /**
      * Throw **[IllegalArgumentException]** if the check-in does not exist.
@@ -29,7 +29,9 @@ class CheckOutHandler @Inject constructor(
             ).also { c -> checkIn = c }
         }
 
-        contactJournalEntryCreator.createEntry(checkIn!!)
+        if (checkIn?.createJournalEntry == true) {
+            contactJournalCheckInEntryCreator.createEntry(checkIn!!)
+        }
 
         // Remove auto-checkout timer?
     }
