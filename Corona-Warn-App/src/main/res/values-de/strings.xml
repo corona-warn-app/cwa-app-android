@@ -1367,6 +1367,11 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
 
+    <!-- XBUT: submission overwrite former test result button continue -->
+    <string name="submission_overwrite_former_test_result_continue_button">"Weiter"</string>
+    <!-- XBUT: submission overwrite former test result button cancel -->
+    <string name="submission_overwrite_former_test_result_cancel_button">"Abbrechen"</string>
+
     <!-- Reenable risk card -->
     <!-- XHED: Card title for re-enable risk card -->
     <string name="reenable_risk_card_title">"Risiko-Überprüfung beendet"</string>
@@ -1973,5 +1978,6 @@
     <!-- XMIT: Trace location poster share -->
     <string name="trace_location_organiser_poster_share">"Teilen"</string>
     <!-- XHED: Trace location poster title -->
-    <string name="trace_location_organiser_poster_title">"Druckversion"</string>
+    <string name="trace_location_organiser_poster_title">"Druckversion"</string>F
+
 </resources>
