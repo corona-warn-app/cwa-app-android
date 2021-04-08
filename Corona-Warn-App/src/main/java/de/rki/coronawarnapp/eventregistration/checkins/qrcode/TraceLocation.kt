@@ -10,6 +10,7 @@ import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
+import java.util.concurrent.TimeUnit
 
 @Parcelize
 data class TraceLocation(
@@ -63,7 +64,20 @@ data class TraceLocation(
 
     fun getDefaultAutoCheckoutLengthInMinutes(now: Instant): Int {
         if (defaultCheckInLengthInMinutes != null) {
-            return defaultCheckInLengthInMinutes
+
+            // min valid value is 00:15h
+            val minValueInMinute = 15
+            if (defaultCheckInLengthInMinutes < 15) {
+                return minValueInMinute
+            }
+
+            // max valid value is 23:45h
+            val maxValueInMinutes = TimeUnit.HOURS.toMinutes(23) + 45
+            return if (defaultCheckInLengthInMinutes > maxValueInMinutes) {
+                maxValueInMinutes.toInt()
+            } else {
+                defaultCheckInLengthInMinutes
+            }
         } else {
             return -1
         }
