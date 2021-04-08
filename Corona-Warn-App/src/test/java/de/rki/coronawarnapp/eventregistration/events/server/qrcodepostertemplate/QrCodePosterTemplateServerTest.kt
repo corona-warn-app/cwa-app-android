@@ -23,7 +23,7 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
     @MockK lateinit var defaultTemplateSource: DefaultQrCodePosterTemplateSource
 
     /**
-     * Info: [QrCodePosterTemplateApiV1Test] is testing if the ETag is set correctly
+     * Info: [QrCodePosterTemplateApiV1Test] is testing if okhttp caching is working correctly
      */
 
     @BeforeEach
@@ -31,7 +31,7 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { signatureValidation.hasValidSignature(any(), any()) } returns true
-        every { defaultTemplateSource.getDefaultQrCodePosterTemplate() } returns "CACHE".toByteArray()
+        every { defaultTemplateSource.getDefaultQrCodePosterTemplate() } returns "DEFAULT TEMPLATE".toByteArray()
     }
 
     private fun createInstance() = QrCodePosterTemplateServer(
@@ -47,13 +47,15 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
         } returns Response.success(POSTER_BUNDLE.toResponseBody())
 
         createInstance().downloadQrCodePosterTemplate().apply {
-            template.toStringUtf8().substring(0, 22) shouldBe "<vector xmlns:android="
-            offsetX shouldBe 10.0f
-            offsetY shouldBe 10.0f
-            qrCodeSideLength shouldBe 100
+
+            // check if template contains the pdf by checking the first characters
+            template.toStringUtf8().substring(0, 8) shouldBe "%PDF-1.1"
+            offsetX shouldBe 0.16f
+            offsetY shouldBe 0.095f
+            qrCodeSideLength shouldBe 1000
             with(descriptionTextBox) {
-                offsetX shouldBe 0.0f
-                offsetY shouldBe 0.0f
+                offsetX shouldBe 0.132f
+                offsetY shouldBe 0.61f
                 width shouldBe 100
                 height shouldBe 20
                 fontSize shouldBe 10
@@ -65,14 +67,14 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
     }
 
     @Test
-    fun `should fallback to cached or default template if signature is invalid`() = runBlockingTest {
+    fun `should fallback to default template if signature is invalid`() = runBlockingTest {
         every { signatureValidation.hasValidSignature(any(), any()) } returns false
 
         coEvery {
             api.getQrCodePosterTemplate()
         } returns Response.success(POSTER_BUNDLE.toResponseBody())
 
-        createInstance().getTemplateFromApiOrCache() shouldBe "CACHE".toByteArray()
+        createInstance().getTemplateFromApiOrCache() shouldBe "DEFAULT TEMPLATE".toByteArray()
     }
 
     @Test
@@ -87,12 +89,12 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
     }
 
     @Test
-    fun `should fallback to cached or default template when response is not successful`() = runBlockingTest {
+    fun `should fallback to default template when response is not successful`() = runBlockingTest {
         coEvery {
             api.getQrCodePosterTemplate()
         } returns Response.error(404, "ERROR".toResponseBody())
 
-        createInstance().getTemplateFromApiOrCache() shouldBe "CACHE".toByteArray()
+        createInstance().getTemplateFromApiOrCache() shouldBe "DEFAULT TEMPLATE".toByteArray()
     }
 
     companion object {
@@ -101,8 +103,8 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
 
         private val descriptionTextBox =
             QrCodePosterTemplate.QRCodePosterTemplateAndroid.QRCodeTextBoxAndroid.newBuilder()
-                .setOffsetX(10)
-                .setOffsetY(50)
+                .setOffsetX(0.132f)
+                .setOffsetY(0.61f)
                 .setWidth(100)
                 .setHeight(20)
                 .setFontSize(10)
@@ -110,38 +112,29 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
                 .build()
 
         private val qrCodePosterTemplate = QrCodePosterTemplate.QRCodePosterTemplateAndroid.newBuilder()
-            .setOffsetX(10.0f)
-            .setOffsetY(10.0f)
-            .setQrCodeSideLength(100)
+            .setOffsetX(0.16f)
+            .setOffsetY(0.095f)
+            .setQrCodeSideLength(1000)
             .setDescriptionTextBox(descriptionTextBox)
-            .setTemplate(
-                ByteString.copyFromUtf8("""<vector xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
-                "    xmlns:aapt=\"http://schemas.android.com/aapt\"\n" +
-                "    android:width=\"595.3dp\"\n" +
-                "    android:height=\"841.9dp\"\n" +
-                "    android:viewportWidth=\"595.3\"\n" +
-                "    android:viewportHeight=\"841.9\">\n" +
-                "  <path\n" +
-                "      android:pathData=\"M78.1,665.6v-12.8h1.2l3.6,8.5v-8.5h1.5v12.8h-1.1l-3.7,-8.7v8.7H78.1z\"\n" +
-                "      android:fillColor=\"#404040\"/>\n" +
-                "</vector>\n"""))
+            .setTemplate(BINARY PDF)
             .build()*/
 
-        // TODO update this bundle to send PDF file not XML
         private val POSTER_BUNDLE = (
-            "504b03040a000000080014867d52008c85fefb000000ab0100000a0000006578706f72742e62" +
-                "696e7d90cf4bc33014c7071e949c0415bc0825bbc8685f9676edbad216440fbb78f61c9a6a8ae912da9089ff80ffb66957700e" +
-                "f185bcc3e7fbe3f0d0d7596eebcaa8cefb68e5aecfd88e77aae10516c6e88c90be1275cb7a983854aa254cbf93aeeec9c430f2" +
-                "dc4c71a6cdff59673804269aed1b6e4481e34d0c11d7bf3551376fc215a62b0a9b53d136f55eabcebc1c15fcedd81ed7e0d279" +
-                "72cd8c18bd3fee013d31c30afcbc4e81fa49124362031a422a28843282c44f21b6815b0ec47654020a540611ac7dc7d7d6fded" +
-                "90fec427edaf8d948f4aaaaec0f3d572789894282787eb97e86636f31eee86e5f1c5d505ba0c6fb9777d8fc2f3f9729c6f504b" +
-                "03040a000000080014867d528a1d0eac8f0000008a0000000a0000006578706f72742e736967018a0075ff0a87010a380a1864" +
-                "652e726b692e636f726f6e617761726e6170702d6465761a02763122033236322a13312e322e3834302e31303034352e342e33" +
-                "2e321001180122473045022100c251eb5e62282e5573fdb915edf61115d61d020354a510bed66b7b8ce482a38d02202a793775" +
-                "0958155c82a17acb6dd4b666afc1566285ef532e6e8c11e1d52e5a75504b01020a000a000000080014867d52008c85fefb0000" +
-                "00ab0100000a0000000000000000000000a401000000006578706f72742e62696e504b01020a000a000000080014867d528a1d" +
-                "0eac8f0000008a0000000a0000000000000000000000a401230100006578706f72742e736967504b0506000000000200020070" +
-                "000000da0100000000"
+            "504b03040a0000000800685588525c24ae70900100000e0300000a0000006578706f72742e62696e6d52cd4ac3401006410a0bde2c" +
+                "28280c9442556a9226db7aa8155a5b04154b1af0507bd89a6d8da45949b6507d099fc293275fa13e840fe0c527f0ec6e7e6ada" +
+                "744f33df7edf7c33b38bbe378bddf34e593bd65071fe36fff87c47480315d8f01101d4eba058cf4f149416e1c465638189a374" +
+                "c9980650113c53208d06a29e2d15a8b2461a9263e1a56307d0d7a57010432d36f5386871764d6d8734d90cfaaa20e9aa0a9a61" +
+                "0c964df4b449da25aa21639f8a9a497f2166d2804dfdfba493a8c10ef378922f302d8d246864b2ca8f8fd29b0e794890b48c5e" +
+                "329a24a0522d28ce840665934d88b74a1433aecd16915896c7c5680118d9dd1b4bbbbfa2de983f00c69212709f9289b8695a61" +
+                "2531246827608dc24c6edab2c3b074415d97c12df35dfb002c59ac6d4987b842e235f3e908a98091ba3850c558c7308205261c" +
+                "a21bef1fabd5329856cbf20c9ce2719f382ef593f7361913ff25fdb63de7858a5e201a95f83c6c0f57312a16db371d94475f85" +
+                "c6feddebfc147e7287bb5b1b47b946feb7b477b663c37609557285c8f50f504b03040a00000008006855885218d81ad88f0000" +
+                "008a0000000a0000006578706f72742e736967018a0075ff0a87010a380a1864652e726b692e636f726f6e617761726e617070" +
+                "2d6465761a02763122033236322a13312e322e3834302e31303034352e342e332e3210011801224730450220148d01176d9be9" +
+                "8fa78ca1b0cad0b8b12033f35a43cb7d10369536c233701fff022100ed7c748e7f8e82c6a98ead3a19f2041b1ec090268e3ae1" +
+                "5aa146bd0d567617c7504b01020a000a0000000800685588525c24ae70900100000e0300000a0000000000000000000000a401" +
+                "000000006578706f72742e62696e504b01020a000a00000008006855885218d81ad88f0000008a0000000a0000000000000000" +
+                "000000a401b80100006578706f72742e736967504b05060000000002000200700000006f0200000000"
             ).decodeHex()
     }
 }

@@ -114,4 +114,49 @@ class QrCodePosterTemplateApiV1Test : BaseIOTest() {
             headers["If-None-Match"] shouldBe "ETAG_OF_MOCKED_RESPONSE"
         }
     }
+
+    @Test
+    fun `should return cached response when backend returns unsuccessful response`() {
+
+        // Backend response contains Cache-Control header "public,max-age=300", therefore, okhttp should
+        // serve the cached response in case the backend returns an unsuccessful response for a subsequent request
+
+        webServer.enqueue(
+            MockResponse()
+                .setBody("Poster Template")
+                .setResponseCode(200)
+                .setHeader("ETag", "ETAG_OF_MOCKED_RESPONSE")
+                .setHeader("Cache-Control", "public,max-age=300")
+        )
+
+        runBlocking {
+            createAPI().getQrCodePosterTemplate().apply {
+                // we should receive the body and ETag
+                code() shouldBe 200
+                body()!!.string() shouldBe "Poster Template"
+                headers()["ETag"] shouldBe "ETAG_OF_MOCKED_RESPONSE"
+                headers()["Cache-Control"] shouldBe "public,max-age=300"
+            }
+        }
+
+        webServer.takeRequest(5, TimeUnit.SECONDS)
+
+        // Second response is unsuccessful ...
+        webServer.enqueue(
+            MockResponse()
+                .setResponseCode(500)
+        )
+
+        // ... and in this case, okhttp should serve the cached response
+        runBlocking {
+            createAPI().getQrCodePosterTemplate().apply {
+                code() shouldBe 200
+                raw().cacheResponse shouldNotBe null
+                // cached poster template should be returned
+                body()!!.string() shouldBe "Poster Template"
+                headers()["ETag"] shouldBe "ETAG_OF_MOCKED_RESPONSE"
+                headers()["Cache-Control"] shouldBe "public,max-age=300"
+            }
+        }
+    }
 }
