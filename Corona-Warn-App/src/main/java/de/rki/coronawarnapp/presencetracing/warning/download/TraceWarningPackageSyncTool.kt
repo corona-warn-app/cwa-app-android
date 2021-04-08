@@ -152,7 +152,8 @@ class TraceWarningPackageSyncTool @Inject constructor(
         firstRelevant: HourInterval,
         lastRelevant: HourInterval
     ): List<HourInterval> {
-        val metadatas = repository.getMetaDataForLocation(location)
+        val metadatas = repository.getMetaDataForLocation(location).filter { it.isDownloaded }
+        Timber.tag(TAG).d("We already have downloads for %s", metadatas.joinToString(", ") { it.packageId })
 
         return (firstRelevant..lastRelevant)
             .filter { interval ->
