@@ -63,9 +63,13 @@ class TraceWarningPackageSyncTool @Inject constructor(
             return SyncResult(successful = false)
         }
 
-        val firstRelevantInterval: HourInterval = max(
-            oldestCheckIn.checkInStart.deriveHourInterval(),
-            intervalDiscovery.oldest
+        val oldestCheckInInterval = oldestCheckIn.checkInStart.deriveHourInterval()
+        val firstRelevantInterval: HourInterval = max(oldestCheckInInterval, intervalDiscovery.oldest)
+        Timber.tag(TAG).d(
+            "Oldest-server=%d & Oldest-local=%d => first-relevant=%d",
+            intervalDiscovery.oldest,
+            oldestCheckInInterval,
+            firstRelevantInterval
         )
 
         cleanUpIrrelevantPackages(location, firstRelevantInterval)
@@ -150,10 +154,14 @@ class TraceWarningPackageSyncTool @Inject constructor(
     ): List<HourInterval> {
         val metadatas = repository.getMetaDataForLocation(location)
 
-        return (firstRelevant..lastRelevant).filter { interval ->
-            // If there is no metadata, it's unknown, so we want to download it
-            metadatas.none { it.hourInterval == interval }
-        }
+        return (firstRelevant..lastRelevant)
+            .filter { interval ->
+                // If there is no metadata, it's unknown, so we want to download it
+                metadatas.none { it.hourInterval == interval }
+            }
+            .also {
+                Timber.tag(TAG).d("Missing intervals for %s are %s", location, it)
+            }
     }
 
     private suspend fun requireStorageSpaceFor(size: Int): DeviceStorage.CheckResult {
