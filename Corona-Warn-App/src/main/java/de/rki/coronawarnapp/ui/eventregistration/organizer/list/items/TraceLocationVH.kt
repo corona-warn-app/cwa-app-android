@@ -65,7 +65,10 @@ class TraceLocationVH(parent: ViewGroup) :
 
         checkinAction.isVisible = item.canCheckIn
         checkinAction.setOnClickListener { item.onCheckIn(item.traceLocation) }
-        itemView.setOnClickListener { item.onCardClicked(item.traceLocation, adapterPosition) }
+        itemView.apply {
+            setOnClickListener { item.onCardClicked(item.traceLocation, adapterPosition) }
+            transitionName = item.traceLocation.id.toString()
+        }
     }
 
     data class Item(
