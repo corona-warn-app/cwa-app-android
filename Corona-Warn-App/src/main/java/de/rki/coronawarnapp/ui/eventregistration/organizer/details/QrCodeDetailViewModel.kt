@@ -42,7 +42,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     }
 
     /**
-     * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
+     * Creates a QR Code [Bitmap] ,result is delivered by [uiState]
      */
     private fun createQrCode(traceLocation: TraceLocation) = launch(context = dispatcher.IO) {
         try {
