@@ -1,11 +1,14 @@
 package de.rki.coronawarnapp.storage
 
+import android.annotation.SuppressLint
 import android.content.Context
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.lastSubmission
+import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
+import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTaskProgress
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
@@ -21,7 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import org.joda.time.Duration
 import timber.log.Timber
@@ -45,24 +48,47 @@ class TracingRepository @Inject constructor(
     private val backgroundModeStatus: BackgroundModeStatus
 ) {
 
+    @SuppressLint("BinaryOperationInTimber")
     val tracingProgress: Flow<TracingProgress> = combine(
-        taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() },
+        taskController.tasks,
         enfClient.isPerformingExposureDetection(),
-        taskController.tasks.map { it.isRiskLevelTaskRunning() }
-    ) { isDownloading, isExposureDetecting, isRiskLeveling ->
+    ) { taskInfos, isExposureDetecting ->
+
+        val isEWDownloading = taskInfos.isEWDownloadingPackages()
+        val isEWCalculatingRisk = taskInfos.isEWCalculatingRisk()
+
+        val isPTDownloading = taskInfos.isPTDownloadingPackages()
+        val isPTCalculatingRisk = taskInfos.isPTCalculatingRisk()
+
         when {
-            isDownloading -> TracingProgress.Downloading
-            isExposureDetecting || isRiskLeveling -> TracingProgress.ENFIsCalculating
+            isEWDownloading || isPTDownloading -> TracingProgress.Downloading
+            isExposureDetecting || isEWCalculatingRisk || isPTCalculatingRisk -> TracingProgress.IsCalculating
             else -> TracingProgress.Idle
+        }.also {
+            Timber.tag(TAG).v(
+                "TracingProgress: $it, isExposureDetecting=$isExposureDetecting, " +
+                    "isEWDownloading=$isEWDownloading, isEWCalculatingRisk=$isEWCalculatingRisk, " +
+                    "isPTDownloading=$isPTDownloading, isPTCalculatingRisk=$isPTCalculatingRisk"
+            )
         }
     }
 
-    private fun List<TaskInfo>.isRiskLevelTaskRunning() = any {
-        it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class
+    private suspend fun List<TaskInfo>.isPTDownloadingPackages() = any {
+        it.taskState.isActive && it.taskState.request.type == PresenceTracingWarningTask::class &&
+            it.progress.firstOrNull() is PresenceTracingWarningTaskProgress.Downloading
     }
 
-    private fun List<TaskInfo>.isDownloadDiagnosisKeysTaskRunning() = any {
+    private suspend fun List<TaskInfo>.isPTCalculatingRisk() = any {
+        it.taskState.isActive && it.taskState.request.type == PresenceTracingWarningTask::class &&
+            it.progress.firstOrNull() is PresenceTracingWarningTaskProgress.Calculating
+    }
+
+    private fun List<TaskInfo>.isEWDownloadingPackages() = any {
         it.taskState.isActive && it.taskState.request.type == DownloadDiagnosisKeysTask::class
+    }
+
+    private fun List<TaskInfo>.isEWCalculatingRisk() = any {
+        it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class
     }
 
     /**

@@ -35,6 +35,7 @@ import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -83,13 +84,13 @@ open class ContactDiaryOverviewViewModelTest {
     private val locationEventLowRisk = DefaultContactDiaryLocation(
         locationId = 456,
         locationName = "Jahrestreffen der deutschen SAP Anwendergruppe",
-        traceLocationID = "12ab-34cd-56ef-78gh-456"
+        traceLocationID = "12ab-34cd-56ef-78gh-456".decodeBase64()
     )
 
     private val locationEventHighRisk = DefaultContactDiaryLocation(
         locationId = 457,
         locationName = "Kiosk",
-        traceLocationID = "12ab-34cd-56ef-78gh-457"
+        traceLocationID = "12ab-34cd-56ef-78gh-457".decodeBase64()
     )
 
     private val locationEventLowRiskVisit = DefaultContactDiaryLocationVisit(
