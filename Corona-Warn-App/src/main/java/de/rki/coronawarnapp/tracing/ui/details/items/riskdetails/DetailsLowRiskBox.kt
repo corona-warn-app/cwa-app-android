@@ -33,7 +33,8 @@ class DetailsLowRiskBox(
         payloads: List<Any>
     ) -> Unit = { item, _ ->
         info = item
-        if (item.matchedKeyCount > 0) {
+        // Low risk, but matched risk item? More info! Don't worry!
+        if (item.matchedRiskCount > 0) {
             riskDetailsInformationLowriskBodyUrl.visibility = View.VISIBLE
             riskDetailsInformationLowriskBodyUrl.convertToHyperlink(
                 context.getString(R.string.risk_details_explanation_faq_link)
@@ -46,13 +47,13 @@ class DetailsLowRiskBox(
 
     data class Item(
         val riskState: RiskState,
-        val matchedKeyCount: Int
+        val matchedRiskCount: Int
     ) : RiskDetailsStateItem {
 
         fun getRiskDetailsRiskLevelBody(c: Context): String {
             // TODO consider pt encounters?
             return c.getString(
-                if (matchedKeyCount > 0) R.string.risk_details_information_body_low_risk_with_encounter
+                if (matchedRiskCount > 0) R.string.risk_details_information_body_low_risk_with_encounter
                 else R.string.risk_details_information_body_low_risk
             )
         }
