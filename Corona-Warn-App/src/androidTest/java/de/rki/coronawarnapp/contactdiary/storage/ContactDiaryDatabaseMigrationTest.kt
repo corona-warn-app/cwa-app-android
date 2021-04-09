@@ -20,6 +20,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.junit.Rule
@@ -176,7 +177,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             checkInID = null
         )
 
-        val locationAfter = location.copy(traceLocationID = "jshrgu-aifhioaio-aofsjof-samofp-kjsadngsgf")
+        val locationAfter = location.copy(traceLocationID = "jshrgu-aifhioaio-aofsjof-samofp-kjsadngsgf".decodeBase64())
         val locationVisitAfter = locationVisit.copy(checkInID = 101)
 
         val locationValues = ContentValues().apply {
