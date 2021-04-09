@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
+import androidx.annotation.VisibleForTesting
 import org.joda.time.Duration
 import org.joda.time.Instant
 import java.util.concurrent.TimeUnit
@@ -57,7 +58,12 @@ fun TraceLocation.getDefaultAutoCheckoutLengthInMinutes(now: Instant): Int {
     }
 }
 
-private fun roundToNearest15Minutes(minutes: Int): Int {
+/**
+ * Rounds to the nearest 15 minute interval.
+ * for more details see AutoCheckoutHelperTest
+ */
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun roundToNearest15Minutes(minutes: Int): Int {
     val roundingStepInMinutes = 15
     return Duration
         .standardMinutes(
