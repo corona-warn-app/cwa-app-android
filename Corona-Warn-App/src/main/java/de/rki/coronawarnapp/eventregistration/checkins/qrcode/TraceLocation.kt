@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
+import org.joda.time.Duration
 import org.joda.time.Instant
 import java.util.concurrent.TimeUnit
 
@@ -63,23 +64,41 @@ data class TraceLocation(
     fun isAfterEndTime(now: Instant): Boolean = endDate?.isBefore(now) ?: false
 
     fun getDefaultAutoCheckoutLengthInMinutes(now: Instant): Int {
+
+        // min valid value is 00:15h
+        val minDefaultAutoCheckOutLengthInMinutes = 15
+
+        // max valid value is 23:45h
+        val maxDefaultAutoCheckOutLengthInMinutes = (TimeUnit.HOURS.toMinutes(23) + 45).toInt()
+
         if (defaultCheckInLengthInMinutes != null) {
 
-            // min valid value is 00:15h
-            val minValueInMinute = 15
             if (defaultCheckInLengthInMinutes < 15) {
-                return minValueInMinute
+                return minDefaultAutoCheckOutLengthInMinutes
             }
 
-            // max valid value is 23:45h
-            val maxValueInMinutes = TimeUnit.HOURS.toMinutes(23) + 45
-            return if (defaultCheckInLengthInMinutes > maxValueInMinutes) {
-                maxValueInMinutes.toInt()
-            } else {
-                defaultCheckInLengthInMinutes
+            if (defaultCheckInLengthInMinutes > maxDefaultAutoCheckOutLengthInMinutes) {
+                return maxDefaultAutoCheckOutLengthInMinutes
             }
+
+            return defaultCheckInLengthInMinutes
         } else {
-            return -1
+
+            if (endDate == null) {
+                return minDefaultAutoCheckOutLengthInMinutes
+            }
+
+            if (now.isAfter(endDate)) {
+                return minDefaultAutoCheckOutLengthInMinutes
+            }
+
+            val minutesUntilEndDate = Duration(now, endDate).standardMinutes.toInt()
+
+            if (minutesUntilEndDate > maxDefaultAutoCheckOutLengthInMinutes) {
+                return maxDefaultAutoCheckOutLengthInMinutes
+            }
+
+            return minutesUntilEndDate
         }
     }
 
