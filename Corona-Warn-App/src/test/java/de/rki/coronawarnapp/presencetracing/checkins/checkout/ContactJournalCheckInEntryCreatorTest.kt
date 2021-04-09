@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.presencetracing.checkins.checkout
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -29,13 +30,13 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
         type = 1,
         description = "Restaurant",
         address = "Around the corner",
-        traceLocationStart = Instant.EPOCH,
-        traceLocationEnd = Instant.EPOCH.plus(100),
+        traceLocationStart = Instant.parse("2021-03-04T22:00+01:00"),
+        traceLocationEnd = Instant.parse("2021-03-04T00:00+01:00"),
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = "cryptographicSeed".encode(),
         cnPublicKey = "cnPublicKey",
-        checkInStart = Instant.EPOCH,
-        checkInEnd = Instant.EPOCH.plus(100),
+        checkInStart = Instant.parse("2021-03-04T22:00+01:00"),
+        checkInEnd = Instant.parse("2021-03-04T00:00+01:00"),
         completed = false,
         createJournalEntry = true
     )
@@ -80,6 +81,13 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
 
         coVerify(exactly = 1) {
             contactDiaryRepo.addLocation(any())
+        }
+    }
+
+    @Test
+    fun `Location name contains trace location start and end date if both are set`() {
+        createInstance().apply {
+            testCheckIn.locationName() shouldBe "Restaurant, Around the corner, 04.03.21 22:00 - 04.03.21 00:00"
         }
     }
 }
