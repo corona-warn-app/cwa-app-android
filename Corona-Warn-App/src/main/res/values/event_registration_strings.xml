@@ -136,33 +136,32 @@
     <!-- XTXT: Text for trace location creation card -->
     <string name="create_trace_location_card_button">"Create QR Code"</string>
     <!-- XTXT: Text for content description of tile image -->
-    <string name="create_trace_location_card_content_description">"Eine Person zeigt auf ein Flipchart."</string>
+    <string name="create_trace_location_card_content_description">"A person points to a flip chart."</string>
 
     <!--    Trace Location QR Code Info Screen-->
     <!-- XTXT: Text for content description of info screen image -->
-    <string name="trace_location_qr_info_content_description">"Eine Person zeigt auf ein Flipchart, zwei Personen sitzen daneben und schauen auf das Flipchart."</string>
+    <string name="trace_location_qr_info_content_description">"One person points to a flip chart, while two people are sitting adjacent and looking at the flip chart."</string>
     <!-- XHED: Headline for trace location creation card -->
-    <string name="trace_location_qr_info_headline_text">"Mehr Sicherheit für Sie und Ihre Gäste"</string>
+    <string name="trace_location_qr_info_headline_text">"Increased Safety for You and Your Guests"</string>
     <!-- XTXT: Text for subtitle of qr info screen -->
-    <string name="trace_location_qr_info_subtitle_text">"Erstellen Sie einen QR-Code, den Ihre Gäste bei ihrer Ankunft scannen können. So können sie bei Bedarf andere Gäste warnen oder von ihnen gewarnt werden."</string>
+    <string name="trace_location_qr_info_subtitle_text">"Create a QR code that your guests can scan when they arrive. This will enable them to warn other guests or be warned by them if necessary."</string>
     <!-- XTXT: Text for tracing icon of qr info screen -->
-    <string name="trace_location_qr_info_tracing_text">"Jeder Check-in wird bei der Ermittlung des Risikostatus zusätzlich berücksichtigt. Wird eine eingecheckte Person später positiv getestet, können die Gäste gewarnt werden, wenn sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben."</string>
+    <string name="trace_location_qr_info_tracing_text">"Every check-in is also taken into account when calculating the risk status. If someone who checked in to this event or place is diagnosed with coronavirus later, the guests can be notified if they were in the same room at the same time or up to 30 minutes after the diagnosed person."</string>
     <!-- XTXT: Text for qr icon of qr info screen -->
-    <string name="trace_location_qr_info_qr_code_text">"Stellen Sie den QR-Code Ihren Gästen entweder über Ihr Smartphone oder in ausgedruckter Form zur Verfügung."</string>
+    <string name="trace_location_qr_info_qr_code_text">"You can provide the QR code to your guests on your smartphone or as a printed form."</string>
     <!-- XTXT: Text for time sheet icon of qr info screen -->
-    <string name="trace_location_qr_info_time_text">"Wenn Sie dauerhaft einen QR-Code verwenden, sollten Sie diesen einmal täglich neu erstellen außerhalb der Öffnungszeiten."</string>
+    <string name="trace_location_qr_info_time_text">"If you want to use a QR code for the long term, you should generate it again each day, outside of your operating hours."</string>
     <!-- XTXT: Text for I understand button -->
-    <string name="acknowledge_button">"Enverstanden"</string>
-
+    <string name="acknowledge_button">"Next"</string>
 
     <!-- XHED: Title of the notification channel for event registration related notifications. -->
-    <string name="tracelocation_notification_channel_title">"Check-ins"</string>
+    <string name="tracelocation_notification_channel_title">"Check-Ins"</string>
     <!-- XTXT: Description of the notification channel for event registration related notifications. -->
-    <string name="tracelocation_notification_channel_description">"Benachrichtungen zu Ihren Check-ins, z.B. automatischer Check-out."</string>
+    <string name="tracelocation_notification_channel_description">"Notifications about your check-ins, such as automatic check-out."</string>
     <!-- XHED: Title of the automatic check-out notification. -->
-    <string name="tracelocation_notification_autocheckout_title">"Sie wurden automatisch ausgecheckt."</string>
+    <string name="tracelocation_notification_autocheckout_title">"You were checked out automatically."</string>
     <!-- XTXT: Description of the automatic check-out notification. -->
-    <string name="tracelocation_notification_autocheckout_description">"Bitte passen Sie Ihre Aufenthaltsdauer gegebenenfalls an."</string>
+    <string name="tracelocation_notification_autocheckout_description">"Please adjust the length of your stay if needed."</string>
 
     <!-- ####################################
        Event Organiser Trace Locations List
@@ -202,9 +201,9 @@
     <string name="trace_location_organizer_list_item_action_checkin">"Check In"</string>
 
     <!-- XTXT: Event organizer detail qr-code: duration with date -->
-    <string name="trace_location_organizer_detail_item_duration">"%1$s, %2$s - %3$s Uhr"</string>
+    <string name="trace_location_organizer_detail_item_duration">"%1$s, %2$s - %3$s"</string>
     <!-- XTXT: Event organizer detail qr-code: duration with multiple date -->
-    <string name="trace_location_organizer_detail_item_duration_multiple_days">"%1$s, %2$s - %3$s, %4$s Uhr"</string>
+    <string name="trace_location_organizer_detail_item_duration_multiple_days">"%1$s, %2$s - %3$s, %4$s"</string>
 
     <!-- XBUT: Event organiser list item: menu: information button  -->
     <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Duplicate"</string>
@@ -213,36 +212,35 @@
     <!-- XBUT: Event organiser list item: menu: clear button  -->
     <string name="trace_location_organizer_list_item_menu_clear_btn">"Delete"</string>
 
-
     <!-- Trace Location Checkin Confirmation -->
     <!-- XHED: Checkin Confirm: title for screen -->
-    <string name="confirm_checkin_title_text">"Einchecken für:"</string>
+    <string name="confirm_checkin_title_text">"Check in for:"</string>
     <!-- XTXT: Checkin Confirm: text for event is in future info card -->
-    <string name="confirm_checkin_event_in_future_card_text">"Das Event beginnt erst am %1$s um %2$s Uhr. Wollen Sie jetzt bereits einchecken?"</string>
+    <string name="confirm_checkin_event_in_future_card_text">"This event doesn’t start until %2$s on %1$s. Do you want to check in already?"</string>
     <!-- XTXT: Checkin Confirm: text for event is in past info card -->
-    <string name="confirm_checkin_event_in_past_card_text">"Das Event ist beendet. Wollen Sie nachträglich einchecken?"</string>
+    <string name="confirm_checkin_event_in_past_card_text">"This event is already over. Do you want to check in retroactively?"</string>
     <!-- XTXT: Checkin Confirm: label for save to contact diary toggle -->
-    <string name="confirm_checkin_settings_card_checkout_toggle_label">"Nach dem Auschecken in mein Kontakt-Tagebuch eintragen?"</string>
+    <string name="confirm_checkin_settings_card_checkout_toggle_label">"Record in my contact journal after check-out?"</string>
     <!-- XTXT: Checkin Confirm: label for checkout delay selection -->
-    <string name="confirm_checkin_settings_card_checkout_time_label">"Automatisch auschecken nach"</string>
+    <string name="confirm_checkin_settings_card_checkout_time_label">"Check out automatically after"</string>
     <!-- XTXT: Checkin Confirm: time length label for checkout delay selection -->
-    <string name="confirm_checkin_settings_card_checkout_time_tag">"Std"</string>
+    <string name="confirm_checkin_settings_card_checkout_time_tag">"hrs"</string>
     <!-- XBUT: Checkin Confirm: Checkin Button -->
-    <string name="confirm_checkin_confirm_button_text">"Einchecken"</string>
+    <string name="confirm_checkin_confirm_button_text">"Check In"</string>
 
     <!-- Trace Location Checkin Editing -->
     <!-- XHED: Checkin Edit: title for screen -->
-    <string name="edit_checkin_title_text">"Aufenthaltsdauer anpassen für:"</string>
+    <string name="edit_checkin_title_text">"Change length of stay for:"</string>
     <!-- XTXT: Checkin Edit: label for checkout time -->
-    <string name="edit_checkin_edit_card_checkout_time_label">"Ausgecheckt"</string>
+    <string name="edit_checkin_edit_card_checkout_time_label">"Checked Out"</string>
     <!-- XTXT: Checkin Edit: label for checkin time -->
-    <string name="edit_checkin_edit_card_checkin_time_label">"Eingecheckt"</string>
+    <string name="edit_checkin_edit_card_checkin_time_label">"Checked In"</string>
     <!-- XTXT: Checkin Edit: hint for unchanged contact diary checkin duration -->
-    <string name="edit_checkin_duration_edit_hint_card_text">"Die Aufenthaltsdauer wird nicht automatisch in Ihrem Kontakt-Tagebuch angepasst."</string>
+    <string name="edit_checkin_duration_edit_hint_card_text">"The length of stay will not be adjusted automatically in your contact journal."</string>
     <!-- XTXT: Checkin Edit: warning if user input is incorrect -->
-    <string name="edit_checkin_wrong_input_warning_text">"Sie können für maximal 24 Stunden eingecheckt sein und die Auscheck-Zeit muss nach der Eincheck-Zeit liegen."</string>
+    <string name="edit_checkin_wrong_input_warning_text">"You can remain checked in for up to 24 hours. The check-out time must be later than the check-in time."</string>
     <!-- XBUT: Checkin Edit: Save Button -->
-    <string name="edit_checkin_confirm_button_text">"Speichern"</string>
+    <string name="edit_checkin_confirm_button_text">"Save"</string>
 
     <!--  Organizer Flow: Event Detail Screen-->
     <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
