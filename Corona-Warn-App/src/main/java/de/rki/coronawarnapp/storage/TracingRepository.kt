@@ -74,13 +74,13 @@ class TracingRepository @Inject constructor(
     }
 
     private suspend fun List<TaskInfo>.isPTDownloadingPackages() = any {
-        it.taskState.isActive && it.taskState.request.type == PresenceTracingWarningTask::class
-            && it.progress.firstOrNull() is PresenceTracingWarningTaskProgress.Downloading
+        it.taskState.isActive && it.taskState.request.type == PresenceTracingWarningTask::class &&
+            it.progress.firstOrNull() is PresenceTracingWarningTaskProgress.Downloading
     }
 
     private suspend fun List<TaskInfo>.isPTCalculatingRisk() = any {
-        it.taskState.isActive && it.taskState.request.type == PresenceTracingWarningTask::class
-            && it.progress.firstOrNull() is PresenceTracingWarningTaskProgress.Calculating
+        it.taskState.isActive && it.taskState.request.type == PresenceTracingWarningTask::class &&
+            it.progress.firstOrNull() is PresenceTracingWarningTaskProgress.Calculating
     }
 
     private fun List<TaskInfo>.isEWDownloadingPackages() = any {
