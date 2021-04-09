@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
@@ -47,6 +46,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
     )
 
+    @Suppress("NestedBlockDepth")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -121,8 +121,8 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                     placeInputEdit.setText(it.address)
                 }
                 viewModel.apply {
-                    begin = LocalDateTime(it.startDate)
-                    end = LocalDateTime(it.endDate)
+                    begin = it.startDate?.let { time -> LocalDateTime(time) }
+                    end = it.endDate?.let { time -> LocalDateTime(time) }
                     checkInLength = Duration.standardMinutes(it.defaultCheckInLengthInMinutes?.toLong() ?: 0L)
                 }
             }
@@ -159,14 +159,14 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(defaultValue?.toDateTime(DateTimeZone.UTC)?.millis)
+            .setSelection(defaultValue?.toDateTime()?.millis)
             .apply {
                 if (minConstraint != null) {
                     setCalendarConstraints(
                         CalendarConstraints.Builder()
                             .setValidator(
                                 DateValidatorPointForward
-                                    .from(minConstraint.withMillisOfDay(0).toDateTime(DateTimeZone.UTC).millis)
+                                    .from(minConstraint.withMillisOfDay(0).toDateTime().millis)
                             )
                             .build()
                     )
