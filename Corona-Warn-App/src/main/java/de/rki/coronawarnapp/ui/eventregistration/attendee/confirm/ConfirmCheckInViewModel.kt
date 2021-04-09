@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.combine
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
+import kotlin.math.roundToLong
 
 class ConfirmCheckInViewModel @AssistedInject constructor(
     @Assisted private val verifiedTraceLocation: VerifiedTraceLocation,
@@ -28,11 +29,15 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
     private val traceLocation = MutableStateFlow(verifiedTraceLocation.traceLocation)
     private val createJournalEntry = MutableStateFlow(true)
+
     private val checkInLength = MutableStateFlow(
         Duration.standardMinutes(
             verifiedTraceLocation.traceLocation.getDefaultAutoCheckoutLengthInMinutes(timeStamper.nowUTC).toLong()
         )
     )
+
+    private fun roundToNearestValidDuration(minutes: Int): Duration =
+        Duration.standardMinutes((minutes.toFloat() / 15).roundToLong() * 15)
 
     val openDatePickerEvent = SingleLiveEvent<String>()
     val events = SingleLiveEvent<ConfirmCheckInNavigation>()

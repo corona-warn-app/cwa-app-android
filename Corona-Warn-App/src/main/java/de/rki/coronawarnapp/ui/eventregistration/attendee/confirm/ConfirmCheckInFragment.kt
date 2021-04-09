@@ -6,6 +6,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentConfirmCheckInBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
@@ -30,6 +31,13 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             factory.create(navArgs.verifiedTraceLocation)
         }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    }
 
     private val binding: FragmentConfirmCheckInBinding by viewBindingLazy()
 
@@ -99,7 +107,6 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
     ) {
         val durationPicker = DurationPicker.Builder()
             .duration(defaultValue ?: "00:00")
-            .minutes()
             .title(getString(R.string.duration_dialog_title))
             .build()
         durationPicker.show(parentFragmentManager, DURATION_PICKER_TAG)
