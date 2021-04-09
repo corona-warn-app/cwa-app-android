@@ -45,7 +45,7 @@ class SubmissionStateProvider @Inject constructor(
             eval.isResultNegative() -> TestNegative
             eval.isSubmissionDone() -> SubmissionDone(testRegisteredOn = testRegistrationDate)
             eval.isPending() -> TestPending
-            else -> if (CWADebug.isDeviceForTestersBuild) throw IllegalStateException() else TestPending
+            else -> if (CWADebug.isDeviceForTestersBuild) throw IllegalStateException(eval.toString()) else TestPending
         }
     }
         .onStart { Timber.v("SubmissionStateProvider FLOW start") }
@@ -123,5 +123,9 @@ class SubmissionStateProvider @Inject constructor(
                 }
                 else -> false
             }
+
+        override fun toString(): String {
+            return "Evaluation(deviceUiState=$deviceUiState, isDeviceRegistered=$isDeviceRegistered, hasTestResultBeenSeen=$hasTestResultBeenSeen)"
+        }
     }
 }
