@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.mapToRiskState
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
