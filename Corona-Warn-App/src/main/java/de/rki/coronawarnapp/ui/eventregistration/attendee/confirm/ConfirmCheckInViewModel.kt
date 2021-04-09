@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.combine
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
+import kotlin.math.roundToLong
 
 class ConfirmCheckInViewModel @AssistedInject constructor(
     @Assisted private val verifiedTraceLocation: VerifiedTraceLocation,
@@ -28,11 +29,14 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
     private val traceLocation = MutableStateFlow(verifiedTraceLocation.traceLocation)
     private val createJournalEntry = MutableStateFlow(true)
-    private val checkInLength = MutableStateFlow(
-        Duration.standardMinutes(
-            verifiedTraceLocation.traceLocation.defaultCheckInLengthInMinutes?.toLong() ?: 0L
-        )
+
+    private val truncatedDefaultCheckInLength = roundToNearestValidDuration(
+        verifiedTraceLocation.traceLocation.defaultCheckInLengthInMinutes ?: 0
     )
+    private val checkInLength = MutableStateFlow(truncatedDefaultCheckInLength)
+
+    private fun roundToNearestValidDuration(minutes: Int): Duration =
+        Duration.standardMinutes((minutes.toFloat() / 15).roundToLong() * 15)
 
     val openDatePickerEvent = SingleLiveEvent<String>()
     val events = SingleLiveEvent<ConfirmCheckInNavigation>()
@@ -98,7 +102,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
             address = traceLocation.address,
             traceLocationStart = traceLocation.startDate,
             traceLocationEnd = traceLocation.endDate,
-            defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
+            defaultCheckInLengthInMinutes = truncatedDefaultCheckInLength.standardMinutes.toInt(),
             cryptographicSeed = traceLocation.cryptographicSeed,
             cnPublicKey = traceLocation.cnPublicKey,
             checkInStart = checkInStart,
