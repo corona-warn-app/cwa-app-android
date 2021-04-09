@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.LocalDateTime
 import timber.log.Timber

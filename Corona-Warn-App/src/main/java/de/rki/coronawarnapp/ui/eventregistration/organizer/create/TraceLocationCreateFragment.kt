@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
