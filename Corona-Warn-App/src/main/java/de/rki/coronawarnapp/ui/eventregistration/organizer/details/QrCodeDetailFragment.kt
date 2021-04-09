@@ -79,24 +79,23 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 viewModel.onPrintQrCode()
             }
 
-            root.transitionName = navArgs.traceLocationId.toString()
-        }
-
-        viewModel.qrCodeBitmap.observe2(this) {
-            binding.progressBar.hide()
-            binding.qrCodeImage.apply {
-                val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
-                resourceId.cornerRadius = it.width * 0.1f
-                setImageDrawable(resourceId)
+            qrCodeCloneButton.setOnClickListener {
+                viewModel.duplicateTraceLocation()
             }
+
+            root.transitionName = navArgs.traceLocationId.toString()
         }
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 QrCodeDetailNavigationEvents.NavigateBack -> popBackStack()
 
-                QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> { /* TODO */
-                }
+                is QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> doNavigate(
+                    QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToTraceLocationCreateFragment(
+                        it.category,
+                        it.traceLocation
+                    )
+                )
 
                 is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> doNavigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
@@ -133,6 +132,15 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                     }
                 } else {
                     eventDate.isGone = true
+                }
+
+                uiState.bitmap?.let {
+                    binding.progressBar.hide()
+                    binding.qrCodeImage.apply {
+                        val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
+                        resourceId.cornerRadius = it.width * 0.1f
+                        setImageDrawable(resourceId)
+                    }
                 }
             }
         }
