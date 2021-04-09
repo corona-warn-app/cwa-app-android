@@ -56,12 +56,12 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
         binding.submissionContactHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onBackPressed()
         }
-        binding.includeSubmissionContact.informationContactNavigationRowPhone.navigationRow
+        binding.includeSubmissionContact.submissionContactNavigationRowPhone.navigationRow
             .setOnClickListener {
                 val number = getString(R.string.submission_contact_number_display)
                 ExternalActionHelper.call(this, number)
             }
-        binding.includeSubmissionContact.informationContactNavigationRowInternationalPhone.navigationRow
+        binding.includeSubmissionContact.submissionContactNavigationRowInternationalPhone.navigationRow
             .setOnClickListener {
                 val number = getString(R.string.submission_contact_button_international_phone)
                 ExternalActionHelper.call(this, number)
