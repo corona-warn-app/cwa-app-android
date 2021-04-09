@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.joda.time.Instant
 import timber.log.Timber
+import java.lang.Exception
 
 class QrCodeDetailViewModel @AssistedInject constructor(
     @Assisted private val traceLocationId: Long,
@@ -34,10 +35,19 @@ class QrCodeDetailViewModel @AssistedInject constructor(
 
     init {
         launch {
+            loadTraceLocation()
+        }
+    }
+
+    private suspend fun loadTraceLocation() {
+        try {
             traceLocation = traceLocationRepository.traceLocationForId(traceLocationId).also {
                 mutableUiState.postValue(UiState(it))
                 createQrCode(it)
             }
+        } catch (exception: Exception) {
+            Timber.d(exception, "No location found")
+            exception.report(ExceptionCategory.INTERNAL)
         }
     }
 
