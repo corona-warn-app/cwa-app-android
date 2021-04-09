@@ -142,7 +142,7 @@ class SubmissionTask @Inject constructor(
         )
         Timber.tag(TAG).d("Transformed keys with symptoms %s from %s to %s", symptoms, keys, transformedKeys)
 
-        val checkIns = checkInsRepository.allCheckIns.first()
+        val checkIns = checkInsRepository.checkInsWithinRetention.first()
         val transformedCheckIns = checkInsTransformer.transform(checkIns, symptoms)
 
         Timber.tag(TAG).d("Transformed CheckIns from: %s to: %s", checkIns, transformedCheckIns)
@@ -165,7 +165,6 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()
-        checkInsRepository.clear()
         submissionSettings.symptoms.update { null }
 
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)

@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/trace_location_gradient_background"
-    android:contentDescription="@string/trace_location_event_detail_title_accessibility"
-    android:transitionName="trace_location_container_transition">
+    android:contentDescription="@string/trace_location_event_detail_title_accessibility">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -61,9 +60,10 @@
 
                     <TextView
                         android:id="@+id/subtitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginHorizontal="24dp"
                         android:layout_marginBottom="8dp"
                         android:gravity="center"
                         android:textColor="@android:color/white"

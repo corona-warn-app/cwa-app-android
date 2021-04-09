@@ -113,8 +113,7 @@ class SubmissionTaskTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
 
-        every { checkInRepository.allCheckIns } returns flowOf(emptyList())
-        coEvery { checkInRepository.clear() } just Runs
+        every { checkInRepository.checkInsWithinRetention } returns flowOf(emptyList())
         coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
@@ -159,7 +158,7 @@ class SubmissionTaskTest : BaseTest() {
             settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
-            checkInRepository.allCheckIns
+            checkInRepository.checkInsWithinRetention
             checkInsTransformer.transform(any(), any())
 
             appConfigProvider.getAppConfig()
@@ -177,7 +176,6 @@ class SubmissionTaskTest : BaseTest() {
             analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
             tekHistoryStorage.clear()
-            checkInRepository.clear()
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 

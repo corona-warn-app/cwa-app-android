@@ -185,7 +185,7 @@
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
     <string name="trace_location_organiser_list_delete_single_popup_title">"Wollen Sie den QR-Code wirklich entfernen?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
-    <string name="trace_location_organiser_list_delete_single_popup_message">"Bitte denken Sie daran, dass der QR-Code “Jahrestreffen der deutschen SAP Anwendergruppe” danach nicht mehr zum Einchecken verwendet werden kann."</string>
+    <string name="trace_location_organiser_list_delete_single_popup_message">"Bitte denken Sie daran, dass der QR-Code danach nicht mehr zum Einchecken verwendet werden kann."</string>
 
     <!-- XHED:  Event organiser qr codes list: delete all popup title -->
     <string name="trace_location_organiser_list_delete_all_popup_title">"Wollen Sie wirklich alle QR-Codes entfernen?"</string>
@@ -238,6 +238,8 @@
     <string name="edit_checkin_edit_card_checkin_time_label">"Eingecheckt"</string>
     <!-- XTXT: Checkin Edit: hint for unchanged contact diary checkin duration -->
     <string name="edit_checkin_duration_edit_hint_card_text">"Die Aufenthaltsdauer wird nicht automatisch in Ihrem Kontakt-Tagebuch angepasst."</string>
+    <!-- XTXT: Checkin Edit: warning if user input is incorrect -->
+    <string name="edit_checkin_wrong_input_warning_text">"Sie können für maximal 24 Stunden eingecheckt sein und die Auscheck-Zeit muss nach der Eincheck-Zeit liegen."</string>
     <!-- XBUT: Checkin Edit: Save Button -->
     <string name="edit_checkin_confirm_button_text">"Speichern"</string>
 

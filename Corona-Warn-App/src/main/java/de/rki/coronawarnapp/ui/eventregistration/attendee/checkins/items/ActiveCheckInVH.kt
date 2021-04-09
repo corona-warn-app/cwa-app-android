@@ -37,8 +37,15 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
 
-        val checkinDuration = Duration(checkInStartUserTZ, Instant.now())
-        highlightDuration.text = highlightDurationForamtter.print(checkinDuration.toPeriod())
+        highlightDuration.text = kotlin.run {
+            val currentDuration = Duration(checkInStartUserTZ, Instant.now())
+            val saneDuration = if (currentDuration.isShorterThan(Duration.ZERO)) {
+                Duration.ZERO
+            } else {
+                currentDuration
+            }
+            highlightDurationForamtter.print(saneDuration.toPeriod())
+        }
 
         description.text = curItem.checkin.description
         address.text = curItem.checkin.address
@@ -72,12 +79,15 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         checkoutAction.setOnClickListener { curItem.onCheckout(curItem.checkin) }
 
-        itemView.setOnClickListener { curItem.onCardClicked(curItem.checkin) }
+        itemView.apply {
+            setOnClickListener { curItem.onCardClicked(curItem.checkin, adapterPosition) }
+            transitionName = item.checkin.id.toString()
+        }
     }
 
     data class Item(
         val checkin: CheckIn,
-        val onCardClicked: (CheckIn) -> Unit,
+        val onCardClicked: (CheckIn, Int) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit,
         val onCheckout: (CheckIn) -> Unit,
         val onSwipeItem: (CheckIn, Int) -> Unit,

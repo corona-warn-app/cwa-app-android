@@ -10,7 +10,7 @@ data class TraceWarningPackageDownload(val response: Response<ResponseBody>) {
 
     val etag by lazy { headers.values("ETag").singleOrNull() }
 
-    val isEmptyPkg by lazy { headers.values("cwa-empty-pkg").singleOrNull() == "1" }
+    val isEmptyPkg by lazy { headers.values("Content-Length").singleOrNull() == "0" }
 
     fun readBody(): InputStream = requireNotNull(response.body()) { "Response body was null" }.byteStream()
 }
