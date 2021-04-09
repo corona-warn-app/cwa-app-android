@@ -28,8 +28,6 @@ import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragmentModule
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragmentModule
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragmentModule
 
 @Module
 abstract class MainActivityTestModule {
