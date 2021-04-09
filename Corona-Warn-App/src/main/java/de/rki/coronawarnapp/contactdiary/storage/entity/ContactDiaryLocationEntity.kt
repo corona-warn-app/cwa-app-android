@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.util.trimToLength
 import kotlinx.parcelize.Parcelize
 
@@ -15,7 +16,7 @@ data class ContactDiaryLocationEntity(
     @ColumnInfo(name = "locationName") override var locationName: String,
     override val phoneNumber: String?,
     override val emailAddress: String?,
-    @ColumnInfo(name = "traceLocationID") override val traceLocationID: String?
+    @ColumnInfo(name = "traceLocationID") override val traceLocationID: TraceLocationId?
 ) : ContactDiaryLocation, Parcelable {
     override val stableId: Long
         get() = locationId
