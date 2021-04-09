@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
@@ -160,14 +159,14 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(defaultValue?.toDateTime(DateTimeZone.UTC)?.millis)
+            .setSelection(defaultValue?.toDateTime()?.millis)
             .apply {
                 if (minConstraint != null) {
                     setCalendarConstraints(
                         CalendarConstraints.Builder()
                             .setValidator(
                                 DateValidatorPointForward
-                                    .from(minConstraint.withMillisOfDay(0).toDateTime(DateTimeZone.UTC).millis)
+                                    .from(minConstraint.withMillisOfDay(0).toDateTime().millis)
                             )
                             .build()
                     )
