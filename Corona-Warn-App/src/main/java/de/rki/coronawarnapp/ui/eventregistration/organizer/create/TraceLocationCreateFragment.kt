@@ -46,6 +46,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
     )
 
+    @Suppress("NestedBlockDepth")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -120,8 +121,8 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                     placeInputEdit.setText(it.address)
                 }
                 viewModel.apply {
-                    begin = LocalDateTime(it.startDate)
-                    end = LocalDateTime(it.endDate)
+                    begin = it.startDate?.let { time -> LocalDateTime(time) }
+                    end = it.endDate?.let { time -> LocalDateTime(time) }
                     checkInLength = Duration.standardMinutes(it.defaultCheckInLengthInMinutes?.toLong() ?: 0L)
                 }
             }
