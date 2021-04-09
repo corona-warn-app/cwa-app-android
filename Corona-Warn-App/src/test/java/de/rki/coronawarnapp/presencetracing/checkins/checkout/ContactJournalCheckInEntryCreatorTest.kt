@@ -30,13 +30,13 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
         type = 1,
         description = "Restaurant",
         address = "Around the corner",
-        traceLocationStart = Instant.parse("2021-03-04T22:00+01:00"),
-        traceLocationEnd = Instant.parse("2021-03-04T00:00+01:00"),
+        traceLocationStart = Instant.parse("2021-03-04T21:00+01:00"),
+        traceLocationEnd = Instant.parse("2021-03-04T23:00+01:00"),
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = "cryptographicSeed".encode(),
         cnPublicKey = "cnPublicKey",
-        checkInStart = Instant.parse("2021-03-04T22:00+01:00"),
-        checkInEnd = Instant.parse("2021-03-04T00:00+01:00"),
+        checkInStart = Instant.parse("2021-03-04T21:00+01:00"),
+        checkInEnd = Instant.parse("2021-03-04T23:00+01:00"),
         completed = false,
         createJournalEntry = true
     )
@@ -87,7 +87,7 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
     @Test
     fun `Location name contains trace location start and end date if both are set`() {
         createInstance().apply {
-            testCheckIn.locationName() shouldBe "Restaurant, Around the corner, 04.03.21 22:00 - 04.03.21 00:00"
+            testCheckIn.locationName() shouldBe "Restaurant, Around the corner, 04.03.21 21:00 - 04.03.21 23:00"
         }
     }
 }
