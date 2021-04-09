@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:ignore="HardcodedText">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -126,75 +125,135 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <ScrollView
         android:id="@+id/offsets_panel"
-        style="@style/Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:visibility="gone"
         app:behavior_peekHeight="50dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
-        <View
-            android:layout_width="100dp"
-            android:layout_height="5dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="50dp"
-            android:background="@color/colorAccent" />
-
-        <TextView
-            android:id="@+id/qr_code_offsets"
-            style="@style/body2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="QR Code offsets" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/qrOffsetXSlider"
+        <LinearLayout
+            style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:stepSize="1"
-            android:valueFrom="0"
-            android:valueTo="1000"
-            app:labelBehavior="gone" />
+            android:orientation="vertical">
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/qrOffsetYSlider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:stepSize="1"
-            android:valueFrom="0"
-            android:valueTo="1000"
-            app:labelBehavior="gone" />
+            <View
+                android:layout_width="100dp"
+                android:layout_height="5dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="40dp"
+                android:background="@color/colorAccent" />
 
-        <TextView
-            android:id="@+id/info_text_offsets"
-            style="@style/body2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Text offsets" />
+            <TextView
+                android:id="@+id/qr_code_offsets"
+                style="@style/body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QR Code offsets" />
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/txtOffsetXSlider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:stepSize="1"
-            android:valueFrom="0"
-            android:valueTo="1000"
-            app:labelBehavior="gone" />
+            <com.google.android.material.slider.Slider
+                android:id="@+id/qrOffsetXSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:stepSize="1"
+                android:valueFrom="0"
+                android:valueTo="1000"
+                app:labelBehavior="gone" />
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/txtOffsetYSlider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:stepSize="1"
-            android:valueFrom="0"
-            android:valueTo="1000"
-            app:labelBehavior="gone" />
-    </LinearLayout>
+            <com.google.android.material.slider.Slider
+                android:id="@+id/qrOffsetYSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:stepSize="1"
+                android:valueFrom="0"
+                android:valueTo="1000"
+                app:labelBehavior="gone" />
+
+            <TextView
+                style="@style/body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Qr Code length" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/qrLengthSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:stepSize="100"
+                android:valueFrom="500"
+                android:valueTo="2000"
+                app:labelBehavior="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginVertical="10dp"
+                android:background="#BE818181" />
+
+            <TextView
+                android:id="@+id/info_text_offsets"
+                style="@style/body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Text offsets" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/txtOffsetXSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:stepSize="1"
+                android:valueFrom="0"
+                android:valueTo="1000"
+                app:labelBehavior="gone" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/txtOffsetYSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:stepSize="1"
+                android:valueFrom="0"
+                android:valueTo="1000"
+                app:labelBehavior="gone" />
+
+            <TextView
+                android:id="@+id/info_text_size"
+                style="@style/body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Font size" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/infoTextSizeSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:stepSize="1"
+                android:valueFrom="10"
+                android:valueTo="30"
+                app:labelBehavior="gone" />
+
+            <TextView
+                style="@style/body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Font Color" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/info_text_color_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:hint="#000000 - FallbackColor=#000000" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -6,12 +6,12 @@ import android.print.PrintAttributes
 import android.print.PrintManager
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
 import androidx.core.widget.TextViewCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.ui.eventregistration.organizer.poster.Poster
 import de.rki.coronawarnapp.ui.eventregistration.organizer.poster.QrCodePosterViewModel
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -47,6 +46,8 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
         }
     )
 
+    private var itemId = -1
+
     private val binding: FragmentTestQrCodePosterBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,13 +57,15 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
             toolbar.setNavigationOnClickListener { popBackStack() }
             viewModel.poster.observe(viewLifecycleOwner) { poster ->
                 bindPoster(poster)
-                // Avoid creating blank PDF
-                if (poster.hasImages()) onPosterDrawn()
+                bindToolbar()
             }
         }
 
-        viewModel.sharingIntent.observe(viewLifecycleOwner) {
-            onShareIntent(it)
+        viewModel.sharingIntent.observe(viewLifecycleOwner) { fileIntent ->
+            when (itemId) {
+                R.id.action_print -> printFile(fileIntent.file)
+                R.id.action_share -> startActivity(fileIntent.intent(requireActivity()))
+            }
         }
     }
 
@@ -113,24 +116,60 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
         offsetsPanel.isVisible = true
     }
 
-    private fun onPosterDrawn() = with(binding.qrCodePoster) {
-        viewTreeObserver.addOnGlobalLayoutListener(
-            object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    viewModel.createPDF(binding.qrCodePoster)
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            }
-        )
-    }
-
     private fun FragmentTestQrCodePosterBinding.bindTextBox(
         infoText: String,
         textBox: QrCodePosterTemplate.QRCodePosterTemplateAndroid.QRCodeTextBoxAndroid
     ) = with(infoTextView) {
         text = infoText
-        val minFontSize = textBox.fontSize - 6
-        val maxFontSize = textBox.fontSize
+        setFontSize(textBox.fontSize)
+        setTextColor(textBox.fontColor.parseColor())
+        textEndGuideline.setGuidelinePercent(1 - textBox.offsetX)
+        textStartGuideline.setGuidelinePercent(textBox.offsetX)
+        textTopGuideline.setGuidelinePercent(textBox.offsetY)
+
+        // Text Position
+        txtOffsetXSlider.apply {
+            value = textBox.offsetX.sliderValue
+            addOnChangeListener { _, value, fromUser ->
+                if (fromUser) {
+                    val offset = value.percentage
+                    textEndGuideline.setGuidelinePercent(1 - offset)
+                    textStartGuideline.setGuidelinePercent(offset)
+                    updateInfoOffsetText()
+                }
+            }
+        }
+        txtOffsetYSlider.apply {
+            value = textBox.offsetY.sliderValue
+            addOnChangeListener { _, value, fromUser ->
+                if (fromUser) {
+                    textTopGuideline.setGuidelinePercent(value.percentage)
+                    updateInfoOffsetText()
+                }
+            }
+        }
+        updateInfoOffsetText()
+
+        // Text Size
+        infoTextSizeSlider.apply {
+            value = textBox.fontSize.toFloat()
+            addOnChangeListener { _, _, _ -> updateFontSizeText() }
+        }
+        updateFontSizeText()
+
+        // Text Color
+        infoTextColorValue.doOnTextChanged { color, _, _, _ ->
+            infoTextView.setTextColor(color.toString().parseColor())
+        }
+    }
+
+    private fun updateFontSizeText() {
+        binding.infoTextSize.text =
+            "Font size: %s sp".format(binding.infoTextSizeSlider.value)
+    }
+
+    private fun FragmentTestQrCodePosterBinding.setFontSize(maxFontSize: Int) {
+        val minFontSize = maxFontSize - 6
         TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
             infoTextView,
             minFontSize,
@@ -138,41 +177,14 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
             1,
             TypedValue.COMPLEX_UNIT_SP
         )
-        setTextSize(TypedValue.COMPLEX_UNIT_SP, maxFontSize.toFloat())
-        setTextColor(textBox.fontColor.parseColor())
-        textEndGuideline.setGuidelinePercent(1 - textBox.offsetX)
-        textStartGuideline.setGuidelinePercent(textBox.offsetX)
-        textTopGuideline.setGuidelinePercent(textBox.offsetY)
-
-        txtOffsetXSlider.value = textBox.offsetX.sliderValue
-        txtOffsetYSlider.value = textBox.offsetY.sliderValue
-        updateInfoOffsetText()
-
-        txtOffsetXSlider.addOnChangeListener { _, value, fromUser ->
-            if (fromUser) {
-                val offset = value.percentage
-                textEndGuideline.setGuidelinePercent(1 - offset)
-                textStartGuideline.setGuidelinePercent(offset)
-                updateInfoOffsetText()
-            }
-        }
-
-        txtOffsetYSlider.addOnChangeListener { _, value, fromUser ->
-            if (fromUser) {
-                textTopGuideline.setGuidelinePercent(value.percentage)
-                updateInfoOffsetText()
-            }
-        }
-        // TODO setTypeface()
+        infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, maxFontSize.toFloat())
     }
 
-    private fun onShareIntent(fileIntent: FileSharing.FileIntentProvider) {
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.action_print -> printFile(fileIntent.file).run { true }
-                R.id.action_share -> startActivity(fileIntent.intent(requireActivity())).run { true }
-                else -> false
-            }
+    private fun FragmentTestQrCodePosterBinding.bindToolbar() {
+        toolbar.setOnMenuItemClickListener {
+            itemId = it.itemId
+            viewModel.createPDF(binding.qrCodePoster)
+            true
         }
     }
 
