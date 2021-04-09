@@ -50,11 +50,11 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:accessibilityHeading="true"
                 android:focusable="true"
-                android:text="@string/submission_deletion_warning_headline"
+                android:text="@string/submission_deletion_warning_headline_pcr_test"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/deletion_warning_illustration"
-                tools:text="@string/submission_deletion_warning_headline" />
+                tools:text="@string/submission_deletion_warning_headline_pcr_test" />
 
             <TextView
                 android:id="@+id/body"
@@ -63,11 +63,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:focusable="true"
-                android:text="@string/submission_deletion_warning_body"
+                android:text="@string/submission_deletion_warning_body_antigen_test"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/headline"
-                tools:text="@string/submission_deletion_warning_body" />
+                tools:text="@string/submission_deletion_warning_body_pcr_test" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"
