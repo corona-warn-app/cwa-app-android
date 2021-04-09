@@ -107,7 +107,6 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
     ) {
         val durationPicker = DurationPicker.Builder()
             .duration(defaultValue ?: "00:00")
-            .minutes()
             .title(getString(R.string.duration_dialog_title))
             .build()
         durationPicker.show(parentFragmentManager, DURATION_PICKER_TAG)
