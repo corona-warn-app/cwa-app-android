@@ -47,7 +47,7 @@ class TracingDetailsItemProvider @Inject constructor(
         mutableListOf<DetailsItem>().apply {
             if (status != Status.TRACING_INACTIVE &&
                 latestCalc.riskState == RiskState.LOW_RISK &&
-                latestCalc.ewRiskLevelResult.matchedKeyCount > 0
+                latestCalc.matchedRiskCount > 0
             ) {
                 add(AdditionalInfoLowRiskBox.Item)
             }
@@ -81,7 +81,7 @@ class TracingDetailsItemProvider @Inject constructor(
                 }
                 latestCalc.riskState == RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
                     riskState = latestCalc.riskState,
-                    matchedKeyCount = latestCalc.ewRiskLevelResult.matchedKeyCount
+                    matchedRiskCount = latestCalc.matchedRiskCount
                 )
                 latestCalc.riskState == RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
                     riskState = latestCalc.riskState,
