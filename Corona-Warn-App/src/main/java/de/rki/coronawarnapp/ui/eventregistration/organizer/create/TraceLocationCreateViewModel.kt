@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.LocalDateTime
 import timber.log.Timber
@@ -64,8 +63,8 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
             type = category.type,
             description = description,
             address = address,
-            startDate = begin?.toDateTime(DateTimeZone.UTC)?.toInstant(),
-            endDate = end?.toDateTime(DateTimeZone.UTC)?.toInstant(),
+            startDate = begin?.toDateTime()?.toInstant(),
+            endDate = end?.toDateTime()?.toInstant(),
             defaultCheckInLengthInMinutes = checkInLength.standardMinutes.toInt()
         )
 
