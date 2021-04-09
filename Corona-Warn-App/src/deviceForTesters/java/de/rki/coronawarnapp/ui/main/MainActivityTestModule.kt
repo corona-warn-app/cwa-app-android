@@ -72,7 +72,4 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [EventRegistrationTestFragmentModule::class])
     abstract fun eventRegistration(): EventRegistrationTestFragment
-
-    @ContributesAndroidInjector(modules = [QrCodeDetailFragmentModule::class])
-    abstract fun showEventDetail(): QrCodeDetailFragment
 }
