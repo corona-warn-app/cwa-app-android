@@ -20,8 +20,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate
 import de.rki.coronawarnapp.ui.color.parseColor
-import de.rki.coronawarnapp.ui.eventregistration.organizer.poster.Poster
-import de.rki.coronawarnapp.ui.eventregistration.organizer.poster.QrCodePosterViewModel
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -38,10 +36,10 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val args by navArgs<QrCodePosterTestFragmentArgs>()
-    private val viewModel: QrCodePosterViewModel by cwaViewModelsAssisted(
+    private val viewModel: QrCodePosterTestViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
-            factory as QrCodePosterViewModel.Factory
+            factory as QrCodePosterTestViewModel.Factory
             factory.create(args.traceLocationId)
         }
     )
@@ -67,9 +65,13 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
                 R.id.action_share -> startActivity(fileIntent.intent(requireActivity()))
             }
         }
+
+        viewModel.qrCodeBitmap.observe(viewLifecycleOwner) {
+            binding.qrCodeImage.setImageBitmap(it)
+        }
     }
 
-    private fun FragmentTestQrCodePosterBinding.bindPoster(poster: Poster) {
+    private fun FragmentTestQrCodePosterBinding.bindPoster(poster: QrCodePosterTestViewModel.Poster) {
         Timber.d("poster=$poster")
         progressBar.hide()
 
@@ -114,9 +116,23 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
         }
         updateQrCodeOffsetText()
 
+        qrLengthSlider.apply {
+            value = poster.template.qrCodeLength.toFloat()
+            addOnChangeListener { _, value, _ ->
+                updateQrCodeLengthText()
+                viewModel.generateQrCode(value.toInt())
+            }
+        }
+        updateQrCodeLengthText()
+
         // Bind text info
         bindTextBox(poster.infoText, poster.template.textBox)
         offsetsPanel.isVisible = true
+    }
+
+    private fun updateQrCodeLengthText() {
+        val value = binding.qrLengthSlider.value
+        binding.qrCodeLength.text = "Qr Code length:%d".format(value.toInt())
     }
 
     private fun FragmentTestQrCodePosterBinding.bindTextBox(

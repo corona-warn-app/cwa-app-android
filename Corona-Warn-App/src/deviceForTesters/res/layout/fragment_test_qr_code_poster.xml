@@ -173,6 +173,7 @@
                 app:labelBehavior="gone" />
 
             <TextView
+                android:id="@+id/qr_code_length"
                 style="@style/body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
