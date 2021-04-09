@@ -12,6 +12,7 @@ import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
 import java.util.concurrent.TimeUnit
+import kotlin.math.roundToLong
 
 @Parcelize
 data class TraceLocation(
@@ -63,6 +64,9 @@ data class TraceLocation(
 
     fun isAfterEndTime(now: Instant): Boolean = endDate?.isBefore(now) ?: false
 
+    /**
+     * Evaluates the default auto-checkout length depending on the current time
+     */
     fun getDefaultAutoCheckoutLengthInMinutes(now: Instant): Int {
 
         // min valid value is 00:15h
@@ -81,7 +85,7 @@ data class TraceLocation(
                 return maxDefaultAutoCheckOutLengthInMinutes
             }
 
-            return defaultCheckInLengthInMinutes
+            return roundToNearest15Minutes(defaultCheckInLengthInMinutes)
         } else {
 
             if (endDate == null) {
@@ -94,12 +98,26 @@ data class TraceLocation(
 
             val minutesUntilEndDate = Duration(now, endDate).standardMinutes.toInt()
 
+            if (minutesUntilEndDate < minDefaultAutoCheckOutLengthInMinutes) {
+                return minDefaultAutoCheckOutLengthInMinutes
+            }
+
             if (minutesUntilEndDate > maxDefaultAutoCheckOutLengthInMinutes) {
                 return maxDefaultAutoCheckOutLengthInMinutes
             }
 
-            return minutesUntilEndDate
+            return roundToNearest15Minutes(minutesUntilEndDate)
         }
+    }
+
+    private fun roundToNearest15Minutes(minutes: Int): Int {
+        val roundingStepInMinutes = 15
+        return Duration
+            .standardMinutes(
+                (minutes.toFloat() / roundingStepInMinutes)
+                    .roundToLong() * roundingStepInMinutes
+            )
+            .standardMinutes.toInt()
     }
 
     companion object {

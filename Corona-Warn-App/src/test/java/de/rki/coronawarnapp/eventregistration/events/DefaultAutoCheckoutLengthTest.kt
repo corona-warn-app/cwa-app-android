@@ -65,6 +65,28 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
             DefaultAutoCheckoutLengthTestCase(
                 // now doesn't matter here, as defaultCheckInLengthInMinutes is not null
                 now = Instant.parse("1970-01-01T00:00:00.000Z"),
+                // TraceLocations with CWA can actually only have 15 minute interval lengths. However, a trace location
+                // created by a third party could create arbitrary lengths.
+                // 22 min should be rounded to 15
+                defaultCheckInLengthInMinutes = 22,
+                startDate = null,
+                endDate = null,
+                expectedDefaultAutoCheckoutLength = 15
+            ),
+            DefaultAutoCheckoutLengthTestCase(
+                // now doesn't matter here, as defaultCheckInLengthInMinutes is not null
+                now = Instant.parse("1970-01-01T00:00:00.000Z"),
+                // TraceLocations with CWA can actually only have 15 minute interval lengths. However, a trace location
+                // created by a third party could create arbitrary lengths.
+                // 23 min should be rounded to 30
+                defaultCheckInLengthInMinutes = 23,
+                startDate = null,
+                endDate = null,
+                expectedDefaultAutoCheckoutLength = 30
+            ),
+            DefaultAutoCheckoutLengthTestCase(
+                // now doesn't matter here, as defaultCheckInLengthInMinutes is not null
+                now = Instant.parse("1970-01-01T00:00:00.000Z"),
                 // max valid length = 23:45h
                 defaultCheckInLengthInMinutes = MAX_VALID_LENGTH,
                 startDate = null,
@@ -75,6 +97,8 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
                 // now doesn't matter here, as defaultCheckInLengthInMinutes is not null
                 now = Instant.parse("1970-01-01T00:00:00.000Z"),
                 // max valid length = 23:45h
+                // TraceLocations with CWA can actually only have a max length of 23:45h. However, a trace location
+                // created by a third party could have a bigger length.
                 defaultCheckInLengthInMinutes = MAX_VALID_LENGTH + 1,
                 startDate = null,
                 endDate = null,
@@ -135,11 +159,19 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
                 expectedDefaultAutoCheckoutLength = 15
             ),
             DefaultAutoCheckoutLengthTestCase(
-                now = Instant.parse("2021-12-24T16:53:00.000Z"),
+                now = Instant.parse("2021-12-24T16:59:00.000Z"),
                 defaultCheckInLengthInMinutes = null,
                 startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
                 endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // Event ends in 7min ->  we are not rounding to 0 but to the min value (15min)
+                // Event ends in 1min ->  we are not rounding to 0 but to the min value (15min)
+                expectedDefaultAutoCheckoutLength = 15
+            ),
+            DefaultAutoCheckoutLengthTestCase(
+                now = Instant.parse("2021-12-24T17:00:00.000Z"),
+                defaultCheckInLengthInMinutes = null,
+                startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
+                endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
+                // We check in at event end, return min value (15min)
                 expectedDefaultAutoCheckoutLength = 15
             )
         )

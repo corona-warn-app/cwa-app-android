@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.combine
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
-import kotlin.math.roundToLong
 
 class ConfirmCheckInViewModel @AssistedInject constructor(
     @Assisted private val verifiedTraceLocation: VerifiedTraceLocation,
@@ -30,14 +29,11 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     private val traceLocation = MutableStateFlow(verifiedTraceLocation.traceLocation)
     private val createJournalEntry = MutableStateFlow(true)
 
-    private val checkInLength = MutableStateFlow(
+    private val defaultAutoCheckoutLengthInMinutes = MutableStateFlow(
         Duration.standardMinutes(
             verifiedTraceLocation.traceLocation.getDefaultAutoCheckoutLengthInMinutes(timeStamper.nowUTC).toLong()
         )
     )
-
-    private fun roundToNearestValidDuration(minutes: Int): Duration =
-        Duration.standardMinutes((minutes.toFloat() / 15).roundToLong() * 15)
 
     val openDatePickerEvent = SingleLiveEvent<String>()
     val events = SingleLiveEvent<ConfirmCheckInNavigation>()
@@ -45,7 +41,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     val uiState = combine(
         traceLocation,
         createJournalEntry,
-        checkInLength
+        defaultAutoCheckoutLengthInMinutes
     ) { traceLocation, createEntry, checkInLength ->
         UiState(
             traceLocation = traceLocation,
@@ -67,7 +63,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
                 verifiedTraceLocation.toCheckIn(
                     checkInStart = now,
                     createJournalEntry = createJournalEntry.value,
-                    checkInEnd = now + checkInLength.value
+                    checkInEnd = now + defaultAutoCheckoutLengthInMinutes.value
                 )
             )
             events.postValue(ConfirmCheckInNavigation.ConfirmNavigation)
@@ -79,11 +75,11 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     }
 
     fun dateSelectorClicked() {
-        openDatePickerEvent.value = checkInLength.value.toContactDiaryFormat()
+        openDatePickerEvent.value = defaultAutoCheckoutLengthInMinutes.value.toContactDiaryFormat()
     }
 
     fun durationUpdated(duration: Duration) {
-        checkInLength.value = duration
+        defaultAutoCheckoutLengthInMinutes.value = duration
     }
 
     private fun VerifiedTraceLocation.toCheckIn(
