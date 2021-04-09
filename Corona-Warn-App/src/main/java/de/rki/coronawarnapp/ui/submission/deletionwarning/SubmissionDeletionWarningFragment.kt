@@ -20,6 +20,17 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+
+            cancelButton.setOnClickListener { /* TODO */ }
+
+            continueButton.setOnClickListener { /* TODO */ }
+
+            toolbar.apply {
+                setNavigationOnClickListener { /* TODO */ }
+            }
+        }
     }
 
     override fun onResume() {
@@ -27,5 +38,3 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }
-
-
