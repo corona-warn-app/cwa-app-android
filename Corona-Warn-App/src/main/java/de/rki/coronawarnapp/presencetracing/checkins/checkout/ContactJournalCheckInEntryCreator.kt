@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import org.joda.time.Duration
 import org.joda.time.Seconds
 import org.joda.time.format.DateTimeFormat
@@ -25,7 +26,7 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
 ) {
 
     suspend fun createEntry(checkIn: CheckIn) {
-        Timber.d("Creating journal entry for %s", this)
+        Timber.d("Creating journal entry for %s", checkIn)
 
         // 1. Create location if missing
         val location: ContactDiaryLocation = diaryRepository.locations.first()
@@ -35,9 +36,9 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
         val splitCheckIns = checkIn.splitByMidnightUTC()
         Timber.d("Split %s into %s ", this, splitCheckIns)
 
-        // 3. Create LocationVisit
+        // 3. Create LocationVisit if missing
         splitCheckIns
-            .map { it.toLocationVisit(location) }
+            .createMissingLocationVisits(location)
             .forEach { diaryRepository.addLocationVisit(it) }
     }
 
@@ -76,4 +77,28 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
             checkInID = id
         )
     }
+
+    private suspend fun List<CheckIn>.createMissingLocationVisits(location: ContactDiaryLocation):
+        List<ContactDiaryLocationVisit> {
+            Timber.d(
+                "createMissingLocationVisits(location=%s) for %s",
+                location,
+                this.joinToString(prefix = System.lineSeparator(), separator = System.lineSeparator())
+            )
+            val existingLocationVisits = diaryRepository.locationVisits.firstOrNull() ?: emptyList()
+            // Existing location visits shall not be updated, so just drop them
+            return filter {
+                existingLocationVisits.none { visit ->
+                    visit.date == it.checkInStart.toLocalDateUtc() &&
+                        visit.contactDiaryLocation.locationId == location.locationId
+                }
+            }
+                .map { it.toLocationVisit(location) }
+                .also {
+                    Timber.d(
+                        "Created locations visits: %s",
+                        it.joinToString(prefix = System.lineSeparator(), separator = System.lineSeparator())
+                    )
+                }
+        }
 }
