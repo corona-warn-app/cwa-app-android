@@ -29,7 +29,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     private val traceLocation = MutableStateFlow(verifiedTraceLocation.traceLocation)
     private val createJournalEntry = MutableStateFlow(true)
 
-    private val defaultAutoCheckoutLengthInMinutes = MutableStateFlow(
+    private val defaultAutoCheckoutLength = MutableStateFlow(
         Duration.standardMinutes(
             verifiedTraceLocation.traceLocation.getDefaultAutoCheckoutLengthInMinutes(timeStamper.nowUTC).toLong()
         )
@@ -41,14 +41,15 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     val uiState = combine(
         traceLocation,
         createJournalEntry,
-        defaultAutoCheckoutLengthInMinutes
+        defaultAutoCheckoutLength
     ) { traceLocation, createEntry, checkInLength ->
         UiState(
             traceLocation = traceLocation,
             createJournalEntry = createEntry,
             checkInEndOffset = checkInLength,
             eventInPastVisible = traceLocation.isAfterEndTime(timeStamper.nowUTC),
-            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowUTC)
+            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowUTC),
+            confirmButtonEnabled = checkInLength.standardMinutes > 0
         )
     }.asLiveData()
 
@@ -63,7 +64,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
                 verifiedTraceLocation.toCheckIn(
                     checkInStart = now,
                     createJournalEntry = createJournalEntry.value,
-                    checkInEnd = now + defaultAutoCheckoutLengthInMinutes.value
+                    checkInEnd = now + defaultAutoCheckoutLength.value
                 )
             )
             events.postValue(ConfirmCheckInNavigation.ConfirmNavigation)
@@ -75,18 +76,16 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     }
 
     fun dateSelectorClicked() {
-        openDatePickerEvent.value = defaultAutoCheckoutLengthInMinutes.value.toContactDiaryFormat()
+        openDatePickerEvent.value = defaultAutoCheckoutLength.value.toContactDiaryFormat()
     }
 
     fun durationUpdated(duration: Duration) {
-        defaultAutoCheckoutLengthInMinutes.value = duration
+        defaultAutoCheckoutLength.value = duration
     }
 
     private fun VerifiedTraceLocation.toCheckIn(
         checkInStart: Instant,
-        checkInEnd: Instant = checkInStart.plus(
-            Duration.standardMinutes(traceLocation.defaultCheckInLengthInMinutes?.toLong() ?: 3L)
-        ),
+        checkInEnd: Instant,
         completed: Boolean = false,
         createJournalEntry: Boolean = true
     ): CheckIn {
@@ -121,7 +120,8 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         private val checkInEndOffset: Duration,
         val createJournalEntry: Boolean,
         val eventInPastVisible: Boolean,
-        val eventInFutureVisible: Boolean
+        val eventInFutureVisible: Boolean,
+        val confirmButtonEnabled: Boolean
     ) {
         val description get() = traceLocation.description
         val typeRes get() = mapTraceLocationToTitleRes(traceLocation.type)

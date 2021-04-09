@@ -91,6 +91,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
                     uiState.eventInFutureDateText,
                     uiState.eventInFutureTimeText
                 )
+                confirmCheckinConfirmButton.isEnabled = uiState.confirmButtonEnabled
             }
         }
 
