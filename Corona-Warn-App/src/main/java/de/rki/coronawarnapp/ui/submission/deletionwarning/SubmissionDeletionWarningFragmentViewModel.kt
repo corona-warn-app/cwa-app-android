@@ -1,12 +1,11 @@
-package de.rki.coronawarnapp.ui.submission.testresultremoval
+package de.rki.coronawarnapp.ui.submission.deletionwarning
 
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
-class SubmissionRemovePriorTestFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
+class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
     //val routeToScreen: SingleLiveEvent<SubmissionRemovePriorTestNavigationEvents> = SingleLiveEvent()
 
     /*
@@ -23,5 +22,5 @@ class SubmissionRemovePriorTestFragmentViewModel @AssistedInject constructor() :
     }*/
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionRemovePriorTestFragmentViewModel>
+    interface Factory : SimpleCWAViewModelFactory<SubmissionDeletionWarningFragmentViewModel>
 }

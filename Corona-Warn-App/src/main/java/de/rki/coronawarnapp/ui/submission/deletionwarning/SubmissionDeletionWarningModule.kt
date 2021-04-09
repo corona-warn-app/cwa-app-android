@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.testresultremoval
+package de.rki.coronawarnapp.ui.submission.deletionwarning
 
 import dagger.Binds
 import dagger.Module
@@ -8,12 +8,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class SubmissionRemovePriorTestFragmentModule {
+abstract class SubmissionDeletionWarningModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(SubmissionRemovePriorTestFragmentViewModel::class)
-    abstract fun overwriteInformationFragmentVM(
-        factory: SubmissionRemovePriorTestFragmentViewModel.Factory
+    @CWAViewModelKey(SubmissionDeletionWarningFragmentViewModel::class)
+    abstract fun submissionDeletionWarningFragmentVM(
+        factory: SubmissionDeletionWarningFragmentViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
