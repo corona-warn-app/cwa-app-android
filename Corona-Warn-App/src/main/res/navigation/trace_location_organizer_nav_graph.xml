@@ -82,6 +82,9 @@
         <action
             android:id="@+id/action_qrCodeDetailFragment_to_qrCodePosterFragment"
             app:destination="@id/qrCodePosterFragment" />
+        <action
+            android:id="@+id/action_qrCodeDetailFragment_to_traceLocationCreateFragment"
+            app:destination="@id/traceLocationCreateFragment" />
     </fragment>
 
     <fragment
