@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_deletion_warning), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SubmissionDeletionWarningFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: SubmissionDeletionWarningFragmentViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionDeletionWarningBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

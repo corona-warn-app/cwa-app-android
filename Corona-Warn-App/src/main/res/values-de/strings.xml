@@ -1990,6 +1990,6 @@
     <!-- XMIT: Trace location poster share -->
     <string name="trace_location_organiser_poster_share">"Teilen"</string>
     <!-- XHED: Trace location poster title -->
-    <string name="trace_location_organiser_poster_title">"Druckversion"</string>F
+    <string name="trace_location_organiser_poster_title">"Druckversion"</string>
 
 </resources>
