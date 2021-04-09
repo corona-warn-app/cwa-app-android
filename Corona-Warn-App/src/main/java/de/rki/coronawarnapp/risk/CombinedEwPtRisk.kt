@@ -13,8 +13,8 @@ data class CombinedEwPtDayRisk(
 )
 
 data class CombinedEwPtRiskLevelResult(
-    val ptRiskLevelResult: PtRiskLevelResult,
-    val ewRiskLevelResult: EwRiskLevelResult
+    private val ptRiskLevelResult: PtRiskLevelResult,
+    private val ewRiskLevelResult: EwRiskLevelResult
 ) {
 
     val riskState: RiskState by lazy {
@@ -55,6 +55,15 @@ data class CombinedEwPtRiskLevelResult(
             )
             else -> null
         }
+    }
+
+    /**
+     * The combination of matched exposure windows and overlaps.
+     * If we have matches > 0, but are still in a low risk state,
+     * the UI displays additional information in the risk details screen.
+     */
+    val matchedRiskCount: Int by lazy {
+        ewRiskLevelResult.matchedKeyCount + ptRiskLevelResult.checkInOverlapCount
     }
 }
 

@@ -220,7 +220,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             riskLevelResults.size shouldBe 2
 
             riskLevelResults[0].calculatedAt shouldBe calculatedAt
-            riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
+            riskLevelResults[0].riskState shouldBe RiskState.CALCULATION_FAILED
             riskLevelResults[1].calculatedAt shouldBe ewCalculatedAt
             riskLevelResults[1].riskState shouldBe RiskState.INCREASED_RISK
 
@@ -241,7 +241,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
                 PtRiskLevelResult(
                     calculatedAt = calculatedAt,
                     presenceTracingDayRisk = null,
-                    riskState = RiskState.CALCULATION_FAILED
+                    riskState = RiskState.LOW_RISK
                 )
             )
         )
@@ -303,12 +303,12 @@ class BaseRiskLevelStorageTest : BaseTest() {
                 PtRiskLevelResult(
                     calculatedAt = calculatedAt,
                     presenceTracingDayRisk = null,
-                    riskState = RiskState.CALCULATION_FAILED
+                    riskState = RiskState.INCREASED_RISK
                 ),
                 PtRiskLevelResult(
                     calculatedAt = calculatedAt.minus(400L),
                     presenceTracingDayRisk = null,
-                    riskState = RiskState.LOW_RISK
+                    riskState = RiskState.CALCULATION_FAILED
                 )
             )
         )
@@ -319,7 +319,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             riskLevelResults.size shouldBe 2
 
             riskLevelResults[0].calculatedAt shouldBe ewCalculatedAt
-            riskLevelResults[0].riskState shouldBe RiskState.LOW_RISK
+            riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
             riskLevelResults[1].calculatedAt shouldBe ewCalculatedAt.minus(200L)
             riskLevelResults[1].riskState shouldBe RiskState.INCREASED_RISK
 
