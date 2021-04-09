@@ -134,6 +134,11 @@ internal fun CheckIn.calculateOverlap(
         return null
     }
 
+    if (isSubmitted) {
+        Timber.tag(TAG).d("Overlap with our own CheckIn (%s and %s)", this, warning)
+        return null
+    }
+
     return CheckInWarningOverlap(
         checkInId = id,
         transmissionRiskLevel = warning.transmissionRiskLevel,

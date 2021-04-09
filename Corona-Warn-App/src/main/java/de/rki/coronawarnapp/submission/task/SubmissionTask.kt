@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.task
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
@@ -166,6 +167,15 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()
         submissionSettings.symptoms.update { null }
+
+        Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
+        checkIns.forEach { checkIn ->
+            try {
+                checkInsRepository.markCheckInAsSubmitted(checkIn.id)
+            } catch (e: Exception) {
+                e.reportProblem(TAG, "CheckIn $checkIn could not be marked as submitted")
+            }
+        }
 
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
