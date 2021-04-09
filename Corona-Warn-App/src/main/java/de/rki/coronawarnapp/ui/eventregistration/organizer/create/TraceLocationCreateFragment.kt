@@ -159,14 +159,14 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(defaultValue?.toDateTime(DateTimeZone.UTC)?.millis)
+            .setSelection(defaultValue?.toDateTime()?.millis)
             .apply {
                 if (minConstraint != null) {
                     setCalendarConstraints(
                         CalendarConstraints.Builder()
                             .setValidator(
                                 DateValidatorPointForward
-                                    .from(minConstraint.withMillisOfDay(0).toDateTime(DateTimeZone.UTC).millis)
+                                    .from(minConstraint.withMillisOfDay(0).toDateTime().millis)
                             )
                             .build()
                     )

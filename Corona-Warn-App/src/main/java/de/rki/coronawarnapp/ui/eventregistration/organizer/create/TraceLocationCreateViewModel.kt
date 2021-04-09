@@ -64,8 +64,8 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
             type = category.type,
             description = description,
             address = address,
-            startDate = begin?.toDateTime(DateTimeZone.UTC)?.toInstant(),
-            endDate = end?.toDateTime(DateTimeZone.UTC)?.toInstant(),
+            startDate = begin?.toDateTime()?.toInstant(),
+            endDate = end?.toDateTime()?.toInstant(),
             defaultCheckInLengthInMinutes = checkInLength.standardMinutes.toInt()
         )
 
