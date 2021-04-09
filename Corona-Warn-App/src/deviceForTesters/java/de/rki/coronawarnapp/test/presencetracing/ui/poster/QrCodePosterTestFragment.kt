@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.test.presencetracing.ui.poster
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
@@ -9,6 +10,7 @@ import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.getSystemService
+import androidx.core.view.isVisible
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -31,6 +33,7 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
+@SuppressLint("SetTextI18n")
 class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
@@ -85,17 +88,29 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
         startGuideline.setGuidelinePercent(template.offsetX)
         endGuideline.setGuidelinePercent(1 - template.offsetX)
 
-        qrOffsetXSlider.addOnChangeListener { _, value, _ ->
-            startGuideline.setGuidelinePercent(value)
-            endGuideline.setGuidelinePercent(1 - value)
+        qrOffsetXSlider.value = template.offsetX.sliderValue
+        qrOffsetYSlider.value = template.offsetY.sliderValue
+        updateQrCodeOffsetText()
+
+        qrOffsetXSlider.addOnChangeListener { _, value, fromUser ->
+            if (fromUser) {
+                val offset = value.percentage
+                startGuideline.setGuidelinePercent(offset)
+                endGuideline.setGuidelinePercent(1 - offset)
+                updateQrCodeOffsetText()
+            }
         }
 
-        qrOffsetYSlider.addOnChangeListener { _, value, _ ->
-            topGuideline.setGuidelinePercent(value)
+        qrOffsetYSlider.addOnChangeListener { _, value, fromUser ->
+            if (fromUser) {
+                topGuideline.setGuidelinePercent(value.percentage)
+                updateQrCodeOffsetText()
+            }
         }
 
         // Bind text info
         bindTextBox(poster.infoText, poster.template.textBox)
+        offsetsPanel.isVisible = true
     }
 
     private fun onPosterDrawn() = with(binding.qrCodePoster) {
@@ -129,13 +144,24 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
         textStartGuideline.setGuidelinePercent(textBox.offsetX)
         textTopGuideline.setGuidelinePercent(textBox.offsetY)
 
-        txtOffsetXSlider.addOnChangeListener { _, value, _ ->
-            textEndGuideline.setGuidelinePercent(1 - value)
-            textStartGuideline.setGuidelinePercent(value)
+        txtOffsetXSlider.value = textBox.offsetX.sliderValue
+        txtOffsetYSlider.value = textBox.offsetY.sliderValue
+        updateInfoOffsetText()
+
+        txtOffsetXSlider.addOnChangeListener { _, value, fromUser ->
+            if (fromUser) {
+                val offset = value.percentage
+                textEndGuideline.setGuidelinePercent(1 - offset)
+                textStartGuideline.setGuidelinePercent(offset)
+                updateInfoOffsetText()
+            }
         }
 
-        txtOffsetYSlider.addOnChangeListener { _, value, _ ->
-            textTopGuideline.setGuidelinePercent(value)
+        txtOffsetYSlider.addOnChangeListener { _, value, fromUser ->
+            if (fromUser) {
+                textTopGuideline.setGuidelinePercent(value.percentage)
+                updateInfoOffsetText()
+            }
         }
         // TODO setTypeface()
     }
@@ -173,4 +199,26 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
             e.report(ExceptionCategory.INTERNAL)
         }
     }
+
+    private fun updateQrCodeOffsetText() {
+        with(binding) {
+            qrCodeOffsets.text = "Qr Code offsets: X=%.3f, Y=%.3f".format(
+                qrOffsetXSlider.value.percentage,
+                qrOffsetYSlider.value.percentage
+            )
+        }
+    }
+
+    private fun updateInfoOffsetText() {
+        with(binding) {
+            infoTextOffsets.text = "Text offsets: X=%.3f, Y=%.3f".format(
+                txtOffsetXSlider.value.percentage,
+                txtOffsetYSlider.value.percentage
+            )
+        }
+    }
+
+    private val Float.percentage get() = this / 1000
+
+    private val Float.sliderValue get() = this * 1000
 }

@@ -10,8 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        tools:visibility="gone">
+        android:background="@android:color/white">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -128,63 +127,74 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/sheet"
+        android:id="@+id/offsets_panel"
         style="@style/Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="56dp"
+        app:behavior_peekHeight="50dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="50dp"
+            android:background="@color/colorAccent" />
+
         <TextView
-            style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+            android:id="@+id/qr_code_offsets"
+            style="@style/body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="QR Code coordinates" />
+            android:text="QR Code offsets" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/qrOffsetXSlider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
-            android:stepSize="0.001"
-            android:valueFrom="0.0"
-            android:valueTo="1.0"
-            app:labelBehavior="floating" />
+            android:stepSize="1"
+            android:valueFrom="0"
+            android:valueTo="1000"
+            app:labelBehavior="gone" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/qrOffsetYSlider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
-            android:stepSize="0.001"
-            android:valueFrom="0.0"
-            android:valueTo="1.0" />
+            android:stepSize="1"
+            android:valueFrom="0"
+            android:valueTo="1000"
+            app:labelBehavior="gone" />
 
         <TextView
-            style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+            android:id="@+id/info_text_offsets"
+            style="@style/body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Text coordinates" />
+            android:text="Text offsets" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/txtOffsetXSlider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
-            android:stepSize="0.001"
-            android:valueFrom="0.0"
-            android:valueTo="1.0"
-            app:labelBehavior="floating" />
+            android:stepSize="1"
+            android:valueFrom="0"
+            android:valueTo="1000"
+            app:labelBehavior="gone" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/txtOffsetYSlider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
-            android:stepSize="0.001"
-            android:valueFrom="0.0"
-            android:valueTo="1.0" />
+            android:stepSize="1"
+            android:valueFrom="0"
+            android:valueTo="1000"
+            app:labelBehavior="gone" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
