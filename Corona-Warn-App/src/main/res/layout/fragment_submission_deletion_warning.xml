@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/contact_diary_title"
+    android:contentDescription="@string/submission_deletion_warning_title"
     android:focusable="true">
 
     <androidx.appcompat.widget.Toolbar
@@ -16,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/contact_diary_title" />
+        app:navigationIcon="@drawable/ic_close"
+        app:title="@string/submission_deletion_warning_title" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -32,43 +32,42 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/overwrite_test_result_illustration"
+                android:id="@+id/deletion_warning_illustration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/contact_diary_onboarding_image_content_description"
                 android:focusable="true"
-                android:src="@drawable/ic_overwrite_confirmation"
+                android:src="@drawable/ic_deletion_warning"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_overwrite_confirmation" />
+                tools:src="@drawable/ic_deletion_warning" />
 
             <TextView
-                android:id="@+id/onboarding_headline"
+                android:id="@+id/headline"
                 style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:accessibilityHeading="true"
                 android:focusable="true"
-                android:text="@string/contact_diary_information_card_title"
+                android:text="@string/submission_deletion_warning_headline"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/overwrite_test_result_illustration"
-                tools:text="Sie haben bereits einen Schnelltest registriert." />
+                app:layout_constraintTop_toBottomOf="@id/deletion_warning_illustration"
+                tools:text="@string/submission_deletion_warning_headline" />
 
             <TextView
-                android:id="@+id/contact_diary_onboarding_body"
+                android:id="@+id/body"
                 style="@style/subtitleMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:focusable="true"
-                android:text="@string/contact_diary_onboarding_body"
+                android:text="@string/submission_deletion_warning_body"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/onboarding_headline"
-                tools:text="Sie haben bereits einen Schnelltest erfasst. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren Schnelltest erfassen, wird der erste Schnelltest aus der App gelöscht." />
+                app:layout_constraintTop_toBottomOf="@id/headline"
+                tools:text="@string/submission_deletion_warning_body" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"
@@ -96,11 +95,11 @@
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="8dp"
-        android:text="@string/submission_overwrite_former_test_result_continue_button"
+        android:text="@string/submission_deletion_warning_continue_button"
         app:layout_constraintBottom_toTopOf="@id/cancel_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/submission_overwrite_former_test_result_continue_button" />
+        tools:text="@string/submission_deletion_warning_continue_button" />
 
     <Button
         android:id="@+id/cancel_button"
@@ -110,11 +109,11 @@
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="4dp"
-        android:text="@string/submission_overwrite_former_test_result_cancel_button"
+        android:text="@string/submission_deletion_warning_cancel_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/submission_overwrite_former_test_result_cancel_button" />
+        tools:text="@string/submission_deletion_warning_cancel_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
