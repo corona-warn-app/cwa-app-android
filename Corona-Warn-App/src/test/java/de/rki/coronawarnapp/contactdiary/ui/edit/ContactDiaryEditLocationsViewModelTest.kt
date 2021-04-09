@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.edit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationId
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -30,7 +31,7 @@ class ContactDiaryEditLocationsViewModelTest {
         override val phoneNumber: String? = null
         override val emailAddress: String? = null
         override val stableId = 1L
-        override val traceLocationID: String? = null
+        override val traceLocationID: TraceLocationId? = null
     }
     private val locationList = listOf(location)
 
