@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.presencetracing.checkins.checkout
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -85,5 +84,4 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
             contactDiaryRepo.addLocation(any())
         }
     }
-
 }
