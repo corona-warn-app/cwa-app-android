@@ -138,11 +138,11 @@ class CombineRiskTest {
     fun `max RiskState works`() {
         combine(RiskState.INCREASED_RISK, RiskState.INCREASED_RISK) shouldBe RiskState.INCREASED_RISK
         combine(RiskState.INCREASED_RISK, RiskState.LOW_RISK) shouldBe RiskState.INCREASED_RISK
-        combine(RiskState.INCREASED_RISK, RiskState.CALCULATION_FAILED) shouldBe RiskState.INCREASED_RISK
+        combine(RiskState.INCREASED_RISK, RiskState.CALCULATION_FAILED) shouldBe RiskState.CALCULATION_FAILED
         combine(RiskState.LOW_RISK, RiskState.INCREASED_RISK) shouldBe RiskState.INCREASED_RISK
-        combine(RiskState.CALCULATION_FAILED, RiskState.INCREASED_RISK) shouldBe RiskState.INCREASED_RISK
+        combine(RiskState.CALCULATION_FAILED, RiskState.INCREASED_RISK) shouldBe RiskState.CALCULATION_FAILED
         combine(RiskState.LOW_RISK, RiskState.LOW_RISK) shouldBe RiskState.LOW_RISK
-        combine(RiskState.CALCULATION_FAILED, RiskState.LOW_RISK) shouldBe RiskState.LOW_RISK
+        combine(RiskState.CALCULATION_FAILED, RiskState.LOW_RISK) shouldBe RiskState.CALCULATION_FAILED
         combine(RiskState.CALCULATION_FAILED, RiskState.CALCULATION_FAILED) shouldBe RiskState.CALCULATION_FAILED
     }
 }
