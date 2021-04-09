@@ -124,8 +124,9 @@ class SubmissionStateProvider @Inject constructor(
                 else -> false
             }
 
-        override fun toString(): String {
-            return "Evaluation(deviceUiState=$deviceUiState, isDeviceRegistered=$isDeviceRegistered, hasTestResultBeenSeen=$hasTestResultBeenSeen)"
-        }
+        override fun toString() =
+            "Evaluation(deviceUiState=$deviceUiState, " +
+                "isDeviceRegistered=$isDeviceRegistered, " +
+                "hasTestResultBeenSeen=$hasTestResultBeenSeen)"
     }
 }
