@@ -172,7 +172,9 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
         // Text Size
         infoTextSizeSlider.apply {
             value = textBox.fontSize.toFloat()
-            addOnChangeListener { _, _, _ -> updateFontSizeText() }
+            addOnChangeListener { _, value, _ -> updateFontSizeText()
+                setFontSize(value.toInt())
+            }
         }
         updateFontSizeText()
 
