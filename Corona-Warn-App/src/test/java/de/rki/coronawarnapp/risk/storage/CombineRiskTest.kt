@@ -17,7 +17,11 @@ class CombineRiskTest {
 
     @Test
     fun `combineRisk works`() {
-        val ptRisk = PresenceTracingDayRisk(
+        val ptRisk0 = PresenceTracingDayRisk(
+            localDateUtc = LocalDate(2021, 3, 19),
+            riskState = RiskState.LOW_RISK
+        )
+        val ptRisk1 = PresenceTracingDayRisk(
             localDateUtc = LocalDate(2021, 3, 20),
             riskState = RiskState.INCREASED_RISK
         )
@@ -29,50 +33,81 @@ class CombineRiskTest {
             localDateUtc = LocalDate(2021, 3, 22),
             riskState = RiskState.CALCULATION_FAILED
         )
-        val ewRisk = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-22T14:00:00.000Z").millis,
+        val ptRisk4 = PresenceTracingDayRisk(
+            localDateUtc = LocalDate(2021, 3, 23),
+            riskState = RiskState.LOW_RISK
+        )
+        val ptRisk5 = PresenceTracingDayRisk(
+            localDateUtc = LocalDate(2021, 3, 24),
+            riskState = RiskState.INCREASED_RISK
+        )
+
+        val ewRisk0 = ExposureWindowDayRisk(
+            dateMillisSinceEpoch = Instant.parse("2021-03-24T14:00:00.000Z").millis,
+            riskLevel = RiskLevel.HIGH,
+            0,
+            0
+        )
+        val ewRisk1 = ExposureWindowDayRisk(
+            dateMillisSinceEpoch = Instant.parse("2021-03-23T14:00:00.000Z").millis,
             riskLevel = RiskLevel.HIGH,
             0,
             0
         )
         val ewRisk2 = ExposureWindowDayRisk(
+            dateMillisSinceEpoch = Instant.parse("2021-03-22T14:00:00.000Z").millis,
+            riskLevel = RiskLevel.HIGH,
+            0,
+            0
+        )
+        val ewRisk3 = ExposureWindowDayRisk(
             dateMillisSinceEpoch = Instant.parse("2021-03-19T14:00:00.000Z").millis,
             riskLevel = RiskLevel.LOW,
             0,
             0
         )
-        val ewRisk3 = ExposureWindowDayRisk(
+        val ewRisk4 = ExposureWindowDayRisk(
             dateMillisSinceEpoch = Instant.parse("2021-03-20T14:00:00.000Z").millis,
             riskLevel = RiskLevel.UNSPECIFIED,
             0,
             0
         )
-        val ewRisk4 = ExposureWindowDayRisk(
+        val ewRisk5 = ExposureWindowDayRisk(
             dateMillisSinceEpoch = Instant.parse("2021-03-15T14:00:00.000Z").millis,
             riskLevel = RiskLevel.UNSPECIFIED,
             0,
             0
         )
 
-        val ptDayRiskList: List<PresenceTracingDayRisk> = listOf(ptRisk, ptRisk2, ptRisk3)
-        val ewDayRiskList: List<ExposureWindowDayRisk> = listOf(ewRisk, ewRisk2, ewRisk3, ewRisk4)
+        val ptDayRiskList: List<PresenceTracingDayRisk> = listOf(ptRisk0, ptRisk1, ptRisk2, ptRisk3, ptRisk4, ptRisk5)
+        val ewDayRiskList: List<ExposureWindowDayRisk> = listOf(ewRisk0, ewRisk1, ewRisk2, ewRisk3, ewRisk4, ewRisk5)
         val result = combineRisk(ptDayRiskList, ewDayRiskList)
-        result.size shouldBe 5
-        result.find {
+        result.size shouldBe 7
+
+        result.single {
             it.localDate == LocalDate(2021, 3, 15)
-        }!!.riskState shouldBe RiskState.CALCULATION_FAILED
-        result.find {
+        }.riskState shouldBe RiskState.CALCULATION_FAILED
+        result.single {
             it.localDate == LocalDate(2021, 3, 19)
-        }!!.riskState shouldBe RiskState.LOW_RISK
-        result.find {
+        }.riskState shouldBe RiskState.LOW_RISK
+        result.single {
             it.localDate == LocalDate(2021, 3, 20)
-        }!!.riskState shouldBe RiskState.INCREASED_RISK
-        result.find {
+        }.riskState shouldBe RiskState.CALCULATION_FAILED
+        result.single {
             it.localDate == LocalDate(2021, 3, 21)
-        }!!.riskState shouldBe RiskState.LOW_RISK
-        result.find {
+        }.riskState shouldBe RiskState.LOW_RISK
+        result.single {
             it.localDate == LocalDate(2021, 3, 22)
-        }!!.riskState shouldBe RiskState.INCREASED_RISK
+        }.riskState shouldBe RiskState.CALCULATION_FAILED
+        result.single {
+            it.localDate == LocalDate(2021, 3, 22)
+        }.riskState shouldBe RiskState.CALCULATION_FAILED
+        result.single {
+            it.localDate == LocalDate(2021, 3, 23)
+        }.riskState shouldBe RiskState.INCREASED_RISK
+        result.single {
+            it.localDate == LocalDate(2021, 3, 24)
+        }.riskState shouldBe RiskState.INCREASED_RISK
     }
 
     @Test
@@ -85,7 +120,7 @@ class CombineRiskTest {
         )
         val ptResult2 = PtRiskLevelResult(
             calculatedAt = startInstant.plus(3000L),
-            riskState = RiskState.CALCULATION_FAILED
+            riskState = RiskState.LOW_RISK
         )
         val ptResult3 = PtRiskLevelResult(
             calculatedAt = startInstant.plus(6000L),
@@ -99,7 +134,7 @@ class CombineRiskTest {
         val ptResults = listOf(ptResult, ptResult2, ptResult4, ptResult3)
         val ewResult = createEwRiskLevelResult(
             calculatedAt = startInstant.plus(2000L),
-            riskState = RiskState.CALCULATION_FAILED
+            riskState = RiskState.LOW_RISK
         )
         val ewResult2 = createEwRiskLevelResult(
             calculatedAt = startInstant.plus(4000L),
@@ -126,11 +161,11 @@ class CombineRiskTest {
         result[3].calculatedAt shouldBe startInstant.plus(5000L)
         result[4].riskState shouldBe RiskState.INCREASED_RISK
         result[4].calculatedAt shouldBe startInstant.plus(4000L)
-        result[5].riskState shouldBe RiskState.CALCULATION_FAILED
+        result[5].riskState shouldBe RiskState.LOW_RISK
         result[5].calculatedAt shouldBe startInstant.plus(3000L)
         result[6].riskState shouldBe RiskState.LOW_RISK
         result[6].calculatedAt shouldBe startInstant.plus(2000L)
-        result[7].riskState shouldBe RiskState.LOW_RISK
+        result[7].riskState shouldBe RiskState.CALCULATION_FAILED
         result[7].calculatedAt shouldBe startInstant.plus(1000L)
     }
 

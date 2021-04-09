@@ -87,7 +87,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
             exposureWindows = listOf(exposureWindow)
         )
 
-        every { combinedResult.ewRiskLevelResult } returns ewRiskLevelTaskResult
+        every { combinedResult.matchedRiskCount } returns matchedKeyCount
 
         val lastCombined = LastCombinedRiskResults(
             lastCalculated = combinedResult,
