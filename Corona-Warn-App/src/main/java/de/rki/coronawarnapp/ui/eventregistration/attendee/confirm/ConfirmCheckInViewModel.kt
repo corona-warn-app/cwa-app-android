@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.getDefaultAutoCheckoutLengthInMinutes
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.mapTraceLocationToTitleRes

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.events
 
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.getDefaultAutoCheckoutLengthInMinutes
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.encode
