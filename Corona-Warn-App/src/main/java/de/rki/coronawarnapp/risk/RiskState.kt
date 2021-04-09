@@ -15,4 +15,3 @@ fun RiskLevel.mapToRiskState(): RiskState {
         RiskLevel.HIGH -> RiskState.INCREASED_RISK
     }
 }
-
