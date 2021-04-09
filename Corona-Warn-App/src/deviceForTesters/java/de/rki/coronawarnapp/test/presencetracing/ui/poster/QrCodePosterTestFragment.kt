@@ -91,25 +91,28 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
         startGuideline.setGuidelinePercent(template.offsetX)
         endGuideline.setGuidelinePercent(1 - template.offsetX)
 
-        qrOffsetXSlider.value = template.offsetX.sliderValue
-        qrOffsetYSlider.value = template.offsetY.sliderValue
+        // Qr Code positioning
+        qrOffsetXSlider.apply {
+            value = template.offsetX.sliderValue
+            addOnChangeListener { _, value, fromUser ->
+                if (fromUser) {
+                    val offset = value.percentage
+                    startGuideline.setGuidelinePercent(offset)
+                    endGuideline.setGuidelinePercent(1 - offset)
+                    updateQrCodeOffsetText()
+                }
+            }
+        }
+        qrOffsetYSlider.apply {
+            value = template.offsetY.sliderValue
+            addOnChangeListener { _, value, fromUser ->
+                if (fromUser) {
+                    topGuideline.setGuidelinePercent(value.percentage)
+                    updateQrCodeOffsetText()
+                }
+            }
+        }
         updateQrCodeOffsetText()
-
-        qrOffsetXSlider.addOnChangeListener { _, value, fromUser ->
-            if (fromUser) {
-                val offset = value.percentage
-                startGuideline.setGuidelinePercent(offset)
-                endGuideline.setGuidelinePercent(1 - offset)
-                updateQrCodeOffsetText()
-            }
-        }
-
-        qrOffsetYSlider.addOnChangeListener { _, value, fromUser ->
-            if (fromUser) {
-                topGuideline.setGuidelinePercent(value.percentage)
-                updateQrCodeOffsetText()
-            }
-        }
 
         // Bind text info
         bindTextBox(poster.infoText, poster.template.textBox)
