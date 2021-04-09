@@ -5,7 +5,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
-import de.rki.coronawarnapp.presencetracing.risk.calculation.mapToRiskState
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
@@ -13,6 +12,7 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.mapToRiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
