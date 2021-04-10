@@ -68,6 +68,8 @@ android {
         buildConfigField "int", "VERSION_MAJOR", VERSION_MAJOR
         buildConfigField "int", "VERSION_MINOR", VERSION_MINOR
         buildConfigField "int", "VERSION_PATCH", VERSION_PATCH
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     def signingPropFile = file("../keystore.properties")
