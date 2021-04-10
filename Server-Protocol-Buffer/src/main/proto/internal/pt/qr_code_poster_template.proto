@@ -15,8 +15,8 @@ message QRCodePosterTemplateAndroid {
   QRCodeTextBoxAndroid descriptionTextBox = 5;
 
   message QRCodeTextBoxAndroid {
-    float offsetX = 1;
-    float offsetY = 2;
+    uint32 offsetX = 1;
+    uint32 offsetY = 2;
 
     uint32 width = 3;
     uint32 height = 4;

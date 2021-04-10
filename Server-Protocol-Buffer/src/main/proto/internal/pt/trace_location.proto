@@ -2,7 +2,6 @@
 syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.pt;
 
-
 message QRCodePayload {
   uint32 version = 1;
   TraceLocation locationData = 2;
