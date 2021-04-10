@@ -86,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="@{@string/interoperability_eu_illustration_description}"
-                    android:src="@drawable/ic_illustration_interoperability"
+                    app:srcCompat="@drawable/ic_illustration_interoperability"
                     android:visibility="@{FormatterHelper.formatVisibility(!isOnboarding)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

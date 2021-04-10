@@ -24,7 +24,7 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_qr_code_list_item_icon"
+            app:srcCompat="@drawable/ic_qr_code_list_item_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
