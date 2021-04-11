@@ -1,14 +1,20 @@
 package de.rki.coronawarnapp.test.presencetracing.ui.poster
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
+import android.text.SpannedString
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.getSystemService
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
+import androidx.core.text.italic
 import androidx.core.view.isVisible
 import androidx.core.widget.TextViewCompat
 import androidx.core.widget.doOnTextChanged
@@ -21,6 +27,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate
 import de.rki.coronawarnapp.ui.color.parseColor
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -128,7 +135,42 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
         // Bind text info
         bindTextBox(poster.infoText, poster.template.textBox)
         offsetsPanel.isVisible = true
+        tooltip.setOnClickListener {
+            Toast.makeText(requireContext(), toastText(), Toast.LENGTH_LONG).show()
+        }
     }
+
+    private fun toastText(): SpannedString =
+        buildSpannedString {
+            bold {
+                append("Tips:")
+            }
+            color(requireContext().getColorCompat(R.color.colorAccent)) {
+                appendLine()
+                appendLine()
+                append(
+                    "- Qr-Code Length defines Qr-Code bitmap length and not" +
+                        "\nthe displayed Qr-Code ImageView where its length is flexible per screen size" +
+                        "\nIn a way it defines the bitmap quality." +
+                        "\nThe more the length the more the bitmaps's sharpness."
+                )
+
+                appendLine()
+                appendLine()
+                append(
+                    "- Text below Qr-Code has max 2 lines and has a uniform auto scaling down to `fontSize - 6`." +
+                        "\nIf the size is way larger than it fits in two lines, it will be cut."
+                )
+
+                appendLine()
+                appendLine()
+                append(
+                    "- OffsetX defines the position of two guidelines left and right for the edges." +
+                        "\n If the offset is increasing, the space in between the guidelines is decreasing." +
+                        "\n Which means less width of the respective view. -> | -> view_width <- | <- "
+                )
+            }
+        }
 
     private fun updateQrCodeLengthText() {
         val value = binding.qrLengthSlider.value

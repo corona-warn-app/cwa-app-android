@@ -130,20 +130,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:behavior_peekHeight="50dp"
+        app:behavior_peekHeight="60dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
         <LinearLayout
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="100dp"
-                android:layout_height="5dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="40dp"
-                android:background="@color/colorAccent" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="20dp">
+
+                <ImageView
+                    android:id="@+id/tooltip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:background="?selectableItemBackgroundBorderless"
+                    app:srcCompat="@drawable/ic_info" />
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="5dp"
+                    android:layout_gravity="center"
+                    android:background="@color/colorAccent" />
+
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/qr_code_offsets"
