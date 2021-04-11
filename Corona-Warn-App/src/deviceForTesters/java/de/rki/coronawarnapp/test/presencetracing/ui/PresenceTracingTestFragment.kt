@@ -112,7 +112,7 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
         buildSpannedString {
             bold {
                 color(requireContext().getColorCompat(R.color.colorAccent)) {
-                    append("$key=")
+                    append("$key = ")
                 }
             }
 
@@ -121,14 +121,14 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
                     append(value.toString())
                 }
             }
-            append("\n")
+            appendLine()
         }
 
     companion object {
         val MENU_ITEM = TestMenuItem(
-            title = "Event Registration",
-            description = "View & Control the event registration.",
-            targetId = R.id.eventRegistrationTestFragment
+            title = "Presence Tracing",
+            description = "View & Control presence tracing",
+            targetId = R.id.presenceTracingTestFragment
         )
     }
 }
