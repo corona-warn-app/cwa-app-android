@@ -2,20 +2,20 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardInvalidBinding
-import de.rki.coronawarnapp.submission.ui.homecards.TestInvalidCard.Item
+import de.rki.coronawarnapp.databinding.HomeSubmissionPcrStatusCardInvalidBinding
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class TestInvalidCard(
+class PcrTestInvalidCard(
     parent: ViewGroup
-) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardInvalidBinding>(R.layout.home_card_container_layout, parent) {
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardInvalidBinding>(R.layout.home_card_container_layout, parent) {
 
     override val viewBinding = lazy {
-        HomeSubmissionStatusCardInvalidBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        HomeSubmissionPcrStatusCardInvalidBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: HomeSubmissionStatusCardInvalidBinding.(
+    override val onBindData: HomeSubmissionPcrStatusCardInvalidBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->

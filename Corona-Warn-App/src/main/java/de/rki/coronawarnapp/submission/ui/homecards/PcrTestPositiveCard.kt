@@ -2,24 +2,24 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardPositiveBinding
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard.Item
+import de.rki.coronawarnapp.databinding.HomeSubmissionPcrStatusCardPositiveNotSharedBinding
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class TestPositiveCard(
+class PcrTestPositiveCard(
     parent: ViewGroup
-) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardPositiveBinding>(R.layout.home_card_container_layout, parent) {
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardPositiveNotSharedBinding>(R.layout.home_card_container_layout, parent) {
 
     override val viewBinding = lazy {
-        HomeSubmissionStatusCardPositiveBinding.inflate(
+        HomeSubmissionPcrStatusCardPositiveNotSharedBinding.inflate(
             layoutInflater,
             itemView.findViewById(R.id.card_container),
             true
         )
     }
 
-    override val onBindData: HomeSubmissionStatusCardPositiveBinding.(
+    override val onBindData: HomeSubmissionPcrStatusCardPositiveNotSharedBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->

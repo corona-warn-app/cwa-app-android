@@ -3,10 +3,10 @@ package de.rki.coronawarnapp.submission.ui.homecards
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardFetchingBinding
-import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard.Item
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestFetchingCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 
-class TestFetchingCard(
+class PcrTestFetchingCard(
     parent: ViewGroup
 ) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardFetchingBinding>(R.layout.home_card_container_layout, parent) {
 
