@@ -51,6 +51,7 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
 
         scope.launch(context = scope.coroutineContext) {
             try {
+                @Suppress("DEPRECATION")
                 intent.getStringExtra(EXTRA_TOKEN)?.let {
                     Timber.tag(TAG).w("Received unknown token from ENF: %s", it)
                 }
