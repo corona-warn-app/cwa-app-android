@@ -21,7 +21,6 @@ import okio.ByteString.Companion.encode
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.Minutes
-import org.joda.time.Seconds
 import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
