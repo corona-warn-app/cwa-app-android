@@ -11,6 +11,8 @@ sealed class CheckInEvent {
 
     data class ConfirmCheckIn(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
 
+    data class ConfirmCheckInWithoutHistory(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
+
     data class EditCheckIn(val checkInId: Long, val position: Int) : CheckInEvent()
 
     data class ConfirmSwipeItem(val checkIn: CheckIn, val position: Int) : CheckInEvent()
