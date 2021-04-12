@@ -44,7 +44,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
             } else {
                 currentDuration
             }
-            highlightDurationForamtter.print(saneDuration.toPeriod())
+            highlightDurationFormatter.print(saneDuration.toPeriod())
         }
 
         description.text = curItem.checkin.description
@@ -53,8 +53,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
         traceLocationCardHighlightView.setCaption(startDate.toString(DateTimeFormat.mediumDate()))
 
         checkoutInfo.text = run {
-            val checkoutAt = curItem.checkin.checkInEnd
-            val checkoutIn = Duration(Instant.now(), checkoutAt).let {
+            val checkoutIn = Duration(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
                 val periodType = when {
                     it.isLongerThan(Duration.standardHours(1)) -> PeriodType.hours()
                     it.isLongerThan(Duration.standardDays(1)) -> PeriodType.days()
@@ -100,7 +99,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
     }
 
     companion object {
-        private val highlightDurationForamtter = PeriodFormatterBuilder().apply {
+        private val highlightDurationFormatter = PeriodFormatterBuilder().apply {
             printZeroAlways()
             minimumPrintedDigits(2)
             appendHours()
