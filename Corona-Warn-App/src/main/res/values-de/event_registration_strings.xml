@@ -200,7 +200,7 @@
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s Uhr"</string>
 
     <!-- XTXT: Event organiser list item: duration same day-->
-    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %2$s Uhr"</string>
+    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %3$s Uhr"</string>
 
     <!-- XBUT: Event organiser list item: checkin button -->
     <string name="trace_location_organizer_list_item_action_checkin">Selbst einchecken</string>

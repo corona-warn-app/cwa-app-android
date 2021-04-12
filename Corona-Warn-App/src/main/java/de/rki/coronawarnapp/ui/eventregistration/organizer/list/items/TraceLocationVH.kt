@@ -38,8 +38,8 @@ class TraceLocationVH(parent: ViewGroup) :
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration_same_day,
                     startTime.toString("dd.MM.yy"),
-                    startTime.toLocalTime().toString("HH:mm"),
-                    endTime.toLocalTime().toString("HH:mm")
+                    startTime.toString("HH:mm"),
+                    endTime.toString("HH:mm")
                 )
             } else {
                 icon.setCaption(null)
