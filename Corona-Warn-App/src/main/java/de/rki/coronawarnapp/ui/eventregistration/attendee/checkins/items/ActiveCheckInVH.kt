@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.list.SwipeConsumer
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.Duration
+import org.joda.time.DurationFieldType
 import org.joda.time.Instant
 import org.joda.time.PeriodType
 import org.joda.time.format.DateTimeFormat
@@ -55,7 +56,9 @@ class ActiveCheckInVH(parent: ViewGroup) :
         checkoutInfo.text = run {
             val checkoutIn = Duration(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
                 val periodType = when {
-                    it.isLongerThan(Duration.standardHours(1)) -> PeriodType.hours()
+                    it.isLongerThan(Duration.standardHours(1)) -> PeriodType.forFields(
+                        arrayOf(DurationFieldType.hours(), DurationFieldType.minutes())
+                    )
                     it.isLongerThan(Duration.standardDays(1)) -> PeriodType.days()
                     else -> PeriodType.minutes()
                 }
