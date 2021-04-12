@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.OnboardingSettings
@@ -57,7 +58,8 @@ class DataReset @Inject constructor(
     private val submissionSettings: SubmissionSettings,
     private val traceLocationRepository: TraceLocationRepository,
     private val checkInRepository: CheckInRepository,
-    private val traceLocationSettings: TraceLocationSettings
+    private val traceLocationSettings: TraceLocationSettings,
+    private val traceWarningRepository: TraceWarningRepository,
 ) {
 
     private val mutex = Mutex()
@@ -96,6 +98,7 @@ class DataReset @Inject constructor(
 
         bugReportingSettings.clear()
 
+        traceWarningRepository.clear()
         traceLocationRepository.deleteAllTraceLocations()
         checkInRepository.clear()
 
