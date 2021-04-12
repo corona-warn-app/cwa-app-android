@@ -9,9 +9,9 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.list.SwipeConsumer
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.Duration
+import org.joda.time.DurationFieldType
 import org.joda.time.Instant
 import org.joda.time.PeriodType
-import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.PeriodFormat
 import org.joda.time.format.PeriodFormatterBuilder
 
@@ -44,26 +44,28 @@ class ActiveCheckInVH(parent: ViewGroup) :
             } else {
                 currentDuration
             }
-            highlightDurationForamtter.print(saneDuration.toPeriod())
+            highlightDurationFormatter.print(saneDuration.toPeriod())
         }
 
         description.text = curItem.checkin.description
         address.text = curItem.checkin.address
-        val startDate = checkInStartUserTZ.toLocalDate()
-        traceLocationCardHighlightView.setCaption(startDate.toString(DateTimeFormat.mediumDate()))
 
         checkoutInfo.text = run {
             val checkoutIn = Duration(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
                 val periodType = when {
-                    it.isLongerThan(Duration.standardHours(1)) -> PeriodType.hours()
+                    it.isLongerThan(Duration.standardHours(1)) -> PeriodType.forFields(
+                        arrayOf(DurationFieldType.hours(), DurationFieldType.minutes())
+                    )
                     it.isLongerThan(Duration.standardDays(1)) -> PeriodType.days()
                     else -> PeriodType.minutes()
                 }
                 it.toPeriod(periodType)
             }
 
+            val startDate = checkInStartUserTZ.toLocalDate()
             context.getString(
-                R.string.trace_location_checkins_card_automatic_checkout_info,
+                R.string.trace_location_checkins_card_automatic_checkout_info_format,
+                startDate.toString("dd.MM.yy"),
                 checkInStartUserTZ.toLocalTime().toString("HH:mm"),
                 hourPeriodFormatter.print(checkoutIn)
             )
@@ -99,7 +101,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
     }
 
     companion object {
-        private val highlightDurationForamtter = PeriodFormatterBuilder().apply {
+        private val highlightDurationFormatter = PeriodFormatterBuilder().apply {
             printZeroAlways()
             minimumPrintedDigits(2)
             appendHours()
