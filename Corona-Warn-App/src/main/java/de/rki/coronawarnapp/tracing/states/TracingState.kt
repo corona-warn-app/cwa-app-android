@@ -226,13 +226,13 @@ data class TracingInProgress(
 
     fun getProgressCardHeadline(c: Context): String = when (tracingProgress) {
         TracingProgress.Downloading -> R.string.risk_card_progress_download_headline
-        TracingProgress.ENFIsCalculating -> R.string.risk_card_progress_calculation_headline
+        TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_headline
         TracingProgress.Idle -> null
     }?.let { c.getString(it) } ?: ""
 
     fun getProgressCardBody(c: Context): String = when (tracingProgress) {
         TracingProgress.Downloading -> R.string.risk_card_progress_download_body
-        TracingProgress.ENFIsCalculating -> R.string.risk_card_progress_calculation_body
+        TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_body
         TracingProgress.Idle -> null
     }?.let { c.getString(it) } ?: ""
 

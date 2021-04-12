@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 import org.joda.time.Instant
 import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -134,6 +135,11 @@ internal fun CheckIn.calculateOverlap(
         return null
     }
 
+    if (isSubmitted) {
+        Timber.tag(TAG).d("Overlap with our own CheckIn (%s and %s)", this, warning)
+        return null
+    }
+
     return CheckInWarningOverlap(
         checkInId = id,
         transmissionRiskLevel = warning.transmissionRiskLevel,
@@ -142,5 +148,8 @@ internal fun CheckIn.calculateOverlap(
         endTime = Instant.ofEpochMilli(overlapEndMillis)
     )
 }
+
+// converts number of 10min intervals into milliseconds
+internal fun Int.tenMinIntervalToMillis() = this * TimeUnit.MINUTES.toMillis(10L)
 
 private const val TAG = "CheckInWarningMatcher"

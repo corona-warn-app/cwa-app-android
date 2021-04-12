@@ -42,6 +42,7 @@ class CheckInsViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<CheckInEvent>()
     val errorEvent = SingleLiveEvent<Throwable>()
+    private val cameraItem by lazy { cameraPermissionItem() }
 
     init {
         deepLink?.let {
@@ -63,7 +64,7 @@ class CheckInsViewModel @AssistedInject constructor(
         mutableListOf<CheckInsItem>().apply {
             // Camera permission item
             if (denied) {
-                add(cameraPermissionItem())
+                add(cameraItem)
             }
             // CheckIns items
             addAll(mapCheckIns(checkIns))
