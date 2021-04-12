@@ -92,7 +92,8 @@ class CheckInRepositoryTest : BaseTest() {
                     checkInStart = time,
                     checkInEnd = end,
                     completed = false,
-                    createJournalEntry = false
+                    createJournalEntry = false,
+                    isSubmitted = true
                 )
             )
             coVerify {
@@ -112,7 +113,8 @@ class CheckInRepositoryTest : BaseTest() {
                         checkInStart = time,
                         checkInEnd = end,
                         completed = false,
-                        createJournalEntry = false
+                        createJournalEntry = false,
+                        isSubmitted = true,
                     )
                 )
             }
@@ -156,7 +158,8 @@ class CheckInRepositoryTest : BaseTest() {
                 checkInStart = start,
                 checkInEnd = end,
                 completed = false,
-                createJournalEntry = false
+                createJournalEntry = false,
+                isSubmitted = true,
             )
         )
         runBlockingTest {
@@ -176,7 +179,8 @@ class CheckInRepositoryTest : BaseTest() {
                     checkInStart = start,
                     checkInEnd = end,
                     completed = false,
-                    createJournalEntry = false
+                    createJournalEntry = false,
+                    isSubmitted = true,
                 )
             )
         }
