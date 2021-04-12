@@ -61,7 +61,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
             val startDate = checkInStartUserTZ.toLocalDate()
             context.getString(
-                R.string.trace_location_checkins_card_automatic_checkout_info,
+                R.string.trace_location_checkins_card_automatic_checkout_info_format,
                 startDate.toString("dd.MM.yy"),
                 checkInStartUserTZ.toLocalTime().toString("HH:mm"),
                 hourPeriodFormatter.print(checkoutIn)
