@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModul
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment
 import de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragment
 import de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragmentModule
+import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
+import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragmentModule
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
@@ -75,4 +77,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [QrCodeDetailFragmentModule::class])
     abstract fun showEventDetail(): QrCodeDetailFragment
+
+    @ContributesAndroidInjector(modules = [HomeTestCardsFragmentModule::class])
+    abstract fun homeTestCards(): HomeTestCardsFragment
 }
