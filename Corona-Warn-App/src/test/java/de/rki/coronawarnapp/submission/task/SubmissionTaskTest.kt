@@ -4,6 +4,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
@@ -73,6 +74,25 @@ class SubmissionTaskTest : BaseTest() {
 
     private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plus(1))
 
+    private val testCheckIn1 = CheckIn(
+        id = 1L,
+        traceLocationId = mockk(),
+        version = 1,
+        type = 2,
+        description = "brothers birthday",
+        address = "Malibu",
+        traceLocationStart = Instant.EPOCH,
+        traceLocationEnd = null,
+        defaultCheckInLengthInMinutes = null,
+        cryptographicSeed = mockk(),
+        cnPublicKey = "cnPublicKey",
+        checkInStart = Instant.EPOCH,
+        checkInEnd = Instant.EPOCH.plus(9000),
+        completed = false,
+        createJournalEntry = false,
+        isSubmitted = true
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -113,7 +133,7 @@ class SubmissionTaskTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
 
-        every { checkInRepository.checkInsWithinRetention } returns flowOf(emptyList())
+        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(testCheckIn1))
         coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
@@ -178,6 +198,8 @@ class SubmissionTaskTest : BaseTest() {
             tekHistoryStorage.clear()
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
+
+            checkInRepository.markCheckInAsSubmitted(testCheckIn1.id)
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 

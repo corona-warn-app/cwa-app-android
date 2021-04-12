@@ -44,7 +44,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
             } else {
                 currentDuration
             }
-            highlightDurationForamtter.print(saneDuration.toPeriod())
+            highlightDurationFormatter.print(saneDuration.toPeriod())
         }
 
         description.text = curItem.checkin.description
@@ -99,7 +99,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
     }
 
     companion object {
-        private val highlightDurationForamtter = PeriodFormatterBuilder().apply {
+        private val highlightDurationFormatter = PeriodFormatterBuilder().apply {
             printZeroAlways()
             minimumPrintedDigits(2)
             appendHours()
