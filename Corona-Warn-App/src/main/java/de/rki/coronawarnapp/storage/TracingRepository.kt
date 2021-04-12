@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.lastSubmission
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTaskProgress
 import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -45,7 +46,8 @@ class TracingRepository @Inject constructor(
     enfClient: ENFClient,
     private val timeStamper: TimeStamper,
     private val exposureDetectionTracker: ExposureDetectionTracker,
-    private val backgroundModeStatus: BackgroundModeStatus
+    private val backgroundModeStatus: BackgroundModeStatus,
+    private val riskWorkScheduler: RiskWorkScheduler,
 ) {
 
     @SuppressLint("BinaryOperationInTimber")
@@ -91,29 +93,17 @@ class TracingRepository @Inject constructor(
         it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class
     }
 
-    /**
-     * Refresh the diagnosis keys. For that isRefreshing is set to true which is displayed in the ui.
-     * Afterwards the RetrieveDiagnosisKeysTransaction and the RiskLevelTransaction are started.
-     * Regardless of whether the transactions where successful or not the
-     * lastTimeDiagnosisKeysFetchedDate is updated. But the the value will only be updated after a
-     * successful go through from the RetrievelDiagnosisKeysTransaction.
-     */
-    fun refreshDiagnosisKeys() {
-        scope.launch {
-            taskController.submitBlocking(
-                DefaultTaskRequest(
-                    DownloadDiagnosisKeysTask::class,
-                    DownloadDiagnosisKeysTask.Arguments(),
-                    originTag = "TracingRepository.refreshDiagnosisKeys()"
-                )
+    fun refreshRiskResult() = scope.launch {
+        Timber.tag(TAG).d("refreshRiskResults()")
+
+        riskWorkScheduler.runRiskTasksNow()
+
+        taskController.submit(
+            DefaultTaskRequest(
+                RiskLevelTask::class,
+                originTag = "TracingRepository.refreshDiagnosisKeys()"
             )
-            taskController.submit(
-                DefaultTaskRequest(
-                    RiskLevelTask::class,
-                    originTag = "TracingRepository.refreshDiagnosisKeys()"
-                )
-            )
-        }
+        )
     }
 
     /**
