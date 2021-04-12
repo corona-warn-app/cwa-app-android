@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.getDefaultAutoCheckoutLengthInMinutes
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.mapTraceLocationToTitleRes
@@ -20,7 +21,6 @@ import kotlinx.coroutines.flow.combine
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
-import kotlin.math.roundToLong
 
 class ConfirmCheckInViewModel @AssistedInject constructor(
     @Assisted private val verifiedTraceLocation: VerifiedTraceLocation,
@@ -30,13 +30,11 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     private val traceLocation = MutableStateFlow(verifiedTraceLocation.traceLocation)
     private val createJournalEntry = MutableStateFlow(true)
 
-    private val truncatedDefaultCheckInLength = roundToNearestValidDuration(
-        verifiedTraceLocation.traceLocation.defaultCheckInLengthInMinutes ?: 0
+    private val autoCheckOutLength = MutableStateFlow(
+        Duration.standardMinutes(
+            verifiedTraceLocation.traceLocation.getDefaultAutoCheckoutLengthInMinutes(timeStamper.nowUTC).toLong()
+        )
     )
-    private val checkInLength = MutableStateFlow(truncatedDefaultCheckInLength)
-
-    private fun roundToNearestValidDuration(minutes: Int): Duration =
-        Duration.standardMinutes((minutes.toFloat() / 15).roundToLong() * 15)
 
     val openDatePickerEvent = SingleLiveEvent<String>()
     val events = SingleLiveEvent<ConfirmCheckInNavigation>()
@@ -44,14 +42,15 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     val uiState = combine(
         traceLocation,
         createJournalEntry,
-        checkInLength
+        autoCheckOutLength
     ) { traceLocation, createEntry, checkInLength ->
         UiState(
             traceLocation = traceLocation,
             createJournalEntry = createEntry,
             checkInEndOffset = checkInLength,
             eventInPastVisible = traceLocation.isAfterEndTime(timeStamper.nowUTC),
-            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowUTC)
+            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowUTC),
+            confirmButtonEnabled = checkInLength.standardMinutes > 0
         )
     }.asLiveData()
 
@@ -66,7 +65,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
                 verifiedTraceLocation.toCheckIn(
                     checkInStart = now,
                     createJournalEntry = createJournalEntry.value,
-                    checkInEnd = now + checkInLength.value
+                    checkInEnd = now + autoCheckOutLength.value
                 )
             )
             events.postValue(ConfirmCheckInNavigation.ConfirmNavigation)
@@ -78,18 +77,16 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     }
 
     fun dateSelectorClicked() {
-        openDatePickerEvent.value = checkInLength.value.toContactDiaryFormat()
+        openDatePickerEvent.value = autoCheckOutLength.value.toContactDiaryFormat()
     }
 
     fun durationUpdated(duration: Duration) {
-        checkInLength.value = duration
+        autoCheckOutLength.value = duration
     }
 
     private fun VerifiedTraceLocation.toCheckIn(
         checkInStart: Instant,
-        checkInEnd: Instant = checkInStart.plus(
-            Duration.standardMinutes(traceLocation.defaultCheckInLengthInMinutes?.toLong() ?: 3L)
-        ),
+        checkInEnd: Instant,
         completed: Boolean = false,
         createJournalEntry: Boolean = true
     ): CheckIn {
@@ -102,7 +99,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
             address = traceLocation.address,
             traceLocationStart = traceLocation.startDate,
             traceLocationEnd = traceLocation.endDate,
-            defaultCheckInLengthInMinutes = truncatedDefaultCheckInLength.standardMinutes.toInt(),
+            defaultCheckInLengthInMinutes = traceLocation.defaultCheckInLengthInMinutes,
             cryptographicSeed = traceLocation.cryptographicSeed,
             cnPublicKey = traceLocation.cnPublicKey,
             checkInStart = checkInStart,
@@ -124,7 +121,8 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         private val checkInEndOffset: Duration,
         val createJournalEntry: Boolean,
         val eventInPastVisible: Boolean,
-        val eventInFutureVisible: Boolean
+        val eventInFutureVisible: Boolean,
+        val confirmButtonEnabled: Boolean
     ) {
         val description get() = traceLocation.description
         val typeRes get() = mapTraceLocationToTitleRes(traceLocation.type)
