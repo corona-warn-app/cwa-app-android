@@ -7,13 +7,13 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 /**
- * @param presenceTracingDayRisk Only available for the last calculation, if successful, otherwise null
- * @param checkInWarningOverlaps Only available for the last calculation, if successful, otherwise null
+ * @param presenceTracingDayRisk Only available for the last calculation, otherwise null
+ * @param checkInWarningOverlaps Only available for the last calculation, otherwise null
  */
 data class PtRiskLevelResult(
     val calculatedAt: Instant,
     val riskState: RiskState,
-    val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null,
+    private val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null,
     private val checkInWarningOverlaps: List<CheckInWarningOverlap>? = null,
 ) {
 

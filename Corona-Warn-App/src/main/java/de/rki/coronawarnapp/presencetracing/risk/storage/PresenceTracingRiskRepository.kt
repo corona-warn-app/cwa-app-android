@@ -120,36 +120,20 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     fun latestEntries(limit: Int) = riskLevelResultDao.latestEntries(limit).map { list ->
-        var lastSuccessfulFound = false
-        list.sortedByDescending {
-            it.calculatedAtMillis
-        }
-            .map { entity ->
-                if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
-                    lastSuccessfulFound = true
-                    // add risk per day to the last successful result
-                    entity.toRiskLevelResult(
-                        presenceTracingDayRisks = presenceTracingDayRisk.first(),
-                        checkInWarningOverlaps = checkInWarningOverlaps.first(),
-                    )
-                } else {
-                    entity.toRiskLevelResult(
-                        presenceTracingDayRisks = null,
-                        checkInWarningOverlaps = null,
-                    )
-                }
-            }
+        list.sortAndComplementLatestResult()
     }
 
     fun allEntries() = riskLevelResultDao.allEntries().map { list ->
-        var lastSuccessfulFound = false
-        list.sortedByDescending {
+        list.sortAndComplementLatestResult()
+    }
+
+    private suspend fun List<PresenceTracingRiskLevelResultEntity>.sortAndComplementLatestResult() =
+        sortedByDescending {
             it.calculatedAtMillis
         }
-            .map { entity ->
-                if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
-                    lastSuccessfulFound = true
-                    // add risk per day to the last successful result
+            .mapIndexed { index, entity ->
+                if (index == 0) {
+                    // add risk per day to the latest result
                     entity.toRiskLevelResult(
                         presenceTracingDayRisks = presenceTracingDayRisk.first(),
                         checkInWarningOverlaps = checkInWarningOverlaps.first(),
@@ -161,7 +145,6 @@ class PresenceTracingRiskRepository @Inject constructor(
                     )
                 }
             }
-    }
 
     private fun addResult(result: PtRiskLevelResult) {
         Timber.i("Saving risk calculation from ${result.calculatedAt} with result ${result.riskState}.")
