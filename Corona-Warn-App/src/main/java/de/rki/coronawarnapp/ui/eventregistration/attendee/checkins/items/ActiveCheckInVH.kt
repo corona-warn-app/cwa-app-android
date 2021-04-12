@@ -49,8 +49,6 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         description.text = curItem.checkin.description
         address.text = curItem.checkin.address
-        val startDate = checkInStartUserTZ.toLocalDate()
-        traceLocationCardHighlightView.setCaption(startDate.toString(DateTimeFormat.mediumDate()))
 
         checkoutInfo.text = run {
             val checkoutIn = Duration(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
@@ -62,8 +60,10 @@ class ActiveCheckInVH(parent: ViewGroup) :
                 it.toPeriod(periodType)
             }
 
+            val startDate = checkInStartUserTZ.toLocalDate()
             context.getString(
                 R.string.trace_location_checkins_card_automatic_checkout_info,
+                startDate.toString(DateTimeFormat.mediumDate()),
                 checkInStartUserTZ.toLocalTime().toString("HH:mm"),
                 hourPeriodFormatter.print(checkoutIn)
             )
