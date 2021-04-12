@@ -89,12 +89,12 @@ class SubmissionQRCodeScanFragment :
                 if (state.testResult == TestResult.POSITIVE) {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
+                            .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment()
                     )
                 } else {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
+                            .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment()
                     )
                 }
             }

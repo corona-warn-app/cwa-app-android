@@ -343,7 +343,8 @@
     <fragment
         android:id="@+id/submissionQRCodeScanFragment"
         android:name="de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment"
-        android:label="SubmissionQRCodeScanFragment">
+        android:label="SubmissionQRCodeScanFragment"
+        tools:layout="@layout/fragment_submission_qr_code_scan">
         <action
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDispatcherFragment"
             app:popUpTo="@id/submissionQRCodeScanFragment"
@@ -363,6 +364,9 @@
             app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDeletionWarningFragment"
+            app:destination="@id/submissionDeletionWarningFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultReadyFragment"
@@ -609,4 +613,18 @@
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.legal.DebugLogLegalFragment"
         android:label="DebugLogLegalFragment"
         tools:layout="@layout/bugreporting_legal_fragment" />
+    <fragment
+        android:id="@+id/submissionDeletionWarningFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningFragment"
+        android:label="SubmissionDeletionWarningFragment"
+        tools:layout="@layout/fragment_submission_deletion_warning">
+        <action
+            android:id="@+id/action_submissionDeletionWarningFragment_to_submissionQRCodeScanFragment"
+            app:destination="@id/submissionQRCodeScanFragment" />
+        <action
+            android:id="@+id/action_submissionDeletionWarningFragment_to_submissionConsentFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"
+            app:destination="@id/submissionConsentFragment" />
+    </fragment>
 </navigation>

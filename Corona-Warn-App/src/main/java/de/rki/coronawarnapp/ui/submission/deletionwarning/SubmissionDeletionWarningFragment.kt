@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -23,12 +24,12 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
         binding.apply {
 
-            cancelButton.setOnClickListener { /* TODO */ }
+            cancelButton.setOnClickListener { popBackStack() }
 
             continueButton.setOnClickListener { /* TODO */ }
 
             toolbar.apply {
-                setNavigationOnClickListener { /* TODO */ }
+                setNavigationOnClickListener { popBackStack() }
             }
         }
     }
