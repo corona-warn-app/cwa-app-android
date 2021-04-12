@@ -40,7 +40,7 @@ class RiskCombinatorTest : BaseTest() {
     @Test
     fun `Initial results`() {
         createInstance().initialCombinedResult.apply {
-            riskState shouldBe CALCULATION_FAILED
+            riskState shouldBe LOW_RISK
         }
     }
 
@@ -205,7 +205,7 @@ class RiskCombinatorTest : BaseTest() {
         result[5].calculatedAt shouldBe startInstant.plus(3000L)
         result[6].riskState shouldBe LOW_RISK
         result[6].calculatedAt shouldBe startInstant.plus(2000L)
-        result[7].riskState shouldBe CALCULATION_FAILED
+        result[7].riskState shouldBe LOW_RISK
         result[7].calculatedAt shouldBe startInstant.plus(1000L)
     }
 

@@ -22,7 +22,7 @@ class RiskCombinator @Inject constructor(
 
     private val initialEWRiskLevelResult = object : EwRiskLevelResult {
         override val calculatedAt: Instant = Instant.EPOCH
-        override val riskState: RiskState = RiskState.CALCULATION_FAILED
+        override val riskState: RiskState = RiskState.LOW_RISK
         override val failureReason: EwRiskLevelResult.FailureReason? = null
         override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
         override val exposureWindows: List<ExposureWindow>? = null
@@ -32,7 +32,7 @@ class RiskCombinator @Inject constructor(
 
     private val initialPTRiskLevelResult: PtRiskLevelResult = PtRiskLevelResult(
         calculatedAt = Instant.EPOCH,
-        riskState = RiskState.CALCULATION_FAILED
+        riskState = RiskState.LOW_RISK
     )
 
     internal val initialCombinedResult = CombinedEwPtRiskLevelResult(
