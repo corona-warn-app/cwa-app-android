@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.PeriodType
-import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.PeriodFormat
 import org.joda.time.format.PeriodFormatterBuilder
 
