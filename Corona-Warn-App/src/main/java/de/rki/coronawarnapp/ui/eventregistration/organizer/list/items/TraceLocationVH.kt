@@ -35,9 +35,9 @@ class TraceLocationVH(parent: ViewGroup) :
 
             duration.isGone = false
             duration.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
-                icon.setCaption(startTime.toString("dd.MM.yy"))
                 context.getString(
-                    R.string.trace_location_organizer_list_item_duration,
+                    R.string.trace_location_organizer_list_item_duration_same_day,
+                    startTime.toString("dd.MM.yy"),
                     startTime.toLocalTime().toString("HH:mm"),
                     endTime.toLocalTime().toString("HH:mm")
                 )
