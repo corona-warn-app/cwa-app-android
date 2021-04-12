@@ -28,6 +28,7 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
     private val timeFormatter = ISODateTimeFormat.dateTime()
         .withZone(DateTimeZone.forID("Europe/Berlin"))
 
+    @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
