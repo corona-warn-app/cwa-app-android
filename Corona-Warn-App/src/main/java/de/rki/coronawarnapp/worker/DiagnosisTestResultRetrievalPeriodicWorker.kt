@@ -95,6 +95,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             tracingSettings.initialPollingForTestResultTimeStamp,
             currentMillis
         )
+        Timber.tag(TAG).d("Calculated days: %d", calculateDays)
+
         if (calculateDays >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS) {
             Timber.tag(TAG)
                 .d(" $id Maximum of ${BackgroundConstants.POLLING_VALIDITY_MAX_DAYS} days for polling exceeded.")
