@@ -1,27 +1,64 @@
 package de.rki.coronawarnapp.coronatest.storage
 
 import android.content.Context
+import androidx.core.content.edit
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.antigen.RapidAntigenCoronaTest
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CoronaTestStorage @Inject constructor(
-    @AppContext private val context: Context,
+    @AppContext val context: Context,
+    @BaseGson val baseGson: Gson
 ) {
 
-    suspend fun load(): Set<CoronaTest> {
-        Timber.tag(TAG).d("load()")
-        throw NotImplementedError()
+    private val prefs by lazy {
+        context.getSharedPreferences("coronatest_localdata", Context.MODE_PRIVATE)
     }
 
-    suspend fun save(tests: Set<CoronaTest>) {
-        Timber.tag(TAG).d("save(tests=%s)", tests)
+    private val gson by lazy {
+        baseGson.newBuilder().apply {
+            val rta = RuntimeTypeAdapterFactory.of(CoronaTest::class.java)
+                .registerSubtype(PCRCoronaTest::class.java)
+                .registerSubtype(RapidAntigenCoronaTest::class.java)
+
+            registerTypeAdapterFactory(rta)
+        }.create()
     }
+
+    private val typeToken by lazy {
+        object : TypeToken<List<CoronaTest>>() {}.type
+    }
+
+    var coronaTests: Collection<CoronaTest>
+        get() {
+            Timber.tag(TAG).d("load()")
+            val raw = prefs.getString(PKEY_TESTDATA, null) ?: return emptySet()
+            val tests: List<CoronaTest> = gson.fromJson(raw, typeToken)
+            tests.forEach {
+                Timber.tag(TAG).v("Loaded: %s", it)
+                requireNotNull(it.testGUID)
+            }
+            return tests
+        }
+        set(value) {
+            Timber.tag(TAG).d("save(tests=%s)", value)
+            prefs.edit {
+                val raw = gson.toJson(value, typeToken)
+                putString(PKEY_TESTDATA, raw)
+            }
+        }
 
     companion object {
         private const val TAG = "CoronaTestStorage"
+        private const val PKEY_TESTDATA = "coronatests"
     }
 }

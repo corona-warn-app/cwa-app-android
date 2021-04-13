@@ -41,7 +41,7 @@ class CoronaTestRepository @Inject constructor(
         sharingBehavior = SharingStarted.Eagerly,
     ) {
         val legacyTests = legacyMigration.startMigration()
-        (legacyTests + storage.load()).map {
+        (legacyTests + storage.coronaTests).map {
             it.testGUID to it
         }.toMap()
     }
@@ -53,7 +53,7 @@ class CoronaTestRepository @Inject constructor(
             .onStart { Timber.tag(TAG).d("Observing test data.") }
             .onEach {
                 Timber.tag(TAG).v("CoronaTest data changed: %s", it)
-                storage.save(it.values.toSet())
+                storage.coronaTests = it.values.toSet()
                 legacyMigration.finishMigration()
             }
             .catch { it.reportProblem(TAG, "Failed to snapshot CoronaTest data to storage.") }
