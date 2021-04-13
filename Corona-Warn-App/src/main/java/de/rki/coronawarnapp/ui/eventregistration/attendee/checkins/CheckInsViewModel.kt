@@ -9,7 +9,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationVerifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
@@ -36,7 +36,8 @@ class CheckInsViewModel @AssistedInject constructor(
     private val qrCodeUriParser: QRCodeUriParser,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
-    private val cameraPermissionProvider: CameraPermissionProvider
+    private val cameraPermissionProvider: CameraPermissionProvider,
+    private val traceLocationVerifier: TraceLocationVerifier
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
@@ -142,8 +143,12 @@ class CheckInsViewModel @AssistedInject constructor(
         try {
             Timber.i("uri: $uri")
             val qrCodePayload = qrCodeUriParser.getQrCodePayload(uri)
-            val verifiedTraceLocation = VerifiedTraceLocation(qrCodePayload)
-            events.postValue(CheckInEvent.ConfirmCheckIn(verifiedTraceLocation))
+            when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
+                is TraceLocationVerifier.VerificationResult.Valid ->
+                    events.postValue(CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation))
+                is TraceLocationVerifier.VerificationResult.Invalid ->
+                    events.postValue(CheckInEvent.InvalidQrCode(verifyResult.errorTextRes))
+            }
         } catch (e: Exception) {
             Timber.d(e, "TraceLocation verification failed")
             e.report(ExceptionCategory.INTERNAL)

@@ -257,4 +257,12 @@
     <!-- XBUT: Organizer Flow : Title for save as template button -->
     <string name="trace_location_event_detail_save_as_template_button">"Use as Template"</string>
 
+    <!-- Qr Code Validation Messages -->
+    <!-- XTXT: My check-ins: qr code validation wrong description field -->
+    <string name="trace_location_checkins_qr_code_invalid_description">"Ungültiger QR-Code verhindert das Einchecken. Die verantwortliche Stelle muss einen neuen QR-Code generieren (Fehlercode INVALID_DESCRIPTION)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong address field -->
+    <string name="trace_location_checkins_qr_code_invalid_address">"Ungültiger QR-Code verhindert das Einchecken. Die verantwortliche Stelle muss einen neuen QR-Code generieren (Fehlercode INVALID_ADDRESS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
+    <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Ungültiger QR-Code verhindert das Einchecken. Die verantwortliche Stelle muss einen neuen QR-Code generieren (Fehlercode INVALID_CRYPTO_SEED)."</string>
+
 </resources>
