@@ -35,11 +35,11 @@
         tools:layout="@layout/trace_location_create_fragment">
         <argument
             android:name="category"
-            app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory" />
+            app:argType="de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.TraceLocationCategory" />
         <argument
             android:name="originalItem"
             android:defaultValue="@null"
-            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation"
+            app:argType="de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation"
             app:nullable="true" />
         <action
             android:id="@+id/action_traceLocationCreateFragment_to_traceLocationOrganizerListFragment"

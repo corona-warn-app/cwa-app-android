@@ -44,7 +44,7 @@
         tools:layout="@layout/fragment_confirm_check_in">
         <argument
             android:name="verifiedTraceLocation"
-            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation" />
+            app:argType="de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation" />
     </fragment>
     <fragment
         android:id="@+id/editCheckInFragment"

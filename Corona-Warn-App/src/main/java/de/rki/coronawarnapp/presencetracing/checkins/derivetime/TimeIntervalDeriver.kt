@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.checkins.derivetime
 
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
+import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
