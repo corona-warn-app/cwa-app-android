@@ -104,6 +104,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .appendLine("Number of Days With Low Risk: $numberOfDaysWithLowRisk")
         .toString()
 
+    @Suppress("DEPRECATION")
     val backendParameters = appConfigProvider
         .currentConfig
         .map { it.rawConfig.riskCalculationParameters.toString() }

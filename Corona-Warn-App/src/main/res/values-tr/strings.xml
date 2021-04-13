@@ -30,6 +30,10 @@
     <!-- ####################################
                Notification
     ###################################### -->
+    <!-- XHED: Title of the notification channel for general CWA notifications (e.g. risk change) -->
+    <string name="general_notification_channel_title">"Genel"</string>
+    <!-- XTXT: Description of the notification channel for general CWA notifications (e.g. risk change) -->
+    <string name="general_notification_channel_description">"Hatırlatmalar, notlar ve genel bildirimler (örneğin, risk durumunuz hakkında)."</string>
     <!-- XHED: Notification title -->
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
@@ -303,7 +307,7 @@
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Corona-Warn-App %s gün önce yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Maruz kalma günlüğü başka insanlarla karşılaştığınız sırada etkindiyse bu dönem için enfeksiyon riskiniz hesaplanabilir."</string>
+    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Maruz kalma günlüğü başka insanlarla karşılaştığınız anlarda etkindiyse bu dönem için enfeksiyon riskiniz hesaplanabilir."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
@@ -1793,13 +1797,13 @@
     <string name="statistics_reproduction_title">"Şu Anda"</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">"enfekte olan kişi başına ortalama enfeksiyon sayısı"</string>
-
     <!-- XTXT: Statistics trend increasing (Accessibilty) -->
     <string name="statistics_trend_increasing">"Trend: Yukarı"</string>
     <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
     <string name="statistics_trend_decreasing">"Trend: Aşağı"</string>
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">"Trend: Sabit"</string>
+
     <!-- XHED: Title for BottomNav main screen title -->
     <string name="bottom_nav_home_title">"Başlangıç Ekranı"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
@@ -1955,4 +1959,18 @@
     <string name="trace_location_onboarding_body_stay">"Hedeflenen uyarıları etkinleştirmek için lütfen kalış sürenizi mümkün olduğunca net bir biçimde belirtin."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Kabul Et"</string>
+    <!--  XHED: Trace location check-ins camera permission card title-->
+    <string name="trace_location_attendee_camera_card_title">"Kamera Erişimine İzin Ver"</string>
+    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
+    <string name="trace_location_attendee_camera_card_subtitle">"Akıllı telefonunuzun kamerasını kullanarak QR kodları taramak için uygulamanın cihaz ayarlarında kamera erişimine izin vermeniz gerekir."</string>
+    <!--  XBUT: Trace location check-ins camera permission card button-->
+    <string name="trace_location_attendee_camera_card_button">"Ayarları Aç"</string>
+    <!--  YMSG: Trace location onboarding image description-->
+    <string name="trace_location_onboarding_content_description">"Üç kişi yüksek bir masanın etrafında ayakta duruyor, ikisi akıllı telefonuna bakıyor."</string>
+    <!-- XMIT: Trace location poster print -->
+    <string name="trace_location_organiser_poster_print">"Yazdır"</string>
+    <!-- XMIT: Trace location poster share -->
+    <string name="trace_location_organiser_poster_share">"Paylaş"</string>
+    <!-- XHED: Trace location poster title -->
+    <string name="trace_location_organiser_poster_title">"Yazdırma Sürümü"</string>
 </resources>

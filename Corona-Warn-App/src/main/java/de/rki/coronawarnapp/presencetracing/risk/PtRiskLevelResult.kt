@@ -1,15 +1,20 @@
 package de.rki.coronawarnapp.presencetracing.risk
 
+import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.RiskState
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
+/**
+ * @param presenceTracingDayRisk Only available for the last calculation, if successful, otherwise null
+ * @param checkInWarningOverlaps Only available for the last calculation, if successful, otherwise null
+ */
 data class PtRiskLevelResult(
     val calculatedAt: Instant,
     val riskState: RiskState,
-    // only available for the last calculation if successful, otherwise null
-    val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null
+    val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null,
+    private val checkInWarningOverlaps: List<CheckInWarningOverlap>? = null,
 ) {
 
     val wasSuccessfullyCalculated: Boolean
@@ -39,4 +44,7 @@ data class PtRiskLevelResult(
             RiskState.LOW_RISK -> numberOfDaysWithLowRisk
             else -> 0
         }
+
+    val checkInOverlapCount: Int
+        get() = checkInWarningOverlaps?.size ?: 0
 }

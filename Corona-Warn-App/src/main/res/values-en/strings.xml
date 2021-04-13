@@ -30,6 +30,10 @@
     <!-- ####################################
                Notification
     ###################################### -->
+    <!-- XHED: Title of the notification channel for general CWA notifications (e.g. risk change) -->
+    <string name="general_notification_channel_title">"General"</string>
+    <!-- XTXT: Description of the notification channel for general CWA notifications (e.g. risk change) -->
+    <string name="general_notification_channel_description">"Reminders, notes, and general notifications – about your risk status, for example."</string>
     <!-- XHED: Notification title -->
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
@@ -301,9 +305,9 @@
 <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last 14 days."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"The Corona-Warn-App was installed %s ago. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"The Corona-Warn-App was installed %s days ago. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"If exposure logging was active in times during which you encountered other people, your risk of infection can be calculated for this period."</string>
+    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"If exposure logging was active at times during which you encountered other people, your risk of infection can be calculated for this period."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
@@ -1793,13 +1797,13 @@
     <string name="statistics_reproduction_title">"Currently"</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">"average infections by each infected person"</string>
-
     <!-- XTXT: Statistics trend increasing (Accessibilty) -->
     <string name="statistics_trend_increasing">"Trend: Upwards"</string>
     <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
     <string name="statistics_trend_decreasing">"Trend: Downwards"</string>
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">"Trend: Steady"</string>
+
     <!-- XHED: Title for BottomNav main screen title -->
     <string name="bottom_nav_home_title">"Start Screen"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
@@ -1955,4 +1959,18 @@
     <string name="trace_location_onboarding_body_stay">"Please specify your length of stay as precisely as possible to enable targeted warnings."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Accept"</string>
+    <!--  XHED: Trace location check-ins camera permission card title-->
+    <string name="trace_location_attendee_camera_card_title">"Allow Access to Camera"</string>
+    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
+    <string name="trace_location_attendee_camera_card_subtitle">"To use your smartphone camera to scan QR codes, you have to allow access to the camera in the device settings for the app."</string>
+    <!--  XBUT: Trace location check-ins camera permission card button-->
+    <string name="trace_location_attendee_camera_card_button">"Open Settings"</string>
+    <!--  YMSG: Trace location onboarding image description-->
+    <string name="trace_location_onboarding_content_description">"Three persons are standing at a high table, two of them are looking at their smartphones."</string>
+    <!-- XMIT: Trace location poster print -->
+    <string name="trace_location_organiser_poster_print">"Print"</string>
+    <!-- XMIT: Trace location poster share -->
+    <string name="trace_location_organiser_poster_share">"Share"</string>
+    <!-- XHED: Trace location poster title -->
+    <string name="trace_location_organiser_poster_title">"Print Version"</string>
 </resources>

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+
+    <!-- ####################################
+                     Non translatable
+    ###################################### -->
+
+    <!-- XTXT: Path to the full blown legal html, currently not translated -->
+    <string name="information_technical_html_path" translatable="false">"technical.html"</string>
+
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -31,14 +39,10 @@
     <!-- ####################################
                Notification
     ###################################### -->
-    <!-- NOTR -->
-    <string name="notification_channel_id"><xliff:g id="notification_channel_id">"de.rki.coronawarnapp.notification.exposureNotificationChannelId"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="notification_id"><xliff:g id="notification_id">"1"</xliff:g></string>
     <!-- XHED: Title of the notification channel for general CWA notifications (e.g. risk change) -->
-    <string name="general_notification_channel_title">"Allgemein"</string>
+    <string name="general_notification_channel_title">"General"</string>
     <!-- XTXT: Description of the notification channel for general CWA notifications (e.g. risk change) -->
-    <string name="general_notification_channel_description">"Erinnerungen, Hinweise und allgemeine Benachrichtigungen, z.B. zu Ihrem Risikostatus."</string>
+    <string name="general_notification_channel_description">"Reminders, notes, and general notifications – about your risk status, for example."</string>
     <!-- XHED: Notification title -->
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
@@ -307,12 +311,12 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-<!--    Dialog part 1-->
+    <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last 14 days."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"The Corona-Warn-App was installed %s ago. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"The Corona-Warn-App was installed %s days ago. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"If exposure logging was active in times during which you encountered other people, your risk of infection can be calculated for this period."</string>
+    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"If exposure logging was active at times during which you encountered other people, your risk of infection can be calculated for this period."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
@@ -327,6 +331,8 @@
     <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with coronavirus was logged, or because your encounters were only for a short time and at a greater distance."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"The risk of infection is calculated locally on your smartphone, using exposure logging data. The calculation also takes into account distance and duration of any exposure to persons diagnosed with coronavirus, as well as their potential infectiousness. Your risk of infection cannot be seen by or passed on to anyone else."</string>
+    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
+    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
     <string name="risk_details_information_body_increased_risk_date">"You have an increased risk of infection because you were exposed over a longer period of time and at close proximity to at least one person diagnosed with coronavirus."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
@@ -353,7 +359,6 @@
     <string name="risk_details_explanation_dialog_title">"Information about exposure logging functionality"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"For further information, please see our FAQ page."</string>
-
     <!-- XHED: risk details - deadman notification title -->
     <string name="risk_details_deadman_notification_title">"Your Risk Status"</string>
     <!-- YTXT: risk details - deadman notification text -->
@@ -582,8 +587,8 @@
 
 
     <!-- ####################################
-                 Onboarding sixteen include
-       ###################################### -->
+             Onboarding sixteen include
+   ###################################### -->
 
     <!-- XACT: onboarding(sixteen) title -->
     <string name="sixteen_title_text">"Age 16 Warning"</string>
@@ -644,8 +649,6 @@
     <string name="settings_tracing_status_connection_headline">"Open Internet connection"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Exposure logging requires an Internet connection to calculate your risk of infection. Please turn on Wi-Fi or mobile data in your device settings."</string>
-    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
-    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_connection_button">"Open Device Settings"</string>
     <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
@@ -807,8 +810,6 @@
     <string name="information_technical_title">"Legal Notices"</string>
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a balance scale that symbolizes legal notices."</string>
-    <!-- XTXT: Path to the full blown legal html, currently not translated -->
-    <string name="information_technical_html_path" translatable="false">"technical.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"Imprint"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
@@ -834,9 +835,8 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a section symbol representing the imprint."</string>
 
-
     <!-- ####################################
-           App Information - Bug Reporting
+               App Information - Bug Reporting
     ###################################### -->
 
     <!-- XHED: Headline for debug log screen -->
@@ -1131,6 +1131,7 @@
     <!-- YTXT: Description for illustration in submission onboarding-->
     <string name="submission_intro_illustration_description">"An encrypted positive test diagnosis is transmitted to the system, which will now warn other users."</string>
 
+
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Retrieve Test Result"</string>
@@ -1148,7 +1149,6 @@
     <string name="submission_dispatcher_card_tan_code">"Enter TAN"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
     <string name="submission_dispatcher_tan_code_card_text">"Do you have a TAN? Tap here to enter your TAN so you can warn others. "</string>
-    <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <string name="submission_dispatcher_card_tan_tele">"No TAN yet?"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
@@ -1352,12 +1352,12 @@
     <string name="submission_status_card_body_positive">"You have been diagnosed positive for SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"You have been diagnosed negative for SARS-CoV-2."</string>
+    <!-- YTXT: Body text for submission status fetch failed -->
+    <string name="submission_status_card_body_failed">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the test. You can then add another."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"If you have tested positive for coronavirus, you can warn others."</string>
     <!-- YTXT: Button text for submission status fetch ready -->
     <string name="submission_status_card_retrieve_test_result">"Retrieve Test Result"</string>
-    <!-- YTXT: Body text for submission status fetch failed -->
-    <string name="submission_status_card_body_failed">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the test. You can then add another."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Next Steps"</string>
     <!-- XBUT: submission status card show results button -->
@@ -1497,8 +1497,8 @@
     <string name="submission_your_consent_agreement_details">"Detailed Information on Data Processing and Your Consent"</string>
 
     <!-- ####################################
-        Statistics
-   ###################################### -->
+         Statistics
+    ###################################### -->
 
     <!-- Incidence statistics card -->
     <!-- XHED: Title for incident statistics card -->
@@ -1589,7 +1589,7 @@
     <string name="statistics_explanation_trend_stable_title">"Trend: Steady"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"The assessment of the trend for warnings by app users changes depending on current infection levels, which is why this trend is always displayed as neutral."</string>
-    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german)0 - https://www.coronawarn.app/en/faq/#further_details -->
+    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstract picture of a smartphone with four placeholders for information"</string>
@@ -1598,7 +1598,6 @@
     <string name="accessibility_statistics_card_announcement">"Statistics tile"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
     <string name="accessibility_statistics_card_navigation_information">"Swipe horizontally between the tiles to display more statistics"</string>
-
 
     <!-- ####################################
           Button Tooltips for Accessibility
@@ -1839,13 +1838,13 @@
     <string name="statistics_reproduction_title">"Currently"</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">"average infections by each infected person"</string>
-
     <!-- XTXT: Statistics trend increasing (Accessibilty) -->
     <string name="statistics_trend_increasing">"Trend: Upwards"</string>
     <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
     <string name="statistics_trend_decreasing">"Trend: Downwards"</string>
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">"Trend: Steady"</string>
+
     <!-- XHED: Title for BottomNav main screen title -->
     <string name="bottom_nav_home_title">"Start Screen"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
@@ -2002,17 +2001,17 @@
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Accept"</string>
     <!--  XHED: Trace location check-ins camera permission card title-->
-    <string name="trace_location_attendee_camera_card_title">Zugriff auf Kamera erlauben</string>
+    <string name="trace_location_attendee_camera_card_title">"Allow Access to Camera"</string>
     <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
-    <string name="trace_location_attendee_camera_card_subtitle">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräte-Einstellungen zur App zulassen.</string>
+    <string name="trace_location_attendee_camera_card_subtitle">"To use your smartphone camera to scan QR codes, you have to allow access to the camera in the device settings for the app."</string>
     <!--  XBUT: Trace location check-ins camera permission card button-->
-    <string name="trace_location_attendee_camera_card_button">Einstellungen öffnen</string>
+    <string name="trace_location_attendee_camera_card_button">"Open Settings"</string>
     <!--  YMSG: Trace location onboarding image description-->
-    <string name="trace_location_onboarding_content_description">Drei Personen an einem Stehtisch, zwei von ihnen schauen auf ihr Smartphone.</string>
+    <string name="trace_location_onboarding_content_description">"Three persons are standing at a high table, two of them are looking at their smartphones."</string>
     <!-- XMIT: Trace location poster print -->
     <string name="trace_location_organiser_poster_print">"Print"</string>
     <!-- XMIT: Trace location poster share -->
     <string name="trace_location_organiser_poster_share">"Share"</string>
     <!-- XHED: Trace location poster title -->
-    <string name="trace_location_organiser_poster_title">"Print version"</string>
+    <string name="trace_location_organiser_poster_title">"Print Version"</string>
 </resources>
