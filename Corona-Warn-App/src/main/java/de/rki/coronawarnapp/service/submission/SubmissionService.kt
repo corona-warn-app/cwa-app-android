@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.service.submission
 
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.util.formatter.TestResult
-import de.rki.coronawarnapp.verification.server.VerificationKeyType
 import javax.inject.Inject
 
 class SubmissionService @Inject constructor(
     private val playbook: Playbook
 ) {
 
-    suspend fun asyncRequestTestResult(registrationToken: String): TestResult {
+    suspend fun asyncRequestTestResult(registrationToken: String): CoronaTestResult {
         return playbook.testResult(registrationToken)
     }
 
@@ -33,6 +33,6 @@ class SubmissionService @Inject constructor(
 
     data class RegistrationData(
         val registrationToken: String,
-        val testResult: TestResult
+        val testResult: CoronaTestResult
     )
 }

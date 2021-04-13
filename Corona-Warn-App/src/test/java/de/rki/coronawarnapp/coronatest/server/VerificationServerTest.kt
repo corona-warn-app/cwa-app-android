@@ -1,9 +1,8 @@
-package de.rki.coronawarnapp.verification.server
+package de.rki.coronawarnapp.coronatest.server
 
 import android.content.Context
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
-import de.rki.coronawarnapp.verification.VerificationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -115,7 +114,7 @@ class VerificationServerTest : BaseIOTest() {
             VerificationApiV1.TestResultResponse(testResult = 2)
         }
 
-        server.retrieveTestResults("testRegistrationToken") shouldBe 2
+        server.pollTestResult("testRegistrationToken") shouldBe 2
 
         coVerify { verificationApi.getTestResult(any(), any(), any()) }
     }
@@ -189,7 +188,7 @@ class VerificationServerTest : BaseIOTest() {
         api.retrieveRegistrationToken(teletanExample, VerificationKeyType.TELETAN)
 
         webServer.enqueue(MockResponse().setBody("{}"))
-        api.retrieveTestResults(registrationTokenExample)
+        api.pollTestResult(registrationTokenExample)
 
         webServer.enqueue(MockResponse().setBody("{}"))
         api.retrieveTan(registrationTokenExample)

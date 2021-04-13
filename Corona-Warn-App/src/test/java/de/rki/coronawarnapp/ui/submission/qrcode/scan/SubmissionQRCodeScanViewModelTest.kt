@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ScanStatus
-import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -66,7 +66,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
             every { guid } returns "guid"
         }
 
-        coEvery { submissionRepository.asyncRegisterDeviceViaGUID(any()) } returns TestResult.POSITIVE
+        coEvery { submissionRepository.asyncRegisterDeviceViaGUID(any()) } returns CoronaTestResult.PCR_POSITIVE
         viewModel.doDeviceRegistration(mockResult)
     }
 

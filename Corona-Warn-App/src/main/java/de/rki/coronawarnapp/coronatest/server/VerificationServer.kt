@@ -1,10 +1,12 @@
-package de.rki.coronawarnapp.verification.server
+package de.rki.coronawarnapp.coronatest.server
 
 import dagger.Lazy
+import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.util.PaddingTool.requestPadding
 import de.rki.coronawarnapp.util.security.HashHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,7 +21,7 @@ class VerificationServer @Inject constructor(
     suspend fun retrieveRegistrationToken(
         key: String,
         keyType: VerificationKeyType
-    ): String = withContext(Dispatchers.IO) {
+    ): RegistrationToken = withContext(Dispatchers.IO) {
         val keyStr = if (keyType == VerificationKeyType.GUID) {
             HashHelper.hash256(key)
         } else {
@@ -42,21 +44,25 @@ class VerificationServer @Inject constructor(
         ).registrationToken
     }
 
-    suspend fun retrieveTestResults(
-        registrationToken: String
-    ): Int = withContext(Dispatchers.IO) {
-        api.getTestResult(
+    suspend fun pollTestResult(
+        token: RegistrationToken
+    ): CoronaTestResult = withContext(Dispatchers.IO) {
+        Timber.tag(TAG).d("retrieveTestResults(token=%s)", token)
+        val response = api.getTestResult(
             fake = "0",
             headerPadding = requestPadding(PADDING_LENGTH_HEADER_TEST_RESULT),
             request = VerificationApiV1.RegistrationRequest(
-                registrationToken,
+                token,
                 requestPadding(PADDING_LENGTH_BODY_TEST_RESULT)
             )
-        ).testResult
+        )
+
+        Timber.tag(TAG).d("retrieveTestResults(token=%s) -> %s", token, response)
+        CoronaTestResult.fromInt(response.testResult)
     }
 
     suspend fun retrieveTan(
-        registrationToken: String
+        registrationToken: RegistrationToken
     ): String = withContext(Dispatchers.IO) {
         api.getTAN(
             fake = "0",
@@ -96,5 +102,7 @@ class VerificationServer @Inject constructor(
         const val PADDING_LENGTH_BODY_TAN = 31 + VERIFICATION_BODY_FILL
         const val PADDING_LENGTH_BODY_TAN_FAKE = 31 + VERIFICATION_BODY_FILL
         const val DUMMY_REGISTRATION_TOKEN = "11111111-2222-4444-8888-161616161616"
+
+        const val TAG = "VerificationServer"
     }
 }

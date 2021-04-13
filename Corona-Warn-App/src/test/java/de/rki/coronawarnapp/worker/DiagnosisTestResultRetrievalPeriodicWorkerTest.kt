@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -16,7 +17,6 @@ import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
-import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -120,7 +120,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         } answers {}
 
         runBlockingTest {
-            val testResult = TestResult.POSITIVE
+            val testResult = CoronaTestResult.PCR_POSITIVE
             coEvery { submissionService.asyncRequestTestResult(registrationToken) } returns testResult
             coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) } just Runs
             coEvery {
@@ -150,7 +150,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         } answers {}
 
         runBlockingTest {
-            val testResult = TestResult.NEGATIVE
+            val testResult = CoronaTestResult.PCR_NEGATIVE
             coEvery { submissionService.asyncRequestTestResult(registrationToken) } returns testResult
             coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) } just Runs
             coEvery {
@@ -180,7 +180,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         } answers {}
 
         runBlockingTest {
-            val testResult = TestResult.INVALID
+            val testResult = CoronaTestResult.PCR_INVALID
             coEvery { submissionService.asyncRequestTestResult(registrationToken) } returns testResult
             coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) } just Runs
             coEvery {
@@ -205,7 +205,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     @Test
     fun testSendNoNotificationWhenPending() {
         runBlockingTest {
-            val testResult = TestResult.PENDING
+            val testResult = CoronaTestResult.PCR_OR_RAT_PENDING
             coEvery { submissionService.asyncRequestTestResult(registrationToken) } returns testResult
             coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) } just Runs
             coEvery {

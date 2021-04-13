@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.storage
 
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -17,7 +18,6 @@ import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
-import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -63,7 +63,7 @@ class SubmissionRepositoryTest : BaseTest() {
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
-    private val testResult = TestResult.PENDING
+    private val testResult = CoronaTestResult.PCR_OR_RAT_PENDING
     private val registrationData = SubmissionService.RegistrationData(registrationToken, testResult)
 
     private val registrationTokenPreference = mockFlowPreference<String?>(null)
@@ -253,7 +253,7 @@ class SubmissionRepositoryTest : BaseTest() {
         every { submissionSettings.isSubmissionSuccessful } returns false
         every { submissionSettings.registrationToken } returns mockFlowPreference("token")
         coEvery { submissionSettings.isAllowedToSubmitKeys } returns false
-        coEvery { submissionService.asyncRequestTestResult(any()) } returns TestResult.PENDING
+        coEvery { submissionService.asyncRequestTestResult(any()) } returns CoronaTestResult.PCR_OR_RAT_PENDING
 
         val submissionRepository = createInstance(scope = this)
 
@@ -269,7 +269,7 @@ class SubmissionRepositoryTest : BaseTest() {
         every { submissionSettings.isSubmissionSuccessful } returns false
         every { submissionSettings.registrationToken } returns mockFlowPreference(null)
         coEvery { submissionSettings.isAllowedToSubmitKeys } returns false
-        coEvery { submissionService.asyncRequestTestResult(any()) } returns TestResult.PENDING
+        coEvery { submissionService.asyncRequestTestResult(any()) } returns CoronaTestResult.PCR_OR_RAT_PENDING
 
         val submissionRepository = createInstance(scope = this)
 
@@ -313,7 +313,7 @@ class SubmissionRepositoryTest : BaseTest() {
 
         val submissionRepository = createInstance(scope = this)
 
-        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+        submissionRepository.updateTestResult(CoronaTestResult.PCR_NEGATIVE)
 
         verify {
             submissionSettings.initialTestResultReceivedAt = null
@@ -332,21 +332,21 @@ class SubmissionRepositoryTest : BaseTest() {
         // This needs to be null to trigger the fix
         every { submissionSettings.devicePairingSuccessfulAt } returns Instant.ofEpochMilli(5678)
 
-        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+        submissionRepository.updateTestResult(CoronaTestResult.PCR_NEGATIVE)
 
         every { submissionSettings.initialTestResultReceivedAt } returns Instant.ofEpochMilli(1234)
         // This needs to be non null to trigger the fix
         every { submissionSettings.registrationToken } returns mockFlowPreference(null)
         every { submissionSettings.devicePairingSuccessfulAt } returns null
 
-        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+        submissionRepository.updateTestResult(CoronaTestResult.PCR_NEGATIVE)
 
         // This needs to be non null to trigger the fix
         every { submissionSettings.initialTestResultReceivedAt } returns null
         every { submissionSettings.registrationToken } returns mockFlowPreference("token")
         every { submissionSettings.devicePairingSuccessfulAt } returns null
 
-        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+        submissionRepository.updateTestResult(CoronaTestResult.PCR_NEGATIVE)
 
         verify(exactly = 0) { submissionSettings.initialTestResultReceivedAt = null }
     }
@@ -354,7 +354,7 @@ class SubmissionRepositoryTest : BaseTest() {
     @Test
     fun `updateTestResult updates test result donor data`() = runBlockingTest {
         val submissionRepository = createInstance(scope = this)
-        submissionRepository.updateTestResult(TestResult.NEGATIVE)
+        submissionRepository.updateTestResult(CoronaTestResult.PCR_NEGATIVE)
 
         verify { testResultDataCollector.updatePendingTestResultReceivedTime(any()) }
     }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -14,7 +15,6 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -47,7 +47,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     data class RegistrationState(
         val apiRequestState: ApiRequestState,
-        val testResult: TestResult? = null
+        val testResult: CoronaTestResult? = null
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -77,8 +77,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         }
     }
 
-    private fun checkTestResult(testResult: TestResult) {
-        if (testResult == TestResult.REDEEMED) {
+    private fun checkTestResult(testResult: CoronaTestResult) {
+        if (testResult == CoronaTestResult.PCR_REDEEMED) {
             throw InvalidQRCodeException()
         }
     }

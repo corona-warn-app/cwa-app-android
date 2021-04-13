@@ -6,6 +6,7 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
@@ -15,7 +16,6 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
@@ -61,9 +61,9 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                 val testResult = submissionService.asyncRequestTestResult(registrationToken)
                 Timber.tag(TAG).d("$id: Test Result retrieved is $testResult")
 
-                if (testResult == TestResult.NEGATIVE ||
-                    testResult == TestResult.POSITIVE ||
-                    testResult == TestResult.INVALID
+                if (testResult == CoronaTestResult.PCR_NEGATIVE ||
+                    testResult == CoronaTestResult.PCR_POSITIVE ||
+                    testResult == CoronaTestResult.PCR_INVALID
                 ) {
                     sendTestResultAvailableNotification(testResult)
                     cancelRiskLevelScoreNotification()
@@ -106,7 +106,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         return false
     }
 
-    private suspend fun sendTestResultAvailableNotification(testResult: TestResult) {
+    private suspend fun sendTestResultAvailableNotification(testResult: CoronaTestResult) {
         testResultAvailableNotificationService.showTestResultAvailableNotification(testResult)
         tracingSettings.isTestResultAvailableNotificationSent = true
     }

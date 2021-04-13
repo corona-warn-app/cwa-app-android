@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -17,7 +18,6 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -56,7 +56,7 @@ class SubmissionRepository @Inject constructor(
     val hasViewedTestResult = submissionSettings.hasViewedTestResult.flow
     val currentSymptoms = submissionSettings.symptoms
 
-    private val testResultFlow = MutableStateFlow<TestResult?>(null)
+    private val testResultFlow = MutableStateFlow<CoronaTestResult?>(null)
 
     // to be used by new submission flow screens
     fun giveConsentToSubmission() {
@@ -142,7 +142,7 @@ class SubmissionRepository @Inject constructor(
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
     }
 
-    suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
+    suspend fun asyncRegisterDeviceViaGUID(guid: String): CoronaTestResult {
         analyticsKeySubmissionCollector.reset()
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
         // START - Fix for EXPOSUREAPP-4484 relies on this call order
@@ -165,12 +165,12 @@ class SubmissionRepository @Inject constructor(
     }
 
     @VisibleForTesting
-    fun updateTestResult(testResult: TestResult) {
+    fun updateTestResult(testResult: CoronaTestResult) {
         testResultFlow.value = testResult
 
         testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
 
-        if (testResult == TestResult.POSITIVE) {
+        if (testResult == CoronaTestResult.PCR_POSITIVE) {
             submissionSettings.isAllowedToSubmitKeys = true
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
             deadmanNotificationScheduler.cancelScheduledWork()
@@ -192,7 +192,7 @@ class SubmissionRepository @Inject constructor(
             val currentTime = timeStamper.nowUTC
             submissionSettings.initialTestResultReceivedAt = currentTime
             testResultReceivedDateFlowInternal.value = currentTime.toDate()
-            if (testResult == TestResult.PENDING) {
+            if (testResult == CoronaTestResult.PCR_OR_RAT_PENDING) {
                 backgroundWorkScheduler.startWorkScheduler()
             }
         } else {
@@ -222,12 +222,18 @@ class SubmissionRepository @Inject constructor(
         testResultDataCollector.clear()
     }
 
-    private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {
-        TestResult.NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
-        TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
-        TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
-        TestResult.REDEEMED -> DeviceUIState.PAIRED_REDEEMED
-        TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
+    // TODO Temporary, mapping should be replaced with **[CoronaTest]**
+    private fun deriveUiState(testResult: CoronaTestResult?): DeviceUIState = when (testResult) {
+        CoronaTestResult.PCR_NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
+        CoronaTestResult.PCR_POSITIVE -> DeviceUIState.PAIRED_POSITIVE
+        CoronaTestResult.PCR_OR_RAT_PENDING -> DeviceUIState.PAIRED_NO_RESULT
+        CoronaTestResult.PCR_REDEEMED -> DeviceUIState.PAIRED_REDEEMED
+        CoronaTestResult.PCR_INVALID -> DeviceUIState.PAIRED_ERROR
+        CoronaTestResult.RAT_PENDING -> DeviceUIState.PAIRED_NO_RESULT
+        CoronaTestResult.RAT_NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
+        CoronaTestResult.RAT_POSITIVE -> DeviceUIState.PAIRED_POSITIVE
+        CoronaTestResult.RAT_REDEEMED -> DeviceUIState.PAIRED_REDEEMED
+        CoronaTestResult.RAT_INVALID -> DeviceUIState.PAIRED_ERROR
         null -> DeviceUIState.UNPAIRED
     }
 

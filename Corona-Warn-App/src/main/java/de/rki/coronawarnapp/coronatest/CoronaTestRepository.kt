@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.server.CoronaTestServer
+import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class CoronaTestRepository @Inject constructor(
     private val storage: CoronaTestStorage,
-    private val server: CoronaTestServer,
+    private val server: VerificationServer,
 ) {
 
     val coronaTests: Flow<Set<CoronaTest>> = emptyFlow()

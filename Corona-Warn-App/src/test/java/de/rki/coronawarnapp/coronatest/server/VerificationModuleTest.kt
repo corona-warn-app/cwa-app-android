@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.verification
+package de.rki.coronawarnapp.coronatest.server
 
 import android.content.Context
 import io.kotest.assertions.throwables.shouldNotThrowAny
