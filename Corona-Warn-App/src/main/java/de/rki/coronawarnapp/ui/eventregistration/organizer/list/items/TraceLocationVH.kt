@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.list.items
 
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsItemBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
@@ -34,11 +35,11 @@ class TraceLocationVH(parent: ViewGroup) :
 
             duration.isGone = false
             duration.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
-                icon.setCaption(startTime.toString("dd.MM.yy"))
                 context.getString(
-                    R.string.trace_location_organizer_list_item_duration,
-                    startTime.toLocalTime().toString("HH:mm"),
-                    endTime.toLocalTime().toString("HH:mm")
+                    R.string.trace_location_organizer_list_item_duration_same_day,
+                    startTime.toString("dd.MM.yy"),
+                    startTime.toString("HH:mm"),
+                    endTime.toString("HH:mm")
                 )
             } else {
                 icon.setCaption(null)
@@ -62,12 +63,17 @@ class TraceLocationVH(parent: ViewGroup) :
             }
         }
 
+        checkinAction.isVisible = item.canCheckIn
         checkinAction.setOnClickListener { item.onCheckIn(item.traceLocation) }
-        itemView.setOnClickListener { item.onCardClicked(item.traceLocation, adapterPosition) }
+        itemView.apply {
+            setOnClickListener { item.onCardClicked(item.traceLocation, adapterPosition) }
+            transitionName = item.traceLocation.id.toString()
+        }
     }
 
     data class Item(
         val traceLocation: TraceLocation,
+        val canCheckIn: Boolean,
         val onCheckIn: (TraceLocation) -> Unit,
         val onDuplicate: (TraceLocation) -> Unit,
         val onShowPrint: (TraceLocation) -> Unit,

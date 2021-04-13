@@ -21,7 +21,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"CWA umożliwia teraz meldowanie obecności w wydarzeniach i miejscach. Organizatorzy wydarzeń i właściciele sklepów mogą wykorzystać tę aplikację do utworzenia kodu QR. Goście mogą zeskanować ten kod QR po przybyciu na miejsce, aby zarejestrować swoją obecność. Na życzenie aplikacja może również utworzyć wpis w dzienniku. Jeśli u osoby, która zameldowała swoją obecność w danym wydarzeniu lub miejscu, zostanie później zdiagnozowany koronawirus, wszystkie  osoby, które zameldowały się w tym samym czasie, zostaną o tym automatycznie powiadomione."</item>
+        <item>"CWA umożliwia teraz meldowanie obecności w wydarzeniach i miejscach. Organizatorzy wydarzeń i właściciele sklepów mogą wykorzystać tę aplikację do utworzenia kodu QR. Goście mogą zeskanować ten kod QR po przybyciu na miejsce, aby zarejestrować swoją obecność. Na życzenie aplikacja może również utworzyć wpis w dzienniku. Jeśli u osoby, która zameldowała swoją obecność w danym wydarzeniu lub miejscu, zostanie później zdiagnozowany koronawirus, inne osoby, które zameldowały się w tym samym czasie, otrzymają automatyczne ostrzeżenie."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

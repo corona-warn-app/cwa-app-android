@@ -9,9 +9,9 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.list.SwipeConsumer
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.Duration
+import org.joda.time.DurationFieldType
 import org.joda.time.Instant
 import org.joda.time.PeriodType
-import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.PeriodFormat
 import org.joda.time.format.PeriodFormatterBuilder
 
@@ -37,27 +37,35 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
 
-        val checkinDuration = Duration(checkInStartUserTZ, Instant.now())
-        highlightDuration.text = highlightDurationForamtter.print(checkinDuration.toPeriod())
+        highlightDuration.text = kotlin.run {
+            val currentDuration = Duration(checkInStartUserTZ, Instant.now())
+            val saneDuration = if (currentDuration.isShorterThan(Duration.ZERO)) {
+                Duration.ZERO
+            } else {
+                currentDuration
+            }
+            highlightDurationFormatter.print(saneDuration.toPeriod())
+        }
 
         description.text = curItem.checkin.description
         address.text = curItem.checkin.address
-        val startDate = checkInStartUserTZ.toLocalDate()
-        traceLocationCardHighlightView.setCaption(startDate.toString(DateTimeFormat.mediumDate()))
 
         checkoutInfo.text = run {
-            val checkoutAt = curItem.checkin.checkInEnd
-            val checkoutIn = Duration(Instant.now(), checkoutAt).let {
+            val checkoutIn = Duration(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
                 val periodType = when {
-                    it.isLongerThan(Duration.standardHours(1)) -> PeriodType.hours()
+                    it.isLongerThan(Duration.standardHours(1)) -> PeriodType.forFields(
+                        arrayOf(DurationFieldType.hours(), DurationFieldType.minutes())
+                    )
                     it.isLongerThan(Duration.standardDays(1)) -> PeriodType.days()
                     else -> PeriodType.minutes()
                 }
                 it.toPeriod(periodType)
             }
 
+            val startDate = checkInStartUserTZ.toLocalDate()
             context.getString(
-                R.string.trace_location_checkins_card_automatic_checkout_info,
+                R.string.trace_location_checkins_card_automatic_checkout_info_format,
+                startDate.toString("dd.MM.yy"),
                 checkInStartUserTZ.toLocalTime().toString("HH:mm"),
                 hourPeriodFormatter.print(checkoutIn)
             )
@@ -72,12 +80,15 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         checkoutAction.setOnClickListener { curItem.onCheckout(curItem.checkin) }
 
-        itemView.setOnClickListener { curItem.onCardClicked(curItem.checkin) }
+        itemView.apply {
+            setOnClickListener { curItem.onCardClicked(curItem.checkin, adapterPosition) }
+            transitionName = item.checkin.id.toString()
+        }
     }
 
     data class Item(
         val checkin: CheckIn,
-        val onCardClicked: (CheckIn) -> Unit,
+        val onCardClicked: (CheckIn, Int) -> Unit,
         val onRemoveItem: (CheckIn) -> Unit,
         val onCheckout: (CheckIn) -> Unit,
         val onSwipeItem: (CheckIn, Int) -> Unit,
@@ -90,7 +101,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
     }
 
     companion object {
-        private val highlightDurationForamtter = PeriodFormatterBuilder().apply {
+        private val highlightDurationFormatter = PeriodFormatterBuilder().apply {
             printZeroAlways()
             minimumPrintedDigits(2)
             appendHours()

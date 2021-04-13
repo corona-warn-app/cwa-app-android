@@ -31,7 +31,7 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
 
     fun simulateException() {
         try {
-            val a = 2 / 0
+            throw RuntimeException("Test crash reporting")
         } catch (e: Exception) {
             Timber.e(e, "Msg: ${e.message}")
             e.reportProblem(SettingsCrashReportViewModel::class.java.simpleName, e.message)

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.eventregistration.checkins
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.CheckInDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -10,11 +11,13 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
@@ -27,6 +30,7 @@ class CheckInRepositoryTest : BaseTest() {
     @MockK lateinit var factory: TraceLocationDatabase.Factory
     @MockK lateinit var database: TraceLocationDatabase
     @MockK lateinit var checkInDao: CheckInDao
+    @RelaxedMockK lateinit var timeStamper: TimeStamper
     private val allEntriesFlow = MutableStateFlow(emptyList<TraceLocationCheckInEntity>())
 
     @BeforeEach
@@ -40,7 +44,7 @@ class CheckInRepositoryTest : BaseTest() {
         }
     }
 
-    private fun createInstance(scope: CoroutineScope) = CheckInRepository(factory)
+    private fun createInstance(scope: CoroutineScope) = CheckInRepository(factory, timeStamper)
 
     @Test
     fun `new entities should have ID 0`() = runBlockingTest {
@@ -88,7 +92,8 @@ class CheckInRepositoryTest : BaseTest() {
                     checkInStart = time,
                     checkInEnd = end,
                     completed = false,
-                    createJournalEntry = false
+                    createJournalEntry = false,
+                    isSubmitted = true
                 )
             )
             coVerify {
@@ -108,7 +113,8 @@ class CheckInRepositoryTest : BaseTest() {
                         checkInStart = time,
                         checkInEnd = end,
                         completed = false,
-                        createJournalEntry = false
+                        createJournalEntry = false,
+                        isSubmitted = true,
                     )
                 )
             }
@@ -152,7 +158,8 @@ class CheckInRepositoryTest : BaseTest() {
                 checkInStart = start,
                 checkInEnd = end,
                 completed = false,
-                createJournalEntry = false
+                createJournalEntry = false,
+                isSubmitted = true,
             )
         )
         runBlockingTest {
@@ -172,9 +179,51 @@ class CheckInRepositoryTest : BaseTest() {
                     checkInStart = start,
                     checkInEnd = end,
                     completed = false,
-                    createJournalEntry = false
+                    createJournalEntry = false,
+                    isSubmitted = true,
                 )
             )
         }
     }
+
+    @Test
+    fun `checkInsWithinRetention() should filter out stale check-ins`() = runBlockingTest {
+
+        // Now = Jan 16th 2020, 00:00
+        // CheckIns should be kept for 15 days, so every check-in with an end date before
+        // Jan 1st 2020, 00:00 should get deleted
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-16T00:00:00.000Z")
+
+        val checkInWithinRetention = createCheckIn(Instant.parse("2020-01-01T00:00:00.000Z"))
+
+        // should be filtered out
+        val staleCheckIn = createCheckIn(Instant.parse("2019-12-31T23:59:59.000Z"))
+
+        every { checkInDao.allEntries() } returns flowOf(
+            listOf(
+                staleCheckIn.toEntity(),
+                checkInWithinRetention.toEntity()
+            )
+        )
+
+        createInstance(scope = this).checkInsWithinRetention.first() shouldBe
+            listOf(checkInWithinRetention)
+    }
+
+    private fun createCheckIn(checkOutDate: Instant) = CheckIn(
+        traceLocationId = "traceLocationId1".encode(),
+        version = 1,
+        type = 1,
+        description = "",
+        address = "",
+        traceLocationStart = null,
+        traceLocationEnd = null,
+        defaultCheckInLengthInMinutes = 30,
+        cryptographicSeed = "cryptographicSeed".encode(),
+        cnPublicKey = "cnPublicKey",
+        checkInStart = Instant.parse("1970-01-01T00:00:00.000Z"),
+        checkInEnd = checkOutDate,
+        completed = true,
+        createJournalEntry = true
+    )
 }

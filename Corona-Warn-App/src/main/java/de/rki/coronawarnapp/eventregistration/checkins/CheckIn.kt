@@ -22,7 +22,8 @@ data class CheckIn(
     val checkInStart: Instant,
     val checkInEnd: Instant,
     val completed: Boolean,
-    val createJournalEntry: Boolean
+    val createJournalEntry: Boolean,
+    val isSubmitted: Boolean = false,
 ) {
     /**
      *  Returns SHA-256 hash of [traceLocationId] which itself may also be SHA-256 hash.
@@ -48,5 +49,6 @@ fun CheckIn.toEntity() = TraceLocationCheckInEntity(
     checkInStart = checkInStart,
     checkInEnd = checkInEnd,
     completed = completed,
-    createJournalEntry = createJournalEntry
+    createJournalEntry = createJournalEntry,
+    isSubmitted = isSubmitted,
 )
