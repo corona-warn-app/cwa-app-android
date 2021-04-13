@@ -42,13 +42,13 @@ class TraceLocationVerifier @Inject constructor() {
                 protoQrCodePayload.locationData.endTimestamp == 0L
             )
         ) {
-            if (protoQrCodePayload.locationData.startTimestamp >= protoQrCodePayload.locationData.endTimestamp) {
-                return VerificationResult.Invalid.InvalidStartEndTime
+            if (protoQrCodePayload.locationData.startTimestamp > protoQrCodePayload.locationData.endTimestamp) {
+                return VerificationResult.Invalid.StartEndTime
             }
         }
 
         if (traceLocation.cryptographicSeed.size != CROWD_NOTIFIER_CRYPTO_SEED_LENGTH) {
-            return VerificationResult.Invalid.InvalidCryptographicSeed
+            return VerificationResult.Invalid.CryptographicSeed
         }
 
         return VerificationResult.Valid(
@@ -62,15 +62,15 @@ class TraceLocationVerifier @Inject constructor() {
         sealed class Invalid(@StringRes val errorTextRes: Int) : VerificationResult() {
             object Description : Invalid(R.string.trace_location_checkins_qr_code_invalid_description)
             object Address : Invalid(R.string.trace_location_checkins_qr_code_invalid_address)
-            object InvalidStartEndTime : Invalid(R.string.trace_location_checkins_qr_code_invalid_times)
-            object InvalidCryptographicSeed :
+            object StartEndTime : Invalid(R.string.trace_location_checkins_qr_code_invalid_times)
+            object CryptographicSeed :
                 Invalid(R.string.trace_location_checkins_qr_code_invalid_cryptographic_seed)
         }
     }
 
     companion object {
-        const val CROWD_NOTIFIER_CRYPTO_SEED_LENGTH = 16
-        const val QR_CODE_DESCRIPTION_MAX_LENGTH = 100
-        const val QR_CODE_ADDRESS_MAX_LENGTH = 100
+        private const val CROWD_NOTIFIER_CRYPTO_SEED_LENGTH = 16
+        private const val QR_CODE_DESCRIPTION_MAX_LENGTH = 100
+        private const val QR_CODE_ADDRESS_MAX_LENGTH = 100
     }
 }
