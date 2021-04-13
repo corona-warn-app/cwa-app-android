@@ -14,6 +14,14 @@ import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestReadyCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestErrorCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestInvalidCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestNegativeCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestOutdatedCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPendingCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestReadyCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
 import de.rki.coronawarnapp.submission.ui.homecards.TestError
 import de.rki.coronawarnapp.submission.ui.homecards.TestInvalid
@@ -35,21 +43,29 @@ class HomeTestCardsFragmentViewModel  @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val pcrTest: Flow<List<TestResultItem>> = flowOf(
+    private val cards: Flow<List<TestResultItem>> = flowOf(
         listOf(
-            TestUnregisteredCard.Item(NoTest){},
+            TestUnregisteredCard.Item(NoTest) {},
             TestFetchingCard.Item(FetchingResult),
-            PcrTestPendingCard.Item(TestPending){},
-            PcrTestReadyCard.Item(TestResultReady){},
-            PcrTestInvalidCard.Item(TestInvalid){},
-            PcrTestErrorCard.Item(TestError){},
+            PcrTestPendingCard.Item(TestPending) {},
+            PcrTestReadyCard.Item(TestResultReady) {},
+            PcrTestInvalidCard.Item(TestInvalid) {},
+            PcrTestErrorCard.Item(TestError) {},
             PcrTestNegativeCard.Item(TestNegative),
-            PcrTestPositiveCard.Item(TestPositive){},
-            PcrTestSubmissionDoneCard.Item(SubmissionDone(Date()))
+            PcrTestPositiveCard.Item(TestPositive) {},
+            PcrTestSubmissionDoneCard.Item(SubmissionDone(Date())),
+            RapidTestPendingCard.Item(TestPending) {},
+            RapidTestReadyCard.Item(TestResultReady) {},
+            RapidTestInvalidCard.Item(TestInvalid) {},
+            RapidTestOutdatedCard.Item(TestInvalid) {},
+            RapidTestErrorCard.Item(TestError) {},
+            RapidTestNegativeCard.Item(TestNegative),
+            RapidTestPositiveCard.Item(TestPositive) {},
+            RapidTestSubmissionDoneCard.Item(SubmissionDone(Date()))
         )
     )
 
-    val homeItems: LiveData<List<HomeItem>> = pcrTest.asLiveData(dispatcherProvider.Default)
+    val homeItems: LiveData<List<HomeItem>> = cards.asLiveData(dispatcherProvider.Default)
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<HomeTestCardsFragmentViewModel>
