@@ -5,8 +5,8 @@
     style="@style/contactDiaryCardRipple"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="8dp"
     android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
     android:focusable="true">
 
     <de.rki.coronawarnapp.ui.eventregistration.common.TraceLocationCardHighlightView
@@ -17,10 +17,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/checkout_action"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="21.01.2021">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/highlight_duration_label"
@@ -38,6 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
+
         <TextView
             android:id="@+id/highlight_duration"
             style="@style/headline5Bold"
@@ -91,8 +90,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/traceLocationCardHighlightView"
         app:layout_constraintTop_toBottomOf="@id/address"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="18:00 - Automatisch auschecken nach 3 Std." />
+        tools:text="21.01.2021 18:00 - Automatisch auschecken nach 3 Std." />
 
     <ImageButton
         android:id="@+id/menu_action"
