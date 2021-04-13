@@ -1391,6 +1391,21 @@
     <!-- YTXT: Body for PCR test submission deletion warning -->
     <string name="submission_deletion_warning_body_pcr_test">"Sie haben bereits einen PCR-Test registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren PCR-Test registrieren, wird der erste PCR-Test aus der App gelöscht."</string>
 
+    <!-- XHED: submission result antigen fragment toolbar text -->
+    <string name="submission_result_antigen_toolbar">"Ihr Testergebnis"</string>
+    <!-- XHED: submission result antigen fragment card title -->
+    <string name="submission_result_antigen_test">"Schnelltest"</string>
+    <!-- XTXT: submission result antigen fragment card "found" text -->
+    <string name="submission_result_antigen_subtitle">"Befund"</string>
+    <!-- XTXT: submission result antigen fragment card diagnosis placeholder -->
+    <string name="submission_result_antigen_diagnosis_placeholder">"Negativ"</string>
+    <!-- XTXT: submission result antigen fragment card patient details placeholder -->
+    <string name="submission_result_antigen_card_patient_details_placeholder">"Max Mustermann, geboren 14.03.1987"</string>
+    <!-- XTXT: submission result antigen fragment card negative result message -->
+    <string name="submission_result_antigen_card_negative_result_message">"Das Virus SARS-CoV-2 wurde bei Ihnen nicht nachgewiesen."</string>
+
+
+
 
     <!-- Reenable risk card -->
     <!-- XHED: Card title for re-enable risk card -->
