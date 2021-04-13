@@ -525,4 +525,8 @@
         <item name="android:background">@drawable/circle_ripple</item>
         <item name="android:src">@drawable/ic_baseline_more_vert_24</item>
     </style>
+
+    <style name="PosterTextStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
 </resources>

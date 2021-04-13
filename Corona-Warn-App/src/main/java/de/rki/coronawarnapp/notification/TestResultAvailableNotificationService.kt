@@ -23,7 +23,12 @@ class TestResultAvailableNotificationService @Inject constructor(
 ) {
 
     suspend fun showTestResultAvailableNotification(testResult: TestResult) {
-        if (foregroundState.isInForeground.first()) return
+        Timber.d("showTestResultAvailableNotification(testResult=%s)", testResult)
+
+        if (foregroundState.isInForeground.first()) {
+            Timber.d("App in foreground, skipping notification.")
+            return
+        }
 
         if (!cwaSettings.isNotificationsTestEnabled.value) {
             Timber.i("Don't show test result available notification because user doesn't want to be informed")
@@ -42,6 +47,7 @@ class TestResultAvailableNotificationService @Inject constructor(
             setContentIntent(pendingIntent)
         }.build()
 
+        Timber.i("Showing TestResultAvailable notification!")
         notificationHelper.sendNotification(
             notificationId = NotificationConstants.TEST_RESULT_AVAILABLE_NOTIFICATION_ID,
             notification = notification,

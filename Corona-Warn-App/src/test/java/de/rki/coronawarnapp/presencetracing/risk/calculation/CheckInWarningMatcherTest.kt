@@ -252,4 +252,59 @@ class CheckInWarningMatcherTest : BaseTest() {
             }
         }
     }
+
+    @Test
+    fun `we do not match our own CheckIns`() {
+        val checkIn1 = createCheckIn(
+            id = 2L,
+            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            startDateStr = "2021-03-04T10:15+01:00",
+            endDateStr = "2021-03-04T10:17+01:00"
+        )
+        val checkIn2 = createCheckIn(
+            id = 3L,
+            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            startDateStr = "2021-03-04T09:15+01:00",
+            endDateStr = "2021-03-04T10:12+01:00",
+            isSubmitted = true
+        )
+
+        val warning1 = createWarning(
+            traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
+            startIntervalDateStr = "2021-03-04T10:00+01:00",
+            period = 6,
+            transmissionRiskLevel = 8
+        )
+
+        val warning2 = createWarning(
+            traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
+            startIntervalDateStr = "2021-03-04T10:00+01:00",
+            period = 6,
+            transmissionRiskLevel = 8
+        )
+
+        val warningPackage = object : TraceWarningPackage {
+            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+                return listOf(warning1, warning2)
+            }
+
+            override val packageId: WarningPackageId
+                get() = "id"
+        }
+
+        runBlockingTest {
+            val result = createInstance().process(
+                checkIns = listOf(checkIn1, checkIn2),
+                warningPackages = listOf(warningPackage)
+            )
+            result.apply {
+                successful shouldBe true
+                processedPackages.single().warningPackage shouldBe warningPackage
+                processedPackages.single().apply {
+                    overlaps.size shouldBe 1
+                    overlaps.any { it.checkInId == 2L } shouldBe true
+                }
+            }
+        }
+    }
 }
