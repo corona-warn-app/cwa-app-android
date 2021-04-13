@@ -4,6 +4,7 @@ import android.os.Parcelable
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import kotlinx.parcelize.Parcelize
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 
 sealed class CoronaTestQRCode : Parcelable {
 
@@ -23,7 +24,7 @@ sealed class CoronaTestQRCode : Parcelable {
         val createdAt: Instant,
         val firstName: String?,
         val lastName: String?,
-        val dateOfBirth: String?,
+        val dateOfBirth: LocalDate?,
     ) : CoronaTestQRCode()
 }
 

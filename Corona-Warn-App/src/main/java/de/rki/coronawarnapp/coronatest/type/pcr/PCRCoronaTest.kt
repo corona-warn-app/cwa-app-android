@@ -1,23 +1,26 @@
 package de.rki.coronawarnapp.coronatest.type.pcr
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
+import org.joda.time.Instant
 
 data class PCRCoronaTest(
     override val testGUID: CoronaTestGUID,
+    override val registeredAt: Instant,
     override val registrationToken: RegistrationToken,
-    override val isRefreshing: Boolean,
-    override val isSubmissionAllowed: Boolean,
-    override val isSubmitted: Boolean,
-    val state: State,
+    val testResult: CoronaTestResult,
+    override val isRefreshing: Boolean = false,
+    override val isSubmitted: Boolean = false,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
 
-    override fun toSubmittedState(): CoronaTest {
-        TODO("Not yet implemented")
-    }
+    override val isSubmissionAllowed: Boolean = testResult == CoronaTestResult.PCR_POSITIVE
+
+    val state: State
+        get() = TODO()
 
     enum class State {
         PENDING,
