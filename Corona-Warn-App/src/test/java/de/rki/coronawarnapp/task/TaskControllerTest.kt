@@ -3,10 +3,10 @@ package de.rki.coronawarnapp.task
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.task.example.QueueingTask
 import de.rki.coronawarnapp.task.testtasks.SkippingTask
 import de.rki.coronawarnapp.task.testtasks.alerterror.AlertErrorTask
 import de.rki.coronawarnapp.task.testtasks.precondition.PreconditionTask
+import de.rki.coronawarnapp.task.testtasks.queue.QueueingTask
 import de.rki.coronawarnapp.task.testtasks.silenterror.SilentErrorTask
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTask
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTask2

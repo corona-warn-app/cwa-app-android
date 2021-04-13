@@ -202,7 +202,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
 
     private fun showDurationPicker() {
         DurationPicker.Builder()
-            .duration(viewModel.checkInLength?.toContactDiaryFormat() ?: "")
+            .duration(viewModel.checkInLength.toContactDiaryFormat())
             .title(getString(R.string.tracelocation_organizer_add_event_length_of_stay))
             .build()
             .apply {
@@ -216,7 +216,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(
             outState.apply {
-                putLong(LENGTH_OF_STAY, viewModel.checkInLength?.standardMinutes ?: 0L)
+                putLong(LENGTH_OF_STAY, viewModel.checkInLength.standardMinutes)
                 putSerializable(BEGIN, viewModel.begin)
                 putSerializable(END, viewModel.end)
             }

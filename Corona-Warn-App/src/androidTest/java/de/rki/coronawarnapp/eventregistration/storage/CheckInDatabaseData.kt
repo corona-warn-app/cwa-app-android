@@ -21,7 +21,8 @@ object CheckInDatabaseData {
         checkInStart = Instant.parse("2021-01-01T12:30:00.000Z"),
         checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
         completed = false,
-        createJournalEntry = true
+        createJournalEntry = true,
+        isSubmitted = false,
     )
 
     val testCheckInWithoutCheckOutTime = TraceLocationCheckInEntity(
@@ -38,6 +39,7 @@ object CheckInDatabaseData {
         checkInStart = Instant.parse("2021-01-01T12:30:00.000Z"),
         checkInEnd = Instant.parse("2021-01-01T14:00:00.000Z"),
         completed = false,
-        createJournalEntry = true
+        createJournalEntry = true,
+        isSubmitted = false,
     )
 }
