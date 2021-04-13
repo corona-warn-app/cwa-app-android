@@ -5,7 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
-import de.rki.coronawarnapp.submission.ui.homecards.PcrTestFetchingCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestNegativeCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPendingCard
@@ -53,7 +53,7 @@ class HomeAdapter :
                 TypedVHCreatorMod({ data[it] is PcrTestSubmissionDoneCard.Item }) { PcrTestSubmissionDoneCard(it) },
                 TypedVHCreatorMod({ data[it] is PcrTestInvalidCard.Item }) { PcrTestInvalidCard(it) },
                 TypedVHCreatorMod({ data[it] is PcrTestErrorCard.Item }) { PcrTestErrorCard(it) },
-                TypedVHCreatorMod({ data[it] is PcrTestFetchingCard.Item }) { PcrTestFetchingCard(it) },
+                TypedVHCreatorMod({ data[it] is TestFetchingCard.Item }) { TestFetchingCard(it) },
                 TypedVHCreatorMod({ data[it] is PcrTestPositiveCard.Item }) { PcrTestPositiveCard(it) },
                 TypedVHCreatorMod({ data[it] is PcrTestNegativeCard.Item }) { PcrTestNegativeCard(it) },
                 TypedVHCreatorMod({ data[it] is PcrTestReadyCard.Item }) { PcrTestReadyCard(it) },

@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.submission.ui.homecards.NoTest
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
 import de.rki.coronawarnapp.submission.ui.homecards.TestError
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
-import de.rki.coronawarnapp.submission.ui.homecards.PcrTestFetchingCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestInvalid
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestNegative
@@ -130,7 +130,7 @@ object HomeData {
             onClickAction = {}
         )
 
-        val TEST_FETCHING_ITEM = PcrTestFetchingCard.Item(
+        val TEST_FETCHING_ITEM = TestFetchingCard.Item(
             state = FetchingResult
         )
 

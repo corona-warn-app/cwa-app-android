@@ -7,7 +7,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.submission.ui.homecards.FetchingResult
 import de.rki.coronawarnapp.submission.ui.homecards.NoTest
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
-import de.rki.coronawarnapp.submission.ui.homecards.PcrTestFetchingCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestNegativeCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPendingCard
@@ -38,12 +38,12 @@ class HomeTestCardsFragmentViewModel  @AssistedInject constructor(
     private val pcrTest: Flow<List<TestResultItem>> = flowOf(
         listOf(
             TestUnregisteredCard.Item(NoTest){},
-            PcrTestFetchingCard.Item(FetchingResult),
+            TestFetchingCard.Item(FetchingResult),
             PcrTestPendingCard.Item(TestPending){},
             PcrTestReadyCard.Item(TestResultReady){},
             PcrTestInvalidCard.Item(TestInvalid){},
             PcrTestErrorCard.Item(TestError){},
-            PcrTestNegativeCard.Item(TestNegative){},
+            PcrTestNegativeCard.Item(TestNegative),
             PcrTestPositiveCard.Item(TestPositive){},
             PcrTestSubmissionDoneCard.Item(SubmissionDone(Date()))
         )

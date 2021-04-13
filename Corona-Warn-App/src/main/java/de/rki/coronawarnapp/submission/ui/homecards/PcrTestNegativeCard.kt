@@ -22,16 +22,10 @@ class PcrTestNegativeCard(
     override val onBindData: HomeSubmissionPcrStatusCardNegativeBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-        itemView.setOnClickListener { curItem.onClickAction(item) }
-        // TODO: we dont have show test button anymore. After confirmation should be removed
-        // showTestAction.setOnClickListener { itemView.performClick() }
-    }
+    ) -> Unit = { _, _ -> }
 
     data class Item(
-        val state: TestNegative,
-        val onClickAction: (Item) -> Unit
+        val state: TestNegative
     ) : TestResultItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }

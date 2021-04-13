@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.submission.ui.homecards.TestError
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
-import de.rki.coronawarnapp.submission.ui.homecards.PcrTestFetchingCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestInvalid
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestNegative
@@ -170,7 +170,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             is NoTest -> TestUnregisteredCard.Item(state) {
                 routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
             }
-            is FetchingResult -> PcrTestFetchingCard.Item(state)
+            is FetchingResult -> TestFetchingCard.Item(state)
             is TestResultReady -> PcrTestReadyCard.Item(state) {
                 routeToScreen.postValue(
                     HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment()
@@ -182,12 +182,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
                 )
             }
-            is TestNegative -> PcrTestNegativeCard.Item(state) {
-                routeToScreen.postValue(
-                    HomeFragmentDirections
-                        .actionMainFragmentToSubmissionTestResultNegativeFragment()
-                )
-            }
+            is TestNegative -> PcrTestNegativeCard.Item(state)
             is TestInvalid -> PcrTestInvalidCard.Item(state) {
                 popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
             }
