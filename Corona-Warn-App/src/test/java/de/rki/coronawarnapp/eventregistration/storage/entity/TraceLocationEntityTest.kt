@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.storage.entity
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationEntity
+import de.rki.coronawarnapp.presencetracing.storage.entity.toTraceLocationEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
 import io.kotest.matchers.shouldBe

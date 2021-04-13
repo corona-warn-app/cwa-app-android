@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.presencetracing.checkins
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocationIdHash
-import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import okio.ByteString
 import org.joda.time.Instant
 

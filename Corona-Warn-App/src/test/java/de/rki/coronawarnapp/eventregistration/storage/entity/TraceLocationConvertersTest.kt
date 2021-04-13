@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.storage.entity
 
+import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationConverters
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test

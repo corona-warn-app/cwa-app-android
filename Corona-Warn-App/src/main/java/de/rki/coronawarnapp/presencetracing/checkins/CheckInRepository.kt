@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.presencetracing.checkins
 
-import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
-import de.rki.coronawarnapp.eventregistration.storage.dao.CheckInDao
-import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
-import de.rki.coronawarnapp.eventregistration.storage.entity.toCheckIn
+import de.rki.coronawarnapp.presencetracing.storage.TraceLocationDatabase
+import de.rki.coronawarnapp.presencetracing.storage.dao.CheckInDao
+import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.presencetracing.storage.entity.toCheckIn
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow

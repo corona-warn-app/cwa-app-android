@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvid
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate.QRCodePosterTemplateAndroid.QRCodeTextBoxAndroid
 import de.rki.coronawarnapp.util.files.FileSharing
 import io.kotest.matchers.shouldBe

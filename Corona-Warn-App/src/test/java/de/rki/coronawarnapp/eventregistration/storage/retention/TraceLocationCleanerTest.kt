@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.storage.retention
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationCleaner
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations

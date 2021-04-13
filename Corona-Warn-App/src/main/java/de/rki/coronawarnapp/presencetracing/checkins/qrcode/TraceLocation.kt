@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.presencetracing.checkins.qrcode
 
 import android.os.Parcelable
 import com.google.common.io.BaseEncoding
-import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
+import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize

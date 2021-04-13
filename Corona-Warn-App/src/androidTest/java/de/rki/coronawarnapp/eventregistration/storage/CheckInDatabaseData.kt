@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.storage
 
-import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant

@@ -4,6 +4,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabaseData.testTraceLocation1
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabaseData.testTraceLocation2
+import de.rki.coronawarnapp.presencetracing.storage.TraceLocationDatabase
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

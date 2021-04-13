@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.eventregistration.storage.repo
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
-import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
-import de.rki.coronawarnapp.eventregistration.storage.entity.toTraceLocationEntity
+import de.rki.coronawarnapp.presencetracing.storage.TraceLocationDatabase
+import de.rki.coronawarnapp.presencetracing.storage.dao.TraceLocationDao
+import de.rki.coronawarnapp.presencetracing.storage.entity.toTraceLocationEntity
+import de.rki.coronawarnapp.presencetracing.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe

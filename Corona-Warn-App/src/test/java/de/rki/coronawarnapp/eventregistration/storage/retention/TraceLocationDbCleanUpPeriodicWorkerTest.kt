@@ -3,6 +3,9 @@ package de.rki.coronawarnapp.eventregistration.storage.retention
 import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
+import de.rki.coronawarnapp.presencetracing.storage.retention.CheckInCleaner
+import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationCleaner
+import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpPeriodicWorker
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs

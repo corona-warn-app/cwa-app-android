@@ -4,6 +4,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import de.rki.coronawarnapp.eventregistration.storage.CheckInDatabaseData.testCheckIn
 import de.rki.coronawarnapp.eventregistration.storage.CheckInDatabaseData.testCheckInWithoutCheckOutTime
+import de.rki.coronawarnapp.presencetracing.storage.TraceLocationDatabase
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe

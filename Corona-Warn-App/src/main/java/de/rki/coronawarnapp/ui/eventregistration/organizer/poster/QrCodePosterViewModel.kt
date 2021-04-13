@@ -11,7 +11,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
-import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
