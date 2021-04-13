@@ -128,9 +128,15 @@ class PresenceTracingRiskRepository @Inject constructor(
                 if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
                     lastSuccessfulFound = true
                     // add risk per day to the last successful result
-                    entity.toCheckInWarningOverlap(presenceTracingDayRisk.first())
+                    entity.toRiskLevelResult(
+                        presenceTracingDayRisks = presenceTracingDayRisk.first(),
+                        checkInWarningOverlaps = checkInWarningOverlaps.first(),
+                    )
                 } else {
-                    entity.toCheckInWarningOverlap(null)
+                    entity.toRiskLevelResult(
+                        presenceTracingDayRisks = null,
+                        checkInWarningOverlaps = null,
+                    )
                 }
             }
     }
@@ -144,16 +150,22 @@ class PresenceTracingRiskRepository @Inject constructor(
                 if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
                     lastSuccessfulFound = true
                     // add risk per day to the last successful result
-                    entity.toCheckInWarningOverlap(presenceTracingDayRisk.first())
+                    entity.toRiskLevelResult(
+                        presenceTracingDayRisks = presenceTracingDayRisk.first(),
+                        checkInWarningOverlaps = checkInWarningOverlaps.first(),
+                    )
                 } else {
-                    entity.toCheckInWarningOverlap(null)
+                    entity.toRiskLevelResult(
+                        presenceTracingDayRisks = null,
+                        checkInWarningOverlaps = null,
+                    )
                 }
             }
     }
 
     private fun addResult(result: PtRiskLevelResult) {
         Timber.i("Saving risk calculation from ${result.calculatedAt} with result ${result.riskState}.")
-        riskLevelResultDao.insert(result.toTraceTimeIntervalMatchEntity())
+        riskLevelResultDao.insert(result.toRiskLevelEntity())
     }
 
     suspend fun clearAllTables() {
@@ -242,15 +254,17 @@ data class PresenceTracingRiskLevelResultEntity(
     @ColumnInfo(name = "riskStateCode") val riskState: RiskState
 )
 
-private fun PresenceTracingRiskLevelResultEntity.toCheckInWarningOverlap(
-    presenceTracingDayRisk: List<PresenceTracingDayRisk>?
+private fun PresenceTracingRiskLevelResultEntity.toRiskLevelResult(
+    presenceTracingDayRisks: List<PresenceTracingDayRisk>?,
+    checkInWarningOverlaps: List<CheckInWarningOverlap>?
 ) = PtRiskLevelResult(
     calculatedAt = Instant.ofEpochMilli((calculatedAtMillis)),
     riskState = riskState,
-    presenceTracingDayRisk = presenceTracingDayRisk
+    presenceTracingDayRisk = presenceTracingDayRisks,
+    checkInWarningOverlaps = checkInWarningOverlaps,
 )
 
-private fun PtRiskLevelResult.toTraceTimeIntervalMatchEntity() = PresenceTracingRiskLevelResultEntity(
+private fun PtRiskLevelResult.toRiskLevelEntity() = PresenceTracingRiskLevelResultEntity(
     calculatedAtMillis = calculatedAt.millis,
     riskState = riskState
 )

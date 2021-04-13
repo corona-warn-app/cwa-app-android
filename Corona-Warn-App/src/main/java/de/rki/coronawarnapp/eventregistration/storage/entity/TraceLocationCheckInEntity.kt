@@ -23,8 +23,16 @@ data class TraceLocationCheckInEntity(
     @ColumnInfo(name = "checkInStart") val checkInStart: Instant,
     @ColumnInfo(name = "checkInEnd") val checkInEnd: Instant,
     @ColumnInfo(name = "completed") val completed: Boolean,
-    @ColumnInfo(name = "createJournalEntry") val createJournalEntry: Boolean
-)
+    @ColumnInfo(name = "createJournalEntry") val createJournalEntry: Boolean,
+    @ColumnInfo(name = "submitted") val isSubmitted: Boolean,
+) {
+
+    @Entity
+    data class SubmissionUpdate(
+        @PrimaryKey @ColumnInfo(name = "id") val checkInId: Long,
+        @ColumnInfo(name = "submitted") val isSubmitted: Boolean,
+    )
+}
 
 fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     id = id,
@@ -41,5 +49,6 @@ fun TraceLocationCheckInEntity.toCheckIn() = CheckIn(
     checkInStart = checkInStart,
     checkInEnd = checkInEnd,
     completed = completed,
-    createJournalEntry = createJournalEntry
+    createJournalEntry = createJournalEntry,
+    isSubmitted = isSubmitted
 )

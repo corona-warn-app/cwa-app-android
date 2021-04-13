@@ -37,6 +37,9 @@ interface CheckInDao {
         update(updated)
     }
 
+    @Update(entity = TraceLocationCheckInEntity::class)
+    suspend fun updateEntity(update: TraceLocationCheckInEntity.SubmissionUpdate)
+
     @Query("DELETE FROM checkin")
     suspend fun deleteAll()
 

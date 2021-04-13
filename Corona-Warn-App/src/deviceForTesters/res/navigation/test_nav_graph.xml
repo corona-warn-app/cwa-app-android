@@ -47,8 +47,8 @@
             android:id="@+id/action_test_menu_fragment_to_deltaonboardingFragment"
             app:destination="@id/test_deltaonboarding_fragment" />
         <action
-            android:id="@+id/action_test_menu_fragment_to_eventRegistrationTestFragment"
-            app:destination="@id/eventRegistrationTestFragment" />
+            android:id="@+id/action_test_menu_fragment_to_presenceTracingTestFragment"
+            app:destination="@id/presenceTracingTestFragment" />
         <action
             android:id="@+id/action_test_menu_fragment_to_homeTestCardsFragment"
             app:destination="@id/homeTestCardsFragment" />
@@ -131,19 +131,19 @@
         android:label="DeltaonboardingFragment"
         tools:layout="@layout/fragment_test_deltaonboarding" />
     <fragment
-        android:id="@+id/eventRegistrationTestFragment"
-        android:name="de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragment"
-        android:label="EventRegistrationTestFragment"
-        tools:layout="@layout/fragment_test_eventregistration">
+        android:id="@+id/presenceTracingTestFragment"
+        android:name="de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragment"
+        android:label="PresenceTracingTestFragment"
+        tools:layout="@layout/fragment_test_presence_tracing">
         <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_qrCodePosterFragmentTest"
-            app:destination="@id/qrCodePosterFragmentTest" />
+            android:id="@+id/action_presenceTracingTestFragment_to_qrCodePosterTestFragment"
+            app:destination="@id/qrCodePosterTestFragment" />
     </fragment>
     <fragment
-        android:id="@+id/qrCodePosterFragmentTest"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.poster.QrCodePosterFragment"
-        android:label="qr_code_poster_fragment"
-        tools:layout="@layout/qr_code_poster_fragment">
+        android:id="@+id/qrCodePosterTestFragment"
+        android:name="de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragment"
+        android:label="QrCodePosterTestFragment"
+        tools:layout="@layout/fragment_test_qr_code_poster">
 
         <argument
             android:name="traceLocationId"
