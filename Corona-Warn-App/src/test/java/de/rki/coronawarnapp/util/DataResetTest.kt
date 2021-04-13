@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
-import de.rki.coronawarnapp.ui.eventregistration.TraceLocationPreferences
+import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK

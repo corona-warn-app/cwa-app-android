@@ -4,8 +4,8 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInNavigation
-import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInViewModel
+import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInNavigation
+import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInViewModel
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
