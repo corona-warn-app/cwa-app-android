@@ -15,6 +15,10 @@ data class RapidAntigenCoronaTest(
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
 
+    override fun toSubmittedState(): CoronaTest {
+        TODO("Not yet implemented")
+    }
+
     enum class State {
         PENDING,
         INVALID,

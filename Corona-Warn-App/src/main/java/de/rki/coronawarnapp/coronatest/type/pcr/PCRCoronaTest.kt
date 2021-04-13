@@ -15,6 +15,10 @@ data class PCRCoronaTest(
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
 
+    override fun toSubmittedState(): CoronaTest {
+        TODO("Not yet implemented")
+    }
+
     enum class State {
         PENDING,
         INVALID,

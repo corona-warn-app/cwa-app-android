@@ -11,6 +11,8 @@ interface CoronaTest {
     val isSubmissionAllowed: Boolean
     val isSubmitted: Boolean
 
+    fun toSubmittedState(): CoronaTest
+
     enum class Type {
         @SerializedName("PCR")
         PCR,
