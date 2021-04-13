@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.task.example
+package de.rki.coronawarnapp.task.testtasks.queue
 
 import dagger.Binds
 import dagger.Module
