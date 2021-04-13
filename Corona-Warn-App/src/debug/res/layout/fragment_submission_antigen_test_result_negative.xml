@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_close"
+        app:title="@string/submission_result_antigen_toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small"
+        android:background="@drawable/card_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <TextView
+            android:id="@+id/rapid_test_card_title"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/submission_result_antigen_test"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/rapid_test_card_subtitle"
+            style="@style/subtitleMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_result_antigen_subtitle"
+            app:layout_constraintStart_toStartOf="@id/rapid_test_card_title"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_title" />
+
+        <TextView
+            android:id="@+id/rapid_test_card_virus_name"
+            style="@style/headline5Bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/test_result_card_virus_name_text"
+            app:layout_constraintStart_toStartOf="@id/rapid_test_card_subtitle"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_subtitle" />
+        <TextView
+            android:id="@+id/rapid_test_card_diagnosis"
+            style="@style/headline5Bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextSemanticGreen"
+            app:layout_constraintStart_toStartOf="@id/rapid_test_card_virus_name"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_virus_name"
+            tools:text="@string/submission_result_antigen_diagnosis_placeholder" />
+
+        <TextView
+            android:id="@+id/rapid_test_card_patient_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/rapid_test_card_diagnosis"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_diagnosis"
+            tools:text="@string/submission_result_antigen_card_patient_details_placeholder"/>
+
+        <TextView
+            android:id="@+id/rapid_test_card_negative_result_message"
+            style="@style/body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:text="@string/submission_result_antigen_card_negative_result_message"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_patient_details"
+            app:layout_constraintStart_toStartOf="@id/rapid_test_card_patient_details"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
