@@ -12,7 +12,6 @@ import org.joda.time.Duration
 import org.joda.time.DurationFieldType
 import org.joda.time.Instant
 import org.joda.time.PeriodType
-import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.PeriodFormat
 import org.joda.time.format.PeriodFormatterBuilder
 
@@ -50,8 +49,6 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         description.text = curItem.checkin.description
         address.text = curItem.checkin.address
-        val startDate = checkInStartUserTZ.toLocalDate()
-        traceLocationCardHighlightView.setCaption(startDate.toString(DateTimeFormat.mediumDate()))
 
         checkoutInfo.text = run {
             val checkoutIn = Duration(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
@@ -65,8 +62,10 @@ class ActiveCheckInVH(parent: ViewGroup) :
                 it.toPeriod(periodType)
             }
 
+            val startDate = checkInStartUserTZ.toLocalDate()
             context.getString(
-                R.string.trace_location_checkins_card_automatic_checkout_info,
+                R.string.trace_location_checkins_card_automatic_checkout_info_format,
+                startDate.toString("dd.MM.yy"),
                 checkInStartUserTZ.toLocalTime().toString("HH:mm"),
                 hourPeriodFormatter.print(checkoutIn)
             )

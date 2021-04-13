@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.CategoryItem
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType.EVENT
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType.LOCATION
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -28,7 +29,7 @@ data class TraceLocationCategory(
     @StringRes val title: Int,
     @StringRes val subtitle: Int? = null
 ) : CategoryItem, Parcelable {
-    override val stableId = hashCode().toLong()
+    @IgnoredOnParcel override val stableId = hashCode().toLong()
 }
 
 enum class TraceLocationUIType {
