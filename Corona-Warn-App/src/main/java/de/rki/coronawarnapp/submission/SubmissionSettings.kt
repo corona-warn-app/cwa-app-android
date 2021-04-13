@@ -108,6 +108,38 @@ class SubmissionSettings @Inject constructor(
 
     fun deleteLegacyTestData() {
         Timber.d("deleteLegacyTestData()")
+//        fun removeTestFromDevice() {
+//            submissionSettings.hasViewedTestResult.update { false }
+//            submissionSettings.hasGivenConsent.update { false }
+//            revokeConsentToSubmission()
+//            submissionSettings.registrationToken.update { null }
+//            submissionSettings.devicePairingSuccessfulAt = null
+//            tracingSettings.initialPollingForTestResultTimeStamp = 0L
+//            submissionSettings.initialTestResultReceivedAt = null
+//            submissionSettings.isAllowedToSubmitKeys = false
+//            tracingSettings.isTestResultAvailableNotificationSent = false
+//            submissionSettings.isSubmissionSuccessful = false
+//            testResultDataCollector.clear()
+//        }
+
+        prefs.edit {
+            remove(SUBMISSION_RESULT_VIEWED)
+            remove(TEST_REGISTRATION_TOKEN)
+            remove(TEST_PARING_SUCCESSFUL_AT)
+            remove(TEST_RESULT_RECEIVED_AT)
+            remove(IS_KEY_SUBMISSION_ALLOWED)
+            remove(IS_KEY_SUBMISSION_SUCCESSFUL)
+
+            // TODO why per test
+            remove(SUBMISSION_CONSENT_GIVEN)
+        }
+
+        // Per test type?
+        // tracingSettings.isTestResultAvailableNotificationSent = false
+
+        // No longer needed, was for worker control?
+        // tracingSettings.initialPollingForTestResultTimeStamp = 0L
+
         TODO()
     }
 

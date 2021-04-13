@@ -10,9 +10,13 @@ data class PCRCoronaTest(
     override val testGUID: CoronaTestGUID,
     override val registeredAt: Instant,
     override val registrationToken: RegistrationToken,
-    val testResult: CoronaTestResult,
     override val isRefreshing: Boolean = false,
     override val isSubmitted: Boolean = false,
+    override val isViewed: Boolean = false,
+    override val isAdvancedConsentGiven: Boolean = false,
+    override val isJournalEntryCreated: Boolean = false,
+    override val isNotificationSent: Boolean = false,
+    val testResult: CoronaTestResult,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR

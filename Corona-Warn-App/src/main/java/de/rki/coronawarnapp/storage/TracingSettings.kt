@@ -5,6 +5,7 @@ import androidx.core.content.edit
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,6 +38,13 @@ class TracingSettings @Inject constructor(@AppContext private val context: Conte
         key = LOWERED_RISK_LEVEL,
         defaultValue = false
     )
+
+    fun deleteLegacyTestData() {
+        Timber.d("deleteLegacyTestData()")
+        prefs.edit {
+            remove(TEST_RESULT_NOTIFICATION_SENT)
+        }
+    }
 
     fun clear() = prefs.clearAndNotify()
 

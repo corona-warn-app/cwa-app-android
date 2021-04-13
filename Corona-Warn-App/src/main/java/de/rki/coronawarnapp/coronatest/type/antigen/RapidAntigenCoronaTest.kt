@@ -11,9 +11,13 @@ data class RapidAntigenCoronaTest(
     override val testGUID: CoronaTestGUID,
     override val registeredAt: Instant,
     override val registrationToken: RegistrationToken,
-    val testResult: CoronaTestResult,
     override val isRefreshing: Boolean = false,
     override val isSubmitted: Boolean = false,
+    override val isViewed: Boolean = false,
+    override val isAdvancedConsentGiven: Boolean = false,
+    override val isJournalEntryCreated: Boolean = false,
+    override val isNotificationSent: Boolean = false,
+    val testResult: CoronaTestResult,
     val testedAt: Instant,
     val firstName: String?,
     val lastName: String?,
@@ -22,8 +26,9 @@ data class RapidAntigenCoronaTest(
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
 
-    val state: State
-        get() = TODO()
+    fun getState(nowUTC: Instant): State {
+        TODO()
+    }
 
     override val isSubmissionAllowed: Boolean = testResult == CoronaTestResult.RAT_POSITIVE
 

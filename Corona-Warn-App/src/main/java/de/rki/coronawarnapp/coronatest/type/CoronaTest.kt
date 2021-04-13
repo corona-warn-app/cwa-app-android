@@ -14,6 +14,15 @@ interface CoronaTest {
     val isRefreshing: Boolean
     val isSubmissionAllowed: Boolean
     val isSubmitted: Boolean
+    val isViewed: Boolean
+
+    // TODO why do we need this PER test
+    val isAdvancedConsentGiven: Boolean
+
+    // TODO Why do we need to store this?
+    val isJournalEntryCreated: Boolean
+
+    val isNotificationSent: Boolean
 
     enum class Type {
         @SerializedName("PCR")

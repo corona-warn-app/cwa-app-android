@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.CWADebug
 import timber.log.Timber
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @Reusable
 class CoronaTestMigration @Inject constructor(
-    private val submissionSettings: SubmissionSettings
+    private val submissionSettings: SubmissionSettings,
+    private val tracingSettings: TracingSettings,
 ) {
     suspend fun startMigration(): Set<CoronaTest> {
         val token: RegistrationToken? = submissionSettings.registrationToken.value
@@ -38,6 +40,16 @@ class CoronaTestMigration @Inject constructor(
         val isSubmissionSuccessful = submissionSettings.isSubmissionSuccessful
         Timber.tag(TAG).v("isSubmissionSuccessful=%s", isSubmissionSuccessful)
 
+        val hasViewedTestResult = submissionSettings.hasViewedTestResult.value
+        Timber.tag(TAG).v("hasViewedTestResult=%s", hasViewedTestResult)
+
+        val hasGivenConsent = submissionSettings.hasGivenConsent.value
+        Timber.tag(TAG).v("hasGivenConsent=%s", hasGivenConsent)
+
+        // TODO per test ?
+        val testResultNotificationSent = tracingSettings.isTestResultAvailableNotificationSent
+        Timber.tag(TAG).v("testResultNotificationSent=%s", testResultNotificationSent)
+
         val legacyPCRTest = PCRCoronaTest(
             testGUID = LEGACY_GUID,
             registrationToken = token,
@@ -46,7 +58,10 @@ class CoronaTestMigration @Inject constructor(
                 true -> CoronaTestResult.PCR_POSITIVE
                 else -> CoronaTestResult.PCR_OR_RAT_PENDING
             },
-            isSubmitted = isSubmissionSuccessful
+            isSubmitted = isSubmissionSuccessful,
+            isViewed = hasViewedTestResult,
+            isAdvancedConsentGiven = hasGivenConsent,
+            isNotificationSent = testResultNotificationSent,
         )
         return setOf(legacyPCRTest).also {
             Timber.tag(TAG).d("Offering converted legacy CoronaTest: %s", it)
@@ -56,10 +71,15 @@ class CoronaTestMigration @Inject constructor(
     suspend fun finishMigration() {
         Timber.tag(TAG).i("finishMigration()")
         submissionSettings.deleteLegacyTestData()
+        tracingSettings.deleteLegacyTestData()
     }
 
     companion object {
         private const val TAG = "CoronaTestMigration"
+
+        /**
+         * We only use this for identification
+         */
         private const val LEGACY_GUID = "legacy-guid"
     }
 }
