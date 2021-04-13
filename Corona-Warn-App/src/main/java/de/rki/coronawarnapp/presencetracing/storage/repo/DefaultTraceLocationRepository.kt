@@ -1,12 +1,12 @@
-package de.rki.coronawarnapp.eventregistration.storage.repo
+package de.rki.coronawarnapp.presencetracing.storage.repo
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocations
-import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
-import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
-import de.rki.coronawarnapp.eventregistration.storage.entity.toTraceLocationEntity
-import de.rki.coronawarnapp.eventregistration.storage.retention.isWithinRetention
+import de.rki.coronawarnapp.presencetracing.storage.TraceLocationDatabase
+import de.rki.coronawarnapp.presencetracing.storage.dao.TraceLocationDao
+import de.rki.coronawarnapp.presencetracing.storage.entity.toTraceLocationEntity
+import de.rki.coronawarnapp.presencetracing.storage.retention.isWithinRetention
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope

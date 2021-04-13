@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.storage.retention
+package de.rki.coronawarnapp.presencetracing.storage.retention
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds

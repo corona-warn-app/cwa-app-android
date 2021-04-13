@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.storage.entity
+package de.rki.coronawarnapp.presencetracing.storage.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

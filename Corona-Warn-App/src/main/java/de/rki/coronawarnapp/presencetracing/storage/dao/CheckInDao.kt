@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.storage.dao
+package de.rki.coronawarnapp.presencetracing.storage.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -7,8 +7,8 @@ import androidx.room.Transaction
 import androidx.room.Update
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.toEntity
-import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
-import de.rki.coronawarnapp.eventregistration.storage.entity.toCheckIn
+import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.presencetracing.storage.entity.toCheckIn
 import kotlinx.coroutines.flow.Flow
 
 @Dao

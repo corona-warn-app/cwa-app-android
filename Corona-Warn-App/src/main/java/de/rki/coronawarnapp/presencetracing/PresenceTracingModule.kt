@@ -1,10 +1,10 @@
-package de.rki.coronawarnapp.eventregistration
+package de.rki.coronawarnapp.presencetracing
 
 import dagger.Binds
 import dagger.Module
 import de.rki.coronawarnapp.environment.eventregistration.qrcodeposter.QrCodePosterTemplateModule
-import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
-import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.storage.repo.DefaultTraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.PresenceTracingWarningModule
 
 @Module(
@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.presencetracing.warning.PresenceTracingWarningModule
         PresenceTracingWarningModule::class,
     ]
 )
-abstract class EventRegistrationModule {
+abstract class PresenceTracingModule {
 
     @Binds
     abstract fun traceLocationRepository(

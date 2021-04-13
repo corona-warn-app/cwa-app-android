@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.storage.retention
+package de.rki.coronawarnapp.presencetracing.storage.retention
 
 import dagger.Reusable
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository

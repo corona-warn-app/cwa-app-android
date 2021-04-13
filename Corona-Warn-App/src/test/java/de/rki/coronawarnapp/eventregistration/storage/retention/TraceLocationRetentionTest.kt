@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.storage.retention
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.storage.retention.isOutOfRetention
+import de.rki.coronawarnapp.presencetracing.storage.retention.isWithinRetention
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.encode

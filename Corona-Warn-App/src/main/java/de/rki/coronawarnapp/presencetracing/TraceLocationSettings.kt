@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration
+package de.rki.coronawarnapp.presencetracing
 
 import android.content.Context
 import de.rki.coronawarnapp.util.di.AppContext

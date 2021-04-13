@@ -1,7 +1,7 @@
-package de.rki.coronawarnapp.eventregistration.storage.retention
+package de.rki.coronawarnapp.presencetracing.storage.retention
 
 import dagger.Reusable
-import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import timber.log.Timber

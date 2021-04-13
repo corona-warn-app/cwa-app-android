@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.storage.retention
+package de.rki.coronawarnapp.presencetracing.storage.retention
 
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
