@@ -10,7 +10,7 @@ class CoronaTestStorage @Inject constructor() {
 
     suspend fun load(): Set<CoronaTest> {
         Timber.tag(TAG).d("load()")
-        return TODO()
+        throw NotImplementedError()
     }
 
     suspend fun save(tests: Set<CoronaTest>) {

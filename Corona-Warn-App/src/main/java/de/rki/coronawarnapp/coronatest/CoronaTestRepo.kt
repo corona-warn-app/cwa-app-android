@@ -30,7 +30,7 @@ class CoronaTestRepo @Inject constructor(
     suspend fun removeTest(guid: CoronaTestGUID): CoronaTest {
         Timber.tag(TAG).i("removeTest(guid=%s)", guid)
 
-        return TODO()
+        throw NotImplementedError()
     }
 
     suspend fun markAsSubmitted(guid: CoronaTestGUID) {

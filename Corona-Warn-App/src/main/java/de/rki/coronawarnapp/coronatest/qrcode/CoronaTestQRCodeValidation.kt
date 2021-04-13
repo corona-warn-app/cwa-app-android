@@ -7,6 +7,6 @@ import javax.inject.Inject
 class CoronaTestQRCodeValidation @Inject constructor() {
 
     suspend fun validate(qrCode: String): CoronaTestQRCode {
-        TODO()
+        throw NotImplementedError()
     }
 }
