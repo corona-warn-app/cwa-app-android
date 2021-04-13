@@ -63,7 +63,7 @@ class PresenceTracingRiskRepository @Inject constructor(
 
     val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>> =
         normalizedTimeOfLast14DaysPlusToday.map {
-            presenceTracingRiskCalculator.calculateAggregatedRiskPerDay(it)
+            presenceTracingRiskCalculator.calculateDayRisk(it)
         }
 
     /**

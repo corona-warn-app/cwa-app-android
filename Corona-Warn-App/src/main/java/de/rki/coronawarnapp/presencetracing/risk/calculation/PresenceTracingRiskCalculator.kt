@@ -38,7 +38,7 @@ class PresenceTracingRiskCalculator @Inject constructor(
         }
     }
 
-    suspend fun calculateAggregatedRiskPerDay(
+    suspend fun calculateDayRisk(
         list: List<CheckInNormalizedTime>
     ): List<PresenceTracingDayRisk> {
         return list.groupBy { it.localDateUtc }.map {

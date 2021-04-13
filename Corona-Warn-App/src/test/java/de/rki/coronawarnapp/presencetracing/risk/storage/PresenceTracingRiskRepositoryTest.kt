@@ -121,7 +121,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             localDateUtc = now.minus(100000).toLocalDateUtc(),
             riskState = RiskState.LOW_RISK
         )
-        coEvery { presenceTracingRiskCalculator.calculateAggregatedRiskPerDay(any()) } returns listOf(dayRisk)
+        coEvery { presenceTracingRiskCalculator.calculateDayRisk(any()) } returns listOf(dayRisk)
         runBlockingTest {
             val risks = createInstance().presenceTracingDayRisk.first()
             risks.size shouldBe 1
@@ -159,7 +159,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             localDateUtc = now.minus(100000).toLocalDateUtc(),
             riskState = RiskState.LOW_RISK
         )
-        coEvery { presenceTracingRiskCalculator.calculateAggregatedRiskPerDay(any()) } returns listOf(dayRisk)
+        coEvery { presenceTracingRiskCalculator.calculateDayRisk(any()) } returns listOf(dayRisk)
         runBlockingTest {
             val latest = createInstance().latestEntries(2).first()
             latest.size shouldBe 2
