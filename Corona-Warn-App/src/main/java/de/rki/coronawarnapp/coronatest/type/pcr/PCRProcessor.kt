@@ -16,12 +16,13 @@ import javax.inject.Inject
 class PCRProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val verificationServer: VerificationServer,
-) : CoronaTestProcessor<CoronaTestQRCode.PCR, PCRCoronaTest> {
+) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
 
-    override suspend fun create(data: CoronaTestQRCode.PCR): PCRCoronaTest {
+    override suspend fun create(data: CoronaTestQRCode): PCRCoronaTest {
         Timber.tag(TAG).d("create(data=%s)", data)
+        data as CoronaTestQRCode.PCR
 
         val registrationToken: RegistrationToken = verificationServer.retrieveRegistrationToken(
             key = data.guid,
@@ -36,11 +37,20 @@ class PCRProcessor @Inject constructor(
         )
     }
 
-    override suspend fun markSubmitted(test: PCRCoronaTest): PCRCoronaTest {
-        Timber.tag(TAG).d("markSubmitted(test=%s)", test)
-        return test.copy(
-            isSubmitted = true
-        )
+    override suspend fun markSubmitted(test: CoronaTest): PCRCoronaTest {
+        Timber.tag(TAG).v("markSubmitted(test=%s)", test)
+        test as PCRCoronaTest
+
+        return test.copy(isSubmitted = true)
+    }
+
+    override suspend fun pollServer(test: CoronaTest): CoronaTest {
+        Timber.tag(TAG).v("pollServer(test=%s)", test)
+        test as PCRCoronaTest
+
+        val testResult = verificationServer.pollTestResult(test.registrationToken)
+
+        return test.copy(testResult = testResult)
     }
 
     companion object {

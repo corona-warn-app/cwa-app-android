@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -104,6 +105,11 @@ class SubmissionSettings @Inject constructor(
             putLong(key, value.millis)
         }
     )
+
+    fun deleteLegacyTestData() {
+        Timber.d("deleteLegacyTestData()")
+        TODO()
+    }
 
     fun clear() = prefs.clearAndNotify()
 
