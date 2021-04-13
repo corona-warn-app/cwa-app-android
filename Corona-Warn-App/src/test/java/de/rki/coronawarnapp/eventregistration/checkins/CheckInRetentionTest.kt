@@ -1,5 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.isOutOfRetention
+import de.rki.coronawarnapp.presencetracing.checkins.isWithinRetention
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant

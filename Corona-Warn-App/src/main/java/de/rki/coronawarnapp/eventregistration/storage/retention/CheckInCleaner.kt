@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.storage.retention
 
 import dagger.Reusable
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.isOutOfRetention
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.isOutOfRetention
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import timber.log.Timber

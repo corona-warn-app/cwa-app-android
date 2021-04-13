@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.qrcode
+package de.rki.coronawarnapp.presencetracing.checkins.qrcode
 
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.CWALocationData

@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.storage.repo
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocation
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocations
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocations
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.toTraceLocationEntity

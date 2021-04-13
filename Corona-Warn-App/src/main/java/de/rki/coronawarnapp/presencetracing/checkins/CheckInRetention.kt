@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins
+package de.rki.coronawarnapp.presencetracing.checkins
 
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import org.joda.time.Instant

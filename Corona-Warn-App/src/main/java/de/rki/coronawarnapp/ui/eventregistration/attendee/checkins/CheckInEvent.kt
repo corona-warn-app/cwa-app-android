@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
 import androidx.annotation.StringRes
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 
 sealed class CheckInEvent {
 

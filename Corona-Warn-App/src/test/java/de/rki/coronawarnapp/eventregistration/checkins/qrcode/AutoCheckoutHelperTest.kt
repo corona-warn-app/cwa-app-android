@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.roundToNearest15Minutes
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource

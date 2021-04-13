@@ -1,6 +1,6 @@
-package de.rki.coronawarnapp.eventregistration.checkins.split
+package de.rki.coronawarnapp.presencetracing.checkins.split
 
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
@@ -24,7 +24,7 @@ fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     val durationSecondsUTC = endTimeSeconds - startTimeSeconds.toMidnightUTC()
     Timber.i("durationSecondsUTC=$durationSecondsUTC")
 
-    val durationDays = ceil(durationSecondsUTC.toDouble() / DAY_IN_SECONDS).toLong()
+    val durationDays = ceil(durationSecondsUTC.toDouble() / de.rki.coronawarnapp.presencetracing.checkins.split.DAY_IN_SECONDS).toLong()
     Timber.i("durationDays=$durationDays")
 
     return (0 until durationDays).map { day ->

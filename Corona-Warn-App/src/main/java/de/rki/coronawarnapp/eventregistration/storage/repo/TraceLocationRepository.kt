@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.storage.repo
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import kotlinx.coroutines.flow.Flow
 
 interface TraceLocationRepository {

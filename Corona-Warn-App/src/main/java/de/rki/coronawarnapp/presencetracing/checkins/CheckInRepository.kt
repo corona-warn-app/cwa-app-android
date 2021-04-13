@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins
+package de.rki.coronawarnapp.presencetracing.checkins
 
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.CheckInDao

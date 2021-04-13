@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import android.os.Bundle
 import android.os.Parcel
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.qrCodePayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.qrcode
+package de.rki.coronawarnapp.presencetracing.checkins.qrcode
 
 import com.google.common.io.BaseEncoding
 import dagger.Reusable

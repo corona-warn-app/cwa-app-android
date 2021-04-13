@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.InvalidQrCodeUriException
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.CWALocationData
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.QRCodePayload
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor

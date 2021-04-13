@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.events
 
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import okio.ByteString
 import okio.ByteString.Companion.toByteString

@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.storage.retention
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import org.joda.time.Instant
 import java.util.concurrent.TimeUnit

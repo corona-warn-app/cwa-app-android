@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.eventregistration.events
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationId
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.qrCodePayload
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.toTraceLocationIdHash
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.traceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.qrCodePayload
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocationIdHash
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.traceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe

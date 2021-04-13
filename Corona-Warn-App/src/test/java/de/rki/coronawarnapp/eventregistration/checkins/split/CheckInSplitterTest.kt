@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.checkins.split
 
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant

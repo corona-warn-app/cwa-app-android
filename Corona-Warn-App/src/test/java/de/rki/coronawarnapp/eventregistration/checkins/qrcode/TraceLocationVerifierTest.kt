@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest

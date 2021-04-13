@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.poster
 
 import android.graphics.Bitmap
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.PosterTemplateProvider
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.Template
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvider
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate.QRCodePosterTemplateAndroid.QRCodeTextBoxAndroid
 import de.rki.coronawarnapp.util.files.FileSharing

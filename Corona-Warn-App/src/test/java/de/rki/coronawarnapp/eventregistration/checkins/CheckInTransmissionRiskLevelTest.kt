@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.determineRiskTransmission
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.encode

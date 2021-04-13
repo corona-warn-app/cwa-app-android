@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.derivetime
+package de.rki.coronawarnapp.presencetracing.checkins.derivetime
 
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
 import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange

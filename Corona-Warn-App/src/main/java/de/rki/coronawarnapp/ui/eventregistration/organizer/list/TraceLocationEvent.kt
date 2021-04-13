@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer.list
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 
 sealed class TraceLocationEvent {
 

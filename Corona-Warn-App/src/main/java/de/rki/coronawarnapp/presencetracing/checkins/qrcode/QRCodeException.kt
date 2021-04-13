@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.qrcode
+package de.rki.coronawarnapp.presencetracing.checkins.qrcode
 
 sealed class QRCodeException constructor(
     message: String? = null,
