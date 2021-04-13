@@ -46,26 +46,15 @@ class PresenceTracingRiskRepository @Inject constructor(
         database.presenceTracingRiskLevelResultDao()
     }
 
-    private val matchesOfLast14DaysPlusToday = traceTimeIntervalMatchDao.allMatches()
-        .map { timeIntervalMatchEntities ->
-            timeIntervalMatchEntities
-                .map { it.toCheckInWarningOverlap() }
-                .filter { it.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc()) }
-        }
-
-    val checkInWarningOverlaps: Flow<List<CheckInWarningOverlap>> =
-        traceTimeIntervalMatchDao.allMatches().map { matchEntities ->
-            matchEntities.map {
-                it.toCheckInWarningOverlap()
-            }
-        }
-
-    private val normalizedTimeOfLast14DaysPlusToday = matchesOfLast14DaysPlusToday.map {
-        presenceTracingRiskCalculator.calculateNormalizedTime(it)
+    val overlapsOfLast14DaysPlusToday = traceTimeIntervalMatchDao.allMatches().map { entities ->
+        entities
+            .map { it.toCheckInWarningOverlap() }
+            .filter { it.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc()) }
     }
 
-    private val fifteenDaysAgo: Instant
-        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
+    private val normalizedTimeOfLast14DaysPlusToday = overlapsOfLast14DaysPlusToday.map {
+        presenceTracingRiskCalculator.calculateNormalizedTime(it)
+    }
 
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
         normalizedTimeOfLast14DaysPlusToday.map {
@@ -74,7 +63,7 @@ class PresenceTracingRiskRepository @Inject constructor(
 
     val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>> =
         normalizedTimeOfLast14DaysPlusToday.map {
-            presenceTracingRiskCalculator.calculateAggregatedRiskPerDay(it)
+            presenceTracingRiskCalculator.calculateDayRisk(it)
         }
 
     /**
@@ -120,39 +109,23 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     fun latestEntries(limit: Int) = riskLevelResultDao.latestEntries(limit).map { list ->
-        var lastSuccessfulFound = false
-        list.sortedByDescending {
-            it.calculatedAtMillis
-        }
-            .map { entity ->
-                if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
-                    lastSuccessfulFound = true
-                    // add risk per day to the last successful result
-                    entity.toRiskLevelResult(
-                        presenceTracingDayRisks = presenceTracingDayRisk.first(),
-                        checkInWarningOverlaps = checkInWarningOverlaps.first(),
-                    )
-                } else {
-                    entity.toRiskLevelResult(
-                        presenceTracingDayRisks = null,
-                        checkInWarningOverlaps = null,
-                    )
-                }
-            }
+        list.sortAndComplementLatestResult()
     }
 
     fun allEntries() = riskLevelResultDao.allEntries().map { list ->
-        var lastSuccessfulFound = false
-        list.sortedByDescending {
+        list.sortAndComplementLatestResult()
+    }
+
+    private suspend fun List<PresenceTracingRiskLevelResultEntity>.sortAndComplementLatestResult() =
+        sortedByDescending {
             it.calculatedAtMillis
         }
-            .map { entity ->
-                if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
-                    lastSuccessfulFound = true
-                    // add risk per day to the last successful result
+            .mapIndexed { index, entity ->
+                if (index == 0) {
+                    // add risk per day to the latest result
                     entity.toRiskLevelResult(
                         presenceTracingDayRisks = presenceTracingDayRisk.first(),
-                        checkInWarningOverlaps = checkInWarningOverlaps.first(),
+                        checkInWarningOverlaps = overlapsOfLast14DaysPlusToday.first(),
                     )
                 } else {
                     entity.toRiskLevelResult(
@@ -161,12 +134,14 @@ class PresenceTracingRiskRepository @Inject constructor(
                     )
                 }
             }
-    }
 
     private fun addResult(result: PtRiskLevelResult) {
         Timber.i("Saving risk calculation from ${result.calculatedAt} with result ${result.riskState}.")
         riskLevelResultDao.insert(result.toRiskLevelEntity())
     }
+
+    private val fifteenDaysAgo: Instant
+        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
 
     suspend fun clearAllTables() {
         traceTimeIntervalMatchDao.deleteAll()
