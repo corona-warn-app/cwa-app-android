@@ -53,7 +53,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             factory as CheckInsViewModel.Factory
             factory.create(
                 savedState = savedState,
-                deepLink = navArgs.uri
+                deepLink = navArgs.uri,
+                cleanHistory = navArgs.cleanHistory
             )
         }
     )
@@ -96,6 +97,12 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     )
                 )
             }
+
+            is CheckInEvent.ConfirmCheckInWithoutHistory -> doNavigate(
+                CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragmentCleanHistory(
+                    verifiedTraceLocation = event.verifiedTraceLocation
+                )
+            )
 
             is CheckInEvent.ConfirmSwipeItem -> showRemovalConfirmation(event.checkIn, event.position)
 
@@ -232,14 +239,14 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     }
 
     companion object {
-        fun createCheckInUri(rootUri: String): Uri {
+        fun createCheckInUri(rootUri: String, cleanHistory: Boolean = false): Uri {
             val encodedUrl = try {
                 URLEncoder.encode(rootUri, Charsets.UTF_8.name())
             } catch (e: Exception) {
                 Timber.d(e, "URL Encoding failed url($rootUri)")
                 rootUri // Pass original
             }
-            return "coronawarnapp://check-ins/$encodedUrl".toUri()
+            return "coronawarnapp://check-ins/$encodedUrl/?cleanHistory=$cleanHistory".toUri()
         }
     }
 }

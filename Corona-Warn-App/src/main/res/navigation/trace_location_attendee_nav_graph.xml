@@ -9,7 +9,7 @@
         android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.onboarding.CheckInOnboardingFragment"
         android:label="CheckInOnboardingFragment"
         tools:layout="@layout/fragment_trace_location_onboarding">
-        <deepLink app:uri="coronawarnapp://check-ins/{uri}" />
+        <deepLink app:uri="coronawarnapp://check-ins/{uri}/?cleanHistory={cleanHistory}" />
         <action
             android:id="@+id/action_checkInOnboardingFragment_to_checkInsFragment"
             app:destination="@id/checkInsFragment"
@@ -21,6 +21,10 @@
         <argument
             android:name="showBottomNav"
             android:defaultValue="true"
+            app:argType="boolean" />
+        <argument
+            android:name="cleanHistory"
+            android:defaultValue="false"
             app:argType="boolean" />
         <argument
             android:name="uri"
@@ -68,11 +72,20 @@
         <action
             android:id="@+id/action_checkInsFragment_to_confirmCheckInFragment"
             app:destination="@id/confirmCheckInFragment" />
+        <action
+            android:id="@+id/action_checkInsFragment_to_confirmCheckInFragment_cleanHistory"
+            app:popUpTo="@id/checkInsFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/confirmCheckInFragment" />
         <argument
             android:name="uri"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="cleanHistory"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_checkInsFragment_to_editCheckInFragment"
             app:destination="@id/editCheckInFragment" />
