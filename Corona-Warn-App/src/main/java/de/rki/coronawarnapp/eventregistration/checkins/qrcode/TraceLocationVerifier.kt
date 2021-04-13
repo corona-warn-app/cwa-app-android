@@ -38,9 +38,9 @@ class TraceLocationVerifier @Inject constructor() {
 
         // If both are 0 do nothing else check start is smaller than end or return error
         if (!(
-                protoQrCodePayload.locationData.startTimestamp == 0L &&
-                    protoQrCodePayload.locationData.endTimestamp == 0L
-                )
+            protoQrCodePayload.locationData.startTimestamp == 0L &&
+                protoQrCodePayload.locationData.endTimestamp == 0L
+            )
         ) {
             if (protoQrCodePayload.locationData.startTimestamp >= protoQrCodePayload.locationData.endTimestamp) {
                 return VerificationResult.Invalid.InvalidStartEndTime
