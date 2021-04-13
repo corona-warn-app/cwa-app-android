@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate
+package de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplate
 
 import android.content.Context
 import dagger.Reusable

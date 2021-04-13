@@ -1,5 +1,9 @@
-package de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate
+package de.rki.coronawarnapp.eventregistration.location.server
 
+import de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplate.DefaultQrCodePosterTemplateSource
+import de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplate.QrCodePosterTemplateApiV1
+import de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplate.QrCodePosterTemplateInvalidResponseException
+import de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplate.QrCodePosterTemplateServer
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe

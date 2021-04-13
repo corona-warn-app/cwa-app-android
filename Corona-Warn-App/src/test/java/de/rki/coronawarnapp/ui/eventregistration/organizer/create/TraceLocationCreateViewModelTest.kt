@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.eventregistration.organizer.create
 
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.events.TraceLocationCreator
+import de.rki.coronawarnapp.presencetracing.locations.TraceLocationCreator
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType

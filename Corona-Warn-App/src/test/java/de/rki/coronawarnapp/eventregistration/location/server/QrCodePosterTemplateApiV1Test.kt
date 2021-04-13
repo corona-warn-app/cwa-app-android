@@ -1,7 +1,8 @@
-package de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate
+package de.rki.coronawarnapp.eventregistration.location.server
 
 import de.rki.coronawarnapp.environment.eventregistration.qrcodeposter.QrCodePosterTemplateModule
 import de.rki.coronawarnapp.http.HttpModule
+import de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplate.QrCodePosterTemplateApiV1
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events
+package de.rki.coronawarnapp.presencetracing.locations
 
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation

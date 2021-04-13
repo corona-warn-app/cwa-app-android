@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events
+package de.rki.coronawarnapp.presencetracing.locations
 
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import org.joda.time.Instant

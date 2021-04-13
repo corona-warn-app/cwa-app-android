@@ -1,18 +1,18 @@
-package de.rki.coronawarnapp.eventregistration.events
+package de.rki.coronawarnapp.eventregistration.location
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.qrCodePayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class TraceLocationUrlTest : BaseTest() {
+class QrCodePayloadTest : BaseTest() {
 
     @Test
-    fun `locationUrl 1`() = runBlockingTest {
+    fun `Trace location to QrCodePayload 1`() {
         val traceLocation = TraceLocation(
             id = 1,
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
@@ -26,14 +26,12 @@ class TraceLocationUrlTest : BaseTest() {
             version = TraceLocation.VERSION
         )
 
-        traceLocation.locationUrl shouldBe
-            "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmoIAR" +
-            "JgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ1EcFJ" +
-            "QkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
+        traceLocation.qrCodePayload() shouldBe
+            TraceLocationOuterClass.QRCodePayload.parseFrom(PAYLOAD_1.decodeBase64()!!.toByteArray())
     }
 
     @Test
-    fun `locationUrl 2`() = runBlockingTest {
+    fun `Trace location to QrCodePayload 2`() {
         val traceLocation = TraceLocation(
             id = 2,
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER,
@@ -47,16 +45,23 @@ class TraceLocationUrlTest : BaseTest() {
             version = TraceLocation.VERSION
         )
 
-        traceLocation.locationUrl shouldBe
-            "https://e.coronawarn.app?v=1#CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmoIARJgOMTa6eYSiaDv8l" +
-            "W13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-voxQ1EcFJQkEIujVwoCNK0MNG" +
-            "uDK1ayjGxeDc4UDGgQxMjM0IgYIARABGAo"
+        traceLocation.qrCodePayload() shouldBe
+            TraceLocationOuterClass.QRCodePayload.parseFrom(PAYLOAD_2.decodeBase64()!!.toByteArray())
     }
 
     companion object {
+        private const val PAYLOAD_1 =
+            "CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmUIARJbMFkwEwYHKoZIzj0CAQYIKo" +
+                "ZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxe" +
+                "uFMZAIX2+6A5XhoEMTIzNCIECAEQAg=="
+
+        private const val PAYLOAD_2 =
+            "CAESIAgBEg1JY2VjcmVhbSBTaG9wGg1NYWluIFN0cmVldCAxGmUIARJbMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIR" +
+                "cyk35OYDJ95/hTg3UVhsaDXKT0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5XhoEMTIzNCIGCAEQARgK"
+
         private const val CRYPTOGRAPHIC_SEED = "MTIzNA=="
         private const val PUB_KEY =
-            "OMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9" +
-                "eq+voxQ1EcFJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UD"
+            "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT0z" +
+                "K7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5Xg=="
     }
 }

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate
+package de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplate
 
 import okhttp3.ResponseBody
 import retrofit2.Response

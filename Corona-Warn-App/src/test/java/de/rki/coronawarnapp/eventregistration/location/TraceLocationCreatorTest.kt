@@ -1,6 +1,9 @@
-package de.rki.coronawarnapp.eventregistration.events
+package de.rki.coronawarnapp.eventregistration.location
 
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.presencetracing.locations.TraceLocationCreator
+import de.rki.coronawarnapp.presencetracing.locations.TraceLocationUserInput
+import de.rki.coronawarnapp.presencetracing.locations.toTraceLocation
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe

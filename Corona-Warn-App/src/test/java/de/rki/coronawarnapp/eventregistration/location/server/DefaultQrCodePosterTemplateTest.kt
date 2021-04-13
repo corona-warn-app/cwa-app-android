@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate
+package de.rki.coronawarnapp.eventregistration.location.server
 
 import android.content.Context
 import android.os.Build

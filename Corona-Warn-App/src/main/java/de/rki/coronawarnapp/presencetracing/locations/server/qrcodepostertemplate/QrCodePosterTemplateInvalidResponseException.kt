@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.events.server.qrcodepostertemplate
+package de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplate
 
 class QrCodePosterTemplateInvalidResponseException(
     message: String,
