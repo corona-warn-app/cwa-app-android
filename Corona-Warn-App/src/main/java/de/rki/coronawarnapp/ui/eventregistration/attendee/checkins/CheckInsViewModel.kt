@@ -31,6 +31,7 @@ import timber.log.Timber
 class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     @Assisted private val deepLink: String?,
+    @Assisted private val cleanHistory: Boolean,
     dispatcherProvider: DispatcherProvider,
     @AppScope private val appScope: CoroutineScope,
     private val qrCodeUriParser: QRCodeUriParser,
@@ -143,7 +144,12 @@ class CheckInsViewModel @AssistedInject constructor(
             Timber.i("uri: $uri")
             val qrCodePayload = qrCodeUriParser.getQrCodePayload(uri)
             val verifiedTraceLocation = VerifiedTraceLocation(qrCodePayload)
-            events.postValue(CheckInEvent.ConfirmCheckIn(verifiedTraceLocation))
+            events.postValue(
+                if (cleanHistory)
+                    CheckInEvent.ConfirmCheckInWithoutHistory(verifiedTraceLocation)
+                else
+                    CheckInEvent.ConfirmCheckIn(verifiedTraceLocation)
+            )
         } catch (e: Exception) {
             Timber.d(e, "TraceLocation verification failed")
             e.report(ExceptionCategory.INTERNAL)
@@ -162,7 +168,8 @@ class CheckInsViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<CheckInsViewModel> {
         fun create(
             savedState: SavedStateHandle,
-            deepLink: String?
+            deepLink: String?,
+            cleanHistory: Boolean
         ): CheckInsViewModel
     }
 }

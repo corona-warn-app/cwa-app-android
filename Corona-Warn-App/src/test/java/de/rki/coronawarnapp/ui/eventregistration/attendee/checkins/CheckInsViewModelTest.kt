@@ -185,7 +185,8 @@ class CheckInsViewModelTest : BaseTest() {
             qrCodeUriParser = qrCodeUriParser,
             checkInsRepository = checkInsRepository,
             checkOutHandler = checkOutHandler,
-            cameraPermissionProvider = cameraPermissionProvider
+            cameraPermissionProvider = cameraPermissionProvider,
+            cleanHistory = false
         )
 
     companion object {
