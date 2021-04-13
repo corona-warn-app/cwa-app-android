@@ -9,10 +9,14 @@ import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class PcrTestPendingCard(
     parent: ViewGroup
-) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardPendingBinding>(R.layout.home_card_container_layout, parent) {
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardPendingBinding>(
+    R.layout.home_card_container_layout,
+    parent
+) {
 
     override val viewBinding = lazy {
-        HomeSubmissionPcrStatusCardPendingBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        HomeSubmissionPcrStatusCardPendingBinding
+            .inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
     override val onBindData: HomeSubmissionPcrStatusCardPendingBinding.(

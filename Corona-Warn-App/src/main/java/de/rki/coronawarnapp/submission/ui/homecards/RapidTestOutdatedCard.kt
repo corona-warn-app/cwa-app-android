@@ -9,10 +9,14 @@ import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class RapidTestOutdatedCard(
     parent: ViewGroup
-) : HomeAdapter.HomeItemVH<Item, HomeSubmissionRapidStatusCardOutdatedBinding>(R.layout.home_card_container_layout, parent) {
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionRapidStatusCardOutdatedBinding>(
+    R.layout.home_card_container_layout,
+    parent
+) {
 
     override val viewBinding = lazy {
-        HomeSubmissionRapidStatusCardOutdatedBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        HomeSubmissionRapidStatusCardOutdatedBinding
+            .inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
     override val onBindData: HomeSubmissionRapidStatusCardOutdatedBinding.(

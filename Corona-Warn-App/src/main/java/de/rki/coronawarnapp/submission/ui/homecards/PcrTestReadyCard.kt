@@ -12,7 +12,8 @@ class PcrTestReadyCard(
 ) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardReadyBinding>(R.layout.home_card_container_layout, parent) {
 
     override val viewBinding = lazy {
-        HomeSubmissionPcrStatusCardReadyBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        HomeSubmissionPcrStatusCardReadyBinding
+            .inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
     override val onBindData: HomeSubmissionPcrStatusCardReadyBinding.(

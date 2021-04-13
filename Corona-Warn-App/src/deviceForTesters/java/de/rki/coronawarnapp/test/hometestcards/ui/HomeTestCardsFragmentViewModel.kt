@@ -39,7 +39,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.util.Date
 
-class HomeTestCardsFragmentViewModel  @AssistedInject constructor(
+class HomeTestCardsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 

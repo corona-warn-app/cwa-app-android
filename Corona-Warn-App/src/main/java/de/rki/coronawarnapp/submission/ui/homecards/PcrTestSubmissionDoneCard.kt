@@ -8,10 +8,14 @@ import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 
 class PcrTestSubmissionDoneCard(
     parent: ViewGroup
-) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardPositiveSharedBinding>(R.layout.home_card_container_layout, parent) {
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardPositiveSharedBinding>(
+    R.layout.home_card_container_layout,
+    parent
+) {
 
     override val viewBinding = lazy {
-        HomeSubmissionPcrStatusCardPositiveSharedBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        HomeSubmissionPcrStatusCardPositiveSharedBinding
+            .inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
     override val onBindData: HomeSubmissionPcrStatusCardPositiveSharedBinding.(

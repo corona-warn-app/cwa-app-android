@@ -9,7 +9,10 @@ import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class PcrTestPositiveCard(
     parent: ViewGroup
-) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardPositiveNotSharedBinding>(R.layout.home_card_container_layout, parent) {
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardPositiveNotSharedBinding>(
+    R.layout.home_card_container_layout,
+    parent
+) {
 
     override val viewBinding = lazy {
         HomeSubmissionPcrStatusCardPositiveNotSharedBinding.inflate(
