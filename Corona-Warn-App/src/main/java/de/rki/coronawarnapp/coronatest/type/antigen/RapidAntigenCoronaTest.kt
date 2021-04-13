@@ -20,8 +20,7 @@ data class RapidAntigenCoronaTest(
         INVALID,
         POSITIVE,
         NEGATIVE,
-        EXPIRED,
-
+        REDEEMED,
         OUTDATED,
     }
 }

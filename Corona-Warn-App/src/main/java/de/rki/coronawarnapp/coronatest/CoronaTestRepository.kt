@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CoronaTestRepo @Inject constructor(
+class CoronaTestRepository @Inject constructor(
     private val storage: CoronaTestStorage,
     private val server: CoronaTestServer,
 ) {

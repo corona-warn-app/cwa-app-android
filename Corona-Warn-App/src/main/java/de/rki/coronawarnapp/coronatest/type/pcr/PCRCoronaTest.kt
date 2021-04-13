@@ -20,6 +20,6 @@ data class PCRCoronaTest(
         INVALID,
         POSITIVE,
         NEGATIVE,
-        EXPIRED,
+        REDEEMED,
     }
 }

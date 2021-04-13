@@ -14,7 +14,7 @@ class CoronaTestStorage @Inject constructor() {
     }
 
     suspend fun save(tests: Set<CoronaTest>) {
-        Timber.tag(TAG).d("saveload(tests=%s)", tests)
+        Timber.tag(TAG).d("save(tests=%s)", tests)
     }
 
     companion object {
