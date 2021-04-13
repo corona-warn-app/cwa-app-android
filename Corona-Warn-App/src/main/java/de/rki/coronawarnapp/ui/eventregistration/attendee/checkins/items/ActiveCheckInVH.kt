@@ -81,7 +81,6 @@ class ActiveCheckInVH(parent: ViewGroup) :
         checkoutAction.setOnClickListener { curItem.onCheckout(curItem.checkin) }
 
         itemView.apply {
-            setOnClickListener { curItem.onCardClicked(curItem.checkin, adapterPosition) }
             transitionName = item.checkin.id.toString()
         }
     }
