@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.BuildConfig
@@ -38,7 +40,6 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
-import java.lang.Exception
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -98,6 +99,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 )
             }
 
+            is CheckInEvent.InvalidQrCode -> showInvalidQrCodeInformation(event.errorTextRes)
+
             is CheckInEvent.ConfirmCheckInWithoutHistory -> doNavigate(
                 CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragmentCleanHistory(
                     verifiedTraceLocation = event.verifiedTraceLocation
@@ -131,6 +134,13 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             is CheckInEvent.OpenDeviceSettings -> openDeviceSettings()
         }
     }
+
+    private fun showInvalidQrCodeInformation(@StringRes errorTextRes: Int) =
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.errors_generic_headline)
+            setMessage(errorTextRes)
+            setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
+        }.show()
 
     private fun updateViews(items: List<CheckInsItem>) {
         checkInsAdapter.update(items)

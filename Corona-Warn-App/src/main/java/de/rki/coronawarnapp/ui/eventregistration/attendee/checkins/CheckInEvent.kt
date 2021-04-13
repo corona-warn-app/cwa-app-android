@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
+import androidx.annotation.StringRes
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
 
@@ -10,6 +11,8 @@ sealed class CheckInEvent {
     object ConfirmRemoveAll : CheckInEvent()
 
     data class ConfirmCheckIn(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
+
+    data class InvalidQrCode(@StringRes val errorTextRes: Int) : CheckInEvent()
 
     data class ConfirmCheckInWithoutHistory(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
 
