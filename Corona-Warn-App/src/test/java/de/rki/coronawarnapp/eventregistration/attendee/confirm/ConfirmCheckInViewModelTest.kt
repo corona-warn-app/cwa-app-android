@@ -14,6 +14,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import okio.ByteString.Companion.decodeBase64
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -28,8 +29,6 @@ class ConfirmCheckInViewModelTest : BaseTest() {
     @MockK lateinit var verifiedTraceLocation: VerifiedTraceLocation
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var timeStamper: TimeStamper
-
-    private lateinit var viewModel: ConfirmCheckInViewModel
 
     private val traceLocation = TraceLocation(
         id = 1,
@@ -51,23 +50,35 @@ class ConfirmCheckInViewModelTest : BaseTest() {
         coEvery { checkInRepository.addCheckIn(any()) } returns 1L
         every { verifiedTraceLocation.traceLocation } returns traceLocation
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-04T10:30:00Z")
+    }
 
-        viewModel = ConfirmCheckInViewModel(
-            verifiedTraceLocation = verifiedTraceLocation,
-            checkInRepository = checkInRepository,
-            timeStamper = timeStamper
-        )
+    private fun createInstance() = ConfirmCheckInViewModel(
+        verifiedTraceLocation = verifiedTraceLocation,
+        checkInRepository = checkInRepository,
+        timeStamper = timeStamper
+    )
+
+    @Test
+    fun onClose() = with(createInstance()) {
+        onClose()
+        events.getOrAwaitValue() shouldBe ConfirmCheckInNavigation.BackNavigation
     }
 
     @Test
-    fun onClose() {
-        viewModel.onClose()
-        viewModel.events.getOrAwaitValue() shouldBe ConfirmCheckInNavigation.BackNavigation
+    fun onConfirmEvent() = with(createInstance()) {
+        onConfirmTraceLocation()
+        events.getOrAwaitValue() shouldBe ConfirmCheckInNavigation.ConfirmNavigation
     }
 
     @Test
-    fun onConfirmEvent() {
-        viewModel.onConfirmTraceLocation()
-        viewModel.events.getOrAwaitValue() shouldBe ConfirmCheckInNavigation.ConfirmNavigation
+    fun `confirm button should be disabled when autoCheckOutLength is 0`() = with(createInstance()) {
+        durationUpdated(Duration.standardMinutes(0))
+        uiState.getOrAwaitValue().confirmButtonEnabled shouldBe false
+    }
+
+    @Test
+    fun `confirm button should be enabled when autoCheckOutLength is greater than 0`() = with(createInstance()) {
+        durationUpdated(Duration.standardMinutes(15))
+        uiState.getOrAwaitValue().confirmButtonEnabled shouldBe true
     }
 }

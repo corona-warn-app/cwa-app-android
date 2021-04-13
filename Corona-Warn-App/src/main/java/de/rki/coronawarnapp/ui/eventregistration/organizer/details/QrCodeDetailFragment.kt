@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
@@ -72,25 +73,29 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             }
 
             qrCodePrintButton.setOnClickListener {
+                exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+                reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+
                 viewModel.onPrintQrCode()
             }
-        }
 
-        viewModel.qrCodeBitmap.observe2(this) {
-            binding.progressBar.hide()
-            binding.qrCodeImage.apply {
-                val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
-                resourceId.cornerRadius = it.width * 0.1f
-                setImageDrawable(resourceId)
+            qrCodeCloneButton.setOnClickListener {
+                viewModel.duplicateTraceLocation()
             }
+
+            root.transitionName = navArgs.traceLocationId.toString()
         }
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 QrCodeDetailNavigationEvents.NavigateBack -> popBackStack()
 
-                QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> { /* TODO */
-                }
+                is QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> doNavigate(
+                    QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToTraceLocationCreateFragment(
+                        it.category,
+                        it.traceLocation
+                    )
+                )
 
                 is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> doNavigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
@@ -127,6 +132,15 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                     }
                 } else {
                     eventDate.isGone = true
+                }
+
+                uiState.bitmap?.let {
+                    binding.progressBar.hide()
+                    binding.qrCodeImage.apply {
+                        val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
+                        resourceId.cornerRadius = it.width * 0.1f
+                        setImageDrawable(resourceId)
+                    }
                 }
             }
         }

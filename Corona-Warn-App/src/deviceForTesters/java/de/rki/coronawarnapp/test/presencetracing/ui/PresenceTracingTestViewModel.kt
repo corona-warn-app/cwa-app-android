@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.eventregistration.ui
+package de.rki.coronawarnapp.test.presencetracing.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import kotlin.system.measureTimeMillis
 
-class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
+class PresenceTracingTestViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     traceLocationRepository: TraceLocationRepository,
     checkInRepository: CheckInRepository,
@@ -144,5 +144,5 @@ class EventRegistrationTestFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<EventRegistrationTestFragmentViewModel>
+    interface Factory : SimpleCWAViewModelFactory<PresenceTracingTestViewModel>
 }

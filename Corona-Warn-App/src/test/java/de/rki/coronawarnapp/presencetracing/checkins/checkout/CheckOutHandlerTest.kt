@@ -1,14 +1,16 @@
 package de.rki.coronawarnapp.presencetracing.checkins.checkout
 
-import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.runs
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
@@ -20,7 +22,7 @@ class CheckOutHandlerTest : BaseTest() {
 
     @MockK lateinit var repository: CheckInRepository
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var diaryRepository: ContactDiaryRepository
+    @MockK lateinit var contactJournalCheckInEntryCreator: ContactJournalCheckInEntryCreator
 
     private val testCheckIn = CheckIn(
         id = 42L,
@@ -39,6 +41,12 @@ class CheckOutHandlerTest : BaseTest() {
         completed = false,
         createJournalEntry = true
     )
+
+    private val testCheckInDontCreate = testCheckIn.copy(
+        id = 43L,
+        createJournalEntry = false
+    )
+
     private var updatedCheckIn: CheckIn? = null
     private val nowUTC = Instant.ofEpochMilli(50)
 
@@ -52,12 +60,19 @@ class CheckOutHandlerTest : BaseTest() {
             val callback: (CheckIn) -> CheckIn = arg(1)
             updatedCheckIn = callback(testCheckIn)
         }
+
+        coEvery { repository.updateCheckIn(43, any()) } coAnswers {
+            val callback: (CheckIn) -> CheckIn = arg(1)
+            updatedCheckIn = callback(testCheckInDontCreate)
+        }
+
+        coEvery { contactJournalCheckInEntryCreator.createEntry(any()) } just runs
     }
 
     private fun createInstance() = CheckOutHandler(
         repository = repository,
         timeStamper = timeStamper,
-        diaryRepository = diaryRepository,
+        contactJournalCheckInEntryCreator = contactJournalCheckInEntryCreator
     )
 
     @Test
@@ -68,7 +83,37 @@ class CheckOutHandlerTest : BaseTest() {
             checkInEnd = nowUTC,
             completed = true
         )
-        // TODO journal creation
+
+        coVerify(exactly = 1) {
+            contactJournalCheckInEntryCreator.createEntry(any())
+        }
+
         // TODO cancel auto checkouts
+    }
+
+    @Test
+    fun `Creates entry if create journal entry is true`() = runBlockingTest {
+        createInstance().apply {
+            checkOut(42)
+        }
+
+        updatedCheckIn?.createJournalEntry shouldBe true
+
+        coVerify(exactly = 1) {
+            contactJournalCheckInEntryCreator.createEntry(any())
+        }
+    }
+
+    @Test
+    fun `Does not create entry if create journal entry is false`() = runBlockingTest {
+        createInstance().apply {
+            checkOut(43)
+        }
+
+        updatedCheckIn?.createJournalEntry shouldBe false
+
+        coVerify(exactly = 0) {
+            contactJournalCheckInEntryCreator.createEntry(any())
+        }
     }
 }

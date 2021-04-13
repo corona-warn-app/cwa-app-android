@@ -5,7 +5,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
-import de.rki.coronawarnapp.presencetracing.risk.calculation.mapToRiskState
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
@@ -13,6 +12,7 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.mapToRiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
@@ -256,10 +256,13 @@ internal fun combineRisk(
     }
 }
 
-internal fun combine(left: RiskState?, right: RiskState?): RiskState {
-    return if (left == RiskState.INCREASED_RISK || right == RiskState.INCREASED_RISK) RiskState.INCREASED_RISK
-    else if (left == RiskState.LOW_RISK || right == RiskState.LOW_RISK) RiskState.LOW_RISK
-    else RiskState.CALCULATION_FAILED
+internal fun combine(vararg states: RiskState?): RiskState {
+    if (states.any { it == RiskState.CALCULATION_FAILED }) return RiskState.CALCULATION_FAILED
+    if (states.any { it == RiskState.INCREASED_RISK }) return RiskState.INCREASED_RISK
+
+    require(states.filterNotNull().all { it == RiskState.LOW_RISK })
+
+    return RiskState.LOW_RISK
 }
 
 internal fun max(left: Instant, right: Instant): Instant {

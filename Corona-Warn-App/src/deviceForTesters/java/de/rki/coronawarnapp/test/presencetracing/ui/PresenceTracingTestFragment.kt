@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.eventregistration.ui
+package de.rki.coronawarnapp.test.presencetracing.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.core.text.scale
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
+import de.rki.coronawarnapp.databinding.FragmentTestPresenceTracingBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -24,12 +24,12 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregistration), AutoInject {
+class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tracing), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: EventRegistrationTestFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: PresenceTracingTestViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentTestEventregistrationBinding by viewBindingLazy()
+    private val binding: FragmentTestPresenceTracingBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,8 +71,8 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                     lastOrganiserLocationUrl.text = styleText("URL", traceLocation.locationUrl)
                     qrcodeButton.setOnClickListener {
                         doNavigate(
-                            EventRegistrationTestFragmentDirections
-                                .actionEventRegistrationTestFragmentToQrCodePosterFragmentTest(traceLocation.id)
+                            PresenceTracingTestFragmentDirections
+                                .actionPresenceTracingTestFragmentToQrCodePosterTestFragment(traceLocation.id)
                         )
                     }
                 }
@@ -112,7 +112,7 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         buildSpannedString {
             bold {
                 color(requireContext().getColorCompat(R.color.colorAccent)) {
-                    append("$key=")
+                    append("$key = ")
                 }
             }
 
@@ -121,14 +121,14 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
                     append(value.toString())
                 }
             }
-            append("\n")
+            appendLine()
         }
 
     companion object {
         val MENU_ITEM = TestMenuItem(
-            title = "Event Registration",
-            description = "View & Control the event registration.",
-            targetId = R.id.eventRegistrationTestFragment
+            title = "Presence Tracing",
+            description = "View & Control presence tracing",
+            targetId = R.id.presenceTracingTestFragment
         )
     }
 }
