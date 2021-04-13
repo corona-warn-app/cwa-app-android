@@ -62,6 +62,26 @@ class ValidQRCodeProvider : ArgumentsProvider {
                             .setPublicKey(PUB_KEY.decodeBase64()!!.toProtoByteString())
                             .setVersion(1)
                     )
+                    .setVendorData("CAEQAg==".decodeBase64()!!.toProtoByteString())
+                    .setLocationData(
+                        TraceLocationOuterClass.TraceLocation.newBuilder()
+                            .setDescription("My Birthday Party")
+                            .setAddress("at my place")
+                            .setEndTimestamp(2687991)
+                            .setVersion(1)
+                            .build()
+                    )
+                    .build()
+            ),
+            Arguments.of(
+                TraceLocationOuterClass.QRCodePayload.newBuilder()
+                    .setVersion(1)
+                    .setCrowdNotifierData(
+                        TraceLocationOuterClass.CrowdNotifierData.newBuilder()
+                            .setCryptographicSeed(CRYPTOGRAPHIC_SEED.decodeBase64()!!.toProtoByteString())
+                            .setPublicKey(PUB_KEY.decodeBase64()!!.toProtoByteString())
+                            .setVersion(1)
+                    )
                     .setVendorData("CAEQARgK".decodeBase64()!!.toProtoByteString())
                     .setLocationData(
                         TraceLocationOuterClass.TraceLocation.newBuilder()

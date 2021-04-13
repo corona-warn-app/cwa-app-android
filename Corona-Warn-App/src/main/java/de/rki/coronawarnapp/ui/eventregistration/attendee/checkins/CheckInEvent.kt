@@ -14,6 +14,8 @@ sealed class CheckInEvent {
 
     data class InvalidQrCode(@StringRes val errorTextRes: Int) : CheckInEvent()
 
+    data class ConfirmCheckInWithoutHistory(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
+
     data class EditCheckIn(val checkInId: Long, val position: Int) : CheckInEvent()
 
     data class ConfirmSwipeItem(val checkIn: CheckIn, val position: Int) : CheckInEvent()

@@ -28,9 +28,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import timber.log.Timber
 
+@Suppress("LongParameterList")
 class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     @Assisted private val deepLink: String?,
+    @Assisted private val cleanHistory: Boolean,
     dispatcherProvider: DispatcherProvider,
     @AppScope private val appScope: CoroutineScope,
     private val qrCodeUriParser: QRCodeUriParser,
@@ -144,8 +146,12 @@ class CheckInsViewModel @AssistedInject constructor(
             Timber.i("uri: $uri")
             val qrCodePayload = qrCodeUriParser.getQrCodePayload(uri)
             when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
-                is TraceLocationVerifier.VerificationResult.Valid ->
-                    events.postValue(CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation))
+                is TraceLocationVerifier.VerificationResult.Valid -> events.postValue(
+                    if (cleanHistory)
+                        CheckInEvent.ConfirmCheckInWithoutHistory(verifyResult.verifiedTraceLocation)
+                    else
+                        CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation)
+                )
                 is TraceLocationVerifier.VerificationResult.Invalid ->
                     events.postValue(CheckInEvent.InvalidQrCode(verifyResult.errorTextRes))
             }
@@ -167,7 +173,8 @@ class CheckInsViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<CheckInsViewModel> {
         fun create(
             savedState: SavedStateHandle,
-            deepLink: String?
+            deepLink: String?,
+            cleanHistory: Boolean
         ): CheckInsViewModel
     }
 }

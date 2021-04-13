@@ -190,7 +190,8 @@ class CheckInsViewModelTest : BaseTest() {
             checkInsRepository = checkInsRepository,
             checkOutHandler = checkOutHandler,
             cameraPermissionProvider = cameraPermissionProvider,
-            traceLocationVerifier = traceLocationVerifier
+            traceLocationVerifier = traceLocationVerifier,
+            cleanHistory = false
         )
 
     companion object {
