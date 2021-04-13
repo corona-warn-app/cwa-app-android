@@ -24,7 +24,7 @@ fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     val durationSecondsUTC = endTimeSeconds - startTimeSeconds.toMidnightUTC()
     Timber.i("durationSecondsUTC=$durationSecondsUTC")
 
-    val durationDays = ceil(durationSecondsUTC.toDouble() / de.rki.coronawarnapp.presencetracing.checkins.split.DAY_IN_SECONDS).toLong()
+    val durationDays = ceil(durationSecondsUTC.toDouble() / DAY_IN_SECONDS).toLong()
     Timber.i("durationDays=$durationDays")
 
     return (0 until durationDays).map { day ->
