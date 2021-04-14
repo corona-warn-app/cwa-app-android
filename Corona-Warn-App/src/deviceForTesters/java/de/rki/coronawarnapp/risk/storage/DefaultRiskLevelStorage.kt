@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.risk.storage
 
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao.PersistedScanInstance
 import de.rki.coronawarnapp.risk.storage.internal.windows.toPersistedExposureWindow
@@ -17,8 +18,14 @@ import javax.inject.Singleton
 class DefaultRiskLevelStorage @Inject constructor(
     riskResultDatabaseFactory: RiskResultDatabase.Factory,
     presenceTracingRiskRepository: PresenceTracingRiskRepository,
-    @AppScope val scope: CoroutineScope
-) : BaseRiskLevelStorage(riskResultDatabaseFactory, presenceTracingRiskRepository, scope) {
+    @AppScope val scope: CoroutineScope,
+    riskCombinator: RiskCombinator,
+) : BaseRiskLevelStorage(
+    riskResultDatabaseFactory,
+    presenceTracingRiskRepository,
+    scope,
+    riskCombinator,
+) {
 
     // 14 days, 6 times per day
     // For testers keep all the results!
