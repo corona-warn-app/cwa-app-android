@@ -59,6 +59,6 @@ class CoronaTestStorage @Inject constructor(
 
     companion object {
         private const val TAG = "CoronaTestStorage"
-        private const val PKEY_TESTDATA = "coronatests"
+        private const val PKEY_TESTDATA = "coronatest.jsondata"
     }
 }
