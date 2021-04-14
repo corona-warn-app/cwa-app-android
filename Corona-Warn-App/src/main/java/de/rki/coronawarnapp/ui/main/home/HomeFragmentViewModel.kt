@@ -146,21 +146,21 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 onCardClick = {
                     routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
                 },
-                onUpdateClick = { refreshDiagnosisKeys() }
+                onUpdateClick = { refreshRiskResult() }
             )
             is IncreasedRisk -> IncreasedRiskCard.Item(
                 state = tracingState,
                 onCardClick = {
                     routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
                 },
-                onUpdateClick = { refreshDiagnosisKeys() }
+                onUpdateClick = { refreshRiskResult() }
             )
             is TracingFailed -> TracingFailedCard.Item(
                 state = tracingState,
                 onCardClick = {
                     routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
                 },
-                onRetryClick = { refreshDiagnosisKeys() }
+                onRetryClick = { refreshRiskResult() }
             )
         }
     }.distinctUntilChanged()
@@ -268,7 +268,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun reenableRiskCalculation() {
         deregisterWarningAccepted()
         deadmanNotificationScheduler.schedulePeriodic()
-        refreshDiagnosisKeys()
+        refreshRiskResult()
     }
 
     // TODO only lazy to keep tests going which would break because of LocalData access
@@ -303,8 +303,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    private fun refreshDiagnosisKeys() {
-        tracingRepository.refreshDiagnosisKeys()
+    private fun refreshRiskResult() {
+        tracingRepository.refreshRiskResult()
     }
 
     fun deregisterWarningAccepted() {

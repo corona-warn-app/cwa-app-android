@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationVerifier
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.items.ActiveCheckInVH
@@ -41,6 +42,7 @@ class CheckInsViewModelTest : BaseTest() {
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var checkOutHandler: CheckOutHandler
     @MockK lateinit var cameraPermissionProvider: CameraPermissionProvider
+    @MockK lateinit var traceLocationVerifier: TraceLocationVerifier
 
     @BeforeEach
     fun setup() {
@@ -48,6 +50,8 @@ class CheckInsViewModelTest : BaseTest() {
         every { savedState.set(any(), any<String>()) } just Runs
         every { checkInsRepository.checkInsWithinRetention } returns flowOf()
         every { cameraPermissionProvider.deniedPermanently } returns flowOf(false)
+        every { traceLocationVerifier.verifyTraceLocation(any()) } returns
+            TraceLocationVerifier.VerificationResult.Valid(mockk())
     }
 
     @Test
@@ -185,7 +189,9 @@ class CheckInsViewModelTest : BaseTest() {
             qrCodeUriParser = qrCodeUriParser,
             checkInsRepository = checkInsRepository,
             checkOutHandler = checkOutHandler,
-            cameraPermissionProvider = cameraPermissionProvider
+            cameraPermissionProvider = cameraPermissionProvider,
+            traceLocationVerifier = traceLocationVerifier,
+            cleanHistory = false
         )
 
     companion object {
