@@ -25,7 +25,7 @@ import javax.inject.Inject
 @TypeConverters(CommonConverters::class, TraceLocationConverters::class)
 abstract class TraceLocationDatabase : RoomDatabase() {
 
-    abstract fun eventCheckInDao(): CheckInDao
+    abstract fun checkInDao(): CheckInDao
     abstract fun traceLocationDao(): TraceLocationDao
 
     class Factory @Inject constructor(@AppContext private val context: Context) {

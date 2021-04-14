@@ -37,7 +37,7 @@ class CheckInRepositoryTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { factory.create() } returns database
-        every { database.eventCheckInDao() } returns checkInDao
+        every { database.checkInDao() } returns checkInDao
         every { checkInDao.allEntries() } returns allEntriesFlow
         coEvery { checkInDao.entryForId(any()) } coAnswers {
             allEntriesFlow.first().singleOrNull { it.id == arg(0) }

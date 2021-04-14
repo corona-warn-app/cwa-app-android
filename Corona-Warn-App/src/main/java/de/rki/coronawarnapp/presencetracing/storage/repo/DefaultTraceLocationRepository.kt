@@ -74,15 +74,15 @@ class DefaultTraceLocationRepository @Inject constructor(
 
     override fun deleteTraceLocation(traceLocation: TraceLocation) {
         appScope.launch {
-            Timber.d("Delete hosted event: $traceLocation")
-            val eventEntity = traceLocation.toTraceLocationEntity()
-            traceLocationDao.delete(eventEntity)
+            Timber.d("Delete trace location: $traceLocation")
+            val traceLocationEntity = traceLocation.toTraceLocationEntity()
+            traceLocationDao.delete(traceLocationEntity)
         }
     }
 
     override fun deleteAllTraceLocations() {
         appScope.launch {
-            Timber.d("Delete all hosted events.")
+            Timber.d("Delete all trace locations.")
             traceLocationDao.deleteAll()
         }
     }

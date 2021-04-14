@@ -24,7 +24,7 @@ class CheckInRepository @Inject constructor(
     }
 
     private val checkInDao: CheckInDao by lazy {
-        traceLocationDatabase.eventCheckInDao()
+        traceLocationDatabase.checkInDao()
     }
 
     /**

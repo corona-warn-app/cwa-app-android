@@ -22,7 +22,7 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
         TraceLocationDatabase::class.java
     ).build()
 
-    private val checkInDao = traceLocationDatabase.eventCheckInDao()
+    private val checkInDao = traceLocationDatabase.checkInDao()
 
     @After
     fun tearDown() {
