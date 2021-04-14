@@ -5,9 +5,11 @@ import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepo
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.DefaultRiskLevelStorage
+import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -94,7 +96,8 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
     private fun createInstance() = DefaultRiskLevelStorage(
         scope = TestCoroutineScope(),
         riskResultDatabaseFactory = databaseFactory,
-        presenceTracingRiskRepository = presenceTracingRiskRepository
+        presenceTracingRiskRepository = presenceTracingRiskRepository,
+        riskCombinator = RiskCombinator(TimeStamper())
     )
 
     @Test

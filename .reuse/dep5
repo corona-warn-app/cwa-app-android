@@ -51,3 +51,7 @@ License: Apache-2.0
 Files: Corona-Warn-App/libs/play-services-nearby-exposurenotification-18.0.3.aar
 Copyright: Copyright 2020 Google LLC
 License: Apache-2.0
+
+Files: Corona-Warn-App/src/main/res/font/roboto.ttf
+Copyright: 2011 Google Inc.
+License: Apache-2.0

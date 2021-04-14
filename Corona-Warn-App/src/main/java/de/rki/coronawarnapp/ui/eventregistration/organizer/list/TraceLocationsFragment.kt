@@ -116,7 +116,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
 
                 is TraceLocationEvent.SelfCheckIn -> {
                     findNavController().navigate(
-                        CheckInsFragment.createCheckInUri(it.traceLocation.locationUrl),
+                        CheckInsFragment.createCheckInUri(it.traceLocation.locationUrl, true),
                         NavOptions.Builder()
                             .setPopUpTo(R.id.checkInsFragment, true)
                             .build()

@@ -36,7 +36,12 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
         super.onViewCreated(view, savedInstanceState)
 
         if (viewModel.isOnboardingComplete && args.uri != null) {
-            doNavigate(CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(args.uri))
+            doNavigate(
+                CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
+                    args.uri,
+                    args.cleanHistory
+                )
+            )
         }
 
         with(binding) {
