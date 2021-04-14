@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationId
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 
 data class DefaultContactDiaryLocation(
     override val locationId: Long = 0L,
