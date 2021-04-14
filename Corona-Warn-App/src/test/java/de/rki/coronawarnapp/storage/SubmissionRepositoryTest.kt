@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.storage
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.playbook.BackgroundNoise
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
@@ -44,7 +44,7 @@ import testhelpers.preferences.mockFlowPreference
 class SubmissionRepositoryTest : BaseTest() {
 
     @MockK lateinit var submissionSettings: SubmissionSettings
-    @MockK lateinit var submissionService: SubmissionService
+    @MockK lateinit var submissionService: CoronaTestService
 
     @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var appComponent: ApplicationComponent
@@ -64,7 +64,7 @@ class SubmissionRepositoryTest : BaseTest() {
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
     private val testResult = CoronaTestResult.PCR_OR_RAT_PENDING
-    private val registrationData = SubmissionService.RegistrationData(registrationToken, testResult)
+    private val registrationData = CoronaTestService.RegistrationData(registrationToken, testResult)
 
     private val registrationTokenPreference = mockFlowPreference<String?>(null)
     private val resultReceivedTimeStamp = Instant.ofEpochMilli(101010101)

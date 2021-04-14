@@ -1,11 +1,11 @@
-package de.rki.coronawarnapp.service.submission
+package de.rki.coronawarnapp.coronatest.type
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.playbook.Playbook
 import javax.inject.Inject
 
-class SubmissionService @Inject constructor(
+class CoronaTestService @Inject constructor(
     private val playbook: Playbook
 ) {
 

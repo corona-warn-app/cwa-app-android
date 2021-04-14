@@ -1,15 +1,21 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
 import android.os.Parcelable
+import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
-sealed class CoronaTestQRCode : Parcelable {
+sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest {
 
-    abstract val type: CoronaTest.Type
+    abstract override val type: CoronaTest.Type
     abstract val guid: CoronaTestGUID
+
+    @IgnoredOnParcel
+    override val identifier: String
+        get() = "qrcode-${type.raw}-$guid"
 
     @Parcelize
     data class PCR(

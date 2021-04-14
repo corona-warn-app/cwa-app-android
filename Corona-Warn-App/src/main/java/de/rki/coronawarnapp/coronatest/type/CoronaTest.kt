@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.coronatest.type
 
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import org.joda.time.Instant
 
 interface CoronaTest {
-    val testGUID: CoronaTestGUID
+    val identifier: TestIdentifier
     val type: Type
 
     val registeredAt: Instant
@@ -26,13 +25,14 @@ interface CoronaTest {
 
     val isNotificationSent: Boolean
 
-    enum class Type {
+    enum class Type(val raw: String) {
         @SerializedName("PCR")
-        PCR,
+        PCR("PCR"),
 
         @SerializedName("RAPID_ANTIGEN")
-        RAPID_ANTIGEN,
+        RAPID_ANTIGEN("RAPID_ANTIGEN"),
     }
 }
 
 typealias RegistrationToken = String
+typealias TestIdentifier = String

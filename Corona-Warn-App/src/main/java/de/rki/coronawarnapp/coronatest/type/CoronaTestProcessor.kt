@@ -1,12 +1,15 @@
 package de.rki.coronawarnapp.coronatest.type
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 
 interface CoronaTestProcessor {
 
     val type: CoronaTest.Type
 
-    suspend fun create(data: CoronaTestQRCode): CoronaTest
+    suspend fun create(request: CoronaTestQRCode): CoronaTest
+
+    suspend fun create(request: CoronaTestTAN): CoronaTest
 
     suspend fun pollServer(test: CoronaTest): CoronaTest
 

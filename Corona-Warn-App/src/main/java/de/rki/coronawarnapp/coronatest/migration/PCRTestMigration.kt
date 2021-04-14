@@ -51,7 +51,7 @@ class PCRTestMigration @Inject constructor(
         Timber.tag(TAG).v("testResultNotificationSent=%s", testResultNotificationSent)
 
         val legacyPCRTest = PCRCoronaTest(
-            testGUID = LEGACY_GUID,
+            identifier = LEGACY_IDENTIFIER,
             registrationToken = token,
             registeredAt = devicePairingSuccessfulAt,
             testResult = when (isAllowedToSubmitKeys) {
@@ -80,6 +80,6 @@ class PCRTestMigration @Inject constructor(
         /**
          * We only use this for identification
          */
-        private const val LEGACY_GUID = "legacy-pcr-guid"
+        private const val LEGACY_IDENTIFIER = "qrcode-pcr-legacy"
     }
 }

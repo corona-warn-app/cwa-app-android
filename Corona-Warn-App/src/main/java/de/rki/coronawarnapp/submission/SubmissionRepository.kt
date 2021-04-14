@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -10,7 +11,6 @@ import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.playbook.BackgroundNoise
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -32,7 +32,7 @@ import javax.inject.Singleton
 @Singleton
 class SubmissionRepository @Inject constructor(
     private val submissionSettings: SubmissionSettings,
-    private val submissionService: SubmissionService,
+    private val submissionService: CoronaTestService,
     @AppScope private val scope: CoroutineScope,
     private val timeStamper: TimeStamper,
     private val tekHistoryStorage: TEKHistoryStorage,

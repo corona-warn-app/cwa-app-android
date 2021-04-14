@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.coronatest
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
+import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -43,7 +45,7 @@ class CoronaTestRepository @Inject constructor(
     ) {
         val legacyTests = legacyMigration.startMigration()
         (legacyTests + storage.coronaTests).map {
-            it.testGUID to it
+            it.identifier to it
         }.toMap()
     }
 
@@ -63,8 +65,15 @@ class CoronaTestRepository @Inject constructor(
 
     private fun getProcessor(type: CoronaTest.Type) = processors.single { it.type == type }
 
-    suspend fun registerTest(request: CoronaTestQRCode): CoronaTest {
-        Timber.tag(TAG).i("registerTest(request=%s)", request)
+    suspend fun registerTest(registrationRequest: TestRegistrationRequest): CoronaTest = when (registrationRequest) {
+        is CoronaTestQRCode -> registerTestByQRCode(registrationRequest)
+        is CoronaTestTAN -> registerTestByTAN(registrationRequest)
+        else -> throw IllegalArgumentException("Unknown test request: $registrationRequest")
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun registerTestByTAN(request: CoronaTestTAN): CoronaTest {
+        Timber.tag(TAG).i("registerTestByQRCode(request=%s)", request)
         // We check early, if there is no processor, crash early, "should" never happen though...
         val processor = getProcessor(request.type)
 
@@ -76,10 +85,30 @@ class CoronaTestRepository @Inject constructor(
             val test = processor.create(request)
             Timber.tag(TAG).i("Adding new test: %s", test)
 
-            toMutableMap().apply { this[test.testGUID] = test }
+            toMutableMap().apply { this[test.identifier] = test }
         }
 
-        return currentTests[request.guid]!!
+        return currentTests[request.identifier]!!
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun registerTestByQRCode(request: CoronaTestQRCode): CoronaTest {
+        Timber.tag(TAG).i("registerTestByQRCode(request=%s)", request)
+        // We check early, if there is no processor, crash early, "should" never happen though...
+        val processor = getProcessor(request.type)
+
+        val currentTests = internalData.updateBlocking {
+            if (values.any { it.type == request.type }) {
+                throw IllegalStateException("There is already a test of this type: ${request.type}.")
+            }
+
+            val test = processor.create(request)
+            Timber.tag(TAG).i("Adding new test: %s", test)
+
+            toMutableMap().apply { this[test.identifier] = test }
+        }
+
+        return currentTests[request.identifier]!!
     }
 
     suspend fun removeTest(guid: CoronaTestGUID): CoronaTest {
@@ -110,7 +139,7 @@ class CoronaTestRepository @Inject constructor(
         val toRefreshGUIDs = internalData.data
             .first().values
             .filter { if (type == null) true else it.type == type }
-            .map { it.testGUID }
+            .map { it.identifier }
 
         Timber.tag(TAG).d("Will refresh %s", toRefreshGUIDs)
 
@@ -123,7 +152,7 @@ class CoronaTestRepository @Inject constructor(
         internalData.updateBlocking {
             val polling = values
                 .filter { if (type == null) true else it.type == type }
-                .filter { toRefreshGUIDs.contains(it.testGUID) }
+                .filter { toRefreshGUIDs.contains(it.identifier) }
                 .map { coronaTest ->
 
                     withContext(context = dispatcherProvider.IO) {
@@ -141,7 +170,7 @@ class CoronaTestRepository @Inject constructor(
 
             this.toMutableMap().apply {
                 for (updatedResult in pollingResults) {
-                    this[updatedResult.testGUID] = updatedResult
+                    this[updatedResult.identifier] = updatedResult
                 }
             }
         }

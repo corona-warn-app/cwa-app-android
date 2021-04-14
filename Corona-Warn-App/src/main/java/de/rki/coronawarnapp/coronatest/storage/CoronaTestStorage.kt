@@ -45,7 +45,7 @@ class CoronaTestStorage @Inject constructor(
             val tests: List<CoronaTest> = gson.fromJson(raw, typeToken)
             tests.forEach {
                 Timber.tag(TAG).v("Loaded: %s", it)
-                requireNotNull(it.testGUID)
+                requireNotNull(it.identifier)
             }
             return tests
         }

@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class RapidAntigenCoronaTest(
-    @SerializedName("testGUID") override val testGUID: CoronaTestGUID,
+    @SerializedName("identifier") override val identifier: TestIdentifier,
     @SerializedName("registeredAt") override val registeredAt: Instant,
     @SerializedName("registrationToken") override val registrationToken: RegistrationToken,
     @SerializedName("isSubmitted") override val isSubmitted: Boolean = false,
