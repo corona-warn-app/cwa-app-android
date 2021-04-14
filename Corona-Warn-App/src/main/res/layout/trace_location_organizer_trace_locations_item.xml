@@ -17,8 +17,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="21.01.2021">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="42dp"

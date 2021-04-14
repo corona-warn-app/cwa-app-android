@@ -7,44 +7,43 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 /**
- * @param presenceTracingDayRisk Only available for the last calculation, if successful, otherwise null
- * @param checkInWarningOverlaps Only available for the last calculation, if successful, otherwise null
+ * @param presenceTracingDayRisk Only available for the latest calculation, otherwise null
+ * @param checkInWarningOverlaps Only available for the latest calculation, otherwise null
  */
 data class PtRiskLevelResult(
     val calculatedAt: Instant,
     val riskState: RiskState,
-    val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null,
+    private val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null,
     private val checkInWarningOverlaps: List<CheckInWarningOverlap>? = null,
 ) {
 
-    val wasSuccessfullyCalculated: Boolean
-        get() = riskState != RiskState.CALCULATION_FAILED
+    val wasSuccessfullyCalculated: Boolean by lazy {
+        riskState != RiskState.CALCULATION_FAILED
+    }
 
-    val numberOfDaysWithHighRisk: Int
-        get() = presenceTracingDayRisk?.count { it.riskState == RiskState.INCREASED_RISK } ?: 0
+    val numberOfDaysWithHighRisk: Int by lazy {
+        presenceTracingDayRisk?.count { it.riskState == RiskState.INCREASED_RISK } ?: 0
+    }
 
-    val numberOfDaysWithLowRisk: Int
-        get() = presenceTracingDayRisk?.count { it.riskState == RiskState.LOW_RISK } ?: 0
+    val numberOfDaysWithLowRisk: Int by lazy {
+        presenceTracingDayRisk?.count { it.riskState == RiskState.LOW_RISK } ?: 0
+    }
 
-    val mostRecentDateWithHighRisk: LocalDate?
-        get() = presenceTracingDayRisk
+    val mostRecentDateWithHighRisk: LocalDate? by lazy {
+        presenceTracingDayRisk
             ?.filter { it.riskState == RiskState.INCREASED_RISK }
             ?.maxByOrNull { it.localDateUtc }
             ?.localDateUtc
+    }
 
-    val mostRecentDateWithLowRisk: LocalDate?
-        get() = presenceTracingDayRisk
+    val mostRecentDateWithLowRisk: LocalDate? by lazy {
+        presenceTracingDayRisk
             ?.filter { it.riskState == RiskState.LOW_RISK }
             ?.maxByOrNull { it.localDateUtc }
             ?.localDateUtc
+    }
 
-    val daysWithEncounters: Int
-        get() = when (riskState) {
-            RiskState.INCREASED_RISK -> numberOfDaysWithHighRisk
-            RiskState.LOW_RISK -> numberOfDaysWithLowRisk
-            else -> 0
-        }
-
-    val checkInOverlapCount: Int
-        get() = checkInWarningOverlaps?.size ?: 0
+    val checkInOverlapCount: Int by lazy {
+        checkInWarningOverlaps?.size ?: 0
+    }
 }

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.eventregistration.checkins
 
 import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.CheckInDao
+import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.eventregistration.storage.entity.toCheckIn
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.NonCancellable
@@ -62,6 +63,13 @@ class CheckInRepository @Inject constructor(
     suspend fun updateCheckIn(checkInId: Long, update: (CheckIn) -> CheckIn) = withContext(NonCancellable) {
         Timber.d("updateCheckIn(checkInId=%d, update=%s)", checkInId, update)
         checkInDao.updateEntityById(checkInId, update)
+    }
+
+    suspend fun markCheckInAsSubmitted(checkInId: Long) {
+        Timber.d("markCheckInAsSubmitted(checkInId=$checkInId)")
+        checkInDao.updateEntity(
+            TraceLocationCheckInEntity.SubmissionUpdate(checkInId = checkInId, isSubmitted = true)
+        )
     }
 
     suspend fun deleteCheckIns(checkIns: Collection<CheckIn>) = withContext(NonCancellable) {

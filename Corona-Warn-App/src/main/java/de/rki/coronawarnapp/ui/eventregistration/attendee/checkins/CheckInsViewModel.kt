@@ -9,7 +9,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeUriParser
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationVerifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
@@ -28,19 +28,23 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import timber.log.Timber
 
+@Suppress("LongParameterList")
 class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     @Assisted private val deepLink: String?,
+    @Assisted private val cleanHistory: Boolean,
     dispatcherProvider: DispatcherProvider,
     @AppScope private val appScope: CoroutineScope,
     private val qrCodeUriParser: QRCodeUriParser,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
-    private val cameraPermissionProvider: CameraPermissionProvider
+    private val cameraPermissionProvider: CameraPermissionProvider,
+    private val traceLocationVerifier: TraceLocationVerifier
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
     val errorEvent = SingleLiveEvent<Throwable>()
+    private val cameraItem by lazy { cameraPermissionItem() }
 
     init {
         deepLink?.let {
@@ -62,7 +66,7 @@ class CheckInsViewModel @AssistedInject constructor(
         mutableListOf<CheckInsItem>().apply {
             // Camera permission item
             if (denied) {
-                add(cameraPermissionItem())
+                add(cameraItem)
             }
             // CheckIns items
             addAll(mapCheckIns(checkIns))
@@ -141,8 +145,16 @@ class CheckInsViewModel @AssistedInject constructor(
         try {
             Timber.i("uri: $uri")
             val qrCodePayload = qrCodeUriParser.getQrCodePayload(uri)
-            val verifiedTraceLocation = VerifiedTraceLocation(qrCodePayload)
-            events.postValue(CheckInEvent.ConfirmCheckIn(verifiedTraceLocation))
+            when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
+                is TraceLocationVerifier.VerificationResult.Valid -> events.postValue(
+                    if (cleanHistory)
+                        CheckInEvent.ConfirmCheckInWithoutHistory(verifyResult.verifiedTraceLocation)
+                    else
+                        CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation)
+                )
+                is TraceLocationVerifier.VerificationResult.Invalid ->
+                    events.postValue(CheckInEvent.InvalidQrCode(verifyResult.errorTextRes))
+            }
         } catch (e: Exception) {
             Timber.d(e, "TraceLocation verification failed")
             e.report(ExceptionCategory.INTERNAL)
@@ -161,7 +173,8 @@ class CheckInsViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<CheckInsViewModel> {
         fun create(
             savedState: SavedStateHandle,
-            deepLink: String?
+            deepLink: String?,
+            cleanHistory: Boolean
         ): CheckInsViewModel
     }
 }
