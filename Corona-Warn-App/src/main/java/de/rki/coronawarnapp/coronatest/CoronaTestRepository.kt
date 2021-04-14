@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.coronatest.migration.CoronaTestMigration
+import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
@@ -33,7 +33,7 @@ class CoronaTestRepository @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val storage: CoronaTestStorage,
     private val processors: Set<@JvmSuppressWildcards CoronaTestProcessor>,
-    private val legacyMigration: CoronaTestMigration,
+    private val legacyMigration: PCRTestMigration,
 ) {
 
     private val internalData: HotDataFlow<Map<CoronaTestGUID, CoronaTest>> = HotDataFlow(

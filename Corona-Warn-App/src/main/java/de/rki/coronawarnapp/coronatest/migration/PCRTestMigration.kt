@@ -12,7 +12,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class CoronaTestMigration @Inject constructor(
+class PCRTestMigration @Inject constructor(
     private val submissionSettings: SubmissionSettings,
     private val tracingSettings: TracingSettings,
 ) {
@@ -80,6 +80,6 @@ class CoronaTestMigration @Inject constructor(
         /**
          * We only use this for identification
          */
-        private const val LEGACY_GUID = "legacy-guid"
+        private const val LEGACY_GUID = "legacy-pcr-guid"
     }
 }
