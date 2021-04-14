@@ -63,27 +63,23 @@ class CoronaTestRepository @Inject constructor(
 
     private fun getProcessor(type: CoronaTest.Type) = processors.single { it.type == type }
 
-    /**
-     * When this returns and there was no exception, the test was registered and a valid registrationToken obtained.
-     * Your new test should be available via **coronaTests**.
-     */
-    suspend fun registerTest(request: CoronaTestQRCode) {
+    suspend fun registerTest(request: CoronaTestQRCode): CoronaTest {
         Timber.tag(TAG).i("registerTest(request=%s)", request)
         // We check early, if there is no processor, crash early, "should" never happen though...
         val processor = getProcessor(request.type)
 
-        internalData.updateBlocking {
+        val currentTests = internalData.updateBlocking {
             if (values.any { it.type == request.type }) {
                 throw IllegalStateException("There is already a test of this type: ${request.type}.")
             }
 
-            val newCoronaTest = processor.create(request)
-            Timber.tag(TAG).i("Adding new test: %s", newCoronaTest)
+            val test = processor.create(request)
+            Timber.tag(TAG).i("Adding new test: %s", test)
 
-            toMutableMap().apply {
-                this[newCoronaTest.testGUID] = newCoronaTest
-            }
+            toMutableMap().apply { this[test.testGUID] = test }
         }
+
+        return currentTests[request.guid]!!
     }
 
     suspend fun removeTest(guid: CoronaTestGUID): CoronaTest {
