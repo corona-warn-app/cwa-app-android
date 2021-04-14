@@ -12,6 +12,8 @@ interface CoronaTest {
     val registrationToken: RegistrationToken
 
     val isProcessing: Boolean
+    val lastError: Throwable?
+
     val isSubmissionAllowed: Boolean
     val isSubmitted: Boolean
     val isViewed: Boolean

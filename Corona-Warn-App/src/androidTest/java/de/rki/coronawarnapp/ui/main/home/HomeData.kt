@@ -1,19 +1,19 @@
 package de.rki.coronawarnapp.ui.main.home
 
+import de.rki.coronawarnapp.coronatest.type.pcr.FetchingResult
+import de.rki.coronawarnapp.coronatest.type.pcr.NoTest
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionDone
+import de.rki.coronawarnapp.coronatest.type.pcr.TestError
+import de.rki.coronawarnapp.coronatest.type.pcr.TestInvalid
+import de.rki.coronawarnapp.coronatest.type.pcr.TestNegative
+import de.rki.coronawarnapp.coronatest.type.pcr.TestPending
+import de.rki.coronawarnapp.coronatest.type.pcr.TestPositive
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.submission.ui.homecards.FetchingResult
-import de.rki.coronawarnapp.submission.ui.homecards.NoTest
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
-import de.rki.coronawarnapp.submission.ui.homecards.TestError
 import de.rki.coronawarnapp.submission.ui.homecards.TestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestInvalid
 import de.rki.coronawarnapp.submission.ui.homecards.TestInvalidCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestNegative
 import de.rki.coronawarnapp.submission.ui.homecards.TestNegativeCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestPending
 import de.rki.coronawarnapp.submission.ui.homecards.TestPendingCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositive
 import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard

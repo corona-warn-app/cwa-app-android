@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.coronatest.type.antigen
+package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
@@ -12,7 +12,6 @@ data class RapidAntigenCoronaTest(
     @SerializedName("testGUID") override val testGUID: CoronaTestGUID,
     @SerializedName("registeredAt") override val registeredAt: Instant,
     @SerializedName("registrationToken") override val registrationToken: RegistrationToken,
-    @Transient override val isProcessing: Boolean = false,
     @SerializedName("isSubmitted") override val isSubmitted: Boolean = false,
     @SerializedName("isViewed") override val isViewed: Boolean = false,
     @SerializedName("isAdvancedConsentGiven") override val isAdvancedConsentGiven: Boolean = false,
@@ -23,6 +22,8 @@ data class RapidAntigenCoronaTest(
     @SerializedName("firstName") val firstName: String?,
     @SerializedName("lastName") val lastName: String?,
     @SerializedName("dateOfBirth") val dateOfBirth: LocalDate?,
+    @Transient override val isProcessing: Boolean = false,
+    @Transient override val lastError: Throwable? = null,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN

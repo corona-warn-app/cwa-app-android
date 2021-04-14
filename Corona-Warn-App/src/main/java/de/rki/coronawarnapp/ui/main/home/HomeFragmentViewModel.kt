@@ -6,6 +6,18 @@ import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.latestPCRT
+import de.rki.coronawarnapp.coronatest.type.pcr.FetchingResult
+import de.rki.coronawarnapp.coronatest.type.pcr.NoTest
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionDone
+import de.rki.coronawarnapp.coronatest.type.pcr.TestError
+import de.rki.coronawarnapp.coronatest.type.pcr.TestInvalid
+import de.rki.coronawarnapp.coronatest.type.pcr.TestNegative
+import de.rki.coronawarnapp.coronatest.type.pcr.TestPending
+import de.rki.coronawarnapp.coronatest.type.pcr.TestPositive
+import de.rki.coronawarnapp.coronatest.type.pcr.TestResultReady
+import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
@@ -14,23 +26,13 @@ import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.submission.ui.homecards.FetchingResult
-import de.rki.coronawarnapp.submission.ui.homecards.NoTest
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
-import de.rki.coronawarnapp.submission.ui.homecards.TestError
 import de.rki.coronawarnapp.submission.ui.homecards.TestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestInvalid
 import de.rki.coronawarnapp.submission.ui.homecards.TestInvalidCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestNegative
 import de.rki.coronawarnapp.submission.ui.homecards.TestNegativeCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestPending
 import de.rki.coronawarnapp.submission.ui.homecards.TestPendingCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositive
 import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestReadyCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestResultReady
 import de.rki.coronawarnapp.submission.ui.homecards.TestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
@@ -74,7 +76,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val errorResetTool: EncryptionErrorResetTool,
     tracingStatus: GeneralTracingStatus,
     tracingStateProviderFactory: TracingStateProvider.Factory,
-    submissionStateProvider: SubmissionStateProvider,
+    private val coronaTestRepository: CoronaTestRepository,
     private val tracingRepository: TracingRepository,
     private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val submissionRepository: SubmissionRepository,
@@ -124,6 +126,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }.launchInViewModel()
         }
     }
+
     private val tracingCardItems = tracingStateProvider.state.map { tracingState ->
         when (tracingState) {
             is TracingInProgress -> TracingProgressCard.Item(
@@ -165,7 +168,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }.distinctUntilChanged()
 
-    private val submissionCardItems = submissionStateProvider.state.map { state ->
+    private val submissionCardPCR = coronaTestRepository.latestPCRT.map { it.toSubmissionState() }.map { state ->
         when (state) {
             is NoTest -> TestUnregisteredCard.Item(state) {
                 routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
@@ -209,10 +212,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
-        submissionCardItems,
-        submissionStateProvider.state.distinctUntilChanged(),
+        submissionCardPCR,
+        coronaTestRepository.latestPCRT.map { it.toSubmissionState() },
         statisticsProvider.current.distinctUntilChanged()
-    ) { tracingItem, submissionItem, submissionState, statsData ->
+    ) { tracingItem, testCardPCR, submissionState, statsData ->
         mutableListOf<HomeItem>().apply {
             when (submissionState) {
                 TestPositive, is SubmissionDone -> {
@@ -221,7 +224,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 else -> add(tracingItem)
             }
 
-            add(submissionItem)
+            add(testCardPCR)
 
             if (submissionState is SubmissionDone) {
                 add(

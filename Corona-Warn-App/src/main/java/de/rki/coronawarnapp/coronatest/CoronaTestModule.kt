@@ -5,8 +5,8 @@ import dagger.Module
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.coronatest.server.VerificationModule
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
-import de.rki.coronawarnapp.coronatest.type.antigen.RapidAntigenProcessor
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRProcessor
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RapidAntigenProcessor
 
 @Module(
     includes = [VerificationModule::class]

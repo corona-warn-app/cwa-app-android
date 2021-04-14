@@ -42,6 +42,23 @@ class PCRProcessor @Inject constructor(
         test as PCRCoronaTest
 
         val testResult = verificationServer.pollTestResult(test.registrationToken)
+        Timber.tag(TAG).d("Test result was %s", testResult)
+
+        val isValid = when (testResult) {
+            CoronaTestResult.PCR_OR_RAT_PENDING,
+            CoronaTestResult.PCR_NEGATIVE,
+            CoronaTestResult.PCR_POSITIVE,
+            CoronaTestResult.PCR_INVALID,
+            CoronaTestResult.PCR_REDEEMED -> true
+
+            CoronaTestResult.RAT_PENDING,
+            CoronaTestResult.RAT_NEGATIVE,
+            CoronaTestResult.RAT_POSITIVE,
+            CoronaTestResult.RAT_INVALID,
+            CoronaTestResult.RAT_REDEEMED -> false
+        }
+
+        if (!isValid) throw IllegalArgumentException("Invalid testResult $testResult")
 
         return test.copy(testResult = testResult)
     }

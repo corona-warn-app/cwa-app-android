@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.pcr.FetchingResult
 import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardFetchingBinding
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter

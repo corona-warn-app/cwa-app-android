@@ -6,7 +6,7 @@
     <data>
         <variable
             name="state"
-            type="de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone" />
+            type="de.rki.coronawarnapp.coronatest.type.pcr.SubmissionDone" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

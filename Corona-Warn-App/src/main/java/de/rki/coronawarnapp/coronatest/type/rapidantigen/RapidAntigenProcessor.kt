@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.coronatest.type.antigen
+package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -46,6 +46,23 @@ class RapidAntigenProcessor @Inject constructor(
         test as RapidAntigenCoronaTest
 
         val testResult = verificationServer.pollTestResult(test.registrationToken)
+        Timber.tag(TAG).d("Test result was %s", testResult)
+
+        val isValid = when (testResult) {
+            CoronaTestResult.PCR_OR_RAT_PENDING,
+            CoronaTestResult.RAT_PENDING,
+            CoronaTestResult.RAT_NEGATIVE,
+            CoronaTestResult.RAT_POSITIVE,
+            CoronaTestResult.RAT_INVALID,
+            CoronaTestResult.RAT_REDEEMED -> true
+
+            CoronaTestResult.PCR_NEGATIVE,
+            CoronaTestResult.PCR_POSITIVE,
+            CoronaTestResult.PCR_INVALID,
+            CoronaTestResult.PCR_REDEEMED -> false
+        }
+
+        if (!isValid) throw IllegalArgumentException("Invalid testResult $testResult")
 
         return test.copy(testResult = testResult)
     }
