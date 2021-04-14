@@ -17,14 +17,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_tiny"
-            android:text="@string/submission_result_antigen_test"
+            android:text="@string/submission_test_result_antigen_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/submission_result_antigen_test"/>
+            tools:text="@string/submission_test_result_antigen_title"/>
 
         <TextView
             android:id="@+id/test_result_section_headline"
-            style="@style/body2"
+            style="@style/subtitleMedium"
             android:accessibilityHeading="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             app:layout_constraintEnd_toStartOf="@id/test_result_section_status_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rapid_test_card_title"
-            tools:text="Ihr Befund"/>
+            tools:text="@string/submission_result_subtitle"/>
 
         <TextView
             android:id="@+id/test_result_section_content"
@@ -45,17 +45,29 @@
             app:layout_constraintEnd_toStartOf="@id/test_result_section_status_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/test_result_section_headline"
-            tools:text="SARS-CoV-2" />
+            tools:text="@string/test_result_card_virus_name_text" />
 
         <TextView
             android:id="@+id/rapid_test_card_diagnosis"
             style="@style/headline5Bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorTextSemanticGreen"
             app:layout_constraintStart_toStartOf="@id/test_result_section_content"
             app:layout_constraintTop_toBottomOf="@id/test_result_section_content"
-            tools:text="@string/submission_result_antigen_diagnosis_placeholder" />
+            tools:text="@string/submission_test_result_negative"
+            tools:textColor="@color/colorTextSemanticGreen"/>
+
+        <TextView
+            android:id="@+id/rapid_test_card_patient_details"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/rapid_test_card_diagnosis"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_diagnosis"
+            tools:text="@string/submission_test_result_antigen_patient_details_placeholder"/>
 
         <ImageView
             android:id="@+id/test_result_section_status_icon"
@@ -67,13 +79,25 @@
             tools:src="@drawable/ic_test_result_illustration_negative" />
 
         <TextView
+            android:id="@+id/rapid_test_card_negative_result_message"
+            style="@style/body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:text="@string/submission_test_result_negative_message"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_patient_details"
+            app:layout_constraintStart_toStartOf="@id/rapid_test_card_patient_details"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
             android:id="@+id/test_result_section_registered_at_text"
             style="@style/body2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
-            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_diagnosis"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_negative_result_message"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/test_result_section_status_icon"
             app:layout_constraintStart_toStartOf="parent"

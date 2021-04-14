@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_close"
-        app:title="@string/submission_result_antigen_toolbar" />
+        app:title="@string/submission_test_result_toolbar_text" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:text="@string/submission_result_antigen_test"
+            android:text="@string/submission_test_result_antigen_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,7 +61,7 @@
             android:textColor="@color/colorTextSemanticGreen"
             app:layout_constraintStart_toStartOf="@id/rapid_test_card_virus_name"
             app:layout_constraintTop_toBottomOf="@id/rapid_test_card_virus_name"
-            tools:text="@string/submission_result_antigen_diagnosis_placeholder" />
+            tools:text="@string/submission_test_result_negative" />
 
         <TextView
             android:id="@+id/rapid_test_card_patient_details"
@@ -72,7 +72,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/rapid_test_card_diagnosis"
             app:layout_constraintTop_toBottomOf="@id/rapid_test_card_diagnosis"
-            tools:text="@string/submission_result_antigen_card_patient_details_placeholder"/>
+            tools:text="@string/submission_test_result_antigen_patient_details_placeholder"/>
 
         <TextView
             android:id="@+id/rapid_test_card_negative_result_message"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_tiny"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:text="@string/submission_result_antigen_card_negative_result_message"
+            android:text="@string/submission_test_result_negative_message"
             app:layout_constraintTop_toBottomOf="@id/rapid_test_card_patient_details"
             app:layout_constraintStart_toStartOf="@id/rapid_test_card_patient_details"
             app:layout_constraintEnd_toEndOf="parent" />
