@@ -34,7 +34,7 @@
 
         <Button
             android:id="@+id/submission_contact_button_enter"
-            style="@style/buttonLight"
+            style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/submission_contact_button_enter"
