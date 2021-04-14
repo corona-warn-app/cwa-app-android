@@ -37,7 +37,7 @@ class PCRProcessor @Inject constructor(
         )
     }
 
-    override suspend fun pollServer(test: CoronaTest): CoronaTest {
+    override suspend fun pollServer(test: CoronaTest): CoronaTest = try {
         Timber.tag(TAG).v("pollServer(test=%s)", test)
         test as PCRCoronaTest
 
@@ -60,7 +60,14 @@ class PCRProcessor @Inject constructor(
 
         if (!isValid) throw IllegalArgumentException("Invalid testResult $testResult")
 
-        return test.copy(testResult = testResult)
+        test.copy(
+            testResult = testResult,
+            lastError = null
+        )
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "Failed to poll server for  %s", test)
+        test as PCRCoronaTest
+        test.copy(lastError = e)
     }
 
     override suspend fun onRemove(toBeRemoved: CoronaTest) {

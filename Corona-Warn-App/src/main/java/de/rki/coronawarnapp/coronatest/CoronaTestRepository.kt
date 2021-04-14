@@ -105,14 +105,6 @@ class CoronaTestRepository @Inject constructor(
         return removedTest!!
     }
 
-    suspend fun markAsSubmitted(guid: CoronaTestGUID) {
-        Timber.tag(TAG).i("markAsSubmitted(guid=%s)", guid)
-
-        modifyTest(guid) { processor, before ->
-            processor.markSubmitted(before)
-        }
-    }
-
     /**
      * Passing **null** will refresh all test types.
      */
@@ -141,12 +133,9 @@ class CoronaTestRepository @Inject constructor(
                     withContext(context = dispatcherProvider.IO) {
                         async {
                             Timber.tag(TAG).v("Polling for %s", coronaTest)
-                            try {
-                                getProcessor(coronaTest.type).pollServer(coronaTest)
-                            } catch (e: Exception) {
-                                Timber.tag(TAG).e(e, "Failed to poll server for  %s", coronaTest)
-                                null
-                            }
+                            // This will not throw an exception
+                            // Any error encountered during polling will be in CoronaTest.lastError
+                            getProcessor(coronaTest.type).pollServer(coronaTest)
                         }
                     }
                 }
@@ -173,6 +162,14 @@ class CoronaTestRepository @Inject constructor(
         internalData.updateBlocking {
             Timber.tag(TAG).d("Clearing %s", this)
             emptyMap()
+        }
+    }
+
+    suspend fun markAsSubmitted(guid: CoronaTestGUID) {
+        Timber.tag(TAG).i("markAsSubmitted(guid=%s)", guid)
+
+        modifyTest(guid) { processor, before ->
+            processor.markSubmitted(before)
         }
     }
 
