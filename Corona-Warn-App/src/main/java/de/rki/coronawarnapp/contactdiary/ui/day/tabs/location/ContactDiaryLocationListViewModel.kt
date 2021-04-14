@@ -44,30 +44,31 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     private val dayElement = contactDiaryRepository.locationVisitsForDate(localDate)
     private val selectableLocations = contactDiaryRepository.locations
 
-    private val diaryLocationListItems: Flow<List<DiaryLocationListItem>> = selectableLocations.combine(dayElement) { locations, encounters ->
-        locations.map { location ->
-            val visit = encounters.singleOrNull {
-                it.contactDiaryLocation.locationId == location.locationId
-            }
-            DiaryLocationListItem(
-                item = location,
-                visit = visit,
-                onItemClick = { onLocationSelectionChanged(it.stableId) },
-                onDurationChanged = { item, duration ->
-                    onDurationChanged(item, duration)
-                },
-                onCircumstancesChanged = { item, circumstances ->
-                    onCircumstancesChanged(item, circumstances)
-                },
-                onCircumStanceInfoClicked = {
-                    openCommentInfo.postValue(Unit)
-                },
-                onDurationDialog = { item, durationString ->
-                    onDurationDialog(item, durationString)
+    private val diaryLocationListItems: Flow<List<DiaryLocationListItem>> =
+        selectableLocations.combine(dayElement) { locations, encounters ->
+            locations.map { location ->
+                val visit = encounters.singleOrNull {
+                    it.contactDiaryLocation.locationId == location.locationId
                 }
-            )
+                DiaryLocationListItem(
+                    item = location,
+                    visit = visit,
+                    onItemClick = { onLocationSelectionChanged(it.stableId) },
+                    onDurationChanged = { item, duration ->
+                        onDurationChanged(item, duration)
+                    },
+                    onCircumstancesChanged = { item, circumstances ->
+                        onCircumstancesChanged(item, circumstances)
+                    },
+                    onCircumStanceInfoClicked = {
+                        openCommentInfo.postValue(Unit)
+                    },
+                    onDurationDialog = { item, durationString ->
+                        onDurationDialog(item, durationString)
+                    }
+                )
+            }
         }
-    }
 
     val uiList = diaryLocationListItems.asLiveData(dispatcherProvider.Default)
 
