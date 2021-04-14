@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationId
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.util.lists.HasStableId
 import java.util.Locale
 

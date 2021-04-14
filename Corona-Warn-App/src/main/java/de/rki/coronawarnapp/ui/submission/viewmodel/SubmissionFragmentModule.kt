@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
+import de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningFragment
+import de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningModule
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentModule
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
@@ -90,4 +92,7 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [SubmissionResultPositiveOtherWarningNoConsentModule::class])
     abstract fun SubmissionResultPositiveOtherWarningNoConsentScreen(): SubmissionResultPositiveOtherWarningNoConsentFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionDeletionWarningModule::class])
+    abstract fun submissionDeletionWarningScreen(): SubmissionDeletionWarningFragment
 }

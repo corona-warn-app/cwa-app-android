@@ -19,8 +19,8 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.Contact
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk

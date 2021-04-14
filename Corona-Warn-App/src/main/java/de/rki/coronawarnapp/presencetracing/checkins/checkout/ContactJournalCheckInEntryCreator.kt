@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import kotlinx.coroutines.flow.first
