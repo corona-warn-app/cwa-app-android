@@ -73,10 +73,10 @@ abstract class MainActivityTestModule {
     abstract fun deltaOnboarding(): DeltaonboardingFragment
 
     @ContributesAndroidInjector(modules = [PresenceTracingTestFragmentModule::class])
-    abstract fun eventRegistration(): PresenceTracingTestFragment
+    abstract fun presenceTracingTestFragment(): PresenceTracingTestFragment
 
     @ContributesAndroidInjector(modules = [QrCodePosterTestFragmentModule::class])
-    abstract fun showEventDetail(): QrCodePosterTestFragment
+    abstract fun qrCodePosterTestFragment(): QrCodePosterTestFragment
 
     @ContributesAndroidInjector(modules = [HomeTestCardsFragmentModule::class])
     abstract fun homeTestCards(): HomeTestCardsFragment

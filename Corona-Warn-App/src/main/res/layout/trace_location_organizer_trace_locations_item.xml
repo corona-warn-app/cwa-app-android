@@ -9,7 +9,7 @@
     android:layout_marginVertical="8dp"
     android:focusable="true">
 
-    <de.rki.coronawarnapp.ui.eventregistration.common.TraceLocationCardHighlightView
+    <de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </de.rki.coronawarnapp.ui.eventregistration.common.TraceLocationCardHighlightView>
+    </de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView>
 
     <TextView
         android:id="@+id/description"

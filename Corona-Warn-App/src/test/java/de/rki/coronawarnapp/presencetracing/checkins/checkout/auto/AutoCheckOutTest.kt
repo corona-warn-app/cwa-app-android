@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
 
 import android.app.AlarmManager
 import android.app.PendingIntent
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe

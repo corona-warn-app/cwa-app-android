@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.states.LowRisk
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
-import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
