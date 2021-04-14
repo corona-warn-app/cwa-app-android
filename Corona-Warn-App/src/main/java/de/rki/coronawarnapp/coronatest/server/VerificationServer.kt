@@ -103,6 +103,6 @@ class VerificationServer @Inject constructor(
         const val PADDING_LENGTH_BODY_TAN_FAKE = 31 + VERIFICATION_BODY_FILL
         const val DUMMY_REGISTRATION_TOKEN = "11111111-2222-4444-8888-161616161616"
 
-        const val TAG = "VerificationServer"
+        private const val TAG = "VerificationServer"
     }
 }
