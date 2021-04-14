@@ -67,7 +67,7 @@
     <!-- XTXT: rapid test homescreen card: body - no result -->
     <string name="ag_homescreen_card_rapidtest_body_no_result">"Die Auswertung Ihres Schnelltests ist noch nicht abgeschlossen."</string>
     <!-- XTXT: rapid test homescreen card: body - outdated test -->
-    <string name="ag_homescreen_card_rapidtest_body_outdated_test">"Ihr Schnelltest ist älter als 48 Stunden und wird hier nicht mehr angezeigt. Der Eintrag im Kontakt-Tagebuch bleibt erhalten."</string>
+    <string name="ag_homescreen_card_rapidtest_body_outdated_test">"Ihr Schnelltest ist älter als 48 Stunden und wird hier nicht mehr angezeigt."</string>
     <!-- XTXT: homescreen card: body - negative -->
     <string name="ag_homescreen_card_rapid_body_result_date">"Durchgeführt am %1$s"</string>
 
