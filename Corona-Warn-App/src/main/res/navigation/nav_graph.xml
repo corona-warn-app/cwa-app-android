@@ -618,6 +618,9 @@
         android:name="de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningFragment"
         android:label="SubmissionDeletionWarningFragment"
         tools:layout="@layout/fragment_submission_deletion_warning">
+        <argument
+            android:name="coronaTestQrCode"
+            app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionQRCodeScanFragment"
             app:destination="@id/submissionQRCodeScanFragment" />

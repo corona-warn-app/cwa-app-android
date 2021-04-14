@@ -7,8 +7,11 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import com.google.zxing.BarcodeFormat
+import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -27,6 +30,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import org.joda.time.Instant
 import javax.inject.Inject
 
 /**
@@ -36,11 +40,14 @@ class SubmissionQRCodeScanFragment :
     Fragment(R.layout.fragment_submission_qr_code_scan),
     AutoInject {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
+        @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+        private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
+
 
     private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
+
+    private lateinit var barcodeResult: BarcodeResult
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -85,16 +92,18 @@ class SubmissionQRCodeScanFragment :
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
+
+
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == TestResult.POSITIVE) {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment()
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
                     )
                 } else {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment()
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
                     )
                 }
             }
@@ -112,10 +121,24 @@ class SubmissionQRCodeScanFragment :
                     goBack()
             }
         }
+
+        viewModel.testAlreadyExists.observe2(this) {
+            if (it) {
+
+                val coronaTest: CoronaTestQRCode = CoronaTestQRCode.RapidAntigen(CoronaTest.Type.RAPID_ANTIGEN,"", Instant.now(),"","", "")
+
+                doNavigate(
+                    SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(coronaTest)
+                )
+            } else {
+                viewModel.doDeviceRegistration()
+            }
+        }
     }
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle {
+            barcodeResult = it;
             viewModel.validateTestGUID(it.text)
         }
     }
