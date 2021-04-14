@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".ui.eventregistration.organizer.poster.QrCodePosterFragment">
+    tools:context=".ui.presencetracing.organizer.poster.QrCodePosterFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"

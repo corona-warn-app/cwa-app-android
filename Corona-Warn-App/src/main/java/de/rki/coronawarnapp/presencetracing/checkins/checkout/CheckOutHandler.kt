@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.presencetracing.checkins.checkout
 
 import dagger.Reusable
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Instant
 import timber.log.Timber
