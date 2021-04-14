@@ -158,7 +158,7 @@
         android:src="@drawable/ic_risk_details_contact"
         app:layout_constraintEnd_toStartOf="@id/contact_subtitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prc_icon"
+        app:layout_constraintTop_toBottomOf="@+id/pcr_subtitle"
         app:tint="@color/colorStableLight" />
 
     <TextView
