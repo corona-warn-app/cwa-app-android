@@ -30,19 +30,19 @@ class TracingStateProvider @AssistedInject constructor(
 ) {
     val state: Flow<TracingState> = combine(
         tracingStatus.generalStatus.onEach {
-            Timber.v("tracingStatus: $it")
+            Timber.tag(TAG).v("tracingStatus: $it")
         },
         tracingRepository.tracingProgress.onEach {
-            Timber.v("tracingProgress: $it")
+            Timber.tag(TAG).v("tracingProgress: $it")
         },
         riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult.onEach {
-            Timber.v("riskLevelResults: $it")
+            Timber.tag(TAG).v("riskLevelResults: $it")
         },
         exposureDetectionTracker.latestSubmission().onEach {
-            Timber.v("latestSubmission: $it")
+            Timber.tag(TAG).v("latestSubmission: $it")
         },
         backgroundModeStatus.isAutoModeEnabled.onEach {
-            Timber.v("isAutoModeEnabled: $it")
+            Timber.tag(TAG).v("isAutoModeEnabled: $it")
         }
     ) { tracingStatus,
         tracingProgress,
@@ -88,12 +88,16 @@ class TracingStateProvider @AssistedInject constructor(
             )
         }
     }
-        .onStart { Timber.v("TracingStateProvider FLOW start") }
-        .onEach { Timber.d("TracingStateProvider FLOW emission: %s", it) }
-        .onCompletion { Timber.v("TracingStateProvider FLOW completed.") }
+        .onStart { Timber.tag(TAG).v("TracingStateProvider FLOW start") }
+        .onEach { Timber.tag(TAG).d("TracingStateProvider FLOW emission: %s", it) }
+        .onCompletion { Timber.tag(TAG).v("TracingStateProvider FLOW completed.") }
 
     @AssistedFactory
     interface Factory {
         fun create(isDetailsMode: Boolean): TracingStateProvider
+    }
+
+    companion object {
+        const val TAG = "TracingStateProvider"
     }
 }
