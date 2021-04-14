@@ -132,7 +132,7 @@ class CoronaTestRepository @Inject constructor(
             }
         }
 
-        internalData.updateSafely {
+        internalData.updateBlocking {
             val polling = values
                 .filter { if (type == null) true else it.type == type }
                 .filter { toRefreshGUIDs.contains(it.testGUID) }
