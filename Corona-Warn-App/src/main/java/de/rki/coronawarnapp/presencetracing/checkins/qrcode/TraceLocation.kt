@@ -52,7 +52,7 @@ data class TraceLocation(
      *  Returns SHA-256 hash of [locationId] which itself may also be SHA-256 hash.
      *  For privacy reasons TraceTimeIntervalWarnings only offer a hash of the actual locationId.
      *
-     *  @see [de.rki.coronawarnapp.eventregistration.checkins.CheckIn]
+     *  @see [de.rki.coronawarnapp.presencetracing.checkins.CheckIn]
      */
     @IgnoredOnParcel
     val locationIdHash: ByteString by lazy { locationId.toTraceLocationIdHash() }

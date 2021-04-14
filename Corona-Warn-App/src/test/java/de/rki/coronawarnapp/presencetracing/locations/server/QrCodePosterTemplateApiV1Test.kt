@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.locations.server
 
-import de.rki.coronawarnapp.environment.eventregistration.qrcodeposter.QrCodePosterTemplateModule
+import de.rki.coronawarnapp.environment.presencetracing.qrcodeposter.QrCodePosterTemplateModule
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplate.QrCodePosterTemplateApiV1
 import io.kotest.matchers.shouldBe

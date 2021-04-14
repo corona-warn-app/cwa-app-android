@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.presencetracing.checkins.qrcode
 
 import de.rki.coronawarnapp.presencetracing.locations.TraceLocationUserInput
 import de.rki.coronawarnapp.presencetracing.locations.toTraceLocation
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

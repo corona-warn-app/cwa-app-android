@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.checkins.derivetime
 
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
-import de.rki.coronawarnapp.presencetracing.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.server.protocols.internal.v2
     .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
 import de.rki.coronawarnapp.server.protocols.internal.v2

@@ -61,7 +61,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
             taskController.submitBlocking(
                 DefaultTaskRequest(
                     PresenceTracingWarningTask::class,
-                    originTag = "EventRegistrationTestFragmentViewModel"
+                    originTag = "PresenceTracingTestViewModel"
                 )
             )
         }

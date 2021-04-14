@@ -59,5 +59,5 @@ internal abstract class PresenceTracingUIModule {
     abstract fun qrCodePosterFragment(): QrCodePosterFragment
 
     @ContributesAndroidInjector(modules = [QrCodeDetailFragmentModule::class])
-    abstract fun showEventDetail(): QrCodeDetailFragment
+    abstract fun qrCodeDetailFragment(): QrCodeDetailFragment
 }

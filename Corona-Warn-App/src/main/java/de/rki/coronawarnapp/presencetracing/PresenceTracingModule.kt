@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.presencetracing
 
 import dagger.Binds
 import dagger.Module
-import de.rki.coronawarnapp.environment.eventregistration.qrcodeposter.QrCodePosterTemplateModule
+import de.rki.coronawarnapp.environment.presencetracing.qrcodeposter.QrCodePosterTemplateModule
 import de.rki.coronawarnapp.presencetracing.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.PresenceTracingWarningModule
