@@ -8,7 +8,14 @@ interface CoronaTestProcessor {
 
     suspend fun create(data: CoronaTestQRCode): CoronaTest
 
+    suspend fun pollServer(test: CoronaTest): CoronaTest
+
+    /**
+     * Called before a test is removed.
+     */
+    suspend fun onRemove(toBeRemoved: CoronaTest)
+
     suspend fun markSubmitted(test: CoronaTest): CoronaTest
 
-    suspend fun pollServer(test: CoronaTest): CoronaTest
+    suspend fun markProcessing(test: CoronaTest, isProcessing: Boolean): CoronaTest
 }

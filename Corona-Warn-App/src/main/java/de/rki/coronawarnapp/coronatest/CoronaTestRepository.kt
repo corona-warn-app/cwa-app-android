@@ -16,6 +16,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -35,7 +36,7 @@ class CoronaTestRepository @Inject constructor(
     private val legacyMigration: CoronaTestMigration,
 ) {
 
-    private val testData: HotDataFlow<Map<CoronaTestGUID, CoronaTest>> = HotDataFlow(
+    private val internalData: HotDataFlow<Map<CoronaTestGUID, CoronaTest>> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Eagerly,
@@ -46,10 +47,10 @@ class CoronaTestRepository @Inject constructor(
         }.toMap()
     }
 
-    val coronaTests: Flow<Set<CoronaTest>> = testData.data.map { it.values.toSet() }
+    val coronaTests: Flow<Set<CoronaTest>> = internalData.data.map { it.values.toSet() }
 
     init {
-        testData.data
+        internalData.data
             .onStart { Timber.tag(TAG).d("Observing test data.") }
             .onEach {
                 Timber.tag(TAG).v("CoronaTest data changed: %s", it)
@@ -68,10 +69,10 @@ class CoronaTestRepository @Inject constructor(
      */
     suspend fun registerTest(request: CoronaTestQRCode) {
         Timber.tag(TAG).i("registerTest(request=%s)", request)
-
+        // We check early, if there is no processor, crash early, "should" never happen though...
         val processor = getProcessor(request.type)
 
-        testData.updateBlocking {
+        internalData.updateBlocking {
             if (values.any { it.type == request.type }) {
                 throw IllegalStateException("There is already a test of this type: ${request.type}.")
             }
@@ -89,8 +90,11 @@ class CoronaTestRepository @Inject constructor(
         Timber.tag(TAG).i("removeTest(guid=%s)", guid)
         var removedTest: CoronaTest? = null
 
-        testData.updateBlocking {
+        internalData.updateBlocking {
             if (!containsKey(guid)) throw IllegalStateException("No test with guid $guid is known.")
+
+            val toBeRemoved = getValue(guid)
+            getProcessor(toBeRemoved.type).onRemove(toBeRemoved)
 
             toMutableMap().apply {
                 removedTest = remove(guid)
@@ -104,33 +108,36 @@ class CoronaTestRepository @Inject constructor(
     suspend fun markAsSubmitted(guid: CoronaTestGUID) {
         Timber.tag(TAG).i("markAsSubmitted(guid=%s)", guid)
 
-        testData.updateBlocking {
-            if (!containsKey(guid)) throw IllegalStateException("No test with guid $guid is known.")
-
-            val original = getValue(guid)
-            val processor = getProcessor(original.type)
-
-            val updated = processor.markSubmitted(original)
-            Timber.tag(TAG).d("Marked as submitted: %s", updated)
-
-            toMutableMap().apply {
-                this[guid] = updated
-            }
+        modifyTest(guid) { processor, before ->
+            processor.markSubmitted(before)
         }
     }
 
     /**
      * Passing **null** will refresh all test types.
      */
-    fun refresh(type: CoronaTest.Type? = null) {
+    suspend fun refresh(type: CoronaTest.Type? = null) {
         Timber.tag(TAG).d("refresh(type=%s)", type)
 
-        testData.updateSafely {
+        val toRefreshGUIDs = internalData.data
+            .first().values
+            .filter { if (type == null) true else it.type == type }
+            .map { it.testGUID }
+
+        Timber.tag(TAG).d("Will refresh %s", toRefreshGUIDs)
+
+        toRefreshGUIDs.forEach {
+            modifyTest(it) { processor, test ->
+                processor.markProcessing(test, true)
+            }
+        }
+
+        internalData.updateSafely {
             val polling = values
-                .filter {
-                    if (type == null) true else it.type == type
-                }
+                .filter { if (type == null) true else it.type == type }
+                .filter { toRefreshGUIDs.contains(it.testGUID) }
                 .map { coronaTest ->
+
                     withContext(context = dispatcherProvider.IO) {
                         async {
                             Timber.tag(TAG).v("Polling for %s", coronaTest)
@@ -153,17 +160,40 @@ class CoronaTestRepository @Inject constructor(
                 }
             }
         }
+
+        toRefreshGUIDs.forEach {
+            modifyTest(it) { processor, test ->
+                processor.markProcessing(test, false)
+            }
+        }
     }
 
     suspend fun clear() {
         Timber.tag(TAG).i("clear()")
-        testData.updateBlocking {
+        internalData.updateBlocking {
             Timber.tag(TAG).d("Clearing %s", this)
             emptyMap()
         }
     }
 
+    private suspend fun modifyTest(
+        guid: CoronaTestGUID,
+        update: suspend (CoronaTestProcessor, CoronaTest) -> CoronaTest
+    ) {
+        internalData.updateBlocking {
+            if (!containsKey(guid)) throw IllegalStateException("No test with guid $guid is known.")
+
+            val original = getValue(guid)
+            val processor = getProcessor(original.type)
+
+            val updated = update(processor, original)
+            Timber.tag(TAG).d("Updated %s to %s", original, updated)
+
+            toMutableMap().apply { this[guid] = updated }
+        }
+    }
+
     companion object {
-        const val TAG = "CoronaTestRepo"
+        const val TAG = "CoronaTestRepository"
     }
 }

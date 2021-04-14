@@ -41,13 +41,6 @@ class RapidAntigenProcessor @Inject constructor(
         )
     }
 
-    override suspend fun markSubmitted(test: CoronaTest): RapidAntigenCoronaTest {
-        Timber.tag(TAG).d("markSubmitted(test=%s)", test)
-        test as RapidAntigenCoronaTest
-
-        return test.copy(isSubmitted = true)
-    }
-
     override suspend fun pollServer(test: CoronaTest): CoronaTest {
         Timber.tag(TAG).v("pollServer(test=%s)", test)
         test as RapidAntigenCoronaTest
@@ -55,6 +48,25 @@ class RapidAntigenProcessor @Inject constructor(
         val testResult = verificationServer.pollTestResult(test.registrationToken)
 
         return test.copy(testResult = testResult)
+    }
+
+    override suspend fun onRemove(toBeRemoved: CoronaTest) {
+        Timber.tag(TAG).v("onRemove(toBeRemoved=%s)", toBeRemoved)
+        // Currently nothing to do
+    }
+
+    override suspend fun markSubmitted(test: CoronaTest): RapidAntigenCoronaTest {
+        Timber.tag(TAG).d("markSubmitted(test=%s)", test)
+        test as RapidAntigenCoronaTest
+
+        return test.copy(isSubmitted = true)
+    }
+
+    override suspend fun markProcessing(test: CoronaTest, isProcessing: Boolean): CoronaTest {
+        Timber.tag(TAG).v("markProcessing(test=%s, isProcessing=%b)", test, isProcessing)
+        test as RapidAntigenCoronaTest
+
+        return test.copy(isProcessing = true)
     }
 
     companion object {
