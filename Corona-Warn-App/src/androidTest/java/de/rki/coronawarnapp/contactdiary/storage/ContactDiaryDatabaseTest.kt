@@ -14,6 +14,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.junit.After
@@ -37,7 +38,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         locationName = "Rewe Wiesloch",
         emailAddress = "location-emailAddress",
         phoneNumber = "location-phoneNumber",
-        traceLocationID = "a-b-c-d"
+        traceLocationID = "a-b-c-d".decodeBase64()
     )
     private val personEncounter = ContactDiaryPersonEncounterEntity(
         id = 3,

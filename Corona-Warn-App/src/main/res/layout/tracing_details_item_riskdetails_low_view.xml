@@ -60,6 +60,7 @@
             android:clickable="true"
             android:focusable="true"
             android:linksClickable="true"
+            tools:visibility="visible"
             android:visibility="gone"
             android:text="@string/risk_details_explanation_dialog_faq_body"
             app:layout_constraintEnd_toEndOf="parent"

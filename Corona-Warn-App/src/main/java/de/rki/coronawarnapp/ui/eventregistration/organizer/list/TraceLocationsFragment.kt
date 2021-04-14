@@ -7,12 +7,15 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragmentArgs
 import de.rki.coronawarnapp.util.DialogHelper
@@ -40,7 +43,9 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        exitTransition = Hold()
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,11 +87,9 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                     showDeleteSingleDialog(it.traceLocation, it.position)
                 }
                 is TraceLocationEvent.StartQrCodeDetailFragment -> {
-
+                    setupHoldTransition()
                     val navigatorExtras = binding.recyclerView.findViewHolderForAdapterPosition(it.position)?.itemView
                         ?.run {
-                            // Set it on the fly to avoid confusion of recycler's items
-                            this.transitionName = "trace_location_container_transition"
                             FragmentNavigatorExtras(this to this.transitionName)
                         }
 
@@ -98,18 +101,33 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                     )
                 }
                 is TraceLocationEvent.DuplicateItem -> {
+                    setupAxisTransition()
                     openCreateEventFragment(it.traceLocation)
                 }
-                is TraceLocationEvent.StartQrCodePosterFragment -> doNavigate(
-                    TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
-                        it.traceLocation.id
+                is TraceLocationEvent.StartQrCodePosterFragment -> {
+                    setupAxisTransition()
+                    doNavigate(
+
+                        TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
+                            it.traceLocation.id
+                        )
                     )
-                )
+                }
+
+                is TraceLocationEvent.SelfCheckIn -> {
+                    findNavController().navigate(
+                        CheckInsFragment.createCheckInUri(it.traceLocation.locationUrl),
+                        NavOptions.Builder()
+                            .setPopUpTo(R.id.checkInsFragment, true)
+                            .build()
+                    )
+                }
             }
         }
 
         binding.qrCodeFab.apply {
             setOnClickListener {
+                setupHoldTransition()
                 findNavController().navigate(
                     R.id.action_traceLocationsFragment_to_traceLocationCategoryFragment,
                     null,
@@ -118,6 +136,16 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 )
             }
         }
+    }
+
+    private fun setupHoldTransition() {
+        exitTransition = Hold()
+        reenterTransition = Hold()
+    }
+
+    private fun setupAxisTransition() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     override fun onResume() {
@@ -130,6 +158,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_information -> {
+                    setupAxisTransition()
                     findNavController().navigate(
                         R.id.action_traceLocationOrganizerListFragment_to_traceLocationInfoFragment
                     )
