@@ -15,8 +15,8 @@
             android:id="@+id/submission_dispatcher_header"
             layout="@layout/include_header"
             android:layout_width="0dp"
-            android:focusable="true"
             android:layout_height="wrap_content"
+            android:focusable="true"
             app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,10 +27,10 @@
             android:id="@+id/submission_dispatcher_scroll"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_header"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -40,9 +40,9 @@
                 <ImageView
                     android:id="@+id/submission_dispatcher_illustration"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:contentDescription="@string/submission_intro_illustration_description"
                     android:focusable="true"
-                    android:layout_height="wrap_content"
                     android:src="@drawable/ic_illustration_test"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -54,8 +54,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:text="@string/submission_dispatcher_subheadline"
                     android:focusable="true"
+                    android:text="@string/submission_dispatcher_subheadline"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_illustration" />
@@ -66,8 +66,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:text="@string/submission_dispatcher_needs_testing_subheadline"
                     android:focusable="true"
+                    android:text="@string/submission_dispatcher_needs_testing_subheadline"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_text" />
@@ -87,17 +87,30 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                     app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_needs_testing_text" />
 
+                <!-- Card layout is inflated lazily based on the profile state-->
+                <ViewStub
+                    android:id="@+id/rat_profile_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_card"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginEnd="@dimen/guideline_card"
+                    android:inflatedId="@+id/rat_profile_card"
+                    app:layout_constraintEnd_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/submission_dispatcher_qr" />
+
                 <TextView
                     android:id="@+id/submission_dispatcher_already_positive_text"
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:text="@string/submission_dispatcher_already_positive_subheadline"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:focusable="true"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_qr" />
+                    android:text="@string/submission_dispatcher_already_positive_subheadline"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_card" />
 
                 <include
                     android:id="@+id/submission_dispatcher_tan_code"

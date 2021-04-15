@@ -12,5 +12,7 @@ sealed class SubmissionNavigationEvents {
     object NavigateToTAN : SubmissionNavigationEvents()
     object NavigateToConsent : SubmissionNavigationEvents()
     object NavigateToMainActivity : SubmissionNavigationEvents()
+    object NavigateToCreateProfile : SubmissionNavigationEvents()
+    object NavigateToOpenProfile : SubmissionNavigationEvents()
     data class ResolvePlayServicesException(val exception: ApiException) : SubmissionNavigationEvents()
 }

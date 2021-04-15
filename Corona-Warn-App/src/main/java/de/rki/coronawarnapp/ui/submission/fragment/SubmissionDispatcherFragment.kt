@@ -48,6 +48,16 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                     )
             }
         }
+
+        viewModel.profileCardId.observe(viewLifecycleOwner) { layoutId ->
+            binding.ratProfileCard.viewStub?.apply {
+                layoutResource = layoutId
+                inflate()
+                binding.ratProfileCard.root.setOnClickListener {
+                    viewModel.onClickProfileCard()
+                }
+            }
+        }
     }
 
     override fun onResume() {
