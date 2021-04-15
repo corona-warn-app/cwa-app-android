@@ -9,4 +9,8 @@ data class RATProfile(
     val lastName: String? = null,
     @SerializedName("birthDate")
     val birthDate: String? = null,
-)
+) {
+    val isValid: Boolean = !firstName.isNullOrBlank() ||
+        !lastName.isNullOrBlank() ||
+        !birthDate.isNullOrBlank()
+}

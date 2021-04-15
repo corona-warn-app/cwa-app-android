@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:imeOptions="actionNext"
-            android:inputType="textCapWords" />
+            android:inputType="textPersonName" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:imeOptions="actionNext"
-            android:inputType="textCapWords" />
+            android:inputType="textPersonName" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:imeOptions="actionNext"
-            android:inputType="number" />
+            android:inputType="date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
