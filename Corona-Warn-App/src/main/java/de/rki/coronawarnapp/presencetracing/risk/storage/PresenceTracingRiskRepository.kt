@@ -144,7 +144,12 @@ class PresenceTracingRiskRepository @Inject constructor(
         get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
 
     suspend fun clearAllTables() {
+        Timber.i("Deleting all matches and results.")
         traceTimeIntervalMatchDao.deleteAll()
+        riskLevelResultDao.deleteAll()
+    }
+
+    suspend fun clearResults() {
         riskLevelResultDao.deleteAll()
     }
 }

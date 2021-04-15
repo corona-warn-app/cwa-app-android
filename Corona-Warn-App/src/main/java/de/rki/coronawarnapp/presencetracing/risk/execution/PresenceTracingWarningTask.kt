@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskMapper
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
@@ -30,6 +31,7 @@ class PresenceTracingWarningTask @Inject constructor(
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     private val traceWarningRepository: TraceWarningRepository,
     private val checkInsRepository: CheckInRepository,
+    private val presenceTracingRiskMapper: PresenceTracingRiskMapper
 ) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<PresenceTracingWarningTaskProgress>()
@@ -40,8 +42,10 @@ class PresenceTracingWarningTask @Inject constructor(
     override suspend fun run(arguments: Task.Arguments): Result = try {
         Timber.d("Running with arguments=%s", arguments)
 
+        arguments as Arguments
+
         try {
-            doWork()
+            doWork(arguments.configChange)
         } catch (e: Exception) {
             // We need to reported a failed calculation to update the risk card state
             presenceTracingRiskRepository.reportCalculation(successful = false)
@@ -56,9 +60,14 @@ class PresenceTracingWarningTask @Inject constructor(
         internalProgress.close()
     }
 
-    private suspend fun doWork(): Result {
+    private suspend fun doWork(configChange: Boolean = false): Result {
         val nowUTC = timeStamper.nowUTC
         checkCancel()
+
+        if (configChange) {
+            Timber.tag(TAG).d("Resetting config.")
+            presenceTracingRiskMapper.clearConfig()
+        }
 
         Timber.tag(TAG).d("Syncing packages.")
         internalProgress.send(PresenceTracingWarningTaskProgress.Downloading())
@@ -161,6 +170,10 @@ class PresenceTracingWarningTask @Inject constructor(
             taskByDagger.get()
         }
     }
+
+    class Arguments(
+        val configChange: Boolean = false
+    ) : Task.Arguments
 
     companion object {
         private const val TAG = "TracingWarningTask"

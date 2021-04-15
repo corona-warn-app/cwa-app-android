@@ -8,11 +8,18 @@ import de.rki.coronawarnapp.risk.mapToRiskState
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PresenceTracingRiskMapper @Inject constructor(
     private val configProvider: AppConfigProvider
 ) {
     private var presenceTracingRiskCalculationParamContainer: PresenceTracingRiskCalculationParamContainer? = null
+
+    fun clearConfig() {
+        Timber.tag(TAG).i("Clearing config params.")
+        presenceTracingRiskCalculationParamContainer = null
+    }
 
     suspend fun lookupTransmissionRiskValue(transmissionRiskLevel: Int): Double {
         return getTransmissionRiskValueMapping()?.find {
@@ -54,3 +61,5 @@ class PresenceTracingRiskMapper @Inject constructor(
         return presenceTracingRiskCalculationParamContainer
     }
 }
+
+private const val TAG = ""
