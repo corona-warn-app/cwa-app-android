@@ -150,6 +150,7 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     suspend fun clearResults() {
+        Timber.i("Deleting all results.")
         riskLevelResultDao.deleteAll()
     }
 }

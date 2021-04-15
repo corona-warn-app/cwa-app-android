@@ -62,7 +62,7 @@ class PresenceTracingWarningTask @Inject constructor(
         val nowUTC = timeStamper.nowUTC
         checkCancel()
 
-        Timber.tag(TAG).d("Resetting config.")
+        Timber.tag(TAG).d("Resetting config to make sure latest changes are considered.")
         presenceTracingRiskMapper.clearConfig()
 
         Timber.tag(TAG).d("Syncing packages.")
