@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmen
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.ui.base.startActivitySafely
-import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsFragment
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug

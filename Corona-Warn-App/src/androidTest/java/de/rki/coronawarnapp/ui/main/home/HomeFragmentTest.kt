@@ -20,14 +20,14 @@ import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
-import de.rki.coronawarnapp.submission.ui.homecards.TestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
-import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.statistics.Statistics
@@ -288,8 +288,8 @@ class HomeFragmentTest : BaseUITest() {
         MutableLiveData(
             mutableListOf<HomeItem>().apply {
                 when (submissionTestResultItem) {
-                    is TestSubmissionDoneCard.Item,
-                    is TestPositiveCard.Item -> {
+                    is PcrTestSubmissionDoneCard.Item,
+                    is PcrTestPositiveCard.Item -> {
                         Timber.d("Tracing item is not added, submission:$submissionTestResultItem")
                     }
                     else -> add(tracingStateItem)

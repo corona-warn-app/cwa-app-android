@@ -104,7 +104,7 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
     }
 
     fun updateRiskDetails() {
-        tracingRepository.refreshDiagnosisKeys()
+        tracingRepository.refreshRiskResult()
     }
 
     fun onItemClicked(item: DetailsItem) {

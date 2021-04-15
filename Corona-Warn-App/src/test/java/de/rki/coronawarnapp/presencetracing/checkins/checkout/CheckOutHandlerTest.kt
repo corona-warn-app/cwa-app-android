@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.checkins.checkout
 
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -97,7 +97,7 @@ class CheckOutHandlerTest : BaseTest() {
             checkOut(42)
         }
 
-        updatedCheckIn?.createJournalEntry shouldBe true
+        updatedCheckIn!!.createJournalEntry shouldBe true
 
         coVerify(exactly = 1) {
             contactJournalCheckInEntryCreator.createEntry(any())
@@ -110,7 +110,7 @@ class CheckOutHandlerTest : BaseTest() {
             checkOut(43)
         }
 
-        updatedCheckIn?.createJournalEntry shouldBe false
+        updatedCheckIn!!.createJournalEntry shouldBe false
 
         coVerify(exactly = 0) {
             contactJournalCheckInEntryCreator.createEntry(any())

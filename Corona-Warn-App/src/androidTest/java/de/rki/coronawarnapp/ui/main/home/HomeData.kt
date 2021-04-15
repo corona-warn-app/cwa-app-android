@@ -1,21 +1,21 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import de.rki.coronawarnapp.coronatest.type.pcr.FetchingResult
-import de.rki.coronawarnapp.coronatest.type.pcr.NoTest
-import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionDone
-import de.rki.coronawarnapp.coronatest.type.pcr.TestError
-import de.rki.coronawarnapp.coronatest.type.pcr.TestInvalid
-import de.rki.coronawarnapp.coronatest.type.pcr.TestNegative
-import de.rki.coronawarnapp.coronatest.type.pcr.TestPending
-import de.rki.coronawarnapp.coronatest.type.pcr.TestPositive
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.submission.ui.homecards.TestErrorCard
+import de.rki.coronawarnapp.submission.ui.homecards.FetchingResult
+import de.rki.coronawarnapp.submission.ui.homecards.NoTest
+import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
+import de.rki.coronawarnapp.submission.ui.homecards.TestError
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestInvalidCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestNegativeCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestPendingCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestInvalid
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestNegative
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestNegativeCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestPending
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPendingCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestPositive
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
@@ -134,32 +134,31 @@ object HomeData {
             state = FetchingResult
         )
 
-        val TEST_POSITIVE_ITEM = TestPositiveCard.Item(
+        val TEST_POSITIVE_ITEM = PcrTestPositiveCard.Item(
             state = TestPositive,
             onClickAction = {}
         )
 
-        val TEST_NEGATIVE_ITEM = TestNegativeCard.Item(
-            state = TestNegative,
-            onClickAction = {}
+        val TEST_NEGATIVE_ITEM = PcrTestNegativeCard.Item(
+            state = TestNegative
         )
 
-        val TEST_INVALID_ITEM = TestInvalidCard.Item(
+        val TEST_INVALID_ITEM = PcrTestInvalidCard.Item(
             state = TestInvalid,
             onDeleteTest = {}
         )
 
-        val TEST_ERROR_ITEM = TestErrorCard.Item(
+        val TEST_ERROR_ITEM = PcrTestErrorCard.Item(
             state = TestError,
             onDeleteTest = {}
         )
 
-        val TEST_PENDING_ITEM = TestPendingCard.Item(
+        val TEST_PENDING_ITEM = PcrTestPendingCard.Item(
             state = TestPending,
             onClickAction = {}
         )
 
-        val TEST_SUBMISSION_DONE_ITEM = TestSubmissionDoneCard.Item(
+        val TEST_SUBMISSION_DONE_ITEM = PcrTestSubmissionDoneCard.Item(
             state = SubmissionDone(
                 testRegisteredOn = Date()
             )
