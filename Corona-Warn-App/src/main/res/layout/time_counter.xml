@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/upper_green_part"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_counter_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/result_timer"
+            style="@style/body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/guideline_card"
+            android:gravity="center"
+            android:text="@string/submission_test_result_antigen_negative_counter_title"
+            android:textColor="@color/colorTextPrimary1InvertedStable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Chronometer
+            android:id="@+id/chronometer"
+            style="@style/headline4Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:format="00:00:00"
+            android:gravity="center"
+            android:textColor="@color/colorTextPrimary1InvertedStable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/result_timer"
+            tools:text="00:00:00" />
+
+        <TextView
+            android:id="@+id/chronometer_hours"
+            style="@style/body3Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:text="Std"
+            app:layout_constraintEnd_toStartOf="@id/chronometer_minutes"
+            app:layout_constraintStart_toStartOf="@id/chronometer"
+            app:layout_constraintTop_toBottomOf="@id/chronometer"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/chronometer_minutes"
+            style="@style/body3Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:text="Min"
+            app:layout_constraintEnd_toEndOf="@id/chronometer"
+            app:layout_constraintStart_toStartOf="@id/chronometer"
+            app:layout_constraintTop_toBottomOf="@id/chronometer"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/chronometer_seconds"
+            style="@style/body3Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:text="Sek"
+            app:layout_constraintTop_toBottomOf="@id/chronometer"
+            app:layout_constraintStart_toEndOf="@id/chronometer_minutes"
+            app:layout_constraintEnd_toEndOf="@id/chronometer"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
