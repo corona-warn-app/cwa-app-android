@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
-import de.rki.coronawarnapp.service.submission.QRScanResult
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -26,6 +27,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cameraSettings: CameraSettings
+    @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
 
     @BeforeEach
     fun setUp() {
@@ -34,7 +36,8 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
         submissionRepository,
-        cameraSettings
+        cameraSettings,
+        qrCodeValidator
     )
 
     @Test
@@ -62,7 +65,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @Test
     fun `doDeviceRegistration calls TestResultDataCollector`() {
         val viewModel = createViewModel()
-        val mockResult = mockk<QRScanResult>().apply {
+        val mockResult = mockk<CoronaTestQRCode>().apply {
             every { guid } returns "guid"
         }
 

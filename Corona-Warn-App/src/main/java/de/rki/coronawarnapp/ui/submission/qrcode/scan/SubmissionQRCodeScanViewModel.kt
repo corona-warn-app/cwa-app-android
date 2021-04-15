@@ -52,10 +52,11 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun doDeviceRegistration(scanResult: CoronaTestQRCode) = launch {
+    internal fun doDeviceRegistration(coronaTestQRCode: CoronaTestQRCode) = launch {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
-            val testResult = submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid)
+            // TODO call new CoronaTestRepository
+            val testResult = submissionRepository.asyncRegisterDeviceViaGUID(coronaTestQRCode.guid)
             checkTestResult(testResult)
             registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, testResult))
         } catch (err: CwaWebException) {

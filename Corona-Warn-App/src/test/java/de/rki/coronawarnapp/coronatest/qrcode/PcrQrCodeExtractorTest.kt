@@ -1,15 +1,10 @@
-package de.rki.coronawarnapp.service.submission
+package de.rki.coronawarnapp.coronatest.qrcode
 
 import io.kotest.matchers.shouldBe
-import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.mockkObject
-import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
 
-class ScanResultTest : BaseTest() {
+class PcrQrCodeExtractorTest : BaseTest() {
     private val guidUpperCase = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val guidLowerCase = "123456-12345678-1234-4da7-b166-b86d85475064"
     private val guidMixedCase = "123456-12345678-1234-4dA7-b166-B86d85475064"
@@ -17,19 +12,18 @@ class ScanResultTest : BaseTest() {
     private val localhostLowerCase = "https://localhost/?"
     private val localhostMixedCase = "https://LOCALHOST/?"
 
-    @MockK
-    private lateinit var scanResult: QRScanResult
-
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-        mockkObject(scanResult)
-        every { scanResult.isValid } returns false
-    }
-
     private fun buildQRCodeCases(prefixString: String, guid: String, conditionToMatch: Boolean) {
-        scanResult = QRScanResult("$prefixString$guid")
-        scanResult.isValid shouldBe conditionToMatch
+        val extractor = PcrQrCodeExtractor()
+        try {
+            if (extractor.isOfType("$prefixString$guid")) {
+                extractor.extract("$prefixString$guid")
+                conditionToMatch shouldBe true
+            } else {
+                conditionToMatch shouldBe false
+            }
+        } catch (e: InvalidQRCodeException) {
+            conditionToMatch shouldBe false
+        }
     }
 
     @Test
@@ -83,16 +77,16 @@ class ScanResultTest : BaseTest() {
 
     @Test
     fun extractGUID() {
-        QRScanResult("$localhostUpperCase$guidUpperCase").guid shouldBe guidUpperCase
-        QRScanResult("$localhostUpperCase$guidLowerCase").guid shouldBe guidLowerCase
-        QRScanResult("$localhostUpperCase$guidMixedCase").guid shouldBe guidMixedCase
+        PcrQrCodeExtractor().extract("$localhostUpperCase$guidUpperCase").guid shouldBe guidUpperCase
+        PcrQrCodeExtractor().extract("$localhostUpperCase$guidLowerCase").guid shouldBe guidLowerCase
+        PcrQrCodeExtractor().extract("$localhostUpperCase$guidMixedCase").guid shouldBe guidMixedCase
 
-        QRScanResult("$localhostLowerCase$guidUpperCase").guid shouldBe guidUpperCase
-        QRScanResult("$localhostLowerCase$guidLowerCase").guid shouldBe guidLowerCase
-        QRScanResult("$localhostLowerCase$guidMixedCase").guid shouldBe guidMixedCase
+        PcrQrCodeExtractor().extract("$localhostLowerCase$guidUpperCase").guid shouldBe guidUpperCase
+        PcrQrCodeExtractor().extract("$localhostLowerCase$guidLowerCase").guid shouldBe guidLowerCase
+        PcrQrCodeExtractor().extract("$localhostLowerCase$guidMixedCase").guid shouldBe guidMixedCase
 
-        QRScanResult("$localhostMixedCase$guidUpperCase").guid shouldBe guidUpperCase
-        QRScanResult("$localhostMixedCase$guidLowerCase").guid shouldBe guidLowerCase
-        QRScanResult("$localhostMixedCase$guidMixedCase").guid shouldBe guidMixedCase
+        PcrQrCodeExtractor().extract("$localhostMixedCase$guidUpperCase").guid shouldBe guidUpperCase
+        PcrQrCodeExtractor().extract("$localhostMixedCase$guidLowerCase").guid shouldBe guidLowerCase
+        PcrQrCodeExtractor().extract("$localhostMixedCase$guidMixedCase").guid shouldBe guidMixedCase
     }
 }

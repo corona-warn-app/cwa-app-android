@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.internal.commonToUtf8String
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import timber.log.Timber
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -22,7 +23,10 @@ class CoronaTestQrCodeValidator @Inject constructor() {
     )
 
     fun validate(rawString: String): CoronaTestQRCode {
-        return extractors.find { it.isOfType(rawString) }?.extract(rawString) ?: throw InvalidQRCodeException()
+        return extractors.find { it.isOfType(rawString) }
+            ?.extract(rawString)?.also {
+                Timber.i("Extracted data from QR code is $it")
+            } ?: throw InvalidQRCodeException()
     }
 }
 
@@ -31,9 +35,9 @@ private interface QrCodeExtractor {
     fun extract(rawString: String): CoronaTestQRCode
 }
 
-private class PcrQrCodeExtractor : QrCodeExtractor {
+internal class PcrQrCodeExtractor : QrCodeExtractor {
 
-    override fun isOfType(rawString: String): Boolean = rawString.startsWith(prefix)
+    override fun isOfType(rawString: String): Boolean = rawString.startsWith(prefix, ignoreCase = true)
 
     override fun extract(rawString: String): PCR {
         return PCR(
@@ -68,7 +72,7 @@ private class RapidAntigenQrCodeExtractor : QrCodeExtractor {
     private val prefix2: String = "https://s.coronawarn.app/?v=1#"
 
     override fun isOfType(rawString: String): Boolean {
-        return rawString.startsWith(prefix) || rawString.startsWith(prefix2)
+        return rawString.startsWith(prefix, ignoreCase = true) || rawString.startsWith(prefix2, ignoreCase = true)
     }
 
     override fun extract(rawString: String): RapidAntigen {
@@ -77,23 +81,30 @@ private class RapidAntigenQrCodeExtractor : QrCodeExtractor {
             Type.RAPID_ANTIGEN,
             data.guid,
             data.createdAt,
-            data.firstName,
-            data.lastName,
+            data.fn,
+            data.ln,
             data.dateOfBirth
         )
     }
 
     private fun extractData(rawString: String): Payload {
-        return rawString.removePrefix(prefix).decode()
+        return rawString
+            .removePrefix(prefix)
+            .removePrefix(prefix2)
+            .decode()
     }
 
     private fun String.decode(): Payload {
-        val decoded = if (this.contains("+") || this.contains("/") || this.contains("=")) {
-            BaseEncoding.base64().decode(this).commonToUtf8String()
+        val decoded = if (
+            this.contains("+") ||
+            this.contains("/") ||
+            this.contains("=")
+        ) {
+            BaseEncoding.base64().decode(this)
         } else {
-            BaseEncoding.base64Url().decode(this).commonToUtf8String()
+            BaseEncoding.base64Url().decode(this)
         }
-        return Gson().fromJson(decoded)
+        return Gson().fromJson(decoded.commonToUtf8String())
     }
 
     private data class Payload(
@@ -103,9 +114,17 @@ private class RapidAntigenQrCodeExtractor : QrCodeExtractor {
         val ln: String?,
         val dob: String?
     ) {
-        val dateOfBirth: LocalDate? = dob?.let { LocalDate.parse(it) }
-        val createdAt: Instant = Instant.ofEpochSecond(timestamp)
-        val firstName = fn
-        val lastName = ln
+        val dateOfBirth: LocalDate?
+            get() = dob?.let {
+                try {
+                    LocalDate.parse(it)
+                } catch (e: Exception) {
+                    Timber.e("Invalid date format")
+                    null
+                }
+            }
+
+        val createdAt: Instant
+            get() = Instant.ofEpochSecond(timestamp)
     }
 }
