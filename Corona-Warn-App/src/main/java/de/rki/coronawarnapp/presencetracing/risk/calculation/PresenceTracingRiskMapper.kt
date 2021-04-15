@@ -28,13 +28,13 @@ class PresenceTracingRiskMapper @Inject constructor(
     }
 
     suspend fun lookupTransmissionRiskValue(transmissionRiskLevel: Int): Double {
-        return getTransmissionRiskValueMapping()?.find {
+        return getTransmissionRiskValueMapping().find {
             (it.transmissionRiskLevel == transmissionRiskLevel)
         }?.transmissionRiskValue ?: 0.0
     }
 
     suspend fun lookupRiskStatePerDay(normalizedTime: Double): RiskState {
-        return getNormalizedTimePerDayToRiskLevelMapping()?.find {
+        return getNormalizedTimePerDayToRiskLevelMapping().find {
             it.normalizedTimeRange.inRange(normalizedTime)
         }
             ?.riskLevel
@@ -42,7 +42,7 @@ class PresenceTracingRiskMapper @Inject constructor(
     }
 
     suspend fun lookupRiskStatePerCheckIn(normalizedTime: Double): RiskState {
-        return getNormalizedTimePerCheckInToRiskLevelMapping()?.find {
+        return getNormalizedTimePerCheckInToRiskLevelMapping().find {
             it.normalizedTimeRange.inRange(normalizedTime)
         }
             ?.riskLevel
@@ -50,22 +50,24 @@ class PresenceTracingRiskMapper @Inject constructor(
     }
 
     private suspend fun getTransmissionRiskValueMapping() =
-        getRiskCalculationParameters()?.transmissionRiskValueMapping
+        getRiskCalculationParameters().transmissionRiskValueMapping
 
     private suspend fun getNormalizedTimePerDayToRiskLevelMapping() =
-        getRiskCalculationParameters()?.normalizedTimePerDayToRiskLevelMapping
+        getRiskCalculationParameters().normalizedTimePerDayToRiskLevelMapping
 
     private suspend fun getNormalizedTimePerCheckInToRiskLevelMapping() =
-        getRiskCalculationParameters()?.normalizedTimePerCheckInToRiskLevelMapping
+        getRiskCalculationParameters().normalizedTimePerCheckInToRiskLevelMapping
 
-    private suspend fun getRiskCalculationParameters(): PresenceTracingRiskCalculationParamContainer? {
-        mutex.withLock {
-            if (presenceTracingRiskCalculationParamContainer == null) {
-                presenceTracingRiskCalculationParamContainer =
-                    configProvider.currentConfig.first().presenceTracing.riskCalculationParameters
-                Timber.d(presenceTracingRiskCalculationParamContainer.toString())
+    private suspend fun getRiskCalculationParameters(): PresenceTracingRiskCalculationParamContainer = mutex.withLock {
+        presenceTracingRiskCalculationParamContainer.let {
+            if (it == null) {
+                val newParams = configProvider.currentConfig.first().presenceTracing.riskCalculationParameters
+                Timber.d("New params %s", newParams)
+                presenceTracingRiskCalculationParamContainer = newParams
+                newParams
+            } else {
+                it
             }
-            return presenceTracingRiskCalculationParamContainer
         }
     }
 }
