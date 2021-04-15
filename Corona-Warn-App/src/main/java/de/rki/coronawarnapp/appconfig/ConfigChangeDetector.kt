@@ -54,7 +54,6 @@ class ConfigChangeDetector @Inject constructor(
             taskController.submit(
                 DefaultTaskRequest(
                     PresenceTracingWarningTask::class,
-                    arguments = PresenceTracingWarningTask.Arguments(true),
                     originTag = "ConfigChangeDetector"
                 )
             )

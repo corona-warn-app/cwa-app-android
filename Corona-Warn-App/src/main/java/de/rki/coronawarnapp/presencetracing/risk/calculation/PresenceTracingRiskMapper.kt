@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.mapToRiskState
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,9 +18,13 @@ class PresenceTracingRiskMapper @Inject constructor(
 ) {
     private var presenceTracingRiskCalculationParamContainer: PresenceTracingRiskCalculationParamContainer? = null
 
-    fun clearConfig() {
-        Timber.tag(TAG).i("Clearing config params.")
-        presenceTracingRiskCalculationParamContainer = null
+    private val mutex = Mutex()
+
+    suspend fun clearConfig() {
+        mutex.withLock {
+            Timber.tag(TAG).i("Clearing config params.")
+            presenceTracingRiskCalculationParamContainer = null
+        }
     }
 
     suspend fun lookupTransmissionRiskValue(transmissionRiskLevel: Int): Double {
@@ -53,12 +59,14 @@ class PresenceTracingRiskMapper @Inject constructor(
         getRiskCalculationParameters()?.normalizedTimePerCheckInToRiskLevelMapping
 
     private suspend fun getRiskCalculationParameters(): PresenceTracingRiskCalculationParamContainer? {
-        if (presenceTracingRiskCalculationParamContainer == null) {
-            presenceTracingRiskCalculationParamContainer =
-                configProvider.currentConfig.first().presenceTracing.riskCalculationParameters
-            Timber.d(presenceTracingRiskCalculationParamContainer.toString())
+        mutex.withLock {
+            if (presenceTracingRiskCalculationParamContainer == null) {
+                presenceTracingRiskCalculationParamContainer =
+                    configProvider.currentConfig.first().presenceTracing.riskCalculationParameters
+                Timber.d(presenceTracingRiskCalculationParamContainer.toString())
+            }
+            return presenceTracingRiskCalculationParamContainer
         }
-        return presenceTracingRiskCalculationParamContainer
     }
 }
 
