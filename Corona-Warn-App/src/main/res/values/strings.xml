@@ -2007,4 +2007,8 @@
     <string name="rat_profile_create_card_title">Schnelltest-Profil anlegen</string>
     <!-- XTXT: Create RAT profile card subtitle -->
     <string name="rat_profile_create_card_subtitle">Legen Sie ein Profil mit Ihren persönlichen Daten an, die Sie dann per QR-Code bei jedem Schnelltest vorlegen können.</string>
+    <!-- XHED: Open RAT profile card title -->
+    <string name="rat_profile_open_card_title">Schnelltest-Profil</string>
+    <!-- XTXT: Open RAT profile card subtitle -->
+    <string name="rat_profile_open_card_subtitle">Sparen Sie Zeit und zeigen Sie Ihr Schnelltest-Profil bei der Teststelle vor.</string>
 </resources>
