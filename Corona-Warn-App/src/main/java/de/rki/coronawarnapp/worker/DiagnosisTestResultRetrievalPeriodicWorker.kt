@@ -8,18 +8,18 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler
+import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
-import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import kotlinx.coroutines.flow.first
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 
 /**
@@ -32,10 +32,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
     private val notificationHelper: GeneralNotifications,
-    private val submissionRepository: SubmissionRepository,
     private val coronaTestRepository: CoronaTestRepository,
     private val timeStamper: TimeStamper,
-    private val tracingSettings: TracingSettings,
     private val testResultScheduler: TestResultScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
@@ -52,8 +50,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         }
         var result = Result.success()
         try {
-
-            if (abortConditionsMet(timeStamper.nowUTC.millis)) {
+            if (abortConditionsMet(timeStamper.nowUTC)) {
                 Timber.tag(TAG).d(" $id Stopping worker.")
                 stopWorker()
             } else {
@@ -70,14 +67,15 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                     testResult == CoronaTestResult.PCR_POSITIVE ||
                     testResult == CoronaTestResult.PCR_INVALID
                 ) {
-                    sendTestResultAvailableNotification(testResult)
+                    sendTestResultAvailableNotification(coronaTest)
                     cancelRiskLevelScoreNotification()
                     Timber.tag(TAG)
                         .d("$id: Test Result available - notification sent & risk level notification canceled")
                     stopWorker()
                 }
             }
-        } catch (ex: Exception) {
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Test result retrieval worker failed.")
             result = Result.retry()
         }
 
@@ -86,35 +84,37 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         return result
     }
 
-    private suspend fun abortConditionsMet(currentMillis: Long): Boolean {
-        if (tracingSettings.isTestResultAvailableNotificationSent) {
+    private suspend fun abortConditionsMet(nowUTC: Instant): Boolean {
+        val pcrTest = coronaTestRepository.latestPCRT.first()
+        if (pcrTest == null) {
+            Timber.tag(TAG).w("There is no PCR test available!?")
+            return true
+        }
+
+        if (pcrTest.isResultAvailableNotificationSent) {
             Timber.tag(TAG).d("$id: Notification already sent.")
             return true
         }
-        val hasViewedTestResult = submissionRepository.pcrTest.first()?.isViewed ?: false
-        if (hasViewedTestResult) {
+
+        if (pcrTest.isViewed) {
             Timber.tag(TAG).d("$id: Test result has already been viewed.")
             return true
         }
 
-        val calculateDays = TimeAndDateExtensions.calculateDays(
-            tracingSettings.initialPollingForTestResultTimeStamp,
-            currentMillis
-        )
+        val calculateDays = Duration(pcrTest.registeredAt, nowUTC).standardDays
         Timber.tag(TAG).d("Calculated days: %d", calculateDays)
 
         if (calculateDays >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS) {
-            Timber.tag(TAG)
-                .d(" $id Maximum of ${BackgroundConstants.POLLING_VALIDITY_MAX_DAYS} days for polling exceeded.")
+            Timber.tag(TAG).d("$id $calculateDays is exceeding the maximum polling duration")
             return true
         }
 
         return false
     }
 
-    private suspend fun sendTestResultAvailableNotification(testResult: CoronaTestResult) {
-        testResultAvailableNotificationService.showTestResultAvailableNotification(testResult)
-        tracingSettings.isTestResultAvailableNotificationSent = true
+    private suspend fun sendTestResultAvailableNotification(coronaTest: CoronaTest) {
+        testResultAvailableNotificationService.showTestResultAvailableNotification(coronaTest.testResult)
+        coronaTestRepository.updateResultNotification(identifier = coronaTest.identifier, sent = true)
     }
 
     private fun cancelRiskLevelScoreNotification() {
@@ -124,7 +124,6 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     }
 
     private fun stopWorker() {
-        tracingSettings.initialPollingForTestResultTimeStamp = 0L
         testResultScheduler.setPeriodicTestPolling(enabled = false)
         Timber.tag(TAG).d("$id: Background worker stopped")
     }

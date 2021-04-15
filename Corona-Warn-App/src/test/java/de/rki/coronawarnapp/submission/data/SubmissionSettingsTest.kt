@@ -40,15 +40,6 @@ class SubmissionSettingsTest {
     )
 
     @Test
-    fun consentIsPersisted() {
-        createInstance().apply {
-            hasGivenConsent.value shouldBe false
-            hasGivenConsent.update { true }
-            hasGivenConsent.value shouldBe true
-        }
-    }
-
-    @Test
     fun `persist symptoms`() {
         createInstance().apply {
             symptoms.value shouldBe null

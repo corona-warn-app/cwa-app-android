@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.calculateDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.deriveHourInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.getCurrentHourUTC
@@ -20,7 +19,6 @@ import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import java.util.concurrent.TimeUnit
 
 /**
  * TimeAndDateExtensions test.
@@ -38,15 +36,6 @@ class TimeAndDateExtensionsTest : BaseTest() {
     fun getCurrentHourUTCTest() {
         val result = getCurrentHourUTC()
         MatcherAssert.assertThat(result, CoreMatchers.`is`(DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()))
-    }
-
-    @Test
-    fun calculateDaysTest() {
-        val lFirstDate = DateTime(2019, 1, 1, 1, 1).millis
-        val lSecondDate = DateTime(2020, 1, 1, 1, 1).millis
-
-        val result = calculateDays(firstDate = lFirstDate, secondDate = lSecondDate)
-        MatcherAssert.assertThat(result, CoreMatchers.`is`(TimeUnit.MILLISECONDS.toDays(lSecondDate - lFirstDate)))
     }
 
     @Test

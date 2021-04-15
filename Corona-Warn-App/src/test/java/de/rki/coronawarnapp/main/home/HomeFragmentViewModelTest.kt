@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
@@ -16,12 +18,9 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.states.LowRisk
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
-import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
-import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
-import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE_TELETAN
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
+import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
@@ -77,8 +76,6 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { tracingStateProvider.state } returns flowOf(mockk<LowRisk>())
 
         every { coronaTestRepository.coronaTests } returns emptyFlow()
-
-        every { submissionRepository.hasViewedTestResult } returns flowOf(true)
 
         coEvery { appConfigProvider.currentConfig } returns emptyFlow()
         coEvery { statisticsProvider.current } returns emptyFlow()
@@ -150,8 +147,11 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `positive test result notification is triggered on positive QR code result`() {
-        every { submissionRepository.deviceUIStateFlow } returns flowOf(
-            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE)
+//        every { submissionRepository.deviceUIStateFlow } returns flowOf(
+//            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE)
+//        )
+        every { submissionRepository.pcrTest } returns flowOf(
+            mockk<PCRCoronaTest>().apply { every { testResult } returns CoronaTestResult.PCR_POSITIVE }
         )
         every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
 
@@ -165,8 +165,11 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `positive test result notification is triggered on positive TeleTan code result`() {
-        every { submissionRepository.deviceUIStateFlow } returns flowOf(
-            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN)
+//        every { submissionRepository.deviceUIStateFlow } returns flowOf(
+//            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN)
+//        )
+        every { submissionRepository.pcrTest } returns flowOf(
+            mockk<PCRCoronaTest>().apply { every { testResult } returns CoronaTestResult.PCR_POSITIVE }
         )
         every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
 

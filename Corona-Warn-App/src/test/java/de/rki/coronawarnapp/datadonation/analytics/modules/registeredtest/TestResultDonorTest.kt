@@ -2,11 +2,12 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -18,6 +19,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import io.mockk.verify
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -30,11 +32,17 @@ import testhelpers.preferences.mockFlowPreference
 class TestResultDonorTest : BaseTest() {
     @MockK lateinit var testResultDonorSettings: TestResultDonorSettings
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var submissionSettings: SubmissionSettings
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     private lateinit var testResultDonor: TestResultDonor
 
     private val baseTime = Instant.ofEpochMilli(101010101)
+
+    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
+        setOf(
+            mockk<CoronaTest>().apply { every { testResultReceivedAt } returns baseTime }
+        )
+    )
 
     @BeforeEach
     fun setUp() {
@@ -45,12 +53,12 @@ class TestResultDonorTest : BaseTest() {
             every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
         }
         every { timeStamper.nowUTC } returns baseTime
-        every { submissionSettings.initialTestResultReceivedAt } returns baseTime
+        every { coronaTestRepository.coronaTests } returns coronaTests
 
         testResultDonor = TestResultDonor(
             testResultDonorSettings,
             timeStamper,
-            submissionSettings
+            coronaTestRepository = coronaTestRepository
         )
     }
 
@@ -68,7 +76,7 @@ class TestResultDonorTest : BaseTest() {
     @Test
     fun `No donation when timestamp at registration is missing`() = runBlockingTest {
         every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-        every { submissionSettings.initialTestResultReceivedAt } returns null
+        coronaTests.value = emptySet()
         testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
     }
 
@@ -103,7 +111,9 @@ class TestResultDonorTest : BaseTest() {
             every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
 
             val timeDayBefore = baseTime.minus(Duration.standardDays(1))
-            every { submissionSettings.initialTestResultReceivedAt } returns timeDayBefore
+            coronaTests.value = setOf(
+                mockk<CoronaTest>().apply { every { testResultReceivedAt } returns baseTime }
+            )
             every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(
                 timeDayBefore
             )
@@ -270,7 +280,9 @@ class TestResultDonorTest : BaseTest() {
             every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
         }
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T00:00:00Z")
-        every { submissionSettings.initialTestResultReceivedAt } returns Instant.parse("2021-03-20T00:00:00Z")
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply { every { testResultReceivedAt } returns Instant.parse("2021-03-20T00:00:00Z") }
+        )
 
         val donation = testResultDonor.beginDonation(TestRequest)
         donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
@@ -298,7 +310,9 @@ class TestResultDonorTest : BaseTest() {
         }
 
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T00:00:00Z")
-        every { submissionSettings.initialTestResultReceivedAt } returns Instant.parse("2021-03-20T00:00:00Z")
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply { every { testResultReceivedAt } returns Instant.parse("2021-03-20T00:00:00Z") }
+        )
 
         val donation = testResultDonor.beginDonation(TestRequest)
         donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()

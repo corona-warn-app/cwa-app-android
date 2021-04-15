@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.service.submission
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.deniability.NoiseScheduler
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
@@ -26,6 +27,7 @@ class SubmissionServiceTest : BaseTest() {
 
     @MockK lateinit var mockPlaybook: Playbook
     @MockK lateinit var appComponent: ApplicationComponent
+    @MockK lateinit var noiseScheduler: NoiseScheduler
 
     lateinit var submissionService: CoronaTestService
 
@@ -36,7 +38,10 @@ class SubmissionServiceTest : BaseTest() {
         every { AppInjector.component } returns appComponent
         every { appComponent.playbook } returns mockPlaybook
 
-        submissionService = CoronaTestService(mockPlaybook)
+        submissionService = CoronaTestService(
+            playbook = mockPlaybook,
+            noiseScheduler = noiseScheduler
+        )
     }
 
     @Test

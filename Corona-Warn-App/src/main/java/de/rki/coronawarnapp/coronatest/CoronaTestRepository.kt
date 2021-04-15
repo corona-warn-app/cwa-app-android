@@ -211,10 +211,18 @@ class CoronaTestRepository @Inject constructor(
     }
 
     suspend fun updateConsent(identifier: TestIdentifier, consented: Boolean) {
-        Timber.tag(TAG).i("updateConsent(type=%s, consented=%b)", identifier, consented)
+        Timber.tag(TAG).i("updateConsent(identifier=%s, consented=%b)", identifier, consented)
 
         modifyTest(identifier) { processor, before ->
             processor.updateConsent(before, consented)
+        }
+    }
+
+    suspend fun updateResultNotification(identifier: TestIdentifier, sent: Boolean) {
+        Timber.tag(TAG).i("updateResultNotification(identifier=%s, sent=%b)", identifier, sent)
+
+        modifyTest(identifier) { processor, before ->
+            processor.updateResultNotification(before, sent)
         }
     }
 

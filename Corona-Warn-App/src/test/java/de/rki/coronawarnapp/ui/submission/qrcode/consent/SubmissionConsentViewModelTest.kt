@@ -41,7 +41,7 @@ class SubmissionConsentViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
         every { interoperabilityRepository.countryList } returns MutableStateFlow(countryList)
-        every { submissionRepository.giveConsentToSubmission() } just Runs
+        every { submissionRepository.giveConsentToSubmission(any()) } just Runs
         every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
         viewModel = SubmissionConsentViewModel(
             submissionRepository,
@@ -55,7 +55,7 @@ class SubmissionConsentViewModelTest {
     @Test
     fun testOnConsentButtonClick() {
         viewModel.onConsentButtonClick()
-        verify(exactly = 1) { submissionRepository.giveConsentToSubmission() }
+        verify(exactly = 1) { submissionRepository.giveConsentToSubmission(any()) }
     }
 
     @Test
@@ -92,7 +92,7 @@ class SubmissionConsentViewModelTest {
     @Test
     fun `onConsentButtonClick sets normal consent and request new Google consent Api`() {
         viewModel.onConsentButtonClick()
-        verify(exactly = 1) { submissionRepository.giveConsentToSubmission() }
+        verify(exactly = 1) { submissionRepository.giveConsentToSubmission(any()) }
         coVerify(exactly = 1) { tekHistoryProvider.preAuthorizeExposureKeyHistory() }
     }
 

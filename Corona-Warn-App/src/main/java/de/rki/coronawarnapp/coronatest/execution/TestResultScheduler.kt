@@ -44,7 +44,6 @@ class TestResultScheduler @Inject constructor(
                 ExistingPeriodicWorkPolicy.REPLACE,
                 buildDiagnosisTestResultRetrievalPeriodicWork()
             )
-            tracingSettings.initialPollingForTestResultTimeStamp = timeStamper.nowUTC.millis
         } else {
             Timber.tag(TAG).d("cancelWorker()")
             workManager.cancelUniqueWork(PCR_TESTRESULT_WORKER_UNIQUEUNAME)

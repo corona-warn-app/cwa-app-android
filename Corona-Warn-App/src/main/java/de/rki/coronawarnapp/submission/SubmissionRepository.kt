@@ -21,8 +21,8 @@ import javax.inject.Singleton
 @Suppress("LongParameterList")
 @Singleton
 class SubmissionRepository @Inject constructor(
-    private val submissionSettings: SubmissionSettings,
     @AppScope private val scope: CoroutineScope,
+    private val submissionSettings: SubmissionSettings,
     private val tekHistoryStorage: TEKHistoryStorage,
     private val coronaTestRepository: CoronaTestRepository,
 ) {
@@ -65,7 +65,7 @@ class SubmissionRepository @Inject constructor(
     }
 
     // to be set to true once the user has opened and viewed their test result
-    suspend fun setViewedTestResult(type: CoronaTest.Type) {
+    fun setViewedTestResult(type: CoronaTest.Type) {
         Timber.tag(TAG).v("setViewedTestResult(type=%s)", type)
         scope.launch {
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }

@@ -22,13 +22,15 @@ class TracingSettings @Inject constructor(@AppContext private val context: Conte
             putBoolean(TRACING_ACTIVATION_TIMESTAMP, value)
         }
 
-    var initialPollingForTestResultTimeStamp: Long
+    @Deprecated("Use CoronaTestRepository")
+    var initialPollingForTestResultTimeStampMigration: Long
         get() = prefs.getLong(TRACING_POOLING_TIMESTAMP, 0L)
         set(value) = prefs.edit(true) {
             putLong(TRACING_POOLING_TIMESTAMP, value)
         }
 
-    var isTestResultAvailableNotificationSent: Boolean
+    @Deprecated("Use CoronaTestRepository")
+    var isTestResultAvailableNotificationSentMigration: Boolean
         get() = prefs.getBoolean(TEST_RESULT_NOTIFICATION_SENT, false)
         set(value) = prefs.edit(true) {
             putBoolean(TEST_RESULT_NOTIFICATION_SENT, value)
@@ -57,6 +59,7 @@ class TracingSettings @Inject constructor(@AppContext private val context: Conte
         Timber.d("deleteLegacyTestData()")
         prefs.edit {
             remove(TEST_RESULT_NOTIFICATION_SENT)
+            remove(TRACING_POOLING_TIMESTAMP)
         }
 
         // TODO No longer needed, was for worker control?

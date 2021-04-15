@@ -64,10 +64,10 @@ class EncryptedPreferencesMigration @Inject constructor(
             }
             onboardingSettings.isBackgroundCheckDone = isBackgroundCheckDone()
         }
-
+        @Suppress("DEPRECATION")
         TracingLocalData(encryptedSharedPreferences).apply {
-            tracingSettings.initialPollingForTestResultTimeStamp = initialPollingForTestResultTimeStamp()
-            tracingSettings.isTestResultAvailableNotificationSent = isTestResultAvailableNotificationSent()
+            tracingSettings.initialPollingForTestResultTimeStampMigration = initialPollingForTestResultTimeStamp()
+            tracingSettings.isTestResultAvailableNotificationSentMigration = isTestResultAvailableNotificationSent()
             tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { isUserToBeNotifiedOfLoweredRiskLevel() }
             tracingSettings.isConsentGiven = initialTracingActivationTimestamp() != 0L
         }

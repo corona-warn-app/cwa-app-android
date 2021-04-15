@@ -107,6 +107,13 @@ class RapidAntigenProcessor @Inject constructor(
         return test.copy(isAdvancedConsentGiven = consented)
     }
 
+    override suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest {
+        Timber.tag(TAG).v("updateResultNotification(test=%s, sent=%b)", test, sent)
+        test as RapidAntigenCoronaTest
+
+        return test.copy(isResultAvailableNotificationSent = sent)
+    }
+
     companion object {
         private const val TAG = "RapidAntigenProcessor"
     }
