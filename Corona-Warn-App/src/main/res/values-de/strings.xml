@@ -1014,11 +1014,11 @@
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Scannen Sie nun per QR-Code Ihren eigenen Test und rufen Sie Ihr Testergebnis ab."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_test_only_once">"Ihr Test kann nur einmal gescannt werden. Die App kann nicht gleichzeitig mehrere Tests verwalten."</string>
+    <string name="submission_consent_call_test_result_scan_test_only_once">"Jeder Test kann nur einmal gescannt werden. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Helfen Sie mit, indem Sie andere warnen, denen Sie begegnet sind!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"Wenn Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen. Die Warnung funktioniert in mehreren Ländern. Derzeit nehmen folgende Länder teil:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"Wenn Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen. Bei einem Schnelltest funktioniert die Warnung nur in Deutschland, im Falle eines PCR-Tests funktioniert die Warnung in folgenden Ländern:"</string>
     <!-- YTXT: Body for consent help by warning others - info about events -->
     <string name="submission_consent_help_by_warning_others_body_event">"Es werden auch Ihre Mitmenschen gewarnt, die zeitgleich mit Ihnen an denselben Events oder Orten eingecheckt waren."</string>
     <!-- YTXT: Page bottom text for consent screen -->
