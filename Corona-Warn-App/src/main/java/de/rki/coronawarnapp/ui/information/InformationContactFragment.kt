@@ -38,5 +38,9 @@ class InformationContactFragment : Fragment(R.layout.fragment_information_contac
             val number = getString(R.string.information_contact_phone_call_number)
             ExternalActionHelper.call(this, number)
         }
+        binding.informationContactNavigationRowInternationalPhone.navigationRow.setOnClickListener {
+            val number = getString(R.string.information_contact_button_international_phone)
+            ExternalActionHelper.call(this, number)
+        }
     }
 }
