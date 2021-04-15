@@ -35,17 +35,19 @@ import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
+import org.joda.time.Days
 import org.joda.time.LocalDate
 import timber.log.Timber
+import kotlin.concurrent.fixedRateTimer
 
 class ContactDiaryOverviewViewModel @AssistedInject constructor(
     taskController: TaskController,
     dispatcherProvider: DispatcherProvider,
     contactDiaryRepository: ContactDiaryRepository,
     riskLevelStorage: RiskLevelStorage,
-    timeStamper: TimeStamper,
+    private val timeStamper: TimeStamper,
     checkInRepository: CheckInRepository,
     private val exporter: ContactDiaryExporter
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -53,7 +55,18 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
     val exportLocationsAndPersons: SingleLiveEvent<String> = SingleLiveEvent()
 
-    private val dates = (0 until DAY_COUNT).map { timeStamper.nowUTC.toUserTimeZone().toLocalDate().minusDays(it) }
+    private fun TimeStamper.localDate(): LocalDate = nowUTC.toUserTimeZone().toLocalDate()
+
+    private fun dates() = (0 until DAY_COUNT).map { timeStamper.localDate().minusDays(it) }
+    private val datesFlow = MutableStateFlow(dates())
+
+    private val reloadDatesMidnightTimer = fixedRateTimer(
+        name = "Reload-contact-journal-dates-timer-thread",
+        daemon = true,
+        startAt = timeStamper.localDate().plusDays(1).toDate(),
+        period = Days.ONE.toStandardDuration().millis,
+        action = { datesFlow.value = dates() }
+    )
 
     private val locationVisitsFlow = contactDiaryRepository.locationVisits
     private val personEncountersFlow = contactDiaryRepository.personEncounters
@@ -63,7 +76,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val checkInsWithinRetentionFlow = checkInRepository.checkInsWithinRetention
 
     val listItems = combine(
-        flowOf(dates),
+        datesFlow,
         locationVisitsFlow,
         personEncountersFlow,
         riskLevelPerDateFlow,
@@ -301,6 +314,11 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
             exportLocationsAndPersons.postValue(export)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        reloadDatesMidnightTimer.cancel()
     }
 
     @AssistedFactory
