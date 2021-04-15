@@ -73,6 +73,8 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             coEvery { deleteStaleData() } just Runs
             coEvery { reportCalculation(any(), any()) } just Runs
         }
+
+        every { presenceTracingRiskMapper.clearConfig() } just Runs
     }
 
     private fun createInstance() = PresenceTracingWarningTask(
@@ -87,9 +89,30 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
     @Test
     fun `happy path, match result is reported successfully`() = runBlockingTest {
-        createInstance().run(mockk()) shouldNotBe null
+        createInstance().run(PresenceTracingWarningTask.Arguments()) shouldNotBe null
 
         coVerifySequence {
+            syncTool.syncPackages()
+            presenceTracingRiskRepository.deleteStaleData()
+            checkInsRepository.checkInsWithinRetention
+            traceWarningRepository.unprocessedWarningPackages
+
+            checkInWarningMatcher.process(any(), any())
+
+            presenceTracingRiskRepository.reportCalculation(
+                successful = true,
+                overlaps = any()
+            )
+            traceWarningRepository.markPackagesProcessed(listOf(WARNING_PKG.packageId))
+        }
+    }
+
+    @Test
+    fun `happy path with config change`() = runBlockingTest {
+        createInstance().run(PresenceTracingWarningTask.Arguments(true)) shouldNotBe null
+
+        coVerifySequence {
+            presenceTracingRiskMapper.clearConfig()
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
@@ -110,7 +133,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coEvery { syncTool.syncPackages() } throws IOException("Unexpected")
 
         shouldThrow<IOException> {
-            createInstance().run(mockk())
+            createInstance().run(PresenceTracingWarningTask.Arguments())
         }
 
         coVerify {
@@ -125,7 +148,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     fun `there are no check-ins to match against`() = runBlockingTest {
         coEvery { checkInsRepository.checkInsWithinRetention } returns flowOf(emptyList())
 
-        createInstance().run(mockk()) shouldNotBe null
+        createInstance().run(PresenceTracingWarningTask.Arguments()) shouldNotBe null
 
         coVerifySequence {
             syncTool.syncPackages()
@@ -141,7 +164,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     fun `there are no warning packages to process`() = runBlockingTest {
         coEvery { traceWarningRepository.unprocessedWarningPackages } returns flowOf(emptyList())
 
-        createInstance().run(mockk()) shouldNotBe null
+        createInstance().run(PresenceTracingWarningTask.Arguments()) shouldNotBe null
 
         coVerifySequence {
             syncTool.syncPackages()
@@ -157,7 +180,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     fun `report failure if downloads fail`() = runBlockingTest {
         coEvery { syncTool.syncPackages() } returns TraceWarningPackageSyncTool.SyncResult(successful = false)
 
-        createInstance().run(mockk()) shouldNotBe null
+        createInstance().run(PresenceTracingWarningTask.Arguments()) shouldNotBe null
 
         coVerifySequence {
             syncTool.syncPackages()
@@ -177,7 +200,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     fun `report failure if matching throws exception`() = runBlockingTest {
         coEvery { checkInWarningMatcher.process(any(), any()) } throws IllegalArgumentException()
         shouldThrow<IllegalArgumentException> {
-            createInstance().run(mockk()) shouldNotBe null
+            createInstance().run(PresenceTracingWarningTask.Arguments()) shouldNotBe null
         }
 
         coVerifySequence {
