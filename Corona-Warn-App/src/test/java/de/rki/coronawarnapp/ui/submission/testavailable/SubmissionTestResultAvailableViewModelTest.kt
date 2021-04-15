@@ -41,7 +41,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         every { tekHistoryUpdater.updateTEKHistoryOrRequestPermission() } just Runs
 
         // TODO Check specific behavior
-        every { submissionRepository.refreshDeviceUIState(any()) } just Runs
+        every { submissionRepository.refreshTest(any()) } just Runs
     }
 
     private fun createViewModel(): SubmissionTestResultAvailableViewModel = SubmissionTestResultAvailableViewModel(

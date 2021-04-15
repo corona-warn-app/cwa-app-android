@@ -33,7 +33,6 @@ import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -218,7 +217,7 @@ class SubmissionRepositoryTest : BaseTest() {
 
         val submissionRepository = createInstance(scope = this)
 
-        submissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshTest()
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL)
     }
@@ -230,7 +229,7 @@ class SubmissionRepositoryTest : BaseTest() {
 
         val submissionRepository = createInstance(scope = this)
 
-        submissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshTest()
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED)
     }
@@ -243,7 +242,7 @@ class SubmissionRepositoryTest : BaseTest() {
 
         val submissionRepository = createInstance(scope = this)
 
-        submissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshTest()
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE)
     }
@@ -257,7 +256,7 @@ class SubmissionRepositoryTest : BaseTest() {
 
         val submissionRepository = createInstance(scope = this)
 
-        submissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshTest()
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT)
 
@@ -273,13 +272,13 @@ class SubmissionRepositoryTest : BaseTest() {
 
         val submissionRepository = createInstance(scope = this)
 
-        submissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshTest()
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED)
 
         every { submissionSettings.registrationToken } returns mockFlowPreference("token")
 
-        submissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshTest()
 
         coVerify(exactly = 1) { submissionService.asyncRequestTestResult(any()) }
     }
@@ -290,12 +289,12 @@ class SubmissionRepositoryTest : BaseTest() {
 
         val submissionRepository = createInstance(scope = this)
 
-        submissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshTest()
 
         submissionRepository.deviceUIStateFlow.first() shouldBe
             NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL)
 
-        submissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshTest()
 
         coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
     }

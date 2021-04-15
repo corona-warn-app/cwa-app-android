@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -111,18 +112,19 @@ class CoronaTestRepository @Inject constructor(
         return currentTests[request.identifier]!!
     }
 
-    suspend fun removeTest(guid: CoronaTestGUID): CoronaTest {
-        Timber.tag(TAG).i("removeTest(guid=%s)", guid)
+    suspend fun removeTest(type: CoronaTest.Type): CoronaTest {
+        Timber.tag(TAG).i("removeTest(type=%s)", type)
+
         var removedTest: CoronaTest? = null
 
         internalData.updateBlocking {
-            if (!containsKey(guid)) throw IllegalStateException("No test with guid $guid is known.")
+            val toBeRemoved = values.singleOrNull { it.type == type }
+                ?: throw IllegalArgumentException("No test of type $type found.")
 
-            val toBeRemoved = getValue(guid)
             getProcessor(toBeRemoved.type).onRemove(toBeRemoved)
 
             toMutableMap().apply {
-                removedTest = remove(guid)
+                removedTest = remove(toBeRemoved.identifier)
                 Timber.tag(TAG).d("Removed: %s", removedTest)
             }
         }
@@ -133,26 +135,26 @@ class CoronaTestRepository @Inject constructor(
     /**
      * Passing **null** will refresh all test types.
      */
-    suspend fun refresh(type: CoronaTest.Type? = null) {
+    suspend fun refresh(type: CoronaTest.Type? = null): Set<CoronaTest> {
         Timber.tag(TAG).d("refresh(type=%s)", type)
 
-        val toRefreshGUIDs = internalData.data
+        val toRefresh = internalData.data
             .first().values
             .filter { if (type == null) true else it.type == type }
             .map { it.identifier }
 
-        Timber.tag(TAG).d("Will refresh %s", toRefreshGUIDs)
+        Timber.tag(TAG).d("Will refresh %s", toRefresh)
 
-        toRefreshGUIDs.forEach {
+        toRefresh.forEach {
             modifyTest(it) { processor, test ->
                 processor.markProcessing(test, true)
             }
         }
 
-        internalData.updateBlocking {
+        val refreshedData = internalData.updateBlocking {
             val polling = values
                 .filter { if (type == null) true else it.type == type }
-                .filter { toRefreshGUIDs.contains(it.identifier) }
+                .filter { toRefresh.contains(it.identifier) }
                 .map { coronaTest ->
 
                     withContext(context = dispatcherProvider.IO) {
@@ -166,7 +168,7 @@ class CoronaTestRepository @Inject constructor(
                 }
 
             Timber.tag(TAG).d("Waiting for test status polling: %s", polling)
-            val pollingResults = polling.awaitAll().filterNotNull()
+            val pollingResults = polling.awaitAll()
 
             this.toMutableMap().apply {
                 for (updatedResult in pollingResults) {
@@ -175,11 +177,13 @@ class CoronaTestRepository @Inject constructor(
             }
         }
 
-        toRefreshGUIDs.forEach {
+        toRefresh.forEach {
             modifyTest(it) { processor, test ->
                 processor.markProcessing(test, false)
             }
         }
+
+        return refreshedData.values.toSet()
     }
 
     suspend fun clear() {
@@ -190,28 +194,44 @@ class CoronaTestRepository @Inject constructor(
         }
     }
 
-    suspend fun markAsSubmitted(guid: CoronaTestGUID) {
-        Timber.tag(TAG).i("markAsSubmitted(guid=%s)", guid)
+    suspend fun markAsSubmitted(identifier: TestIdentifier) {
+        Timber.tag(TAG).i("markAsSubmitted(identifier=%s)", identifier)
 
-        modifyTest(guid) { processor, before ->
+        modifyTest(identifier) { processor, before ->
             processor.markSubmitted(before)
         }
     }
 
+    suspend fun markAsViewed(identifier: TestIdentifier) {
+        Timber.tag(TAG).i("markAsViewed(identifier=%s)", identifier)
+
+        modifyTest(identifier) { processor, before ->
+            processor.markViewed(before)
+        }
+    }
+
+    suspend fun updateConsent(identifier: TestIdentifier, consented: Boolean) {
+        Timber.tag(TAG).i("updateConsent(type=%s, consented=%b)", identifier, consented)
+
+        modifyTest(identifier) { processor, before ->
+            processor.updateConsent(before, consented)
+        }
+    }
+
     private suspend fun modifyTest(
-        guid: CoronaTestGUID,
+        identifier: TestIdentifier,
         update: suspend (CoronaTestProcessor, CoronaTest) -> CoronaTest
     ) {
         internalData.updateBlocking {
-            if (!containsKey(guid)) throw IllegalStateException("No test with guid $guid is known.")
+            val original = values.singleOrNull { it.identifier == identifier }
+                ?: throw IllegalArgumentException("No found for $identifier")
 
-            val original = getValue(guid)
             val processor = getProcessor(original.type)
 
             val updated = update(processor, original)
             Timber.tag(TAG).d("Updated %s to %s", original, updated)
 
-            toMutableMap().apply { this[guid] = updated }
+            toMutableMap().apply { this[original.identifier] = updated }
         }
     }
 

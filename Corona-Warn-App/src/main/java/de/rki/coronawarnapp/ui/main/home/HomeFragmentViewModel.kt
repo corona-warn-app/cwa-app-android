@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.FetchingResult
 import de.rki.coronawarnapp.coronatest.type.pcr.NoTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionDone
@@ -26,6 +27,7 @@ import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.submission.ui.homecards.TestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestInvalidCard
@@ -57,7 +59,6 @@ import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -256,13 +257,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private var isLoweredRiskLevelDialogBeingShown = false
     fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
-        submissionRepository.deviceUIStateFlow
-            .first { state ->
-                state.withSuccess(false) {
-                    when (it) {
-                        DeviceUIState.PAIRED_POSITIVE, DeviceUIState.PAIRED_POSITIVE_TELETAN -> true
-                        else -> false
-                    }
+        submissionRepository.pcrTest
+            .first { test ->
+                when {
+                    test == null -> false
+                    test.lastError != null -> false
+                    test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_POSITIVE -> true
+                    test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_POSITIVE_TELETAN -> true
+                    else -> false
                 }
             }
             .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
@@ -295,7 +297,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun refreshRequiredData() {
         launch {
-            submissionRepository.refreshDeviceUIState()
+            submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
             tracingRepository.refreshRiskLevel()
         }
     }
@@ -311,8 +313,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun deregisterWarningAccepted() {
-        submissionRepository.removeTestFromDevice()
-        submissionRepository.refreshDeviceUIState()
+        submissionRepository.removeTestFromDevice(type = CoronaTest.Type.PCR)
+        submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {

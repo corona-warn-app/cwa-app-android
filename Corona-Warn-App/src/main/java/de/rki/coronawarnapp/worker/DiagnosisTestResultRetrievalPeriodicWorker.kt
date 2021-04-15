@@ -6,17 +6,20 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTestService
-import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 /**
@@ -29,11 +32,11 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
     private val notificationHelper: GeneralNotifications,
-    private val submissionSettings: SubmissionSettings,
-    private val submissionService: CoronaTestService,
+    private val submissionRepository: SubmissionRepository,
+    private val coronaTestRepository: CoronaTestRepository,
     private val timeStamper: TimeStamper,
     private val tracingSettings: TracingSettings,
-    private val backgroundWorkScheduler: BackgroundWorkScheduler,
+    private val testResultScheduler: TestResultScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -42,7 +45,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             Timber.tag(TAG).d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
-            backgroundWorkScheduler.scheduleDiagnosisTestResultPeriodicWork()
+            testResultScheduler.setPeriodicTestPolling(enabled = true)
             Timber.tag(TAG).d("$id Rescheduled background worker")
 
             return Result.failure()
@@ -56,9 +59,11 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             } else {
                 Timber.tag(TAG).d(" $id Running worker.")
 
-                val registrationToken =
-                    submissionSettings.registrationToken.value ?: throw NoRegistrationTokenSetException()
-                val testResult = submissionService.asyncRequestTestResult(registrationToken)
+                val coronaTest = coronaTestRepository.refresh(
+                    type = CoronaTest.Type.PCR
+                ).single() as PCRCoronaTest
+                val testResult = coronaTest.testResult
+
                 Timber.tag(TAG).d("$id: Test Result retrieved is $testResult")
 
                 if (testResult == CoronaTestResult.PCR_NEGATIVE ||
@@ -81,12 +86,13 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         return result
     }
 
-    private fun abortConditionsMet(currentMillis: Long): Boolean {
+    private suspend fun abortConditionsMet(currentMillis: Long): Boolean {
         if (tracingSettings.isTestResultAvailableNotificationSent) {
             Timber.tag(TAG).d("$id: Notification already sent.")
             return true
         }
-        if (submissionSettings.hasViewedTestResult.value) {
+        val hasViewedTestResult = submissionRepository.pcrTest.first()?.isViewed ?: false
+        if (hasViewedTestResult) {
             Timber.tag(TAG).d("$id: Test result has already been viewed.")
             return true
         }
@@ -119,7 +125,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
 
     private fun stopWorker() {
         tracingSettings.initialPollingForTestResultTimeStamp = 0L
-        backgroundWorkScheduler.stopDiagnosisTestResultPeriodicWork()
+        testResultScheduler.setPeriodicTestPolling(enabled = false)
         Timber.tag(TAG).d("$id: Background worker stopped")
     }
 

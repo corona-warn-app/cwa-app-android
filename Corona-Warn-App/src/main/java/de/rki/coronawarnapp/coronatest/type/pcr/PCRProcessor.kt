@@ -2,12 +2,19 @@ package de.rki.coronawarnapp.coronatest.type.pcr
 
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
+import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,6 +23,10 @@ import javax.inject.Inject
 class PCRProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    private val testResultDataCollector: TestResultDataCollector,
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
+    private val testResultScheduler: TestResultScheduler,
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
@@ -24,7 +35,9 @@ class PCRProcessor @Inject constructor(
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.PCR
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.guid)
+        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID)
+
+        testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult) // This saves received at
 
         return createCoronaTest(request, registrationData)
     }
@@ -35,46 +48,82 @@ class PCRProcessor @Inject constructor(
 
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(request.tan)
 
+        analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
+
         return createCoronaTest(request, registrationData)
     }
 
-    private fun createCoronaTest(
+    private suspend fun createCoronaTest(
         request: TestRegistrationRequest,
-        registrationData: CoronaTestService.RegistrationData
+        response: CoronaTestService.RegistrationData
     ): PCRCoronaTest {
+        analyticsKeySubmissionCollector.reset()
+        response.testResult.validOrThrow()
 
-        registrationData.testResult.validOrThrow()
+        testResultDataCollector.updatePendingTestResultReceivedTime(response.testResult)
+
+        if (response.testResult == CoronaTestResult.PCR_POSITIVE) {
+            analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
+            deadmanNotificationScheduler.cancelScheduledWork()
+        }
+
+        analyticsKeySubmissionCollector.reportTestRegistered()
+
+//        val currentTime = timeStamper.nowUTC
+//        submissionSettings.initialTestResultReceivedAt = currentTime
+//        testResultReceivedDateFlowInternal.value = currentTime.toDate()
+        if (response.testResult == CoronaTestResult.PCR_OR_RAT_PENDING) {
+//            riskWorkScheduler.setPeriodicRiskCalculation(enabled = true)
+
+            testResultScheduler.setPeriodicTestPolling(enabled = true)
+        }
 
         return PCRCoronaTest(
             identifier = request.identifier,
             registeredAt = timeStamper.nowUTC,
-            registrationToken = registrationData.registrationToken,
-            testResult = registrationData.testResult,
+            registrationToken = response.registrationToken,
+            testResult = response.testResult,
         )
     }
 
-    override suspend fun pollServer(test: CoronaTest): CoronaTest = try {
-        Timber.tag(TAG).v("pollServer(test=%s)", test)
-        test as PCRCoronaTest
+    override suspend fun pollServer(test: CoronaTest): CoronaTest {
+        return try {
+            Timber.tag(TAG).v("pollServer(test=%s)", test)
+            test as PCRCoronaTest
 
-        val testResult = submissionService.asyncRequestTestResult(test.registrationToken)
-        Timber.tag(TAG).d("Test result was %s", testResult)
+            if (test.isSubmitted || test.isSubmissionAllowed) {
+                Timber.tag(TAG).w("Not refreshing already final test.")
+                return test
+            }
 
-        testResult.validOrThrow()
+            val testResult = submissionService.asyncRequestTestResult(test.registrationToken)
+            Timber.tag(TAG).d("Test result was %s", testResult)
 
-        test.copy(
-            testResult = testResult,
-            lastError = null
-        )
-    } catch (e: Exception) {
-        Timber.tag(TAG).e(e, "Failed to poll server for  %s", test)
-        test as PCRCoronaTest
-        test.copy(lastError = e)
+            testResult.validOrThrow()
+
+            testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
+
+            if (testResult == CoronaTestResult.PCR_POSITIVE) {
+                analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
+                deadmanNotificationScheduler.cancelScheduledWork()
+            }
+
+            test.copy(
+                testResult = testResult,
+                lastError = null
+            )
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to poll server for  %s", test)
+            if (e !is CwaWebException) e.report(ExceptionCategory.INTERNAL)
+
+            test as PCRCoronaTest
+            test.copy(lastError = e)
+        }
     }
 
     override suspend fun onRemove(toBeRemoved: CoronaTest) {
         Timber.tag(TAG).v("onRemove(toBeRemoved=%s)", toBeRemoved)
-        // Currently nothing to do
+        testResultDataCollector.clear()
     }
 
     override suspend fun markSubmitted(test: CoronaTest): PCRCoronaTest {
@@ -89,6 +138,20 @@ class PCRProcessor @Inject constructor(
         test as PCRCoronaTest
 
         return test.copy(isProcessing = true)
+    }
+
+    override suspend fun markViewed(test: CoronaTest): CoronaTest {
+        Timber.tag(TAG).v("markViewed(test=%s)", test)
+        test as PCRCoronaTest
+
+        return test.copy(isViewed = true)
+    }
+
+    override suspend fun updateConsent(test: CoronaTest, consented: Boolean): CoronaTest {
+        Timber.tag(TAG).v("updateConsent(test=%s, consented=%b)", test, consented)
+        test as PCRCoronaTest
+
+        return test.copy(isAdvancedConsentGiven = consented)
     }
 
     companion object {

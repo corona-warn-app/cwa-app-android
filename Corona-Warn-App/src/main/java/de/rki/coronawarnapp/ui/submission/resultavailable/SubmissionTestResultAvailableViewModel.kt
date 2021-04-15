@@ -7,6 +7,7 @@ import androidx.navigation.NavDirections
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
@@ -30,7 +32,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
-    val consentFlow = submissionRepository.hasGivenConsentToSubmission
+    val consentFlow = submissionRepository.pcrTest.map { it!!.isAdvancedConsentGiven }
     val consent = consentFlow.asLiveData(dispatcherProvider.Default)
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val showCloseDialog = SingleLiveEvent<Unit>()
@@ -82,7 +84,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     )
 
     init {
-        submissionRepository.refreshDeviceUIState(refreshTestResult = false)
+        submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
     }
 
     fun goBack() {

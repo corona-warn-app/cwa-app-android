@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -54,9 +56,10 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     internal fun doDeviceRegistration(scanResult: QRScanResult) = launch {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
-            val testResult = submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!)
-            checkTestResult(testResult)
-            registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, testResult))
+            val request = CoronaTestQRCode.PCR(qrCodeGUID = scanResult.guid!!)
+            val coronaTest = submissionRepository.registerTest(request)
+            checkTestResult(coronaTest.testResult)
+            registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, coronaTest.testResult))
         } catch (err: CwaWebException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
@@ -87,7 +90,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         launch {
             Timber.d("deregisterTestFromDevice()")
 
-            submissionRepository.removeTestFromDevice()
+            submissionRepository.removeTestFromDevice(type = CoronaTest.Type.PCR)
 
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
         }

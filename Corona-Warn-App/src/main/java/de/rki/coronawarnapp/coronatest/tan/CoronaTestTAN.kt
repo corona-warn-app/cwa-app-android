@@ -17,15 +17,19 @@ sealed class CoronaTestTAN : Parcelable, TestRegistrationRequest {
 
     @Parcelize
     data class PCR(
-        override val type: CoronaTest.Type,
         override val tan: TestTAN,
-    ) : CoronaTestTAN()
+    ) : CoronaTestTAN() {
+
+        @IgnoredOnParcel override val type: CoronaTest.Type = CoronaTest.Type.PCR
+    }
 
     @Parcelize
     data class RapidAntigen(
-        override val type: CoronaTest.Type,
         override val tan: TestTAN,
-    ) : CoronaTestTAN()
+    ) : CoronaTestTAN() {
+
+        @IgnoredOnParcel override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
+    }
 }
 
 typealias TestTAN = String

@@ -40,10 +40,27 @@ class TracingSettings @Inject constructor(@AppContext private val context: Conte
     )
 
     fun deleteLegacyTestData() {
+// Sourced from the behavior of SubmissionRepository.removeTestFromDevice()
+//        fun removeTestFromDevice() {
+//            submissionSettings.hasViewedTestResult.update { false }
+//            submissionSettings.hasGivenConsent.update { false }
+//            revokeConsentToSubmission()
+//            submissionSettings.registrationToken.update { null }
+//            submissionSettings.devicePairingSuccessfulAt = null
+//            tracingSettings.initialPollingForTestResultTimeStamp = 0L
+//            submissionSettings.initialTestResultReceivedAt = null
+//            submissionSettings.isAllowedToSubmitKeys = false
+//            tracingSettings.isTestResultAvailableNotificationSent = false
+//            submissionSettings.isSubmissionSuccessful = false
+//            testResultDataCollector.clear()
+//        }
         Timber.d("deleteLegacyTestData()")
         prefs.edit {
             remove(TEST_RESULT_NOTIFICATION_SENT)
         }
+
+        // TODO No longer needed, was for worker control?
+        // tracingSettings.initialPollingForTestResultTimeStamp = 0L
     }
 
     fun clear() = prefs.clearAndNotify()

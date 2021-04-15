@@ -1,12 +1,14 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
+import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -17,7 +19,7 @@ import javax.inject.Singleton
 class TestResultDonor @Inject constructor(
     private val testResultDonorSettings: TestResultDonorSettings,
     private val timeStamper: TimeStamper,
-    private val submissionSettings: SubmissionSettings
+    private val coronaTestRepository: CoronaTestRepository,
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
@@ -27,7 +29,7 @@ class TestResultDonor @Inject constructor(
             return TestResultMetadataNoContribution
         }
 
-        val timestampAtRegistration = submissionSettings.initialTestResultReceivedAt
+        val timestampAtRegistration = coronaTestRepository.latestPCRT.first()?.registeredAt
         if (timestampAtRegistration == null) {
             Timber.d("Skipping TestResultMetadata donation (timestampAtRegistration is missing)")
             return TestResultMetadataNoContribution

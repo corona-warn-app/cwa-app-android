@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import org.joda.time.Instant
 
 interface CoronaTest {
@@ -17,13 +18,16 @@ interface CoronaTest {
     val isSubmitted: Boolean
     val isViewed: Boolean
 
+    val testResultReceivedAt: Instant?
+    val testResult: CoronaTestResult
+
     // TODO why do we need this PER test
     val isAdvancedConsentGiven: Boolean
 
     // TODO Why do we need to store this?
     val isJournalEntryCreated: Boolean
 
-    val isNotificationSent: Boolean
+    val isResultAvailableNotificationSent: Boolean
 
     enum class Type(val raw: String) {
         @SerializedName("PCR")

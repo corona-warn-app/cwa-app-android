@@ -7,6 +7,9 @@ import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,7 +26,7 @@ class RapidAntigenProcessor @Inject constructor(
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.RapidAntigen
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.guid)
+        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID)
 
         registrationData.testResult.validOrThrow()
 
@@ -42,38 +45,33 @@ class RapidAntigenProcessor @Inject constructor(
     override suspend fun create(request: CoronaTestTAN): CoronaTest {
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestTAN.RapidAntigen
-
-        val registrationData = submissionService.asyncRegisterDeviceViaTAN(request.tan)
-
-        registrationData.testResult.validOrThrow()
-
-        return RapidAntigenCoronaTest(
-            identifier = request.identifier,
-            registeredAt = timeStamper.nowUTC,
-            registrationToken = registrationData.registrationToken,
-            testResult = registrationData.testResult,
-            testedAt = timeStamper.nowUTC,
-            firstName = null,
-            lastName = null,
-            dateOfBirth = null,
-        )
+        throw UnsupportedOperationException("There are no TAN based RATs")
     }
 
-    override suspend fun pollServer(test: CoronaTest): CoronaTest = try {
-        Timber.tag(TAG).v("pollServer(test=%s)", test)
-        test as RapidAntigenCoronaTest
+    override suspend fun pollServer(test: CoronaTest): CoronaTest {
+        return try {
+            Timber.tag(TAG).v("pollServer(test=%s)", test)
+            test as RapidAntigenCoronaTest
 
-        val testResult = submissionService.asyncRequestTestResult(test.registrationToken)
-        Timber.tag(TAG).d("Test result was %s", testResult)
+            if (test.isSubmitted || test.isSubmissionAllowed) {
+                Timber.tag(TAG).w("Not refreshing already final test.")
+                return test
+            }
 
-        test.copy(
-            testResult = testResult,
-            lastError = null
-        )
-    } catch (e: Exception) {
-        Timber.tag(TAG).e(e, "Failed to poll server for  %s", test)
-        test as RapidAntigenCoronaTest
-        test.copy(lastError = e)
+            val testResult = submissionService.asyncRequestTestResult(test.registrationToken)
+            Timber.tag(TAG).d("Test result was %s", testResult)
+
+            test.copy(
+                testResult = testResult,
+                lastError = null
+            )
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to poll server for  %s", test)
+            if (e !is CwaWebException) e.report(ExceptionCategory.INTERNAL)
+
+            test as RapidAntigenCoronaTest
+            test.copy(lastError = e)
+        }
     }
 
     override suspend fun onRemove(toBeRemoved: CoronaTest) {
@@ -93,6 +91,20 @@ class RapidAntigenProcessor @Inject constructor(
         test as RapidAntigenCoronaTest
 
         return test.copy(isProcessing = true)
+    }
+
+    override suspend fun markViewed(test: CoronaTest): CoronaTest {
+        Timber.tag(TAG).v("markViewed(test=%s)", test)
+        test as RapidAntigenCoronaTest
+
+        return test.copy(isViewed = true)
+    }
+
+    override suspend fun updateConsent(test: CoronaTest, consented: Boolean): CoronaTest {
+        Timber.tag(TAG).v("updateConsent(test=%s, consented=%b)", test, consented)
+        test as RapidAntigenCoronaTest
+
+        return test.copy(isAdvancedConsentGiven = consented)
     }
 
     companion object {

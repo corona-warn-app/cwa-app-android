@@ -16,8 +16,9 @@ class PCRTestMigration @Inject constructor(
     private val submissionSettings: SubmissionSettings,
     private val tracingSettings: TracingSettings,
 ) {
+    @Suppress("DEPRECATION")
     suspend fun startMigration(): Set<CoronaTest> {
-        val token: RegistrationToken? = submissionSettings.registrationToken.value
+        val token: RegistrationToken? = submissionSettings.registrationTokenMigration
         if (token == null) {
             Timber.tag(TAG).d("Nothing to migrate, token was null.")
             return emptySet()
@@ -25,7 +26,7 @@ class PCRTestMigration @Inject constructor(
             Timber.tag(TAG).i("Migrating token %s", token)
         }
 
-        val devicePairingSuccessfulAt = submissionSettings.devicePairingSuccessfulAt
+        val devicePairingSuccessfulAt = submissionSettings.devicePairingSuccessfulAtMigration
         Timber.tag(TAG).v("devicePairingSuccessfulAt=%s", devicePairingSuccessfulAt)
         if (devicePairingSuccessfulAt == null) {
             if (CWADebug.isDeviceForTestersBuild) {
@@ -34,16 +35,16 @@ class PCRTestMigration @Inject constructor(
             return emptySet()
         }
 
-        val isAllowedToSubmitKeys = submissionSettings.isAllowedToSubmitKeys
+        val isAllowedToSubmitKeys = submissionSettings.isAllowedToSubmitKeysMigration
         Timber.tag(TAG).v("isAllowedToSubmitKeys=%s", isAllowedToSubmitKeys)
 
-        val isSubmissionSuccessful = submissionSettings.isSubmissionSuccessful
+        val isSubmissionSuccessful = submissionSettings.isSubmissionSuccessfulMigration
         Timber.tag(TAG).v("isSubmissionSuccessful=%s", isSubmissionSuccessful)
 
-        val hasViewedTestResult = submissionSettings.hasViewedTestResult.value
+        val hasViewedTestResult = submissionSettings.hasViewedTestResultMigration
         Timber.tag(TAG).v("hasViewedTestResult=%s", hasViewedTestResult)
 
-        val hasGivenConsent = submissionSettings.hasGivenConsent.value
+        val hasGivenConsent = submissionSettings.hasGivenConsentMigration
         Timber.tag(TAG).v("hasGivenConsent=%s", hasGivenConsent)
 
         // TODO per test ?
@@ -61,7 +62,7 @@ class PCRTestMigration @Inject constructor(
             isSubmitted = isSubmissionSuccessful,
             isViewed = hasViewedTestResult,
             isAdvancedConsentGiven = hasGivenConsent,
-            isNotificationSent = testResultNotificationSent,
+            isResultAvailableNotificationSent = testResultNotificationSent,
         )
         return setOf(legacyPCRTest).also {
             Timber.tag(TAG).d("Offering converted legacy CoronaTest: %s", it)
@@ -78,7 +79,7 @@ class PCRTestMigration @Inject constructor(
         private const val TAG = "CoronaTestMigration"
 
         /**
-         * We only use this for identification
+         * We only use this for identification, needs to be guaranteed different from any non-legacy identifiers.
          */
         private const val LEGACY_IDENTIFIER = "qrcode-pcr-legacy"
     }

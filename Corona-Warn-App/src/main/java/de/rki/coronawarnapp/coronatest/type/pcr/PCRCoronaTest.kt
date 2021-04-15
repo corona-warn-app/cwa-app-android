@@ -8,15 +8,36 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import org.joda.time.Instant
 
 data class PCRCoronaTest(
-    @SerializedName("identifier") override val identifier: TestIdentifier,
-    @SerializedName("registeredAt") override val registeredAt: Instant,
-    @SerializedName("registrationToken") override val registrationToken: RegistrationToken,
-    @SerializedName("isSubmitted") override val isSubmitted: Boolean = false,
-    @SerializedName("isViewed") override val isViewed: Boolean = false,
-    @SerializedName("isAdvancedConsentGiven") override val isAdvancedConsentGiven: Boolean = false,
-    @SerializedName("isJournalEntryCreated") override val isJournalEntryCreated: Boolean = false,
-    @SerializedName("isNotificationSent") override val isNotificationSent: Boolean = false,
-    @SerializedName("testResult") val testResult: CoronaTestResult,
+    @SerializedName("identifier")
+    override val identifier: TestIdentifier,
+
+    @SerializedName("registeredAt")
+    override val registeredAt: Instant,
+
+    @SerializedName("registrationToken")
+    override val registrationToken: RegistrationToken,
+
+    @SerializedName("isSubmitted")
+    override val isSubmitted: Boolean = false,
+
+    @SerializedName("isViewed")
+    override val isViewed: Boolean = false,
+
+    @SerializedName("isAdvancedConsentGiven")
+    override val isAdvancedConsentGiven: Boolean = false,
+
+    @SerializedName("isJournalEntryCreated")
+    override val isJournalEntryCreated: Boolean = false,
+
+    @SerializedName("isResultAvailableNotificationSent")
+    override val isResultAvailableNotificationSent: Boolean = false,
+
+    @SerializedName("testResultReceivedAt")
+    override val testResultReceivedAt: Instant? = null,
+
+    @SerializedName("testResult")
+    override val testResult: CoronaTestResult,
+
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
 ) : CoronaTest {
