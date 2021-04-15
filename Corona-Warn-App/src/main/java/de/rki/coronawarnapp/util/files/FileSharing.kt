@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.annotation.StringRes
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import dagger.Reusable
@@ -25,45 +24,19 @@ class FileSharing @Inject constructor(
         path
     )
 
-    fun getIntentProvider(
-        path: File,
-        title: String,
-        @StringRes chooserTitle: Int? = null
-    ): ShareIntentProvider = object : ShareIntentProvider {
-        override fun get(activity: Activity): Intent {
-            val builder = ShareCompat.IntentBuilder.from(activity).apply {
-                setType(path.determineMimeType())
-                setStream(getFileUri(path))
-                setSubject(title)
-                chooserTitle?.let { setChooserTitle(it) }
-            }
-
-            val intent = if (chooserTitle != null) {
-                builder.createChooserIntent()
-            } else {
-                builder.intent
-            }
-            return intent.apply {
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                Timber.tag(TAG).d("Intent created %s", this)
-            }
-        }
-    }
-
     fun getFileIntentProvider(
         path: File,
         title: String,
-        @StringRes chooserTitle: Int? = null
+        createChooserIntent: Boolean = false
     ): FileIntentProvider = object : FileIntentProvider {
         override fun intent(activity: Activity): Intent {
             val builder = ShareCompat.IntentBuilder.from(activity).apply {
                 setType(path.determineMimeType())
                 setStream(getFileUri(path))
                 setSubject(title)
-                chooserTitle?.let { setChooserTitle(it) }
             }
 
-            val intent = if (chooserTitle != null) {
+            val intent = if (createChooserIntent) {
                 builder.createChooserIntent()
             } else {
                 builder.intent

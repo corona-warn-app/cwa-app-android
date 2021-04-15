@@ -855,7 +855,7 @@
     <!-- XBUT: Button text to share the log recording -->
     <string name="debugging_debuglog_action_share_log">"Trimitere raport de erori"</string>
     <!-- XBUT: Button text to locally store the log recording -->
-    <string name="debugging_debuglog_action_local_log_store">"Salvare locală și continuare"</string>
+    <string name="debugging_debuglog_action_local_log_export">"Salvare locală și continuare"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Înregistrare activă"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->

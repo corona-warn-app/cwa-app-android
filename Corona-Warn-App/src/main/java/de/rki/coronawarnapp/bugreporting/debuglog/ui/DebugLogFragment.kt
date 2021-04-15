@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
@@ -15,6 +14,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -26,12 +26,13 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.Duration
 import org.joda.time.Instant
-import timber.log.Timber
 import javax.inject.Inject
 
 class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    @Inject lateinit var fileSharing: FileSharing
+
     private val vm: DebugLogViewModel by cwaViewModels { viewModelFactory }
     private val binding: BugreportingDebuglogFragmentBinding by viewBindingLazy()
 
@@ -91,13 +92,13 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 toggleSendErrorLog.apply {
                     isGone = !it.isRecording
                     isEnabled = it.currentSize > 0L && !it.isActionInProgress
-                    setOnClickListener { vm.onShareButtonPress() }
+                    setOnClickListener { vm.onSendErrorLogPress() }
                 }
 
-                toggleStoreLog.apply {
+                toggleExportLog.apply {
                     isGone = !it.isRecording
                     isEnabled = it.currentSize > 0L && !it.isActionInProgress
-                    setOnClickListener { vm.onStoreLog() }
+                    setOnClickListener { vm.onExportLogPress() }
                 }
             }
         }
@@ -128,11 +129,12 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 DebugLogViewModel.Event.ShowLowStorageDialog -> {
                     showLowStorageError()
                 }
-                is DebugLogViewModel.Event.LocalExport -> {
-                    startActivityForResult(it.request.createIntent(), it.request.id)
-                }
-                is DebugLogViewModel.Event.ExportResult -> {
-                    showExportResult()
+                is DebugLogViewModel.Event.Export -> {
+                    val snapshot = it.snapshot
+                    val intent = fileSharing
+                        .getFileIntentProvider(snapshot.path, snapshot.path.name, createChooserIntent = true)
+                        .intent(requireActivity())
+                    startActivity(intent)
                 }
                 is DebugLogViewModel.Event.ShowLocalExportError -> {
                     showLocalExportError(it.error)
@@ -164,14 +166,6 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         binding.debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        Timber.d("onActivityResult(requestCode=$requestCode, resultCode=$resultCode, resultData=$resultData")
-        vm.processSAFResult(
-            requestCode,
-            if (resultCode == Activity.RESULT_OK) resultData?.data else null
-        )
-    }
-
     private fun showLogDeletionRequest() {
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.debugging_debuglog_stop_confirmation_title)
@@ -195,14 +189,6 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                     Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
                 }
             }
-        }.show()
-    }
-
-    private fun showExportResult() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.debugging_debuglog_localexport_title)
-            setMessage(R.string.debugging_debuglog_localexport_message)
-            setPositiveButton(android.R.string.yes) { _, _ -> /* dismiss */ }
         }.show()
     }
 

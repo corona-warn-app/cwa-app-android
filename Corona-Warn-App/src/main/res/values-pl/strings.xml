@@ -855,7 +855,7 @@
     <!-- XBUT: Button text to share the log recording -->
     <string name="debugging_debuglog_action_share_log">"Wyślij raport o błędzie"</string>
     <!-- XBUT: Button text to locally store the log recording -->
-    <string name="debugging_debuglog_action_local_log_store">"Zapisz lokalnie i kontynuuj"</string>
+    <string name="debugging_debuglog_action_local_log_export">"Zapisz lokalnie i kontynuuj"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Nagrywanie aktywne"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
