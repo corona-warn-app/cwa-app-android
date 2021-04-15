@@ -1991,7 +1991,13 @@
     <string name="trace_location_organiser_poster_share">"Teilen"</string>
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Druckversion"</string>
+
+    <!-- ####################################
+     Rapid Antigen Test Profile
+     ###################################### -->
+    <!-- XHED: Create RAT profile card title -->
     <string name="rat_profile_create_card_title">Schnelltest-Profil anlegen</string>
+    <!-- XTXT: Create RAT profile card subtitle -->
     <string name="rat_profile_create_card_subtitle">Legen Sie ein Profil mit Ihren persönlichen Daten an, die Sie dann per QR-Code bei jedem Schnelltest vorlegen können.</string>
 
 </resources>
