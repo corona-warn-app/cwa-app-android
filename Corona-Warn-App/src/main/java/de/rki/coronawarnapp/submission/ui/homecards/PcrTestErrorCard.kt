@@ -2,35 +2,35 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardPositiveBinding
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard.Item
+import de.rki.coronawarnapp.databinding.HomeSubmissionPcrStatusCardErrorBinding
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class TestPositiveCard(
+class PcrTestErrorCard(
     parent: ViewGroup
-) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardPositiveBinding>(R.layout.home_card_container_layout, parent) {
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardErrorBinding>(R.layout.home_card_container_layout, parent) {
 
     override val viewBinding = lazy {
-        HomeSubmissionStatusCardPositiveBinding.inflate(
+        HomeSubmissionPcrStatusCardErrorBinding.inflate(
             layoutInflater,
             itemView.findViewById(R.id.card_container),
             true
         )
     }
 
-    override val onBindData: HomeSubmissionStatusCardPositiveBinding.(
+    override val onBindData: HomeSubmissionPcrStatusCardErrorBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-        itemView.setOnClickListener { curItem.onClickAction(item) }
-        submissionStatusCardPositiveButton.setOnClickListener { itemView.performClick() }
+        itemView.setOnClickListener { curItem.onDeleteTest(item) }
+        showTestAction.setOnClickListener { itemView.performClick() }
     }
 
     data class Item(
-        val state: TestPositive,
-        val onClickAction: (Item) -> Unit
+        val state: TestError,
+        val onDeleteTest: (Item) -> Unit
     ) : TestResultItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
