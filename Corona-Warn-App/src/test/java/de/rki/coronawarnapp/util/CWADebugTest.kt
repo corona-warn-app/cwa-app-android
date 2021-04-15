@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
-import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -13,7 +12,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.verify
 import io.mockk.verifySequence
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -49,18 +47,7 @@ class CWADebugTest : BaseTest() {
     }
 
     @Test
-    fun `logging is only initialized on tester builds`() {
-        val debugLogger: DebugLogger = mockk()
-        CWADebug.debugLoggerFactory = { debugLogger }
-        CWADebug.init(application)
-        CWADebug.initAfterInjection(appComponent)
-        verify { debugLogger wasNot Called }
-    }
-
-    @Test
-    fun `logging is initialized on deviceForTester builds`() {
-        every { BuildConfigWrap.FLAVOR } returns "deviceForTesters"
-
+    fun `logging is initialized`() {
         val debugLogger = mockk<DebugLogger>().apply {
             every { init() } just Runs
             every { setInjectionIsReady(appComponent) } just Runs
