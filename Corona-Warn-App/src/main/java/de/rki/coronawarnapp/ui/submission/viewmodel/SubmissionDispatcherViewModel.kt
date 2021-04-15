@@ -1,29 +1,30 @@
 package de.rki.coronawarnapp.ui.submission.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.map
 
-class SubmissionDispatcherViewModel @AssistedInject constructor() : CWAViewModel() {
+class SubmissionDispatcherViewModel @AssistedInject constructor(
+    private val ratProfileSettings: RATProfileSettings,
+    dispatcherProvider: DispatcherProvider,
+) : CWAViewModel(dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
-
-    private val profileCardIdData = MutableLiveData<Int>()
-    private val created = false // TODO get from settings
-    val profileCardId: LiveData<Int> = profileCardIdData
-
-    init {
-        profileCardIdData.value = if (created) {
-            R.layout.submission_open_rat_profile_card
-        } else {
-            R.layout.submission_create_rat_profile_card
-        }
-    }
+    val profileCardId: LiveData<Int> = ratProfileSettings.profile.flow
+        .map { profile ->
+            if (profile == null)
+                R.layout.submission_create_rat_profile_card
+            else
+                R.layout.submission_open_rat_profile_card
+        }.asLiveData(dispatcherProvider.IO)
 
     fun onBackPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
@@ -42,7 +43,7 @@ class SubmissionDispatcherViewModel @AssistedInject constructor() : CWAViewModel
     }
 
     fun onClickProfileCard() {
-        val event = if (created) {
+        val event = if (ratProfileSettings.profile.value != null) {
             SubmissionNavigationEvents.NavigateToOpenProfile
         } else {
             SubmissionNavigationEvents.NavigateToCreateProfile
