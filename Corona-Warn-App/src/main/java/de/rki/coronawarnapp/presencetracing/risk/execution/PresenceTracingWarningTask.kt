@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskMapper
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
@@ -30,6 +31,7 @@ class PresenceTracingWarningTask @Inject constructor(
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     private val traceWarningRepository: TraceWarningRepository,
     private val checkInsRepository: CheckInRepository,
+    private val presenceTracingRiskMapper: PresenceTracingRiskMapper
 ) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<PresenceTracingWarningTaskProgress>()
@@ -59,6 +61,9 @@ class PresenceTracingWarningTask @Inject constructor(
     private suspend fun doWork(): Result {
         val nowUTC = timeStamper.nowUTC
         checkCancel()
+
+        Timber.tag(TAG).d("Resetting config to make sure latest changes are considered.")
+        presenceTracingRiskMapper.clearConfig()
 
         Timber.tag(TAG).d("Syncing packages.")
         internalProgress.send(PresenceTracingWarningTaskProgress.Downloading())

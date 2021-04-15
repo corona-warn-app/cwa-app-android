@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskMapper
 import de.rki.coronawarnapp.presencetracing.risk.calculation.createCheckIn
 import de.rki.coronawarnapp.presencetracing.risk.calculation.createWarning
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
@@ -40,6 +41,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
     @MockK lateinit var traceWarningRepository: TraceWarningRepository
     @MockK lateinit var checkInsRepository: CheckInRepository
+    @MockK lateinit var presenceTracingRiskMapper: PresenceTracingRiskMapper
 
     @BeforeEach
     fun setup() {
@@ -71,6 +73,8 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             coEvery { deleteStaleData() } just Runs
             coEvery { reportCalculation(any(), any()) } just Runs
         }
+
+        coEvery { presenceTracingRiskMapper.clearConfig() } just Runs
     }
 
     private fun createInstance() = PresenceTracingWarningTask(
@@ -80,6 +84,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         presenceTracingRiskRepository = presenceTracingRiskRepository,
         traceWarningRepository = traceWarningRepository,
         checkInsRepository = checkInsRepository,
+        presenceTracingRiskMapper = presenceTracingRiskMapper
     )
 
     @Test
@@ -87,6 +92,27 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {
+            syncTool.syncPackages()
+            presenceTracingRiskRepository.deleteStaleData()
+            checkInsRepository.checkInsWithinRetention
+            traceWarningRepository.unprocessedWarningPackages
+
+            checkInWarningMatcher.process(any(), any())
+
+            presenceTracingRiskRepository.reportCalculation(
+                successful = true,
+                overlaps = any()
+            )
+            traceWarningRepository.markPackagesProcessed(listOf(WARNING_PKG.packageId))
+        }
+    }
+
+    @Test
+    fun `happy path with config change`() = runBlockingTest {
+        createInstance().run(mockk()) shouldNotBe null
+
+        coVerifySequence {
+            presenceTracingRiskMapper.clearConfig()
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention

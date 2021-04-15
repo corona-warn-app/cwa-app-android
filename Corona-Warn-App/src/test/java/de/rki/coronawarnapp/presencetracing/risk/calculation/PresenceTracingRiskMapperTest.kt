@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
@@ -50,7 +51,7 @@ class PresenceTracingRiskMapperTest : BaseTest() {
             .setRiskLevel(RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH)
             .build()
 
-    val container = PresenceTracingRiskCalculationParamContainer(
+    private val container = PresenceTracingRiskCalculationParamContainer(
         transmissionRiskValueMapping = listOf(transmissionRiskValueMapping),
         normalizedTimePerCheckInToRiskLevelMapping = listOf(normalizedTimeMappingLow, normalizedTimeMappingHigh),
         normalizedTimePerDayToRiskLevelMapping = listOf(normalizedTimeMappingLow, normalizedTimeMappingHigh)
@@ -97,6 +98,27 @@ class PresenceTracingRiskMapperTest : BaseTest() {
             createInstance().lookupRiskStatePerCheckIn(100000.1) shouldBe RiskState.CALCULATION_FAILED
             createInstance().lookupRiskStatePerDay(-1.0) shouldBe RiskState.CALCULATION_FAILED
             createInstance().lookupRiskStatePerCheckIn(-1.0) shouldBe RiskState.CALCULATION_FAILED
+        }
+    }
+
+    @Test
+    fun `config is requested only once`() {
+        runBlockingTest {
+            val mapper = createInstance()
+            mapper.lookupRiskStatePerDay(30.0)
+            mapper.lookupRiskStatePerDay(60.0)
+            coVerify(exactly = 1) { configProvider.currentConfig }
+        }
+    }
+
+    @Test
+    fun `config is requested again after reset`() {
+        runBlockingTest {
+            val mapper = createInstance()
+            mapper.lookupRiskStatePerDay(30.0)
+            mapper.clearConfig()
+            mapper.lookupRiskStatePerDay(60.0)
+            coVerify(exactly = 2) { configProvider.currentConfig }
         }
     }
 

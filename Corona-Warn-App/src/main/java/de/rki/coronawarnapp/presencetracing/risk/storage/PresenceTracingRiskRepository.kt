@@ -31,7 +31,7 @@ import javax.inject.Singleton
 class PresenceTracingRiskRepository @Inject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
     private val databaseFactory: PresenceTracingRiskDatabase.Factory,
-    private val timeStamper: TimeStamper,
+    private val timeStamper: TimeStamper
 ) {
 
     private val database by lazy {
@@ -144,7 +144,13 @@ class PresenceTracingRiskRepository @Inject constructor(
         get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
 
     suspend fun clearAllTables() {
+        Timber.i("Deleting all matches and results.")
         traceTimeIntervalMatchDao.deleteAll()
+        riskLevelResultDao.deleteAll()
+    }
+
+    suspend fun clearResults() {
+        Timber.i("Deleting all results.")
         riskLevelResultDao.deleteAll()
     }
 }
