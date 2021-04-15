@@ -3,13 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="24dp"
     tools:context=".ui.coronatest.rat.profile.onboarding.RATProfileOnboardingFragment">
 
+    <!--    TODO: implement onboarding screen-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="🚧"
         android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/nextButton"
+        style="@style/buttonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:text="Weiter" />
 
 </FrameLayout>
