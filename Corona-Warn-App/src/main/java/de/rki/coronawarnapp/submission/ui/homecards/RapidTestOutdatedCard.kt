@@ -2,30 +2,34 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardInvalidBinding
-import de.rki.coronawarnapp.submission.ui.homecards.TestInvalidCard.Item
+import de.rki.coronawarnapp.databinding.HomeSubmissionRapidStatusCardOutdatedBinding
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestOutdatedCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class TestInvalidCard(
+class RapidTestOutdatedCard(
     parent: ViewGroup
-) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardInvalidBinding>(R.layout.home_card_container_layout, parent) {
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionRapidStatusCardOutdatedBinding>(
+    R.layout.home_card_container_layout,
+    parent
+) {
 
     override val viewBinding = lazy {
-        HomeSubmissionStatusCardInvalidBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        HomeSubmissionRapidStatusCardOutdatedBinding
+            .inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: HomeSubmissionStatusCardInvalidBinding.(
+    override val onBindData: HomeSubmissionRapidStatusCardOutdatedBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-        deleteTestAction.setOnClickListener { curItem.onDeleteTest(item) }
+        dontShowAnymoreButton.setOnClickListener { curItem.hideTest(item) }
     }
 
     data class Item(
         val state: TestInvalid,
-        val onDeleteTest: (Item) -> Unit
+        val hideTest: (Item) -> Unit
     ) : TestResultItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
