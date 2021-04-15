@@ -46,6 +46,14 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionConsentFragment()
                     )
+                is SubmissionNavigationEvents.NavigateToCreateProfile -> {
+
+                }
+
+                is SubmissionNavigationEvents.NavigateToOpenProfile -> {
+
+                }
+
             }
         }
 
