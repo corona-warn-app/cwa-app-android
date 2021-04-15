@@ -6,7 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -26,7 +26,7 @@ import timber.log.Timber
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val cameraSettings: CameraSettings,
-    private val qrCodeValidator: CoronaTestQrCodeExtractor
+    private val qrCodeValidator: CoronaTestQrCodeValidator
 ) : CWAViewModel() {
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
@@ -34,7 +34,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     fun validateTestGUID(rawResult: String) {
         try {
-            val coronaTestQRCode = qrCodeValidator.extract(rawResult)
+            val coronaTestQRCode = qrCodeValidator.validate(rawResult)
             QRCodeCensor.lastGUID = coronaTestQRCode.guid
             scanStatusValue.postValue(ScanStatus.SUCCESS)
             doDeviceRegistration(coronaTestQRCode)
