@@ -40,7 +40,10 @@ fun PCRCoronaTest?.toSubmissionState(): SubmissionStatePCR {
         eval.isResultNegative() -> SubmissionStatePCR.TestNegative
         eval.isSubmissionDone() -> SubmissionStatePCR.SubmissionDone(testRegisteredAt = registeredAt)
         eval.isPending() -> SubmissionStatePCR.TestPending
-        else -> if (CWADebug.isDeviceForTestersBuild) throw IllegalStateException(eval.toString()) else SubmissionStatePCR.TestPending
+        else -> {
+            if (CWADebug.isDeviceForTestersBuild) throw IllegalStateException(eval.toString())
+            else SubmissionStatePCR.TestPending
+        }
     }
 }
 

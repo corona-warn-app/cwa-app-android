@@ -209,5 +209,4 @@ class PCRCoronaTestExtensionsTest : BaseTest() {
 //        coEvery { submissionRepository.asyncRegisterDeviceViaGUID(any()) } returns CoronaTestResult.PCR_POSITIVE
 //        viewModel.doDeviceRegistration(mockResult)
 //    }
-
 }

@@ -9,9 +9,9 @@ import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
-import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
+@Suppress("LongParameterList")
 class MainActivityViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val environmentSetup: EnvironmentSetup,

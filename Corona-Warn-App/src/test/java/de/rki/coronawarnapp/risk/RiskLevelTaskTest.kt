@@ -59,10 +59,12 @@ class RiskLevelTaskTest : BaseTest() {
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
     private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
-        setOf(mockk<CoronaTest>().apply {
-            every { isSubmissionAllowed } returns false
-            every { isViewed } returns false
-        })
+        setOf(
+            mockk<CoronaTest>().apply {
+                every { isSubmissionAllowed } returns false
+                every { isViewed } returns false
+            }
+        )
     )
 
     @BeforeEach
@@ -231,10 +233,12 @@ class RiskLevelTaskTest : BaseTest() {
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
         every { timeStamper.nowUTC } returns now
 
-        coronaTests.value = setOf(mockk<CoronaTest>().apply {
-            every { isSubmissionAllowed } returns true
-            every { isViewed } returns true
-        })
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { isSubmissionAllowed } returns true
+                every { isViewed } returns true
+            }
+        )
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
@@ -261,10 +265,12 @@ class RiskLevelTaskTest : BaseTest() {
         every { timeStamper.nowUTC } returns now
         coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
 
-        coronaTests.value = setOf(mockk<CoronaTest>().apply {
-            every { isSubmissionAllowed } returns true
-            every { isViewed } returns false
-        })
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { isSubmissionAllowed } returns true
+                every { isViewed } returns false
+            }
+        )
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,

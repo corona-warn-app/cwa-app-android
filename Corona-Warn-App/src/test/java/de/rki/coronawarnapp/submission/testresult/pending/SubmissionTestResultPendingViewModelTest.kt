@@ -57,7 +57,6 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
             cwaWebExceptionLiveData.observeForever {}
             cwaWebExceptionLiveData.value shouldBe expectedError
 
-
             testFlow.value = mockk<CoronaTest>().apply { every { lastError } returns unexpectedError }
             cwaWebExceptionLiveData.value shouldBe unexpectedError
         }
