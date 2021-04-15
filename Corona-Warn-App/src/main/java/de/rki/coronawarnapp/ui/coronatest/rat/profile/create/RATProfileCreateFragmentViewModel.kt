@@ -13,7 +13,11 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     fun saveProfile() {
 
         ratProfileSettings.profile.update {
-            RATProfile("Max", "Mustermann", "01.10.2000")
+            RATProfile(
+                firstName = "Max",
+                lastName = "Mustermann",
+                birthDate = "01.10.2000"
+            )
         }
     }
 
