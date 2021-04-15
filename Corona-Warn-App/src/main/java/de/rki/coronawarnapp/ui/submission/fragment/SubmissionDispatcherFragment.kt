@@ -57,8 +57,10 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                     val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
                     ratGraph.startDestination = R.id.ratProfileQrCodeFragment
 
-                    SubmissionDispatcherFragmentDirections
-                        .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
+                    doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
+                    )
                 }
             }
         }
