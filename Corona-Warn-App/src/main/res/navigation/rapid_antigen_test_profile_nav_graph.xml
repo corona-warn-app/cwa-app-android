@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rapid_test_profile_nav_graph"
+    app:startDestination="@id/placeholder">
+
+    <fragment
+        android:id="@+id/RATProfileOnboardingFragment"
+        android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.onboarding.RATProfileOnboardingFragment"
+        android:label="rat_profile_onboarding_fragment"
+        tools:layout="@layout/rat_profile_onboarding_fragment" >
+        <action
+            android:id="@+id/action_RATProfileOnboardingFragment_to_RATProfileQrCodeFragment"
+            app:destination="@id/RATProfileQrCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RATProfileCreateFragment"
+        android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragment"
+        android:label="rat_profile_create_fragment"
+        tools:layout="@layout/rat_profile_create_fragment" />
+    <fragment
+        android:id="@+id/RATProfileQrCodeFragment"
+        android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.RATProfileQrCodeFragment"
+        android:label="rat_profile_qr_code_fragment"
+        tools:layout="@layout/rat_profile_qr_code_fragment" >
+        <action
+            android:id="@+id/action_RATProfileQrCodeFragment_to_RATProfileCreateFragment"
+            app:destination="@id/RATProfileCreateFragment" />
+    </fragment>
+</navigation>
