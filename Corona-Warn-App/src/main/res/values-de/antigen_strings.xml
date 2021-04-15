@@ -61,7 +61,7 @@
     <!-- XTXT: rapid test homescreen card: status subtitle - outdated test -->
     <string name="ag_homescreen_card_rapidtest_status_outdated_test">"Test nicht mehr aktuell"</string>
     <!-- XTXT: rapid test homescreen card: result positive - check results with PCR test -->
-    <string name="ag_homescreen_card_rapidtest_body_result_positive_pcr_check">"Machen Sie einen PCR-Test um dieses Test-Ergebnis zu verifizieren."</string>
+    <string name="ag_homescreen_card_rapidtest_body_result_positive_pcr_check">"Machen Sie einen PCR-Test, um dieses Test-Ergebnis zu verifizieren."</string>
 
     <!-- Body -->
     <!-- XTXT: rapid test homescreen card: body - no result -->
