@@ -62,4 +62,4 @@ class PresenceTracingRiskMapper @Inject constructor(
     }
 }
 
-private const val TAG = ""
+private const val TAG = "PtRiskMapper"
