@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
@@ -46,14 +47,19 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionConsentFragment()
                     )
-                is SubmissionNavigationEvents.NavigateToCreateProfile -> {
-
-                }
+                is SubmissionNavigationEvents.NavigateToCreateProfile ->
+                    doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
+                    )
 
                 is SubmissionNavigationEvents.NavigateToOpenProfile -> {
+                    val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
+                    ratGraph.startDestination = R.id.ratProfileQrCodeFragment
 
+                    SubmissionDispatcherFragmentDirections
+                        .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
                 }
-
             }
         }
 
