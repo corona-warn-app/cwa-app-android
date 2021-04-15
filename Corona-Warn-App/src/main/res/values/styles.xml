@@ -188,6 +188,11 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="phoneNumber">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
     <style name="rowSettings" parent="@style/row">
         <item name="android:paddingStart">0dp</item>
     </style>
