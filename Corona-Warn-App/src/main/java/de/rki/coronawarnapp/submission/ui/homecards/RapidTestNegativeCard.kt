@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.databinding.HomeSubmissionRapidStatusCardNegativeBinding
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestNegativeCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
@@ -28,7 +29,7 @@ class RapidTestNegativeCard(
     ) -> Unit = { _, _ -> }
 
     data class Item(
-        val state: TestNegative
+        val state: SubmissionStateRAT.TestNegative
     ) : TestResultItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }

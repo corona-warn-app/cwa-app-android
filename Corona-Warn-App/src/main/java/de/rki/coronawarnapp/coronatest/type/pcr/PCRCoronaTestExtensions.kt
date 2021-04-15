@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import timber.log.Timber
 
 fun PCRCoronaTest?.toSubmissionState(): SubmissionStatePCR {
-    if (this == null) return NoTest
+    if (this == null) return SubmissionStatePCR.NoTest
 
     val uiState: DeviceUIState = when (state) {
         PCRCoronaTest.State.PENDING -> DeviceUIState.PAIRED_NO_RESULT
@@ -31,16 +31,16 @@ fun PCRCoronaTest?.toSubmissionState(): SubmissionStatePCR {
     )
     Timber.d("eval: %s", eval)
     return when {
-        eval.isUnregistered() -> NoTest
-        eval.isFetching() -> FetchingResult
-        eval.isTestResultReady() -> TestResultReady
-        eval.isResultPositive() -> TestPositive
-        eval.isInvalid() -> TestInvalid
-        eval.isError() -> TestError
-        eval.isResultNegative() -> TestNegative
-        eval.isSubmissionDone() -> SubmissionDone(testRegisteredOn = registeredAt.toDate())
-        eval.isPending() -> TestPending
-        else -> if (CWADebug.isDeviceForTestersBuild) throw IllegalStateException(eval.toString()) else TestPending
+        eval.isUnregistered() -> SubmissionStatePCR.NoTest
+        eval.isFetching() -> SubmissionStatePCR.FetchingResult
+        eval.isTestResultReady() -> SubmissionStatePCR.TestResultReady
+        eval.isResultPositive() -> SubmissionStatePCR.TestPositive
+        eval.isInvalid() -> SubmissionStatePCR.TestInvalid
+        eval.isError() -> SubmissionStatePCR.TestError
+        eval.isResultNegative() -> SubmissionStatePCR.TestNegative
+        eval.isSubmissionDone() -> SubmissionStatePCR.SubmissionDone(testRegisteredAt = registeredAt)
+        eval.isPending() -> SubmissionStatePCR.TestPending
+        else -> if (CWADebug.isDeviceForTestersBuild) throw IllegalStateException(eval.toString()) else SubmissionStatePCR.TestPending
     }
 }
 

@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.submission.ui.homecards.FetchingResult
-import de.rki.coronawarnapp.submission.ui.homecards.NoTest
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestNegativeCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPendingCard
@@ -22,14 +21,8 @@ import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestReadyCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
-import de.rki.coronawarnapp.submission.ui.homecards.TestError
-import de.rki.coronawarnapp.submission.ui.homecards.TestInvalid
-import de.rki.coronawarnapp.submission.ui.homecards.TestNegative
-import de.rki.coronawarnapp.submission.ui.homecards.TestPending
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositive
+import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
-import de.rki.coronawarnapp.submission.ui.homecards.TestResultReady
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -37,7 +30,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import java.util.Date
+import org.joda.time.Instant
 
 class HomeTestCardsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
@@ -45,23 +38,23 @@ class HomeTestCardsFragmentViewModel @AssistedInject constructor(
 
     private val cards: Flow<List<TestResultItem>> = flowOf(
         listOf(
-            TestUnregisteredCard.Item(NoTest) {},
-            TestFetchingCard.Item(FetchingResult),
-            PcrTestPendingCard.Item(TestPending) {},
-            PcrTestReadyCard.Item(TestResultReady) {},
-            PcrTestInvalidCard.Item(TestInvalid) {},
-            PcrTestErrorCard.Item(TestError) {},
-            PcrTestNegativeCard.Item(TestNegative),
-            PcrTestPositiveCard.Item(TestPositive) {},
-            PcrTestSubmissionDoneCard.Item(SubmissionDone(Date())),
-            RapidTestPendingCard.Item(TestPending) {},
-            RapidTestReadyCard.Item(TestResultReady) {},
-            RapidTestInvalidCard.Item(TestInvalid) {},
-            RapidTestOutdatedCard.Item(TestInvalid) {},
-            RapidTestErrorCard.Item(TestError) {},
-            RapidTestNegativeCard.Item(TestNegative),
-            RapidTestPositiveCard.Item(TestPositive) {},
-            RapidTestSubmissionDoneCard.Item(SubmissionDone(Date()))
+            TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {},
+            TestFetchingCard.Item(SubmissionStatePCR.FetchingResult),
+            PcrTestPendingCard.Item(SubmissionStatePCR.TestPending) {},
+            PcrTestReadyCard.Item(SubmissionStatePCR.TestResultReady) {},
+            PcrTestInvalidCard.Item(SubmissionStatePCR.TestInvalid) {},
+            PcrTestErrorCard.Item(SubmissionStatePCR.TestError) {},
+            PcrTestNegativeCard.Item(SubmissionStatePCR.TestNegative),
+            PcrTestPositiveCard.Item(SubmissionStatePCR.TestPositive) {},
+            PcrTestSubmissionDoneCard.Item(SubmissionStatePCR.SubmissionDone(Instant.now())),
+            RapidTestPendingCard.Item(SubmissionStateRAT.TestPending) {},
+            RapidTestReadyCard.Item(SubmissionStateRAT.TestResultReady) {},
+            RapidTestInvalidCard.Item(SubmissionStateRAT.TestInvalid) {},
+            RapidTestOutdatedCard.Item(SubmissionStateRAT.TestInvalid) {},
+            RapidTestErrorCard.Item(SubmissionStateRAT.TestError) {},
+            RapidTestNegativeCard.Item(SubmissionStateRAT.TestNegative),
+            RapidTestPositiveCard.Item(SubmissionStateRAT.TestPositive) {},
+            RapidTestSubmissionDoneCard.Item(SubmissionStateRAT.SubmissionDone(Instant.now()))
         )
     )
 

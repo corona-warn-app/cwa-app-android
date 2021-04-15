@@ -1,23 +1,19 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
-import android.content.Context
-import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
-import java.util.Date
+import de.rki.coronawarnapp.coronatest.type.CommonSubmissionStates
+import org.joda.time.Instant
 
-sealed class SubmissionStateRAT
+sealed class SubmissionStateRAT {
 
-object NoTest : SubmissionStateRAT()
-object FetchingResult : SubmissionStateRAT()
-object TestResultReady : SubmissionStateRAT()
-object TestPositive : SubmissionStateRAT()
-object TestNegative : SubmissionStateRAT()
-object TestError : SubmissionStateRAT()
-object TestInvalid : SubmissionStateRAT()
-object TestPending : SubmissionStateRAT()
-data class SubmissionDone(val testRegisteredOn: Date) : SubmissionStateRAT() {
-
-    fun formatTestRegistrationText(context: Context): String =
-        context.getString(R.string.reenable_risk_card_test_registration_string)
-            .format(testRegisteredOn.toUIFormat(context))
+    object NoTest : SubmissionStateRAT(), CommonSubmissionStates.TestUnregistered
+    object FetchingResult : SubmissionStateRAT(), CommonSubmissionStates.TestFetching
+    object TestResultReady : SubmissionStateRAT()
+    object TestPositive : SubmissionStateRAT()
+    object TestNegative : SubmissionStateRAT()
+    object TestError : SubmissionStateRAT()
+    object TestInvalid : SubmissionStateRAT()
+    object TestPending : SubmissionStateRAT()
+    data class SubmissionDone(
+        override val testRegisteredAt: Instant
+    ) : SubmissionStateRAT(), CommonSubmissionStates.SubmissionDone
 }

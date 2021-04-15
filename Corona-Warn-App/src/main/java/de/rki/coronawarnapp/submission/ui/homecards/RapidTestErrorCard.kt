@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.databinding.HomeSubmissionRapidStatusCardErrorBinding
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -31,7 +32,7 @@ class RapidTestErrorCard(
     }
 
     data class Item(
-        val state: TestError,
+        val state: SubmissionStateRAT.TestError,
         val onDeleteTest: (Item) -> Unit
     ) : TestResultItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
