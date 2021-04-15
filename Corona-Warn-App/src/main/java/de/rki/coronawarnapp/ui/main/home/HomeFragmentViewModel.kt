@@ -271,7 +271,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             add(testPCR.toTestCardItem())
-            add(testRAT.toTestCardItem())
+
+            if (stateRAT != SubmissionStateRAT.NoTest || statePCR != SubmissionStatePCR.NoTest) {
+                add(testRAT.toTestCardItem())
+            }
 
             bothTestStates.firstOrNull { it is CommonSubmissionStates.SubmissionDone }?.let {
                 it as CommonSubmissionStates.SubmissionDone
