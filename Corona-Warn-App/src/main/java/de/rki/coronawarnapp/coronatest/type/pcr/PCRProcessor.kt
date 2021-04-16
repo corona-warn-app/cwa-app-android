@@ -137,7 +137,7 @@ class PCRProcessor @Inject constructor(
         Timber.tag(TAG).v("markProcessing(test=%s, isProcessing=%b)", test, isProcessing)
         test as PCRCoronaTest
 
-        return test.copy(isProcessing = true)
+        return test.copy(isProcessing = isProcessing)
     }
 
     override suspend fun markViewed(test: CoronaTest): CoronaTest {
