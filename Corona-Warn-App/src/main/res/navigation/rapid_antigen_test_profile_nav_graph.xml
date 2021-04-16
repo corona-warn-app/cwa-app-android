@@ -18,14 +18,16 @@
         android:id="@+id/ratProfileCreateFragment"
         android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragment"
         android:label="rat_profile_create_fragment"
-        tools:layout="@layout/rat_profile_create_fragment" >
+        tools:layout="@layout/rat_profile_create_fragment">
         <action
             android:id="@+id/action_ratProfileCreateFragment_to_ratProfileQrCodeFragment"
-            app:destination="@id/ratProfileQrCodeFragment" />
+            app:destination="@id/ratProfileQrCodeFragment"
+            app:popUpTo="@id/rapid_test_profile_nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/ratProfileQrCodeFragment"
         android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.RATProfileQrCodeFragment"
         android:label="rat_profile_qr_code_fragment"
-        tools:layout="@layout/rat_profile_qr_code_fragment"/>
+        tools:layout="@layout/rat_profile_qr_code_fragment" />
 </navigation>
