@@ -9,7 +9,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="🚧"
+        android:text="🚧 Profile Screen"
         android:textSize="40sp" />
+
+
+    <Button
+        android:id="@+id/closeButton"
+        style="@style/buttonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="Weiter" />
 
 </FrameLayout>

@@ -2011,4 +2011,14 @@
     <string name="rat_profile_open_card_title">Schnelltest-Profil</string>
     <!-- XTXT: Open RAT profile card subtitle -->
     <string name="rat_profile_open_card_subtitle">Sparen Sie Zeit und zeigen Sie Ihr Schnelltest-Profil bei der Teststelle vor.</string>
+    <!-- XHED: Create RAT profile title -->
+    <string name="rat_profile_create_title">Schnelltest-Profil</string>
+    <!-- XTXT: Create RAT profile first name hint -->
+    <string name="rat_profile_create_first_name_hint">First name</string>
+    <!-- XTXT: Create RAT profile last name hint -->
+    <string name="rat_profile_create_last_name_hint">Last name</string>
+    <!-- XTXT: Create RAT profile birth date hint -->
+    <string name="rat_profile_create_birth_date_hint">Birth date</string>
+    <!-- XBUT: Create RAT profile save button -->
+    <string name="rat_profile_create_save_button">Save</string>
 </resources>
