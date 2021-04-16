@@ -1,3 +1,5 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
-open class InvalidQRCodeException : Exception("error in qr code")
+open class InvalidQRCodeException(
+    message: String = "An error occurred when parsing the qr code"
+) : Exception(message)

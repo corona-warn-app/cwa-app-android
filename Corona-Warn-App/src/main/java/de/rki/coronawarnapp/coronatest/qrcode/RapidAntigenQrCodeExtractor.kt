@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.coronatest.qrcode
 
 import com.google.common.io.BaseEncoding
 import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.internal.commonToUtf8String
@@ -19,15 +20,33 @@ internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
     }
 
     override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
-        val data = extractData(rawString)
+        val data = extractData(rawString).validate()
         return CoronaTestQRCode.RapidAntigen(
             CoronaTest.Type.RAPID_ANTIGEN,
-            data.guid,
+            data.hash,
             data.createdAt,
-            data.fn,
-            data.ln,
+            data.firstName,
+            data.lastName,
             data.dateOfBirth
         )
+    }
+
+    private fun Payload.validate(): Payload {
+        if (timestamp <= 0) throw InvalidQRCodeException("Timestamp is <= 0")
+        dateOfBirth = dob?.let {
+            try {
+                LocalDate.parse(it)
+            } catch (e: Exception) {
+                Timber.e("Invalid date format")
+                throw InvalidQRCodeException("Date of birth has wrong format: $it. It should be YYYY-MM-DD")
+            }
+        }
+        if (!hash.isSha256Hash()) throw InvalidQRCodeException("Hash has invalid format")
+        return this
+    }
+
+    private fun String.isSha256Hash(): Boolean {
+        return toByteArray().size == 64
     }
 
     private fun extractData(rawString: String): Payload {
@@ -51,22 +70,15 @@ internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
     }
 
     private data class Payload(
-        val guid: String,
+        val hash: String,
         val timestamp: Long,
-        val fn: String?,
-        val ln: String?,
+        @SerializedName("fn")
+        val firstName: String?,
+        @SerializedName("ln")
+        val lastName: String?,
         val dob: String?
     ) {
-        val dateOfBirth: LocalDate?
-            get() = dob?.let {
-                try {
-                    LocalDate.parse(it)
-                } catch (e: Exception) {
-                    Timber.e("Invalid date format")
-                    null
-                }
-            }
-
+        var dateOfBirth: LocalDate? = null
         val createdAt: Instant
             get() = Instant.ofEpochSecond(timestamp)
     }
