@@ -151,7 +151,10 @@ class HomeFragmentViewModelTest : BaseTest() {
 //            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE)
 //        )
         every { submissionRepository.pcrTest } returns flowOf(
-            mockk<PCRCoronaTest>().apply { every { testResult } returns CoronaTestResult.PCR_POSITIVE }
+            mockk<PCRCoronaTest>().apply {
+                every { testResult } returns CoronaTestResult.PCR_POSITIVE
+                every { lastError } returns null
+            }
         )
         every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
 
@@ -169,7 +172,10 @@ class HomeFragmentViewModelTest : BaseTest() {
 //            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN)
 //        )
         every { submissionRepository.pcrTest } returns flowOf(
-            mockk<PCRCoronaTest>().apply { every { testResult } returns CoronaTestResult.PCR_POSITIVE }
+            mockk<PCRCoronaTest>().apply {
+                every { testResult } returns CoronaTestResult.PCR_POSITIVE
+                every { lastError } returns null
+            }
         )
         every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
 
