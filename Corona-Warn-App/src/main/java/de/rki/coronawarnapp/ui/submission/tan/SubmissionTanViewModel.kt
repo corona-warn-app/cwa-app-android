@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -51,7 +53,8 @@ class SubmissionTanViewModel @AssistedInject constructor(
         launch {
             try {
                 registrationState.postValue(ApiRequestState.STARTED)
-                submissionRepository.asyncRegisterDeviceViaTAN(teletan.value)
+                val request = CoronaTestTAN.PCR(tan = teletan.value)
+                submissionRepository.registerTest(request)
                 registrationState.postValue(ApiRequestState.SUCCESS)
             } catch (err: CwaWebException) {
                 registrationState.postValue(ApiRequestState.FAILED)
@@ -67,7 +70,8 @@ class SubmissionTanViewModel @AssistedInject constructor(
                 registrationState.postValue(ApiRequestState.FAILED)
                 err.report(ExceptionCategory.INTERNAL)
             } finally {
-                submissionRepository.refreshDeviceUIState(refreshTestResult = false)
+                // TODO Should not be necessary? What new data would we
+                submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
             }
         }
     }
