@@ -16,7 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/rat_profile_create_title" />
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/first_name_input_layout"
         style="@style/TextInputLayoutTheme"
@@ -39,7 +38,6 @@
             android:inputType="textPersonName" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/last_name_input_layout"
@@ -64,7 +62,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/birth_date_input_layout"
         style="@style/TextInputLayoutTheme"
@@ -88,7 +85,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <Button
         android:id="@+id/profile_save_button"
         style="@style/buttonPrimary"
@@ -103,6 +99,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/birth_date_input_layout"
         app:layout_constraintVertical_bias="1.0" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
