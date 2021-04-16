@@ -19,19 +19,19 @@ import de.rki.coronawarnapp.submission.ui.homecards.NoTest
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.submission.ui.homecards.TestError
-import de.rki.coronawarnapp.submission.ui.homecards.TestErrorCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestInvalid
-import de.rki.coronawarnapp.submission.ui.homecards.TestInvalidCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestNegative
-import de.rki.coronawarnapp.submission.ui.homecards.TestNegativeCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestNegativeCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestPending
-import de.rki.coronawarnapp.submission.ui.homecards.TestPendingCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestPositive
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestReadyCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestReadyCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultReady
-import de.rki.coronawarnapp.submission.ui.homecards.TestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
@@ -47,7 +47,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
-import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
@@ -146,21 +146,21 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 onCardClick = {
                     routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
                 },
-                onUpdateClick = { refreshDiagnosisKeys() }
+                onUpdateClick = { refreshRiskResult() }
             )
             is IncreasedRisk -> IncreasedRiskCard.Item(
                 state = tracingState,
                 onCardClick = {
                     routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
                 },
-                onUpdateClick = { refreshDiagnosisKeys() }
+                onUpdateClick = { refreshRiskResult() }
             )
             is TracingFailed -> TracingFailedCard.Item(
                 state = tracingState,
                 onCardClick = {
                     routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
                 },
-                onRetryClick = { refreshDiagnosisKeys() }
+                onRetryClick = { refreshRiskResult() }
             )
         }
     }.distinctUntilChanged()
@@ -171,39 +171,34 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
             }
             is FetchingResult -> TestFetchingCard.Item(state)
-            is TestResultReady -> TestReadyCard.Item(state) {
+            is TestResultReady -> PcrTestReadyCard.Item(state) {
                 routeToScreen.postValue(
                     HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment()
                 )
             }
-            is TestPositive -> TestPositiveCard.Item(state) {
+            is TestPositive -> PcrTestPositiveCard.Item(state) {
                 routeToScreen.postValue(
                     HomeFragmentDirections
                         .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
                 )
             }
-            is TestNegative -> TestNegativeCard.Item(state) {
-                routeToScreen.postValue(
-                    HomeFragmentDirections
-                        .actionMainFragmentToSubmissionTestResultNegativeFragment()
-                )
-            }
-            is TestInvalid -> TestInvalidCard.Item(state) {
+            is TestNegative -> PcrTestNegativeCard.Item(state)
+            is TestInvalid -> PcrTestInvalidCard.Item(state) {
                 popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
             }
-            is TestError -> TestErrorCard.Item(state) {
+            is TestError -> PcrTestErrorCard.Item(state) {
                 routeToScreen.postValue(
                     HomeFragmentDirections
                         .actionMainFragmentToSubmissionTestResultPendingFragment()
                 )
             }
-            is TestPending -> TestPendingCard.Item(state) {
+            is TestPending -> PcrTestPendingCard.Item(state) {
                 routeToScreen.postValue(
                     HomeFragmentDirections
                         .actionMainFragmentToSubmissionTestResultPendingFragment()
                 )
             }
-            is SubmissionDone -> TestSubmissionDoneCard.Item(state)
+            is SubmissionDone -> PcrTestSubmissionDoneCard.Item(state)
         }
     }.distinctUntilChanged()
 
@@ -268,7 +263,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun reenableRiskCalculation() {
         deregisterWarningAccepted()
         deadmanNotificationScheduler.schedulePeriodic()
-        refreshDiagnosisKeys()
+        refreshRiskResult()
     }
 
     // TODO only lazy to keep tests going which would break because of LocalData access
@@ -303,8 +298,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    private fun refreshDiagnosisKeys() {
-        tracingRepository.refreshDiagnosisKeys()
+    private fun refreshRiskResult() {
+        tracingRepository.refreshRiskResult()
     }
 
     fun deregisterWarningAccepted() {
