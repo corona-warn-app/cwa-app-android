@@ -27,4 +27,16 @@ class CoronaTestQrCodeValidatorTest : BaseTest() {
         instance.validate(raQrCode2).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
         instance.validate(raQrCode3).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
     }
+
+    @Test
+    fun `invalid code throws exception`() {
+        val invalidCode = "HTTPS://somethingelse/?123456-12345678-1234-4DA7-B166-B86D85475064"
+        val instance = CoronaTestQrCodeValidator()
+        return try {
+            instance.validate(invalidCode)
+            false
+        } catch (e: InvalidQRCodeException) {
+            true
+        } shouldBe true
+    }
 }
