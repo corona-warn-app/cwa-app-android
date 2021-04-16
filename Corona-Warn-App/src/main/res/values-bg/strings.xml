@@ -852,9 +852,9 @@
     <string name="debugging_debuglog_action_start_recording">"Начало"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Спиране и изтриване"</string>
-    <!-- XBUT: Button text to share the log recording -->
+    <!-- XBUT: Button text to send the log recording to the server -->
     <string name="debugging_debuglog_action_share_log">"Изпращане на отчет за грешки"</string>
-    <!-- XBUT: Button text to locally store the log recording -->
+    <!-- XBUT: Button text to export the log -->
     <string name="debugging_debuglog_action_local_log_export">"Локално запазване и продължаване"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Записването е активно"</string>
@@ -882,9 +882,6 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Продължаване на анализа"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Необходими са поне 200 MB памет, за да се стартира анализа на грешките. Моля, освободете място."</string>
-    <!-- XHED: Dialog title if a user has stored a debug log locally -->
-    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
-    <!-- YTXT: Dialog message if local export has failed -->
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Подробна информация относно изпращането на отчети за грешки"</string>
     <!-- YTXT: Section Title for debug legal screen -->
