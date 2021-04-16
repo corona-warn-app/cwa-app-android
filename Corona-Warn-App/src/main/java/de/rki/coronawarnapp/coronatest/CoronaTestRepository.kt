@@ -45,9 +45,10 @@ class CoronaTestRepository @Inject constructor(
         sharingBehavior = SharingStarted.Eagerly,
     ) {
         val legacyTests = legacyMigration.startMigration()
-        (legacyTests + storage.coronaTests).map {
-            it.identifier to it
-        }.toMap()
+        val persistedTests = storage.coronaTests
+        (legacyTests + persistedTests).map { it.identifier to it }.toMap().also {
+            Timber.tag(TAG).v("Restored CoronaTest data: %s", it)
+        }
     }
 
     val coronaTests: Flow<Set<CoronaTest>> = internalData.data.map { it.values.toSet() }
@@ -60,7 +61,10 @@ class CoronaTestRepository @Inject constructor(
                 storage.coronaTests = it.values.toSet()
                 legacyMigration.finishMigration()
             }
-            .catch { it.reportProblem(TAG, "Failed to snapshot CoronaTest data to storage.") }
+            .catch {
+                it.reportProblem(TAG, "Failed to snapshot CoronaTest data to storage.")
+                throw it
+            }
             .launchIn(appScope + dispatcherProvider.IO)
     }
 

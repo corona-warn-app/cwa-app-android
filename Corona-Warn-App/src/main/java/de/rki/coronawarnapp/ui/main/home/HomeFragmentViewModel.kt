@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
 import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.RapidAntigenCoronaTest
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -209,7 +209,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state)
     }
 
-    private fun RapidAntigenCoronaTest?.toTestCardItem() = when (val state = this.toSubmissionState()) {
+    private fun RACoronaTest?.toTestCardItem() = when (val state = this.toSubmissionState()) {
         is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
             // TODO
 //            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())

@@ -22,7 +22,7 @@ class RapidAntigenProcessor @Inject constructor(
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
 
-    override suspend fun create(request: CoronaTestQRCode): RapidAntigenCoronaTest {
+    override suspend fun create(request: CoronaTestQRCode): RACoronaTest {
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.RapidAntigen
 
@@ -30,7 +30,7 @@ class RapidAntigenProcessor @Inject constructor(
 
         registrationData.testResult.validOrThrow()
 
-        return RapidAntigenCoronaTest(
+        return RACoronaTest(
             identifier = request.identifier,
             registeredAt = timeStamper.nowUTC,
             registrationToken = registrationData.registrationToken,
@@ -51,7 +51,7 @@ class RapidAntigenProcessor @Inject constructor(
     override suspend fun pollServer(test: CoronaTest): CoronaTest {
         return try {
             Timber.tag(TAG).v("pollServer(test=%s)", test)
-            test as RapidAntigenCoronaTest
+            test as RACoronaTest
 
             if (test.isSubmitted || test.isSubmissionAllowed) {
                 Timber.tag(TAG).w("Not refreshing already final test.")
@@ -69,7 +69,7 @@ class RapidAntigenProcessor @Inject constructor(
             Timber.tag(TAG).e(e, "Failed to poll server for  %s", test)
             if (e !is CwaWebException) e.report(ExceptionCategory.INTERNAL)
 
-            test as RapidAntigenCoronaTest
+            test as RACoronaTest
             test.copy(lastError = e)
         }
     }
@@ -79,37 +79,37 @@ class RapidAntigenProcessor @Inject constructor(
         // Currently nothing to do
     }
 
-    override suspend fun markSubmitted(test: CoronaTest): RapidAntigenCoronaTest {
+    override suspend fun markSubmitted(test: CoronaTest): RACoronaTest {
         Timber.tag(TAG).d("markSubmitted(test=%s)", test)
-        test as RapidAntigenCoronaTest
+        test as RACoronaTest
 
         return test.copy(isSubmitted = true)
     }
 
     override suspend fun markProcessing(test: CoronaTest, isProcessing: Boolean): CoronaTest {
         Timber.tag(TAG).v("markProcessing(test=%s, isProcessing=%b)", test, isProcessing)
-        test as RapidAntigenCoronaTest
+        test as RACoronaTest
 
         return test.copy(isProcessing = isProcessing)
     }
 
     override suspend fun markViewed(test: CoronaTest): CoronaTest {
         Timber.tag(TAG).v("markViewed(test=%s)", test)
-        test as RapidAntigenCoronaTest
+        test as RACoronaTest
 
         return test.copy(isViewed = true)
     }
 
     override suspend fun updateConsent(test: CoronaTest, consented: Boolean): CoronaTest {
         Timber.tag(TAG).v("updateConsent(test=%s, consented=%b)", test, consented)
-        test as RapidAntigenCoronaTest
+        test as RACoronaTest
 
         return test.copy(isAdvancedConsentGiven = consented)
     }
 
     override suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest {
         Timber.tag(TAG).v("updateResultNotification(test=%s, sent=%b)", test, sent)
-        test as RapidAntigenCoronaTest
+        test as RACoronaTest
 
         return test.copy(isResultAvailableNotificationSent = sent)
     }

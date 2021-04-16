@@ -9,7 +9,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
 
     @Test
     fun `state determination, unregistered test`() = runBlockingTest {
-        val test: RapidAntigenCoronaTest? = null
+        val test: RACoronaTest? = null
         test.toSubmissionState() shouldBe SubmissionStateRAT.NoTest
     }
 }

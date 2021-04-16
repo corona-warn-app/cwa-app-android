@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.CWADebug
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -16,8 +18,16 @@ class PCRTestMigration @Inject constructor(
     private val submissionSettings: SubmissionSettings,
     private val tracingSettings: TracingSettings,
 ) {
+
+    private val mutex = Mutex()
+    private var isMigrating: Boolean = false
+
     @Suppress("DEPRECATION")
-    suspend fun startMigration(): Set<CoronaTest> {
+    suspend fun startMigration(): Set<CoronaTest> = mutex.withLock {
+        if (isMigrating) throw IllegalStateException("Migration already in progress")
+        isMigrating = true
+        Timber.tag(TAG).i("startMigration()")
+
         val token: RegistrationToken? = submissionSettings.registrationTokenMigration
         if (token == null) {
             Timber.tag(TAG).d("Nothing to migrate, token was null.")
@@ -70,8 +80,11 @@ class PCRTestMigration @Inject constructor(
         }
     }
 
-    suspend fun finishMigration() {
+    suspend fun finishMigration() = mutex.withLock {
+        if (!isMigrating) return@withLock
+        isMigrating = false
         Timber.tag(TAG).i("finishMigration()")
+
         submissionSettings.deleteLegacyTestData()
         tracingSettings.deleteLegacyTestData()
     }

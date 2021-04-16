@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
-data class RapidAntigenCoronaTest(
+data class RACoronaTest(
     @SerializedName("identifier")
     override val identifier: TestIdentifier,
 

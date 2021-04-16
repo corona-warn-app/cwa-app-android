@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.RapidAntigenCoronaTest
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -31,8 +31,8 @@ class SubmissionRepository @Inject constructor(
         tests.singleOrNull { it.type == CoronaTest.Type.PCR } as? PCRCoronaTest
     }
 
-    val raTest: Flow<RapidAntigenCoronaTest?> = coronaTestRepository.coronaTests.map { tests ->
-        tests.singleOrNull { it.type == CoronaTest.Type.RAPID_ANTIGEN } as? RapidAntigenCoronaTest
+    val raTest: Flow<RACoronaTest?> = coronaTestRepository.coronaTests.map { tests ->
+        tests.singleOrNull { it.type == CoronaTest.Type.RAPID_ANTIGEN } as? RACoronaTest
     }
 
     fun testForType(type: CoronaTest.Type) = when (type) {
