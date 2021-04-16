@@ -6,6 +6,8 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
@@ -14,7 +16,6 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.util.TimeStamper
@@ -29,6 +30,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.DateTime
@@ -50,11 +52,20 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
-    @MockK lateinit var submissionSettings: SubmissionSettings
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
     @MockK lateinit var autoCheckOut: AutoCheckOut
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
+
+    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
+        setOf(
+            mockk<CoronaTest>().apply {
+                every { isSubmissionAllowed } returns false
+                every { isViewed } returns false
+            }
+        )
+    )
 
     @BeforeEach
     fun setup() {
@@ -62,7 +73,7 @@ class RiskLevelTaskTest : BaseTest() {
 
         mockkObject(TimeVariables)
 
-        every { submissionSettings.isAllowedToSubmitKeys } returns false
+        every { coronaTestRepository.coronaTests } returns coronaTests
         every { configData.isDeviceTimeCorrect } returns true
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         coEvery { appConfigProvider.getAppConfig() } returns configData
@@ -99,7 +110,7 @@ class RiskLevelTaskTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         riskLevelStorage = riskLevelStorage,
         keyCacheRepository = keyCacheRepository,
-        submissionSettings = submissionSettings,
+        coronaTestRepository = coronaTestRepository,
         analyticsExposureWindowCollector = analyticsExposureWindowCollector,
         autoCheckOut = autoCheckOut
     )
@@ -221,8 +232,13 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
         every { timeStamper.nowUTC } returns now
-        every { submissionSettings.isAllowedToSubmitKeys } returns true
-        every { submissionSettings.hasViewedTestResult.value } returns true
+
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { isSubmissionAllowed } returns true
+                every { isViewed } returns true
+            }
+        )
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
@@ -248,8 +264,13 @@ class RiskLevelTaskTest : BaseTest() {
         every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
         every { timeStamper.nowUTC } returns now
         coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
-        every { submissionSettings.isAllowedToSubmitKeys } returns true
-        every { submissionSettings.hasViewedTestResult.value } returns false
+
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { isSubmissionAllowed } returns true
+                every { isViewed } returns false
+            }
+        )
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,

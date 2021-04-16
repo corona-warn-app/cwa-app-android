@@ -34,7 +34,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         }
 
         viewModel.testResult.observe2(this) {
-            binding.submissionTestResultSection.setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
+            binding.submissionTestResultSection.setTestResultSection(it.coronaTest)
         }
 
         viewModel.routeToScreen.observe2(this) { navDirections ->

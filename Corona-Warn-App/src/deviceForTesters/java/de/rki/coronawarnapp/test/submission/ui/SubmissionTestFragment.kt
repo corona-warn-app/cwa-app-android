@@ -28,15 +28,6 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.currentTestId.observe2(this) {
-            binding.registrationTokenCurrent.text = "Current: '$it'"
-        }
-
-        binding.apply {
-            deleteTokenAction.setOnClickListener { vm.deleteRegistrationToken() }
-            scrambleTokenAction.setOnClickListener { vm.scrambleRegistrationToken() }
-        }
-
         val tekHistoryAdapter = TEKHistoryAdapter()
         binding.tekHistoryList.apply {
             adapter = tekHistoryAdapter

@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.bugreporting.BugReportingModule
 import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.coronatest.CoronaTestModule
+import de.rki.coronawarnapp.coronatest.server.VerificationModule
 import de.rki.coronawarnapp.datadonation.DataDonationModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
@@ -43,7 +44,6 @@ import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.security.SecurityModule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.worker.WorkerBinder
-import de.rki.coronawarnapp.verification.VerificationModule
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import javax.inject.Singleton
 
