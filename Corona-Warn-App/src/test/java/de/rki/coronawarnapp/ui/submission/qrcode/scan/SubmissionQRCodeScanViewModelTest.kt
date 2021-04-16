@@ -76,7 +76,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     fun `doDeviceRegistration calls TestResultDataCollector`() {
         val viewModel = createViewModel()
         val mockResult = mockk<CoronaTestQRCode>().apply {
-            every { qrCodeGUID } returns "guid"
+            every { registrationIdentifier } returns "guid"
         }
         val mockTest = mockk<CoronaTest>()
         coEvery { submissionRepository.registerTest(any()) } returns mockTest
