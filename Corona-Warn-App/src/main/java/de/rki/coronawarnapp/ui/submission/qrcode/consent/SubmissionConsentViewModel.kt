@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
 
 class SubmissionConsentViewModel @AssistedInject constructor(
-    private val submissionRepository: SubmissionRepository,
+    //private val submissionRepository: SubmissionRepository,
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryProvider: TEKHistoryProvider,
@@ -29,7 +29,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         .asLiveData(context = dispatcherProvider.Default)
 
     fun onConsentButtonClick() {
-        submissionRepository.giveConsentToSubmission()
+        //submissionRepository.giveConsentToSubmission()
         analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         launch {
             try {

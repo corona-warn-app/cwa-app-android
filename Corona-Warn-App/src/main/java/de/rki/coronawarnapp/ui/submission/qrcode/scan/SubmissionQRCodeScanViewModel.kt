@@ -6,6 +6,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -20,6 +22,8 @@ import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
@@ -43,13 +47,19 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             QRCodeCensor.lastGUID = scanResult.guid
             scanStatusValue.postValue(ScanStatus.SUCCESS)
             qrCodeResult = scanResult
-            testAlreadyExists.value = false
-            //doDeviceRegistration(scanResult)
+
+            //TODO Check if a test of same type is already stored
+            val testExists = true
+
+            if(testExists) {
+                testAlreadyExists.value = true
+            } else {
+                doDeviceRegistration(scanResult)
+            }
         } else {
             scanStatusValue.postValue(ScanStatus.INVALID)
         }
     }
-
 
 
     val registrationState = MutableLiveData(RegistrationState(ApiRequestState.IDLE))
@@ -59,12 +69,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         val apiRequestState: ApiRequestState,
         val testResult: TestResult? = null
     )
-
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun doDeviceRegistration() {
-        doDeviceRegistration(qrCodeResult)
-    }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun doDeviceRegistration(scanResult: QRScanResult) = launch {
@@ -98,6 +102,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             throw InvalidQRCodeException()
         }
     }
+
+
 
     private fun deregisterTestFromDevice() {
         launch {

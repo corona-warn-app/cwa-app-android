@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentArgs
@@ -12,6 +13,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -38,6 +40,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 headline.text = getString(R.string.submission_deletion_warning_headline_antigen_test)
                 body.text = getString(R.string.submission_deletion_warning_body_antigen_test)
             }
+
             cancelButton.setOnClickListener {
                 doNavigate(
                     SubmissionDeletionWarningFragmentDirections
@@ -45,7 +48,9 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 )
             }
 
-            continueButton.setOnClickListener { popBackStack() }
+            continueButton.setOnClickListener {
+                viewModel.deleteExistingTest(args.coronaTestQrCode)
+            }
 
             toolbar.apply {
                 setNavigationOnClickListener {
@@ -56,7 +61,16 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 }
             }
         }
+
+        viewModel.testDeletionFinished.observe2(this) {
+
+            if (it) {
+                viewModel.testDeletionFinished.value = false
+            }
+        }
     }
+
+
 
     override fun onResume() {
         super.onResume()

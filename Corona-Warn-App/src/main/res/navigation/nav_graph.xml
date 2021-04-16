@@ -285,6 +285,10 @@
         android:label="SubmissionTestResultPendingFragment"
         tools:layout="@layout/fragment_submission_test_result_pending">
         <argument
+            android:name="isConsentGiven"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
             android:name="skipInitialTestResultRefresh"
             android:defaultValue="false"
             app:argType="boolean" />
@@ -345,6 +349,10 @@
         android:name="de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment"
         android:label="SubmissionQRCodeScanFragment"
         tools:layout="@layout/fragment_submission_qr_code_scan">
+        <argument
+            android:name="isConsentGiven"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDispatcherFragment"
             app:popUpTo="@id/submissionQRCodeScanFragment"
@@ -479,6 +487,10 @@
         android:name="de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragment"
         android:label="SubmissionTestResultAvailableFragment"
         tools:layout="@layout/fragment_submission_test_result_available">
+        <argument
+            android:name="isConsentGiven"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_mainFragment"
             app:destination="@id/mainFragment"
@@ -619,11 +631,12 @@
         android:label="SubmissionDeletionWarningFragment"
         tools:layout="@layout/fragment_submission_deletion_warning">
         <argument
+            android:name="isConsentGiven"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
             android:name="coronaTestQrCode"
             app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
-        <action
-            android:id="@+id/action_submissionDeletionWarningFragment_to_submissionQRCodeScanFragment"
-            app:destination="@id/submissionQRCodeScanFragment" />
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionConsentFragment"
             app:popUpTo="@id/mainFragment"
