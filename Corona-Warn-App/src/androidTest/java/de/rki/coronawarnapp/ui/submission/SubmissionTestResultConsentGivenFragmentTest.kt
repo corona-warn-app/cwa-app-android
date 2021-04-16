@@ -12,6 +12,8 @@ import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiT
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -19,12 +21,12 @@ import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenViewModel
-import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.spyk
+import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -38,7 +40,6 @@ import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.locale.LocaleTestRule
-import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
@@ -107,10 +108,10 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     fun capture_fragment() {
         every { viewModel.uiState } returns MutableLiveData(
             TestResultUIState(
-                NetworkRequestWrapper.RequestSuccessful(
-                    DeviceUIState.PAIRED_POSITIVE
-                ),
-                Date()
+                coronaTest = mockk<CoronaTest>().apply {
+                    every { testResult } returns CoronaTestResult.PCR_POSITIVE
+                    every { registeredAt } returns Instant.now()
+                }
             )
         )
 

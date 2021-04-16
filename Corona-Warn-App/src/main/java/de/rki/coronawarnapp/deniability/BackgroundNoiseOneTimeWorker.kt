@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.worker
+package de.rki.coronawarnapp.deniability
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -8,12 +8,11 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import de.rki.coronawarnapp.worker.BackgroundConstants
 import timber.log.Timber
 
 /**
  * One time background noise worker
- *
- * @see BackgroundWorkScheduler
  */
 class BackgroundNoiseOneTimeWorker @AssistedInject constructor(
     @Assisted val context: Context,

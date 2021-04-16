@@ -1,8 +1,7 @@
-package de.rki.coronawarnapp.verification.server
+package de.rki.coronawarnapp.coronatest.server
 
 import android.content.Context
 import de.rki.coronawarnapp.http.HttpModule
-import de.rki.coronawarnapp.verification.VerificationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every

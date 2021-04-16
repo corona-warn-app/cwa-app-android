@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.worker
+package de.rki.coronawarnapp.deniability
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -6,9 +6,12 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import de.rki.coronawarnapp.worker.BackgroundConstants
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -21,9 +24,9 @@ import timber.log.Timber
 class BackgroundNoisePeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val submissionSettings: SubmissionSettings,
     private val timeStamper: TimeStamper,
-    private val backgroundWorkScheduler: BackgroundWorkScheduler,
+    private val coronaTestRepository: CoronaTestRepository,
+    private val noiseScheduler: NoiseScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
     /**
@@ -34,18 +37,20 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
 
         var result = Result.success()
         try {
-            val initialPairingDate = submissionSettings.devicePairingSuccessfulAt ?: Instant.ofEpochMilli(0)
+            val initialPairingDate = coronaTestRepository.coronaTests.first().maxByOrNull {
+                it.registeredAt
+            }?.registeredAt ?: Instant.ofEpochMilli(0)
 
             // Check if the numberOfDaysToRunPlaybook are over
-            if (initialPairingDate
-                .plus(Duration.standardDays(NUMBER_OF_DAYS_TO_RUN_PLAYBOOK))
-                .isBefore(timeStamper.nowUTC)
+            if (
+                initialPairingDate.plus(Duration.standardDays(NUMBER_OF_DAYS_TO_RUN_PLAYBOOK))
+                    .isBefore(timeStamper.nowUTC)
             ) {
                 stopWorker()
                 return result
             }
 
-            backgroundWorkScheduler.scheduleBackgroundNoiseOneTimeWork()
+            noiseScheduler.scheduleBackgroundNoiseOneTimeWork()
         } catch (e: Exception) {
             result = if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
                 Result.failure()
@@ -58,7 +63,7 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
     }
 
     private fun stopWorker() {
-        backgroundWorkScheduler.stopBackgroundNoisePeriodicWork()
+        noiseScheduler.setPeriodicNoise(enabled = false)
         Timber.tag(TAG).d("$id: worker stopped")
     }
 
