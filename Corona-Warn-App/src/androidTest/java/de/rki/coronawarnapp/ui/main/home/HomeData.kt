@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import de.rki.coronawarnapp.coronatest.type.pcr.FetchingResult
-import de.rki.coronawarnapp.coronatest.type.pcr.NoTest
-import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionDone
-import de.rki.coronawarnapp.coronatest.type.pcr.TestError
-import de.rki.coronawarnapp.coronatest.type.pcr.TestInvalid
-import de.rki.coronawarnapp.coronatest.type.pcr.TestNegative
-import de.rki.coronawarnapp.coronatest.type.pcr.TestPending
-import de.rki.coronawarnapp.coronatest.type.pcr.TestPositive
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.FetchingResult
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.NoTest
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.SubmissionDone
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestError
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestInvalid
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestNegative
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestPending
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestPositive
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
@@ -30,7 +30,6 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
-import java.util.Date
 
 object HomeData {
 
@@ -160,7 +159,7 @@ object HomeData {
 
         val TEST_SUBMISSION_DONE_ITEM = PcrTestSubmissionDoneCard.Item(
             state = SubmissionDone(
-                testRegisteredOn = Date()
+                testRegisteredAt = Instant.now()
             )
         )
     }
