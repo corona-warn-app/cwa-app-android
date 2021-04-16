@@ -15,7 +15,7 @@ class PcrQrCodeExtractorTest : BaseTest() {
     private fun buildQRCodeCases(prefixString: String, guid: String, conditionToMatch: Boolean) {
         val extractor = PcrQrCodeExtractor()
         try {
-            if (extractor.isOfType("$prefixString$guid")) {
+            if (extractor.canHandle("$prefixString$guid")) {
                 extractor.extract("$prefixString$guid")
                 conditionToMatch shouldBe true
             } else {

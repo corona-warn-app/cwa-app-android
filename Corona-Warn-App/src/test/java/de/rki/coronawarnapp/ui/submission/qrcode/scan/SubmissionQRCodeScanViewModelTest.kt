@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.ui.submission.qrcode.scan
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
+import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -42,6 +44,18 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     @Test
     fun scanStatusValid() {
+        // valid guid
+        val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
+        val coronaTestQRCode = CoronaTestQRCode.PCR(
+            CoronaTest.Type.PCR,
+            guid = guid
+        )
+
+        val validQrCode = "https://localhost/?$guid"
+        val invalidQrCode = "https://no-guid-here"
+
+        every { qrCodeValidator.validate(validQrCode) } returns coronaTestQRCode
+        every { qrCodeValidator.validate(invalidQrCode) } throws InvalidQRCodeException()
         val viewModel = createViewModel()
 
         // start
@@ -51,14 +65,12 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
         QRCodeCensor.lastGUID = null
 
-        // valid guid
-        val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
-        viewModel.validateTestGUID("https://localhost/?$guid")
+        viewModel.validateTestGUID(validQrCode)
         viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.SUCCESS, it.value) }
         QRCodeCensor.lastGUID = guid
 
         // invalid guid
-        viewModel.validateTestGUID("https://no-guid-here")
+        viewModel.validateTestGUID(invalidQrCode)
         viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.INVALID, it.value) }
     }
 
