@@ -4,7 +4,6 @@ import androidx.lifecycle.asLiveData
 import com.google.android.gms.common.api.ApiException
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
@@ -30,7 +29,8 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         .asLiveData(context = dispatcherProvider.Default)
 
     fun onConsentButtonClick() {
-        submissionRepository.giveConsentToSubmission(type = CoronaTest.Type.PCR)
+        // TODO Do we have a Test registered at this time? We need to forward the decission with navargs?
+//        submissionRepository.giveConsentToSubmission(type = CoronaTest.Type.PCR)
         analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         launch {
             try {
