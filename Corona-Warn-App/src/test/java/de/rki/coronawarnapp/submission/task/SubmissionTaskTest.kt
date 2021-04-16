@@ -113,7 +113,6 @@ class SubmissionTaskTest : BaseTest() {
         coronaTestRepository.apply {
             every { coronaTests } returns coronaTestsFlow
             coEvery { markAsSubmitted("coronatest-identifier") } just Runs
-
         }
 
         every { backgroundWorkScheduler.stopWorkScheduler() } just Runs
