@@ -21,11 +21,11 @@ internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
     override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
         val data = extractData(rawString).validate()
         return CoronaTestQRCode.RapidAntigen(
-            data.hash!!,
-            data.createdAt!!,
-            data.firstName,
-            data.lastName,
-            data.dateOfBirth
+            hash = data.hash!!,
+            createdAt = data.createdAt!!,
+            firstName = data.firstName,
+            lastName = data.lastName,
+            dateOfBirth = data.dateOfBirth
         )
     }
 

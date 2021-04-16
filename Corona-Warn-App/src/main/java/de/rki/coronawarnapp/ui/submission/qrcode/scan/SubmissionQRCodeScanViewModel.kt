@@ -36,7 +36,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     fun validateTestGUID(rawResult: String) {
         try {
             val coronaTestQRCode = qrCodeValidator.validate(rawResult)
-            QRCodeCensor.lastGUID = coronaTestQRCode.qrCodeGUID
+            // TODO this needs to be adapted to work for different types
+            QRCodeCensor.lastGUID = coronaTestQRCode.registrationIdentifier
             scanStatusValue.postValue(ScanStatus.SUCCESS)
             doDeviceRegistration(coronaTestQRCode)
         } catch (err: InvalidQRCodeException) {
