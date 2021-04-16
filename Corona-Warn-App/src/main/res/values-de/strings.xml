@@ -784,12 +784,17 @@
     <string name="information_contact_subtitle_phone">"Technische Hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"0800 7540001"</string>
+    <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
+    <!-- XLNK: Description for national technical contact and hotline information page -->
+    <string name="information_contact_button_phone_description">"Für Anrufe innerhalb Deutschlands. Der Anruf ist kostenfrei."</string>
+    <!-- XLNK: Description for international technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone_description">"Für Anrufe aus dem Ausland. Es fallen die Gebühren des jeweiligen Telefonanbieters an."</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
     <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_phone">"Unser Kundenservice ist für Sie da."</string>
+    <string name="information_contact_body_phone">"Unser Kundenservice ist in den folgenden Sprachen für Sie da:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Sprachen: Deutsch, Englisch, Türkisch \nErreichbarkeit:"<xliff:g id="line_break">"\n"</xliff:g>"Mo - Sa: 07:00 - 22:00 Uhr"<xliff:g id="line_break">"\n(außer an bundesweiten Feiertagen)"</xliff:g><xliff:g id="line_break">"\nDer Anruf ist kostenfrei."</xliff:g></string>
+    <string name="information_contact_body_open">"Deutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo – Sa: 07:00 – 22:00 Uhr\n(außer an bundesweiten Feiertagen)</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
     <!-- XACT: describes illustration -->
@@ -1284,7 +1289,7 @@
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Geben Sie die TAN in der App ein, um Ihren Test zu registrieren."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Sprachen:\nDeutsch, Englisch, Türkisch\n\nErreichbarkeit:\ntäglich 24 Stunden\n\nDer Anruf ist kostenfrei."</string>
+    <string name="submission_contact_operating_hours_body">"Unser Kundenservice ist in den folgenden Sprachen für Sie da: Deutsch, Englisch, Türkisch \n\nErreichbarkeit:\nMo-So: Täglich 24 Stunden"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
 

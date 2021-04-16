@@ -2,20 +2,21 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardPendingBinding
-import de.rki.coronawarnapp.submission.ui.homecards.TestPendingCard.Item
+import de.rki.coronawarnapp.databinding.HomeSubmissionPcrStatusCardReadyBinding
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestReadyCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class TestPendingCard(
+class PcrTestReadyCard(
     parent: ViewGroup
-) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardPendingBinding>(R.layout.home_card_container_layout, parent) {
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionPcrStatusCardReadyBinding>(R.layout.home_card_container_layout, parent) {
 
     override val viewBinding = lazy {
-        HomeSubmissionStatusCardPendingBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        HomeSubmissionPcrStatusCardReadyBinding
+            .inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: HomeSubmissionStatusCardPendingBinding.(
+    override val onBindData: HomeSubmissionPcrStatusCardReadyBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
@@ -25,7 +26,7 @@ class TestPendingCard(
     }
 
     data class Item(
-        val state: TestPending,
+        val state: TestResultReady,
         val onClickAction: (Item) -> Unit
     ) : TestResultItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
