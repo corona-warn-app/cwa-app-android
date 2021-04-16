@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.verification
+package de.rki.coronawarnapp.coronatest.server
 
 import android.content.Context
 import dagger.Module
@@ -8,8 +8,6 @@ import de.rki.coronawarnapp.environment.verification.VerificationCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.http.RestrictedConnectionSpecs
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.verification.server.VerificationApiV1
-import de.rki.coronawarnapp.verification.server.VerificationHttpClient
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient

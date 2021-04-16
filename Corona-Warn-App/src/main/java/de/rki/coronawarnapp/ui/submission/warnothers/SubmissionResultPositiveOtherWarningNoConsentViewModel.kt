@@ -7,6 +7,7 @@ import androidx.navigation.NavDirections
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -32,6 +33,12 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     private val submissionRepository: SubmissionRepository,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+    // TODO Use navargs to supply this
+    private val coronaTestType: CoronaTest.Type = CoronaTest.Type.PCR
+
+    init {
+        Timber.v("init() coronaTestType=%s", coronaTestType)
+    }
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
@@ -91,9 +98,9 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         )
     }
 
-    fun onConsentButtonClicked() {
+    fun onConsentButtonClicked() = launch {
         showKeysRetrievalProgress.value = true
-        submissionRepository.giveConsentToSubmission()
+        submissionRepository.giveConsentToSubmission(type = coronaTestType)
         launch {
             if (enfClient.isTracingEnabled.first()) {
                 Timber.d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission()")

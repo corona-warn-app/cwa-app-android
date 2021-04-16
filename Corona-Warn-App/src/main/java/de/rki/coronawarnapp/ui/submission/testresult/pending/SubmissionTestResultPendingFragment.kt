@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -42,9 +41,9 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         pendingViewModel.testState.observe2(this) { result ->
-            val hasResult = result.deviceUiState is NetworkRequestWrapper.RequestSuccessful
+            val hasResult = !result.coronaTest.isProcessing
             binding.apply {
-                submissionTestResultSection.setTestResultSection(result.deviceUiState, result.testResultReceivedDate)
+                submissionTestResultSection.setTestResultSection(result.coronaTest)
                 submissionTestResultSpinner.setInvisible(hasResult)
                 submissionTestResultContent.setInvisible(!hasResult)
                 buttonContainer.setInvisible(!hasResult)
@@ -89,7 +88,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        pendingViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
+        pendingViewModel.refreshDeviceUIState()
         skipInitialTestResultRefresh = false
         pendingViewModel.cwaWebExceptionLiveData.observeOnce(this.viewLifecycleOwner) { exception ->
             handleError(exception)

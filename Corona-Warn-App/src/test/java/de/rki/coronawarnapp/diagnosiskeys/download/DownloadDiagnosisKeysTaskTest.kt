@@ -3,12 +3,13 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -18,8 +19,10 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
@@ -46,7 +49,13 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @MockK lateinit var newKey1: CachedKey
 
     @MockK lateinit var latestTrackedDetection: TrackedExposureDetection
-    @MockK lateinit var submissionSettings: SubmissionSettings
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+
+    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
+        setOf(
+            mockk<CoronaTest>().apply { every { isSubmissionAllowed } returns false }
+        )
+    )
 
     @BeforeEach
     fun setup() {
@@ -54,7 +63,8 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 1080005
-        every { submissionSettings.isAllowedToSubmitKeys } returns false
+
+        every { coronaTestRepository.coronaTests } returns coronaTests
 
         availableKey1.apply {
             every { path } returns File("availableKey1")
@@ -102,7 +112,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         keyPackageSyncTool = keyPackageSyncTool,
         timeStamper = timeStamper,
         settings = downloadSettings,
-        submissionSettings = submissionSettings
+        coronaTestRepository = coronaTestRepository,
     )
 
     @Test
@@ -230,7 +240,9 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
     @Test
     fun `we do not submit keys if user got positive test results`() = runBlockingTest {
-        every { submissionSettings.isAllowedToSubmitKeys } returns true
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply { every { isSubmissionAllowed } returns true }
+        )
 
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())
 
