@@ -26,5 +26,5 @@ class RapidTestSubmissionDoneCard(
 
     data class Item(
         val state: SubmissionStateRAT.SubmissionDone
-    ) : TestResultItem
+    ) : TestResultItem.RA
 }

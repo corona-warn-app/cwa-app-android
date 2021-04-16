@@ -30,7 +30,7 @@ class PcrTestNegativeCard(
 
     data class Item(
         val state: SubmissionStatePCR.TestNegative
-    ) : TestResultItem, HasPayloadDiffer {
+    ) : TestResultItem.PCR, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

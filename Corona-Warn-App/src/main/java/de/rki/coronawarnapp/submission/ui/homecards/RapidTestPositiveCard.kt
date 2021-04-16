@@ -35,7 +35,7 @@ class RapidTestPositiveCard(
     data class Item(
         val state: SubmissionStateRAT.TestPositive,
         val onClickAction: (Item) -> Unit
-    ) : TestResultItem, HasPayloadDiffer {
+    ) : TestResultItem.RA, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

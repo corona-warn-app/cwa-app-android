@@ -31,7 +31,7 @@ class PcrTestInvalidCard(
     data class Item(
         val state: SubmissionStatePCR.TestInvalid,
         val onDeleteTest: (Item) -> Unit
-    ) : TestResultItem, HasPayloadDiffer {
+    ) : TestResultItem.PCR, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

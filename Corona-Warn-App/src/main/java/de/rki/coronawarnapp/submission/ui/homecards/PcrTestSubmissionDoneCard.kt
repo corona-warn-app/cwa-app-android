@@ -26,5 +26,5 @@ class PcrTestSubmissionDoneCard(
 
     data class Item(
         val state: SubmissionStatePCR.SubmissionDone
-    ) : TestResultItem
+    ) : TestResultItem.PCR
 }

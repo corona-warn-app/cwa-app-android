@@ -32,7 +32,7 @@ class RapidTestReadyCard(
     data class Item(
         val state: SubmissionStateRAT.TestResultReady,
         val onClickAction: (Item) -> Unit
-    ) : TestResultItem, HasPayloadDiffer {
+    ) : TestResultItem.RA, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

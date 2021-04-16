@@ -31,7 +31,7 @@ class RapidTestInvalidCard(
     data class Item(
         val state: SubmissionStateRAT.TestInvalid,
         val onDeleteTest: (Item) -> Unit
-    ) : TestResultItem, HasPayloadDiffer {
+    ) : TestResultItem.RA, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }
