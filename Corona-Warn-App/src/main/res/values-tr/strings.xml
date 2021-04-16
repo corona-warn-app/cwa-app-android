@@ -883,11 +883,8 @@
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Hata analizini başlatmak için en az 200 MB bellek alanınızın olması gerekir. Lütfen belleği boşaltın."</string>
     <!-- XHED: Dialog title if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_title">"Yerel Olarak Kaydedildi"</string>
     <!-- YTXT: Dialog message if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_message">"Hata analizi yerel olarak kaydedilmiştir."</string>
     <!-- YTXT: Dialog message if local export has failed -->
-    <string name="debugging_debuglog_localexport_error_message">"Hata raporunu kaydetme denemesi başarısız oldu. Lütfen yeterli bellek alanı olup olmadığını kontrol edin."</string>
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Hata Raporlarını Gönderme Konusunda Ayrıntılı Bilgi"</string>
     <!-- YTXT: Section Title for debug legal screen -->

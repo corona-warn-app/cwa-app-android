@@ -127,7 +127,6 @@ class DebugLogViewModel @AssistedInject constructor(
         object NavigateToUploadHistory : Event()
         object ShowLogDeletionRequest : Event()
         object ShowLowStorageDialog : Event()
-        data class ShowLocalExportError(val error: Throwable) : Event()
         data class Error(val error: Throwable) : Event()
         data class Export(val snapshot: LogSnapshotter.Snapshot) : Event()
     }

@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.setUrl
-import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -136,9 +135,6 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                         .intent(requireActivity())
                     startActivity(intent)
                 }
-                is DebugLogViewModel.Event.ShowLocalExportError -> {
-                    showLocalExportError(it.error)
-                }
             }
         }
 
@@ -181,24 +177,6 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.errors_generic_headline_short)
             setMessage(R.string.debugging_debuglog_start_low_storage_error)
-            setPositiveButton(android.R.string.yes) { _, _ -> /* dismiss */ }
-            setNeutralButton(R.string.menu_settings) { _, _ ->
-                try {
-                    startActivity(Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS))
-                } catch (e: Exception) {
-                    Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
-                }
-            }
-        }.show()
-    }
-
-    private fun showLocalExportError(cause: Throwable) {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.errors_generic_headline_short)
-            setMessage(
-                getString(R.string.debugging_debuglog_localexport_error_message) + "\n(" +
-                    cause.tryHumanReadableError(requireContext()).description + ")"
-            )
             setPositiveButton(android.R.string.yes) { _, _ -> /* dismiss */ }
             setNeutralButton(R.string.menu_settings) { _, _ ->
                 try {
