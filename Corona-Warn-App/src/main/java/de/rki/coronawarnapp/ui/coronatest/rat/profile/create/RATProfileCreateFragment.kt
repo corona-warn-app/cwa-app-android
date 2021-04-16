@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -23,7 +24,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
             toolbar.setNavigationOnClickListener {
-                popBackStack()
+                viewModel.navigateBack()
             }
 
             profileSaveButton.setOnClickListener {
@@ -35,8 +36,19 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             lastNameInputEdit.doAfterTextChanged { viewModel.lastNameChanged(it.toString()) }
             birthDateInputEdit.doAfterTextChanged { viewModel.birthDateChanged(it.toString()) }
 
+
             viewModel.profile.observe(viewLifecycleOwner) {
                 profileSaveButton.isEnabled = it?.isValid == true
+            }
+
+            viewModel.events.observe(viewLifecycleOwner) {
+                when (it) {
+                    Navigation.Back -> popBackStack()
+                    Navigation.ProfileScreen -> doNavigate(
+                        RATProfileCreateFragmentDirections
+                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment()
+                    )
+                }
             }
         }
 }

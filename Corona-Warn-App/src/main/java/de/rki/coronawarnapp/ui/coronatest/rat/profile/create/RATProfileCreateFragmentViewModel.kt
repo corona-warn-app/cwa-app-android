@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
@@ -15,13 +16,17 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
 
     private val profileData = MutableLiveData<RATProfile?>()
     val profile: LiveData<RATProfile?> = profileData
+    val events = SingleLiveEvent<Navigation>()
 
     init {
         profileData.value = null
     }
 
     fun saveProfile() {
-        ratProfileSettings.profile.update { profileData.value }
+        if (profileData.value?.isValid == true) {
+            ratProfileSettings.profile.update { profileData.value }
+            events.value = Navigation.ProfileScreen
+        }
     }
 
     fun firstNameChanged(firstName: String) {
@@ -37,6 +42,10 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     fun birthDateChanged(birthDate: String) {
         profileData.value = profileData.value?.copy(birthDate = birthDate)
             ?: RATProfile(birthDate = birthDate)
+    }
+
+    fun navigateBack() {
+        events.value = Navigation.Back
     }
 
     @AssistedFactory
