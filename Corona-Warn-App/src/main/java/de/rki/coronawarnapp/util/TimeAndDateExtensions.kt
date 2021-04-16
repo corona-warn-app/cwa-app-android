@@ -93,18 +93,6 @@ object TimeAndDateExtensions {
         TimeUnit.MILLISECONDS.toSeconds(this) % TimeUnit.MINUTES.toSeconds(1)
     )
 
-    /**
-     * Calculates the difference between two timestamps in Days Units
-     *
-     * @return Long
-     *
-     * @see TimeUnit
-     */
-    fun calculateDays(firstDate: Long, secondDate: Long): Long {
-        val millionSeconds = secondDate - firstDate
-        return TimeUnit.MILLISECONDS.toDays(millionSeconds)
-    }
-
     fun LocalDate.ageInDays(now: LocalDate) = Days.daysBetween(this, now).days
 
     fun Instant.toLocalDateUtc(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()

@@ -51,8 +51,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { submissionRepository.deviceUIStateFlow } returns flowOf()
-        every { submissionRepository.testResultReceivedDateFlow } returns flowOf()
+        every { submissionRepository.testForType(any()) } returns flowOf()
         every { appShortcutsHelper.removeAppShortcut() } just Runs
 
         viewModel = spyk(

@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.task.testtasks
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
-import de.rki.coronawarnapp.task.example.QueueingTask
+import de.rki.coronawarnapp.task.testtasks.queue.QueueingTask
 import org.joda.time.Duration
 import javax.inject.Inject
 import javax.inject.Provider

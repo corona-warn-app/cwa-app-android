@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:contentDescription="@string/tracelocation_organizer_category_title"
-    tools:context=".ui.eventregistration.organizer.create.TraceLocationCreateFragment">
+    tools:context=".ui.presencetracing.organizer.create.TraceLocationCreateFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"

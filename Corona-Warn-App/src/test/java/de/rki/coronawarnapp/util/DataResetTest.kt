@@ -5,14 +5,15 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
-import de.rki.coronawarnapp.eventregistration.TraceLocationSettings
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
@@ -22,7 +23,7 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
-import de.rki.coronawarnapp.ui.eventregistration.TraceLocationPreferences
+import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
@@ -56,6 +57,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var traceWarningRepository: TraceWarningRepository
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     @BeforeEach
     fun setUp() {
@@ -85,7 +87,8 @@ internal class DataResetTest : BaseTest() {
         traceLocationRepository = traceLocationRepository,
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
-        traceWarningRepository = traceWarningRepository
+        traceWarningRepository = traceWarningRepository,
+        coronaTestRepository = coronaTestRepository
     )
 
     @Test
@@ -118,5 +121,6 @@ internal class DataResetTest : BaseTest() {
         coVerify(exactly = 1) { traceWarningRepository.clear() }
         coVerify(exactly = 1) { traceLocationRepository.deleteAllTraceLocations() }
         coVerify(exactly = 1) { checkInRepository.clear() }
+        coVerify(exactly = 1) { coronaTestRepository.clear() }
     }
 }

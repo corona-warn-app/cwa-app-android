@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
@@ -61,14 +61,14 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
             taskController.submitBlocking(
                 DefaultTaskRequest(
                     PresenceTracingWarningTask::class,
-                    originTag = "EventRegistrationTestFragmentViewModel"
+                    originTag = "PresenceTracingTestViewModel"
                 )
             )
         }
         taskRunTime.postValue(duration)
 
         val warningPackages = traceWarningRepository.allMetaData.first()
-        val overlaps = presenceTracingRiskRepository.checkInWarningOverlaps.first()
+        val overlaps = presenceTracingRiskRepository.overlapsOfLast14DaysPlusToday.first()
         val lastResult = presenceTracingRiskRepository.latestEntries(1).first().singleOrNull()
 
         val infoText = when {
@@ -99,7 +99,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
                     riskCalculationRuntime.postValue(it)
                 },
                 {
-                    val checkInWarningOverlaps = presenceTracingRiskRepository.checkInWarningOverlaps.first()
+                    val checkInWarningOverlaps = presenceTracingRiskRepository.overlapsOfLast14DaysPlusToday.first()
                     val normalizedTimePerCheckInDayList =
                         presenceTracingRiskCalculator.calculateNormalizedTime(checkInWarningOverlaps)
                     val riskStates =

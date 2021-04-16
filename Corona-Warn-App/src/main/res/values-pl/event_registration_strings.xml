@@ -42,6 +42,8 @@
     <string name="trace_location_checkins_card_highlight_duration_label">"Czas trwania"</string>
     <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
     <string name="trace_location_checkins_card_automatic_checkout_info">"%1$s - wymelduj automatycznie po %2$s."</string>
+    <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
+    <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s %2$s - wymelduj automatycznie po %3$s."</string>
 
     <!-- XHED: Title of the category list screen of the event creation  -->
     <string name="tracelocation_organizer_category_title">"Utwórz kod QR"</string>
@@ -197,6 +199,10 @@
 
     <!-- XTXT: Event organiser list item: duration-->
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>
+
+    <!-- XTXT: Event organiser list item: duration same day-->
+    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %3$s "</string>
+
     <!-- XBUT: Event organiser list item: checkin button -->
     <string name="trace_location_organizer_list_item_action_checkin">"Zamelduj się"</string>
 
@@ -251,5 +257,15 @@
     <string name="trace_location_event_detail_show_print_qr_code_button">"Wyświetl wersję do druku"</string>
     <!-- XBUT: Organizer Flow : Title for save as template button -->
     <string name="trace_location_event_detail_save_as_template_button">"Użyj jako szablonu"</string>
+
+    <!-- Qr Code Validation Messages -->
+    <!-- XTXT: My check-ins: qr code validation wrong description field -->
+    <string name="trace_location_checkins_qr_code_invalid_description">"Zameldowanie niemożliwe z powodu nieprawidłowego kodu QR. Osoba odpowiedzialna musi wygenerować nowy kod QR (kod błędu INVALID_DESCRIPTION)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong address field -->
+    <string name="trace_location_checkins_qr_code_invalid_address">"Zameldowanie niemożliwe z powodu nieprawidłowego kodu QR. Osoba odpowiedzialna musi wygenerować nowy kod QR (kod błędu INVALID_ADDRESS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong start end time field -->
+    <string name="trace_location_checkins_qr_code_invalid_times">"Zameldowanie niemożliwe z powodu nieprawidłowego kodu QR. Osoba odpowiedzialna musi wygenerować nowy kod QR (kod błędu INVALID_TIMESTAMPS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
+    <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Zameldowanie niemożliwe z powodu nieprawidłowego kodu QR. Osoba odpowiedzialna musi wygenerować nowy kod QR (kod błędu INVALID_CRYPTO_SEED)."</string>
 
 </resources>
