@@ -36,7 +36,6 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             lastNameInputEdit.doAfterTextChanged { viewModel.lastNameChanged(it.toString()) }
             birthDateInputEdit.doAfterTextChanged { viewModel.birthDateChanged(it.toString()) }
 
-
             viewModel.profile.observe(viewLifecycleOwner) {
                 profileSaveButton.isEnabled = it?.isValid == true
             }
