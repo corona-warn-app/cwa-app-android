@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
@@ -40,7 +41,11 @@ class TestResultDonorTest : BaseTest() {
 
     private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
         setOf(
-            mockk<CoronaTest>().apply { every { testResultReceivedAt } returns baseTime }
+            mockk<PCRCoronaTest>().apply {
+                every { registeredAt } returns baseTime
+                every { testResultReceivedAt } returns baseTime
+                every { type } returns CoronaTest.Type.PCR
+            }
         )
     )
 
@@ -112,7 +117,11 @@ class TestResultDonorTest : BaseTest() {
 
             val timeDayBefore = baseTime.minus(Duration.standardDays(1))
             coronaTests.value = setOf(
-                mockk<CoronaTest>().apply { every { testResultReceivedAt } returns baseTime }
+                mockk<PCRCoronaTest>().apply {
+                    every { registeredAt } returns timeDayBefore
+                    every { testResultReceivedAt } returns baseTime
+                    every { type } returns CoronaTest.Type.PCR
+                }
             )
             every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(
                 timeDayBefore
@@ -281,7 +290,11 @@ class TestResultDonorTest : BaseTest() {
         }
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T00:00:00Z")
         coronaTests.value = setOf(
-            mockk<CoronaTest>().apply { every { testResultReceivedAt } returns Instant.parse("2021-03-20T00:00:00Z") }
+            mockk<PCRCoronaTest>().apply {
+                every { testResultReceivedAt } returns baseTime
+                every { registeredAt } returns Instant.parse("2021-03-20T00:00:00Z")
+                every { type } returns CoronaTest.Type.PCR
+            }
         )
 
         val donation = testResultDonor.beginDonation(TestRequest)
@@ -311,7 +324,11 @@ class TestResultDonorTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T00:00:00Z")
         coronaTests.value = setOf(
-            mockk<CoronaTest>().apply { every { testResultReceivedAt } returns Instant.parse("2021-03-20T00:00:00Z") }
+            mockk<PCRCoronaTest>().apply {
+                every { testResultReceivedAt } returns baseTime
+                every { registeredAt } returns Instant.parse("2021-03-20T00:00:00Z")
+                every { type } returns CoronaTest.Type.PCR
+            }
         )
 
         val donation = testResultDonor.beginDonation(TestRequest)

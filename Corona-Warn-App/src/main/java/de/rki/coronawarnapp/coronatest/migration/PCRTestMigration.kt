@@ -59,6 +59,7 @@ class PCRTestMigration @Inject constructor(
                 true -> CoronaTestResult.PCR_POSITIVE
                 else -> CoronaTestResult.PCR_OR_RAT_PENDING
             },
+            testResultReceivedAt = devicePairingSuccessfulAt,
             isSubmitted = isSubmissionSuccessful,
             isViewed = hasViewedTestResult,
             isAdvancedConsentGiven = hasGivenConsent,
