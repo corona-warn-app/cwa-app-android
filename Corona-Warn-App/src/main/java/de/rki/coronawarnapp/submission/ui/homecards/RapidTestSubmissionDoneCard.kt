@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.databinding.HomeSubmissionRapidStatusCardPositiveSharedBinding
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
@@ -24,6 +25,6 @@ class RapidTestSubmissionDoneCard(
     ) -> Unit = { _, _ -> }
 
     data class Item(
-        val state: SubmissionDone
-    ) : TestResultItem
+        val state: SubmissionStateRAT.SubmissionDone
+    ) : TestResultItem.RA
 }

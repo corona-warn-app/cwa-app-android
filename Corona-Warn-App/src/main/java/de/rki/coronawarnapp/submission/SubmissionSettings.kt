@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,36 +38,38 @@ class SubmissionSettings @Inject constructor(
         context.getSharedPreferences("submission_localdata", Context.MODE_PRIVATE)
     }
 
-    val registrationToken = prefs.createFlowPreference<String?>(
-        key = TEST_REGISTRATION_TOKEN,
-        defaultValue = null
-    )
+    @Deprecated("Only available for migration, use CoronaTestRepository!")
+    var registrationTokenMigration: String?
+        get() = prefs.getString(TEST_REGISTRATION_TOKEN, null)
+        set(value) = prefs.edit { putString(TEST_REGISTRATION_TOKEN, value) }
 
-    var initialTestResultReceivedAt: Instant?
+    @Deprecated("Only available for migration, use CoronaTestRepository!")
+    var initialTestResultReceivedAtMigration: Instant?
         get() = prefs.getLong(TEST_RESULT_RECEIVED_AT, 0L).toInstantOrNull()
         set(value) = prefs.edit { putLong(TEST_RESULT_RECEIVED_AT, value?.millis ?: 0L) }
 
-    var devicePairingSuccessfulAt: Instant?
+    @Deprecated("Only available for migration, use CoronaTestRepository!")
+    var devicePairingSuccessfulAtMigration: Instant?
         get() = prefs.getLong(TEST_PARING_SUCCESSFUL_AT, 0L).toInstantOrNull()
         set(value) = prefs.edit { putLong(TEST_PARING_SUCCESSFUL_AT, value?.millis ?: 0L) }
 
-    var isSubmissionSuccessful: Boolean
+    @Deprecated("Only available for migration, use CoronaTestRepository!")
+    var isSubmissionSuccessfulMigration: Boolean
         get() = prefs.getBoolean(IS_KEY_SUBMISSION_SUCCESSFUL, false)
         set(value) = prefs.edit { putBoolean(IS_KEY_SUBMISSION_SUCCESSFUL, value) }
 
-    var isAllowedToSubmitKeys: Boolean
+    @Deprecated("Only available for migration, use CoronaTestRepository!")
+    var isAllowedToSubmitKeysMigration: Boolean
         get() = prefs.getBoolean(IS_KEY_SUBMISSION_ALLOWED, false)
         set(value) = prefs.edit { putBoolean(IS_KEY_SUBMISSION_ALLOWED, value) }
 
-    val hasGivenConsent = prefs.createFlowPreference(
-        key = SUBMISSION_CONSENT_GIVEN,
-        defaultValue = false
-    )
+    @Deprecated("Only available for migration, use CoronaTestRepository!")
+    val hasGivenConsentMigration: Boolean
+        get() = prefs.getBoolean(SUBMISSION_CONSENT_GIVEN, false)
 
-    val hasViewedTestResult = prefs.createFlowPreference(
-        key = SUBMISSION_RESULT_VIEWED,
-        defaultValue = false
-    )
+    @Deprecated("Only available for migration, use CoronaTestRepository!")
+    val hasViewedTestResultMigration: Boolean
+        get() = prefs.getBoolean(SUBMISSION_RESULT_VIEWED, false)
 
     val symptoms: FlowPreference<Symptoms?> = FlowPreference(
         prefs,
@@ -104,6 +107,34 @@ class SubmissionSettings @Inject constructor(
             putLong(key, value.millis)
         }
     )
+
+    fun deleteLegacyTestData() {
+        Timber.d("deleteLegacyTestData()")
+// Sourced from the behavior of SubmissionRepository.removeTestFromDevice()
+//        fun removeTestFromDevice() {
+//            submissionSettings.hasViewedTestResult.update { false }
+//            submissionSettings.hasGivenConsent.update { false }
+//            revokeConsentToSubmission()
+//            submissionSettings.registrationToken.update { null }
+//            submissionSettings.devicePairingSuccessfulAt = null
+//            tracingSettings.initialPollingForTestResultTimeStamp = 0L
+//            submissionSettings.initialTestResultReceivedAt = null
+//            submissionSettings.isAllowedToSubmitKeys = false
+//            tracingSettings.isTestResultAvailableNotificationSent = false
+//            submissionSettings.isSubmissionSuccessful = false
+//            testResultDataCollector.clear()
+//        }
+
+        prefs.edit {
+            remove(SUBMISSION_RESULT_VIEWED)
+            remove(TEST_REGISTRATION_TOKEN)
+            remove(TEST_PARING_SUCCESSFUL_AT)
+            remove(TEST_RESULT_RECEIVED_AT)
+            remove(IS_KEY_SUBMISSION_ALLOWED)
+            remove(IS_KEY_SUBMISSION_SUCCESSFUL)
+            remove(SUBMISSION_CONSENT_GIVEN)
+        }
+    }
 
     fun clear() = prefs.clearAndNotify()
 

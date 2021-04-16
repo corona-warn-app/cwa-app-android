@@ -1,12 +1,14 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.latestPCRT
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.formatter.TestResult
+import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -17,7 +19,7 @@ import javax.inject.Singleton
 class TestResultDonor @Inject constructor(
     private val testResultDonorSettings: TestResultDonorSettings,
     private val timeStamper: TimeStamper,
-    private val submissionSettings: SubmissionSettings
+    private val coronaTestRepository: CoronaTestRepository,
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
@@ -27,7 +29,7 @@ class TestResultDonor @Inject constructor(
             return TestResultMetadataNoContribution
         }
 
-        val timestampAtRegistration = submissionSettings.initialTestResultReceivedAt
+        val timestampAtRegistration = coronaTestRepository.latestPCRT.first()?.registeredAt
         if (timestampAtRegistration == null) {
             Timber.d("Skipping TestResultMetadata donation (timestampAtRegistration is missing)")
             return TestResultMetadataNoContribution
@@ -132,7 +134,7 @@ class TestResultDonor @Inject constructor(
 
     private fun pendingTestMetadataDonation(
         hoursSinceTestRegistrationTime: Int,
-        testResult: TestResult,
+        testResult: CoronaTestResult,
         daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
         hoursSinceHighRiskWarningAtTestRegistration: Int
     ): DonorModule.Contribution {
@@ -152,7 +154,7 @@ class TestResultDonor @Inject constructor(
 
     private fun finalTestMetadataDonation(
         registrationTime: Instant,
-        testResult: TestResult,
+        testResult: CoronaTestResult,
         daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
         hoursSinceHighRiskWarningAtTestRegistration: Int
     ): DonorModule.Contribution {
@@ -192,14 +194,18 @@ class TestResultDonor @Inject constructor(
         ).standardHours.toInt()
     }
 
-    private inline val TestResult.isFinal: Boolean get() = this in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)
-    private inline val TestResult.isPending get() = this == TestResult.PENDING
+    private inline val CoronaTestResult.isFinal: Boolean
+        get() = this in listOf(
+            CoronaTestResult.PCR_POSITIVE,
+            CoronaTestResult.PCR_NEGATIVE
+        )
+    private inline val CoronaTestResult.isPending get() = this == CoronaTestResult.PCR_OR_RAT_PENDING
 
-    private fun TestResult.toPPATestResult(): PpaData.PPATestResult {
+    private fun CoronaTestResult.toPPATestResult(): PpaData.PPATestResult {
         return when (this) {
-            TestResult.PENDING -> PpaData.PPATestResult.TEST_RESULT_PENDING
-            TestResult.POSITIVE -> PpaData.PPATestResult.TEST_RESULT_POSITIVE
-            TestResult.NEGATIVE -> PpaData.PPATestResult.TEST_RESULT_NEGATIVE
+            CoronaTestResult.PCR_OR_RAT_PENDING -> PpaData.PPATestResult.TEST_RESULT_PENDING
+            CoronaTestResult.PCR_POSITIVE -> PpaData.PPATestResult.TEST_RESULT_POSITIVE
+            CoronaTestResult.PCR_NEGATIVE -> PpaData.PPATestResult.TEST_RESULT_NEGATIVE
             else -> PpaData.PPATestResult.TEST_RESULT_UNKNOWN
         }
     }
