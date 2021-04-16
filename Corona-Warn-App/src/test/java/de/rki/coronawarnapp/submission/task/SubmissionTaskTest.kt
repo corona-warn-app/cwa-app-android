@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
@@ -76,12 +75,14 @@ class SubmissionTaskTest : BaseTest() {
 
     private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plus(1))
 
-    private val coronaTests = MutableStateFlow(
+    private val coronaTestsFlow = MutableStateFlow(
         setOf(
             mockk<CoronaTest>().apply {
                 every { isAdvancedConsentGiven } returns true
                 every { isSubmissionAllowed } returns true
                 every { isSubmitted } returns false
+                every { registrationToken } returns "regtoken"
+                every { identifier } returns "coronatest-identifier"
             }
         )
     )
@@ -109,7 +110,11 @@ class SubmissionTaskTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { coronaTestRepository.coronaTests } returns coronaTests
+        coronaTestRepository.apply {
+            every { coronaTests } returns coronaTestsFlow
+            coEvery { markAsSubmitted("coronatest-identifier") } just Runs
+
+        }
 
         every { backgroundWorkScheduler.stopWorkScheduler() } just Runs
         every { backgroundWorkScheduler.startWorkScheduler() } just Runs
@@ -143,7 +148,10 @@ class SubmissionTaskTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
 
-        every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(testCheckIn1))
+        checkInRepository.apply {
+            every { checkInsWithinRetention } returns flowOf(listOf(testCheckIn1))
+            coEvery { markCheckInAsSubmitted(testCheckIn1.id) } just Runs
+        }
         coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
@@ -174,14 +182,12 @@ class SubmissionTaskTest : BaseTest() {
         coVerifySequence {
             submissionSettings.lastSubmissionUserActivityUTC
             settingLastUserActivityUTC.value
-            submissionSettings.hasGivenConsentMigration
             coronaTestRepository.coronaTests
 
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
-            submissionSettings.registrationTokenMigration
 
             coronaTestRepository.coronaTests
             tekHistoryStorage.tekData
@@ -215,7 +221,7 @@ class SubmissionTaskTest : BaseTest() {
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
             backgroundWorkScheduler.stopWorkScheduler()
-            submissionSettings.isSubmissionSuccessfulMigration = true
+            coronaTestRepository.markAsSubmitted(any())
             backgroundWorkScheduler.startWorkScheduler()
 
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
@@ -277,7 +283,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `task throws if no registration token is available`() = runBlockingTest {
-        coronaTests.value = setOf(
+        coronaTestsFlow.value = setOf(
             mockk<CoronaTest>().apply {
                 every { isAdvancedConsentGiven } returns true
                 every { isSubmissionAllowed } returns false
@@ -286,7 +292,7 @@ class SubmissionTaskTest : BaseTest() {
         )
 
         val task = createTask()
-        shouldThrow<NoRegistrationTokenSetException> {
+        shouldThrow<IllegalStateException> {
             task.run(SubmissionTask.Arguments())
         }
     }

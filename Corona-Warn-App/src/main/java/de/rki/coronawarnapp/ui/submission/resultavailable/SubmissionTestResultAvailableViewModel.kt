@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -30,9 +31,14 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
+    // TODO Use navargs to supply this?
+    private val coronaTestType: CoronaTest.Type = CoronaTest.Type.PCR
+
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
-    val consentFlow = submissionRepository.pcrTest.map { it!!.isAdvancedConsentGiven }
+    val consentFlow = submissionRepository.testForType(type = coronaTestType)
+        .filterNotNull()
+        .map { it.isAdvancedConsentGiven }
     val consent = consentFlow.asLiveData(dispatcherProvider.Default)
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val showCloseDialog = SingleLiveEvent<Unit>()
