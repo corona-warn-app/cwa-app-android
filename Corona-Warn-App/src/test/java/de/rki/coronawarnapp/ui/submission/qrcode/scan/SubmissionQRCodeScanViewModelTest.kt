@@ -10,8 +10,10 @@ import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Assert
 import org.junit.jupiter.api.BeforeEach
@@ -44,8 +46,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         // valid guid
         val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
         val coronaTestQRCode = CoronaTestQRCode.PCR(
-            CoronaTest.Type.PCR,
-            guid = guid
+            qrCodeGUID = guid
         )
 
         val validQrCode = "https://localhost/?$guid"
@@ -75,10 +76,10 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     fun `doDeviceRegistration calls TestResultDataCollector`() {
         val viewModel = createViewModel()
         val mockResult = mockk<CoronaTestQRCode>().apply {
-            every { guid } returns "guid"
+            every { qrCodeGUID } returns "guid"
         }
-
-        coEvery { submissionRepository.asyncRegisterDeviceViaGUID(any()) } returns TestResult.POSITIVE
+        val mockTest = mockk<CoronaTest>()
+        coEvery { submissionRepository.registerTest(any()) } returns mockTest
         viewModel.doDeviceRegistration(mockResult)
     }
 

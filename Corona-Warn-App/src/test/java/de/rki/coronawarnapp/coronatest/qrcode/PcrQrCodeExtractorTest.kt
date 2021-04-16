@@ -77,16 +77,16 @@ class PcrQrCodeExtractorTest : BaseTest() {
 
     @Test
     fun extractGUID() {
-        PcrQrCodeExtractor().extract("$localhostUpperCase$guidUpperCase").guid shouldBe guidUpperCase
-        PcrQrCodeExtractor().extract("$localhostUpperCase$guidLowerCase").guid shouldBe guidLowerCase
-        PcrQrCodeExtractor().extract("$localhostUpperCase$guidMixedCase").guid shouldBe guidMixedCase
+        PcrQrCodeExtractor().extract("$localhostUpperCase$guidUpperCase").qrCodeGUID shouldBe guidUpperCase
+        PcrQrCodeExtractor().extract("$localhostUpperCase$guidLowerCase").qrCodeGUID shouldBe guidLowerCase
+        PcrQrCodeExtractor().extract("$localhostUpperCase$guidMixedCase").qrCodeGUID shouldBe guidMixedCase
 
-        PcrQrCodeExtractor().extract("$localhostLowerCase$guidUpperCase").guid shouldBe guidUpperCase
-        PcrQrCodeExtractor().extract("$localhostLowerCase$guidLowerCase").guid shouldBe guidLowerCase
-        PcrQrCodeExtractor().extract("$localhostLowerCase$guidMixedCase").guid shouldBe guidMixedCase
+        PcrQrCodeExtractor().extract("$localhostLowerCase$guidUpperCase").qrCodeGUID shouldBe guidUpperCase
+        PcrQrCodeExtractor().extract("$localhostLowerCase$guidLowerCase").qrCodeGUID shouldBe guidLowerCase
+        PcrQrCodeExtractor().extract("$localhostLowerCase$guidMixedCase").qrCodeGUID shouldBe guidMixedCase
 
-        PcrQrCodeExtractor().extract("$localhostMixedCase$guidUpperCase").guid shouldBe guidUpperCase
-        PcrQrCodeExtractor().extract("$localhostMixedCase$guidLowerCase").guid shouldBe guidLowerCase
-        PcrQrCodeExtractor().extract("$localhostMixedCase$guidMixedCase").guid shouldBe guidMixedCase
+        PcrQrCodeExtractor().extract("$localhostMixedCase$guidUpperCase").qrCodeGUID shouldBe guidUpperCase
+        PcrQrCodeExtractor().extract("$localhostMixedCase$guidLowerCase").qrCodeGUID shouldBe guidLowerCase
+        PcrQrCodeExtractor().extract("$localhostMixedCase$guidMixedCase").qrCodeGUID shouldBe guidMixedCase
     }
 }

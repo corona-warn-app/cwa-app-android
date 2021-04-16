@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -37,7 +36,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     fun validateTestGUID(rawResult: String) {
         try {
             val coronaTestQRCode = qrCodeValidator.validate(rawResult)
-            QRCodeCensor.lastGUID = coronaTestQRCode.guid
+            QRCodeCensor.lastGUID = coronaTestQRCode.qrCodeGUID
             scanStatusValue.postValue(ScanStatus.SUCCESS)
             doDeviceRegistration(coronaTestQRCode)
         } catch (err: InvalidQRCodeException) {
@@ -57,9 +56,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     internal fun doDeviceRegistration(coronaTestQRCode: CoronaTestQRCode) = launch {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
-            val request = CoronaTestQRCode.PCR(qrCodeGUID = scanResult.guid!!)
-            val coronaTest = submissionRepository.registerTest(request)
-            // TODO this needs to depend on what the user selected
+            val coronaTest = submissionRepository.registerTest(coronaTestQRCode)
             submissionRepository.giveConsentToSubmission(type = CoronaTest.Type.PCR)
             checkTestResult(coronaTest.testResult)
             registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, coronaTest.testResult))

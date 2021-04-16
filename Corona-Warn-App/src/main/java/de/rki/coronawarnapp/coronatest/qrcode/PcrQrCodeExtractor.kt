@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import java.util.regex.Pattern
 
 internal class PcrQrCodeExtractor : QrCodeExtractor {
@@ -9,7 +8,6 @@ internal class PcrQrCodeExtractor : QrCodeExtractor {
 
     override fun extract(rawString: String): CoronaTestQRCode.PCR {
         return CoronaTestQRCode.PCR(
-            CoronaTest.Type.PCR,
             extractGUID(rawString)
         )
     }

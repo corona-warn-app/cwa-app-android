@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.coronatest.qrcode
 import com.google.common.io.BaseEncoding
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.internal.commonToUtf8String
 import org.joda.time.Instant
@@ -22,7 +21,6 @@ internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
     override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
         val data = extractData(rawString).validate()
         return CoronaTestQRCode.RapidAntigen(
-            CoronaTest.Type.RAPID_ANTIGEN,
             data.hash,
             data.createdAt,
             data.firstName,
