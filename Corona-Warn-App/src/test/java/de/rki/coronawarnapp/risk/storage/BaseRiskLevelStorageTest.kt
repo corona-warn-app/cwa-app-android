@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testPersistedAggreg
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testRiskLevelResultDao
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testRisklevelResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testRisklevelResultWithAggregatedRiskPerDateResult
+import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.AggregatedRiskPerDateResultDao
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.ExposureWindowsDao
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.RiskResults
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -53,10 +55,18 @@ class BaseRiskLevelStorageTest : BaseTest() {
     @MockK lateinit var exposureWindowTables: ExposureWindowsDao
     @MockK lateinit var aggregatedRiskPerDateResultDao: AggregatedRiskPerDateResultDao
     @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
+    @MockK lateinit var timeStamper: TimeStamper
+
+    private lateinit var riskCombinator: RiskCombinator
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T12:00:00.000Z")
+        riskCombinator = RiskCombinator(
+            timeStamper = timeStamper
+        )
 
         every { databaseFactory.create() } returns database
         every { database.riskResults() } returns riskResultTables
@@ -91,7 +101,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
     ) = object : BaseRiskLevelStorage(
         scope = scope,
         riskResultDatabaseFactory = databaseFactory,
-        presenceTracingRiskRepository = presenceTracingRiskRepository
+        presenceTracingRiskRepository = presenceTracingRiskRepository,
+        riskCombinator = riskCombinator,
     ) {
         override val storedResultLimit: Int = storedResultLimit
 
@@ -220,7 +231,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             riskLevelResults.size shouldBe 2
 
             riskLevelResults[0].calculatedAt shouldBe calculatedAt
-            riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
+            riskLevelResults[0].riskState shouldBe RiskState.CALCULATION_FAILED
             riskLevelResults[1].calculatedAt shouldBe ewCalculatedAt
             riskLevelResults[1].riskState shouldBe RiskState.INCREASED_RISK
 
@@ -241,7 +252,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
                 PtRiskLevelResult(
                     calculatedAt = calculatedAt,
                     presenceTracingDayRisk = null,
-                    riskState = RiskState.CALCULATION_FAILED
+                    riskState = RiskState.LOW_RISK
                 )
             )
         )
@@ -256,7 +267,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
             // result from the combination with initial ew low risk result
             riskLevelResults[1].calculatedAt shouldBe ewCalculatedAt.minus(400L)
-            riskLevelResults[1].riskState shouldBe RiskState.CALCULATION_FAILED
+            riskLevelResults[1].riskState shouldBe RiskState.LOW_RISK
 
             verify {
                 riskResultTables.latestEntries(2)
@@ -303,12 +314,12 @@ class BaseRiskLevelStorageTest : BaseTest() {
                 PtRiskLevelResult(
                     calculatedAt = calculatedAt,
                     presenceTracingDayRisk = null,
-                    riskState = RiskState.CALCULATION_FAILED
+                    riskState = RiskState.INCREASED_RISK
                 ),
                 PtRiskLevelResult(
                     calculatedAt = calculatedAt.minus(400L),
                     presenceTracingDayRisk = null,
-                    riskState = RiskState.LOW_RISK
+                    riskState = RiskState.CALCULATION_FAILED
                 )
             )
         )
@@ -319,7 +330,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             riskLevelResults.size shouldBe 2
 
             riskLevelResults[0].calculatedAt shouldBe ewCalculatedAt
-            riskLevelResults[0].riskState shouldBe RiskState.LOW_RISK
+            riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
             riskLevelResults[1].calculatedAt shouldBe ewCalculatedAt.minus(200L)
             riskLevelResults[1].riskState shouldBe RiskState.INCREASED_RISK
 

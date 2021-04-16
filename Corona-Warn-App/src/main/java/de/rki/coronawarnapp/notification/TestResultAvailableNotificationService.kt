@@ -3,11 +3,11 @@ package de.rki.coronawarnapp.notification
 import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
@@ -22,8 +22,13 @@ class TestResultAvailableNotificationService @Inject constructor(
     private val cwaSettings: CWASettings
 ) {
 
-    suspend fun showTestResultAvailableNotification(testResult: TestResult) {
-        if (foregroundState.isInForeground.first()) return
+    suspend fun showTestResultAvailableNotification(testResult: CoronaTestResult) {
+        Timber.d("showTestResultAvailableNotification(testResult=%s)", testResult)
+
+        if (foregroundState.isInForeground.first()) {
+            Timber.d("App in foreground, skipping notification.")
+            return
+        }
 
         if (!cwaSettings.isNotificationsTestEnabled.value) {
             Timber.i("Don't show test result available notification because user doesn't want to be informed")
@@ -42,6 +47,7 @@ class TestResultAvailableNotificationService @Inject constructor(
             setContentIntent(pendingIntent)
         }.build()
 
+        Timber.i("Showing TestResultAvailable notification!")
         notificationHelper.sendNotification(
             notificationId = NotificationConstants.TEST_RESULT_AVAILABLE_NOTIFICATION_ID,
             notification = notification,
@@ -61,5 +67,5 @@ class TestResultAvailableNotificationService @Inject constructor(
      * By letting the forwarding happen via the PendingResultFragment,
      * we have a common location to retrieve the test result.
      */
-    fun getNotificationDestination(testResult: TestResult): Int = R.id.submissionTestResultPendingFragment
+    fun getNotificationDestination(testResult: CoronaTestResult): Int = R.id.submissionTestResultPendingFragment
 }

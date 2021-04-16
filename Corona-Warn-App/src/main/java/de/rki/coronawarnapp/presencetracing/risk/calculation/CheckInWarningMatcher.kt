@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.presencetracing.risk.calculation
 
 import androidx.annotation.VisibleForTesting
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 import org.joda.time.Instant
 import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -25,6 +26,8 @@ class CheckInWarningMatcher @Inject constructor(
         checkIns: List<CheckIn>,
         warningPackages: List<TraceWarningPackage>
     ): Result {
+        Timber.tag(TAG).d("Processing ${checkIns.size} checkins and ${warningPackages.size} warning pkgs.")
+
         val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
 
         val matchLists: List<List<MatchesPerPackage>?> = runMatchingLaunchers(
@@ -34,13 +37,12 @@ class CheckInWarningMatcher @Inject constructor(
         )
 
         val successful = if (matchLists.contains(null)) {
-            Timber.e("Calculation partially failed.")
+            Timber.tag(TAG).e("Calculation partially failed: %s", matchLists)
             false
         } else {
-            Timber.d("Matching was successful.")
+            Timber.tag(TAG).d("Matching was successful.")
             true
         }
-
         return Result(
             successful = successful,
             processedPackages = matchLists.filterNotNull().flatten()
@@ -67,11 +69,11 @@ class CheckInWarningMatcher @Inject constructor(
                 try {
                     packageChunk.map {
                         val overlaps = findMatches(list, it)
-                        Timber.d("%d overlaps for %s", overlaps.size, it.packageId)
+                        Timber.tag(TAG).d("%d overlaps for %s", overlaps.size, it.packageId)
                         MatchesPerPackage(warningPackage = it, overlaps = overlaps)
                     }
                 } catch (e: Throwable) {
-                    Timber.e(e, "Failed to process packages $packageChunk")
+                    Timber.tag(TAG).e(e, "Failed to process packages $packageChunk")
                     null
                 }
             }
@@ -105,9 +107,9 @@ internal suspend fun findMatches(
                 .mapNotNull { checkIn ->
                     checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
                         if (overlap == null) {
-                            Timber.v("No match found for $checkIn and $warning")
+                            Timber.tag(TAG).v("No match found for $checkIn and $warning")
                         } else {
-                            Timber.w("Overlap was found $overlap")
+                            Timber.tag(TAG).w("Overlap was found $overlap")
                         }
                     }
                 }
@@ -129,7 +131,12 @@ internal fun CheckIn.calculateOverlap(
     val overlapMillis = overlapEndMillis - overlapStartMillis
 
     if (overlapMillis <= 0) {
-        Timber.i("No overlap (%dms) with match %s (%s)", overlapMillis, description, traceLocationIdHash)
+        Timber.tag(TAG).i("Match without overlap (%dms) (%s, %s)", overlapMillis, description, traceLocationIdHash)
+        return null
+    }
+
+    if (isSubmitted) {
+        Timber.tag(TAG).d("Overlap with our own CheckIn (%s and %s)", this, warning)
         return null
     }
 
@@ -141,3 +148,8 @@ internal fun CheckIn.calculateOverlap(
         endTime = Instant.ofEpochMilli(overlapEndMillis)
     )
 }
+
+// converts number of 10min intervals into milliseconds
+internal fun Int.tenMinIntervalToMillis() = this * TimeUnit.MINUTES.toMillis(10L)
+
+private const val TAG = "CheckInWarningMatcher"

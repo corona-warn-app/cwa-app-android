@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.playbook
 
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
-import de.rki.coronawarnapp.util.formatter.TestResult
-import de.rki.coronawarnapp.verification.server.VerificationKeyType
 
 /**
  * The concept of Plausible Deniability aims to hide the existence of a positive test result by always using a defined
@@ -20,14 +20,14 @@ import de.rki.coronawarnapp.verification.server.VerificationKeyType
 interface Playbook {
 
     /**
-     * @return pair of Registration token [String] & [TestResult]
+     * @return pair of Registration token [String] & [CoronaTestResult]
      */
     suspend fun initialRegistration(
         key: String,
         keyType: VerificationKeyType
-    ): Pair<String, TestResult>
+    ): Pair<String, CoronaTestResult>
 
-    suspend fun testResult(registrationToken: String): TestResult
+    suspend fun testResult(registrationToken: String): CoronaTestResult
 
     suspend fun submit(data: SubmissionData)
 

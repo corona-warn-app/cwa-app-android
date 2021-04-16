@@ -11,12 +11,14 @@ import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
 import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
+import de.rki.coronawarnapp.coronatest.CoronaTestModule
+import de.rki.coronawarnapp.coronatest.server.VerificationModule
 import de.rki.coronawarnapp.datadonation.DataDonationModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.EnvironmentModule
-import de.rki.coronawarnapp.eventregistration.EventRegistrationModule
+import de.rki.coronawarnapp.presencetracing.PresenceTracingModule
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.ENFModule
@@ -42,7 +44,6 @@ import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.security.SecurityModule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.worker.WorkerBinder
-import de.rki.coronawarnapp.verification.VerificationModule
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import javax.inject.Singleton
 
@@ -76,7 +77,8 @@ import javax.inject.Singleton
         StatisticsModule::class,
         DataDonationModule::class,
         SecurityModule::class,
-        EventRegistrationModule::class,
+        PresenceTracingModule::class,
+        CoronaTestModule::class,
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {

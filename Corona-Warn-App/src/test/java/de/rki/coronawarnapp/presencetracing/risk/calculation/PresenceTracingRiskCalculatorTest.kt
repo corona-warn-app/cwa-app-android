@@ -103,7 +103,7 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
         )
 
         runBlockingTest {
-            val result = createInstance().calculateAggregatedRiskPerDay(listOf(normTime))
+            val result = createInstance().calculateDayRisk(listOf(normTime))
             result.size shouldBe 1
             result[0].riskState shouldBe RiskState.CALCULATION_FAILED
         }
@@ -133,7 +133,7 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
         )
 
         runBlockingTest {
-            val result = createInstance().calculateAggregatedRiskPerDay(listOf(normTime, normTime2, normTime3))
+            val result = createInstance().calculateDayRisk(listOf(normTime, normTime2, normTime3))
             result.size shouldBe 2
             result.find { it.localDateUtc == localDate }!!.riskState shouldBe RiskState.INCREASED_RISK
             result.find { it.localDateUtc == localDate2 }!!.riskState shouldBe RiskState.LOW_RISK

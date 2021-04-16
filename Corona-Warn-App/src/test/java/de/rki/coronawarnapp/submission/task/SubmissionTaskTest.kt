@@ -3,13 +3,15 @@ package de.rki.coronawarnapp.submission.task
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
-import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
@@ -31,6 +33,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -63,22 +66,54 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var checkInsTransformer: CheckInsTransformer
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
 
-    private val registrationToken: FlowPreference<String?> = mockFlowPreference("regtoken")
-    private val settingHasGivenConsent: FlowPreference<Boolean> = mockFlowPreference(true)
     private val settingAutoSubmissionAttemptsCount: FlowPreference<Int> = mockFlowPreference(0)
     private val settingAutoSubmissionAttemptsLast: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
 
     private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plus(1))
 
+    private val coronaTestsFlow = MutableStateFlow(
+        setOf(
+            mockk<CoronaTest>().apply {
+                every { isAdvancedConsentGiven } returns true
+                every { isSubmissionAllowed } returns true
+                every { isSubmitted } returns false
+                every { registrationToken } returns "regtoken"
+                every { identifier } returns "coronatest-identifier"
+            }
+        )
+    )
+
+    private val testCheckIn1 = CheckIn(
+        id = 1L,
+        traceLocationId = mockk(),
+        version = 1,
+        type = 2,
+        description = "brothers birthday",
+        address = "Malibu",
+        traceLocationStart = Instant.EPOCH,
+        traceLocationEnd = null,
+        defaultCheckInLengthInMinutes = null,
+        cryptographicSeed = mockk(),
+        cnPublicKey = "cnPublicKey",
+        checkInStart = Instant.EPOCH,
+        checkInEnd = Instant.EPOCH.plus(9000),
+        completed = false,
+        createJournalEntry = false,
+        isSubmitted = true
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { submissionSettings.registrationToken } returns registrationToken
-        every { submissionSettings.isSubmissionSuccessful = any() } just Runs
+        coronaTestRepository.apply {
+            every { coronaTests } returns coronaTestsFlow
+            coEvery { markAsSubmitted("coronatest-identifier") } just Runs
+        }
 
         every { backgroundWorkScheduler.stopWorkScheduler() } just Runs
         every { backgroundWorkScheduler.startWorkScheduler() } just Runs
@@ -93,7 +128,6 @@ class SubmissionTaskTest : BaseTest() {
 
         settingSymptomsPreference = mockFlowPreference(userSymptoms)
         every { submissionSettings.symptoms } returns settingSymptomsPreference
-        every { submissionSettings.hasGivenConsent } returns settingHasGivenConsent
         every { submissionSettings.lastSubmissionUserActivityUTC } returns settingLastUserActivityUTC
         every { submissionSettings.autoSubmissionAttemptsCount } returns settingAutoSubmissionAttemptsCount
         every { submissionSettings.autoSubmissionAttemptsLast } returns settingAutoSubmissionAttemptsLast
@@ -113,8 +147,10 @@ class SubmissionTaskTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
 
-        every { checkInRepository.allCheckIns } returns flowOf(emptyList())
-        coEvery { checkInRepository.clear() } just Runs
+        checkInRepository.apply {
+            every { checkInsWithinRetention } returns flowOf(listOf(testCheckIn1))
+            coEvery { markCheckInAsSubmitted(testCheckIn1.id) } just Runs
+        }
         coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
@@ -132,6 +168,7 @@ class SubmissionTaskTest : BaseTest() {
         checkInsRepository = checkInRepository,
         checkInsTransformer = checkInsTransformer,
         backgroundWorkScheduler = backgroundWorkScheduler,
+        coronaTestRepository = coronaTestRepository,
     )
 
     @Test
@@ -144,22 +181,20 @@ class SubmissionTaskTest : BaseTest() {
         coVerifySequence {
             submissionSettings.lastSubmissionUserActivityUTC
             settingLastUserActivityUTC.value
-            submissionSettings.hasGivenConsent
-            settingHasGivenConsent.value
+            coronaTestRepository.coronaTests
 
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
-            submissionSettings.registrationToken
 
-            registrationToken.value
+            coronaTestRepository.coronaTests
             tekHistoryStorage.tekData
             submissionSettings.symptoms
             settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
-            checkInRepository.allCheckIns
+            checkInRepository.checkInsWithinRetention
             checkInsTransformer.transform(any(), any())
 
             appConfigProvider.getAppConfig()
@@ -177,14 +212,15 @@ class SubmissionTaskTest : BaseTest() {
             analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
             tekHistoryStorage.clear()
-            checkInRepository.clear()
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
+
+            checkInRepository.markCheckInAsSubmitted(testCheckIn1.id)
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
             backgroundWorkScheduler.stopWorkScheduler()
-            submissionSettings.isSubmissionSuccessful = true
+            coronaTestRepository.markAsSubmitted(any())
             backgroundWorkScheduler.startWorkScheduler()
 
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
@@ -216,9 +252,8 @@ class SubmissionTaskTest : BaseTest() {
         }
 
         coVerifySequence {
-            settingHasGivenConsent.value
-
-            registrationToken.value
+            coronaTestRepository.coronaTests // Consent
+            coronaTestRepository.coronaTests // regToken
             tekHistoryStorage.tekData
             settingSymptomsPreference.value
 
@@ -247,10 +282,16 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `task throws if no registration token is available`() = runBlockingTest {
-        every { submissionSettings.registrationToken } returns mockFlowPreference(null)
+        coronaTestsFlow.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { isAdvancedConsentGiven } returns true
+                every { isSubmissionAllowed } returns false
+                every { isSubmitted } returns false
+            }
+        )
 
         val task = createTask()
-        shouldThrow<NoRegistrationTokenSetException> {
+        shouldThrow<IllegalStateException> {
             task.run(SubmissionTask.Arguments())
         }
     }

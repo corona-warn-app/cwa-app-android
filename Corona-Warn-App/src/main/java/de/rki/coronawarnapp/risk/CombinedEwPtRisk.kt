@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.risk
 
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
-import de.rki.coronawarnapp.risk.storage.combine
-import de.rki.coronawarnapp.risk.storage.max
+import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -13,12 +12,12 @@ data class CombinedEwPtDayRisk(
 )
 
 data class CombinedEwPtRiskLevelResult(
-    val ptRiskLevelResult: PtRiskLevelResult,
-    val ewRiskLevelResult: EwRiskLevelResult
+    private val ptRiskLevelResult: PtRiskLevelResult,
+    private val ewRiskLevelResult: EwRiskLevelResult
 ) {
 
     val riskState: RiskState by lazy {
-        combine(ptRiskLevelResult.riskState, ewRiskLevelResult.riskState)
+        RiskCombinator.combine(ptRiskLevelResult.riskState, ewRiskLevelResult.riskState)
     }
 
     val wasSuccessfullyCalculated: Boolean by lazy {
@@ -56,9 +55,28 @@ data class CombinedEwPtRiskLevelResult(
             else -> null
         }
     }
+
+    /**
+     * The combination of matched exposure windows and overlaps.
+     * If we have matches > 0, but are still in a low risk state,
+     * the UI displays additional information in the risk details screen.
+     */
+    val matchedRiskCount: Int by lazy {
+        ewRiskLevelResult.matchedKeyCount + ptRiskLevelResult.checkInOverlapCount
+    }
 }
 
 data class LastCombinedRiskResults(
     val lastCalculated: CombinedEwPtRiskLevelResult,
     val lastSuccessfullyCalculated: CombinedEwPtRiskLevelResult
 )
+
+internal fun max(left: Instant, right: Instant): Instant {
+    return Instant.ofEpochMilli(kotlin.math.max(left.millis, right.millis))
+}
+
+internal fun max(left: LocalDate?, right: LocalDate?): LocalDate? {
+    if (left == null) return right
+    if (right == null) return left
+    return if (left.isAfter(right)) left else right
+}

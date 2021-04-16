@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.risk.execution
 
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.calculation.createCheckIn
 import de.rki.coronawarnapp.presencetracing.risk.calculation.createWarning
@@ -46,7 +46,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(9000)
-        coEvery { syncTool.syncPackages() } returns mockk()
+        coEvery { syncTool.syncPackages() } returns TraceWarningPackageSyncTool.SyncResult(successful = true)
         coEvery { checkInWarningMatcher.process(any(), any()) } answers {
             CheckInWarningMatcher.Result(
                 successful = true,
@@ -64,7 +64,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             coEvery { markPackagesProcessed(any()) } just Runs
         }
 
-        coEvery { checkInsRepository.allCheckIns } returns flowOf(listOf(CHECKIN_1, CHECKIN_2))
+        coEvery { checkInsRepository.checkInsWithinRetention } returns flowOf(listOf(CHECKIN_1, CHECKIN_2))
 
         presenceTracingRiskRepository.apply {
             coEvery { deleteAllMatches() } just Runs
@@ -89,7 +89,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coVerifySequence {
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
-            checkInsRepository.allCheckIns
+            checkInsRepository.checkInsWithinRetention
             traceWarningRepository.unprocessedWarningPackages
 
             checkInWarningMatcher.process(any(), any())
@@ -120,14 +120,14 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
     @Test
     fun `there are no check-ins to match against`() = runBlockingTest {
-        coEvery { checkInsRepository.allCheckIns } returns flowOf(emptyList())
+        coEvery { checkInsRepository.checkInsWithinRetention } returns flowOf(emptyList())
 
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
-            checkInsRepository.allCheckIns
+            checkInsRepository.checkInsWithinRetention
 
             presenceTracingRiskRepository.deleteAllMatches()
             presenceTracingRiskRepository.reportCalculation(successful = true)
@@ -143,10 +143,30 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coVerifySequence {
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
-            checkInsRepository.allCheckIns
+            checkInsRepository.checkInsWithinRetention
             traceWarningRepository.unprocessedWarningPackages
 
             presenceTracingRiskRepository.reportCalculation(successful = true)
+        }
+    }
+
+    @Test
+    fun `report failure if downloads fail`() = runBlockingTest {
+        coEvery { syncTool.syncPackages() } returns TraceWarningPackageSyncTool.SyncResult(successful = false)
+
+        createInstance().run(mockk()) shouldNotBe null
+
+        coVerifySequence {
+            syncTool.syncPackages()
+
+            presenceTracingRiskRepository.reportCalculation(
+                successful = false,
+                overlaps = emptyList()
+            )
+        }
+
+        coVerify(exactly = 0) {
+            traceWarningRepository.markPackagesProcessed(any())
         }
     }
 
@@ -160,7 +180,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coVerifySequence {
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
-            checkInsRepository.allCheckIns
+            checkInsRepository.checkInsWithinRetention
             traceWarningRepository.unprocessedWarningPackages
 
             checkInWarningMatcher.process(any(), any())

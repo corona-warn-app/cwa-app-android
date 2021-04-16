@@ -15,16 +15,16 @@ import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
-import de.rki.coronawarnapp.eventregistration.storage.retention.TraceLocationDbCleanUpScheduler
+import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.storage.OnboardingSettings
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
@@ -34,8 +34,10 @@ import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
@@ -61,7 +63,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var notificationHelper: GeneralNotifications
     @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
     @Inject lateinit var autoSubmission: AutoSubmission
-    @Inject lateinit var submissionSettings: SubmissionSettings
+    @Inject lateinit var coronaTestRepository: CoronaTestRepository
     @Inject lateinit var onboardingSettings: OnboardingSettings
     @Inject lateinit var autoCheckOut: AutoCheckOut
     @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
@@ -100,9 +102,14 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             .launchIn(GlobalScope)
 
         if (onboardingSettings.isOnboarded) {
-            if (!submissionSettings.isAllowedToSubmitKeys) {
-                deadmanNotificationScheduler.schedulePeriodic()
+            // TODO this is on the main thread, not very nice...
+            runBlocking {
+                val isAllowedToSubmitKeys = coronaTestRepository.coronaTests.first().any { it.isSubmissionAllowed }
+                if (!isAllowedToSubmitKeys) {
+                    deadmanNotificationScheduler.schedulePeriodic()
+                }
             }
+
             contactDiaryWorkScheduler.schedulePeriodic()
         }
 

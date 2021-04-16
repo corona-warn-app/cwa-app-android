@@ -9,7 +9,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.TypeConverter
-import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
@@ -46,26 +46,15 @@ class PresenceTracingRiskRepository @Inject constructor(
         database.presenceTracingRiskLevelResultDao()
     }
 
-    private val matchesOfLast14DaysPlusToday = traceTimeIntervalMatchDao.allMatches()
-        .map { timeIntervalMatchEntities ->
-            timeIntervalMatchEntities
-                .map { it.toCheckInWarningOverlap() }
-                .filter { it.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc()) }
-        }
-
-    val checkInWarningOverlaps: Flow<List<CheckInWarningOverlap>> =
-        traceTimeIntervalMatchDao.allMatches().map { matchEntities ->
-            matchEntities.map {
-                it.toCheckInWarningOverlap()
-            }
-        }
-
-    private val normalizedTimeOfLast14DaysPlusToday = matchesOfLast14DaysPlusToday.map {
-        presenceTracingRiskCalculator.calculateNormalizedTime(it)
+    val overlapsOfLast14DaysPlusToday = traceTimeIntervalMatchDao.allMatches().map { entities ->
+        entities
+            .map { it.toCheckInWarningOverlap() }
+            .filter { it.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc()) }
     }
 
-    private val fifteenDaysAgo: Instant
-        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
+    private val normalizedTimeOfLast14DaysPlusToday = overlapsOfLast14DaysPlusToday.map {
+        presenceTracingRiskCalculator.calculateNormalizedTime(it)
+    }
 
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
         normalizedTimeOfLast14DaysPlusToday.map {
@@ -74,7 +63,7 @@ class PresenceTracingRiskRepository @Inject constructor(
 
     val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>> =
         normalizedTimeOfLast14DaysPlusToday.map {
-            presenceTracingRiskCalculator.calculateAggregatedRiskPerDay(it)
+            presenceTracingRiskCalculator.calculateDayRisk(it)
         }
 
     /**
@@ -120,41 +109,39 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     fun latestEntries(limit: Int) = riskLevelResultDao.latestEntries(limit).map { list ->
-        var lastSuccessfulFound = false
-        list.sortedByDescending {
-            it.calculatedAtMillis
-        }
-            .map { entity ->
-                if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
-                    lastSuccessfulFound = true
-                    // add risk per day to the last successful result
-                    entity.toCheckInWarningOverlap(presenceTracingDayRisk.first())
-                } else {
-                    entity.toCheckInWarningOverlap(null)
-                }
-            }
+        list.sortAndComplementLatestResult()
     }
 
     fun allEntries() = riskLevelResultDao.allEntries().map { list ->
-        var lastSuccessfulFound = false
-        list.sortedByDescending {
+        list.sortAndComplementLatestResult()
+    }
+
+    private suspend fun List<PresenceTracingRiskLevelResultEntity>.sortAndComplementLatestResult() =
+        sortedByDescending {
             it.calculatedAtMillis
         }
-            .map { entity ->
-                if (!lastSuccessfulFound && entity.riskState != RiskState.CALCULATION_FAILED) {
-                    lastSuccessfulFound = true
-                    // add risk per day to the last successful result
-                    entity.toCheckInWarningOverlap(presenceTracingDayRisk.first())
+            .mapIndexed { index, entity ->
+                if (index == 0) {
+                    // add risk per day to the latest result
+                    entity.toRiskLevelResult(
+                        presenceTracingDayRisks = presenceTracingDayRisk.first(),
+                        checkInWarningOverlaps = overlapsOfLast14DaysPlusToday.first(),
+                    )
                 } else {
-                    entity.toCheckInWarningOverlap(null)
+                    entity.toRiskLevelResult(
+                        presenceTracingDayRisks = null,
+                        checkInWarningOverlaps = null,
+                    )
                 }
             }
-    }
 
     private fun addResult(result: PtRiskLevelResult) {
         Timber.i("Saving risk calculation from ${result.calculatedAt} with result ${result.riskState}.")
-        riskLevelResultDao.insert(result.toTraceTimeIntervalMatchEntity())
+        riskLevelResultDao.insert(result.toRiskLevelEntity())
     }
+
+    private val fifteenDaysAgo: Instant
+        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
 
     suspend fun clearAllTables() {
         traceTimeIntervalMatchDao.deleteAll()
@@ -242,15 +229,17 @@ data class PresenceTracingRiskLevelResultEntity(
     @ColumnInfo(name = "riskStateCode") val riskState: RiskState
 )
 
-private fun PresenceTracingRiskLevelResultEntity.toCheckInWarningOverlap(
-    presenceTracingDayRisk: List<PresenceTracingDayRisk>?
+private fun PresenceTracingRiskLevelResultEntity.toRiskLevelResult(
+    presenceTracingDayRisks: List<PresenceTracingDayRisk>?,
+    checkInWarningOverlaps: List<CheckInWarningOverlap>?
 ) = PtRiskLevelResult(
     calculatedAt = Instant.ofEpochMilli((calculatedAtMillis)),
     riskState = riskState,
-    presenceTracingDayRisk = presenceTracingDayRisk
+    presenceTracingDayRisk = presenceTracingDayRisks,
+    checkInWarningOverlaps = checkInWarningOverlaps,
 )
 
-private fun PtRiskLevelResult.toTraceTimeIntervalMatchEntity() = PresenceTracingRiskLevelResultEntity(
+private fun PtRiskLevelResult.toRiskLevelEntity() = PresenceTracingRiskLevelResultEntity(
     calculatedAtMillis = calculatedAt.millis,
     riskState = riskState
 )

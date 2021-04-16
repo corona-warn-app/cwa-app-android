@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningReposito
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
-import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -31,10 +30,10 @@ class PresenceTracingWarningTask @Inject constructor(
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     private val traceWarningRepository: TraceWarningRepository,
     private val checkInsRepository: CheckInRepository,
-) : Task<DefaultProgress, PresenceTracingWarningTask.Result> {
+) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
 
-    private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
-    override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
+    private val internalProgress = ConflatedBroadcastChannel<PresenceTracingWarningTaskProgress>()
+    override val progress: Flow<PresenceTracingWarningTaskProgress> = internalProgress.asFlow()
 
     private var isCanceled = false
 
@@ -59,15 +58,24 @@ class PresenceTracingWarningTask @Inject constructor(
 
     private suspend fun doWork(): Result {
         val nowUTC = timeStamper.nowUTC
-
-        Timber.tag(TAG).d("Running package sync.")
-        syncTool.syncPackages()
-
         checkCancel()
+
+        Timber.tag(TAG).d("Syncing packages.")
+        internalProgress.send(PresenceTracingWarningTaskProgress.Downloading())
+
+        val syncResult = syncTool.syncPackages()
+
+        if (syncResult.successful) {
+            Timber.tag(TAG).d("TraceWarningPackage sync successful: %s", syncResult)
+        } else {
+            Timber.tag(TAG).w("WarningPackage sync failed: %s", syncResult)
+            presenceTracingRiskRepository.reportCalculation(successful = false)
+            return Result(calculatedAt = nowUTC)
+        }
 
         presenceTracingRiskRepository.deleteStaleData()
 
-        val checkIns = checkInsRepository.allCheckIns.firstOrNull() ?: emptyList()
+        val checkIns = checkInsRepository.checkInsWithinRetention.firstOrNull() ?: emptyList()
         Timber.tag(TAG).d("There are %d check-ins to match against.", checkIns.size)
 
         if (checkIns.isEmpty()) {
@@ -91,6 +99,8 @@ class PresenceTracingWarningTask @Inject constructor(
         }
 
         Timber.tag(TAG).d("Running check-in matcher.")
+        internalProgress.send(PresenceTracingWarningTaskProgress.Calculating())
+
         val matcherResult = checkInWarningMatcher.process(
             checkIns = checkIns,
             warningPackages = unprocessedPackages,
@@ -141,13 +151,13 @@ class PresenceTracingWarningTask @Inject constructor(
     class Factory @Inject constructor(
         private val taskByDagger: Provider<PresenceTracingWarningTask>,
         private val appConfigProvider: AppConfigProvider
-    ) : TaskFactory<DefaultProgress, Task.Result> {
+    ) : TaskFactory<PresenceTracingWarningTaskProgress, Task.Result> {
 
         override suspend fun createConfig(): TaskFactory.Config = Config(
             executionTimeout = appConfigProvider.getAppConfig().overallDownloadTimeout
         )
 
-        override val taskProvider: () -> Task<DefaultProgress, Task.Result> = {
+        override val taskProvider: () -> Task<PresenceTracingWarningTaskProgress, Task.Result> = {
             taskByDagger.get()
         }
     }

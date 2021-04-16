@@ -2,13 +2,15 @@ package de.rki.coronawarnapp.submission.task
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
-import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -43,6 +45,7 @@ class SubmissionTask @Inject constructor(
     private val checkInsTransformer: CheckInsTransformer,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val backgroundWorkScheduler: BackgroundWorkScheduler,
+    private val coronaTestRepository: CoronaTestRepository,
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -65,8 +68,8 @@ class SubmissionTask @Inject constructor(
                     inBackground = true
                 }
             }
-
-            if (!submissionSettings.hasGivenConsent.value) {
+            val hasGivenConsent = coronaTestRepository.coronaTests.first().any { it.isAdvancedConsentGiven }
+            if (!hasGivenConsent) {
                 Timber.tag(TAG).w("Consent unavailable. Skipping execution, disabling auto submission.")
                 autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
                 return Result(state = Result.State.SKIPPED)
@@ -123,8 +126,12 @@ class SubmissionTask @Inject constructor(
     }
 
     private suspend fun performSubmission(): Result {
-        val registrationToken = submissionSettings.registrationToken.value ?: throw NoRegistrationTokenSetException()
-        Timber.tag(TAG).d("Using registrationToken=$registrationToken")
+        val availableTests = coronaTestRepository.coronaTests.first()
+        Timber.tag(TAG).v("Available tests: %s", availableTests)
+        val coronaTest = availableTests.firstOrNull { it.isSubmissionAllowed && !it.isSubmitted }
+            ?: throw IllegalStateException("No valid test available to authorize submission")
+
+        Timber.tag(TAG).d("Submission is authorized by coronaTest=%s", coronaTest)
 
         val keys: List<TemporaryExposureKey> = try {
             tekHistoryStorage.tekData.first().flatMap { it.keys }
@@ -142,13 +149,13 @@ class SubmissionTask @Inject constructor(
         )
         Timber.tag(TAG).d("Transformed keys with symptoms %s from %s to %s", symptoms, keys, transformedKeys)
 
-        val checkIns = checkInsRepository.allCheckIns.first()
+        val checkIns = checkInsRepository.checkInsWithinRetention.first()
         val transformedCheckIns = checkInsTransformer.transform(checkIns, symptoms)
 
         Timber.tag(TAG).d("Transformed CheckIns from: %s to: %s", checkIns, transformedCheckIns)
 
         val submissionData = Playbook.SubmissionData(
-            registrationToken = registrationToken,
+            registrationToken = coronaTest.registrationToken,
             temporaryExposureKeys = transformedKeys,
             consentToFederation = true,
             visitedCountries = getSupportedCountries(),
@@ -165,20 +172,28 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()
-        checkInsRepository.clear()
         submissionSettings.symptoms.update { null }
+
+        Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
+        checkIns.forEach { checkIn ->
+            try {
+                checkInsRepository.markCheckInAsSubmitted(checkIn.id)
+            } catch (e: Exception) {
+                e.reportProblem(TAG, "CheckIn $checkIn could not be marked as submitted")
+            }
+        }
 
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
-        setSubmissionFinished()
+        setSubmissionFinished(coronaTest)
 
         return Result(state = Result.State.SUCCESSFUL)
     }
 
-    private fun setSubmissionFinished() {
+    private suspend fun setSubmissionFinished(coronaTest: CoronaTest) {
         Timber.tag(TAG).d("setSubmissionFinished()")
         backgroundWorkScheduler.stopWorkScheduler()
-        submissionSettings.isSubmissionSuccessful = true
+        coronaTestRepository.markAsSubmitted(coronaTest.identifier)
         backgroundWorkScheduler.startWorkScheduler()
 
         shareTestResultNotificationService.cancelSharePositiveTestResultNotification()

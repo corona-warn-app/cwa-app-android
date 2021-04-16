@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.model
 
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.util.lists.HasStableId
 import java.util.Locale
 
@@ -8,7 +9,7 @@ interface ContactDiaryLocation : HasStableId {
     var locationName: String
     val phoneNumber: String?
     val emailAddress: String?
-    val traceLocationID: String?
+    val traceLocationID: TraceLocationId?
 }
 
 fun List<ContactDiaryLocation>.sortByNameAndIdASC(): List<ContactDiaryLocation> =

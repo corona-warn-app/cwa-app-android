@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -58,6 +59,7 @@
             android:layout_marginTop="36dp"
             android:text="@string/trace_location_checkins_empty_label"
             android:textStyle="bold" />
+
         <TextView
             style="@style/body2Medium"
             android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import dagger.Provides
 import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.mapping.AnalyticsConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.CWAConfigMapper
+import de.rki.coronawarnapp.appconfig.mapping.CoronaTestConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureDetectionConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureWindowRiskCalculationConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.KeyDownloadParametersMapper
@@ -82,6 +83,10 @@ class AppConfigModule {
     @Provides
     fun presenceTracingMapper(mapper: PresenceTracingConfigMapper):
         PresenceTracingConfig.Mapper = mapper
+
+    @Provides
+    fun coronaTestConfigMapper(mapper: CoronaTestConfigMapper):
+        CoronaTestConfig.Mapper = mapper
 
     companion object {
         private val HTTP_TIMEOUT_APPCONFIG = Duration.standardSeconds(10)

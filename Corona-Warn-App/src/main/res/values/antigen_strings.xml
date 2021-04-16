@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+
+    <!-- ####################################
+        Homescreen cards - register test card
+    ###################################### -->
+    <!-- XHED: Register test homescreen card: title -->
+    <string name="ag_homescreen_card_test_register_title">"Test registrieren"</string>
+    <!-- XTXT: Register test homescreen card: body -->
+    <string name="ag_homescreen_card_test_register_body">"Nutzen Sie die App, um Ihre Testergebnisse abrufen und schneller warnen zu können."</string>
+
+    <!-- ####################################
+        Homescreen cards - common buttons
+    ###################################### -->
+    <!-- XBUT: Homescreen card: show test button -->
+    <string name="ag_homescreen_card_show_button">"Test anzeigen"</string>
+    <!-- XBUT: Homescreen card: warn others button -->
+    <string name="ag_homescreen_card_warn_others_button">"Andere warnen"</string>
+
+    <!-- ####################################
+        Homescreen cards - common status
+    ###################################### -->
+    <!-- XTXT: Homescreen card: status subtitle - no result -->
+    <string name="ag_homescreen_card_status_no_result">"Ergebnis liegt noch nicht vor"</string>
+    <!-- XTXT: Homescreen card: status subtitle - result available -->
+    <string name="ag_homescreen_card_status_result_available">"Testergebnis abrufen"</string>
+    <!-- XTXT: Homescreen card: status subtitle - error -->
+    <string name="ag_homescreen_card_status_error">"Fehlerhafter Test"</string>
+    <!-- XTXT: Homescreen card: status subtitle - invalid -->
+    <string name="ag_homescreen_card_status_invalid">"Nicht mehr gültig"</string>
+    <!-- XTXT: Homescreen card: status subtitle - findings -->
+    <string name="ag_homescreen_card_status_findings">"Befund"</string>
+    <!-- XTXT: Homescreen card: subtitle - corona official name -->
+    <string name="ag_homescreen_card_status_name_of_the_cause_of_this_app">"SARS-CoV-2"</string>
+    <!-- XTXT: Homescreen card: status - negative -->
+    <string name="ag_homescreen_card_status_negative">"Negativ"</string>
+    <!-- XTXT: Homescreen card: status - positiv -->
+    <string name="ag_homescreen_card_status_positiv">"Positiv"</string>
+
+    <!-- ####################################
+       Homescreen cards - common body
+   ###################################### -->
+    <!-- XTXT: homescreen card: body - result available -->
+    <string name="ag_homescreen_card_body_result_available">"Warnen Sie Ihre Mitmenschen, wenn Sie positiv auf Corona getestet wurden."</string>
+    <!-- XTXT: homescreen card: body - error -->
+    <string name="ag_homescreen_card_body_error">"Ihr Test konnte nicht ausgewertet werden."</string>
+    <!-- XTXT: homescreen card: body - not valid test -->
+    <string name="ag_homescreen_card_body_not_valid_test">"Ihr Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neuen Test hinzufügen. "</string>
+    <!-- XTXT: homescreen card: body - negative -->
+    <string name="ag_homescreen_card_body_result_negative">"Das Virus SARS-CoV-2 wurde bei Ihnen nicht nachgewiesen."</string>
+    <!-- XTXT: homescreen card: body - positive -->
+    <string name="ag_homescreen_card_body_result_positive">"Das Virus SARS-CoV-2 wurde bei Ihnen nachgewiesen."</string>
+
+    <!-- ####################################
+        Homescreen cards - rapid test
+    ###################################### -->
+    <!-- XHED: rapid test homescreen card: title -->
+    <string name="ag_homescreen_card_rapidtest_title">"Schnelltest"</string>
+    <!-- XBUT: rapid test homescreen card: dont show anymore button -->
+    <string name="ag_homescreen_card_rapidtest_dont_show_anymore_button">"Nicht mehr anzeigen"</string>
+    <!-- XTXT: rapid test homescreen card: status subtitle - outdated test -->
+    <string name="ag_homescreen_card_rapidtest_status_outdated_test">"Test nicht mehr aktuell"</string>
+    <!-- XTXT: rapid test homescreen card: result positive - check results with PCR test -->
+    <string name="ag_homescreen_card_rapidtest_body_result_positive_pcr_check">"Machen Sie einen PCR-Test um dieses Test-Ergebnis zu verifizieren."</string>
+
+    <!-- Body -->
+    <!-- XTXT: rapid test homescreen card: body - no result -->
+    <string name="ag_homescreen_card_rapidtest_body_no_result">"Die Auswertung Ihres Schnelltests ist noch nicht abgeschlossen."</string>
+    <!-- XTXT: rapid test homescreen card: body - outdated test -->
+    <string name="ag_homescreen_card_rapidtest_body_outdated_test">"Ihr Schnelltest ist älter als 48 Stunden und wird hier nicht mehr angezeigt."</string>
+    <!-- XTXT: homescreen card: body - negative -->
+    <string name="ag_homescreen_card_rapid_body_result_date">"Durchgeführt am %1$s"</string>
+
+    <!-- ####################################
+        Homescreen cards - PCR
+    ###################################### -->
+    <!-- XHED: PCR homescreen card: title -->
+    <string name="ag_homescreen_card_pcr_title">"PCR-Test"</string>
+    <!-- XBUT: PCR homescreen card: clear test button -->
+    <string name="ag_homescreen_card_pcr_clear_test_button">"TEST LÖSCHEN"</string>
+
+    <!-- Body -->
+    <!-- XTXT: PCR homescreen card: body - no result -->
+    <string name="ag_homescreen_card_pcr_body_no_result">"Die Auswertung Ihres PCR-Tests ist noch nicht abgeschlossen."</string>
+    <!-- XTXT: homescreen card: body - negative -->
+    <string name="ag_homescreen_card_pcr_body_result_date">"Test registriert am %1$s"</string>
+
+</resources>

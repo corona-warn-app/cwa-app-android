@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.risk.calculation
 
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.toOkioByteString
 import de.rki.coronawarnapp.util.toProtoByteString
@@ -262,13 +262,32 @@ class OverlapTest : BaseTest() {
             traceWarningPackageId = id
         )!!.roundedMinutes shouldBe 5
     }
+
+    @Test
+    fun `returns null if it matches our own ssubmitted CheckIn`() {
+        createCheckIn(
+            traceLocationId = locationId,
+            startDateStr = "2021-03-04T10:15+01:00",
+            endDateStr = "2021-03-04T10:17+01:00",
+            isSubmitted = true,
+        ).calculateOverlap(
+            createWarning(
+                traceLocationId = locationId,
+                startIntervalDateStr = "2021-03-04T10:00+01:00",
+                period = 6,
+                transmissionRiskLevel = 8
+            ),
+            traceWarningPackageId = id
+        ) shouldBe null
+    }
 }
 
 fun createCheckIn(
     id: Long = 1L,
     traceLocationId: String,
     startDateStr: String,
-    endDateStr: String
+    endDateStr: String,
+    isSubmitted: Boolean = false,
 ) = CheckIn(
     id = id,
     traceLocationId = traceLocationId.decodeHex(),
@@ -284,7 +303,8 @@ fun createCheckIn(
     checkInStart = Instant.parse(startDateStr),
     checkInEnd = Instant.parse(endDateStr),
     completed = false,
-    createJournalEntry = false
+    createJournalEntry = false,
+    isSubmitted = isSubmitted
 )
 
 fun createWarning(

@@ -42,6 +42,8 @@
     <string name="trace_location_checkins_card_highlight_duration_label">"Продължителност"</string>
     <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
     <string name="trace_location_checkins_card_automatic_checkout_info">"%1$s - автоматично прекратяване на регистрацията след %2$s."</string>
+    <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
+    <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s %2$s - автоматично прекратяване на регистрацията след %3$s."</string>
 
     <!-- XHED: Title of the category list screen of the event creation  -->
     <string name="tracelocation_organizer_category_title">"Създаване на QR код"</string>
@@ -135,6 +137,33 @@
     <string name="create_trace_location_card_subtitle">"Планирате събитие или ръководите бизнес? Създайте QR код, за да могат посетителите да се регистрират, когато пристигнат."</string>
     <!-- XTXT: Text for trace location creation card -->
     <string name="create_trace_location_card_button">"Създаване на QR код"</string>
+    <!-- XTXT: Text for content description of tile image -->
+    <string name="create_trace_location_card_content_description">"Eдин човек сочи към флипчарт."</string>
+
+    <!--    Trace Location QR Code Info Screen-->
+    <!-- XTXT: Text for content description of info screen image -->
+    <string name="trace_location_qr_info_content_description">"Eдин човек посочва флипчарт, а други двама седят в близост един до друг и гледат към него."</string>
+    <!-- XHED: Headline for trace location creation card -->
+    <string name="trace_location_qr_info_headline_text">"Повече безопасност за Вас и Вашите посетители"</string>
+    <!-- XTXT: Text for subtitle of qr info screen -->
+    <string name="trace_location_qr_info_subtitle_text">"Създайте QR код, който посетителите Ви могат да сканират при пристигането си. Това ще им позволи при необходимост.да предупредят останалите посетители или да бъдат предупредени от тях."</string>
+    <!-- XTXT: Text for tracing icon of qr info screen -->
+    <string name="trace_location_qr_info_tracing_text">"Всяка регистрация се взема предвид също и при изчисляване на нивото на риска. При поставяне на диагноза коронавирус на лице, което се е регистрирало от дадено място или събитие, ще бъдат уведомени всички останали посетители, които по същото време или в рамките на 30 минути след това са се намирали в едно и също помещение с него."</string>
+    <!-- XTXT: Text for qr icon of qr info screen -->
+    <string name="trace_location_qr_info_qr_code_text">"Можете да предоставите QR кода на посетителите си от смартфон или отпечатан на хартия."</string>
+    <!-- XTXT: Text for time sheet icon of qr info screen -->
+    <string name="trace_location_qr_info_time_text">"Ако желаете да използвате QR код дългосрочно, трябва да генерирате такъв ежедневно извън работно време."</string>
+    <!-- XTXT: Text for I understand button -->
+    <string name="acknowledge_button">"Напред"</string>
+
+    <!-- XHED: Title of the notification channel for event registration related notifications. -->
+    <string name="tracelocation_notification_channel_title">"Регистрации"</string>
+    <!-- XTXT: Description of the notification channel for event registration related notifications. -->
+    <string name="tracelocation_notification_channel_description">"Известия за регистрациите Ви, като автоматично прекратяване на регистрацията."</string>
+    <!-- XHED: Title of the automatic check-out notification. -->
+    <string name="tracelocation_notification_autocheckout_title">"Регистрацията Ви беше прекратена автоматично."</string>
+    <!-- XTXT: Description of the automatic check-out notification. -->
+    <string name="tracelocation_notification_autocheckout_description">"Моля, коригирайте продължителността на престоя си, ако е необходимо."</string>
 
     <!-- ####################################
        Event Organiser Trace Locations List
@@ -170,8 +199,17 @@
 
     <!-- XTXT: Event organiser list item: duration-->
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>
+
+    <!-- XTXT: Event organiser list item: duration same day-->
+    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %3$s "</string>
+
     <!-- XBUT: Event organiser list item: checkin button -->
     <string name="trace_location_organizer_list_item_action_checkin">"Регистрация"</string>
+
+    <!-- XTXT: Event organizer detail qr-code: duration with date -->
+    <string name="trace_location_organizer_detail_item_duration">"%1$s, %2$s - %3$s"</string>
+    <!-- XTXT: Event organizer detail qr-code: duration with multiple date -->
+    <string name="trace_location_organizer_detail_item_duration_multiple_days">"%1$s, %2$s - %3$s, %4$s"</string>
 
     <!-- XBUT: Event organiser list item: menu: information button  -->
     <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Дублиране"</string>
@@ -180,14 +218,54 @@
     <!-- XBUT: Event organiser list item: menu: clear button  -->
     <string name="trace_location_organizer_list_item_menu_clear_btn">"Изтриване"</string>
 
+    <!-- Trace Location Checkin Confirmation -->
+    <!-- XHED: Checkin Confirm: title for screen -->
+    <string name="confirm_checkin_title_text">"Регистрация за:"</string>
+    <!-- XTXT: Checkin Confirm: text for event is in future info card -->
+    <string name="confirm_checkin_event_in_future_card_text">"Това събитие започва в %2$s на %1$s. Желаете ли да се регистрирате още сега?"</string>
+    <!-- XTXT: Checkin Confirm: text for event is in past info card -->
+    <string name="confirm_checkin_event_in_past_card_text">"Това събитие вече е отминало. Желаете ли да се регистрирате със задна дата?"</string>
+    <!-- XTXT: Checkin Confirm: label for save to contact diary toggle -->
+    <string name="confirm_checkin_settings_card_checkout_toggle_label">"Да се създаде ли запис в дневника на контактите след прекратяване на регистрацията?"</string>
+    <!-- XTXT: Checkin Confirm: label for checkout delay selection -->
+    <string name="confirm_checkin_settings_card_checkout_time_label">"Автоматично прекратяване на регистрацията след"</string>
+    <!-- XTXT: Checkin Confirm: time length label for checkout delay selection -->
+    <string name="confirm_checkin_settings_card_checkout_time_tag">"ч"</string>
+    <!-- XBUT: Checkin Confirm: Checkin Button -->
+    <string name="confirm_checkin_confirm_button_text">"Регистрация"</string>
+
+    <!-- Trace Location Checkin Editing -->
+    <!-- XHED: Checkin Edit: title for screen -->
+    <string name="edit_checkin_title_text">"Промяна на продължителността на престой за:"</string>
+    <!-- XTXT: Checkin Edit: label for checkout time -->
+    <string name="edit_checkin_edit_card_checkout_time_label">"Регистрирано напускане"</string>
+    <!-- XTXT: Checkin Edit: label for checkin time -->
+    <string name="edit_checkin_edit_card_checkin_time_label">"Регистрирано пристигане"</string>
+    <!-- XTXT: Checkin Edit: hint for unchanged contact diary checkin duration -->
+    <string name="edit_checkin_duration_edit_hint_card_text">"Продължителността на престоя няма да бъде коригирана автоматично във вашия дневник на контактите."</string>
+    <!-- XTXT: Checkin Edit: warning if user input is incorrect -->
+    <string name="edit_checkin_wrong_input_warning_text">"Може да останете регистрирани в рамките на 24 часа. Часът на прекратяване на регистрирането трябва да е по-късен от този на регистрирането."</string>
+    <!-- XBUT: Checkin Edit: Save Button -->
+    <string name="edit_checkin_confirm_button_text">"Запазване"</string>
+
     <!--  Organizer Flow: Event Detail Screen-->
     <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
     <string name="trace_location_event_detail_qr_code_accessibility">"QR код"</string>
     <!-- XHED: Organizer Flow : Accessibility title for event-overview -->
     <string name="trace_location_event_detail_title_accessibility">"Преглед на събитие"</string>
-    !-- XBUT: Organizer Flow : Title for show print version button --&gt;
+    <!-- XBUT: Organizer Flow : Title for show print version button -->
     <string name="trace_location_event_detail_show_print_qr_code_button">"Показване на версия за печат"</string>
     <!-- XBUT: Organizer Flow : Title for save as template button -->
     <string name="trace_location_event_detail_save_as_template_button">"Използване като шаблон"</string>
+
+    <!-- Qr Code Validation Messages -->
+    <!-- XTXT: My check-ins: qr code validation wrong description field -->
+    <string name="trace_location_checkins_qr_code_invalid_description">"Регистрацията не е извършена поради невалиден QR код. Отговорната страна трябва да генерира нов QR код (код за грешка: INVALID_DESCRIPTION)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong address field -->
+    <string name="trace_location_checkins_qr_code_invalid_address">"Регистрацията не е извършена поради невалиден QR код. Отговорната страна трябва да генерира нов QR код (код за грешка: INVALID_ADDRESS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong start end time field -->
+    <string name="trace_location_checkins_qr_code_invalid_times">"Регистрацията не е извършена поради невалиден QR код. Отговорната страна трябва да генерира нов QR код (код за грешка: INVALID_TIMESTAMPS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
+    <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Регистрацията не е извършена поради невалиден QR код. Отговорната страна трябва да генерира нов QR код (код за грешка: INVALID_CRYPTO_SEED)."</string>
 
 </resources>

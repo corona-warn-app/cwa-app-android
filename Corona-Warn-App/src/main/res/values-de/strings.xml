@@ -784,12 +784,17 @@
     <string name="information_contact_subtitle_phone">"Technische Hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"0800 7540001"</string>
+    <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
+    <!-- XLNK: Description for national technical contact and hotline information page -->
+    <string name="information_contact_button_phone_description">"Für Anrufe innerhalb Deutschlands. Der Anruf ist kostenfrei."</string>
+    <!-- XLNK: Description for international technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone_description">"Für Anrufe aus dem Ausland. Es fallen die Gebühren des jeweiligen Telefonanbieters an."</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
     <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_phone">"Unser Kundenservice ist für Sie da."</string>
+    <string name="information_contact_body_phone">"Unser Kundenservice ist in den folgenden Sprachen für Sie da:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Sprachen: Deutsch, Englisch, Türkisch \nErreichbarkeit:"<xliff:g id="line_break">"\n"</xliff:g>"Mo - Sa: 07:00 - 22:00 Uhr"<xliff:g id="line_break">"\n(außer an bundesweiten Feiertagen)"</xliff:g><xliff:g id="line_break">"\nDer Anruf ist kostenfrei."</xliff:g></string>
+    <string name="information_contact_body_open">"Deutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo – Sa: 07:00 – 22:00 Uhr\n(außer an bundesweiten Feiertagen)</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
     <!-- XACT: describes illustration -->
@@ -1284,7 +1289,7 @@
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Geben Sie die TAN in der App ein, um Ihren Test zu registrieren."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Sprachen:\nDeutsch, Englisch, Türkisch\n\nErreichbarkeit:\ntäglich 24 Stunden\n\nDer Anruf ist kostenfrei."</string>
+    <string name="submission_contact_operating_hours_body">"Unser Kundenservice ist in den folgenden Sprachen für Sie da: Deutsch, Englisch, Türkisch \n\nErreichbarkeit:\nMo-So: Täglich 24 Stunden"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
 
@@ -1366,6 +1371,23 @@
     <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
+
+
+    <!-- XBUT: submission deletion warning button continue -->
+    <string name="submission_deletion_warning_continue_button">"Weiter"</string>
+    <!-- XBUT: submission deletion warning button cancel -->
+    <string name="submission_deletion_warning_cancel_button">"Abbrechen"</string>
+    <!-- XHED: submission deletion warning title -->
+    <string name="submission_deletion_warning_title">"Hinweis"</string>
+    <!-- YTXT: Headline for rapid test submission deletion warning -->
+    <string name="submission_deletion_warning_headline_antigen_test">"Sie haben bereits einen Schnelltest registriert."</string>
+    <!-- YTXT: Body for rapid test submission deletion warning -->
+    <string name="submission_deletion_warning_body_antigen_test">"Sie haben bereits einen Schnelltest registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren Schnelltest registrieren, wird der erste Schnelltest aus der App gelöscht."</string>
+    <!-- YTXT: Headline for PCR test submission deletion warning -->
+    <string name="submission_deletion_warning_headline_pcr_test">"Sie haben bereits einen PCR-Test registriert."</string>
+    <!-- YTXT: Body for PCR test submission deletion warning -->
+    <string name="submission_deletion_warning_body_pcr_test">"Sie haben bereits einen PCR-Test registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren PCR-Test registrieren, wird der erste PCR-Test aus der App gelöscht."</string>
+
 
     <!-- Reenable risk card -->
     <!-- XHED: Card title for re-enable risk card -->
@@ -1957,7 +1979,7 @@
     <!-- YMSG: Onboarding trace location warning -->
     <string name="trace_location_onboarding_body_warning">Jeder Check-in wird bei der Ermittlung des Risikostatus zusätzlich berücksichtigt. Wird eine eingecheckte Person später positiv getestet, können Sie gewarnt werden, wenn Sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben.</string>
     <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_stay">Bitte geben Sie Ihre Check-in- und Check-out-Zeit so genau wie möglich an, damit gezielt gewarnt werden kann.</string>
+    <string name="trace_location_onboarding_body_stay">Bitte geben Sie Ihre Aufenthaltszeit so genau wie möglich an, damit gezielt gewarnt werden kann.</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">Einverstanden</string>
     <!--  XHED: Trace location check-ins camera permission card title-->
@@ -1974,4 +1996,5 @@
     <string name="trace_location_organiser_poster_share">"Teilen"</string>
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Druckversion"</string>
+
 </resources>

@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.presencetracing.checkins.checkout
 
-import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import dagger.Reusable
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Reusable
 class CheckOutHandler @Inject constructor(
     private val repository: CheckInRepository,
     private val timeStamper: TimeStamper,
-    private val diaryRepository: ContactDiaryRepository,
+    private val contactJournalCheckInEntryCreator: ContactJournalCheckInEntryCreator
 ) {
     /**
      * Throw **[IllegalArgumentException]** if the check-in does not exist.
@@ -21,18 +21,16 @@ class CheckOutHandler @Inject constructor(
     suspend fun checkOut(checkInId: Long, checkOutAt: Instant = timeStamper.nowUTC) {
         Timber.d("checkOut(checkInId=$checkInId, checkOutAt=%s)", checkOutAt)
 
-        var createJournalEntry = false
+        var checkIn: CheckIn? = null
         repository.updateCheckIn(checkInId) {
-            createJournalEntry = it.createJournalEntry
             it.copy(
                 checkInEnd = checkOutAt,
                 completed = true
-            )
+            ).also { c -> checkIn = c }
         }
 
-        if (createJournalEntry) {
-            Timber.d("Creating journal entry for $checkInId")
-            // TODO Create journal entry
+        if (checkIn?.createJournalEntry == true) {
+            contactJournalCheckInEntryCreator.createEntry(checkIn!!)
         }
 
         // Remove auto-checkout timer?

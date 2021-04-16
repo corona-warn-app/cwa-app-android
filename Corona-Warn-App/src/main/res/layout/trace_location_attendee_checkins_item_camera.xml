@@ -8,10 +8,7 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
     android:focusable="true"
-    android:paddingStart="24dp"
-    android:paddingTop="32dp"
-    android:paddingEnd="24dp"
-    android:paddingBottom="24dp">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/title"
@@ -33,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
-    
+
     <Button
         android:id="@+id/open_settings"
         style="@style/buttonPrimary"

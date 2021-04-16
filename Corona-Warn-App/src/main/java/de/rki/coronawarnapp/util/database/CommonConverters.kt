@@ -4,7 +4,9 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.util.serialization.fromJson
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -68,4 +70,10 @@ class CommonConverters {
 
     @TypeConverter
     fun fromLocationCode(code: LocationCode?): String? = code?.identifier
+
+    @TypeConverter
+    fun toTraceLocationId(value: String?): TraceLocationId? = value?.decodeBase64()
+
+    @TypeConverter
+    fun fromTraceLocationId(traceLocationId: TraceLocationId?): String? = traceLocationId?.base64()
 }

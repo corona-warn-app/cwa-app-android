@@ -42,6 +42,8 @@
     <string name="trace_location_checkins_card_highlight_duration_label">"Süre"</string>
     <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
     <string name="trace_location_checkins_card_automatic_checkout_info">"%1$s - %2$s sonra otomatik olarak check out yap."</string>
+    <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
+    <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s %2$s - %3$s sonra otomatik olarak check out yap."</string>
 
     <!-- XHED: Title of the category list screen of the event creation  -->
     <string name="tracelocation_organizer_category_title">"QR Kod Oluştur"</string>
@@ -135,6 +137,33 @@
     <string name="create_trace_location_card_subtitle">"Bir etkinlik planlıyor ya da işletme mi çalıştırıyorsunuz? Konuklarınızın geldiklerinde check in yapabilmeleri için bir QR kod oluşturun."</string>
     <!-- XTXT: Text for trace location creation card -->
     <string name="create_trace_location_card_button">"QR Kod Oluştur"</string>
+    <!-- XTXT: Text for content description of tile image -->
+    <string name="create_trace_location_card_content_description">"Bir kişi bir kağıt tahtayı işaret ediyor."</string>
+
+    <!--    Trace Location QR Code Info Screen-->
+    <!-- XTXT: Text for content description of info screen image -->
+    <string name="trace_location_qr_info_content_description">"Bir kişi bir kağıt tahtayı işaret ederken iki kişi yanında oturuyor ve tahtaya bakıyor."</string>
+    <!-- XHED: Headline for trace location creation card -->
+    <string name="trace_location_qr_info_headline_text">"Siz ve Konuklarınız için Daha Yüksek Düzeyde Güvenlik"</string>
+    <!-- XTXT: Text for subtitle of qr info screen -->
+    <string name="trace_location_qr_info_subtitle_text">"Geldiklerinde konuklarınızın tarayabilmeleri için bir QR kod oluşturun. Bu sayede gerekirse diğer konukları uyarabilir ya da diğer konuklardan uyarı alabileceklerdir."</string>
+    <!-- XTXT: Text for tracing icon of qr info screen -->
+    <string name="trace_location_qr_info_tracing_text">"Risk durumu hesaplanırken her bir check-in de dikkate alınır. Bu etkinliğe veya yere check in yapan biri daha sonra koronavirüs tanısı alırsa tanı alan kişi ile aynı anda ya da bu kişi odadan çıktıktan sonra en fazla 30 dakika içinde aynı odada bulunmuşlarsa konuklara uyarı gönderilebilir."</string>
+    <!-- XTXT: Text for qr icon of qr info screen -->
+    <string name="trace_location_qr_info_qr_code_text">"QR kodu konuklarınıza akıllı telefonunuzda ya da yazılı bir form halinde sunabilirsiniz."</string>
+    <!-- XTXT: Text for time sheet icon of qr info screen -->
+    <string name="trace_location_qr_info_time_text">"QR kodu uzun süreli olarak kullanmak istiyorsanız mesai saatlerinizin dışında her gün yeniden QR kod oluşturmanız gerekir."</string>
+    <!-- XTXT: Text for I understand button -->
+    <string name="acknowledge_button">"Sonraki"</string>
+
+    <!-- XHED: Title of the notification channel for event registration related notifications. -->
+    <string name="tracelocation_notification_channel_title">"Check-In’ler"</string>
+    <!-- XTXT: Description of the notification channel for event registration related notifications. -->
+    <string name="tracelocation_notification_channel_description">"Check-in’lerinizle ilgili bildirimler; örneğin, otomatik check-out."</string>
+    <!-- XHED: Title of the automatic check-out notification. -->
+    <string name="tracelocation_notification_autocheckout_title">"Otomatik olarak check out yaptınız."</string>
+    <!-- XTXT: Description of the automatic check-out notification. -->
+    <string name="tracelocation_notification_autocheckout_description">"Gerekiyorsa lütfen kalış sürenizi düzenleyin."</string>
 
     <!-- ####################################
        Event Organiser Trace Locations List
@@ -170,8 +199,17 @@
 
     <!-- XTXT: Event organiser list item: duration-->
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>
+
+    <!-- XTXT: Event organiser list item: duration same day-->
+    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %3$s "</string>
+
     <!-- XBUT: Event organiser list item: checkin button -->
     <string name="trace_location_organizer_list_item_action_checkin">"Check In"</string>
+
+    <!-- XTXT: Event organizer detail qr-code: duration with date -->
+    <string name="trace_location_organizer_detail_item_duration">"%1$s, %2$s - %3$s"</string>
+    <!-- XTXT: Event organizer detail qr-code: duration with multiple date -->
+    <string name="trace_location_organizer_detail_item_duration_multiple_days">"%1$s, %2$s - %3$s, %4$s"</string>
 
     <!-- XBUT: Event organiser list item: menu: information button  -->
     <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Çoğalt"</string>
@@ -180,14 +218,54 @@
     <!-- XBUT: Event organiser list item: menu: clear button  -->
     <string name="trace_location_organizer_list_item_menu_clear_btn">"Sil"</string>
 
+    <!-- Trace Location Checkin Confirmation -->
+    <!-- XHED: Checkin Confirm: title for screen -->
+    <string name="confirm_checkin_title_text">"Check in niteliği:"</string>
+    <!-- XTXT: Checkin Confirm: text for event is in future info card -->
+    <string name="confirm_checkin_event_in_future_card_text">"Bu etkinliğin başlangıç saati, %1$s %2$s olarak belirlenmiştir. Şimdiden check in yapmak istiyor musunuz?"</string>
+    <!-- XTXT: Checkin Confirm: text for event is in past info card -->
+    <string name="confirm_checkin_event_in_past_card_text">"Bu etkinlik zaten bitmiş. Geriye dönük olarak check in yapmak istiyor musunuz?"</string>
+    <!-- XTXT: Checkin Confirm: label for save to contact diary toggle -->
+    <string name="confirm_checkin_settings_card_checkout_toggle_label">"Check-out yapıldıktan sonra temas günceme kaydedilsin mi?"</string>
+    <!-- XTXT: Checkin Confirm: label for checkout delay selection -->
+    <string name="confirm_checkin_settings_card_checkout_time_label">"Daha sonra otomatik olarak check out yap"</string>
+    <!-- XTXT: Checkin Confirm: time length label for checkout delay selection -->
+    <string name="confirm_checkin_settings_card_checkout_time_tag">"sa"</string>
+    <!-- XBUT: Checkin Confirm: Checkin Button -->
+    <string name="confirm_checkin_confirm_button_text">"Check In"</string>
+
+    <!-- Trace Location Checkin Editing -->
+    <!-- XHED: Checkin Edit: title for screen -->
+    <string name="edit_checkin_title_text">"Kalış süresini değiştir:"</string>
+    <!-- XTXT: Checkin Edit: label for checkout time -->
+    <string name="edit_checkin_edit_card_checkout_time_label">"Check Out yapıldı"</string>
+    <!-- XTXT: Checkin Edit: label for checkin time -->
+    <string name="edit_checkin_edit_card_checkin_time_label">"Check In yapıldı"</string>
+    <!-- XTXT: Checkin Edit: hint for unchanged contact diary checkin duration -->
+    <string name="edit_checkin_duration_edit_hint_card_text">"Kalış süresi temas güncenizde otomatik olarak ayarlanmayacak."</string>
+    <!-- XTXT: Checkin Edit: warning if user input is incorrect -->
+    <string name="edit_checkin_wrong_input_warning_text">"Check in’inizi 24 saate kadar sürdürebilirsiniz. Check-out zamanı check-in zamanından sonra olmalıdır."</string>
+    <!-- XBUT: Checkin Edit: Save Button -->
+    <string name="edit_checkin_confirm_button_text">"Kaydet"</string>
+
     <!--  Organizer Flow: Event Detail Screen-->
     <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
     <string name="trace_location_event_detail_qr_code_accessibility">"QR kod"</string>
     <!-- XHED: Organizer Flow : Accessibility title for event-overview -->
     <string name="trace_location_event_detail_title_accessibility">"Etkinlik Görünümü"</string>
-    !-- XBUT: Organizer Flow : Title for show print version button --&gt;
+    <!-- XBUT: Organizer Flow : Title for show print version button -->
     <string name="trace_location_event_detail_show_print_qr_code_button">"Basılı Versiyonu Görüntüle"</string>
     <!-- XBUT: Organizer Flow : Title for save as template button -->
     <string name="trace_location_event_detail_save_as_template_button">"Şablon olarak kullan"</string>
+
+    <!-- Qr Code Validation Messages -->
+    <!-- XTXT: My check-ins: qr code validation wrong description field -->
+    <string name="trace_location_checkins_qr_code_invalid_description">"Geçersiz QR kod nedeniyle check-in engellendi. Sorumlu taraf yeni bir QR kod oluşturmalıdır (hata kodu INVALID_DESCRIPTION)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong address field -->
+    <string name="trace_location_checkins_qr_code_invalid_address">"Geçersiz QR kod nedeniyle check-in engellendi. Sorumlu taraf yeni bir QR kod oluşturmalıdır (hata kodu INVALID_ADDRESS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong start end time field -->
+    <string name="trace_location_checkins_qr_code_invalid_times">"Geçersiz QR kod nedeniyle check-in engellendi. Sorumlu taraf yeni bir QR kod oluşturmalıdır (hata kodu INVALID_TIMESTAMPS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
+    <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Geçersiz QR kod nedeniyle check-in engellendi. Sorumlu taraf yeni bir QR kod oluşturmalıdır (hata kodu INVALID_CRYPTO_SEED)."</string>
 
 </resources>
