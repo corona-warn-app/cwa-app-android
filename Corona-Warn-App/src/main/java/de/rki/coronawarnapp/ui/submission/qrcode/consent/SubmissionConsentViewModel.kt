@@ -29,7 +29,8 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         .asLiveData(context = dispatcherProvider.Default)
 
     fun onConsentButtonClick() {
-        submissionRepository.giveConsentToSubmission()
+        // TODO Do we have a Test registered at this time? We need to forward the decission with navargs?
+//        submissionRepository.giveConsentToSubmission(type = CoronaTest.Type.PCR)
         analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         launch {
             try {

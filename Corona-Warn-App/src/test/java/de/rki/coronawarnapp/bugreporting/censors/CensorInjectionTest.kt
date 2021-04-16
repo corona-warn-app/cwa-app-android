@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
@@ -68,4 +69,8 @@ class MockProvider {
     @Singleton
     @Provides
     fun submissionSettings(): SubmissionSettings = mockk()
+
+    @Singleton
+    @Provides
+    fun coronaTestRepository(): CoronaTestRepository = mockk()
 }

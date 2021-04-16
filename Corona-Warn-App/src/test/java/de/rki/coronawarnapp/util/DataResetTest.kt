@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
@@ -56,6 +57,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var traceWarningRepository: TraceWarningRepository
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     @BeforeEach
     fun setUp() {
@@ -85,7 +87,8 @@ internal class DataResetTest : BaseTest() {
         traceLocationRepository = traceLocationRepository,
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
-        traceWarningRepository = traceWarningRepository
+        traceWarningRepository = traceWarningRepository,
+        coronaTestRepository = coronaTestRepository
     )
 
     @Test
@@ -118,5 +121,6 @@ internal class DataResetTest : BaseTest() {
         coVerify(exactly = 1) { traceWarningRepository.clear() }
         coVerify(exactly = 1) { traceLocationRepository.deleteAllTraceLocations() }
         coVerify(exactly = 1) { checkInRepository.clear() }
+        coVerify(exactly = 1) { coronaTestRepository.clear() }
     }
 }

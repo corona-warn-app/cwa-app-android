@@ -47,7 +47,7 @@ class SubmissionTestResultConsentGivenFragment :
         viewModel.uiState.observe2(this) {
             binding.apply {
                 uiState = it
-                submissionTestResultSection.setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
+                submissionTestResultSection.setTestResultSection(it.coronaTest)
             }
         }
 

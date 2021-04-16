@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.verification.server
+package de.rki.coronawarnapp.coronatest.server
 
 import javax.inject.Qualifier
 

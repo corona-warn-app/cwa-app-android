@@ -5,6 +5,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -16,7 +17,6 @@ import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.risk.EwRiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -46,7 +46,7 @@ class RiskLevelTask @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelStorage: RiskLevelStorage,
     private val keyCacheRepository: KeyCacheRepository,
-    private val submissionSettings: SubmissionSettings,
+    private val coronaTestRepository: CoronaTestRepository,
     private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector,
     private val autoCheckOut: AutoCheckOut,
 ) : Task<DefaultProgress, EwRiskLevelTaskResult> {
@@ -91,7 +91,9 @@ class RiskLevelTask @Inject constructor(
             Timber.d("The current time is %s", it)
         }
 
-        if (submissionSettings.isAllowedToSubmitKeys && submissionSettings.hasViewedTestResult.value) {
+        val isAllowedToSubmitKeys = coronaTestRepository.coronaTests.first().any { it.isSubmissionAllowed }
+        val hasViewedTestResult = coronaTestRepository.coronaTests.first().any { it.isViewed }
+        if (isAllowedToSubmitKeys && hasViewedTestResult) {
             Timber.i("Positive test result and user has seen it, skip risk calculation")
             return EwRiskLevelTaskResult(
                 calculatedAt = nowUTC,
