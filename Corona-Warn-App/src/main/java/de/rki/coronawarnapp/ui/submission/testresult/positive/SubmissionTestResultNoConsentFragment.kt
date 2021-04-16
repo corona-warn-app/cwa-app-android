@@ -41,8 +41,7 @@ class SubmissionTestResultNoConsentFragment :
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         viewModel.uiState.observe2(this) {
-            binding.submissionTestResultSection
-                .setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
+            binding.submissionTestResultSection.setTestResultSection(it.coronaTest)
         }
 
         binding.apply {

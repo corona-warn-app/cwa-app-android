@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -12,11 +13,12 @@ import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
@@ -26,26 +28,29 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+    // TODO Use navargs to supply this
+    private val coronaTestType: CoronaTest.Type = CoronaTest.Type.PCR
+
+    init {
+        Timber.v("init() coronaTestType=%s", coronaTestType)
+    }
 
     val showUploadDialog = autoSubmission.isSubmissionRunning
         .asLiveData(context = dispatcherProvider.Default)
 
-    val uiState: LiveData<TestResultUIState> = combine(
-        submissionRepository.deviceUIStateFlow,
-        submissionRepository.testResultReceivedDateFlow
-    ) { deviceUiState, resultDate ->
-        TestResultUIState(
-            deviceUiState = deviceUiState,
-            testResultReceivedDate = resultDate
-        )
-    }.asLiveData(context = Dispatchers.Default)
+    val uiState: LiveData<TestResultUIState> = submissionRepository.testForType(type = coronaTestType)
+        .filterNotNull()
+        .map { test ->
+            TestResultUIState(coronaTest = test)
+        }.asLiveData(context = Dispatchers.Default)
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     val showCancelDialog = SingleLiveEvent<Unit>()
 
-    fun onTestOpened() {
-        submissionRepository.setViewedTestResult()
+    fun onTestOpened() = launch {
+        Timber.d("onTestOpened()")
+        submissionRepository.setViewedTestResult(type = coronaTestType)
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
 

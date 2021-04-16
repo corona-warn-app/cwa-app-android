@@ -27,7 +27,7 @@
         android:focusable="false"
         android:importantForAccessibility="no"
         android:paddingTop="4dp"
-        android:src="@drawable/ic_consent_status_view_icon"
+        app:srcCompat="@drawable/ic_consent_status_view_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
