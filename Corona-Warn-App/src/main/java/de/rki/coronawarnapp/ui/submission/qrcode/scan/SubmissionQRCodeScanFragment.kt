@@ -12,7 +12,10 @@ import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -24,6 +27,8 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalTime
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -128,7 +133,7 @@ class SubmissionQRCodeScanFragment :
             if (it) {
                 viewModel.testAlreadyExists.value = false
 
-                val coronaTest: CoronaTestQRCode = CoronaTestQRCode.RapidAntigen(CoronaTest.Type.RAPID_ANTIGEN,"", Instant.now(),"","", "")
+                val coronaTest: CoronaTestQRCode  = CoronaTestQRCode.RapidAntigen(CoronaTestGUID(), Instant.now(),"","", Instant.now().toLocalDateUtc())
 
                 doNavigate(
                     SubmissionQRCodeScanFragmentDirections.
