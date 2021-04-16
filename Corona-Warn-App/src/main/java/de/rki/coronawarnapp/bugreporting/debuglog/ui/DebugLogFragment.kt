@@ -11,6 +11,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -129,11 +130,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                     showLowStorageError()
                 }
                 is DebugLogViewModel.Event.Export -> {
-                    val snapshot = it.snapshot
-                    val intent = fileSharing
-                        .getFileIntentProvider(snapshot.path, snapshot.path.name, createChooserIntent = true)
-                        .intent(requireActivity())
-                    startActivity(intent)
+                    exportLog(it.snapshot)
                 }
             }
         }
@@ -186,5 +183,12 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 }
             }
         }.show()
+    }
+
+    private fun exportLog(snapshot: LogSnapshotter.Snapshot) {
+        val intent = fileSharing
+            .getFileIntentProvider(snapshot.path, snapshot.path.name, createChooserIntent = true)
+            .intent(requireActivity())
+        startActivity(intent)
     }
 }
