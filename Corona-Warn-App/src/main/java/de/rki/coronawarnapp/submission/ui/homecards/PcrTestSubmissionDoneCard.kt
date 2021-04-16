@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.ui.homecards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
 import de.rki.coronawarnapp.databinding.HomeSubmissionPcrStatusCardPositiveSharedBinding
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
@@ -24,6 +25,6 @@ class PcrTestSubmissionDoneCard(
     ) -> Unit = { _, _ -> }
 
     data class Item(
-        val state: SubmissionDone
-    ) : TestResultItem
+        val state: SubmissionStatePCR.SubmissionDone
+    ) : TestResultItem.PCR
 }
