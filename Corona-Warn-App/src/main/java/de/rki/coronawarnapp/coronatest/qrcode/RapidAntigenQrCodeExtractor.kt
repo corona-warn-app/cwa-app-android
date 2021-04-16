@@ -21,8 +21,8 @@ internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
     override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
         val data = extractData(rawString).validate()
         return CoronaTestQRCode.RapidAntigen(
-            data.hash,
-            data.createdAt,
+            data.hash!!,
+            data.createdAt!!,
             data.firstName,
             data.lastName,
             data.dateOfBirth
@@ -30,7 +30,9 @@ internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
     }
 
     private fun Payload.validate(): Payload {
-        if (timestamp <= 0) throw InvalidQRCodeException("Timestamp is <= 0")
+        if (hash == null || !hash.isSha256Hash()) throw InvalidQRCodeException("Hash is invalid")
+        if (timestamp == null || timestamp <= 0) throw InvalidQRCodeException("Timestamp is invalid")
+        createdAt = Instant.ofEpochSecond(timestamp)
         dateOfBirth = dob?.let {
             try {
                 LocalDate.parse(it)
@@ -39,7 +41,6 @@ internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
                 throw InvalidQRCodeException("Date of birth has wrong format: $it. It should be YYYY-MM-DD")
             }
         }
-        if (!hash.isSha256Hash()) throw InvalidQRCodeException("Hash has invalid format")
         return this
     }
 
@@ -68,8 +69,8 @@ internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
     }
 
     private data class Payload(
-        val hash: String,
-        val timestamp: Long,
+        val hash: String?,
+        val timestamp: Long?,
         @SerializedName("fn")
         val firstName: String?,
         @SerializedName("ln")
@@ -77,7 +78,6 @@ internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
         val dob: String?
     ) {
         var dateOfBirth: LocalDate? = null
-        val createdAt: Instant
-            get() = Instant.ofEpochSecond(timestamp)
+        var createdAt: Instant? = null
     }
 }
