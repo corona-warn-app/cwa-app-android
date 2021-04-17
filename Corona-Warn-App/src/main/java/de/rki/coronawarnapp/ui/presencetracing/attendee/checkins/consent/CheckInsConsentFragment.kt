@@ -37,6 +37,9 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
                 showSkipDialog()
             }
             skipButton.setOnClickListener { showSkipDialog() }
+            continueButton.setOnClickListener {
+                viewModel.confirmSelection()
+            }
         }
 
         viewModel.checkIns.observe(viewLifecycleOwner) {
@@ -52,11 +55,9 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
             .setTitle(R.string.trace_location_attendee_consent_dialog_title)
             .setMessage(R.string.trace_location_attendee_consent_dialog_message)
             .setPositiveButton(R.string.trace_location_attendee_consent_dialog_positive_button) { _, _ ->
-                // TODO
+                viewModel.confirmSelection()
             }
-            .setNegativeButton(R.string.trace_location_attendee_consent_dialog_negative_button) { _, _ ->
-                // TODO
-            }
+            .setNegativeButton(R.string.trace_location_attendee_consent_dialog_negative_button) { _, _ -> /*No-Op*/ }
             .show()
     }
 }

@@ -33,6 +33,10 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         }
     }.asLiveData(context = dispatcherProvider.Default)
 
+    fun confirmSelection() {
+        // TODO
+    }
+
     private fun headerItem(checkIns: List<CheckIn>) = HeaderCheckInsVH.Item(
         selectAll = { selectedSetFlow.value = updateSet(checkIns) }
     )
