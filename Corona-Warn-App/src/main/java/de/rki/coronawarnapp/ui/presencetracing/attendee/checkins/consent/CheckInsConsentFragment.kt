@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -35,6 +36,7 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
             toolbar.setNavigationOnClickListener {
                 showSkipDialog()
             }
+            skipButton.setOnClickListener { showSkipDialog() }
         }
 
         viewModel.checkIns.observe(viewLifecycleOwner) {
@@ -46,6 +48,15 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
     }
 
     private fun showSkipDialog() {
-        // TODO
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.trace_location_attendee_consent_dialog_title)
+            .setMessage(R.string.trace_location_attendee_consent_dialog_message)
+            .setPositiveButton(R.string.trace_location_attendee_consent_dialog_positive_button) { _, _ ->
+                // TODO
+            }
+            .setNegativeButton(R.string.trace_location_attendee_consent_dialog_negative_button) { _, _ ->
+                // TODO
+            }
+            .show()
     }
 }
