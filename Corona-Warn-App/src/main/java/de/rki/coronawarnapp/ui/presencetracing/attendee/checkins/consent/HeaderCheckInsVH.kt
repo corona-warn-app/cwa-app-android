@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeConsentHeaderBinding
+import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class HeaderCheckInsVH(parent: ViewGroup) :
     CheckInsConsentAdapter.ItemVH<HeaderCheckInsVH.Item, TraceLocationAttendeeConsentHeaderBinding>(
@@ -18,11 +19,13 @@ class HeaderCheckInsVH(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
+        selectAllButton.setOnClickListener { item.selectAll() }
     }
 
     data class Item(
         val selectAll: () -> Unit
-    ) : CheckInsConsentItem {
+    ) : CheckInsConsentItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.simpleName.hashCode().toLong()
+        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

@@ -39,6 +39,9 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
 
         viewModel.checkIns.observe(viewLifecycleOwner) {
             adapter.update(it)
+            binding.continueButton.isEnabled = it.any { item ->
+                item is SelectableCheckInVH.Item && item.checkIn.isSubmissionPermitted
+            }
         }
     }
 

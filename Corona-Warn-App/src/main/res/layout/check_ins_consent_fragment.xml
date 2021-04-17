@@ -23,25 +23,25 @@
         android:layout_marginBottom="16dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/check_in_consent_continue_button"
+        app:layout_constraintBottom_toTopOf="@id/continue_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <Button
-        android:id="@+id/check_in_consent_continue_button"
+        android:id="@+id/continue_button"
         style="@style/buttonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="16dp"
         android:text="@string/trace_location_attendee_consent_continue"
-        app:layout_constraintBottom_toTopOf="@id/check_in_consent_skip_button"
+        app:layout_constraintBottom_toTopOf="@id/skip_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/check_in_consent_skip_button"
+        android:id="@+id/skip_button"
         style="@style/buttonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
