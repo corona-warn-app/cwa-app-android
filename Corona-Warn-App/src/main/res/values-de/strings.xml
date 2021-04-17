@@ -303,13 +303,13 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Dieser Zeitraum wird berücksichtigt."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-<!--    Dialog part 1-->
+    <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko- Ermittlung sollte daher dauerhaft aktiv sein. Für Ihre Risiko-Ermittlung wird der Zeitraum der letzten 14 Tage betrachtet."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Die Corona-Warn-App ist seit %s Tagen installiert. Das Infektionsrisiko wird für Zeiträume berechnet, in denen die Risiko-Ermittlung aktiv ist. Wenn Sie andere Personen getroffen haben und die Risiko-Ermittlung aktiv war, wird Ihr Infektions-Risiko berechnet."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Wenn die Risiko-Ermittlung zu Zeiten, in denen Sie andere Personen getroffen haben, aktiv war, kann die Berechnung des Infektionsrisikos für diesen Zeitraum erfolgen."</string>
-    <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Ältere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
@@ -1974,10 +1974,22 @@
     <string name="trace_location_organiser_poster_share">"Teilen"</string>
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Druckversion"</string>
-
-    <string name="trace_location_attendee_consent_title">Check-ins teilen</string>
-    <string name="trace_location_attendee_consent_header_description">Teilen Sie Ihre Check-ins, um andere zu warnen, die auch dort waren. Ihre Identität bleibt geheim.</string>
+    <!-- XHED: Trace location check-ins consent screen title -->
+    <string name="trace_location_attendee_consent_title">Check-ins für diese Orte teilen?</string>
+    <!-- XTXT: Trace location check-ins consent screen header description -->
+    <string name="trace_location_attendee_consent_header_description">Teilen Sie Ihre Check-ins, um andere zu warnen, die auch in Ihrer Nähe waren. Ihre Identität bleibt geheim.</string>
+    <!-- XBUT: Trace location check-ins consent screen header button -->
     <string name="trace_location_attendee_consent_header_button">Alle auswählen</string>
+    <!-- XBUT: Trace location check-ins consent screen continue button -->
     <string name="trace_location_attendee_consent_continue">Weiter</string>
+    <!-- XBUT: Trace location check-ins consent screen skip button -->
     <string name="trace_location_attendee_consent_skip">Überspringen</string>
+    <!-- XHED: Trace location check-ins consent screen dialog title -->
+    <string name="trace_location_attendee_consent_dialog_title">Sind Sie sicher, dass Sie Ihre Check-Ins nicht teilen wollen?</string>
+    <!-- XTXT: Trace location check-ins consent screen dialog message -->
+    <string name="trace_location_attendee_consent_dialog_message">Dadurch werden andere, die in Ihrer Nähe waren, nicht gewarnt.</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
+    <string name="trace_location_attendee_consent_dialog_positive_button">Teilen</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
+    <string name="trace_location_attendee_consent_dialog_negative_button">Nicht teilen</string>
 </resources>
