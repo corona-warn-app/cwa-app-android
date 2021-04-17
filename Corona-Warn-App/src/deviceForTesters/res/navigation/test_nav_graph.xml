@@ -146,4 +146,10 @@
             android:name="traceLocationId"
             app:argType="long" />
     </fragment>
+
+    <fragment
+        android:id="@+id/checkInsConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckInsConsentFragment"
+        android:label="check_ins_consent_fragment"
+        tools:layout="@layout/check_ins_consent_fragment" />
 </navigation>

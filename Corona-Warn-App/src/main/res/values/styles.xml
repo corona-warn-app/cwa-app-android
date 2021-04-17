@@ -155,6 +155,10 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="materialTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog.Flush">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="buttonIcon">
         <item name="android:background">@drawable/circle_ripple</item>
         <item name="android:backgroundTint">@color/button_back</item>

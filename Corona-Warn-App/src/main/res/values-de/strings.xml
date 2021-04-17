@@ -1974,4 +1974,10 @@
     <string name="trace_location_organiser_poster_share">"Teilen"</string>
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Druckversion"</string>
+
+    <string name="trace_location_attendee_consent_title">Check-ins teilen</string>
+    <string name="trace_location_attendee_consent_header_description">Teilen Sie Ihre Check-ins, um andere zu warnen, die auch dort waren. Ihre Identität bleibt geheim.</string>
+    <string name="trace_location_attendee_consent_header_button">Alle auswählen</string>
+    <string name="trace_location_attendee_consent_continue">Weiter</string>
+    <string name="trace_location_attendee_consent_skip">Überspringen</string>
 </resources>
