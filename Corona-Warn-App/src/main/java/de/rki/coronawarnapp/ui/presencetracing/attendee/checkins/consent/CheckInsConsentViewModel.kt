@@ -6,6 +6,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -25,8 +26,18 @@ class CheckInsConsentViewModel @AssistedInject constructor(
                 add(
                     HeaderCheckInsVH.Item(selectAll = {})
                 )
+
+                addAll(mapCheckIns(it))
             }
         }.asLiveData(context = dispatcherProvider.Default)
+
+    private fun mapCheckIns(checkIns: List<CheckIn>): List<CheckInsConsentItem> =
+        checkIns.filter { it.completed }.sortedByDescending { it.checkInEnd }.map { checkIn ->
+            SelectableCheckInVH.Item(
+                checkIn = checkIn,
+                onItemSelected = {}
+            )
+        }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<CheckInsConsentViewModel> {

@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeConsentSelectableCheckInBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.common.checkoutInfo
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class SelectableCheckInVH(parent: ViewGroup) :
@@ -20,13 +21,24 @@ class SelectableCheckInVH(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val checkIn = curItem.checkIn
+        val imageResource = if (checkIn.isSubmissionPermitted) R.drawable.ic_selected else R.drawable.ic_unselected
+
+        checkbox.setImageResource(imageResource)
+        title.text = checkIn.description
+        subtitle.text = checkIn.address
+        checkoutInfo.text = checkIn.checkoutInfo
+
+        checkbox.setOnClickListener { item.onItemSelected(checkIn) }
+        itemView.setOnClickListener { item.onItemSelected(checkIn) }
     }
 
     data class Item(
-        val checkin: CheckIn,
+        val checkIn: CheckIn,
         val onItemSelected: (CheckIn) -> Unit
     ) : CheckInsConsentItem, HasPayloadDiffer {
-        override val stableId: Long = checkin.id
+        override val stableId: Long = checkIn.id
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

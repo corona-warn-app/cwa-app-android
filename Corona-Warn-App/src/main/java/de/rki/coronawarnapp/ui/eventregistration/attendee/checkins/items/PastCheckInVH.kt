@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemPastBinding
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.common.checkoutInfo
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.list.SwipeConsumer
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -24,20 +25,10 @@ class PastCheckInVH(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-
-        val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
-        val checkInEndUserTZ = curItem.checkin.checkInEnd.toUserTimeZone()
-
         description.text = curItem.checkin.description
         address.text = curItem.checkin.address
 
-        checkoutInfo.text = run {
-            val dayFormatted = checkInStartUserTZ.toLocalDate().toString(DateTimeFormat.mediumDate())
-            val startTimeFormatted = checkInStartUserTZ.toLocalTime().toString(DateTimeFormat.shortTime())
-            val endTimeFormatted = checkInEndUserTZ.toLocalTime().toString(DateTimeFormat.shortTime())
-
-            "$dayFormatted, $startTimeFormatted - $endTimeFormatted"
-        }
+        checkoutInfo.text = curItem.checkin.checkoutInfo
 
         menuAction.setupMenu(R.menu.menu_trace_location_attendee_checkin_item) {
             when (it.itemId) {
