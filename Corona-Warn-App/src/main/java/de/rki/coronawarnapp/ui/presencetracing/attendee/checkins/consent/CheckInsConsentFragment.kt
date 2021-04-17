@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), AutoInject {
 
     private val binding: CheckInsConsentFragmentBinding by viewBindingLazy()
+    private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: CheckInsConsentViewModel by cwaViewModelsAssisted(
@@ -34,11 +36,15 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
         with(binding) {
             checkInsRecycler.adapter = adapter
             toolbar.setNavigationOnClickListener {
-                showSkipDialog()
+                if (navArgs.preConsentGiven) {
+                    // TODO show dialog from Test screen
+                } else {
+                    showSkipDialog()
+                }
             }
             skipButton.setOnClickListener { showSkipDialog() }
             continueButton.setOnClickListener {
-                viewModel.confirmSelection()
+                viewModel.shareSelectedCheckIns()
             }
         }
 
@@ -55,9 +61,11 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
             .setTitle(R.string.trace_location_attendee_consent_dialog_title)
             .setMessage(R.string.trace_location_attendee_consent_dialog_message)
             .setPositiveButton(R.string.trace_location_attendee_consent_dialog_positive_button) { _, _ ->
-                viewModel.confirmSelection()
+                viewModel.shareSelectedCheckIns()
             }
-            .setNegativeButton(R.string.trace_location_attendee_consent_dialog_negative_button) { _, _ -> /*No-Op*/ }
+            .setNegativeButton(R.string.trace_location_attendee_consent_dialog_negative_button) { _, _ ->
+                viewModel.doNotShareCheckIns()
+            }
             .show()
     }
 }

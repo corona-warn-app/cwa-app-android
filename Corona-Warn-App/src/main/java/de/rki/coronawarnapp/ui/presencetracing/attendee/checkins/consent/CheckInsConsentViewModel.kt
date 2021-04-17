@@ -33,8 +33,12 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         }
     }.asLiveData(context = dispatcherProvider.Default)
 
-    fun confirmSelection() {
-        // TODO
+    fun shareSelectedCheckIns() {
+        // TODO persist selection and proceed to submitting check-ins
+    }
+
+    fun doNotShareCheckIns() {
+        // TODO proceed to submitting keys only
     }
 
     private fun headerItem(checkIns: List<CheckIn>) = HeaderCheckInsVH.Item(
