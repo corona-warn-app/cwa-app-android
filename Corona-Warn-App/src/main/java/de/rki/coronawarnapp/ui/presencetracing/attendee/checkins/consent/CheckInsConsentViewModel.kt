@@ -42,7 +42,12 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     }
 
     private fun headerItem(checkIns: List<CheckIn>) = HeaderCheckInsVH.Item(
-        selectAll = { selectedSetFlow.value = updateSet(checkIns) }
+        selectAll = {
+            val ids = checkIns.map { it.id }
+            if (!selectedSetFlow.value.containsAll(ids)) {
+                selectedSetFlow.value = updateSet(ids)
+            }
+        }
     )
 
     private fun mapCheckIns(checkIns: List<CheckIn>, ids: Set<Long>): List<CheckInsConsentItem> =
@@ -51,13 +56,12 @@ class CheckInsConsentViewModel @AssistedInject constructor(
             .map { checkIn ->
                 SelectableCheckInVH.Item(
                     checkIn = checkIn.copy(isSubmissionPermitted = ids.contains(checkIn.id)),
-                    onItemSelected = { selectedSetFlow.value = updateSet(listOf(it)) }
+                    onItemSelected = { selectedSetFlow.value = updateSet(listOf(it.id)) }
                 )
             }
 
-    private fun updateSet(checkIns: List<CheckIn>) =
+    private fun updateSet(ids: List<Long>) =
         mutableSetOf<Long>().apply {
-            val ids = checkIns.map { it.id }
             if (!selectedSetFlow.value.containsAll(ids)) {
                 addAll(ids) // New Ids
                 addAll(selectedSetFlow.value) // Existing Ids

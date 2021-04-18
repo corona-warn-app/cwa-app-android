@@ -156,6 +156,34 @@ class CheckInsConsentViewModelTest : BaseTest() {
     }
 
     @Test
+    fun `Select all does not un-select all`() {
+        every { savedState.get<Set<Long>>(any()) } returns emptySet()
+        val viewModel = createViewModel()
+        viewModel.checkIns.getOrAwaitValue().apply {
+            size shouldBe 3
+            get(0).apply {
+                this as HeaderCheckInsVH.Item
+                (get(1) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe false
+                (get(2) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe false
+
+                this.selectAll()
+
+                viewModel.checkIns.getOrAwaitValue().apply {
+                    (get(1) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
+                    (get(2) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
+                }
+
+                this.selectAll()
+
+                viewModel.checkIns.getOrAwaitValue().apply {
+                    (get(1) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
+                    (get(2) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
+                }
+            }
+        }
+    }
+
+    @Test
     fun `Single selection`() {
         every { savedState.get<Set<Long>>(any()) } returns emptySet()
         val viewModel = createViewModel()
