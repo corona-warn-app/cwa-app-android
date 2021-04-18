@@ -609,4 +609,15 @@
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.legal.DebugLogLegalFragment"
         android:label="DebugLogLegalFragment"
         tools:layout="@layout/bugreporting_legal_fragment" />
+
+    <fragment
+        android:id="@+id/checkInsConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckInsConsentFragment"
+        android:label="check_ins_consent_fragment"
+        tools:layout="@layout/check_ins_consent_fragment">
+        <argument
+            android:name="preConsentGiven"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
 </navigation>

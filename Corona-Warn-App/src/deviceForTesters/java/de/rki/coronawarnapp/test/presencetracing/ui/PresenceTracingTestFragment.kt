@@ -10,6 +10,7 @@ import androidx.core.text.color
 import androidx.core.text.scale
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestPresenceTracingBinding
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
@@ -60,6 +61,10 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
 
         binding.runPtWarningTask.setOnClickListener {
             viewModel.runPresenceTracingWarningTask()
+        }
+
+        binding.openConsent.setOnClickListener {
+            findNavController().navigate(R.id.checkInsConsentFragment)
         }
 
         viewModel.lastOrganiserLocation.observe(viewLifecycleOwner) {

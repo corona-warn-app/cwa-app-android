@@ -24,6 +24,7 @@ data class CheckIn(
     val completed: Boolean,
     val createJournalEntry: Boolean,
     val isSubmitted: Boolean = false,
+    val isSubmissionPermitted: Boolean = false,
 ) {
     /**
      *  Returns SHA-256 hash of [traceLocationId] which itself may also be SHA-256 hash.
