@@ -52,4 +52,5 @@ fun CheckIn.toEntity() = TraceLocationCheckInEntity(
     completed = completed,
     createJournalEntry = createJournalEntry,
     isSubmitted = isSubmitted,
+    hasSubmissionConsent = isSubmissionPermitted,
 )

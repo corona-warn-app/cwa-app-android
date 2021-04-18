@@ -18,7 +18,7 @@ import timber.log.Timber
 class CheckInsConsentViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     dispatcherProvider: DispatcherProvider,
-    checkInRepository: CheckInRepository,
+    private val checkInRepository: CheckInRepository,
 ) : CWAViewModel(dispatcherProvider) {
 
     private val selectedSetFlow = MutableStateFlow(initialSet())
@@ -33,7 +33,12 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         }
     }.asLiveData(context = dispatcherProvider.Default)
 
-    fun shareSelectedCheckIns() {
+    fun shareSelectedCheckIns() = launch {
+        val idsWithConsent = selectedSetFlow.value
+        checkInRepository.updateSubmissionConsents(
+            checkInIds = idsWithConsent,
+            consent = true,
+        )
         // TODO persist selection and proceed to submitting check-ins
     }
 
