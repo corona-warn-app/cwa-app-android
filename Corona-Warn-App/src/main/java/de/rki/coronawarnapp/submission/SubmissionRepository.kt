@@ -100,7 +100,10 @@ class SubmissionRepository @Inject constructor(
         Timber.tag(TAG).v("removeTestFromDevice(type=%s)", type)
 
         scope.launch {
-            coronaTestRepository.removeTest(type = type)
+            val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
+                ?: throw IllegalStateException("No test of type $type available")
+
+            coronaTestRepository.removeTest(identifier = test.identifier)
         }
     }
 

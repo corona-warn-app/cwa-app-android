@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater_Factory_Impl
@@ -39,6 +40,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var checkInRepository: CheckInRepository
 
     @Rule
     @JvmField
@@ -56,11 +58,12 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
 
         viewModel = spyk(
             SubmissionTestResultAvailableViewModel(
-                TestDispatcherProvider(),
-                tekHistoryUpdaterFactory,
-                submissionRepository,
-                autoSubmission,
-                analyticsKeySubmissionCollector
+                dispatcherProvider = TestDispatcherProvider(),
+                tekHistoryUpdaterFactory = tekHistoryUpdaterFactory,
+                submissionRepository = submissionRepository,
+                autoSubmission = autoSubmission,
+                analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+                checkInRepository = checkInRepository
             )
         )
 

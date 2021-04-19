@@ -1,5 +1,10 @@
 package de.rki.coronawarnapp.coronatest.server
 
+import com.google.gson.TypeAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
+import org.json.JSONObject
+
 enum class CoronaTestResult(val value: Int) {
     /**
      * Pending (PCR test) or Pending (rapid antigen test)
@@ -51,7 +56,21 @@ enum class CoronaTestResult(val value: Int) {
      */
     RAT_REDEEMED(9);
 
+    override fun toString(): String = "$name($value)"
+
     companion object {
         fun fromInt(value: Int) = values().single { it.value == value }
+    }
+
+    class GsonAdapter : TypeAdapter<CoronaTestResult>() {
+        override fun write(out: JsonWriter, value: CoronaTestResult?) {
+            if (value == null) out.nullValue()
+            else out.value(value.value)
+        }
+
+        override fun read(reader: JsonReader): CoronaTestResult? = when (reader.peek()) {
+            JSONObject.NULL -> reader.nextNull().let { null }
+            else -> fromInt(reader.nextInt())
+        }
     }
 }

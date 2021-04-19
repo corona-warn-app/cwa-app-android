@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.warnothers
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -35,6 +36,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var checkInRepository: CheckInRepository
 
     private val coronaTestFlow = MutableStateFlow(
         mockk<CoronaTest>().apply {
@@ -65,7 +67,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         enfClient = enfClient,
         interoperabilityRepository = interoperabilityRepository,
         submissionRepository = submissionRepository,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        checkInRepository = checkInRepository
     )
 
     @Test
