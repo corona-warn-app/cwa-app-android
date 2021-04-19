@@ -30,10 +30,10 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
     private val args by navArgs<SubmissionDeletionWarningFragmentArgs>()
 
-    private val viewModel: SubmissionDeletionWarningFragmentViewModel by cwaViewModelsAssisted(
+    private val viewModel: SubmissionDeletionWarningViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
-            factory as SubmissionDeletionWarningFragmentViewModel.Factory
+            factory as SubmissionDeletionWarningViewModel.Factory
             factory.create(args.coronaTestQrCode, args.isConsentGiven)
         }
     )

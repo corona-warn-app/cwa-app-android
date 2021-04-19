@@ -7,6 +7,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -14,14 +15,13 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import timber.log.Timber
 
-class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
+class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     private val coronaTestRepository: CoronaTestRepository,
     private val submissionRepository: SubmissionRepository,
     @Assisted private val coronaTest: CoronaTestQRCode,
@@ -44,16 +44,18 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun doDeviceRegistration(request: CoronaTestQRCode) {
+    internal suspend fun doDeviceRegistration(coronaTestQRCode: CoronaTestQRCode) {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
-            val coronaTest = submissionRepository.registerTest(request)
-
-            if (isConsentGiven) {
-                submissionRepository.giveConsentToSubmission(type = request.type)
-            }
+            val coronaTest = submissionRepository.registerTest(coronaTestQRCode)
+            submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             checkTestResult(coronaTest.testResult)
-            registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, coronaTest.testResult))
+            registrationState.postValue(
+                RegistrationState(
+                    ApiRequestState.SUCCESS,
+                    coronaTest.testResult
+                )
+            )
         } catch (err: CwaWebException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
@@ -64,9 +66,9 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
                 err.report(ExceptionCategory.INTERNAL)
             }
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
-        } catch (err: SubmissionQRCodeScanViewModel.InvalidQRCodeException) {
+        } catch (err: InvalidQRCodeException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
-            deregisterTestFromDevice(request)
+            deregisterTestFromDevice(coronaTestQRCode)
             showRedeemedTokenWarning.postValue(Unit)
         } catch (err: Exception) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
@@ -76,7 +78,7 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
 
     private fun checkTestResult(testResult: CoronaTestResult) {
         if (testResult == CoronaTestResult.PCR_REDEEMED) {
-            throw SubmissionQRCodeScanViewModel.InvalidQRCodeException()
+            throw InvalidQRCodeException()
         }
     }
 
@@ -90,7 +92,7 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : CWAViewModelFactory<SubmissionDeletionWarningFragmentViewModel> {
-        fun create(coronaTest: CoronaTestQRCode, isConsentGiven: Boolean): SubmissionDeletionWarningFragmentViewModel
+    interface Factory : CWAViewModelFactory<SubmissionDeletionWarningViewModel> {
+        fun create(coronaTest: CoronaTestQRCode, isConsentGiven: Boolean): SubmissionDeletionWarningViewModel
     }
 }

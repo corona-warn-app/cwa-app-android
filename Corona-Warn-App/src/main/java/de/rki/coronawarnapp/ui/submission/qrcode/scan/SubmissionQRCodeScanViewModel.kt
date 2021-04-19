@@ -38,13 +38,21 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val scanStatusValue = SingleLiveEvent<ScanStatus>()
 
-    fun validateTestGUID(rawResult: String) {
+    fun validateTestGUID(rawResult: String) = launch {
         try {
             val coronaTestQRCode = qrCodeValidator.validate(rawResult)
             // TODO this needs to be adapted to work for different types
             QRCodeCensor.lastGUID = coronaTestQRCode.registrationIdentifier
             scanStatusValue.postValue(ScanStatus.SUCCESS)
-            doDeviceRegistration(coronaTestQRCode)
+
+            val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
+
+            if (coronaTest != null) {
+                routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDeletionWarningFragment(coronaTestQRCode))
+            } else {
+                doDeviceRegistration(coronaTestQRCode)
+            }
+
         } catch (err: InvalidQRCodeException) {
             scanStatusValue.postValue(ScanStatus.INVALID)
         }
@@ -59,7 +67,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun doDeviceRegistration(coronaTestQRCode: CoronaTestQRCode) = launch {
+    internal suspend fun doDeviceRegistration(coronaTestQRCode: CoronaTestQRCode) {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val coronaTest = submissionRepository.registerTest(coronaTestQRCode)
@@ -78,7 +86,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
         } catch (err: InvalidQRCodeException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
-            deregisterTestFromDevice(request)
+            deregisterTestFromDevice(coronaTestQRCode)
             showRedeemedTokenWarning.postValue(Unit)
         } catch (err: Exception) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
