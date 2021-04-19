@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocatio
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.getDefaultAutoCheckoutLengthInMinutes
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
+import de.rki.coronawarnapp.ui.presencetracing.attendee.TraceLocationAttendeeSettings
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.mapTraceLocationToTitleRes
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
@@ -25,10 +27,11 @@ import org.joda.time.format.DateTimeFormat
 class ConfirmCheckInViewModel @AssistedInject constructor(
     @Assisted private val verifiedTraceLocation: VerifiedTraceLocation,
     private val checkInRepository: CheckInRepository,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val traceLocationAttendeeSettings: TraceLocationAttendeeSettings
 ) : CWAViewModel() {
     private val traceLocation = MutableStateFlow(verifiedTraceLocation.traceLocation)
-    private val createJournalEntry = MutableStateFlow(true)
+    private val createJournalEntry = traceLocationAttendeeSettings.createJournalEntryCheckedState
 
     private val autoCheckOutLength = MutableStateFlow(
         Duration.standardMinutes(
@@ -64,7 +67,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
             checkInRepository.addCheckIn(
                 verifiedTraceLocation.toCheckIn(
                     checkInStart = now,
-                    createJournalEntry = createJournalEntry.value,
+                    createJournalEntry = createJournalEntry.first(),
                     checkInEnd = now + autoCheckOutLength.value
                 )
             )
@@ -73,7 +76,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     }
 
     fun createJournalEntryToggled(state: Boolean) {
-        createJournalEntry.value = state
+        traceLocationAttendeeSettings.setCreateJournalEntryCheckedState(state)
     }
 
     fun dateSelectorClicked() {
