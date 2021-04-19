@@ -140,7 +140,10 @@ class SubmissionTaskTest : BaseTest() {
 
         every { checkInRepository.checkInsWithinRetention } returns flowOf(
             listOf(
-                validCheckIn, invalidCheckIn1, invalidCheckIn2, invalidCheckIn3
+                validCheckIn,
+                invalidCheckIn1,
+                invalidCheckIn2,
+                invalidCheckIn3
             )
         )
         coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
