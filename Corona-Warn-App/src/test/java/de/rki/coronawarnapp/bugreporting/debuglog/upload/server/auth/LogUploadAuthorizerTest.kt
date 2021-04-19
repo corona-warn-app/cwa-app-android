@@ -6,8 +6,6 @@ import de.rki.coronawarnapp.appconfig.LogUploadConfig
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
-import de.rki.coronawarnapp.util.CWADebug
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -15,7 +13,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockkObject
 import io.mockk.slot
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -48,9 +45,6 @@ class LogUploadAuthorizerTest : BaseIOTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        mockkObject(CWADebug)
-        every { CWADebug.isDeviceForTestersBuild } returns true
 
         every { configData.logUpload } returns logUploadConfig
         every { logUploadConfig.safetyNetRequirements } returns safetyNetRequirements
@@ -87,17 +81,5 @@ class LogUploadAuthorizerTest : BaseIOTest() {
 
         attestationRequestSlot.captured.configData shouldBe configData
         attestationRequestSlot.captured.checkDeviceTime shouldBe false
-    }
-
-    @Test
-    fun `upload is not possible on prod builds`() = runBlockingTest {
-        every { CWADebug.isDeviceForTestersBuild } returns false
-
-        val expectedOtp = UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894")
-        val instance = createInstance()
-
-        shouldThrow<UnsupportedOperationException> {
-            instance.getAuthorizedOTP(otp = expectedOtp)
-        }
     }
 }

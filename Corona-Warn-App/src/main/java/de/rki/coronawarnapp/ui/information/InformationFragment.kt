@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -56,9 +54,6 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
 
         setButtonOnClickListener()
         setAccessibilityDelegate()
-
-        // TODO ¯\_(ツ)_/¯
-        binding.informationDebuglog.rootLayout.isGone = !CWADebug.isDeviceForTestersBuild
     }
 
     override fun onResume() {
