@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.ui.submission
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentArgs
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragmentArgs
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanViewModel
