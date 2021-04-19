@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.warnothers
 
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -33,6 +34,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var checkInRepository: CheckInRepository
 
     @BeforeEach
     fun setUp() {
@@ -53,7 +55,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         enfClient = enfClient,
         interoperabilityRepository = interoperabilityRepository,
         submissionRepository = submissionRepository,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        checkInRepository = checkInRepository
     )
 
     @Test
