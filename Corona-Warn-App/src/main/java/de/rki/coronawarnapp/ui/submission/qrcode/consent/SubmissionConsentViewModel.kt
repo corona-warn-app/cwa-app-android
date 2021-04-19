@@ -18,7 +18,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryProvider: TEKHistoryProvider,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    // private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
@@ -28,8 +28,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
     fun onConsentButtonClick() {
         // TODO Do we have a Test registered at this time? We need to forward the decission with navargs?
-//        submissionRepository.giveConsentToSubmission(type = CoronaTest.Type.PCR)
-        analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
+        // analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         launch {
             try {
                 val preAuthorized = tekHistoryProvider.preAuthorizeExposureKeyHistory()
