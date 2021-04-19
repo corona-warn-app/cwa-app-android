@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
+import de.rki.coronawarnapp.ui.presencetracing.attendee.TraceLocationAttendeeSettings
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInNavigation
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInViewModel
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
@@ -13,6 +14,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.runs
+import kotlinx.coroutines.flow.flowOf
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -29,6 +33,7 @@ class ConfirmCheckInViewModelTest : BaseTest() {
     @MockK lateinit var verifiedTraceLocation: VerifiedTraceLocation
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var traceLocationAttendeeSettings: TraceLocationAttendeeSettings
 
     private val traceLocation = TraceLocation(
         id = 1,
@@ -50,12 +55,15 @@ class ConfirmCheckInViewModelTest : BaseTest() {
         coEvery { checkInRepository.addCheckIn(any()) } returns 1L
         every { verifiedTraceLocation.traceLocation } returns traceLocation
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-04T10:30:00Z")
+        every { traceLocationAttendeeSettings.createJournalEntryCheckedState } returns flowOf(true)
+        every { traceLocationAttendeeSettings.setCreateJournalEntryCheckedState(any()) } just runs
     }
 
     private fun createInstance() = ConfirmCheckInViewModel(
         verifiedTraceLocation = verifiedTraceLocation,
         checkInRepository = checkInRepository,
-        timeStamper = timeStamper
+        timeStamper = timeStamper,
+        traceLocationAttendeeSettings = traceLocationAttendeeSettings
     )
 
     @Test
