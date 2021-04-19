@@ -15,12 +15,13 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.preferences.mockFlowPreference
 
@@ -31,12 +32,19 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @MockK lateinit var cameraSettings: CameraSettings
     @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
 
+    private val coronaTestFlow = MutableStateFlow<CoronaTest?>(
+        null
+    )
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+
+        every { submissionRepository.testForType(any()) } returns coronaTestFlow
     }
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
+        TestDispatcherProvider(),
         submissionRepository,
         cameraSettings,
         isConsentGiven = true,
@@ -66,12 +74,13 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         QRCodeCensor.lastGUID = null
 
         viewModel.validateTestGUID(validQrCode)
-        viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.SUCCESS, it.value) }
+        viewModel.scanStatusValue.observeForever {}
+        viewModel.scanStatusValue.value shouldBe ScanStatus.SUCCESS
         QRCodeCensor.lastGUID = guid
 
         // invalid guid
         viewModel.validateTestGUID(invalidQrCode)
-        viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.INVALID, it.value) }
+        viewModel.scanStatusValue.value shouldBe ScanStatus.INVALID
     }
 
     @Test

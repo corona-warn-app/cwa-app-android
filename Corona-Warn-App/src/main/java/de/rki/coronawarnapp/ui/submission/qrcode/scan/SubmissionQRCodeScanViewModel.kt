@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -26,11 +27,12 @@ import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
+    dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
     private val cameraSettings: CameraSettings,
     @Assisted private val isConsentGiven: Boolean,
     private val qrCodeValidator: CoronaTestQrCodeValidator
-) : CWAViewModel() {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val scanStatusValue = SingleLiveEvent<ScanStatus>()
@@ -50,6 +52,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
                 doDeviceRegistration(coronaTestQRCode)
             }
         } catch (err: InvalidQRCodeException) {
+            Timber.e(err, "Failed to validate GUID")
             scanStatusValue.postValue(ScanStatus.INVALID)
         }
     }
