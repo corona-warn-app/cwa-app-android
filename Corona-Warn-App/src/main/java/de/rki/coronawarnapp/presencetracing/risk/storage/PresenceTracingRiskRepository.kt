@@ -9,12 +9,12 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.TypeConverter
-import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
+import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -31,7 +31,7 @@ import javax.inject.Singleton
 class PresenceTracingRiskRepository @Inject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
     private val databaseFactory: PresenceTracingRiskDatabase.Factory,
-    private val timeStamper: TimeStamper,
+    private val timeStamper: TimeStamper
 ) {
 
     private val database by lazy {
@@ -144,7 +144,13 @@ class PresenceTracingRiskRepository @Inject constructor(
         get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
 
     suspend fun clearAllTables() {
+        Timber.i("Deleting all matches and results.")
         traceTimeIntervalMatchDao.deleteAll()
+        riskLevelResultDao.deleteAll()
+    }
+
+    suspend fun clearResults() {
+        Timber.i("Deleting all results.")
         riskLevelResultDao.deleteAll()
     }
 }
