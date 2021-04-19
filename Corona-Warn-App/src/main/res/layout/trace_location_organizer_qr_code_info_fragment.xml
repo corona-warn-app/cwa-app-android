@@ -166,7 +166,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <android.widget.Button
+    <Button
         android:id="@+id/trace_location_qr_info_understand_button"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
