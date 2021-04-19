@@ -65,7 +65,7 @@ class CheckInRepository @Inject constructor(
         checkInDao.updateEntityById(checkInId, update)
     }
 
-    suspend fun markCheckInAsSubmitted(checkInId: Long) {
+    suspend fun updatePostSubmissionFlags(checkInId: Long) {
         Timber.d("markCheckInAsSubmitted(checkInId=$checkInId)")
         checkInDao.updateEntity(
             TraceLocationCheckInEntity.SubmissionUpdate(

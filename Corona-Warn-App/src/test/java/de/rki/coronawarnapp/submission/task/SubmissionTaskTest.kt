@@ -200,7 +200,7 @@ class SubmissionTaskTest : BaseTest() {
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 
-            checkInRepository.markCheckInAsSubmitted(testCheckIn1.id)
+            checkInRepository.updatePostSubmissionFlags(testCheckIn1.id)
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 

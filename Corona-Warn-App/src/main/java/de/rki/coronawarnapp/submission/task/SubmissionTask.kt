@@ -174,7 +174,7 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkIns.forEach { checkIn ->
             try {
-                checkInsRepository.markCheckInAsSubmitted(checkIn.id)
+                checkInsRepository.updatePostSubmissionFlags(checkIn.id)
             } catch (e: Exception) {
                 e.reportProblem(TAG, "CheckIn $checkIn could not be marked as submitted")
             }
