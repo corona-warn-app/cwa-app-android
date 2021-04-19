@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -114,7 +115,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 if (count > 0) {
                     val badge = getOrCreateBadge(targetId)
                     badge.number = count
-                    badge.badgeTextColor = getColor(android.R.color.white)
+                    badge.badgeTextColor = getColorCompat(android.R.color.white)
                 } else {
                     removeBadge(targetId)
                 }
