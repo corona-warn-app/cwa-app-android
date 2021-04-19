@@ -100,7 +100,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         checkIns.sortedByDescending { it.checkInEnd }
             .map { checkIn ->
                 SelectableCheckInVH.Item(
-                    checkIn = checkIn.copy(isSubmissionPermitted = ids.contains(checkIn.id)),
+                    checkIn = checkIn.copy(hasSubmissionConsent = ids.contains(checkIn.id)),
                     onItemSelected = { selectedSetFlow.value = updateSet(listOf(it.id)) }
                 )
             }

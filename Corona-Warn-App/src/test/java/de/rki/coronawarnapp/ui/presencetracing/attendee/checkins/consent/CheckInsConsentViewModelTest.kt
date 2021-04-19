@@ -108,12 +108,12 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
             get(1).apply {
                 this as SelectableCheckInVH.Item
-                this.checkIn.isSubmissionPermitted shouldBe false
+                this.checkIn.hasSubmissionConsent shouldBe false
             }
 
             get(2).apply {
                 this as SelectableCheckInVH.Item
-                this.checkIn.isSubmissionPermitted shouldBe false
+                this.checkIn.hasSubmissionConsent shouldBe false
             }
         }
     }
@@ -130,12 +130,12 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
             get(1).apply {
                 this as SelectableCheckInVH.Item
-                this.checkIn.isSubmissionPermitted shouldBe true
+                this.checkIn.hasSubmissionConsent shouldBe true
             }
 
             get(2).apply {
                 this as SelectableCheckInVH.Item
-                this.checkIn.isSubmissionPermitted shouldBe false
+                this.checkIn.hasSubmissionConsent shouldBe false
             }
         }
     }
@@ -148,14 +148,14 @@ class CheckInsConsentViewModelTest : BaseTest() {
             size shouldBe 3
             get(0).apply {
                 this as HeaderCheckInsVH.Item
-                (get(1) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe false
-                (get(2) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe false
+                (get(1) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe false
+                (get(2) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe false
 
                 this.selectAll()
 
                 viewModel.checkIns.getOrAwaitValue().apply {
-                    (get(1) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
-                    (get(2) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
+                    (get(1) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe true
+                    (get(2) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe true
                 }
             }
         }
@@ -169,21 +169,21 @@ class CheckInsConsentViewModelTest : BaseTest() {
             size shouldBe 3
             get(0).apply {
                 this as HeaderCheckInsVH.Item
-                (get(1) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe false
-                (get(2) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe false
+                (get(1) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe false
+                (get(2) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe false
 
                 this.selectAll()
 
                 viewModel.checkIns.getOrAwaitValue().apply {
-                    (get(1) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
-                    (get(2) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
+                    (get(1) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe true
+                    (get(2) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe true
                 }
 
                 this.selectAll()
 
                 viewModel.checkIns.getOrAwaitValue().apply {
-                    (get(1) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
-                    (get(2) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
+                    (get(1) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe true
+                    (get(2) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe true
                 }
             }
         }
@@ -196,12 +196,12 @@ class CheckInsConsentViewModelTest : BaseTest() {
         viewModel.checkIns.getOrAwaitValue().apply {
 
             (get(1) as SelectableCheckInVH.Item).apply {
-                checkIn.isSubmissionPermitted shouldBe false
+                checkIn.hasSubmissionConsent shouldBe false
                 onItemSelected(checkIn)
             }
 
             viewModel.checkIns.getOrAwaitValue().apply {
-                (get(1) as SelectableCheckInVH.Item).checkIn.isSubmissionPermitted shouldBe true
+                (get(1) as SelectableCheckInVH.Item).checkIn.hasSubmissionConsent shouldBe true
             }
         }
     }
@@ -212,20 +212,20 @@ class CheckInsConsentViewModelTest : BaseTest() {
         val viewModel = createViewModel()
         viewModel.checkIns.getOrAwaitValue().apply {
             (get(1) as SelectableCheckInVH.Item).apply {
-                checkIn.isSubmissionPermitted shouldBe false
+                checkIn.hasSubmissionConsent shouldBe false
                 onItemSelected(checkIn)
             }
 
             viewModel.checkIns.getOrAwaitValue().apply {
                 (get(1) as SelectableCheckInVH.Item).apply {
-                    checkIn.isSubmissionPermitted shouldBe true
+                    checkIn.hasSubmissionConsent shouldBe true
                     onItemSelected(checkIn)
                 }
             }
 
             viewModel.checkIns.getOrAwaitValue().apply {
                 (get(1) as SelectableCheckInVH.Item).apply {
-                    checkIn.isSubmissionPermitted shouldBe false
+                    checkIn.hasSubmissionConsent shouldBe false
                 }
             }
         }
