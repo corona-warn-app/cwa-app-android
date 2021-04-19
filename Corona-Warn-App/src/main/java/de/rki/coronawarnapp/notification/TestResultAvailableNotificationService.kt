@@ -39,7 +39,16 @@ open class TestResultAvailableNotificationService(
         val pendingIntent = navDeepLinkBuilderProvider.get().apply {
             setGraph(R.navigation.nav_graph)
             setComponentName(MainActivity::class.java)
-            setDestination(getNotificationDestination(testResult))
+            /*
+             * The pending result fragment will forward to the correct screen
+             * Because we can't save the test result at the moment (legal),
+             * it needs to be reloaded each time.
+             * If we navigate directly to the positive/negative result screen,
+             * then we also need to add explicit test loading logic there.
+             * By letting the forwarding happen via the PendingResultFragment,
+             * we have a common location to retrieve the test result.
+             */
+            setDestination(destination)
         }.createPendingIntent()
 
         val notification = notificationHelper.newBaseBuilder().apply {
@@ -58,15 +67,4 @@ open class TestResultAvailableNotificationService(
     fun cancelTestResultAvailableNotification() {
         notificationHelper.cancelCurrentNotification(notificationId)
     }
-
-    /**
-     * The pending result fragment will forward to the correct screen
-     * Because we can't save the test result at the moment (legal),
-     * it needs to be reloaded each time.
-     * If we navigate directly to the positive/negative result screen,
-     * then we also need to add explicit test loading logic there.
-     * By letting the forwarding happen via the PendingResultFragment,
-     * we have a common location to retrieve the test result.
-     */
-    private fun getNotificationDestination(testResult: CoronaTestResult) = destination
 }

@@ -22,5 +22,5 @@ class RATTestResultAvailableNotificationService @Inject constructor(
     notificationHelper,
     cwaSettings,
     NotificationConstants.RAT_TEST_RESULT_AVAILABLE_NOTIFICATION_ID,
-    R.id.submissionTestResultPendingFragment // TODO change to rat pending fragment
+    R.id.submissionTestResultPendingFragment // TODO check nav args, after other PRs are merged
 )
