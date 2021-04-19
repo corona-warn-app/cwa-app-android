@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.device.ForegroundState
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -62,18 +61,6 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
     )
 
     @Test
-    fun `check destination`() {
-        val negative = createInstance().getNotificationDestination(CoronaTestResult.PCR_NEGATIVE)
-        negative shouldBe (R.id.submissionTestResultPendingFragment)
-
-        val invalid = createInstance().getNotificationDestination(CoronaTestResult.PCR_INVALID)
-        invalid shouldBe (R.id.submissionTestResultPendingFragment)
-
-        val positive = createInstance().getNotificationDestination(CoronaTestResult.PCR_POSITIVE)
-        positive shouldBe (R.id.submissionTestResultPendingFragment)
-    }
-
-    @Test
     fun `test notification in foreground`() = runBlockingTest {
         coEvery { foregroundState.isInForeground } returns flow { emit(true) }
 
@@ -98,7 +85,6 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
 
         verifyOrder {
             navDeepLinkBuilderProvider.get()
-            instance.getNotificationDestination(CoronaTestResult.PCR_POSITIVE)
             context.getString(R.string.notification_headline_test_result_ready)
             context.getString(R.string.notification_body_test_result_ready)
             notificationHelper.sendNotification(
