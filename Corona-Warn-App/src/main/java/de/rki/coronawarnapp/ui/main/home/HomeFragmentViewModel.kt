@@ -273,10 +273,26 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 else -> add(tracingItem)
             }
 
-            add(testPCR.toTestCardItem())
-
-            if (stateRAT != SubmissionStateRAT.NoTest || statePCR != SubmissionStatePCR.NoTest) {
-                add(testRAT.toTestCardItem())
+            //TODO: Would be nice to have a more elegant solution of displaying the result cards in the right order
+            when (statePCR) {
+                SubmissionStatePCR.NoTest -> {
+                    if (stateRAT == SubmissionStateRAT.NoTest) {
+                        add(testPCR.toTestCardItem())
+                    } else {
+                        add(testRAT.toTestCardItem())
+                        add(testPCR.toTestCardItem())
+                    }
+                }
+                else -> {
+                    add(testPCR.toTestCardItem())
+                    if (stateRAT != SubmissionStateRAT.NoTest) {
+                        add(testRAT.toTestCardItem())
+                        add(TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
+                            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
+                        })
+                    }
+                    else add(testRAT.toTestCardItem())
+                }
             }
 
             bothTestStates.firstOrNull { it is CommonSubmissionStates.SubmissionDone }?.let {

@@ -50,7 +50,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     data class RegistrationState(
         val apiRequestState: ApiRequestState,
-        val testResult: CoronaTestResult? = null
+        val testResult: CoronaTestResult? = null,
+        val testType: CoronaTest.Type? = null
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -60,7 +61,13 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             val coronaTest = submissionRepository.registerTest(coronaTestQRCode)
             submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             checkTestResult(coronaTest.testResult)
-            registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, coronaTest.testResult))
+            registrationState.postValue(
+                RegistrationState(
+                    ApiRequestState.SUCCESS,
+                    coronaTest.testResult,
+                    coronaTestQRCode.type
+                )
+            )
         } catch (err: CwaWebException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)

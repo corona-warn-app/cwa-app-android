@@ -58,12 +58,12 @@ data class RACoronaTest(
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
 
     val state: State = when (testResult) {
-        CoronaTestResult.RAT_PENDING -> State.PENDING
+        CoronaTestResult.PCR_OR_RAT_PENDING -> State.PENDING
         CoronaTestResult.RAT_NEGATIVE -> State.NEGATIVE
         CoronaTestResult.RAT_POSITIVE -> State.POSITIVE
         CoronaTestResult.RAT_INVALID -> State.INVALID
         CoronaTestResult.RAT_REDEEMED -> State.REDEEMED
-        else -> throw IllegalArgumentException("Invalid PCR test state $testResult")
+        else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
     }
 
     override val isSubmissionAllowed: Boolean = testResult == CoronaTestResult.RAT_POSITIVE

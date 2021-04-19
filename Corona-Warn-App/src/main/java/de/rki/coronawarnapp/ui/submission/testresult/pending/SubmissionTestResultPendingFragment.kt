@@ -3,11 +3,11 @@ package de.rki.coronawarnapp.ui.submission.testresult.pending
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentArgs
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
@@ -41,6 +41,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         super.onViewCreated(view, savedInstanceState)
 
         pendingViewModel.updateTestType(navArgs.testType)
+        Toast.makeText(context, "Scanned ${navArgs.testType} test", Toast.LENGTH_SHORT).show()
 
         pendingViewModel.consentGiven.observe2(this) {
             binding.consentStatus.consent = it
