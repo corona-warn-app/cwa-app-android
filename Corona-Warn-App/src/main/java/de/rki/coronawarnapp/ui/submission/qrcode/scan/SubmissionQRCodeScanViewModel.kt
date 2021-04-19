@@ -70,7 +70,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val coronaTest = submissionRepository.registerTest(coronaTestQRCode)
-            if(isConsentGiven) {
+            if (isConsentGiven) {
                 submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             }
             checkTestResult(coronaTest.testResult)
