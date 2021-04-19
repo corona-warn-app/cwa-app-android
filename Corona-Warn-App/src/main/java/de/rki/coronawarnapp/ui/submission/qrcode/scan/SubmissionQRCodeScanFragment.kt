@@ -10,7 +10,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingNavigationEvents
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -65,7 +64,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         viewModel.routeToScreen.observe2(this) {
             when (it) {
 
-               is SubmissionNavigationEvents.NavigateToDeletionWarningFragment -> {
+                is SubmissionNavigationEvents.NavigateToDeletionWarningFragment -> {
                     SubmissionQRCodeScanFragmentDirections
                         .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
                             args.isConsentGiven,

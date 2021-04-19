@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayViewModel
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
@@ -20,8 +19,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
@@ -29,7 +26,7 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     @Assisted private val coronaTest: CoronaTestQRCode,
     @Assisted private val isConsentGiven: Boolean,
-    ) : CWAViewModel() {
+) : CWAViewModel() {
 
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
@@ -41,19 +38,18 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
         doDeviceRegistration(coronaTest, isConsentGiven)
     }
 
-
     data class RegistrationState(
         val apiRequestState: ApiRequestState,
         val testResult: CoronaTestResult? = null
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend internal fun doDeviceRegistration(request: CoronaTestQRCode, consentGiven: Boolean) {
+    internal suspend fun doDeviceRegistration(request: CoronaTestQRCode, consentGiven: Boolean) {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val coronaTest = submissionRepository.registerTest(request)
             // TODO this needs to depend on what the user selected
-            if(consentGiven) {
+            if (consentGiven) {
                 submissionRepository.giveConsentToSubmission(type = request.type)
             }
             checkTestResult(coronaTest.testResult)
@@ -84,7 +80,7 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    private fun deregisterTestFromDevice(coronaTest:CoronaTestQRCode) {
+    private fun deregisterTestFromDevice(coronaTest: CoronaTestQRCode) {
         launch {
             Timber.d("deregisterTestFromDevice()")
 

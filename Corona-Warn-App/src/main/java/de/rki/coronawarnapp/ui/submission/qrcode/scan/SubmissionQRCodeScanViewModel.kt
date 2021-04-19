@@ -81,12 +81,12 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend internal fun doDeviceRegistration(request: CoronaTestQRCode, consentGiven: Boolean) {
+    internal suspend fun doDeviceRegistration(request: CoronaTestQRCode, consentGiven: Boolean) {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val coronaTest = submissionRepository.registerTest(request)
             // TODO this needs to depend on what the user selected
-            if(consentGiven) {
+            if (consentGiven) {
                 submissionRepository.giveConsentToSubmission(type = request.type)
             }
             checkTestResult(coronaTest.testResult)
@@ -117,7 +117,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         }
     }
 
-    private fun deregisterTestFromDevice(coronaTest:CoronaTestQRCode) {
+    private fun deregisterTestFromDevice(coronaTest: CoronaTestQRCode) {
         launch {
             Timber.d("deregisterTestFromDevice()")
 

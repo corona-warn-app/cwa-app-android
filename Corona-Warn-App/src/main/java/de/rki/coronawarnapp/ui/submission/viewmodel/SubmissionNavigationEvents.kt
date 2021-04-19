@@ -13,6 +13,6 @@ sealed class SubmissionNavigationEvents {
     object NavigateToTAN : SubmissionNavigationEvents()
     object NavigateToConsent : SubmissionNavigationEvents()
     object NavigateToMainActivity : SubmissionNavigationEvents()
-    data class NavigateToDeletionWarningFragment(val coronaTestQRCode: CoronaTestQRCode): SubmissionNavigationEvents()
+    data class NavigateToDeletionWarningFragment(val coronaTestQRCode: CoronaTestQRCode) : SubmissionNavigationEvents()
     data class ResolvePlayServicesException(val exception: ApiException) : SubmissionNavigationEvents()
 }

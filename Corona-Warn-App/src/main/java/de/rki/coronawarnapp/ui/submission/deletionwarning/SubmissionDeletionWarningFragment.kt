@@ -6,7 +6,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayViewModel
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
@@ -22,7 +21,6 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
@@ -40,10 +38,6 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         }
     )
     private val binding: FragmentSubmissionDeletionWarningBinding by viewBindingLazy()
-
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,7 +82,8 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             )
 
             DialogHelper.showDialog(dialog)
-            //goBack()
+            // TODO Change behavior
+            // goBack()
         }
 
         viewModel.registrationState.observe2(this) { state ->
@@ -158,9 +153,6 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             )
         }
     }
-
-
-
 
     override fun onResume() {
         super.onResume()
