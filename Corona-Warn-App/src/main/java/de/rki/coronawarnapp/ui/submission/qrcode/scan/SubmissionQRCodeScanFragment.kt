@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingNavigationEvents
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -59,6 +60,19 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
 
             submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
+        }
+
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+
+               is SubmissionNavigationEvents.NavigateToDeletionWarningFragment -> {
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
+                            args.isConsentGiven,
+                            it.coronaTestQRCode
+                        )
+                }
+            }
         }
 
         viewModel.scanStatusValue.observe2(this) {
@@ -116,24 +130,11 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                     goBack()
             }
         }
-
-        viewModel.navigateToDeletionWarningScreen.observe2(this) {
-            if (it) {
-                viewModel.navigateToDeletionWarningScreen.value = false
-                doNavigate(
-                    SubmissionQRCodeScanFragmentDirections
-                        .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
-                            isConsentGiven = args.isConsentGiven,
-                            coronaTestQrCode = viewModel.coronaTestQRCode.value!!
-                        )
-                )
-            }
-        }
     }
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle {
-            viewModel.validateTestGUID(it.text)
+            viewModel.validateTestGUID(it.text, args.isConsentGiven)
         }
     }
 
