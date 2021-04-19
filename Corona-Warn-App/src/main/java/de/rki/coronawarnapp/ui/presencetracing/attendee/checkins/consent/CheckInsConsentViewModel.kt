@@ -45,7 +45,14 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     fun shareSelectedCheckIns() = launch {
         Timber.d("Navigate to shareSelectedCheckIns")
         autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
-        // TODO checkInRepository.updateCheckIns(selectedSetFlow.value)
+
+        // Update CheckIns for submission
+        val idsWithConsent = selectedSetFlow.value
+        checkInRepository.updateSubmissionConsents(
+            checkInIds = idsWithConsent,
+            consent = true,
+        )
+
         if (submissionRepository.hasViewedTestResult.first()) {
             Timber.d("Navigate to SubmissionResultReadyFragment")
             events.postValue(CheckInsConsentNavigation.ToSubmissionResultReadyFragment)
