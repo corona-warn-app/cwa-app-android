@@ -115,7 +115,7 @@ class CheckInRepositoryTest : BaseTest() {
                         completed = false,
                         createJournalEntry = false,
                         isSubmitted = true,
-                        hasSubmissionConsent = true,
+                        hasSubmissionConsent = false,
                     )
                 )
             }
@@ -183,6 +183,7 @@ class CheckInRepositoryTest : BaseTest() {
                     completed = false,
                     createJournalEntry = false,
                     isSubmitted = true,
+                    hasSubmissionConsent = true,
                 )
             )
         }

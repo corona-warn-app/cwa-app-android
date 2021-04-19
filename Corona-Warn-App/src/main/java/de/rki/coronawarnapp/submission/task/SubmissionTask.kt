@@ -144,7 +144,7 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("Transformed keys with symptoms %s from %s to %s", symptoms, keys, transformedKeys)
 
         val checkIns = checkInsRepository.checkInsWithinRetention.first().filter {
-            it.completed && it.isSubmissionPermitted && !it.isSubmitted
+            it.completed && it.hasSubmissionConsent && !it.isSubmitted
         }
         val transformedCheckIns = checkInsTransformer.transform(checkIns, symptoms)
 

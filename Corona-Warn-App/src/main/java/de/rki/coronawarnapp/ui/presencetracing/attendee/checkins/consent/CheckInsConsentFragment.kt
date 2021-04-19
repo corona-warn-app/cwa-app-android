@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
@@ -51,7 +51,7 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
         viewModel.checkIns.observe(viewLifecycleOwner) {
             adapter.update(it)
             binding.continueButton.isEnabled = it.any { item ->
-                item is SelectableCheckInVH.Item && item.checkIn.isSubmissionPermitted
+                item is SelectableCheckInVH.Item && item.checkIn.hasSubmissionConsent
             }
         }
     }

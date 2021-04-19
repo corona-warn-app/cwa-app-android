@@ -88,9 +88,10 @@ class SubmissionTaskTest : BaseTest() {
         cnPublicKey = "cnPublicKey",
         checkInStart = Instant.EPOCH,
         checkInEnd = Instant.EPOCH.plus(9000),
-        completed = false,
+        completed = true,
         createJournalEntry = false,
-        isSubmitted = true
+        isSubmitted = false,
+        hasSubmissionConsent = true
     )
 
     @BeforeEach
