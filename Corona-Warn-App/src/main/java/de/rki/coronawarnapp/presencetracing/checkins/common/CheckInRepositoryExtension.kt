@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.common
+package de.rki.coronawarnapp.presencetracing.checkins.common
 
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
