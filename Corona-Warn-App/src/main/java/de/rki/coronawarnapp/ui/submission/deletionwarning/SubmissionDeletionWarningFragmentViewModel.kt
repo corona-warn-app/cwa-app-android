@@ -35,7 +35,7 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
 
     fun deleteExistingAndRegisterNewTest() = launch {
         coronaTestRepository.removeTest(coronaTest.type)
-        doDeviceRegistration(coronaTest, isConsentGiven)
+        doDeviceRegistration(coronaTest)
     }
 
     data class RegistrationState(
@@ -44,12 +44,12 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun doDeviceRegistration(request: CoronaTestQRCode, consentGiven: Boolean) {
+    internal suspend fun doDeviceRegistration(request: CoronaTestQRCode) {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val coronaTest = submissionRepository.registerTest(request)
-            // TODO this needs to depend on what the user selected
-            if (consentGiven) {
+
+            if (isConsentGiven) {
                 submissionRepository.giveConsentToSubmission(type = request.type)
             }
             checkTestResult(coronaTest.testResult)

@@ -2,10 +2,10 @@ package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
@@ -19,11 +19,10 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 import timber.log.Timber
@@ -31,8 +30,7 @@ import timber.log.Timber
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val cameraSettings: CameraSettings,
-    private val coronaTestRepository: CoronaTestRepository,
-    private val dispatcherProvider: DispatcherProvider,
+    @Assisted private val isConsentGiven: Boolean,
 ) : CWAViewModel() {
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
@@ -42,7 +40,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     open class InvalidQRCodeException : Exception("error in qr code")
 
-    fun validateTestGUID(rawResult: String, consentGiven: Boolean) = launch {
+    fun validateTestGUID(rawResult: String) = launch {
 
         val coronaTest: CoronaTestQRCode =
             CoronaTestQRCode.RapidAntigen(
@@ -65,7 +63,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             if (testResult != null) {
                 routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDeletionWarningFragment(coronaTest))
             } else {
-                doDeviceRegistration(coronaTest, consentGiven)
+                doDeviceRegistration(coronaTest)
             }
         } else {
             scanStatusValue.postValue(ScanStatus.INVALID)
@@ -81,12 +79,12 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun doDeviceRegistration(request: CoronaTestQRCode, consentGiven: Boolean) {
+    internal suspend fun doDeviceRegistration(request: CoronaTestQRCode) {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val coronaTest = submissionRepository.registerTest(request)
-            // TODO this needs to depend on what the user selected
-            if (consentGiven) {
+
+            if (isConsentGiven) {
                 submissionRepository.giveConsentToSubmission(type = request.type)
             }
             checkTestResult(coronaTest.testResult)
@@ -140,5 +138,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionQRCodeScanViewModel>
+    interface Factory : CWAViewModelFactory<SubmissionQRCodeScanViewModel> {
+        fun create(isConsentGiven: Boolean): SubmissionQRCodeScanViewModel
+    }
 }
