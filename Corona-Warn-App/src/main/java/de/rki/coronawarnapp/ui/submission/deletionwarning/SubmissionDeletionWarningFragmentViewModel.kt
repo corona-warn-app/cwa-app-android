@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.deletionwarning
 
-import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -18,6 +17,6 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
     fun deleteExistingAndRegisterNewTest(qrScanResult: CoronaTestQRCode) = launch {
         coronaTestRepository.removeTest(qrScanResult.type)
 
-        //TODO Register test
+        // TODO Register test
     }
 }

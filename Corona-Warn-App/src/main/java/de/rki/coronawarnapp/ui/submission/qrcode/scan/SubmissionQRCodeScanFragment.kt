@@ -34,9 +34,8 @@ import javax.inject.Inject
  * A simple [Fragment] subclass.
  */
 class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
-        @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-        private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory
-    }
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
@@ -44,7 +43,6 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         with(binding) {
             submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
@@ -87,17 +85,20 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 else -> View.GONE
             }
 
-
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(isConsentGiven = args.isConsentGiven)
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
+                                isConsentGiven = args.isConsentGiven
+                            )
                     )
                 } else {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(isConsentGiven = args.isConsentGiven)
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                                isConsentGiven = args.isConsentGiven
+                            )
                     )
                 }
             }
@@ -120,11 +121,11 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             if (it) {
                 viewModel.navigateToDeletionWarningScreen.value = false
                 doNavigate(
-                    SubmissionQRCodeScanFragmentDirections.
-                    actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
-                        isConsentGiven = args.isConsentGiven,
-                        coronaTestQrCode = viewModel.coronaTestQRCode.value!!
-                    )
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
+                            isConsentGiven = args.isConsentGiven,
+                            coronaTestQrCode = viewModel.coronaTestQRCode.value!!
+                        )
                 )
             }
         }

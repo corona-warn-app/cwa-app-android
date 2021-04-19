@@ -32,10 +32,11 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         }
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToQRCodeScan -> doNavigate(
-                    SubmissionConsentFragmentDirections.
-                        actionSubmissionConsentFragmentToSubmissionQRCodeScanFragment(isConsentGiven = true)
-                )
+                is SubmissionNavigationEvents.NavigateToQRCodeScan ->
+                    doNavigate(
+                        SubmissionConsentFragmentDirections
+                            .actionSubmissionConsentFragmentToSubmissionQRCodeScanFragment(isConsentGiven = true)
+                    )
                 is SubmissionNavigationEvents.NavigateToDispatcher -> popBackStack()
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()

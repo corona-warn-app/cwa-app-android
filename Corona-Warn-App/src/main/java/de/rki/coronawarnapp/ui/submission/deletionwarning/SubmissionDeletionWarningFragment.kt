@@ -28,10 +28,10 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
         binding.apply {
             val testType = args.coronaTestQrCode.type
-            if(testType == CoronaTest.Type.PCR) {
+            if (testType == CoronaTest.Type.PCR) {
                 headline.text = getString(R.string.submission_deletion_warning_headline_pcr_test)
                 body.text = getString(R.string.submission_deletion_warning_body_pcr_test)
-            } else if(testType == CoronaTest.Type.RAPID_ANTIGEN) {
+            } else if (testType == CoronaTest.Type.RAPID_ANTIGEN) {
                 headline.text = getString(R.string.submission_deletion_warning_headline_antigen_test)
                 body.text = getString(R.string.submission_deletion_warning_body_antigen_test)
             }
@@ -57,8 +57,6 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             }
         }
     }
-
-
 
     override fun onResume() {
         super.onResume()

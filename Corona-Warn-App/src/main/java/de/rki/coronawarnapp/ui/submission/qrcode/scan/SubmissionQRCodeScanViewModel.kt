@@ -49,7 +49,15 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     open class InvalidQRCodeException : Exception("error in qr code")
 
     fun validateTestGUID(rawResult: String) {
-        val coronaTest: CoronaTestQRCode  = CoronaTestQRCode.RapidAntigen(CoronaTestGUID(), Instant.now(),"","", Instant.now().toLocalDateUtc())
+        val coronaTest: CoronaTestQRCode =
+            CoronaTestQRCode.RapidAntigen(
+                CoronaTestGUID(),
+                Instant.now(),
+                "",
+                "",
+                Instant.now().toLocalDateUtc()
+            )
+
         coronaTestQRCode.value = coronaTest
 
         val scanResult = QRScanResult(rawResult)
@@ -62,7 +70,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
                 .filterNotNull()
                 .asLiveData(context = dispatcherProvider.Default)
 
-            //TODO: Needs to be switched to != currently == only for testing reason to get to the deletion fragment
+            // TODO: Needs to be switched to != currently == only for testing reason to get to the deletion fragment
             if (testResult.value == null) {
                 navigateToDeletionWarningScreen.value = true
             } else {
@@ -116,8 +124,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             throw InvalidQRCodeException()
         }
     }
-
-
 
     private fun deregisterTestFromDevice() {
         launch {
