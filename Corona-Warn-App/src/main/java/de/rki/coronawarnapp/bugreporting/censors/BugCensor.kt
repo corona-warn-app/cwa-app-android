@@ -38,6 +38,20 @@ interface BugCensor {
             return true
         }
 
+        fun withValidDescription(description: String?, action: (String) -> Unit): Boolean {
+            if (description.isNullOrBlank()) return false
+            if (description.length < 5) return false
+            action(description)
+            return true
+        }
+
+        fun withValidAddress(address: String?, action: (String) -> Unit): Boolean {
+            if (address.isNullOrBlank()) return false
+            if (address.length < 4) return false
+            action(address)
+            return true
+        }
+
         fun LogLine.toNewLogLineIfDifferent(newMessage: String): LogLine? {
             return if (newMessage != message) copy(message = newMessage) else null
         }

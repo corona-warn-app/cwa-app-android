@@ -55,6 +55,29 @@ class BugCensorTest : BaseTest() {
     }
 
     @Test
+    fun `description censoring validity`() {
+        BugCensor.withValidDescription(null) {} shouldBe false
+        BugCensor.withValidDescription("   ") {} shouldBe false
+        BugCensor.withValidDescription("        ") {} shouldBe false
+        BugCensor.withValidDescription("a") {} shouldBe false
+        BugCensor.withValidDescription("ab") {} shouldBe false
+        BugCensor.withValidDescription("abc") {} shouldBe false
+        BugCensor.withValidDescription("abcd") {} shouldBe false
+        BugCensor.withValidDescription("abcde") {} shouldBe true
+    }
+
+    @Test
+    fun `address censoring validity`() {
+        BugCensor.withValidAddress(null) {} shouldBe false
+        BugCensor.withValidAddress("   ") {} shouldBe false
+        BugCensor.withValidAddress("        ") {} shouldBe false
+        BugCensor.withValidAddress("a") {} shouldBe false
+        BugCensor.withValidAddress("ab") {} shouldBe false
+        BugCensor.withValidAddress("abc") {} shouldBe false
+        BugCensor.withValidAddress("abcd") {} shouldBe true
+    }
+
+    @Test
     fun `loglines are only copied if the message is different`() {
         val logLine = LogLine(
             timestamp = 1,
