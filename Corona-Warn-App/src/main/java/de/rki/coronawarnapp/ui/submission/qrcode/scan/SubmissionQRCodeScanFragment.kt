@@ -10,6 +10,7 @@ import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -86,16 +87,33 @@ class SubmissionQRCodeScanFragment :
                 else -> View.GONE
             }
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
-                if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
-                    )
-                } else {
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
-                    )
+                when (state.testResult) {
+                    CoronaTestResult.PCR_POSITIVE ->
+                        doNavigate(
+                            SubmissionQRCodeScanFragmentDirections
+                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.PCR)
+                        )
+                    CoronaTestResult.PCR_NEGATIVE,
+                    CoronaTestResult.PCR_INVALID,
+                    CoronaTestResult.PCR_OR_RAT_PENDING,
+                    CoronaTestResult.PCR_REDEEMED ->
+                        doNavigate(
+                            SubmissionQRCodeScanFragmentDirections
+                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
+                        )
+                    CoronaTestResult.RAT_POSITIVE ->
+                        doNavigate(
+                            SubmissionQRCodeScanFragmentDirections
+                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.RAPID_ANTIGEN)
+                        )
+                    CoronaTestResult.RAT_NEGATIVE,
+                    CoronaTestResult.RAT_INVALID,
+                    CoronaTestResult.RAT_PENDING,
+                    CoronaTestResult.RAT_REDEEMED ->
+                        doNavigate(
+                            SubmissionQRCodeScanFragmentDirections
+                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
+                        )
                 }
             }
         }

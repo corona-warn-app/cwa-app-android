@@ -281,6 +281,9 @@
             app:destination="@id/submissionResultReadyFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultPendingFragment"
@@ -309,7 +312,14 @@
             app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
-
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+        <action
+            android:id="@+id/action_submissionTestResultPendingFragment_to_submissionNegativeAntigenTestResultFragment"
+            app:destination="@id/submissionNegativeAntigenTestResultFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -496,7 +506,9 @@
             app:destination="@id/submissionTestResultNoConsentFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
-
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultNegativeFragment"
@@ -506,7 +518,11 @@
         android:id="@+id/submissionTestResultInvalidFragment"
         android:name="de.rki.coronawarnapp.ui.submission.testresult.invalid.SubmissionTestResultInvalidFragment"
         android:label="SubmissionTestResultInvalidFragment"
-        tools:layout="@layout/fragment_submission_test_result_invalid" />
+        tools:layout="@layout/fragment_submission_test_result_invalid">
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+    </fragment>
     <fragment
         android:id="@+id/submissionNegativeAntigenTestResultFragment"
         android:name="de.rki.coronawarnapp.submission.ui.testresults.negative.RATResultNegativeFragment"

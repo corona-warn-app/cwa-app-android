@@ -123,3 +123,5 @@ fun CoronaTestResult?.toDeviceUIState(): DeviceUIState = when (this) {
     CoronaTestResult.RAT_INVALID -> DeviceUIState.PAIRED_ERROR
     null -> DeviceUIState.UNPAIRED
 }
+
+

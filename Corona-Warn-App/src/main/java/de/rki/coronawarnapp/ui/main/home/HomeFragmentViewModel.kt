@@ -181,13 +181,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is SubmissionStatePCR.FetchingResult -> TestFetchingCard.Item(state)
         is SubmissionStatePCR.TestResultReady -> PcrTestReadyCard.Item(state) {
             routeToScreen.postValue(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment()
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.TestPositive -> PcrTestPositiveCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state) {
@@ -201,13 +201,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is SubmissionStatePCR.TestError -> PcrTestErrorCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionTestResultPendingFragment()
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.TestPending -> PcrTestPendingCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionTestResultPendingFragment()
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state)
@@ -219,36 +219,36 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
         is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
         is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
-            // TODO
             routeToScreen.postValue(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment()
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.RAPID_ANTIGEN)
             )
         }
         is SubmissionStateRAT.TestPositive -> RapidTestPositiveCard.Item(state) {
-            // TODO
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(CoronaTest.Type.RAPID_ANTIGEN)
             )
         }
-        is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state)
+        is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state) {
+            routeToScreen.postValue(
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionNegativeAntigenTestResultFragment()
+            )
+        }
         is SubmissionStateRAT.TestInvalid -> RapidTestInvalidCard.Item(state) {
-            // TODO
-//            popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
+            popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
         }
         is SubmissionStateRAT.TestError -> RapidTestErrorCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(
-//                HomeFragmentDirections
-//                    .actionMainFragmentToSubmissionTestResultPendingFragment()
-//            )
+            routeToScreen.postValue(
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
+            )
         }
         is SubmissionStateRAT.TestPending -> RapidTestPendingCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(
-//                HomeFragmentDirections
-//                    .actionMainFragmentToSubmissionTestResultPendingFragment()
-//            )
+            routeToScreen.postValue(
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
+            )
         }
         is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state)
     }
