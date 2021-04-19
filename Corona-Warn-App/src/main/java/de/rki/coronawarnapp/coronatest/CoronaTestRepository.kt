@@ -116,14 +116,14 @@ class CoronaTestRepository @Inject constructor(
         return currentTests[request.identifier]!!
     }
 
-    suspend fun removeTest(type: CoronaTest.Type): CoronaTest {
-        Timber.tag(TAG).i("removeTest(type=%s)", type)
+    suspend fun removeTest(identifier: TestIdentifier): CoronaTest {
+        Timber.tag(TAG).i("removeTest(identifier=%s)", identifier)
 
         var removedTest: CoronaTest? = null
 
         internalData.updateBlocking {
-            val toBeRemoved = values.singleOrNull { it.type == type }
-                ?: throw IllegalArgumentException("No test of type $type found.")
+            val toBeRemoved = values.singleOrNull { it.identifier == identifier }
+                ?: throw IllegalArgumentException("No found for $identifier")
 
             getProcessor(toBeRemoved.type).onRemove(toBeRemoved)
 

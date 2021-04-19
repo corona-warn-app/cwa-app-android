@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
+import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -149,7 +150,9 @@ class SubmissionTask @Inject constructor(
         )
         Timber.tag(TAG).d("Transformed keys with symptoms %s from %s to %s", symptoms, keys, transformedKeys)
 
-        val checkIns = checkInsRepository.checkInsWithinRetention.first()
+        val checkIns = checkInsRepository.completedCheckIns.first().filter {
+            it.hasSubmissionConsent && !it.isSubmitted
+        }
         val transformedCheckIns = checkInsTransformer.transform(checkIns, symptoms)
 
         Timber.tag(TAG).d("Transformed CheckIns from: %s to: %s", checkIns, transformedCheckIns)
@@ -177,7 +180,7 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkIns.forEach { checkIn ->
             try {
-                checkInsRepository.markCheckInAsSubmitted(checkIn.id)
+                checkInsRepository.updatePostSubmissionFlags(checkIn.id)
             } catch (e: Exception) {
                 e.reportProblem(TAG, "CheckIn $checkIn could not be marked as submitted")
             }
