@@ -43,10 +43,13 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<CheckInsConsentNavigation>()
 
     fun shareSelectedCheckIns() = launch {
+        // Reset selected check-ins from previous selection
+        resetPreviousSubmissionConsents()
+
         Timber.d("Navigate to shareSelectedCheckIns")
         autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
 
-        // Update CheckIns for submission
+        // Update CheckIns for new submission
         val idsWithConsent = selectedSetFlow.value
         checkInRepository.updateSubmissionConsents(
             checkInIds = idsWithConsent,
@@ -64,6 +67,9 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     }
 
     fun doNotShareCheckIns() = launch {
+        // Reset selected check-ins from previous selection
+        resetPreviousSubmissionConsents()
+
         Timber.d("Navigate to doNotShareCheckIns")
         autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
         val event = if (submissionRepository.hasViewedTestResult.first()) {
@@ -131,6 +137,20 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         }
 
     private fun initialSet(): Set<Long> = savedState.get(SET_KEY) ?: emptySet()
+
+    private fun resetPreviousSubmissionConsents() = launch {
+        try {
+            Timber.d("Trying to reset submission consents")
+            checkInRepository.apply {
+                val ids = completedCheckIns.first().filter { it.hasSubmissionConsent }.map { it.id }
+                updateSubmissionConsents(ids, consent = false)
+            }
+
+            Timber.d("Resetting submission consents was successful")
+        } catch (error: Exception) {
+            Timber.e(error, "Failed to reset SubmissionConsents")
+        }
+    }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<CheckInsConsentViewModel> {

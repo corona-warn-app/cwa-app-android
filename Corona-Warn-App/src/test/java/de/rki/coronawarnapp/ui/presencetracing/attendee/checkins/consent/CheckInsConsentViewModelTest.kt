@@ -93,6 +93,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
         every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn1, checkIn2, checkIn3))
         coEvery { checkInRepository.updateSubmissionConsents(any(), true) } just Runs
+        coEvery { checkInRepository.updateSubmissionConsents(any(), false) } just Runs
         every { savedState.set(any(), any<Set<Long>>()) } just Runs
         every { autoSubmission.updateMode(any()) } just Runs
         every { submissionRepository.hasViewedTestResult } returns flowOf(false)
@@ -278,6 +279,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
         }
 
         coVerify {
+            checkInRepository.updateSubmissionConsents(any(), false)
             autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
             checkInRepository.updateSubmissionConsents(any(), true)
         }
@@ -292,6 +294,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
         }
 
         coVerify {
+            checkInRepository.updateSubmissionConsents(any(), false)
             autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
             checkInRepository.updateSubmissionConsents(any(), true)
         }
@@ -306,6 +309,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
         }
 
         coVerify {
+            checkInRepository.updateSubmissionConsents(any(), false)
             autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
         }
     }
@@ -319,6 +323,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
         }
 
         coVerify {
+            checkInRepository.updateSubmissionConsents(any(), false)
             autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
         }
     }
