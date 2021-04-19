@@ -407,12 +407,16 @@
     <string name="onboarding_onboarding_accessibility_title">"Onboarding page 1 of 6: Fighting coronavirus together"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Let’s fight coronavirus together"</string>
-    <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
-    <string name="onboarding_subtitle">"More protection for you and for us all. By using the Corona-Warn-App we can break chains of infection much quicker."</string>
-    <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you’ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
-    <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_1">"More protection for you and for us all. By using the Corona-Warn-App we can break chains of infection much quicker."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_2">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you’ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_3">"Lassen Sie sich Ihre Testergebnisse (PCR-Test oder Antigen-Schnelltest) in der App anzeigen und warnen Sie andere, wenn Sie ein positives Testergebnis erhalten."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_4">"Auf Wunsch können Sie mit der App Ihren persönlichen Infektionsstatus nachweisen (z.B. negativer Schnelltest). Bitte beachten Sie, dass Sie grundsätzlich nicht zum Nachweis Ihres Infektionsstatus per App verpflichtet sind. Sie können Ihren Infektionsstatus im Rahmen der rechtlichen Bestimmungen an Ihrem Aufenthaltsort auch auf andere Weise nachweisen."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_5">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"A group of persons use their smartphones around town."</string>
     <!-- XACT: Onboarding (privacy) page title -->
