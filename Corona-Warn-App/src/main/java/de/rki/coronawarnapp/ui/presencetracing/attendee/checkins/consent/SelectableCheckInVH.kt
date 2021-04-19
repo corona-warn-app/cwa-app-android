@@ -23,7 +23,7 @@ class SelectableCheckInVH(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val checkIn = curItem.checkIn
-        val imageResource = if (checkIn.isSubmissionPermitted) R.drawable.ic_selected else R.drawable.ic_unselected
+        val imageResource = if (checkIn.hasSubmissionConsent) R.drawable.ic_selected else R.drawable.ic_unselected
 
         checkbox.setImageResource(imageResource)
         title.text = checkIn.description
