@@ -53,7 +53,7 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
         every { notificationHelper.newBaseBuilder() } returns mockk(relaxed = true)
     }
 
-    fun createInstance() = TestResultAvailableNotificationService(
+    fun createInstance() = PCRTestResultAvailableNotificationService(
         context = context,
         foregroundState = foregroundState,
         navDeepLinkBuilderProvider = navDeepLinkBuilderProvider,
