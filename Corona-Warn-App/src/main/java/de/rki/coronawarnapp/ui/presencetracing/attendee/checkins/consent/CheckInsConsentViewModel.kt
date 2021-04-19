@@ -8,23 +8,30 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class CheckInsConsentViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     dispatcherProvider: DispatcherProvider,
-    checkInRepository: CheckInRepository,
+    private val checkInRepository: CheckInRepository,
+    private val submissionRepository: SubmissionRepository,
+    private val autoSubmission: AutoSubmission
 ) : CWAViewModel(dispatcherProvider) {
 
     private val selectedSetFlow = MutableStateFlow(initialSet())
 
     val checkIns: LiveData<List<CheckInsConsentItem>> = combine(
-        checkInRepository.checkInsWithinRetention,
+        checkInRepository.completedCheckIns,
         selectedSetFlow
     ) { checkIns, ids ->
         mutableListOf<CheckInsConsentItem>().apply {
@@ -33,12 +40,51 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         }
     }.asLiveData(context = dispatcherProvider.Default)
 
-    fun shareSelectedCheckIns() {
-        // TODO persist selection and proceed to submitting check-ins
+    val events = SingleLiveEvent<CheckInsConsentNavigation>()
+
+    fun shareSelectedCheckIns() = launch {
+        Timber.d("Navigate to shareSelectedCheckIns")
+        autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+        // TODO checkInRepository.updateCheckIns(selectedSetFlow.value)
+        if (submissionRepository.hasViewedTestResult.first()) {
+            Timber.d("Navigate to SubmissionResultReadyFragment")
+            events.postValue(CheckInsConsentNavigation.ToSubmissionResultReadyFragment)
+        } else {
+            Timber.d("Navigate to SubmissionTestResultConsentGivenFragment")
+            events.postValue(CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment)
+        }
     }
 
-    fun doNotShareCheckIns() {
-        // TODO proceed to submitting keys only
+    fun doNotShareCheckIns() = launch {
+        Timber.d("Navigate to doNotShareCheckIns")
+        autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+        if (submissionRepository.hasViewedTestResult.first()) {
+            Timber.d("Navigate to SubmissionResultReadyFragment")
+            events.postValue(CheckInsConsentNavigation.ToSubmissionResultReadyFragment)
+        } else {
+            Timber.d("Navigate to SubmissionTestResultConsentGivenFragment")
+            events.postValue(CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment)
+        }
+    }
+
+    fun onCloseClick() = launch {
+        if (submissionRepository.hasViewedTestResult.first()) {
+            Timber.d("openSkipDialog")
+            events.postValue(CheckInsConsentNavigation.OpenSkipDialog)
+        } else {
+            Timber.d("openCloseDialog")
+            events.postValue(CheckInsConsentNavigation.OpenCloseDialog)
+        }
+    }
+
+    fun onCancelConfirmed() {
+        Timber.d("onCancelConfirmed")
+        events.postValue(CheckInsConsentNavigation.ToHomeFragment)
+    }
+
+    fun onSkipClick() {
+        Timber.d("onSkipClick")
+        events.postValue(CheckInsConsentNavigation.OpenSkipDialog)
     }
 
     private fun headerItem(checkIns: List<CheckIn>) = HeaderCheckInsVH.Item(
@@ -51,8 +97,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     )
 
     private fun mapCheckIns(checkIns: List<CheckIn>, ids: Set<Long>): List<CheckInsConsentItem> =
-        checkIns.filter { it.completed }
-            .sortedByDescending { it.checkInEnd }
+        checkIns.sortedByDescending { it.checkInEnd }
             .map { checkIn ->
                 SelectableCheckInVH.Item(
                     checkIn = checkIn.copy(isSubmissionPermitted = ids.contains(checkIn.id)),

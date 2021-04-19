@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -26,6 +28,8 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @MockK lateinit var savedState: SavedStateHandle
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var autoSubmission: AutoSubmission
 
     private val checkIn1 = CheckIn(
         id = 1L,
@@ -87,6 +91,8 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
         every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn1, checkIn2, checkIn3))
         every { savedState.set(any(), any<Set<Long>>()) } just Runs
+        every { autoSubmission.updateMode(any()) } just Runs
+        every { submissionRepository.hasViewedTestResult } returns flowOf(false)
     }
 
     @Test
@@ -238,6 +244,8 @@ class CheckInsConsentViewModelTest : BaseTest() {
     private fun createViewModel() = CheckInsConsentViewModel(
         savedState = savedState,
         dispatcherProvider = TestDispatcherProvider(),
-        checkInRepository = checkInRepository
+        checkInRepository = checkInRepository,
+        submissionRepository = submissionRepository,
+        autoSubmission = autoSubmission
     )
 }
