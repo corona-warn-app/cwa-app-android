@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
@@ -65,6 +66,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    @MockK lateinit var bluetoothSupport: BluetoothSupport
 
     @BeforeEach
     fun setup() {
@@ -79,6 +81,11 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         coEvery { appConfigProvider.currentConfig } returns emptyFlow()
         coEvery { statisticsProvider.current } returns emptyFlow()
+
+        bluetoothSupport.apply {
+            every { isAdvertisingSupported() } returns true
+            every { isScanningSupported() } returns true
+        }
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -96,7 +103,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         deadmanNotificationScheduler = deadmanNotificationScheduler,
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
-        traceLocationOrganizerSettings = traceLocationOrganizerSettings
+        traceLocationOrganizerSettings = traceLocationOrganizerSettings,
+        bluetoothSupport = bluetoothSupport
     )
 
     @Test

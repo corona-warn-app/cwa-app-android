@@ -40,6 +40,8 @@ import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestReadyCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
 import de.rki.coronawarnapp.tracing.states.LowRisk
@@ -63,8 +65,7 @@ import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
 import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.bluetooth.isAdvertisingSupported
-import de.rki.coronawarnapp.util.bluetooth.isScanningSupported
+import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -73,6 +74,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
@@ -92,7 +94,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
     private val appShortcutsHelper: AppShortcutsHelper,
     private val tracingSettings: TracingSettings,
-    private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
+    private val bluetoothSupport: BluetoothSupport,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -271,8 +274,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 else -> add(tracingItem)
             }
 
-            if (isAdvertisingSupported() == false) {
-                add(IncompatibleCard.Item({ openIncompatibleEvent.postValue(Unit) }, isScanningSupported() != false))
+            if (bluetoothSupport.isAdvertisingSupported() == false) {
+                add(
+                    IncompatibleCard.Item(
+                        onClickAction = { openIncompatibleEvent.postValue(Unit) },
+                        bluetoothSupported = bluetoothSupport.isScanningSupported() != false
+                    )
+                )
             }
 
             add(testPCR.toTestCardItem())
