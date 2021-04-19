@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -18,41 +20,51 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.filterNotNull
+import org.joda.time.Instant
 import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val cameraSettings: CameraSettings,
     private val coronaTestRepository: CoronaTestRepository,
+    private val dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel() {
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val scanStatusValue = SingleLiveEvent<ScanStatus>()
 
-    var testAlreadyExists = MutableLiveData<Boolean>()
+    var navigateToDeletionWarningScreen = MutableLiveData<Boolean>()
+
+    var coronaTestQRCode = MutableLiveData<CoronaTestQRCode>()
 
     private lateinit var qrCodeResult: QRScanResult
 
     open class InvalidQRCodeException : Exception("error in qr code")
 
     fun validateTestGUID(rawResult: String) {
+        val coronaTest: CoronaTestQRCode  = CoronaTestQRCode.RapidAntigen(CoronaTestGUID(), Instant.now(),"","", Instant.now().toLocalDateUtc())
+        coronaTestQRCode.value = coronaTest
+
         val scanResult = QRScanResult(rawResult)
         if (scanResult.isValid) {
             QRCodeCensor.lastGUID = scanResult.guid
             scanStatusValue.postValue(ScanStatus.SUCCESS)
             qrCodeResult = scanResult
 
-            //TODO Check if a test of same type is already stored
-            val testExists = true
+            val testResult = submissionRepository.testForType(type = coronaTest.type)
+                .filterNotNull()
+                .asLiveData(context = dispatcherProvider.Default)
 
-            if(testExists) {
-                testAlreadyExists.value = true
+            //TODO: Needs to be switched to != currently == only for testing reason to get to the deletion fragment
+            if (testResult.value == null) {
+                navigateToDeletionWarningScreen.value = true
             } else {
                 doDeviceRegistration(scanResult)
             }
@@ -60,7 +72,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             scanStatusValue.postValue(ScanStatus.INVALID)
         }
     }
-
 
     val registrationState = MutableLiveData(RegistrationState(ApiRequestState.IDLE))
     val registrationError = SingleLiveEvent<CwaWebException>()

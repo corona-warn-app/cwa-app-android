@@ -6,29 +6,21 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.zxing.BarcodeFormat
-import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalTime
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -36,20 +28,15 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.Instant
 import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment :
-    Fragment(R.layout.fragment_submission_qr_code_scan),
-    AutoInject {
-
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
         @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
         private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory
-        }
-
+    }
 
     private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
@@ -129,17 +116,14 @@ class SubmissionQRCodeScanFragment :
             }
         }
 
-        viewModel.testAlreadyExists.observe2(this) {
+        viewModel.navigateToDeletionWarningScreen.observe2(this) {
             if (it) {
-                viewModel.testAlreadyExists.value = false
-
-                val coronaTest: CoronaTestQRCode  = CoronaTestQRCode.RapidAntigen(CoronaTestGUID(), Instant.now(),"","", Instant.now().toLocalDateUtc())
-
+                viewModel.navigateToDeletionWarningScreen.value = false
                 doNavigate(
                     SubmissionQRCodeScanFragmentDirections.
                     actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
                         isConsentGiven = args.isConsentGiven,
-                        coronaTestQrCode = coronaTest
+                        coronaTestQrCode = viewModel.coronaTestQRCode.value!!
                     )
                 )
             }

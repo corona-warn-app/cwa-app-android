@@ -12,12 +12,12 @@ class SubmissionDeletionWarningFragmentViewModel @AssistedInject constructor(
     private val coronaTestRepository: CoronaTestRepository,
 ) : CWAViewModel() {
 
-    var testDeletionFinished = MutableLiveData<Boolean>()
-
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionDeletionWarningFragmentViewModel>
 
-    fun deleteExistingTest(qrScanResult: CoronaTestQRCode) = launch {
+    fun deleteExistingAndRegisterNewTest(qrScanResult: CoronaTestQRCode) = launch {
         coronaTestRepository.removeTest(qrScanResult.type)
+
+        //TODO Register test
     }
 }
