@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragmentDirections
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -75,8 +74,8 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             )
 
             DialogHelper.showDialog(dialog)
-            SubmissionDeletionWarningFragmentDirections
-                .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment()
+
+            navigateToDispatchScreen()
         }
 
         viewModel.registrationState.observe2(this) { state ->
@@ -88,14 +87,14 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
                     doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
+                        SubmissionDeletionWarningFragmentDirections
                             .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
                                 isConsentGiven = args.isConsentGiven
                             )
                     )
                 } else {
                     doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
+                        SubmissionDeletionWarningFragmentDirections
                             .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
                                 isConsentGiven = args.isConsentGiven
                             )
@@ -111,7 +110,8 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
     private fun navigateToDispatchScreen() =
         doNavigate(
-            SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
+            SubmissionDeletionWarningFragmentDirections
+                .actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
         )
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
