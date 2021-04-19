@@ -25,8 +25,6 @@ class TraceLocationCardHighlightView @JvmOverloads constructor(
     init {
         LayoutInflater.from(context).inflate(R.layout.trace_location_view_cardhighlight, this, true)
 
-        background = ContextCompat.getDrawable(context, R.drawable.trace_location_view_cardhighlight_background)
-
         context.withStyledAttributes(attrs, R.styleable.TraceLocationHighlightView) {
             val captionText = getText(R.styleable.TraceLocationHighlightView_android_text) ?: ""
             setCaption(captionText.toString())
