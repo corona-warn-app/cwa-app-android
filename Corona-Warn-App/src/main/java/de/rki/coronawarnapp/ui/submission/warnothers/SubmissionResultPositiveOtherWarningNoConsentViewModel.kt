@@ -110,7 +110,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onConsentButtonClicked() = launch {
-        showKeysRetrievalProgress.value = true
+        showKeysRetrievalProgress.postValue(true)
         submissionRepository.giveConsentToSubmission(type = coronaTestType)
         launch {
             if (enfClient.isTracingEnabled.first()) {
