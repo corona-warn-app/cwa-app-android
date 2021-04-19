@@ -34,6 +34,7 @@ class ConfigChangeDetectorTest : BaseTest() {
         every { taskController.submit(any()) } just Runs
         every { appConfigProvider.currentConfig } returns currentConfigFake
         coEvery { riskLevelStorage.clear() } just Runs
+        coEvery { riskLevelStorage.clearResults() } just Runs
     }
 
     private fun mockConfigId(id: String): ConfigData {
@@ -59,7 +60,7 @@ class ConfigChangeDetectorTest : BaseTest() {
 
         coVerify(exactly = 0) {
             taskController.submit(any())
-            riskLevelStorage.clear()
+            riskLevelStorage.clearResults()
         }
     }
 
@@ -70,20 +71,25 @@ class ConfigChangeDetectorTest : BaseTest() {
         createInstance().launch()
 
         coVerifySequence {
-            riskLevelStorage.clear()
+            riskLevelStorage.clearResults()
             taskController.submit(any())
+            taskController.submit(any())
+        }
+
+        coVerify(exactly = 0) {
+            riskLevelStorage.clear()
         }
     }
 
     @Test
-    fun `same idetifier results in no op`() {
+    fun `same identifier results in no op`() {
         every { riskLevelSettings.lastUsedConfigIdentifier } returns "initial"
 
         createInstance().launch()
 
         coVerify(exactly = 0) {
             taskController.submit(any())
-            riskLevelStorage.clear()
+            riskLevelStorage.clearResults()
         }
     }
 
@@ -96,10 +102,16 @@ class ConfigChangeDetectorTest : BaseTest() {
         currentConfigFake.value = mockConfigId("berry")
 
         coVerifySequence {
-            riskLevelStorage.clear()
+            riskLevelStorage.clearResults()
             taskController.submit(any())
-            riskLevelStorage.clear()
             taskController.submit(any())
+            riskLevelStorage.clearResults()
+            taskController.submit(any())
+            taskController.submit(any())
+        }
+
+        coVerify(exactly = 0) {
+            riskLevelStorage.clear()
         }
     }
 }
