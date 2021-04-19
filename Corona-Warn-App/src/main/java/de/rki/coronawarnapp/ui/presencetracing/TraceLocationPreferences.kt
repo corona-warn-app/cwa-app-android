@@ -20,6 +20,11 @@ class TraceLocationPreferences @Inject constructor(
         defaultValue = false
     )
 
+    val createJournalEntryCheckedState = prefs.createFlowPreference(
+        key = "trace_location_create_journal_entry_checked_state",
+        defaultValue = true
+    )
+
     fun clear() {
         prefs.clearAndNotify()
     }
