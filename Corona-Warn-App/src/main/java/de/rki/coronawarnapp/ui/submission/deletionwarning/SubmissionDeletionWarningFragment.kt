@@ -52,13 +52,6 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 body.text = getString(R.string.submission_deletion_warning_body_antigen_test)
             }
 
-            cancelButton.setOnClickListener {
-                doNavigate(
-                    SubmissionDeletionWarningFragmentDirections
-                        .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment()
-                )
-            }
-
             continueButton.setOnClickListener {
                 viewModel.deleteExistingAndRegisterNewTest()
             }
@@ -82,8 +75,6 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             )
 
             DialogHelper.showDialog(dialog)
-            // TODO Change behavior
-            // goBack()
         }
 
         viewModel.registrationState.observe2(this) { state ->
