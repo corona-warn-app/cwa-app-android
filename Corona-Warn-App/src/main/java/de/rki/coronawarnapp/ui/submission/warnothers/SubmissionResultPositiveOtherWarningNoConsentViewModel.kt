@@ -7,11 +7,14 @@ import androidx.navigation.NavDirections
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -30,8 +33,15 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     interoperabilityRepository: InteroperabilityRepository,
     private val submissionRepository: SubmissionRepository,
+    private val checkInRepository: CheckInRepository,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+    // TODO Use navargs to supply this
+    private val coronaTestType: CoronaTest.Type = CoronaTest.Type.PCR
+
+    init {
+        Timber.v("init() coronaTestType=%s", coronaTestType)
+    }
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
@@ -48,36 +58,44 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
-            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
-                Timber.d("onTEKAvailable(tek.size=%d)", teks.size)
-                autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) = launch {
+                Timber.tag(TAG).d("onTEKAvailable(tek.size=%d)", teks.size)
                 showKeysRetrievalProgress.postValue(false)
-                routeToScreen.postValue(
+
+                val completedCheckInsExist = checkInRepository.completedCheckIns.first().isNotEmpty()
+                val navDirections = if (completedCheckInsExist) {
+                    Timber.tag(TAG).d("Navigate to CheckInsConsentFragment")
+                    SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
+                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToCheckInsConsentFragment()
+                } else {
+                    autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+                    Timber.tag(TAG).d("Navigate to SubmissionResultReadyFragment")
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
                         .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
-                )
+                }
+                routeToScreen.postValue(navDirections)
             }
 
             override fun onTEKPermissionDeclined() {
-                Timber.d("onTEKPermissionDeclined")
+                Timber.tag(TAG).d("onTEKPermissionDeclined")
                 showKeysRetrievalProgress.postValue(false)
                 // stay on screen
             }
 
             override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-                Timber.d("onTracingConsentRequired")
+                Timber.tag(TAG).d("onTracingConsentRequired")
                 showKeysRetrievalProgress.postValue(false)
                 showTracingConsentDialog.postValue(onConsentResult)
             }
 
             override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
-                Timber.d("onPermissionRequired")
+                Timber.tag(TAG).d("onPermissionRequired")
                 showKeysRetrievalProgress.postValue(false)
                 showPermissionRequest.postValue(permissionRequest)
             }
 
             override fun onError(error: Throwable) {
-                Timber.e(error, "Couldn't access temporary exposure key history.")
+                Timber.tag(TAG).e(error, "Couldn't access temporary exposure key history.")
                 showKeysRetrievalProgress.postValue(false)
                 error.report(ExceptionCategory.EXPOSURENOTIFICATION, "Failed to obtain TEKs.")
             }
@@ -91,15 +109,15 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         )
     }
 
-    fun onConsentButtonClicked() {
-        showKeysRetrievalProgress.value = true
-        submissionRepository.giveConsentToSubmission()
+    fun onConsentButtonClicked() = launch {
+        showKeysRetrievalProgress.postValue(true)
+        submissionRepository.giveConsentToSubmission(type = coronaTestType)
         launch {
             if (enfClient.isTracingEnabled.first()) {
-                Timber.d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission()")
+                Timber.tag(TAG).d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission()")
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
-                Timber.d("showEnableTracingEvent:Unit")
+                Timber.tag(TAG).d("showEnableTracingEvent:Unit")
                 showKeysRetrievalProgress.postValue(false)
                 showEnableTracingEvent.postValue(Unit)
             }
@@ -107,6 +125,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onDataPrivacyClick() {
+        Timber.tag(TAG).d("onDataPrivacyClick")
         routeToScreen.postValue(
             SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
                 .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToInformationPrivacyFragment()
@@ -114,6 +133,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Timber.tag(TAG).d("handleActivityResult($resultCode)")
         showKeysRetrievalProgress.value = true
         tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
@@ -125,5 +145,9 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionResultPositiveOtherWarningNoConsentViewModel> {
         fun create(): SubmissionResultPositiveOtherWarningNoConsentViewModel
+    }
+
+    companion object {
+        private const val TAG = "WarnNoConsentViewModel"
     }
 }

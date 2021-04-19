@@ -1,11 +1,15 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.formatter.TestResult
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -19,7 +23,6 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
@@ -50,7 +53,7 @@ class TestResultDataCollectorTest : BaseTest() {
     fun `saveTestResultAnalyticsSettings does not save anything when no user consent`() =
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
-            testResultDataCollector.saveTestResultAnalyticsSettings(TestResult.POSITIVE)
+            testResultDataCollector.saveTestResultAnalyticsSettings(PCR_POSITIVE)
 
             verify(exactly = 0) {
                 testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
@@ -66,9 +69,13 @@ class TestResultDataCollectorTest : BaseTest() {
                 every { calculatedAt } returns Instant.now()
                 every { wasSuccessfullyCalculated } returns true
             }
-            every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(listOf(mockRiskLevelResult))
+            every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(
+                listOf(
+                    mockRiskLevelResult
+                )
+            )
             every { testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any()) } just Runs
-            testResultDataCollector.saveTestResultAnalyticsSettings(TestResult.POSITIVE)
+            testResultDataCollector.saveTestResultAnalyticsSettings(PCR_POSITIVE)
 
             verify(exactly = 1) {
                 testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
@@ -79,7 +86,7 @@ class TestResultDataCollectorTest : BaseTest() {
     fun `saveTestResultAnalyticsSettings does not save data when TestResult is INVALID`() =
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
-            testResultDataCollector.saveTestResultAnalyticsSettings(TestResult.INVALID)
+            testResultDataCollector.saveTestResultAnalyticsSettings(PCR_INVALID)
 
             verify {
                 analyticsSettings.analyticsEnabled wasNot Called
@@ -90,7 +97,7 @@ class TestResultDataCollectorTest : BaseTest() {
     fun `saveTestResultAnalyticsSettings does not save data when TestResult is REDEEMED`() =
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
-            testResultDataCollector.saveTestResultAnalyticsSettings(TestResult.REDEEMED)
+            testResultDataCollector.saveTestResultAnalyticsSettings(PCR_REDEEMED)
 
             verify {
                 analyticsSettings.analyticsEnabled wasNot Called
@@ -100,10 +107,10 @@ class TestResultDataCollectorTest : BaseTest() {
     @Test
     fun `updatePendingTestResultReceivedTime doesn't update when TestResult isn't POS or NEG`() =
         runBlockingTest {
-            for (testResult in listOf(TestResult.REDEEMED, TestResult.INVALID, TestResult.PENDING)) {
+            for (testResult in listOf(PCR_REDEEMED, PCR_INVALID, PCR_OR_RAT_PENDING)) {
                 every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
                 every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-                every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.PENDING)
+                every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(PCR_OR_RAT_PENDING)
                 testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
 
                 verify {
@@ -121,8 +128,8 @@ class TestResultDataCollectorTest : BaseTest() {
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
             every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(false)
-            every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.PENDING)
-            testResultDataCollector.updatePendingTestResultReceivedTime(TestResult.NEGATIVE)
+            every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(PCR_OR_RAT_PENDING)
+            testResultDataCollector.updatePendingTestResultReceivedTime(PCR_NEGATIVE)
 
             verify {
                 analyticsSettings.analyticsEnabled
@@ -136,10 +143,10 @@ class TestResultDataCollectorTest : BaseTest() {
     @Test
     fun `updatePendingTestResultReceivedTime update when TestResult is POS or NEG`() =
         runBlockingTest {
-            for (testResult in listOf(TestResult.NEGATIVE, TestResult.POSITIVE)) {
+            for (testResult in listOf(PCR_NEGATIVE, PCR_POSITIVE)) {
                 every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
                 every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-                every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.PENDING)
+                every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(PCR_OR_RAT_PENDING)
                 every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.EPOCH)
                 testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
 

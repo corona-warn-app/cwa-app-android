@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -35,7 +35,7 @@ class RiskLevelChangeDetector @Inject constructor(
     private val foregroundState: ForegroundState,
     private val notificationHelper: GeneralNotifications,
     private val surveys: Surveys,
-    private val submissionSettings: SubmissionSettings,
+    private val coronaTestRepository: CoronaTestRepository,
     private val tracingSettings: TracingSettings,
     private val testResultDonorSettings: TestResultDonorSettings
 ) {
@@ -146,7 +146,8 @@ class RiskLevelChangeDetector @Inject constructor(
         oldRiskState: RiskState,
         newRiskState: RiskState
     ) {
-        if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !submissionSettings.isSubmissionSuccessful) {
+        val isSubmissionSuccessful = coronaTestRepository.coronaTests.first().any { it.isSubmitted }
+        if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !isSubmissionSuccessful) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {
