@@ -103,6 +103,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/pcrt_title" />
 
+                <Button
+                    android:id="@+id/pcrt_refresh_action"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Refresh"
+                    app:layout_constraintStart_toEndOf="@id/pcrt_delete_action"
+                    app:layout_constraintTop_toBottomOf="@id/pcrt_title" />
+
                 <TextView
                     android:id="@+id/pcrt_data"
                     style="@style/TextAppearance.MaterialComponents.Caption"
@@ -139,6 +148,15 @@
                     android:layout_marginTop="8dp"
                     android:text="Delete"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rat_title" />
+
+                <Button
+                    android:id="@+id/rat_refresh_action"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Refresh"
+                    app:layout_constraintStart_toEndOf="@id/rat_delete_action"
                     app:layout_constraintTop_toBottomOf="@id/rat_title" />
 
                 <TextView

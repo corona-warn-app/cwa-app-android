@@ -69,12 +69,18 @@ class CoronaTestTestFragment : Fragment(R.layout.fragment_test_coronatest), Auto
         vm.pcrtState.observe2(this) {
             binding.pcrtData.text = it.getNiceTextForHumans(requireContext())
         }
-        binding.pcrtDeleteAction.setOnClickListener { vm.deletePCRT() }
+        binding.apply {
+            pcrtDeleteAction.setOnClickListener { vm.deletePCRT() }
+            pcrtRefreshAction.setOnClickListener { vm.refreshPCRT() }
+        }
 
         vm.ratState.observe2(this) {
             binding.ratData.text = it.getNiceTextForHumans(requireContext())
         }
-        binding.ratDeleteAction.setOnClickListener { vm.deleteRAT() }
+        binding.apply {
+            ratDeleteAction.setOnClickListener { vm.deleteRAT() }
+            ratRefreshAction.setOnClickListener { vm.refreshRAT() }
+        }
 
         vm.errorEvents.observe2(this) {
             val error = it.tryHumanReadableError(requireContext())

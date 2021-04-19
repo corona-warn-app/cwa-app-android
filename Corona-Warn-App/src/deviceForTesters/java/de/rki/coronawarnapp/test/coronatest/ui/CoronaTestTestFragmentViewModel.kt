@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -38,6 +39,16 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
+    fun refreshPCRT() = launch {
+        try {
+            Timber.d("Refreshing PCR")
+            coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to refresh PCR test.")
+            errorEvents.postValue(e)
+        }
+    }
+
     fun deletePCRT() = launch {
         try {
             val pcrTest = coronaTestRepository.latestPCRT.first()
@@ -48,6 +59,16 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
             coronaTestRepository.removeTest(pcrTest.identifier)
         } catch (e: Exception) {
             Timber.e(e, "Failed to delete PCR test.")
+            errorEvents.postValue(e)
+        }
+    }
+
+    fun refreshRAT() = launch {
+        try {
+            Timber.d("Refreshing RAT")
+            coronaTestRepository.refresh(type = CoronaTest.Type.RAPID_ANTIGEN)
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to refresh RAT test.")
             errorEvents.postValue(e)
         }
     }
