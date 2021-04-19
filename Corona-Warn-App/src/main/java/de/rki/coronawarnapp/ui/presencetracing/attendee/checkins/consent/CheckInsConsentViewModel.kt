@@ -53,35 +53,38 @@ class CheckInsConsentViewModel @AssistedInject constructor(
             consent = true,
         )
 
-        if (submissionRepository.hasViewedTestResult.first()) {
+        val event = if (submissionRepository.hasViewedTestResult.first()) {
             Timber.d("Navigate to SubmissionResultReadyFragment")
-            events.postValue(CheckInsConsentNavigation.ToSubmissionResultReadyFragment)
+            CheckInsConsentNavigation.ToSubmissionResultReadyFragment
         } else {
             Timber.d("Navigate to SubmissionTestResultConsentGivenFragment")
-            events.postValue(CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment)
+            CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment
         }
+        events.postValue(event)
     }
 
     fun doNotShareCheckIns() = launch {
         Timber.d("Navigate to doNotShareCheckIns")
         autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
-        if (submissionRepository.hasViewedTestResult.first()) {
+        val event = if (submissionRepository.hasViewedTestResult.first()) {
             Timber.d("Navigate to SubmissionResultReadyFragment")
-            events.postValue(CheckInsConsentNavigation.ToSubmissionResultReadyFragment)
+            CheckInsConsentNavigation.ToSubmissionResultReadyFragment
         } else {
             Timber.d("Navigate to SubmissionTestResultConsentGivenFragment")
-            events.postValue(CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment)
+            CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment
         }
+        events.postValue(event)
     }
 
     fun onCloseClick() = launch {
-        if (submissionRepository.hasViewedTestResult.first()) {
+        val event = if (submissionRepository.hasViewedTestResult.first()) {
             Timber.d("openSkipDialog")
-            events.postValue(CheckInsConsentNavigation.OpenSkipDialog)
+            CheckInsConsentNavigation.OpenSkipDialog
         } else {
             Timber.d("openCloseDialog")
-            events.postValue(CheckInsConsentNavigation.OpenCloseDialog)
+            CheckInsConsentNavigation.OpenCloseDialog
         }
+        events.postValue(event)
     }
 
     fun onCancelConfirmed() {

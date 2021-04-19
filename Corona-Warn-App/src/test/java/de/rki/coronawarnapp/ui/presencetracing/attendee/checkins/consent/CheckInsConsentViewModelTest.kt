@@ -237,45 +237,46 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `Confirming cancel goes to home screen`() {
-        val viewModel = createViewModel()
-        viewModel.onCancelConfirmed()
-
-        viewModel.events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToHomeFragment
+        createViewModel().apply {
+            onCancelConfirmed()
+            events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToHomeFragment
+        }
     }
 
     @Test
     fun `Skip opens skipDialog`() {
-        val viewModel = createViewModel()
-        viewModel.onSkipClick()
-
-        viewModel.events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.OpenSkipDialog
+        createViewModel().apply {
+            onSkipClick()
+            events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.OpenSkipDialog
+        }
     }
 
     @Test
     fun `Close opens skipDialog when test result has been shown`() {
         every { submissionRepository.hasViewedTestResult } returns flowOf(true)
-        val viewModel = createViewModel()
-        viewModel.onCloseClick()
-
-        viewModel.events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.OpenSkipDialog
+        createViewModel().apply {
+            onCloseClick()
+            events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.OpenSkipDialog
+        }
     }
 
     @Test
     fun `Close opens closeDialog when test result has not been shown`() {
         every { submissionRepository.hasViewedTestResult } returns flowOf(false)
-        val viewModel = createViewModel()
-        viewModel.onCloseClick()
-
-        viewModel.events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.OpenCloseDialog
+        createViewModel().apply {
+            onCloseClick()
+            events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.OpenCloseDialog
+        }
     }
 
     @Test
     fun `shareSelectedCheckIns when test result has been shown`() {
         every { submissionRepository.hasViewedTestResult } returns flowOf(true)
-        val viewModel = createViewModel()
-        viewModel.shareSelectedCheckIns()
+        createViewModel().apply {
+            shareSelectedCheckIns()
+            events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionResultReadyFragment
+        }
 
-        viewModel.events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionResultReadyFragment
         coVerify {
             autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
             checkInRepository.updateSubmissionConsents(any(), true)
@@ -285,10 +286,11 @@ class CheckInsConsentViewModelTest : BaseTest() {
     @Test
     fun `shareSelectedCheckIns when test result has not been shown`() {
         every { submissionRepository.hasViewedTestResult } returns flowOf(false)
-        val viewModel = createViewModel()
-        viewModel.shareSelectedCheckIns()
+        createViewModel().apply {
+            shareSelectedCheckIns()
+            events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment
+        }
 
-        viewModel.events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment
         coVerify {
             autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
             checkInRepository.updateSubmissionConsents(any(), true)
@@ -298,10 +300,11 @@ class CheckInsConsentViewModelTest : BaseTest() {
     @Test
     fun `doNotShareCheckIns when test result has been shown`() {
         every { submissionRepository.hasViewedTestResult } returns flowOf(true)
-        val viewModel = createViewModel()
-        viewModel.doNotShareCheckIns()
+        createViewModel().apply {
+            doNotShareCheckIns()
+            events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionResultReadyFragment
+        }
 
-        viewModel.events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionResultReadyFragment
         coVerify {
             autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
         }
@@ -310,10 +313,11 @@ class CheckInsConsentViewModelTest : BaseTest() {
     @Test
     fun `doNotShareCheckIns when test result has not been shown`() {
         every { submissionRepository.hasViewedTestResult } returns flowOf(false)
-        val viewModel = createViewModel()
-        viewModel.doNotShareCheckIns()
+        createViewModel().apply {
+            doNotShareCheckIns()
+            events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment
+        }
 
-        viewModel.events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment
         coVerify {
             autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
         }
