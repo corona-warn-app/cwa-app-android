@@ -16,6 +16,7 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor {
 
     private val prefix: String = "https://s.coronawarn.app?v=1#"
     private val prefix2: String = "https://s.coronawarn.app/?v=1#"
+    private val hexPattern: Pattern = Pattern.compile("\\p{XDigit}+")
 
     override fun canHandle(rawString: String): Boolean {
         return rawString.startsWith(prefix, ignoreCase = true) || rawString.startsWith(prefix2, ignoreCase = true)
@@ -51,10 +52,8 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor {
         return length == 64 && isHexadecimal()
     }
 
-    private val HEXADECIMAL_PATTERN: Pattern = Pattern.compile("\\p{XDigit}+")
-
     private fun String.isHexadecimal(): Boolean {
-        val matcher: Matcher = HEXADECIMAL_PATTERN.matcher(this)
+        val matcher: Matcher = hexPattern.matcher(this)
         return matcher.matches()
     }
 
