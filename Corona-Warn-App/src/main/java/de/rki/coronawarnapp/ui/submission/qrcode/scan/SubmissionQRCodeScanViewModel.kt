@@ -6,13 +6,14 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
+import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
@@ -25,21 +26,21 @@ import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
-    private val cameraSettings: CameraSettings
+    private val cameraSettings: CameraSettings,
+    private val qrCodeValidator: CoronaTestQrCodeValidator
 ) : CWAViewModel() {
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val scanStatusValue = SingleLiveEvent<ScanStatus>()
 
-    open class InvalidQRCodeException : Exception("error in qr code")
-
     fun validateTestGUID(rawResult: String) {
-        val scanResult = QRScanResult(rawResult)
-        if (scanResult.isValid) {
-            QRCodeCensor.lastGUID = scanResult.guid
+        try {
+            val coronaTestQRCode = qrCodeValidator.validate(rawResult)
+            // TODO this needs to be adapted to work for different types
+            QRCodeCensor.lastGUID = coronaTestQRCode.registrationIdentifier
             scanStatusValue.postValue(ScanStatus.SUCCESS)
-            doDeviceRegistration(scanResult)
-        } else {
+            doDeviceRegistration(coronaTestQRCode)
+        } catch (err: InvalidQRCodeException) {
             scanStatusValue.postValue(ScanStatus.INVALID)
         }
     }
@@ -53,13 +54,11 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun doDeviceRegistration(scanResult: QRScanResult) = launch {
+    internal fun doDeviceRegistration(coronaTestQRCode: CoronaTestQRCode) = launch {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
-            val request = CoronaTestQRCode.PCR(qrCodeGUID = scanResult.guid!!)
-            val coronaTest = submissionRepository.registerTest(request)
-            // TODO this needs to depend on what the user selected
-            submissionRepository.giveConsentToSubmission(type = CoronaTest.Type.PCR)
+            val coronaTest = submissionRepository.registerTest(coronaTestQRCode)
+            submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             checkTestResult(coronaTest.testResult)
             registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, coronaTest.testResult))
         } catch (err: CwaWebException) {

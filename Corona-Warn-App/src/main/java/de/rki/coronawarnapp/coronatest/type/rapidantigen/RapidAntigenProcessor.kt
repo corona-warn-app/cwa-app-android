@@ -26,7 +26,7 @@ class RapidAntigenProcessor @Inject constructor(
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.RapidAntigen
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID)
+        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier)
 
         registrationData.testResult.validOrThrow()
 
