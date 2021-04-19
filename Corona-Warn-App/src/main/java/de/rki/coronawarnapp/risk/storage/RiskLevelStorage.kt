@@ -79,4 +79,6 @@ interface RiskLevelStorage {
     suspend fun storeResult(resultEw: EwRiskLevelResult)
 
     suspend fun clear()
+
+    suspend fun clearResults()
 }
