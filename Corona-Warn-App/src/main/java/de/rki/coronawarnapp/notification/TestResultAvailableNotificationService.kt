@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Provider
 
-abstract class TestResultAvailableNotificationService(
+open class TestResultAvailableNotificationService(
     private val context: Context,
     private val foregroundState: ForegroundState,
     private val navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>,
@@ -68,5 +68,5 @@ abstract class TestResultAvailableNotificationService(
      * By letting the forwarding happen via the PendingResultFragment,
      * we have a common location to retrieve the test result.
      */
-    fun getNotificationDestination(testResult: CoronaTestResult) = destination
+    private fun getNotificationDestination(testResult: CoronaTestResult) = destination
 }
