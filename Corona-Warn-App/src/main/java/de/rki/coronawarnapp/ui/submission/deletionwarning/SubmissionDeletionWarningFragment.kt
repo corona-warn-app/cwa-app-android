@@ -75,6 +75,8 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             )
 
             DialogHelper.showDialog(dialog)
+            SubmissionDeletionWarningFragmentDirections
+                .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment()
         }
 
         viewModel.registrationState.observe2(this) { state ->
