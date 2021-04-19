@@ -8,8 +8,11 @@ import okio.internal.commonToUtf8String
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import timber.log.Timber
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import javax.inject.Inject
 
-internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
+class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor {
 
     private val prefix: String = "https://s.coronawarn.app?v=1#"
     private val prefix2: String = "https://s.coronawarn.app/?v=1#"
@@ -45,7 +48,14 @@ internal class RapidAntigenQrCodeExtractor : QrCodeExtractor {
     }
 
     private fun String.isSha256Hash(): Boolean {
-        return toByteArray().size == 64
+        return length == 64 && isHexadecimal()
+    }
+
+    private val HEXADECIMAL_PATTERN: Pattern = Pattern.compile("\\p{XDigit}+")
+
+    private fun String.isHexadecimal(): Boolean {
+        val matcher: Matcher = HEXADECIMAL_PATTERN.matcher(this)
+        return matcher.matches()
     }
 
     private fun extractData(rawString: String): Payload {

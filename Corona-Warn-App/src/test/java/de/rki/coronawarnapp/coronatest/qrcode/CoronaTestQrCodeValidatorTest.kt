@@ -9,7 +9,7 @@ class CoronaTestQrCodeValidatorTest : BaseTest() {
 
     @Test
     fun `valid codes are extracted by corresponding extractor`() {
-        val instance = CoronaTestQrCodeValidator()
+        val instance = CoronaTestQrCodeValidator(RapidAntigenQrCodeExtractor(), PcrQrCodeExtractor())
         instance.validate(pcrQrCode1).type shouldBe CoronaTest.Type.PCR
         instance.validate(pcrQrCode2).type shouldBe CoronaTest.Type.PCR
         instance.validate(pcrQrCode3).type shouldBe CoronaTest.Type.PCR
@@ -21,7 +21,7 @@ class CoronaTestQrCodeValidatorTest : BaseTest() {
     @Test
     fun `invalid code throws exception`() {
         val invalidCode = "HTTPS://somethingelse/?123456-12345678-1234-4DA7-B166-B86D85475064"
-        val instance = CoronaTestQrCodeValidator()
+        val instance = CoronaTestQrCodeValidator(RapidAntigenQrCodeExtractor(), PcrQrCodeExtractor())
         return try {
             instance.validate(invalidCode)
             false

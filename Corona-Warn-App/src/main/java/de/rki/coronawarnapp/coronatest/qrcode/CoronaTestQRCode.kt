@@ -45,7 +45,7 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest {
 
         @IgnoredOnParcel
         override val identifier: String
-            get() = "hash-${type.raw}-$hash"
+            get() = "qrcode-${type.raw}-$hash"
 
         @IgnoredOnParcel
         override val registrationIdentifier: String
