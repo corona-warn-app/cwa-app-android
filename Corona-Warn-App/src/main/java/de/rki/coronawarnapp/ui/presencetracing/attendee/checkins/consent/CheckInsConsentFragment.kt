@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
@@ -34,6 +35,12 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
     private val adapter = CheckInsConsentAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = viewModel.onCloseClick()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+
         with(binding) {
             checkInsRecycler.adapter = adapter
             toolbar.setNavigationOnClickListener {
