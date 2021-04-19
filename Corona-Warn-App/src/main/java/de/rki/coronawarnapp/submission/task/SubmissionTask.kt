@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -143,8 +144,8 @@ class SubmissionTask @Inject constructor(
         )
         Timber.tag(TAG).d("Transformed keys with symptoms %s from %s to %s", symptoms, keys, transformedKeys)
 
-        val checkIns = checkInsRepository.checkInsWithinRetention.first().filter {
-            it.completed && it.hasSubmissionConsent && !it.isSubmitted
+        val checkIns = checkInsRepository.completedCheckIns.first().filter {
+            it.hasSubmissionConsent && !it.isSubmitted
         }
         val transformedCheckIns = checkInsTransformer.transform(checkIns, symptoms)
 
