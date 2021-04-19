@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.deletionwarning
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -42,26 +43,28 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            val testType = args.coronaTestQrCode.type
-            if (testType == CoronaTest.Type.PCR) {
-                headline.text = getString(R.string.submission_deletion_warning_headline_pcr_test)
-                body.text = getString(R.string.submission_deletion_warning_body_pcr_test)
-            } else if (testType == CoronaTest.Type.RAPID_ANTIGEN) {
-                headline.text = getString(R.string.submission_deletion_warning_headline_antigen_test)
-                body.text = getString(R.string.submission_deletion_warning_body_antigen_test)
+
+            when (args.coronaTestQrCode.type) {
+                CoronaTest.Type.PCR -> {
+                    headline.text = getString(R.string.submission_deletion_warning_headline_pcr_test)
+                    body.text = getString(R.string.submission_deletion_warning_body_pcr_test)
+                }
+
+                CoronaTest.Type.RAPID_ANTIGEN -> {
+                    headline.text = getString(R.string.submission_deletion_warning_headline_antigen_test)
+                    body.text = getString(R.string.submission_deletion_warning_body_antigen_test)
+                }
             }
 
             continueButton.setOnClickListener {
                 viewModel.deleteExistingAndRegisterNewTest()
             }
 
-            toolbar.apply {
-                setNavigationOnClickListener {
-                    doNavigate(
-                        SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment()
-                    )
-                }
+            toolbar.setNavigationOnClickListener {
+                doNavigate(
+                    SubmissionDeletionWarningFragmentDirections
+                        .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment()
+                )
             }
         }
 
@@ -79,10 +82,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         }
 
         viewModel.registrationState.observe2(this) { state ->
-            binding.submissionQrCodeScanSpinner.visibility = when (state.apiRequestState) {
-                ApiRequestState.STARTED -> View.VISIBLE
-                else -> View.GONE
-            }
+            binding.submissionQrCodeScanSpinner.isVisible = state.apiRequestState == ApiRequestState.STARTED
 
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == CoronaTestResult.PCR_POSITIVE) {

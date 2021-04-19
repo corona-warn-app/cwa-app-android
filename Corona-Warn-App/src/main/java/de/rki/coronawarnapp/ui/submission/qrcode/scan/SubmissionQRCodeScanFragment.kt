@@ -71,7 +71,6 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragment -> {
                     SubmissionQRCodeScanFragmentDirections
                         .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
