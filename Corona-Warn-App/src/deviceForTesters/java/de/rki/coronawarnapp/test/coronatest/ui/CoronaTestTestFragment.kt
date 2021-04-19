@@ -65,7 +65,6 @@ class CoronaTestTestFragment : Fragment(R.layout.fragment_test_coronatest), Auto
             qrcodeScanViewfinder.setCameraPreview(binding.qrcodeScanPreview)
         }
 
-
         vm.pcrtState.observe2(this) {
             binding.pcrtData.text = it.getNiceTextForHumans(requireContext())
         }
