@@ -43,11 +43,9 @@ class SubmissionConsentViewModelTest {
         every { submissionRepository.giveConsentToSubmission(any()) } just Runs
         every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
         viewModel = SubmissionConsentViewModel(
-            submissionRepository,
             interoperabilityRepository,
             dispatcherProvider = TestDispatcherProvider(),
             tekHistoryProvider,
-            analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
         )
     }
 

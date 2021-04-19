@@ -15,6 +15,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -38,7 +39,8 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
         submissionRepository,
         cameraSettings,
-        qrCodeValidator
+        isConsentGiven = true,
+        qrCodeValidator,
     )
 
     @Test
@@ -73,7 +75,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `doDeviceRegistration calls TestResultDataCollector`() {
+    fun `doDeviceRegistration calls TestResultDataCollector`() = runBlockingTest {
         val viewModel = createViewModel()
         val mockResult = mockk<CoronaTestQRCode>().apply {
             every { registrationIdentifier } returns "guid"
