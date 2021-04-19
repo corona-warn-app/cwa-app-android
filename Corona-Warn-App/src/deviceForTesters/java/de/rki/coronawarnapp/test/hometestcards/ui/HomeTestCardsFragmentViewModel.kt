@@ -44,7 +44,7 @@ class HomeTestCardsFragmentViewModel @AssistedInject constructor(
             PcrTestReadyCard.Item(SubmissionStatePCR.TestResultReady) {},
             PcrTestInvalidCard.Item(SubmissionStatePCR.TestInvalid) {},
             PcrTestErrorCard.Item(SubmissionStatePCR.TestError) {},
-            PcrTestNegativeCard.Item(SubmissionStatePCR.TestNegative),
+            PcrTestNegativeCard.Item(SubmissionStatePCR.TestNegative) {},
             PcrTestPositiveCard.Item(SubmissionStatePCR.TestPositive) {},
             PcrTestSubmissionDoneCard.Item(SubmissionStatePCR.SubmissionDone(Instant.now())),
             RapidTestPendingCard.Item(SubmissionStateRAT.TestPending) {},

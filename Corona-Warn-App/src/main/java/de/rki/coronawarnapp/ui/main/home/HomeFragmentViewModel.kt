@@ -190,7 +190,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
             )
         }
-        is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state)
+        is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state) {
+            routeToScreen.postValue(
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment()
+            )
+        }
         is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
             popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
         }
@@ -212,7 +216,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private fun RACoronaTest?.toTestCardItem() = when (val state = this.toSubmissionState()) {
         is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
             // TODO
-//            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
+            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
         }
         is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
         is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
