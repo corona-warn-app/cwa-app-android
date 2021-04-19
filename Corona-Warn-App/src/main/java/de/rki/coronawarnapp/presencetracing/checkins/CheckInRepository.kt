@@ -65,10 +65,14 @@ class CheckInRepository @Inject constructor(
         checkInDao.updateEntityById(checkInId, update)
     }
 
-    suspend fun markCheckInAsSubmitted(checkInId: Long) {
+    suspend fun updatePostSubmissionFlags(checkInId: Long) {
         Timber.d("markCheckInAsSubmitted(checkInId=$checkInId)")
         checkInDao.updateEntity(
-            TraceLocationCheckInEntity.SubmissionUpdate(checkInId = checkInId, isSubmitted = true)
+            TraceLocationCheckInEntity.SubmissionUpdate(
+                checkInId = checkInId,
+                isSubmitted = true,
+                hasSubmissionConsent = false,
+            )
         )
     }
 
@@ -87,5 +91,16 @@ class CheckInRepository @Inject constructor(
             ?: throw IllegalArgumentException("No checkIn found for ID=$checkInId")
 
         return checkIn.toCheckIn()
+    }
+
+    suspend fun updateSubmissionConsents(checkInIds: Collection<Long>, consent: Boolean) {
+        Timber.d("updateSubmissionConsents(checkInIds=%s, consent=%b)", checkInIds, consent)
+        val consentUpdates = checkInIds.map {
+            TraceLocationCheckInEntity.SubmissionConsentUpdate(
+                checkInId = it,
+                hasSubmissionConsent = consent
+            )
+        }
+        checkInDao.updateSubmissionConsents(consentUpdates)
     }
 }

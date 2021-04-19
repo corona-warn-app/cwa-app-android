@@ -76,7 +76,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         val TAG: String = SubmissionTestFragment::class.simpleName!!
         val MENU_ITEM = TestMenuItem(
             title = "Submission Test Options",
-            description = "Submission related test options..",
+            description = "Submission related test options.",
             targetId = R.id.test_submission_fragment
         )
     }

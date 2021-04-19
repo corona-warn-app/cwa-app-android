@@ -120,4 +120,5 @@ private data class Evaluation(
             }
             else -> false
         }
+    return SubmissionStateRAT.FetchingResult
 }
