@@ -74,6 +74,7 @@
                     style="@style/headline5Bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:text="@string/submission_test_result_negative"
                     android:textColor="@color/colorTextSemanticGreen"
                     app:layout_constraintStart_toStartOf="@id/rapid_test_card_virus_name"
                     app:layout_constraintTop_toBottomOf="@id/rapid_test_card_virus_name"

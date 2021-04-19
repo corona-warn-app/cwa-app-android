@@ -220,13 +220,16 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
         is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
             routeToScreen.postValue(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.RAPID_ANTIGEN)
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.RAPID_ANTIGEN)
             )
         }
         is SubmissionStateRAT.TestPositive -> RapidTestPositiveCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(CoronaTest.Type.RAPID_ANTIGEN)
+                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
+                        CoronaTest.Type.RAPID_ANTIGEN
+                    )
             )
         }
         is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state) {
@@ -273,7 +276,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 else -> add(tracingItem)
             }
 
-            //TODO: Would be nice to have a more elegant solution of displaying the result cards in the right order
+            // TODO: Would be nice to have a more elegant solution of displaying the result cards in the right order
             when (statePCR) {
                 SubmissionStatePCR.NoTest -> {
                     if (stateRAT == SubmissionStateRAT.NoTest) {
@@ -287,11 +290,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     add(testPCR.toTestCardItem())
                     if (stateRAT != SubmissionStateRAT.NoTest) {
                         add(testRAT.toTestCardItem())
-                        add(TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
-                            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
-                        })
-                    }
-                    else add(testRAT.toTestCardItem())
+                        add(
+                            TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
+                                routeToScreen.postValue(
+                                    HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
+                                )
+                            }
+                        )
+                    } else add(testRAT.toTestCardItem())
                 }
             }
 

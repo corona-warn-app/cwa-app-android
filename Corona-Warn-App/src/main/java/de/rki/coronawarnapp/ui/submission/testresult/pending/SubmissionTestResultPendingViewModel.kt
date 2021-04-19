@@ -72,10 +72,14 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 when (val deviceState = testResultUIState.coronaTest.testResult) {
                     CoronaTestResult.PCR_POSITIVE ->
                         SubmissionTestResultPendingFragmentDirections
-                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.PCR)
+                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(
+                                CoronaTest.Type.PCR
+                            )
                     CoronaTestResult.RAT_POSITIVE ->
                         SubmissionTestResultPendingFragmentDirections
-                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.RAPID_ANTIGEN)
+                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(
+                                CoronaTest.Type.RAPID_ANTIGEN
+                            )
                     CoronaTestResult.PCR_NEGATIVE ->
                         SubmissionTestResultPendingFragmentDirections
                             .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment()
@@ -84,10 +88,14 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                             .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment()
                     CoronaTestResult.PCR_REDEEMED, CoronaTestResult.PCR_INVALID ->
                         SubmissionTestResultPendingFragmentDirections
-                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(CoronaTest.Type.PCR)
+                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(
+                                CoronaTest.Type.PCR
+                            )
                     CoronaTestResult.RAT_REDEEMED, CoronaTestResult.RAT_INVALID ->
                         SubmissionTestResultPendingFragmentDirections
-                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(CoronaTest.Type.RAPID_ANTIGEN)
+                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(
+                                CoronaTest.Type.RAPID_ANTIGEN
+                            )
                     else -> {
                         Timber.w("Unknown success state: %s", deviceState)
                         null

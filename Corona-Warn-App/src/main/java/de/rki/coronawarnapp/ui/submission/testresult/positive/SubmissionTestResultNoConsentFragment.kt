@@ -89,7 +89,9 @@ class SubmissionTestResultNoConsentFragment :
     private fun navigateToWarnOthers() {
         doNavigate(
             SubmissionTestResultNoConsentFragmentDirections
-                .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(navArgs.testType)
+                .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
+                    navArgs.testType
+                )
         )
     }
 }

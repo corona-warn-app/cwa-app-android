@@ -91,18 +91,24 @@ class SubmissionQRCodeScanFragment :
                     CoronaTestResult.PCR_POSITIVE ->
                         doNavigate(
                             SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.PCR)
+                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
+                                    CoronaTest.Type.PCR
+                                )
                         )
                     CoronaTestResult.PCR_OR_RAT_PENDING -> {
                         if (state.testType == CoronaTest.Type.RAPID_ANTIGEN) {
                             doNavigate(
                                 SubmissionQRCodeScanFragmentDirections
-                                    .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
+                                    .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                                        testType = CoronaTest.Type.RAPID_ANTIGEN
+                                    )
                             )
                         } else {
                             doNavigate(
                                 SubmissionQRCodeScanFragmentDirections
-                                    .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
+                                    .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                                        testType = CoronaTest.Type.PCR
+                                    )
                             )
                         }
                     }
@@ -111,12 +117,16 @@ class SubmissionQRCodeScanFragment :
                     CoronaTestResult.PCR_REDEEMED ->
                         doNavigate(
                             SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
+                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                                    testType = CoronaTest.Type.RAPID_ANTIGEN
+                                )
                         )
                     CoronaTestResult.RAT_POSITIVE ->
                         doNavigate(
                             SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.RAPID_ANTIGEN)
+                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
+                                    CoronaTest.Type.RAPID_ANTIGEN
+                                )
                         )
                     CoronaTestResult.RAT_NEGATIVE,
                     CoronaTestResult.RAT_INVALID,
@@ -124,7 +134,9 @@ class SubmissionQRCodeScanFragment :
                     CoronaTestResult.RAT_REDEEMED ->
                         doNavigate(
                             SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
+                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                                    testType = CoronaTest.Type.RAPID_ANTIGEN
+                                )
                         )
                 }
             }
