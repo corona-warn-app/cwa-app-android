@@ -652,6 +652,7 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false"
             app:destination="@id/submissionConsentFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/checkInsConsentFragment"
