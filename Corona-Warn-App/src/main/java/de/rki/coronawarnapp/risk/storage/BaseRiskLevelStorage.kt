@@ -224,7 +224,15 @@ abstract class BaseRiskLevelStorage constructor(
     override suspend fun clear() {
         Timber.w("clear() - Clearing stored risklevel/exposure-detection results.")
         database.clearAllTables()
+        Timber.w("clear() - Clearing stored presence tracing matches and results.")
         presenceTracingRiskRepository.clearAllTables()
+    }
+
+    override suspend fun clearResults() {
+        Timber.w("clearResults() - Clearing stored risklevel/exposure-detection results.")
+        database.clearAllTables()
+        Timber.w("clearResults() - Clearing stored presence tracing results.")
+        presenceTracingRiskRepository.clearResults()
     }
 
     companion object {

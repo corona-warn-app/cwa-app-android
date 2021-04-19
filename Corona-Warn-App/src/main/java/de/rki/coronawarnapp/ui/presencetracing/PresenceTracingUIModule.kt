@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsModule
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckInsConsentFragment
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckInsConsentFragmentModule
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInModule
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragment
@@ -60,4 +62,7 @@ internal abstract class PresenceTracingUIModule {
 
     @ContributesAndroidInjector(modules = [QrCodeDetailFragmentModule::class])
     abstract fun qrCodeDetailFragment(): QrCodeDetailFragment
+
+    @ContributesAndroidInjector(modules = [CheckInsConsentFragmentModule::class])
+    abstract fun checkInsConsentFragment(): CheckInsConsentFragment
 }
