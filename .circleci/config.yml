@@ -426,13 +426,6 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
-      - run:
-          name: Send to T-System
-          command: |
-            fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
-            curl --location --request POST $tsystems_upload_url \
-            --header "Authorization: Bearer $tsystems_upload_bearer" \
-            --form "file=@${fileName}" \
 
   instrumentation_tests_device:
     resource_class: xlarge
@@ -612,26 +605,7 @@ workflows:
   version: 2
   check_buildtype_device:
     jobs:
-      - detekt
-      - lint_device_release_check
-      - ktlint_check
-      - quick_build_device_release_no_tests
-      - unit_tests_device_release
-      - run_sonar:
-          requires:
-            - unit_tests_device_release
-      - instrumentation_tests_device:
-          requires:
-            - ktlint_check
-            - detekt
-
-  check_buildtype_device_for_testers:
-    jobs:
-      - detekt
-      - lint_device_for_testers_release_check
-      - ktlint_check
-      - quick_build_device_for_testers_release_no_tests
-      - unit_tests_device_for_testers_release
+      - quick_build_device_for_testers_signed
 
   signed_build:
     jobs:
