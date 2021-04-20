@@ -108,17 +108,13 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 is SubmissionNavigationEvents.NavigateToResultAvailableScreen -> {
                     doNavigate(
                         SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultAvailableFragment(
-                                it.consentGiven
-                            )
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultAvailableFragment()
                     )
                 }
                 is SubmissionNavigationEvents.NavigateToResultPendingScreen -> {
                     doNavigate(
                         SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
-                                it.consentGiven
-                            )
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment()
                     )
                 }
             }

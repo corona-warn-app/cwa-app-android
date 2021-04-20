@@ -47,7 +47,12 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
 
             if (coronaTest != null) {
-                routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDeletionWarningFragment(coronaTestQRCode))
+                routeToScreen.postValue(
+                    SubmissionNavigationEvents.NavigateToDeletionWarningFragment(
+                        coronaTestQRCode,
+                        isConsentGiven
+                    )
+                )
             } else {
                 doDeviceRegistration(coronaTestQRCode)
             }
@@ -115,6 +120,14 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             submissionRepository.removeTestFromDevice(type = coronaTest.type)
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
         }
+    }
+
+    fun triggerNavigationToSubmissionTestResultAvailableFragment() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultAvailableScreen)
+    }
+
+    fun triggerNavigationToSubmissionTestResultPendingFragment() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPendingScreen)
     }
 
     fun onBackPressed() {
