@@ -7,7 +7,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -24,7 +24,7 @@ import timber.log.Timber
 class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
-    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
+    private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
