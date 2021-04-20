@@ -8,7 +8,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.presencetracing.storage.repo.DefaultTraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.traceLocationCategories
@@ -24,7 +24,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     @Assisted private val traceLocationId: Long,
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
-    private val traceLocationRepository: DefaultTraceLocationRepository
+    private val traceLocationRepository: TraceLocationRepository
 ) : CWAViewModel() {
 
     private var traceLocation: TraceLocation? = null

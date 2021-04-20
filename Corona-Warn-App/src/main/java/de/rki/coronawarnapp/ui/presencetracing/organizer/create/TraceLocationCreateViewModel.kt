@@ -19,8 +19,8 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import org.joda.time.DateTime
 import org.joda.time.Duration
-import org.joda.time.LocalDateTime
 import timber.log.Timber
 import java.util.Locale
 import kotlin.properties.ReadWriteProperty
@@ -42,8 +42,8 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
     var description: String by UpdateDelegateWithDefaultValue("")
     var address: String by UpdateDelegateWithDefaultValue("")
     var checkInLength: Duration by UpdateDelegateWithDefaultValue(Duration.ZERO)
-    var begin: LocalDateTime? by UpdateDelegate()
-    var end: LocalDateTime? by UpdateDelegate()
+    var begin: DateTime? by UpdateDelegate()
+    var end: DateTime? by UpdateDelegate()
 
     init {
         checkInLength = when (category.uiType) {
@@ -111,8 +111,8 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
     private fun String.isTextFormattedCorrectly() = trim().length in 1..100 && !contains('\n')
 
     data class UIState(
-        private val begin: LocalDateTime? = null,
-        private val end: LocalDateTime? = null,
+        private val begin: DateTime? = null,
+        private val end: DateTime? = null,
         private val checkInLength: Duration? = null,
         @StringRes val title: Int,
         val isRequestInProgress: Boolean,
@@ -129,7 +129,7 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
             )
         }
 
-        private fun getFormattedTime(value: LocalDateTime?, locale: Locale) =
+        private fun getFormattedTime(value: DateTime?, locale: Locale) =
             value?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
     }
 
