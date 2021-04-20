@@ -46,7 +46,7 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"));
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"))
         MockKAnnotations.init(this, relaxed = true)
 
         coEvery { traceLocationRepository.addTraceLocation(any()) } returns TraceLocationData.traceLocationSameDate

@@ -33,7 +33,7 @@ class QrCodeDetailFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"));
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"))
         MockKAnnotations.init(this, relaxed = true)
 
         coEvery { traceLocationRepository.traceLocationForId(1) } returns TraceLocationData.traceLocationSameDate

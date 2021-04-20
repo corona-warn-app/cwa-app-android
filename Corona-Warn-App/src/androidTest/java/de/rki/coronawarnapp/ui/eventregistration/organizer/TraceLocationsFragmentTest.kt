@@ -33,7 +33,7 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"));
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"))
         MockKAnnotations.init(this, relaxed = true)
 
         every { checkInsRepository.allCheckIns } returns flowOf(listOf())
