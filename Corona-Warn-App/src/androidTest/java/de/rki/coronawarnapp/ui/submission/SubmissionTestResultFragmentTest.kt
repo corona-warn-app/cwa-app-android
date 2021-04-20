@@ -8,18 +8,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
@@ -67,7 +65,6 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         )
 
         with(viewModel) {
-            every { observeTestResultToSchedulePositiveTestResultReminder() } just Runs
             every { consentGiven } returns MutableLiveData(true)
             every { testState } returns MutableLiveData(
                 TestResultUIState(

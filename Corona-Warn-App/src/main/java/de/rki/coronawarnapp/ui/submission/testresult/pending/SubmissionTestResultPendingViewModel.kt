@@ -5,8 +5,8 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
@@ -93,12 +92,6 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         .filter { it.lastError != null }
         .map { it.lastError!! }
         .asLiveData()
-
-    fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
-        submissionRepository.testForType(type = coronaTestType)
-            .first { request -> request?.isSubmissionAllowed ?: false }
-            .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
-    }
 
     fun deregisterTestFromDevice() = launch {
         Timber.d("deregisterTestFromDevice()")

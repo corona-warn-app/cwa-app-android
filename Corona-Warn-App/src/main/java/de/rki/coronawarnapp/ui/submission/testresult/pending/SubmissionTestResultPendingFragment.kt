@@ -81,8 +81,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         pendingViewModel.routeToScreen.observe2(this) {
             it?.let { doNavigate(it) } ?: navigateToMainScreen()
         }
-
-        pendingViewModel.observeTestResultToSchedulePositiveTestResultReminder()
     }
 
     override fun onResume() {
