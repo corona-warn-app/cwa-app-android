@@ -1,14 +1,11 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.ui
 
-import android.content.ContentResolver
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
-import de.rki.coronawarnapp.bugreporting.debuglog.export.SAFLogExport
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.CWADebug
@@ -20,16 +17,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import timber.log.Timber
-import java.io.IOException
 
 class DebugLogViewModel @AssistedInject constructor(
     private val debugLogger: DebugLogger,
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
     bugReportingSettings: BugReportingSettings,
-    private val logSnapshotter: LogSnapshotter,
-    private val safLogExport: SAFLogExport,
-    private val contentResolver: ContentResolver,
+    private val logSnapshotter: LogSnapshotter
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val isActionInProgress = MutableStateFlow(false)
@@ -55,7 +49,7 @@ class DebugLogViewModel @AssistedInject constructor(
         events.postValue(Event.NavigateToPrivacyFragment)
     }
 
-    fun onShareButtonPress() {
+    fun onSendErrorLogPress() {
         events.postValue(Event.NavigateToUploadFragment)
     }
 
@@ -93,33 +87,10 @@ class DebugLogViewModel @AssistedInject constructor(
         }
     }
 
-    fun onStoreLog() = launchWithProgress(finishProgressAction = false) {
-        Timber.d("storeLog()")
+    fun onExportLogPress() = launchWithProgress(finishProgressAction = true) {
+        Timber.d("onExportLogPress()")
         val snapshot = logSnapshotter.snapshot()
-        val shareRequest = safLogExport.createSAFRequest(snapshot)
-        events.postValue(Event.LocalExport(shareRequest))
-    }
-
-    fun processSAFResult(requestCode: Int, safPath: Uri?) = launchWithProgress {
-        if (safPath == null) {
-            Timber.i("No SAF path available.")
-            return@launchWithProgress
-        }
-
-        val request = safLogExport.getRequest(requestCode)
-        if (request == null) {
-            Timber.w("Unknown request with code $requestCode")
-            return@launchWithProgress
-        }
-
-        try {
-            val storageResult = request.storeSnapshot(contentResolver, safPath)
-            Timber.i("Log stored %s", storageResult)
-            events.postValue(Event.ExportResult(storageResult))
-        } catch (e: IOException) {
-            Timber.e(e, "Failed to store log file.")
-            events.postValue(Event.ShowLocalExportError(e))
-        }
+        events.postValue(Event.Export(snapshot))
     }
 
     private fun launchWithProgress(
@@ -156,10 +127,8 @@ class DebugLogViewModel @AssistedInject constructor(
         object NavigateToUploadHistory : Event()
         object ShowLogDeletionRequest : Event()
         object ShowLowStorageDialog : Event()
-        data class ShowLocalExportError(val error: Throwable) : Event()
         data class Error(val error: Throwable) : Event()
-        data class LocalExport(val request: SAFLogExport.Request) : Event()
-        data class ExportResult(val result: SAFLogExport.Request.Result) : Event()
+        data class Export(val snapshot: LogSnapshotter.Snapshot) : Event()
     }
 
     @AssistedFactory
