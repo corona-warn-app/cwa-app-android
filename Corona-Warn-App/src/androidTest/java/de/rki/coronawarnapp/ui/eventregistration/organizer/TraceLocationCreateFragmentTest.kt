@@ -23,6 +23,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import org.joda.time.DateTimeZone
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -38,6 +39,8 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
     @MockK private lateinit var traceLocationRepository: TraceLocationRepository
     @MockK private lateinit var traceLocationCreator: TraceLocationCreator
 
+    private val timeZone = TimeZone.getTimeZone("Europe/Berlin")
+
     private val navController = TestNavHostController(
         ApplicationProvider.getApplicationContext()
     ).apply {
@@ -46,7 +49,8 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"))
+        TimeZone.setDefault(timeZone)
+        DateTimeZone.setDefault(DateTimeZone.forTimeZone(timeZone))
         MockKAnnotations.init(this, relaxed = true)
 
         coEvery { traceLocationRepository.addTraceLocation(any()) } returns TraceLocationData.traceLocationSameDate
@@ -76,8 +80,8 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
         onView(withId(R.id.description_input_edit)).check(matches(withText("My Birthday Party")))
         onView(withId(R.id.place_input_edit)).check(matches(withText("at my place")))
-        onView(withId(R.id.value_start)).check(matches(withText("Mon, 4/19/21   06:12")))
-        onView(withId(R.id.value_end)).check(matches(withText("Mon, 4/19/21   22:52")))
+        onView(withId(R.id.value_start)).check(matches(withText("Mo., 19.04.21   06:12")))
+        onView(withId(R.id.value_end)).check(matches(withText("Mo., 19.04.21   22:52")))
 
         onView(withId(R.id.button_submit)).perform(click())
 
@@ -95,8 +99,8 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
         onView(withId(R.id.description_input_edit)).check(matches(withText("Your Birthday Party")))
         onView(withId(R.id.place_input_edit)).check(matches(withText("at your place")))
-        onView(withId(R.id.value_start)).check(matches(withText("Sun, 4/18/21   12:00")))
-        onView(withId(R.id.value_end)).check(matches(withText("Mon, 4/19/21   22:52")))
+        onView(withId(R.id.value_start)).check(matches(withText("So., 18.04.21   12:00")))
+        onView(withId(R.id.value_end)).check(matches(withText("Mo., 19.04.21   22:52")))
 
         onView(withId(R.id.button_submit)).perform(click())
 

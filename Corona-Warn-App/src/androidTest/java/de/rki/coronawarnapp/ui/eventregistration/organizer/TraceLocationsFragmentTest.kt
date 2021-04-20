@@ -16,6 +16,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
+import org.joda.time.DateTimeZone
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -31,9 +32,12 @@ class TraceLocationsFragmentTest : BaseUITest() {
     @MockK private lateinit var checkInsRepository: CheckInRepository
     @MockK private lateinit var traceLocationRepository: TraceLocationRepository
 
+    private val timeZone = TimeZone.getTimeZone("Europe/Berlin")
+
     @Before
     fun setup() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"))
+        TimeZone.setDefault(timeZone)
+        DateTimeZone.setDefault(DateTimeZone.forTimeZone(timeZone))
         MockKAnnotations.init(this, relaxed = true)
 
         every { checkInsRepository.allCheckIns } returns flowOf(listOf())
@@ -61,7 +65,7 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
         onView(withId(R.id.description)).check(matches(withText("My Birthday Party")))
         onView(withId(R.id.address)).check(matches(withText("at my place")))
-        onView(withId(R.id.duration)).check(matches(withText("19.04.21 06:12 - 22:52 ")))
+        onView(withId(R.id.duration)).check(matches(withText("19.04.21 06:12 - 22:52 Uhr")))
     }
 
     @Test
@@ -73,7 +77,7 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
         onView(withId(R.id.description)).check(matches(withText("Your Birthday Party")))
         onView(withId(R.id.address)).check(matches(withText("at your place")))
-        onView(withId(R.id.duration)).check(matches(withText("18.04.21 12:00 - 19.04.21 22:52")))
+        onView(withId(R.id.duration)).check(matches(withText("18.04.21 12:00 - 19.04.21 22:52 Uhr")))
     }
 
     private fun createViewModel() = TraceLocationsViewModel(

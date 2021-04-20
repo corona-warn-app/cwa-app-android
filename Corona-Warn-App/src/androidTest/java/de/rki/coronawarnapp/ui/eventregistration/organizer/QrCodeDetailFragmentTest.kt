@@ -67,11 +67,7 @@ class QrCodeDetailFragmentTest : BaseUITest() {
 
         onView(withId(R.id.title)).check(matches(withText("My Birthday Party")))
         onView(withId(R.id.subtitle)).check(matches(withText("at my place")))
-        if (TimeZone.getDefault() == timeZone && DateTimeZone.getDefault() == DateTimeZone.forTimeZone(timeZone)) {
-            onView(withId(R.id.eventDate)).check(matches(withText("19.04.2021, 06:12 - 22:52")))
-        } else {
-            throw Exception("Wrong timezone: ${TimeZone.getDefault()}; ${DateTimeZone.getDefault()}; ${System.getProperty("user.timezone")}")
-        }
+        onView(withId(R.id.eventDate)).check(matches(withText("19.04.2021, 06:12 - 22:52 Uhr")))
     }
 
     @Test
@@ -83,11 +79,7 @@ class QrCodeDetailFragmentTest : BaseUITest() {
         )
         onView(withId(R.id.title)).check(matches(withText("Your Birthday Party")))
         onView(withId(R.id.subtitle)).check(matches(withText("at your place")))
-        if (TimeZone.getDefault() == timeZone) {
-            onView(withId(R.id.eventDate)).check(matches(withText("18.04.2021, 12:00 - 19.04.2021, 22:52")))
-        } else {
-            throw Exception("Wrong timezone: ${TimeZone.getDefault()}")
-        }
+        onView(withId(R.id.eventDate)).check(matches(withText("18.04.2021, 12:00 - 19.04.2021, 22:52 Uhr")))
     }
 
     private fun createViewModel(traceLocationId: Long) =
