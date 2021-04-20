@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailVie
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import org.joda.time.DateTimeZone
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -36,6 +37,7 @@ class QrCodeDetailFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         TimeZone.setDefault(timeZone)
+        DateTimeZone.setDefault(DateTimeZone.forTimeZone(timeZone))
         MockKAnnotations.init(this, relaxed = true)
 
         coEvery { traceLocationRepository.traceLocationForId(1) } returns TraceLocationData.traceLocationSameDate
@@ -65,10 +67,10 @@ class QrCodeDetailFragmentTest : BaseUITest() {
 
         onView(withId(R.id.title)).check(matches(withText("My Birthday Party")))
         onView(withId(R.id.subtitle)).check(matches(withText("at my place")))
-        if (TimeZone.getDefault() == timeZone) {
+        if (TimeZone.getDefault() == timeZone && DateTimeZone.getDefault() == DateTimeZone.forTimeZone(timeZone)) {
             onView(withId(R.id.eventDate)).check(matches(withText("19.04.2021, 06:12 - 22:52")))
         } else {
-            throw Exception("Wrong timezone: ${TimeZone.getDefault()}")
+            throw Exception("Wrong timezone: ${TimeZone.getDefault()}; ${DateTimeZone.getDefault()}; ${System.getProperty("user.timezone")}")
         }
     }
 
