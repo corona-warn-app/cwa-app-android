@@ -162,6 +162,7 @@ commands:
             -no-boot-anim
             -memory 2048
             -nojni
+            -timezone Europe/Berlin
           background: true
           no_output_timeout: 60m
       - run:
