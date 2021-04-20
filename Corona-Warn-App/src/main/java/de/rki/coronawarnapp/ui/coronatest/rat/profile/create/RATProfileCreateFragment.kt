@@ -29,12 +29,17 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
 
             profileSaveButton.setOnClickListener {
                 it.hideKeyboard()
-                viewModel.saveProfile()
+                viewModel.createProfile()
             }
 
             firstNameInputEdit.doAfterTextChanged { viewModel.firstNameChanged(it.toString()) }
             lastNameInputEdit.doAfterTextChanged { viewModel.lastNameChanged(it.toString()) }
             birthDateInputEdit.doAfterTextChanged { viewModel.birthDateChanged(it.toString()) }
+            streetInputEdit.doAfterTextChanged { viewModel.streetChanged(it.toString()) }
+            zipCodeInputEdit.doAfterTextChanged { viewModel.zipCodeChanged(it.toString()) }
+            cityInputEdit.doAfterTextChanged { viewModel.cityChanged(it.toString()) }
+            phoneInputEdit.doAfterTextChanged { viewModel.phoneChanged(it.toString()) }
+            emailInputEdit.doAfterTextChanged { viewModel.emailChanged(it.toString()) }
 
             viewModel.profile.observe(viewLifecycleOwner) {
                 profileSaveButton.isEnabled = it?.isValid == true

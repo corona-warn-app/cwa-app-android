@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import timber.log.Timber
 
 class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     private val ratProfileSettings: RATProfileSettings
@@ -22,9 +23,11 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
         profileData.value = null
     }
 
-    fun saveProfile() {
+    fun createProfile() {
+        Timber.d("Profile=%s", profileData.value)
         if (profileData.value?.isValid == true) {
             ratProfileSettings.profile.update { profileData.value }
+            Timber.d("Profile created")
             events.value = Navigation.ProfileScreen
         }
     }
@@ -42,6 +45,31 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     fun birthDateChanged(birthDate: String) {
         profileData.value = profileData.value?.copy(birthDate = birthDate)
             ?: RATProfile(birthDate = birthDate)
+    }
+
+    fun streetChanged(street: String) {
+        profileData.value = profileData.value?.copy(street = street)
+            ?: RATProfile(street = street)
+    }
+
+    fun zipCodeChanged(zipCode: String) {
+        profileData.value = profileData.value?.copy(zipCode = zipCode)
+            ?: RATProfile(zipCode = zipCode)
+    }
+
+    fun cityChanged(city: String) {
+        profileData.value = profileData.value?.copy(city = city)
+            ?: RATProfile(city = city)
+    }
+
+    fun phoneChanged(phone: String) {
+        profileData.value = profileData.value?.copy(phone = phone)
+            ?: RATProfile(phone = phone)
+    }
+
+    fun emailChanged(email: String) {
+        profileData.value = profileData.value?.copy(email = email)
+            ?: RATProfile(email = email)
     }
 
     fun navigateBack() {
