@@ -8,7 +8,6 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -19,12 +18,10 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
-import java.util.UUID
 
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryStorage: TEKHistoryStorage,
-    private val submissionSettings: SubmissionSettings,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     @BaseGson baseGson: Gson
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -58,7 +55,6 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     )
 
     val errorEvents = SingleLiveEvent<Throwable>()
-    val currentTestId = submissionSettings.registrationToken.flow.asLiveData()
 
     val shareTEKsEvent = SingleLiveEvent<TEKExport>()
 
@@ -80,18 +76,6 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         }
         .map { historyItems -> historyItems.sortedBy { it.obtainedAt } }
         .asLiveData(context = dispatcherProvider.Default)
-
-    fun scrambleRegistrationToken() {
-        submissionSettings.registrationToken.update {
-            UUID.randomUUID().toString()
-        }
-    }
-
-    fun deleteRegistrationToken() {
-        submissionSettings.registrationToken.update {
-            null
-        }
-    }
 
     fun updateStorage() {
         tekHistoryUpdater.updateTEKHistoryOrRequestPermission()

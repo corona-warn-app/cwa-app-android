@@ -413,6 +413,16 @@
     <string name="onboarding_body">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you’ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
     <!-- YTXT: onboarding(together) - explain application -->
     <string name="onboarding_body_emphasized">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_1">"More protection for you and for us all. By using the Corona-Warn-App we can break chains of infection much quicker."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_2">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you’ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_3">"Lassen Sie sich Ihre Testergebnisse (PCR-Test oder Antigen-Schnelltest) in der App anzeigen und warnen Sie andere, wenn Sie ein positives Testergebnis erhalten."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_4">"Auf Wunsch können Sie mit der App Ihren persönlichen Infektionsstatus nachweisen (z.B. negativer Schnelltest). Bitte beachten Sie, dass Sie grundsätzlich nicht zum Nachweis Ihres Infektionsstatus per App verpflichtet sind. Sie können Ihren Infektionsstatus im Rahmen der rechtlichen Bestimmungen an Ihrem Aufenthaltsort auch auf andere Weise nachweisen."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_5">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"A group of persons use their smartphones around town."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -792,6 +802,14 @@
     <string name="information_contact_subtitle_phone">"Technical hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"0800 7540001"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
+    <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
+    <!-- XLNK: Description for national technical contact and hotline information page -->
+    <string name="information_contact_button_phone_description">"Für Anrufe innerhalb Deutschlands. Der Anruf ist kostenfrei."</string>
+    <!-- XLNK: Description for international technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone_description">"Für Anrufe aus dem Ausland. Es fallen die Gebühren des jeweiligen Telefonanbieters an."</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
     <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
@@ -861,10 +879,10 @@
     <string name="debugging_debuglog_action_start_recording">"Start"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Stop and Delete"</string>
-    <!-- XBUT: Button text to share the log recording -->
+    <!-- XBUT: Button text to send the log recording to the server -->
     <string name="debugging_debuglog_action_share_log">"Send Error Report"</string>
-    <!-- XBUT: Button text to locally store the log recording -->
-    <string name="debugging_debuglog_action_local_log_store">"Save Locally and Continue"</string>
+    <!-- XBUT: Button text to export the log -->
+    <string name="debugging_debuglog_action_local_log_export">"Save Locally and Continue"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Recording Active"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -891,12 +909,6 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Continue Analysis"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"You need at least 200 MB of memory to start the error analysis. Please free up memory."</string>
-    <!-- XHED: Dialog title if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_title">"Saved Locally"</string>
-    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_message">"The error analysis was saved locally."</string>
-    <!-- YTXT: Dialog message if local export has failed -->
-    <string name="debugging_debuglog_localexport_error_message">"The attempt to save the error report failed. Please check whether enough memory is available."</string>
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Detailed Information on Sending Error Reports"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -973,7 +985,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Do you want to cancel entering your symptoms?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"If you provide information about your symptoms, you can warn others more exactly."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"If you provide information about your symptoms, you can warn others more accurately."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Yes"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -1022,11 +1034,11 @@
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Now scan the QR code for your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_test_only_once">"Your test can only be scanned once. The app cannot manage multiple tests at the same time."</string>
+    <string name="submission_consent_call_test_result_scan_test_only_once">"Jeder Test kann nur einmal gescannt werden. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Please help others you have encountered by warning them!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"If you have been diagnosed with coronavirus, you can warn others through the app. The warning feature works in several countries. The following countries are currently participating:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"Wenn Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen. Bei einem Schnelltest funktioniert die Warnung nur in Deutschland, im Falle eines PCR-Tests funktioniert die Warnung in folgenden Ländern:"</string>
     <!-- YTXT: Body for consent help by warning others - info about events -->
     <string name="submission_consent_help_by_warning_others_body_event">"People who were checked in to the same events or places at the same time as you were will also be warned."</string>
     <!-- YTXT: Page bottom text for consent screen -->
@@ -1999,4 +2011,22 @@
     <string name="trace_location_organiser_poster_share">"Share"</string>
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Print Version"</string>
+    <!-- XHED: Trace location check-ins consent screen title -->
+    <string name="trace_location_attendee_consent_title">"Share Your Location Check-Ins?"</string>
+    <!-- XTXT: Trace location check-ins consent screen header description -->
+    <string name="trace_location_attendee_consent_header_description">"Warn others who checked in near you. Your personal data will not be shared."</string>
+    <!-- XBUT: Trace location check-ins consent screen header button -->
+    <string name="trace_location_attendee_consent_header_button">"Select all"</string>
+    <!-- XBUT: Trace location check-ins consent screen continue button -->
+    <string name="trace_location_attendee_consent_continue">"Submit"</string>
+    <!-- XBUT: Trace location check-ins consent screen skip button -->
+    <string name="trace_location_attendee_consent_skip">"Skip"</string>
+    <!-- XHED: Trace location check-ins consent screen dialog title -->
+    <string name="trace_location_attendee_consent_dialog_title">"Are you sure you don’t want to share your check-ins?"</string>
+    <!-- XTXT: Trace location check-ins consent screen dialog message -->
+    <string name="trace_location_attendee_consent_dialog_message">"Skipping will not warn any contacts who checked in near you."</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
+    <string name="trace_location_attendee_consent_dialog_positive_button">"Share"</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
+    <string name="trace_location_attendee_consent_dialog_negative_button">"Don’t Share"</string>
 </resources>

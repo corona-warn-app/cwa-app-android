@@ -27,7 +27,7 @@ class DefaultRiskLevelStorage @Inject constructor(
     // Taken from TimeVariables.MAX_STALE_EXPOSURE_RISK_RANGE
     override val storedResultLimit: Int = 2 * 6
 
-    override suspend fun storeExposureWindows(storedResultId: String, result: EwRiskLevelResult) {
+    override suspend fun storeExposureWindows(storedResultId: String, resultEw: EwRiskLevelResult) {
         Timber.d("storeExposureWindows(): NOOP")
         // NOOP
     }

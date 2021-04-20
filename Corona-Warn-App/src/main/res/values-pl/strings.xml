@@ -852,10 +852,10 @@
     <string name="debugging_debuglog_action_start_recording">"Uruchom"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Zatrzymaj i usuń"</string>
-    <!-- XBUT: Button text to share the log recording -->
+    <!-- XBUT: Button text to send the log recording to the server -->
     <string name="debugging_debuglog_action_share_log">"Wyślij raport o błędzie"</string>
-    <!-- XBUT: Button text to locally store the log recording -->
-    <string name="debugging_debuglog_action_local_log_store">"Zapisz lokalnie i kontynuuj"</string>
+    <!-- XBUT: Button text to export the log -->
+    <string name="debugging_debuglog_action_local_log_export">"Zapisz lokalnie i kontynuuj"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Nagrywanie aktywne"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -882,12 +882,6 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Kontynuuj analizę"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Aby rozpocząć analizę błędu, potrzebujesz co najmniej 200 MB pamięci. Zwolnij pamięć."</string>
-    <!-- XHED: Dialog title if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_title">"Zapisano lokalnie"</string>
-    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_message">"Analiza błędu została zapisana lokalnie."</string>
-    <!-- YTXT: Dialog message if local export has failed -->
-    <string name="debugging_debuglog_localexport_error_message">"Próba zapisania raportu o błędzie nie powiodła się. Sprawdź, czy dostępna jest wystarczająca ilość pamięci."</string>
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Szczegółowe informacje na temat wysyłania raportów o błędach"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -964,7 +958,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Czy chcesz anulować wprowadzanie objawów?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"Przekazanie informacji o objawach pozwoli Ci na wysyłanie innym bardziej szczegółowych ostrzeżeń."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"Przekazanie informacji o objawach pozwoli Ci na wysyłanie innym dokładniejszych ostrzeżeń."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Tak"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -1973,4 +1967,22 @@
     <string name="trace_location_organiser_poster_share">"Udostępnij"</string>
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Wersja do druku"</string>
+    <!-- XHED: Trace location check-ins consent screen title -->
+    <string name="trace_location_attendee_consent_title">"Udostępnić Twoje zameldowania w lokalizacji?"</string>
+    <!-- XTXT: Trace location check-ins consent screen header description -->
+    <string name="trace_location_attendee_consent_header_description">"Ostrzegaj inne osoby, które się zameldowały w pobliżu. Twoje dane osobowe nie będą udostępniane."</string>
+    <!-- XBUT: Trace location check-ins consent screen header button -->
+    <string name="trace_location_attendee_consent_header_button">"Wybierz wszystkie"</string>
+    <!-- XBUT: Trace location check-ins consent screen continue button -->
+    <string name="trace_location_attendee_consent_continue">"Prześlij"</string>
+    <!-- XBUT: Trace location check-ins consent screen skip button -->
+    <string name="trace_location_attendee_consent_skip">"Pomiń"</string>
+    <!-- XHED: Trace location check-ins consent screen dialog title -->
+    <string name="trace_location_attendee_consent_dialog_title">"Czy na pewno nie chcesz udostępniać swoich zameldowań?"</string>
+    <!-- XTXT: Trace location check-ins consent screen dialog message -->
+    <string name="trace_location_attendee_consent_dialog_message">"W przypadku pominięcia tej operacji żadne kontakty zameldowane w pobliżu nie otrzymają ostrzeżenia."</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
+    <string name="trace_location_attendee_consent_dialog_positive_button">"Udostępnij"</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
+    <string name="trace_location_attendee_consent_dialog_negative_button">"Nie udostępniaj"</string>
 </resources>

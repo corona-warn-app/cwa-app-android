@@ -852,10 +852,10 @@
     <string name="debugging_debuglog_action_start_recording">"Pornire"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Oprire și ștergere"</string>
-    <!-- XBUT: Button text to share the log recording -->
+    <!-- XBUT: Button text to send the log recording to the server -->
     <string name="debugging_debuglog_action_share_log">"Trimitere raport de erori"</string>
-    <!-- XBUT: Button text to locally store the log recording -->
-    <string name="debugging_debuglog_action_local_log_store">"Salvare locală și continuare"</string>
+    <!-- XBUT: Button text to export the log -->
+    <string name="debugging_debuglog_action_local_log_export">"Salvare locală și continuare"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Înregistrare activă"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -882,12 +882,6 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Continuare analiză"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Aveți nevoie de cel puțin 200 MB de memorie pentru a începe analiza erorilor. Eliberați memorie."</string>
-    <!-- XHED: Dialog title if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_title">"Salvat local"</string>
-    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_message">"Analiza erorilor a fost salvată local."</string>
-    <!-- YTXT: Dialog message if local export has failed -->
-    <string name="debugging_debuglog_localexport_error_message">"Încercarea de a salva un raport de erori a eșuat. Verificați dacă este disponibilă suficientă memorie."</string>
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Informații detaliate despre trimiterea rapoartelor de erori"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -964,7 +958,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Doriți să anulați introducerea simptomelor dvs.?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"Dacă furnizați informații despre simptomele dvs., îi puteți avertiza pe ceilalți într-un mod mai exact."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"Dacă furnizați informații despre simptomele dvs., îi puteți avertiza pe ceilalți într-un mod mai precis."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Da"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -1973,4 +1967,22 @@
     <string name="trace_location_organiser_poster_share">"Partajare"</string>
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Versiune de tipărire"</string>
+    <!-- XHED: Trace location check-ins consent screen title -->
+    <string name="trace_location_attendee_consent_title">"Partajați check-inurile locației dvs.?"</string>
+    <!-- XTXT: Trace location check-ins consent screen header description -->
+    <string name="trace_location_attendee_consent_header_description">"Avertizați-i pe ceilalți care au făcut check-in în aproprierea dvs. Datele dvs. personale nu vor fi partajate."</string>
+    <!-- XBUT: Trace location check-ins consent screen header button -->
+    <string name="trace_location_attendee_consent_header_button">"Selectare tot"</string>
+    <!-- XBUT: Trace location check-ins consent screen continue button -->
+    <string name="trace_location_attendee_consent_continue">"Transmitere"</string>
+    <!-- XBUT: Trace location check-ins consent screen skip button -->
+    <string name="trace_location_attendee_consent_skip">"Omitere"</string>
+    <!-- XHED: Trace location check-ins consent screen dialog title -->
+    <string name="trace_location_attendee_consent_dialog_title">"Sigur nu doriți să partajați check-inurile dvs.?"</string>
+    <!-- XTXT: Trace location check-ins consent screen dialog message -->
+    <string name="trace_location_attendee_consent_dialog_message">"Omiterea nu va avertiza contactele care au făcut check-in în apropierea dvs."</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
+    <string name="trace_location_attendee_consent_dialog_positive_button">"Partajare"</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
+    <string name="trace_location_attendee_consent_dialog_negative_button">"Nu partajez"</string>
 </resources>

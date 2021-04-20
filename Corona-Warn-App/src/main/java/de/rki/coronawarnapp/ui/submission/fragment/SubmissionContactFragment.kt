@@ -45,10 +45,6 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
                     )
             }
         }
-
-        viewModel.dial.observe2(this) {
-            dial()
-        }
     }
 
     override fun onResume() {
@@ -60,19 +56,18 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
         binding.submissionContactHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onBackPressed()
         }
-        binding.submissionContactButtonCall.setOnClickListener {
-            viewModel.onDialPressed()
-        }
-        binding.includeSubmissionContact.submissionContactStep1Number.setOnClickListener {
-            viewModel.onDialPressed()
-        }
+        binding.includeSubmissionContact.submissionContactNavigationRowPhone.navigationRow
+            .setOnClickListener {
+                val number = getString(R.string.submission_contact_number_display)
+                ExternalActionHelper.call(this, number)
+            }
+        binding.includeSubmissionContact.submissionContactNavigationRowInternationalPhone.navigationRow
+            .setOnClickListener {
+                val number = getString(R.string.submission_contact_button_international_phone)
+                ExternalActionHelper.call(this, number)
+            }
         binding.submissionContactButtonEnter.setOnClickListener {
             viewModel.onEnterTanPressed()
         }
-    }
-
-    private fun dial() = context?.let {
-        val number = getString(R.string.submission_contact_number_dial)
-        ExternalActionHelper.call(this, number)
     }
 }
