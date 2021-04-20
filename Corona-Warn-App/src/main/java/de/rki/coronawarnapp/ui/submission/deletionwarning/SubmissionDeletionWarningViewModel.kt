@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.deletionwarning
 
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -30,7 +31,8 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
-    val registrationState = MutableLiveData(RegistrationState(ApiRequestState.IDLE))
+    private val mutableRegistrationState = MutableLiveData(RegistrationState(ApiRequestState.IDLE))
+    val registrationState: LiveData<RegistrationState> = mutableRegistrationState
     val registrationError = SingleLiveEvent<CwaWebException>()
 
     fun deleteExistingAndRegisterNewTest() = launch {
@@ -46,34 +48,38 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal suspend fun doDeviceRegistration(coronaTestQRCode: CoronaTestQRCode) {
         try {
-            registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val coronaTest = submissionRepository.registerTest(coronaTestQRCode)
             if (isConsentGiven) {
                 submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             }
             checkTestResult(coronaTest.testResult)
-            registrationState.postValue(
+            mutableRegistrationState.postValue(
                 RegistrationState(
                     ApiRequestState.SUCCESS,
                     coronaTest.testResult
                 )
             )
         } catch (err: CwaWebException) {
-            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+            Timber.e(err, "Msg: ${err.message}")
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
         } catch (err: TransactionException) {
+            Timber.e(err, "Msg: ${err.message}")
             if (err.cause is CwaWebException) {
                 registrationError.postValue(err.cause)
             } else {
                 err.report(ExceptionCategory.INTERNAL)
             }
-            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
         } catch (err: InvalidQRCodeException) {
-            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+            Timber.e(err, "Msg: ${err.message}")
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             deregisterTestFromDevice(coronaTestQRCode)
             showRedeemedTokenWarning.postValue(Unit)
         } catch (err: Exception) {
-            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+            Timber.e(err, "Msg: ${err.message}")
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             err.report(ExceptionCategory.INTERNAL)
         }
     }
