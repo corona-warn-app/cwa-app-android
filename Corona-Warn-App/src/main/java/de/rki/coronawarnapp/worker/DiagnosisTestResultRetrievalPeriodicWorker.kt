@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import kotlinx.coroutines.flow.first
@@ -30,7 +30,7 @@ import timber.log.Timber
 class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
+    private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
     private val notificationHelper: GeneralNotifications,
     private val coronaTestRepository: CoronaTestRepository,
     private val timeStamper: TimeStamper,
