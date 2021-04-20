@@ -212,7 +212,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private fun RACoronaTest?.toTestCardItem() = when (val state = this.toSubmissionState()) {
         is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
             // TODO
-            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
+//            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
         }
         is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
         is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
