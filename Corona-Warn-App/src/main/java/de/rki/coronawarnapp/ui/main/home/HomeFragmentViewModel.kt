@@ -338,7 +338,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     test == null -> false
                     test.lastError != null -> false
                     test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_POSITIVE -> true
-                    test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_POSITIVE_TELETAN -> true
                     else -> false
                 }
             }
