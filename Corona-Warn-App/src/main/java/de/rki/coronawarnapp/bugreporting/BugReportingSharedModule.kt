@@ -5,12 +5,14 @@ import dagger.Provides
 import dagger.Reusable
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
+import de.rki.coronawarnapp.bugreporting.censors.CheckInsCensor
 import de.rki.coronawarnapp.bugreporting.censors.DiaryEncounterCensor
 import de.rki.coronawarnapp.bugreporting.censors.DiaryLocationCensor
 import de.rki.coronawarnapp.bugreporting.censors.DiaryPersonCensor
 import de.rki.coronawarnapp.bugreporting.censors.DiaryVisitCensor
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.RegistrationTokenCensor
+import de.rki.coronawarnapp.bugreporting.censors.TraceLocationCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadApiV1
@@ -92,4 +94,12 @@ class BugReportingSharedModule {
     @Provides
     @IntoSet
     fun diaryVisitCensor(censor: DiaryVisitCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun checkInsCensor(censor: CheckInsCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun traceLocationsCensor(censor: TraceLocationCensor): BugCensor = censor
 }
