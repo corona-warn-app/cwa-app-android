@@ -2034,5 +2034,17 @@
     <!-- XTXT: Create RAT profile birth date hint -->
     <string name="rat_profile_create_birth_date_hint">Geburtsdatum</string>
     <!-- XBUT: Create RAT profile save button -->
-    <string name="rat_profile_create_save_button">Specihern</string>
+    <string name="rat_profile_create_button">Specihern</string>
+    <!-- XTXT: Create RAT profile description -->
+    <string name="rat_profile_create_description">Legen Sie Ihre persönlichen Daten als QR-Code ab, um die Registrierung an der Teststelle zu beschleunigen.</string>
+    <!-- XTXT: Create RAT profile street hint -->
+    <string name="rat_profile_create_street_hint">Straße und Hausnummer</string>
+    <!-- XTXT: Create RAT profile post code hint -->
+    <string name="rat_profile_create_post_code_hint">PLZ</string>
+    <!-- XTXT: Create RAT profile city hint -->
+    <string name="rat_profile_create_city_hint">Stadt</string>
+    <!-- XTXT: Create RAT profile phone hint -->
+    <string name="rat_profile_create_phone_hint">Telefonnummer</string>
+    <!-- XTXT: Create RAT profile email hint -->
+    <string name="rat_profile_create_email_hint">E-Mail-Adresse</string>
 </resources>
