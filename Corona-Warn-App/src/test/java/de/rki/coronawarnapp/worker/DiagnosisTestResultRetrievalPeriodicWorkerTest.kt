@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -41,7 +41,7 @@ import testhelpers.BaseTest
 class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var request: WorkRequest
-    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
+    @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var appComponent: ApplicationComponent
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory

@@ -60,7 +60,6 @@ constructor(
     private fun formatTestStatusIcon(coronaTest: CoronaTest?): Drawable? {
         val drawable = when (coronaTest?.testResult.toDeviceUIState()) {
             DeviceUIState.PAIRED_NO_RESULT -> R.drawable.ic_test_result_illustration_pending
-            DeviceUIState.PAIRED_POSITIVE_TELETAN,
             DeviceUIState.PAIRED_POSITIVE -> R.drawable.ic_test_result_illustration_positive
             DeviceUIState.PAIRED_NEGATIVE -> R.drawable.ic_test_result_illustration_negative
             DeviceUIState.PAIRED_ERROR,
@@ -84,7 +83,6 @@ constructor(
                 SpannableString(context.getString(R.string.test_result_card_status_invalid))
 
             DeviceUIState.PAIRED_POSITIVE,
-            DeviceUIState.PAIRED_POSITIVE_TELETAN,
             DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(context, uiState))
             else -> SpannableString("")
         }

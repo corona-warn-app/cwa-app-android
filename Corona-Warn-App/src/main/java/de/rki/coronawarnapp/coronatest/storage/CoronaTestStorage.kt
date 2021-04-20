@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -23,7 +24,11 @@ class CoronaTestStorage @Inject constructor(
         context.getSharedPreferences("coronatest_localdata", Context.MODE_PRIVATE)
     }
 
-    private val gson by lazy { baseGson }
+    private val gson by lazy {
+        baseGson.newBuilder().apply {
+            registerTypeAdapter(CoronaTestResult::class.java, CoronaTestResult.GsonAdapter())
+        }.create()
+    }
 
     private val typeTokenPCR by lazy {
         object : TypeToken<Set<PCRCoronaTest>>() {}.type
@@ -62,7 +67,7 @@ class CoronaTestStorage @Inject constructor(
             prefs.edit {
                 value.filter { it.type == CoronaTest.Type.PCR }.run {
                     if (isNotEmpty()) {
-                        val raw = gson.toJson(value, typeTokenPCR)
+                        val raw = gson.toJson(this, typeTokenPCR)
                         Timber.tag(TAG).v("PCR storing: %s", raw)
                         putString(PKEY_DATA_PCR, raw)
                     } else {
@@ -72,7 +77,7 @@ class CoronaTestStorage @Inject constructor(
                 }
                 value.filter { it.type == CoronaTest.Type.RAPID_ANTIGEN }.run {
                     if (isNotEmpty()) {
-                        val raw = gson.toJson(value, typeTokenRA)
+                        val raw = gson.toJson(this, typeTokenRA)
                         Timber.tag(TAG).v("RA storing: %s", raw)
                         putString(PKEY_DATA_RA, raw)
                     } else {

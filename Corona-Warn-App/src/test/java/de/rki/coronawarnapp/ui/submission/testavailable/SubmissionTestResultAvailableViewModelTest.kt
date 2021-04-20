@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.testavailable
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
@@ -34,6 +35,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var checkInRepository: CheckInRepository
 
     private val coronaTestFlow = MutableStateFlow(
         mockk<CoronaTest>().apply {
@@ -60,7 +62,8 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         tekHistoryUpdaterFactory = tekHistoryUpdaterFactory,
         autoSubmission = autoSubmission,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        checkInRepository = checkInRepository
     )
 
     @Test
