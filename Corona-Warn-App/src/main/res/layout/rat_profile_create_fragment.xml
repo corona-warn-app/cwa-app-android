@@ -136,19 +136,19 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/post_code_input_layout"
+                android:id="@+id/zip_code_input_layout"
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:hint="@string/rat_profile_create_post_code_hint"
+                android:hint="@string/rat_profile_create_zip_code_hint"
                 app:endIconMode="clear_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/street_input_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/post_code_input_edit"
+                    android:id="@+id/zip_code_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
@@ -169,7 +169,7 @@
                 android:hint="@string/rat_profile_create_city_hint"
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/post_code_input_layout"
+                app:layout_constraintStart_toEndOf="@id/zip_code_input_layout"
                 app:layout_constraintTop_toBottomOf="@id/street_input_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
