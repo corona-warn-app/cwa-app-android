@@ -99,8 +99,8 @@ class PCRProcessor @Inject constructor(
             Timber.tag(TAG).v("pollServer(test=%s)", test)
             test as PCRCoronaTest
 
-            if (test.isSubmitted || test.isSubmissionAllowed) {
-                Timber.tag(TAG).w("Not refreshing already final test.")
+            if (test.isSubmitted) {
+                Timber.tag(TAG).w("Not refreshing, we have already submitted.")
                 return test
             }
 
@@ -115,7 +115,6 @@ class PCRProcessor @Inject constructor(
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
                 deadmanNotificationScheduler.cancelScheduledWork()
             }
-
 
             test.copy(
                 testResult = newTestResult,
