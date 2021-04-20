@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SubmissionDeletionWarningViewModel @AssistedInject constructor(
@@ -36,8 +37,14 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     val registrationError = SingleLiveEvent<CwaWebException>()
 
     fun deleteExistingAndRegisterNewTest() = launch {
-        coronaTestRepository.removeTest(coronaTest.identifier)
-        doDeviceRegistration(coronaTest)
+        val currentTest = submissionRepository.testForType(coronaTest.type).first()
+        try {
+            coronaTestRepository.removeTest(currentTest!!.identifier)
+            doDeviceRegistration(coronaTest)
+        } catch (err: Exception) {
+            Timber.e(err, "Removal of existing test failed with msg: ${err.message}")
+            err.report(ExceptionCategory.INTERNAL)
+        }
     }
 
     data class RegistrationState(
@@ -89,11 +96,11 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     }
 
     fun triggerNavigationToSubmissionTestResultAvailableFragment() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultAvailableScreen(isConsentGiven))
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultAvailableScreen)
     }
 
     fun triggerNavigationToSubmissionTestResultPendingFragment() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPendingScreen(isConsentGiven))
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPendingScreen)
     }
 
     private fun checkTestResult(testResult: CoronaTestResult) {
