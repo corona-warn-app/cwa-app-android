@@ -19,5 +19,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //TODO: Add fragment logic and databinding.
     }
 }

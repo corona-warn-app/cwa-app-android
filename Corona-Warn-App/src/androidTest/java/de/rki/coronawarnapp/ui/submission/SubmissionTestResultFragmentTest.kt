@@ -44,6 +44,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     lateinit var viewModel: SubmissionTestResultPendingViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
+    @MockK lateinit var testType: CoronaTest.Type
 
     @Rule
     @JvmField
@@ -62,7 +63,8 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             SubmissionTestResultPendingViewModel(
                 TestDispatcherProvider(),
                 shareTestResultNotificationService,
-                submissionRepository
+                submissionRepository,
+                testType = testType
             )
         )
 
@@ -82,7 +84,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : SubmissionTestResultPendingViewModel.Factory {
-                override fun create(): SubmissionTestResultPendingViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionTestResultPendingViewModel = viewModel
             }
         )
     }

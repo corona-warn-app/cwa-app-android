@@ -139,7 +139,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                         doNavigate(
                             SubmissionQRCodeScanFragmentDirections
                                 .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
-                                    testType = CoronaTest.Type.RAPID_ANTIGEN
+                                    testType = CoronaTest.Type.PCR
                                 )
                         )
                     CoronaTestResult.RAT_POSITIVE ->
