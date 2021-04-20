@@ -1,13 +1,13 @@
-package de.rki.coronawarnapp.ui.submission.qrcode.scan
+package de.rki.coronawarnapp.ui.submission.deletionwarning
 
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -16,90 +16,84 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
-class SubmissionQRCodeScanViewModel @AssistedInject constructor(
-    dispatcherProvider: DispatcherProvider,
+class SubmissionDeletionWarningViewModel @AssistedInject constructor(
+    private val coronaTestRepository: CoronaTestRepository,
     private val submissionRepository: SubmissionRepository,
-    private val cameraSettings: CameraSettings,
+    @Assisted private val coronaTest: CoronaTestQRCode,
     @Assisted private val isConsentGiven: Boolean,
-    private val qrCodeValidator: CoronaTestQrCodeValidator
-) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+) : CWAViewModel() {
+
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
-    val scanStatusValue = SingleLiveEvent<ScanStatus>()
-
-    fun validateTestGUID(rawResult: String) = launch {
-        try {
-            val coronaTestQRCode = qrCodeValidator.validate(rawResult)
-            // TODO this needs to be adapted to work for different types
-            QRCodeCensor.lastGUID = coronaTestQRCode.registrationIdentifier
-            scanStatusValue.postValue(ScanStatus.SUCCESS)
-
-            val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
-
-            if (coronaTest != null) {
-                routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDeletionWarningFragment(coronaTestQRCode))
-            } else {
-                doDeviceRegistration(coronaTestQRCode)
-            }
-        } catch (err: InvalidQRCodeException) {
-            Timber.e(err, "Failed to validate GUID")
-            scanStatusValue.postValue(ScanStatus.INVALID)
-        }
-    }
-
-    val registrationState = MutableLiveData(RegistrationState(ApiRequestState.IDLE))
+    private val mutableRegistrationState = MutableLiveData(RegistrationState(ApiRequestState.IDLE))
+    val registrationState: LiveData<RegistrationState> = mutableRegistrationState
     val registrationError = SingleLiveEvent<CwaWebException>()
+
+    fun deleteExistingAndRegisterNewTest() = launch {
+        coronaTestRepository.removeTest(coronaTest.identifier)
+        doDeviceRegistration(coronaTest)
+    }
 
     data class RegistrationState(
         val apiRequestState: ApiRequestState,
-        val testResult: CoronaTestResult? = null,
-        val testType: CoronaTest.Type? = null
+        val testResult: CoronaTestResult? = null
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal suspend fun doDeviceRegistration(coronaTestQRCode: CoronaTestQRCode) {
         try {
-            registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val coronaTest = submissionRepository.registerTest(coronaTestQRCode)
             if (isConsentGiven) {
                 submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             }
             checkTestResult(coronaTest.testResult)
-            registrationState.postValue(
+            mutableRegistrationState.postValue(
                 RegistrationState(
                     ApiRequestState.SUCCESS,
-                    coronaTest.testResult,
-                    coronaTestQRCode.type
+                    coronaTest.testResult
                 )
             )
         } catch (err: CwaWebException) {
-            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+            Timber.e(err, "Msg: ${err.message}")
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
         } catch (err: TransactionException) {
+            Timber.e(err, "Msg: ${err.message}")
             if (err.cause is CwaWebException) {
                 registrationError.postValue(err.cause)
             } else {
                 err.report(ExceptionCategory.INTERNAL)
             }
-            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
         } catch (err: InvalidQRCodeException) {
-            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+            Timber.e(err, "Msg: ${err.message}")
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             deregisterTestFromDevice(coronaTestQRCode)
             showRedeemedTokenWarning.postValue(Unit)
         } catch (err: Exception) {
-            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+            Timber.e(err, "Msg: ${err.message}")
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             err.report(ExceptionCategory.INTERNAL)
         }
+    }
+
+    fun onCancelButtonClick() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)
+    }
+
+    fun triggerNavigationToSubmissionTestResultAvailableFragment() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultAvailableScreen(isConsentGiven))
+    }
+
+    fun triggerNavigationToSubmissionTestResultPendingFragment() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPendingScreen(isConsentGiven))
     }
 
     private fun checkTestResult(testResult: CoronaTestResult) {
@@ -117,21 +111,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         }
     }
 
-    fun onBackPressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)
-    }
-
-    fun onClosePressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
-    }
-
-    fun setCameraDeniedPermanently(denied: Boolean) {
-        Timber.d("setCameraDeniedPermanently(denied=$denied)")
-        cameraSettings.isCameraDeniedPermanently.update { denied }
-    }
-
     @AssistedFactory
-    interface Factory : CWAViewModelFactory<SubmissionQRCodeScanViewModel> {
-        fun create(isConsentGiven: Boolean): SubmissionQRCodeScanViewModel
+    interface Factory : CWAViewModelFactory<SubmissionDeletionWarningViewModel> {
+        fun create(coronaTest: CoronaTestQRCode, isConsentGiven: Boolean): SubmissionDeletionWarningViewModel
     }
 }
