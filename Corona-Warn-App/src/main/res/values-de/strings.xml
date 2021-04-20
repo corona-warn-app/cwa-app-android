@@ -865,7 +865,7 @@
     <!-- XBUT: Button text to send the log recording to the server-->
     <string name="debugging_debuglog_action_share_log">"Fehlerbericht senden"</string>
     <!-- XBUT: Button text to export the log -->
-    <string name="debugging_debuglog_action_local_log_export">"Exportieren und fortsetzen"</string>
+    <string name="debugging_debuglog_action_local_log_export">"Teilen und fortsetzen"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Aufzeichnung läuft"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
