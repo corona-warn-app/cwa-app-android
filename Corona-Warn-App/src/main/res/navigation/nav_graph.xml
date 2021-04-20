@@ -423,12 +423,18 @@
         android:name="de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment"
         android:label="SubmissionConsentFragment"
         tools:layout="@layout/fragment_submission_consent">
+        <deepLink app:uri="coronawarnapp://qrCode/{qrCode}" />
         <action
             android:id="@+id/action_submissionConsentFragment_to_submissionQRCodeScanFragment"
             app:destination="@id/submissionQRCodeScanFragment" />
         <action
             android:id="@+id/action_submissionConsentFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
+        <argument
+            android:name="qrCode"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment

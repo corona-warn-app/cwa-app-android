@@ -2,10 +2,13 @@ package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -23,6 +26,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionConsentViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionConsentBinding by viewBindingLazy()
+    private val navArgs by navArgs<SubmissionConsentFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,6 +53,9 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         viewModel.countries.observe2(this) {
             binding.countries = it
         }
+        navArgs.qrCode?.let {
+            // TODO
+        }
     }
 
     override fun onResume() {
@@ -65,5 +72,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
 
     companion object {
         private const val REQUEST_USER_RESOLUTION = 3000
+
+        fun createDeepLink(rootUri: String): Uri = "coronawarnapp://check-ins/$rootUri".toUri()
     }
 }

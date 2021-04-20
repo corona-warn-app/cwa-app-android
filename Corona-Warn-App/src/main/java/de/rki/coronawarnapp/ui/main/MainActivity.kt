@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmen
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.ui.base.startActivitySafely
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
@@ -78,6 +77,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
     @Inject lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
+    @Inject lateinit var intentHandler: IntentHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -178,9 +178,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun navigateByIntentUri(intent: Intent?) {
-        val uri = intent?.data ?: return
-        Timber.i("Uri:$uri")
-        navController.navigate(CheckInsFragment.createCheckInUri(uri.toString()))
+        intentHandler.generateDeepLink(intent)?.let {
+            navController.navigate(it)
+        }
     }
 
     /**

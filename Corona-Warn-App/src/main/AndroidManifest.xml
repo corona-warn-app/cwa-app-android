@@ -90,6 +90,7 @@
                 <data
                     android:host="s.coronawarn.app"
                     android:scheme="https" />
+
             </intent-filter>
         </activity>
         <activity
