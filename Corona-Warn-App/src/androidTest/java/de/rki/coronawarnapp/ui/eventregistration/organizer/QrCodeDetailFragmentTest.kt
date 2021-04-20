@@ -31,9 +31,11 @@ class QrCodeDetailFragmentTest : BaseUITest() {
     @MockK private lateinit var qrCodeGenerator: QrCodeGenerator
     @MockK private lateinit var traceLocationRepository: TraceLocationRepository
 
+    private val timeZone = TimeZone.getTimeZone("Europe/Berlin")
+
     @Before
     fun setup() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"))
+        TimeZone.setDefault(timeZone)
         MockKAnnotations.init(this, relaxed = true)
 
         coEvery { traceLocationRepository.traceLocationForId(1) } returns TraceLocationData.traceLocationSameDate
@@ -60,9 +62,14 @@ class QrCodeDetailFragmentTest : BaseUITest() {
                 traceLocationId = 1
             ).toBundle()
         )
+
         onView(withId(R.id.title)).check(matches(withText("My Birthday Party")))
         onView(withId(R.id.subtitle)).check(matches(withText("at my place")))
-        onView(withId(R.id.eventDate)).check(matches(withText("19.04.2021, 06:12 - 22:52")))
+        if (TimeZone.getDefault() == timeZone) {
+            onView(withId(R.id.eventDate)).check(matches(withText("19.04.2021, 06:12 - 22:52")))
+        } else {
+            throw Exception("Wrong timezone: ${TimeZone.getDefault()}")
+        }
     }
 
     @Test
@@ -74,7 +81,11 @@ class QrCodeDetailFragmentTest : BaseUITest() {
         )
         onView(withId(R.id.title)).check(matches(withText("Your Birthday Party")))
         onView(withId(R.id.subtitle)).check(matches(withText("at your place")))
-        onView(withId(R.id.eventDate)).check(matches(withText("18.04.2021, 12:00 - 19.04.2021, 22:52")))
+        if (TimeZone.getDefault() == timeZone) {
+            onView(withId(R.id.eventDate)).check(matches(withText("18.04.2021, 12:00 - 19.04.2021, 22:52")))
+        } else {
+            throw Exception("Wrong timezone: ${TimeZone.getDefault()}")
+        }
     }
 
     private fun createViewModel(traceLocationId: Long) =
