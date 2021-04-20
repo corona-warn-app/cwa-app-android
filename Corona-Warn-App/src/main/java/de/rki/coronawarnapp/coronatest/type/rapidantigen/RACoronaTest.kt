@@ -62,7 +62,9 @@ data class RACoronaTest(
         return State.PENDING
     }
 
-    override val isSubmissionAllowed: Boolean = testResult == CoronaTestResult.RAT_POSITIVE
+    override val isPositive: Boolean = testResult == CoronaTestResult.RAT_POSITIVE
+
+    override val isSubmissionAllowed: Boolean = isPositive && !isSubmitted
 
     enum class State {
         PENDING,

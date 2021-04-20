@@ -79,7 +79,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
             }?.let { routeToScreen.postValue(it) }
         }
         .filter { testResultUIState ->
-            val isPositiveTest = testResultUIState.coronaTest.isSubmissionAllowed
+            val isPositiveTest = testResultUIState.coronaTest.isPositive
             if (isPositiveTest) {
                 Timber.w("Filtering out positive test emission as we don't display this here.")
             }

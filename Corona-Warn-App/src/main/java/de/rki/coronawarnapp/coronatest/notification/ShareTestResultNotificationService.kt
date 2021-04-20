@@ -25,7 +25,7 @@ class ShareTestResultNotificationService @Inject constructor(
         coronaTestRepository.coronaTests
             .onEach { tests ->
                 when {
-                    tests.any { it.isSubmissionAllowed && !it.isSubmitted } -> {
+                    tests.any { it.isSubmissionAllowed } -> {
                         maybeScheduleSharePositiveTestResultReminder()
                     }
                     tests.isNotEmpty() -> {

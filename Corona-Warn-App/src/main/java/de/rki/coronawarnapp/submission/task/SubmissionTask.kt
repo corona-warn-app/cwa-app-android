@@ -129,7 +129,7 @@ class SubmissionTask @Inject constructor(
     private suspend fun performSubmission(): Result {
         val availableTests = coronaTestRepository.coronaTests.first()
         Timber.tag(TAG).v("Available tests: %s", availableTests)
-        val coronaTest = availableTests.firstOrNull { it.isSubmissionAllowed && !it.isSubmitted }
+        val coronaTest = availableTests.firstOrNull { it.isSubmissionAllowed }
             ?: throw IllegalStateException("No valid test available to authorize submission")
 
         Timber.tag(TAG).d("Submission is authorized by coronaTest=%s", coronaTest)
