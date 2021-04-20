@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.testresult.pending
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
