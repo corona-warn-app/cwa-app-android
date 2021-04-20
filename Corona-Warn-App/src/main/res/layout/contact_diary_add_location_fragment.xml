@@ -20,7 +20,7 @@
             android:layout_marginTop="@dimen/spacing_tiny"
             android:contentDescription="@string/accessibility_close"
             android:padding="@dimen/spacing_mega_tiny"
-            android:src="@drawable/ic_close"
+            app:srcCompat="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,7 +45,7 @@
             android:layout_marginEnd="@dimen/spacing_tiny"
             android:contentDescription="@string/contact_diary_delete_icon_content_description"
             android:padding="@dimen/button_icon_padding"
-            android:src="@drawable/ic_baseline_delete"
+            app:srcCompat="@drawable/ic_baseline_delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

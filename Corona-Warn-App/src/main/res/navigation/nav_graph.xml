@@ -284,6 +284,11 @@
             app:destination="@id/submissionResultReadyFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_checkInsConsentFragment"
+            app:destination="@id/checkInsConsentFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultPendingFragment"
@@ -495,6 +500,11 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
+            android:id="@+id/action_submissionTestResultAvailableFragment_to_checkInsConsentFragment"
+            app:destination="@id/checkInsConsentFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+        <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionTestResultNoConsentFragment"
             app:destination="@id/submissionTestResultNoConsentFragment"
             app:popUpTo="@id/mainFragment"
@@ -615,4 +625,28 @@
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.legal.DebugLogLegalFragment"
         android:label="DebugLogLegalFragment"
         tools:layout="@layout/bugreporting_legal_fragment" />
+
+    <fragment
+        android:id="@+id/checkInsConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckInsConsentFragment"
+        android:label="check_ins_consent_fragment"
+        tools:layout="@layout/check_ins_consent_fragment">
+        <action
+            android:id="@+id/action_checkInsConsentFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_checkInsConsentFragment_to_submissionResultReadyFragment"
+            app:destination="@id/submissionResultReadyFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_checkInsConsentFragment_to_submissionTestResultConsentGivenFragment"
+            app:destination="@id/submissionTestResultConsentGivenFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
 </navigation>

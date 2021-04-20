@@ -17,22 +17,34 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"QR code check-in to effectively track chains of infection"</item>
+        <item>Registrierung von Antigen-Schnelltests</item>
+        <item>Anzeige von Nachweisen</item>
+        <item>Technische Hotline nun auch aus dem Ausland erreichbar</item>
+        <item>TAN-Hotline nun auch aus dem Ausland erreichbar</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"The CWA now enables you to check in to events and places. Event organizers and store owners can use the app to create a QR code. Guests can then scan this QR code when they arrive to register their presence. The app can also create a journal entry upon request. If someone who checked in to this event or place is diagnosed with coronavirus later, other people who were checked in at the same time can be warned automatically."</item>
+        <item>Sie können sich nun zusätzlich zu Ergebnissen von PCR-Tests auch Ergebnisse von Antigen-Schnelltests in der App anzeigen lassen und nutzen, um andere zu warnen.</item>
+        <item>Auf Wunsch können Sie über die App Ihren persönlichen Infektionsstatus nachweisen (z.B. negativer Schnelltest). Bitte beachten Sie, dass Sie grundsätzlich nicht zum Nachweis Ihres Infektionsstatus per App verpflichtet sind. Sie können Ihren Infektionsstatus im Rahmen der rechtlichen Bestimmungen an Ihrem Aufenthaltsort auch auf andere Weise nachweisen.</item>
+        <item>Sie können die technische Hotline nun auch aus dem Ausland unter der Nummer +49 30 498 75401 erreichen. Es fallen Gebühren des jeweiligen Telefonanbieters an.</item>
+        <item>Sie können bei einem positiven Befund nun auch aus dem Ausland eine TAN anfordern unter der Nummer +49 30 498 75402. Es fallen Gebühren des jeweiligen Telefonanbieters an.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item/>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
     </string-array>
 
 </resources>

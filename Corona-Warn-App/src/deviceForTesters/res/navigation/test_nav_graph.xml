@@ -49,6 +49,12 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_presenceTracingTestFragment"
             app:destination="@id/presenceTracingTestFragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_homeTestCardsFragment"
+            app:destination="@id/homeTestCardsFragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_coronaTestTestFragment"
+            app:destination="@id/coronaTestTestFragment" />
     </fragment>
 
     <fragment
@@ -146,4 +152,14 @@
             android:name="traceLocationId"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/homeTestCardsFragment"
+        android:name="de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment"
+        android:label="HomeTestCards"
+        tools:layout="@layout/fragment_test_home_test_cards_layout" />
+    <fragment
+        android:id="@+id/coronaTestTestFragment"
+        android:name="de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment"
+        tools:layout="@layout/fragment_test_coronatest"
+        android:label="CoronaTestTestFragment" />
 </navigation>

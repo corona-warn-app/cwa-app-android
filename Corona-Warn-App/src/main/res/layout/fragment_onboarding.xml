@@ -47,25 +47,25 @@
                     android:text="@string/onboarding_headline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_illustration"
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_illustration"
                     tools:text="@string/onboarding_headline" />
 
                 <TextView
-                    android:id="@+id/onboarding_subtitle"
+                    android:id="@+id/onboarding_body_1"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
-                    android:text="@string/onboarding_subtitle"
+                    android:text="@string/onboarding_body_1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
-                    tools:text="@string/onboarding_subtitle" />
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_headline"
+                    tools:text="@string/onboarding_body_1" />
 
                 <TextView
-                    android:id="@+id/onboarding_body"
+                    android:id="@+id/onboarding_body_2"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -73,26 +73,58 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:autoLink="web|email"
                     android:focusable="true"
-                    android:text="@string/onboarding_body"
+                    android:text="@string/onboarding_body_2"
                     android:textColorLink="@color/colorTextTint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_subtitle"
-                    tools:text="@string/onboarding_body" />
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_1"
+                    tools:text="@string/onboarding_body_2" />
 
                 <TextView
-                    android:id="@+id/onboarding_body_emphasized"
+                    android:id="@+id/onboarding_body_3"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:autoLink="web|email"
+                    android:focusable="true"
+                    android:text="@string/onboarding_body_3"
+                    android:textColorLink="@color/colorTextTint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_2"
+                    tools:text="@string/onboarding_body_3" />
+
+                <TextView
+                    android:id="@+id/onboarding_body_4"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:autoLink="web|email"
+                    android:focusable="true"
+                    android:text="@string/onboarding_body_4"
+                    android:textColorLink="@color/colorTextTint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_3"
+                    tools:text="@string/onboarding_body_4" />
+
+                <TextView
+                    android:id="@+id/onboarding_body_5"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
-                    android:text="@string/onboarding_body_emphasized"
+                    android:text="@string/onboarding_body_5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_body"
-                    tools:text="@string/onboarding_body_emphasized" />
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_4"
+                    tools:text="@string/onboarding_body_5" />
 
                 <TextView
                     android:id="@+id/onboarding_easy_language"
@@ -108,7 +140,7 @@
                     android:textColorLink="@color/colorTextTint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_emphasized"
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_5"
                     tools:text="@string/onboarding_tracing_easy_language_explanation" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

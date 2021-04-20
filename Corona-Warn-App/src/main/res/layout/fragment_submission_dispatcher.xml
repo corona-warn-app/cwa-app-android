@@ -43,10 +43,10 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/submission_intro_illustration_description"
                     android:focusable="true"
-                    android:src="@drawable/ic_illustration_test"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_illustration_test" />
 
                 <TextView
                     android:id="@+id/submission_dispatcher_text"
@@ -54,7 +54,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:focusable="true"
                     android:text="@string/submission_dispatcher_subheadline"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -66,7 +65,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:focusable="true"
                     android:text="@string/submission_dispatcher_needs_testing_subheadline"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -106,7 +104,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
-                    android:focusable="true"
                     android:text="@string/submission_dispatcher_already_positive_subheadline"
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"

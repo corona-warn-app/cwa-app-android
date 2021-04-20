@@ -25,7 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 bind:cwaContentDescription="@{@string/submission_positive_other_illustration_description}"
-                android:src="@drawable/ic_submission_illustration_other_warning"
+                app:srcCompat="@drawable/ic_submission_illustration_other_warning"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

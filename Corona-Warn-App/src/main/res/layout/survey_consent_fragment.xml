@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/contact_diary_onboarding_image_content_description"
                     android:focusable="true"
-                    android:src="@drawable/ic_illustration_datenspende"
+                    app:srcCompat="@drawable/ic_illustration_datenspende"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
