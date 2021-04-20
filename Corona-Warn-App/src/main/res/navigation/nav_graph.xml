@@ -648,11 +648,11 @@
             android:name="coronaTestQrCode"
             app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
         <action
-            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDispatcherFragment"
+            android:id="@+id/action_submissionDeletionWarningFragment_to_submissionDispatcherFragment"
             app:popUpTo="@id/submissionQRCodeScanFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionTestResultPendingFragment"
+            android:id="@+id/action_submissionDeletionWarningFragment_to_submissionTestResultPendingFragment"
             app:destination="@id/submissionTestResultPendingFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false">
@@ -662,7 +662,7 @@
                 app:argType="boolean" />
         </action>
         <action
-            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionTestResultAvailableFragment"
+            android:id="@+id/action_submissionDeletionWarningFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />

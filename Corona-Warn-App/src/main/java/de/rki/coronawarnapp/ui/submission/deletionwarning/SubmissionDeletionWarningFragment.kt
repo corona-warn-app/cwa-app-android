@@ -15,8 +15,10 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -29,6 +31,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val args by navArgs<SubmissionDeletionWarningFragmentArgs>()
+    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     private val viewModel: SubmissionDeletionWarningViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
@@ -61,10 +64,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             }
 
             toolbar.setNavigationOnClickListener {
-                doNavigate(
-                    SubmissionDeletionWarningFragmentDirections
-                        .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment()
-                )
+                viewModel.onCancelButtonClick()
             }
         }
 
@@ -86,19 +86,9 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
-                    doNavigate(
-                        SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
-                                isConsentGiven = args.isConsentGiven
-                            )
-                    )
+                    viewModel.triggerNavigationToSubmissionTestResultAvailableFragment()
                 } else {
-                    doNavigate(
-                        SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
-                                isConsentGiven = args.isConsentGiven
-                            )
-                    )
+                    viewModel.triggerNavigationToSubmissionTestResultPendingFragment()
                 }
             }
         }
@@ -106,12 +96,39 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         viewModel.registrationError.observe2(this) {
             DialogHelper.showDialog(buildErrorDialog(it))
         }
+
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                SubmissionNavigationEvents.NavigateToConsent -> {
+                    doNavigate(
+                        SubmissionDeletionWarningFragmentDirections
+                            .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment()
+                    )
+                }
+                is SubmissionNavigationEvents.NavigateToResultAvailableScreen -> {
+                    doNavigate(
+                        SubmissionDeletionWarningFragmentDirections
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultAvailableFragment(
+                                it.consentGiven
+                            )
+                    )
+                }
+                is SubmissionNavigationEvents.NavigateToResultPendingScreen -> {
+                    doNavigate(
+                        SubmissionDeletionWarningFragmentDirections
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
+                                it.consentGiven
+                            )
+                    )
+                }
+            }
+        }
     }
 
     private fun navigateToDispatchScreen() =
         doNavigate(
             SubmissionDeletionWarningFragmentDirections
-                .actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
+                .actionSubmissionDeletionWarningFragmentToSubmissionDispatcherFragment()
         )
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {

@@ -78,6 +78,18 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
         }
     }
 
+    fun onCancelButtonClick() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)
+    }
+
+    fun triggerNavigationToSubmissionTestResultAvailableFragment() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultAvailableScreen(isConsentGiven))
+    }
+
+    fun triggerNavigationToSubmissionTestResultPendingFragment() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPendingScreen(isConsentGiven))
+    }
+
     private fun checkTestResult(testResult: CoronaTestResult) {
         if (testResult == CoronaTestResult.PCR_REDEEMED) {
             throw InvalidQRCodeException()
