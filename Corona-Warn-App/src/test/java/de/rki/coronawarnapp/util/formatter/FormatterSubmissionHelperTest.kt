@@ -139,15 +139,7 @@ class FormatterSubmissionHelperTest : BaseTest() {
             iResult = context.getString(R.string.test_result_card_status_positive)
         )
         formatTestResultStatusTextBase(
-            oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            iResult = context.getString(R.string.test_result_card_status_positive)
-        )
-        formatTestResultStatusTextBase(
             oUiState = DeviceUIState.SUBMITTED_FINAL,
-            iResult = context.getString(R.string.test_result_card_status_invalid)
-        )
-        formatTestResultStatusTextBase(
-            oUiState = DeviceUIState.SUBMITTED_INITIAL,
             iResult = context.getString(R.string.test_result_card_status_invalid)
         )
         formatTestResultStatusTextBase(
@@ -175,15 +167,7 @@ class FormatterSubmissionHelperTest : BaseTest() {
             iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
-            oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
-        )
-        formatTestResultStatusColorBase(
             oUiState = DeviceUIState.SUBMITTED_FINAL,
-            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
-        )
-        formatTestResultStatusColorBase(
-            oUiState = DeviceUIState.SUBMITTED_INITIAL,
             iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
@@ -198,9 +182,7 @@ class FormatterSubmissionHelperTest : BaseTest() {
         formatTestStatusIconBase(oUiState = DeviceUIState.PAIRED_ERROR)
         formatTestStatusIconBase(oUiState = DeviceUIState.PAIRED_NO_RESULT)
         formatTestStatusIconBase(oUiState = DeviceUIState.PAIRED_POSITIVE)
-        formatTestStatusIconBase(oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN)
         formatTestStatusIconBase(oUiState = DeviceUIState.SUBMITTED_FINAL)
-        formatTestStatusIconBase(oUiState = DeviceUIState.SUBMITTED_INITIAL)
         formatTestStatusIconBase(oUiState = DeviceUIState.UNPAIRED)
     }
 
@@ -210,9 +192,7 @@ class FormatterSubmissionHelperTest : BaseTest() {
         formatTestResultBase(oUiState = DeviceUIState.PAIRED_ERROR)
         formatTestResultBase(oUiState = DeviceUIState.PAIRED_NO_RESULT)
         formatTestResultBase(oUiState = DeviceUIState.PAIRED_POSITIVE)
-        formatTestResultBase(oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN)
         formatTestResultBase(oUiState = DeviceUIState.SUBMITTED_FINAL)
-        formatTestResultBase(oUiState = DeviceUIState.SUBMITTED_INITIAL)
         formatTestResultBase(oUiState = DeviceUIState.UNPAIRED)
     }
 }
