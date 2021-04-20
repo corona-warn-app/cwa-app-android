@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -53,7 +53,7 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
-    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
+    @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var autoSubmission: AutoSubmission
 
     @MockK lateinit var tekBatch: TEKHistoryStorage.TEKBatch
@@ -87,7 +87,7 @@ class SubmissionTaskTest : BaseTest() {
         )
     )
 
-    private val testCheckIn1 = CheckIn(
+    private val validCheckIn = CheckIn(
         id = 1L,
         traceLocationId = mockk(),
         version = 1,
@@ -101,10 +101,15 @@ class SubmissionTaskTest : BaseTest() {
         cnPublicKey = "cnPublicKey",
         checkInStart = Instant.EPOCH,
         checkInEnd = Instant.EPOCH.plus(9000),
-        completed = false,
+        completed = true,
         createJournalEntry = false,
-        isSubmitted = true
+        isSubmitted = false,
+        hasSubmissionConsent = true
     )
+
+    private val invalidCheckIn1 = validCheckIn.copy(id = 2L, completed = false)
+    private val invalidCheckIn2 = validCheckIn.copy(id = 3L, isSubmitted = true)
+    private val invalidCheckIn3 = validCheckIn.copy(id = 4L, hasSubmissionConsent = false)
 
     @BeforeEach
     fun setup() {
@@ -148,9 +153,17 @@ class SubmissionTaskTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
 
         checkInRepository.apply {
-            every { checkInsWithinRetention } returns flowOf(listOf(testCheckIn1))
-            coEvery { markCheckInAsSubmitted(testCheckIn1.id) } just Runs
+            every { checkInsWithinRetention } returns flowOf(
+                listOf(
+                    validCheckIn,
+                    invalidCheckIn1,
+                    invalidCheckIn2,
+                    invalidCheckIn3
+                )
+            )
+            coEvery { updatePostSubmissionFlags(any()) } just Runs
         }
+
         coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
@@ -215,7 +228,7 @@ class SubmissionTaskTest : BaseTest() {
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 
-            checkInRepository.markCheckInAsSubmitted(testCheckIn1.id)
+            checkInRepository.updatePostSubmissionFlags(validCheckIn.id)
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
@@ -225,6 +238,12 @@ class SubmissionTaskTest : BaseTest() {
 
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
+        }
+
+        coVerify(exactly = 0) {
+            checkInRepository.updatePostSubmissionFlags(invalidCheckIn1.id)
+            checkInRepository.updatePostSubmissionFlags(invalidCheckIn2.id)
+            checkInRepository.updatePostSubmissionFlags(invalidCheckIn3.id)
         }
     }
 
