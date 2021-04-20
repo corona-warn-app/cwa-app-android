@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
@@ -26,18 +27,24 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment :
-    Fragment(R.layout.fragment_submission_qr_code_scan),
-    AutoInject {
-
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
+
+    private val args by navArgs<SubmissionQRCodeScanFragmentArgs>()
+
+    private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionQRCodeScanViewModel.Factory
+            factory.create(args.isConsentGiven)
+        }
+    )
 
     private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
@@ -60,6 +67,18 @@ class SubmissionQRCodeScanFragment :
                 DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
 
             submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
+        }
+
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToDeletionWarningFragment -> {
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
+                            args.isConsentGiven,
+                            it.coronaTestQRCode
+                        )
+                }
+            }
         }
 
         viewModel.scanStatusValue.observe2(this) {
@@ -85,16 +104,21 @@ class SubmissionQRCodeScanFragment :
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
+
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
+                                isConsentGiven = args.isConsentGiven
+                            )
                     )
                 } else {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                                isConsentGiven = args.isConsentGiven
+                            )
                     )
                 }
             }
