@@ -37,6 +37,8 @@ class TraceLocationCensor @Inject constructor(
         val newLogMsg = traceLocations.fold(entry.message) { initial, traceLocation ->
             var acc = initial
 
+            acc = acc.replace(traceLocation.type.name, "TraceLocation#${traceLocation.id}/Type")
+
             withValidDescription(traceLocation.description) { description ->
                 acc = acc.replace(description, "TraceLocation#${traceLocation.id}/Description")
             }

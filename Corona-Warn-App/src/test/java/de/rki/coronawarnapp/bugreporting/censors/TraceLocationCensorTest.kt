@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.bugreporting.censors
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -32,10 +33,12 @@ internal class TraceLocationCensorTest : BaseTest() {
 
     private fun mockTraceLocation(
         traceLocationId: Long,
+        traceLocationType: TraceLocationOuterClass.TraceLocationType,
         traceLocationDescription: String,
         traceLocationAddress: String,
     ) = mockk<TraceLocation>().apply {
         every { id } returns traceLocationId
+        every { type } returns traceLocationType
         every { description } returns traceLocationDescription
         every { address } returns traceLocationAddress
     }
@@ -46,11 +49,13 @@ internal class TraceLocationCensorTest : BaseTest() {
             listOf(
                 mockTraceLocation(
                     traceLocationId = 1,
+                    traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_FOOD_SERVICE,
                     traceLocationDescription = "Sushi Place",
                     traceLocationAddress = "Sushi Street 123, 12345 Fish Town"
                 ),
                 mockTraceLocation(
                     traceLocationId = 2,
+                    traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
                     traceLocationDescription = "Rick Astley Concert",
                     traceLocationAddress = "Never gonna give you up street 1, 12345 RickRoll City"
                 )
@@ -64,8 +69,8 @@ internal class TraceLocationCensorTest : BaseTest() {
             priority = 3,
             message =
                 """
-                Yesterday we went to the Rick Astley Concert. The spectacle took place in Never gonna give you up street 1, 12345 RickRoll City. 
-                Afterwards we had some food in Sushi Place in Sushi Street 123, 12345 Fish Town.    
+                The type is LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT. Yesterday we went to the Rick Astley Concert. The spectacle took place in Never gonna give you up street 1, 12345 RickRoll City. 
+                Afterwards we had some food in Sushi Place in Sushi Street 123, 12345 Fish Town. It a nice LOCATION_TYPE_PERMANENT_FOOD_SERVICE.
                 """.trimIndent(),
             tag = "I am tag",
             throwable = null
@@ -74,8 +79,8 @@ internal class TraceLocationCensorTest : BaseTest() {
         censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
             message =
                 """
-                Yesterday we went to the TraceLocation#2/Description. The spectacle took place in TraceLocation#2/Address. 
-                Afterwards we had some food in TraceLocation#1/Description in TraceLocation#1/Address.    
+                The type is TraceLocation#2/Type. Yesterday we went to the TraceLocation#2/Description. The spectacle took place in TraceLocation#2/Address. 
+                Afterwards we had some food in TraceLocation#1/Description in TraceLocation#1/Address. It a nice TraceLocation#1/Type.
                 """.trimIndent()
         )
     }
@@ -102,11 +107,13 @@ internal class TraceLocationCensorTest : BaseTest() {
             listOf(
                 mockTraceLocation(
                     traceLocationId = 1,
+                    traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
                     traceLocationDescription = "Description 1",
                     traceLocationAddress = "Address 1"
                 ),
                 mockTraceLocation(
                     traceLocationId = 2,
+                    traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
                     traceLocationDescription = "Description 2",
                     traceLocationAddress = "Address 2"
                 )
