@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer
 
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory
-import de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationUIType
+import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.TraceLocationCategory
+import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.TraceLocationUIType
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import okio.ByteString.Companion.decodeBase64
 

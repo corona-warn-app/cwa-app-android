@@ -8,11 +8,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QrCodeGenerator
-import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragmentArgs
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailViewModel
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFragment
+import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFragmentArgs
+import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
