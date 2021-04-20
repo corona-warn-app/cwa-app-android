@@ -109,16 +109,12 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
-                                isConsentGiven = args.isConsentGiven
-                            )
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
                     )
                 } else {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
-                                isConsentGiven = args.isConsentGiven
-                            )
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
                     )
                 }
             }

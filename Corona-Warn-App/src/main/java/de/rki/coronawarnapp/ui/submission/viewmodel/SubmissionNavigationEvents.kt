@@ -13,8 +13,8 @@ sealed class SubmissionNavigationEvents {
     object NavigateToTAN : SubmissionNavigationEvents()
     object NavigateToConsent : SubmissionNavigationEvents()
     object NavigateToMainActivity : SubmissionNavigationEvents()
-    data class NavigateToResultPendingScreen(val consentGiven: Boolean) : SubmissionNavigationEvents()
-    data class NavigateToResultAvailableScreen(val consentGiven: Boolean) : SubmissionNavigationEvents()
+    object NavigateToResultPendingScreen : SubmissionNavigationEvents()
+    object NavigateToResultAvailableScreen : SubmissionNavigationEvents()
     data class NavigateToDeletionWarningFragment(val coronaTestQRCode: CoronaTestQRCode) : SubmissionNavigationEvents()
     data class ResolvePlayServicesException(val exception: ApiException) : SubmissionNavigationEvents()
 }
