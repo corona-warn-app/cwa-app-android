@@ -46,8 +46,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Toast.makeText(context, "Scanned ${navArgs.testType} test", Toast.LENGTH_SHORT).show()
-
         pendingViewModel.consentGiven.observe2(this) {
             binding.consentStatus.consent = it
         }
