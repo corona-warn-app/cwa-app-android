@@ -5,6 +5,16 @@ import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
@@ -16,6 +26,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -58,23 +69,19 @@ class PCRProcessor @Inject constructor(
         response: CoronaTestService.RegistrationData
     ): PCRCoronaTest {
         analyticsKeySubmissionCollector.reset()
-        response.testResult.validOrThrow()
 
-        testResultDataCollector.updatePendingTestResultReceivedTime(response.testResult)
+        val testResult = response.testResult.validOrThrow()
 
-        if (response.testResult == CoronaTestResult.PCR_POSITIVE) {
+        testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
+
+        if (testResult == PCR_POSITIVE) {
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
             deadmanNotificationScheduler.cancelScheduledWork()
         }
 
         analyticsKeySubmissionCollector.reportTestRegistered()
 
-//        val currentTime = timeStamper.nowUTC
-//        submissionSettings.initialTestResultReceivedAt = currentTime
-//        testResultReceivedDateFlowInternal.value = currentTime.toDate()
-        if (response.testResult == CoronaTestResult.PCR_OR_RAT_PENDING) {
-//            riskWorkScheduler.setPeriodicRiskCalculation(enabled = true)
-
+        if (testResult == PCR_OR_RAT_PENDING) {
             testResultScheduler.setPeriodicTestPolling(enabled = true)
         }
 
@@ -82,7 +89,8 @@ class PCRProcessor @Inject constructor(
             identifier = request.identifier,
             registeredAt = timeStamper.nowUTC,
             registrationToken = response.registrationToken,
-            testResult = response.testResult,
+            testResult = testResult,
+            testResultReceivedAt = determineReceivedDate(null, testResult),
         )
     }
 
@@ -96,20 +104,22 @@ class PCRProcessor @Inject constructor(
                 return test
             }
 
-            val testResult = submissionService.asyncRequestTestResult(test.registrationToken)
-            Timber.tag(TAG).d("Test result was %s", testResult)
+            val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken)
+            Timber.tag(TAG).d("Test result was %s", newTestResult)
 
-            testResult.validOrThrow()
+            newTestResult.validOrThrow()
 
-            testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
+            testResultDataCollector.updatePendingTestResultReceivedTime(newTestResult)
 
-            if (testResult == CoronaTestResult.PCR_POSITIVE) {
+            if (newTestResult == PCR_POSITIVE) {
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
                 deadmanNotificationScheduler.cancelScheduledWork()
             }
 
+
             test.copy(
-                testResult = testResult,
+                testResult = newTestResult,
+                testResultReceivedAt = determineReceivedDate(test, newTestResult),
                 lastError = null
             )
         } catch (e: Exception) {
@@ -119,6 +129,12 @@ class PCRProcessor @Inject constructor(
             test as PCRCoronaTest
             test.copy(lastError = e)
         }
+    }
+
+    private fun determineReceivedDate(oldTest: PCRCoronaTest?, newTestResult: CoronaTestResult): Instant? = when {
+        oldTest != null && FINAL_STATES.contains(oldTest.testResult) -> oldTest.testResultReceivedAt
+        FINAL_STATES.contains(newTestResult) -> timeStamper.nowUTC
+        else -> null
     }
 
     override suspend fun onRemove(toBeRemoved: CoronaTest) {
@@ -162,24 +178,26 @@ class PCRProcessor @Inject constructor(
     }
 
     companion object {
+        private val FINAL_STATES = setOf(PCR_POSITIVE, PCR_NEGATIVE, PCR_REDEEMED)
         private const val TAG = "PCRProcessor"
     }
 }
 
-private fun CoronaTestResult.validOrThrow() {
+private fun CoronaTestResult.validOrThrow(): CoronaTestResult {
     val isValid = when (this) {
-        CoronaTestResult.PCR_OR_RAT_PENDING,
-        CoronaTestResult.PCR_NEGATIVE,
-        CoronaTestResult.PCR_POSITIVE,
-        CoronaTestResult.PCR_INVALID,
-        CoronaTestResult.PCR_REDEEMED -> true
+        PCR_OR_RAT_PENDING,
+        PCR_NEGATIVE,
+        PCR_POSITIVE,
+        PCR_INVALID,
+        PCR_REDEEMED -> true
 
-        CoronaTestResult.RAT_PENDING,
-        CoronaTestResult.RAT_NEGATIVE,
-        CoronaTestResult.RAT_POSITIVE,
-        CoronaTestResult.RAT_INVALID,
-        CoronaTestResult.RAT_REDEEMED -> false
+        RAT_PENDING,
+        RAT_NEGATIVE,
+        RAT_POSITIVE,
+        RAT_INVALID,
+        RAT_REDEEMED -> false
     }
 
     if (!isValid) throw IllegalArgumentException("Invalid testResult $this")
+    return this
 }
