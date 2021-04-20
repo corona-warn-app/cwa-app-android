@@ -18,7 +18,7 @@
             android:layout_marginEnd="@dimen/spacing_small"
             android:accessibilityHeading="true"
             android:focusable="false"
-            android:text="@string/submission_status_card_title_unregistered"
+            android:text="@string/ag_homescreen_card_test_register_title"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
             android:focusable="false"
-            android:text="@string/submission_status_card_body_unregistered"
+            android:text="@string/ag_homescreen_card_test_register_body"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />

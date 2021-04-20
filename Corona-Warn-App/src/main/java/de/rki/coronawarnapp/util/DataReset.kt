@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
@@ -60,6 +61,7 @@ class DataReset @Inject constructor(
     private val checkInRepository: CheckInRepository,
     private val traceLocationSettings: TraceLocationSettings,
     private val traceWarningRepository: TraceWarningRepository,
+    private val coronaTestRepository: CoronaTestRepository,
 ) {
 
     private val mutex = Mutex()
@@ -101,6 +103,7 @@ class DataReset @Inject constructor(
         traceWarningRepository.clear()
         traceLocationRepository.deleteAllTraceLocations()
         checkInRepository.clear()
+        coronaTestRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

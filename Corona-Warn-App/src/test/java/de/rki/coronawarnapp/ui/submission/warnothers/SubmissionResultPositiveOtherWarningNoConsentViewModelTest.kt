@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.ui.submission.warnothers
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -11,6 +13,7 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
@@ -33,6 +36,13 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var checkInRepository: CheckInRepository
+
+    private val coronaTestFlow = MutableStateFlow(
+        mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns true
+        }
+    )
 
     @BeforeEach
     fun setUp() {
@@ -41,7 +51,11 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         every { tekHistoryUpdater.updateTEKHistoryOrRequestPermission() } just Runs
 
         every { interoperabilityRepository.countryList } returns emptyFlow()
-        every { submissionRepository.giveConsentToSubmission() } just Runs
+
+        submissionRepository.apply {
+            every { giveConsentToSubmission(any()) } just Runs
+            every { testForType(any()) } returns coronaTestFlow
+        }
 
         every { enfClient.isTracingEnabled } returns flowOf(true)
     }
@@ -53,19 +67,21 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         enfClient = enfClient,
         interoperabilityRepository = interoperabilityRepository,
         submissionRepository = submissionRepository,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        checkInRepository = checkInRepository
     )
 
     @Test
     fun `consent is stored and tek history updated`() {
-        val consentMutable = MutableStateFlow(false)
-        every { submissionRepository.hasGivenConsentToSubmission } returns consentMutable
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns false
+        }
 
         val viewModel = createViewModel()
 
         viewModel.onConsentButtonClicked()
 
-        verify { submissionRepository.giveConsentToSubmission() }
+        verify { submissionRepository.giveConsentToSubmission(any()) }
         verify { tekHistoryUpdater.updateTEKHistoryOrRequestPermission() }
     }
 }

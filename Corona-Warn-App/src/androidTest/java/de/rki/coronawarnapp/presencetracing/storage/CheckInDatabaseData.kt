@@ -23,6 +23,7 @@ object CheckInDatabaseData {
         completed = false,
         createJournalEntry = true,
         isSubmitted = false,
+        hasSubmissionConsent = false,
     )
 
     val testCheckInWithoutCheckOutTime = TraceLocationCheckInEntity(
@@ -41,5 +42,6 @@ object CheckInDatabaseData {
         completed = false,
         createJournalEntry = true,
         isSubmitted = false,
+        hasSubmissionConsent = false,
     )
 }

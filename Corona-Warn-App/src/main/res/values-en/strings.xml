@@ -958,7 +958,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Do you want to cancel entering your symptoms?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"If you provide information about your symptoms, you can warn others more exactly."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"If you provide information about your symptoms, you can warn others more accurately."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Yes"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -1967,4 +1967,22 @@
     <string name="trace_location_organiser_poster_share">"Share"</string>
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Print Version"</string>
+    <!-- XHED: Trace location check-ins consent screen title -->
+    <string name="trace_location_attendee_consent_title">"Share Your Location Check-Ins?"</string>
+    <!-- XTXT: Trace location check-ins consent screen header description -->
+    <string name="trace_location_attendee_consent_header_description">"Warn others who checked in near you. Your personal data will not be shared."</string>
+    <!-- XBUT: Trace location check-ins consent screen header button -->
+    <string name="trace_location_attendee_consent_header_button">"Select all"</string>
+    <!-- XBUT: Trace location check-ins consent screen continue button -->
+    <string name="trace_location_attendee_consent_continue">"Submit"</string>
+    <!-- XBUT: Trace location check-ins consent screen skip button -->
+    <string name="trace_location_attendee_consent_skip">"Skip"</string>
+    <!-- XHED: Trace location check-ins consent screen dialog title -->
+    <string name="trace_location_attendee_consent_dialog_title">"Are you sure you don’t want to share your check-ins?"</string>
+    <!-- XTXT: Trace location check-ins consent screen dialog message -->
+    <string name="trace_location_attendee_consent_dialog_message">"Skipping will not warn any contacts who checked in near you."</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
+    <string name="trace_location_attendee_consent_dialog_positive_button">"Share"</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
+    <string name="trace_location_attendee_consent_dialog_negative_button">"Don’t Share"</string>
 </resources>

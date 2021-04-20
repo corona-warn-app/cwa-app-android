@@ -958,7 +958,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Belirtilerinizi girmeyi iptal etmek istiyor musunuz?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"Belirtilerinizle ilgili olarak bilgi verirseniz diğer kullanıcıları daha net bir biçimde uyarabilir."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"Belirtilerinizle ilgili olarak bilgi verirseniz diğer kullanıcıları daha doğru bir şekilde uyarabilirsiniz."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Evet"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -1967,4 +1967,22 @@
     <string name="trace_location_organiser_poster_share">"Paylaş"</string>
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Yazdırma Sürümü"</string>
+    <!-- XHED: Trace location check-ins consent screen title -->
+    <string name="trace_location_attendee_consent_title">"Konum Check-In’leriniz Paylaşılsın Mı?"</string>
+    <!-- XTXT: Trace location check-ins consent screen header description -->
+    <string name="trace_location_attendee_consent_header_description">"Sizin yakınınızda check in yapmış olan diğer kullanıcıları uyarın. Kişisel verileriniz paylaşılmayacaktır."</string>
+    <!-- XBUT: Trace location check-ins consent screen header button -->
+    <string name="trace_location_attendee_consent_header_button">"Tümünü seç"</string>
+    <!-- XBUT: Trace location check-ins consent screen continue button -->
+    <string name="trace_location_attendee_consent_continue">"Gönder"</string>
+    <!-- XBUT: Trace location check-ins consent screen skip button -->
+    <string name="trace_location_attendee_consent_skip">"Atla"</string>
+    <!-- XHED: Trace location check-ins consent screen dialog title -->
+    <string name="trace_location_attendee_consent_dialog_title">"Check-in’lerinizi paylaşmak istemediğinizden emin misiniz?"</string>
+    <!-- XTXT: Trace location check-ins consent screen dialog message -->
+    <string name="trace_location_attendee_consent_dialog_message">"Bu adımı atladığınızda sizin yakınınızda check in yapmış olan hiç kimseye uyarı gönderilmeyecektir."</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
+    <string name="trace_location_attendee_consent_dialog_positive_button">"Paylaş"</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
+    <string name="trace_location_attendee_consent_dialog_negative_button">"Paylaşma"</string>
 </resources>

@@ -155,6 +155,10 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="materialTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog.Flush">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="buttonIcon">
         <item name="android:background">@drawable/circle_ripple</item>
         <item name="android:backgroundTint">@color/button_back</item>
@@ -186,6 +190,11 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="phoneNumber">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">?selectableItemBackground</item>
     </style>
 
     <style name="rowSettings" parent="@style/row">
@@ -289,9 +298,13 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
-    <style name="subtitleBoldSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+
+    <style name="materialSubtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textColor">@color/colorTextPrimary1</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="subtitleBoldSixteen" parent="materialSubtitleSixteen">
         <item name="android:textStyle">bold</item>
     </style>
 

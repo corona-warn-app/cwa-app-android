@@ -11,6 +11,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
@@ -19,17 +20,16 @@ import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
-import de.rki.coronawarnapp.submission.ui.homecards.TestSubmissionDoneCard
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
-import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.statistics.Statistics
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -62,7 +62,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
     @MockK lateinit var tracingStatus: GeneralTracingStatus
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
-    @MockK lateinit var submissionStateProvider: SubmissionStateProvider
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
@@ -270,7 +270,7 @@ class HomeFragmentTest : BaseUITest() {
             appConfigProvider = appConfigProvider,
             tracingStatus = tracingStatus,
             submissionRepository = submissionRepository,
-            submissionStateProvider = submissionStateProvider,
+            coronaTestRepository = coronaTestRepository,
             cwaSettings = cwaSettings,
             statisticsProvider = statisticsProvider,
             deadmanNotificationScheduler = deadmanNotificationScheduler,
@@ -288,8 +288,8 @@ class HomeFragmentTest : BaseUITest() {
         MutableLiveData(
             mutableListOf<HomeItem>().apply {
                 when (submissionTestResultItem) {
-                    is TestSubmissionDoneCard.Item,
-                    is TestPositiveCard.Item -> {
+                    is PcrTestSubmissionDoneCard.Item,
+                    is PcrTestPositiveCard.Item -> {
                         Timber.d("Tracing item is not added, submission:$submissionTestResultItem")
                     }
                     else -> add(tracingStateItem)

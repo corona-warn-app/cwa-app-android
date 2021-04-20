@@ -40,6 +40,9 @@ interface CheckInDao {
     @Update(entity = TraceLocationCheckInEntity::class)
     suspend fun updateEntity(update: TraceLocationCheckInEntity.SubmissionUpdate)
 
+    @Update(entity = TraceLocationCheckInEntity::class)
+    suspend fun updateSubmissionConsents(update: Collection<TraceLocationCheckInEntity.SubmissionConsentUpdate>)
+
     @Query("DELETE FROM checkin")
     suspend fun deleteAll()
 

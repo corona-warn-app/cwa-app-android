@@ -8,20 +8,22 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
-import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
+import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -35,7 +37,6 @@ import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.locale.LocaleTestRule
-import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultFragmentTest : BaseUITest() {
@@ -55,8 +56,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { submissionRepository.deviceUIStateFlow } returns flowOf()
-        every { submissionRepository.testResultReceivedDateFlow } returns flowOf()
+        every { submissionRepository.testForType(any()) } returns flowOf()
 
         viewModel = spyk(
             SubmissionTestResultPendingViewModel(
@@ -71,8 +71,11 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             every { consentGiven } returns MutableLiveData(true)
             every { testState } returns MutableLiveData(
                 TestResultUIState(
-                    deviceUiState = NetworkRequestWrapper.RequestSuccessful(data = DeviceUIState.PAIRED_POSITIVE),
-                    testResultReceivedDate = Date()
+                    coronaTest = mockk<CoronaTest>().apply {
+                        every { testResult } returns CoronaTestResult.PCR_POSITIVE
+                        every { registeredAt } returns Instant.now()
+                        every { isProcessing } returns false
+                    }
                 )
             )
         }
@@ -113,10 +116,11 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     fun capture_fragment() {
         every { viewModel.testState } returns MutableLiveData(
             TestResultUIState(
-                NetworkRequestWrapper.RequestSuccessful(
-                    DeviceUIState.PAIRED_NO_RESULT
-                ),
-                Date()
+                coronaTest = mockk<CoronaTest>().apply {
+                    every { testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
+                    every { registeredAt } returns Instant.now()
+                    every { isProcessing } returns false
+                }
             )
         )
         captureScreenshot<SubmissionTestResultPendingFragment>()
