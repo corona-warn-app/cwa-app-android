@@ -363,7 +363,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun deregisterWarningAccepted() {
         submissionRepository.removeTestFromDevice(type = CoronaTest.Type.PCR)
-        submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
