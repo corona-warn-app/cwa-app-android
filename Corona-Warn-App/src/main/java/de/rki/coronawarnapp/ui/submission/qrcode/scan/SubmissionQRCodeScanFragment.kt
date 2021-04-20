@@ -81,18 +81,6 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                             )
                     )
                 }
-                SubmissionNavigationEvents.NavigateToResultAvailableScreen -> {
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
-                    )
-                }
-                SubmissionNavigationEvents.NavigateToResultPendingScreen -> {
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
-                    )
-                }
             }
         }
 
@@ -125,7 +113,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                         doNavigate(
                             SubmissionQRCodeScanFragmentDirections
                                 .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
-                                    CoronaTest.Type.PCR
+                                    testType = CoronaTest.Type.PCR
                                 )
                         )
                     CoronaTestResult.PCR_OR_RAT_PENDING -> {
@@ -158,7 +146,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                         doNavigate(
                             SubmissionQRCodeScanFragmentDirections
                                 .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
-                                    CoronaTest.Type.RAPID_ANTIGEN
+                                    testType = CoronaTest.Type.RAPID_ANTIGEN
                                 )
                         )
                     CoronaTestResult.RAT_NEGATIVE,

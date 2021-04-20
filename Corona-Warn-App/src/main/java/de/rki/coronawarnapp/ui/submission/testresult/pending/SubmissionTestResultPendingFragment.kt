@@ -21,13 +21,10 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submission_test_result_pending), AutoInject {
-
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val pendingViewModel: SubmissionTestResultPendingViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentSubmissionTestResultPendingBinding by viewBindingLazy()
 
@@ -37,10 +34,18 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
     private val navArgs by navArgs<SubmissionTestResultPendingFragmentArgs>()
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val pendingViewModel: SubmissionTestResultPendingViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionTestResultPendingViewModel.Factory
+            factory.create(navArgs.testType)
+        }
+    )
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pendingViewModel.updateTestType(navArgs.testType)
         Toast.makeText(context, "Scanned ${navArgs.testType} test", Toast.LENGTH_SHORT).show()
 
         pendingViewModel.consentGiven.observe2(this) {
