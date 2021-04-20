@@ -47,7 +47,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
         val setupTimeoutEnforcer: (HotDataFlow<Map<String, TrackedExposureDetection>>) -> Unit = { hd ->
             flow<Unit> {
                 while (true) {
-                    hd.updateAsync {
+                    hd.updateBlocking {
                         val timeNow = timeStamper.nowUTC
                         Timber.v("Running timeout check (now=%s): %s", timeNow, values)
                         val timeoutLimit = appConfigProvider.currentConfig.first().overallDetectionTimeout
