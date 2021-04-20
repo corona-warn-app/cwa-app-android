@@ -38,8 +38,13 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
 
     fun deleteExistingAndRegisterNewTest() = launch {
         val currentTest = submissionRepository.testForType(coronaTest.type).first()
-        coronaTestRepository.removeTest(currentTest!!.identifier)
-        doDeviceRegistration(coronaTest)
+        try {
+            coronaTestRepository.removeTest(currentTest!!.identifier)
+            doDeviceRegistration(coronaTest)
+        } catch (err: Exception) {
+            Timber.e(err, "Removal of existing test failed with msg: ${err.message}")
+            err.report(ExceptionCategory.INTERNAL)
+        }
     }
 
     data class RegistrationState(
