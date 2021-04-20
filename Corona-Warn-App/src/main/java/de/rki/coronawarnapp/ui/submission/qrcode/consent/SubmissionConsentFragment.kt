@@ -2,16 +2,23 @@ package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
+import de.rki.coronawarnapp.exception.http.BadRequestException
+import de.rki.coronawarnapp.exception.http.CwaClientError
+import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeSubmission
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -31,6 +38,9 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+        navArgs.qrCode?.let {
+            viewModel.qrCode = it
+        }
         binding.submissionConsentHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onBackButtonClick()
         }
@@ -53,8 +63,41 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         viewModel.countries.observe2(this) {
             binding.countries = it
         }
-        navArgs.qrCode?.let {
-            // TODO
+
+        viewModel.showRedeemedTokenWarning.observe2(this) {
+            val dialog = DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_tan_redeemed_title,
+                R.string.submission_error_dialog_web_tan_redeemed_body,
+                R.string.submission_error_dialog_web_tan_redeemed_button_positive
+            )
+
+            DialogHelper.showDialog(dialog)
+            popBackStack()
+        }
+
+        viewModel.qrCodeValidationState.observe2(this) {
+            if (QrCodeSubmission.ValidationState.INVALID == it) {
+                showInvalidScanDialog()
+            }
+        }
+
+        viewModel.registrationState.observe2(this) { state ->
+            binding.progressSpinner.visibility = when (state.apiRequestState) {
+                ApiRequestState.STARTED -> View.VISIBLE
+                else -> View.GONE
+            }
+            if (ApiRequestState.SUCCESS == state.apiRequestState) {
+                if (state.testResult == CoronaTestResult.RAT_POSITIVE) {
+                    doNavigate(NavGraphDirections.actionToSubmissionTestResultAvailableFragment())
+                } else {
+                    doNavigate(NavGraphDirections.actionSubmissionTestResultPendingFragment())
+                }
+            }
+        }
+
+        viewModel.registrationError.observe2(this) {
+            DialogHelper.showDialog(buildErrorDialog(it))
         }
     }
 
@@ -70,9 +113,62 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         }
     }
 
+    private fun showInvalidScanDialog() {
+        val invalidScanDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_qr_code_scan_invalid_dialog_headline,
+            R.string.submission_qr_code_scan_invalid_dialog_body,
+            R.string.submission_qr_code_scan_invalid_dialog_button_positive,
+            R.string.submission_qr_code_scan_invalid_dialog_button_negative,
+            true,
+            positiveButtonFunction = {},
+            negativeButtonFunction = ::navigateHome
+        )
+
+        DialogHelper.showDialog(invalidScanDialogInstance)
+    }
+
+    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
+        return when (exception) {
+            is BadRequestException -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_qr_code_scan_invalid_dialog_headline,
+                R.string.submission_qr_code_scan_invalid_dialog_body,
+                R.string.submission_qr_code_scan_invalid_dialog_button_positive,
+                R.string.submission_qr_code_scan_invalid_dialog_button_negative,
+                true,
+                { },
+                ::navigateHome
+            )
+            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                R.string.submission_error_dialog_web_generic_network_error_body,
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateHome
+            )
+            else -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                R.string.submission_error_dialog_web_generic_error_body,
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateHome
+            )
+        }
+    }
+
+    private fun navigateHome() {
+        popBackStack()
+    }
+
     companion object {
         private const val REQUEST_USER_RESOLUTION = 3000
 
-        fun createDeepLink(rootUri: String): Uri = "coronawarnapp://check-ins/$rootUri".toUri()
+        // TODO
+        fun canHandle(rootUri: String): Boolean = true
     }
 }

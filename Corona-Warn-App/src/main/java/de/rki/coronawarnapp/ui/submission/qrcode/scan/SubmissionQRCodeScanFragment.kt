@@ -8,6 +8,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
@@ -15,15 +16,15 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeSubmission
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -62,8 +63,8 @@ class SubmissionQRCodeScanFragment :
             submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
         }
 
-        viewModel.scanStatusValue.observe2(this) {
-            if (ScanStatus.INVALID == it) {
+        viewModel.qrCodeValidationState.observe2(this) {
+            if (QrCodeSubmission.ValidationState.INVALID == it) {
                 showInvalidScanDialog()
             }
         }
@@ -87,15 +88,9 @@ class SubmissionQRCodeScanFragment :
             }
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
-                    )
+                    doNavigate(NavGraphDirections.actionToSubmissionTestResultAvailableFragment())
                 } else {
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
-                    )
+                    doNavigate(NavGraphDirections.actionSubmissionTestResultPendingFragment())
                 }
             }
         }
@@ -116,7 +111,7 @@ class SubmissionQRCodeScanFragment :
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle {
-            viewModel.validateTestGUID(it.text)
+            viewModel.onQrCodeAvailable(it.text)
         }
     }
 
@@ -250,7 +245,7 @@ class SubmissionQRCodeScanFragment :
         DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
-    private fun goBack() = (activity as MainActivity).goBack()
+    private fun goBack() = popBackStack()
 
     private fun requestCameraPermission() = requestPermissions(
         arrayOf(Manifest.permission.CAMERA),
