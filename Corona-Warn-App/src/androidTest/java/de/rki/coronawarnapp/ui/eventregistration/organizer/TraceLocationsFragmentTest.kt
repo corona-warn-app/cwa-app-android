@@ -23,6 +23,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
+import java.util.TimeZone
 
 @RunWith(AndroidJUnit4::class)
 class TraceLocationsFragmentTest : BaseUITest() {
@@ -32,6 +33,7 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"));
         MockKAnnotations.init(this, relaxed = true)
 
         every { checkInsRepository.allCheckIns } returns flowOf(listOf())

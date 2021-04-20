@@ -30,6 +30,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
+import java.util.TimeZone
 
 @RunWith(AndroidJUnit4::class)
 class TraceLocationCreateFragmentTest : BaseUITest() {
@@ -45,6 +46,7 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"));
         MockKAnnotations.init(this, relaxed = true)
 
         coEvery { traceLocationRepository.addTraceLocation(any()) } returns TraceLocationData.traceLocationSameDate
