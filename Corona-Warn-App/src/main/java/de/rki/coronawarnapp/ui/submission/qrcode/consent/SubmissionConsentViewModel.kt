@@ -4,10 +4,8 @@ import androidx.lifecycle.asLiveData
 import com.google.android.gms.common.api.ApiException
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -16,11 +14,10 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
 
 class SubmissionConsentViewModel @AssistedInject constructor(
-    private val submissionRepository: SubmissionRepository,
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryProvider: TEKHistoryProvider,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    // private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
@@ -30,8 +27,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
     fun onConsentButtonClick() {
         // TODO Do we have a Test registered at this time? We need to forward the decission with navargs?
-//        submissionRepository.giveConsentToSubmission(type = CoronaTest.Type.PCR)
-        analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
+        // analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         launch {
             try {
                 val preAuthorized = tekHistoryProvider.preAuthorizeExposureKeyHistory()
