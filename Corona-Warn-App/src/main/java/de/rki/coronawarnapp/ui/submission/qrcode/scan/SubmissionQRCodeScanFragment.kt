@@ -72,11 +72,25 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragment -> {
-                    SubmissionQRCodeScanFragmentDirections
-                        .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
-                            args.isConsentGiven,
-                            it.coronaTestQRCode
-                        )
+                    doNavigate(
+                        SubmissionQRCodeScanFragmentDirections
+                            .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
+                                it.consentGiven,
+                                it.coronaTestQRCode
+                            )
+                    )
+                }
+                SubmissionNavigationEvents.NavigateToResultAvailableScreen -> {
+                    doNavigate(
+                        SubmissionQRCodeScanFragmentDirections
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
+                    )
+                }
+                SubmissionNavigationEvents.NavigateToResultPendingScreen -> {
+                    doNavigate(
+                        SubmissionQRCodeScanFragmentDirections
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
+                    )
                 }
             }
         }
@@ -107,19 +121,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
-                                isConsentGiven = args.isConsentGiven
-                            )
-                    )
+                    viewModel.triggerNavigationToSubmissionTestResultAvailableFragment()
                 } else {
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
-                                isConsentGiven = args.isConsentGiven
-                            )
-                    )
+                    viewModel.triggerNavigationToSubmissionTestResultPendingFragment()
                 }
             }
         }
