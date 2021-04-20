@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import com.google.android.material.datepicker.MaterialDatePicker
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import org.joda.time.LocalDate
 import javax.inject.Inject
 
 class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment), AutoInject {
@@ -32,13 +34,23 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                 viewModel.createProfile()
             }
 
+            // Full name
             firstNameInputEdit.doAfterTextChanged { viewModel.firstNameChanged(it.toString()) }
             lastNameInputEdit.doAfterTextChanged { viewModel.lastNameChanged(it.toString()) }
+
+            // Birth date
             birthDateInputEdit.doAfterTextChanged { viewModel.birthDateChanged(it.toString()) }
+            birthDateInputEdit.setOnClickListener { openDatePicker() }
+
+            // Address
             streetInputEdit.doAfterTextChanged { viewModel.streetChanged(it.toString()) }
             zipCodeInputEdit.doAfterTextChanged { viewModel.zipCodeChanged(it.toString()) }
             cityInputEdit.doAfterTextChanged { viewModel.cityChanged(it.toString()) }
+
+            // Phone
             phoneInputEdit.doAfterTextChanged { viewModel.phoneChanged(it.toString()) }
+
+            // E-mail
             emailInputEdit.doAfterTextChanged { viewModel.emailChanged(it.toString()) }
 
             viewModel.profile.observe(viewLifecycleOwner) {
@@ -55,4 +67,18 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                 }
             }
         }
+
+    private fun openDatePicker() {
+        MaterialDatePicker.Builder
+            .datePicker()
+            .build()
+            .apply {
+                addOnPositiveButtonClickListener { timestamp ->
+                    binding.birthDateInputEdit.setText(
+                        LocalDate(timestamp).toString("dd.MM.yyyy")
+                    )
+                }
+            }
+            .show(childFragmentManager, "RATProfileCreateFragment.MaterialDatePicker")
+    }
 }

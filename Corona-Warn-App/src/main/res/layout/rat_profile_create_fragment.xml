@@ -106,7 +106,10 @@
                     android:id="@+id/birth_date_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
                     android:focusable="true"
+                    android:focusableInTouchMode="false"
                     android:imeOptions="actionNext"
                     android:inputType="date" />
 
