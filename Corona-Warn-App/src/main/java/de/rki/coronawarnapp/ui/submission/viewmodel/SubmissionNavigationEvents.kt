@@ -15,6 +15,7 @@ sealed class SubmissionNavigationEvents {
     object NavigateToMainActivity : SubmissionNavigationEvents()
     object NavigateToResultPendingScreen : SubmissionNavigationEvents()
     object NavigateToResultAvailableScreen : SubmissionNavigationEvents()
-    data class NavigateToDeletionWarningFragment(val coronaTestQRCode: CoronaTestQRCode) : SubmissionNavigationEvents()
+    data class NavigateToDeletionWarningFragment(val coronaTestQRCode: CoronaTestQRCode, val consentGiven: Boolean) :
+        SubmissionNavigationEvents()
     data class ResolvePlayServicesException(val exception: ApiException) : SubmissionNavigationEvents()
 }

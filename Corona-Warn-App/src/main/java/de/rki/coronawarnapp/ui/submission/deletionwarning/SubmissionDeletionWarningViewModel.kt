@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SubmissionDeletionWarningViewModel @AssistedInject constructor(
@@ -36,7 +37,8 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     val registrationError = SingleLiveEvent<CwaWebException>()
 
     fun deleteExistingAndRegisterNewTest() = launch {
-        coronaTestRepository.removeTest(coronaTest.identifier)
+        val currentTest = submissionRepository.testForType(coronaTest.type).first()
+        coronaTestRepository.removeTest(currentTest!!.identifier)
         doDeviceRegistration(coronaTest)
     }
 
