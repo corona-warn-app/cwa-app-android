@@ -31,7 +31,8 @@
             android:layout_height="match_parent"
             android:fillViewport="true"
             android:paddingBottom="@dimen/guideline_bottom"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay">
 
             <include
                 android:id="@+id/information_technical_header_details"

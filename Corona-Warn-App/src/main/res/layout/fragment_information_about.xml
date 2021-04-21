@@ -26,6 +26,7 @@
             android:fillViewport="true"
             android:paddingBottom="@dimen/spacing_small"
             android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
