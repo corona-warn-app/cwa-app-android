@@ -788,7 +788,10 @@
     <string name="information_contact_subtitle_phone">"Technische Hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"0800 7540001"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline information page -->
     <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
+    <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
     <!-- XLNK: Description for national technical contact and hotline information page -->
     <string name="information_contact_button_phone_description">"Für Anrufe innerhalb Deutschlands. Der Anruf ist kostenfrei."</string>
     <!-- XLNK: Description for international technical contact and hotline information page -->
