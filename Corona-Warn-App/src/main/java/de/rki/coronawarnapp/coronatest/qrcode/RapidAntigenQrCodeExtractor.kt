@@ -3,64 +3,36 @@ package de.rki.coronawarnapp.coronatest.qrcode
 import com.google.common.io.BaseEncoding
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.util.hashing.isSha256Hash
 import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.internal.commonToUtf8String
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import timber.log.Timber
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCode> {
 
-    private val prefix: String = "https://s.coronawarn.app?v=1#"
-    private val prefix2: String = "https://s.coronawarn.app/?v=1#"
-    private val hexPattern: Pattern = Pattern.compile("\\p{XDigit}+")
-
     override fun canHandle(rawString: String): Boolean {
-        return rawString.startsWith(prefix, ignoreCase = true) || rawString.startsWith(prefix2, ignoreCase = true)
+        return rawString.startsWith(PREFIX1, ignoreCase = true) || rawString.startsWith(PREFIX2, ignoreCase = true)
     }
 
     override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
-        val data = extractData(rawString).validate()
+        Timber.v("extract(rawString=%s)", rawString)
+        val payload = extractData(rawString)
         return CoronaTestQRCode.RapidAntigen(
-            hash = data.hash!!,
-            createdAt = data.createdAt!!,
-            firstName = data.firstName,
-            lastName = data.lastName,
-            dateOfBirth = data.dateOfBirth
+            hash = payload.hash,
+            createdAt = payload.createdAt,
+            firstName = payload.firstName,
+            lastName = payload.lastName,
+            dateOfBirth = payload.dateOfBirth
         )
-    }
-
-    private fun Payload.validate(): Payload {
-        if (hash == null || !hash.isSha256Hash()) throw InvalidQRCodeException("Hash is invalid")
-        if (timestamp == null || timestamp <= 0) throw InvalidQRCodeException("Timestamp is invalid")
-        createdAt = Instant.ofEpochSecond(timestamp)
-        dateOfBirth = dob?.let {
-            try {
-                LocalDate.parse(it)
-            } catch (e: Exception) {
-                Timber.e("Invalid date format")
-                throw InvalidQRCodeException("Date of birth has wrong format: $it. It should be YYYY-MM-DD")
-            }
-        }
-        return this
-    }
-
-    private fun String.isSha256Hash(): Boolean {
-        return length == 64 && isHexadecimal()
-    }
-
-    private fun String.isHexadecimal(): Boolean {
-        val matcher: Matcher = hexPattern.matcher(this)
-        return matcher.matches()
     }
 
     private fun extractData(rawString: String): Payload {
         return rawString
-            .removePrefix(prefix)
-            .removePrefix(prefix2)
+            .removePrefix(PREFIX1)
+            .removePrefix(PREFIX2)
             .decode()
     }
 
@@ -78,15 +50,57 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
     }
 
     private data class Payload(
-        val hash: String?,
-        val timestamp: Long?,
+        @SerializedName("hash")
+        val rawHash: String?,
+        @SerializedName("timestamp")
+        val rawTimestamp: Long?,
         @SerializedName("fn")
-        val firstName: String?,
+        val rawFirstName: String?,
         @SerializedName("ln")
-        val lastName: String?,
-        val dob: String?
+        val rawLastName: String?,
+        @SerializedName("dob")
+        val rawDateOfBirth: String?
     ) {
-        var dateOfBirth: LocalDate? = null
-        var createdAt: Instant? = null
+        val hash: String
+            get() {
+                if (rawHash == null || !rawHash.isSha256Hash()) throw InvalidQRCodeException("Hash is invalid")
+                return rawHash
+            }
+
+        val createdAt: Instant
+            get() {
+                if (rawTimestamp == null || rawTimestamp <= 0) throw InvalidQRCodeException("Timestamp is invalid")
+                return Instant.ofEpochSecond(rawTimestamp)
+            }
+
+        val firstName: String?
+            get() {
+                if (rawFirstName.isNullOrEmpty()) return null
+                return rawFirstName
+            }
+
+        val lastName: String?
+            get() {
+                if (rawLastName.isNullOrEmpty()) return null
+                return rawLastName
+            }
+
+        val dateOfBirth: LocalDate?
+            get() {
+                if (rawDateOfBirth.isNullOrEmpty()) return null
+                return try {
+                    LocalDate.parse(rawDateOfBirth)
+                } catch (e: Exception) {
+                    Timber.e("Invalid date format")
+                    throw InvalidQRCodeException(
+                        "Date of birth has wrong format: $rawDateOfBirth. It should be YYYY-MM-DD"
+                    )
+                }
+            }
+    }
+
+    companion object {
+        private const val PREFIX1: String = "https://s.coronawarn.app?v=1#"
+        private const val PREFIX2: String = "https://s.coronawarn.app/?v=1#"
     }
 }
