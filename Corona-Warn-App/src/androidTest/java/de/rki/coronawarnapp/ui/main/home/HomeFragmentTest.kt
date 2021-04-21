@@ -12,9 +12,9 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -84,7 +84,6 @@ class HomeFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         homeFragmentViewModel = homeFragmentViewModelSpy()
         with(homeFragmentViewModel) {
-            every { observeTestResultToSchedulePositiveTestResultReminder() } just Runs
             every { refreshRequiredData() } just Runs
             every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
@@ -266,7 +265,6 @@ class HomeFragmentTest : BaseUITest() {
             errorResetTool = errorResetTool,
             tracingRepository = tracingRepository,
             tracingStateProviderFactory = tracingStateProviderFactory,
-            shareTestResultNotificationService = shareTestResultNotificationService,
             appConfigProvider = appConfigProvider,
             tracingStatus = tracingStatus,
             submissionRepository = submissionRepository,

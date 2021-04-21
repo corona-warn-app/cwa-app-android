@@ -22,7 +22,12 @@ class PcrTestSubmissionDoneCard(
     override val onBindData: HomeSubmissionPcrStatusCardPositiveSharedBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { _, _ -> }
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+
+        val userDate = curItem.state.getFormattedRegistrationDate()
+        date.text = resources.getString(R.string.ag_homescreen_card_pcr_body_result_date, userDate)
+    }
 
     data class Item(
         val state: SubmissionStatePCR.SubmissionDone

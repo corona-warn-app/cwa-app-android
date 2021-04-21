@@ -17,12 +17,16 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 
 fun PCRCoronaTest?.toSubmissionState() = when {
     this == null -> NoTest
+    isSubmitted -> SubmissionStatePCR.SubmissionDone(testRegisteredAt = registeredAt)
     isProcessing -> FetchingResult
     lastError != null -> if (lastError is CwaServerError) TestPending else TestInvalid
     else -> when (state) {
         INVALID -> TestError
-        POSITIVE -> if (isViewed) TestPositive else TestResultReady
-        NEGATIVE -> TestNegative
+        POSITIVE -> when {
+            isViewed -> TestPositive(testRegisteredAt = registeredAt)
+            else -> TestResultReady
+        }
+        NEGATIVE -> TestNegative(testRegisteredAt = registeredAt)
         REDEEMED -> TestInvalid
         PENDING -> TestPending
     }
