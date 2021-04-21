@@ -33,7 +33,6 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val qrCodeValidationState = SingleLiveEvent<QrCodeRegistrationStateProcessor.ValidationState>()
 
-
     val showRedeemedTokenWarning = qrCodeRegistrationStateProcessor.showRedeemedTokenWarning
     val registrationState = qrCodeRegistrationStateProcessor.registrationState
     val registrationError = qrCodeRegistrationStateProcessor.registrationError

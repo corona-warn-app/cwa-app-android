@@ -85,5 +85,4 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<SubmissionQRCodeScanViewModel> {
         fun create(isConsentGiven: Boolean): SubmissionQRCodeScanViewModel
     }
-
 }

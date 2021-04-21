@@ -126,25 +126,14 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
                     viewModel.triggerNavigationToSubmissionTestResultAvailableFragment()
-                    //doNavigate(NavGraphDirections.actionToSubmissionTestResultAvailableFragment())
                 } else {
                     viewModel.triggerNavigationToSubmissionTestResultPendingFragment()
-                    //doNavigate(NavGraphDirections.actionSubmissionTestResultPendingFragment())
                 }
             }
         }
 
         viewModel.registrationError.observe2(this) {
             DialogHelper.showDialog(buildErrorDialog(it))
-        }
-
-        viewModel.routeToScreen.observe2(this) {
-            when (it) {
-                is SubmissionNavigationEvents.NavigateToDispatcher ->
-                    navigateToDispatchScreen()
-                is SubmissionNavigationEvents.NavigateToConsent ->
-                    goBack()
-            }
         }
     }
 

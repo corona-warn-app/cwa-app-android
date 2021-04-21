@@ -9,7 +9,6 @@ class CoronaTestQrCodeValidator @Inject constructor(
     raExtractor: RapidAntigenQrCodeExtractor,
     pcrExtractor: PcrQrCodeExtractor
 ) {
-
     private val extractors = setOf(raExtractor, pcrExtractor)
 
     fun validate(rawString: String): CoronaTestQRCode {
@@ -20,11 +19,8 @@ class CoronaTestQrCodeValidator @Inject constructor(
     }
 
     private fun findExtractor(rawString: String): QrCodeExtractor<CoronaTestQRCode>? {
-        return extractors
-            .find { it.canHandle(rawString) }
+        return extractors.find { it.canHandle(rawString) }
     }
-
-    fun hasType(rawString: String) = validate(rawString).type
 }
 
 interface QrCodeExtractor<T> {

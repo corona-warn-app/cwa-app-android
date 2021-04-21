@@ -11,13 +11,10 @@ import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcesso
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -84,17 +81,6 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         // invalid guid
         viewModel.onQrCodeAvailable(invalidQrCode)
         viewModel.qrCodeValidationState.value shouldBe ValidationState.INVALID
-    }
-
-    @Test
-    fun `doDeviceRegistration calls TestResultDataCollector`() = runBlockingTest {
-        val viewModel = createViewModel()
-        val mockResult = mockk<CoronaTestQRCode>().apply {
-            every { registrationIdentifier } returns "guid"
-        }
-        val mockTest = mockk<CoronaTest>()
-        coEvery { submissionRepository.registerTest(any()) } returns mockTest
-        //viewModel.doDeviceRegistration(mockResult)
     }
 
     @Test
