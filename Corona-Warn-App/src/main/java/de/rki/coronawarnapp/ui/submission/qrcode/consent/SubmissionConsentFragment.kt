@@ -81,7 +81,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
 
         viewModel.qrCodeValidationState.observe2(this) {
             if (QrCodeRegistrationStateProcessor.ValidationState.INVALID == it) {
-                showInvalidScanDialog()
+                showInvalidQrCodeDialog()
             }
         }
 
@@ -89,6 +89,11 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
             binding.progressSpinner.visibility = when (state.apiRequestState) {
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
+            }
+
+            binding.submissionConsentButton.isEnabled = when (state.apiRequestState) {
+                ApiRequestState.STARTED -> false
+                else -> true
             }
 
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
@@ -129,7 +134,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         }
     }
 
-    private fun showInvalidScanDialog() {
+    private fun showInvalidQrCodeDialog() {
         val invalidScanDialogInstance = DialogHelper.DialogInstance(
             requireActivity(),
             R.string.submission_qr_code_scan_invalid_dialog_headline,
