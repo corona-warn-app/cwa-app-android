@@ -44,7 +44,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         launch {
             try {
                 val preAuthorized = tekHistoryProvider.preAuthorizeExposureKeyHistory()
-                // Routes to QR code screen either user has already granted permission or it is older Api
+                // Proceed anyway, either user has already granted permission or it is older Api
                 proceed()
                 Timber.i("Pre-authorized:$preAuthorized")
             } catch (exception: Exception) {
@@ -76,7 +76,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         }
     }
 
-    suspend fun validateAndRegister(qrCodeString: String) {
+    private suspend fun validateAndRegister(qrCodeString: String) {
         try {
             val coronaTestQRCode = qrCodeValidator.validate(qrCodeString)
             // TODO this needs to be adapted to work for different types
@@ -86,7 +86,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
             if (coronaTest != null) {
                 routeToScreen.postValue(
-                    SubmissionNavigationEvents.NavigateToDeletionWarningFragment(
+                    SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
                         coronaTestQRCode,
                         consentGiven = true
                     )

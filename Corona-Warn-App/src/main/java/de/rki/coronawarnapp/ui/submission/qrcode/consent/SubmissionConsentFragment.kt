@@ -90,7 +90,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
-            // TODO check logic
+
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 when (state.testResult) {
                     CoronaTestResult.RAT_POSITIVE ->
@@ -99,7 +99,10 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                                 CoronaTest.Type.RAPID_ANTIGEN
                             )
                         )
-                    CoronaTestResult.RAT_PENDING ->
+                    CoronaTestResult.RAT_NEGATIVE,
+                    CoronaTestResult.RAT_INVALID,
+                    CoronaTestResult.RAT_PENDING,
+                    CoronaTestResult.RAT_REDEEMED ->
                         doNavigate(
                             NavGraphDirections.actionSubmissionTestResultPendingFragment(
                                 testType = CoronaTest.Type.RAPID_ANTIGEN
