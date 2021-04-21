@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -48,6 +49,18 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             }
         }
 
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromTan ->
+                    doNavigate(
+                        SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDeletionWarningFragment(
+                            isConsentGiven = it.consentGiven,
+                            coronaTestTan = it.coronaTestTan
+                        )
+                    )
+            }
+        }
+
         binding.apply {
             submissionTanContent.submissionTanInput.listener = { tan ->
                 submissionTanContent.submissionTanCharacterError.visibility = View.GONE
@@ -57,7 +70,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             }
 
             submissionTanButtonEnter.setOnClickListener {
-                viewModel.onTanSubmit()
+                viewModel.startTanSubmission()
             }
             submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
         }
