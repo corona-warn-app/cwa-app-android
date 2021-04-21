@@ -92,14 +92,14 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
             }
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == CoronaTestResult.RAT_POSITIVE) {
-                    doNavigate(NavGraphDirections
-                        .actionToSubmissionTestResultAvailableFragment(
+                    doNavigate(
+                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
                             CoronaTest.Type.RAPID_ANTIGEN
                         )
                     )
                 } else {
-                    doNavigate(NavGraphDirections
-                        .actionSubmissionTestResultPendingFragment(
+                    doNavigate(
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
                             testType = CoronaTest.Type.RAPID_ANTIGEN
                         )
                     )

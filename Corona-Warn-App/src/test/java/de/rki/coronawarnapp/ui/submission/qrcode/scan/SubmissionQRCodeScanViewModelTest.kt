@@ -49,7 +49,6 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
             QrCodeRegistrationStateProcessor.RegistrationState(ApiRequestState.IDLE)
         )
         coEvery { qrCodeRegistrationStateProcessor.registrationError } returns SingleLiveEvent()
-
     }
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
