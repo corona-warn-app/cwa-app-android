@@ -95,6 +95,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
                 qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, true)
             }
         } catch (err: InvalidQRCodeException) {
+            Timber.i(err)
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.INVALID)
         }
     }

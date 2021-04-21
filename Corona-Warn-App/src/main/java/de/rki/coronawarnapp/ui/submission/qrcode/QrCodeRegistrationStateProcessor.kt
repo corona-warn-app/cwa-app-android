@@ -35,7 +35,7 @@ class QrCodeRegistrationStateProcessor @Inject constructor(
             if (isConsentGiven) {
                 submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             }
-            checkTestResult(coronaTest.testResult)
+            checkTestResult(coronaTestQRCode, coronaTest)
             registrationState.postValue(
                 RegistrationState(
                     ApiRequestState.SUCCESS,
@@ -62,9 +62,9 @@ class QrCodeRegistrationStateProcessor @Inject constructor(
             err.report(ExceptionCategory.INTERNAL)
         }
 
-    private fun checkTestResult(testResult: CoronaTestResult) {
-        if (testResult == CoronaTestResult.PCR_REDEEMED) {
-            throw InvalidQRCodeException()
+    private fun checkTestResult(request: CoronaTestQRCode, test: CoronaTest) {
+        if (test.testResult == CoronaTestResult.PCR_REDEEMED) {
+            throw InvalidQRCodeException("CoronaTestResult already redeemed ${request.registrationIdentifier}")
         }
     }
 

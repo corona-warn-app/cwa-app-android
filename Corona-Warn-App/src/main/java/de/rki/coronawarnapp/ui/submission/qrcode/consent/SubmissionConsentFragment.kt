@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.NavGraphDirections
@@ -94,11 +95,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         }
 
         viewModel.registrationState.observe2(this) { state ->
-            binding.progressSpinner.visibility = when (state.apiRequestState) {
-                ApiRequestState.STARTED -> View.VISIBLE
-                else -> View.GONE
-            }
-
+            binding.progressSpinner.isVisible = state.apiRequestState == ApiRequestState.STARTED
             binding.submissionConsentButton.isEnabled = when (state.apiRequestState) {
                 ApiRequestState.STARTED -> false
                 else -> true
