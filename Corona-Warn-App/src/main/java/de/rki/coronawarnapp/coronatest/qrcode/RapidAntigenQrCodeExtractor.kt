@@ -11,7 +11,7 @@ import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
-class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor {
+class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCode> {
 
     override fun canHandle(rawString: String): Boolean {
         return rawString.startsWith(PREFIX1, ignoreCase = true) || rawString.startsWith(PREFIX2, ignoreCase = true)

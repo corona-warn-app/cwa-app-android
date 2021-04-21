@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -17,15 +18,15 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -74,22 +75,25 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
                     doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
+                        NavGraphDirections
+                            .actionToSubmissionDeletionWarningFragment(
                                 it.consentGiven,
                                 it.coronaTestQRCode
                             )
                     )
                 }
+                is SubmissionNavigationEvents.NavigateToDispatcher ->
+                    navigateToDispatchScreen()
+                is SubmissionNavigationEvents.NavigateToConsent ->
+                    goBack()
             }
         }
 
-        viewModel.scanStatusValue.observe2(this) {
-            if (ScanStatus.INVALID == it) {
+        viewModel.qrCodeValidationState.observe2(this) {
+            if (QrCodeRegistrationStateProcessor.ValidationState.INVALID == it) {
                 showInvalidScanDialog()
             }
         }
-
         viewModel.showRedeemedTokenWarning.observe2(this) {
             val dialog = DialogHelper.DialogInstance(
                 requireActivity(),
@@ -108,26 +112,24 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 else -> View.GONE
             }
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
-                when (state.testResult) {
+                when (state.test?.testResult) {
                     CoronaTestResult.PCR_POSITIVE ->
                         doNavigate(
-                            SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
-                                    testType = CoronaTest.Type.PCR
-                                )
+                            NavGraphDirections
+                                .actionToSubmissionTestResultAvailableFragment(testType = CoronaTest.Type.PCR)
                         )
                     CoronaTestResult.PCR_OR_RAT_PENDING -> {
-                        if (state.testType == CoronaTest.Type.RAPID_ANTIGEN) {
+                        if (state.test.type == CoronaTest.Type.RAPID_ANTIGEN) {
                             doNavigate(
-                                SubmissionQRCodeScanFragmentDirections
-                                    .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                                NavGraphDirections
+                                    .actionSubmissionTestResultPendingFragment(
                                         testType = CoronaTest.Type.RAPID_ANTIGEN
                                     )
                             )
                         } else {
                             doNavigate(
-                                SubmissionQRCodeScanFragmentDirections
-                                    .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                                NavGraphDirections
+                                    .actionSubmissionTestResultPendingFragment(
                                         testType = CoronaTest.Type.PCR
                                     )
                             )
@@ -137,15 +139,15 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                     CoronaTestResult.PCR_INVALID,
                     CoronaTestResult.PCR_REDEEMED ->
                         doNavigate(
-                            SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                            NavGraphDirections
+                                .actionSubmissionTestResultPendingFragment(
                                     testType = CoronaTest.Type.PCR
                                 )
                         )
                     CoronaTestResult.RAT_POSITIVE ->
                         doNavigate(
-                            SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
+                            NavGraphDirections
+                                .actionToSubmissionTestResultAvailableFragment(
                                     testType = CoronaTest.Type.RAPID_ANTIGEN
                                 )
                         )
@@ -154,8 +156,8 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                     CoronaTestResult.RAT_PENDING,
                     CoronaTestResult.RAT_REDEEMED ->
                         doNavigate(
-                            SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                            NavGraphDirections
+                                .actionSubmissionTestResultPendingFragment(
                                     testType = CoronaTest.Type.RAPID_ANTIGEN
                                 )
                         )
@@ -166,20 +168,11 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         viewModel.registrationError.observe2(this) {
             DialogHelper.showDialog(buildErrorDialog(it))
         }
-
-        viewModel.routeToScreen.observe2(this) {
-            when (it) {
-                is SubmissionNavigationEvents.NavigateToDispatcher ->
-                    navigateToDispatchScreen()
-                is SubmissionNavigationEvents.NavigateToConsent ->
-                    goBack()
-            }
-        }
     }
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle {
-            viewModel.validateTestGUID(it.text)
+            viewModel.onQrCodeAvailable(it.text)
         }
     }
 
@@ -313,7 +306,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
-    private fun goBack() = (activity as MainActivity).goBack()
+    private fun goBack() = popBackStack()
 
     private fun requestCameraPermission() = requestPermissions(
         arrayOf(Manifest.permission.CAMERA),

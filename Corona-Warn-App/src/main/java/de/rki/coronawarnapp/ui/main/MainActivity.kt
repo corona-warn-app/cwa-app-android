@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsS
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
+import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
@@ -178,9 +180,14 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun navigateByIntentUri(intent: Intent?) {
-        val uri = intent?.data ?: return
-        Timber.i("Uri:$uri")
-        navController.navigate(CheckInsFragment.createCheckInUri(uri.toString()))
+        val uriString = intent?.data?.toString() ?: return
+        Timber.i("Uri:$uriString")
+        when {
+            CheckInsFragment.canHandle(uriString) ->
+                navController.navigate(CheckInsFragment.createDeepLink(uriString))
+            SubmissionConsentFragment.canHandle(uriString) ->
+                navController.navigate(NavGraphDirections.actionSubmissionConsentFragment(uriString))
+        }
     }
 
     /**
