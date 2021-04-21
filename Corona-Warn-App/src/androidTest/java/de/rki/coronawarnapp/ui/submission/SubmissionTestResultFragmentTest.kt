@@ -8,7 +8,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -42,7 +41,6 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultPendingViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
 
     private val pendingFragmentArgs = SubmissionTestResultPendingFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
 
@@ -62,7 +60,6 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         viewModel = spyk(
             SubmissionTestResultPendingViewModel(
                 TestDispatcherProvider(),
-                shareTestResultNotificationService,
                 submissionRepository,
                 testType = CoronaTest.Type.PCR
             )
