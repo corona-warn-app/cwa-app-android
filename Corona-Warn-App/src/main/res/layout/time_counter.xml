@@ -23,19 +23,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Chronometer
+    <TextView
         android:id="@+id/chronometer"
         style="@style/headline4Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
-        android:format="00:00:00"
         android:gravity="center"
+        android:text="00:00:00"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/result_timer"
-        tools:text="00:00:00" />
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/chronometer_hours"

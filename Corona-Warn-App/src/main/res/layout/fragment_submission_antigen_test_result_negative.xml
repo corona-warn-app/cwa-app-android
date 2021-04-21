@@ -88,7 +88,6 @@
                     android:layout_marginTop="@dimen/spacing_small"
                     android:layout_marginEnd="@dimen/spacing_normal"
                     android:textStyle="bold"
-                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="@id/rapid_test_card_diagnosis"
                     app:layout_constraintTop_toBottomOf="@id/rapid_test_card_diagnosis"
                     tools:text="@string/submission_test_result_antigen_patient_name_placeholder" />
@@ -98,7 +97,6 @@
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/rapid_test_card_patient_name"
                     app:layout_constraintTop_toTopOf="@id/rapid_test_card_patient_name"
