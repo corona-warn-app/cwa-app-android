@@ -113,6 +113,17 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                                 testType = CoronaTest.Type.RAPID_ANTIGEN
                             )
                         )
+                    CoronaTestResult.PCR_OR_RAT_PENDING ->
+                        if (state.testType == CoronaTest.Type.RAPID_ANTIGEN) {
+                            doNavigate(
+                                NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                                    testType = CoronaTest.Type.RAPID_ANTIGEN
+                                )
+                            )
+                        }
+                    else -> {
+                        // currently only RAT can be registered via link
+                    }
                 }
             }
         }
