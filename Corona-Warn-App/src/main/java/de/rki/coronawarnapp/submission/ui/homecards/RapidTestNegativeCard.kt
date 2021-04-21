@@ -26,10 +26,14 @@ class RapidTestNegativeCard(
     override val onBindData: HomeSubmissionRapidStatusCardNegativeBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { _, _ -> }
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        itemView.setOnClickListener { curItem.onClickAction(item) }
+    }
 
     data class Item(
-        val state: SubmissionStateRAT.TestNegative
+        val state: SubmissionStateRAT.TestNegative,
+        val onClickAction: (Item) -> Unit
     ) : TestResultItem.RA, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
