@@ -19,13 +19,11 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestNegativeCard
@@ -63,7 +61,6 @@ import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
-import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -72,7 +69,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
@@ -84,7 +80,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     tracingStateProviderFactory: TracingStateProvider.Factory,
     private val coronaTestRepository: CoronaTestRepository,
     private val tracingRepository: TracingRepository,
-    private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val submissionRepository: SubmissionRepository,
     private val cwaSettings: CWASettings,
     appConfigProvider: AppConfigProvider,
@@ -330,25 +325,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
         .distinctUntilChanged()
         .asLiveData(dispatcherProvider.Default)
 
-    private var isLoweredRiskLevelDialogBeingShown = false
-    fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
-        submissionRepository.pcrTest
-            .first { test ->
-                when {
-                    test == null -> false
-                    test.lastError != null -> false
-                    test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_POSITIVE -> true
-                    else -> false
-                }
-            }
-            .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
-    }
-
     fun reenableRiskCalculation() {
         deregisterWarningAccepted()
         deadmanNotificationScheduler.schedulePeriodic()
         refreshRiskResult()
     }
+
+    private var isLoweredRiskLevelDialogBeingShown = false
 
     // TODO only lazy to keep tests going which would break because of LocalData access
     val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
@@ -388,7 +371,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun deregisterWarningAccepted() {
         submissionRepository.removeTestFromDevice(type = CoronaTest.Type.PCR)
-        submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {

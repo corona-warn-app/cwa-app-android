@@ -4,10 +4,10 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -145,7 +145,6 @@ class SubmissionTaskTest : BaseTest() {
         every { analyticsKeySubmissionCollector.reportSubmitted() } just Runs
         every { analyticsKeySubmissionCollector.reportSubmittedInBackground() } just Runs
 
-        every { shareTestResultNotificationService.cancelSharePositiveTestResultNotification() } just Runs
         every { testResultAvailableNotificationService.cancelTestResultAvailableNotification() } just Runs
 
         every { autoSubmission.updateMode(any()) } just Runs
@@ -236,7 +235,6 @@ class SubmissionTaskTest : BaseTest() {
             coronaTestRepository.markAsSubmitted(any())
             backgroundWorkScheduler.startWorkScheduler()
 
-            shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
         }
 
@@ -293,7 +291,6 @@ class SubmissionTaskTest : BaseTest() {
             tekHistoryStorage.clear()
             checkInRepository.clear()
             settingSymptomsPreference.update(any())
-            shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             autoSubmission.updateMode(any())
         }
         submissionSettings.symptoms.value shouldBe userSymptoms

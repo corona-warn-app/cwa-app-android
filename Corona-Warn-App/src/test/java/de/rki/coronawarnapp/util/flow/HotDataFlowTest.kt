@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.util.mutate
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
+import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -26,36 +27,14 @@ import kotlin.concurrent.thread
 
 class HotDataFlowTest : BaseTest() {
 
+    // Without an init value, there isn't a way to keep using the flow
     @Test
-    fun `init happens on first collection and exception is forwarded`() {
+    fun `exceptions on initializen are rethrown`() {
         val testScope = TestCoroutineScope()
         val hotData = HotDataFlow<String>(
             loggingTag = "tag",
             scope = testScope,
             coroutineContext = Dispatchers.Unconfined,
-            startValueProvider = { throw IOException() }
-        )
-
-        runBlocking {
-            // This blocking scope get's the init exception as the first caller
-            shouldThrow<IOException> {
-                hotData.data.first()
-            }
-        }
-
-        testScope.advanceUntilIdle()
-
-        testScope.uncaughtExceptions.singleOrNull() shouldBe null
-    }
-
-    @Test
-    fun `exception is not forwarded if flag is set`() {
-        val testScope = TestCoroutineScope()
-        val hotData = HotDataFlow<String>(
-            loggingTag = "tag",
-            scope = testScope,
-            coroutineContext = Dispatchers.Unconfined,
-            forwardException = false,
             startValueProvider = { throw IOException() }
         )
         runBlocking {
@@ -136,9 +115,10 @@ class HotDataFlowTest : BaseTest() {
             thread {
                 (1..200).forEach { _ ->
                     sleep(10)
-                    hotData.updateSafely {
-                        this + 1L
-                    }
+                    hotData.updateAsync(
+                        onUpdate = { this + 1L },
+                        onError = { throw it }
+                    )
                 }
             }
         }
@@ -174,7 +154,7 @@ class HotDataFlowTest : BaseTest() {
         (1..10).forEach { _ ->
             thread {
                 (1..400).forEach { _ ->
-                    hotData.updateSafely {
+                    hotData.updateAsync {
                         mutate {
                             this["data"] = getValue("data").copy(
                                 number = getValue("data").number + 1
@@ -207,10 +187,10 @@ class HotDataFlowTest : BaseTest() {
         val testCollector = hotData.data.test(startOnScope = testScope)
         testCollector.silent = true
 
-        hotData.updateSafely { "1" }
-        hotData.updateSafely { "2" }
-        hotData.updateSafely { "2" }
-        hotData.updateSafely { "1" }
+        hotData.updateAsync { "1" }
+        hotData.updateAsync { "2" }
+        hotData.updateAsync { "2" }
+        hotData.updateAsync { "1" }
 
         runBlocking {
             testCollector.await { list, l -> list.size == 3 }
@@ -236,9 +216,9 @@ class HotDataFlowTest : BaseTest() {
             val sub2 = hotData.data.test(tag = "sub2", startOnScope = this)
             val sub3 = hotData.data.test(tag = "sub3", startOnScope = this)
 
-            hotData.updateSafely { "A" }
-            hotData.updateSafely { "B" }
-            hotData.updateSafely { "C" }
+            hotData.updateAsync { "A" }
+            hotData.updateAsync { "B" }
+            hotData.updateAsync { "C" }
 
             listOf(sub1, sub2, sub3).forEach {
                 it.await { list, s -> list.size == 4 }
@@ -268,7 +248,7 @@ class HotDataFlowTest : BaseTest() {
         testCollector1.silent = false
 
         (1..10).forEach { _ ->
-            hotData.updateSafely {
+            hotData.updateAsync {
                 this + 1L
             }
         }
@@ -308,7 +288,7 @@ class HotDataFlowTest : BaseTest() {
             sharingBehavior = SharingStarted.Lazily
         )
 
-        hotData.updateSafely {
+        hotData.updateAsync {
             delay(2000)
             this + 1
         }
@@ -321,6 +301,88 @@ class HotDataFlowTest : BaseTest() {
 
         testCollector.await { list, i -> i == 3 }
         testCollector.latestValues shouldBe listOf(2, 3, 0)
+
+        testCollector.cancel()
+    }
+
+    @Test
+    fun `blocking update rethrows error`() = runBlocking {
+        val testScope = TestCoroutineScope()
+        val hotData = HotDataFlow(
+            loggingTag = "tag",
+            scope = testScope,
+            coroutineContext = testScope.coroutineContext,
+            startValueProvider = {
+                delay(2000)
+                2
+            },
+            sharingBehavior = SharingStarted.Lazily
+        )
+
+        val testCollector = hotData.data.test(startOnScope = testScope)
+
+        testScope.advanceUntilIdle()
+
+        shouldThrow<IOException> {
+            hotData.updateBlocking { throw IOException("Suprise") } shouldBe 0
+        }
+        hotData.data.first() shouldBe 2
+
+        hotData.updateBlocking { 3 } shouldBe 3
+        hotData.data.first() shouldBe 3
+
+        testScope.uncaughtExceptions.singleOrNull() shouldBe null
+
+        testCollector.cancel()
+    }
+
+    @Test
+    fun `async updates error handler`() {
+        val testScope = TestCoroutineScope()
+
+        val hotData = HotDataFlow(
+            loggingTag = "tag",
+            scope = testScope,
+            startValueProvider = { 1 },
+            sharingBehavior = SharingStarted.Lazily
+        )
+
+        val testCollector = hotData.data.test(startOnScope = testScope)
+        testScope.advanceUntilIdle()
+
+        hotData.updateAsync { throw IOException("Suprise") }
+
+        testScope.advanceUntilIdle()
+
+        testScope.uncaughtExceptions.single() shouldBe instanceOf(IOException::class)
+
+        testCollector.cancel()
+    }
+
+    @Test
+    fun `async updates rethrow errors on hotdata scope if no error handler is set`() = runBlocking {
+        val testScope = TestCoroutineScope()
+
+        val hotData = HotDataFlow(
+            loggingTag = "tag",
+            scope = testScope,
+            startValueProvider = { 1 },
+            sharingBehavior = SharingStarted.Lazily
+        )
+
+        val testCollector = hotData.data.test(startOnScope = testScope)
+        testScope.advanceUntilIdle()
+
+        var thrownError: Exception? = null
+
+        hotData.updateAsync(
+            onUpdate = { throw IOException("Suprise") },
+            onError = { thrownError = it }
+        )
+
+        testScope.advanceUntilIdle()
+        thrownError!!.shouldBeInstanceOf<IOException>()
+        testScope.uncaughtExceptions.singleOrNull() shouldBe null
 
         testCollector.cancel()
     }
