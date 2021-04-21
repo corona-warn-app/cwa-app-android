@@ -235,7 +235,7 @@
                 android:background="@color/colorSurface2"
                 android:orientation="vertical"
                 android:padding="@dimen/spacing_normal"
-                app:layout_constraintTop_toBottomOf="@id/test_result_negative_steps_negative_result">
+                app:layout_constraintTop_toBottomOf="@id/coronatest_negative_antigen_result_third_info">
 
                 <TextView
                     android:id="@+id/further_info_title"
