@@ -62,7 +62,7 @@ class ScanCheckInQrCodeFragment :
                 is ScanCheckInQrCodeNavigation.ScanResultNavigation -> {
                     Timber.i(navEvent.uri)
                     findNavController().navigate(
-                        CheckInsFragment.createCheckInUri(navEvent.uri),
+                        CheckInsFragment.createDeepLink(navEvent.uri),
                         NavOptions.Builder()
                             .setPopUpTo(R.id.checkInsFragment, true)
                             .build()

@@ -249,7 +249,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     }
 
     companion object {
-        fun createCheckInUri(rootUri: String, cleanHistory: Boolean = false): Uri {
+        fun createDeepLink(rootUri: String, cleanHistory: Boolean = false): Uri {
             val encodedUrl = try {
                 URLEncoder.encode(rootUri, Charsets.UTF_8.name())
             } catch (e: Exception) {
@@ -258,5 +258,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             }
             return "coronawarnapp://check-ins/$encodedUrl/?cleanHistory=$cleanHistory".toUri()
         }
+
+        fun canHandle(rootUri: String): Boolean = rootUri.startsWith("https://e.coronawarn.app")
     }
 }
