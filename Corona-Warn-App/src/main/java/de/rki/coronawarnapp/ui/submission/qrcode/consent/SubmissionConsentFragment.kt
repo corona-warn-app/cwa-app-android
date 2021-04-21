@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -97,32 +96,22 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
             }
 
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
-                when (state.testResult) {
-                    CoronaTestResult.RAT_POSITIVE ->
-                        doNavigate(
-                            NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                                CoronaTest.Type.RAPID_ANTIGEN
-                            )
-                        )
-                    CoronaTestResult.RAT_NEGATIVE,
-                    CoronaTestResult.RAT_INVALID,
-                    CoronaTestResult.RAT_PENDING,
-                    CoronaTestResult.RAT_REDEEMED ->
-                        doNavigate(
-                            NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                                testType = CoronaTest.Type.RAPID_ANTIGEN
-                            )
-                        )
-                    CoronaTestResult.PCR_OR_RAT_PENDING ->
-                        if (state.testType == CoronaTest.Type.RAPID_ANTIGEN) {
-                            doNavigate(
+                when (state.test?.type) {
+                    CoronaTest.Type.PCR -> throw UnsupportedOperationException()
+                    CoronaTest.Type.RAPID_ANTIGEN -> {
+                        when {
+                            state.test.isPositive ->
+                                doNavigate(
+                                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
+                                        CoronaTest.Type.RAPID_ANTIGEN
+                                    )
+                                )
+                            else -> doNavigate(
                                 NavGraphDirections.actionSubmissionTestResultPendingFragment(
                                     testType = CoronaTest.Type.RAPID_ANTIGEN
                                 )
                             )
                         }
-                    else -> {
-                        // currently only RAT can be registered via link
                     }
                 }
             }

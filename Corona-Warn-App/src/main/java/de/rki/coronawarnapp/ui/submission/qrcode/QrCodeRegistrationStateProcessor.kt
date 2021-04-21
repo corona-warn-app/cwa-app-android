@@ -21,8 +21,7 @@ class QrCodeRegistrationStateProcessor @Inject constructor(
 
     data class RegistrationState(
         val apiRequestState: ApiRequestState,
-        val testResult: CoronaTestResult? = null,
-        val testType: CoronaTest.Type? = null
+        val test: CoronaTest? = null
     )
 
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
@@ -40,8 +39,7 @@ class QrCodeRegistrationStateProcessor @Inject constructor(
             registrationState.postValue(
                 RegistrationState(
                     ApiRequestState.SUCCESS,
-                    coronaTest.testResult,
-                    coronaTestQRCode.type
+                    coronaTest
                 )
             )
         } catch (err: CwaWebException) {
