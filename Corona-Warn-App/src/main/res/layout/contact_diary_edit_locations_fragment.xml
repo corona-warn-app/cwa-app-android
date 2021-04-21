@@ -62,6 +62,7 @@
             android:paddingTop="@dimen/spacing_normal"
             android:paddingHorizontal="@dimen/spacing_normal"
             android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"
             android:importantForAccessibility="no"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
