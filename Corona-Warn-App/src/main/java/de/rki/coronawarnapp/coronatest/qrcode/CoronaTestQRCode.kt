@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.coronatest.qrcode
 import android.os.Parcelable
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.joda.time.Instant
