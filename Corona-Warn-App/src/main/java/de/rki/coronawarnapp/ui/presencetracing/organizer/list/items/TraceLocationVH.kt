@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.ui.presencetracing.organizer.list.TraceLocationsAdapter
 import de.rki.coronawarnapp.util.list.SwipeConsumer
+import org.joda.time.format.DateTimeFormat
 
 class TraceLocationVH(parent: ViewGroup) :
     TraceLocationsAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsItemBinding>(
@@ -35,18 +36,21 @@ class TraceLocationVH(parent: ViewGroup) :
 
             duration.isGone = false
             duration.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
+                val dateFormat = DateTimeFormat.shortDate()
+                val timeFormat = DateTimeFormat.shortTime()
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration_same_day,
-                    startTime.toString("dd.MM.yy"),
-                    startTime.toString("HH:mm"),
-                    endTime.toString("HH:mm")
+                    startTime.toString(dateFormat),
+                    startTime.toString(timeFormat),
+                    endTime.toString(timeFormat)
                 )
             } else {
                 icon.setCaption(null)
+                val dateTimeFormat = DateTimeFormat.shortDateTime()
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration,
-                    startTime.toString("dd.MM.yy HH:mm"),
-                    endTime.toString("dd.MM.yy HH:mm"),
+                    startTime.toString(dateTimeFormat),
+                    endTime.toString(dateTimeFormat)
                 )
             }
         } else {

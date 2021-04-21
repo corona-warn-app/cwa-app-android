@@ -79,14 +79,21 @@
 
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="e.coronawarn.app"
+                    android:pathPattern=".*"
                     android:scheme="https" />
+
+                <data
+                    android:host="s.coronawarn.app"
+                    android:pathPattern=".*"
+                    android:scheme="https" />
+
             </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
