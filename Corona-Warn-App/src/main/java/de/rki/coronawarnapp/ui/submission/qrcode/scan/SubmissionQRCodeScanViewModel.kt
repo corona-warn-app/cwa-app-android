@@ -60,14 +60,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         }
     }
 
-    fun triggerNavigationToSubmissionTestResultAvailableFragment() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultAvailableScreen)
-    }
-
-    fun triggerNavigationToSubmissionTestResultPendingFragment() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPendingScreen)
-    }
-
     fun onBackPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)
     }
