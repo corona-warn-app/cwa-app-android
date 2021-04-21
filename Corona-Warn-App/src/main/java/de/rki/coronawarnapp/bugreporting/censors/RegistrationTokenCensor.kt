@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @Reusable
@@ -14,9 +13,7 @@ class RegistrationTokenCensor @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
 ) : BugCensor {
     override suspend fun checkLog(entry: LogLine): LogLine? {
-        val tokens = coronaTestRepository.coronaTests.map { tests ->
-            tests.map { it.registrationToken }
-        }.first()
+        val tokens = coronaTestRepository.coronaTests.first().map { it.registrationToken }
 
         if (tokens.isEmpty()) return null
 

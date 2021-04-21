@@ -4,10 +4,10 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
@@ -129,7 +129,7 @@ class SubmissionTask @Inject constructor(
     private suspend fun performSubmission(): Result {
         val availableTests = coronaTestRepository.coronaTests.first()
         Timber.tag(TAG).v("Available tests: %s", availableTests)
-        val coronaTest = availableTests.firstOrNull { it.isSubmissionAllowed && !it.isSubmitted }
+        val coronaTest = availableTests.firstOrNull { it.isSubmissionAllowed }
             ?: throw IllegalStateException("No valid test available to authorize submission")
 
         Timber.tag(TAG).d("Submission is authorized by coronaTest=%s", coronaTest)
@@ -199,7 +199,6 @@ class SubmissionTask @Inject constructor(
         coronaTestRepository.markAsSubmitted(coronaTest.identifier)
         backgroundWorkScheduler.startWorkScheduler()
 
-        shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
 

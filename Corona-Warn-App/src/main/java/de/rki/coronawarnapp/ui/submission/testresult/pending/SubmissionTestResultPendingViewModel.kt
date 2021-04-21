@@ -8,7 +8,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -19,7 +18,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
@@ -28,7 +26,6 @@ import timber.log.Timber
 
 class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val submissionRepository: SubmissionRepository,
     @Assisted private val testType: CoronaTest.Type
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -97,7 +94,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
             }?.let { routeToScreen.postValue(it) }
         }
         .filter { testResultUIState ->
-            val isPositiveTest = testResultUIState.coronaTest.isSubmissionAllowed
+            val isPositiveTest = testResultUIState.coronaTest.isPositive
             if (isPositiveTest) {
                 Timber.w("Filtering out positive test emission as we don't display this here.")
             }
@@ -110,12 +107,6 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         .filter { it.lastError != null }
         .map { it.lastError!! }
         .asLiveData()
-
-    fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
-        submissionRepository.testForType(type = testType)
-            .first { request -> request?.isSubmissionAllowed ?: false }
-            .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
-    }
 
     fun deregisterTestFromDevice() = launch {
         Timber.d("deregisterTestFromDevice()")

@@ -10,17 +10,14 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
@@ -44,7 +41,6 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultPendingViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
 
     private val pendingFragmentArgs = SubmissionTestResultPendingFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
 
@@ -64,14 +60,12 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         viewModel = spyk(
             SubmissionTestResultPendingViewModel(
                 TestDispatcherProvider(),
-                shareTestResultNotificationService,
                 submissionRepository,
                 testType = CoronaTest.Type.PCR
             )
         )
 
         with(viewModel) {
-            every { observeTestResultToSchedulePositiveTestResultReminder() } just Runs
             every { consentGiven } returns MutableLiveData(true)
             every { testState } returns MutableLiveData(
                 TestResultUIState(
