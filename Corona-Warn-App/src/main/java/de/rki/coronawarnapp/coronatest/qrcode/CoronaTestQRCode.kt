@@ -49,7 +49,8 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest {
 
         @IgnoredOnParcel
         override val registrationIdentifier: String
-            get() = hash.toSHA256()
+            // We hash in the VerificationServer.retrieveRegistrationToken which was needed anyway for PCR
+            get() = hash
     }
 }
 

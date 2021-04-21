@@ -40,12 +40,15 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     fun validateTestGUID(rawResult: String) = launch {
         try {
+            Timber.d("rawResult=$rawResult")
             val coronaTestQRCode = qrCodeValidator.validate(rawResult)
+            Timber.d("coronaTestQRCode=$coronaTestQRCode")
             // TODO this needs to be adapted to work for different types
             QRCodeCensor.lastGUID = coronaTestQRCode.registrationIdentifier
             scanStatusValue.postValue(ScanStatus.SUCCESS)
 
             val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
+            Timber.d("coronaTest=$coronaTest")
 
             if (coronaTest != null) {
                 routeToScreen.postValue(
@@ -75,8 +78,10 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal suspend fun doDeviceRegistration(coronaTestQRCode: CoronaTestQRCode) {
         try {
+            Timber.d("doDeviceRegistration(coronaTestQRCode=$coronaTestQRCode)")
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val coronaTest = submissionRepository.registerTest(coronaTestQRCode)
+            Timber.d("doDeviceRegistration-coronaTest=$coronaTest")
             if (isConsentGiven) {
                 submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             }
@@ -110,14 +115,13 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     private fun checkTestResult(testResult: CoronaTestResult) {
         if (testResult == CoronaTestResult.PCR_REDEEMED) {
-            throw InvalidQRCodeException()
+            throw InvalidQRCodeException("CoronaTestResult Redeemed")
         }
     }
 
     private fun deregisterTestFromDevice(coronaTest: CoronaTestQRCode) {
         launch {
-            Timber.d("deregisterTestFromDevice()")
-
+            Timber.d("deregisterTestFromDevice(coronaTest=$coronaTest)")
             submissionRepository.removeTestFromDevice(type = coronaTest.type)
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
         }
