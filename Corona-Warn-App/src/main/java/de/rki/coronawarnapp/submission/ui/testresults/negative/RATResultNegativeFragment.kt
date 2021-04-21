@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionAntigenTestResultNegativeBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -19,5 +20,15 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.resultReceivedCounter.chronometer.start()
+
+        binding.coronatestNegativeAntigenResultButton.setOnClickListener {
+            viewModel.deleteTest()
+        }
+
+        viewModel.events.observe(viewLifecycleOwner) {
+            when (it) {
+                RATResultNegativeNavigation.Back -> popBackStack()
+            }
+        }
     }
 }
