@@ -5,12 +5,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionAntigenTestResultNegativeBinding
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
@@ -20,7 +20,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
     private val binding: FragmentSubmissionAntigenTestResultNegativeBinding by viewBindingLazy()
 
-    private val shortDate = DateTimeFormat.shortDate()
     private val shortTime = DateTimeFormat.shortTime()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
@@ -51,13 +50,13 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
         rapidTestCardPatientBirthdate.text = getString(
             R.string.submission_test_result_antigen_patient_birth_date_placeholder,
-            testAge.test.dateOfBirth?.toString(shortDate)
+            testAge.test.dateOfBirth?.toString("dd.MM.yy")
         )
 
-        val localTime = testAge.test.testResultReceivedAt?.toDateTime(DateTimeZone.forID("Europe/Berlin"))
+        val localTime = testAge.test.testedAt.toUserTimeZone()
         resultReceivedTimeAndDate.text = getString(
             R.string.coronatest_negative_antigen_result_time_date_placeholder,
-            localTime?.toString(shortDate),
+            localTime?.toString("dd.MM.yy"),
             localTime?.toString(shortTime)
         )
     }
