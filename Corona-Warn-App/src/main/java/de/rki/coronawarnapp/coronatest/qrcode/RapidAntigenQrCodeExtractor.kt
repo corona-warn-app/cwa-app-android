@@ -12,7 +12,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.inject.Inject
 
-class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor {
+class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCode> {
 
     private val prefix: String = "https://s.coronawarn.app?v=1#"
     private val prefix2: String = "https://s.coronawarn.app/?v=1#"
