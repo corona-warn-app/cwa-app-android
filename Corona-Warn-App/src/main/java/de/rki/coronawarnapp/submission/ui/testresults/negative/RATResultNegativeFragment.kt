@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
@@ -54,7 +55,7 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
             testAge.test.dateOfBirth?.toString(shortDate)
         )
 
-        val localTime = testAge.test.testResultReceivedAt?.toLocalTime()
+        val localTime = testAge.test.testResultReceivedAt?.toDateTime(DateTimeZone.forID("Europe/Berlin"))
         resultReceivedTimeAndDate.text = getString(
             R.string.coronatest_negative_antigen_result_time_date_placeholder,
             localTime?.toString(shortDate),
