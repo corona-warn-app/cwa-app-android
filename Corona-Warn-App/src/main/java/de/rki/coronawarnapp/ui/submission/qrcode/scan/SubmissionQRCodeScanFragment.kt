@@ -81,6 +81,10 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                             )
                     )
                 }
+                SubmissionNavigationEvents.NavigateToDispatcher ->
+                    navigateToDispatchScreen()
+                SubmissionNavigationEvents.NavigateToConsent ->
+                    goBack()
             }
         }
 
@@ -165,15 +169,6 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         viewModel.registrationError.observe2(this) {
             DialogHelper.showDialog(buildErrorDialog(it))
-        }
-
-        viewModel.routeToScreen.observe2(this) {
-            when (it) {
-                is SubmissionNavigationEvents.NavigateToDispatcher ->
-                    navigateToDispatchScreen()
-                is SubmissionNavigationEvents.NavigateToConsent ->
-                    goBack()
-            }
         }
     }
 
