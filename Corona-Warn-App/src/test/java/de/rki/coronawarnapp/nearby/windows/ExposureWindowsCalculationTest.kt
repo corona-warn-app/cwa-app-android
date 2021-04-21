@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonNormalized
 import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonTransmissionRiskValueMapping
 import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonTrlFilter
 import de.rki.coronawarnapp.risk.DefaultRiskLevels
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
@@ -140,7 +140,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
         return timeStamper.nowUTC - expAge * DateTimeConstants.MILLIS_PER_DAY
     }
 
-    private fun comparisonDebugTable(aggregated: AggregatedRiskResult, case: TestCase): String {
+    private fun comparisonDebugTable(ewAggregated: EwAggregatedRiskResult, case: TestCase): String {
         val result = StringBuilder()
         result.append("\n").append(case.description)
         result.append("\n").append("+----------------------+--------------------------+--------------------------+")
@@ -149,35 +149,35 @@ class ExposureWindowsCalculationTest : BaseTest() {
         result.append(
             addPropertyCheckToComparisonDebugTable(
                 "Total Risk",
-                aggregated.totalRiskLevel.number,
+                ewAggregated.totalRiskLevel.number,
                 case.expTotalRiskLevel
             )
         )
         result.append(
             addPropertyCheckToComparisonDebugTable(
                 "Date With High Risk",
-                aggregated.mostRecentDateWithHighRisk,
+                ewAggregated.mostRecentDateWithHighRisk,
                 getTestCaseDate(case.expAgeOfMostRecentDateWithHighRiskInDays)
             )
         )
         result.append(
             addPropertyCheckToComparisonDebugTable(
                 "Date With Low Risk",
-                aggregated.mostRecentDateWithLowRisk,
+                ewAggregated.mostRecentDateWithLowRisk,
                 getTestCaseDate(case.expAgeOfMostRecentDateWithLowRiskInDays)
             )
         )
         result.append(
             addPropertyCheckToComparisonDebugTable(
                 "Encounters High Risk",
-                aggregated.totalMinimumDistinctEncountersWithHighRisk,
+                ewAggregated.totalMinimumDistinctEncountersWithHighRisk,
                 case.expTotalMinimumDistinctEncountersWithHighRisk
             )
         )
         result.append(
             addPropertyCheckToComparisonDebugTable(
                 "Encounters Low Risk",
-                aggregated.totalMinimumDistinctEncountersWithLowRisk,
+                ewAggregated.totalMinimumDistinctEncountersWithLowRisk,
                 case.expTotalMinimumDistinctEncountersWithLowRisk
             )
         )

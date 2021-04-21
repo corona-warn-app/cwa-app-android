@@ -5,6 +5,7 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DATA_DONATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DOWNLOAD
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.LOG_UPLOAD
@@ -35,7 +36,8 @@ class EnvironmentSetup @Inject constructor(
         VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION"),
         DATA_DONATION("DATA_DONATION_CDN_URL"),
         LOG_UPLOAD("LOG_UPLOAD_SERVER_URL"),
-        SAFETYNET_API_KEY("SAFETYNET_API_KEY")
+        SAFETYNET_API_KEY("SAFETYNET_API_KEY"),
+        CROWD_NOTIFIER_PUBLIC_KEY("CROWD_NOTIFIER_PUBLIC_KEY")
     }
 
     enum class Type(val rawKey: String) {
@@ -45,6 +47,7 @@ class EnvironmentSetup @Inject constructor(
         WRU("WRU"),
         WRU_XA("WRU-XA"), // (aka ACME),
         WRU_XD("WRU-XD"), // (aka Germany)
+        TESTER_MOCK("TESTER-MOCK"), // (aka Germany)
         LOCAL("LOCAL"); // Emulator/CLI tooling
 
         companion object {
@@ -116,7 +119,7 @@ class EnvironmentSetup @Inject constructor(
     val dataDonationCdnUrl: String
         get() = getEnvironmentValue(DATA_DONATION).asString
 
-    val appConfigVerificationKey: String
+    val appConfigPublicKey: String
         get() = getEnvironmentValue(VERIFICATION_KEYS).asString
 
     val useEuropeKeyPackageFiles: Boolean
@@ -124,6 +127,9 @@ class EnvironmentSetup @Inject constructor(
 
     val safetyNetApiKey: String
         get() = getEnvironmentValue(SAFETYNET_API_KEY).asString
+
+    val crowdNotifierPublicKey: String
+        get() = getEnvironmentValue(CROWD_NOTIFIER_PUBLIC_KEY).asString
 
     val logUploadServerUrl: String
         get() = getEnvironmentValue(LOG_UPLOAD).asString

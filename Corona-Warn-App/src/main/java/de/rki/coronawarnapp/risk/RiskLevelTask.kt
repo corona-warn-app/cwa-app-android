@@ -12,8 +12,9 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
-import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
+import de.rki.coronawarnapp.risk.EwRiskLevelResult.FailureReason
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.task.Task
@@ -46,16 +47,23 @@ class RiskLevelTask @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage,
     private val keyCacheRepository: KeyCacheRepository,
     private val submissionSettings: SubmissionSettings,
-    private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
-) : Task<DefaultProgress, RiskLevelTaskResult> {
+    private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector,
+    private val autoCheckOut: AutoCheckOut,
+) : Task<DefaultProgress, EwRiskLevelTaskResult> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
     override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
 
     private var isCanceled = false
 
-    override suspend fun run(arguments: Task.Arguments): RiskLevelTaskResult = try {
+    override suspend fun run(arguments: Task.Arguments): EwRiskLevelTaskResult = try {
         Timber.d("Running with arguments=%s", arguments)
+
+        autoCheckOut.apply {
+            Timber.tag(TAG).d("Processing overdue check-outs before risk calculation.")
+            processOverDueCheckouts()
+            refreshAlarm()
+        }
 
         val configData: ConfigData = appConfigProvider.getAppConfig()
 
@@ -78,14 +86,14 @@ class RiskLevelTask @Inject constructor(
         internalProgress.close()
     }
 
-    private suspend fun determineRiskLevelResult(configData: ConfigData): RiskLevelTaskResult {
+    private suspend fun determineRiskLevelResult(configData: ConfigData): EwRiskLevelTaskResult {
         val nowUTC = timeStamper.nowUTC.also {
             Timber.d("The current time is %s", it)
         }
 
         if (submissionSettings.isAllowedToSubmitKeys && submissionSettings.hasViewedTestResult.value) {
             Timber.i("Positive test result and user has seen it, skip risk calculation")
-            return RiskLevelTaskResult(
+            return EwRiskLevelTaskResult(
                 calculatedAt = nowUTC,
                 failureReason = FailureReason.POSITIVE_TEST_RESULT
             )
@@ -93,7 +101,7 @@ class RiskLevelTask @Inject constructor(
 
         if (!configData.isDeviceTimeCorrect) {
             Timber.w("Device time is incorrect, offset: %s", configData.localOffset)
-            return RiskLevelTaskResult(
+            return EwRiskLevelTaskResult(
                 calculatedAt = nowUTC,
                 failureReason = FailureReason.INCORRECT_DEVICE_TIME
             )
@@ -101,7 +109,7 @@ class RiskLevelTask @Inject constructor(
 
         if (!isNetworkEnabled(context)) {
             Timber.i("Risk not calculated, internet unavailable.")
-            return RiskLevelTaskResult(
+            return EwRiskLevelTaskResult(
                 calculatedAt = nowUTC,
                 failureReason = FailureReason.NO_INTERNET
             )
@@ -109,7 +117,7 @@ class RiskLevelTask @Inject constructor(
 
         if (!enfClient.isTracingEnabled.first()) {
             Timber.i("Risk not calculated, tracing is disabled.")
-            return RiskLevelTaskResult(
+            return EwRiskLevelTaskResult(
                 calculatedAt = nowUTC,
                 failureReason = FailureReason.TRACING_OFF
             )
@@ -117,7 +125,7 @@ class RiskLevelTask @Inject constructor(
 
         if (areKeyPkgsOutDated(nowUTC)) {
             Timber.i("Risk not calculated, results are outdated.")
-            return RiskLevelTaskResult(
+            return EwRiskLevelTaskResult(
                 calculatedAt = nowUTC,
                 failureReason = when (backgroundJobsEnabled()) {
                     true -> FailureReason.OUTDATED_RESULTS
@@ -154,7 +162,7 @@ class RiskLevelTask @Inject constructor(
         }
     }
 
-    private suspend fun calculateRiskLevel(configData: ExposureWindowRiskCalculationConfig): RiskLevelTaskResult {
+    private suspend fun calculateRiskLevel(configData: ExposureWindowRiskCalculationConfig): EwRiskLevelTaskResult {
         Timber.tag(TAG).d("Calculating risklevel")
         val exposureWindows = enfClient.exposureWindows()
 
@@ -166,9 +174,9 @@ class RiskLevelTask @Inject constructor(
                 Timber.tag(TAG).d("Risk is not increased, continuing evaluating.")
             }
 
-            RiskLevelTaskResult(
+            EwRiskLevelTaskResult(
                 calculatedAt = timeStamper.nowUTC,
-                aggregatedRiskResult = it,
+                ewAggregatedRiskResult = it,
                 exposureWindows = exposureWindows
             )
         }
@@ -177,7 +185,7 @@ class RiskLevelTask @Inject constructor(
     private suspend fun determineRisk(
         appConfig: ExposureWindowRiskCalculationConfig,
         exposureWindows: List<ExposureWindow>
-    ): AggregatedRiskResult {
+    ): EwAggregatedRiskResult {
         val riskResultsPerWindow =
             exposureWindows.mapNotNull { window ->
                 riskLevels.calculateRisk(appConfig, window)?.let { window to it }
@@ -227,10 +235,10 @@ class RiskLevelTask @Inject constructor(
     class Factory @Inject constructor(
         private val taskByDagger: Provider<RiskLevelTask>,
         private val exposureDetectionTracker: ExposureDetectionTracker
-    ) : TaskFactory<DefaultProgress, RiskLevelTaskResult> {
+    ) : TaskFactory<DefaultProgress, EwRiskLevelTaskResult> {
 
         override suspend fun createConfig(): TaskFactory.Config = Config(exposureDetectionTracker)
-        override val taskProvider: () -> Task<DefaultProgress, RiskLevelTaskResult> = {
+        override val taskProvider: () -> Task<DefaultProgress, EwRiskLevelTaskResult> = {
             taskByDagger.get()
         }
     }

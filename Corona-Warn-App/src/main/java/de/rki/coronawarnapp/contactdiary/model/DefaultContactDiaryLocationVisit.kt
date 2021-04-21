@@ -8,7 +8,8 @@ data class DefaultContactDiaryLocationVisit(
     override val date: LocalDate,
     override val contactDiaryLocation: ContactDiaryLocation,
     override val duration: Duration? = null,
-    override val circumstances: String? = null
+    override val circumstances: String? = null,
+    override val checkInID: Long? = null
 ) : ContactDiaryLocationVisit
 
 fun ContactDiaryLocationVisit.toEditableVariant(): DefaultContactDiaryLocationVisit {
@@ -18,6 +19,7 @@ fun ContactDiaryLocationVisit.toEditableVariant(): DefaultContactDiaryLocationVi
         date = date,
         contactDiaryLocation = contactDiaryLocation,
         duration = duration,
-        circumstances = circumstances
+        circumstances = circumstances,
+        checkInID = checkInID
     )
 }

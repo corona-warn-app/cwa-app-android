@@ -17,9 +17,11 @@ import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.eventregistration.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
-import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.notification.GeneralNotifications
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
@@ -56,11 +58,14 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
-    @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var notificationHelper: GeneralNotifications
     @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
     @Inject lateinit var autoSubmission: AutoSubmission
     @Inject lateinit var submissionSettings: SubmissionSettings
     @Inject lateinit var onboardingSettings: OnboardingSettings
+    @Inject lateinit var autoCheckOut: AutoCheckOut
+    @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
+    @Inject lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -79,13 +84,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             compPreview.inject(this)
         }
 
-        BackgroundWorkScheduler.init(component)
-
         Timber.plant(rollingLogHistory)
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
-
-        notificationHelper.createNotificationChannel()
 
         // Enable Conscrypt for TLS1.3 Support below API Level 29
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
@@ -109,6 +110,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         configChangeDetector.launch()
         riskLevelChangeDetector.launch()
         autoSubmission.setup()
+        autoCheckOut.setupMonitor()
+        traceLocationDbCleanupScheduler.scheduleDaily()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

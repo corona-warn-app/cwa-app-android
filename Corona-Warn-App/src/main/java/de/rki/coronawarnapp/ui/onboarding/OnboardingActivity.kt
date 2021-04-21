@@ -15,9 +15,9 @@ import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -26,21 +26,16 @@ import javax.inject.Inject
  */
 class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInjector {
     companion object {
-        private val TAG: String? = OnboardingActivity::class.simpleName
-        private const val EXTRA_DATA = "shortcut"
 
-        fun start(context: Context, shortcut: AppShortcuts? = null) {
-            val intent = Intent(context, OnboardingActivity::class.java).apply {
-                putExtra(EXTRA_DATA, shortcut?.toString())
+        fun start(context: Context, launchIntent: Intent? = null) {
+            val intent = Intent(context, OnboardingActivity::class.java)
+            Timber.i("launchIntent:$launchIntent")
+            launchIntent?.let {
+                intent.data = it.data // DeepLinking
+                intent.putExtras(it) // Shortcuts
+                Timber.i("filledIntent:$intent")
             }
             context.startActivity(intent)
-        }
-
-        fun getShortcutFromIntent(intent: Intent?): AppShortcuts? {
-            intent?.getStringExtra(EXTRA_DATA)?.let {
-                return AppShortcuts.valueOf(it)
-            }
-            return null
         }
     }
 
@@ -74,12 +69,9 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
 
     fun completeOnboarding() {
         onboardingSettings.onboardingCompletedTimestamp = timeStamper.nowUTC
-
-        settings.lastChangelogVersion.update {
-            BuildConfigWrap.VERSION_CODE
-        }
-
-        MainActivity.start(this)
+        settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
+        settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
+        MainActivity.start(this, intent)
         finish()
     }
 

@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.risk.storage
 
-import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao.PersistedScanInstance
 import de.rki.coronawarnapp.risk.storage.internal.windows.toPersistedExposureWindow
@@ -15,18 +17,25 @@ import javax.inject.Singleton
 @Singleton
 class DefaultRiskLevelStorage @Inject constructor(
     riskResultDatabaseFactory: RiskResultDatabase.Factory,
-    @AppScope val scope: CoroutineScope
-) : BaseRiskLevelStorage(riskResultDatabaseFactory, scope) {
+    presenceTracingRiskRepository: PresenceTracingRiskRepository,
+    @AppScope val scope: CoroutineScope,
+    riskCombinator: RiskCombinator,
+) : BaseRiskLevelStorage(
+    riskResultDatabaseFactory,
+    presenceTracingRiskRepository,
+    scope,
+    riskCombinator,
+) {
 
     // 14 days, 6 times per day
     // For testers keep all the results!
     override val storedResultLimit: Int = 14 * 6
 
-    override suspend fun storeExposureWindows(storedResultId: String, result: RiskLevelResult) {
+    override suspend fun storeExposureWindows(storedResultId: String, resultEw: EwRiskLevelResult) {
         Timber.d("Storing exposure windows for storedResultId=%s", storedResultId)
         try {
             val startTime = System.currentTimeMillis()
-            val exposureWindows = result.exposureWindows ?: emptyList()
+            val exposureWindows = resultEw.exposureWindows ?: emptyList()
             val windowIds = exposureWindows
                 .map { it.toPersistedExposureWindow(riskLevelResultId = storedResultId) }
                 .let { exposureWindowsTables.insertWindows(it) }

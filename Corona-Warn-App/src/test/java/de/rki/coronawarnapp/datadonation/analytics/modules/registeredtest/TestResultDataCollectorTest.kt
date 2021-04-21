@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
-import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -62,11 +62,11 @@ class TestResultDataCollectorTest : BaseTest() {
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
 
-            val mockRiskLevelResult = mockk<RiskLevelResult>().apply {
+            val mockRiskLevelResult = mockk<EwRiskLevelResult>().apply {
                 every { calculatedAt } returns Instant.now()
                 every { wasSuccessfullyCalculated } returns true
             }
-            every { riskLevelStorage.latestAndLastSuccessful } returns flowOf(listOf(mockRiskLevelResult))
+            every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(listOf(mockRiskLevelResult))
             every { testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any()) } just Runs
             testResultDataCollector.saveTestResultAnalyticsSettings(TestResult.POSITIVE)
 

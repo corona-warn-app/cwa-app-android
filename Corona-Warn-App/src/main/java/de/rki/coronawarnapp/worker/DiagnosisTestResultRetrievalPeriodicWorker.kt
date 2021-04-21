@@ -7,8 +7,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import timber.log.Timber
 
 /**
@@ -29,11 +28,12 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
-    private val notificationHelper: NotificationHelper,
+    private val notificationHelper: GeneralNotifications,
     private val submissionSettings: SubmissionSettings,
     private val submissionService: SubmissionService,
     private val timeStamper: TimeStamper,
     private val tracingSettings: TracingSettings,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -42,7 +42,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             Timber.tag(TAG).d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
-            BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
+            backgroundWorkScheduler.scheduleDiagnosisTestResultPeriodicWork()
             Timber.tag(TAG).d("$id Rescheduled background worker")
 
             return Result.failure()
@@ -95,6 +95,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             tracingSettings.initialPollingForTestResultTimeStamp,
             currentMillis
         )
+        Timber.tag(TAG).d("Calculated days: %d", calculateDays)
+
         if (calculateDays >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS) {
             Timber.tag(TAG)
                 .d(" $id Maximum of ${BackgroundConstants.POLLING_VALIDITY_MAX_DAYS} days for polling exceeded.")
@@ -117,7 +119,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
 
     private fun stopWorker() {
         tracingSettings.initialPollingForTestResultTimeStamp = 0L
-        BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
+        backgroundWorkScheduler.stopDiagnosisTestResultPeriodicWork()
         Timber.tag(TAG).d("$id: Background worker stopped")
     }
 

@@ -6,11 +6,13 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentDirections
 import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -39,7 +41,14 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
 
         binding.contactDiaryPersonListRecyclerView.apply {
             adapter = personListAdapter
-            addItemDecoration(MarginRecyclerViewDecoration(resources.getDimensionPixelSize(R.dimen.spacing_tiny)))
+            addItemDecoration(
+                MarginRecyclerViewDecoration(
+                    resources.getDimensionPixelSize(R.dimen.list_item_decoration_card_margins)
+                )
+            )
+            onScroll {
+                (parentFragment as? ContactDiaryDayFragment)?.onScrollChange(it)
+            }
         }
 
         viewModel.uiList.observe2(this) {

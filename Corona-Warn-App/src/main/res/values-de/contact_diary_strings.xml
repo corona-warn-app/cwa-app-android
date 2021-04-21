@@ -77,6 +77,13 @@
     <string name="contact_diary_risk_body_high_risk_due_to_low_risk_encounters">"aufgrund von mehreren Begegnungen mit niedrigem Risiko."</string>
     <!-- XTXT: Extended Body for contact diary overview screen risk information -->
     <string name="contact_diary_risk_body_extended">"Diese müssen nicht in Zusammenhang mit den von Ihnen erfassten Personen und Orten stehen."</string>
+    <!-- XTXT: Body for contact diary overview screen trace location risk information prelude -->
+    <string name="contact_diary_trace_location_risk_body">"aufgrund ihrer Anwesenheit bei:"</string>
+    <!-- XTXT: Indicates this trace location caused a high risk  -->
+    <string name="contact_diary_trace_location_risk_high">"erhöhtes Risiko"</string>
+    <!-- XTXT: Indicates this trace location caused a lows risk -->
+    <string name="contact_diary_trace_location_risk_low">"niedriges Risiko"</string>
+
 
 
     <!-- XTXT: content description of contact journal image on home screen -->
@@ -123,9 +130,9 @@
     <!-- XHED: Title for the contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_title">"Notiz"</string>
     <!-- XTXT: Description for contact diary comment info screen -->
-    <string name="contact_diary_comment_info_screen_description">"Hier können Sie Notizen machen, die Ihnen helfen, das Risiko einer Infektion besser einzuschätzen."</string>
+    <string name="contact_diary_comment_info_screen_description">"Hier können Sie Notizen machen, die Ihnen helfen, das Infektionsrisiko besser einzuschätzen."</string>
     <!-- XTXT: Body for contact diary comment info screen -->
-    <string name="contact_diary_comment_info_screen_body">"Notieren Sie Umstände, die zu einem erhöhten Risiko führen könnten, z.B. räumliche Nähe zu anderen Personen oder die Ausübung einer Tätigkeit, die sich auf die Luftqualität auswirkt (Beispiele: „saßen nah beieinander“, „es wurde Sport getrieben“, „wir haben gesungen“).\n\nSollten Sie sich tatsächlich anstecken, können diese Notizen auch dem Gesundheitsamt bei der Nachverfolgung möglicher Infektionsketten helfen."</string>
+    <string name="contact_diary_comment_info_screen_body">"Notieren Sie hier weitere Umstände Ihrer Begegnung bzw. Ihres Aufenthalts, die sich auf das Infektionsrisiko auswirken können, z.B. räumliche Nähe zu anderen Personen oder was Sie gemacht haben (Beispiele: „saßen nah beieinander“, „Sport gemacht“, „wenig Platz“, „wir haben gesungen“).\n\nDiese Notizen können Ihnen später helfen, sich besser zu erinnern. So können Sie, wenn nötig, die Menschen, mit denen Sie zusammenwaren, frühzeitig warnen und auch das Gesundheitsamt bei der Nachverfolgung möglicher Infektionsketten unterstützen."</string>
 
     <!-- XTXT: location (description for screen readers) -->
     <string name="accessibility_location">"Ort %s"</string>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+             Event Registration
+    ###################################### -->
+
+    <!-- XHED: My check-ins: screen title -->
+    <string name="trace_location_checkins_title">"Moje zameldowania"</string>
+    <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_label">"Nie ma jeszcze żadnych wpisów"</string>
+    <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description">"Gdy zeskanujesz kod QR, aby zameldować swoją obecność w wydarzeniu lub miejscu, wpis zostanie utworzony automatycznie."</string>
+    <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
+    <string name="trace_location_checkins_empty_illustration_accessibility">"Budynek z symbolem kodu QR w tle."</string>
+
+    <!-- XBUT: My check-ins: Scan QR Code button -->
+    <string name="trace_location_checkins_action_scan_qrcode">"Skanuj kod QR"</string>
+
+    <!-- XBUT: My check-ins: menu entry to remove all -->
+    <string name="trace_location_checkins_menu_remove_all">"Usuń wszystko"</string>
+    <!-- XBUT: My check-ins: menu entry to show information -->
+    <string name="trace_location_checkins_menu_information">"Informacje"</string>
+
+    <!-- XHED: My checkin-ins: card title if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_title">"Zezwól na dostęp do aparatu"</string>
+    <!-- XTXT: My checkin-ins: card description if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_description">"Aby używać aparatu w smartfonie do skanowania kodów QR, musisz zezwolić na dostęp do aparatu w ustawieniach urządzenia dla aplikacji."</string>
+    <!-- XBUT: My checkin-ins: card description if camera permissions were permanently declined. -->
+    <string name="trace_location_checkins_camera_permission_action">"Otwórz opcję Ustawienia"</string>
+
+    <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
+    <string name="trace_location_checkins_remove_all_title">"Czy na pewno chcesz usunąć wszystkie wpisy?"</string>
+    <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
+    <string name="trace_location_checkins_remove_single_title">"Czy na pewno chcesz usunąć ten wpis?"</string>
+    <!-- XTXT: My checkin-ins: Confirmation dialog description when removing all/single items -->
+    <string name="trace_location_checkins_remove_message">"Nie będziesz mieć możliwości ostrzegania osób, które zameldowały się w tym samym czasie w tym miejscu lub na tym wydarzeniu, ani one nie będą ostrzegać Ciebie."</string>
+
+    <!-- XBUT: My check-ins card: Menu, remove item -->
+    <string name="trace_location_checkins_menu_remove_item">"Usuń"</string>
+    <!-- XBUT: My check-ins card: Active event, checkout button -->
+    <string name="trace_location_checkins_card_action_checkout">"Wymelduj się teraz"</string>
+    <!-- XTXT: My check-ins card: Active event, duration label in highlight view -->
+    <string name="trace_location_checkins_card_highlight_duration_label">"Czas trwania"</string>
+    <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
+    <string name="trace_location_checkins_card_automatic_checkout_info">"%1$s - wymelduj automatycznie po %2$s."</string>
+    <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
+    <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s %2$s - wymelduj automatycznie po %3$s."</string>
+
+    <!-- XHED: Title of the category list screen of the event creation  -->
+    <string name="tracelocation_organizer_category_title">"Utwórz kod QR"</string>
+
+    <!-- XHED: Title of location types in the category list screen of the event creation -->
+    <string name="tracelocation_organizer_category_type_location_header">"Miejsce"</string>
+
+    <!-- XTXT: Title for the retail category  -->
+    <string name="tracelocation_organizer_category_retail_title">"Handel detaliczny"</string>
+    <!-- XTXT: Subtitle for the retail category  -->
+    <string name="tracelocation_organizer_category_retail_subtitle">"Sklep, punkt sprzedaży"</string>
+
+    <!-- XTXT: Title for the food service category  -->
+    <string name="tracelocation_organizer_category_food_service_title">"Turystyka i hotelarstwo"</string>
+    <!-- XTXT: Subtitle for the food service category  -->
+    <string name="tracelocation_organizer_category_food_service_subtitle">"Kawiarnia, bar, restauracja, hotel"</string>
+
+    <!-- XTXT: Title for the craft category  -->
+    <string name="tracelocation_organizer_category_craft_title">"Rzemiosło"</string>
+    <!-- XTXT: Subtitle for the craft category  -->
+    <string name="tracelocation_organizer_category_craft_subtitle">"Fryzjer, stolarz"</string>
+
+    <!-- XTXT: Title for the workplace category  -->
+    <string name="tracelocation_organizer_category_workplace_title">"Miejsce pracy"</string>
+    <!-- XTXT: Subtitle for the workplace category  -->
+    <string name="tracelocation_organizer_category_workplace_subtitle">"Biuro, sala konferencyjna, kafeteria"</string>
+
+    <!-- XTXT: Title for the educational institution category  -->
+    <string name="tracelocation_organizer_category_educational_institution_title">"Placówka oświatowa"</string>
+    <!-- XTXT: Subtitle for the educational institution category  -->
+    <string name="tracelocation_organizer_category_educational_institution_subtitle">"Sala lekcyjna, sala wykładowa, biblioteka"</string>
+
+    <!-- XTXT: Title for the public building category  -->
+    <string name="tracelocation_organizer_category_public_building_title">"Budynek użyteczności publicznej"</string>
+    <!-- XTXT: Subtitle for the public building category  -->
+    <string name="tracelocation_organizer_category_public_building_subtitle">"Urząd gminy, muzeum"</string>
+
+    <!-- XTXT: Title for other location  -->
+    <string name="tracelocation_organizer_category_other_location_title">"Inne miejsce"</string>
+
+    <!-- XHED: Title of event types in the category list screen of the event creation -->
+    <string name="tracelocation_organizer_category_type_event_header">"Wydarzenie"</string>
+
+    <!-- XTXT: Title for the cultural event category  -->
+    <string name="tracelocation_organizer_category_cultural_event_title">"Wydarzenie kulturalne"</string>
+    <!-- XTXT: Subtitle for the cultural event category  -->
+    <string name="tracelocation_organizer_category_cultural_event_subtitle">"Koncert, wystawa sztuki"</string>
+
+    <!-- XTXT: Title for the club activity category  -->
+    <string name="tracelocation_organizer_category_club_activity_title">"Zajęcia w klubie"</string>
+    <!-- XTXT: Subtitle for the club activity category  -->
+    <string name="tracelocation_organizer_category_club_activity_subtitle">"Trening sportowy, spotkanie ogólne"</string>
+
+    <!-- XTXT: Title for the private event category  -->
+    <string name="tracelocation_organizer_category_private_event_title">"Prywatna impreza"</string>
+    <!-- XTXT: Subtitle for the private event category  -->
+    <string name="tracelocation_organizer_category_private_event_subtitle">"Urodziny, spotkanie rodzinne"</string>
+
+    <!-- XTXT: Title for the worship service category  -->
+    <string name="tracelocation_organizer_category_worship_service_title">"Nabożeństwo"</string>
+
+    <!-- XTXT: Title for other event  -->
+    <string name="tracelocation_organizer_category_other_event_title">"Inne wydarzenie"</string>
+
+    <!-- XTXT: Title for event description  -->
+    <string name="tracelocation_organizer_add_event_description">"Opis"</string>
+    <!-- XTXT: Title for event location  -->
+    <string name="tracelocation_organizer_add_event_location">"Miejsce"</string>
+    <!-- XTXT: Title for event length of stay  -->
+    <string name="tracelocation_organizer_add_event_length_of_stay">"Typowy pobyt"</string>
+    <!-- XTXT: Description for event length of stay  -->
+    <string name="tracelocation_organizer_add_event_length_of_stay_description">"Określ, jak długo zazwyczaj przebywają u Ciebie goście."</string>
+    <!-- XTXT: Title for event start time  -->
+    <string name="tracelocation_organizer_add_event_begin">"Początek"</string>
+    <!-- XTXT: Title for event end time  -->
+    <string name="tracelocation_organizer_add_event_end">"Koniec"</string>
+    <!-- XTXT: Duration suffix -->
+    <string name="tracelocation_organizer_duration_suffix">"godz."</string>
+    <!-- XTXT: Save button text -->
+    <string name="tracelocation_organizer_save">"Zapisz"</string>
+
+    <!-- XMSG: generic web request error without status code -->
+    <string name="tracelocation_generic_qr_code_error_body">"Kod QR nie mógł zostać utworzony. Spróbuj ponownie później."</string>
+    <!-- XHED: error message title -->
+    <string name="tracelocation_generic_error_title">"Błąd"</string>
+
+    <!--    Trace Location Homescreen Card-->
+    <!-- XHED: Headline for trace location creation card -->
+    <string name="create_trace_location_card_headline">"Planujesz\nwydarzenie?"</string>
+    <!-- XTXT: Subtitle for trace location creation card -->
+    <string name="create_trace_location_card_subtitle">"Planujesz wydarzenie lub prowadzisz firmę? Utwórz kod QR, aby Twoi goście mogli zameldować się po przybyciu na miejsce."</string>
+    <!-- XTXT: Text for trace location creation card -->
+    <string name="create_trace_location_card_button">"Utwórz kod QR"</string>
+    <!-- XTXT: Text for content description of tile image -->
+    <string name="create_trace_location_card_content_description">"Osoba wskazuje na tablicę flipchart."</string>
+
+    <!--    Trace Location QR Code Info Screen-->
+    <!-- XTXT: Text for content description of info screen image -->
+    <string name="trace_location_qr_info_content_description">"Jedna osoba wskazuje na tablicę flipchart, a dwie inne osoby siedzą obok i patrzą na flipchart."</string>
+    <!-- XHED: Headline for trace location creation card -->
+    <string name="trace_location_qr_info_headline_text">"Większe bezpieczeństwo dla Ciebie i Twoich gości"</string>
+    <!-- XTXT: Text for subtitle of qr info screen -->
+    <string name="trace_location_qr_info_subtitle_text">"Utwórz kod QR, który Twoi goście będą mogli zeskanować po przybyciu. Dzięki temu będą mogli ostrzegać innych gości lub otrzymywać od nich ostrzeżenia, jeśli zajdzie taka potrzeba."</string>
+    <!-- XTXT: Text for tracing icon of qr info screen -->
+    <string name="trace_location_qr_info_tracing_text">"Każde zameldowanie jest również brane pod uwagę przy obliczaniu statusu ryzyka. Jeśli u osoby, która zameldowała swoją obecność w danym wydarzeniu lub miejscu, zostanie później zdiagnozowany koronawirus, goście zostaną powiadomieni, jeśli przebywali w tym samym pomieszczeniu w tym samym czasie lub do 30 minut po opuszczeniu pomieszczenia przez zdiagnozowaną osobę."</string>
+    <!-- XTXT: Text for qr icon of qr info screen -->
+    <string name="trace_location_qr_info_qr_code_text">"Kod QR możesz przekazać gościom za pomocą smartfona lub w formie drukowanej."</string>
+    <!-- XTXT: Text for time sheet icon of qr info screen -->
+    <string name="trace_location_qr_info_time_text">"Używając kodu QR przez dłuższy czas, musisz generować go ponownie każdego dnia poza godzinami pracy."</string>
+    <!-- XTXT: Text for I understand button -->
+    <string name="acknowledge_button">"Dalej"</string>
+
+    <!-- XHED: Title of the notification channel for event registration related notifications. -->
+    <string name="tracelocation_notification_channel_title">"Zameldowania"</string>
+    <!-- XTXT: Description of the notification channel for event registration related notifications. -->
+    <string name="tracelocation_notification_channel_description">"Powiadomienia o zameldowaniach i wymeldowaniach, np. o automatycznym wymeldowaniu."</string>
+    <!-- XHED: Title of the automatic check-out notification. -->
+    <string name="tracelocation_notification_autocheckout_title">"Nastąpiło automatyczne wymeldowanie."</string>
+    <!-- XTXT: Description of the automatic check-out notification. -->
+    <string name="tracelocation_notification_autocheckout_description">"W razie potrzeby dostosuj długość pobytu."</string>
+
+    <!-- ####################################
+       Event Organiser Trace Locations List
+    ###################################### -->
+
+    <!-- XHED: Event organiser qr codes list: title -->
+    <string name="trace_location_organiser_list_title">"Moje kody QR"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_new_button">"Kod QR"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_codes_title">"Nie utworzono jeszcze kodów QR"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_codes_subtitle">"W tym miejscu wyświetlane są wszystkie kody QR utworzone dla miejsca lub wydarzenia. Możesz usunąć kody QR, których już nie zamierzasz używać."</string>
+
+    <!-- XBUT: Event organiser qr codes list: menu: information button  -->
+    <string name="trace_location_organizer_list_menu_information_btn">"Informacje"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
+    <string name="trace_location_organizer_list_menu_remove_all_btn">"Usuń wszystko"</string>
+
+    <!-- XHED:  Event organiser qr codes list: delete single popup title -->
+    <string name="trace_location_organiser_list_delete_single_popup_title">"Czy chcesz usunąć kod QR?"</string>
+    <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
+    <string name="trace_location_organiser_list_delete_single_popup_message">"Pamiętaj, że jeśli to zrobisz, ten kod QR nie będzie mógł być dłużej używany do meldowania się."</string>
+
+    <!-- XHED:  Event organiser qr codes list: delete all popup title -->
+    <string name="trace_location_organiser_list_delete_all_popup_title">"Czy na pewno chcesz usunąć wszystkie kody QR?"</string>
+    <!-- XTXT:  Event organiser qr codes list: delete all popup message -->
+    <string name="trace_location_organiser_list_delete_all_popup_message">"Pamiętaj, że jeśli to zrobisz, te kody QR nie będą mogły być dłużej używane do meldowania się."</string>
+    <!-- XBUT:  Event organiser qr codes list: delete all popup negative button -->
+    <string name="trace_location_organiser_list_delete_all_popup_negative_button">"Anuluj"</string>
+    <!-- XBUT:  Event organiser qr codes list: delete all popup positive button -->
+    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Usuń"</string>
+
+    <!-- XTXT: Event organiser list item: duration-->
+    <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>
+
+    <!-- XTXT: Event organiser list item: duration same day-->
+    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %3$s "</string>
+
+    <!-- XBUT: Event organiser list item: checkin button -->
+    <string name="trace_location_organizer_list_item_action_checkin">"Zamelduj się"</string>
+
+    <!-- XTXT: Event organizer detail qr-code: duration with date -->
+    <string name="trace_location_organizer_detail_item_duration">"%1$s, %2$s - %3$s"</string>
+    <!-- XTXT: Event organizer detail qr-code: duration with multiple date -->
+    <string name="trace_location_organizer_detail_item_duration_multiple_days">"%1$s, %2$s - %3$s, %4$s"</string>
+
+    <!-- XBUT: Event organiser list item: menu: information button  -->
+    <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Duplikuj"</string>
+    <!-- XBUT: Event organiser list item: menu: show print button  -->
+    <string name="trace_location_organizer_list_item_menu_show_print_btn">"Wyświetl wersję do druku"</string>
+    <!-- XBUT: Event organiser list item: menu: clear button  -->
+    <string name="trace_location_organizer_list_item_menu_clear_btn">"Usuń"</string>
+
+    <!-- Trace Location Checkin Confirmation -->
+    <!-- XHED: Checkin Confirm: title for screen -->
+    <string name="confirm_checkin_title_text">"Zamelduj się na:"</string>
+    <!-- XTXT: Checkin Confirm: text for event is in future info card -->
+    <string name="confirm_checkin_event_in_future_card_text">"To wydarzenie zaczyna się dopiero %2$s w dniu %1$s. Czy chcesz się zameldować już teraz?"</string>
+    <!-- XTXT: Checkin Confirm: text for event is in past info card -->
+    <string name="confirm_checkin_event_in_past_card_text">"To wydarzenie już się skończyło. Czy chcesz się zameldować z datą wsteczną?"</string>
+    <!-- XTXT: Checkin Confirm: label for save to contact diary toggle -->
+    <string name="confirm_checkin_settings_card_checkout_toggle_label">"Zapisać w dzienniku kontaktów po wymeldowaniu?"</string>
+    <!-- XTXT: Checkin Confirm: label for checkout delay selection -->
+    <string name="confirm_checkin_settings_card_checkout_time_label">"Wymelduj automatycznie po"</string>
+    <!-- XTXT: Checkin Confirm: time length label for checkout delay selection -->
+    <string name="confirm_checkin_settings_card_checkout_time_tag">"godz."</string>
+    <!-- XBUT: Checkin Confirm: Checkin Button -->
+    <string name="confirm_checkin_confirm_button_text">"Zamelduj się"</string>
+
+    <!-- Trace Location Checkin Editing -->
+    <!-- XHED: Checkin Edit: title for screen -->
+    <string name="edit_checkin_title_text">"Zmień długość pobytu dla:"</string>
+    <!-- XTXT: Checkin Edit: label for checkout time -->
+    <string name="edit_checkin_edit_card_checkout_time_label">"Wymeldowano"</string>
+    <!-- XTXT: Checkin Edit: label for checkin time -->
+    <string name="edit_checkin_edit_card_checkin_time_label">"Zameldowano"</string>
+    <!-- XTXT: Checkin Edit: hint for unchanged contact diary checkin duration -->
+    <string name="edit_checkin_duration_edit_hint_card_text">"Długość pobytu nie zostanie automatycznie skorygowana w Twoim dzienniku kontaktów."</string>
+    <!-- XTXT: Checkin Edit: warning if user input is incorrect -->
+    <string name="edit_checkin_wrong_input_warning_text">"Maksymalny czas trwania zameldowania wynosi 24 godziny. Godzina wymeldowania musi być późniejsza niż godzina zameldowania."</string>
+    <!-- XBUT: Checkin Edit: Save Button -->
+    <string name="edit_checkin_confirm_button_text">"Zapisz"</string>
+
+    <!--  Organizer Flow: Event Detail Screen-->
+    <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
+    <string name="trace_location_event_detail_qr_code_accessibility">"Kod QR"</string>
+    <!-- XHED: Organizer Flow : Accessibility title for event-overview -->
+    <string name="trace_location_event_detail_title_accessibility">"Widok wydarzenia"</string>
+    <!-- XBUT: Organizer Flow : Title for show print version button -->
+    <string name="trace_location_event_detail_show_print_qr_code_button">"Wyświetl wersję do druku"</string>
+    <!-- XBUT: Organizer Flow : Title for save as template button -->
+    <string name="trace_location_event_detail_save_as_template_button">"Użyj jako szablonu"</string>
+
+    <!-- Qr Code Validation Messages -->
+    <!-- XTXT: My check-ins: qr code validation wrong description field -->
+    <string name="trace_location_checkins_qr_code_invalid_description">"Zameldowanie niemożliwe z powodu nieprawidłowego kodu QR. Osoba odpowiedzialna musi wygenerować nowy kod QR (kod błędu INVALID_DESCRIPTION)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong address field -->
+    <string name="trace_location_checkins_qr_code_invalid_address">"Zameldowanie niemożliwe z powodu nieprawidłowego kodu QR. Osoba odpowiedzialna musi wygenerować nowy kod QR (kod błędu INVALID_ADDRESS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong start end time field -->
+    <string name="trace_location_checkins_qr_code_invalid_times">"Zameldowanie niemożliwe z powodu nieprawidłowego kodu QR. Osoba odpowiedzialna musi wygenerować nowy kod QR (kod błędu INVALID_TIMESTAMPS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
+    <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Zameldowanie niemożliwe z powodu nieprawidłowego kodu QR. Osoba odpowiedzialna musi wygenerować nowy kod QR (kod błędu INVALID_CRYPTO_SEED)."</string>
+
+</resources>

@@ -13,10 +13,10 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkStatic
 import io.mockk.slot
-import org.joda.time.DateTime
+import org.joda.time.Duration
 import org.joda.time.Instant
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.util.Locale
 
@@ -26,9 +26,9 @@ class FormatterStatisticsHelperTest : BaseTest() {
     private lateinit var context: Context
 
     private val today = Instant()
-    private val yesterday = DateTime().minusDays(1).toInstant()
+    private val yesterday = today.minus(Duration.standardDays(1))
 
-    @Before
+    @BeforeEach
     fun setUp() {
         val slot = slot<String>()
         MockKAnnotations.init(this)

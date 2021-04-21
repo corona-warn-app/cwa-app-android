@@ -5,8 +5,8 @@ import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
-import de.rki.coronawarnapp.contactdiary.ui.durationpicker.toReadableDuration
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
@@ -53,7 +53,7 @@ class ContactDiaryExporter @Inject constructor(
     }
 
     private fun generateDatesToExport(numberOfLastDaysToExport: Int) =
-        (0 until numberOfLastDaysToExport).map { timeStamper.nowUTC.toLocalDate().minusDays(it) }
+        (0 until numberOfLastDaysToExport).map { timeStamper.nowUTC.toLocalDateUtc().minusDays(it) }
 
     private fun StringBuilder.appendIntro(datesToExport: List<LocalDate>) = apply {
         appendLine(

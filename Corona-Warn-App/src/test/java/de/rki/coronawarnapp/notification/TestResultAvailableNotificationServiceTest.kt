@@ -16,6 +16,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
 import io.mockk.verifyOrder
@@ -34,7 +35,7 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
     @MockK lateinit var pendingIntent: PendingIntent
     @MockK lateinit var navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>
     @MockK lateinit var notificationManager: NotificationManager
-    @MockK lateinit var notificationHelper: NotificationHelper
+    @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var cwaSettings: CWASettings
 
     @BeforeEach
@@ -48,6 +49,8 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
         every { navDeepLinkBuilderProvider.get() } returns navDeepLinkBuilder
         every { navDeepLinkBuilder.createPendingIntent() } returns pendingIntent
         every { cwaSettings.isNotificationsTestEnabled.value } returns true
+
+        every { notificationHelper.newBaseBuilder() } returns mockk(relaxed = true)
     }
 
     fun createInstance() = TestResultAvailableNotificationService(
@@ -84,10 +87,8 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
         coEvery { foregroundState.isInForeground } returns flow { emit(false) }
         every {
             notificationHelper.sendNotification(
-                title = any(),
-                content = any(),
                 notificationId = any(),
-                pendingIntent = any()
+                notification = any()
             )
         } just Runs
 
@@ -101,10 +102,8 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
             context.getString(R.string.notification_headline_test_result_ready)
             context.getString(R.string.notification_body_test_result_ready)
             notificationHelper.sendNotification(
-                title = any(),
-                content = any(),
                 notificationId = any(),
-                pendingIntent = any()
+                notification = any()
             )
         }
     }
@@ -119,10 +118,8 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
 
             verify(exactly = 0) {
                 notificationHelper.sendNotification(
-                    title = any(),
-                    content = any(),
                     notificationId = any(),
-                    pendingIntent = any()
+                    notification = any()
                 )
             }
         }

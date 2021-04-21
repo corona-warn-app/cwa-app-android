@@ -40,7 +40,8 @@ class SubmissionRepository @Inject constructor(
     private val backgroundNoise: BackgroundNoise,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val tracingSettings: TracingSettings,
-    private val testResultDataCollector: TestResultDataCollector
+    private val testResultDataCollector: TestResultDataCollector,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) {
     private val testResultReceivedDateFlowInternal =
         MutableStateFlow((submissionSettings.initialTestResultReceivedAt ?: timeStamper.nowUTC).toDate())
@@ -129,11 +130,13 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         analyticsKeySubmissionCollector.reset()
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
+        // START - Fix for EXPOSUREAPP-4484 relies on this call order
         submissionSettings.registrationToken.update {
             registrationData.registrationToken
         }
         updateTestResult(registrationData.testResult)
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
+        // END
         backgroundNoise.scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
@@ -142,11 +145,13 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         analyticsKeySubmissionCollector.reset()
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
+        // START - Fix for EXPOSUREAPP-4484 relies on this call order
         submissionSettings.registrationToken.update {
             registrationData.registrationToken
         }
         updateTestResult(registrationData.testResult) // This saves initial time
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
+        // END
         backgroundNoise.scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
         testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult) // This saves received at
@@ -188,7 +193,7 @@ class SubmissionRepository @Inject constructor(
             submissionSettings.initialTestResultReceivedAt = currentTime
             testResultReceivedDateFlowInternal.value = currentTime.toDate()
             if (testResult == TestResult.PENDING) {
-                BackgroundWorkScheduler.startWorkScheduler()
+                backgroundWorkScheduler.startWorkScheduler()
             }
         } else {
             testResultReceivedDateFlowInternal.value = initialTestResultReceivedTimestamp.toDate()

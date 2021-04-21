@@ -68,4 +68,12 @@
     <!-- Statistics -->
     <color name="colorStatisticsValueLabel">#A7A7A7</color>
     <color name="colorStatisticsPrimaryValue">#FFFFFF</color>
+
+    <!-- Trace location -->
+    <color name="colorTraceLocationIconDateBackground">#434445</color>
+    <color name="colorTraceLocationGradientBackground">#000000</color>
+
+    <!-- QR Code Scan -->
+    <color name="colorQrCodeScanToolbar">#FFFFFF</color>
+    <color name="colorQrCodeScanMask">#BF000000</color>
 </resources>

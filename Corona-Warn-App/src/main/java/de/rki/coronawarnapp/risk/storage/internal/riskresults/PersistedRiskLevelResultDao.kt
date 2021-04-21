@@ -5,9 +5,9 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
-import de.rki.coronawarnapp.risk.RiskLevelTaskResult
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult.FailureReason
+import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping
 import org.joda.time.Instant
@@ -24,9 +24,9 @@ data class PersistedRiskLevelResultDao(
 
     fun toRiskResult(exposureWindows: List<PersistedExposureWindowDaoWrapper>? = null) = when {
         aggregatedRiskResult != null -> {
-            RiskLevelTaskResult(
+            EwRiskLevelTaskResult(
                 calculatedAt = calculatedAt,
-                aggregatedRiskResult = aggregatedRiskResult.toAggregatedRiskResult(),
+                ewAggregatedRiskResult = aggregatedRiskResult.toAggregatedRiskResult(),
                 exposureWindows = exposureWindows?.map { it.toExposureWindow() }
             )
         }
@@ -34,7 +34,7 @@ data class PersistedRiskLevelResultDao(
             if (failureReason == null) {
                 Timber.e("Entry contained no aggregateResult and no failure reason, shouldn't happen.")
             }
-            RiskLevelTaskResult(
+            EwRiskLevelTaskResult(
                 calculatedAt = calculatedAt,
                 failureReason = failureReason ?: FailureReason.UNKNOWN
             )
@@ -58,7 +58,7 @@ data class PersistedRiskLevelResultDao(
         val numberOfDaysWithHighRisk: Int
     ) {
 
-        fun toAggregatedRiskResult() = AggregatedRiskResult(
+        fun toAggregatedRiskResult() = EwAggregatedRiskResult(
             totalRiskLevel = totalRiskLevel,
             totalMinimumDistinctEncountersWithLowRisk = totalMinimumDistinctEncountersWithLowRisk,
             totalMinimumDistinctEncountersWithHighRisk = totalMinimumDistinctEncountersWithHighRisk,

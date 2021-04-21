@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.eventregistration.TraceLocationSettings
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
@@ -12,6 +14,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -28,6 +31,8 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var diarySettings: ContactDiarySettings
     @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var onboardingSettings: OnboardingSettings
+    @MockK lateinit var traceLocationSettings: TraceLocationSettings
+    @MockK lateinit var checkInRepository: CheckInRepository
 
     @BeforeEach
     fun setup() {
@@ -37,6 +42,9 @@ class MainActivityViewModelTest : BaseTest() {
 
         every { onboardingSettings.isOnboarded } returns true
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
+        every { traceLocationSettings.onboardingStatus } returns TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
+        every { onboardingSettings.isBackgroundCheckDone } returns true
+        every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
@@ -45,7 +53,9 @@ class MainActivityViewModelTest : BaseTest() {
         backgroundModeStatus = backgroundModeStatus,
         contactDiarySettings = diarySettings,
         backgroundNoise = backgroundNoise,
-        onboardingSettings = onboardingSettings
+        onboardingSettings = onboardingSettings,
+        checkInRepository = checkInRepository,
+        traceLocationSettings = traceLocationSettings
     )
 
     @Test
@@ -80,7 +90,7 @@ class MainActivityViewModelTest : BaseTest() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
         val vm = createInstance()
         vm.onBottomNavSelected()
-        vm.isOnboardingDone.value shouldBe false
+        vm.isContactDiaryOnboardingDone.value shouldBe false
     }
 
     @Test
@@ -88,6 +98,6 @@ class MainActivityViewModelTest : BaseTest() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
         val vm = createInstance()
         vm.onBottomNavSelected()
-        vm.isOnboardingDone.value shouldBe true
+        vm.isContactDiaryOnboardingDone.value shouldBe true
     }
 }

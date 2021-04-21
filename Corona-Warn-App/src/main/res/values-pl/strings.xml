@@ -30,10 +30,10 @@
     <!-- ####################################
                Notification
     ###################################### -->
-    <!-- XTXT: Notification channel name for os settings -->
-    <string name="notification_name">"Corona-Warn-App"</string>
-    <!-- XTXT: Notification channel description for os settings -->
-    <string name="notification_description">"Powiadomienia od Corona-Warn-App"</string>
+    <!-- XHED: Title of the notification channel for general CWA notifications (e.g. risk change) -->
+    <string name="general_notification_channel_title">"Ogólne"</string>
+    <!-- XTXT: Description of the notification channel for general CWA notifications (e.g. risk change) -->
+    <string name="general_notification_channel_description">"Przypomnienia, notatki i ogólne powiadomienia – na przykład o statusie ryzyka."</string>
     <!-- XHED: Notification title -->
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
@@ -305,7 +305,7 @@
 <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna. Rejestrowanie narażenia obejmuje 14 ostatnich dni."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplikacja Corona-Warn-App została zainstalowana %s temu. Ryzyko zakażenia jest obliczane dla okresów, w których aktywne było rejestrowanie narażenia. Oblicza się je w przypadku kontaktowania się z innymi ludźmi przy aktywnej funkcji rejestrowania narażenia."</string>
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplikacja Corona-Warn-App została zainstalowana %s dni temu. Ryzyko zakażenia jest obliczane dla okresów, w których aktywne było rejestrowanie narażenia. Oblicza się je w przypadku kontaktowania się z innymi ludźmi przy aktywnej funkcji rejestrowania narażenia."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Jeśli rejestrowanie narażenia było aktywne podczas kontaktowania się z innymi ludźmi, można obliczyć ryzyko zakażenia dla tego okresu."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
@@ -964,7 +964,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Czy chcesz anulować wprowadzanie objawów?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"Przekazanie informacji o objawach pozwoli Ci na wysyłanie innym bardziej szczegółowych ostrzeżeń."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"Przekazanie informacji o objawach pozwoli Ci na wysyłanie innym dokładniejszych ostrzeżeń."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Tak"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Anuluj"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"Ustaw kod QR w ramce."</string>
+    <string name="qr_code_scan_title">"Skan kodu QR"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="submission_qr_code_scan_body">"Ustaw kod QR w ramce."</string>
+    <string name="qr_code_scan_body">"Ustaw kod QR w ramce."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1010,26 +1010,28 @@
     <string name="submission_consent_main_headline_body">"Zanim pobierzesz wynik testu i będziesz ostrzegać innych musisz wyrazić zgodę."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Pobierz wynik testu"</string>
-    <!-- YTXT: Body for Submission Consent call test result body  -->
-    <string name="submission_consent_call_test_result_body">"W następnym kroku zeskanuj kod QR ze swojego testu i pobierz wynik testu."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Zeskanuj tylko swój własny test."</string>
+    <string name="submission_consent_call_test_result_scan_your_test_only">"Zeskanuj teraz kod QR dla swojego testu i pobierz wynik testu."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Test można zeskanować tylko raz. Aplikacja nie może zarządzać wieloma testami jednocześnie."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Pomóż osobom, z którymi miałeś(-aś) kontakt, ostrzegając ich!"</string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body">"Jeśli zdiagnozowano u Ciebie koronawirusa, możesz ostrzec innych za pośrednictwem aplikacji. Funkcja ostrzegania działa w kilku krajach. Obecnie są to następujące kraje:"</string>
+    <!-- YTXT: Body for consent help by warning others - info about events -->
+    <string name="submission_consent_help_by_warning_others_body_event">"Osoby, które zameldowały swoją obecność w tych samych wydarzeniach lub miejscach w tym samym czasie co Ty, również zostaną ostrzeżone."</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Szczegółowe informacje na temat przetwarzania danych i Twojej zgodzie"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Twoja zgoda jest dobrowolna."</string>
+    <string name="submission_consent_main_first_point">"Możesz pobrać swój wynik testu, nawet jeśli nie zamierzasz go udostępniać. Jeśli jednak zdecydujesz się na jego udostępnienie, pomożesz chronić innych przed zakażeniem."</string>
     <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point">"Możesz pobrać swój wynik testu, nawet jeśli nie zamierzasz go udostępniać. Jeśli jednak zdecydujesz się na jego udostępnienie, pomożesz chronić innych przed zakażeniem."</string>
+    <string name="submission_consent_main_second_point">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swój wynik testu."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swoje wyniki testów."</string>
+    <string name="submission_consent_main_third_point">"W sekcji „Moje zameldowania” znajdują się wydarzenia i miejsca, których zameldowani goście zostaną ostrzeżeni. Możesz usunąć pojedyncze zameldowania z listy, aby wykluczyć je z procesu ostrzegania."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Aby wyrazić zgodę, musisz mieć ukończone 16 lat."</string>
+    <!-- YTXT: Body for consent main section final id consent  -->
+    <string name="submission_consent_main_id_consent">"W kolejnym kroku wyraź zgodę na dostęp do losowych identyfikatorów."</string>
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"Osoba trzyma smartfon. Kod QR w teście symbolizuje kod do zeskanowania."</string>
 
@@ -1345,6 +1347,8 @@
     <string name="submission_status_card_body_failed">"Twój test ma więcej niż 21 dni i stracił ważność. Usuń test. Będziesz mieć wówczas możliwość dodania kolejnego."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"Jeśli masz pozytywny wynik testu na obecność koronawirusa, możesz ostrzec innych."</string>
+    <!-- YTXT: Button text for submission status fetch ready -->
+    <string name="submission_status_card_retrieve_test_result">"Pobierz wynik testu"</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Następne kroki"</string>
     <!-- XBUT: submission status card show results button -->
@@ -1793,17 +1797,19 @@
     <string name="statistics_reproduction_title">"Aktualnie"</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">"średnia liczba zakażeń przez zakażoną osobę"</string>
-
     <!-- XTXT: Statistics trend increasing (Accessibilty) -->
     <string name="statistics_trend_increasing">"Trend: Rosnący"</string>
     <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
     <string name="statistics_trend_decreasing">"Trend: Malejący"</string>
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">"Trend: Stabilny"</string>
+
     <!-- XHED: Title for BottomNav main screen title -->
     <string name="bottom_nav_home_title">"Ekran początkowy"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Dziennik"</string>
+    <!-- XHED: Title for BottomNav check-in screen title -->
+    <string name="bottom_nav_check_ins_title">"Zamelduj się"</string>
 
     <!-- ####################################
            Data Donation & Survey
@@ -1921,4 +1927,68 @@
     <string name="duration_dialog_ok_button">"OK"</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">"00:00"</string>
+    <!-- XTXT: Duration hours text -->
+    <string name="duration_hours">"godz."</string>
+    <!-- XTXT: Duration minutes text -->
+    <string name="duration_minutes">"min."</string>
+
+    <!-- Scan check in QR Code-->
+    <!-- XTXT: Scan check in QR-Code  FAB text-->
+    <string name="scan_check_in_qr_code">"Skanuj kod QR"</string>
+
+    <!-- ####################################
+        Generic
+    ###################################### -->
+    <!-- XACT: Button/Dialog label to cancel something-->
+    <string name="generic_action_abort">"Anuluj"</string>
+    <!-- XACT: Button/Dialog label to remove something-->
+    <string name="generic_action_remove">"Usuń"</string>
+
+    <!-- ####################################
+       Trace Location
+    ###################################### -->
+    <!-- XHED: Title for the trace location onboarding -->
+    <string name="trace_location_onboarding_title">"Zamelduj się"</string>
+    <!-- XTXT: subtitle for the trace location onboarding -->
+    <string name="trace_location_onboarding_title2">"Przerywaj łańcuchy zakażeń w szybki i skuteczny sposób"</string>
+    <!-- YMSG: Onboarding trace location intro section -->
+    <string name="trace_location_onboarding_subheadline">"Zeskanuj kod QR dla wydarzenia lub miejsca, aby się zameldować i zarejestrować na smartfonie swoją obecność na tym wydarzeniu lub w miejscu."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_warning">"Każde zameldowanie jest również brane pod uwagę przy obliczaniu statusu ryzyka. Jeśli u osoby, która zameldowała się na tym wydarzeniu lub w miejscu, zostanie później zdiagnozowany koronawirus, zostaniesz powiadomiony(-a), jeśli przebywałeś(-aś) w tym samym pomieszczeniu w tym samym czasie lub do 30 minut po opuszczeniu pomieszczenia przez zdiagnozowaną osobę."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_stay">"Określ długość pobytu jak najdokładniej, aby ostrzeżenia mogły zostać odpowiednio dopasowane."</string>
+    <!-- XACT: Button/Dialog label to consent-->
+    <string name="trace_location_onboarding_body_confirm">"Akceptuj"</string>
+    <!--  XHED: Trace location check-ins camera permission card title-->
+    <string name="trace_location_attendee_camera_card_title">"Zezwól na dostęp do aparatu"</string>
+    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
+    <string name="trace_location_attendee_camera_card_subtitle">"Aby używać aparatu w smartfonie do skanowania kodów QR, musisz zezwolić na dostęp do aparatu w ustawieniach urządzenia dla aplikacji."</string>
+    <!--  XBUT: Trace location check-ins camera permission card button-->
+    <string name="trace_location_attendee_camera_card_button">"Otwórz opcję Ustawienia"</string>
+    <!--  YMSG: Trace location onboarding image description-->
+    <string name="trace_location_onboarding_content_description">"Trzy osoby stoją przy wysokim stole, dwie z nich patrzą na swoje smartfony."</string>
+    <!-- XMIT: Trace location poster print -->
+    <string name="trace_location_organiser_poster_print">"Drukuj"</string>
+    <!-- XMIT: Trace location poster share -->
+    <string name="trace_location_organiser_poster_share">"Udostępnij"</string>
+    <!-- XHED: Trace location poster title -->
+    <string name="trace_location_organiser_poster_title">"Wersja do druku"</string>
+    <!-- XHED: Trace location check-ins consent screen title -->
+    <string name="trace_location_attendee_consent_title">"Udostępnić Twoje zameldowania w lokalizacji?"</string>
+    <!-- XTXT: Trace location check-ins consent screen header description -->
+    <string name="trace_location_attendee_consent_header_description">"Ostrzegaj inne osoby, które się zameldowały w pobliżu. Twoje dane osobowe nie będą udostępniane."</string>
+    <!-- XBUT: Trace location check-ins consent screen header button -->
+    <string name="trace_location_attendee_consent_header_button">"Wybierz wszystkie"</string>
+    <!-- XBUT: Trace location check-ins consent screen continue button -->
+    <string name="trace_location_attendee_consent_continue">"Prześlij"</string>
+    <!-- XBUT: Trace location check-ins consent screen skip button -->
+    <string name="trace_location_attendee_consent_skip">"Pomiń"</string>
+    <!-- XHED: Trace location check-ins consent screen dialog title -->
+    <string name="trace_location_attendee_consent_dialog_title">"Czy na pewno nie chcesz udostępniać swoich zameldowań?"</string>
+    <!-- XTXT: Trace location check-ins consent screen dialog message -->
+    <string name="trace_location_attendee_consent_dialog_message">"W przypadku pominięcia tej operacji żadne kontakty zameldowane w pobliżu nie otrzymają ostrzeżenia."</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
+    <string name="trace_location_attendee_consent_dialog_positive_button">"Udostępnij"</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
+    <string name="trace_location_attendee_consent_dialog_negative_button">"Nie udostępniaj"</string>
 </resources>

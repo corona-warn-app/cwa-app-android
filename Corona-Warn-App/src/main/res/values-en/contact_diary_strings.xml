@@ -76,6 +76,13 @@
     <string name="contact_diary_risk_body_high_risk_due_to_low_risk_encounters">"based on multiple exposures with low risk."</string>
     <!-- XTXT: Extended Body for contact diary overview screen risk information -->
     <string name="contact_diary_risk_body_extended">"They are not necessarily related to the people and places you have recorded."</string>
+    <!-- XTXT: Body for contact diary overview screen trace location risk information prelude -->
+    <string name="contact_diary_trace_location_risk_body">"based on their presence at:"</string>
+    <!-- XTXT: Indicates this trace location caused a high risk  -->
+    <string name="contact_diary_trace_location_risk_high">"increased risk"</string>
+    <!-- XTXT: Indicates this trace location caused a lows risk -->
+    <string name="contact_diary_trace_location_risk_low">"low risk"</string>
+
 
 
     <!-- XTXT: content description of contact journal image on home screen -->
@@ -124,7 +131,7 @@
     <!-- XTXT: Description for contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_description">"You can enter notes here that will help you to better estimate your risk of infection."</string>
     <!-- XTXT: Body for contact diary comment info screen -->
-    <string name="contact_diary_comment_info_screen_body">"Write down the circumstances that could result in an increased risk, for example, how close you were to other people or things you did that could affect the air quality (examples: “sat close together”, “played sports”, “little space”, “we sang”).\n\nIf you become infected, this information can also help the public health authority trace potential chains of infection."</string>
+    <string name="contact_diary_comment_info_screen_body">"Write down additional circumstances of your encounter or stay here that could have an effect on your risk of infection, for example, how close you were to other people and what you did (examples: “sat close together”, “played sports”, “little space”, “we sang”).\n\nThese notes can help you refresh your memory later. If necessary, they will also let you warn the people you have been with at an early stage, as well as help the public health authorities trace potential chains of infection."</string>
 
     <!-- XTXT: location (description for screen readers) -->
     <string name="accessibility_location">"Place %s"</string>

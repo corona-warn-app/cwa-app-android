@@ -6,25 +6,24 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentDirections
-import de.rki.coronawarnapp.contactdiary.ui.durationpicker.ContactDiaryDurationPickerFragment
 import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationListFragmentBinding
-import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.Duration
 import javax.inject.Inject
 
 class ContactDiaryLocationListFragment :
     Fragment(R.layout.contact_diary_location_list_fragment),
-    AutoInject,
-    ContactDiaryDurationPickerFragment.OnChangeListener {
+    AutoInject {
 
     private val binding: ContactDiaryLocationListFragmentBinding by viewBindingLazy()
 
@@ -48,9 +47,12 @@ class ContactDiaryLocationListFragment :
             adapter = locationListAdapter
             addItemDecoration(
                 MarginRecyclerViewDecoration(
-                    resources.getDimensionPixelSize(R.dimen.spacing_tiny)
+                    resources.getDimensionPixelSize(R.dimen.list_item_decoration_card_margins)
                 )
             )
+            onScroll {
+                (parentFragment as? ContactDiaryDayFragment)?.onScrollChange(it)
+            }
         }
 
         viewModel.uiList.observe2(this) {
@@ -59,13 +61,14 @@ class ContactDiaryLocationListFragment :
         }
 
         viewModel.openDialog.observe2(this) {
-            val args = Bundle()
-            args.putString(ContactDiaryDurationPickerFragment.DURATION_ARGUMENT_KEY, it)
-
-            val durationPicker = ContactDiaryDurationPickerFragment()
-            durationPicker.arguments = args
-            durationPicker.setTargetFragment(this@ContactDiaryLocationListFragment, 0)
-            durationPicker.show(parentFragmentManager, "ContactDiaryDurationPickerFragment")
+            val durationPicker = DurationPicker.Builder()
+                .duration(it)
+                .title(getString(R.string.duration_dialog_title))
+                .build()
+            durationPicker.show(parentFragmentManager, "DurationPicker")
+            durationPicker.setDurationChangeListener { duration ->
+                viewModel.onDurationSelected(duration)
+            }
         }
 
         viewModel.openCommentInfo.observe2(this) {
@@ -74,9 +77,5 @@ class ContactDiaryLocationListFragment :
                     .actionContactDiaryDayFragmentToContactDiaryCommentInfoFragment()
             )
         }
-    }
-
-    override fun onChange(duration: Duration) {
-        viewModel.onDurationSelected(duration)
     }
 }

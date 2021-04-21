@@ -6,11 +6,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:focusable="true"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusable="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/contact_diary_day_header"
+            style="@style/CWAToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/contact_diary_background"
@@ -19,7 +20,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            style="@style/CWAToolbar.BackArrow"
             tools:title="Mittwoch, 23.12.2020" />
 
         <com.google.android.material.tabs.TabLayout
@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
             android:text="@string/contact_diary_day_person_fab_title"
+            android:transitionName="contact_diary_shared_content"
             app:icon="@android:drawable/ic_input_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

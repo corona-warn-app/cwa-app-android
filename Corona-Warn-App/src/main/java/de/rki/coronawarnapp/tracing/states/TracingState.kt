@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
 sealed class TracingState {
@@ -30,7 +30,7 @@ data class IncreasedRisk(
     override val riskState: RiskState,
     override val isInDetailsMode: Boolean,
     val lastExposureDetectionTime: Instant?,
-    val lastEncounterAt: Instant?,
+    val lastEncounterAt: LocalDate?,
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int
 ) : TracingState() {
@@ -81,7 +81,7 @@ data class IncreasedRisk(
 
         return context.getString(
             stringRes,
-            lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
+            lastEncounterAt.toString(DateTimeFormat.mediumDate())
         )
     }
 }
@@ -91,7 +91,7 @@ data class LowRisk(
     override val riskState: RiskState,
     override val isInDetailsMode: Boolean,
     val lastExposureDetectionTime: Instant?,
-    val lastEncounterAt: Instant?,
+    val lastEncounterAt: LocalDate?,
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int,
     val daysSinceInstallation: Long
@@ -149,7 +149,7 @@ data class LowRisk(
 
         return context.getString(
             stringRes,
-            lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
+            lastEncounterAt.toString(DateTimeFormat.mediumDate())
         )
     }
 
@@ -226,13 +226,13 @@ data class TracingInProgress(
 
     fun getProgressCardHeadline(c: Context): String = when (tracingProgress) {
         TracingProgress.Downloading -> R.string.risk_card_progress_download_headline
-        TracingProgress.ENFIsCalculating -> R.string.risk_card_progress_calculation_headline
+        TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_headline
         TracingProgress.Idle -> null
     }?.let { c.getString(it) } ?: ""
 
     fun getProgressCardBody(c: Context): String = when (tracingProgress) {
         TracingProgress.Downloading -> R.string.risk_card_progress_download_body
-        TracingProgress.ENFIsCalculating -> R.string.risk_card_progress_calculation_body
+        TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_body
         TracingProgress.Idle -> null
     }?.let { c.getString(it) } ?: ""
 

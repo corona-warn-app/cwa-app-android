@@ -11,14 +11,19 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.eventregistration.TraceLocationSettings
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.ui.eventregistration.TraceLocationPreferences
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -41,6 +46,7 @@ class DataReset @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryRepository: ContactDiaryRepository,
     private var contactDiaryPreferences: ContactDiaryPreferences,
+    private var traceLocationPreferences: TraceLocationPreferences,
     private val cwaSettings: CWASettings,
     private val statisticsProvider: StatisticsProvider,
     private val surveySettings: SurveySettings,
@@ -49,7 +55,11 @@ class DataReset @Inject constructor(
     private val bugReportingSettings: BugReportingSettings,
     private val tracingSettings: TracingSettings,
     private val onboardingSettings: OnboardingSettings,
-    private val submissionSettings: SubmissionSettings
+    private val submissionSettings: SubmissionSettings,
+    private val traceLocationRepository: TraceLocationRepository,
+    private val checkInRepository: CheckInRepository,
+    private val traceLocationSettings: TraceLocationSettings,
+    private val traceWarningRepository: TraceWarningRepository,
 ) {
 
     private val mutex = Mutex()
@@ -72,12 +82,14 @@ class DataReset @Inject constructor(
         downloadDiagnosisKeysSettings.clear()
         riskLevelStorage.clear()
         contactDiaryPreferences.clear()
+        traceLocationPreferences.clear()
         cwaSettings.clear()
         surveySettings.clear()
         analyticsSettings.clear()
         tracingSettings.clear()
         onboardingSettings.clear()
         submissionSettings.clear()
+        traceLocationSettings.clear()
 
         // Clear contact diary database
         contactDiaryRepository.clear()
@@ -85,6 +97,10 @@ class DataReset @Inject constructor(
         statisticsProvider.clear()
 
         bugReportingSettings.clear()
+
+        traceWarningRepository.clear()
+        traceLocationRepository.deleteAllTraceLocations()
+        checkInRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

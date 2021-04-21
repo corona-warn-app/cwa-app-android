@@ -6,6 +6,17 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="alertDialogTheme">@style/DialogAlertTheme</item>
         <item name="android:actionOverflowButtonStyle">@style/CWAToolbar.Overflow</item>
+
+        <item name="materialCalendarTheme">@style/ThemeOverlay.App.DatePicker</item>
+        <item name="materialTimePickerTheme">@style/ThemeOverlay.App.TimePicker</item>
+    </style>
+
+    <style name="ThemeOverlay.App.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/colorAccent</item>
+    </style>
+
+    <style name="ThemeOverlay.App.TimePicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -138,6 +149,16 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
+    <style name="buttonTraceLocation" parent="button">
+        <item name="android:backgroundTint">@color/button_trace_location</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="materialTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog.Flush">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="buttonIcon">
         <item name="android:background">@drawable/circle_ripple</item>
         <item name="android:backgroundTint">@color/button_back</item>
@@ -189,6 +210,11 @@
         <item name="android:background">@drawable/card</item>
         <item name="android:elevation">@dimen/elevation_strong</item>
     </style>
+
+    <style name="Card.NoElevation">
+        <item name="android:elevation">@dimen/elevation_none</item>
+    </style>
+
 
     <style name="Card.NoPadding">
         <item name="android:padding">@dimen/no_padding</item>
@@ -267,9 +293,13 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
-    <style name="subtitleBoldSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+
+    <style name="materialSubtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textColor">@color/colorTextPrimary1</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="subtitleBoldSixteen" parent="materialSubtitleSixteen">
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -374,11 +404,11 @@
     </style>
 
     <!-- ####################################
-            Registration
+            QR Code Scan
     ###################################### -->
-    <style name="registrationQRCodeScanBody">
+    <style name="qrCodeScanBody">
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/colorStableLight</item>
+        <item name="android:textColor">@color/colorQrCodeScanToolbar</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -496,4 +526,15 @@
         <item name="colorControlNormal">@color/colorAccent</item>
     </style>
 
+    <style name="CardOverFlowButton">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:contentDescription">@string/button_menu</item>
+        <item name="android:background">@drawable/circle_ripple</item>
+        <item name="android:src">@drawable/ic_baseline_more_vert_24</item>
+    </style>
+
+    <style name="PosterTextStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
 </resources>

@@ -9,7 +9,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -23,7 +22,8 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val submissionSettings: SubmissionSettings,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
     /**
@@ -45,7 +45,7 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
                 return result
             }
 
-            BackgroundWorkScheduler.scheduleBackgroundNoiseOneTimeWork()
+            backgroundWorkScheduler.scheduleBackgroundNoiseOneTimeWork()
         } catch (e: Exception) {
             result = if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
                 Result.failure()
@@ -58,7 +58,7 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
     }
 
     private fun stopWorker() {
-        BackgroundWorkScheduler.WorkType.BACKGROUND_NOISE_PERIODIC_WORK.stop()
+        backgroundWorkScheduler.stopBackgroundNoisePeriodicWork()
         Timber.tag(TAG).d("$id: worker stopped")
     }
 

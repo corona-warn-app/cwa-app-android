@@ -7,6 +7,7 @@ message KeyDownloadParametersIOS {
 
   repeated DayPackageMetadata revokedDayPackages = 1;
   repeated HourPackageMetadata revokedHourPackages = 2;
+  repeated TraceWarningPackageMetadata revokedTraceWarningPackages = 3;
 }
 
 message KeyDownloadParametersAndroid {
@@ -17,6 +18,8 @@ message KeyDownloadParametersAndroid {
   int32 downloadTimeoutInSeconds = 3;
 
   int32 overallTimeoutInSeconds = 4;
+
+  repeated TraceWarningPackageMetadata revokedTraceWarningPackages = 5;
 }
 
 message DayPackageMetadata {
@@ -30,4 +33,8 @@ message HourPackageMetadata {
   string date = 2;
   int32 hour = 3;
   string etag = 4;
+}
+
+message TraceWarningPackageMetadata {
+  string etag = 1;
 }

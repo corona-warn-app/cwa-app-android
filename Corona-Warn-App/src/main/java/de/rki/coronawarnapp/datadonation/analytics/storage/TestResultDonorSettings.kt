@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.datadonation.analytics.storage
 
 import android.content.Context
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
-import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
@@ -95,14 +95,14 @@ class TestResultDonorSettings @Inject constructor(
         }
     )
 
-    fun saveTestResultDonorDataAtRegistration(testResult: TestResult, lastRiskResult: RiskLevelResult) {
+    fun saveTestResultDonorDataAtRegistration(testResult: TestResult, lastEwRiskResult: EwRiskLevelResult) {
         testScannedAfterConsent.update { true }
         testResultAtRegistration.update { testResult }
         if (testResult in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)) {
             finalTestResultReceivedAt.update { timeStamper.nowUTC }
         }
 
-        riskLevelAtTestRegistration.update { lastRiskResult.toMetadataRiskLevel() }
+        riskLevelAtTestRegistration.update { lastEwRiskResult.toMetadataRiskLevel() }
     }
 
     fun clear() = prefs.clearAndNotify()

@@ -76,6 +76,13 @@
     <string name="contact_diary_risk_body_high_risk_due_to_low_risk_encounters">"pe baza mai multor expuneri cu risc redus."</string>
     <!-- XTXT: Extended Body for contact diary overview screen risk information -->
     <string name="contact_diary_risk_body_extended">"Acestea nu sunt legate neapărat de persoanele și locurile pe care le-ați înregistrat."</string>
+    <!-- XTXT: Body for contact diary overview screen trace location risk information prelude -->
+    <string name="contact_diary_trace_location_risk_body">"pe baza prezenței la:"</string>
+    <!-- XTXT: Indicates this trace location caused a high risk  -->
+    <string name="contact_diary_trace_location_risk_high">"risc crescut"</string>
+    <!-- XTXT: Indicates this trace location caused a lows risk -->
+    <string name="contact_diary_trace_location_risk_low">"risc redus"</string>
+
 
 
     <!-- XTXT: content description of contact journal image on home screen -->
@@ -124,7 +131,7 @@
     <!-- XTXT: Description for contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_description">"Acum puteți introduce aici note care vă vor ajuta să estimați mai bine riscul dvs. de infectare."</string>
     <!-- XTXT: Body for contact diary comment info screen -->
-    <string name="contact_diary_comment_info_screen_body">"Notați circumstanțele care ar putea avea drept efect un risc crescut, de exemplu, cât de aproape vă aflați față de alte persoane și ce făceați (exemple: „am stat aproape unul de altul”, „am făcut sport”, „spațiu puțin”, „am cântat”).\n\nDacă vă infectați, aceste informații pot ajuta autoritatea de sănătate publică să urmărească posibilele lanțuri de infectare."</string>
+    <string name="contact_diary_comment_info_screen_body">"Notați aici circumstanțele suplimentare ale întâlnirii sau șederii dvs. care ar putea avea efect asupra riscului dvs. de infectare, de exemplu, cât de aproape vă aflați față de alte persoane și ce făceați (exemple: „am stat aproape unul de altul”, „am făcut sport”, „spațiu puțin”, „am cântat”).\n\nAceste note vă pot ajuta să vă împrospătați memoria mai târziu. Dacă este necesar, acestea vor conduce la avertizarea timpurie a celorlalte persoane cu care v-ați întâlnit și, de asemenea, pot ajuta autoritățile de sănătate publică să urmărească posibilele lanțuri de infectare."</string>
 
     <!-- XTXT: location (description for screen readers) -->
     <string name="accessibility_location">"Locul %s"</string>

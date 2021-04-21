@@ -1,12 +1,15 @@
 package de.rki.coronawarnapp.test.risk.storage
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.risk.RiskLevelTaskResult
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.DefaultRiskLevelStorage
+import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -30,6 +33,7 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
     @MockK lateinit var database: RiskResultDatabase
     @MockK lateinit var riskResultTables: RiskResultDatabase.RiskResultsDao
     @MockK lateinit var exposureWindowTables: RiskResultDatabase.ExposureWindowsDao
+    @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
 
     private val testRiskLevelResultDao = PersistedRiskLevelResultDao(
         id = "riskresult-id",
@@ -45,9 +49,9 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
         ),
         failureReason = null
     )
-    private val testRisklevelResult = RiskLevelTaskResult(
+    private val testRisklevelResult = EwRiskLevelTaskResult(
         calculatedAt = Instant.ofEpochMilli(9999L),
-        aggregatedRiskResult = AggregatedRiskResult(
+        ewAggregatedRiskResult = EwAggregatedRiskResult(
             totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
             totalMinimumDistinctEncountersWithLowRisk = 1,
             totalMinimumDistinctEncountersWithHighRisk = 2,
@@ -82,11 +86,18 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
         coEvery { exposureWindowTables.insertWindows(any()) } returns listOf(111L, 222L)
         coEvery { exposureWindowTables.insertScanInstances(any()) } just Runs
         coEvery { exposureWindowTables.deleteByRiskResultId(any()) } returns 1
+
+        every { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
+        every { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
+        every { presenceTracingRiskRepository.allEntries() } returns emptyFlow()
+        every { presenceTracingRiskRepository.latestEntries(any()) } returns emptyFlow()
     }
 
     private fun createInstance() = DefaultRiskLevelStorage(
         scope = TestCoroutineScope(),
-        riskResultDatabaseFactory = databaseFactory
+        riskResultDatabaseFactory = databaseFactory,
+        presenceTracingRiskRepository = presenceTracingRiskRepository,
+        riskCombinator = RiskCombinator(TimeStamper())
     )
 
     @Test

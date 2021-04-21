@@ -9,6 +9,9 @@
     <include app:graph="@navigation/test_nav_graph" />
     <!--    Contact Diary graph-->
     <include app:graph="@navigation/contact_diary_nav_graph" />
+    <!--    Event registration graphs-->
+    <include app:graph="@navigation/trace_location_organizer_nav_graph" />
+    <include app:graph="@navigation/trace_location_attendee_nav_graph" />
 
     <!-- Main -->
     <fragment
@@ -58,6 +61,9 @@
         <action
             android:id="@+id/action_mainFragment_to_statisticsExplanationFragment"
             app:destination="@id/statisticsExplanationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_trace_location_organizer_nav_graph"
+            app:destination="@id/trace_location_organizer_nav_graph" />
     </fragment>
 
     <fragment
@@ -272,6 +278,11 @@
             app:destination="@id/submissionResultReadyFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_checkInsConsentFragment"
+            app:destination="@id/checkInsConsentFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultPendingFragment"
@@ -483,6 +494,11 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
+            android:id="@+id/action_submissionTestResultAvailableFragment_to_checkInsConsentFragment"
+            app:destination="@id/checkInsConsentFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+        <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionTestResultNoConsentFragment"
             app:destination="@id/submissionTestResultNoConsentFragment"
             app:popUpTo="@id/mainFragment"
@@ -545,8 +561,7 @@
         android:id="@+id/surveyConsentDetailFragment"
         android:name="de.rki.coronawarnapp.datadonation.survey.consent.SurveyConsentDetailFragment"
         android:label="survey_consent_detail_fragment"
-        tools:layout="@layout/survey_consent_detail_fragment">
-    </fragment>
+        tools:layout="@layout/survey_consent_detail_fragment" />
     <fragment
         android:id="@+id/analyticsUserInputFragment"
         android:name="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment"
@@ -572,8 +587,7 @@
         android:id="@+id/ppaMoreInfoFragment"
         android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
         android:label="PpaMoreInfoFragment"
-        tools:layout="@layout/fragment_ppa_more_info">
-    </fragment>
+        tools:layout="@layout/fragment_ppa_more_info" />
     <fragment
         android:id="@+id/settingsPrivacyPreservingAnalyticsFragment"
         android:name="de.rki.coronawarnapp.ui.settings.analytics.SettingsPrivacyPreservingAnalyticsFragment"
@@ -595,7 +609,7 @@
         android:id="@+id/debugLogUploadFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.DebugLogUploadFragment"
         android:label="DebugLogUploadFragment"
-        tools:layout="@layout/bugreporting_debuglog_upload_fragment" >
+        tools:layout="@layout/bugreporting_debuglog_upload_fragment">
         <action
             android:id="@+id/action_debugLogUploadFragment_to_debugLogLegalFragment"
             app:destination="@id/debugLogLegalFragment" />
@@ -605,4 +619,28 @@
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.legal.DebugLogLegalFragment"
         android:label="DebugLogLegalFragment"
         tools:layout="@layout/bugreporting_legal_fragment" />
+
+    <fragment
+        android:id="@+id/checkInsConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckInsConsentFragment"
+        android:label="check_ins_consent_fragment"
+        tools:layout="@layout/check_ins_consent_fragment">
+        <action
+            android:id="@+id/action_checkInsConsentFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_checkInsConsentFragment_to_submissionResultReadyFragment"
+            app:destination="@id/submissionResultReadyFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_checkInsConsentFragment_to_submissionTestResultConsentGivenFragment"
+            app:destination="@id/submissionTestResultConsentGivenFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
 </navigation>

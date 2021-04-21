@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
+import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.flow.first
@@ -33,9 +33,9 @@ class TestResultDataCollector @Inject constructor(
         // User consented to donate analytics data
         if (analyticsSettings.analyticsEnabled.value) {
             val lastRiskResult = riskLevelStorage
-                .latestAndLastSuccessful
+                .latestAndLastSuccessfulEwRiskLevelResult
                 .first()
-                .tryLatestResultsWithDefaults()
+                .tryLatestEwResultsWithDefaults()
                 .lastCalculated
             Timber.d("saveTestResultDonorDataAtRegistration($testResult, $lastRiskResult)")
             testResultDonorSettings.saveTestResultDonorDataAtRegistration(testResult, lastRiskResult)

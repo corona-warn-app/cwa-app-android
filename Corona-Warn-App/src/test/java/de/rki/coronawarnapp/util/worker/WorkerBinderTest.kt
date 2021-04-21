@@ -10,10 +10,15 @@ import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
+import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.eventregistration.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutNotification
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
+import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AppContext
@@ -102,6 +107,14 @@ class MockProvider {
     @Provides
     fun analytics(): Analytics = mockk()
 
+    // For TraceLocation clean up periodic worker
+    @Provides
+    fun traceLocationCleanUpScheduler(): TraceLocationDbCleanUpScheduler = mockk()
+
+    // For TraceLocation clean up periodic worker
+    @Provides
+    fun traceLocationRepository(): TraceLocationRepository = mockk()
+
     @Provides
     fun taskController(): TaskController = mockk()
 
@@ -116,7 +129,7 @@ class MockProvider {
     fun testResultAvailableNotification(): TestResultAvailableNotificationService = mockk()
 
     @Provides
-    fun notificationHelper(): NotificationHelper = mockk()
+    fun notificationHelper(): GeneralNotifications = mockk()
 
     @Provides
     @AppContext
@@ -125,4 +138,13 @@ class MockProvider {
     @Provides
     @BaseGson
     fun baseGson(): Gson = mockk()
+
+    @Provides
+    fun autoCheckOut(): AutoCheckOut = mockk()
+
+    @Provides
+    fun checkOutNotification(): CheckOutNotification = mockk()
+
+    @Provides
+    fun riskWorkScheduler(): RiskWorkScheduler = mockk()
 }

@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
+import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.statistics.Statistics
@@ -42,10 +43,12 @@ import io.mockk.spyk
 import io.mockk.verify
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchInMainActivity
@@ -69,8 +72,12 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
+    @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
 
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
+
+    @get:Rule
+    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {
@@ -268,7 +275,8 @@ class HomeFragmentTest : BaseUITest() {
             statisticsProvider = statisticsProvider,
             deadmanNotificationScheduler = deadmanNotificationScheduler,
             appShortcutsHelper = appShortcutsHelper,
-            tracingSettings = tracingSettings
+            tracingSettings = tracingSettings,
+            traceLocationOrganizerSettings = traceLocationOrganizerSettings
         )
     )
 

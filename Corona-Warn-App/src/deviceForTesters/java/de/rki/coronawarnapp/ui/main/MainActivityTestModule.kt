@@ -14,12 +14,16 @@ import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment
+import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragment
+import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragmentModule
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentModule
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundModule
+import de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragment
+import de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragmentModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragmentModule
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
@@ -65,4 +69,10 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [DeltaOnboardingFragmentModule::class])
     abstract fun deltaOnboarding(): DeltaonboardingFragment
+
+    @ContributesAndroidInjector(modules = [PresenceTracingTestFragmentModule::class])
+    abstract fun eventRegistration(): PresenceTracingTestFragment
+
+    @ContributesAndroidInjector(modules = [QrCodePosterTestFragmentModule::class])
+    abstract fun showEventDetail(): QrCodePosterTestFragment
 }

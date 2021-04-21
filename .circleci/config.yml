@@ -351,7 +351,7 @@ jobs:
           path: Corona-Warn-App/build/reports
           destination: reports
 
-  ktlint_device_release_check:
+  ktlint_check:
     executor: android/android
     resource_class: medium
     working_directory: ~/project
@@ -360,23 +360,8 @@ jobs:
       - restore-gradle-cache
       - restore-android-build-cache
       - run-gradle-cmd:
-          desc: Ktlint check deviceRelease
-          cmd: ":Corona-Warn-App:ktlintDeviceReleaseCheck"
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-
-  ktlint_device_for_testers_release_check:
-    executor: android/android
-    resource_class: medium
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Ktlint check deviceForTestersRelease
-          cmd: ":Corona-Warn-App:ktlintDeviceForTestersReleaseCheck"
+          desc: Ktlint check
+          cmd: ":Corona-Warn-App:ktlintCheck"
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -411,7 +396,7 @@ jobs:
       - run:
           name: Download Environment Properties
           command: |
-            curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$env_prop_download_filename"
+            curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$environments_download_url$env_prop_download_filename"
       - run:
           name: Decrypt Keystore
           command: openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -in $keystore_download_filename -out $keystore_filename -k $keystore_encrypt_key
@@ -629,7 +614,7 @@ workflows:
     jobs:
       - detekt
       - lint_device_release_check
-      - ktlint_device_release_check
+      - ktlint_check
       - quick_build_device_release_no_tests
       - unit_tests_device_release
       - run_sonar:
@@ -637,14 +622,14 @@ workflows:
             - unit_tests_device_release
       - instrumentation_tests_device:
           requires:
-            - ktlint_device_release_check
+            - ktlint_check
             - detekt
 
   check_buildtype_device_for_testers:
     jobs:
       - detekt
       - lint_device_for_testers_release_check
-      - ktlint_device_for_testers_release_check
+      - ktlint_check
       - quick_build_device_for_testers_release_no_tests
       - unit_tests_device_for_testers_release
 

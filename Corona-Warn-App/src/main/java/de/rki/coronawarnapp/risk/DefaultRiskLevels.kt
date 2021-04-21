@@ -4,8 +4,8 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.Infectiousness
 import com.google.android.gms.nearby.exposurenotification.ReportType
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
-import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import org.joda.time.Instant
@@ -155,7 +155,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
     override fun aggregateResults(
         appConfig: ExposureWindowRiskCalculationConfig,
         exposureWindowResultMap: Map<ExposureWindow, RiskResult>
-    ): AggregatedRiskResult {
+    ): EwAggregatedRiskResult {
         val uniqueDatesMillisSinceEpoch = exposureWindowResultMap.keys
             .map { it.dateMillisSinceEpoch }
             .toSet()
@@ -222,7 +222,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
         Timber.d("numberOfDaysWithHighRisk: %d", numberOfDaysWithHighRisk)
 
-        return AggregatedRiskResult(
+        return EwAggregatedRiskResult(
             totalRiskLevel = totalRiskLevel,
             totalMinimumDistinctEncountersWithLowRisk = totalMinimumDistinctEncountersWithLowRisk,
             totalMinimumDistinctEncountersWithHighRisk = totalMinimumDistinctEncountersWithHighRisk,
@@ -230,16 +230,16 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             mostRecentDateWithHighRisk = mostRecentDateWithHighRisk,
             numberOfDaysWithLowRisk = numberOfDaysWithLowRisk,
             numberOfDaysWithHighRisk = numberOfDaysWithHighRisk,
-            aggregatedRiskPerDateResults = exposureHistory
+            exposureWindowDayRisks = exposureHistory
         )
     }
 
-    private fun List<AggregatedRiskPerDateResult>.mostRecentDateForRisk(riskLevel: ProtoRiskLevel): Instant? =
+    private fun List<ExposureWindowDayRisk>.mostRecentDateForRisk(riskLevel: ProtoRiskLevel): Instant? =
         filter { it.riskLevel == riskLevel }
             .maxOfOrNull { it.dateMillisSinceEpoch }
             ?.let { Instant.ofEpochMilli(it) }
 
-    private fun List<AggregatedRiskPerDateResult>.numberOfDaysForRisk(riskLevel: ProtoRiskLevel): Int =
+    private fun List<ExposureWindowDayRisk>.numberOfDaysForRisk(riskLevel: ProtoRiskLevel): Int =
         filter { it.riskLevel == riskLevel }
             .size
 
@@ -247,7 +247,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         appConfig: ExposureWindowRiskCalculationConfig,
         dateMillisSinceEpoch: Long,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
-    ): AggregatedRiskPerDateResult? {
+    ): ExposureWindowDayRisk? {
         // 1. Group `Exposure Windows by Date`
         val exposureWindowsAndResultForDate = exposureWindowsAndResult
             .filter { it.key.dateMillisSinceEpoch == dateMillisSinceEpoch }
@@ -291,7 +291,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
         Timber.d("minimumDistinctEncountersWithHighRisk: %d", minimumDistinctEncountersWithHighRisk)
 
-        return AggregatedRiskPerDateResult(
+        return ExposureWindowDayRisk(
             dateMillisSinceEpoch = dateMillisSinceEpoch,
             riskLevel = riskLevel,
             minimumDistinctEncountersWithLowRisk = minimumDistinctEncountersWithLowRisk,
@@ -310,7 +310,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             "The Report Type returned by the ENF is not known"
         )
 
-        private fun <T : Number> RiskCalculationParametersOuterClass.Range.inRange(value: T): Boolean =
+        fun <T : Number> RiskCalculationParametersOuterClass.Range.inRange(value: T): Boolean =
             when {
                 minExclusive && value.toDouble() <= min -> false
                 !minExclusive && value.toDouble() < min -> false

@@ -1,0 +1,91 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+import "internal/v2/risk_calculation_parameters.proto";
+
+message PresenceTracingParameters {
+
+  PresenceTracingRiskCalculationParameters riskCalculationParameters = 1;
+
+  PresenceTracingSubmissionParameters submissionParameters = 2;
+
+  QRCodeErrorCorrectionLevel qrCodeErrorCorrectionLevel = 3;
+
+  repeated uint32 revokedTraceLocationVersions = 4;
+
+  PresenceTracingPlausibleDeniabilityParameters plausibleDeniabilityParameters = 5;
+
+  repeated PresenceTracingQRCodeDescriptor qrCodeDescriptors = 6;
+
+  enum QRCodeErrorCorrectionLevel {
+    MEDIUM = 0;
+    LOW = 1;
+    QUANTILE = 2;
+    HIGH = 3;
+  }
+}
+
+message PresenceTracingRiskCalculationParameters {
+
+  repeated TransmissionRiskValueMapping transmissionRiskValueMapping = 1;
+
+  repeated NormalizedTimeToRiskLevelMapping normalizedTimePerCheckInToRiskLevelMapping = 2;
+
+  repeated NormalizedTimeToRiskLevelMapping normalizedTimePerDayToRiskLevelMapping = 3;
+}
+
+message PresenceTracingSubmissionParameters {
+
+  repeated DurationFilter durationFilters = 1;
+
+  repeated AerosoleDecayFunctionLinear aerosoleDecayLinearFunctions = 2;
+
+  message DurationFilter {
+    Range dropIfMinutesInRange = 1;
+  }
+
+  message AerosoleDecayFunctionLinear {
+    Range minutesRange = 1;
+    double slope = 2;
+    double intercept = 3;
+  }
+}
+
+message PresenceTracingPlausibleDeniabilityParameters {
+
+  repeated uint32 checkInSizesInBytes = 1;
+  
+  double probabilityToFakeCheckInsIfNoCheckIns = 2;
+  double probabilityToFakeCheckInsIfSomeCheckIns = 3;
+
+  repeated NumberOfFakeCheckInsFunctionParameters numberOfFakeCheckInsFunctionParameters = 4;
+
+  message NumberOfFakeCheckInsFunctionParameters {
+    Range randomNumberRange = 1;
+    double p = 2;
+    double q = 3;
+    double r = 4;
+    double s = 5;
+    double t = 6;
+    double u = 7;
+    double a = 8;
+    double b = 9;
+    double c = 10;
+  }
+}
+
+message PresenceTracingQRCodeDescriptor {
+
+  string regexPattern = 1;
+
+  uint32 versionGroupIndex = 2;
+  uint32 encodedPayloadGroupIndex = 3;
+
+  PayloadEncoding payloadEncoding = 4;
+
+  enum PayloadEncoding {
+    BASE32 = 0;
+    BASE64 = 1;
+  }
+}

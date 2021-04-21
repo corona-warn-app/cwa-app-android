@@ -30,10 +30,10 @@
     <!-- ####################################
                Notification
     ###################################### -->
-    <!-- XTXT: Notification channel name for os settings -->
-    <string name="notification_name">"Corona-Warn-App"</string>
-    <!-- XTXT: Notification channel description for os settings -->
-    <string name="notification_description">"Corona-Warn-App Bildirimleri"</string>
+    <!-- XHED: Title of the notification channel for general CWA notifications (e.g. risk change) -->
+    <string name="general_notification_channel_title">"Genel"</string>
+    <!-- XTXT: Description of the notification channel for general CWA notifications (e.g. risk change) -->
+    <string name="general_notification_channel_description">"Hatırlatmalar, notlar ve genel bildirimler (örneğin, risk durumunuz hakkında)."</string>
     <!-- XHED: Notification title -->
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
@@ -307,7 +307,7 @@
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Corona-Warn-App %s gün önce yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Maruz kalma günlüğü başka insanlarla karşılaştığınız sırada etkindiyse bu dönem için enfeksiyon riskiniz hesaplanabilir."</string>
+    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Maruz kalma günlüğü başka insanlarla karşılaştığınız anlarda etkindiyse bu dönem için enfeksiyon riskiniz hesaplanabilir."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
@@ -964,7 +964,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Belirtilerinizi girmeyi iptal etmek istiyor musunuz?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"Belirtilerinizle ilgili olarak bilgi verirseniz diğer kullanıcıları daha net bir biçimde uyarabilir."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"Belirtilerinizle ilgili olarak bilgi verirseniz diğer kullanıcıları daha doğru bir şekilde uyarabilirsiniz."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Evet"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -999,9 +999,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"İptal"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_title">"QR kodu çerçeveye sığdırın."</string>
+    <string name="qr_code_scan_title">"QR Kod Tarama"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="submission_qr_code_scan_body">"QR kodu çerçeveye sığdırın."</string>
+    <string name="qr_code_scan_body">"QR kodu çerçeveye sığdırın."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1010,26 +1010,28 @@
     <string name="submission_consent_main_headline_body">"Test sonucunuzu alabilmeniz ve diğer kullanıcıları uyarabilmeniz için onayınız gereklidir."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Test Sonucunu Al"</string>
-    <!-- YTXT: Body for Submission Consent call test result body  -->
-    <string name="submission_consent_call_test_result_body">"Sonraki adımda, testinizdeki QR kodu tarayın ve test sonucunuzu alın."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Yalnızca kendi testinizi tarayın."</string>
+    <string name="submission_consent_call_test_result_scan_your_test_only">"Şimdi, testinizin QR kodunu tarayın ve test sonucunuzu alın."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Testiniz yalnızca bir kez taranabilir. Uygulama aynı anda birden fazla testi yönetememektedir."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Lütfen karşılaştığınız diğer kullanıcıları uyararak onlara yardımcı olun!"</string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body">"Koronavirüs tanısı aldıysanız uygulama üzerinden diğer kullanıcıları uyarabilirsiniz. Uyarı özelliği birden fazla ülkede etkindir. Şu anda aşağıdaki ülkeler katılmaktadır:"</string>
+    <!-- YTXT: Body for consent help by warning others - info about events -->
+    <string name="submission_consent_help_by_warning_others_body_event">"Sizinle aynı anda aynı etkinliklerde veya yerlerde check in yapan kişilere de uyarı gönderilecektir."</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Veri İşleme ve Onayınız Hakkında Ayrıntılı Bilgiler"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Onayınız gönüllülük esasına dayalıdır."</string>
+    <string name="submission_consent_main_first_point">"Paylaşmamayı isteseniz de test sonucunuzu alabilirsiniz. Ancak test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
     <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point">"Paylaşmamayı seçseniz de test sonucunuzu alabilirsiniz. Ancak test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
+    <string name="submission_consent_main_second_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
+    <string name="submission_consent_main_third_point">"“Check-In’lerim” bölümünde check-in yapan konuklarına uyarı gönderilecek etkinlikleri ve yerleri görebilirsiniz. Uyarı işlemlerinin dışında tutmak için listeden ayrı ayrı check-in’leri kaldırabilirsiniz."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Onay vermek için 16 yaşın üzerinde olmanız gerekir."</string>
+    <!-- YTXT: Body for consent main section final id consent  -->
+    <string name="submission_consent_main_id_consent">"Sonraki adımda, rastgele kimliklerinize erişim onayı verin."</string>
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"Bir kişi akıllı telefon tutuyor. Testteki QR kod kodun taranabileceğini sembolize ediyor."</string>
 
@@ -1345,6 +1347,8 @@
     <string name="submission_status_card_body_failed">"Testiniz 21 günden eski ve bu nedenle artık geçerli değil. Lütfen testi silin. Ardından başka bir test ekleyebilirsiniz."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"Koronavirüs testinizin sonucu pozitifse diğer kullanıcıları uyarabilirsiniz."</string>
+    <!-- YTXT: Button text for submission status fetch ready -->
+    <string name="submission_status_card_retrieve_test_result">"Test Sonucunu Al"</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Sonraki Adımlar"</string>
     <!-- XBUT: submission status card show results button -->
@@ -1793,17 +1797,19 @@
     <string name="statistics_reproduction_title">"Şu Anda"</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">"enfekte olan kişi başına ortalama enfeksiyon sayısı"</string>
-
     <!-- XTXT: Statistics trend increasing (Accessibilty) -->
     <string name="statistics_trend_increasing">"Trend: Yukarı"</string>
     <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
     <string name="statistics_trend_decreasing">"Trend: Aşağı"</string>
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">"Trend: Sabit"</string>
+
     <!-- XHED: Title for BottomNav main screen title -->
     <string name="bottom_nav_home_title">"Başlangıç Ekranı"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Günce"</string>
+    <!-- XHED: Title for BottomNav check-in screen title -->
+    <string name="bottom_nav_check_ins_title">"Check In"</string>
 
     <!-- ####################################
            Data Donation & Survey
@@ -1921,4 +1927,68 @@
     <string name="duration_dialog_ok_button">"Tamam"</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">"00:00"</string>
+    <!-- XTXT: Duration hours text -->
+    <string name="duration_hours">"saat"</string>
+    <!-- XTXT: Duration minutes text -->
+    <string name="duration_minutes">"dakika"</string>
+
+    <!-- Scan check in QR Code-->
+    <!-- XTXT: Scan check in QR-Code  FAB text-->
+    <string name="scan_check_in_qr_code">"QR Kodu Tara"</string>
+
+    <!-- ####################################
+        Generic
+    ###################################### -->
+    <!-- XACT: Button/Dialog label to cancel something-->
+    <string name="generic_action_abort">"İptal Et"</string>
+    <!-- XACT: Button/Dialog label to remove something-->
+    <string name="generic_action_remove">"Kaldır"</string>
+
+    <!-- ####################################
+       Trace Location
+    ###################################### -->
+    <!-- XHED: Title for the trace location onboarding -->
+    <string name="trace_location_onboarding_title">"Check In"</string>
+    <!-- XTXT: subtitle for the trace location onboarding -->
+    <string name="trace_location_onboarding_title2">"Enfeksiyon zincirlerini hızlı ve güvenilir şekilde kırın"</string>
+    <!-- YMSG: Onboarding trace location intro section -->
+    <string name="trace_location_onboarding_subheadline">"Bir etkinlik veya yer için QR kodu tarayarak check in yapın ve akıllı telefonunuza bu etkinliğe ya da yere katıldığınızı kaydedin."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_warning">"Risk durumunuz hesaplanırken her bir check-in de dikkate alınır. Bu etkinliğe veya yere check in yapan biri daha sonra koronavirüs tanısı alırsa tanı alan kişi ile aynı anda ya da bu kişi odadan çıktıktan sonra en fazla 30 dakika içinde aynı odada bulunmuşsanız size uyarı gönderilebilir."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_stay">"Hedeflenen uyarıları etkinleştirmek için lütfen kalış sürenizi mümkün olduğunca net bir biçimde belirtin."</string>
+    <!-- XACT: Button/Dialog label to consent-->
+    <string name="trace_location_onboarding_body_confirm">"Kabul Et"</string>
+    <!--  XHED: Trace location check-ins camera permission card title-->
+    <string name="trace_location_attendee_camera_card_title">"Kamera Erişimine İzin Ver"</string>
+    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
+    <string name="trace_location_attendee_camera_card_subtitle">"Akıllı telefonunuzun kamerasını kullanarak QR kodları taramak için uygulamanın cihaz ayarlarında kamera erişimine izin vermeniz gerekir."</string>
+    <!--  XBUT: Trace location check-ins camera permission card button-->
+    <string name="trace_location_attendee_camera_card_button">"Ayarları Aç"</string>
+    <!--  YMSG: Trace location onboarding image description-->
+    <string name="trace_location_onboarding_content_description">"Üç kişi yüksek bir masanın etrafında ayakta duruyor, ikisi akıllı telefonuna bakıyor."</string>
+    <!-- XMIT: Trace location poster print -->
+    <string name="trace_location_organiser_poster_print">"Yazdır"</string>
+    <!-- XMIT: Trace location poster share -->
+    <string name="trace_location_organiser_poster_share">"Paylaş"</string>
+    <!-- XHED: Trace location poster title -->
+    <string name="trace_location_organiser_poster_title">"Yazdırma Sürümü"</string>
+    <!-- XHED: Trace location check-ins consent screen title -->
+    <string name="trace_location_attendee_consent_title">"Konum Check-In’leriniz Paylaşılsın Mı?"</string>
+    <!-- XTXT: Trace location check-ins consent screen header description -->
+    <string name="trace_location_attendee_consent_header_description">"Sizin yakınınızda check in yapmış olan diğer kullanıcıları uyarın. Kişisel verileriniz paylaşılmayacaktır."</string>
+    <!-- XBUT: Trace location check-ins consent screen header button -->
+    <string name="trace_location_attendee_consent_header_button">"Tümünü seç"</string>
+    <!-- XBUT: Trace location check-ins consent screen continue button -->
+    <string name="trace_location_attendee_consent_continue">"Gönder"</string>
+    <!-- XBUT: Trace location check-ins consent screen skip button -->
+    <string name="trace_location_attendee_consent_skip">"Atla"</string>
+    <!-- XHED: Trace location check-ins consent screen dialog title -->
+    <string name="trace_location_attendee_consent_dialog_title">"Check-in’lerinizi paylaşmak istemediğinizden emin misiniz?"</string>
+    <!-- XTXT: Trace location check-ins consent screen dialog message -->
+    <string name="trace_location_attendee_consent_dialog_message">"Bu adımı atladığınızda sizin yakınınızda check in yapmış olan hiç kimseye uyarı gönderilmeyecektir."</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
+    <string name="trace_location_attendee_consent_dialog_positive_button">"Paylaş"</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
+    <string name="trace_location_attendee_consent_dialog_negative_button">"Paylaşma"</string>
 </resources>

@@ -2,11 +2,15 @@ package de.rki.coronawarnapp.submission.task
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -37,7 +41,10 @@ class SubmissionTask @Inject constructor(
     private val timeStamper: TimeStamper,
     private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    private val checkInsRepository: CheckInRepository,
+    private val checkInsTransformer: CheckInsTransformer,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -137,11 +144,19 @@ class SubmissionTask @Inject constructor(
         )
         Timber.tag(TAG).d("Transformed keys with symptoms %s from %s to %s", symptoms, keys, transformedKeys)
 
+        val checkIns = checkInsRepository.completedCheckIns.first().filter {
+            it.hasSubmissionConsent && !it.isSubmitted
+        }
+        val transformedCheckIns = checkInsTransformer.transform(checkIns, symptoms)
+
+        Timber.tag(TAG).d("Transformed CheckIns from: %s to: %s", checkIns, transformedCheckIns)
+
         val submissionData = Playbook.SubmissionData(
-            registrationToken,
-            transformedKeys,
-            true,
-            getSupportedCountries()
+            registrationToken = registrationToken,
+            temporaryExposureKeys = transformedKeys,
+            consentToFederation = true,
+            visitedCountries = getSupportedCountries(),
+            checkIns = transformedCheckIns
         )
 
         checkCancel()
@@ -156,6 +171,15 @@ class SubmissionTask @Inject constructor(
         tekHistoryStorage.clear()
         submissionSettings.symptoms.update { null }
 
+        Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
+        checkIns.forEach { checkIn ->
+            try {
+                checkInsRepository.updatePostSubmissionFlags(checkIn.id)
+            } catch (e: Exception) {
+                e.reportProblem(TAG, "CheckIn $checkIn could not be marked as submitted")
+            }
+        }
+
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
         setSubmissionFinished()
@@ -165,9 +189,9 @@ class SubmissionTask @Inject constructor(
 
     private fun setSubmissionFinished() {
         Timber.tag(TAG).d("setSubmissionFinished()")
-        BackgroundWorkScheduler.stopWorkScheduler()
+        backgroundWorkScheduler.stopWorkScheduler()
         submissionSettings.isSubmissionSuccessful = true
-        BackgroundWorkScheduler.startWorkScheduler()
+        backgroundWorkScheduler.startWorkScheduler()
 
         shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()

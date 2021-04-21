@@ -1,0 +1,51 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.pt;
+
+
+message QRCodePosterTemplateAndroid {
+  // SVG
+  bytes template = 1;
+
+  float offsetX = 2;
+  float offsetY = 3;
+
+  uint32 qrCodeSideLength = 4;
+
+  QRCodeTextBoxAndroid descriptionTextBox = 5;
+
+  message QRCodeTextBoxAndroid {
+    float offsetX = 1;
+    float offsetY = 2;
+
+    uint32 width = 3;
+    uint32 height = 4;
+
+    uint32 fontSize = 5;
+    string fontColor = 6;
+  }
+}
+
+message QRCodePosterTemplateIOS {
+  // PDF
+  bytes template = 1;
+
+  uint32 offsetX = 2;
+  uint32 offsetY = 3;
+
+  uint32 qrCodeSideLength = 4;
+
+  QRCodeTextBoxIOS descriptionTextBox = 5;
+  QRCodeTextBoxIOS addressTextBox = 6;
+
+  message QRCodeTextBoxIOS {
+    uint32 offsetX = 1;
+    uint32 offsetY = 2;
+
+    uint32 width = 3;
+    uint32 height = 4;
+
+    uint32 fontSize = 5;
+    string fontColor = 6;
+  }
+}

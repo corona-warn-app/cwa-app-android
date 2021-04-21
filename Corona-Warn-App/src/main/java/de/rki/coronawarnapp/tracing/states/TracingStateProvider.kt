@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTra
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
@@ -31,19 +30,19 @@ class TracingStateProvider @AssistedInject constructor(
 ) {
     val state: Flow<TracingState> = combine(
         tracingStatus.generalStatus.onEach {
-            Timber.v("tracingStatus: $it")
+            Timber.tag(TAG).v("tracingStatus: $it")
         },
         tracingRepository.tracingProgress.onEach {
-            Timber.v("tracingProgress: $it")
+            Timber.tag(TAG).v("tracingProgress: $it")
         },
-        riskLevelStorage.latestAndLastSuccessful.onEach {
-            Timber.v("riskLevelResults: $it")
+        riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult.onEach {
+            Timber.tag(TAG).v("riskLevelResults: $it")
         },
         exposureDetectionTracker.latestSubmission().onEach {
-            Timber.v("latestSubmission: $it")
+            Timber.tag(TAG).v("latestSubmission: $it")
         },
         backgroundModeStatus.isAutoModeEnabled.onEach {
-            Timber.v("isAutoModeEnabled: $it")
+            Timber.tag(TAG).v("isAutoModeEnabled: $it")
         }
     ) { tracingStatus,
         tracingProgress,
@@ -51,15 +50,13 @@ class TracingStateProvider @AssistedInject constructor(
         latestSubmission,
         isBackgroundJobEnabled ->
 
-        val (
-            latestCalc,
-            latestSuccessfulCalc
-        ) = riskLevelResults.tryLatestResultsWithDefaults()
+        val latestCalc = riskLevelResults.lastCalculated
+        val lastSuccessfullyCalc = riskLevelResults.lastSuccessfullyCalculated
 
         return@combine when {
             tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> TracingDisabled(
                 isInDetailsMode = isDetailsMode,
-                riskState = latestSuccessfulCalc.riskState,
+                riskState = lastSuccessfullyCalc.riskState,
                 lastExposureDetectionTime = latestSubmission?.startedAt
             )
             tracingProgress != TracingProgress.Idle -> TracingInProgress(
@@ -86,17 +83,21 @@ class TracingStateProvider @AssistedInject constructor(
             )
             else -> TracingFailed(
                 isInDetailsMode = isDetailsMode,
-                riskState = latestSuccessfulCalc.riskState,
+                riskState = lastSuccessfullyCalc.riskState,
                 lastExposureDetectionTime = latestSubmission?.startedAt
             )
         }
     }
-        .onStart { Timber.v("TracingStateProvider FLOW start") }
-        .onEach { Timber.d("TracingStateProvider FLOW emission: %s", it) }
-        .onCompletion { Timber.v("TracingStateProvider FLOW completed.") }
+        .onStart { Timber.tag(TAG).v("TracingStateProvider FLOW start") }
+        .onEach { Timber.tag(TAG).d("TracingStateProvider FLOW emission: %s", it) }
+        .onCompletion { Timber.tag(TAG).v("TracingStateProvider FLOW completed.") }
 
     @AssistedFactory
     interface Factory {
         fun create(isDetailsMode: Boolean): TracingStateProvider
+    }
+
+    companion object {
+        const val TAG = "TracingStateProvider"
     }
 }

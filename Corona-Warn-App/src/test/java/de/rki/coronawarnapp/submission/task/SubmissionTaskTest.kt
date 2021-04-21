@@ -4,6 +4,9 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -28,7 +31,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -59,6 +61,9 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var appConfigData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var checkInsTransformer: CheckInsTransformer
+    @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
 
     private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
 
@@ -69,6 +74,30 @@ class SubmissionTaskTest : BaseTest() {
 
     private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plus(1))
 
+    private val validCheckIn = CheckIn(
+        id = 1L,
+        traceLocationId = mockk(),
+        version = 1,
+        type = 2,
+        description = "brothers birthday",
+        address = "Malibu",
+        traceLocationStart = Instant.EPOCH,
+        traceLocationEnd = null,
+        defaultCheckInLengthInMinutes = null,
+        cryptographicSeed = mockk(),
+        cnPublicKey = "cnPublicKey",
+        checkInStart = Instant.EPOCH,
+        checkInEnd = Instant.EPOCH.plus(9000),
+        completed = true,
+        createJournalEntry = false,
+        isSubmitted = false,
+        hasSubmissionConsent = true
+    )
+
+    private val invalidCheckIn1 = validCheckIn.copy(id = 2L, completed = false)
+    private val invalidCheckIn2 = validCheckIn.copy(id = 3L, isSubmitted = true)
+    private val invalidCheckIn3 = validCheckIn.copy(id = 4L, hasSubmissionConsent = false)
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -76,9 +105,8 @@ class SubmissionTaskTest : BaseTest() {
         every { submissionSettings.registrationToken } returns registrationToken
         every { submissionSettings.isSubmissionSuccessful = any() } just Runs
 
-        mockkObject(BackgroundWorkScheduler)
-        every { BackgroundWorkScheduler.stopWorkScheduler() } just Runs
-        every { BackgroundWorkScheduler.startWorkScheduler() } just Runs
+        every { backgroundWorkScheduler.stopWorkScheduler() } just Runs
+        every { backgroundWorkScheduler.startWorkScheduler() } just Runs
 
         every { tekBatch.keys } returns listOf(tek)
         every { tekHistoryStorage.tekData } returns flowOf(listOf(tekBatch))
@@ -109,6 +137,16 @@ class SubmissionTaskTest : BaseTest() {
         every { autoSubmission.updateMode(any()) } just Runs
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
+
+        every { checkInRepository.checkInsWithinRetention } returns flowOf(
+            listOf(
+                validCheckIn,
+                invalidCheckIn1,
+                invalidCheckIn2,
+                invalidCheckIn3
+            )
+        )
+        coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
     private fun createTask() = SubmissionTask(
@@ -121,7 +159,10 @@ class SubmissionTaskTest : BaseTest() {
         timeStamper = timeStamper,
         autoSubmission = autoSubmission,
         testResultAvailableNotificationService = testResultAvailableNotificationService,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        checkInsRepository = checkInRepository,
+        checkInsTransformer = checkInsTransformer,
+        backgroundWorkScheduler = backgroundWorkScheduler,
     )
 
     @Test
@@ -149,14 +190,17 @@ class SubmissionTaskTest : BaseTest() {
             settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
+            checkInRepository.checkInsWithinRetention
+            checkInsTransformer.transform(any(), any())
 
             appConfigProvider.getAppConfig()
             playbook.submit(
                 Playbook.SubmissionData(
-                    "regtoken",
-                    listOf(transformedKey),
-                    true,
-                    listOf("NL")
+                    registrationToken = "regtoken",
+                    temporaryExposureKeys = listOf(transformedKey),
+                    consentToFederation = true,
+                    visitedCountries = listOf("NL"),
+                    checkIns = emptyList()
                 )
             )
 
@@ -167,14 +211,22 @@ class SubmissionTaskTest : BaseTest() {
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 
+            checkInRepository.updatePostSubmissionFlags(validCheckIn.id)
+
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
-            BackgroundWorkScheduler.stopWorkScheduler()
+            backgroundWorkScheduler.stopWorkScheduler()
             submissionSettings.isSubmissionSuccessful = true
-            BackgroundWorkScheduler.startWorkScheduler()
+            backgroundWorkScheduler.startWorkScheduler()
 
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
+        }
+
+        coVerify(exactly = 0) {
+            checkInRepository.updatePostSubmissionFlags(invalidCheckIn1.id)
+            checkInRepository.updatePostSubmissionFlags(invalidCheckIn2.id)
+            checkInRepository.updatePostSubmissionFlags(invalidCheckIn3.id)
         }
     }
 
@@ -213,15 +265,17 @@ class SubmissionTaskTest : BaseTest() {
             appConfigProvider.getAppConfig()
             playbook.submit(
                 Playbook.SubmissionData(
-                    "regtoken",
-                    listOf(transformedKey),
-                    true,
-                    listOf("NL")
+                    registrationToken = "regtoken",
+                    temporaryExposureKeys = listOf(transformedKey),
+                    consentToFederation = true,
+                    visitedCountries = listOf("NL"),
+                    checkIns = emptyList()
                 )
             )
         }
         coVerify(exactly = 0) {
             tekHistoryStorage.clear()
+            checkInRepository.clear()
             settingSymptomsPreference.update(any())
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             autoSubmission.updateMode(any())
@@ -250,10 +304,11 @@ class SubmissionTaskTest : BaseTest() {
         coVerifySequence {
             playbook.submit(
                 Playbook.SubmissionData(
-                    "regtoken",
-                    listOf(transformedKey),
-                    true,
-                    listOf("DE")
+                    registrationToken = "regtoken",
+                    temporaryExposureKeys = listOf(transformedKey),
+                    consentToFederation = true,
+                    visitedCountries = listOf("DE"),
+                    checkIns = emptyList()
                 )
             )
         }

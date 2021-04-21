@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayFragmentsAdapter
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
+import de.rki.coronawarnapp.contactdiary.ui.location.ContactDiaryAddLocationFragmentArgs
+import de.rki.coronawarnapp.contactdiary.ui.person.ContactDiaryAddPersonFragmentArgs
+import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -34,6 +39,11 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         }
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition = Hold()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -52,6 +62,8 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             contactDiaryDayViewPager.registerOnPageChangeCallback {
                 binding.contactDiaryDayFab.text = getString(adapter.tabs[it].fabTextResource)
                 binding.contactDiaryDayFab.contentDescription = getString(adapter.tabs[it].fabTextResourceAccessibility)
+                // Extend FAB when on page change
+                onScrollChange(true)
             }
 
             contactDiaryDayFab.setOnClickListener {
@@ -59,6 +71,7 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             }
 
             contactDiaryDayHeader.setNavigationOnClickListener {
+                view.hideKeyboard()
                 viewModel.onBackPressed()
             }
         }
@@ -73,18 +86,25 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 ContactDiaryDayNavigationEvents.NavigateToOverviewFragment -> popBackStack()
-                ContactDiaryDayNavigationEvents.NavigateToAddPersonFragment -> doNavigate(
-                    ContactDiaryDayFragmentDirections
-                        .actionContactDiaryDayFragmentToContactDiaryAddPersonFragment(
-                            addedAt = navArgs.selectedDay
+                ContactDiaryDayNavigationEvents.NavigateToAddPersonFragment ->
+                    findNavController().navigate(
+                        R.id.action_contactDiaryDayFragment_to_contactDiaryAddPersonFragment,
+                        ContactDiaryAddPersonFragmentArgs(addedAt = navArgs.selectedDay).toBundle(),
+                        null,
+                        FragmentNavigatorExtras(
+                            binding.contactDiaryDayFab to binding.contactDiaryDayFab.transitionName
                         )
-                )
-                ContactDiaryDayNavigationEvents.NavigateToAddLocationFragment -> doNavigate(
-                    ContactDiaryDayFragmentDirections
-                        .actionContactDiaryDayFragmentToContactDiaryAddLocationFragment(
-                            addedAt = navArgs.selectedDay
+                    )
+
+                ContactDiaryDayNavigationEvents.NavigateToAddLocationFragment ->
+                    findNavController().navigate(
+                        R.id.action_contactDiaryDayFragment_to_contactDiaryAddLocationFragment,
+                        ContactDiaryAddLocationFragmentArgs(addedAt = navArgs.selectedDay).toBundle(),
+                        null,
+                        FragmentNavigatorExtras(
+                            binding.contactDiaryDayFab to binding.contactDiaryDayFab.transitionName
                         )
-                )
+                    )
             }
         }
     }
@@ -93,4 +113,9 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         super.onResume()
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
+
+    fun onScrollChange(extend: Boolean) =
+        with(binding.contactDiaryDayFab) {
+            if (extend) extend() else shrink()
+        }
 }

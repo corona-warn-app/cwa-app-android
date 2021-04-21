@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.appconfig.mapping.ExposureDetectionConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureWindowRiskCalculationConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.KeyDownloadParametersMapper
 import de.rki.coronawarnapp.appconfig.mapping.LogUploadConfigMapper
+import de.rki.coronawarnapp.appconfig.mapping.PresenceTracingConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.SurveyConfigMapper
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
@@ -77,6 +78,10 @@ class AppConfigModule {
     @Provides
     fun logUploadMapper(mapper: LogUploadConfigMapper):
         LogUploadConfig.Mapper = mapper
+
+    @Provides
+    fun presenceTracingMapper(mapper: PresenceTracingConfigMapper):
+        PresenceTracingConfig.Mapper = mapper
 
     companion object {
         private val HTTP_TIMEOUT_APPCONFIG = Duration.standardSeconds(10)

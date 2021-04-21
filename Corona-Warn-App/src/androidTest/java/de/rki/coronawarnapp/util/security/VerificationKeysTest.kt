@@ -20,7 +20,7 @@ class VerificationKeysTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
+        every { environmentSetup.appConfigPublicKey } returns PUB_KEY
     }
 
     private fun createTool() = SignatureValidation(environmentSetup)

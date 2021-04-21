@@ -64,6 +64,22 @@ object TimeAndDateExtensions {
         } else null
 
     /**
+     * Converts a [Long] representing time in Seconds into [Instant]
+     */
+    fun Long.secondsToInstant(): Instant = Instant.ofEpochSecond(this)
+
+    /**
+     * Derive a UNIX timestamp (in seconds) and returns the corresponding 10-minute interval
+     */
+    fun Instant.derive10MinutesInterval(): Long =
+        seconds / TimeUnit.MINUTES.toSeconds(10) // 10 min in seconds
+
+    /**
+     * Derive a UNIX timestamp (in seconds) and returns the corresponding 10-minute interval
+     */
+    fun Instant.deriveHourInterval(): HourInterval = millis / 3600000
+
+    /**
      * Converts milliseconds to human readable format hh:mm:ss
      *
      * @return String
@@ -91,7 +107,7 @@ object TimeAndDateExtensions {
 
     fun LocalDate.ageInDays(now: LocalDate) = Days.daysBetween(this, now).days
 
-    fun Instant.toLocalDate(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
+    fun Instant.toLocalDateUtc(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
 
     fun Instant.toLocalTime(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
 
@@ -99,3 +115,5 @@ object TimeAndDateExtensions {
 
     fun Instant.toUserTimeZone() = this.toDateTime(DateTimeZone.forTimeZone(TimeZone.getDefault()))
 }
+
+typealias HourInterval = Long
