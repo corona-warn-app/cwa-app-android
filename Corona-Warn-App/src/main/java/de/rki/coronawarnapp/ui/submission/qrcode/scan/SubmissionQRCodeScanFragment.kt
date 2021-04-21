@@ -82,18 +82,6 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                             )
                     )
                 }
-                SubmissionNavigationEvents.NavigateToResultAvailableScreen -> {
-                    doNavigate(
-                        NavGraphDirections
-                            .actionToSubmissionTestResultAvailableFragment()
-                    )
-                }
-                SubmissionNavigationEvents.NavigateToResultPendingScreen -> {
-                    doNavigate(
-                        NavGraphDirections
-                            .actionSubmissionTestResultPendingFragment()
-                    )
-                }
                 is SubmissionNavigationEvents.NavigateToDispatcher ->
                     navigateToDispatchScreen()
                 is SubmissionNavigationEvents.NavigateToConsent ->
@@ -127,23 +115,21 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 when (state.testResult) {
                     CoronaTestResult.PCR_POSITIVE ->
                         doNavigate(
-                            SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
-                                    testType = CoronaTest.Type.PCR
-                                )
+                            NavGraphDirections
+                                .actionToSubmissionTestResultAvailableFragment(testType = CoronaTest.Type.PCR)
                         )
                     CoronaTestResult.PCR_OR_RAT_PENDING -> {
                         if (state.testType == CoronaTest.Type.RAPID_ANTIGEN) {
                             doNavigate(
-                                SubmissionQRCodeScanFragmentDirections
-                                    .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                                NavGraphDirections
+                                    .actionSubmissionTestResultPendingFragment(
                                         testType = CoronaTest.Type.RAPID_ANTIGEN
                                     )
                             )
                         } else {
                             doNavigate(
-                                SubmissionQRCodeScanFragmentDirections
-                                    .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                                NavGraphDirections
+                                    .actionSubmissionTestResultPendingFragment(
                                         testType = CoronaTest.Type.PCR
                                     )
                             )
@@ -153,15 +139,15 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                     CoronaTestResult.PCR_INVALID,
                     CoronaTestResult.PCR_REDEEMED ->
                         doNavigate(
-                            SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                            NavGraphDirections
+                                .actionSubmissionTestResultPendingFragment(
                                     testType = CoronaTest.Type.PCR
                                 )
                         )
                     CoronaTestResult.RAT_POSITIVE ->
                         doNavigate(
-                            SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
+                            NavGraphDirections
+                                .actionToSubmissionTestResultAvailableFragment(
                                     testType = CoronaTest.Type.RAPID_ANTIGEN
                                 )
                         )
@@ -170,8 +156,8 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                     CoronaTestResult.RAT_PENDING,
                     CoronaTestResult.RAT_REDEEMED ->
                         doNavigate(
-                            SubmissionQRCodeScanFragmentDirections
-                                .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                            NavGraphDirections
+                                .actionSubmissionTestResultPendingFragment(
                                     testType = CoronaTest.Type.RAPID_ANTIGEN
                                 )
                         )

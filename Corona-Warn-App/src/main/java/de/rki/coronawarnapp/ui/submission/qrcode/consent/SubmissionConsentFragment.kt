@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -91,9 +92,17 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
             }
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
                 if (state.testResult == CoronaTestResult.RAT_POSITIVE) {
-                    doNavigate(NavGraphDirections.actionToSubmissionTestResultAvailableFragment())
+                    doNavigate(NavGraphDirections
+                        .actionToSubmissionTestResultAvailableFragment(
+                            CoronaTest.Type.RAPID_ANTIGEN
+                        )
+                    )
                 } else {
-                    doNavigate(NavGraphDirections.actionSubmissionTestResultPendingFragment())
+                    doNavigate(NavGraphDirections
+                        .actionSubmissionTestResultPendingFragment(
+                            testType = CoronaTest.Type.RAPID_ANTIGEN
+                        )
+                    )
                 }
             }
         }

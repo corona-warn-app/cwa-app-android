@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -20,7 +21,8 @@ class QrCodeRegistrationStateProcessor @Inject constructor(
 
     data class RegistrationState(
         val apiRequestState: ApiRequestState,
-        val testResult: CoronaTestResult? = null
+        val testResult: CoronaTestResult? = null,
+        val testType: CoronaTest.Type? = null
     )
 
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
@@ -38,7 +40,8 @@ class QrCodeRegistrationStateProcessor @Inject constructor(
             registrationState.postValue(
                 RegistrationState(
                     ApiRequestState.SUCCESS,
-                    coronaTest.testResult
+                    coronaTest.testResult,
+                    coronaTestQRCode.type
                 )
             )
         } catch (err: CwaWebException) {
