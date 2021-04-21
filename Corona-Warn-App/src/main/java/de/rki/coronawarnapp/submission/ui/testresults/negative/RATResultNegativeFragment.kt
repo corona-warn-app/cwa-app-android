@@ -18,7 +18,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
     private val binding: FragmentSubmissionAntigenTestResultNegativeBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // TODO: Add fragment logic and databinding.
+        binding.resultReceivedCounter.chronometer.start()
     }
 }
