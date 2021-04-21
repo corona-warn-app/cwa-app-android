@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeSubmission
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -83,14 +83,14 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 }
                 SubmissionNavigationEvents.NavigateToResultAvailableScreen -> {
                     doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
+                        NavGraphDirections
+                            .actionToSubmissionTestResultAvailableFragment()
                     )
                 }
                 SubmissionNavigationEvents.NavigateToResultPendingScreen -> {
                     doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
+                        NavGraphDirections
+                            .actionSubmissionTestResultPendingFragment()
                     )
                 }
                 is SubmissionNavigationEvents.NavigateToDispatcher ->
@@ -101,7 +101,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
 
         viewModel.qrCodeValidationState.observe2(this) {
-            if (QrCodeSubmission.ValidationState.INVALID == it) {
+            if (QrCodeRegistrationStateProcessor.ValidationState.INVALID == it) {
                 showInvalidScanDialog()
             }
         }

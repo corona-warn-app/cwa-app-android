@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeSubmission
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeSubmission.ValidationState
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor.ValidationState
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -32,7 +32,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cameraSettings: CameraSettings
     @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
-    @MockK lateinit var qrCodeSubmission: QrCodeSubmission
+    @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
 
     private val coronaTestFlow = MutableStateFlow<CoronaTest?>(
         null
@@ -48,8 +48,10 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
         TestDispatcherProvider(),
         cameraSettings,
-        qrCodeSubmission,
-        isConsentGiven = true
+        qrCodeRegistrationStateProcessor,
+        isConsentGiven = true,
+        submissionRepository,
+        qrCodeValidator
     )
 
     @Test

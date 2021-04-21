@@ -4,30 +4,39 @@ import androidx.lifecycle.asLiveData
 import com.google.android.gms.common.api.ApiException
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
+import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeSubmission
+import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SubmissionConsentViewModel @AssistedInject constructor(
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryProvider: TEKHistoryProvider,
-    // private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    private val qrCodeSubmission: QrCodeSubmission
+    private val qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor,
+    private val submissionRepository: SubmissionRepository,
+    private val qrCodeValidator: CoronaTestQrCodeValidator
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
-    val showRedeemedTokenWarning = qrCodeSubmission.showRedeemedTokenWarning
-    val qrCodeValidationState = qrCodeSubmission.qrCodeValidationState
-    val registrationState = qrCodeSubmission.registrationState
-    val registrationError = qrCodeSubmission.registrationError
+    val qrCodeValidationState = SingleLiveEvent<QrCodeRegistrationStateProcessor.ValidationState>()
+
+
+    val showRedeemedTokenWarning = qrCodeRegistrationStateProcessor.showRedeemedTokenWarning
+    val registrationState = qrCodeRegistrationStateProcessor.registrationState
+    val registrationError = qrCodeRegistrationStateProcessor.registrationError
 
     val countries = interoperabilityRepository.countryList
         .asLiveData(context = dispatcherProvider.Default)
@@ -35,10 +44,6 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     var qrCode: String? = null
 
     fun onConsentButtonClick() {
-        // TODO Do we have a Test registered at this time? We need to forward the decission with navargs?
-        // analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
-        // TODO Do we have a Test registered at this time? We need to forward the decision with navargs?
-//        submissionRepository.giveConsentToSubmission(type = CoronaTest.Type.PCR)
         analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         launch {
             try {
@@ -71,7 +76,30 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
     private fun processQrCode(rawResult: String) {
         launch {
-            qrCodeSubmission.startQrCodeRegistration(rawResult)
+            startQrCodeRegistration(rawResult, true)
+        }
+    }
+
+    suspend fun startQrCodeRegistration(rawResult: String, isConsentGiven: Boolean) {
+        try {
+            val coronaTestQRCode = qrCodeValidator.validate(rawResult)
+            // TODO this needs to be adapted to work for different types
+            QRCodeCensor.lastGUID = coronaTestQRCode.registrationIdentifier
+            qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.SUCCESS)
+            val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
+
+            if (coronaTest != null) {
+                routeToScreen.postValue(
+                    SubmissionNavigationEvents.NavigateToDeletionWarningFragment(
+                        coronaTestQRCode,
+                        isConsentGiven
+                    )
+                )
+            } else {
+                qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, isConsentGiven)
+            }
+        } catch (err: InvalidQRCodeException) {
+            qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.INVALID)
         }
     }
 
