@@ -1,16 +1,20 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
+import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor.ValidationState
 import de.rki.coronawarnapp.util.permission.CameraSettings
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
@@ -40,6 +44,12 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { submissionRepository.testForType(any()) } returns coronaTestFlow
+        coEvery { qrCodeRegistrationStateProcessor.showRedeemedTokenWarning } returns SingleLiveEvent()
+        coEvery { qrCodeRegistrationStateProcessor.registrationState } returns MutableLiveData(
+            QrCodeRegistrationStateProcessor.RegistrationState(ApiRequestState.IDLE)
+        )
+        coEvery { qrCodeRegistrationStateProcessor.registrationError } returns SingleLiveEvent()
+
     }
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
@@ -64,6 +74,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
         every { qrCodeValidator.validate(validQrCode) } returns coronaTestQRCode
         every { qrCodeValidator.validate(invalidQrCode) } throws InvalidQRCodeException()
+
         val viewModel = createViewModel()
 
         // start
