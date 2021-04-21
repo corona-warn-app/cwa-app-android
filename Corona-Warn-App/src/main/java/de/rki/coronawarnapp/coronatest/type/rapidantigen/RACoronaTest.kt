@@ -69,6 +69,8 @@ data class RACoronaTest(
 
     @Transient
     override val isPositive: Boolean = testResult == CoronaTestResult.RAT_POSITIVE
+
+    @Transient
     override val isPending: Boolean =
         testResult == CoronaTestResult.PCR_OR_RAT_PENDING || testResult == CoronaTestResult.RAT_PENDING
 
