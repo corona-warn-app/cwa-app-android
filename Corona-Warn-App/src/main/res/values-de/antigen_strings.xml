@@ -85,4 +85,56 @@
     <!-- XTXT: homescreen card: body - negative -->
     <string name="ag_homescreen_card_pcr_body_result_date">"Test registriert am %1$s"</string>
 
+    <!-- XBUT: submission deletion warning button continue -->
+    <string name="submission_deletion_warning_continue_button">"Weiter"</string>
+    <!-- XBUT: submission deletion warning button cancel -->
+    <string name="submission_deletion_warning_cancel_button">"Abbrechen"</string>
+    <!-- XHED: submission deletion warning title -->
+    <string name="submission_deletion_warning_title">"Hinweis"</string>
+    <!-- YTXT: Headline for rapid test submission deletion warning -->
+    <string name="submission_deletion_warning_headline_antigen_test">"Sie haben bereits einen Schnelltest registriert."</string>
+    <!-- YTXT: Body for rapid test submission deletion warning -->
+    <string name="submission_deletion_warning_body_antigen_test">"Sie haben bereits einen Schnelltest registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren Schnelltest registrieren, wird der erste Schnelltest aus der App gelöscht."</string>
+    <!-- YTXT: Headline for PCR test submission deletion warning -->
+    <string name="submission_deletion_warning_headline_pcr_test">"Sie haben bereits einen PCR-Test registriert."</string>
+    <!-- YTXT: Body for PCR test submission deletion warning -->
+    <string name="submission_deletion_warning_body_pcr_test">"Sie haben bereits einen PCR-Test registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren PCR-Test registrieren, wird der erste PCR-Test aus der App gelöscht."</string>
+
+    <!-- XHED: submission result antigen fragment toolbar text -->
+    <string name="submission_test_result_toolbar_text">"Ihr Testergebnis"</string>
+    <!-- XHED: submission result antigen fragment card title -->
+    <string name="submission_test_result_antigen_title">"Schnelltest"</string>
+    <!-- XTXT: submission result antigen fragment card "found" text -->
+    <string name="submission_result_subtitle">"Befund"</string>
+    <!-- XTXT: submission test result fragment negative diagnosis -->
+    <string name="submission_test_result_negative">"Negativ"</string>
+    <!-- XTXT: submission test result fragment positive diagnosis -->
+    <string name="submission_test_result_positive">"Positiv"</string>
+    <!-- XTXT: submission result antigen fragment card patient name placeholder -->
+    <string name="submission_test_result_antigen_patient_name_placeholder">"Max Mustermann,"</string>
+    <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
+    <string name="submission_test_result_antigen_patient_birth_date_placeholder">"geboren 14.03.1987"</string>
+    <!-- XTXT: coronatest negative antigen result time and date placeholder -->
+    <string name="coronatest_negative_antigen_result_time_date_placeholder">"Ausgestellt: 10.03.2021, 18:01 Uhr"</string>
+    <!-- XTXT: submission result antigen fragment card negative result message -->
+    <string name="submission_test_result_negative_message">"Das Virus SARS-CoV-2 wurde bei Ihnen nicht nachgewiesen."</string>
+    <!-- XHED: submission result antigen fragment negative result proof title -->
+    <string name="submission_test_result_antigen_negative_proof_title">"Nachweis-Funktion"</string>
+    <!-- XHED: submission result antigen fragment negative result proof body -->
+    <string name="submission_test_result_antigen_negative_proof_body">"Sie können den hier angezeigten Befund auch als Nachweis für das Vorliegen eines negativen Schnelltest-Ergebnisses verwenden. Informieren Sie sich hierzu bitte auch über die Kriterien für die Anerkennung von Test-Nachweisen in Ihrem Bundesland. Bitte beachten Sie, dass Sie grundsätzlich nicht zum Nachweis per App verpflichtet sind. Sie können Ihr Schnelltest-Ergebnis im Rahmen der rechtlichen Bestimmungen auf andere Weise nachweisen."</string>
+    <!-- XHED: submission result antigen negative result counter title -->
+    <string name="submission_test_result_antigen_negative_counter_title">"Ergebnis liegt vor seit"</string>
+    <!-- XHED: coronatest negative antigen result first info title -->
+    <string name="coronatest_negative_antigen_result_first_info_title">"Ihr Schnelltest wurde hinzugefügt."</string>
+    <!-- XTXT: coronatest negative antigen result first info body -->
+    <string name="coronatest_negative_antigen_result_first_info_body">"Das Test-Ergebnis wird 48 Stunden hier angezeigt. Zusätzlich legt die App einen Eintrag in Ihrem Kontakt-Tagebuch an."</string>
+    <!-- XHED: coronatest negative antigen result second info title -->
+    <string name="coronatest_negative_antigen_result_second_info_title">"Befund negativ"</string>
+    <!-- XTXT: coronatest negative antigen result second info body -->
+    <string name="coronatest_negative_antigen_result_second_info_body">"Der Schnelltest hat keinen Nachweis für das Coronavirus SARS-CoV-2 bei Ihnen ergeben."</string>
+    <!-- XTXT: coronatest negative antigen result third info title -->
+    <string name="coronatest_negative_antigen_result_third_info_title">"Test entfernen"</string>
+    <!-- XTXT: coronatest negative antigen result third info body -->
+    <string name="coronatest_negative_antigen_restul_third_info_body">"Bitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können."</string>
+
 </resources>

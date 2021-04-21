@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -67,7 +68,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     data class RegistrationState(
         val apiRequestState: ApiRequestState,
-        val testResult: CoronaTestResult? = null
+        val testResult: CoronaTestResult? = null,
+        val testType: CoronaTest.Type? = null
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -79,7 +81,13 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
                 submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             }
             checkTestResult(coronaTest.testResult)
-            registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, coronaTest.testResult))
+            registrationState.postValue(
+                RegistrationState(
+                    ApiRequestState.SUCCESS,
+                    coronaTest.testResult,
+                    coronaTestQRCode.type
+                )
+            )
         } catch (err: CwaWebException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
@@ -113,14 +121,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             submissionRepository.removeTestFromDevice(type = coronaTest.type)
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
         }
-    }
-
-    fun triggerNavigationToSubmissionTestResultAvailableFragment() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultAvailableScreen)
-    }
-
-    fun triggerNavigationToSubmissionTestResultPendingFragment() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPendingScreen)
     }
 
     fun onBackPressed() {
