@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -26,7 +28,9 @@ import timber.log.Timber
 class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     private val coronaTestRepository: CoronaTestRepository,
     private val submissionRepository: SubmissionRepository,
-    @Assisted private val coronaTest: CoronaTestQRCode,
+    @Assisted private val coronaTestQrCode: CoronaTestQRCode?,
+    @Assisted private val coronaTestQrTan: CoronaTestTAN?,
+
     @Assisted private val isConsentGiven: Boolean,
 ) : CWAViewModel() {
 
@@ -37,13 +41,57 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     val registrationError = SingleLiveEvent<CwaWebException>()
 
     fun deleteExistingAndRegisterNewTest() = launch {
-        val currentTest = submissionRepository.testForType(coronaTest.type).first()
+        when (getRegistrationType()) {
+            RegistrationType.QR -> deleteExistingAndRegisterNewTestWithQrCode()
+            RegistrationType.TAN -> deleteExistingAndRegisterNewTestWitTAN()
+        }
+    }
+
+    private suspend fun deleteExistingAndRegisterNewTestWithQrCode() {
         try {
+            val currentTest = submissionRepository.testForType(coronaTestQrCode!!.type).first()
             coronaTestRepository.removeTest(currentTest!!.identifier)
-            doDeviceRegistration(coronaTest)
+            doDeviceRegistration(coronaTestQrCode)
         } catch (err: Exception) {
             Timber.e(err, "Removal of existing test failed with msg: ${err.message}")
             err.report(ExceptionCategory.INTERNAL)
+        }
+    }
+
+    private suspend fun deleteExistingAndRegisterNewTestWitTAN() {
+
+        try {
+            val currentTest = submissionRepository.testForType(CoronaTest.Type.PCR).first()
+            coronaTestRepository.removeTest(currentTest!!.identifier)
+            onTanSubmit()
+        } catch (err: Exception) {
+            Timber.e(err, "Removal of existing test failed with msg: ${err.message}")
+            err.report(ExceptionCategory.INTERNAL)
+        }
+    }
+
+    private suspend fun onTanSubmit() {
+
+        try {
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.STARTED))
+            submissionRepository.registerTest(coronaTestQrTan!!)
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.SUCCESS))
+        } catch (err: CwaWebException) {
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+            registrationError.postValue(err)
+        } catch (err: TransactionException) {
+            if (err.cause is CwaWebException) {
+                registrationError.postValue(err.cause)
+            } else {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+        } catch (err: Exception) {
+            mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
+            err.report(ExceptionCategory.INTERNAL)
+        } finally {
+            // TODO Should not be necessary? What new data would we
+            submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
         }
     }
 
@@ -118,8 +166,25 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
         }
     }
 
+    fun getRegistrationType(): RegistrationType {
+        return if (coronaTestQrCode != null) {
+            RegistrationType.QR
+        } else {
+            RegistrationType.TAN
+        }
+    }
+
+    fun getTestType(): CoronaTest.Type {
+        return coronaTestQrCode?.type ?: return CoronaTest.Type.PCR
+    }
+
+    sealed class RegistrationType {
+        object TAN : RegistrationType()
+        object QR : RegistrationType()
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionDeletionWarningViewModel> {
-        fun create(coronaTest: CoronaTestQRCode, isConsentGiven: Boolean): SubmissionDeletionWarningViewModel
+        fun create(coronaTestQrCode: CoronaTestQRCode?, coronaTestTan: CoronaTestTAN?, isConsentGiven: Boolean): SubmissionDeletionWarningViewModel
     }
 }
