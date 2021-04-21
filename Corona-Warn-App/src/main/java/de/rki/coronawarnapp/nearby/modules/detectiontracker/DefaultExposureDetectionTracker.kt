@@ -47,7 +47,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
         val setupTimeoutEnforcer: (HotDataFlow<Map<String, TrackedExposureDetection>>) -> Unit = { hd ->
             flow<Unit> {
                 while (true) {
-                    hd.updateSafely {
+                    hd.updateBlocking {
                         val timeNow = timeStamper.nowUTC
                         Timber.v("Running timeout check (now=%s): %s", timeNow, values)
                         val timeoutLimit = appConfigProvider.currentConfig.first().overallDetectionTimeout
@@ -84,7 +84,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
 
     override fun trackNewExposureDetection(identifier: String) {
         Timber.i("trackNewExposureDetection(token=%s)", identifier)
-        detectionStates.updateSafely {
+        detectionStates.updateAsync {
             mutate {
                 this[identifier] = TrackedExposureDetection(
                     identifier = identifier,
@@ -97,7 +97,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
 
     override fun finishExposureDetection(identifier: String?, result: Result) {
         Timber.i("finishExposureDetection(token=%s, result=%s)", identifier, result)
-        detectionStates.updateSafely {
+        detectionStates.updateAsync {
             mutate {
                 if (identifier == null) {
                     val id = this.findUnfinishedOrCreateIdentifier()
@@ -164,7 +164,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
 
     override fun clear() {
         Timber.i("clear()")
-        detectionStates.updateSafely {
+        detectionStates.updateAsync {
             emptyMap()
         }
     }

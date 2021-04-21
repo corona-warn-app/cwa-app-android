@@ -108,13 +108,17 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 is SubmissionNavigationEvents.NavigateToResultAvailableScreen -> {
                     doNavigate(
                         SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultAvailableFragment()
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultAvailableFragment(
+                                args.coronaTestQrCode.type
+                            )
                     )
                 }
                 is SubmissionNavigationEvents.NavigateToResultPendingScreen -> {
                     doNavigate(
                         SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment()
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
+                                testType = args.coronaTestQrCode.type
+                            )
                     )
                 }
             }
