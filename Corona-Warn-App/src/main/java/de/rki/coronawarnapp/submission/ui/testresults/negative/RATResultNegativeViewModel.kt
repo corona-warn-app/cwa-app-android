@@ -46,7 +46,7 @@ class RATResultNegativeViewModel @AssistedInject constructor(
             return null
         }
 
-        // TODO
+        // TODO redeem test
         val hours = appConfigProvider.getAppConfig()
             .coronaTestParameters
             .coronaRapidAntigenTestParameters

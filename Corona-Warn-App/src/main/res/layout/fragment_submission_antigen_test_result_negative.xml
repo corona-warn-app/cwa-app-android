@@ -81,26 +81,16 @@
                     tools:text="@string/submission_test_result_negative" />
 
                 <TextView
-                    android:id="@+id/rapid_test_card_patient_name"
+                    android:id="@+id/rapid_test_card_patient_info"
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:layout_marginEnd="@dimen/spacing_normal"
-                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/rapid_test_card_diagnosis"
                     app:layout_constraintTop_toBottomOf="@id/rapid_test_card_diagnosis"
-                    tools:text="@string/submission_test_result_antigen_patient_name_placeholder" />
-
-                <TextView
-                    android:id="@+id/rapid_test_card_patient_birthdate"
-                    style="@style/body2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/rapid_test_card_patient_name"
-                    app:layout_constraintTop_toTopOf="@id/rapid_test_card_patient_name"
-                    tools:text="@string/submission_test_result_antigen_patient_birth_date_placeholder" />
+                    tools:text="Max Mustermann, geboren 14.03.1987" />
 
                 <TextView
                     android:id="@+id/rapid_test_card_negative_result_message"
@@ -111,8 +101,8 @@
                     android:layout_marginEnd="@dimen/spacing_normal"
                     android:text="@string/submission_test_result_negative_message"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/rapid_test_card_patient_name"
-                    app:layout_constraintTop_toBottomOf="@id/rapid_test_card_patient_birthdate" />
+                    app:layout_constraintStart_toStartOf="@id/rapid_test_card_patient_info"
+                    app:layout_constraintTop_toBottomOf="@id/rapid_test_card_patient_info" />
 
                 <include
                     android:id="@+id/result_received_counter"
