@@ -167,8 +167,6 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
 
     companion object {
         private const val REQUEST_USER_RESOLUTION = 3000
-
-        // TODO
-        fun canHandle(rootUri: String): Boolean = true
+        fun canHandle(rootUri: String): Boolean = rootUri.startsWith("https://s.coronawarn.app")
     }
 }

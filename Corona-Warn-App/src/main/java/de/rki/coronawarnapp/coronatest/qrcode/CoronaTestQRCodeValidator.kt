@@ -6,11 +6,11 @@ import javax.inject.Inject
 
 @Reusable
 class CoronaTestQrCodeValidator @Inject constructor(
-    ratExtractor: RapidAntigenQrCodeExtractor,
+    raExtractor: RapidAntigenQrCodeExtractor,
     pcrExtractor: PcrQrCodeExtractor
 ) {
 
-    private val extractors = setOf(ratExtractor, pcrExtractor)
+    private val extractors = setOf(raExtractor, pcrExtractor)
 
     fun validate(rawString: String): CoronaTestQRCode {
         return findExtractor(rawString)
@@ -19,17 +19,15 @@ class CoronaTestQrCodeValidator @Inject constructor(
             ?: throw InvalidQRCodeException()
     }
 
-    fun canHandle(rawString: String): Boolean {
-        return findExtractor(rawString) != null
-    }
-
-    private fun findExtractor(rawString: String): QrCodeExtractor? {
+    private fun findExtractor(rawString: String): QrCodeExtractor<CoronaTestQRCode>? {
         return extractors
             .find { it.canHandle(rawString) }
     }
+
+    fun hasType(rawString: String) = validate(rawString).type
 }
 
-interface QrCodeExtractor {
+interface QrCodeExtractor<T> {
     fun canHandle(rawString: String): Boolean
-    fun extract(rawString: String): CoronaTestQRCode
+    fun extract(rawString: String): T
 }

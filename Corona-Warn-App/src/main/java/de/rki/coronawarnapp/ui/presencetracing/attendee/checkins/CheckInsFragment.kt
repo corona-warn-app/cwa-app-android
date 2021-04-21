@@ -259,6 +259,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             return "coronawarnapp://check-ins/$encodedUrl/?cleanHistory=$cleanHistory".toUri()
         }
 
-        fun canHandle(rootUri: String): Boolean = rootUri.startsWith("e.coronawarn.app")
+        fun canHandle(rootUri: String): Boolean = rootUri.startsWith("https://e.coronawarn.app")
     }
 }

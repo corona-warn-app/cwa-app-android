@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeSubmission
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
@@ -22,7 +23,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     private val qrCodeSubmission: QrCodeSubmission
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val routeToScreen = qrCodeSubmission.routeToScreen
+    val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = qrCodeSubmission.showRedeemedTokenWarning
     val qrCodeValidationState = qrCodeSubmission.qrCodeValidationState
     val registrationState = qrCodeSubmission.registrationState
@@ -68,7 +69,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
     private fun processQrCode(rawResult: String) {
         launch {
-            qrCodeSubmission.validateQrCode(rawResult)
+            qrCodeSubmission.startQrCodeRegistration(rawResult)
         }
     }
 

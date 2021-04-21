@@ -5,6 +5,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeSubmission
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.permission.CameraSettings
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
@@ -14,7 +15,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val qrCodeSubmission: QrCodeSubmission
 ) : CWAViewModel() {
 
-    val routeToScreen = qrCodeSubmission.routeToScreen
+    val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = qrCodeSubmission.showRedeemedTokenWarning
     val qrCodeValidationState = qrCodeSubmission.qrCodeValidationState
     val registrationState = qrCodeSubmission.registrationState
@@ -22,7 +23,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     fun onQrCodeAvailable(rawResult: String) {
         launch {
-            qrCodeSubmission.validateQrCode(rawResult)
+            qrCodeSubmission.startQrCodeRegistration(rawResult)
         }
     }
 

@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import timber.log.Timber
 import javax.inject.Inject
@@ -29,13 +28,13 @@ class QrCodeSubmission @Inject constructor(
         val testResult: CoronaTestResult? = null
     )
 
-    val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
+    //val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val qrCodeValidationState = SingleLiveEvent<ValidationState>()
     val registrationState = MutableLiveData(RegistrationState(ApiRequestState.IDLE))
     val registrationError = SingleLiveEvent<CwaWebException>()
 
-    suspend fun validateQrCode(rawResult: String) {
+    suspend fun startQrCodeRegistration(rawResult: String) {
         try {
             val coronaTestQRCode = qrCodeValidator.validate(rawResult)
             // TODO this needs to be adapted to work for different types
@@ -72,7 +71,10 @@ class QrCodeSubmission @Inject constructor(
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
         } catch (err: InvalidQRCodeException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
-            deregisterTestFromDevice()
+            Timber.d("deregisterTestFromDevice()")
+            //TODO
+            submissionRepository.removeTestFromDevice(type = CoronaTest.Type.PCR)
+            //routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
             showRedeemedTokenWarning.postValue(Unit)
         } catch (err: Exception) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
@@ -83,13 +85,6 @@ class QrCodeSubmission @Inject constructor(
         if (testResult == CoronaTestResult.PCR_REDEEMED) {
             throw InvalidQRCodeException()
         }
-    }
-
-    private fun deregisterTestFromDevice() {
-        Timber.d("deregisterTestFromDevice()")
-        //TODO
-        submissionRepository.removeTestFromDevice(type = CoronaTest.Type.PCR)
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
     }
 
     enum class ValidationState {
