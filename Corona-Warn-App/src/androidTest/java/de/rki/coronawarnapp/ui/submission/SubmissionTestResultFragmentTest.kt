@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
+import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -45,6 +46,8 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
 
+    private val pendingFragmentArgs = SubmissionTestResultPendingFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
+
     @Rule
     @JvmField
     val localeTestRule = LocaleTestRule()
@@ -62,7 +65,8 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             SubmissionTestResultPendingViewModel(
                 TestDispatcherProvider(),
                 shareTestResultNotificationService,
-                submissionRepository
+                submissionRepository,
+                testType = CoronaTest.Type.PCR
             )
         )
 
@@ -82,7 +86,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : SubmissionTestResultPendingViewModel.Factory {
-                override fun create(): SubmissionTestResultPendingViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionTestResultPendingViewModel = viewModel
             }
         )
     }
@@ -94,19 +98,19 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<SubmissionTestResultPendingFragment>()
+        launchFragment2<SubmissionTestResultPendingFragment>(pendingFragmentArgs)
     }
 
     @Test
     fun testEventPendingRefreshClicked() {
-        launchFragmentInContainer2<SubmissionTestResultPendingFragment>()
+        launchFragmentInContainer2<SubmissionTestResultPendingFragment>(pendingFragmentArgs)
         onView(withId(R.id.submission_test_result_button_pending_refresh))
             .perform(click())
     }
 
     @Test
     fun testEventPendingRemoveClicked() {
-        launchFragmentInContainer2<SubmissionTestResultPendingFragment>()
+        launchFragmentInContainer2<SubmissionTestResultPendingFragment>(pendingFragmentArgs)
         onView(withId(R.id.submission_test_result_button_pending_remove_test))
             .perform(click())
     }
@@ -123,7 +127,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                 }
             )
         )
-        captureScreenshot<SubmissionTestResultPendingFragment>()
+        captureScreenshot<SubmissionTestResultPendingFragment>(fragmentArgs = pendingFragmentArgs)
     }
 }
 
