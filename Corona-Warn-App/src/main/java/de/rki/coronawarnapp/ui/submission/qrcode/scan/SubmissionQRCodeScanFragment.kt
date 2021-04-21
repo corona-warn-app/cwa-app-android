@@ -75,8 +75,8 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
                     doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
+                        NavGraphDirections
+                            .actionToSubmissionDeletionWarningFragment(
                                 it.consentGiven,
                                 it.coronaTestQRCode
                             )
@@ -112,14 +112,14 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 else -> View.GONE
             }
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
-                when (state.testResult) {
+                when (state.test?.testResult) {
                     CoronaTestResult.PCR_POSITIVE ->
                         doNavigate(
                             NavGraphDirections
                                 .actionToSubmissionTestResultAvailableFragment(testType = CoronaTest.Type.PCR)
                         )
                     CoronaTestResult.PCR_OR_RAT_PENDING -> {
-                        if (state.testType == CoronaTest.Type.RAPID_ANTIGEN) {
+                        if (state.test.type == CoronaTest.Type.RAPID_ANTIGEN) {
                             doNavigate(
                                 NavGraphDirections
                                     .actionSubmissionTestResultPendingFragment(

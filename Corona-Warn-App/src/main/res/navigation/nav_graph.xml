@@ -393,7 +393,7 @@
         app:popUpToInclusive="false" />
 
     <action
-        android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDeletionWarningFragment"
+        android:id="@+id/action_to_submissionDeletionWarningFragment"
         app:destination="@id/submissionDeletionWarningFragment" />
 
     <fragment

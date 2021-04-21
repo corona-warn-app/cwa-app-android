@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor.ValidationState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -60,6 +60,15 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         requireActivity(),
                         REQUEST_USER_RESOLUTION
                     )
+                is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
+                    doNavigate(
+                        NavGraphDirections
+                            .actionToSubmissionDeletionWarningFragment(
+                                it.consentGiven,
+                                it.coronaTestQRCode
+                            )
+                    )
+                }
             }
         }
         viewModel.countries.observe2(this) {
@@ -79,7 +88,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         }
 
         viewModel.qrCodeValidationState.observe2(this) {
-            if (QrCodeRegistrationStateProcessor.ValidationState.INVALID == it) {
+            if (ValidationState.INVALID == it) {
                 showInvalidQrCodeDialog()
             }
         }
