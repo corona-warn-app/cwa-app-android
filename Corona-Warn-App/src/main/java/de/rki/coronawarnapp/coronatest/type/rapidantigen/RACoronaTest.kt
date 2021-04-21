@@ -55,6 +55,7 @@ data class RACoronaTest(
     @Transient override val lastError: Throwable? = null,
 ) : CoronaTest {
 
+    @Transient
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
 
     fun getState(nowUTC: Instant) = when (testResult) {
@@ -66,8 +67,10 @@ data class RACoronaTest(
         else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
     }
 
+    @Transient
     override val isPositive: Boolean = testResult == CoronaTestResult.RAT_POSITIVE
 
+    @Transient
     override val isSubmissionAllowed: Boolean = isPositive && !isSubmitted
 
     enum class State {
