@@ -7,7 +7,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -24,7 +23,6 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryProvider: TEKHistoryProvider,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor,
     private val submissionRepository: SubmissionRepository,
     private val qrCodeValidator: CoronaTestQrCodeValidator
@@ -43,7 +41,6 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     var qrCode: String? = null
 
     fun onConsentButtonClick() {
-        analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         launch {
             try {
                 val preAuthorized = tekHistoryProvider.preAuthorizeExposureKeyHistory()
@@ -73,15 +70,15 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         }
     }
 
-    private fun processQrCode(rawResult: String) {
+    private fun processQrCode(qrCodeString: String) {
         launch {
-            startQrCodeRegistration(rawResult, true)
+            validateAndRegister(qrCodeString)
         }
     }
 
-    suspend fun startQrCodeRegistration(rawResult: String, isConsentGiven: Boolean) {
+    suspend fun validateAndRegister(qrCodeString: String) {
         try {
-            val coronaTestQRCode = qrCodeValidator.validate(rawResult)
+            val coronaTestQRCode = qrCodeValidator.validate(qrCodeString)
             // TODO this needs to be adapted to work for different types
             QRCodeCensor.lastGUID = coronaTestQRCode.registrationIdentifier
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.SUCCESS)
@@ -91,11 +88,11 @@ class SubmissionConsentViewModel @AssistedInject constructor(
                 routeToScreen.postValue(
                     SubmissionNavigationEvents.NavigateToDeletionWarningFragment(
                         coronaTestQRCode,
-                        isConsentGiven
+                        consentGiven = true
                     )
                 )
             } else {
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, isConsentGiven)
+                qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, true)
             }
         } catch (err: InvalidQRCodeException) {
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.INVALID)
