@@ -34,6 +34,7 @@ import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestInvalidCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestNegativeCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestOutdatedCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestReadyCard
@@ -247,6 +248,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 HomeFragmentDirections
                     .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
             )
+        }
+        is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
+            submissionRepository.removeTestFromDevice(type = CoronaTest.Type.RAPID_ANTIGEN)
         }
         is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state)
     }

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.NoTe
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestError
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestInvalid
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestNegative
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestOutdated
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestPending
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestPositive
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestResultReady
@@ -30,7 +31,6 @@ fun RACoronaTest?.toSubmissionState(nowUTC: Instant = Instant.now()) = when {
         NEGATIVE -> TestNegative(testRegisteredAt = registeredAt)
         REDEEMED -> TestInvalid
         PENDING -> TestPending
-        // TODO: Should be updated once the logic for OUTDATED tests is in
-        OUTDATED -> TestNegative(testRegisteredAt = registeredAt)
+        OUTDATED -> TestOutdated
     }
 }

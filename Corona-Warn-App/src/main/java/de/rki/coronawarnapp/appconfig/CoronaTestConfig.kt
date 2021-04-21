@@ -9,10 +9,10 @@ interface CoronaTestConfig {
 }
 
 data class CoronaRapidAntigenTestParametersContainer(
-    val hoursToDeemTestOutdated: Int = DEFAULT_HOURS
+    val hoursToDeemTestOutdated: Long = DEFAULT_HOURS
 ) {
     companion object {
-        const val DEFAULT_HOURS = 48
+        const val DEFAULT_HOURS = 48L
     }
 }
 

@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -51,20 +52,30 @@ data class RACoronaTest(
     @SerializedName("dateOfBirth")
     val dateOfBirth: LocalDate?,
 
+    @SerializedName("outdatedAfter")
+    val outdatedAfter: Duration,
+
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
 
-    fun getState(nowUTC: Instant) = when (testResult) {
-        CoronaTestResult.PCR_OR_RAT_PENDING -> State.PENDING
-        CoronaTestResult.RAT_NEGATIVE -> State.NEGATIVE
-        CoronaTestResult.RAT_POSITIVE -> State.POSITIVE
-        CoronaTestResult.RAT_INVALID -> State.INVALID
-        CoronaTestResult.RAT_REDEEMED -> State.REDEEMED
-        else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
-    }
+    private fun isOutdated(nowUTC: Instant) = testedAt.plus(outdatedAfter).isBefore(nowUTC)
+
+    fun getState(nowUTC: Instant) =
+        if (isOutdated(nowUTC)) {
+            State.OUTDATED
+        } else {
+            when (testResult) {
+                CoronaTestResult.PCR_OR_RAT_PENDING -> State.PENDING
+                CoronaTestResult.RAT_NEGATIVE -> State.NEGATIVE
+                CoronaTestResult.RAT_POSITIVE -> State.POSITIVE
+                CoronaTestResult.RAT_INVALID -> State.INVALID
+                CoronaTestResult.RAT_REDEEMED -> State.REDEEMED
+                else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
+            }
+        }
 
     override val isPositive: Boolean = testResult == CoronaTestResult.RAT_POSITIVE
 
