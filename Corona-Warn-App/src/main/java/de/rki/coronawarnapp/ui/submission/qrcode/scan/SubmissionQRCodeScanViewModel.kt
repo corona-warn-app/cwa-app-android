@@ -39,16 +39,16 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     val scanStatusValue = SingleLiveEvent<ScanStatus>()
 
     fun validateTestGUID(rawResult: String) = launch {
+        Timber.d("validateTestGUID(rawResult=$rawResult)")
         try {
-            Timber.d("rawResult=$rawResult")
             val coronaTestQRCode = qrCodeValidator.validate(rawResult)
-            Timber.d("coronaTestQRCode=$coronaTestQRCode")
+            Timber.d("validateTestGUID() coronaTestQRCode=%s", coronaTestQRCode)
             // TODO this needs to be adapted to work for different types
             QRCodeCensor.lastGUID = coronaTestQRCode.registrationIdentifier
             scanStatusValue.postValue(ScanStatus.SUCCESS)
 
             val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
-            Timber.d("coronaTest=$coronaTest")
+            Timber.d("validateTestGUID() existingTest=%s", coronaTest)
 
             if (coronaTest != null) {
                 routeToScreen.postValue(
@@ -78,14 +78,14 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal suspend fun doDeviceRegistration(coronaTestQRCode: CoronaTestQRCode) {
         try {
-            Timber.d("doDeviceRegistration(coronaTestQRCode=$coronaTestQRCode)")
+            Timber.d("doDeviceRegistration(coronaTestQRCode=%s)", coronaTestQRCode)
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val coronaTest = submissionRepository.registerTest(coronaTestQRCode)
-            Timber.d("doDeviceRegistration-coronaTest=$coronaTest")
+            Timber.d("doDeviceRegistration() coronaTest=$coronaTest")
             if (isConsentGiven) {
                 submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             }
-            checkTestResult(coronaTest.testResult)
+            checkTestResult(coronaTestQRCode, coronaTest)
             registrationState.postValue(
                 RegistrationState(
                     ApiRequestState.SUCCESS,
@@ -113,15 +113,15 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         }
     }
 
-    private fun checkTestResult(testResult: CoronaTestResult) {
-        if (testResult == CoronaTestResult.PCR_REDEEMED) {
-            throw InvalidQRCodeException("CoronaTestResult Redeemed")
+    private fun checkTestResult(request: CoronaTestQRCode, test: CoronaTest) {
+        if (test.testResult == CoronaTestResult.PCR_REDEEMED) {
+            throw InvalidQRCodeException("CoronaTestResult already redeemed ${request.registrationIdentifier}")
         }
     }
 
     private fun deregisterTestFromDevice(coronaTest: CoronaTestQRCode) {
         launch {
-            Timber.d("deregisterTestFromDevice(coronaTest=$coronaTest)")
+            Timber.d("deregisterTestFromDevice(coronaTest=%s)", coronaTest)
             submissionRepository.removeTestFromDevice(type = coronaTest.type)
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
         }

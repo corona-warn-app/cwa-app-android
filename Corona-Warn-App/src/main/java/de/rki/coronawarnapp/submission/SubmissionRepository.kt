@@ -48,7 +48,7 @@ class SubmissionRepository @Inject constructor(
         scope.launch {
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
                 ?: throw IllegalStateException("No test of type $type available")
-            Timber.d("test=$test")
+            Timber.tag(TAG).v("giveConsentToSubmission(type=$type): %s", test)
             coronaTestRepository.updateConsent(identifier = test.identifier, consented = true)
         }
     }
