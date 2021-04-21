@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.submission.testresult.pending
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import io.kotest.matchers.shouldBe
@@ -25,7 +24,6 @@ import testhelpers.extensions.InstantExecutorExtension
 @ExtendWith(InstantExecutorExtension::class)
 class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var testType: CoronaTest.Type
 
@@ -43,7 +41,6 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
     fun createInstance(scope: CoroutineScope = TestCoroutineScope()) = SubmissionTestResultPendingViewModel(
         dispatcherProvider = scope.asDispatcherProvider(),
-        shareTestResultNotificationService = shareTestResultNotificationService,
         submissionRepository = submissionRepository,
         testType = testType
     )
