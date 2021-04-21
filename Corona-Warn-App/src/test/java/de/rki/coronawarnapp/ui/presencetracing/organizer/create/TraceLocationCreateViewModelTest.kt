@@ -12,9 +12,9 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.encode
+import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.Instant
-import org.joda.time.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -60,8 +60,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
         viewModel.address = "Address"
         viewModel.description = "Description"
-        viewModel.begin = LocalDateTime()
-        viewModel.end = LocalDateTime().plusHours(1)
+        viewModel.begin = DateTime()
+        viewModel.end = DateTime().plusHours(1)
         viewModel.checkInLength = Duration.standardMinutes(1)
 
         viewModel.uiState.observeForTesting {
@@ -76,8 +76,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
         viewModel.address = "Address"
         viewModel.description = "A".repeat(101)
-        viewModel.begin = LocalDateTime()
-        viewModel.end = LocalDateTime().plusHours(1)
+        viewModel.begin = DateTime()
+        viewModel.end = DateTime().plusHours(1)
         viewModel.checkInLength = Duration.standardMinutes(1)
 
         viewModel.uiState.observeForTesting {
@@ -92,8 +92,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
         viewModel.address = "A".repeat(101)
         viewModel.description = "Description"
-        viewModel.begin = LocalDateTime()
-        viewModel.end = LocalDateTime().plusHours(1)
+        viewModel.begin = DateTime()
+        viewModel.end = DateTime().plusHours(1)
         viewModel.checkInLength = Duration.standardMinutes(1)
 
         viewModel.uiState.observeForTesting {
@@ -136,8 +136,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
         viewModel.address = "Address"
         viewModel.description = "Description"
-        viewModel.begin = LocalDateTime()
-        viewModel.end = LocalDateTime().plusHours(1)
+        viewModel.begin = DateTime()
+        viewModel.end = DateTime().plusHours(1)
         viewModel.checkInLength = Duration.ZERO
 
         viewModel.uiState.observeForTesting {
@@ -151,8 +151,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
         viewModel.address = "Address"
         viewModel.description = "Description"
-        viewModel.begin = LocalDateTime().plusHours(1)
-        viewModel.end = LocalDateTime()
+        viewModel.begin = DateTime().plusHours(1)
+        viewModel.end = DateTime()
         viewModel.checkInLength = Duration.ZERO
 
         viewModel.uiState.observeForTesting {

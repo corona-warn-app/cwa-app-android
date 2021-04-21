@@ -4,7 +4,6 @@ import androidx.lifecycle.asLiveData
 import com.google.android.gms.common.api.ApiException
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeSubmission
@@ -19,6 +18,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryProvider: TEKHistoryProvider,
+    // private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val qrCodeSubmission: QrCodeSubmission
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -35,6 +35,8 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     var qrCode: String? = null
 
     fun onConsentButtonClick() {
+        // TODO Do we have a Test registered at this time? We need to forward the decission with navargs?
+        // analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         // TODO Do we have a Test registered at this time? We need to forward the decision with navargs?
 //        submissionRepository.giveConsentToSubmission(type = CoronaTest.Type.PCR)
         analyticsKeySubmissionCollector.reportAdvancedConsentGiven()

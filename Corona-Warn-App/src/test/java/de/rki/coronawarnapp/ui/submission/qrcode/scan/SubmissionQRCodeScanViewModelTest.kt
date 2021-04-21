@@ -16,11 +16,13 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Assert
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.preferences.mockFlowPreference
 
@@ -32,14 +34,22 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
     @MockK lateinit var qrCodeSubmission: QrCodeSubmission
 
+    private val coronaTestFlow = MutableStateFlow<CoronaTest?>(
+        null
+    )
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+
+        every { submissionRepository.testForType(any()) } returns coronaTestFlow
     }
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
+        TestDispatcherProvider(),
         cameraSettings,
-        qrCodeSubmission
+        qrCodeSubmission,
+        isConsentGiven = true
     )
 
     @Test
@@ -65,16 +75,17 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         QRCodeCensor.lastGUID = null
 
         viewModel.onQrCodeAvailable(validQrCode)
-        viewModel.qrCodeValidationState.let { Assert.assertEquals(ValidationState.SUCCESS, it.value) }
+        viewModel.qrCodeValidationState.observeForever {}
+        viewModel.qrCodeValidationState.value shouldBe ValidationState.SUCCESS
         QRCodeCensor.lastGUID = guid
 
         // invalid guid
         viewModel.onQrCodeAvailable(invalidQrCode)
-        viewModel.qrCodeValidationState.let { Assert.assertEquals(ValidationState.INVALID, it.value) }
+        viewModel.qrCodeValidationState.value shouldBe ValidationState.INVALID
     }
 
     @Test
-    fun `doDeviceRegistration calls TestResultDataCollector`() {
+    fun `doDeviceRegistration calls TestResultDataCollector`() = runBlockingTest {
         val viewModel = createViewModel()
         val mockResult = mockk<CoronaTestQRCode>().apply {
             every { registrationIdentifier } returns "guid"
