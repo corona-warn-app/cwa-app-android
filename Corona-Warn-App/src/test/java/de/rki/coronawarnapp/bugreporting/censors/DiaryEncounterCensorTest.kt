@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
+import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryEncounterCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository

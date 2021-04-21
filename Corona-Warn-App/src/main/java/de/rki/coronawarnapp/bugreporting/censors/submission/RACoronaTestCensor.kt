@@ -1,5 +1,6 @@
-package de.rki.coronawarnapp.bugreporting.censors
+package de.rki.coronawarnapp.bugreporting.censors.submission
 
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine

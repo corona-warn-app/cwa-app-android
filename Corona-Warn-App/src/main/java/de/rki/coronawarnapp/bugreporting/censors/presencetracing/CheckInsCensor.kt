@@ -1,12 +1,13 @@
-package de.rki.coronawarnapp.bugreporting.censors
+package de.rki.coronawarnapp.bugreporting.censors.presencetracing
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidAddress
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidDescription
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
-import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
@@ -15,13 +16,13 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @Reusable
-class TraceLocationCensor @Inject constructor(
+class CheckInsCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
-    private val traceLocationRepository: TraceLocationRepository
+    private val checkInRepository: CheckInRepository
 ) : BugCensor {
 
-    private val traceLocationsFlow by lazy {
-        traceLocationRepository.allTraceLocations.stateIn(
+    private val checkInsFlow by lazy {
+        checkInRepository.allCheckIns.stateIn(
             scope = debugScope,
             started = SharingStarted.Lazily,
             initialValue = null
@@ -30,21 +31,20 @@ class TraceLocationCensor @Inject constructor(
 
     override suspend fun checkLog(entry: LogLine): LogLine? {
 
-        val traceLocations = traceLocationsFlow.first()
+        val checkIns = checkInsFlow.first()
 
-        if (traceLocations.isEmpty()) return null
+        if (checkIns.isEmpty()) return null
 
-        val newLogMsg = traceLocations.fold(entry.message) { initial, traceLocation ->
+        val newLogMsg = checkIns.fold(entry.message) { initial, checkIn ->
+
             var acc = initial
 
-            acc = acc.replace(traceLocation.type.name, "TraceLocation#${traceLocation.id}/Type")
-
-            withValidDescription(traceLocation.description) { description ->
-                acc = acc.replace(description, "TraceLocation#${traceLocation.id}/Description")
+            withValidDescription(checkIn.description) { description ->
+                acc = acc.replace(description, "CheckIn#${checkIn.id}/Description")
             }
 
-            withValidAddress(traceLocation.address) { address ->
-                acc = acc.replace(address, "TraceLocation#${traceLocation.id}/Address")
+            withValidAddress(checkIn.address) { address ->
+                acc = acc.replace(address, "CheckIn#${checkIn.id}/Address")
             }
 
             acc

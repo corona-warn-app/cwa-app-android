@@ -1,6 +1,7 @@
-package de.rki.coronawarnapp.bugreporting.censors
+package de.rki.coronawarnapp.bugreporting.censors.submission
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenHash

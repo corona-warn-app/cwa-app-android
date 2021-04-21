@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
+import de.rki.coronawarnapp.bugreporting.censors.submission.RegistrationTokenCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest

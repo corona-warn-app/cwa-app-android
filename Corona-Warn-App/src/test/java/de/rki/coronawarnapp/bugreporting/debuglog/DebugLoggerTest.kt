@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog
 
 import android.app.Application
 import dagger.Lazy
-import de.rki.coronawarnapp.bugreporting.censors.RegistrationTokenCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.RegistrationTokenCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogTree
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.ApplicationComponent

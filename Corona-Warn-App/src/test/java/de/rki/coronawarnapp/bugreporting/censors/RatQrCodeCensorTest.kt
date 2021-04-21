@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
+import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe

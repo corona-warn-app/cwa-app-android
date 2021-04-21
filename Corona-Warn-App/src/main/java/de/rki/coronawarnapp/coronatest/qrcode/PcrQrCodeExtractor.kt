@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
-import de.rki.coronawarnapp.bugreporting.censors.PcrQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import java.util.regex.Pattern
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
-import de.rki.coronawarnapp.bugreporting.censors.PcrQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException

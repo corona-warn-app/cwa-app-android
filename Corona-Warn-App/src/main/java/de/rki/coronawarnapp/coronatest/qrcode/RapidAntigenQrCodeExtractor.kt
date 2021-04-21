@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.coronatest.qrcode
 import com.google.common.io.BaseEncoding
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.bugreporting.censors.RatQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
 import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.internal.commonToUtf8String
 import org.joda.time.Instant
