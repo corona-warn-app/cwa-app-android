@@ -1376,23 +1376,6 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
 
-
-    <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Weiter"</string>
-    <!-- XBUT: submission deletion warning button cancel -->
-    <string name="submission_deletion_warning_cancel_button">"Abbrechen"</string>
-    <!-- XHED: submission deletion warning title -->
-    <string name="submission_deletion_warning_title">"Hinweis"</string>
-    <!-- YTXT: Headline for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_antigen_test">"Sie haben bereits einen Schnelltest registriert."</string>
-    <!-- YTXT: Body for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_body_antigen_test">"Sie haben bereits einen Schnelltest registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren Schnelltest registrieren, wird der erste Schnelltest aus der App gelöscht."</string>
-    <!-- YTXT: Headline for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_pcr_test">"Sie haben bereits einen PCR-Test registriert."</string>
-    <!-- YTXT: Body for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_body_pcr_test">"Sie haben bereits einen PCR-Test registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren PCR-Test registrieren, wird der erste PCR-Test aus der App gelöscht."</string>
-
-
     <!-- Reenable risk card -->
     <!-- XHED: Card title for re-enable risk card -->
     <string name="reenable_risk_card_title">"Risiko-Überprüfung beendet"</string>
@@ -1412,11 +1395,11 @@
     <string name="dialog_reactivate_risk_calculation_button_negative">"Abbrechen"</string>
 
     <!-- Test Result Card -->
-    <string name="test_result_card_headline">"Ihr Befund:"</string>
+    <string name="test_result_card_headline">"Ihr %s-Befund:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->
-    <string name="test_result_card_registered_at_text">"Registriert am %s"</string>
+    <string name="test_result_card_registered_at_text">"Test hinzugefügt am %s"</string>
     <!-- YTXT: negative status text -->
     <string name="test_result_card_status_negative">"Negativ"</string>
     <!-- YTXT: positive status text -->

@@ -27,6 +27,7 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
     @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var testType: CoronaTest.Type
 
     private val testFlow = MutableStateFlow<CoronaTest?>(null)
 
@@ -43,7 +44,8 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
     fun createInstance(scope: CoroutineScope = TestCoroutineScope()) = SubmissionTestResultPendingViewModel(
         dispatcherProvider = scope.asDispatcherProvider(),
         shareTestResultNotificationService = shareTestResultNotificationService,
-        submissionRepository = submissionRepository
+        submissionRepository = submissionRepository,
+        testType = testType
     )
 
     @Test

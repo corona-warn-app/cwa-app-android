@@ -143,7 +143,8 @@ object HomeData {
         val TEST_NEGATIVE_ITEM = PcrTestNegativeCard.Item(
             state = TestNegative(
                 testRegisteredAt = Instant.now()
-            )
+            ),
+            onClickAction = {}
         )
 
         val TEST_INVALID_ITEM = PcrTestInvalidCard.Item(
