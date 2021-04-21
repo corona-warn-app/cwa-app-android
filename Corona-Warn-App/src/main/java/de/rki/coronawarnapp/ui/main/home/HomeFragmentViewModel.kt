@@ -181,29 +181,33 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is SubmissionStatePCR.FetchingResult -> TestFetchingCard.Item(state)
         is SubmissionStatePCR.TestResultReady -> PcrTestReadyCard.Item(state) {
             routeToScreen.postValue(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment()
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.TestPositive -> PcrTestPositiveCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(CoronaTest.Type.PCR)
             )
         }
-        is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state)
+        is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state) {
+            routeToScreen.postValue(
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment()
+            )
+        }
         is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
             popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
         }
         is SubmissionStatePCR.TestError -> PcrTestErrorCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionTestResultPendingFragment()
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.TestPending -> PcrTestPendingCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionTestResultPendingFragment()
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state)
@@ -211,41 +215,43 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private fun RACoronaTest?.toTestCardItem() = when (val state = this.toSubmissionState()) {
         is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
+            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
         }
         is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
         is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(
-//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment()
-//            )
+            routeToScreen.postValue(
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.RAPID_ANTIGEN)
+            )
         }
         is SubmissionStateRAT.TestPositive -> RapidTestPositiveCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(
-//                HomeFragmentDirections
-//                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
-//            )
+            routeToScreen.postValue(
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
+                        CoronaTest.Type.RAPID_ANTIGEN
+                    )
+            )
         }
-        is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state)
+        is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state) {
+            routeToScreen.postValue(
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionNegativeAntigenTestResultFragment()
+            )
+        }
         is SubmissionStateRAT.TestInvalid -> RapidTestInvalidCard.Item(state) {
-            // TODO
-//            popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
+            popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
         }
         is SubmissionStateRAT.TestError -> RapidTestErrorCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(
-//                HomeFragmentDirections
-//                    .actionMainFragmentToSubmissionTestResultPendingFragment()
-//            )
+            routeToScreen.postValue(
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
+            )
         }
         is SubmissionStateRAT.TestPending -> RapidTestPendingCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(
-//                HomeFragmentDirections
-//                    .actionMainFragmentToSubmissionTestResultPendingFragment()
-//            )
+            routeToScreen.postValue(
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
+            )
         }
         is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state)
     }
@@ -270,10 +276,29 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 else -> add(tracingItem)
             }
 
-            add(testPCR.toTestCardItem())
-
-            if (stateRAT != SubmissionStateRAT.NoTest || statePCR != SubmissionStatePCR.NoTest) {
-                add(testRAT.toTestCardItem())
+            // TODO: Would be nice to have a more elegant solution of displaying the result cards in the right order
+            when (statePCR) {
+                SubmissionStatePCR.NoTest -> {
+                    if (stateRAT == SubmissionStateRAT.NoTest) {
+                        add(testPCR.toTestCardItem())
+                    } else {
+                        add(testRAT.toTestCardItem())
+                        add(testPCR.toTestCardItem())
+                    }
+                }
+                else -> {
+                    add(testPCR.toTestCardItem())
+                    if (stateRAT != SubmissionStateRAT.NoTest) {
+                        add(testRAT.toTestCardItem())
+                        add(
+                            TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
+                                routeToScreen.postValue(
+                                    HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
+                                )
+                            }
+                        )
+                    } else add(testRAT.toTestCardItem())
+                }
             }
 
             bothTestStates.firstOrNull { it is CommonSubmissionStates.SubmissionDone }?.let {
