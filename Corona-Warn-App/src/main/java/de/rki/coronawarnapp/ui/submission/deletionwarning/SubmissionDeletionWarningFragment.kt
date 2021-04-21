@@ -37,7 +37,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionDeletionWarningViewModel.Factory
-            factory.create(args.coronaTestQrCode, args.isConsentGiven)
+            factory.create(args.coronaTestQrCode, args.coronaTestTan, args.isConsentGiven)
         }
     )
     private val binding: FragmentSubmissionDeletionWarningBinding by viewBindingLazy()
@@ -47,7 +47,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
         binding.apply {
 
-            when (args.coronaTestQrCode.type) {
+            when (viewModel.getTestType()) {
                 CoronaTest.Type.PCR -> {
                     headline.text = getString(R.string.submission_deletion_warning_headline_pcr_test)
                     body.text = getString(R.string.submission_deletion_warning_body_pcr_test)
@@ -60,6 +60,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             }
 
             continueButton.setOnClickListener {
+
                 viewModel.deleteExistingAndRegisterNewTest()
             }
 
@@ -85,14 +86,24 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             binding.submissionQrCodeScanSpinner.isVisible = state.apiRequestState == ApiRequestState.STARTED
 
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
-                if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
-                    viewModel.triggerNavigationToSubmissionTestResultAvailableFragment()
-                } else {
-                    viewModel.triggerNavigationToSubmissionTestResultPendingFragment()
+
+                when (viewModel.getRegistrationType()) {
+                    SubmissionDeletionWarningViewModel.RegistrationType.QR -> {
+                        if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
+                            viewModel.triggerNavigationToSubmissionTestResultAvailableFragment()
+                        } else {
+                            viewModel.triggerNavigationToSubmissionTestResultPendingFragment()
+                        }
+                    }
+                    SubmissionDeletionWarningViewModel.RegistrationType.TAN -> {
+                        doNavigate(
+                            SubmissionDeletionWarningFragmentDirections
+                                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment()
+                        )
+                    }
                 }
             }
         }
-
         viewModel.registrationError.observe2(this) {
             DialogHelper.showDialog(buildErrorDialog(it))
         }
@@ -109,7 +120,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     doNavigate(
                         SubmissionDeletionWarningFragmentDirections
                             .actionSubmissionDeletionWarningFragmentToSubmissionTestResultAvailableFragment(
-                                args.coronaTestQrCode.type
+                                testType = it.coronaTestType
                             )
                     )
                 }
@@ -117,7 +128,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     doNavigate(
                         SubmissionDeletionWarningFragmentDirections
                             .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
-                                testType = args.coronaTestQrCode.type
+                                testType = it.coronaTestType
                             )
                     )
                 }

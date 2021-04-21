@@ -343,6 +343,9 @@
                 app:argType="boolean" />
         </action>
         <action
+            android:id="@+id/action_submissionTanFragment_to_submissionDeletionWarningFragment"
+            app:destination="@id/submissionDeletionWarningFragment" />
+        <action
             android:id="@+id/action_submissionTanFragment_to_submissionTestResultNoConsentFragment"
             app:destination="@id/submissionTestResultNoConsentFragment"
             app:popUpTo="@id/mainFragment"
@@ -662,11 +665,23 @@
             app:argType="boolean" />
         <argument
             android:name="coronaTestQrCode"
+            app:nullable="true"
+            android:defaultValue="@null"
             app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
+        <argument
+            android:name="coronaTestTan"
+            app:nullable="true"
+            android:defaultValue="@null"
+            app:argType="de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN" />
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionDispatcherFragment"
             app:popUpTo="@id/submissionQRCodeScanFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionDeletionFragment_to_submissionTestResultNoConsentFragment"
+            app:destination="@id/submissionTestResultNoConsentFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionTestResultPendingFragment"
             app:destination="@id/submissionTestResultPendingFragment"

@@ -49,9 +49,9 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
             if (coronaTest != null) {
                 routeToScreen.postValue(
-                    SubmissionNavigationEvents.NavigateToDeletionWarningFragment(
-                        coronaTestQRCode,
-                        isConsentGiven
+                    SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
+                        coronaTestQRCode = coronaTestQRCode,
+                        consentGiven = isConsentGiven
                     )
                 )
             } else {
