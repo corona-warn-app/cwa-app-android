@@ -49,9 +49,7 @@ class CoronaTestStorageTest : BaseTest() {
         isJournalEntryCreated = false,
         isResultAvailableNotificationSent = false,
         testResult = CoronaTestResult.PCR_POSITIVE,
-        testResultReceivedAt = Instant.ofEpochMilli(2000),
-        isProcessing = true,
-        lastError = IOException()
+        testResultReceivedAt = Instant.ofEpochMilli(2000)
     )
     private val raTest = RACoronaTest(
         identifier = "identifier-ra",
@@ -64,8 +62,6 @@ class CoronaTestStorageTest : BaseTest() {
         isResultAvailableNotificationSent = false,
         testResult = CoronaTestResult.RAT_POSITIVE,
         testResultReceivedAt = Instant.ofEpochMilli(2000),
-        isProcessing = true,
-        lastError = IOException(),
         firstName = "firstname",
         lastName = "lastname",
         dateOfBirth = LocalDate.parse("2021-12-24"),
@@ -92,7 +88,12 @@ class CoronaTestStorageTest : BaseTest() {
     @Test
     fun `store only PCRT`() {
         val instance = createInstance()
-        instance.coronaTests = setOf(pcrTest)
+        instance.coronaTests = setOf(
+            pcrTest.copy(
+                isProcessing = true,
+                lastError = IOException()
+            )
+        )
 
         val json = (mockPreferences.dataMapPeek["coronatest.data.pcr"] as String)
 
@@ -122,7 +123,12 @@ class CoronaTestStorageTest : BaseTest() {
     @Test
     fun `store only RAT`() {
         val instance = createInstance()
-        instance.coronaTests = setOf(raTest)
+        instance.coronaTests = setOf(
+            raTest.copy(
+                isProcessing = true,
+                lastError = IOException()
+            )
+        )
 
         val json = (mockPreferences.dataMapPeek["coronatest.data.ra"] as String)
 
@@ -155,16 +161,33 @@ class CoronaTestStorageTest : BaseTest() {
 
     @Test
     fun `store one of each`() {
-        TODO()
+        val instance = createInstance()
+        instance.coronaTests = setOf(raTest, pcrTest)
+
+        mockPreferences.contains("coronatest.data.ra") shouldBe true
+        mockPreferences.contains("coronatest.data.pcr") shouldBe true
+
+        instance.coronaTests shouldBe setOf(raTest, pcrTest)
     }
 
     @Test
-    fun `store PCRT and delete RAT`() {
-        TODO()
-    }
+    fun `storing one and deleting the other`() {
+        val instance = createInstance()
 
-    @Test
-    fun `store RAT and delete PCRT`() {
-        TODO()
+        instance.coronaTests = setOf(raTest)
+        mockPreferences.contains("coronatest.data.ra") shouldBe true
+        mockPreferences.contains("coronatest.data.pcr") shouldBe false
+
+        instance.coronaTests = setOf(pcrTest)
+
+        mockPreferences.contains("coronatest.data.ra") shouldBe false
+        mockPreferences.contains("coronatest.data.pcr") shouldBe true
+        instance.coronaTests shouldBe setOf(pcrTest)
+
+        instance.coronaTests = setOf(raTest)
+
+        mockPreferences.contains("coronatest.data.ra") shouldBe true
+        mockPreferences.contains("coronatest.data.pcr") shouldBe false
+        instance.coronaTests shouldBe setOf(raTest)
     }
 }
