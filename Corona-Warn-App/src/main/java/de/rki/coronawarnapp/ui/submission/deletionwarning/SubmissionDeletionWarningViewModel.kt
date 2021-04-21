@@ -144,11 +144,11 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     }
 
     fun triggerNavigationToSubmissionTestResultAvailableFragment() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultAvailableScreen)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultAvailableScreen(coronaTestQrCode!!.type))
     }
 
     fun triggerNavigationToSubmissionTestResultPendingFragment() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPendingScreen)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPendingScreen(coronaTestQrCode!!.type))
     }
 
     private fun checkTestResult(testResult: CoronaTestResult) {

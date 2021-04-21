@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.viewmodel
 import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 
 sealed class SubmissionNavigationEvents {
     object NavigateToContact : SubmissionNavigationEvents()
@@ -14,8 +15,8 @@ sealed class SubmissionNavigationEvents {
     object NavigateToTAN : SubmissionNavigationEvents()
     object NavigateToConsent : SubmissionNavigationEvents()
     object NavigateToMainActivity : SubmissionNavigationEvents()
-    object NavigateToResultPendingScreen : SubmissionNavigationEvents()
-    object NavigateToResultAvailableScreen : SubmissionNavigationEvents()
+    data class NavigateToResultPendingScreen(var coronaTestType: CoronaTest.Type) : SubmissionNavigationEvents()
+    data class NavigateToResultAvailableScreen(var coronaTestType: CoronaTest.Type) : SubmissionNavigationEvents()
     data class NavigateToDeletionWarningFragmentFromQrCode(
         val coronaTestQRCode: CoronaTestQRCode,
         val consentGiven: Boolean

@@ -120,7 +120,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     doNavigate(
                         SubmissionDeletionWarningFragmentDirections
                             .actionSubmissionDeletionWarningFragmentToSubmissionTestResultAvailableFragment(
-                                args.coronaTestQrCode!!.type
+                                testType = it.coronaTestType
                             )
                     )
                 }
@@ -128,7 +128,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     doNavigate(
                         SubmissionDeletionWarningFragmentDirections
                             .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
-                                testType = args.coronaTestQrCode!!.type
+                                testType = it.coronaTestType
                             )
                     )
                 }
