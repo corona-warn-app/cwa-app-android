@@ -50,14 +50,18 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
         rapidTestCardPatientBirthdate.text = getString(
             R.string.submission_test_result_antigen_patient_birth_date_placeholder,
-            testAge.test.dateOfBirth?.toString("dd.MM.yy")
+            testAge.test.dateOfBirth?.toString(DATE_FORMAT)
         )
 
         val localTime = testAge.test.testedAt.toUserTimeZone()
         resultReceivedTimeAndDate.text = getString(
             R.string.coronatest_negative_antigen_result_time_date_placeholder,
-            localTime?.toString("dd.MM.yy"),
+            localTime?.toString(DATE_FORMAT),
             localTime?.toString(shortTime)
         )
+    }
+
+    companion object {
+        private const val DATE_FORMAT = "dd.MM.yy"
     }
 }
