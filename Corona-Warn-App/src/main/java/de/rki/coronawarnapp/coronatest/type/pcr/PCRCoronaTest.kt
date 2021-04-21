@@ -44,7 +44,9 @@ data class PCRCoronaTest(
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
 
-    override val isSubmissionAllowed: Boolean = testResult == CoronaTestResult.PCR_POSITIVE
+    override val isPositive: Boolean = testResult == CoronaTestResult.PCR_POSITIVE
+
+    override val isSubmissionAllowed: Boolean = isPositive && !isSubmitted
 
     val state: State = when (testResult) {
         CoronaTestResult.PCR_OR_RAT_PENDING -> State.PENDING

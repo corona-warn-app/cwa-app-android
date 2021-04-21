@@ -7,7 +7,7 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
@@ -33,7 +33,7 @@ import tools.fastlane.screengrab.locale.LocaleTestRule
 class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
+    @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     @Rule

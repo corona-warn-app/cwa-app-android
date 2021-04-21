@@ -67,15 +67,13 @@ fun formatSymptomBackgroundButtonStyleByState(
 
 fun formatTestResultStatusText(context: Context, uiState: DeviceUIState): String = when (uiState) {
     DeviceUIState.PAIRED_NEGATIVE -> R.string.test_result_card_status_negative
-    DeviceUIState.PAIRED_POSITIVE,
-    DeviceUIState.PAIRED_POSITIVE_TELETAN -> R.string.test_result_card_status_positive
+    DeviceUIState.PAIRED_POSITIVE -> R.string.test_result_card_status_positive
     else -> R.string.test_result_card_status_invalid
 }.let { context.getString(it) }
 
 fun formatTestResultStatusColor(context: Context, uiState: DeviceUIState): Int = when (uiState) {
     DeviceUIState.PAIRED_NEGATIVE -> R.color.colorTextSemanticGreen
-    DeviceUIState.PAIRED_POSITIVE,
-    DeviceUIState.PAIRED_POSITIVE_TELETAN -> R.color.colorTextSemanticRed
+    DeviceUIState.PAIRED_POSITIVE -> R.color.colorTextSemanticRed
     else -> R.color.colorTextSemanticRed
 }.let { context.getColorCompat(it) }
 
@@ -105,7 +103,6 @@ fun formatTestResultCardContent(
             SpannableString(context.getString(R.string.test_result_card_status_invalid))
 
         DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN,
         DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(context, uiState))
         else -> SpannableString("")
     }
@@ -113,7 +110,6 @@ fun formatTestResultCardContent(
 
 fun formatTestStatusIcon(context: Context, uiState: DeviceUIState): Drawable? = when (uiState) {
     DeviceUIState.PAIRED_NO_RESULT -> R.drawable.ic_test_result_illustration_pending
-    DeviceUIState.PAIRED_POSITIVE_TELETAN,
     DeviceUIState.PAIRED_POSITIVE -> R.drawable.ic_test_result_illustration_positive
     DeviceUIState.PAIRED_NEGATIVE -> R.drawable.ic_test_result_illustration_negative
     DeviceUIState.PAIRED_ERROR,

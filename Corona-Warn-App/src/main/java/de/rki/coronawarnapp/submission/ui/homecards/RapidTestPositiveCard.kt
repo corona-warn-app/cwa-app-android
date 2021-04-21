@@ -28,6 +28,10 @@ class RapidTestPositiveCard(
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+
+        val userDate = curItem.state.getFormattedRegistrationDate()
+        date.text = resources.getString(R.string.ag_homescreen_card_rapid_body_result_date, userDate)
+
         itemView.setOnClickListener { curItem.onClickAction(item) }
         submissionStatusCardPositiveButton.setOnClickListener { itemView.performClick() }
     }
