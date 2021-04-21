@@ -12,6 +12,7 @@ import org.joda.time.Duration
 import org.joda.time.DurationFieldType
 import org.joda.time.Instant
 import org.joda.time.PeriodType
+import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.PeriodFormat
 import org.joda.time.format.PeriodFormatterBuilder
 
@@ -62,11 +63,12 @@ class ActiveCheckInVH(parent: ViewGroup) :
                 it.toPeriod(periodType)
             }
 
-            val startDate = checkInStartUserTZ.toLocalDate()
+            val startDate = checkInStartUserTZ.toString(DateTimeFormat.shortDate())
+            val startTime = checkInStartUserTZ.toString(DateTimeFormat.shortTime())
             context.getString(
                 R.string.trace_location_checkins_card_automatic_checkout_info_format,
-                startDate.toString("dd.MM.yy"),
-                checkInStartUserTZ.toLocalTime().toString("HH:mm"),
+                startDate,
+                startTime,
                 hourPeriodFormatter.print(checkoutIn)
             )
         }
