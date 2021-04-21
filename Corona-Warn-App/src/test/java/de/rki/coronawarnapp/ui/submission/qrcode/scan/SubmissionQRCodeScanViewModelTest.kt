@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
-import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.PcrQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
@@ -61,11 +61,11 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
         viewModel.scanStatusValue.value shouldBe ScanStatus.STARTED
 
-        QRCodeCensor.lastGUID = null
+        PcrQrCodeCensor.lastGUID = null
 
         viewModel.validateTestGUID(validQrCode)
         viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.SUCCESS, it.value) }
-        QRCodeCensor.lastGUID = guid
+        PcrQrCodeCensor.lastGUID = guid
 
         // invalid guid
         viewModel.validateTestGUID(invalidQrCode)

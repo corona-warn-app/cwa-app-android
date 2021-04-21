@@ -9,10 +9,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * The Registration Token is received after registration of PCR and RAT tests. It is required to poll the test result.
+ */
 @Reusable
 class RegistrationTokenCensor @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
 ) : BugCensor {
+
     override suspend fun checkLog(entry: LogLine): LogLine? {
         val tokens = coronaTestRepository.coronaTests.map { tests ->
             tests.map { it.registrationToken }
