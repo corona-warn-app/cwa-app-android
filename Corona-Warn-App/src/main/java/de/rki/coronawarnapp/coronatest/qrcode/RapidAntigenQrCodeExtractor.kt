@@ -25,7 +25,13 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor {
 
     override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
         val data = extractData(rawString)
-        RatQrCodeCensor.setDataToCensor(rawString, data.hash!!)
+        RatQrCodeCensor.dataToCensor = RatQrCodeCensor.CensorData(
+            rawString = rawString,
+            hash = data.hash!!,
+            firstName = data.firstName,
+            lastName = data.lastName,
+            dateOfBirth = data.dateOfBirth
+        )
         data.validate()
         return CoronaTestQRCode.RapidAntigen(
             hash = data.hash,
