@@ -57,7 +57,12 @@ class SubmissionTanViewModel @AssistedInject constructor(
             val pcrTestAlreadyStored = submissionRepository.testForType(CoronaTest.Type.PCR).first()
             if (pcrTestAlreadyStored != null) {
                 val coronaTestTAN = CoronaTestTAN.PCR(tan = teletan.value)
-                routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromTan(consentGiven = false, coronaTestTan = coronaTestTAN))
+                routeToScreen.postValue(
+                    SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromTan(
+                        consentGiven = false,
+                        coronaTestTan = coronaTestTAN
+                    )
+                )
             } else {
                 onTanSubmit(teletan)
             }

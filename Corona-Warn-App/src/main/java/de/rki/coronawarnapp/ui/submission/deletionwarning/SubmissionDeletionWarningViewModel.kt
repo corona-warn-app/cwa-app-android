@@ -185,6 +185,10 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionDeletionWarningViewModel> {
-        fun create(coronaTestQrCode: CoronaTestQRCode?, coronaTestTan: CoronaTestTAN?, isConsentGiven: Boolean): SubmissionDeletionWarningViewModel
+        fun create(
+            coronaTestQrCode: CoronaTestQRCode?,
+            coronaTestTan: CoronaTestTAN?,
+            isConsentGiven: Boolean
+        ): SubmissionDeletionWarningViewModel
     }
 }
