@@ -42,4 +42,15 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
         data.lastName shouldBe "Hayes"
         data.firstName shouldBe "Alma"
     }
+
+    @Test
+    fun `empty strings are treated as null or notset`() {
+        val data = instance.extract(raQrCodeEmptyStrings)
+        data.type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+        data.hash shouldBe "d6e4d0181d8109bf05b346a0d2e0ef0cc472eed70d9df8c4b9ae5c7a009f3e34"
+        data.createdAt shouldBe Instant.ofEpochMilli(1619012952000)
+        data.dateOfBirth shouldBe null
+        data.lastName shouldBe null
+        data.firstName shouldBe null
+    }
 }
