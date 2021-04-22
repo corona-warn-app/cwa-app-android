@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
@@ -34,6 +35,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @MockK lateinit var cameraSettings: CameraSettings
     @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
     @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     private val coronaTestFlow = MutableStateFlow<CoronaTest?>(
         null
@@ -57,7 +59,8 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         qrCodeRegistrationStateProcessor,
         isConsentGiven = true,
         submissionRepository,
-        qrCodeValidator
+        qrCodeValidator,
+        analyticsKeySubmissionCollector
     )
 
     @Test
