@@ -77,12 +77,8 @@ class TestResultScheduler @Inject constructor(
                 Timber.tag(TAG).d("cancelWorker()")
                 workManager.cancelUniqueWork(RAT_RESULT_WORKER_UNIQUEUNAME)
             } else {
-                // TODO Refactor runBlocking away
-                val isScheduled = runBlocking { isRatScheduled() }
-                if (isScheduled) {
-                    Timber.tag(TAG).w("Already scheduled, skipping")
-                    return
-                }
+                // no check for already running workers!
+                // worker must be replaced by next phase instance
                 Timber.tag(TAG).i("Queueing rat result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
                 workManager.enqueueUniquePeriodicWork(
                     RAT_RESULT_WORKER_UNIQUEUNAME,
