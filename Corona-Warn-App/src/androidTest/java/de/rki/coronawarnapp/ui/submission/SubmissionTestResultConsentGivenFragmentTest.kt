@@ -48,6 +48,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var testType: CoronaTest.Type
 
     @Rule
     @JvmField
@@ -74,12 +75,13 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
                     autoSubmission,
                     testResultAvailableNotificationService,
                     analyticsKeySubmissionCollector,
+                    testType,
                     TestDispatcherProvider()
                 )
             )
         setupMockViewModel(
             object : SubmissionTestResultConsentGivenViewModel.Factory {
-                override fun create(): SubmissionTestResultConsentGivenViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionTestResultConsentGivenViewModel = viewModel
             }
         )
     }

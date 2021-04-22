@@ -35,6 +35,7 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var testType: CoronaTest.Type
 
     @Rule
     @JvmField
@@ -53,12 +54,13 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
                 SubmissionTestResultNoConsentViewModel(
                     submissionRepository,
                     testResultAvailableNotificationService,
-                    analyticsKeySubmissionCollector
+                    analyticsKeySubmissionCollector,
+                    testType
                 )
             )
         setupMockViewModel(
             object : SubmissionTestResultNoConsentViewModel.Factory {
-                override fun create(): SubmissionTestResultNoConsentViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionTestResultNoConsentViewModel = viewModel
             }
         )
     }

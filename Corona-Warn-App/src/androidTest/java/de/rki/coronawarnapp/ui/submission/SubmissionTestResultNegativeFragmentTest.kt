@@ -36,6 +36,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
     lateinit var viewModel: SubmissionTestResultNegativeViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
+    @MockK lateinit var testType: CoronaTest.Type
 
     @Rule
     @JvmField
@@ -54,13 +55,14 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
             SubmissionTestResultNegativeViewModel(
                 TestDispatcherProvider(),
                 submissionRepository,
-                testResultAvailableNotificationService
+                testResultAvailableNotificationService,
+                testType
             )
         )
 
         setupMockViewModel(
             object : SubmissionTestResultNegativeViewModel.Factory {
-                override fun create(): SubmissionTestResultNegativeViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionTestResultNegativeViewModel = viewModel
             }
         )
     }

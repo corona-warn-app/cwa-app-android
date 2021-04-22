@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -41,6 +42,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var testType: CoronaTest.Type
 
     @Rule
     @JvmField
@@ -63,13 +65,14 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
                 submissionRepository = submissionRepository,
                 autoSubmission = autoSubmission,
                 analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-                checkInRepository = checkInRepository
+                checkInRepository = checkInRepository,
+                testType = testType
             )
         )
 
         setupMockViewModel(
             object : SubmissionTestResultAvailableViewModel.Factory {
-                override fun create(): SubmissionTestResultAvailableViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionTestResultAvailableViewModel = viewModel
             }
         )
     }
