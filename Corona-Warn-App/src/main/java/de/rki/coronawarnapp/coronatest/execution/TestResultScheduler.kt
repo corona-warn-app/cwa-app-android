@@ -32,11 +32,6 @@ class TestResultScheduler @Inject constructor(
             .await()
             .any { it.isScheduled }
 
-    private suspend fun isRatScheduled() =
-        workManager.getWorkInfosForUniqueWork(RAT_RESULT_WORKER_UNIQUEUNAME)
-            .await()
-            .any { it.isScheduled }
-
     private val WorkInfo.isScheduled: Boolean
         get() = state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
 
