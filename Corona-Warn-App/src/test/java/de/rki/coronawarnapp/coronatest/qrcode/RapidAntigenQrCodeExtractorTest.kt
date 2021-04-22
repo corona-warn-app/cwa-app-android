@@ -53,4 +53,9 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
         data.lastName shouldBe null
         data.firstName shouldBe null
     }
+
+    @Test
+    fun `randon qr code does not crash`() {
+        val data = instance.extract(raQrCodeEmptyStrings)
+    }
 }

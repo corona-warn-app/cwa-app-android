@@ -19,8 +19,20 @@ class CoronaTestQrCodeValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `invalid code throws exception`() {
+    fun `invalid prefix throws exception`() {
         val invalidCode = "HTTPS://somethingelse/?123456-12345678-1234-4DA7-B166-B86D85475064"
+        val instance = CoronaTestQrCodeValidator(RapidAntigenQrCodeExtractor(), PcrQrCodeExtractor())
+        return try {
+            instance.validate(invalidCode)
+            false
+        } catch (e: InvalidQRCodeException) {
+            true
+        } shouldBe true
+    }
+
+    @Test
+    fun `invalid json throws exception`() {
+        val invalidCode = "https://s.coronawarn.app/?v=1#eyJ0aW1lc3RhbXAiOjE2"
         val instance = CoronaTestQrCodeValidator(RapidAntigenQrCodeExtractor(), PcrQrCodeExtractor())
         return try {
             instance.validate(invalidCode)

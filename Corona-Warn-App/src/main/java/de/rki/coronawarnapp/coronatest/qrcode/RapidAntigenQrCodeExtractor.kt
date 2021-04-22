@@ -46,7 +46,12 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         } else {
             BaseEncoding.base64Url().decode(this)
         }
-        return Gson().fromJson(decoded.commonToUtf8String())
+        try {
+            return Gson().fromJson(decoded.commonToUtf8String())
+        } catch (e: Exception) {
+            Timber.i(e)
+            throw InvalidQRCodeException("Malformed payload.")
+        }
     }
 
     private data class Payload(
