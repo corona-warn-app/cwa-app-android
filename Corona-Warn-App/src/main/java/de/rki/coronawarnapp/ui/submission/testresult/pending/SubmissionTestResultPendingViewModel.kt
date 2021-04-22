@@ -80,7 +80,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(testType)
                 else -> {
-                    Timber.w("Unknown success state: %s", deviceState)
+                    Timber.w("Unknown success state: $deviceState")
                     null
                 }
             }?.let { routeToScreen.postValue(it) }

@@ -58,7 +58,6 @@ constructor(
                         .format(context.getString(R.string.submission_test_result_antigen_title))
             }
 
-
             testResultSectionRegisteredAtText.text = formatTestResultRegisteredAtText(coronaTest?.registeredAt)
             val testResultIcon = formatTestStatusIcon(coronaTest)
             testResultSectionStatusIcon.setImageDrawable(testResultIcon)
