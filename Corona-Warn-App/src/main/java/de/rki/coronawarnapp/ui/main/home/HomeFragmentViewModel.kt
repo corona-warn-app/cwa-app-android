@@ -6,6 +6,7 @@ import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
@@ -211,10 +212,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state)
     }
 
-    private suspend fun coronaTestParameters() = appConfigProvider.getAppConfig().coronaTestParameters
-
-    private suspend fun RACoronaTest?.toTestCardItem() =
-        when (val state = this.toSubmissionState(timeStamper.nowUTC, coronaTestParameters())) {
+    private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig) =
+        when (val state = this.toSubmissionState(timeStamper.nowUTC, coronaTestConfig)) {
             is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
                 routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
             }
@@ -268,10 +267,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingCardItems,
         coronaTestRepository.latestPCRT,
         coronaTestRepository.latestRAT,
-        statisticsProvider.current.distinctUntilChanged()
-    ) { tracingItem, testPCR, testRAT, statsData ->
+        statisticsProvider.current.distinctUntilChanged(),
+        appConfigProvider.currentConfig.distinctUntilChanged()
+    ) { tracingItem, testPCR, testRAT, statsData, currentConfig ->
         val statePCR = testPCR.toSubmissionState()
-        val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters())
+        val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, currentConfig.coronaTestParameters)
         val bothTestStates = setOf(statePCR, stateRAT)
         mutableListOf<HomeItem>().apply {
             when {
@@ -290,14 +290,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     if (stateRAT == SubmissionStateRAT.NoTest) {
                         add(testPCR.toTestCardItem())
                     } else {
-                        add(testRAT.toTestCardItem())
+                        add(testRAT.toTestCardItem(currentConfig.coronaTestParameters))
                         add(testPCR.toTestCardItem())
                     }
                 }
                 else -> {
                     add(testPCR.toTestCardItem())
                     if (stateRAT != SubmissionStateRAT.NoTest) {
-                        add(testRAT.toTestCardItem())
+                        add(testRAT.toTestCardItem(currentConfig.coronaTestParameters))
                         add(
                             TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
                                 routeToScreen.postValue(
@@ -305,7 +305,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                                 )
                             }
                         )
-                    } else add(testRAT.toTestCardItem())
+                    } else add(testRAT.toTestCardItem(currentConfig.coronaTestParameters))
                 }
             }
 

@@ -28,7 +28,7 @@ import javax.inject.Inject
 @Reusable
 class RapidAntigenProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
-    private val submissionService: CoronaTestService
+    private val submissionService: CoronaTestService,
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
@@ -50,7 +50,7 @@ class RapidAntigenProcessor @Inject constructor(
             testedAt = request.createdAt,
             firstName = request.firstName,
             lastName = request.lastName,
-            dateOfBirth = request.dateOfBirth
+            dateOfBirth = request.dateOfBirth,
         )
     }
 
