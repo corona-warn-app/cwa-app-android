@@ -138,7 +138,7 @@ class SubmissionTask @Inject constructor(
         val keys: List<TemporaryExposureKey> = try {
             tekHistoryStorage.tekData.first().flatMap { it.keys }
         } catch (e: NoSuchElementException) {
-            Timber.tag(TAG).e(e, "No TEKs available, aborting.")
+            Timber.tag(TAG).e(e, "tekHistoryStorage access failed, aborting.")
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
             throw e
         }
