@@ -63,7 +63,7 @@ data class RACoronaTest(
         testedAt.plus(testConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
 
     fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) =
-        if (isOutdated(nowUTC, testConfig)) {
+        if (testResult == CoronaTestResult.PCR_NEGATIVE && isOutdated(nowUTC, testConfig)) {
             State.OUTDATED
         } else {
             when (testResult) {
