@@ -41,7 +41,6 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
     private val resultNegativeFragmentArgs =
         SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
 
-
     @Rule
     @JvmField
     val localeTestRule = LocaleTestRule()
