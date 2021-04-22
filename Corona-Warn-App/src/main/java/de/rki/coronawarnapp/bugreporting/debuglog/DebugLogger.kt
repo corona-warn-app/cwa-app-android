@@ -116,10 +116,6 @@ class DebugLogger(
         logJob?.cancel()
         logTree?.let { Timber.uproot(it) }
 
-        if (!debugDir.exists()) {
-            debugDir.mkdirs()
-        }
-
         logTree = DebugLogTree().also { tree ->
             Timber.plant(tree)
 
