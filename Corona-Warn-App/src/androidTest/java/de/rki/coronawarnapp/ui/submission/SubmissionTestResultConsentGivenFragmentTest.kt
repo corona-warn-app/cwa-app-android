@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragment
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -49,6 +50,8 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var testType: CoronaTest.Type
+    private val consentGivenFragmentArgs =
+        SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
 
     @Rule
     @JvmField
@@ -93,12 +96,12 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<SubmissionTestResultConsentGivenFragment>()
+        launchFragment2<SubmissionTestResultConsentGivenFragment>(consentGivenFragmentArgs)
     }
 
     @Test
     fun testEventConsentGivenContinueWithSymptomsClicked() {
-        launchFragmentInContainer2<SubmissionTestResultConsentGivenFragment>().onFragment { fragment ->
+        launchFragmentInContainer2<SubmissionTestResultConsentGivenFragment>(consentGivenFragmentArgs).onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), navController)
         }
         // Verify that performing a click prompts the correct Navigation action
@@ -117,7 +120,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
             )
         )
 
-        captureScreenshot<SubmissionTestResultConsentGivenFragment>()
+        captureScreenshot<SubmissionTestResultConsentGivenFragment>(fragmentArgs = consentGivenFragmentArgs)
     }
 }
 
