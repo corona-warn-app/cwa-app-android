@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
+import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragmentArgs
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -44,19 +45,22 @@ class SubmissionConsentFragmentTest : BaseUITest() {
 
     private lateinit var viewModel: SubmissionConsentViewModel
 
+    private val fragmentArgs = SubmissionConsentFragmentArgs(
+        qrCode = null
+    ).toBundle()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         every { interoperabilityRepository.countryList } returns flowOf()
-        viewModel =
-            SubmissionConsentViewModel(
-                interoperabilityRepository,
-                TestDispatcherProvider(),
-                tekHistoryProvider,
-                qrCodeRegistrationStateProcessor,
-                submissionRepository,
-                qrCodeValidator
-            )
+        viewModel = SubmissionConsentViewModel(
+            interoperabilityRepository,
+            TestDispatcherProvider(),
+            tekHistoryProvider,
+            qrCodeRegistrationStateProcessor,
+            submissionRepository,
+            qrCodeValidator
+        )
         setupMockViewModel(
             object : SubmissionConsentViewModel.Factory {
                 override fun create(): SubmissionConsentViewModel = viewModel
@@ -72,7 +76,9 @@ class SubmissionConsentFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_results() {
-        captureScreenshot<SubmissionConsentFragment>()
+        captureScreenshot<SubmissionConsentFragment>(
+            fragmentArgs = fragmentArgs
+        )
     }
 }
 
