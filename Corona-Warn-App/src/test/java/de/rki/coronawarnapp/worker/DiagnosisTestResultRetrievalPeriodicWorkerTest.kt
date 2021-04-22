@@ -67,7 +67,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         every { appComponent.encryptedPreferencesFactory } returns encryptedPreferencesFactory
         every { appComponent.errorResetTool } returns encryptionErrorResetTool
 
-        every { testResultScheduler.setPcrPeriodicTestPolling(enabled = any()) } just Runs
+        every { testResultScheduler.pcrPeriodicTestPollingEnabled = any() } just Runs
 
         every { notificationHelper.cancelCurrentNotification(any()) } just Runs
 
@@ -112,7 +112,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         val result = createWorker().doWork()
 
         coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        verify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPolling(enabled = false) }
+        verify(exactly = 1) { testResultScheduler.pcrPeriodicTestPollingEnabled = false }
         result shouldBe ListenableWorker.Result.success()
     }
 
@@ -123,7 +123,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         val result = createWorker().doWork()
 
         coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        verify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPolling(enabled = false) }
+        verify(exactly = 1) { testResultScheduler.pcrPeriodicTestPollingEnabled = false }
         result shouldBe ListenableWorker.Result.success()
     }
 
@@ -136,7 +136,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         val result = createWorker().doWork()
 
         coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        verify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPolling(enabled = false) }
+        verify(exactly = 1) { testResultScheduler.pcrPeriodicTestPollingEnabled = false }
         result shouldBe ListenableWorker.Result.success()
     }
 
@@ -237,7 +237,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             notificationHelper.cancelCurrentNotification(
                 NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
             )
-            testResultScheduler.setPcrPeriodicTestPolling(enabled = false)
+            testResultScheduler.pcrPeriodicTestPollingEnabled = false
         }
 
         result shouldBe ListenableWorker.Result.success()
@@ -251,7 +251,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         val result = createWorker().doWork()
 
         coVerify(exactly = 1) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        coVerify(exactly = 0) { testResultScheduler.setPcrPeriodicTestPolling(any()) }
+        coVerify(exactly = 0) { testResultScheduler.pcrPeriodicTestPollingEnabled = any() }
         result shouldBe ListenableWorker.Result.retry()
     }
 }
