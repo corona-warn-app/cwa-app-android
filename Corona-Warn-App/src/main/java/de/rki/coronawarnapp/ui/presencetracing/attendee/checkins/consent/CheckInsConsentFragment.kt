@@ -30,7 +30,8 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
         constructorCall = { factory, savedState ->
             factory as CheckInsConsentViewModel.Factory
             factory.create(
-                savedState = savedState
+                savedState = savedState,
+                testType = navArgs.testType,
             )
         }
     )

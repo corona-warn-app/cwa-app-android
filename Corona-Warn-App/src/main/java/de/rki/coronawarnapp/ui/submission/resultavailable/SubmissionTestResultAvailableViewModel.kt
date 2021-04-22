@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -117,6 +116,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
         routeToScreen.postValue(
             SubmissionTestResultAvailableFragmentDirections
                 .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(
+                    testType = testType,
                     isTestResultAvailable = true
                 )
         )
