@@ -72,11 +72,8 @@ class DebugLogger(
             else -> false
         }
 
-        runBlocking {
-            prepare()
-            if (startLogger) {
-                start()
-            }
+        if (startLogger) {
+            runBlocking { start() }
         }
 
         Unit
@@ -96,14 +93,6 @@ class DebugLogger(
         Timber.tag(TAG).d("Censors loaded: %s", bugCensors)
     }
 
-    private suspend fun prepare() = mutex.withLock {
-        Timber.tag(TAG).d("prepare()")
-
-        if (!debugDir.exists()) {
-            debugDir.mkdirs()
-        }
-    }
-
     suspend fun start(): Unit = mutex.withLock {
         Timber.tag(TAG).d("start()")
 
@@ -115,6 +104,10 @@ class DebugLogger(
 
         logJob?.cancel()
         logTree?.let { Timber.uproot(it) }
+
+        if (!debugDir.exists()) {
+            debugDir.mkdirs()
+        }
 
         logTree = DebugLogTree().also { tree ->
             Timber.plant(tree)
