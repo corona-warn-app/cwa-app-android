@@ -116,6 +116,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
                 coronaTest = mockk<CoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
                     every { registeredAt } returns Instant.now()
+                    every { type } returns CoronaTest.Type.PCR
                 }
             )
         )

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragmentArgs
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -37,6 +38,9 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var testType: CoronaTest.Type
+    private val resultNegativeFragmentArgs =
+        SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
+
 
     @Rule
     @JvmField
@@ -80,10 +84,11 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
                 coronaTest = mockk<CoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_NEGATIVE
                     every { registeredAt } returns Instant.now()
+                    every { type } returns CoronaTest.Type.PCR
                 }
             )
         )
-        captureScreenshot<SubmissionTestResultNegativeFragment>()
+        captureScreenshot<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
     }
 }
 

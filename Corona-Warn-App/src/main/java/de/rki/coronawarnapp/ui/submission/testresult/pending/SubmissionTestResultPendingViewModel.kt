@@ -61,10 +61,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     val testState: LiveData<TestResultUIState> = testResultFlow
         .onEach { testResultUIState ->
             when (val deviceState = testResultUIState.coronaTest.testResult) {
-                CoronaTestResult.PCR_POSITIVE ->
-                    SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(testType)
-                CoronaTestResult.RAT_POSITIVE ->
+                CoronaTestResult.PCR_POSITIVE, CoronaTestResult.RAT_POSITIVE ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(testType)
                 CoronaTestResult.PCR_NEGATIVE ->
@@ -73,10 +70,10 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 CoronaTestResult.RAT_NEGATIVE ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment()
-                CoronaTestResult.PCR_REDEEMED, CoronaTestResult.PCR_INVALID ->
-                    SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(testType)
-                CoronaTestResult.RAT_REDEEMED, CoronaTestResult.RAT_INVALID ->
+                CoronaTestResult.PCR_REDEEMED,
+                CoronaTestResult.PCR_INVALID,
+                CoronaTestResult.RAT_REDEEMED,
+                CoronaTestResult.RAT_INVALID ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(testType)
                 else -> {
