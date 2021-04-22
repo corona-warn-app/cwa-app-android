@@ -70,7 +70,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsKeySubmissionStorage.clear() } just Runs
         runBlockingTest {
             val collector = createInstance()
-            collector.reportTestRegistered()
+            collector.reportPcrTestRegistered()
             verify { testRegisteredAt.update(any()) }
             verify { riskLevelAtTestRegistration.update(any()) }
             verify { hoursSinceHighRiskWarningAtTestRegistration.update(any()) }
@@ -87,7 +87,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsKeySubmissionStorage.submittedAt } returns submittedAtFlow
         runBlockingTest {
             val collector = createInstance()
-            collector.reportSubmitted()
+            collector.reportSubmittedPcr()
             verify { submittedFlow.update(any()) }
             verify { submittedAtFlow.update(any()) }
         }
@@ -100,7 +100,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsKeySubmissionStorage.submittedAfterCancel } returns flow
         runBlockingTest {
             val collector = createInstance()
-            collector.reportSubmittedAfterCancel()
+            collector.reportSubmittedAfterCancelPcr()
             verify { flow.update(any()) }
         }
     }
@@ -112,7 +112,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsKeySubmissionStorage.submittedInBackground } returns flow
         runBlockingTest {
             val collector = createInstance()
-            collector.reportSubmittedInBackground()
+            collector.reportSubmittedInBackgroundPcr()
             verify { flow.update(any()) }
         }
     }
@@ -124,7 +124,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsKeySubmissionStorage.submittedAfterSymptomFlow } returns flow
         runBlockingTest {
             val collector = createInstance()
-            collector.reportSubmittedAfterSymptomFlow()
+            collector.reportSubmittedAfterSymptomFlowPcr()
             verify { flow.update(any()) }
         }
     }
@@ -137,7 +137,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
         runBlockingTest {
             val collector = createInstance()
-            collector.reportPositiveTestResultReceived()
+            collector.reportPositivePcrTestResultReceived()
             verify { flow.update(any()) }
         }
     }
@@ -149,7 +149,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsKeySubmissionStorage.advancedConsentGiven } returns flow
         runBlockingTest {
             val collector = createInstance()
-            collector.reportAdvancedConsentGiven()
+            collector.reportAdvancedConsentGivenPcr()
             verify { flow.update(any()) }
         }
     }
@@ -161,7 +161,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsKeySubmissionStorage.advancedConsentGiven } returns flow
         runBlockingTest {
             val collector = createInstance()
-            collector.reportConsentWithdrawn()
+            collector.reportConsentWithdrawnPcr()
             verify { flow.update(any()) }
         }
     }
@@ -173,7 +173,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsKeySubmissionStorage.registeredWithTeleTAN } returns flow
         runBlockingTest {
             val collector = createInstance()
-            collector.reportRegisteredWithTeleTAN()
+            collector.reportPcrTestRegisteredWithTeleTan()
             verify { flow.update(any()) }
         }
     }
@@ -185,7 +185,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsKeySubmissionStorage.lastSubmissionFlowScreen } returns flow
         runBlockingTest {
             val collector = createInstance()
-            collector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS)
+            collector.reportLastSubmissionFlowScreenPcr(Screen.WARN_OTHERS)
             verify { flow.update(any()) }
         }
     }
@@ -195,23 +195,23 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns false
         runBlockingTest {
             val collector = createInstance()
-            collector.reportTestRegistered()
+            collector.reportPcrTestRegistered()
             verify(exactly = 0) { analyticsKeySubmissionStorage.testRegisteredAt }
             verify(exactly = 0) { analyticsKeySubmissionStorage.riskLevelAtTestRegistration }
             verify(exactly = 0) { analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration }
-            collector.reportSubmitted()
+            collector.reportSubmittedPcr()
             verify(exactly = 0) { analyticsKeySubmissionStorage.submitted }
-            collector.reportSubmittedInBackground()
+            collector.reportSubmittedInBackgroundPcr()
             verify(exactly = 0) { analyticsKeySubmissionStorage.submittedInBackground }
-            collector.reportAdvancedConsentGiven()
+            collector.reportAdvancedConsentGivenPcr()
             verify(exactly = 0) { analyticsKeySubmissionStorage.advancedConsentGiven }
-            collector.reportConsentWithdrawn()
+            collector.reportConsentWithdrawnPcr()
             verify(exactly = 0) { analyticsKeySubmissionStorage.advancedConsentGiven }
-            collector.reportLastSubmissionFlowScreen(Screen.UNKNOWN)
+            collector.reportLastSubmissionFlowScreenPcr(Screen.UNKNOWN)
             verify(exactly = 0) { analyticsKeySubmissionStorage.lastSubmissionFlowScreen }
-            collector.reportPositiveTestResultReceived()
+            collector.reportPositivePcrTestResultReceived()
             verify(exactly = 0) { analyticsKeySubmissionStorage.testResultReceivedAt }
-            collector.reportSubmittedAfterCancel()
+            collector.reportSubmittedAfterCancelPcr()
             verify(exactly = 0) { analyticsKeySubmissionStorage.submittedAfterCancel }
         }
     }

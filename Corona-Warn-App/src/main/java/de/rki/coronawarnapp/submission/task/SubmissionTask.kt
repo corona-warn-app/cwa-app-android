@@ -170,8 +170,8 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("Submitting %s", submissionData)
         playbook.submit(submissionData)
 
-        analyticsKeySubmissionCollector.reportSubmitted()
-        if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground()
+        analyticsKeySubmissionCollector.reportSubmittedPcr()
+        if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackgroundPcr()
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()

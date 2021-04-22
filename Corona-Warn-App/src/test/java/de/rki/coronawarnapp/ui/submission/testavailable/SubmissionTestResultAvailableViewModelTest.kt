@@ -116,7 +116,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         coronaTestFlow.value = mockk<CoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
-        every { analyticsKeySubmissionCollector.reportConsentWithdrawn() } just Runs
+        every { analyticsKeySubmissionCollector.reportConsentWithdrawnPcr() } just Runs
 
         val viewModel = createViewModel()
 

@@ -142,8 +142,8 @@ class SubmissionTaskTest : BaseTest() {
 
         coEvery { playbook.submit(any()) } just Runs
 
-        every { analyticsKeySubmissionCollector.reportSubmitted() } just Runs
-        every { analyticsKeySubmissionCollector.reportSubmittedInBackground() } just Runs
+        every { analyticsKeySubmissionCollector.reportSubmittedPcr() } just Runs
+        every { analyticsKeySubmissionCollector.reportSubmittedInBackgroundPcr() } just Runs
 
         every { testResultAvailableNotificationService.cancelTestResultAvailableNotification() } just Runs
 
@@ -220,8 +220,8 @@ class SubmissionTaskTest : BaseTest() {
                 )
             )
 
-            analyticsKeySubmissionCollector.reportSubmitted()
-            analyticsKeySubmissionCollector.reportSubmittedInBackground()
+            analyticsKeySubmissionCollector.reportSubmittedPcr()
+            analyticsKeySubmissionCollector.reportSubmittedInBackgroundPcr()
 
             tekHistoryStorage.clear()
             submissionSettings.symptoms

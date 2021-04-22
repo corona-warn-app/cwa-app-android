@@ -20,16 +20,16 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     private val riskLevelSettings: RiskLevelSettings
 ) {
 
-    fun reset() {
+    fun resetPcr() {
         analyticsKeySubmissionStorage.clear()
     }
 
-    fun reportPositiveTestResultReceived() {
+    fun reportPositivePcrTestResultReceived() {
         if (disabled) return
         analyticsKeySubmissionStorage.testResultReceivedAt.update { timeStamper.nowUTC.millis }
     }
 
-    suspend fun reportTestRegistered() {
+    suspend fun reportPcrTestRegistered() {
         if (disabled) return
         val testRegisteredAt = timeStamper.nowUTC
         analyticsKeySubmissionStorage.testRegisteredAt.update { testRegisteredAt.millis }
@@ -64,43 +64,43 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         }
     }
 
-    fun reportSubmitted() {
+    fun reportSubmittedPcr() {
         if (disabled) return
         analyticsKeySubmissionStorage.submitted.update { true }
         analyticsKeySubmissionStorage.submittedAt.update { timeStamper.nowUTC.millis }
     }
 
-    fun reportSubmittedInBackground() {
+    fun reportSubmittedInBackgroundPcr() {
         if (disabled) return
         analyticsKeySubmissionStorage.submittedInBackground.update { true }
     }
 
-    fun reportSubmittedAfterCancel() {
+    fun reportSubmittedAfterCancelPcr() {
         if (disabled) return
         analyticsKeySubmissionStorage.submittedAfterCancel.update { true }
     }
 
-    fun reportSubmittedAfterSymptomFlow() {
+    fun reportSubmittedAfterSymptomFlowPcr() {
         if (disabled) return
         analyticsKeySubmissionStorage.submittedAfterSymptomFlow.update { true }
     }
 
-    fun reportLastSubmissionFlowScreen(screen: Screen) {
+    fun reportLastSubmissionFlowScreenPcr(screen: Screen) {
         if (disabled) return
         analyticsKeySubmissionStorage.lastSubmissionFlowScreen.update { screen.code }
     }
 
-    fun reportAdvancedConsentGiven() {
+    fun reportAdvancedConsentGivenPcr() {
         if (disabled) return
         analyticsKeySubmissionStorage.advancedConsentGiven.update { true }
     }
 
-    fun reportConsentWithdrawn() {
+    fun reportConsentWithdrawnPcr() {
         if (disabled) return
         analyticsKeySubmissionStorage.advancedConsentGiven.update { false }
     }
 
-    fun reportRegisteredWithTeleTAN() {
+    fun reportPcrTestRegisteredWithTeleTan() {
         if (disabled) return
         analyticsKeySubmissionStorage.registeredWithTeleTAN.update { true }
     }

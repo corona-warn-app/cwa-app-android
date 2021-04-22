@@ -6,6 +6,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -23,8 +25,10 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor,
     @Assisted private val isConsentGiven: Boolean,
     private val submissionRepository: SubmissionRepository,
-    private val qrCodeValidator: CoronaTestQrCodeValidator
+    private val qrCodeValidator: CoronaTestQrCodeValidator,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = qrCodeRegistrationStateProcessor.showRedeemedTokenWarning
     val qrCodeValidationState = SingleLiveEvent<QrCodeRegistrationStateProcessor.ValidationState>()
@@ -53,6 +57,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
                     )
                 )
             } else {
+                if (isConsentGiven && coronaTestQRCode.type == CoronaTest.Type.PCR)
+                    analyticsKeySubmissionCollector.reportAdvancedConsentGivenPcr()
                 qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, isConsentGiven)
             }
         } catch (err: InvalidQRCodeException) {

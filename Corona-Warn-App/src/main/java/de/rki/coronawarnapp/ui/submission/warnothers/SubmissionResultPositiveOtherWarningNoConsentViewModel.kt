@@ -139,7 +139,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onResume() {
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS)
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreenPcr(Screen.WARN_OTHERS)
     }
 
     @AssistedFactory

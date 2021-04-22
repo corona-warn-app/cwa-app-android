@@ -121,7 +121,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS)
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreenPcr(Screen.SYMPTOMS)
         autoSubmission.updateLastSubmissionUserActivity()
     }
 

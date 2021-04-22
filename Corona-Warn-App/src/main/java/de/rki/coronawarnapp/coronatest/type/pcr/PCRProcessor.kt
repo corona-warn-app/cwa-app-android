@@ -59,7 +59,7 @@ class PCRProcessor @Inject constructor(
 
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(request.tan)
 
-        analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
+        analyticsKeySubmissionCollector.reportPcrTestRegisteredWithTeleTan()
 
         return createCoronaTest(request, registrationData)
     }
@@ -68,18 +68,18 @@ class PCRProcessor @Inject constructor(
         request: TestRegistrationRequest,
         response: CoronaTestService.RegistrationData
     ): PCRCoronaTest {
-        analyticsKeySubmissionCollector.reset()
+        analyticsKeySubmissionCollector.resetPcr()
 
         val testResult = response.testResult.validOrThrow()
 
         testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
 
         if (testResult == PCR_POSITIVE) {
-            analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
+            analyticsKeySubmissionCollector.reportPositivePcrTestResultReceived()
             deadmanNotificationScheduler.cancelScheduledWork()
         }
 
-        analyticsKeySubmissionCollector.reportTestRegistered()
+        analyticsKeySubmissionCollector.reportPcrTestRegistered()
 
         if (testResult == PCR_OR_RAT_PENDING) {
             testResultScheduler.setPeriodicTestPolling(enabled = true)
@@ -112,7 +112,7 @@ class PCRProcessor @Inject constructor(
             testResultDataCollector.updatePendingTestResultReceivedTime(newTestResult)
 
             if (newTestResult == PCR_POSITIVE) {
-                analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
+                analyticsKeySubmissionCollector.reportPositivePcrTestResultReceived()
                 deadmanNotificationScheduler.cancelScheduledWork()
             }
 

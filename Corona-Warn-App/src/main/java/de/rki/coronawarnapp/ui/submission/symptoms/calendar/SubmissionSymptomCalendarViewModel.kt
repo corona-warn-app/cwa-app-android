@@ -87,12 +87,12 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
                 startOfSymptoms = symptomStartInternal.value
             ).also { Timber.tag(TAG).v("Symptoms updated to %s", it) }
         }
-        performSubmission { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow() }
+        performSubmission { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlowPcr() }
     }
 
     fun onCancelConfirmed() {
         Timber.d("onCancelConfirmed() clicked on calendar screen.")
-        performSubmission { analyticsKeySubmissionCollector.reportSubmittedAfterCancel() }
+        performSubmission { analyticsKeySubmissionCollector.reportSubmittedAfterCancelPcr() }
     }
 
     private fun performSubmission(onSubmitted: () -> Unit) {
@@ -114,7 +114,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET)
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreenPcr(Screen.SYMPTOM_ONSET)
         autoSubmission.updateLastSubmissionUserActivity()
     }
 

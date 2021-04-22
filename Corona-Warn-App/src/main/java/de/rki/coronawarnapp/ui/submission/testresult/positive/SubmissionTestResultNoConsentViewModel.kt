@@ -37,7 +37,7 @@ class SubmissionTestResultNoConsentViewModel @AssistedInject constructor(
 
     fun onTestOpened() = launch {
         Timber.v("onTestOpened()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT)
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreenPcr(Screen.TEST_RESULT)
         submissionRepository.setViewedTestResult(type = coronaTestType)
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
