@@ -7,6 +7,8 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import dagger.Reusable
+import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler.RatPollingMode.DISABLED
+import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler.RatPollingMode.FIRST
 import de.rki.coronawarnapp.coronatest.worker.PCRTestResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.worker.RatResultRetrievalWorker
 import de.rki.coronawarnapp.util.coroutine.await
@@ -22,6 +24,9 @@ class TestResultScheduler @Inject constructor(
     private val workManager: WorkManager,
 ) {
 
+    private var pcrWorkerEnabled = false
+    private var ratWorkerMode = DISABLED
+
     private suspend fun isPcrScheduled() =
         workManager.getWorkInfosForUniqueWork(PCR_TESTRESULT_WORKER_UNIQUEUNAME)
             .await()
@@ -35,25 +40,28 @@ class TestResultScheduler @Inject constructor(
     private val WorkInfo.isScheduled: Boolean
         get() = state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
 
-    fun setPcrPeriodicTestPolling(enabled: Boolean) {
-        if (enabled) {
-            // TODO Refactor runBlocking away
-            val isScheduled = runBlocking { isPcrScheduled() }
-            if (isScheduled) {
-                Timber.tag(TAG).w("Already scheduled, skipping")
-                return
+    var pcrPeriodicTestPollingEnabled: Boolean
+        get() = pcrWorkerEnabled
+        set(value) {
+            pcrWorkerEnabled = value
+            if (value) {
+                // TODO Refactor runBlocking away
+                val isScheduled = runBlocking { isPcrScheduled() }
+                if (isScheduled) {
+                    Timber.tag(TAG).w("Already scheduled, skipping")
+                    return
+                }
+                Timber.tag(TAG).i("Queueing pcr test result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
+                workManager.enqueueUniquePeriodicWork(
+                    PCR_TESTRESULT_WORKER_UNIQUEUNAME,
+                    ExistingPeriodicWorkPolicy.REPLACE,
+                    buildPcrTestResultRetrievalPeriodicWork()
+                )
+            } else {
+                Timber.tag(TAG).d("cancelWorker()")
+                workManager.cancelUniqueWork(PCR_TESTRESULT_WORKER_UNIQUEUNAME)
             }
-            Timber.tag(TAG).i("Queueing pcr test result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
-            workManager.enqueueUniquePeriodicWork(
-                PCR_TESTRESULT_WORKER_UNIQUEUNAME,
-                ExistingPeriodicWorkPolicy.REPLACE,
-                buildPcrTestResultRetrievalPeriodicWork()
-            )
-        } else {
-            Timber.tag(TAG).d("cancelWorker()")
-            workManager.cancelUniqueWork(PCR_TESTRESULT_WORKER_UNIQUEUNAME)
         }
-    }
 
     enum class RatPollingMode {
         DISABLED,
@@ -61,25 +69,28 @@ class TestResultScheduler @Inject constructor(
         SECOND
     }
 
-    fun setRatResultPeriodicPolling(pollingMode: RatPollingMode) {
-        if (pollingMode == RatPollingMode.DISABLED) {
-            Timber.tag(TAG).d("cancelWorker()")
-            workManager.cancelUniqueWork(RAT_RESULT_WORKER_UNIQUEUNAME)
-        } else {
-            // TODO Refactor runBlocking away
-            val isScheduled = runBlocking { isRatScheduled() }
-            if (isScheduled) {
-                Timber.tag(TAG).w("Already scheduled, skipping")
-                return
+    var ratResultPeriodicPollingMode: RatPollingMode
+        get() = ratWorkerMode
+        set(value) {
+            ratWorkerMode = value
+            if (value == DISABLED) {
+                Timber.tag(TAG).d("cancelWorker()")
+                workManager.cancelUniqueWork(RAT_RESULT_WORKER_UNIQUEUNAME)
+            } else {
+                // TODO Refactor runBlocking away
+                val isScheduled = runBlocking { isRatScheduled() }
+                if (isScheduled) {
+                    Timber.tag(TAG).w("Already scheduled, skipping")
+                    return
+                }
+                Timber.tag(TAG).i("Queueing rat result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
+                workManager.enqueueUniquePeriodicWork(
+                    RAT_RESULT_WORKER_UNIQUEUNAME,
+                    ExistingPeriodicWorkPolicy.REPLACE,
+                    buildRatResultRetrievalPeriodicWork(value)
+                )
             }
-            Timber.tag(TAG).i("Queueing rat result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
-            workManager.enqueueUniquePeriodicWork(
-                RAT_RESULT_WORKER_UNIQUEUNAME,
-                ExistingPeriodicWorkPolicy.REPLACE,
-                buildRatResultRetrievalPeriodicWork(pollingMode)
-            )
         }
-    }
 
     private fun buildPcrTestResultRetrievalPeriodicWork() =
         PeriodicWorkRequestBuilder<PCRTestResultRetrievalWorker>(
@@ -99,7 +110,7 @@ class TestResultScheduler @Inject constructor(
             .build()
 
     private fun buildRatResultRetrievalPeriodicWork(pollingMode: RatPollingMode): PeriodicWorkRequest {
-        val repeatInterval = if (pollingMode == RatPollingMode.FIRST) {
+        val repeatInterval = if (pollingMode == FIRST) {
             BackgroundWorkHelper.ratResultRetrievalPeriodicWorkFirstTimeIntervalInMinutes
         } else {
             BackgroundWorkHelper.ratResultRetrievalPeriodicWorkSecondTimeIntervalInMinutes

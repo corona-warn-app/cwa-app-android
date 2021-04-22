@@ -42,7 +42,7 @@ class PCRTestResultRetrievalWorker @AssistedInject constructor(
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             Timber.tag(TAG).d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
-            testResultScheduler.setPcrPeriodicTestPolling(enabled = true)
+            testResultScheduler.pcrPeriodicTestPollingEnabled = true
             Timber.tag(TAG).d("$id Rescheduled background worker")
 
             return Result.failure()
@@ -123,7 +123,7 @@ class PCRTestResultRetrievalWorker @AssistedInject constructor(
     }
 
     private fun stopWorker() {
-        testResultScheduler.setPcrPeriodicTestPolling(enabled = false)
+        testResultScheduler.pcrPeriodicTestPollingEnabled = false
         Timber.tag(TAG).d("$id: Background worker stopped")
     }
 
