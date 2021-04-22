@@ -24,8 +24,9 @@ class TestResultScheduler @Inject constructor(
     private val workManager: WorkManager,
 ) {
 
-    private var pcrWorkerEnabled = false
     private var ratWorkerMode = DISABLED
+    val ratResultPeriodicPollingMode
+        get() = ratWorkerMode
 
     private suspend fun isPcrScheduled() =
         workManager.getWorkInfosForUniqueWork(PCR_TESTRESULT_WORKER_UNIQUEUNAME)
@@ -35,28 +36,25 @@ class TestResultScheduler @Inject constructor(
     private val WorkInfo.isScheduled: Boolean
         get() = state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
 
-    var pcrPeriodicTestPollingEnabled: Boolean
-        get() = pcrWorkerEnabled
-        set(value) {
-            pcrWorkerEnabled = value
-            if (value) {
-                // TODO Refactor runBlocking away
-                val isScheduled = runBlocking { isPcrScheduled() }
-                if (isScheduled) {
-                    Timber.tag(TAG).w("Already scheduled, skipping")
-                    return
-                }
-                Timber.tag(TAG).i("Queueing pcr test result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
-                workManager.enqueueUniquePeriodicWork(
-                    PCR_TESTRESULT_WORKER_UNIQUEUNAME,
-                    ExistingPeriodicWorkPolicy.REPLACE,
-                    buildPcrTestResultRetrievalPeriodicWork()
-                )
-            } else {
-                Timber.tag(TAG).d("cancelWorker()")
-                workManager.cancelUniqueWork(PCR_TESTRESULT_WORKER_UNIQUEUNAME)
+    fun setPcrPeriodicTestPollingEnabled(enabled: Boolean) {
+        if (enabled) {
+            // TODO Refactor runBlocking away
+            val isScheduled = runBlocking { isPcrScheduled() }
+            if (isScheduled) {
+                Timber.tag(TAG).w("Already scheduled, skipping")
+                return
             }
+            Timber.tag(TAG).i("Queueing pcr test result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
+            workManager.enqueueUniquePeriodicWork(
+                PCR_TESTRESULT_WORKER_UNIQUEUNAME,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                buildPcrTestResultRetrievalPeriodicWork()
+            )
+        } else {
+            Timber.tag(TAG).d("cancelWorker()")
+            workManager.cancelUniqueWork(PCR_TESTRESULT_WORKER_UNIQUEUNAME)
         }
+    }
 
     enum class RatPollingMode {
         DISABLED,
@@ -64,24 +62,22 @@ class TestResultScheduler @Inject constructor(
         PHASE2
     }
 
-    var ratResultPeriodicPollingMode: RatPollingMode
-        get() = ratWorkerMode
-        set(value) {
-            ratWorkerMode = value
-            if (value == DISABLED) {
-                Timber.tag(TAG).d("cancelWorker()")
-                workManager.cancelUniqueWork(RAT_RESULT_WORKER_UNIQUEUNAME)
-            } else {
-                // no check for already running workers!
-                // worker must be replaced by next phase instance
-                Timber.tag(TAG).i("Queueing rat result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
-                workManager.enqueueUniquePeriodicWork(
-                    RAT_RESULT_WORKER_UNIQUEUNAME,
-                    ExistingPeriodicWorkPolicy.REPLACE,
-                    buildRatResultRetrievalPeriodicWork(value)
-                )
-            }
+    fun setRatResultPeriodicPollingMode(mode: RatPollingMode) {
+        ratWorkerMode = mode
+        if (mode == DISABLED) {
+            Timber.tag(TAG).d("cancelWorker()")
+            workManager.cancelUniqueWork(RAT_RESULT_WORKER_UNIQUEUNAME)
+        } else {
+            // no check for already running workers!
+            // worker must be replaced by next phase instance
+            Timber.tag(TAG).i("Queueing rat result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
+            workManager.enqueueUniquePeriodicWork(
+                RAT_RESULT_WORKER_UNIQUEUNAME,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                buildRatResultRetrievalPeriodicWork(mode)
+            )
         }
+    }
 
     private fun buildPcrTestResultRetrievalPeriodicWork() =
         PeriodicWorkRequestBuilder<PCRTestResultRetrievalWorker>(

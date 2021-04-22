@@ -36,14 +36,14 @@ class BackgroundWorkScheduler @Inject constructor(
         val hasPendingTests = coronatests.any { !it.isResultAvailableNotificationSent }
 
         if (!isSubmissionSuccessful && hasPendingTests) {
-            testResultScheduler.pcrPeriodicTestPollingEnabled = true
+            testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = true)
         }
     }
 
     fun stopWorkScheduler() {
         noiseScheduler.setPeriodicNoise(enabled = false)
         riskWorkScheduler.setPeriodicRiskCalculation(enabled = false)
-        testResultScheduler.pcrPeriodicTestPollingEnabled = false
+        testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false)
         Timber.d("All Background Jobs Stopped")
     }
 }

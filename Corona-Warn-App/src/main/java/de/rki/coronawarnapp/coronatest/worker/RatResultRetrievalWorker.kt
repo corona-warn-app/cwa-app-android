@@ -37,7 +37,7 @@ class RatResultRetrievalWorker @AssistedInject constructor(
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             Timber.tag(TAG).d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
-            testResultScheduler.ratResultPeriodicPollingMode = testResultScheduler.ratResultPeriodicPollingMode
+            testResultScheduler.setRatResultPeriodicPollingMode(mode = testResultScheduler.ratResultPeriodicPollingMode)
             Timber.tag(TAG).d("$id Rescheduled background worker")
 
             return Result.failure()
@@ -70,7 +70,7 @@ class RatResultRetrievalWorker @AssistedInject constructor(
                 }
                 isPhase1 && minutes >= BackgroundConstants.RAT_POLLING_END_OF_PHASE1_MINUTES -> {
                     Timber.tag(TAG).d("$id $minutes minutes - time for a phase 2!")
-                    testResultScheduler.ratResultPeriodicPollingMode = PHASE2
+                    testResultScheduler.setRatResultPeriodicPollingMode(mode = PHASE2)
                 }
                 else -> {
                     coronaTestRepository.refresh(CoronaTest.Type.RAPID_ANTIGEN)
@@ -81,7 +81,7 @@ class RatResultRetrievalWorker @AssistedInject constructor(
     }
 
     private fun stopWorker() {
-        testResultScheduler.ratResultPeriodicPollingMode = DISABLED
+        testResultScheduler.setRatResultPeriodicPollingMode(mode = DISABLED)
         Timber.tag(TAG).d("$id: Background worker stopped")
     }
 
