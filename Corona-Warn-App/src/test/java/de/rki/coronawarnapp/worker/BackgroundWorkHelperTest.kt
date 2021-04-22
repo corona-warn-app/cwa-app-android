@@ -9,7 +9,7 @@ class BackgroundWorkHelperTest {
     @Test
     fun getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval() {
         Assert.assertEquals(
-            BackgroundWorkHelper.getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(),
+            BackgroundWorkHelper.getPcrTestResultRetrievalPeriodicWorkTimeInterval(),
             120
         )
     }

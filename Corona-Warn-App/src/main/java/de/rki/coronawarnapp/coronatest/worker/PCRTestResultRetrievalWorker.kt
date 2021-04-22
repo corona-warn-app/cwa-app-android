@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.worker
+package de.rki.coronawarnapp.coronatest.worker
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -24,10 +25,8 @@ import timber.log.Timber
 
 /**
  * Diagnosis test result retrieval by periodic polling
- *
- * @see BackgroundWorkScheduler
  */
-class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
+class PCRTestResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
@@ -43,7 +42,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             Timber.tag(TAG).d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
-            testResultScheduler.setPeriodicTestPolling(enabled = true)
+            testResultScheduler.setPcrPeriodicTestPolling(enabled = true)
             Timber.tag(TAG).d("$id Rescheduled background worker")
 
             return Result.failure()
@@ -124,14 +123,14 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     }
 
     private fun stopWorker() {
-        testResultScheduler.setPeriodicTestPolling(enabled = false)
+        testResultScheduler.setPcrPeriodicTestPolling(enabled = false)
         Timber.tag(TAG).d("$id: Background worker stopped")
     }
 
     @AssistedFactory
-    interface Factory : InjectedWorkerFactory<DiagnosisTestResultRetrievalPeriodicWorker>
+    interface Factory : InjectedWorkerFactory<PCRTestResultRetrievalWorker>
 
     companion object {
-        private val TAG = DiagnosisTestResultRetrievalPeriodicWorker::class.java.simpleName
+        private val TAG = PCRTestResultRetrievalWorker::class.java.simpleName
     }
 }

@@ -82,7 +82,7 @@ class PCRProcessor @Inject constructor(
         analyticsKeySubmissionCollector.reportTestRegistered()
 
         if (testResult == PCR_OR_RAT_PENDING) {
-            testResultScheduler.setPeriodicTestPolling(enabled = true)
+            testResultScheduler.setPcrPeriodicTestPolling(enabled = true)
         }
 
         return PCRCoronaTest(
