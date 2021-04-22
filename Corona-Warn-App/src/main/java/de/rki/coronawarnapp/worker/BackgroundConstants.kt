@@ -44,7 +44,7 @@ object BackgroundConstants {
      *
      * @see TimeUnit.MINUTES
      */
-    const val RAT_POLLING_SWITCH_MINUTES = 90
+    const val RAT_POLLING_END_OF_PHASE1_MINUTES = 90
 
     /**
      * Backoff initial delay

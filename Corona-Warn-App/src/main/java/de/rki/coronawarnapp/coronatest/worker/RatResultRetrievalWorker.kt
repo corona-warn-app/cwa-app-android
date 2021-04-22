@@ -9,8 +9,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler
 import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler.RatPollingMode.DISABLED
-import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler.RatPollingMode.FIRST
-import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler.RatPollingMode.SECOND
+import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler.RatPollingMode.PHASE1
+import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler.RatPollingMode.PHASE2
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.util.TimeStamper
@@ -53,7 +53,7 @@ class RatResultRetrievalWorker @AssistedInject constructor(
             val nowUTC = timeStamper.nowUTC
             val days = Duration(rat.registeredAt, nowUTC).standardDays
             val minutes = Duration(rat.registeredAt, nowUTC).standardMinutes
-            val isFirst = testResultScheduler.ratResultPeriodicPollingMode == FIRST
+            val isPhase1 = testResultScheduler.ratResultPeriodicPollingMode == PHASE1
             Timber.tag(TAG).d("Calculated days: %d", days)
             when {
                 rat.isResultAvailableNotificationSent -> {
@@ -68,9 +68,9 @@ class RatResultRetrievalWorker @AssistedInject constructor(
                     Timber.tag(TAG).d("$id $days is exceeding the maximum polling duration")
                     stopWorker()
                 }
-                isFirst && minutes >= BackgroundConstants.RAT_POLLING_SWITCH_MINUTES -> {
-                    Timber.tag(TAG).d("$id $minutes minutes - time for a switch")
-                    testResultScheduler.ratResultPeriodicPollingMode = SECOND
+                isPhase1 && minutes >= BackgroundConstants.RAT_POLLING_END_OF_PHASE1_MINUTES -> {
+                    Timber.tag(TAG).d("$id $minutes minutes - time for a phase 2!")
+                    testResultScheduler.ratResultPeriodicPollingMode = PHASE2
                 }
                 else -> {
                     coronaTestRepository.refresh(CoronaTest.Type.RAPID_ANTIGEN)

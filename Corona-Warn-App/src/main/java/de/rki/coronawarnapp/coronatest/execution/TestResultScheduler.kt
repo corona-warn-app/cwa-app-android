@@ -8,7 +8,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler.RatPollingMode.DISABLED
-import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler.RatPollingMode.FIRST
+import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler.RatPollingMode.PHASE1
 import de.rki.coronawarnapp.coronatest.worker.PCRTestResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.worker.RatResultRetrievalWorker
 import de.rki.coronawarnapp.util.coroutine.await
@@ -65,8 +65,8 @@ class TestResultScheduler @Inject constructor(
 
     enum class RatPollingMode {
         DISABLED,
-        FIRST,
-        SECOND
+        PHASE1,
+        PHASE2
     }
 
     var ratResultPeriodicPollingMode: RatPollingMode
@@ -110,7 +110,7 @@ class TestResultScheduler @Inject constructor(
             .build()
 
     private fun buildRatResultRetrievalPeriodicWork(pollingMode: RatPollingMode): PeriodicWorkRequest {
-        val repeatInterval = if (pollingMode == FIRST) {
+        val repeatInterval = if (pollingMode == PHASE1) {
             BackgroundWorkHelper.ratResultRetrievalPeriodicWorkFirstTimeIntervalInMinutes
         } else {
             BackgroundWorkHelper.ratResultRetrievalPeriodicWorkSecondTimeIntervalInMinutes
