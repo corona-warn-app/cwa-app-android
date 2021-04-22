@@ -47,18 +47,22 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
         val patientName = getString(
             R.string.submission_test_result_antigen_patient_name_placeholder,
-            testAge.test.firstName,
-            testAge.test.lastName
+            testAge.test.firstName ?: "",
+            testAge.test.lastName ?: ""
         )
-        val birthDate = getString(
-            R.string.submission_test_result_antigen_patient_birth_date_placeholder,
-            testAge.test.dateOfBirth?.toString(DATE_FORMAT)
-        )
+
         rapidTestCardPatientInfo.text = buildSpannedString {
             bold {
-                append(patientName)
+                if (patientName.isNotBlank()) append(patientName)
             }
-            append(birthDate)
+            testAge.test.dateOfBirth?.let {
+                val birthDate = getString(
+                    R.string.submission_test_result_antigen_patient_birth_date_placeholder,
+                    it.toString(DATE_FORMAT)
+                )
+                if (this.isNotBlank()) append(", ")
+                append(birthDate)
+            }
         }
 
         val localTime = testAge.test.testedAt.toUserTimeZone()
