@@ -21,7 +21,6 @@ import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
 import timber.log.Timber
-import java.lang.Exception
 
 class RATResultNegativeViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -37,20 +36,21 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         coronaTestRepository.coronaTests
     ) { _, tests ->
         val rapidTest = tests.firstOrNull { it.type == CoronaTest.Type.RAPID_ANTIGEN }
-        timeSinceRegistration(rapidTest)
+        timeSinceTestConduction(rapidTest)
     }.asLiveData(context = dispatcherProvider.Default)
 
-    private suspend fun timeSinceRegistration(rapidTest: CoronaTest?): TestAge? {
+    private suspend fun timeSinceTestConduction(rapidTest: CoronaTest?): TestAge? {
         if (rapidTest !is RACoronaTest) {
             Timber.d("Rapid test is missing")
             return null
         }
-        val hours = appConfigProvider.getAppConfig()
-            .coronaTestParameters
-            .coronaRapidAntigenTestParameters
-            .hoursToDeemTestOutdated
 
-        val duration = Duration(rapidTest.registeredAt, timeStamper.nowUTC)
+//        val hours = appConfigProvider.getAppConfig()
+//            .coronaTestParameters
+//            .coronaRapidAntigenTestParameters
+//            .hoursToDeemTestOutdated
+
+        val duration = Duration(rapidTest.testedAt, timeStamper.nowUTC)
         val timeFormat = formatter.print(duration.toPeriod())
 
         return TestAge(test = rapidTest, timeFormat)
