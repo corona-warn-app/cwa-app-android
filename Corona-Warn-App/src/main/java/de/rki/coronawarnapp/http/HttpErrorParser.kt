@@ -52,6 +52,8 @@ class HttpErrorParser : Interceptor {
         try {
             val response = chain.proceed(chain.request())
 
+            Timber.tag("HttpErrorParser").d(response.toString())
+
             if (response.isSuccessful) {
                 return response
             }

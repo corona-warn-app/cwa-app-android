@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.http
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.http.config.HTTPVariables
 import de.rki.coronawarnapp.http.interceptor.RetryInterceptor
 import de.rki.coronawarnapp.http.interceptor.WebSecurityVerificationInterceptor
@@ -29,7 +28,7 @@ class HttpModule {
         val interceptors: List<Interceptor> = listOf(
             WebSecurityVerificationInterceptor(),
             HttpLoggingInterceptor { message -> Timber.tag("OkHttp").v(message) }.apply {
-                if (BuildConfig.DEBUG) setLevel(HttpLoggingInterceptor.Level.BODY)
+                setLevel(HttpLoggingInterceptor.Level.BODY)
             },
             RetryInterceptor(),
             HttpErrorParser()
