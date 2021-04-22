@@ -111,9 +111,9 @@ class TestResultScheduler @Inject constructor(
 
     private fun buildRatResultRetrievalPeriodicWork(pollingMode: RatPollingMode): PeriodicWorkRequest {
         val repeatInterval = if (pollingMode == PHASE1) {
-            BackgroundWorkHelper.ratResultRetrievalPeriodicWorkFirstTimeIntervalInMinutes
+            BackgroundWorkHelper.ratResultRetrievalPeriodicWorkPhase1IntervalInMinutes
         } else {
-            BackgroundWorkHelper.ratResultRetrievalPeriodicWorkSecondTimeIntervalInMinutes
+            BackgroundWorkHelper.ratResultRetrievalPeriodicWorkPhase2IntervalInMinutes
         }
         return PeriodicWorkRequestBuilder<RatResultRetrievalWorker>(
             repeatInterval,

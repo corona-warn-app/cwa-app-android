@@ -26,9 +26,9 @@ object BackgroundWorkHelper {
                 BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
             ).toLong()
 
-    const val ratResultRetrievalPeriodicWorkFirstTimeIntervalInMinutes = 15L
+    const val ratResultRetrievalPeriodicWorkPhase1IntervalInMinutes = 15L
 
-    const val ratResultRetrievalPeriodicWorkSecondTimeIntervalInMinutes = 90L
+    const val ratResultRetrievalPeriodicWorkPhase2IntervalInMinutes = 90L
 
     /**
      * Get background noise one time work delay
