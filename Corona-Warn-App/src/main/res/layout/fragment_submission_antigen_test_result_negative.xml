@@ -81,26 +81,16 @@
                     tools:text="@string/submission_test_result_negative" />
 
                 <TextView
-                    android:id="@+id/rapid_test_card_patient_name"
+                    android:id="@+id/rapid_test_card_patient_info"
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:layout_marginEnd="@dimen/spacing_normal"
-                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/rapid_test_card_diagnosis"
                     app:layout_constraintTop_toBottomOf="@id/rapid_test_card_diagnosis"
-                    tools:text="@string/submission_test_result_antigen_patient_name_placeholder" />
-
-                <TextView
-                    android:id="@+id/rapid_test_card_patient_birthdate"
-                    style="@style/body2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/rapid_test_card_patient_name"
-                    app:layout_constraintTop_toTopOf="@id/rapid_test_card_patient_name"
-                    tools:text="@string/submission_test_result_antigen_patient_birth_date_placeholder" />
+                    tools:text="Max Mustermann, geboren 14.03.1987" />
 
                 <TextView
                     android:id="@+id/rapid_test_card_negative_result_message"
@@ -111,8 +101,8 @@
                     android:layout_marginEnd="@dimen/spacing_normal"
                     android:text="@string/submission_test_result_negative_message"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/rapid_test_card_patient_name"
-                    app:layout_constraintTop_toBottomOf="@id/rapid_test_card_patient_birthdate" />
+                    app:layout_constraintStart_toStartOf="@id/rapid_test_card_patient_info"
+                    app:layout_constraintTop_toBottomOf="@id/rapid_test_card_patient_info" />
 
                 <include
                     android:id="@+id/result_received_counter"
@@ -212,7 +202,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/test_result_negative_steps_added"
                 app:simple_step_entry_text="@string/coronatest_negative_antigen_result_second_info_body"
                 app:simple_step_entry_title="@string/coronatest_negative_antigen_result_second_info_title"
-                app:step_entry_final="true"
+                app:step_entry_final="false"
                 app:step_entry_icon="@drawable/ic_test_result_step_invalid" />
 
             <de.rki.coronawarnapp.ui.view.SimpleStepEntry

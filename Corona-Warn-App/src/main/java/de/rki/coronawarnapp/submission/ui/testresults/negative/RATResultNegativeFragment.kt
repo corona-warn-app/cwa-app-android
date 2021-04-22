@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.submission.ui.testresults.negative
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionAntigenTestResultNegativeBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalTime
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -20,7 +22,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
     private val binding: FragmentSubmissionAntigenTestResultNegativeBinding by viewBindingLazy()
 
-    private val shortDate = DateTimeFormat.shortDate()
     private val shortTime = DateTimeFormat.shortTime()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
@@ -43,22 +44,32 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
         testAge: RATResultNegativeViewModel.TestAge
     ) {
         resultReceivedCounter.chronometer.text = testAge.ageText
-        rapidTestCardPatientName.text = getString(
+
+        val patientName = getString(
             R.string.submission_test_result_antigen_patient_name_placeholder,
             testAge.test.firstName,
             testAge.test.lastName
         )
-
-        rapidTestCardPatientBirthdate.text = getString(
+        val birthDate = getString(
             R.string.submission_test_result_antigen_patient_birth_date_placeholder,
-            testAge.test.dateOfBirth?.toString(shortDate)
+            testAge.test.dateOfBirth?.toString(DATE_FORMAT)
         )
+        rapidTestCardPatientInfo.text = buildSpannedString {
+            bold {
+                append(patientName)
+            }
+            append(birthDate)
+        }
 
-        val localTime = testAge.test.testResultReceivedAt?.toLocalTime()
+        val localTime = testAge.test.testedAt.toUserTimeZone()
         resultReceivedTimeAndDate.text = getString(
             R.string.coronatest_negative_antigen_result_time_date_placeholder,
-            localTime?.toString(shortDate),
+            localTime?.toString(DATE_FORMAT),
             localTime?.toString(shortTime)
         )
+    }
+
+    companion object {
+        private const val DATE_FORMAT = "dd.MM.yy"
     }
 }

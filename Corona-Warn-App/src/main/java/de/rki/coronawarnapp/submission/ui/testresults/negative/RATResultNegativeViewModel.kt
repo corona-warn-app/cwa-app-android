@@ -21,6 +21,7 @@ import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 class RATResultNegativeViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -35,25 +36,36 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         intervalFlow(1),
         coronaTestRepository.coronaTests
     ) { _, tests ->
-        val rapidTest = tests.firstOrNull { it.type == CoronaTest.Type.RAPID_ANTIGEN }
-        timeSinceTestConduction(rapidTest)
+        val rapidTest = tests.firstOrNull {
+            it.type == CoronaTest.Type.RAPID_ANTIGEN
+        }
+
+        rapidTest?.testAge()
     }.asLiveData(context = dispatcherProvider.Default)
 
-    private suspend fun timeSinceTestConduction(rapidTest: CoronaTest?): TestAge? {
-        if (rapidTest !is RACoronaTest) {
+    private suspend fun CoronaTest.testAge(): TestAge? {
+        if (this !is RACoronaTest) {
             Timber.d("Rapid test is missing")
             return null
         }
 
-//        val hours = appConfigProvider.getAppConfig()
-//            .coronaTestParameters
-//            .coronaRapidAntigenTestParameters
-//            .hoursToDeemTestOutdated
+        val hours = appConfigProvider.getAppConfig()
+            .coronaTestParameters
+            .coronaRapidAntigenTestParameters
+            .hoursToDeemTestOutdated
+            .toLong()
 
-        val duration = Duration(rapidTest.testedAt, timeStamper.nowUTC)
-        val timeFormat = formatter.print(duration.toPeriod())
-
-        return TestAge(test = rapidTest, timeFormat)
+        val nowUTC = timeStamper.nowUTC
+        val age = nowUTC.millis - testedAt.millis
+        val redeemed = age > TimeUnit.HOURS.toMillis(hours)
+        val ageText = if (redeemed) {
+            Timber.d("Test (%s) is redeemed", registrationToken)
+            // TODO show it is redeemed
+            "__:__:__"
+        } else {
+            formatter.print(Duration(age).toPeriod())
+        }
+        return TestAge(test = this, ageText)
     }
 
     fun deleteTest() {
@@ -80,14 +92,15 @@ class RATResultNegativeViewModel @AssistedInject constructor(
     )
 
     companion object {
-        private val formatter: PeriodFormatter = PeriodFormatterBuilder().apply {
-            printZeroAlways()
-            minimumPrintedDigits(2)
-            appendHours()
-            appendSuffix(":")
-            appendMinutes()
-            appendSuffix(":")
-            appendSeconds()
-        }.toFormatter()
+        private val formatter: PeriodFormatter =
+            PeriodFormatterBuilder().apply {
+                printZeroAlways()
+                minimumPrintedDigits(2)
+                appendHours()
+                appendSuffix(":")
+                appendMinutes()
+                appendSuffix(":")
+                appendSeconds()
+            }.toFormatter()
     }
 }
