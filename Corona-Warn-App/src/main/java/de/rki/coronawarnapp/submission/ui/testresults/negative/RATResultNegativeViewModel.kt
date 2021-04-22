@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.submission.ui.testresults.negative
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -21,11 +20,9 @@ import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 class RATResultNegativeViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val appConfigProvider: AppConfigProvider,
     private val timeStamper: TimeStamper,
     private val submissionRepository: SubmissionRepository,
     coronaTestRepository: CoronaTestRepository
@@ -43,28 +40,16 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         rapidTest?.testAge()
     }.asLiveData(context = dispatcherProvider.Default)
 
-    private suspend fun CoronaTest.testAge(): TestAge? {
+    private fun CoronaTest.testAge(): TestAge? {
         if (this !is RACoronaTest) {
             Timber.d("Rapid test is missing")
             return null
         }
 
-        val hours = appConfigProvider.getAppConfig()
-            .coronaTestParameters
-            .coronaRapidAntigenTestParameters
-            .hoursToDeemTestOutdated
-            .toLong()
-
         val nowUTC = timeStamper.nowUTC
         val age = nowUTC.millis - testedAt.millis
-        val redeemed = age > TimeUnit.HOURS.toMillis(hours)
-        val ageText = if (redeemed) {
-            Timber.d("Test (%s) is redeemed", registrationToken)
-            // TODO show it is redeemed
-            "__:__:__"
-        } else {
-            formatter.print(Duration(age).toPeriod())
-        }
+        val ageText = formatter.print(Duration(age).toPeriod())
+
         return TestAge(test = this, ageText)
     }
 
