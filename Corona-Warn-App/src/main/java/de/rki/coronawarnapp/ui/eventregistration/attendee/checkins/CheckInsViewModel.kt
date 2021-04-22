@@ -22,6 +22,8 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.ui.toLazyString
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -153,11 +155,12 @@ class CheckInsViewModel @AssistedInject constructor(
                         CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation)
                 )
                 is TraceLocationVerifier.VerificationResult.Invalid ->
-                    events.postValue(CheckInEvent.InvalidQrCode(verifyResult.errorTextRes))
+                    events.postValue(CheckInEvent.InvalidQrCode(verifyResult.errorTextRes.toResolvingString()))
             }
         } catch (e: Exception) {
             Timber.d(e, "TraceLocation verification failed")
-            e.report(ExceptionCategory.INTERNAL)
+            val msg = e.message ?: "QR-Code was invalid"
+            events.postValue(CheckInEvent.InvalidQrCode(msg.toLazyString()))
         }
     }
 

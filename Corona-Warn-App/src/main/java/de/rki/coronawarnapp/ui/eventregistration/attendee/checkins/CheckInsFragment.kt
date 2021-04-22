@@ -34,6 +34,7 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.tryHumanReadableError
+import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -99,7 +100,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 )
             }
 
-            is CheckInEvent.InvalidQrCode -> showInvalidQrCodeInformation(event.errorTextRes)
+            is CheckInEvent.InvalidQrCode -> showInvalidQrCodeInformation(event.errorText)
 
             is CheckInEvent.ConfirmCheckInWithoutHistory -> doNavigate(
                 CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragmentCleanHistory(
@@ -135,12 +136,15 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         }
     }
 
-    private fun showInvalidQrCodeInformation(@StringRes errorTextRes: Int) =
+    private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) {
         MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.errors_generic_headline)
-            setMessage(errorTextRes)
-            setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
+            val errorText = lazyErrorText.get(context)
+            setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
+            setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
+            setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ -> }
+            setNegativeButton(R.string.trace_location_attendee_invalid_qr_code_dialog_negative_button) { _, _ -> }
         }.show()
+    }
 
     private fun updateViews(items: List<CheckInsItem>) {
         checkInsAdapter.update(items)
