@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
@@ -20,6 +21,8 @@ import javax.inject.Inject
 class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), AutoInject {
 
     private val binding: CheckInsConsentFragmentBinding by viewBindingLazy()
+
+    private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: CheckInsConsentViewModel by cwaViewModelsAssisted(
@@ -69,7 +72,7 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
                 )
                 CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment -> doNavigate(
                     CheckInsConsentFragmentDirections
-                        .actionCheckInsConsentFragmentToSubmissionTestResultConsentGivenFragment()
+                        .actionCheckInsConsentFragmentToSubmissionTestResultConsentGivenFragment(navArgs.testType)
                 )
             }
         }

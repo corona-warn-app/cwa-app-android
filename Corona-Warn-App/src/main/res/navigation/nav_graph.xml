@@ -472,6 +472,9 @@
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultNoConsentFragment"
@@ -485,6 +488,9 @@
         <action
             android:id="@+id/action_submissionTestResultNoConsentFragment_to_submissionResultPositiveOtherWarningNoConsentFragment"
             app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionYourConsentFragment"
@@ -726,5 +732,8 @@
             app:destination="@id/submissionTestResultConsentGivenFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
 </navigation>
