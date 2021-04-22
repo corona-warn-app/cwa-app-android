@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
@@ -220,9 +222,6 @@ class SubmissionTaskTest : BaseTest() {
                 )
             )
 
-            analyticsKeySubmissionCollector.reportSubmitted()
-            analyticsKeySubmissionCollector.reportSubmittedInBackground()
-
             tekHistoryStorage.clear()
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
@@ -387,5 +386,41 @@ class SubmissionTaskTest : BaseTest() {
             task.run(SubmissionTask.Arguments())
         }
         verify { autoSubmission.updateMode(AutoSubmission.Mode.DISABLED) }
+    }
+
+    @Test
+    fun `PPA is collected for PCR tests`() = runBlockingTest {
+        coronaTestsFlow.value = setOf(
+            mockk<PCRCoronaTest>().apply {
+                every { isAdvancedConsentGiven } returns true
+                every { isSubmissionAllowed } returns true
+                every { isSubmitted } returns false
+                every { registrationToken } returns "regtoken"
+                every { identifier } returns "coronatest-identifier"
+            }
+        )
+
+        createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted() }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground() }
+    }
+
+    @Test
+    fun `PPA is NOT collected for RAT tests`() = runBlockingTest {
+        coronaTestsFlow.value = setOf(
+            mockk<RACoronaTest>().apply {
+                every { isAdvancedConsentGiven } returns true
+                every { isSubmissionAllowed } returns true
+                every { isSubmitted } returns false
+                every { registrationToken } returns "regtoken"
+                every { identifier } returns "coronatest-identifier"
+            }
+        )
+
+        createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
+
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted() }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground() }
     }
 }

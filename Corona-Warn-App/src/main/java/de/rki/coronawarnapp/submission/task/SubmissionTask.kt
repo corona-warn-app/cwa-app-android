@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
@@ -170,8 +171,11 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("Submitting %s", submissionData)
         playbook.submit(submissionData)
 
-        analyticsKeySubmissionCollector.reportSubmitted()
-        if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground()
+        // PPA will only be used for PCR tests for now
+        if (coronaTest is PCRCoronaTest) {
+            analyticsKeySubmissionCollector.reportSubmitted()
+            if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground()
+        }
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()
