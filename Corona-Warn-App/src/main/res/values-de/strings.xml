@@ -1214,10 +1214,15 @@
     <string name="submission_done_body">"Dank Ihrer Mithilfe können andere gewarnt werden und entsprechend reagieren."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Bitte beachten Sie:"</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_pcr_validation">"Machen Sie einen PCR-Test, um dieses Test-Ergebnis zu verifizieren."</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_share_keys">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
+
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
     <!-- YTXT: submission done further info bullet points -->
