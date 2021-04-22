@@ -18,6 +18,10 @@ interface CoronaTest {
     val isSubmitted: Boolean
     val isViewed: Boolean
 
+    val isPositive: Boolean
+
+    val isPending: Boolean
+
     val testResultReceivedAt: Instant?
     val testResult: CoronaTestResult
 

@@ -407,20 +407,14 @@
     <string name="onboarding_onboarding_accessibility_title">"Onboarding page 1 of 6: Fighting coronavirus together"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Let’s fight coronavirus together"</string>
-    <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
-    <string name="onboarding_subtitle">"More protection for you and for us all. By using the Corona-Warn-App we can break chains of infection much quicker."</string>
-    <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you’ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
-    <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_1">"More protection for you and for us all. By using the Corona-Warn-App we can break chains of infection much quicker."</string>
+    <string name="onboarding_body_1">"More protection for you and for us all. By using the Corona-Warn-App we can break infection chains much quicker."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_2">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you’ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
+    <string name="onboarding_body_2">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you\'ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_3">"Lassen Sie sich Ihre Testergebnisse (PCR-Test oder Antigen-Schnelltest) in der App anzeigen und warnen Sie andere, wenn Sie ein positives Testergebnis erhalten."</string>
+    <string name="onboarding_body_3">"Display your test results (PCR test or rapid antigen test) in the app and warn others if you are diagnosed with coronavirus."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_4">"Auf Wunsch können Sie mit der App Ihren persönlichen Infektionsstatus nachweisen (z.B. negativer Schnelltest). Bitte beachten Sie, dass Sie grundsätzlich nicht zum Nachweis Ihres Infektionsstatus per App verpflichtet sind. Sie können Ihren Infektionsstatus im Rahmen der rechtlichen Bestimmungen an Ihrem Aufenthaltsort auch auf andere Weise nachweisen."</string>
+    <string name="onboarding_body_4">"If you want, you can use the app to prove your personal infection status (a negative rapid test, for example). Please note, however, that you are under no obligation to use the app to prove your infection status. You can also prove your infection status in another manner compliant with the legal regulations at your residence."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_5">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
@@ -807,15 +801,15 @@
     <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
     <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
     <!-- XLNK: Description for national technical contact and hotline information page -->
-    <string name="information_contact_button_phone_description">"Für Anrufe innerhalb Deutschlands. Der Anruf ist kostenfrei."</string>
+    <string name="information_contact_button_phone_description">"For calls from within Germany. The call is free of charge."</string>
     <!-- XLNK: Description for international technical contact and hotline information page -->
-    <string name="information_contact_button_international_phone_description">"Für Anrufe aus dem Ausland. Es fallen die Gebühren des jeweiligen Telefonanbieters an."</string>
+    <string name="information_contact_button_international_phone_description">"For calls from outside Germany. The fees from your telephone provider will apply."</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
     <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_phone">"Our customer service is here to help."</string>
+    <string name="information_contact_body_phone">"Our customer service is available in the following languages:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Languages: English, German, Turkish\nBusiness hours:"<xliff:g id="line_break">"\n"</xliff:g>"Monday to Saturday: 7am - 10pm"<xliff:g id="line_break">"\n(except national holidays)"</xliff:g><xliff:g id="line_break">"\nThe call is free of charge."</xliff:g></string>
+    <string name="information_contact_body_open">"English, German, Turkish\n\nBusiness hours:\nMonday to Saturday: 7am - 10pm (CET)\n(except national holidays)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the medical emergency service hotline, telephone: 116 117."</string>
     <!-- XACT: describes illustration -->
@@ -879,10 +873,10 @@
     <string name="debugging_debuglog_action_start_recording">"Start"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Stop and Delete"</string>
-    <!-- XBUT: Button text to share the log recording -->
+    <!-- XBUT: Button text to send the log recording to the server -->
     <string name="debugging_debuglog_action_share_log">"Send Error Report"</string>
-    <!-- XBUT: Button text to locally store the log recording -->
-    <string name="debugging_debuglog_action_local_log_store">"Save Locally and Continue"</string>
+    <!-- XBUT: Button text to export the log -->
+    <string name="debugging_debuglog_action_local_log_export">"Save Locally and Continue"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Recording Active"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -909,12 +903,6 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Continue Analysis"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"You need at least 200 MB of memory to start the error analysis. Please free up memory."</string>
-    <!-- XHED: Dialog title if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_title">"Saved Locally"</string>
-    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_message">"The error analysis was saved locally."</string>
-    <!-- YTXT: Dialog message if local export has failed -->
-    <string name="debugging_debuglog_localexport_error_message">"The attempt to save the error report failed. Please check whether enough memory is available."</string>
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Detailed Information on Sending Error Reports"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -991,7 +979,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Do you want to cancel entering your symptoms?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"If you provide information about your symptoms, you can warn others more accurately."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"If you provide information about your symptoms, you can warn others more exactly."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Yes"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -1040,11 +1028,11 @@
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Now scan the QR code for your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_test_only_once">"Jeder Test kann nur einmal gescannt werden. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten."</string>
+    <string name="submission_consent_call_test_result_scan_test_only_once">"Each test can only be scanned once. The app can manage a maximum of one rapid test and one PCR test at the same time."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Please help others you have encountered by warning them!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"Wenn Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen. Bei einem Schnelltest funktioniert die Warnung nur in Deutschland, im Falle eines PCR-Tests funktioniert die Warnung in folgenden Ländern:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"If you have been diagnosed with coronavirus, you can warn others through the app. If you took a rapid test, the warning feature only works in Germany. If you took a PCR test, the warning feature works in the following countries:"</string>
     <!-- YTXT: Body for consent help by warning others - info about events -->
     <string name="submission_consent_help_by_warning_others_body_event">"People who were checked in to the same events or places at the same time as you were will also be warned."</string>
     <!-- YTXT: Page bottom text for consent screen -->
@@ -1310,7 +1298,7 @@
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Register your test by entering the TAN in the app."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Languages: \nEnglish, German, Turkish\n\nBusiness hours:\n24/7\n\nThe call is free of charge."</string>
+    <string name="submission_contact_operating_hours_body">"Our customer service is available in the following languages: \nEnglish, German, Turkish\n\nBusiness hours:\n24/7"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the medical emergency service hotline, telephone: 116 117."</string>
 
@@ -1392,22 +1380,6 @@
     <string name="submission_status_card_positive_result_contact">"The public health authority will contact you within the next few days."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Share your random IDs so that others can be warned."</string>
-
-
-    <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Weiter"</string>
-    <!-- XBUT: submission deletion warning button cancel -->
-    <string name="submission_deletion_warning_cancel_button">"Abbrechen"</string>
-    <!-- XHED: submission deletion warning title -->
-    <string name="submission_deletion_warning_title">"Hinweis"</string>
-    <!-- YTXT: Headline for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_antigen_test">"Sie haben bereits einen Schnelltest registriert."</string>
-    <!-- YTXT: Body for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_body_antigen_test">"Sie haben bereits einen Schnelltest registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren Schnelltest registrieren, wird der erste Schnelltest aus der App gelöscht."</string>
-    <!-- YTXT: Headline for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_pcr_test">"Sie haben bereits einen PCR-Test registriert."</string>
-    <!-- YTXT: Body for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_body_pcr_test">"Sie haben bereits einen PCR-Test registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren PCR-Test registrieren, wird der erste PCR-Test aus der App gelöscht."</string>
 
 
     <!-- Reenable risk card -->

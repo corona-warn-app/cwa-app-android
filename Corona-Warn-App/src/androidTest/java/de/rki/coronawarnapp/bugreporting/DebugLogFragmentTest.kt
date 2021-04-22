@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.bugreporting
 
-import android.content.ContentResolver
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
-import de.rki.coronawarnapp.bugreporting.debuglog.export.SAFLogExport
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogViewModel
@@ -36,8 +34,6 @@ class DebugLogFragmentTest : BaseUITest() {
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var bugReportingSettings: BugReportingSettings
     @MockK lateinit var logSnapshotter: LogSnapshotter
-    @MockK lateinit var safLogExport: SAFLogExport
-    @MockK lateinit var contentResolver: ContentResolver
 
     private lateinit var inactiveViewModel: DebugLogViewModel
     private lateinit var activeViewModel: DebugLogViewModel
@@ -103,9 +99,7 @@ class DebugLogFragmentTest : BaseUITest() {
                 TestDispatcherProvider(),
                 enfClient,
                 bugReportingSettings,
-                logSnapshotter,
-                safLogExport,
-                contentResolver
+                logSnapshotter
             )
         )
         with(vm) {
