@@ -12,7 +12,7 @@ data class CoronaRapidAntigenTestParametersContainer(
     val hoursToDeemTestOutdated: Long = DEFAULT_HOURS
 ) {
     companion object {
-        const val DEFAULT_HOURS = 48L
+        const val DEFAULT_HOURS: Long = 48
     }
 }
 

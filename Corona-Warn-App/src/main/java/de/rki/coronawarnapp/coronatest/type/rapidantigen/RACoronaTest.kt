@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -52,19 +52,17 @@ data class RACoronaTest(
     @SerializedName("dateOfBirth")
     val dateOfBirth: LocalDate?,
 
-    @SerializedName("outdatedAfter")
-    val outdatedAfter: Duration,
-
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
 
-    private fun isOutdated(nowUTC: Instant) = testedAt.plus(outdatedAfter).isBefore(nowUTC)
+    private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig) =
+        testedAt.plus(testConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
 
-    fun getState(nowUTC: Instant) =
-        if (isOutdated(nowUTC)) {
+    fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) =
+        if (isOutdated(nowUTC, testConfig)) {
             State.OUTDATED
         } else {
             when (testResult) {

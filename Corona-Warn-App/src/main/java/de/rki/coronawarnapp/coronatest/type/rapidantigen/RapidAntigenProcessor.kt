@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import dagger.Reusable
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
@@ -22,7 +21,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,8 +28,7 @@ import javax.inject.Inject
 @Reusable
 class RapidAntigenProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
-    private val submissionService: CoronaTestService,
-    private val appConfigProvider: AppConfigProvider
+    private val submissionService: CoronaTestService
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
@@ -44,11 +41,6 @@ class RapidAntigenProcessor @Inject constructor(
 
         val testResult = registrationData.testResult.validOrThrow()
 
-        val testOutdatedAfter = Duration.standardHours(
-            appConfigProvider.getAppConfig()
-                .coronaTestParameters.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated
-        )
-
         return RACoronaTest(
             identifier = request.identifier,
             registeredAt = timeStamper.nowUTC,
@@ -58,8 +50,7 @@ class RapidAntigenProcessor @Inject constructor(
             testedAt = request.createdAt,
             firstName = request.firstName,
             lastName = request.lastName,
-            dateOfBirth = request.dateOfBirth,
-            outdatedAfter = testOutdatedAfter
+            dateOfBirth = request.dateOfBirth
         )
     }
 
