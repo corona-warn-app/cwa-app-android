@@ -72,8 +72,11 @@ class DebugLogger(
             else -> false
         }
 
-        if (startLogger) {
-            runBlocking { start() }
+        runBlocking {
+            prepare()
+            if (startLogger) {
+                start()
+            }
         }
 
         Unit
@@ -91,6 +94,14 @@ class DebugLogger(
         component.inject(this)
         isDaggerReady = true
         Timber.tag(TAG).d("Censors loaded: %s", bugCensors)
+    }
+
+    private suspend fun prepare() = mutex.withLock {
+        Timber.tag(TAG).d("prepare()")
+
+        if (!debugDir.exists()) {
+            debugDir.mkdirs()
+        }
     }
 
     suspend fun start(): Unit = mutex.withLock {
