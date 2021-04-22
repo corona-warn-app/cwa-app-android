@@ -32,3 +32,15 @@ internal val raQrCode8 =
 // }
 internal val raQrCodeEmptyStrings =
     "https://s.coronawarn.app?v=1#ewogICAgImZuIjoiIiwKICAgICJsbiI6IiIsCiAgICAiZG9iIjoiIiwKICAgICJ0ZXN0aWQiOiIwZTYwMGI0Mi1jYzIxLTRlNzUtOTE0Yy03MDYwMzE0M2I2Y2IiLAogICAgInRpbWVzdGFtcCI6IDE2MTkwMTI5NTIsCiAgICAic2FsdCI6IjUxMGYzZDc1MGMyZmM2MzFmYmNmZTMyY2IwNmJiYmE5IiwKICAgICJoYXNoIjoiZDZlNGQwMTgxZDgxMDliZjA1YjM0NmEwZDJlMGVmMGNjNDcyZWVkNzBkOWRmOGM0YjlhZTVjN2EwMDlmM2UzNCIKfQ"
+
+// {
+//     "fn":"Max",
+//     "ln":"",
+//     "dob":"",
+//     "testid":"0e600b42-cc21-4e75-914c-70603143b6cb",
+//     "timestamp": 1619012952,
+//     "salt":"510f3d750c2fc631fbcfe32cb06bbba9",
+//     "hash":"d6e4d0181d8109bf05b346a0d2e0ef0cc472eed70d9df8c4b9ae5c7a009f3e34"
+// }
+internal val raQrIncompletePersonalData =
+    "https://s.coronawarn.app?v=1#ewogICAgImZuIjoiTWF4IiwKICAgICJsbiI6IiIsCiAgICAiZG9iIjoiIiwKICAgICJ0ZXN0aWQiOiIwZTYwMGI0Mi1jYzIxLTRlNzUtOTE0Yy03MDYwMzE0M2I2Y2IiLAogICAgInRpbWVzdGFtcCI6IDE2MTkwMTI5NTIsCiAgICAic2FsdCI6IjUxMGYzZDc1MGMyZmM2MzFmYmNmZTMyY2IwNmJiYmE5IiwKICAgICJoYXNoIjoiZDZlNGQwMTgxZDgxMDliZjA1YjM0NmEwZDJlMGVmMGNjNDcyZWVkNzBkOWRmOGM0YjlhZTVjN2EwMDlmM2UzNCIKfQ"
