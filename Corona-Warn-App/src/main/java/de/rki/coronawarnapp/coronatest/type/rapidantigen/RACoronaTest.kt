@@ -3,6 +3,12 @@ package de.rki.coronawarnapp.coronatest.type.rapidantigen
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
@@ -56,8 +62,8 @@ data class RACoronaTest(
     @Transient override val lastError: Throwable? = null,
 ) : CoronaTest {
 
-    @Transient
-    override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
+    override val type: CoronaTest.Type
+        get() = CoronaTest.Type.RAPID_ANTIGEN
 
     private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig) =
         testedAt.plus(testConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
@@ -67,24 +73,23 @@ data class RACoronaTest(
             State.OUTDATED
         } else {
             when (testResult) {
-                CoronaTestResult.PCR_OR_RAT_PENDING -> State.PENDING
-                CoronaTestResult.RAT_NEGATIVE -> State.NEGATIVE
-                CoronaTestResult.RAT_POSITIVE -> State.POSITIVE
-                CoronaTestResult.RAT_INVALID -> State.INVALID
-                CoronaTestResult.RAT_REDEEMED -> State.REDEEMED
+                PCR_OR_RAT_PENDING -> State.PENDING
+                RAT_NEGATIVE -> State.NEGATIVE
+                RAT_POSITIVE -> State.POSITIVE
+                RAT_INVALID -> State.INVALID
+                RAT_REDEEMED -> State.REDEEMED
                 else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
             }
         }
 
-    @Transient
-    override val isPositive: Boolean = testResult == CoronaTestResult.RAT_POSITIVE
+    override val isPositive: Boolean
+        get() = testResult == RAT_POSITIVE
 
-    @Transient
-    override val isPending: Boolean =
-        testResult == CoronaTestResult.PCR_OR_RAT_PENDING || testResult == CoronaTestResult.RAT_PENDING
+    override val isPending: Boolean
+        get() = setOf(PCR_OR_RAT_PENDING, RAT_PENDING).contains(testResult)
 
-    @Transient
-    override val isSubmissionAllowed: Boolean = isPositive && !isSubmitted
+    override val isSubmissionAllowed: Boolean
+        get() = isPositive && !isSubmitted
 
     enum class State {
         PENDING,
