@@ -49,7 +49,23 @@ class NetworkStateProvider @Inject constructor(
         val request = networkRequestBuilderProvider.get()
             .addCapability(NET_CAPABILITY_INTERNET)
             .build()
-        manager.registerNetworkCallback(request, callback)
+
+        try {
+            /**
+             * This may throw java.lang.SecurityException on Samsung devices
+             * java.lang.SecurityException:
+             * at android.os.Parcel.createExceptionOrNull (Parcel.java:2385)
+             * at android.net.ConnectivityManager.registerNetworkCallback (ConnectivityManager.java:4564)
+             */
+            manager.registerNetworkCallback(request, callback)
+        } catch (e: SecurityException) {
+            Timber.e(e, "registerNetworkCallback() threw an undocumented SecurityException, Just Samsung Things™️")
+            State(
+                activeNetwork = null,
+                capabilities = null,
+                linkProperties = null,
+            ).run { send(this) }
+        }
 
         val fakeConnectionSubscriber = launch {
             testSettings.fakeMeteredConnection.flow.drop(1)
