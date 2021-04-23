@@ -84,6 +84,7 @@ class SubmissionTaskTest : BaseTest() {
                 every { isSubmitted } returns false
                 every { registrationToken } returns "regtoken"
                 every { identifier } returns "coronatest-identifier"
+                every { type } returns CoronaTest.Type.PCR
             }
         )
     )
