@@ -24,7 +24,7 @@ import org.joda.time.Instant
 import timber.log.Timber
 
 /**
- * Diagnosis test result retrieval by periodic polling
+ * RAT retrieval by periodic polling
  */
 class PCRTestResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
@@ -86,7 +86,7 @@ class PCRTestResultRetrievalWorker @AssistedInject constructor(
     private suspend fun abortConditionsMet(nowUTC: Instant): Boolean {
         val pcrTest = coronaTestRepository.latestPCRT.first()
         if (pcrTest == null) {
-            Timber.tag(TAG).w("There is no PCR test available!?")
+            Timber.tag(TAG).w("There is no RAT available!?")
             return true
         }
 
