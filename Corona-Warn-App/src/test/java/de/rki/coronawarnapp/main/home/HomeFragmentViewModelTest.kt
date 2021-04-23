@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
@@ -31,6 +32,7 @@ import io.mockk.mockkObject
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -59,6 +61,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    @MockK lateinit var timeStamper: TimeStamper
 
     @BeforeEach
     fun setup() {
@@ -73,6 +76,8 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         coEvery { appConfigProvider.currentConfig } returns emptyFlow()
         coEvery { statisticsProvider.current } returns emptyFlow()
+
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(100101010)
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -89,7 +94,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         deadmanNotificationScheduler = deadmanNotificationScheduler,
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
-        traceLocationOrganizerSettings = traceLocationOrganizerSettings
+        traceLocationOrganizerSettings = traceLocationOrganizerSettings,
+        timeStamper = timeStamper
     )
 
     @Test
