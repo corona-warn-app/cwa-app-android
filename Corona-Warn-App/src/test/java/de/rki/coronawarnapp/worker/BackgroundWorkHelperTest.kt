@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.worker
 
 import androidx.work.NetworkType
-import de.rki.coronawarnapp.coronatest.worker.execution.PCRTestResultScheduler
+import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
 import org.junit.Assert
 import org.junit.Test
 
@@ -10,7 +10,7 @@ class BackgroundWorkHelperTest {
     @Test
     fun getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval() {
         Assert.assertEquals(
-            PCRTestResultScheduler.getPcrTestResultRetrievalPeriodicWorkTimeInterval(),
+            PCRResultScheduler.getPcrTestResultRetrievalPeriodicWorkTimeInterval(),
             120
         )
     }

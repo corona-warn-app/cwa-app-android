@@ -6,9 +6,9 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import dagger.Reusable
-import de.rki.coronawarnapp.coronatest.worker.RatResultRetrievalWorker
-import de.rki.coronawarnapp.coronatest.worker.execution.RatResultScheduler.RatPollingMode.DISABLED
-import de.rki.coronawarnapp.coronatest.worker.execution.RatResultScheduler.RatPollingMode.PHASE1
+import de.rki.coronawarnapp.coronatest.worker.RAResultRetrievalWorker
+import de.rki.coronawarnapp.coronatest.worker.execution.RAResultScheduler.RatPollingMode.DISABLED
+import de.rki.coronawarnapp.coronatest.worker.execution.RAResultScheduler.RatPollingMode.PHASE1
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import timber.log.Timber
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Reusable
-class RatResultScheduler @Inject constructor(
+class RAResultScheduler @Inject constructor(
     private val workManager: WorkManager,
 ) {
 
@@ -53,7 +53,7 @@ class RatResultScheduler @Inject constructor(
         } else {
             ratResultRetrievalPeriodicWorkPhase2IntervalInMinutes
         }
-        return PeriodicWorkRequestBuilder<RatResultRetrievalWorker>(
+        return PeriodicWorkRequestBuilder<RAResultRetrievalWorker>(
             repeatInterval,
             TimeUnit.MINUTES
         )

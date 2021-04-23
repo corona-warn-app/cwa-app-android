@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
-import de.rki.coronawarnapp.coronatest.worker.execution.RatResultScheduler
+import de.rki.coronawarnapp.coronatest.worker.execution.RAResultScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -30,7 +30,7 @@ import javax.inject.Inject
 class RapidAntigenProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
-    private val resultScheduler: RatResultScheduler,
+    private val resultScheduler: RAResultScheduler,
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
@@ -44,7 +44,7 @@ class RapidAntigenProcessor @Inject constructor(
         val testResult = registrationData.testResult.validOrThrow()
 
         if (testResult == PCR_OR_RAT_PENDING || testResult == RAT_PENDING) {
-            resultScheduler.setRatResultPeriodicPollingMode(mode = RatResultScheduler.RatPollingMode.PHASE1)
+            resultScheduler.setRatResultPeriodicPollingMode(mode = RAResultScheduler.RatPollingMode.PHASE1)
         }
 
         return RACoronaTest(

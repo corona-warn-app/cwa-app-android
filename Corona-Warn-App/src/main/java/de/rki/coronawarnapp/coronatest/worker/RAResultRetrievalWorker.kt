@@ -9,10 +9,10 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.worker.execution.RatResultScheduler
-import de.rki.coronawarnapp.coronatest.worker.execution.RatResultScheduler.RatPollingMode.DISABLED
-import de.rki.coronawarnapp.coronatest.worker.execution.RatResultScheduler.RatPollingMode.PHASE1
-import de.rki.coronawarnapp.coronatest.worker.execution.RatResultScheduler.RatPollingMode.PHASE2
+import de.rki.coronawarnapp.coronatest.worker.execution.RAResultScheduler
+import de.rki.coronawarnapp.coronatest.worker.execution.RAResultScheduler.RatPollingMode.DISABLED
+import de.rki.coronawarnapp.coronatest.worker.execution.RAResultScheduler.RatPollingMode.PHASE1
+import de.rki.coronawarnapp.coronatest.worker.execution.RAResultScheduler.RatPollingMode.PHASE2
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
@@ -23,12 +23,12 @@ import timber.log.Timber
 /**
  * Diagnosis test result retrieval by periodic polling
  */
-class RatResultRetrievalWorker @AssistedInject constructor(
+class RAResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val coronaTestRepository: CoronaTestRepository,
     private val timeStamper: TimeStamper,
-    private val ratResultScheduler: RatResultScheduler,
+    private val ratResultScheduler: RAResultScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -86,10 +86,10 @@ class RatResultRetrievalWorker @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : InjectedWorkerFactory<RatResultRetrievalWorker>
+    interface Factory : InjectedWorkerFactory<RAResultRetrievalWorker>
 
     companion object {
-        private val TAG = RatResultRetrievalWorker::class.java.simpleName
+        private val TAG = RAResultRetrievalWorker::class.java.simpleName
 
         /**
          * The time when rat polling is switched to a larger interval

@@ -5,8 +5,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
-import de.rki.coronawarnapp.coronatest.worker.PCRTestResultRetrievalWorker
-import de.rki.coronawarnapp.coronatest.worker.RatResultRetrievalWorker
+import de.rki.coronawarnapp.coronatest.worker.PCRResultRetrievalWorker
+import de.rki.coronawarnapp.coronatest.worker.RAResultRetrievalWorker
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsPeriodicWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationOneTimeWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationPeriodicWorker
@@ -52,16 +52,16 @@ abstract class WorkerBinder {
 
     @Binds
     @IntoMap
-    @WorkerKey(PCRTestResultRetrievalWorker::class)
+    @WorkerKey(PCRResultRetrievalWorker::class)
     abstract fun pcrTestResultRetrievalPeriodic(
-        factory: PCRTestResultRetrievalWorker.Factory
+        factory: PCRResultRetrievalWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 
     @Binds
     @IntoMap
-    @WorkerKey(RatResultRetrievalWorker::class)
+    @WorkerKey(RAResultRetrievalWorker::class)
     abstract fun ratResultRetrievalPeriodic(
-        factory: RatResultRetrievalWorker.Factory
+        factory: RAResultRetrievalWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 
     @Binds

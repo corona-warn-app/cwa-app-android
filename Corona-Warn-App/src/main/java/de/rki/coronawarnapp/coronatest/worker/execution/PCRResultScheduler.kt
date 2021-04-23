@@ -7,9 +7,11 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import dagger.Reusable
-import de.rki.coronawarnapp.coronatest.worker.PCRTestResultRetrievalWorker
+import de.rki.coronawarnapp.coronatest.worker.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.util.coroutine.await
 import de.rki.coronawarnapp.worker.BackgroundConstants
+import de.rki.coronawarnapp.worker.BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
+import de.rki.coronawarnapp.worker.BackgroundConstants.MINUTES_IN_DAY
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
@@ -17,7 +19,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Reusable
-class PCRTestResultScheduler @Inject constructor(
+class PCRResultScheduler @Inject constructor(
     private val workManager: WorkManager,
 ) {
 
@@ -50,7 +52,7 @@ class PCRTestResultScheduler @Inject constructor(
     }
 
     private fun buildPcrTestResultRetrievalPeriodicWork() =
-        PeriodicWorkRequestBuilder<PCRTestResultRetrievalWorker>(
+        PeriodicWorkRequestBuilder<PCRResultRetrievalWorker>(
             getPcrTestResultRetrievalPeriodicWorkTimeInterval(),
             TimeUnit.MINUTES
         )
@@ -86,10 +88,7 @@ class PCRTestResultScheduler @Inject constructor(
          * @see BackgroundConstants.MINUTES_IN_DAY
          */
         @VisibleForTesting
-        internal fun getPcrTestResultRetrievalPeriodicWorkTimeInterval(): Long =
-            (
-                BackgroundConstants.MINUTES_IN_DAY /
-                    BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
-                ).toLong()
+        internal fun getPcrTestResultRetrievalPeriodicWorkTimeInterval() =
+            (MINUTES_IN_DAY / DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY).toLong()
     }
 }

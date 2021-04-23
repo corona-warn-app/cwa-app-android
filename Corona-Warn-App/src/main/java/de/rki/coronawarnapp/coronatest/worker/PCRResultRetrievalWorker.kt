@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
-import de.rki.coronawarnapp.coronatest.worker.execution.PCRTestResultScheduler
+import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
@@ -26,14 +26,14 @@ import timber.log.Timber
 /**
  * RAT retrieval by periodic polling
  */
-class PCRTestResultRetrievalWorker @AssistedInject constructor(
+class PCRResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
     private val notificationHelper: GeneralNotifications,
     private val coronaTestRepository: CoronaTestRepository,
     private val timeStamper: TimeStamper,
-    private val testResultScheduler: PCRTestResultScheduler,
+    private val testResultScheduler: PCRResultScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -128,9 +128,9 @@ class PCRTestResultRetrievalWorker @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : InjectedWorkerFactory<PCRTestResultRetrievalWorker>
+    interface Factory : InjectedWorkerFactory<PCRResultRetrievalWorker>
 
     companion object {
-        private val TAG = PCRTestResultRetrievalWorker::class.java.simpleName
+        private val TAG = PCRResultRetrievalWorker::class.java.simpleName
     }
 }

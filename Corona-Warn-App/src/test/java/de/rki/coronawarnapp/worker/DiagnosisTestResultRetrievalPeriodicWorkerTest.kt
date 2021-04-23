@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
-import de.rki.coronawarnapp.coronatest.worker.PCRTestResultRetrievalWorker
-import de.rki.coronawarnapp.coronatest.worker.execution.PCRTestResultScheduler
+import de.rki.coronawarnapp.coronatest.worker.PCRResultRetrievalWorker
+import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
@@ -49,7 +49,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
-    @MockK lateinit var testResultScheduler: PCRTestResultScheduler
+    @MockK lateinit var testResultScheduler: PCRResultScheduler
 
     @RelaxedMockK lateinit var workerParams: WorkerParameters
     private val currentInstant = Instant.ofEpochSecond(1611764225)
@@ -95,7 +95,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         }
     }
 
-    private fun createWorker() = PCRTestResultRetrievalWorker(
+    private fun createWorker() = PCRResultRetrievalWorker(
         context = context,
         workerParams = workerParams,
         testResultAvailableNotificationService = testResultAvailableNotificationService,

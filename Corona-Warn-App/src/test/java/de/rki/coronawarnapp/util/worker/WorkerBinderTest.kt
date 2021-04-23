@@ -7,8 +7,8 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.worker.execution.PCRTestResultScheduler
-import de.rki.coronawarnapp.coronatest.worker.execution.RatResultScheduler
+import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
+import de.rki.coronawarnapp.coronatest.worker.execution.RAResultScheduler
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -163,8 +163,8 @@ class MockProvider {
     fun noiseScheduler(): NoiseScheduler = mockk()
 
     @Provides
-    fun pcrTestResultScheduler(): PCRTestResultScheduler = mockk()
+    fun pcrTestResultScheduler(): PCRResultScheduler = mockk()
 
     @Provides
-    fun ratResultScheduler(): RatResultScheduler = mockk()
+    fun ratResultScheduler(): RAResultScheduler = mockk()
 }

@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
-import de.rki.coronawarnapp.coronatest.worker.execution.PCRTestResultScheduler
+import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -37,7 +37,7 @@ class PCRProcessor @Inject constructor(
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val testResultDataCollector: TestResultDataCollector,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
-    private val pcrTestResultScheduler: PCRTestResultScheduler,
+    private val pcrTestResultScheduler: PCRResultScheduler,
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR

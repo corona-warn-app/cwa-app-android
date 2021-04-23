@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.worker
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.worker.execution.PCRTestResultScheduler
+import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
 import de.rki.coronawarnapp.deniability.NoiseScheduler
 import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
 import kotlinx.coroutines.flow.first
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 class BackgroundWorkScheduler @Inject constructor(
     private val riskWorkScheduler: RiskWorkScheduler,
     private val coronaTestRepository: CoronaTestRepository,
-    private val testResultScheduler: PCRTestResultScheduler,
+    private val testResultScheduler: PCRResultScheduler,
     private val noiseScheduler: NoiseScheduler,
 ) {
 
