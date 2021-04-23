@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
@@ -396,7 +396,8 @@ class SubmissionTaskTest : BaseTest() {
     @Test
     fun `PPA is collected for PCR tests`() = runBlockingTest {
         coronaTestsFlow.value = setOf(
-            mockk<PCRCoronaTest>().apply {
+            mockk<CoronaTest>().apply {
+                every { type } returns PCR
                 every { isAdvancedConsentGiven } returns true
                 every { isSubmissionAllowed } returns true
                 every { isSubmitted } returns false
@@ -414,7 +415,8 @@ class SubmissionTaskTest : BaseTest() {
     @Test
     fun `PPA is NOT collected for RAT tests`() = runBlockingTest {
         coronaTestsFlow.value = setOf(
-            mockk<RACoronaTest>().apply {
+            mockk<CoronaTest>().apply {
+                every { type } returns RAPID_ANTIGEN
                 every { isAdvancedConsentGiven } returns true
                 every { isSubmissionAllowed } returns true
                 every { isSubmitted } returns false

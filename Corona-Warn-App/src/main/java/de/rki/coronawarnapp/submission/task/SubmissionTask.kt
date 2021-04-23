@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
@@ -174,7 +174,7 @@ class SubmissionTask @Inject constructor(
         playbook.submit(submissionData)
 
         // PPA will only be used for PCR tests for now
-        if (coronaTest is PCRCoronaTest) {
+        if (coronaTest.type == PCR) {
             analyticsKeySubmissionCollector.reportSubmitted()
             if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground()
         }
@@ -268,6 +268,6 @@ class SubmissionTask @Inject constructor(
 }
 
 private fun CoronaTest.Type.toSubmissionType() = when (this) {
-    CoronaTest.Type.PCR -> SubmissionType.SUBMISSION_TYPE_PCR_TEST
+    PCR -> SubmissionType.SUBMISSION_TYPE_PCR_TEST
     CoronaTest.Type.RAPID_ANTIGEN -> SubmissionType.SUBMISSION_TYPE_RAPID_TEST
 }
