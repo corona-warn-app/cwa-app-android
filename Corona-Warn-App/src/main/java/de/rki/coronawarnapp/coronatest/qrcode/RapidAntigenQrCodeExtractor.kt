@@ -19,7 +19,10 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
 
     override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
         Timber.v("extract(rawString=%s)", rawString)
-        val payload = extractData(rawString)
+        val payload = CleanPayload(extractData(rawString))
+
+        payload.requireValidPersonalData()
+
         return CoronaTestQRCode.RapidAntigen(
             hash = payload.hash,
             createdAt = payload.createdAt,
@@ -29,74 +32,87 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         )
     }
 
-    private fun extractData(rawString: String): Payload {
+    private fun extractData(rawString: String): RawPayload {
         return rawString
             .removePrefix(PREFIX1)
             .removePrefix(PREFIX2)
             .decode()
     }
 
-    private fun String.decode(): Payload {
-        val decoded = if (
-            this.contains("+") ||
-            this.contains("/") ||
-            this.contains("=")
-        ) {
-            BaseEncoding.base64().decode(this)
-        } else {
-            BaseEncoding.base64Url().decode(this)
+    private fun String.decode(): RawPayload {
+        val decoded = try {
+            if (
+                this.contains("+") ||
+                this.contains("/") ||
+                this.contains("=")
+            ) {
+                BaseEncoding.base64().decode(this)
+            } else {
+                BaseEncoding.base64Url().decode(this)
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw InvalidQRCodeException("Unsupported encoding. Supported encodings are base64 and base64url.")
         }
-        return Gson().fromJson(decoded.commonToUtf8String())
+
+        try {
+            return Gson().fromJson(decoded.commonToUtf8String())
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw InvalidQRCodeException("Malformed payload.")
+        }
     }
 
-    private data class Payload(
-        @SerializedName("hash")
-        val rawHash: String?,
-        @SerializedName("timestamp")
-        val rawTimestamp: Long?,
-        @SerializedName("fn")
-        val rawFirstName: String?,
-        @SerializedName("ln")
-        val rawLastName: String?,
-        @SerializedName("dob")
-        val rawDateOfBirth: String?
-    ) {
-        val hash: String
-            get() {
-                if (rawHash == null || !rawHash.isSha256Hash()) throw InvalidQRCodeException("Hash is invalid")
-                return rawHash
-            }
+    private data class RawPayload(
+        @SerializedName("hash") val hash: String?,
+        @SerializedName("timestamp") val timestamp: Long?,
+        @SerializedName("fn") val firstName: String?,
+        @SerializedName("ln") val lastName: String?,
+        @SerializedName("dob") val dateOfBirth: String?
+    )
 
-        val createdAt: Instant
-            get() {
-                if (rawTimestamp == null || rawTimestamp <= 0) throw InvalidQRCodeException("Timestamp is invalid")
-                return Instant.ofEpochSecond(rawTimestamp)
-            }
+    private data class CleanPayload(val raw: RawPayload) {
 
-        val firstName: String?
-            get() {
-                if (rawFirstName.isNullOrEmpty()) return null
-                return rawFirstName
-            }
+        val hash: String by lazy {
+            if (raw.hash == null || !raw.hash.isSha256Hash()) throw InvalidQRCodeException("Hash is invalid")
+            raw.hash
+        }
 
-        val lastName: String?
-            get() {
-                if (rawLastName.isNullOrEmpty()) return null
-                return rawLastName
-            }
+        val createdAt: Instant by lazy {
+            if (raw.timestamp == null || raw.timestamp <= 0) throw InvalidQRCodeException("Timestamp is invalid")
+            Instant.ofEpochSecond(raw.timestamp)
+        }
 
-        val dateOfBirth: LocalDate?
-            get() {
-                if (rawDateOfBirth.isNullOrEmpty()) return null
-                return try {
-                    LocalDate.parse(rawDateOfBirth)
-                } catch (e: Exception) {
-                    Timber.e("Invalid date format")
-                    throw InvalidQRCodeException(
-                        "Date of birth has wrong format: $rawDateOfBirth. It should be YYYY-MM-DD"
-                    )
-                }
+        val firstName: String? by lazy {
+            if (raw.firstName.isNullOrEmpty()) null else raw.firstName
+        }
+
+        val lastName: String? by lazy {
+            if (raw.lastName.isNullOrEmpty()) null else raw.lastName
+        }
+
+        val dateOfBirth: LocalDate? by lazy {
+            if (raw.dateOfBirth.isNullOrEmpty()) return@lazy null
+
+            try {
+                LocalDate.parse(raw.dateOfBirth)
+            } catch (e: Exception) {
+                Timber.e("Invalid date format")
+                throw InvalidQRCodeException(
+                    "Date of birth has wrong format: ${raw.dateOfBirth}. It should be YYYY-MM-DD"
+                )
             }
+        }
+
+        fun requireValidPersonalData() {
+            val allOrNothing = listOf(
+                firstName != null,
+                lastName != null,
+                dateOfBirth != null,
+            )
+            val complete = allOrNothing.all { it } || allOrNothing.all { !it }
+            if (!complete) throw InvalidQRCodeException("QRCode contains incomplete personal data: $raw")
+        }
     }
 
     companion object {

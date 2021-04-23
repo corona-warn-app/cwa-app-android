@@ -1,48 +1,49 @@
-package de.rki.coronawarnapp.coronatest.execution
+package de.rki.coronawarnapp.coronatest.worker.execution
 
+import androidx.annotation.VisibleForTesting
 import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import dagger.Reusable
-import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.coronatest.worker.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.util.coroutine.await
 import de.rki.coronawarnapp.worker.BackgroundConstants
+import de.rki.coronawarnapp.worker.BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
+import de.rki.coronawarnapp.worker.BackgroundConstants.MINUTES_IN_DAY
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
-import de.rki.coronawarnapp.worker.DiagnosisTestResultRetrievalPeriodicWorker
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Reusable
-class TestResultScheduler @Inject constructor(
-    private val tracingSettings: TracingSettings,
+class PCRResultScheduler @Inject constructor(
     private val workManager: WorkManager,
-    private val timeStamper: TimeStamper,
 ) {
 
-    private suspend fun isScheduled(): Boolean {
-        val workerInfos = workManager.getWorkInfosForUniqueWork(PCR_TESTRESULT_WORKER_UNIQUEUNAME).await()
+    private suspend fun isPcrScheduled() =
+        workManager.getWorkInfosForUniqueWork(PCR_TESTRESULT_WORKER_UNIQUEUNAME)
+            .await()
+            .any { it.isScheduled }
 
-        return workerInfos.any { it.isScheduled }
-    }
+    private val WorkInfo.isScheduled: Boolean
+        get() = state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
 
-    fun setPeriodicTestPolling(enabled: Boolean) {
+    fun setPcrPeriodicTestPollingEnabled(enabled: Boolean) {
         if (enabled) {
             // TODO Refactor runBlocking away
-            val isScheduled = runBlocking { isScheduled() }
+            val isScheduled = runBlocking { isPcrScheduled() }
             if (isScheduled) {
                 Timber.tag(TAG).w("Already scheduled, skipping")
                 return
             }
-            Timber.tag(TAG).i("Queueing test result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
+            Timber.tag(TAG).i("Queueing pcr test result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
             workManager.enqueueUniquePeriodicWork(
                 PCR_TESTRESULT_WORKER_UNIQUEUNAME,
                 ExistingPeriodicWorkPolicy.REPLACE,
-                buildDiagnosisTestResultRetrievalPeriodicWork()
+                buildPcrTestResultRetrievalPeriodicWork()
             )
         } else {
             Timber.tag(TAG).d("cancelWorker()")
@@ -50,9 +51,9 @@ class TestResultScheduler @Inject constructor(
         }
     }
 
-    private fun buildDiagnosisTestResultRetrievalPeriodicWork() =
-        PeriodicWorkRequestBuilder<DiagnosisTestResultRetrievalPeriodicWorker>(
-            BackgroundWorkHelper.getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(),
+    private fun buildPcrTestResultRetrievalPeriodicWork() =
+        PeriodicWorkRequestBuilder<PCRResultRetrievalWorker>(
+            getPcrTestResultRetrievalPeriodicWorkTimeInterval(),
             TimeUnit.MINUTES
         )
             .addTag(PCR_TESTRESULT_WORKER_TAG)
@@ -67,9 +68,6 @@ class TestResultScheduler @Inject constructor(
             )
             .build()
 
-    private val WorkInfo.isScheduled: Boolean
-        get() = state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
-
     companion object {
         /**
          * Kind initial delay in minutes for periodic work for accessibility reason
@@ -80,6 +78,17 @@ class TestResultScheduler @Inject constructor(
         private const val PCR_TESTRESULT_WORKER_TAG = "DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER"
         private const val PCR_TESTRESULT_WORKER_UNIQUEUNAME = "DiagnosisTestResultBackgroundPeriodicWork"
 
-        private const val TAG = "TestResultScheduler"
+        private const val TAG = "PCRTestResultScheduler"
+
+        /**
+         * Calculate the time for pcr diagnosis key retrieval periodic work
+         *
+         * @return Long
+         *
+         * @see BackgroundConstants.MINUTES_IN_DAY
+         */
+        @VisibleForTesting
+        internal fun getPcrTestResultRetrievalPeriodicWorkTimeInterval() =
+            (MINUTES_IN_DAY / DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY).toLong()
     }
 }

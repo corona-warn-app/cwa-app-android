@@ -31,8 +31,8 @@ data class TraceWarningPackageMetadata(
         createdAt = createdAt,
     )
 
-    @Transient
-    val fileName: String = "$packageId.bin"
+    val fileName: String
+        get() = "$packageId.bin"
 
     companion object {
         fun calcluateId(

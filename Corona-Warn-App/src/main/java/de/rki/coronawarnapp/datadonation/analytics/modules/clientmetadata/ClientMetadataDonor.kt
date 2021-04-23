@@ -5,14 +5,13 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.ApiLevel
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ClientMetadataDonor @Inject constructor(
-    private val apiLevel: ApiLevel,
     private val appConfigProvider: AppConfigProvider,
     private val enfClient: ENFClient
 ) : DonorModule {
@@ -24,7 +23,7 @@ class ClientMetadataDonor @Inject constructor(
 
         val clientMetadataBuilder = PpaData.PPAClientMetadataAndroid.newBuilder()
             .setCwaVersion(version.toPPASemanticVersion())
-            .setAndroidApiLevel(apiLevel.currentLevel.toLong())
+            .setAndroidApiLevel(BuildVersionWrap.SDK_INT.toLong())
             .setAppConfigETag(config.identifier)
 
         enfClient.getENFClientVersion()?.let {

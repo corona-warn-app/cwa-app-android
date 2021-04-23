@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.playbook
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 
 /**
@@ -38,6 +39,7 @@ interface Playbook {
         val temporaryExposureKeys: List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visitedCountries: List<String>,
-        val checkIns: List<CheckInOuterClass.CheckIn>
+        val checkIns: List<CheckInOuterClass.CheckIn>,
+        val submissionType: SubmissionPayload.SubmissionType
     )
 }
