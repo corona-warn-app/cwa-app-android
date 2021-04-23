@@ -23,12 +23,9 @@ class CoronaTestQrCodeValidatorTest : BaseTest() {
     fun `invalid prefix throws exception`() {
         val invalidCode = "HTTPS://somethingelse/?123456-12345678-1234-4DA7-B166-B86D85475064"
         val instance = CoronaTestQrCodeValidator(RapidAntigenQrCodeExtractor(), PcrQrCodeExtractor())
-        return try {
+        shouldThrow<InvalidQRCodeException> {
             instance.validate(invalidCode)
-            false
-        } catch (e: InvalidQRCodeException) {
-            true
-        } shouldBe true
+        }
     }
 
     @Test

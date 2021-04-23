@@ -40,19 +40,25 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
     }
 
     private fun String.decode(): RawPayload {
-        val decoded = if (
-            this.contains("+") ||
-            this.contains("/") ||
-            this.contains("=")
-        ) {
-            BaseEncoding.base64().decode(this)
-        } else {
-            BaseEncoding.base64Url().decode(this)
+        val decoded = try {
+            if (
+                this.contains("+") ||
+                this.contains("/") ||
+                this.contains("=")
+            ) {
+                BaseEncoding.base64().decode(this)
+            } else {
+                BaseEncoding.base64Url().decode(this)
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw InvalidQRCodeException("Unsupported encoding. Supported encodings are base64 and base64url.")
         }
+
         try {
             return Gson().fromJson(decoded.commonToUtf8String())
         } catch (e: Exception) {
-            Timber.i(e)
+            Timber.e(e)
             throw InvalidQRCodeException("Malformed payload.")
         }
     }
