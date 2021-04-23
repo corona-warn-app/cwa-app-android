@@ -29,7 +29,7 @@ class RapidTestOutdatedCard(
     }
 
     data class Item(
-        val state: SubmissionStateRAT.TestInvalid,
+        val state: SubmissionStateRAT.TestOutdated,
         val hideTest: (Item) -> Unit
     ) : TestResultItem.RA, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null

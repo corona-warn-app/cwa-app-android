@@ -50,7 +50,7 @@ class HomeTestCardsFragmentViewModel @AssistedInject constructor(
             RapidTestPendingCard.Item(SubmissionStateRAT.TestPending) {},
             RapidTestReadyCard.Item(SubmissionStateRAT.TestResultReady) {},
             RapidTestInvalidCard.Item(SubmissionStateRAT.TestInvalid) {},
-            RapidTestOutdatedCard.Item(SubmissionStateRAT.TestInvalid) {},
+            RapidTestOutdatedCard.Item(SubmissionStateRAT.TestOutdated) {},
             RapidTestErrorCard.Item(SubmissionStateRAT.TestError) {},
             RapidTestNegativeCard.Item(SubmissionStateRAT.TestNegative(Instant.now())) {},
             RapidTestPositiveCard.Item(SubmissionStateRAT.TestPositive(Instant.now())) {},

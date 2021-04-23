@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 /**
@@ -29,8 +29,14 @@ class SubmissionTestResultNoConsentFragment :
 
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SubmissionTestResultNoConsentViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionTestResultPositiveNoConsentBinding by viewBindingLazy()
+    private val viewModel: SubmissionTestResultNoConsentViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionTestResultNoConsentViewModel.Factory
+            factory.create(navArgs.testType)
+        }
+    )
 
     private val navArgs by navArgs<SubmissionTestResultPendingFragmentArgs>()
 

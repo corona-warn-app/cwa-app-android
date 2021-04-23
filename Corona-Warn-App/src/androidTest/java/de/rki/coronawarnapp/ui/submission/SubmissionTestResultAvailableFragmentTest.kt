@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -11,6 +12,7 @@ import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater_Factory_Impl
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragment
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableViewModel
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragmentArgs
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -41,6 +43,9 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var testType: CoronaTest.Type
+    private val resultAvailableFragmentArgs =
+        SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
 
     @Rule
     @JvmField
@@ -63,13 +68,14 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
                 submissionRepository = submissionRepository,
                 autoSubmission = autoSubmission,
                 analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-                checkInRepository = checkInRepository
+                checkInRepository = checkInRepository,
+                testType = testType
             )
         )
 
         setupMockViewModel(
             object : SubmissionTestResultAvailableViewModel.Factory {
-                override fun create(): SubmissionTestResultAvailableViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionTestResultAvailableViewModel = viewModel
             }
         )
     }
@@ -83,14 +89,20 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_with_consent() {
         every { viewModel.consent } returns MutableLiveData(true)
-        captureScreenshot<SubmissionTestResultAvailableFragment>("_consent")
+        captureScreenshot<SubmissionTestResultAvailableFragment>(
+            suffix = "_consent",
+            fragmentArgs = resultAvailableFragmentArgs
+        )
     }
 
     @Test
     @Screenshot
     fun capture_fragment_without_consent() {
         every { viewModel.consent } returns MutableLiveData(false)
-        captureScreenshot<SubmissionTestResultAvailableFragment>("_no_consent")
+        captureScreenshot<SubmissionTestResultAvailableFragment>(
+            suffix = "_no_consent",
+            fragmentArgs = resultAvailableFragmentArgs
+        )
     }
 }
 
