@@ -64,7 +64,7 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `onNewUserActivity should call analyticsSubmissionCollector for RAT tests`() {
+    fun `onNewUserActivity should NOT call analyticsSubmissionCollector for RAT tests`() {
         testType = CoronaTest.Type.RAPID_ANTIGEN
         createViewModel().onNewUserActivity()
         verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT) }
