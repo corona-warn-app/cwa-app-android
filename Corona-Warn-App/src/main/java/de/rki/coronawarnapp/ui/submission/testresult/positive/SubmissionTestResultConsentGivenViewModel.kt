@@ -77,6 +77,7 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
+        // TODO check type
         analyticsKeySubmissionCollector.reportLastSubmissionFlowScreenPcr(Screen.TEST_RESULT)
         autoSubmission.updateLastSubmissionUserActivity()
     }

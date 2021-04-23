@@ -65,7 +65,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
                 val navDirections = if (completedCheckInsExist) {
                     Timber.tag(TAG).d("Navigate to CheckInsConsentFragment")
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToCheckInsConsentFragment(testType)
+                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToCheckInsConsentFragment()
                 } else {
                     autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
                     Timber.tag(TAG).d("Navigate to SubmissionResultReadyFragment")
@@ -138,7 +138,9 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onResume() {
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreenPcr(Screen.WARN_OTHERS)
+        if (testType == CoronaTest.Type.PCR) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreenPcr(Screen.WARN_OTHERS)
+        }
     }
 
     @AssistedFactory
