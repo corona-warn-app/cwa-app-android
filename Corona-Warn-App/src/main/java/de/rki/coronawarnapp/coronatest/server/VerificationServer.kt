@@ -22,6 +22,7 @@ class VerificationServer @Inject constructor(
         key: String,
         keyType: VerificationKeyType
     ): RegistrationToken = withContext(Dispatchers.IO) {
+        Timber.tag(TAG).v("retrieveRegistrationToken(key=%s, keyType=%s)", key, keyType)
         val keyStr = if (keyType == VerificationKeyType.GUID) {
             HashHelper.hash256(key)
         } else {
@@ -33,7 +34,7 @@ class VerificationServer @Inject constructor(
             VerificationKeyType.TELETAN -> PADDING_LENGTH_BODY_REGISTRATION_TOKEN_TELETAN
         }
 
-        api.getRegistrationToken(
+        val response = api.getRegistrationToken(
             fake = "0",
             headerPadding = requestPadding(PADDING_LENGTH_HEADER_REGISTRATION_TOKEN),
             requestBody = VerificationApiV1.RegistrationTokenRequest(
@@ -41,13 +42,16 @@ class VerificationServer @Inject constructor(
                 key = keyStr,
                 requestPadding = requestPadding(paddingLength)
             )
-        ).registrationToken
+        )
+
+        Timber.tag(TAG).d("retrieveRegistrationToken(key=%s, keyType=%s) -> %s", key, keyType, response)
+        response.registrationToken
     }
 
     suspend fun pollTestResult(
         token: RegistrationToken
     ): CoronaTestResult = withContext(Dispatchers.IO) {
-        Timber.tag(TAG).d("retrieveTestResults(token=%s)", token)
+        Timber.tag(TAG).v("retrieveTestResults(token=%s)", token)
         val response = api.getTestResult(
             fake = "0",
             headerPadding = requestPadding(PADDING_LENGTH_HEADER_TEST_RESULT),
@@ -64,18 +68,23 @@ class VerificationServer @Inject constructor(
     suspend fun retrieveTan(
         registrationToken: RegistrationToken
     ): String = withContext(Dispatchers.IO) {
-        api.getTAN(
+        Timber.tag(TAG).v("retrieveTan(registrationToken=%s)", registrationToken)
+        val response = api.getTAN(
             fake = "0",
             headerPadding = requestPadding(PADDING_LENGTH_HEADER_TAN),
             requestBody = VerificationApiV1.TanRequestBody(
                 registrationToken,
                 requestPadding(PADDING_LENGTH_BODY_TAN)
             )
-        ).tan
+        )
+
+        Timber.tag(TAG).d("retrieveTan(registrationToken=%s) -> %s", registrationToken, response)
+        response.tan
     }
 
     suspend fun retrieveTanFake() = withContext(Dispatchers.IO) {
-        api.getTAN(
+        Timber.tag(TAG).v("retrieveTanFake()")
+        val response = api.getTAN(
             fake = "1",
             headerPadding = requestPadding(PADDING_LENGTH_HEADER_TAN),
             requestBody = VerificationApiV1.TanRequestBody(
@@ -83,6 +92,8 @@ class VerificationServer @Inject constructor(
                 requestPadding = requestPadding(PADDING_LENGTH_BODY_TAN_FAKE)
             )
         )
+        Timber.tag(TAG).v("retrieveTanFake() -> %s", response)
+        response
     }
 
     companion object {
