@@ -81,7 +81,7 @@ class TestResultScheduler @Inject constructor(
 
     private fun buildPcrTestResultRetrievalPeriodicWork() =
         PeriodicWorkRequestBuilder<PCRTestResultRetrievalWorker>(
-            BackgroundWorkHelper.getPcrTestResultRetrievalPeriodicWorkTimeInterval(),
+            getPcrTestResultRetrievalPeriodicWorkTimeInterval(),
             TimeUnit.MINUTES
         )
             .addTag(PCR_TESTRESULT_WORKER_TAG)
@@ -98,9 +98,9 @@ class TestResultScheduler @Inject constructor(
 
     private fun buildRatResultRetrievalPeriodicWork(pollingMode: RatPollingMode): PeriodicWorkRequest {
         val repeatInterval = if (pollingMode == PHASE1) {
-            BackgroundWorkHelper.ratResultRetrievalPeriodicWorkPhase1IntervalInMinutes
+            ratResultRetrievalPeriodicWorkPhase1IntervalInMinutes
         } else {
-            BackgroundWorkHelper.ratResultRetrievalPeriodicWorkPhase2IntervalInMinutes
+            ratResultRetrievalPeriodicWorkPhase2IntervalInMinutes
         }
         return PeriodicWorkRequestBuilder<RatResultRetrievalWorker>(
             repeatInterval,
@@ -119,6 +119,19 @@ class TestResultScheduler @Inject constructor(
             .build()
     }
 
+    /**
+     * Calculate the time for pcr diagnosis key retrieval periodic work
+     *
+     * @return Long
+     *
+     * @see BackgroundConstants.MINUTES_IN_DAY
+     */
+    private fun getPcrTestResultRetrievalPeriodicWorkTimeInterval(): Long =
+        (
+            BackgroundConstants.MINUTES_IN_DAY /
+                BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
+            ).toLong()
+
     companion object {
         /**
          * Kind initial delay in minutes for periodic work for accessibility reason
@@ -132,5 +145,9 @@ class TestResultScheduler @Inject constructor(
         private const val RAT_RESULT_WORKER_UNIQUEUNAME = "RatResultRetrievalWorker"
 
         private const val TAG = "TestResultScheduler"
+
+        private const val ratResultRetrievalPeriodicWorkPhase1IntervalInMinutes = 15L
+
+        private const val ratResultRetrievalPeriodicWorkPhase2IntervalInMinutes = 90L
     }
 }

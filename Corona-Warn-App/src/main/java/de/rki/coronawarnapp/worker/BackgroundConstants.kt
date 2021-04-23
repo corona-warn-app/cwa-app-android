@@ -40,13 +40,6 @@ object BackgroundConstants {
     const val POLLING_VALIDITY_MAX_DAYS = 21
 
     /**
-     * The time when rat polling is switched to a larger interval
-     *
-     * @see TimeUnit.MINUTES
-     */
-    const val RAT_POLLING_END_OF_PHASE1_MINUTES = 90
-
-    /**
      * Backoff initial delay
      *
      * @see TimeUnit.MINUTES

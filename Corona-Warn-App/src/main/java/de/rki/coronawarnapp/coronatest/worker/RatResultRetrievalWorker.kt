@@ -68,7 +68,7 @@ class RatResultRetrievalWorker @AssistedInject constructor(
                     Timber.tag(TAG).d("$id $days is exceeding the maximum polling duration")
                     disablePolling()
                 }
-                isPhase1 && minutes >= BackgroundConstants.RAT_POLLING_END_OF_PHASE1_MINUTES -> {
+                isPhase1 && minutes >= RAT_POLLING_END_OF_PHASE1_MINUTES -> {
                     Timber.tag(TAG).d("$id $minutes minutes - time for a phase 2!")
                     testResultScheduler.setRatResultPeriodicPollingMode(mode = PHASE2)
                 }
@@ -90,5 +90,12 @@ class RatResultRetrievalWorker @AssistedInject constructor(
 
     companion object {
         private val TAG = RatResultRetrievalWorker::class.java.simpleName
+
+        /**
+         * The time when rat polling is switched to a larger interval
+         *
+         * @see TimeUnit.MINUTES
+         */
+        private const val RAT_POLLING_END_OF_PHASE1_MINUTES = 90
     }
 }
