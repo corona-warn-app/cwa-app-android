@@ -71,7 +71,9 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
                     autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
                     Timber.tag(TAG).d("Navigate to SubmissionResultReadyFragment")
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
+                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment(
+                            testType
+                        )
                 }
                 routeToScreen.postValue(navDirections)
             }

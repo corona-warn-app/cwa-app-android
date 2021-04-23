@@ -8,6 +8,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -23,6 +24,7 @@ import timber.log.Timber
 
 class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     @Assisted val symptomIndication: Symptoms.Indication,
+    @Assisted val testType: Type,
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
@@ -121,7 +123,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionSymptomCalendarViewModel> {
 
-        fun create(symptomIndication: Symptoms.Indication): SubmissionSymptomCalendarViewModel
+        fun create(symptomIndication: Symptoms.Indication, testType: Type): SubmissionSymptomCalendarViewModel
     }
 
     companion object {
