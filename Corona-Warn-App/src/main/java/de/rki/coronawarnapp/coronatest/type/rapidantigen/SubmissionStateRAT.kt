@@ -25,6 +25,8 @@ sealed class SubmissionStateRAT {
 
     object TestPending : SubmissionStateRAT()
 
+    object TestOutdated : SubmissionStateRAT()
+
     data class SubmissionDone(
         override val testRegisteredAt: Instant
     ) : SubmissionStateRAT(), CommonSubmissionStates.SubmissionDone

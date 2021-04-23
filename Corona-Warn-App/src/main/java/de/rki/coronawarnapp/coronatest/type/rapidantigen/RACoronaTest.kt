@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
@@ -64,14 +65,23 @@ data class RACoronaTest(
     override val type: CoronaTest.Type
         get() = CoronaTest.Type.RAPID_ANTIGEN
 
-    fun getState(nowUTC: Instant) = when (testResult) {
-        PCR_OR_RAT_PENDING -> State.PENDING
-        RAT_NEGATIVE -> State.NEGATIVE
-        RAT_POSITIVE -> State.POSITIVE
-        RAT_INVALID -> State.INVALID
-        RAT_REDEEMED -> State.REDEEMED
-        else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
-    }
+    private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig) =
+        testedAt.plus(testConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
+
+    fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) =
+        if (testResult == RAT_NEGATIVE && isOutdated(nowUTC, testConfig)) {
+            State.OUTDATED
+        } else {
+            when (testResult) {
+                PCR_OR_RAT_PENDING,
+                RAT_PENDING -> State.PENDING
+                RAT_NEGATIVE -> State.NEGATIVE
+                RAT_POSITIVE -> State.POSITIVE
+                RAT_INVALID -> State.INVALID
+                RAT_REDEEMED -> State.REDEEMED
+                else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
+            }
+        }
 
     override val isPositive: Boolean
         get() = testResult == RAT_POSITIVE

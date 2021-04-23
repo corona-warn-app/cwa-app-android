@@ -78,6 +78,7 @@ class EnvironmentSetup @Inject constructor(
         }
         set(value) {
             if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
+                Timber.i("Changing currentEnvironment to $value")
                 prefs.edit {
                     putString(PKEY_CURRENT_ENVINROMENT, value.rawKey)
                 }

@@ -25,7 +25,7 @@ class CoronaTestConfigMapper @Inject constructor() : CoronaTestConfig.Mapper {
     private fun ApplicationConfigurationAndroid.mapCoronaTestParameters(): CoronaTestConfig {
         val coronaRapidAntigenTestParameters = if (coronaTestParameters.hasCoronaRapidAntigenTestParameters()) {
             CoronaRapidAntigenTestParametersContainer(
-                coronaTestParameters.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated
+                coronaTestParameters.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated.toLong()
             )
         } else {
             Timber.d("coronaRapidAntigenTestParameters is missing")

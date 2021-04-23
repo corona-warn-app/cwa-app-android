@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.ApiLevel
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -21,7 +21,6 @@ import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 
 class ClientMetadataDonorTest : BaseTest() {
-    @MockK lateinit var apiLevel: ApiLevel
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var enfClient: ENFClient
@@ -43,14 +42,14 @@ class ClientMetadataDonorTest : BaseTest() {
         every { BuildConfigWrap.VERSION_MINOR } returns versionMinor
         every { BuildConfigWrap.VERSION_PATCH } returns versionPatch
 
-        every { apiLevel.currentLevel } returns androidVersionCode.toInt()
+        mockkObject(BuildVersionWrap)
+        every { BuildVersionWrap.SDK_INT } returns androidVersionCode.toInt()
         every { configData.identifier } returns eTag
         coEvery { appConfigProvider.currentConfig } returns flowOf(configData)
         coEvery { enfClient.getENFClientVersion() } returns enfVersion
     }
 
     private fun createInstance() = ClientMetadataDonor(
-        apiLevel = apiLevel,
         appConfigProvider = appConfigProvider,
         enfClient = enfClient
     )

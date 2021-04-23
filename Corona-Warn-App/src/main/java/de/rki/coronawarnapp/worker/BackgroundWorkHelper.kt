@@ -14,19 +14,6 @@ import kotlin.random.Random
 object BackgroundWorkHelper {
 
     /**
-     * Calculate the time for diagnosis key retrieval periodic work
-     *
-     * @return Long
-     *
-     * @see BackgroundConstants.MINUTES_IN_DAY
-     */
-    fun getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(): Long =
-        (
-            BackgroundConstants.MINUTES_IN_DAY /
-                BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
-            ).toLong()
-
-    /**
      * Get background noise one time work delay
      * The periodic job is already delayed by MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
      * so we only need to delay further by the difference between min and max.
