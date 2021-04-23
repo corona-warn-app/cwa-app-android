@@ -57,8 +57,6 @@ class ViewBindingProperty<ComponentT : LifecycleOwner, BindingT : ViewBinding>(
 
     @MainThread
     override fun getValue(thisRef: ComponentT, property: KProperty<*>): BindingT {
-        val lifecycle = lifecycleOwnerProvider(thisRef).lifecycle
-
         if (localRef == null && viewBinding != null) {
             Timber.w("Fragment.onDestroyView() was called, but the handler didn't execute our delayed reset.")
             /**
@@ -74,6 +72,8 @@ class ViewBindingProperty<ComponentT : LifecycleOwner, BindingT : ViewBinding>(
             require(localRef === thisRef)
             return@getValue it
         }
+
+        val lifecycle = lifecycleOwnerProvider(thisRef).lifecycle
 
         return bindingProvider(thisRef).also {
             viewBinding = it
