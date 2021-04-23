@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -52,6 +53,11 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
         data.dateOfBirth shouldBe null
         data.lastName shouldBe null
         data.firstName shouldBe null
+    }
+
+    @Test
+    fun `personal data is only valid if complete or completely missing`() {
+        shouldThrow<InvalidQRCodeException> { instance.extract(raQrIncompletePersonalData) }
     }
 
     @Test
