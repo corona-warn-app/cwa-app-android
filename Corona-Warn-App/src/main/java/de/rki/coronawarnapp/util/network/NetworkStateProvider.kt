@@ -7,10 +7,13 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED
+import android.os.Build
 import de.rki.coronawarnapp.storage.TestSettings
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.shareLatest
+import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -101,7 +104,14 @@ class NetworkStateProvider @Inject constructor(
         private val isFakeMeteredConnection: Boolean = false
     ) {
         val isMeteredConnection: Boolean
-            get() = isFakeMeteredConnection || !(capabilities?.hasCapability(NET_CAPABILITY_NOT_METERED) ?: false)
+            get() {
+                val unMetered = if (BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.N)) {
+                    capabilities?.hasCapability(NET_CAPABILITY_NOT_METERED) ?: false
+                } else {
+                    capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ?: false
+                }
+                return isFakeMeteredConnection || !unMetered
+            }
     }
 
     companion object {
