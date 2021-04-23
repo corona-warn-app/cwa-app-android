@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.execution
 
+import androidx.annotation.VisibleForTesting
 import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
@@ -119,19 +120,6 @@ class TestResultScheduler @Inject constructor(
             .build()
     }
 
-    /**
-     * Calculate the time for pcr diagnosis key retrieval periodic work
-     *
-     * @return Long
-     *
-     * @see BackgroundConstants.MINUTES_IN_DAY
-     */
-    private fun getPcrTestResultRetrievalPeriodicWorkTimeInterval(): Long =
-        (
-            BackgroundConstants.MINUTES_IN_DAY /
-                BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
-            ).toLong()
-
     companion object {
         /**
          * Kind initial delay in minutes for periodic work for accessibility reason
@@ -145,6 +133,20 @@ class TestResultScheduler @Inject constructor(
         private const val RAT_RESULT_WORKER_UNIQUEUNAME = "RatResultRetrievalWorker"
 
         private const val TAG = "TestResultScheduler"
+
+        /**
+         * Calculate the time for pcr diagnosis key retrieval periodic work
+         *
+         * @return Long
+         *
+         * @see BackgroundConstants.MINUTES_IN_DAY
+         */
+        @VisibleForTesting
+        internal fun getPcrTestResultRetrievalPeriodicWorkTimeInterval(): Long =
+            (
+                BackgroundConstants.MINUTES_IN_DAY /
+                    BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
+                ).toLong()
 
         private const val ratResultRetrievalPeriodicWorkPhase1IntervalInMinutes = 15L
 
