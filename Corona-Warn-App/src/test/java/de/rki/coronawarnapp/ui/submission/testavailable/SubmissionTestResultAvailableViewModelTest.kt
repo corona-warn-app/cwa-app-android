@@ -36,6 +36,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var testType: CoronaTest.Type
 
     private val coronaTestFlow = MutableStateFlow(
         mockk<CoronaTest>().apply {
@@ -63,7 +64,8 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         tekHistoryUpdaterFactory = tekHistoryUpdaterFactory,
         autoSubmission = autoSubmission,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        checkInRepository = checkInRepository
+        checkInRepository = checkInRepository,
+        testType = testType
     )
 
     @Test
@@ -98,7 +100,10 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         viewModel.goConsent()
         viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
-            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(true)
+            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(
+                testType = testType,
+                isTestResultAvailable = true,
+            )
     }
 
     @Test
@@ -122,6 +127,6 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         viewModel.proceed()
         viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
-            .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+            .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(testType)
     }
 }

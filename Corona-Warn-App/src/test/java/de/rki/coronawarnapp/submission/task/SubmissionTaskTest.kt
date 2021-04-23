@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -83,6 +84,7 @@ class SubmissionTaskTest : BaseTest() {
                 every { isSubmitted } returns false
                 every { registrationToken } returns "regtoken"
                 every { identifier } returns "coronatest-identifier"
+                every { type } returns CoronaTest.Type.PCR
             }
         )
     )
@@ -216,7 +218,8 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("NL"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
 
@@ -283,7 +286,8 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("NL"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         }
@@ -327,7 +331,8 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         }
