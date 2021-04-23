@@ -59,9 +59,4 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     fun `personal data is only valid if complete or completely missing`() {
         shouldThrow<InvalidQRCodeException> { instance.extract(raQrIncompletePersonalData) }
     }
-
-    @Test
-    fun `randon qr code does not crash`() {
-        val data = instance.extract(raQrCodeEmptyStrings)
-    }
 }

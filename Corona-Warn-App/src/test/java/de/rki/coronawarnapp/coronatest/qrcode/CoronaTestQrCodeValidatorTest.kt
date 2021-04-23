@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -34,11 +35,8 @@ class CoronaTestQrCodeValidatorTest : BaseTest() {
     fun `invalid json throws exception`() {
         val invalidCode = "https://s.coronawarn.app/?v=1#eyJ0aW1lc3RhbXAiOjE2"
         val instance = CoronaTestQrCodeValidator(RapidAntigenQrCodeExtractor(), PcrQrCodeExtractor())
-        return try {
+        shouldThrow<InvalidQRCodeException> {
             instance.validate(invalidCode)
-            false
-        } catch (e: InvalidQRCodeException) {
-            true
-        } shouldBe true
+        }
     }
 }
