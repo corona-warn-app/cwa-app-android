@@ -41,8 +41,8 @@ data class CachedKeyInfo(
         isDownloadComplete = false
     )
 
-    @Transient
-    val fileName: String = "$id.zip"
+    val fileName: String
+        get() = "$id.zip"
 
     fun toDownloadUpdate(etag: String): DownloadUpdate = DownloadUpdate(
         id = id,
