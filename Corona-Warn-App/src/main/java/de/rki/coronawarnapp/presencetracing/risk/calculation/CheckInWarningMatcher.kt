@@ -107,7 +107,7 @@ internal suspend fun findMatches(
             checkIns
                 .mapNotNull { checkIn ->
                     checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
-                        if (CWADebug.isDeviceForTestersBuild) {
+                        if (!CWADebug.isDebugBuildOrMode) {
                             return@also
                         }
                         if (overlap == null) {
