@@ -5,6 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -84,7 +85,9 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             if (ApiRequestState.SUCCESS == it) {
                 // TODO What about negative tests and consent?
                 doNavigate(
-                    SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment()
+                    SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
+                        CoronaTest.Type.PCR
+                    )
                 )
             }
         }

@@ -35,6 +35,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
+    @MockK lateinit var testType: CoronaTest.Type
 
     private val checkIn1 = CheckIn(
         id = 1L,
@@ -340,6 +341,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         checkInRepository = checkInRepository,
         submissionRepository = submissionRepository,
-        autoSubmission = autoSubmission
+        autoSubmission = autoSubmission,
+        testType = testType
     )
 }

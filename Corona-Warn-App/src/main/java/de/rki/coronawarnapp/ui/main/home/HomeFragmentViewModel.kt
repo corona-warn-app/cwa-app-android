@@ -191,7 +191,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
         is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state) {
             routeToScreen.postValue(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment()
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
