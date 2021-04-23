@@ -2000,4 +2000,13 @@
     <string name="trace_location_attendee_consent_dialog_positive_button">"Share"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
     <string name="trace_location_attendee_consent_dialog_negative_button">"Don’t Share"</string>
+
+    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_title">QR-Code nicht gültig</string>
+    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">Der gescannte QR-Code ist nicht gültig.\nBitte scannen Sie einen gültigen QR-Code.\n\n(%1$s)</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">Ok</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">Abbrechen</string>
 </resources>
