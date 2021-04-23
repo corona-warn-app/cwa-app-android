@@ -3,12 +3,9 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -32,11 +29,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -57,7 +52,6 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingRepository: TracingRepository
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
@@ -93,7 +87,6 @@ class HomeFragmentViewModelTest : BaseTest() {
         errorResetTool = errorResetTool,
         tracingStatus = generalTracingStatus,
         tracingRepository = tracingRepository,
-        shareTestResultNotificationService = shareTestResultNotificationService,
         submissionRepository = submissionRepository,
         coronaTestRepository = coronaTestRepository,
         tracingStateProviderFactory = tracingStateProviderFactory,
@@ -149,48 +142,6 @@ class HomeFragmentViewModelTest : BaseTest() {
             coVerify {
                 tracingStateProvider.state
                 coronaTestRepository.coronaTests
-            }
-        }
-    }
-
-    @Test
-    fun `positive test result notification is triggered on positive QR code result`() {
-//        every { submissionRepository.deviceUIStateFlow } returns flowOf(
-//            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE)
-//        )
-        every { submissionRepository.pcrTest } returns flowOf(
-            mockk<PCRCoronaTest>().apply {
-                every { testResult } returns CoronaTestResult.PCR_POSITIVE
-                every { lastError } returns null
-            }
-        )
-        every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
-
-        runBlocking {
-            createInstance().apply {
-                observeTestResultToSchedulePositiveTestResultReminder()
-                verify { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
-            }
-        }
-    }
-
-    @Test
-    fun `positive test result notification is triggered on positive TeleTan code result`() {
-//        every { submissionRepository.deviceUIStateFlow } returns flowOf(
-//            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN)
-//        )
-        every { submissionRepository.pcrTest } returns flowOf(
-            mockk<PCRCoronaTest>().apply {
-                every { testResult } returns CoronaTestResult.PCR_POSITIVE
-                every { lastError } returns null
-            }
-        )
-        every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
-
-        runBlocking {
-            createInstance().apply {
-                observeTestResultToSchedulePositiveTestResultReminder()
-                verify { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
             }
         }
     }

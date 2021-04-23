@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment
@@ -35,7 +35,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultNegativeViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
+    @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
 
     @Rule
     @JvmField

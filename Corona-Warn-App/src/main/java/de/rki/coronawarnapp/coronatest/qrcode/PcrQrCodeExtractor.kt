@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.coronatest.qrcode
 import java.util.regex.Pattern
 import javax.inject.Inject
 
-class PcrQrCodeExtractor @Inject constructor() : QrCodeExtractor {
+class PcrQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCode> {
 
     override fun canHandle(rawString: String): Boolean = rawString.startsWith(prefix, ignoreCase = true)
 

@@ -3,10 +3,11 @@ package de.rki.coronawarnapp.ui.submission
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentViewModel
 import io.mockk.MockKAnnotations
@@ -31,7 +32,8 @@ class SubmissionConsentFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
-    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
+    @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
 
     @Rule
     @JvmField
@@ -48,11 +50,12 @@ class SubmissionConsentFragmentTest : BaseUITest() {
         every { interoperabilityRepository.countryList } returns flowOf()
         viewModel =
             SubmissionConsentViewModel(
-                submissionRepository,
                 interoperabilityRepository,
                 TestDispatcherProvider(),
                 tekHistoryProvider,
-                analyticsKeySubmissionCollector
+                qrCodeRegistrationStateProcessor,
+                submissionRepository,
+                qrCodeValidator
             )
         setupMockViewModel(
             object : SubmissionConsentViewModel.Factory {

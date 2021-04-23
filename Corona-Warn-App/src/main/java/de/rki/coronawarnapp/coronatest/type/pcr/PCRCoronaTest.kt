@@ -42,10 +42,19 @@ data class PCRCoronaTest(
     @Transient override val lastError: Throwable? = null,
 ) : CoronaTest {
 
+    @Transient
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
 
-    override val isSubmissionAllowed: Boolean = testResult == CoronaTestResult.PCR_POSITIVE
+    @Transient
+    override val isPositive: Boolean = testResult == CoronaTestResult.PCR_POSITIVE
 
+    @Transient
+    override val isPending: Boolean = testResult == CoronaTestResult.PCR_OR_RAT_PENDING
+
+    @Transient
+    override val isSubmissionAllowed: Boolean = isPositive && !isSubmitted
+
+    @Transient
     val state: State = when (testResult) {
         CoronaTestResult.PCR_OR_RAT_PENDING -> State.PENDING
         CoronaTestResult.PCR_NEGATIVE -> State.NEGATIVE

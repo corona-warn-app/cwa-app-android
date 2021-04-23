@@ -6,8 +6,10 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoConsentBinding
+import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragmentArgs
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -29,6 +31,8 @@ class SubmissionTestResultNoConsentFragment :
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionTestResultNoConsentViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionTestResultPositiveNoConsentBinding by viewBindingLazy()
+
+    private val navArgs by navArgs<SubmissionTestResultPendingFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -85,7 +89,9 @@ class SubmissionTestResultNoConsentFragment :
     private fun navigateToWarnOthers() {
         doNavigate(
             SubmissionTestResultNoConsentFragmentDirections
-                .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+                .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
+                    navArgs.testType
+                )
         )
     }
 }

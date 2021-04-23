@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.deniability.NoiseScheduler
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.GeneralNotifications
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutNotification
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
@@ -130,7 +130,7 @@ class MockProvider {
     fun exposureSummaryRepository(): RiskLevelStorage = mockk()
 
     @Provides
-    fun testResultAvailableNotification(): TestResultAvailableNotificationService = mockk()
+    fun testResultAvailableNotification(): PCRTestResultAvailableNotificationService = mockk()
 
     @Provides
     fun notificationHelper(): GeneralNotifications = mockk()
