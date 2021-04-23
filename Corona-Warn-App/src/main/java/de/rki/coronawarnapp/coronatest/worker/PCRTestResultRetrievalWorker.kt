@@ -51,7 +51,7 @@ class PCRTestResultRetrievalWorker @AssistedInject constructor(
         try {
             if (abortConditionsMet(timeStamper.nowUTC)) {
                 Timber.tag(TAG).d(" $id Stopping worker.")
-                stopWorker()
+                disablePolling()
             } else {
                 Timber.tag(TAG).d(" $id Running worker.")
 
@@ -70,7 +70,7 @@ class PCRTestResultRetrievalWorker @AssistedInject constructor(
                     cancelRiskLevelScoreNotification()
                     Timber.tag(TAG)
                         .d("$id: Test Result available - notification sent & risk level notification canceled")
-                    stopWorker()
+                    disablePolling()
                 }
             }
         } catch (e: Exception) {
@@ -122,7 +122,7 @@ class PCRTestResultRetrievalWorker @AssistedInject constructor(
         )
     }
 
-    private fun stopWorker() {
+    private fun disablePolling() {
         testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false)
         Timber.tag(TAG).d("$id: Background worker stopped")
     }

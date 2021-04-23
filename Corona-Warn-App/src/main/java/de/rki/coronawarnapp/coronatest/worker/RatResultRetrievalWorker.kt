@@ -47,7 +47,7 @@ class RatResultRetrievalWorker @AssistedInject constructor(
         val rat = coronaTestRepository.latestRAT.first()
         if (rat == null) {
             Timber.tag(TAG).w("There is no PCR test available!?")
-            stopWorker()
+            disablePolling()
             return Result.success()
         } else {
             val nowUTC = timeStamper.nowUTC
@@ -58,15 +58,15 @@ class RatResultRetrievalWorker @AssistedInject constructor(
             when {
                 rat.isResultAvailableNotificationSent -> {
                     Timber.tag(TAG).d("$id: Notification already sent.")
-                    stopWorker()
+                    disablePolling()
                 }
                 rat.isViewed -> {
                     Timber.tag(TAG).d("$id: Test result has already been viewed.")
-                    stopWorker()
+                    disablePolling()
                 }
                 days >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS -> {
                     Timber.tag(TAG).d("$id $days is exceeding the maximum polling duration")
-                    stopWorker()
+                    disablePolling()
                 }
                 isPhase1 && minutes >= BackgroundConstants.RAT_POLLING_END_OF_PHASE1_MINUTES -> {
                     Timber.tag(TAG).d("$id $minutes minutes - time for a phase 2!")
@@ -80,7 +80,7 @@ class RatResultRetrievalWorker @AssistedInject constructor(
         }
     }
 
-    private fun stopWorker() {
+    private fun disablePolling() {
         testResultScheduler.setRatResultPeriodicPollingMode(mode = DISABLED)
         Timber.tag(TAG).d("$id: Background worker stopped")
     }
