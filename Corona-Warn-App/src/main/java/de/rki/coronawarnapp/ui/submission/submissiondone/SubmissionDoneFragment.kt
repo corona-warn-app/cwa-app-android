@@ -42,12 +42,11 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
             when (it) {
                 SubmissionNavigationEvents.NavigateToMainActivity -> {
                     doNavigate(
-                      SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
+                        SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
                     )
                 }
             }
         }
-
     }
 
     override fun onResume() {

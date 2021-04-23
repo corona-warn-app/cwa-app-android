@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyFragm
 import de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyModule
 import de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneFragment
 import de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneModule
-import de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneViewModel
 import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment
 import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarModule
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
