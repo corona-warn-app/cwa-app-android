@@ -73,6 +73,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                         every { testResult } returns CoronaTestResult.PCR_POSITIVE
                         every { registeredAt } returns Instant.now()
                         every { isProcessing } returns false
+                        every { type } returns CoronaTest.Type.PCR
                     }
                 )
             )
@@ -118,6 +119,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                     every { testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
                     every { registeredAt } returns Instant.now()
                     every { isProcessing } returns false
+                    every { type } returns CoronaTest.Type.PCR
                 }
             )
         )

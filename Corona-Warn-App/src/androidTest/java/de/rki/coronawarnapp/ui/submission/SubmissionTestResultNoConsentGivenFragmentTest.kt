@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Analyti
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentViewModel
 import io.mockk.MockKAnnotations
@@ -35,6 +36,9 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var testType: CoronaTest.Type
+    private val noConsentGivenFragmentArgs =
+        SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
 
     @Rule
     @JvmField
@@ -53,12 +57,13 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
                 SubmissionTestResultNoConsentViewModel(
                     submissionRepository,
                     testResultAvailableNotificationService,
-                    analyticsKeySubmissionCollector
+                    analyticsKeySubmissionCollector,
+                    testType
                 )
             )
         setupMockViewModel(
             object : SubmissionTestResultNoConsentViewModel.Factory {
-                override fun create(): SubmissionTestResultNoConsentViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionTestResultNoConsentViewModel = viewModel
             }
         )
     }
@@ -76,11 +81,12 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
                 coronaTest = mockk<CoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
                     every { registeredAt } returns Instant.now()
+                    every { type } returns CoronaTest.Type.PCR
                 }
             )
         )
 
-        captureScreenshot<SubmissionTestResultNoConsentFragment>()
+        captureScreenshot<SubmissionTestResultNoConsentFragment>(fragmentArgs = noConsentGivenFragmentArgs)
     }
 }
 
