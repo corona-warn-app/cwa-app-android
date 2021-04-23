@@ -21,7 +21,7 @@ import org.joda.time.Duration
 import timber.log.Timber
 
 /**
- * Diagnosis test result retrieval by periodic polling
+ * RAT result retrieval by periodic polling
  */
 class RAResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
@@ -46,7 +46,7 @@ class RAResultRetrievalWorker @AssistedInject constructor(
         // checking abort conditions
         val rat = coronaTestRepository.latestRAT.first()
         if (rat == null) {
-            Timber.tag(TAG).w("There is no PCR test available!?")
+            Timber.tag(TAG).w("There is no RAT test available!?")
             disablePolling()
             return Result.success()
         } else {
@@ -82,7 +82,7 @@ class RAResultRetrievalWorker @AssistedInject constructor(
 
     private fun disablePolling() {
         ratResultScheduler.setRatResultPeriodicPollingMode(mode = DISABLED)
-        Timber.tag(TAG).d("$id: Background worker stopped")
+        Timber.tag(TAG).d("$id: polling disabled")
     }
 
     @AssistedFactory
