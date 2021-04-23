@@ -7,11 +7,11 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
+import de.rki.coronawarnapp.coronatest.worker.execution.PCRTestResultScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
@@ -33,7 +33,7 @@ class PCRTestResultRetrievalWorker @AssistedInject constructor(
     private val notificationHelper: GeneralNotifications,
     private val coronaTestRepository: CoronaTestRepository,
     private val timeStamper: TimeStamper,
-    private val testResultScheduler: TestResultScheduler,
+    private val testResultScheduler: PCRTestResultScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
