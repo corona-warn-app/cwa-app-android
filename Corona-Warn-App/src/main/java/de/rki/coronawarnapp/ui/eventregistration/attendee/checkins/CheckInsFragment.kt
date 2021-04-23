@@ -141,7 +141,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
             setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
             setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ -> }
-            setNegativeButton(R.string.trace_location_attendee_invalid_qr_code_dialog_negative_button) { _, _ -> }
         }.show()
     }
 
