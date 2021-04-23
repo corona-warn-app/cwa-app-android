@@ -30,19 +30,20 @@ class SubmissionServer @Inject constructor(
         val keyList: List<TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visitedCountries: List<String>,
-        val checkIns: List<CheckInOuterClass.CheckIn>
+        val checkIns: List<CheckInOuterClass.CheckIn>,
+        val submissionType: SubmissionPayload.SubmissionType
     )
 
     suspend fun submitPayload(
         data: SubmissionData
     ) = withContext(Dispatchers.IO) {
-        Timber.d("submitPayload()")
+        Timber.tag(TAG).d("submitPayload(data=%s)", data)
 
         val authCode = data.authCode
         val keyList = data.keyList
         val checkInList = data.checkIns
 
-        Timber.d(
+        Timber.tag(TAG).d(
             "Writing %s Keys and %s CheckIns to the Submission Payload.",
             keyList.size,
             checkInList.size
@@ -56,7 +57,7 @@ class SubmissionServer @Inject constructor(
         val keyPadding = keyPadding(keyList.size)
         val checkInPadding = checkInPadding(plausibleParameters, checkInList.size)
         val requestPadding = keyPadding + checkInPadding
-        Timber.d(
+        Timber.tag(TAG).d(
             "keyPadding=%s\ncheckInPadding=%s\nrequestPadding=%s",
             keyPadding,
             checkInPadding,
@@ -69,6 +70,7 @@ class SubmissionServer @Inject constructor(
             .setConsentToFederation(data.consentToFederation)
             .addAllVisitedCountries(data.visitedCountries)
             .addAllCheckIns(data.checkIns)
+            .setSubmissionType(data.submissionType)
             .build()
 
         api.submitPayload(
@@ -80,7 +82,7 @@ class SubmissionServer @Inject constructor(
     }
 
     suspend fun submitFakePayload() = withContext(Dispatchers.IO) {
-        Timber.d("submitFakePayload()")
+        Timber.tag(TAG).d("submitFakePayload()")
 
         val plausibleParameters = appConfigProvider
             .getAppConfig()
@@ -91,7 +93,7 @@ class SubmissionServer @Inject constructor(
         val fakeCheckInPadding = checkInPadding(plausibleParameters, checkInListSize = 0)
         val fakeRequestPadding = fakeKeyPadding + fakeCheckInPadding
 
-        Timber.d(
+        Timber.tag(TAG).v(
             "fakeKeyPadding=%s\nfakeCheckInPadding=%s\nfakeRequestPadding=%s",
             fakeKeyPadding,
             fakeCheckInPadding,
@@ -113,5 +115,6 @@ class SubmissionServer @Inject constructor(
     companion object {
         private const val EMPTY_STRING = ""
         private const val PADDING_LENGTH_HEADER_SUBMISSION_FAKE = 36
+        private const val TAG = "SubmissionServer"
     }
 }
