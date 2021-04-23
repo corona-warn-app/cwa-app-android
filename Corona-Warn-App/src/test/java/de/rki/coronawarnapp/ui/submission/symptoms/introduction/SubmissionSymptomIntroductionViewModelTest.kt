@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -124,5 +127,23 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
             uploadStatus.value = false
             showUploadDialog.value shouldBe false
         }
+    }
+
+    @Test
+    fun `onNewUserActivity() should call analyticsKeySubmissionCollector for PCR tests`() {
+        testType = PCR
+
+        createViewModel().onNewUserActivity()
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS) }
+    }
+
+    @Test
+    fun `onNewUserActivity() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+        testType = RAPID_ANTIGEN
+
+        createViewModel().onNewUserActivity()
+
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS) }
     }
 }
