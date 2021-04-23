@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -163,7 +164,8 @@ class SubmissionTask @Inject constructor(
             temporaryExposureKeys = transformedKeys,
             consentToFederation = true,
             visitedCountries = getSupportedCountries(),
-            checkIns = transformedCheckIns
+            checkIns = transformedCheckIns,
+            submissionType = coronaTest.type.toSubmissionType()
         )
 
         checkCancel()
@@ -263,4 +265,9 @@ class SubmissionTask @Inject constructor(
         private val USER_INACTIVITY_TIMEOUT = Duration.standardMinutes(30)
         private const val TAG: String = "SubmissionTask"
     }
+}
+
+private fun CoronaTest.Type.toSubmissionType() = when (this) {
+    CoronaTest.Type.PCR -> SubmissionType.SUBMISSION_TYPE_PCR_TEST
+    CoronaTest.Type.RAPID_ANTIGEN -> SubmissionType.SUBMISSION_TYPE_RAPID_TEST
 }
