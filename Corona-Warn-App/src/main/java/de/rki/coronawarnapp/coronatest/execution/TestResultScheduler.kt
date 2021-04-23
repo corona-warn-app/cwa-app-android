@@ -70,7 +70,7 @@ class TestResultScheduler @Inject constructor(
         } else {
             // no check for already running workers!
             // worker must be replaced by next phase instance
-            Timber.tag(TAG).i("Queueing rat result worker (DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER)")
+            Timber.tag(TAG).i("Queueing rat result worker (RAT_RESULT_PERIODIC_WORKER)")
             workManager.enqueueUniquePeriodicWork(
                 RAT_RESULT_WORKER_UNIQUEUNAME,
                 ExistingPeriodicWorkPolicy.REPLACE,
