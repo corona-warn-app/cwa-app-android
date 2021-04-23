@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import dagger.Reusable
+import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
@@ -29,6 +30,7 @@ import javax.inject.Inject
 class RapidAntigenProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
+    private val testResultScheduler: TestResultScheduler,
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
@@ -40,6 +42,10 @@ class RapidAntigenProcessor @Inject constructor(
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier)
 
         val testResult = registrationData.testResult.validOrThrow()
+
+        if (testResult == PCR_OR_RAT_PENDING) {
+            testResultScheduler.setRatResultPeriodicPollingMode(mode = TestResultScheduler.RatPollingMode.PHASE1)
+        }
 
         return RACoronaTest(
             identifier = request.identifier,
