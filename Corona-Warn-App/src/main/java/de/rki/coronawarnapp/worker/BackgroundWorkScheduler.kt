@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.worker
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler
+import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
 import de.rki.coronawarnapp.deniability.NoiseScheduler
 import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
 import kotlinx.coroutines.flow.first
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 class BackgroundWorkScheduler @Inject constructor(
     private val riskWorkScheduler: RiskWorkScheduler,
     private val coronaTestRepository: CoronaTestRepository,
-    private val testResultScheduler: TestResultScheduler,
+    private val testResultScheduler: PCRResultScheduler,
     private val noiseScheduler: NoiseScheduler,
 ) {
 
@@ -36,14 +36,14 @@ class BackgroundWorkScheduler @Inject constructor(
         val hasPendingTests = coronatests.any { !it.isResultAvailableNotificationSent }
 
         if (!isSubmissionSuccessful && hasPendingTests) {
-            testResultScheduler.setPeriodicTestPolling(enabled = true)
+            testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = true)
         }
     }
 
     fun stopWorkScheduler() {
         noiseScheduler.setPeriodicNoise(enabled = false)
         riskWorkScheduler.setPeriodicRiskCalculation(enabled = false)
-        testResultScheduler.setPeriodicTestPolling(enabled = false)
+        testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false)
         Timber.d("All Background Jobs Stopped")
     }
 }
