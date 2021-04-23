@@ -268,10 +268,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
         coronaTestRepository.latestPCRT,
         coronaTestRepository.latestRAT,
         statisticsProvider.current.distinctUntilChanged(),
-        appConfigProvider.currentConfig.distinctUntilChanged()
-    ) { tracingItem, testPCR, testRAT, statsData, currentConfig ->
+        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged()
+    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters ->
         val statePCR = testPCR.toSubmissionState()
-        val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, currentConfig.coronaTestParameters)
+        val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         val bothTestStates = setOf(statePCR, stateRAT)
         mutableListOf<HomeItem>().apply {
             when {
@@ -290,14 +290,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     if (stateRAT == SubmissionStateRAT.NoTest) {
                         add(testPCR.toTestCardItem())
                     } else {
-                        add(testRAT.toTestCardItem(currentConfig.coronaTestParameters))
+                        add(testRAT.toTestCardItem(coronaTestParameters))
                         add(testPCR.toTestCardItem())
                     }
                 }
                 else -> {
                     add(testPCR.toTestCardItem())
                     if (stateRAT != SubmissionStateRAT.NoTest) {
-                        add(testRAT.toTestCardItem(currentConfig.coronaTestParameters))
+                        add(testRAT.toTestCardItem(coronaTestParameters))
                         add(
                             TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
                                 routeToScreen.postValue(
@@ -305,7 +305,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                                 )
                             }
                         )
-                    } else add(testRAT.toTestCardItem(currentConfig.coronaTestParameters))
+                    } else add(testRAT.toTestCardItem(coronaTestParameters))
                 }
             }
 
