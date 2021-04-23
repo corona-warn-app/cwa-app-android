@@ -59,4 +59,12 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     fun `personal data is only valid if complete or completely missing`() {
         shouldThrow<InvalidQRCodeException> { instance.extract(raQrIncompletePersonalData) }
     }
+
+    @Test
+    fun `invalid json throws exception`() {
+        val invalidCode = "https://s.coronawarn.app/?v=1#eyJ0aW1lc3RhbXAiOjE2"
+        shouldThrow<InvalidQRCodeException> {
+            RapidAntigenQrCodeExtractor().extract(invalidCode)
+        }
+    }
 }
