@@ -37,6 +37,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var testType: CoronaTest.Type
 
     private val coronaTestFlow = MutableStateFlow(
         mockk<CoronaTest>().apply {
@@ -68,7 +69,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         interoperabilityRepository = interoperabilityRepository,
         submissionRepository = submissionRepository,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        checkInRepository = checkInRepository
+        checkInRepository = checkInRepository,
+        testType = testType
     )
 
     @Test

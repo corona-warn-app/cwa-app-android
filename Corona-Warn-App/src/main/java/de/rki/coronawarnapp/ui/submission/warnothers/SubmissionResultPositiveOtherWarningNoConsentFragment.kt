@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionNoConsentPositiveOtherWarningBinding
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
@@ -26,13 +27,15 @@ import javax.inject.Inject
 class SubmissionResultPositiveOtherWarningNoConsentFragment :
     Fragment(R.layout.fragment_submission_no_consent_positive_other_warning), AutoInject {
 
+    private val navArgs by navArgs<SubmissionResultPositiveOtherWarningNoConsentFragmentArgs>()
+
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionResultPositiveOtherWarningNoConsentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionResultPositiveOtherWarningNoConsentViewModel.Factory
-            factory.create()
+            factory.create(navArgs.testType)
         }
     )
 

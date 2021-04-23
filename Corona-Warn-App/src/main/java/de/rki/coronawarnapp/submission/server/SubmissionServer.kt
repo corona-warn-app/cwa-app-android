@@ -30,7 +30,8 @@ class SubmissionServer @Inject constructor(
         val keyList: List<TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visitedCountries: List<String>,
-        val checkIns: List<CheckInOuterClass.CheckIn>
+        val checkIns: List<CheckInOuterClass.CheckIn>,
+        val submissionType: SubmissionPayload.SubmissionType
     )
 
     suspend fun submitPayload(
@@ -69,6 +70,7 @@ class SubmissionServer @Inject constructor(
             .setConsentToFederation(data.consentToFederation)
             .addAllVisitedCountries(data.visitedCountries)
             .addAllCheckIns(data.checkIns)
+            .setSubmissionType(data.submissionType)
             .build()
 
         api.submitPayload(

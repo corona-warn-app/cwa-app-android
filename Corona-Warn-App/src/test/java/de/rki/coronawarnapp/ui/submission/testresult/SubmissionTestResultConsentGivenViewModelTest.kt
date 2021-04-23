@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.testresult
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -23,6 +24,7 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
+    @MockK lateinit var testType: CoronaTest.Type
 
     @BeforeEach
     fun setUp() {
@@ -34,7 +36,8 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         autoSubmission = autoSubmission,
         testResultAvailableNotificationService = testResultAvailableNotificationService,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        testType = testType
     )
 
     @Test
