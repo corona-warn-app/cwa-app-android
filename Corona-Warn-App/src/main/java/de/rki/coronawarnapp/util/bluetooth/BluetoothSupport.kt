@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.util.bluetooth
 
 import android.bluetooth.BluetoothAdapter
 import android.os.Build
-import androidx.annotation.RequiresApi
 import dagger.Reusable
 import de.rki.coronawarnapp.util.ApiLevel
 import javax.inject.Inject
@@ -34,16 +33,18 @@ class BluetoothSupport @Inject constructor(
      *
      * @return true if supported, false if not supported, null if unknown
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun isAdvertisingSupported(): Boolean? {
-        val adapter = bluetoothAdapter
-        return when {
-            adapter == null -> false
-            apiLevel.hasAPILevel(Build.VERSION_CODES.O)
-                && (adapter.isLeExtendedAdvertisingSupported || adapter.isLePeriodicAdvertisingSupported) -> true
-            adapter.state != BluetoothAdapter.STATE_ON -> null
-            adapter.bluetoothLeAdvertiser != null -> true
-            else -> false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val adapter = bluetoothAdapter
+            return when {
+                adapter == null -> false
+                apiLevel.hasAPILevel(Build.VERSION_CODES.O)
+                    && (adapter.isLeExtendedAdvertisingSupported || adapter.isLePeriodicAdvertisingSupported) -> true
+                adapter.state != BluetoothAdapter.STATE_ON -> null
+                adapter.bluetoothLeAdvertiser != null -> true
+                else -> false
+            }
         }
+        return false
     }
 }

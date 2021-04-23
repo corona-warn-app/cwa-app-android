@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.statistics.Statistics
+import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -73,6 +74,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    @MockK lateinit var bluetoothSupport: BluetoothSupport
 
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
 
@@ -98,6 +100,9 @@ class HomeFragmentTest : BaseUITest() {
                 override fun create(): HomeFragmentViewModel = homeFragmentViewModel
             }
         )
+
+        every { bluetoothSupport.isScanningSupported() } returns true
+        every { bluetoothSupport.isAdvertisingSupported() } returns true
     }
 
     @Screenshot
@@ -274,7 +279,8 @@ class HomeFragmentTest : BaseUITest() {
             deadmanNotificationScheduler = deadmanNotificationScheduler,
             appShortcutsHelper = appShortcutsHelper,
             tracingSettings = tracingSettings,
-            traceLocationOrganizerSettings = traceLocationOrganizerSettings
+            traceLocationOrganizerSettings = traceLocationOrganizerSettings,
+            bluetoothSupport = bluetoothSupport
         )
     )
 
