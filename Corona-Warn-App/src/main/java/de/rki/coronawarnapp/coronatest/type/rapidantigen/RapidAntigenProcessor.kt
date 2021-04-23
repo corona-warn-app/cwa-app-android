@@ -43,7 +43,7 @@ class RapidAntigenProcessor @Inject constructor(
 
         val testResult = registrationData.testResult.validOrThrow()
 
-        if (testResult == PCR_OR_RAT_PENDING) {
+        if (testResult == PCR_OR_RAT_PENDING || testResult == RAT_PENDING) {
             resultScheduler.setRatResultPeriodicPollingMode(mode = RatResultScheduler.RatPollingMode.PHASE1)
         }
 
