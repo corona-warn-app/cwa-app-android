@@ -42,27 +42,27 @@ data class PCRCoronaTest(
     @Transient override val lastError: Throwable? = null,
 ) : CoronaTest {
 
-    @Transient
-    override val type: CoronaTest.Type = CoronaTest.Type.PCR
+    override val type: CoronaTest.Type
+        get() = CoronaTest.Type.PCR
 
-    @Transient
-    override val isPositive: Boolean = testResult == CoronaTestResult.PCR_POSITIVE
+    override val isPositive: Boolean
+        get() = testResult == CoronaTestResult.PCR_POSITIVE
 
-    @Transient
-    override val isPending: Boolean = testResult == CoronaTestResult.PCR_OR_RAT_PENDING
+    override val isPending: Boolean
+        get() = testResult == CoronaTestResult.PCR_OR_RAT_PENDING
 
-    @Transient
-    override val isSubmissionAllowed: Boolean = isPositive && !isSubmitted
+    override val isSubmissionAllowed: Boolean
+        get() = isPositive && !isSubmitted
 
-    @Transient
-    val state: State = when (testResult) {
-        CoronaTestResult.PCR_OR_RAT_PENDING -> State.PENDING
-        CoronaTestResult.PCR_NEGATIVE -> State.NEGATIVE
-        CoronaTestResult.PCR_POSITIVE -> State.POSITIVE
-        CoronaTestResult.PCR_INVALID -> State.INVALID
-        CoronaTestResult.PCR_REDEEMED -> State.REDEEMED
-        else -> throw IllegalArgumentException("Invalid PCR test state $testResult")
-    }
+    val state: State
+        get() = when (testResult) {
+            CoronaTestResult.PCR_OR_RAT_PENDING -> State.PENDING
+            CoronaTestResult.PCR_NEGATIVE -> State.NEGATIVE
+            CoronaTestResult.PCR_POSITIVE -> State.POSITIVE
+            CoronaTestResult.PCR_INVALID -> State.INVALID
+            CoronaTestResult.PCR_REDEEMED -> State.REDEEMED
+            else -> throw IllegalArgumentException("Invalid PCR test state $testResult")
+        }
 
     enum class State {
         PENDING,

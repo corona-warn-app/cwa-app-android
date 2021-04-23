@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.exception.TanPairingException
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.playbook.DefaultPlaybook
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -87,7 +88,8 @@ class DefaultPlaybookTest : BaseTest() {
                 temporaryExposureKeys = listOf(),
                 consentToFederation = true,
                 visitedCountries = listOf("DE"),
-                checkIns = emptyList()
+                checkIns = emptyList(),
+                submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
             )
         )
 
@@ -109,7 +111,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         } catch (e: Exception) {
@@ -129,7 +132,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         } catch (e: Exception) {
@@ -150,7 +154,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         }
@@ -263,7 +268,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         }

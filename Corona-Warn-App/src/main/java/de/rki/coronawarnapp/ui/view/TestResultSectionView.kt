@@ -49,7 +49,15 @@ constructor(
 
     fun setTestResultSection(coronaTest: CoronaTest?) {
         binding.apply {
-            testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
+            when (coronaTest?.type) {
+                CoronaTest.Type.PCR ->
+                    testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
+                        .format(context.getString(R.string.ag_homescreen_card_pcr_title))
+                CoronaTest.Type.RAPID_ANTIGEN ->
+                    testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
+                        .format(context.getString(R.string.submission_test_result_antigen_title))
+            }
+
             testResultSectionRegisteredAtText.text = formatTestResultRegisteredAtText(coronaTest?.registeredAt)
             val testResultIcon = formatTestStatusIcon(coronaTest)
             testResultSectionStatusIcon.setImageDrawable(testResultIcon)

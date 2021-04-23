@@ -98,7 +98,9 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     SubmissionDeletionWarningViewModel.RegistrationType.TAN -> {
                         doNavigate(
                             SubmissionDeletionWarningFragmentDirections
-                                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment()
+                                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
+                                    viewModel.getTestType()
+                                )
                         )
                     }
                 }
