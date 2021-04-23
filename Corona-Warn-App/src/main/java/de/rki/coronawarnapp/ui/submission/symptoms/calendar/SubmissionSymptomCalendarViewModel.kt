@@ -106,7 +106,8 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
                 Timber.i("Hide uploading progress and navigate to HomeFragment")
                 mediatorShowUploadDialog.postValue(false)
                 routeToScreen.postValue(
-                    SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToMainFragment()
+                    SubmissionSymptomCalendarFragmentDirections
+                        .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment()
                 )
             }
         }

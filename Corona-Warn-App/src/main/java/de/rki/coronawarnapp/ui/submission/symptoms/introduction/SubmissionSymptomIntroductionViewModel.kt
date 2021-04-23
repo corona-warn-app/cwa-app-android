@@ -62,6 +62,12 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                         )
                     }
                     doSubmit()
+
+                    navigation.postValue(
+                        SubmissionSymptomIntroductionFragmentDirections
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment()
+                    )
+
                 }
                 Symptoms.Indication.NO_INFORMATION -> {
                     submissionRepository.currentSymptoms.update {
@@ -71,6 +77,12 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                         )
                     }
                     doSubmit()
+
+                    navigation.postValue(
+                        SubmissionSymptomIntroductionFragmentDirections
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment()
+                    )
+
                 }
             }
         }
