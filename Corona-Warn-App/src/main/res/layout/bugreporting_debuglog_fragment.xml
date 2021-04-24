@@ -97,6 +97,7 @@
         android:paddingTop="8dp"
         android:paddingEnd="24dp"
         android:paddingBottom="16dp"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

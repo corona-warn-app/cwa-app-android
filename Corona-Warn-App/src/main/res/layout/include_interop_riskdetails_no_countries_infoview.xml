@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
         android:padding="@dimen/card_padding"
+        android:clipToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/country_barrier">

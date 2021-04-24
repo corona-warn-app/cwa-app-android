@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/spacing_normal">
+    android:padding="@dimen/spacing_normal"
+    android:clipToPadding="false">
 
     <TextView
         android:id="@+id/create_trace_location_card_headline"
