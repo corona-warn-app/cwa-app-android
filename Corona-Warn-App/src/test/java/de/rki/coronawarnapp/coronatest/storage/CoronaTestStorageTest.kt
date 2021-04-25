@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.coronatest.storage
 import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -114,10 +115,13 @@ class CoronaTestStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
-        instance.coronaTests.single() shouldBe pcrTest.copy(
-            lastError = null,
-            isProcessing = false
-        )
+        instance.coronaTests.single().apply {
+            this shouldBe pcrTest.copy(
+                lastError = null,
+                isProcessing = false
+            )
+            type shouldBe CoronaTest.Type.PCR
+        }
     }
 
     @Test
@@ -153,10 +157,13 @@ class CoronaTestStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
-        instance.coronaTests.single() shouldBe raTest.copy(
-            lastError = null,
-            isProcessing = false
-        )
+        instance.coronaTests.single().apply {
+            this shouldBe raTest.copy(
+                lastError = null,
+                isProcessing = false
+            )
+            type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+        }
     }
 
     @Test

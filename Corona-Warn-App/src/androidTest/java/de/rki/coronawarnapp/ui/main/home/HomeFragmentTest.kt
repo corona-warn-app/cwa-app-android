@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.statistics.Statistics
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -74,6 +75,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var bluetoothSupport: BluetoothSupport
 
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
@@ -280,6 +282,7 @@ class HomeFragmentTest : BaseUITest() {
             appShortcutsHelper = appShortcutsHelper,
             tracingSettings = tracingSettings,
             traceLocationOrganizerSettings = traceLocationOrganizerSettings,
+            timeStamper = timeStamper
             bluetoothSupport = bluetoothSupport
         )
     )
