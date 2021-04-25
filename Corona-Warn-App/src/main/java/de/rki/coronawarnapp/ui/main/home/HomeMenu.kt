@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.main.home
 
 import android.view.MenuItem.SHOW_AS_ACTION_ALWAYS
-import android.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
