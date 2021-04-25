@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.tracing.ui.details.items.behavior
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -61,7 +62,7 @@ class BehaviorInfoRow @JvmOverloads constructor(
     }
 
     fun setBackgroundTint(@ColorInt color: Int) {
-        ViewCompat.setBackgroundTintList(iconBackground, ColorStateList.valueOf(color))
+        iconBackground.background.setColorFilter(color, PorterDuff.Mode.SRC_OVER)
     }
 
     fun setForegroundTint(@ColorInt color: Int) {
