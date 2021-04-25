@@ -12,7 +12,6 @@ import androidx.annotation.ColorInt
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
-import androidx.core.view.ViewCompat
 import androidx.core.widget.ImageViewCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.setUrl
