@@ -101,8 +101,8 @@ class HomeFragmentTest : BaseUITest() {
             }
         )
 
-        every { bluetoothSupport.isScanningSupported() } returns true
-        every { bluetoothSupport.isAdvertisingSupported() } returns true
+        every { bluetoothSupport.isScanningSupported } returns true
+        every { bluetoothSupport.isAdvertisingSupported } returns true
     }
 
     @Screenshot

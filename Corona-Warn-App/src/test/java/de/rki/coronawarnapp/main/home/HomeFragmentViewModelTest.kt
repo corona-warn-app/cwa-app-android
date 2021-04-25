@@ -77,8 +77,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         coEvery { statisticsProvider.current } returns emptyFlow()
 
         bluetoothSupport.apply {
-            every { isAdvertisingSupported() } returns true
-            every { isScanningSupported() } returns true
+            every { isAdvertisingSupported } returns true
+            every { isScanningSupported } returns true
         }
     }
 

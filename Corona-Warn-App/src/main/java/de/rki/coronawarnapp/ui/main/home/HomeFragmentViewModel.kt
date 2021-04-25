@@ -275,11 +275,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 else -> add(tracingItem)
             }
 
-            if (bluetoothSupport.isAdvertisingSupported() == false) {
+            if (bluetoothSupport.isAdvertisingSupported == false) {
                 add(
                     IncompatibleCard.Item(
                         onClickAction = { openIncompatibleEvent.postValue(Unit) },
-                        bluetoothSupported = bluetoothSupport.isScanningSupported() != false
+                        bluetoothSupported = bluetoothSupport.isScanningSupported != false
                     )
                 )
             }
