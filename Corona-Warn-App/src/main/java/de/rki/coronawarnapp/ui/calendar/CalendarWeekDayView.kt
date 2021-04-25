@@ -43,9 +43,9 @@ class CalendarWeekDayView @JvmOverloads constructor(
         textView.text = text
 
         if (isSelected) {
-            textView.setTextAppearance(R.style.calendarWeekDaySelected)
+            textView.setTextAppearance(context, R.style.calendarWeekDaySelected)
         } else {
-            textView.setTextAppearance(R.style.calendarWeekDayNormal)
+            textView.setTextAppearance(context, R.style.calendarWeekDayNormal)
         }
     }
 }

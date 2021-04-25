@@ -84,10 +84,10 @@ class ContactDiaryTestFragment :
             text = duration.toContactDiaryFormat()
             if (duration.millis == 0L) {
                 setBackgroundResource(R.drawable.contact_diary_duration_background_default)
-                setTextAppearance(R.style.bodyNeutral)
+                setTextAppearance(context, R.style.bodyNeutral)
             } else {
                 setBackgroundResource(R.drawable.contact_diary_duration_background_selected)
-                setTextAppearance(R.style.body1)
+                setTextAppearance(context, R.style.body1)
             }
         }
     }

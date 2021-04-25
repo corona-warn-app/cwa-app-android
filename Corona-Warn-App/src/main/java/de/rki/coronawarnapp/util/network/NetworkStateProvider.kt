@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.network
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.LinkProperties
@@ -8,6 +9,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED
 import android.os.Build
+import androidx.core.net.ConnectivityManagerCompat
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -90,26 +92,38 @@ class NetworkStateProvider @Inject constructor(
         )
 
     private val currentState: State
-        get() = manager.activeNetwork.let { network ->
+        @SuppressLint("NewApi")
+        get() = if (BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.M)) {
+            manager.activeNetwork.let { network ->
+                State(
+                    activeNetwork = network,
+                    capabilities = network?.let {
+                        try {
+                            manager.getNetworkCapabilities(it)
+                        } catch (e: SecurityException) {
+                            Timber.tag(TAG).e(e, "Failed to determine network capabilities.")
+                            null
+                        }
+                    },
+                    linkProperties = network?.let {
+                        try {
+                            manager.getLinkProperties(it)
+                        } catch (e: Exception) {
+                            Timber.tag(TAG).e(e, "Failed to determine link properties.")
+                            null
+                        }
+                    },
+                    assumeMeteredConnection = testSettings.fakeMeteredConnection.value
+                )
+            }
+        } else {
+            // Most state information is not available
             State(
-                activeNetwork = network,
-                capabilities = network?.let {
-                    try {
-                        manager.getNetworkCapabilities(it)
-                    } catch (e: SecurityException) {
-                        Timber.tag(TAG).e(e, "Failed to determine network capabilities.")
-                        null
-                    }
-                },
-                linkProperties = network?.let {
-                    try {
-                        manager.getLinkProperties(it)
-                    } catch (e: Exception) {
-                        Timber.tag(TAG).e(e, "Failed to determine link properties.")
-                        null
-                    }
-                },
-                isFakeMeteredConnection = testSettings.fakeMeteredConnection.value
+                activeNetwork = null,
+                capabilities = null,
+                linkProperties = null,
+                assumeMeteredConnection = testSettings.fakeMeteredConnection.value ||
+                    ConnectivityManagerCompat.isActiveNetworkMetered(manager)
             )
         }
 
@@ -117,7 +131,7 @@ class NetworkStateProvider @Inject constructor(
         val activeNetwork: Network?,
         val capabilities: NetworkCapabilities?,
         val linkProperties: LinkProperties?,
-        private val isFakeMeteredConnection: Boolean = false
+        private val assumeMeteredConnection: Boolean = false
     ) {
         val isMeteredConnection: Boolean
             get() {
@@ -126,7 +140,7 @@ class NetworkStateProvider @Inject constructor(
                 } else {
                     capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ?: false
                 }
-                return isFakeMeteredConnection || !unMetered
+                return assumeMeteredConnection || !unMetered
             }
     }
 

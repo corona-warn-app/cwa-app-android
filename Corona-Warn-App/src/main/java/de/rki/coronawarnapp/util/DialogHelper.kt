@@ -111,7 +111,7 @@ object DialogHelper {
         textView.linksClickable = true
         textView.movementMethod = LinkMovementMethod.getInstance()
         textView.setPadding(paddingStartEnd, paddingLeftRight, paddingStartEnd, paddingLeftRight)
-        textView.setTextAppearance(R.style.body1)
+        textView.setTextAppearance(context, R.style.body1)
         textView.setLinkTextColor(context.getColorStateListCompat(R.color.button_primary))
         if (isTextSelectable) textView.setTextIsSelectable(true)
         return textView
