@@ -5,7 +5,6 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import dagger.Reusable
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
