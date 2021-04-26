@@ -60,7 +60,6 @@ class ContactDiaryAddPersonFragment :
                     DialogHelper.showDialog(deletePersonConfirmationDialog)
                 }
                 personSaveButton.setOnClickListener {
-                    it.hideKeyboard()
                     viewModel.updatePerson(
                         person,
                         phoneNumber = binding.personPhoneNumberInput.text.toString(),
@@ -72,7 +71,6 @@ class ContactDiaryAddPersonFragment :
         } else {
             binding.personDeleteButton.visibility = View.GONE
             binding.personSaveButton.setOnClickListener {
-                it.hideKeyboard()
                 viewModel.addPerson(
                     phoneNumber = binding.personPhoneNumberInput.text.toString(),
                     emailAddress = binding.personEmailInput.text.toString()
@@ -84,7 +82,6 @@ class ContactDiaryAddPersonFragment :
             personNameInput.focusAndShowKeyboard()
 
             personCloseButton.setOnClickListener {
-                it.hideKeyboard()
                 viewModel.closePressed()
             }
             personNameInput.doAfterTextChanged {
@@ -105,6 +102,7 @@ class ContactDiaryAddPersonFragment :
         }
 
         viewModel.shouldClose.observe2(this) {
+            binding.root.hideKeyboard()
             popBackStack()
         }
 
