@@ -53,13 +53,13 @@ data class RACoronaTest(
     val testedAt: Instant,
 
     @SerializedName("firstName")
-    val firstName: String?,
+    val firstName: String? = null,
 
     @SerializedName("lastName")
-    val lastName: String?,
+    val lastName: String? = null,
 
     @SerializedName("dateOfBirth")
-    val dateOfBirth: LocalDate?,
+    val dateOfBirth: LocalDate? = null,
 
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
