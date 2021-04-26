@@ -39,7 +39,6 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             lastNameInputEdit.doAfterTextChanged { viewModel.lastNameChanged(it.toString()) }
 
             // Birth date
-            birthDateInputEdit.doAfterTextChanged { viewModel.birthDateChanged(it.toString()) }
             birthDateInputEdit.setOnClickListener { openDatePicker() }
 
             // Address
@@ -59,8 +58,8 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
 
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
-                    Navigation.Back -> popBackStack()
-                    Navigation.ProfileScreen -> doNavigate(
+                    CreateRATProfileNavigation.Back -> popBackStack()
+                    CreateRATProfileNavigation.ProfileScreen -> doNavigate(
                         RATProfileCreateFragmentDirections
                             .actionRatProfileCreateFragmentToRatProfileQrCodeFragment()
                     )
@@ -74,9 +73,11 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             .build()
             .apply {
                 addOnPositiveButtonClickListener { timestamp ->
+                    val localDate = LocalDate(timestamp)
                     binding.birthDateInputEdit.setText(
-                        LocalDate(timestamp).toString("dd.MM.yyyy")
+                        localDate.toString("dd.MM.yyyy")
                     )
+                    viewModel.birthDateChanged(localDate)
                 }
             }
             .show(childFragmentManager, "RATProfileCreateFragment.MaterialDatePicker")

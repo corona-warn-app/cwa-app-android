@@ -7,6 +7,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,6 +20,8 @@ import testhelpers.preferences.mockFlowPreference
 internal class RATProfileCreateFragmentViewModelTest : BaseTest() {
 
     @MockK lateinit var ratProfileSettings: RATProfileSettings
+
+    private val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
 
     @BeforeEach
     fun setup() {
@@ -42,7 +45,7 @@ internal class RATProfileCreateFragmentViewModelTest : BaseTest() {
         viewModel().apply {
             firstNameChanged("First name")
             createProfile()
-            events.getOrAwaitValue() shouldBe Navigation.ProfileScreen
+            events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.ProfileScreen
         }
 
         verify {
@@ -74,10 +77,11 @@ internal class RATProfileCreateFragmentViewModelTest : BaseTest() {
 
     @Test
     fun birthDateChanged() {
+        val birthDate = formatter.parseLocalDate("01.01.2021")
         viewModel().apply {
-            birthDateChanged("01.01.2021")
+            birthDateChanged(birthDate)
             profile.getOrAwaitValue()!!.apply {
-                birthDate shouldBe "01.01.2021"
+                birthDate shouldBe birthDate
                 isValid shouldBe true
             }
         }
@@ -140,10 +144,11 @@ internal class RATProfileCreateFragmentViewModelTest : BaseTest() {
 
     @Test
     fun allFieldsAreSet() {
+        val birthDate = formatter.parseDateTime("01.01.1980").toLocalDate()
         viewModel().apply {
             firstNameChanged("First name")
             lastNameChanged("Last name")
-            birthDateChanged("01.01.1980")
+            birthDateChanged(birthDate)
             streetChanged("Main street")
             zipCodeChanged("12132")
             cityChanged("London")
@@ -154,7 +159,7 @@ internal class RATProfileCreateFragmentViewModelTest : BaseTest() {
                 this shouldBe RATProfile(
                     firstName = "First name",
                     lastName = "Last name",
-                    birthDate = "01.01.1980",
+                    birthDate = birthDate,
                     street = "Main street",
                     zipCode = "12132",
                     city = "London",
@@ -169,7 +174,7 @@ internal class RATProfileCreateFragmentViewModelTest : BaseTest() {
     fun navigateBack() {
         viewModel().apply {
             navigateBack()
-            events.getOrAwaitValue() shouldBe Navigation.Back
+            events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.Back
         }
     }
 

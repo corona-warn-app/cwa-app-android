@@ -9,71 +9,76 @@ import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import org.joda.time.LocalDate
 import timber.log.Timber
 
 class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     private val ratProfileSettings: RATProfileSettings
 ) : CWAViewModel() {
 
-    private val profileData = MutableLiveData<RATProfile?>()
+    private val profileData = MutableLiveData(RATProfile())
     val profile: LiveData<RATProfile?> = profileData
-    val events = SingleLiveEvent<Navigation>()
-
-    init {
-        profileData.value = null
-    }
+    val events = SingleLiveEvent<CreateRATProfileNavigation>()
 
     fun createProfile() {
         Timber.d("Profile=%s", profileData.value)
         if (profileData.value?.isValid == true) {
             ratProfileSettings.profile.update { profileData.value }
             Timber.d("Profile created")
-            events.value = Navigation.ProfileScreen
+            events.value = CreateRATProfileNavigation.ProfileScreen
         }
     }
 
     fun firstNameChanged(firstName: String) {
-        profileData.value = profileData.value?.copy(firstName = firstName)
-            ?: RATProfile(firstName = firstName)
+        profileData.apply {
+            value = value?.copy(firstName = firstName)
+        }
     }
 
     fun lastNameChanged(lastName: String) {
-        profileData.value = profileData.value?.copy(lastName = lastName)
-            ?: RATProfile(lastName = lastName)
+        profileData.apply {
+            value = value?.copy(lastName = lastName)
+        }
     }
 
-    fun birthDateChanged(birthDate: String) {
-        profileData.value = profileData.value?.copy(birthDate = birthDate)
-            ?: RATProfile(birthDate = birthDate)
+    fun birthDateChanged(birthDate: LocalDate) {
+        profileData.apply {
+            value = value?.copy(birthDate = birthDate)
+        }
     }
 
     fun streetChanged(street: String) {
-        profileData.value = profileData.value?.copy(street = street)
-            ?: RATProfile(street = street)
+        profileData.apply {
+            value = value?.copy(street = street)
+        }
     }
 
     fun zipCodeChanged(zipCode: String) {
-        profileData.value = profileData.value?.copy(zipCode = zipCode)
-            ?: RATProfile(zipCode = zipCode)
+        profileData.apply {
+            value = value?.copy(zipCode = zipCode)
+        }
     }
 
     fun cityChanged(city: String) {
-        profileData.value = profileData.value?.copy(city = city)
-            ?: RATProfile(city = city)
+        profileData.apply {
+            value = value?.copy(city = city)
+        }
     }
 
     fun phoneChanged(phone: String) {
-        profileData.value = profileData.value?.copy(phone = phone)
-            ?: RATProfile(phone = phone)
+        profileData.apply {
+            value = value?.copy(phone = phone)
+        }
     }
 
     fun emailChanged(email: String) {
-        profileData.value = profileData.value?.copy(email = email)
-            ?: RATProfile(email = email)
+        profileData.apply {
+            value = value?.copy(email = email)
+        }
     }
 
     fun navigateBack() {
-        events.value = Navigation.Back
+        events.value = CreateRATProfileNavigation.Back
     }
 
     @AssistedFactory
