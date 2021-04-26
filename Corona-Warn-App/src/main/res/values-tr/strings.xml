@@ -1991,4 +1991,13 @@
     <string name="trace_location_attendee_consent_dialog_positive_button">"Paylaş"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
     <string name="trace_location_attendee_consent_dialog_negative_button">"Paylaşma"</string>
+
+    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Geçersiz QR Kod"</string>
+    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Taranan QR kod geçerli değil.\nLütfen geçerli bir QR kod tarayın.\n\n(%1$s)"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"Tamam"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"İptal Et"</string>
 </resources>

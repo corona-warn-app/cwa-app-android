@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkins
 
-import androidx.annotation.StringRes
 import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.util.ui.LazyString
 
 sealed class CheckInEvent {
 
@@ -12,7 +12,7 @@ sealed class CheckInEvent {
 
     data class ConfirmCheckIn(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
 
-    data class InvalidQrCode(@StringRes val errorTextRes: Int) : CheckInEvent()
+    data class InvalidQrCode(val errorText: LazyString) : CheckInEvent()
 
     data class ConfirmCheckInWithoutHistory(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
 
