@@ -43,6 +43,9 @@ data class RACoronaTest(
     @SerializedName("testResultReceivedAt")
     override val testResultReceivedAt: Instant? = null,
 
+    @SerializedName("lastUpdatedAt")
+    override val lastUpdatedAt: Instant,
+
     @SerializedName("testResult")
     override val testResult: CoronaTestResult,
 
@@ -82,6 +85,9 @@ data class RACoronaTest(
                 else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
             }
         }
+
+    override val isFinal: Boolean
+        get() = testResult == RAT_REDEEMED
 
     override val isPositive: Boolean
         get() = testResult == RAT_POSITIVE

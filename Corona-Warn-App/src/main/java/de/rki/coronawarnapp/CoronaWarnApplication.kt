@@ -17,6 +17,10 @@ import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
@@ -72,6 +76,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @Inject lateinit var exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler
     @Inject lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler
+    @Inject lateinit var pcrTestResultScheduler: PCRResultScheduler
+    @Inject lateinit var raTestResultScheduler: RAResultScheduler
+    @Inject lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
+    @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -120,6 +128,14 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("Setting up risk work schedulers.")
         exposureWindowRiskWorkScheduler.setup()
         presenceTracingRiskWorkScheduler.setup()
+
+        Timber.v("Setting up test result work schedulers.")
+        pcrTestResultScheduler.setup()
+        raTestResultScheduler.setup()
+
+        Timber.v("Setting up test result available notification services.")
+        pcrTestResultAvailableNotificationService.setup()
+        raTestResultAvailableNotificationService.setup()
 
         deviceTimeHandler.launch()
         configChangeDetector.launch()

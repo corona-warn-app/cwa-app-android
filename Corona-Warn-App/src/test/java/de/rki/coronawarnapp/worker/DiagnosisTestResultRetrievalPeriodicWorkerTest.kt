@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
-import de.rki.coronawarnapp.coronatest.worker.PCRResultRetrievalWorker
-import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
+import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
+import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector

@@ -7,6 +7,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.mockk.MockKAnnotations
