@@ -9,6 +9,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -70,7 +71,9 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
                     autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
                     Timber.tag(TAG).d("Navigate to SubmissionResultReadyFragment")
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
+                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment(
+                            testType
+                        )
                 }
                 routeToScreen.postValue(navDirections)
             }
@@ -138,7 +141,9 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onResume() {
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS)
+        if (testType == PCR) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS)
+        }
     }
 
     @AssistedFactory
