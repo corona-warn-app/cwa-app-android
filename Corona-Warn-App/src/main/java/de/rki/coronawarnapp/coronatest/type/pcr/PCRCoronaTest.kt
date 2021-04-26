@@ -38,12 +38,18 @@ data class PCRCoronaTest(
     @SerializedName("testResult")
     override val testResult: CoronaTestResult,
 
+    @SerializedName("lastUpdatedAt")
+    override val lastUpdatedAt: Instant,
+
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type
         get() = CoronaTest.Type.PCR
+
+    override val isFinal: Boolean
+        get() = testResult == CoronaTestResult.PCR_REDEEMED
 
     override val isPositive: Boolean
         get() = testResult == CoronaTestResult.PCR_POSITIVE
