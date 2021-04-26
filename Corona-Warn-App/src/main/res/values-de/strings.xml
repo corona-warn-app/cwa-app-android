@@ -2013,4 +2013,10 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">Ok</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">Abbrechen</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+    <string name="incompatible_link">"https://www.coronawarn.app/de/faq/#incompatibility_warning"</string>
+
 </resources>

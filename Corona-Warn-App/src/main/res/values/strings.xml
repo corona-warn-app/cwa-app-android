@@ -1978,6 +1978,8 @@
         your device.
     </string>
 
+    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
+
     <!-- ####################################
        Trace Location
     ###################################### -->

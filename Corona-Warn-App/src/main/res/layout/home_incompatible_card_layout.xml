@@ -15,11 +15,21 @@
             android:layout_height="@dimen/icon_size_button"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_high_risk_alert"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/main_card_header_headline"
+            app:layout_constraintBottom_toTopOf="@id/top_barrier"
+            app:layout_constraintEnd_toStartOf="@id/main_card_header_headline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/main_card_header_icon_end"
+            style="@style/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/main_card_header_headline"
+            app:srcCompat="@drawable/ic_link" />
 
         <TextView
             android:id="@+id/main_card_header_headline"
@@ -30,10 +40,19 @@
             android:layout_marginEnd="@dimen/spacing_small"
             android:accessibilityHeading="true"
             android:text="@string/incompatible_headline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/main_card_header_icon"
-            app:layout_constraintTop_toTopOf="@+id/main_card_header_icon"
+            app:layout_constraintBottom_toTopOf="@id/top_barrier"
+            app:layout_constraintEnd_toStartOf="@id/main_card_header_icon_end"
+            app:layout_constraintStart_toEndOf="@id/main_card_header_icon"
+            app:layout_constraintTop_toTopOf="@id/main_card_header_icon"
             app:layout_constraintVertical_bias="0.0" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/top_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="main_card_header_headline, main_card_header_icon" />
+
         <TextView
             android:id="@+id/main_card_content_body"
             style="@style/subtitleMedium"
@@ -44,7 +63,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_card_header_headline" />
+            app:layout_constraintTop_toBottomOf="@id/top_barrier" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

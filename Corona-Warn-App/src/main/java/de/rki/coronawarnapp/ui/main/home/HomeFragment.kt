@@ -81,7 +81,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         viewModel.openIncompatibleEvent.observe2(this) {
-            // TODO give further information about the incompatibility
+            ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.incompatible_link))
         }
 
         viewModel.openTraceLocationOrganizerFlow.observe2(this) {
