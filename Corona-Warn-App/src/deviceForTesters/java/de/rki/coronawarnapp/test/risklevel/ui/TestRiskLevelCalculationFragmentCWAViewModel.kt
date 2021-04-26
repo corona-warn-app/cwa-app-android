@@ -122,7 +122,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             riskLevel = latestCalc.riskState,
             riskLevelLastSuccessfulCalculated = latestSuccessfulCalc.riskState,
             matchedKeyCount = latestCalc.matchedKeyCount,
-            daysSinceLastExposure = latestCalc.daysWithEncounters,
+            daysSinceLastExposure = if (latestCalc.riskState == RiskState.INCREASED_RISK)
+                latestCalc.ewAggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0
+            else latestCalc.ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0,
             lastKeySubmission = latestSubmission?.startedAt
         )
     }.asLiveData()
