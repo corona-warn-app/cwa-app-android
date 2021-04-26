@@ -16,8 +16,8 @@
                 android:id="@+id/submission_contact_illustration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_submission_illustration_hotline"
                 android:focusable="true"
+                app:srcCompat="@drawable/ic_submission_illustration_hotline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -30,8 +30,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="@string/submission_contact_body"
                 android:focusable="true"
+                android:text="@string/submission_contact_body"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/submission_contact_illustration" />
@@ -39,12 +39,12 @@
             <TextView
                 android:id="@+id/submission_contact_headline"
                 style="@style/headline5"
-                android:accessibilityHeading="true"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:text="@string/submission_contact_headline"
+                android:accessibilityHeading="true"
                 android:focusable="true"
+                android:text="@string/submission_contact_headline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_body" />
@@ -54,8 +54,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="true"
                 android:contentDescription="@string/submission_contact_step_1_content"
+                android:focusable="true"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/submission_contact_headline"
@@ -77,30 +77,40 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/submission_contact_step_1_number"
-                        style="@style/headline5"
-                        android:accessibilityHeading="true"
+                    <include
+                        android:id="@+id/submission_contact_navigation_row_phone"
+                        layout="@layout/include_navigation_row"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        android:text="@string/submission_contact_number_display"
-                        android:textColor="@color/colorTextTint"
-                        android:clickable="true"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/submission_contact_step_1_body" />
+                        app:layout_constraintTop_toBottomOf="@id/submission_contact_step_1_body"
+                        app:subtitle="@{@string/information_contact_button_phone_description}"
+                        app:title="@{@string/submission_contact_number_display}" />
+
+                    <include
+                        android:id="@+id/submission_contact_navigation_row_international_phone"
+                        layout="@layout/include_navigation_row"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/submission_contact_navigation_row_phone"
+                        app:subtitle="@{@string/information_contact_button_international_phone_description}"
+                        app:title="@{@string/submission_contact_button_international_phone}" />
 
                     <TextView
                         android:id="@+id/submission_contact_operating_hours_body"
                         style="@style/body2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:text="@string/submission_contact_operating_hours_body"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/submission_contact_step_1_number" />
+                        app:layout_constraintTop_toBottomOf="@id/submission_contact_navigation_row_international_phone" />
 
                     <TextView
                         android:id="@+id/submission_contact_body_other"
@@ -121,8 +131,8 @@
                 android:id="@+id/submission_contact_step_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusable="true"
                 android:contentDescription="@string/submission_contact_step_2_content"
+                android:focusable="true"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_step_1"

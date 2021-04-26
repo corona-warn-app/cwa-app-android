@@ -192,6 +192,11 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="phoneNumber">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
     <style name="rowSettings" parent="@style/row">
         <item name="android:paddingStart">0dp</item>
     </style>
@@ -272,6 +277,9 @@
     <style name="headline4" parent="@style/TextAppearance.MaterialComponents.Headline4">
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
+    <style name="headline4Bold" parent="@style/headline4">
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="headline5" parent="@style/TextAppearance.MaterialComponents.Headline5">
         <item name="android:textColor">@color/colorTextPrimary1</item>
@@ -321,6 +329,11 @@
 
     <style name="body2Medium" parent="@style/TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/colorTextPrimary2</item>
+    </style>
+
+    <style name="body3Medium" parent="@style/body2">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/colorTextPrimary1InvertedStableTransparent</item>
     </style>
 
     <style name="bodyButton" parent="@style/TextAppearance.MaterialComponents.Button">

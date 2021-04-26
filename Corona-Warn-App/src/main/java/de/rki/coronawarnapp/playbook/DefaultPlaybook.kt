@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.playbook
 
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
+import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.exception.TanPairingException
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.submission.server.SubmissionServer
-import de.rki.coronawarnapp.util.formatter.TestResult
-import de.rki.coronawarnapp.verification.server.VerificationKeyType
-import de.rki.coronawarnapp.verification.server.VerificationServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -28,7 +28,7 @@ class DefaultPlaybook @Inject constructor(
     override suspend fun initialRegistration(
         key: String,
         keyType: VerificationKeyType
-    ): Pair<String, TestResult> {
+    ): Pair<String, CoronaTestResult> {
         Timber.i("[$uid] New Initial Registration Playbook")
 
         // real registration
@@ -43,7 +43,7 @@ class DefaultPlaybook @Inject constructor(
         // if the registration succeeded continue with the real test result retrieval
         // if it failed, execute a dummy request to satisfy the required playbook pattern
         val (testResult, testResultException) = if (registrationToken != null) {
-            executeCapturingExceptions { verificationServer.retrieveTestResults(registrationToken) }
+            executeCapturingExceptions { verificationServer.pollTestResult(registrationToken) }
         } else {
             ignoreExceptions { verificationServer.retrieveTanFake() }
             null to null
@@ -56,18 +56,18 @@ class DefaultPlaybook @Inject constructor(
 
         // if registration and test result retrieval succeeded, return the result
         if (registrationToken != null && testResult != null)
-            return registrationToken to TestResult.fromInt(testResult)
+            return registrationToken to testResult
 
         // else propagate the exception of either the first or the second step
         propagateException(registrationException, testResultException)
     }
 
-    override suspend fun testResult(registrationToken: String): TestResult {
+    override suspend fun testResult(registrationToken: String): CoronaTestResult {
         Timber.i("[$uid] New Test Result Playbook")
 
         // real test result
         val (testResult, exception) =
-            executeCapturingExceptions { verificationServer.retrieveTestResults(registrationToken) }
+            executeCapturingExceptions { verificationServer.pollTestResult(registrationToken) }
 
         // fake verification
         ignoreExceptions { verificationServer.retrieveTanFake() }
@@ -77,7 +77,7 @@ class DefaultPlaybook @Inject constructor(
 
         coroutineScope.launch { followUpPlaybooks() }
 
-        return testResult?.let { TestResult.fromInt(it) } ?: propagateException(exception)
+        return testResult ?: propagateException(exception)
     }
 
     override suspend fun submit(
@@ -101,7 +101,8 @@ class DefaultPlaybook @Inject constructor(
                     keyList = data.temporaryExposureKeys,
                     consentToFederation = data.consentToFederation,
                     visitedCountries = data.visitedCountries,
-                    checkIns = data.checkIns
+                    checkIns = data.checkIns,
+                    submissionType = data.submissionType
                 )
                 submissionServer.submitPayload(serverSubmissionData)
                 coroutineScope.launch { followUpPlaybooks() }

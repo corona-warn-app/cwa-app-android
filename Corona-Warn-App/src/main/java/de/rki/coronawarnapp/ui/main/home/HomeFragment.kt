@@ -121,8 +121,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             if (!showDialog) return@observe2
             deviceTimeIncorrectDialog.show { viewModel.userHasAcknowledgedIncorrectDeviceTime() }
         }
-
-        viewModel.observeTestResultToSchedulePositiveTestResultReminder()
     }
 
     override fun onResume() {

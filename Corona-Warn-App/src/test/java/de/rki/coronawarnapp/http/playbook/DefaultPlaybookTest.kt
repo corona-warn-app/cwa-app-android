@@ -1,13 +1,14 @@
 package de.rki.coronawarnapp.http.playbook
 
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
+import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.exception.TanPairingException
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.playbook.DefaultPlaybook
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.submission.server.SubmissionServer
-import de.rki.coronawarnapp.util.formatter.TestResult
-import de.rki.coronawarnapp.verification.server.VerificationKeyType
-import de.rki.coronawarnapp.verification.server.VerificationServer
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -32,7 +33,7 @@ class DefaultPlaybookTest : BaseTest() {
         MockKAnnotations.init(this)
 
         coEvery { verificationServer.retrieveRegistrationToken(any(), any()) } returns "token"
-        coEvery { verificationServer.retrieveTestResults(any()) } returns 0
+        coEvery { verificationServer.pollTestResult(any()) } returns CoronaTestResult.PCR_OR_RAT_PENDING
         coEvery { verificationServer.retrieveTanFake() } returns mockk()
         coEvery { verificationServer.retrieveTan(any()) } returns "tan"
 
@@ -54,7 +55,7 @@ class DefaultPlaybookTest : BaseTest() {
         coVerifySequence {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveRegistrationToken(any(), any())
-            verificationServer.retrieveTestResults(any())
+            verificationServer.pollTestResult(any())
             submissionServer.submitFakePayload()
         }
     }
@@ -87,7 +88,8 @@ class DefaultPlaybookTest : BaseTest() {
                 temporaryExposureKeys = listOf(),
                 consentToFederation = true,
                 visitedCountries = listOf("DE"),
-                checkIns = emptyList()
+                checkIns = emptyList(),
+                submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
             )
         )
 
@@ -109,7 +111,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         } catch (e: Exception) {
@@ -129,7 +132,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         } catch (e: Exception) {
@@ -150,7 +154,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         }
@@ -166,13 +171,11 @@ class DefaultPlaybookTest : BaseTest() {
 
     @Test
     fun `test result retrieval matches pattern`(): Unit = runBlocking {
-        coEvery { verificationServer.retrieveTestResults(any()) } returns 0
-
         createPlaybook().testResult("token")
 
         coVerifySequence {
             // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveTestResults(any())
+            verificationServer.pollTestResult(any())
             verificationServer.retrieveTanFake()
             submissionServer.submitFakePayload()
         }
@@ -194,8 +197,8 @@ class DefaultPlaybookTest : BaseTest() {
     fun `failures during dummy requests should be ignored`(): Unit = runBlocking {
         val expectedToken = "token"
         coEvery { verificationServer.retrieveRegistrationToken(any(), any()) } returns expectedToken
-        val expectedResult = TestResult.PENDING
-        coEvery { verificationServer.retrieveTestResults(expectedToken) } returns expectedResult.value
+        val expectedResult = CoronaTestResult.PCR_OR_RAT_PENDING
+        coEvery { verificationServer.pollTestResult(expectedToken) } returns expectedResult
         coEvery { submissionServer.submitFakePayload() } throws TestException()
 
         val (registrationToken, testResult) = createPlaybook()
@@ -224,7 +227,7 @@ class DefaultPlaybookTest : BaseTest() {
 
     @Test
     fun `registration pattern matches despite test result failure`(): Unit = runBlocking {
-        coEvery { verificationServer.retrieveTestResults(any()) } throws TestException()
+        coEvery { verificationServer.pollTestResult(any()) } throws TestException()
 
         shouldThrow<TestException> {
             createPlaybook().initialRegistration("9A3B578UMG", VerificationKeyType.TELETAN)
@@ -233,14 +236,14 @@ class DefaultPlaybookTest : BaseTest() {
         coVerifySequence {
             // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveRegistrationToken(any(), any())
-            verificationServer.retrieveTestResults(any())
+            verificationServer.pollTestResult(any())
             submissionServer.submitFakePayload()
         }
     }
 
     @Test
     fun `test result pattern matches despite failure`(): Unit = runBlocking {
-        coEvery { verificationServer.retrieveTestResults(any()) } throws TestException()
+        coEvery { verificationServer.pollTestResult(any()) } throws TestException()
 
         shouldThrow<TestException> {
             createPlaybook().testResult("token")
@@ -248,7 +251,7 @@ class DefaultPlaybookTest : BaseTest() {
 
         coVerifySequence {
             // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveTestResults(any())
+            verificationServer.pollTestResult(any())
             verificationServer.retrieveTanFake()
             submissionServer.submitFakePayload()
         }
@@ -265,7 +268,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         }

@@ -9,14 +9,9 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 class SubmissionContactViewModel @AssistedInject constructor() : CWAViewModel() {
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
-    val dial = SingleLiveEvent<Unit>()
 
     fun onBackPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
-    }
-
-    fun onDialPressed() {
-        dial.postValue(Unit)
     }
 
     fun onEnterTanPressed() {

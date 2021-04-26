@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.checkins.common
 
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import kotlinx.coroutines.flow.map
 
 /**

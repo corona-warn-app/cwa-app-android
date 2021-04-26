@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentFragment
@@ -29,6 +30,7 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
+    @MockK lateinit var testType: CoronaTest.Type
 
     @Rule
     @JvmField
@@ -42,12 +44,17 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { submissionRepository.hasGivenConsentToSubmission } returns flowOf()
+        every { submissionRepository.testForType(any()) } returns flowOf()
         viewModel =
-            SubmissionYourConsentViewModel(TestDispatcherProvider(), interoperabilityRepository, submissionRepository)
+            SubmissionYourConsentViewModel(
+                TestDispatcherProvider(),
+                interoperabilityRepository,
+                submissionRepository,
+                testType
+            )
         setupMockViewModel(
             object : SubmissionYourConsentViewModel.Factory {
-                override fun create(): SubmissionYourConsentViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionYourConsentViewModel = viewModel
             }
         )
     }
@@ -61,7 +68,7 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_results() {
         captureScreenshot<SubmissionYourConsentFragment>(
-            fragmentArgs = SubmissionYourConsentFragmentArgs(true).toBundle()
+            fragmentArgs = SubmissionYourConsentFragmentArgs(true, testType).toBundle()
         )
     }
 }

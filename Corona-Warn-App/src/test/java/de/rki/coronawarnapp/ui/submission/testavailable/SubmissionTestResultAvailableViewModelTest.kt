@@ -1,7 +1,11 @@
 package de.rki.coronawarnapp.ui.submission.testavailable
 
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
@@ -13,9 +17,9 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -32,18 +36,28 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @MockK lateinit var tekHistoryUpdater: TEKHistoryUpdater
     @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var testType: CoronaTest.Type
+
+    private val coronaTestFlow = MutableStateFlow(
+        mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns true
+        }
+    )
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { submissionRepository.hasGivenConsentToSubmission } returns flowOf(true)
 
         every { tekHistoryUpdaterFactory.create(any()) } returns tekHistoryUpdater
         every { tekHistoryUpdater.updateTEKHistoryOrRequestPermission() } just Runs
 
         // TODO Check specific behavior
-        every { submissionRepository.refreshDeviceUIState(any()) } just Runs
+        submissionRepository.apply {
+            every { refreshTest(any()) } just Runs
+            every { testForType(type = any()) } returns coronaTestFlow
+        }
     }
 
     private fun createViewModel(): SubmissionTestResultAvailableViewModel = SubmissionTestResultAvailableViewModel(
@@ -52,20 +66,24 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         tekHistoryUpdaterFactory = tekHistoryUpdaterFactory,
         autoSubmission = autoSubmission,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        checkInRepository = checkInRepository
+        checkInRepository = checkInRepository,
+        testType = testType
     )
 
     @Test
     fun `consent repository changed`() {
-        val consentMutable = MutableStateFlow(false)
-        every { submissionRepository.hasGivenConsentToSubmission } returns consentMutable
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns false
+        }
 
         val viewModel = createViewModel()
 
         viewModel.consent.observeForever { }
         viewModel.consent.value shouldBe false
 
-        consentMutable.value = true
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns true
+        }
         viewModel.consent.value shouldBe true
     }
 
@@ -84,7 +102,10 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         viewModel.goConsent()
         viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
-            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(true)
+            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(
+                testType = testType,
+                isTestResultAvailable = true,
+            )
     }
 
     @Test
@@ -99,12 +120,39 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
     @Test
     fun `go to test result without updating TEK history if NO consent is given`() {
-        every { submissionRepository.hasGivenConsentToSubmission } returns flowOf(false)
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns false
+        }
         every { analyticsKeySubmissionCollector.reportConsentWithdrawn() } just Runs
+
         val viewModel = createViewModel()
 
         viewModel.proceed()
         viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
-            .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+            .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(testType)
+    }
+
+    @Test
+    fun `proceed() should call analyticsKeySubmissionCollector for PCR tests`() {
+        testType = PCR
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns false
+        }
+
+        createViewModel().proceed()
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportConsentWithdrawn() }
+    }
+
+    @Test
+    fun `proceed() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+        testType = RAPID_ANTIGEN
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns false
+        }
+
+        createViewModel().proceed()
+
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportConsentWithdrawn() }
     }
 }

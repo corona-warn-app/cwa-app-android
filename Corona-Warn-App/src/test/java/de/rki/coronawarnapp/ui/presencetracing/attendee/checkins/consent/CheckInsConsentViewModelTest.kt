@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 
 import androidx.lifecycle.SavedStateHandle
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import io.kotest.matchers.shouldBe
@@ -13,6 +14,8 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.encode
@@ -32,6 +35,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
+    @MockK lateinit var testType: CoronaTest.Type
 
     private val checkIn1 = CheckIn(
         id = 1L,
@@ -87,6 +91,10 @@ class CheckInsConsentViewModelTest : BaseTest() {
         createJournalEntry = false
     )
 
+    private val coronaTestFlow = MutableStateFlow(
+        mockk<CoronaTest>().apply { every { isViewed } returns false }
+    )
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
@@ -96,7 +104,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
         coEvery { checkInRepository.updateSubmissionConsents(any(), false) } just Runs
         every { savedState.set(any(), any<Set<Long>>()) } just Runs
         every { autoSubmission.updateMode(any()) } just Runs
-        every { submissionRepository.hasViewedTestResult } returns flowOf(false)
+        every { submissionRepository.testForType(any()) } returns coronaTestFlow
         every { savedState.get<Set<Long>>(any()) } returns emptySet()
     }
 
@@ -254,7 +262,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `Close opens skipDialog when test result has been shown`() {
-        every { submissionRepository.hasViewedTestResult } returns flowOf(true)
+        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns true }
         createViewModel().apply {
             onCloseClick()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.OpenSkipDialog
@@ -263,7 +271,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `Close opens closeDialog when test result has not been shown`() {
-        every { submissionRepository.hasViewedTestResult } returns flowOf(false)
+        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns false }
         createViewModel().apply {
             onCloseClick()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.OpenCloseDialog
@@ -272,7 +280,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `shareSelectedCheckIns when test result has been shown`() {
-        every { submissionRepository.hasViewedTestResult } returns flowOf(true)
+        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns true }
         createViewModel().apply {
             shareSelectedCheckIns()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionResultReadyFragment
@@ -287,7 +295,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `shareSelectedCheckIns when test result has not been shown`() {
-        every { submissionRepository.hasViewedTestResult } returns flowOf(false)
+        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns false }
         createViewModel().apply {
             shareSelectedCheckIns()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment
@@ -302,7 +310,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `doNotShareCheckIns when test result has been shown`() {
-        every { submissionRepository.hasViewedTestResult } returns flowOf(true)
+        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns true }
         createViewModel().apply {
             doNotShareCheckIns()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionResultReadyFragment
@@ -316,7 +324,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `doNotShareCheckIns when test result has not been shown`() {
-        every { submissionRepository.hasViewedTestResult } returns flowOf(false)
+        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns false }
         createViewModel().apply {
             doNotShareCheckIns()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment
@@ -333,6 +341,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         checkInRepository = checkInRepository,
         submissionRepository = submissionRepository,
-        autoSubmission = autoSubmission
+        autoSubmission = autoSubmission,
+        testType = testType
     )
 }

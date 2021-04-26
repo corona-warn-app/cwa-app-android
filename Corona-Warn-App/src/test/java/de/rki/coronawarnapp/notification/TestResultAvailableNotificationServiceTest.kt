@@ -6,10 +6,9 @@ import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.device.ForegroundState
-import de.rki.coronawarnapp.util.formatter.TestResult
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -53,7 +52,7 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
         every { notificationHelper.newBaseBuilder() } returns mockk(relaxed = true)
     }
 
-    fun createInstance() = TestResultAvailableNotificationService(
+    fun createInstance() = PCRTestResultAvailableNotificationService(
         context = context,
         foregroundState = foregroundState,
         navDeepLinkBuilderProvider = navDeepLinkBuilderProvider,
@@ -62,22 +61,10 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
     )
 
     @Test
-    fun `check destination`() {
-        val negative = createInstance().getNotificationDestination(TestResult.NEGATIVE)
-        negative shouldBe (R.id.submissionTestResultPendingFragment)
-
-        val invalid = createInstance().getNotificationDestination(TestResult.INVALID)
-        invalid shouldBe (R.id.submissionTestResultPendingFragment)
-
-        val positive = createInstance().getNotificationDestination(TestResult.POSITIVE)
-        positive shouldBe (R.id.submissionTestResultPendingFragment)
-    }
-
-    @Test
     fun `test notification in foreground`() = runBlockingTest {
         coEvery { foregroundState.isInForeground } returns flow { emit(true) }
 
-        createInstance().showTestResultAvailableNotification(TestResult.POSITIVE)
+        createInstance().showTestResultAvailableNotification(CoronaTestResult.PCR_POSITIVE)
 
         verify(exactly = 0) { navDeepLinkBuilderProvider.get() }
     }
@@ -94,11 +81,10 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
 
         val instance = createInstance()
 
-        instance.showTestResultAvailableNotification(TestResult.POSITIVE)
+        instance.showTestResultAvailableNotification(CoronaTestResult.PCR_POSITIVE)
 
         verifyOrder {
             navDeepLinkBuilderProvider.get()
-            instance.getNotificationDestination(TestResult.POSITIVE)
             context.getString(R.string.notification_headline_test_result_ready)
             context.getString(R.string.notification_body_test_result_ready)
             notificationHelper.sendNotification(
@@ -114,7 +100,7 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
         every { cwaSettings.isNotificationsTestEnabled.value } returns false
 
         createInstance().apply {
-            showTestResultAvailableNotification(TestResult.POSITIVE)
+            showTestResultAvailableNotification(CoronaTestResult.PCR_POSITIVE)
 
             verify(exactly = 0) {
                 notificationHelper.sendNotification(

@@ -33,7 +33,7 @@
             android:layout_width="@dimen/icon_size_risk_card"
             android:layout_height="@dimen/icon_size_risk_card"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_forward"
+            app:srcCompat="@drawable/ic_forward"
             app:tint="@color/colorTextPrimary1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
