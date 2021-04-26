@@ -5,10 +5,10 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
-import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -27,7 +27,7 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
     private val autoSubmission: AutoSubmission,
     private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    @Assisted private val testType: CoronaTest.Type,
+    @Assisted private val testType: Type,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -77,12 +77,14 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT)
+        if (testType == Type.PCR) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT)
+        }
         autoSubmission.updateLastSubmissionUserActivity()
     }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultConsentGivenViewModel> {
-        fun create(testType: CoronaTest.Type): SubmissionTestResultConsentGivenViewModel
+        fun create(testType: Type): SubmissionTestResultConsentGivenViewModel
     }
 }

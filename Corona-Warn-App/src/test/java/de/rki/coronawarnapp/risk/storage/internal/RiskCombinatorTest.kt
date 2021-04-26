@@ -210,7 +210,7 @@ class RiskCombinatorTest : BaseTest() {
     }
 
     @Test
-    fun `max RiskState works`() {
+    fun `combine RiskState works`() {
         RiskCombinator.combine(INCREASED_RISK, INCREASED_RISK) shouldBe INCREASED_RISK
         RiskCombinator.combine(INCREASED_RISK, LOW_RISK) shouldBe INCREASED_RISK
         RiskCombinator.combine(INCREASED_RISK, CALCULATION_FAILED) shouldBe CALCULATION_FAILED
@@ -232,5 +232,4 @@ private fun createEwRiskLevelResult(
     override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
     override val exposureWindows: List<ExposureWindow>? = null
     override val matchedKeyCount: Int = 0
-    override val daysWithEncounters: Int = 0
 }
