@@ -6,7 +6,7 @@ import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -20,7 +20,9 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
 import io.mockk.verifyOrder
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -37,6 +39,7 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
     @MockK lateinit var notificationManager: NotificationManager
     @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var cwaSettings: CWASettings
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     @BeforeEach
     fun setUp() {
@@ -53,19 +56,21 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
         every { notificationHelper.newBaseBuilder() } returns mockk(relaxed = true)
     }
 
-    fun createInstance() = PCRTestResultAvailableNotificationService(
+    fun createInstance(scope: CoroutineScope = TestCoroutineScope()) = PCRTestResultAvailableNotificationService(
         context = context,
         foregroundState = foregroundState,
         navDeepLinkBuilderProvider = navDeepLinkBuilderProvider,
         notificationHelper = notificationHelper,
-        cwaSettings = cwaSettings
+        cwaSettings = cwaSettings,
+        coronaTestRepository = coronaTestRepository,
+        appScope = scope,
     )
 
     @Test
     fun `test notification in foreground`() = runBlockingTest {
         coEvery { foregroundState.isInForeground } returns flow { emit(true) }
 
-        createInstance().showTestResultAvailableNotification(CoronaTestResult.PCR_POSITIVE)
+        createInstance().showTestResultAvailableNotification(mockk())
 
         verify(exactly = 0) { navDeepLinkBuilderProvider.get() }
     }
@@ -82,7 +87,8 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
 
         val instance = createInstance()
 
-        instance.showTestResultAvailableNotification(CoronaTestResult.PCR_POSITIVE)
+        TODO()
+        instance.showTestResultAvailableNotification(mockk())
 
         verifyOrder {
             navDeepLinkBuilderProvider.get()
@@ -101,7 +107,8 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
         every { cwaSettings.isNotificationsTestEnabled.value } returns false
 
         createInstance().apply {
-            showTestResultAvailableNotification(CoronaTestResult.PCR_POSITIVE)
+            TODO()
+            showTestResultAvailableNotification(mockk())
 
             verify(exactly = 0) {
                 notificationHelper.sendNotification(

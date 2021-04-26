@@ -30,7 +30,6 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
@@ -39,7 +38,7 @@ import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
 
-class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
+class PCRResultRetrievalWorkerTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var request: WorkRequest
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
@@ -67,7 +66,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         every { appComponent.encryptedPreferencesFactory } returns encryptedPreferencesFactory
         every { appComponent.errorResetTool } returns encryptionErrorResetTool
 
-        every { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = any()) } just Runs
+        coEvery { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = any()) } just Runs
 
         every { notificationHelper.cancelCurrentNotification(any()) } just Runs
 
@@ -98,11 +97,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     private fun createWorker() = PCRResultRetrievalWorker(
         context = context,
         workerParams = workerParams,
-        testResultAvailableNotificationService = testResultAvailableNotificationService,
-        notificationHelper = notificationHelper,
         coronaTestRepository = coronaTestRepository,
-        testResultScheduler = testResultScheduler,
-        timeStamper = timeStamper,
     )
 
     @Test
@@ -112,7 +107,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         val result = createWorker().doWork()
 
         coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        verify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
+        coVerify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
         result shouldBe ListenableWorker.Result.success()
     }
 
@@ -123,7 +118,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         val result = createWorker().doWork()
 
         coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        verify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
+        coVerify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
         result shouldBe ListenableWorker.Result.success()
     }
 
@@ -136,16 +131,16 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         val result = createWorker().doWork()
 
         coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        verify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
+        coVerify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
         result shouldBe ListenableWorker.Result.success()
     }
 
     @Test
     fun testSendNotificationWhenPositive() = runBlockingTest {
-        val testResult = CoronaTestResult.PCR_POSITIVE
-        coronaTestFlow.value = setOf(newCoronaTest(result = testResult))
+        val newTest = newCoronaTest(result = CoronaTestResult.PCR_POSITIVE)
+        coronaTestFlow.value = setOf(newTest)
 
-        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) } just Runs
+        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(newTest) } just Runs
         coEvery {
             notificationHelper.cancelCurrentNotification(
                 NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
@@ -156,7 +151,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
         coVerify {
             coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
-            testResultAvailableNotificationService.showTestResultAvailableNotification(testResult)
+            testResultAvailableNotificationService.showTestResultAvailableNotification(newTest)
             notificationHelper.cancelCurrentNotification(
                 NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
             )
@@ -168,9 +163,9 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
     @Test
     fun testSendNotificationWhenNegative() = runBlockingTest {
-        val testResult = CoronaTestResult.PCR_NEGATIVE
-        coronaTestFlow.value = setOf(newCoronaTest(result = testResult))
-        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) } just Runs
+        val newTest = newCoronaTest(result = CoronaTestResult.PCR_NEGATIVE)
+        coronaTestFlow.value = setOf(newTest)
+        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(newTest) } just Runs
         coEvery {
             notificationHelper.cancelCurrentNotification(
                 NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
@@ -181,7 +176,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
         coVerify {
             coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
-            testResultAvailableNotificationService.showTestResultAvailableNotification(testResult)
+            testResultAvailableNotificationService.showTestResultAvailableNotification(newTest)
             notificationHelper.cancelCurrentNotification(
                 NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
             )
@@ -193,9 +188,10 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
     @Test
     fun testSendNotificationWhenInvalid() = runBlockingTest {
-        val testResult = CoronaTestResult.PCR_INVALID
-        coronaTestFlow.value = setOf(newCoronaTest(result = testResult))
-        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) } just Runs
+        val newTest = newCoronaTest(result = CoronaTestResult.PCR_INVALID)
+        coronaTestFlow.value = setOf(newTest)
+
+        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(newTest) } just Runs
         coEvery {
             notificationHelper.cancelCurrentNotification(
                 NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
@@ -206,7 +202,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
         coVerify {
             coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
-            testResultAvailableNotificationService.showTestResultAvailableNotification(testResult)
+            testResultAvailableNotificationService.showTestResultAvailableNotification(newTest)
             notificationHelper.cancelCurrentNotification(
                 NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
             )
@@ -218,9 +214,10 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
     @Test
     fun testSendNoNotificationWhenPending() = runBlockingTest {
-        val testResult = CoronaTestResult.PCR_OR_RAT_PENDING
-        coronaTestFlow.value = setOf(newCoronaTest(result = testResult))
-        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(testResult) } just Runs
+        val newTest = newCoronaTest(result = CoronaTestResult.PCR_OR_RAT_PENDING)
+        coronaTestFlow.value = setOf(newTest)
+
+        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(newTest) } just Runs
         coEvery {
             notificationHelper.cancelCurrentNotification(
                 NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
@@ -231,9 +228,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
         coVerify { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
         coVerify(exactly = 0) {
-            testResultAvailableNotificationService.showTestResultAvailableNotification(
-                testResult
-            )
+            testResultAvailableNotificationService.showTestResultAvailableNotification(newTest)
             notificationHelper.cancelCurrentNotification(
                 NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
             )

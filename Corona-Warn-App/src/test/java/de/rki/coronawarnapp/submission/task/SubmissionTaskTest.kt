@@ -67,7 +67,6 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var checkInsTransformer: CheckInsTransformer
     @MockK lateinit var checkInRepository: CheckInRepository
-    @MockK lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
@@ -122,9 +121,6 @@ class SubmissionTaskTest : BaseTest() {
             every { coronaTests } returns coronaTestsFlow
             coEvery { markAsSubmitted("coronatest-identifier") } just Runs
         }
-
-        every { backgroundWorkScheduler.stopWorkScheduler() } just Runs
-        every { backgroundWorkScheduler.startWorkScheduler() } just Runs
 
         every { tekBatch.keys } returns listOf(tek)
         every { tekHistoryStorage.tekData } returns flowOf(listOf(tekBatch))
@@ -182,7 +178,6 @@ class SubmissionTaskTest : BaseTest() {
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         checkInsRepository = checkInRepository,
         checkInsTransformer = checkInsTransformer,
-        backgroundWorkScheduler = backgroundWorkScheduler,
         coronaTestRepository = coronaTestRepository,
     )
 
@@ -232,9 +227,7 @@ class SubmissionTaskTest : BaseTest() {
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
-            backgroundWorkScheduler.stopWorkScheduler()
             coronaTestRepository.markAsSubmitted(any())
-            backgroundWorkScheduler.startWorkScheduler()
 
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
         }
