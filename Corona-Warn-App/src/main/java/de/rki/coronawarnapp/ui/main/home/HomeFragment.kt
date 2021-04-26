@@ -101,9 +101,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                     HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
                 )
-                HomeFragmentEvents.ShowReactivateRiskCheckDialog -> {
-                    showReactivateRiskCheckDialog()
-                }
                 HomeFragmentEvents.ShowTracingExplanation -> {
                     tracingExplanationDialog.show {
                         viewModel.tracingExplanationWasShown()
@@ -139,23 +136,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
                 viewModel.deregisterWarningAccepted()
-            }
-        )
-        DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
-        }
-    }
-
-    private fun showReactivateRiskCheckDialog() {
-        val removeTestDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.dialog_reactivate_risk_calculation_title,
-            R.string.dialog_reactivate_risk_calculation_message,
-            R.string.dialog_reactivate_risk_calculation_button_positive,
-            R.string.dialog_reactivate_risk_calculation_button_negative,
-            positiveButtonFunction = {
-                viewModel.reenableRiskCalculation()
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
