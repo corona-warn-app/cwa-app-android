@@ -17,7 +17,7 @@ class RATProfileSettings @Inject constructor(
 ) {
 
     private val prefs by lazy {
-        context.getSharedPreferences("RAT_PROFILE_localdata", Context.MODE_PRIVATE)
+        context.getSharedPreferences("ratprofile_localdata", Context.MODE_PRIVATE)
     }
 
     val profile = prefs.createFlowPreference(

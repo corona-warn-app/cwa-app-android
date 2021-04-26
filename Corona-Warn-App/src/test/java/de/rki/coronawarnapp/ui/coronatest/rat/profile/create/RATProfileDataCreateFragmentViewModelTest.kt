@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -17,7 +16,7 @@ import testhelpers.extensions.getOrAwaitValue
 import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
-internal class RATProfileCreateFragmentViewModelTest : BaseTest() {
+internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
 
     @MockK lateinit var ratProfileSettings: RATProfileSettings
 
@@ -156,7 +155,7 @@ internal class RATProfileCreateFragmentViewModelTest : BaseTest() {
             emailChanged("email@example.com")
             profile.getOrAwaitValue()!!.apply {
                 isValid shouldBe true
-                this shouldBe RATProfile(
+                this shouldBe RATProfileData(
                     firstName = "First name",
                     lastName = "Last name",
                     birthDate = birthDate,

@@ -1,34 +1,14 @@
 package de.rki.coronawarnapp.coronatest.antigen.profile
 
-import org.joda.time.LocalDate
+import com.google.gson.annotations.SerializedName
 
 data class RATProfile(
-    val firstName: String = "",
-    val lastName: String = "",
-    val birthDate: LocalDate? = null,
-    val street: String = "",
-    val zipCode: String = "",
-    val city: String = "",
-    val phone: String = "",
-    val email: String = "",
-) {
-    val isValid: Boolean = firstName.isNotBlank() ||
-        lastName.isNotBlank() ||
-        birthDate != null ||
-        street.isNotBlank() ||
-        zipCode.isNotBlank() ||
-        city.isNotBlank() ||
-        phone.isNotBlank() ||
-        email.isNotBlank()
-}
-
-/*
-    @SerializedName("firstName") val firstName: String? = null,
-    @SerializedName("lastName") val lastName: String? = null,
-    @SerializedName("birthDate") val birthDate: String? = null,
-    @SerializedName("street") val street: String? = null,
-    @SerializedName("zipCode") val zipCode: String? = null,
-    @SerializedName("city") val city: String? = null,
-    @SerializedName("phone") val phone: String? = null,
-    @SerializedName("email") val email: String? = null,
- */
+    @SerializedName("firstName") val firstName: String,
+    @SerializedName("lastName") val lastName: String,
+    @SerializedName("birthDate") val birthDate: String,
+    @SerializedName("street") val street: String,
+    @SerializedName("zipCode") val zipCode: String,
+    @SerializedName("city") val city: String,
+    @SerializedName("phone") val phone: String,
+    @SerializedName("email") val email: String,
+)
