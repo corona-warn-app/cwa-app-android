@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
-import de.rki.coronawarnapp.coronatest.type.CommonSubmissionStates
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
@@ -61,7 +60,6 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanati
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
-import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -209,7 +207,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
             )
         }
-        is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state)
+        is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
+            // TODO
+        }
     }
 
     private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig) =
@@ -260,7 +260,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
             is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
                 submissionRepository.removeTestFromDevice(type = CoronaTest.Type.RAPID_ANTIGEN)
             }
-            is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state)
+            is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state) {
+                // TODO
+            }
         }
 
     val homeItems: LiveData<List<HomeItem>> = combine(
@@ -309,16 +311,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
 
-            bothTestStates.firstOrNull { it is CommonSubmissionStates.SubmissionDone }?.let {
-                it as CommonSubmissionStates.SubmissionDone
-                add(
-                    ReenableRiskCard.Item(
-                        data = it,
-                        onClickAction = { popupEvents.postValue(HomeFragmentEvents.ShowReactivateRiskCheckDialog) }
-                    )
-                )
-            }
-
             if (statsData.isDataAvailable) {
                 add(
                     StatisticsHomeCard.Item(
@@ -337,12 +329,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
         .distinctUntilChanged()
         .asLiveData(dispatcherProvider.Default)
-
-    fun reenableRiskCalculation() {
-        deregisterWarningAccepted()
-        deadmanNotificationScheduler.schedulePeriodic()
-        refreshRiskResult()
-    }
 
     private var isLoweredRiskLevelDialogBeingShown = false
 

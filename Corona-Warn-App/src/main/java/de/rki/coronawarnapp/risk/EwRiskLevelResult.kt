@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.risk
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 
 interface EwRiskLevelResult {
     val calculatedAt: Instant
@@ -35,19 +36,22 @@ interface EwRiskLevelResult {
             ewAggregatedRiskResult?.totalMinimumDistinctEncountersWithLowRisk ?: 0
         }
 
-    val daysWithEncounters: Int
-        get() = if (isIncreasedRisk) {
-            ewAggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0
-        } else {
-            ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0
-        }
-
     val lastRiskEncounterAt: Instant?
         get() = if (isIncreasedRisk) {
             ewAggregatedRiskResult?.mostRecentDateWithHighRisk
         } else {
             ewAggregatedRiskResult?.mostRecentDateWithLowRisk
         }
+
+    val daysWithHighRisk: List<LocalDate>
+        get() = ewAggregatedRiskResult?.exposureWindowDayRisks?.filter {
+            it.riskLevel.mapToRiskState() == RiskState.INCREASED_RISK
+        }?.map { it.localDateUtc } ?: emptyList()
+
+    val daysWithLowRisk: List<LocalDate>
+        get() = ewAggregatedRiskResult?.exposureWindowDayRisks?.filter {
+            it.riskLevel.mapToRiskState() == RiskState.LOW_RISK
+        }?.map { it.localDateUtc } ?: emptyList()
 
     enum class FailureReason(val failureCode: String) {
         UNKNOWN("unknown"),
