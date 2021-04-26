@@ -126,7 +126,7 @@
     <!-- XTXT: Third bulletpoint text for privacy card -->
     <string name="trace_location_privacy_card_third_bulletpoint_text">"Bitte stellen Sie den QR-Code so zur Verfügung, dass alle Ihre Gäste ihn unter Einhaltung der Abstands- und Hygieneregeln (mindestens 1,5 Meter) scannen können."</string>
     <!-- XTXT: Fourth bulletpoint text for privacy card -->
-    <string name="trace_location_privacy_card_fourth_bulletpoint_text">"Wir empfehlen die QR-Codes für Orte in einmal täglich außerhalb der Öffnungszeiten neu zu erstellen, um dauerhaft zuverlässige Warnungen zu ermöglichen und Missbrauch der QR-Codes zu verhindern."</string>
+    <string name="trace_location_privacy_card_fourth_bulletpoint_text">"Wir empfehlen die QR-Codes für Orte in regelmäßigen Abständen neu zu erstellen, um dauerhaft zuverlässige Warnungen zu ermöglichen und Missbrauch der QR-Codes zu verhindern."</string>
 
     <!-- Trace Location Onboarding Strings -->
     <!-- XHED: Title for the trace location onboarding consent card -->
