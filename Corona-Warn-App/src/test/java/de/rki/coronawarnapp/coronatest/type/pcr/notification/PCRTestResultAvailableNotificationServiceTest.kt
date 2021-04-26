@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.notification
+package de.rki.coronawarnapp.coronatest.type.pcr.notification
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -7,8 +7,9 @@ import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -29,7 +30,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import javax.inject.Provider
 
-class TestResultAvailableNotificationServiceTest : BaseTest() {
+class PCRTestResultAvailableNotificationServiceTest : BaseTest() {
 
     @MockK(relaxed = true) lateinit var context: Context
     @MockK lateinit var foregroundState: ForegroundState
@@ -86,9 +87,10 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
         } just Runs
 
         val instance = createInstance()
-
-        TODO()
-        instance.showTestResultAvailableNotification(mockk())
+        val coronaTest = mockk<CoronaTest>().apply {
+            every { type } returns CoronaTest.Type.PCR
+        }
+        instance.showTestResultAvailableNotification(coronaTest)
 
         verifyOrder {
             navDeepLinkBuilderProvider.get()
@@ -107,7 +109,6 @@ class TestResultAvailableNotificationServiceTest : BaseTest() {
         every { cwaSettings.isNotificationsTestEnabled.value } returns false
 
         createInstance().apply {
-            TODO()
             showTestResultAvailableNotification(mockk())
 
             verify(exactly = 0) {
