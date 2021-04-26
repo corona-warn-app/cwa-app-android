@@ -3,90 +3,120 @@ package de.rki.coronawarnapp.coronatest.qrcode
 import com.google.common.io.BaseEncoding
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.util.hashing.isSha256Hash
 import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.internal.commonToUtf8String
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import timber.log.Timber
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import javax.inject.Inject
 
-class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor {
-
-    private val prefix: String = "https://s.coronawarn.app?v=1#"
-    private val prefix2: String = "https://s.coronawarn.app/?v=1#"
-    private val hexPattern: Pattern = Pattern.compile("\\p{XDigit}+")
+class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCode> {
 
     override fun canHandle(rawString: String): Boolean {
-        return rawString.startsWith(prefix, ignoreCase = true) || rawString.startsWith(prefix2, ignoreCase = true)
+        return rawString.startsWith(PREFIX1, ignoreCase = true) || rawString.startsWith(PREFIX2, ignoreCase = true)
     }
 
     override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
-        val data = extractData(rawString).validate()
+        Timber.v("extract(rawString=%s)", rawString)
+        val payload = CleanPayload(extractData(rawString))
+
+        payload.requireValidPersonalData()
+
         return CoronaTestQRCode.RapidAntigen(
-            hash = data.hash!!,
-            createdAt = data.createdAt!!,
-            firstName = data.firstName,
-            lastName = data.lastName,
-            dateOfBirth = data.dateOfBirth
+            hash = payload.hash,
+            createdAt = payload.createdAt,
+            firstName = payload.firstName,
+            lastName = payload.lastName,
+            dateOfBirth = payload.dateOfBirth
         )
     }
 
-    private fun Payload.validate(): Payload {
-        if (hash == null || !hash.isSha256Hash()) throw InvalidQRCodeException("Hash is invalid")
-        if (timestamp == null || timestamp <= 0) throw InvalidQRCodeException("Timestamp is invalid")
-        createdAt = Instant.ofEpochSecond(timestamp)
-        dateOfBirth = dob?.let {
-            try {
-                LocalDate.parse(it)
-            } catch (e: Exception) {
-                Timber.e("Invalid date format")
-                throw InvalidQRCodeException("Date of birth has wrong format: $it. It should be YYYY-MM-DD")
-            }
-        }
-        return this
-    }
-
-    private fun String.isSha256Hash(): Boolean {
-        return length == 64 && isHexadecimal()
-    }
-
-    private fun String.isHexadecimal(): Boolean {
-        val matcher: Matcher = hexPattern.matcher(this)
-        return matcher.matches()
-    }
-
-    private fun extractData(rawString: String): Payload {
+    private fun extractData(rawString: String): RawPayload {
         return rawString
-            .removePrefix(prefix)
-            .removePrefix(prefix2)
+            .removePrefix(PREFIX1)
+            .removePrefix(PREFIX2)
             .decode()
     }
 
-    private fun String.decode(): Payload {
-        val decoded = if (
-            this.contains("+") ||
-            this.contains("/") ||
-            this.contains("=")
-        ) {
-            BaseEncoding.base64().decode(this)
-        } else {
-            BaseEncoding.base64Url().decode(this)
+    private fun String.decode(): RawPayload {
+        val decoded = try {
+            if (
+                this.contains("+") ||
+                this.contains("/") ||
+                this.contains("=")
+            ) {
+                BaseEncoding.base64().decode(this)
+            } else {
+                BaseEncoding.base64Url().decode(this)
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw InvalidQRCodeException("Unsupported encoding. Supported encodings are base64 and base64url.")
         }
-        return Gson().fromJson(decoded.commonToUtf8String())
+
+        try {
+            return Gson().fromJson(decoded.commonToUtf8String())
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw InvalidQRCodeException("Malformed payload.")
+        }
     }
 
-    private data class Payload(
-        val hash: String?,
-        val timestamp: Long?,
-        @SerializedName("fn")
-        val firstName: String?,
-        @SerializedName("ln")
-        val lastName: String?,
-        val dob: String?
-    ) {
-        var dateOfBirth: LocalDate? = null
-        var createdAt: Instant? = null
+    private data class RawPayload(
+        @SerializedName("hash") val hash: String?,
+        @SerializedName("timestamp") val timestamp: Long?,
+        @SerializedName("fn") val firstName: String?,
+        @SerializedName("ln") val lastName: String?,
+        @SerializedName("dob") val dateOfBirth: String?
+    )
+
+    private data class CleanPayload(val raw: RawPayload) {
+
+        val hash: String by lazy {
+            if (raw.hash == null || !raw.hash.isSha256Hash()) throw InvalidQRCodeException("Hash is invalid")
+            raw.hash
+        }
+
+        val createdAt: Instant by lazy {
+            if (raw.timestamp == null || raw.timestamp <= 0) throw InvalidQRCodeException("Timestamp is invalid")
+            Instant.ofEpochSecond(raw.timestamp)
+        }
+
+        val firstName: String? by lazy {
+            if (raw.firstName.isNullOrEmpty()) null else raw.firstName
+        }
+
+        val lastName: String? by lazy {
+            if (raw.lastName.isNullOrEmpty()) null else raw.lastName
+        }
+
+        val dateOfBirth: LocalDate? by lazy {
+            if (raw.dateOfBirth.isNullOrEmpty()) return@lazy null
+
+            try {
+                LocalDate.parse(raw.dateOfBirth)
+            } catch (e: Exception) {
+                Timber.e("Invalid date format")
+                throw InvalidQRCodeException(
+                    "Date of birth has wrong format: ${raw.dateOfBirth}. It should be YYYY-MM-DD"
+                )
+            }
+        }
+
+        fun requireValidPersonalData() {
+            val allOrNothing = listOf(
+                firstName != null,
+                lastName != null,
+                dateOfBirth != null,
+            )
+            val complete = allOrNothing.all { it } || allOrNothing.all { !it }
+            if (!complete) throw InvalidQRCodeException("QRCode contains incomplete personal data: $raw")
+        }
+    }
+
+    companion object {
+        private const val PREFIX1: String = "https://s.coronawarn.app?v=1#"
+        private const val PREFIX2: String = "https://s.coronawarn.app/?v=1#"
     }
 }

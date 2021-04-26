@@ -20,7 +20,15 @@ class DebugLogStorageCheck @Inject constructor(
 
     private val availableSpace: Long
         @SuppressLint("UsableSpace")
-        get() = targetPath.usableSpace
+        get() {
+            var eval: File = targetPath
+            var parent: File? = eval.parentFile
+            while (!eval.exists() && parent != null) {
+                eval = parent
+                parent = eval.parentFile
+            }
+            return eval.usableSpace
+        }
 
     fun isLowStorage(forceCheck: Boolean = false): Boolean {
         val now = timeProvider()

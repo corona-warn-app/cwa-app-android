@@ -12,9 +12,9 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.statistics.Statistics
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -73,6 +74,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    @MockK lateinit var timeStamper: TimeStamper
 
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
 
@@ -84,7 +86,6 @@ class HomeFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         homeFragmentViewModel = homeFragmentViewModelSpy()
         with(homeFragmentViewModel) {
-            every { observeTestResultToSchedulePositiveTestResultReminder() } just Runs
             every { refreshRequiredData() } just Runs
             every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
@@ -266,7 +267,6 @@ class HomeFragmentTest : BaseUITest() {
             errorResetTool = errorResetTool,
             tracingRepository = tracingRepository,
             tracingStateProviderFactory = tracingStateProviderFactory,
-            shareTestResultNotificationService = shareTestResultNotificationService,
             appConfigProvider = appConfigProvider,
             tracingStatus = tracingStatus,
             submissionRepository = submissionRepository,
@@ -276,7 +276,8 @@ class HomeFragmentTest : BaseUITest() {
             deadmanNotificationScheduler = deadmanNotificationScheduler,
             appShortcutsHelper = appShortcutsHelper,
             tracingSettings = tracingSettings,
-            traceLocationOrganizerSettings = traceLocationOrganizerSettings
+            traceLocationOrganizerSettings = traceLocationOrganizerSettings,
+            timeStamper = timeStamper
         )
     )
 

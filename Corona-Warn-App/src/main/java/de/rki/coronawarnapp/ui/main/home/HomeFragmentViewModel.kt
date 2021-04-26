@@ -6,6 +6,7 @@ import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
@@ -19,13 +20,11 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestNegativeCard
@@ -36,6 +35,7 @@ import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestInvalidCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestNegativeCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestOutdatedCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestReadyCard
@@ -63,7 +63,7 @@ import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
-import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -72,7 +72,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
@@ -84,15 +83,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
     tracingStateProviderFactory: TracingStateProvider.Factory,
     private val coronaTestRepository: CoronaTestRepository,
     private val tracingRepository: TracingRepository,
-    private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val submissionRepository: SubmissionRepository,
     private val cwaSettings: CWASettings,
-    appConfigProvider: AppConfigProvider,
+    private val appConfigProvider: AppConfigProvider,
     statisticsProvider: StatisticsProvider,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
     private val appShortcutsHelper: AppShortcutsHelper,
     private val tracingSettings: TracingSettings,
-    private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
+    private val timeStamper: TimeStamper
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -181,83 +180,98 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is SubmissionStatePCR.FetchingResult -> TestFetchingCard.Item(state)
         is SubmissionStatePCR.TestResultReady -> PcrTestReadyCard.Item(state) {
             routeToScreen.postValue(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment()
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.TestPositive -> PcrTestPositiveCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(CoronaTest.Type.PCR)
             )
         }
-        is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state)
+        is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state) {
+            routeToScreen.postValue(
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(CoronaTest.Type.PCR)
+            )
+        }
         is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
             popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
         }
         is SubmissionStatePCR.TestError -> PcrTestErrorCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionTestResultPendingFragment()
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.TestPending -> PcrTestPendingCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionTestResultPendingFragment()
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
             )
         }
         is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state)
     }
 
-    private fun RACoronaTest?.toTestCardItem() = when (val state = this.toSubmissionState()) {
-        is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
+    private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig) =
+        when (val state = this.toSubmissionState(timeStamper.nowUTC, coronaTestConfig)) {
+            is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
+                routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
+            }
+            is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
+            is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
+                routeToScreen.postValue(
+                    HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultAvailableFragment(CoronaTest.Type.RAPID_ANTIGEN)
+                )
+            }
+            is SubmissionStateRAT.TestPositive -> RapidTestPositiveCard.Item(state) {
+                routeToScreen.postValue(
+                    HomeFragmentDirections
+                        .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
+                            CoronaTest.Type.RAPID_ANTIGEN
+                        )
+                )
+            }
+            is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state) {
+                routeToScreen.postValue(
+                    HomeFragmentDirections
+                        .actionMainFragmentToSubmissionNegativeAntigenTestResultFragment()
+                )
+            }
+            is SubmissionStateRAT.TestInvalid -> RapidTestInvalidCard.Item(state) {
+                popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
+            }
+            is SubmissionStateRAT.TestError -> RapidTestErrorCard.Item(state) {
+                routeToScreen.postValue(
+                    HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultPendingFragment(
+                            testType = CoronaTest.Type.RAPID_ANTIGEN
+                        )
+                )
+            }
+            is SubmissionStateRAT.TestPending -> RapidTestPendingCard.Item(state) {
+                routeToScreen.postValue(
+                    HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultPendingFragment(
+                            testType = CoronaTest.Type.RAPID_ANTIGEN
+                        )
+                )
+            }
+            is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
+                submissionRepository.removeTestFromDevice(type = CoronaTest.Type.RAPID_ANTIGEN)
+            }
+            is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state)
         }
-        is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
-        is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(
-//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment()
-//            )
-        }
-        is SubmissionStateRAT.TestPositive -> RapidTestPositiveCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(
-//                HomeFragmentDirections
-//                    .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
-//            )
-        }
-        is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state)
-        is SubmissionStateRAT.TestInvalid -> RapidTestInvalidCard.Item(state) {
-            // TODO
-//            popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
-        }
-        is SubmissionStateRAT.TestError -> RapidTestErrorCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(
-//                HomeFragmentDirections
-//                    .actionMainFragmentToSubmissionTestResultPendingFragment()
-//            )
-        }
-        is SubmissionStateRAT.TestPending -> RapidTestPendingCard.Item(state) {
-            // TODO
-//            routeToScreen.postValue(
-//                HomeFragmentDirections
-//                    .actionMainFragmentToSubmissionTestResultPendingFragment()
-//            )
-        }
-        is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state)
-    }
 
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
         coronaTestRepository.latestPCRT,
         coronaTestRepository.latestRAT,
-        statisticsProvider.current.distinctUntilChanged()
-    ) { tracingItem, testPCR, testRAT, statsData ->
+        statisticsProvider.current.distinctUntilChanged(),
+        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged()
+    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters ->
         val statePCR = testPCR.toSubmissionState()
-        val stateRAT = testRAT.toSubmissionState()
+        val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         val bothTestStates = setOf(statePCR, stateRAT)
         mutableListOf<HomeItem>().apply {
             when {
@@ -270,10 +284,29 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 else -> add(tracingItem)
             }
 
-            add(testPCR.toTestCardItem())
-
-            if (stateRAT != SubmissionStateRAT.NoTest || statePCR != SubmissionStatePCR.NoTest) {
-                add(testRAT.toTestCardItem())
+            // TODO: Would be nice to have a more elegant solution of displaying the result cards in the right order
+            when (statePCR) {
+                SubmissionStatePCR.NoTest -> {
+                    if (stateRAT == SubmissionStateRAT.NoTest) {
+                        add(testPCR.toTestCardItem())
+                    } else {
+                        add(testRAT.toTestCardItem(coronaTestParameters))
+                        add(testPCR.toTestCardItem())
+                    }
+                }
+                else -> {
+                    add(testPCR.toTestCardItem())
+                    if (stateRAT != SubmissionStateRAT.NoTest) {
+                        add(testRAT.toTestCardItem(coronaTestParameters))
+                        add(
+                            TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
+                                routeToScreen.postValue(
+                                    HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
+                                )
+                            }
+                        )
+                    } else add(testRAT.toTestCardItem(coronaTestParameters))
+                }
             }
 
             bothTestStates.firstOrNull { it is CommonSubmissionStates.SubmissionDone }?.let {
@@ -305,26 +338,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
         .distinctUntilChanged()
         .asLiveData(dispatcherProvider.Default)
 
-    private var isLoweredRiskLevelDialogBeingShown = false
-    fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
-        submissionRepository.pcrTest
-            .first { test ->
-                when {
-                    test == null -> false
-                    test.lastError != null -> false
-                    test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_POSITIVE -> true
-                    test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_POSITIVE_TELETAN -> true
-                    else -> false
-                }
-            }
-            .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
-    }
-
     fun reenableRiskCalculation() {
         deregisterWarningAccepted()
         deadmanNotificationScheduler.schedulePeriodic()
         refreshRiskResult()
     }
+
+    private var isLoweredRiskLevelDialogBeingShown = false
 
     // TODO only lazy to keep tests going which would break because of LocalData access
     val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
@@ -364,7 +384,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun deregisterWarningAccepted() {
         submissionRepository.removeTestFromDevice(type = CoronaTest.Type.PCR)
-        submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {

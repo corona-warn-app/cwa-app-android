@@ -4,15 +4,16 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -53,7 +54,7 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
-    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
+    @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var autoSubmission: AutoSubmission
 
     @MockK lateinit var tekBatch: TEKHistoryStorage.TEKBatch
@@ -83,6 +84,7 @@ class SubmissionTaskTest : BaseTest() {
                 every { isSubmitted } returns false
                 every { registrationToken } returns "regtoken"
                 every { identifier } returns "coronatest-identifier"
+                every { type } returns CoronaTest.Type.PCR
             }
         )
     )
@@ -145,7 +147,6 @@ class SubmissionTaskTest : BaseTest() {
         every { analyticsKeySubmissionCollector.reportSubmitted() } just Runs
         every { analyticsKeySubmissionCollector.reportSubmittedInBackground() } just Runs
 
-        every { shareTestResultNotificationService.cancelSharePositiveTestResultNotification() } just Runs
         every { testResultAvailableNotificationService.cancelTestResultAvailableNotification() } just Runs
 
         every { autoSubmission.updateMode(any()) } just Runs
@@ -217,7 +218,8 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("NL"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
 
@@ -236,7 +238,6 @@ class SubmissionTaskTest : BaseTest() {
             coronaTestRepository.markAsSubmitted(any())
             backgroundWorkScheduler.startWorkScheduler()
 
-            shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
         }
 
@@ -285,7 +286,8 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("NL"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         }
@@ -293,7 +295,6 @@ class SubmissionTaskTest : BaseTest() {
             tekHistoryStorage.clear()
             checkInRepository.clear()
             settingSymptomsPreference.update(any())
-            shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             autoSubmission.updateMode(any())
         }
         submissionSettings.symptoms.value shouldBe userSymptoms
@@ -330,7 +331,8 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         }

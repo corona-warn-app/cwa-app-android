@@ -10,16 +10,14 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
+import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
@@ -43,7 +41,8 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultPendingViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
+
+    private val pendingFragmentArgs = SubmissionTestResultPendingFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
 
     @Rule
     @JvmField
@@ -61,13 +60,12 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         viewModel = spyk(
             SubmissionTestResultPendingViewModel(
                 TestDispatcherProvider(),
-                shareTestResultNotificationService,
-                submissionRepository
+                submissionRepository,
+                testType = CoronaTest.Type.PCR
             )
         )
 
         with(viewModel) {
-            every { observeTestResultToSchedulePositiveTestResultReminder() } just Runs
             every { consentGiven } returns MutableLiveData(true)
             every { testState } returns MutableLiveData(
                 TestResultUIState(
@@ -75,6 +73,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                         every { testResult } returns CoronaTestResult.PCR_POSITIVE
                         every { registeredAt } returns Instant.now()
                         every { isProcessing } returns false
+                        every { type } returns CoronaTest.Type.PCR
                     }
                 )
             )
@@ -82,7 +81,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : SubmissionTestResultPendingViewModel.Factory {
-                override fun create(): SubmissionTestResultPendingViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionTestResultPendingViewModel = viewModel
             }
         )
     }
@@ -94,19 +93,19 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<SubmissionTestResultPendingFragment>()
+        launchFragment2<SubmissionTestResultPendingFragment>(pendingFragmentArgs)
     }
 
     @Test
     fun testEventPendingRefreshClicked() {
-        launchFragmentInContainer2<SubmissionTestResultPendingFragment>()
+        launchFragmentInContainer2<SubmissionTestResultPendingFragment>(pendingFragmentArgs)
         onView(withId(R.id.submission_test_result_button_pending_refresh))
             .perform(click())
     }
 
     @Test
     fun testEventPendingRemoveClicked() {
-        launchFragmentInContainer2<SubmissionTestResultPendingFragment>()
+        launchFragmentInContainer2<SubmissionTestResultPendingFragment>(pendingFragmentArgs)
         onView(withId(R.id.submission_test_result_button_pending_remove_test))
             .perform(click())
     }
@@ -120,10 +119,11 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                     every { testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
                     every { registeredAt } returns Instant.now()
                     every { isProcessing } returns false
+                    every { type } returns CoronaTest.Type.PCR
                 }
             )
         )
-        captureScreenshot<SubmissionTestResultPendingFragment>()
+        captureScreenshot<SubmissionTestResultPendingFragment>(fragmentArgs = pendingFragmentArgs)
     }
 }
 

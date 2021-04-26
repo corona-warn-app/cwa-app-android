@@ -26,7 +26,7 @@ class TracingExplanationDialog @Inject constructor(
             message = "$infoPeriodLogged\n$infoPeriodLoggedAssessment\n\n$infoFAQ",
             positiveButton = context.getString(R.string.errors_generic_button_positive),
             negativeButton = null,
-            cancelable = null,
+            cancelable = false,
             positiveButtonFunction = onPositive,
             negativeButtonFunction = {}
         )

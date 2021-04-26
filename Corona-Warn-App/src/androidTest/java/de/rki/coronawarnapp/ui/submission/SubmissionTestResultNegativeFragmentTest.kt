@@ -6,11 +6,12 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragmentArgs
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -35,7 +36,10 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultNegativeViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
+    @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
+    @MockK lateinit var testType: CoronaTest.Type
+    private val resultNegativeFragmentArgs =
+        SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
 
     @Rule
     @JvmField
@@ -54,13 +58,14 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
             SubmissionTestResultNegativeViewModel(
                 TestDispatcherProvider(),
                 submissionRepository,
-                testResultAvailableNotificationService
+                testResultAvailableNotificationService,
+                testType
             )
         )
 
         setupMockViewModel(
             object : SubmissionTestResultNegativeViewModel.Factory {
-                override fun create(): SubmissionTestResultNegativeViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionTestResultNegativeViewModel = viewModel
             }
         )
     }
@@ -78,10 +83,11 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
                 coronaTest = mockk<CoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_NEGATIVE
                     every { registeredAt } returns Instant.now()
+                    every { type } returns CoronaTest.Type.PCR
                 }
             )
         )
-        captureScreenshot<SubmissionTestResultNegativeFragment>()
+        captureScreenshot<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
     }
 }
 

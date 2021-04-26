@@ -398,12 +398,16 @@
     <string name="onboarding_onboarding_accessibility_title">"Etkinleştirme sayfası 1/6: Koronavirüs ile birlikte mücadele edelim"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Koronavirüs ile birlikte mücadele edelim"</string>
-    <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
-    <string name="onboarding_subtitle">"Sizin için ve hepimiz için daha fazla koruma. Corona-Warn-App uygulamasını kullanarak enfeksiyon zincirlerini çok daha kısa süre içinde kırabiliriz."</string>
-    <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Akıllı telefonunuzu koronavirüs uyarı sistemine dönüştürün. Risk durumunuza ilişkin genel bir bakış elde edin ve son 14 gün içinde koronavirüs tanısı konan herhangi biri ile yakın temasa geçip geçmediğinizi öğrenin."</string>
-    <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"Uygulama kişilerin akıllı telefonları arasında şifrelenmiş rastgele kimlikleri paylaşarak karşılaşma günlüğü oluşturur ve bu sırada hiçbir kişisel veriye erişim sağlanmaz."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_1">"Sizin için ve hepimiz için daha fazla koruma. Corona-Warn-App uygulamasını kullanarak enfeksiyon zincirlerini çok daha kısa süre içinde kırabiliriz."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_2">"Akıllı telefonunuzu koronavirüs uyarı sistemine dönüştürün. Risk durumunuza ilişkin genel bir bakış elde edin ve son 14 gün içinde koronavirüs tanısı konan herhangi biri ile yakın temasa geçip geçmediğinizi öğrenin."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_3">"Uygulamada test sonuçlarınızı (PCR testi veya hızlı antijen testi) görüntüleyin ve koronavirüs tanısı alırsanız diğer kullanıcıları uyarın."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_4">"Dilerseniz uygulamayı kişisel enfeksiyon durumunuzu (örneğin, negatif sonuç veren bir hızlı test) kanıtlamak için kullanabilirsiniz. Ancak lütfen unutmayın; enfeksiyon durumunuzu kanıtlamak için uygulamayı kullanmak zorunda değilsiniz. Enfeksiyon durumunuzu, ikamet ettiğiniz bölgede geçerli olan yasal düzenlemeler uyarınca başka bir şekilde de kanıtlayabilirsiniz."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_5">"Uygulama kişilerin akıllı telefonları arasında şifrelenmiş rastgele kimlikleri paylaşarak karşılaşma günlüğü oluşturur ve bu sırada hiçbir kişisel veriye erişim sağlanmaz."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Bölgedeki bir grup insan akıllı telefonlarını kullanıyor."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -783,12 +787,17 @@
     <string name="information_contact_subtitle_phone">"Teknik yardım hattı:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"0800 7540001"</string>
+    <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
+    <!-- XLNK: Description for national technical contact and hotline information page -->
+    <string name="information_contact_button_phone_description">"Almanya’dan yapılan aramalar içindir. Arama ücretsizdir."</string>
+    <!-- XLNK: Description for international technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone_description">"Almanya dışından yapılan aramalar içindir. Telefon sağlayıcınız tarafından uygulanan ücretler geçerlidir."</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
     <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_phone">"Müşteri hizmetlerimiz size yardımcı olmaya hazır."</string>
+    <string name="information_contact_body_phone">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Diller: İngilizce, Almanca, Türkçe\nMesai saatleri:"<xliff:g id="line_break">"\n"</xliff:g>"Pazartesi - Cumartesi: 7.00 - 22.00"<xliff:g id="line_break">"\n(ulusal tatiller hariçtir)"</xliff:g><xliff:g id="line_break">"\nAramalar ücretsizdir."</xliff:g></string>
+    <string name="information_contact_body_open">"İngilizce, Almanca, Türkçe\n\nMesai saatleri:\nPazartesi - Cumartesi: 7.00 - 22.00 (CET)\n(ulusal tatiller hariçtir)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Sağlıkla ilgili tüm sorularınız için lütfen aile hekiminizle veya tıbbi acil servis yardım hattı ile iletişime geçin. Telefon: 116 117."</string>
     <!-- XACT: describes illustration -->
@@ -958,7 +967,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Belirtilerinizi girmeyi iptal etmek istiyor musunuz?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"Belirtilerinizle ilgili olarak bilgi verirseniz diğer kullanıcıları daha doğru bir şekilde uyarabilirsiniz."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"Belirtilerinizle ilgili olarak bilgi verirseniz diğer kullanıcıları çok daha doğru bir şekilde uyarabilirsiniz."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Evet"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -1007,11 +1016,11 @@
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Şimdi, testinizin QR kodunu tarayın ve test sonucunuzu alın."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_test_only_once">"Testiniz yalnızca bir kez taranabilir. Uygulama aynı anda birden fazla testi yönetememektedir."</string>
+    <string name="submission_consent_call_test_result_scan_test_only_once">"Her bir test yalnızca bir kez taranabilir. Uygulama tek seferde en fazla bir hızlı testi ve bir PCR testini yönetebilir."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Lütfen karşılaştığınız diğer kullanıcıları uyararak onlara yardımcı olun!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"Koronavirüs tanısı aldıysanız uygulama üzerinden diğer kullanıcıları uyarabilirsiniz. Uyarı özelliği birden fazla ülkede etkindir. Şu anda aşağıdaki ülkeler katılmaktadır:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"Koronavirüs tanısı aldıysanız uygulama üzerinden diğer kullanıcıları uyarabilirsiniz. Hızlı test yaptıysanız uyarı özelliği yalnızca Almanya’da etkindir. PCR testi yaptırdıysanız uyarı özelliği şu ülkelerde etkindir:"</string>
     <!-- YTXT: Body for consent help by warning others - info about events -->
     <string name="submission_consent_help_by_warning_others_body_event">"Sizinle aynı anda aynı etkinliklerde veya yerlerde check in yapan kişilere de uyarı gönderilecektir."</string>
     <!-- YTXT: Page bottom text for consent screen -->
@@ -1277,7 +1286,7 @@
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Uygulamaya TAN girerek testinizi kaydedin."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Diller: \nİngilizce, Almanca, Türkçe\n\nMesai saatleri:\n7 gün 24 saat\n\nArama ücretsizdir."</string>
+    <string name="submission_contact_operating_hours_body">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:\nİngilizce, Almanca, Türkçe\n\nMesai saatleri:\n7 gün 24 saat"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"Sağlıkla ilgili tüm sorularınız için lütfen aile hekiminizle veya tıbbi acil servis yardım hattı ile iletişime geçin. Telefon: 116 117."</string>
 
@@ -1359,6 +1368,23 @@
     <string name="submission_status_card_positive_result_contact">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşacaktır."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Diğer kullanıcıların uyarılabilmesi için rastgele kimliklerinizi paylaşın."</string>
+
+
+    <!-- XBUT: submission deletion warning button continue -->
+    <string name="submission_deletion_warning_continue_button">"Sonraki"</string>
+    <!-- XBUT: submission deletion warning button cancel -->
+    <string name="submission_deletion_warning_cancel_button">"İptal Et"</string>
+    <!-- XHED: submission deletion warning title -->
+    <string name="submission_deletion_warning_title">"Not"</string>
+    <!-- YTXT: Headline for rapid test submission deletion warning -->
+    <string name="submission_deletion_warning_headline_antigen_test">"Zaten bir hızlı test kaydı oluşturdunuz."</string>
+    <!-- YTXT: Body for rapid test submission deletion warning -->
+    <string name="submission_deletion_warning_body_antigen_test">"Zaten bir hızlı test kaydı oluşturdunuz. Uygulama tek seferde en fazla bir hızlı testi ve bir PCR testini yönetebilir. Başka bir hızlı test kaydı oluşturursanız ilk hızlı test uygulamadan silinir."</string>
+    <!-- YTXT: Headline for PCR test submission deletion warning -->
+    <string name="submission_deletion_warning_headline_pcr_test">"Zaten bir PCR testi kaydı oluşturdunuz."</string>
+    <!-- YTXT: Body for PCR test submission deletion warning -->
+    <string name="submission_deletion_warning_body_pcr_test">"Zaten bir PCR testi kaydı oluşturdunuz. Uygulama tek seferde en fazla bir hızlı testi ve bir PCR testini yönetebilir. Başka bir PCR testi kaydı oluşturursanız ilk PCR testi uygulamadan silinir."</string>
+
 
     <!-- Reenable risk card -->
     <!-- XHED: Card title for re-enable risk card -->
@@ -1985,4 +2011,13 @@
     <string name="trace_location_attendee_consent_dialog_positive_button">"Paylaş"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
     <string name="trace_location_attendee_consent_dialog_negative_button">"Paylaşma"</string>
+
+    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Geçersiz QR Kod"</string>
+    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Taranan QR kod geçerli değil.\nLütfen geçerli bir QR kod tarayın.\n\n(%1$s)"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"Tamam"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"İptal Et"</string>
 </resources>

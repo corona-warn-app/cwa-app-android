@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.ui.submission.testresult
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenViewModel
@@ -20,9 +21,10 @@ import testhelpers.extensions.InstantExecutorExtension
 class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
-    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
+    @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
+    @MockK lateinit var testType: CoronaTest.Type
 
     @BeforeEach
     fun setUp() {
@@ -34,7 +36,8 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         autoSubmission = autoSubmission,
         testResultAvailableNotificationService = testResultAvailableNotificationService,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        testType = testType
     )
 
     @Test

@@ -4,14 +4,15 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -41,7 +42,7 @@ class SubmissionTask @Inject constructor(
     private val autoSubmission: AutoSubmission,
     private val timeStamper: TimeStamper,
     private val shareTestResultNotificationService: ShareTestResultNotificationService,
-    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
+    private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
     private val checkInsRepository: CheckInRepository,
     private val checkInsTransformer: CheckInsTransformer,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
@@ -129,7 +130,7 @@ class SubmissionTask @Inject constructor(
     private suspend fun performSubmission(): Result {
         val availableTests = coronaTestRepository.coronaTests.first()
         Timber.tag(TAG).v("Available tests: %s", availableTests)
-        val coronaTest = availableTests.firstOrNull { it.isSubmissionAllowed && !it.isSubmitted }
+        val coronaTest = availableTests.firstOrNull { it.isSubmissionAllowed }
             ?: throw IllegalStateException("No valid test available to authorize submission")
 
         Timber.tag(TAG).d("Submission is authorized by coronaTest=%s", coronaTest)
@@ -162,7 +163,8 @@ class SubmissionTask @Inject constructor(
             temporaryExposureKeys = transformedKeys,
             consentToFederation = true,
             visitedCountries = getSupportedCountries(),
-            checkIns = transformedCheckIns
+            checkIns = transformedCheckIns,
+            submissionType = coronaTest.type.toSubmissionType()
         )
 
         checkCancel()
@@ -199,7 +201,6 @@ class SubmissionTask @Inject constructor(
         coronaTestRepository.markAsSubmitted(coronaTest.identifier)
         backgroundWorkScheduler.startWorkScheduler()
 
-        shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
 
@@ -260,4 +261,9 @@ class SubmissionTask @Inject constructor(
         private val USER_INACTIVITY_TIMEOUT = Duration.standardMinutes(30)
         private const val TAG: String = "SubmissionTask"
     }
+}
+
+private fun CoronaTest.Type.toSubmissionType() = when (this) {
+    CoronaTest.Type.PCR -> SubmissionType.SUBMISSION_TYPE_PCR_TEST
+    CoronaTest.Type.RAPID_ANTIGEN -> SubmissionType.SUBMISSION_TYPE_RAPID_TEST
 }
