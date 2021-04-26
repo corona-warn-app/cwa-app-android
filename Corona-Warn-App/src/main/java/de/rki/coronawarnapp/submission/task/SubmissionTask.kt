@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -47,7 +46,6 @@ class SubmissionTask @Inject constructor(
     private val checkInsRepository: CheckInRepository,
     private val checkInsTransformer: CheckInsTransformer,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    private val backgroundWorkScheduler: BackgroundWorkScheduler,
     private val coronaTestRepository: CoronaTestRepository,
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
@@ -201,9 +199,7 @@ class SubmissionTask @Inject constructor(
 
     private suspend fun setSubmissionFinished(coronaTest: CoronaTest) {
         Timber.tag(TAG).d("setSubmissionFinished()")
-        backgroundWorkScheduler.stopWorkScheduler()
         coronaTestRepository.markAsSubmitted(coronaTest.identifier)
-        backgroundWorkScheduler.startWorkScheduler()
 
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }

@@ -1,17 +1,19 @@
 package de.rki.coronawarnapp.deniability
 
 import androidx.work.BackoffPolicy
+import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import dagger.Reusable
 import de.rki.coronawarnapp.worker.BackgroundConstants
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.random.Random
 
 @Reusable
 class NoiseScheduler @Inject constructor(
@@ -44,9 +46,13 @@ class NoiseScheduler @Inject constructor(
     private fun buildBackgroundNoiseOneTimeWork() =
         OneTimeWorkRequestBuilder<BackgroundNoiseOneTimeWorker>()
             .addTag(BACKGROUND_NOISE_ONE_TIME_WORKER_TAG)
-            .setConstraints(BackgroundWorkHelper.getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
+            .setConstraints(
+                Constraints.Builder().apply {
+                    setRequiredNetworkType(NetworkType.CONNECTED)
+                }.build()
+            )
             .setInitialDelay(
-                BackgroundWorkHelper.getBackgroundNoiseOneTimeWorkDelay(),
+                getBackgroundNoiseOneTimeWorkDelay(),
                 TimeUnit.HOURS
             ).setBackoffCriteria(
                 BackoffPolicy.LINEAR,
@@ -101,5 +107,21 @@ class NoiseScheduler @Inject constructor(
         const val BACKGROUND_NOISE_ONE_TIME_WORK_NAME = "BackgroundNoiseOneTimeWork"
 
         private const val TAG = "NoiseScheduler"
+
+        /**
+         * Get background noise one time work delay
+         * The periodic job is already delayed by MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
+         * so we only need to delay further by the difference between min and max.
+         *
+         * @return Long
+         *
+         * @see BackgroundConstants.MAX_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
+         * @see BackgroundConstants.MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
+         */
+        fun getBackgroundNoiseOneTimeWorkDelay() = Random.nextLong(
+            0,
+            BackgroundConstants.MAX_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION -
+                BackgroundConstants.MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
+        )
     }
 }

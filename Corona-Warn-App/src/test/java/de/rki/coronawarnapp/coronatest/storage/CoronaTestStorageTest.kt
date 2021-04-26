@@ -50,7 +50,8 @@ class CoronaTestStorageTest : BaseTest() {
         isJournalEntryCreated = false,
         isResultAvailableNotificationSent = false,
         testResult = CoronaTestResult.PCR_POSITIVE,
-        testResultReceivedAt = Instant.ofEpochMilli(2000)
+        testResultReceivedAt = Instant.ofEpochMilli(2000),
+        lastUpdatedAt = Instant.ofEpochMilli(2001),
     )
     private val raTest = RACoronaTest(
         identifier = "identifier-ra",
@@ -66,7 +67,8 @@ class CoronaTestStorageTest : BaseTest() {
         firstName = "firstname",
         lastName = "lastname",
         dateOfBirth = LocalDate.parse("2021-12-24"),
-        testedAt = Instant.ofEpochMilli(3000)
+        testedAt = Instant.ofEpochMilli(3000),
+        lastUpdatedAt = Instant.ofEpochMilli(2001),
     )
 
     @Test
@@ -110,7 +112,8 @@ class CoronaTestStorageTest : BaseTest() {
                     "isJournalEntryCreated": false,
                     "isResultAvailableNotificationSent": false,
                     "testResultReceivedAt": 2000,
-                    "testResult": 2
+                    "testResult": 2,
+                    "lastUpdatedAt": 2001
                 }
             ]
         """.toComparableJsonPretty()
@@ -148,6 +151,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "isJournalEntryCreated": false,
                     "isResultAvailableNotificationSent": false,
                     "testResultReceivedAt": 2000,
+                    "lastUpdatedAt": 2001,
                     "testResult": 7,
                     "testedAt": 3000,
                     "firstName": "firstname",
