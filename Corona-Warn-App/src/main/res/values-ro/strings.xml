@@ -249,7 +249,7 @@
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Un smartphone afișează conținut variat, numerotat de la 1 la 3."</string>
     <!-- XACT: App main page title -->
-    <string name="main_title">"Pagina principală a aplicației Corona-Warn"</string>
+    <string name="main_title">"Ecranul principal al aplicației Corona-Warn"</string>
 
     <!-- ####################################
                Risk Details
@@ -294,7 +294,7 @@
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"Serviciul general de urgență la numărul de telefon 116117"</string>
     <!-- XMSG: risk details - public health department, bullet point -->
-    <string name="risk_details_behavior_increased_body_3">"Direcția de sănătate publică relevantă"</string>
+    <string name="risk_details_behavior_increased_body_3">"Autoritatea de sănătate publică relevantă"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risc de infectare"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -1004,7 +1004,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Codul QR este nevalabil"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, direcția de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Reîncercați."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -1095,7 +1095,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Testul poate fi scanat o singură dată."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Dacă eliminați testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, direcția de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Dacă eliminați testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Eliminare"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -1188,7 +1188,7 @@
     <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_2">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
     <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
-    <string name="submission_test_result_positive_no_consent_text_3">"Asigurați-vă că urmați instrucțiunile direcției dvs. de sănătate publică și că stați acasă, pentru a nu-i infecta pe ceilalți."</string>
+    <string name="submission_test_result_positive_no_consent_text_3">"Asigurați-vă că urmați instrucțiunile autorității dvs. de sănătate publică și că stați acasă, pentru a nu-i infecta pe ceilalți."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Avertizați-i pe ceilalți"</string>
 
@@ -1238,7 +1238,7 @@
 
     <!-- Submission Done No Consent-->
     <!-- XHED: Page title for completed submission page -->
-    <string name="submission_done_no_consent_title">"Vă mulţumim"</string>
+    <string name="submission_done_no_consent_title">"Vă mulțumim"</string>
     <!-- YTXT: Page subtitle for completed submission page -->
     <string name="submission_done_no_consent_subtitle">"Vă mulțumim pentru ajutorul dat la oprirea răspândirii coronavirusului."</string>
     <!-- YTXT: Page body for submission no consent page -->

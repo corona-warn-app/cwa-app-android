@@ -249,7 +249,7 @@
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Bir akıllı telefon, 1 ila 3 olarak numaralandırılmış farklı içerikleri gösterir."</string>
     <!-- XACT: App main page title -->
-    <string name="main_title">"Corona-Warn-App Ana sayfası"</string>
+    <string name="main_title">"Corona-Warn-App Ana ekranı"</string>
 
     <!-- ####################################
                Risk Details

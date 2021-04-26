@@ -249,7 +249,7 @@
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Smartfon wyświetla różne treści oznaczone numerami od 1 do 3."</string>
     <!-- XACT: App main page title -->
-    <string name="main_title">"Strona główna Corona-Warn-App"</string>
+    <string name="main_title">"Ekran główny Corona-Warn-App"</string>
 
     <!-- ####################################
                Risk Details
