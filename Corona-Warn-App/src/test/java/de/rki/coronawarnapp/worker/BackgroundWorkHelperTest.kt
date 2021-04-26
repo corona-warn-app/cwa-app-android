@@ -13,5 +13,4 @@ class BackgroundWorkHelperTest {
             120
         )
     }
-
 }

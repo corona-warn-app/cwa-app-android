@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit
  */
 object BackgroundConstants {
 
-
     /**
      * Kind initial delay in minutes for periodic work for accessibility reason
      *

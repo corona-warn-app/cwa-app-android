@@ -5,7 +5,7 @@ import androidx.work.WorkManager
 import de.rki.coronawarnapp.util.coroutine.await
 import java.util.concurrent.TimeUnit
 
-abstract class ResultScheduler(
+open class ResultScheduler(
     private val workManager: WorkManager,
 ) {
 
