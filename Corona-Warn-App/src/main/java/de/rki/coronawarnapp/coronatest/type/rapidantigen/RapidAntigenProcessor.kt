@@ -85,7 +85,7 @@ class RapidAntigenProcessor @Inject constructor(
             Timber.tag(TAG).d("Test result was %s", newTestResult)
 
             test.copy(
-                testResult = newTestResult,
+                testResult = check60PlusDays(test, newTestResult),
                 testResultReceivedAt = determineReceivedDate(test, newTestResult),
                 lastUpdatedAt = timeStamper.nowUTC,
                 lastError = null
