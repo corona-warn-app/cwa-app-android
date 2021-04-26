@@ -207,7 +207,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
             )
         }
-        is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state)
+        is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
+            // TODO
+        }
     }
 
     private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig) =
@@ -258,7 +260,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
             is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
                 submissionRepository.removeTestFromDevice(type = CoronaTest.Type.RAPID_ANTIGEN)
             }
-            is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state)
+            is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state) {
+                // TODO
+            }
         }
 
     val homeItems: LiveData<List<HomeItem>> = combine(
