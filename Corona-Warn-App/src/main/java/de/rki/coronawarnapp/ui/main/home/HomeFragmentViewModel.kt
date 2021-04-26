@@ -367,7 +367,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun refreshRequiredData() {
         launch {
-            submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
+            submissionRepository.refreshTest()
             tracingRepository.refreshRiskLevel()
         }
     }
