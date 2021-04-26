@@ -43,7 +43,6 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
                 (testType == CoronaTest.Type.PCR)
         }
 
-
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 SubmissionNavigationEvents.NavigateToMainActivity -> {
