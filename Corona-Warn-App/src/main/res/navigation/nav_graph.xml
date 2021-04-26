@@ -784,5 +784,8 @@
             app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"/>
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type"/>
     </fragment>
 </navigation>

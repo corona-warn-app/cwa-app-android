@@ -118,7 +118,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
                 mediatorShowUploadDialog.postValue(false)
                 routeToScreen.postValue(
                     SubmissionSymptomCalendarFragmentDirections
-                        .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment()
+                        .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
                 )
             }
         }

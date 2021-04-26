@@ -70,7 +70,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
                     navigation.postValue(
                         SubmissionSymptomIntroductionFragmentDirections
-                            .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment()
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
                     )
                 }
                 Symptoms.Indication.NO_INFORMATION -> {
@@ -84,7 +84,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
                     navigation.postValue(
                         SubmissionSymptomIntroductionFragmentDirections
-                            .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment()
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
                     )
                 }
             }
