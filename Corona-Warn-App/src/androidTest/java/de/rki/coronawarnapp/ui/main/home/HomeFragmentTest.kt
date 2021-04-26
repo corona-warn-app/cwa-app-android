@@ -2,9 +2,7 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
@@ -114,7 +112,7 @@ class HomeFragmentTest : BaseUITest() {
         captureHomeFragment("low_risk_no_encounters")
 
         // also scroll down and capture a screenshot of the faq card
-        Espresso.onView(ViewMatchers.withId(R.id.recycler_view)).perform(recyclerScrollTo())
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
         takeScreenshot<HomeFragment>("faq_card")
     }
 
@@ -246,6 +244,30 @@ class HomeFragmentTest : BaseUITest() {
             onView(withId(R.id.statistics_recyclerview)).perform(recyclerScrollTo(index))
             takeScreenshot<HomeFragment>("statistics_card_$index")
         }
+    }
+
+    @Screenshot
+    @Test
+    fun captureHomeFragmentCompatibilityBleBroadcastNotSupported() {
+        every { homeFragmentViewModel.homeItems } returns
+            homeFragmentItemsLiveData(HomeData.Tracing.TRACING_FAILED_ITEM)
+        every { bluetoothSupport.isScanningSupported } returns true
+        every { bluetoothSupport.isAdvertisingSupported } returns false
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+        captureHomeFragment("compatibility_ble_broadcast_not_supported")
+    }
+
+    @Screenshot
+    @Test
+    fun captureHomeFragmentCompatibilityBleScanNotSupported() {
+        every { homeFragmentViewModel.homeItems } returns
+            homeFragmentItemsLiveData(HomeData.Tracing.TRACING_FAILED_ITEM)
+        every { bluetoothSupport.isScanningSupported } returns false
+        every { bluetoothSupport.isAdvertisingSupported } returns true
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+        captureHomeFragment("compatibility_ble_scan_not_supported")
     }
 
     @After

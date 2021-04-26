@@ -58,4 +58,3 @@ class BluetoothSupport @Inject constructor(
                     ?: false
                 )
 }
-
