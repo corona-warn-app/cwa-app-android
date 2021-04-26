@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
@@ -14,11 +15,14 @@ import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -34,6 +38,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @MockK lateinit var cameraSettings: CameraSettings
     @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
     @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     private val coronaTestFlow = MutableStateFlow<CoronaTest?>(
         null
@@ -57,7 +62,8 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         qrCodeRegistrationStateProcessor,
         isConsentGiven = true,
         submissionRepository,
-        qrCodeValidator
+        qrCodeValidator,
+        analyticsKeySubmissionCollector
     )
 
     @Test
@@ -99,5 +105,31 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         createViewModel().setCameraDeniedPermanently(true)
 
         verify { cameraSettings.isCameraDeniedPermanently }
+    }
+
+    @Test
+    fun `startQrCodeRegistration() should call analyticsKeySubmissionCollector for PCR tests`() = runBlockingTest {
+        val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "123456-12345678-1234-4DA7-B166-B86D85475064")
+
+        every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
+        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
+        coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
+
+        createViewModel().startQrCodeRegistration(rawResult = "", isConsentGiven = true)
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() }
+    }
+
+    @Test
+    fun `startQrCodeRegistration() should NOT call analyticsKeySubmissionCollector for RAT tests`() = runBlockingTest {
+        val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "123456-12345678-1234-4DA7-B166-B86D85475064")
+
+        every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
+        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
+        coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
+
+        createViewModel().startQrCodeRegistration(rawResult = "", isConsentGiven = true)
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() }
     }
 }
