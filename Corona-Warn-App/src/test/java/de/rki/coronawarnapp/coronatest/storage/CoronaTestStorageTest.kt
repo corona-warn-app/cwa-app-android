@@ -112,7 +112,8 @@ class CoronaTestStorageTest : BaseTest() {
                     "isJournalEntryCreated": false,
                     "isResultAvailableNotificationSent": false,
                     "testResultReceivedAt": 2000,
-                    "testResult": 2
+                    "testResult": 2,
+                    "lastUpdatedAt": 2001
                 }
             ]
         """.toComparableJsonPretty()
@@ -150,6 +151,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "isJournalEntryCreated": false,
                     "isResultAvailableNotificationSent": false,
                     "testResultReceivedAt": 2000,
+                    "lastUpdatedAt": 2001,
                     "testResult": 7,
                     "testedAt": 3000,
                     "firstName": "firstname",
