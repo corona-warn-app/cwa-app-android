@@ -54,15 +54,15 @@ class RAResultScheduler @Inject constructor(
             .distinctUntilChanged()
             .onEach { shouldBePolling ->
                 val isScheduled = isScheduled(RAT_RESULT_WORKER_UNIQUEUNAME)
-                Timber.tag(TAG).i("Polling state change: shouldBePolling=$shouldBePolling, isScheduled=$isScheduled")
+                Timber.tag(TAG).d("Polling state change: shouldBePolling=$shouldBePolling, isScheduled=$isScheduled")
 
                 if (shouldBePolling && isScheduled) {
-                    Timber.tag(TAG).i("We are already scheduled, no changing MODE.")
+                    Timber.tag(TAG).d("We are already scheduled, no changing MODE.")
                 } else if (shouldBePolling && !isScheduled) {
-                    Timber.tag(TAG).i("We should be polling, but are not scheduled, scheduling...")
+                    Timber.tag(TAG).d("We should be polling, but are not scheduled, scheduling...")
                     setRatResultPeriodicPollingMode(PHASE1)
                 } else {
-                    Timber.tag(TAG).w("We should not be polling, canceling...")
+                    Timber.tag(TAG).d("We should not be polling, canceling...")
                     setRatResultPeriodicPollingMode(DISABLED)
                 }
             }
@@ -70,6 +70,7 @@ class RAResultScheduler @Inject constructor(
     }
 
     internal fun setRatResultPeriodicPollingMode(mode: RatPollingMode) {
+        Timber.tag(TAG).i("setRatResultPeriodicPollingMode(mode=%s)", mode)
         ratWorkerMode = mode
         if (mode == DISABLED) {
             Timber.tag(TAG).d("cancelWorker()")

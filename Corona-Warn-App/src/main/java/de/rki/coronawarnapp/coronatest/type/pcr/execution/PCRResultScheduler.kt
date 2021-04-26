@@ -44,19 +44,19 @@ class PCRResultScheduler @Inject constructor(
         Timber.tag(TAG).i("setup() - PCRResultScheduler")
         shouldBePolling
             .onEach { shouldBePolling ->
-                Timber.tag(TAG).i("Polling state change: shouldBePolling=$shouldBePolling")
+                Timber.tag(TAG).d("Polling state change: shouldBePolling=$shouldBePolling")
                 setPcrPeriodicTestPollingEnabled(enabled = shouldBePolling)
             }
             .launchIn(appScope)
     }
 
     internal suspend fun setPcrPeriodicTestPollingEnabled(enabled: Boolean) {
-        Timber.tag(TAG).v("setPcrPeriodicTestPollingEnabled(enabled=$enabled)")
+        Timber.tag(TAG).i("setPcrPeriodicTestPollingEnabled(enabled=$enabled)")
         if (enabled) {
             val isScheduled = isScheduled(PCR_TESTRESULT_WORKER_UNIQUEUNAME)
             Timber.tag(TAG).d("isScheduled=$isScheduled")
 
-            Timber.tag(TAG).i("enqueueUniquePeriodicWork PCR_TESTRESULT_WORKER_UNIQUEUNAME")
+            Timber.tag(TAG).d("enqueueUniquePeriodicWork PCR_TESTRESULT_WORKER_UNIQUEUNAME")
             workManager.enqueueUniquePeriodicWork(
                 PCR_TESTRESULT_WORKER_UNIQUEUNAME,
                 ExistingPeriodicWorkPolicy.KEEP,
