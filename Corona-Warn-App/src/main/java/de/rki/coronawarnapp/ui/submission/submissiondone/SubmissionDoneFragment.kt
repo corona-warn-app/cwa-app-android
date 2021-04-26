@@ -3,8 +3,10 @@ package de.rki.coronawarnapp.ui.submission.submissiondone
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
@@ -36,7 +38,11 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
             submissionDoneButtonDone.setOnClickListener {
                 viewModel.onFinishButtonClick()
             }
+            val testType = CoronaTest.Type.PCR
+            submissionDoneContent.submissionDoneContent.submissionDonePcrValidation.root.isVisible =
+                (testType == CoronaTest.Type.PCR)
         }
+
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
