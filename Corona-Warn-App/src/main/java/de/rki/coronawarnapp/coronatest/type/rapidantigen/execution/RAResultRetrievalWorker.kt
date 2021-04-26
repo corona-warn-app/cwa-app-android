@@ -39,8 +39,10 @@ class RAResultRetrievalWorker @AssistedInject constructor(
 
         try {
             val rat = coronaTestRepository.latestRAT.first()
+            Timber.tag(TAG).v("Current RA test: %s", rat)
+
             if (rat == null) {
-                // RAResultScheduler will cancel us
+                // RAResultScheduler will cancel us if the test is null or isFinal==true
                 Timber.tag(TAG).w("There is no RapidAntigen test available!?")
                 return Result.success()
             }

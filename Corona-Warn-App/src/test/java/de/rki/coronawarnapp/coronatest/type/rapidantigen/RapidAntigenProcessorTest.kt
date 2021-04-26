@@ -9,4 +9,9 @@ class RapidAntigenProcessorTest : BaseTest() {
     fun todo() {
         // TODO
     }
+
+    @Test
+    fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() {
+        TODO()
+    }
 }

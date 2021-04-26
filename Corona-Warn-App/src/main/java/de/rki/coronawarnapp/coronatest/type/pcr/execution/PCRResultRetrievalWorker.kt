@@ -33,8 +33,11 @@ class PCRResultRetrievalWorker @AssistedInject constructor(
         }
 
         try {
-            // PCRResultScheduler will cancel us
-            if (coronaTestRepository.latestPCRT.first() == null) {
+            val pcrTest = coronaTestRepository.latestPCRT.first()
+            Timber.tag(TAG).v("Current PCR test: %s", pcrTest)
+
+            if (pcrTest == null) {
+                // PCRResultScheduler will cancel us if test is null or test.isFinal == true
                 Timber.tag(TAG).d(" $id Stopping worker, there is no PCR test.")
                 return Result.success()
             }
