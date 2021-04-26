@@ -43,6 +43,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
             dateOfBirth = null,
             firstName = null,
             lastName = null,
+            lastUpdatedAt = Instant.EPOCH,
         )
         test.toSubmissionState(timeStamper.nowUTC, coronaTestConfig) shouldBe SubmissionStateRAT.SubmissionDone(
             testRegisteredAt = Instant.ofEpochMilli(123)
