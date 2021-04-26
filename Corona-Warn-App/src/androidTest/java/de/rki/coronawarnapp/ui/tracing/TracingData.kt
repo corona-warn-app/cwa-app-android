@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingFailedBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCalculationBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
 
 object TracingData {
@@ -47,7 +48,7 @@ object TracingData {
                 daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
             ),
-            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
+            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 0)
         )
     )
 
@@ -78,7 +79,7 @@ object TracingData {
                 daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
             ),
-            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
+            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 0)
         )
     )
 
@@ -97,7 +98,7 @@ object TracingData {
                     allowManualUpdate = false,
                     daysWithEncounters = 1,
                     daysSinceInstallation = 4,
-                    lastEncounterAt = todayAtNineFiftyFive
+                    lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
                 )
             ),
             BehaviorNormalRiskBox.Item(
@@ -109,7 +110,7 @@ object TracingData {
                 daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
             ),
-            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
+            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 0)
         )
     )
 
@@ -128,7 +129,7 @@ object TracingData {
                     allowManualUpdate = false,
                     daysWithEncounters = 2,
                     daysSinceInstallation = 4,
-                    lastEncounterAt = todayAtNineFiftyFive
+                    lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
                 )
             ),
             BehaviorNormalRiskBox.Item(
@@ -140,7 +141,7 @@ object TracingData {
                 daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
             ),
-            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
+            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 0)
         )
     )
 
@@ -158,7 +159,7 @@ object TracingData {
                     lastExposureDetectionTime = todayAtNineFiftyFive,
                     allowManualUpdate = false,
                     daysWithEncounters = 1,
-                    lastEncounterAt = todayAtNineFiftyFive
+                    lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
                 )
             ),
             BehaviorIncreasedRiskBox.Item,
@@ -168,7 +169,7 @@ object TracingData {
             ),
             DetailsIncreasedRiskBox.Item(
                 riskState = RiskState.INCREASED_RISK,
-                lastEncounteredAt = todayAtNineFiftyFive
+                lastEncounteredAt = todayAtNineFiftyFive.toLocalDateUtc()
             )
         )
     )

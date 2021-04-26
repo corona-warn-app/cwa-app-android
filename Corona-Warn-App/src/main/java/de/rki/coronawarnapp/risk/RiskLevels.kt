@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 
 interface RiskLevels {
@@ -15,5 +15,5 @@ interface RiskLevels {
     fun aggregateResults(
         appConfig: ExposureWindowRiskCalculationConfig,
         exposureWindowResultMap: Map<ExposureWindow, RiskResult>
-    ): AggregatedRiskResult
+    ): EwAggregatedRiskResult
 }

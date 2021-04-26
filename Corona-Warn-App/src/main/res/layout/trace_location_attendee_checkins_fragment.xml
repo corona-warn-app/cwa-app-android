@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -20,6 +21,8 @@
         android:id="@+id/check_ins_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/spacing_fab_padding"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/trace_location_checkins_empty_illustration_accessibility"
-            android:src="@drawable/trace_location_my_check_ins_empty_illustration" />
+            app:srcCompat="@drawable/trace_location_my_check_ins_empty_illustration" />
 
         <TextView
             style="@style/subtitleMedium"
@@ -56,6 +59,7 @@
             android:layout_marginTop="36dp"
             android:text="@string/trace_location_checkins_empty_label"
             android:textStyle="bold" />
+
         <TextView
             style="@style/body2Medium"
             android:layout_width="wrap_content"

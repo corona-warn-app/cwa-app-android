@@ -47,8 +47,14 @@
             android:id="@+id/action_test_menu_fragment_to_deltaonboardingFragment"
             app:destination="@id/test_deltaonboarding_fragment" />
         <action
-            android:id="@+id/action_test_menu_fragment_to_eventRegistrationTestFragment"
-            app:destination="@id/eventRegistrationTestFragment" />
+            android:id="@+id/action_test_menu_fragment_to_presenceTracingTestFragment"
+            app:destination="@id/presenceTracingTestFragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_homeTestCardsFragment"
+            app:destination="@id/homeTestCardsFragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_coronaTestTestFragment"
+            app:destination="@id/coronaTestTestFragment" />
     </fragment>
 
     <fragment
@@ -128,94 +134,32 @@
         android:label="DeltaonboardingFragment"
         tools:layout="@layout/fragment_test_deltaonboarding" />
     <fragment
-        android:id="@+id/eventRegistrationTestFragment"
-        android:name="de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragment"
-        android:label="EventRegistrationTestFragment"
-        tools:layout="@layout/fragment_test_eventregistration">
+        android:id="@+id/presenceTracingTestFragment"
+        android:name="de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragment"
+        android:label="PresenceTracingTestFragment"
+        tools:layout="@layout/fragment_test_presence_tracing">
         <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_test_qr_code_creation_fragment"
-            app:destination="@id/test_qr_code_creation_fragment" />
-        <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_scanCheckInQrCodeFragment"
-            app:destination="@id/scanCheckInQrCodeFragmentTest" />
-        <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_CreateEventTestFragment"
-            app:destination="@id/createEventTestFragment" />
-        <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_ShowStoredEventsTestFragment"
-            app:destination="@id/showStoredEventsTestFragment" />
-        <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_traceLocationOrganizerListFragment"
-            app:destination="@id/traceLocationOrganizerListFragment" />
-        <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_qrCodeDetailFragment"
-            app:destination="@id/qrCodeDetailFragment" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/test_qr_code_creation_fragment"
-        android:name="de.rki.coronawarnapp.test.eventregistration.ui.qrcode.QrCodeCreationTestFragment"
-        android:label="QrCodeCreationTestFragment"
-        tools:layout="@layout/fragment_test_qrcode_creation" />
-    <fragment
-        android:id="@+id/scanCheckInQrCodeFragmentTest"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeFragment"
-        android:label="ScanCheckInQrCodeFragment"
-        tools:layout="@layout/fragment_submission_qr_code_scan" />
-
-    <fragment
-        android:id="@+id/createEventTestFragment"
-        android:name="de.rki.coronawarnapp.test.eventregistration.ui.createevent.CreateEventTestFragment"
-        android:label="CreateEventTestFragment"
-        tools:layout="@layout/fragment_test_createevent" />
-    <fragment
-        android:id="@+id/showStoredEventsTestFragment"
-        android:name="de.rki.coronawarnapp.test.eventregistration.ui.showevents.ShowStoredEventsTestFragment"
-        android:label="ShowStoredEventsTestFragment"
-        tools:layout="@layout/fragment_test_showstoredevents" />
-    <fragment
-        android:id="@+id/traceLocationOrganizerCategoriesFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment"
-        android:label="TraceLocationCategoryFragment"
-        tools:layout="@layout/trace_location_organizer_category_fragment">
-        <action
-            android:id="@+id/action_traceLocationOrganizerCategoriesFragment_to_traceLocationCreateFragment"
-            app:destination="@id/traceLocationCreateFragment" />
+            android:id="@+id/action_presenceTracingTestFragment_to_qrCodePosterTestFragment"
+            app:destination="@id/qrCodePosterTestFragment" />
     </fragment>
     <fragment
-        android:id="@+id/qrCodeDetailFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment"
-        android:label="QrCodeDetailFragment"
-        tools:layout="@layout/trace_location_organizer_qr_code_detail_fragment" />
-    <fragment
-        android:id="@+id/traceLocationOrganizerListFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragment"
-        android:label="TraceLocationCategoryFragment"
-        tools:layout="@layout/trace_location_organizer_trace_locations_list_fragment">
-        <action
-            android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationOrganizerCategoriesFragment"
-            app:destination="@id/traceLocationOrganizerCategoriesFragment" />
-        <action
-            android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationCreateFragment"
-            app:destination="@id/traceLocationCreateFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/traceLocationCreateFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragment"
-        android:label="trace_location_create_fragment"
-        tools:layout="@layout/trace_location_create_fragment">
+        android:id="@+id/qrCodePosterTestFragment"
+        android:name="de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragment"
+        android:label="QrCodePosterTestFragment"
+        tools:layout="@layout/fragment_test_qr_code_poster">
+
         <argument
-            android:name="category"
-            app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory" />
-        <argument
-            android:name="originalItem"
-            android:defaultValue="@null"
-            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation"
-            app:nullable="true" />
-        <action
-            android:id="@+id/action_traceLocationCreateFragment_to_traceLocationOrganizerListFragment"
-            app:destination="@id/traceLocationOrganizerListFragment" />
+            android:name="traceLocationId"
+            app:argType="long" />
     </fragment>
-
+    <fragment
+        android:id="@+id/homeTestCardsFragment"
+        android:name="de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment"
+        android:label="HomeTestCards"
+        tools:layout="@layout/fragment_test_home_test_cards_layout" />
+    <fragment
+        android:id="@+id/coronaTestTestFragment"
+        android:name="de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment"
+        tools:layout="@layout/fragment_test_coronatest"
+        android:label="CoronaTestTestFragment" />
 </navigation>

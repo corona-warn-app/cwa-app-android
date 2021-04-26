@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -15,13 +16,21 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submission_test_result_invalid), AutoInject {
 
+    private val navArgs by navArgs<SubmissionTestResultInvalidFragmentArgs>()
+
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SubmissionTestResultInvalidViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: SubmissionTestResultInvalidViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionTestResultInvalidViewModel.Factory
+            factory.create(navArgs.testType)
+        }
+    )
 
     private val binding: FragmentSubmissionTestResultInvalidBinding by viewBindingLazy()
 
@@ -34,7 +43,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         }
 
         viewModel.testResult.observe2(this) {
-            binding.submissionTestResultSection.setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
+            binding.submissionTestResultSection.setTestResultSection(it.coronaTest)
         }
 
         viewModel.routeToScreen.observe2(this) { navDirections ->

@@ -5,14 +5,12 @@ import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -78,7 +76,7 @@ class FormatterSubmissionHelperTest : BaseTest() {
     }
 
     private fun formatTestResultStatusTextBase(
-        oUiState: NetworkRequestWrapper<DeviceUIState, Throwable>?,
+        oUiState: DeviceUIState,
         iResult: String
     ) {
         val result = formatTestResultStatusText(context = context, uiState = oUiState)
@@ -86,35 +84,19 @@ class FormatterSubmissionHelperTest : BaseTest() {
     }
 
     private fun formatTestResultStatusColorBase(
-        oUiState: NetworkRequestWrapper<DeviceUIState, Throwable>?,
+        oUiState: DeviceUIState,
         iResult: Int
     ) {
         val result = formatTestResultStatusColor(context = context, uiState = oUiState)
         assertThat(result, `is`(iResult))
     }
 
-    private fun formatTestStatusIconBase(oUiState: NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>?) {
+    private fun formatTestStatusIconBase(oUiState: DeviceUIState) {
         val result = formatTestStatusIcon(context = context, uiState = oUiState)
         assertThat(result, `is`(drawable))
     }
 
-    private fun formatTestResultPendingStepsVisibleBase(
-        oUiState: NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>?,
-        iResult: Int
-    ) {
-        val result = formatTestResultPendingStepsVisible(uiState = oUiState)
-        assertThat(result, `is`(iResult))
-    }
-
-    private fun formatTestResultInvalidStepsVisibleBase(
-        oUiState: NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>?,
-        iResult: Int
-    ) {
-        val result = formatTestResultInvalidStepsVisible(uiState = oUiState)
-        assertThat(result, `is`(iResult))
-    }
-
-    private fun formatTestResultBase(oUiState: NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>?) {
+    private fun formatTestResultBase(oUiState: DeviceUIState) {
         mockkConstructor(SpannableStringBuilder::class)
 
         val spannableStringBuilder1 =
@@ -141,39 +123,27 @@ class FormatterSubmissionHelperTest : BaseTest() {
     @Test
     fun formatTestResultStatusText() {
         formatTestResultStatusTextBase(
-            oUiState = null,
-            iResult = context.getString(R.string.test_result_card_status_invalid)
-        )
-        formatTestResultStatusTextBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NEGATIVE),
+            oUiState = DeviceUIState.PAIRED_NEGATIVE,
             iResult = context.getString(R.string.test_result_card_status_negative)
         )
         formatTestResultStatusTextBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_ERROR),
+            oUiState = DeviceUIState.PAIRED_ERROR,
             iResult = context.getString(R.string.test_result_card_status_invalid)
         )
         formatTestResultStatusTextBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT),
+            oUiState = DeviceUIState.PAIRED_NO_RESULT,
             iResult = context.getString(R.string.test_result_card_status_invalid)
         )
         formatTestResultStatusTextBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
+            oUiState = DeviceUIState.PAIRED_POSITIVE,
             iResult = context.getString(R.string.test_result_card_status_positive)
         )
         formatTestResultStatusTextBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE_TELETAN),
-            iResult = context.getString(R.string.test_result_card_status_positive)
-        )
-        formatTestResultStatusTextBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL),
+            oUiState = DeviceUIState.SUBMITTED_FINAL,
             iResult = context.getString(R.string.test_result_card_status_invalid)
         )
         formatTestResultStatusTextBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL),
-            iResult = context.getString(R.string.test_result_card_status_invalid)
-        )
-        formatTestResultStatusTextBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED),
+            oUiState = DeviceUIState.UNPAIRED,
             iResult = context.getString(R.string.test_result_card_status_invalid)
         )
     }
@@ -181,140 +151,48 @@ class FormatterSubmissionHelperTest : BaseTest() {
     @Test
     fun formatTestResultStatusColor() {
         formatTestResultStatusColorBase(
-            oUiState = null,
-            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
-        )
-        formatTestResultStatusColorBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NEGATIVE),
+            oUiState = DeviceUIState.PAIRED_NEGATIVE,
             iResult = context.getColorCompat(R.color.colorTextSemanticGreen)
         )
         formatTestResultStatusColorBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_ERROR),
+            oUiState = DeviceUIState.PAIRED_ERROR,
             iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT),
+            oUiState = DeviceUIState.PAIRED_NO_RESULT,
             iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
+            oUiState = DeviceUIState.PAIRED_POSITIVE,
             iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE_TELETAN),
+            oUiState = DeviceUIState.SUBMITTED_FINAL,
             iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL),
-            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
-        )
-        formatTestResultStatusColorBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL),
-            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
-        )
-        formatTestResultStatusColorBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED),
+            oUiState = DeviceUIState.UNPAIRED,
             iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
     }
 
     @Test
     fun formatTestStatusIcon() {
-        formatTestStatusIconBase(oUiState = null)
-        formatTestStatusIconBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NEGATIVE))
-        formatTestStatusIconBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_ERROR))
-        formatTestStatusIconBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT))
-        formatTestStatusIconBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE))
-        formatTestStatusIconBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE_TELETAN))
-        formatTestStatusIconBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL))
-        formatTestStatusIconBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL))
-        formatTestStatusIconBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED))
-    }
-
-    @Test
-    fun formatTestResultPendingStepsVisible() {
-        formatTestResultPendingStepsVisibleBase(oUiState = null, iResult = View.GONE)
-        formatTestResultPendingStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NEGATIVE),
-            iResult = View.GONE
-        )
-        formatTestResultPendingStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_ERROR),
-            iResult = View.GONE
-        )
-        formatTestResultPendingStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT),
-            iResult = View.VISIBLE
-        )
-        formatTestResultPendingStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
-            iResult = View.GONE
-        )
-        formatTestResultPendingStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE_TELETAN),
-            iResult = View.GONE
-        )
-        formatTestResultPendingStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL),
-            iResult = View.GONE
-        )
-        formatTestResultPendingStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL),
-            iResult = View.GONE
-        )
-        formatTestResultPendingStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED),
-            iResult = View.GONE
-        )
-    }
-
-    @Test
-    fun formatTestResultInvalidStepsVisible() {
-        formatTestResultInvalidStepsVisibleBase(oUiState = null, iResult = View.GONE)
-        formatTestResultInvalidStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NEGATIVE),
-            iResult = View.GONE
-        )
-        formatTestResultInvalidStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_ERROR),
-            iResult = View.VISIBLE
-        )
-        formatTestResultInvalidStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT),
-            iResult = View.GONE
-        )
-        formatTestResultInvalidStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
-            iResult = View.GONE
-        )
-        formatTestResultInvalidStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE_TELETAN),
-            iResult = View.GONE
-        )
-        formatTestResultInvalidStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL),
-            iResult = View.GONE
-        )
-        formatTestResultInvalidStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL),
-            iResult = View.GONE
-        )
-        formatTestResultInvalidStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED),
-            iResult = View.GONE
-        )
+        formatTestStatusIconBase(oUiState = DeviceUIState.PAIRED_NEGATIVE)
+        formatTestStatusIconBase(oUiState = DeviceUIState.PAIRED_ERROR)
+        formatTestStatusIconBase(oUiState = DeviceUIState.PAIRED_NO_RESULT)
+        formatTestStatusIconBase(oUiState = DeviceUIState.PAIRED_POSITIVE)
+        formatTestStatusIconBase(oUiState = DeviceUIState.SUBMITTED_FINAL)
+        formatTestStatusIconBase(oUiState = DeviceUIState.UNPAIRED)
     }
 
     @Test
     fun formatTestResult() {
-        formatTestResultBase(oUiState = null)
-        formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NEGATIVE))
-        formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_ERROR))
-        formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT))
-        formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE))
-        formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE_TELETAN))
-        formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL))
-        formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL))
-        formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED))
+        formatTestResultBase(oUiState = DeviceUIState.PAIRED_NEGATIVE)
+        formatTestResultBase(oUiState = DeviceUIState.PAIRED_ERROR)
+        formatTestResultBase(oUiState = DeviceUIState.PAIRED_NO_RESULT)
+        formatTestResultBase(oUiState = DeviceUIState.PAIRED_POSITIVE)
+        formatTestResultBase(oUiState = DeviceUIState.SUBMITTED_FINAL)
+        formatTestResultBase(oUiState = DeviceUIState.UNPAIRED)
     }
 }

@@ -43,6 +43,8 @@
     <string name="trace_location_checkins_card_highlight_duration_label">Dauer</string>
     <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
     <string name="trace_location_checkins_card_automatic_checkout_info">"%1$s - Automatisch auschecken nach %2$s."</string>
+    <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
+    <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s %2$s - Automatisch auschecken nach %3$s."</string>
 
     <!-- XHED: Title of the category list screen of the event creation  -->
     <string name="tracelocation_organizer_category_title">QR-Code erstellen</string>
@@ -124,12 +126,8 @@
     <!-- XTXT: Save button text -->
     <string name="tracelocation_organizer_save">"Speichern"</string>
 
-    <!-- XMSG: generic error message body with status code -->
-    <string name="tracelocation_generic_qr_code_error_body_with_error_code">"QR-Code konnte nicht erstellt werden. Bitte versuchen Sie es später noch mal (Fehlercode %d)"</string>
     <!-- XMSG: generic web request error without status code -->
     <string name="tracelocation_generic_qr_code_error_body">"QR-Code konnte nicht erstellt werden. Bitte versuchen Sie es später noch mal."</string>
-    <!-- XMSG: Dialog body for generic web request network error -->
-    <string name="tracelocation_generic_network_error_body">"Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind."</string>
     <!-- XHED: error message title -->
     <string name="tracelocation_generic_error_title">"Fehler"</string>
 
@@ -155,9 +153,9 @@
     <!-- XTXT: Text for qr icon of qr info screen -->
     <string name="trace_location_qr_info_qr_code_text">"Stellen Sie den QR-Code Ihren Gästen entweder über Ihr Smartphone oder in ausgedruckter Form zur Verfügung."</string>
     <!-- XTXT: Text for time sheet icon of qr info screen -->
-    <string name="trace_location_qr_info_time_text">"Wenn Sie dauerhaft einen QR-Code verwenden, sollten Sie diesen einmal täglich neu erstellen außerhalb der Öffnungszeiten."</string>
+    <string name="trace_location_qr_info_time_text">"Wenn Sie dauerhaft einen QR-Code verwenden, sollten Sie diesen einmal täglich außerhalb der Öffnungszeiten neu erstellen."</string>
     <!-- XTXT: Text for I understand button -->
-    <string name="acknowledge_button">"Enverstanden"</string>
+    <string name="acknowledge_button">"Weiter"</string>
 
     <!-- XHED: Title of the notification channel for event registration related notifications. -->
     <string name="tracelocation_notification_channel_title">"Check-ins"</string>
@@ -182,14 +180,14 @@
     <string name="trace_location_organiser_list_no_codes_subtitle">"Hier werden alle QR-Codes angezeigt, die Sie für ein Ort oder Event erstellt haben. Sie können die QR-Codes löschen, wenn diese nicht mehr verwendet werden sollen."</string>
 
     <!-- XBUT: Event organiser qr codes list: menu: information button  -->
-    <string name="trace_location_organizer_list_menu_information_btn">"Information"</string>
+    <string name="trace_location_organizer_list_menu_information_btn">"Informationen"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
     <string name="trace_location_organizer_list_menu_remove_all_btn">"Alle entfernen"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
     <string name="trace_location_organiser_list_delete_single_popup_title">"Wollen Sie den QR-Code wirklich entfernen?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
-    <string name="trace_location_organiser_list_delete_single_popup_message">"Bitte denken Sie daran, dass der QR-Code “Jahrestreffen der deutschen SAP Anwendergruppe” danach nicht mehr zum Einchecken verwendet werden kann."</string>
+    <string name="trace_location_organiser_list_delete_single_popup_message">"Bitte denken Sie daran, dass der QR-Code danach nicht mehr zum Einchecken verwendet werden kann."</string>
 
     <!-- XHED:  Event organiser qr codes list: delete all popup title -->
     <string name="trace_location_organiser_list_delete_all_popup_title">"Wollen Sie wirklich alle QR-Codes entfernen?"</string>
@@ -202,8 +200,17 @@
 
     <!-- XTXT: Event organiser list item: duration-->
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s Uhr"</string>
+
+    <!-- XTXT: Event organiser list item: duration same day-->
+    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %3$s Uhr"</string>
+
     <!-- XBUT: Event organiser list item: checkin button -->
     <string name="trace_location_organizer_list_item_action_checkin">Selbst einchecken</string>
+
+    <!-- XTXT: Event organizer detail qr-code: duration with date -->
+    <string name="trace_location_organizer_detail_item_duration">"%1$s, %2$s - %3$s Uhr"</string>
+    <!-- XTXT: Event organizer detail qr-code: duration with multiple date -->
+    <string name="trace_location_organizer_detail_item_duration_multiple_days">"%1$s, %2$s - %3$s, %4$s Uhr"</string>
 
     <!-- XBUT: Event organiser list item: menu: information button  -->
     <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Duplizieren"</string>
@@ -237,6 +244,8 @@
     <string name="edit_checkin_edit_card_checkin_time_label">"Eingecheckt"</string>
     <!-- XTXT: Checkin Edit: hint for unchanged contact diary checkin duration -->
     <string name="edit_checkin_duration_edit_hint_card_text">"Die Aufenthaltsdauer wird nicht automatisch in Ihrem Kontakt-Tagebuch angepasst."</string>
+    <!-- XTXT: Checkin Edit: warning if user input is incorrect -->
+    <string name="edit_checkin_wrong_input_warning_text">"Sie können für maximal 24 Stunden eingecheckt sein und die Auscheck-Zeit muss nach der Eincheck-Zeit liegen."</string>
     <!-- XBUT: Checkin Edit: Save Button -->
     <string name="edit_checkin_confirm_button_text">"Speichern"</string>
 
@@ -249,5 +258,15 @@
     <string name="trace_location_event_detail_show_print_qr_code_button">"Druckversion anzeigen"</string>
     <!-- XBUT: Organizer Flow : Title for save as template button -->
     <string name="trace_location_event_detail_save_as_template_button">"Als Vorlage verwenden"</string>
+
+    <!-- Qr Code Validation Messages -->
+    <!-- XTXT: My check-ins: qr code validation wrong description field -->
+    <string name="trace_location_checkins_qr_code_invalid_description">"Ungültiger QR-Code verhindert das Einchecken. Die verantwortliche Stelle muss einen neuen QR-Code generieren (Fehlercode INVALID_DESCRIPTION)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong address field -->
+    <string name="trace_location_checkins_qr_code_invalid_address">"Ungültiger QR-Code verhindert das Einchecken. Die verantwortliche Stelle muss einen neuen QR-Code generieren (Fehlercode INVALID_ADDRESS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong start end time field -->
+    <string name="trace_location_checkins_qr_code_invalid_times">"Ungültiger QR-Code verhindert das Einchecken. Die verantwortliche Stelle muss einen neuen QR-Code generieren (Fehlercode INVALID_TIMESTAMPS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
+    <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Ungültiger QR-Code verhindert das Einchecken. Die verantwortliche Stelle muss einen neuen QR-Code generieren (Fehlercode INVALID_CRYPTO_SEED)."</string>
 
 </resources>

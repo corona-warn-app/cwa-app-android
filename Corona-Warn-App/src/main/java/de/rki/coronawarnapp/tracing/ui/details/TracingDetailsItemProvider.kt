@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
@@ -17,6 +16,7 @@ import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCa
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
@@ -36,18 +36,18 @@ class TracingDetailsItemProvider @Inject constructor(
 
     val state: Flow<List<DetailsItem>> = combine(
         tracingStatus.generalStatus,
-        riskLevelStorage.latestAndLastSuccessful,
+        riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult,
         surveys.availableSurveys
     ) { status,
         riskLevelResults,
         availableSurveys ->
 
-        val (latestCalc, _) = riskLevelResults.tryLatestResultsWithDefaults()
+        val latestCalc = riskLevelResults.lastCalculated
 
         mutableListOf<DetailsItem>().apply {
             if (status != Status.TRACING_INACTIVE &&
                 latestCalc.riskState == RiskState.LOW_RISK &&
-                latestCalc.matchedKeyCount > 0
+                latestCalc.matchedRiskCount > 0
             ) {
                 add(AdditionalInfoLowRiskBox.Item)
             }
@@ -81,11 +81,11 @@ class TracingDetailsItemProvider @Inject constructor(
                 }
                 latestCalc.riskState == RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
                     riskState = latestCalc.riskState,
-                    matchedKeyCount = latestCalc.matchedKeyCount
+                    matchedRiskCount = latestCalc.matchedRiskCount
                 )
                 latestCalc.riskState == RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
                     riskState = latestCalc.riskState,
-                    lastEncounteredAt = latestCalc.lastRiskEncounterAt ?: Instant.EPOCH
+                    lastEncounteredAt = latestCalc.lastRiskEncounterAt ?: Instant.EPOCH.toLocalDateUtc()
                 )
                 else -> null
             }?.let { add(it) }

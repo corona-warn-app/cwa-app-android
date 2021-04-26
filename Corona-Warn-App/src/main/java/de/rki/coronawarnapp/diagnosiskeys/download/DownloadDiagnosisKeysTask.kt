@@ -3,12 +3,12 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RollbackItem
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -34,7 +34,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val keyPackageSyncTool: KeyPackageSyncTool,
     private val timeStamper: TimeStamper,
     private val settings: DownloadDiagnosisKeysSettings,
-    private val submissionSettings: SubmissionSettings
+    private val coronaTestRepository: CoronaTestRepository,
 ) : Task<DownloadDiagnosisKeysTask.Progress, Task.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<Progress>()
@@ -114,7 +114,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             // remember version code of this execution for next time
             settings.updateLastVersionCodeToCurrent()
 
-            if (submissionSettings.isAllowedToSubmitKeys) {
+            val isAllowedToSubmitKeys = coronaTestRepository.coronaTests.first().any { it.isSubmissionAllowed }
+            if (isAllowedToSubmitKeys) {
                 Timber.tag(TAG).i("task aborted, positive test result")
                 return object : Task.Result {}
             }

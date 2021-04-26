@@ -6,22 +6,25 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
-import de.rki.coronawarnapp.ui.eventregistration.TraceLocationPreferences
+import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -55,7 +58,10 @@ class DataReset @Inject constructor(
     private val onboardingSettings: OnboardingSettings,
     private val submissionSettings: SubmissionSettings,
     private val traceLocationRepository: TraceLocationRepository,
-    private val checkInRepository: CheckInRepository
+    private val checkInRepository: CheckInRepository,
+    private val traceLocationSettings: TraceLocationSettings,
+    private val traceWarningRepository: TraceWarningRepository,
+    private val coronaTestRepository: CoronaTestRepository,
 ) {
 
     private val mutex = Mutex()
@@ -85,6 +91,7 @@ class DataReset @Inject constructor(
         tracingSettings.clear()
         onboardingSettings.clear()
         submissionSettings.clear()
+        traceLocationSettings.clear()
 
         // Clear contact diary database
         contactDiaryRepository.clear()
@@ -93,8 +100,10 @@ class DataReset @Inject constructor(
 
         bugReportingSettings.clear()
 
+        traceWarningRepository.clear()
         traceLocationRepository.deleteAllTraceLocations()
         checkInRepository.clear()
+        coronaTestRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
+import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,11 +21,11 @@ class TestResultDataCollector @Inject constructor(
      *  Collect Test result registration only after user has given a consent.
      *  exclude any registered test result before giving a consent
      */
-    suspend fun saveTestResultAnalyticsSettings(testResult: TestResult) {
+    suspend fun saveTestResultAnalyticsSettings(testResult: CoronaTestResult) {
         val validTestResults = listOf(
-            TestResult.POSITIVE,
-            TestResult.PENDING,
-            TestResult.NEGATIVE
+            CoronaTestResult.PCR_POSITIVE,
+            CoronaTestResult.PCR_OR_RAT_PENDING,
+            CoronaTestResult.PCR_NEGATIVE
         )
 
         if (testResult !in validTestResults) return // Not interested in other values
@@ -33,25 +33,25 @@ class TestResultDataCollector @Inject constructor(
         // User consented to donate analytics data
         if (analyticsSettings.analyticsEnabled.value) {
             val lastRiskResult = riskLevelStorage
-                .latestAndLastSuccessful
+                .latestAndLastSuccessfulEwRiskLevelResult
                 .first()
-                .tryLatestResultsWithDefaults()
+                .tryLatestEwResultsWithDefaults()
                 .lastCalculated
             Timber.d("saveTestResultDonorDataAtRegistration($testResult, $lastRiskResult)")
             testResultDonorSettings.saveTestResultDonorDataAtRegistration(testResult, lastRiskResult)
         }
     }
 
-    fun updatePendingTestResultReceivedTime(newTestResult: TestResult) {
+    fun updatePendingTestResultReceivedTime(newTestResult: CoronaTestResult) {
         // Analytics is enabled
         val shouldUpdate = analyticsSettings.analyticsEnabled.value &&
             // Test was scanned after giving consent and this a QR-Code Test registration
             // For TAN test registration this flag is not set
             testResultDonorSettings.testScannedAfterConsent.value &&
             // Result was Pending
-            testResultDonorSettings.testResultAtRegistration.value == TestResult.PENDING &&
+            testResultDonorSettings.testResultAtRegistration.value == CoronaTestResult.PCR_OR_RAT_PENDING &&
             // Final Test result received
-            newTestResult in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)
+            newTestResult in listOf(CoronaTestResult.PCR_POSITIVE, CoronaTestResult.PCR_NEGATIVE)
         if (shouldUpdate) {
             val receivedAt = timeStamper.nowUTC
             Timber.d("updatePendingTestResultReceivedTime($newTestResult, $receivedAt")

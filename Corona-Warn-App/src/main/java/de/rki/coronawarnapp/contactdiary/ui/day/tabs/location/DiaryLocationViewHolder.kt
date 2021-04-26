@@ -5,11 +5,10 @@ import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.contactdiary.util.setClickLabel
-import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationListItemBinding
+import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
-import de.rki.coronawarnapp.util.ui.setOnClickListenerThrottled
 
 class DiaryLocationViewHolder(
     parent: ViewGroup
@@ -25,7 +24,7 @@ class DiaryLocationViewHolder(
         val item = changes.firstOrNull() as? DiaryLocationListItem ?: initial
 
         mainBox.apply {
-            header.setOnClickListenerThrottled {
+            header.setOnClickListener {
                 it.contentDescription = item.onClickDescription.get(context)
                 it.sendAccessibilityEvent(AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
                 item.onItemClick(item)

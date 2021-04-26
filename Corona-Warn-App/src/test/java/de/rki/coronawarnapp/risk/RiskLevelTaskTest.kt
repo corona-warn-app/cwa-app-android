@@ -6,15 +6,16 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.util.TimeStamper
@@ -29,6 +30,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.DateTime
@@ -50,11 +52,20 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
-    @MockK lateinit var submissionSettings: SubmissionSettings
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
     @MockK lateinit var autoCheckOut: AutoCheckOut
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
+
+    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
+        setOf(
+            mockk<CoronaTest>().apply {
+                every { isSubmissionAllowed } returns false
+                every { isViewed } returns false
+            }
+        )
+    )
 
     @BeforeEach
     fun setup() {
@@ -62,7 +73,7 @@ class RiskLevelTaskTest : BaseTest() {
 
         mockkObject(TimeVariables)
 
-        every { submissionSettings.isAllowedToSubmitKeys } returns false
+        every { coronaTestRepository.coronaTests } returns coronaTests
         every { configData.isDeviceTimeCorrect } returns true
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         coEvery { appConfigProvider.getAppConfig() } returns configData
@@ -99,7 +110,7 @@ class RiskLevelTaskTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         riskLevelStorage = riskLevelStorage,
         keyCacheRepository = keyCacheRepository,
-        submissionSettings = submissionSettings,
+        coronaTestRepository = coronaTestRepository,
         analyticsExposureWindowCollector = analyticsExposureWindowCollector,
         autoCheckOut = autoCheckOut
     )
@@ -119,9 +130,9 @@ class RiskLevelTaskTest : BaseTest() {
         every { configData.isDeviceTimeCorrect } returns false
         every { configData.localOffset } returns Duration.standardHours(5)
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            failureReason = RiskLevelResult.FailureReason.INCORRECT_DEVICE_TIME
+            failureReason = EwRiskLevelResult.FailureReason.INCORRECT_DEVICE_TIME
         )
     }
 
@@ -135,9 +146,9 @@ class RiskLevelTaskTest : BaseTest() {
             }
         }
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            failureReason = RiskLevelResult.FailureReason.NO_INTERNET
+            failureReason = EwRiskLevelResult.FailureReason.NO_INTERNET
         )
     }
 
@@ -145,9 +156,9 @@ class RiskLevelTaskTest : BaseTest() {
     fun `risk calculation is skipped if tracing is disabled`() = runBlockingTest {
         every { enfClient.isTracingEnabled } returns flowOf(false)
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            failureReason = RiskLevelResult.FailureReason.TRACING_OFF
+            failureReason = EwRiskLevelResult.FailureReason.TRACING_OFF
         )
     }
 
@@ -155,9 +166,9 @@ class RiskLevelTaskTest : BaseTest() {
     fun `risk calculation is skipped if results are not existing while in background mode`() = runBlockingTest {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf()
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            failureReason = RiskLevelResult.FailureReason.OUTDATED_RESULTS
+            failureReason = EwRiskLevelResult.FailureReason.OUTDATED_RESULTS
         )
     }
 
@@ -165,9 +176,9 @@ class RiskLevelTaskTest : BaseTest() {
     fun `risk calculation is skipped if results are not existing while no background mode`() = runBlockingTest {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf()
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = Instant.EPOCH,
-            failureReason = RiskLevelResult.FailureReason.OUTDATED_RESULTS_MANUAL
+            failureReason = EwRiskLevelResult.FailureReason.OUTDATED_RESULTS_MANUAL
         )
     }
 
@@ -184,9 +195,9 @@ class RiskLevelTaskTest : BaseTest() {
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         every { timeStamper.nowUTC } returns now
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
-            failureReason = RiskLevelResult.FailureReason.OUTDATED_RESULTS
+            failureReason = EwRiskLevelResult.FailureReason.OUTDATED_RESULTS
         )
     }
 
@@ -203,9 +214,9 @@ class RiskLevelTaskTest : BaseTest() {
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
         every { timeStamper.nowUTC } returns now
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
-            failureReason = RiskLevelResult.FailureReason.OUTDATED_RESULTS_MANUAL
+            failureReason = EwRiskLevelResult.FailureReason.OUTDATED_RESULTS_MANUAL
         )
     }
 
@@ -221,12 +232,17 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
         every { timeStamper.nowUTC } returns now
-        every { submissionSettings.isAllowedToSubmitKeys } returns true
-        every { submissionSettings.hasViewedTestResult.value } returns true
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { isSubmissionAllowed } returns true
+                every { isViewed } returns true
+            }
+        )
+
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
-            failureReason = RiskLevelResult.FailureReason.POSITIVE_TEST_RESULT
+            failureReason = EwRiskLevelResult.FailureReason.POSITIVE_TEST_RESULT
         )
     }
 
@@ -238,7 +254,7 @@ class RiskLevelTaskTest : BaseTest() {
             }
         }
         val now = Instant.parse("2020-12-28")
-        val aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+        val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
             every { isIncreasedRisk() } returns true
         }
 
@@ -248,13 +264,18 @@ class RiskLevelTaskTest : BaseTest() {
         every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
         every { timeStamper.nowUTC } returns now
         coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
-        every { submissionSettings.isAllowedToSubmitKeys } returns true
-        every { submissionSettings.hasViewedTestResult.value } returns false
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { isSubmissionAllowed } returns true
+                every { isViewed } returns false
+            }
+        )
+
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
             failureReason = null,
-            aggregatedRiskResult = aggregatedRiskResult,
+            ewAggregatedRiskResult = aggregatedRiskResult,
             listOf()
         )
     }
@@ -267,7 +288,7 @@ class RiskLevelTaskTest : BaseTest() {
             }
         }
         val now = Instant.parse("2020-12-28")
-        val aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
+        val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
             every { isIncreasedRisk() } returns true
         }
 
@@ -278,10 +299,10 @@ class RiskLevelTaskTest : BaseTest() {
         every { timeStamper.nowUTC } returns now
         coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
 
-        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
             failureReason = null,
-            aggregatedRiskResult = aggregatedRiskResult,
+            ewAggregatedRiskResult = aggregatedRiskResult,
             listOf()
         )
     }

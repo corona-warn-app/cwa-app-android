@@ -68,6 +68,8 @@ android {
         buildConfigField "int", "VERSION_MAJOR", VERSION_MAJOR
         buildConfigField "int", "VERSION_MINOR", VERSION_MINOR
         buildConfigField "int", "VERSION_PATCH", VERSION_PATCH
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     def signingPropFile = file("../keystore.properties")
@@ -173,7 +175,8 @@ android {
                     "-Xno-kotlin-nothing-value-exception",
                     "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
                     "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
-                    "-Xuse-experimental=kotlin.time.ExperimentalTime"
+                    "-Xuse-experimental=kotlin.time.ExperimentalTime",
+                    "-Xopt-in=kotlin.RequiresOptIn"
             ]
         }
     }

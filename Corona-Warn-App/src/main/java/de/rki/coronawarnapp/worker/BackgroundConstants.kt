@@ -10,56 +10,6 @@ import java.util.concurrent.TimeUnit
 object BackgroundConstants {
 
     /**
-     * Tag for diagnosis key retrieval one time work
-     */
-    const val DIAGNOSIS_KEY_ONE_TIME_WORKER_TAG = "DIAGNOSIS_KEY_ONE_TIME_WORKER"
-
-    /**
-     * Tag for diagnosis key retrieval periodic work
-     */
-    const val DIAGNOSIS_KEY_PERIODIC_WORKER_TAG = "DIAGNOSIS_KEY_PERIODIC_WORKER"
-
-    /**
-     * Tag for background polling tp check test result periodic work
-     */
-    const val DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG = "DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER"
-
-    /**
-     * Tag for background noise playbook periodic work
-     */
-    const val BACKGROUND_NOISE_PERIODIC_WORKER_TAG = "BACKGROUND_NOISE_PERIODIC_WORKER"
-
-    /**
-     * Tag for background noise playbook one time work
-     */
-    const val BACKGROUND_NOISE_ONE_TIME_WORKER_TAG = "BACKGROUND_NOISE_PERIODIC_WORKER"
-
-    /**
-     * Unique name for diagnosis key retrieval one time work
-     */
-    const val DIAGNOSIS_KEY_ONE_TIME_WORK_NAME = "DiagnosisKeyBackgroundOneTimeWork"
-
-    /**
-     * Unique name for diagnosis key retrieval periodic work
-     */
-    const val DIAGNOSIS_KEY_PERIODIC_WORK_NAME = "DiagnosisKeyBackgroundPeriodicWork"
-
-    /**
-     * Unique name for diagnosis test result retrieval periodic work
-     */
-    const val DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME = "DiagnosisTestResultBackgroundPeriodicWork"
-
-    /**
-     * Unique name for background noise playbook periodic work
-     */
-    const val BACKGROUND_NOISE_PERIODIC_WORK_NAME = "BackgroundNoisePeriodicWork"
-
-    /**
-     * Unique name for background noise playbook one time work
-     */
-    const val BACKGROUND_NOISE_ONE_TIME_WORK_NAME = "BackgroundNoiseOneTimeWork"
-
-    /**
      * Total minutes in one day
      */
     const val MINUTES_IN_DAY = 1440
@@ -76,13 +26,6 @@ object BackgroundConstants {
      * @see TimeUnit.MINUTES
      */
     const val KIND_DELAY = 1L
-
-    /**
-     * Kind initial delay in minutes for periodic work for accessibility reason
-     *
-     * @see TimeUnit.SECONDS
-     */
-    const val DIAGNOSIS_TEST_RESULT_PERIODIC_INITIAL_DELAY = 10L
 
     /**
      * Retries before work would set as FAILED

@@ -64,22 +64,21 @@ class EncryptedPreferencesMigration @Inject constructor(
             }
             onboardingSettings.isBackgroundCheckDone = isBackgroundCheckDone()
         }
-
+        @Suppress("DEPRECATION")
         TracingLocalData(encryptedSharedPreferences).apply {
-            tracingSettings.initialPollingForTestResultTimeStamp = initialPollingForTestResultTimeStamp()
-            tracingSettings.isTestResultAvailableNotificationSent = isTestResultAvailableNotificationSent()
+            tracingSettings.initialPollingForTestResultTimeStampMigration = initialPollingForTestResultTimeStamp()
+            tracingSettings.isTestResultAvailableNotificationSentMigration = isTestResultAvailableNotificationSent()
             tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { isUserToBeNotifiedOfLoweredRiskLevel() }
             tracingSettings.isConsentGiven = initialTracingActivationTimestamp() != 0L
         }
-
+        @Suppress("DEPRECATION")
         SubmissionLocalData(encryptedSharedPreferences).apply {
-            submissionSettings.registrationToken.update {
-                registrationToken()
-            }
-            submissionSettings.initialTestResultReceivedAt = initialTestResultReceivedTimestamp().toInstantOrNull()
-            submissionSettings.devicePairingSuccessfulAt = devicePairingSuccessfulTimestamp().toInstantOrNull()
-            submissionSettings.isSubmissionSuccessful = numberOfSuccessfulSubmissions() >= 1
-            submissionSettings.isAllowedToSubmitKeys = isAllowedToSubmitDiagnosisKeys()
+            submissionSettings.registrationTokenMigration = registrationToken()
+            submissionSettings.initialTestResultReceivedAtMigration =
+                initialTestResultReceivedTimestamp().toInstantOrNull()
+            submissionSettings.devicePairingSuccessfulAtMigration = devicePairingSuccessfulTimestamp().toInstantOrNull()
+            submissionSettings.isSubmissionSuccessfulMigration = numberOfSuccessfulSubmissions() >= 1
+            submissionSettings.isAllowedToSubmitKeysMigration = isAllowedToSubmitDiagnosisKeys()
         }
         Timber.i("copyData(): EncryptedPreferences have been copied.")
     }

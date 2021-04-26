@@ -8,34 +8,32 @@ import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragmentModule
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragmentModule
+import de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment
+import de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragmentModule
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragmentModule
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment
-import de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragment
-import de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragmentModule
-import de.rki.coronawarnapp.test.eventregistration.ui.createevent.CreateEventTestFragment
-import de.rki.coronawarnapp.test.eventregistration.ui.createevent.CreateEventTestFragmentModule
-import de.rki.coronawarnapp.test.eventregistration.ui.qrcode.QrCodeCreationTestFragment
-import de.rki.coronawarnapp.test.eventregistration.ui.qrcode.QrCodeCreationTestFragmentModule
-import de.rki.coronawarnapp.test.eventregistration.ui.showevents.ShowStoredEventsTestFragment
-import de.rki.coronawarnapp.test.eventregistration.ui.showevents.ShowStoredEventsTestFragmentModule
+import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
+import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragmentModule
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentModule
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundModule
+import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragment
+import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragmentModule
+import de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragment
+import de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragmentModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragmentModule
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragmentModule
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragmentModule
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment
-import de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragmentModule
 
 @Module
 abstract class MainActivityTestModule {
@@ -76,18 +74,15 @@ abstract class MainActivityTestModule {
     @ContributesAndroidInjector(modules = [DeltaOnboardingFragmentModule::class])
     abstract fun deltaOnboarding(): DeltaonboardingFragment
 
-    @ContributesAndroidInjector(modules = [EventRegistrationTestFragmentModule::class])
-    abstract fun eventRegistration(): EventRegistrationTestFragment
+    @ContributesAndroidInjector(modules = [PresenceTracingTestFragmentModule::class])
+    abstract fun presenceTracingTestFragment(): PresenceTracingTestFragment
 
-    @ContributesAndroidInjector(modules = [QrCodeCreationTestFragmentModule::class])
-    abstract fun qrCodeCreation(): QrCodeCreationTestFragment
+    @ContributesAndroidInjector(modules = [QrCodePosterTestFragmentModule::class])
+    abstract fun qrCodePosterTestFragment(): QrCodePosterTestFragment
 
-    @ContributesAndroidInjector(modules = [CreateEventTestFragmentModule::class])
-    abstract fun createEvent(): CreateEventTestFragment
+    @ContributesAndroidInjector(modules = [HomeTestCardsFragmentModule::class])
+    abstract fun homeTestCards(): HomeTestCardsFragment
 
-    @ContributesAndroidInjector(modules = [ShowStoredEventsTestFragmentModule::class])
-    abstract fun showStoredEvents(): ShowStoredEventsTestFragment
-
-    @ContributesAndroidInjector(modules = [QrCodeDetailFragmentModule::class])
-    abstract fun showEventDetail(): QrCodeDetailFragment
+    @ContributesAndroidInjector(modules = [CoronaTestTestFragmentModule::class])
+    abstract fun coronaTest(): CoronaTestTestFragment
 }

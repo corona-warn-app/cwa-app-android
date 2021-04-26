@@ -9,7 +9,7 @@
     android:layout_marginVertical="8dp"
     android:focusable="true">
 
-    <de.rki.coronawarnapp.ui.eventregistration.common.TraceLocationCardHighlightView
+    <de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,20 +17,19 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="21.01.2021">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_qr_code_list_item_icon"
+            app:srcCompat="@drawable/ic_qr_code_list_item_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </de.rki.coronawarnapp.ui.eventregistration.common.TraceLocationCardHighlightView>
+    </de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView>
 
     <TextView
         android:id="@+id/description"
@@ -84,6 +83,11 @@
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="address,duration,icon" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@id/button_barrier" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/checkin_action"

@@ -16,31 +16,31 @@ internal data class AttestationContainer(
             safetyNetJws = report.jwsResult
         }.build()
 
-    override fun requirePass(reqs: SafetyNetRequirements) {
-        Timber.v("requirePass(%s)", reqs)
+    override fun requirePass(requirements: SafetyNetRequirements) {
+        Timber.v("requirePass(%s)", requirements)
 
-        if (reqs.requireBasicIntegrity && !report.basicIntegrity) {
+        if (requirements.requireBasicIntegrity && !report.basicIntegrity) {
             throw SafetyNetException(
                 Type.BASIC_INTEGRITY_REQUIRED,
                 "Requirement 'basicIntegrity' not met (${report.advice})."
             )
         }
 
-        if (reqs.requireCTSProfileMatch && !report.ctsProfileMatch) {
+        if (requirements.requireCTSProfileMatch && !report.ctsProfileMatch) {
             throw SafetyNetException(
                 Type.CTS_PROFILE_MATCH_REQUIRED,
                 "Requirement 'ctsProfileMatch' not met (${report.advice})."
             )
         }
 
-        if (reqs.requireBasicIntegrity && !report.evaluationTypes.contains("BASIC")) {
+        if (requirements.requireBasicIntegrity && !report.evaluationTypes.contains("BASIC")) {
             throw SafetyNetException(
                 Type.EVALUATION_TYPE_BASIC_REQUIRED,
                 "Evaluation type 'BASIC' not met (${report.advice})."
             )
         }
 
-        if (reqs.requireEvaluationTypeHardwareBacked && !report.evaluationTypes.contains("HARDWARE_BACKED")) {
+        if (requirements.requireEvaluationTypeHardwareBacked && !report.evaluationTypes.contains("HARDWARE_BACKED")) {
             throw SafetyNetException(
                 Type.EVALUATION_TYPE_HARDWARE_BACKED_REQUIRED,
                 "Evaluation type 'HARDWARE_BACKED' not met (${report.advice})."

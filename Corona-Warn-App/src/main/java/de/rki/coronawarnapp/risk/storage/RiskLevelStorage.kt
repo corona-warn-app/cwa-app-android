@@ -1,71 +1,84 @@
 package de.rki.coronawarnapp.risk.storage
 
-import de.rki.coronawarnapp.presencetracing.risk.PresenceTracingDayRisk
-import de.rki.coronawarnapp.risk.RiskLevelResult
-import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.TraceLocationCheckInRisk
-import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
+import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
+import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
+import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.LastCombinedRiskResults
+import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import kotlinx.coroutines.flow.Flow
-import org.joda.time.LocalDate
 
 interface RiskLevelStorage {
 
-    /**
+    /** EXPOSURE WINDOW RISK RESULT
      * All currently available risk results.
      * This is an expensive operation on tester builds due to mapping all available windows.
      * Newest item first.
      */
-    val allRiskLevelResults: Flow<List<RiskLevelResult>>
+    val allEwRiskLevelResults: Flow<List<EwRiskLevelResult>>
 
-    /**
+    /** EXPOSURE WINDOW RISK RESULT
      * The newest 2 results.
-     * Use by the risklevel detector to check for state changes (LOW/INCREASED RISK).
+     * Use by the risk level detector to check for state changes (LOW/INCREASED RISK),
+     * collecting data for analytics and survey.
      * Can be 0-2 entries.
      * Newest item first.
      */
-    val latestRiskLevelResults: Flow<List<RiskLevelResult>>
+    val latestEwRiskLevelResults: Flow<List<EwRiskLevelResult>>
 
-    /**
-     * The newest result, and the last successfully result result.
-     * Used by the tracing info cards in home and details screen.
+    /** COMBINED RISK RESULT
+     * The newest 2 results.
+     * Use by the risk level detector to check for state changes (LOW/INCREASED RISK) triggering NOTIFICATION.
      * Can be 0-2 entries.
      * Newest item first.
      */
-    val latestAndLastSuccessful: Flow<List<RiskLevelResult>>
+    val latestCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
 
-    /**
+    /** EXPOSURE WINDOW RISK RESULT
+     * The newest result, and the last successfully result.
+     * Used only for analytics
+     * Can be 0-2 entries.
+     * Newest item first.
+     */
+    val latestAndLastSuccessfulEwRiskLevelResult: Flow<List<EwRiskLevelResult>>
+
+    /** COMBINED RISK RESULT
+     * The newest result, and the last successfully result for ew and pt combined.
+     * Used for TRACING info cards in HOME and DETAILS SCREEN.
+     * Can be 0-2 entries.
+     * Newest item first.
+     */
+    val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<LastCombinedRiskResults>
+
+    /** EXPOSURE WINDOW RISK RESULT
      * Risk level per date/day
      * Used by contact diary overview
      * Item with newest date first.
      */
-    val aggregatedRiskPerDateResults: Flow<List<AggregatedRiskPerDateResult>>
+    val ewDayRiskStates: Flow<List<ExposureWindowDayRisk>>
 
-    /**
+    /** PRESENCE TRACING RISK RESULT
      * Risk level per date/day and checkIn
      * Used by contact diary overview
      */
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>>
 
-    /**
+    /** PRESENCE TRACING RISK RESULT
      * Risk level per date/day aggregated over check-ins
-     * Used by contact diary overview
      */
-    val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>>
+    val ptDayRiskStates: Flow<List<PresenceTracingDayRisk>>
 
-    /**
+    /** COMBINED RISK RESULT
      * Risk level per date/day aggregated form Exposure Windows and Presence Tracing
-     * Used by contact diary overview
      */
-    val aggregatedDayRisk: Flow<List<AggregatedDayRisk>>
+    val combinedEwPtDayRisk: Flow<List<CombinedEwPtDayRisk>>
 
-    suspend fun deleteAggregatedRiskPerDateResults(results: List<AggregatedRiskPerDateResult>)
+    suspend fun deleteAggregatedRiskPerDateResults(results: List<ExposureWindowDayRisk>)
 
-    suspend fun storeResult(result: RiskLevelResult)
+    suspend fun storeResult(resultEw: EwRiskLevelResult)
 
     suspend fun clear()
-}
 
-data class AggregatedDayRisk(
-    val localDate: LocalDate,
-    val riskState: RiskState
-)
+    suspend fun clearResults()
+}

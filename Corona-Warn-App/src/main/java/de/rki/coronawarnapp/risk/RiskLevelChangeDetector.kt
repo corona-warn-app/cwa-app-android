@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -35,29 +35,60 @@ class RiskLevelChangeDetector @Inject constructor(
     private val foregroundState: ForegroundState,
     private val notificationHelper: GeneralNotifications,
     private val surveys: Surveys,
-    private val submissionSettings: SubmissionSettings,
+    private val coronaTestRepository: CoronaTestRepository,
     private val tracingSettings: TracingSettings,
     private val testResultDonorSettings: TestResultDonorSettings
 ) {
 
     fun launch() {
         Timber.v("Monitoring risk level changes.")
-        riskLevelStorage.latestRiskLevelResults
+        riskLevelStorage.latestEwRiskLevelResults
             .map { results ->
                 results.sortedBy { it.calculatedAt }.takeLast(2)
             }
             .filter { it.size == 2 }
             .onEach {
-                Timber.v("Checking for risklevel change.")
-                check(it)
+                Timber.v("Checking for ew risklevel change.")
+                checkEwRiskForStateChanges(it)
+            }
+            .catch { Timber.e(it, "App config change checks failed.") }
+            .launchIn(appScope)
+
+        riskLevelStorage.latestCombinedEwPtRiskLevelResults
+            .map { results ->
+                results.sortedBy { it.calculatedAt }.takeLast(2)
+            }
+            .filter { it.size == 2 }
+            .onEach {
+                Timber.v("Checking for combined risklevel change.")
+                checkCombinedRiskForStateChanges(it)
             }
             .catch { Timber.e(it, "App config change checks failed.") }
             .launchIn(appScope)
     }
 
-    private suspend fun check(changedLevels: List<RiskLevelResult>) {
-        val oldResult = changedLevels.first()
-        val newResult = changedLevels.last()
+    private suspend fun checkCombinedRiskForStateChanges(results: List<CombinedEwPtRiskLevelResult>) {
+        val oldResult = results.first()
+        val newResult = results.last()
+
+        val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp
+        if (lastCheckedResult == newResult.calculatedAt) {
+            Timber.d("We already checked this risk level change, skipping further checks.")
+            return
+        }
+        riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = newResult.calculatedAt
+
+        val oldRiskState = oldResult.riskState
+        val newRiskState = newResult.riskState
+        Timber.d("Last combined state was $oldRiskState and current state is $newRiskState")
+
+        // Check sending a notification when risk level changes
+        checkSendingNotification(oldRiskState, newRiskState)
+    }
+
+    private fun checkEwRiskForStateChanges(results: List<EwRiskLevelResult>) {
+        val oldResult = results.first()
+        val newResult = results.last()
 
         val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelTimestamp
         if (lastCheckedResult == newResult.calculatedAt) {
@@ -70,9 +101,6 @@ class RiskLevelChangeDetector @Inject constructor(
         val newRiskState = newResult.riskState
         Timber.d("Last state was $oldRiskState and current state is $newRiskState")
 
-        // Check sending a notification when risk level changes
-        checkSendingNotification(oldRiskState, newRiskState)
-
         // Save Survey related data based on the risk state
         saveSurveyRiskState(oldRiskState, newRiskState, newResult)
 
@@ -81,30 +109,30 @@ class RiskLevelChangeDetector @Inject constructor(
     }
 
     private fun saveTestDonorRiskLevelAnalytics(
-        newRiskState: RiskLevelResult
+        newEwRiskState: EwRiskLevelResult
     ) {
         // Save riskLevelTurnedRedTime if not already set before for high risk detection
         Timber.i("riskLevelTurnedRedTime=%s", testResultDonorSettings.riskLevelTurnedRedTime.value)
         if (testResultDonorSettings.riskLevelTurnedRedTime.value == null) {
-            if (newRiskState.isIncreasedRisk) {
+            if (newEwRiskState.isIncreasedRisk) {
                 testResultDonorSettings.riskLevelTurnedRedTime.update {
-                    newRiskState.calculatedAt
+                    newEwRiskState.calculatedAt
                 }
                 Timber.i(
                     "riskLevelTurnedRedTime: newRiskState=%s, riskLevelTurnedRedTime=%s",
-                    newRiskState.riskState,
-                    newRiskState.calculatedAt
+                    newEwRiskState.riskState,
+                    newEwRiskState.calculatedAt
                 )
             }
         }
 
         // Save most recent date of high or low risks
-        if (newRiskState.riskState in listOf(RiskState.INCREASED_RISK, RiskState.LOW_RISK)) {
-            Timber.d("newRiskState=$newRiskState")
-            val lastRiskEncounterAt = newRiskState.lastRiskEncounterAt
+        if (newEwRiskState.riskState in listOf(RiskState.INCREASED_RISK, RiskState.LOW_RISK)) {
+            Timber.d("newRiskState=$newEwRiskState")
+            val lastRiskEncounterAt = newEwRiskState.lastRiskEncounterAt
             Timber.i(
                 "mostRecentDateWithHighOrLowRiskLevel: newRiskState=%s, lastRiskEncounterAt=%s",
-                newRiskState.riskState,
+                newEwRiskState.riskState,
                 lastRiskEncounterAt
             )
 
@@ -118,7 +146,8 @@ class RiskLevelChangeDetector @Inject constructor(
         oldRiskState: RiskState,
         newRiskState: RiskState
     ) {
-        if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !submissionSettings.isSubmissionSuccessful) {
+        val isSubmissionSuccessful = coronaTestRepository.coronaTests.first().any { it.isSubmitted }
+        if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !isSubmissionSuccessful) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {
@@ -134,7 +163,6 @@ class RiskLevelChangeDetector @Inject constructor(
             } else {
                 Timber.d("App is in foreground, not sending notifications")
             }
-
             Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskState")
         }
     }
@@ -142,7 +170,7 @@ class RiskLevelChangeDetector @Inject constructor(
     private fun saveSurveyRiskState(
         oldRiskState: RiskState,
         newRiskState: RiskState,
-        newResult: RiskLevelResult
+        newResult: EwRiskLevelResult
     ) {
         if (oldRiskState == RiskState.INCREASED_RISK && newRiskState == RiskState.LOW_RISK) {
             tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { true }

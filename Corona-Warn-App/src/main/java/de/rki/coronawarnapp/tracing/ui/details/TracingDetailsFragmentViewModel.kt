@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.AlreadyGiv
 import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.Needed
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
@@ -75,13 +74,13 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
 
     val buttonStates: LiveData<TracingDetailsState> = combine(
         tracingStatus.generalStatus,
-        riskLevelStorage.latestAndLastSuccessful,
+        riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult,
         backgroundModeStatus.isAutoModeEnabled
     ) { status,
         riskLevelResults,
         isBackgroundJobEnabled ->
 
-        val (latestCalc, _) = riskLevelResults.tryLatestResultsWithDefaults()
+        val latestCalc = riskLevelResults.lastCalculated
 
         val isRestartButtonEnabled = !isBackgroundJobEnabled || latestCalc.riskState == RiskState.CALCULATION_FAILED
 
@@ -105,7 +104,7 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
     }
 
     fun updateRiskDetails() {
-        tracingRepository.refreshDiagnosisKeys()
+        tracingRepository.refreshRiskResult()
     }
 
     fun onItemClicked(item: DetailsItem) {
