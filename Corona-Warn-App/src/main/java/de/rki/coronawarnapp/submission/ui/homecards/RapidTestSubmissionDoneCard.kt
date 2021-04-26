@@ -30,6 +30,7 @@ class RapidTestSubmissionDoneCard(
     }
 
     data class Item(
-        val state: SubmissionStateRAT.SubmissionDone
+        val state: SubmissionStateRAT.SubmissionDone,
+        val onClickAction: (Item) -> Unit,
     ) : TestResultItem.RA
 }
