@@ -23,8 +23,10 @@ import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
+import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
+import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
@@ -70,6 +72,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
     @Inject lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
     @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
+    @Inject lateinit var exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler
+    @Inject lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -114,6 +118,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
             contactDiaryWorkScheduler.schedulePeriodic()
         }
+
+        Timber.v("Setting up risk work schedulers.")
+        exposureWindowRiskWorkScheduler.setup()
+        presenceTracingRiskWorkScheduler.setup()
 
         deviceTimeHandler.launch()
         configChangeDetector.launch()

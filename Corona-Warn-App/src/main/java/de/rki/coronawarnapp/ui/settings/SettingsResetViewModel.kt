@@ -34,11 +34,11 @@ class SettingsResetViewModel @AssistedInject constructor(
     fun deleteAllAppContent() {
         launch {
             try {
+                // TODO Remove static access
                 val isTracingEnabled = InternalExposureNotificationClient.asyncIsEnabled()
                 // only stop tracing if it is currently enabled
                 if (isTracingEnabled) {
                     InternalExposureNotificationClient.asyncStop()
-                    backgroundWorkScheduler.stopWorkScheduler()
                 }
             } catch (apiException: ApiException) {
                 apiException.report(

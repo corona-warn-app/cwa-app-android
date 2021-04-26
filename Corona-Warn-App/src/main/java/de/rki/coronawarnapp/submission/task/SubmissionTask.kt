@@ -201,9 +201,7 @@ class SubmissionTask @Inject constructor(
 
     private suspend fun setSubmissionFinished(coronaTest: CoronaTest) {
         Timber.tag(TAG).d("setSubmissionFinished()")
-        backgroundWorkScheduler.stopWorkScheduler()
         coronaTestRepository.markAsSubmitted(coronaTest.identifier)
-        backgroundWorkScheduler.startWorkScheduler()
 
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
