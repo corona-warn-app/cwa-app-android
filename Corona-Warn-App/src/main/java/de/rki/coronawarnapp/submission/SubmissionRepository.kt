@@ -75,7 +75,7 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
-    fun refreshTest(type: CoronaTest.Type) {
+    fun refreshTest(type: CoronaTest.Type? = null) {
         Timber.tag(TAG).v("refreshTest(type=%s)", type)
 
         scope.launch {
