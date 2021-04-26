@@ -17,14 +17,20 @@ import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
+import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
+import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
@@ -33,7 +39,6 @@ import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -68,8 +73,13 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var onboardingSettings: OnboardingSettings
     @Inject lateinit var autoCheckOut: AutoCheckOut
     @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
-    @Inject lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
     @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
+    @Inject lateinit var exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler
+    @Inject lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler
+    @Inject lateinit var pcrTestResultScheduler: PCRResultScheduler
+    @Inject lateinit var raTestResultScheduler: RAResultScheduler
+    @Inject lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
+    @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -114,6 +124,18 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
             contactDiaryWorkScheduler.schedulePeriodic()
         }
+
+        Timber.v("Setting up risk work schedulers.")
+        exposureWindowRiskWorkScheduler.setup()
+        presenceTracingRiskWorkScheduler.setup()
+
+        Timber.v("Setting up test result work schedulers.")
+        pcrTestResultScheduler.setup()
+        raTestResultScheduler.setup()
+
+        Timber.v("Setting up test result available notification services.")
+        pcrTestResultAvailableNotificationService.setup()
+        raTestResultAvailableNotificationService.setup()
 
         deviceTimeHandler.launch()
         configChangeDetector.launch()
