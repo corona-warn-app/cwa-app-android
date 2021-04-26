@@ -2017,4 +2017,13 @@
     <string name="trace_location_attendee_consent_dialog_positive_button">"Partajare"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
     <string name="trace_location_attendee_consent_dialog_negative_button">"Nu partajez"</string>
+
+    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Cod QR nevalabil"</string>
+    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Codul QR scanat nu este valabil.\nScanați un cod QR valabil.\n\n(%1$s)"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Anulare"</string>
 </resources>
