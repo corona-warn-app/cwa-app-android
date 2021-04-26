@@ -8,11 +8,9 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
@@ -22,6 +20,8 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.ui.toLazyString
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -153,11 +153,12 @@ class CheckInsViewModel @AssistedInject constructor(
                         CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation)
                 )
                 is TraceLocationVerifier.VerificationResult.Invalid ->
-                    events.postValue(CheckInEvent.InvalidQrCode(verifyResult.errorTextRes))
+                    events.postValue(CheckInEvent.InvalidQrCode(verifyResult.errorTextRes.toResolvingString()))
             }
         } catch (e: Exception) {
             Timber.d(e, "TraceLocation verification failed")
-            e.report(ExceptionCategory.INTERNAL)
+            val msg = e.message ?: "QR-Code was invalid"
+            events.postValue(CheckInEvent.InvalidQrCode(msg.toLazyString()))
         }
     }
 
