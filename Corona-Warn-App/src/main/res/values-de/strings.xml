@@ -1214,10 +1214,15 @@
     <string name="submission_done_body">"Dank Ihrer Mithilfe können andere gewarnt werden und entsprechend reagieren."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Bitte beachten Sie:"</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_pcr_validation">"Machen Sie einen PCR-Test, um dieses Test-Ergebnis zu verifizieren."</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_share_keys">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
+
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
     <!-- YTXT: submission done further info bullet points -->
@@ -2004,4 +2009,13 @@
     <string name="trace_location_attendee_consent_dialog_positive_button">Teilen</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
     <string name="trace_location_attendee_consent_dialog_negative_button">Nicht teilen</string>
+
+    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_title">QR-Code nicht gültig</string>
+    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">Der gescannte QR-Code ist nicht gültig.\nBitte scannen Sie einen gültigen QR-Code.\n\n(%1$s)</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">Ok</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">Abbrechen</string>
 </resources>

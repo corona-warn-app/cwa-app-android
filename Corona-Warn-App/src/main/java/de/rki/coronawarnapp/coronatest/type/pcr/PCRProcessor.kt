@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.coronatest.type.pcr
 
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
-import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
@@ -19,6 +18,7 @@ import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -37,7 +37,7 @@ class PCRProcessor @Inject constructor(
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val testResultDataCollector: TestResultDataCollector,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
-    private val testResultScheduler: TestResultScheduler,
+    private val pcrTestResultScheduler: PCRResultScheduler,
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
@@ -82,7 +82,7 @@ class PCRProcessor @Inject constructor(
         analyticsKeySubmissionCollector.reportTestRegistered()
 
         if (testResult == PCR_OR_RAT_PENDING) {
-            testResultScheduler.setPeriodicTestPolling(enabled = true)
+            pcrTestResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = true)
         }
 
         return PCRCoronaTest(

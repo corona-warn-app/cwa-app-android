@@ -1222,6 +1222,10 @@
     <string name="submission_done_body">"Thanks to your support, other people can now be warned and respond appropriately."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Please note:"</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_pcr_validation">"Machen Sie einen PCR-Test, um dieses Test-Ergebnis zu verifizieren."</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_share_keys">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"The public health authority will contact you within the next few days."</string>
     <!-- YTXT: text after submission: isolate -->
@@ -2013,4 +2017,13 @@
     <string name="trace_location_attendee_consent_dialog_positive_button">"Share"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
     <string name="trace_location_attendee_consent_dialog_negative_button">"Don’t Share"</string>
+
+    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Invalid QR Code"</string>
+    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"The scanned QR code is not valid.\nPlease scan a valid QR code.\n\n(%1$s)"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Cancel"</string>
 </resources>

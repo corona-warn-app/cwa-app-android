@@ -27,14 +27,12 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val checkInRepository: CheckInRepository,
     private val submissionRepository: SubmissionRepository,
-    private val autoSubmission: AutoSubmission
+    private val autoSubmission: AutoSubmission,
+    @Assisted private val testType: CoronaTest.Type
 ) : CWAViewModel(dispatcherProvider) {
 
-    // TODO Use navargs to supply this
-    private val coronaTestType: CoronaTest.Type = CoronaTest.Type.PCR
-
     private val selectedSetFlow = MutableStateFlow(initialSet())
-    private val coronaTest = submissionRepository.testForType(coronaTestType).filterNotNull()
+    private val coronaTest = submissionRepository.testForType(testType).filterNotNull()
 
     val checkIns: LiveData<List<CheckInsConsentItem>> = combine(
         checkInRepository.completedCheckIns,
@@ -162,6 +160,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<CheckInsConsentViewModel> {
         fun create(
             savedState: SavedStateHandle,
+            testType: CoronaTest.Type
         ): CheckInsConsentViewModel
     }
 

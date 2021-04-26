@@ -26,6 +26,7 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
+    @MockK lateinit var testType: CoronaTest.Type
 
     private val countryList = Country.values().toList()
 
@@ -47,7 +48,8 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
     private fun createViewModel(): SubmissionYourConsentViewModel = SubmissionYourConsentViewModel(
         interoperabilityRepository = interoperabilityRepository,
         submissionRepository = submissionRepository,
-        dispatcherProvider = TestDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider(),
+        testType = testType
     )
 
     @Test

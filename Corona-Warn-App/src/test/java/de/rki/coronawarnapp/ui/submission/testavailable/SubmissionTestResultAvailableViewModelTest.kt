@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.ui.submission.testavailable
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -36,6 +38,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var testType: CoronaTest.Type
 
     private val coronaTestFlow = MutableStateFlow(
         mockk<CoronaTest>().apply {
@@ -63,7 +66,8 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         tekHistoryUpdaterFactory = tekHistoryUpdaterFactory,
         autoSubmission = autoSubmission,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        checkInRepository = checkInRepository
+        checkInRepository = checkInRepository,
+        testType = testType
     )
 
     @Test
@@ -98,7 +102,10 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         viewModel.goConsent()
         viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
-            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(true)
+            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(
+                testType = testType,
+                isTestResultAvailable = true,
+            )
     }
 
     @Test
@@ -122,6 +129,30 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         viewModel.proceed()
         viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
-            .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+            .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(testType)
+    }
+
+    @Test
+    fun `proceed() should call analyticsKeySubmissionCollector for PCR tests`() {
+        testType = PCR
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns false
+        }
+
+        createViewModel().proceed()
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportConsentWithdrawn() }
+    }
+
+    @Test
+    fun `proceed() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+        testType = RAPID_ANTIGEN
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns false
+        }
+
+        createViewModel().proceed()
+
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportConsentWithdrawn() }
     }
 }

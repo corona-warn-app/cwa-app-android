@@ -5,9 +5,11 @@ import android.content.Intent
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -19,7 +21,7 @@ import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -31,15 +33,12 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     submissionRepository: SubmissionRepository,
     private val checkInRepository: CheckInRepository,
     private val autoSubmission: AutoSubmission,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    @Assisted private val testType: CoronaTest.Type
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-
-    // TODO Use navargs to supply this?
-    private val coronaTestType: CoronaTest.Type = CoronaTest.Type.PCR
-
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
-    private val consentFlow = submissionRepository.testForType(type = coronaTestType)
+    private val consentFlow = submissionRepository.testForType(type = testType)
         .filterNotNull()
         .map { it.isAdvancedConsentGiven }
     val consent = consentFlow.asLiveData(dispatcherProvider.Default)
@@ -57,12 +56,12 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 val navDirections = if (completedCheckInsExist) {
                     Timber.tag(TAG).d("Navigate to CheckInsConsentFragment")
                     SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToCheckInsConsentFragment()
+                        .actionSubmissionTestResultAvailableFragmentToCheckInsConsentFragment(testType)
                 } else {
                     autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
                     Timber.tag(TAG).d("Navigate to SubmissionTestResultConsentGivenFragment")
                     SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment(testType)
                 }
                 routeToScreen.postValue(navDirections)
             }
@@ -72,7 +71,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(testType)
                 )
             }
 
@@ -100,7 +99,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     )
 
     init {
-        submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
+        submissionRepository.refreshTest(type = PCR)
     }
 
     fun goBack() {
@@ -118,6 +117,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
         routeToScreen.postValue(
             SubmissionTestResultAvailableFragmentDirections
                 .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(
+                    testType = testType,
                     isTestResultAvailable = true
                 )
         )
@@ -131,11 +131,13 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
                 Timber.tag(TAG).d("routeToScreen:SubmissionTestResultNoConsentFragment")
-                analyticsKeySubmissionCollector.reportConsentWithdrawn()
+                if (testType == PCR) {
+                    analyticsKeySubmissionCollector.reportConsentWithdrawn()
+                }
                 showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(testType)
                 )
             }
         }
@@ -147,7 +149,9 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultAvailableViewModel>
+    interface Factory : CWAViewModelFactory<SubmissionTestResultAvailableViewModel> {
+        fun create(testType: CoronaTest.Type): SubmissionTestResultAvailableViewModel
+    }
 
     companion object {
         private const val TAG = "TestAvailableViewModel"

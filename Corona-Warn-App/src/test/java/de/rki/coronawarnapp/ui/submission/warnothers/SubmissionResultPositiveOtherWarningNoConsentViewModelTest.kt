@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.ui.submission.warnothers
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
@@ -37,6 +40,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var testType: CoronaTest.Type
 
     private val coronaTestFlow = MutableStateFlow(
         mockk<CoronaTest>().apply {
@@ -58,6 +62,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         }
 
         every { enfClient.isTracingEnabled } returns flowOf(true)
+        every { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS) } just Runs
     }
 
     private fun createViewModel() = SubmissionResultPositiveOtherWarningNoConsentViewModel(
@@ -68,7 +73,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         interoperabilityRepository = interoperabilityRepository,
         submissionRepository = submissionRepository,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        checkInRepository = checkInRepository
+        checkInRepository = checkInRepository,
+        testType = testType
     )
 
     @Test
@@ -83,5 +89,19 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
 
         verify { submissionRepository.giveConsentToSubmission(any()) }
         verify { tekHistoryUpdater.updateTEKHistoryOrRequestPermission() }
+    }
+
+    @Test
+    fun `onResume() should call analyticsKeySubmissionCollector for PCR tests`() {
+        testType = PCR
+        createViewModel().onResume()
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS) }
+    }
+
+    @Test
+    fun `onResume() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+        testType = RAPID_ANTIGEN
+        createViewModel().onResume()
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS) }
     }
 }
