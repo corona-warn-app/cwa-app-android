@@ -37,10 +37,14 @@ class PCRResultSchedulerTest : BaseTest() {
 
     @Test
     fun `final worker doesn't need to be scheduled`() {
-        every { coronaTestRepository.coronaTests } returns flowOf(setOf(mockk<PCRCoronaTest>().apply {
-            every { isFinal } returns true
-            every { type } returns CoronaTest.Type.PCR
-        }))
+        every { coronaTestRepository.coronaTests } returns flowOf(
+            setOf(
+                mockk<PCRCoronaTest>().apply {
+                    every { isFinal } returns true
+                    every { type } returns CoronaTest.Type.PCR
+                }
+            )
+        )
 
         runBlockingTest {
             createInstance().shouldBePolling.first() shouldBe false
@@ -49,10 +53,14 @@ class PCRResultSchedulerTest : BaseTest() {
 
     @Test
     fun `not final worker needs to be scheduled`() {
-        every { coronaTestRepository.coronaTests } returns flowOf(setOf(mockk<PCRCoronaTest>().apply {
-            every { isFinal } returns false
-            every { type } returns CoronaTest.Type.PCR
-        }))
+        every { coronaTestRepository.coronaTests } returns flowOf(
+            setOf(
+                mockk<PCRCoronaTest>().apply {
+                    every { isFinal } returns false
+                    every { type } returns CoronaTest.Type.PCR
+                }
+            )
+        )
 
         runBlockingTest {
             createInstance().shouldBePolling.first() shouldBe true
