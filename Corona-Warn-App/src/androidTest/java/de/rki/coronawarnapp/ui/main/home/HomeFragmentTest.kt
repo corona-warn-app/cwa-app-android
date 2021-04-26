@@ -12,7 +12,6 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -66,7 +65,6 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingRepository: TracingRepository
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
@@ -282,7 +280,7 @@ class HomeFragmentTest : BaseUITest() {
             appShortcutsHelper = appShortcutsHelper,
             tracingSettings = tracingSettings,
             traceLocationOrganizerSettings = traceLocationOrganizerSettings,
-            timeStamper = timeStamper
+            timeStamper = timeStamper,
             bluetoothSupport = bluetoothSupport
         )
     )

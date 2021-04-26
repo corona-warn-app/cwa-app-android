@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 @Reusable
 class BluetoothSupport @Inject constructor(
-    bluetoothAdapter: BluetoothAdapter?
+    private val bluetoothAdapter: BluetoothAdapter?
 ) {
     /**
      * Determine whether Bluetooth low Energy scanning is supported
@@ -16,8 +16,8 @@ class BluetoothSupport @Inject constructor(
      */
     val isScanningSupported: Boolean?
         get() = when {
-            !hasBluetooth -> false
-            !isTurnedOn -> null
+            hasNoBluetooth -> false
+            isBluetoothTurnedOff -> null
             hasScanner -> true
             else -> false
         }
@@ -30,24 +30,32 @@ class BluetoothSupport @Inject constructor(
      */
     val isAdvertisingSupported: Boolean?
         get() = when {
-            !hasBluetooth -> false
-            isAdvertisingSupportedApi26 -> true
-            !isTurnedOn -> null
+            hasNoBluetooth -> false
+            hasApi26AndSupportsAdvertising -> true
+            isBluetoothTurnedOff -> null
             hasAdvertiser -> true
             else -> false
         }
 
-    private val hasBluetooth = bluetoothAdapter != null
+    private val hasNoBluetooth: Boolean
+        get() = bluetoothAdapter == null
 
-    private val isTurnedOn = bluetoothAdapter?.state == BluetoothAdapter.STATE_ON
+    private val isBluetoothTurnedOff: Boolean
+        get() = bluetoothAdapter?.state != BluetoothAdapter.STATE_ON
 
-    private val hasScanner = bluetoothAdapter?.bluetoothLeScanner != null
+    private val hasScanner: Boolean
+        get() = bluetoothAdapter?.bluetoothLeScanner != null
 
-    private val hasAdvertiser = bluetoothAdapter?.bluetoothLeAdvertiser != null
+    private val hasAdvertiser: Boolean
+        get() = bluetoothAdapter?.bluetoothLeAdvertiser != null
 
-    private val isAdvertisingSupportedApi26 =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-            (bluetoothAdapter?.let { it.isLeExtendedAdvertisingSupported || it.isLePeriodicAdvertisingSupported }
-                ?: false)
+    private val hasApi26AndSupportsAdvertising: Boolean
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            (
+                bluetoothAdapter?.let {
+                    it.isLeExtendedAdvertisingSupported || it.isLePeriodicAdvertisingSupported
+                }
+                    ?: false
+                )
 }
 
