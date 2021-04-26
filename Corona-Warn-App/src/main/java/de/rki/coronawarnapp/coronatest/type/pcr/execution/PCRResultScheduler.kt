@@ -32,14 +32,17 @@ class PCRResultScheduler @Inject constructor(
     workManager = workManager
 ) {
 
+    @VisibleForTesting
+    internal val shouldBePolling = coronaTestRepository.latestPCRT
+        .map { test: PCRCoronaTest? ->
+            if (test == null) return@map false
+            !test.isFinal
+        }
+        .distinctUntilChanged()
+
     fun setup() {
         Timber.tag(TAG).i("setup() - PCRResultScheduler")
-        coronaTestRepository.latestPCRT
-            .map { test: PCRCoronaTest? ->
-                if (test == null) return@map false
-                !test.isFinal
-            }
-            .distinctUntilChanged()
+        shouldBePolling
             .onEach { shouldBePolling ->
                 Timber.tag(TAG).i("Polling state change: shouldBePolling=$shouldBePolling")
                 setPcrPeriodicTestPollingEnabled(enabled = shouldBePolling)
