@@ -69,7 +69,9 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
                     CheckInsConsentFragmentDirections.actionCheckInsConsentFragmentToMainFragment()
                 )
                 CheckInsConsentNavigation.ToSubmissionResultReadyFragment -> doNavigate(
-                    CheckInsConsentFragmentDirections.actionCheckInsConsentFragmentToSubmissionResultReadyFragment()
+                    CheckInsConsentFragmentDirections.actionCheckInsConsentFragmentToSubmissionResultReadyFragment(
+                        navArgs.testType
+                    )
                 )
                 CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment -> doNavigate(
                     CheckInsConsentFragmentDirections

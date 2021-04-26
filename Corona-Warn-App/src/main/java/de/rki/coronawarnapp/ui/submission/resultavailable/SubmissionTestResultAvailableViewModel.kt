@@ -9,6 +9,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -130,7 +131,9 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
                 Timber.tag(TAG).d("routeToScreen:SubmissionTestResultNoConsentFragment")
-                analyticsKeySubmissionCollector.reportConsentWithdrawn()
+                if (testType == PCR) {
+                    analyticsKeySubmissionCollector.reportConsentWithdrawn()
+                }
                 showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
