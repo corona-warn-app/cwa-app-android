@@ -5,13 +5,11 @@ import android.net.wifi.WifiManager
 import android.os.PowerManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
-import de.rki.coronawarnapp.storage.OnboardingSettings
-import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
+import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.ProcessLifecycle
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -23,12 +21,10 @@ import javax.inject.Singleton
 @Singleton
 class WatchdogService @Inject constructor(
     @AppContext private val context: Context,
-    private val taskController: TaskController,
     private val backgroundModeStatus: BackgroundModeStatus,
     @ProcessLifecycle private val processLifecycleOwner: LifecycleOwner,
-    private val onboardingSettings: OnboardingSettings,
-    private val backgroundWorkScheduler: BackgroundWorkScheduler,
-    private val riskWorkScheduler: RiskWorkScheduler,
+    private val exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler,
+    private val presenceTracingRiskRepository: PresenceTracingRiskWorkScheduler,
 ) {
 
     private val powerManager by lazy {
@@ -46,6 +42,10 @@ class WatchdogService @Inject constructor(
             return
         }
 
+        // TODO it's unclear whether this really has any effect
+        // If we are being bound by Google Play Services (which is only a few seconds)
+        // and don't have a worker or foreground service, the system may still kill us and the tasks
+        // before they have finished executing.
         Timber.tag(TAG).v("Acquiring wakelocks for watchdog routine.")
         processLifecycleOwner.lifecycleScope.launch {
             // A wakelock as the OS does not handle this for us like in the background job execution
@@ -55,17 +55,14 @@ class WatchdogService @Inject constructor(
 
             Timber.tag(TAG).d("Automatic mode is on, check if we have downloaded keys already today")
 
-            val results = riskWorkScheduler.runRiskTasksNow()
-            Timber.tag(TAG).d("runRiskTasksNow() results: %s", results)
+            Timber.tag(TAG).d("Running EW risk tasks now.")
+            exposureWindowRiskWorkScheduler.runRiskTasksNow(TAG)
+
+            Timber.tag(TAG).d("Rnuning PT risk tasks now.")
+            presenceTracingRiskRepository.runRiskTaskNow(TAG)
 
             if (wifiLock.isHeld) wifiLock.release()
             if (wakeLock.isHeld) wakeLock.release()
-        }
-
-        // if the user is onboarded we will schedule period background jobs
-        // in case the app was force stopped and woken up again by the Google WakeUpService
-        if (onboardingSettings.isOnboarded) {
-            backgroundWorkScheduler.startWorkScheduler()
         }
     }
 

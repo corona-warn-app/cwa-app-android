@@ -24,6 +24,7 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class MainActivityViewModelTest : BaseTest() {
@@ -46,7 +47,9 @@ class MainActivityViewModelTest : BaseTest() {
 
         every { onboardingSettings.isOnboarded } returns true
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
-        every { traceLocationSettings.onboardingStatus } returns TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
+        every { traceLocationSettings.onboardingStatus } returns mockFlowPreference(
+            TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
+        )
         every { onboardingSettings.isBackgroundCheckDone } returns true
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
     }

@@ -12,13 +12,11 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 
 class SettingsResetViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val dataReset: DataReset,
     private val shortcutsHelper: AppShortcutsHelper,
-    private val backgroundWorkScheduler: BackgroundWorkScheduler,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val clickEvent: SingleLiveEvent<SettingsEvents> = SingleLiveEvent()
@@ -34,11 +32,11 @@ class SettingsResetViewModel @AssistedInject constructor(
     fun deleteAllAppContent() {
         launch {
             try {
+                // TODO Remove static access
                 val isTracingEnabled = InternalExposureNotificationClient.asyncIsEnabled()
                 // only stop tracing if it is currently enabled
                 if (isTracingEnabled) {
                     InternalExposureNotificationClient.asyncStop()
-                    backgroundWorkScheduler.stopWorkScheduler()
                 }
             } catch (apiException: ApiException) {
                 apiException.report(
