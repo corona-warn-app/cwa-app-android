@@ -35,7 +35,6 @@ import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -70,7 +69,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var onboardingSettings: OnboardingSettings
     @Inject lateinit var autoCheckOut: AutoCheckOut
     @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
-    @Inject lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
     @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @Inject lateinit var exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler
     @Inject lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler

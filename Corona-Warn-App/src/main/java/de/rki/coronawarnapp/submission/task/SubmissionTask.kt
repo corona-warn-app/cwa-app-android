@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -47,7 +46,6 @@ class SubmissionTask @Inject constructor(
     private val checkInsRepository: CheckInRepository,
     private val checkInsTransformer: CheckInsTransformer,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    private val backgroundWorkScheduler: BackgroundWorkScheduler,
     private val coronaTestRepository: CoronaTestRepository,
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 

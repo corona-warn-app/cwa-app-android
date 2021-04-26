@@ -9,7 +9,6 @@ import kotlin.random.Random
  * The helper uses externalised constants for readability.
  *
  * @see BackgroundConstants
- * @see BackgroundWorkScheduler
  */
 object BackgroundWorkHelper {
 

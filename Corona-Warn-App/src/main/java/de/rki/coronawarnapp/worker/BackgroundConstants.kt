@@ -4,8 +4,6 @@ import java.util.concurrent.TimeUnit
 
 /**
  * The background work constants are used inside the BackgroundWorkScheduler
- *
- * @see BackgroundWorkScheduler
  */
 object BackgroundConstants {
 
