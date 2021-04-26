@@ -100,118 +100,125 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
         coronaTestRepository = coronaTestRepository,
     )
 
-    @Test
-    fun testStopWorkerWhenResultHasBeenViewed() = runBlockingTest {
-        coronaTestFlow.value = setOf(newCoronaTest(viewed = true))
+    // TODO move test to pcr processor
+//    @Test
+//    fun testStopWorkerWhenResultHasBeenViewed() = runBlockingTest {
+//        coronaTestFlow.value = setOf(newCoronaTest(viewed = true))
+//
+//        val result = createWorker().doWork()
+//
+//        coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
+//        coVerify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
+//        result shouldBe ListenableWorker.Result.success()
+//    }
 
-        val result = createWorker().doWork()
+    // TODO move test to pcr processor
+//    @Test
+//    fun testStopWorkerWhenNotificationSent() = runBlockingTest {
+//        coronaTestFlow.value = setOf(newCoronaTest(isNotificationSent = true))
+//
+//        val result = createWorker().doWork()
+//
+//        coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
+//        coVerify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
+//        result shouldBe ListenableWorker.Result.success()
+//    }
 
-        coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        coVerify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
-        result shouldBe ListenableWorker.Result.success()
-    }
+    // TODO move test to pcr processor
+//    @Test
+//    fun testStopWorkerWhenMaxDaysExceeded() = runBlockingTest {
+//        val past =
+//            currentInstant - (BackgroundConstants.POLLING_VALIDITY_MAX_DAYS.toLong() + 1).daysToMilliseconds()
+//        coronaTestFlow.value = setOf(newCoronaTest(registered = past))
+//
+//        val result = createWorker().doWork()
+//
+//        coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
+//        coVerify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
+//        result shouldBe ListenableWorker.Result.success()
+//    }
 
-    @Test
-    fun testStopWorkerWhenNotificationSent() = runBlockingTest {
-        coronaTestFlow.value = setOf(newCoronaTest(isNotificationSent = true))
+    // TODO move test to pcr processor
+//    @Test
+//    fun testSendNotificationWhenPositive() = runBlockingTest {
+//        val newTest = newCoronaTest(result = CoronaTestResult.PCR_POSITIVE)
+//        coronaTestFlow.value = setOf(newTest)
+//
+//        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(newTest) } just Runs
+//        coEvery {
+//            notificationHelper.cancelCurrentNotification(
+//                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+//            )
+//        } just Runs
+//
+//        val result = createWorker().doWork()
+//
+//        coVerify {
+//            coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
+//            testResultAvailableNotificationService.showTestResultAvailableNotification(newTest)
+//            notificationHelper.cancelCurrentNotification(
+//                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+//            )
+//            coronaTestRepository.updateResultNotification(any(), sent = true)
+//        }
+//
+//        result shouldBe ListenableWorker.Result.success()
+//    }
 
-        val result = createWorker().doWork()
+    // TODO move test to pcr processor
+//    @Test
+//    fun testSendNotificationWhenNegative() = runBlockingTest {
+//        val newTest = newCoronaTest(result = CoronaTestResult.PCR_NEGATIVE)
+//        coronaTestFlow.value = setOf(newTest)
+//        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(newTest) } just Runs
+//        coEvery {
+//            notificationHelper.cancelCurrentNotification(
+//                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+//            )
+//        } just Runs
+//
+//        val result = createWorker().doWork()
+//
+//        coVerify {
+//            coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
+//            testResultAvailableNotificationService.showTestResultAvailableNotification(newTest)
+//            notificationHelper.cancelCurrentNotification(
+//                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+//            )
+//            coronaTestRepository.updateResultNotification(any(), sent = true)
+//        }
+//
+//        result shouldBe ListenableWorker.Result.success()
+//    }
 
-        coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        coVerify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
-        result shouldBe ListenableWorker.Result.success()
-    }
+    // TODO move test to pcr processor
+//    @Test
+//    fun testSendNotificationWhenInvalid() = runBlockingTest {
+//        val newTest = newCoronaTest(result = CoronaTestResult.PCR_INVALID)
+//        coronaTestFlow.value = setOf(newTest)
+//
+//        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(newTest) } just Runs
+//        coEvery {
+//            notificationHelper.cancelCurrentNotification(
+//                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+//            )
+//        } just Runs
+//
+//        val result = createWorker().doWork()
+//
+//        coVerify {
+//            coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
+//            testResultAvailableNotificationService.showTestResultAvailableNotification(newTest)
+//            notificationHelper.cancelCurrentNotification(
+//                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+//            )
+//            coronaTestRepository.updateResultNotification(any(), sent = true)
+//        }
+//
+//        result shouldBe ListenableWorker.Result.success()
+//    }
 
-    @Test
-    fun testStopWorkerWhenMaxDaysExceeded() = runBlockingTest {
-        val past =
-            currentInstant - (BackgroundConstants.POLLING_VALIDITY_MAX_DAYS.toLong() + 1).daysToMilliseconds()
-        coronaTestFlow.value = setOf(newCoronaTest(registered = past))
-
-        val result = createWorker().doWork()
-
-        coVerify(exactly = 0) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        coVerify(exactly = 1) { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = false) }
-        result shouldBe ListenableWorker.Result.success()
-    }
-
-    @Test
-    fun testSendNotificationWhenPositive() = runBlockingTest {
-        val newTest = newCoronaTest(result = CoronaTestResult.PCR_POSITIVE)
-        coronaTestFlow.value = setOf(newTest)
-
-        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(newTest) } just Runs
-        coEvery {
-            notificationHelper.cancelCurrentNotification(
-                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-            )
-        } just Runs
-
-        val result = createWorker().doWork()
-
-        coVerify {
-            coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
-            testResultAvailableNotificationService.showTestResultAvailableNotification(newTest)
-            notificationHelper.cancelCurrentNotification(
-                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-            )
-            coronaTestRepository.updateResultNotification(any(), sent = true)
-        }
-
-        result shouldBe ListenableWorker.Result.success()
-    }
-
-    @Test
-    fun testSendNotificationWhenNegative() = runBlockingTest {
-        val newTest = newCoronaTest(result = CoronaTestResult.PCR_NEGATIVE)
-        coronaTestFlow.value = setOf(newTest)
-        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(newTest) } just Runs
-        coEvery {
-            notificationHelper.cancelCurrentNotification(
-                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-            )
-        } just Runs
-
-        val result = createWorker().doWork()
-
-        coVerify {
-            coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
-            testResultAvailableNotificationService.showTestResultAvailableNotification(newTest)
-            notificationHelper.cancelCurrentNotification(
-                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-            )
-            coronaTestRepository.updateResultNotification(any(), sent = true)
-        }
-
-        result shouldBe ListenableWorker.Result.success()
-    }
-
-    @Test
-    fun testSendNotificationWhenInvalid() = runBlockingTest {
-        val newTest = newCoronaTest(result = CoronaTestResult.PCR_INVALID)
-        coronaTestFlow.value = setOf(newTest)
-
-        coEvery { testResultAvailableNotificationService.showTestResultAvailableNotification(newTest) } just Runs
-        coEvery {
-            notificationHelper.cancelCurrentNotification(
-                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-            )
-        } just Runs
-
-        val result = createWorker().doWork()
-
-        coVerify {
-            coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
-            testResultAvailableNotificationService.showTestResultAvailableNotification(newTest)
-            notificationHelper.cancelCurrentNotification(
-                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-            )
-            coronaTestRepository.updateResultNotification(any(), sent = true)
-        }
-
-        result shouldBe ListenableWorker.Result.success()
-    }
-
+    // TODO move test to pcr processor
     @Test
     fun testSendNoNotificationWhenPending() = runBlockingTest {
         val newTest = newCoronaTest(result = CoronaTestResult.PCR_OR_RAT_PENDING)
@@ -246,7 +253,6 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
         val result = createWorker().doWork()
 
         coVerify(exactly = 1) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
-        coVerify(exactly = 0) { testResultScheduler.setPcrPeriodicTestPollingEnabled(any()) }
         result shouldBe ListenableWorker.Result.retry()
     }
 }
