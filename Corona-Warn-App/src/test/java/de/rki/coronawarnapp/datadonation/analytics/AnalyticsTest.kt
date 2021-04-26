@@ -71,7 +71,7 @@ class AnalyticsTest : BaseTest() {
 
         val twoDaysAgo = baseTime.minus(Days.TWO.toStandardDuration())
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
-        every { onboardingSettings.onboardingCompletedTimestamp } returns twoDaysAgo
+        every { onboardingSettings.onboardingCompletedTimestamp } returns mockFlowPreference(twoDaysAgo)
 
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
 
@@ -195,7 +195,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to time since onboarding`() {
-        every { onboardingSettings.onboardingCompletedTimestamp } returns baseTime
+        every { onboardingSettings.onboardingCompletedTimestamp } returns mockFlowPreference(baseTime)
 
         val analytics = createInstance()
 
