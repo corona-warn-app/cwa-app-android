@@ -4,17 +4,34 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
+import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
+import de.rki.coronawarnapp.databinding.TimeCounterBinding
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragmentViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormat.forPattern
+import org.joda.time.format.DateTimeFormatter
+import timber.log.Timber
+import java.lang.Exception
+import java.time.format.DateTimeFormatter.ofPattern
+import javax.inject.Inject
 import kotlin.math.abs
 
 class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment), AutoInject {
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
+    private val viewModel: RATProfileQrCodeFragmentViewModel by cwaViewModels { viewModelFactory }
     private val binding: RatProfileQrCodeFragmentBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,6 +46,56 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
 
             closeButton.setOnClickListener { popBackStack() }
             toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.setOnMenuItemClickListener {
+                viewModel.deleteProfile()
+                popBackStack()
+            }
+
+        }
+        viewModel.profile.observe(viewLifecycleOwner) {
+            binding.bindViews(it)
+        }
+
+        viewModel.qrCodeImage.observe(viewLifecycleOwner) {
+            binding.progressBar.hide()
+            binding.qrCodeImage.setImageBitmap(it)
+        }
+    }
+
+    private fun RatProfileQrCodeFragmentBinding.bindViews(ratProfile: RATProfile?) {
+        val nameExists = !ratProfile?.firstName.isNullOrBlank() ||
+            !ratProfile?.lastName.isNullOrBlank()
+
+        name.isVisible = nameExists
+        if (nameExists) {
+            name.text = getString(
+                R.string.rat_qr_code_profile_name,
+                ratProfile?.firstName.orEmpty(),
+                ratProfile?.lastName.orEmpty()
+            )
+        }
+
+        val birthDateExists = !ratProfile?.birthDate.isNullOrBlank()
+        birthDate.isVisible = birthDateExists
+        if (birthDateExists) {
+            birthDate.text = getString(
+                R.string.rat_qr_code_profile_birth_date,
+                formatBirthDate(ratProfile)
+            )
+        }
+        personData.isVisible = nameExists || birthDateExists
+    }
+
+    private fun formatBirthDate(ratProfile: RATProfile?): String {
+        return try {
+            if (ratProfile?.birthDate.isNullOrBlank()) {
+                Timber.d("Birth date does not exist")
+                return ""
+            }
+            formatter.parseDateTime(ratProfile!!.birthDate).toString("dd.MM.yyyy")
+        } catch (e: Exception) {
+            Timber.e(e, "Malformed birth date %s", ratProfile?.birthDate)
+            ""
         }
     }
 
@@ -44,5 +111,9 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
         behavior.overlayTop = ((width) / 2) - 24
+    }
+
+    companion object {
+        private val formatter = DateTimeFormat.forPattern("YYYYMMDD")
     }
 }

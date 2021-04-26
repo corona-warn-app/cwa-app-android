@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.antigen.profile
 
 import android.content.Context
+import androidx.core.content.edit
 import com.google.gson.Gson
 import dagger.Reusable
 import de.rki.coronawarnapp.util.di.AppContext
@@ -35,9 +36,17 @@ class RATProfileSettings @Inject constructor(
         }
     )
 
-    fun clear() = prefs.clearAndNotify()
+    val onboarded = prefs.createFlowPreference(
+        key = PREFS_KEY_ONBOARDED,
+        defaultValue = false
+    )
+
+    fun deleteProfile() = prefs.edit(commit = true) {
+        remove(PREFS_KEY_PROFILE)
+    }
 
     companion object {
         private const val PREFS_KEY_PROFILE = "ratprofile.settings.profile"
+        private const val PREFS_KEY_ONBOARDED = "ratprofile.settings.onboarded"
     }
 }

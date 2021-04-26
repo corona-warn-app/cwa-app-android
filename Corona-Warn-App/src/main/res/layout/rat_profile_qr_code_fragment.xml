@@ -69,8 +69,7 @@
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:menu="@menu/menu_rat_qr_code_profile"
                     app:navigationIcon="@drawable/ic_close"
-                    app:navigationIconTint="@android:color/white"
-                    app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
+                    app:navigationIconTint="@android:color/white">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -130,7 +129,7 @@
                     app:layout_constraintTop_toTopOf="@id/qrCodeImage" />
 
                 <LinearLayout
-                    android:id="@+id/profile_data"
+                    android:id="@+id/person_data"
                     style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,17 +137,18 @@
                     android:layout_marginTop="16dp"
                     android:orientation="vertical"
                     android:padding="16dp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/qrCodeImage"
-                    app:layout_constraintVertical_chainStyle="packed">
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:visibility="visible">
 
                     <TextView
                         android:id="@+id/name"
                         style="@style/materialSubtitleSixteen"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="@string/rat_qr_code_profile_name"
                         android:textStyle="bold"
                         tools:text="Max Mustermann" />
 
@@ -158,7 +158,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="8dp"
-                        android:text="@string/rat_qr_code_profile_birth_date"
                         tools:text="geboren 17.11.1990" />
 
                 </LinearLayout>
@@ -173,7 +172,7 @@
                     android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/profile_data"
+                    app:layout_constraintTop_toBottomOf="@id/person_data"
                     app:layout_constraintVertical_chainStyle="packed">
 
                     <TextView
