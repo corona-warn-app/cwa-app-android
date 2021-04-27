@@ -1,12 +1,24 @@
 package de.rki.coronawarnapp.coronatest.type.pcr
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -19,6 +31,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import timber.log.Timber
 
 class PCRProcessorTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
@@ -36,7 +49,7 @@ class PCRProcessorTest : BaseTest() {
         every { timeStamper.nowUTC } returns nowUTC
 
         submissionService.apply {
-            coEvery { asyncRequestTestResult(any()) } answers { CoronaTestResult.PCR_OR_RAT_PENDING }
+            coEvery { asyncRequestTestResult(any()) } answers { PCR_OR_RAT_PENDING }
         }
 
         testResultDataCollector.apply {
@@ -61,15 +74,54 @@ class PCRProcessorTest : BaseTest() {
             lastUpdatedAt = Instant.EPOCH,
             registeredAt = nowUTC,
             registrationToken = "regtoken",
-            testResult = CoronaTestResult.PCR_POSITIVE
+            testResult = PCR_POSITIVE
         )
 
-        instance.pollServer(pcrTest).testResult shouldBe CoronaTestResult.PCR_OR_RAT_PENDING
+        instance.pollServer(pcrTest).testResult shouldBe PCR_OR_RAT_PENDING
 
         val past60DaysTest = pcrTest.copy(
             registeredAt = nowUTC.minus(Duration.standardDays(21))
         )
 
-        instance.pollServer(past60DaysTest).testResult shouldBe CoronaTestResult.PCR_REDEEMED
+        instance.pollServer(past60DaysTest).testResult shouldBe PCR_REDEEMED
+    }
+
+    @Test
+    fun `polling filters out invalid test result values`() = runBlockingTest {
+        var pollResult: CoronaTestResult = PCR_OR_RAT_PENDING
+        coEvery { submissionService.asyncRequestTestResult(any()) } answers { pollResult }
+
+        val instance = createInstance()
+
+        val pcrTest = PCRCoronaTest(
+            identifier = "identifier",
+            lastUpdatedAt = Instant.EPOCH,
+            registeredAt = nowUTC,
+            registrationToken = "regtoken",
+            testResult = PCR_POSITIVE
+        )
+
+        values().forEach {
+            pollResult = it
+            when (it) {
+                PCR_OR_RAT_PENDING,
+                PCR_NEGATIVE,
+                PCR_POSITIVE,
+                PCR_INVALID,
+                PCR_REDEEMED -> {
+                    Timber.v("Should NOT throw for $it")
+                    instance.pollServer(pcrTest).testResult shouldBe it
+                }
+                RAT_PENDING,
+                RAT_NEGATIVE,
+                RAT_POSITIVE,
+                RAT_INVALID,
+                RAT_REDEEMED -> {
+                    Timber.v("Should throw for $it")
+                    instance.pollServer(pcrTest).testResult shouldBe PCR_POSITIVE
+                    instance.pollServer(pcrTest).lastError shouldBe instanceOf(IllegalArgumentException::class)
+                }
+            }
+        }
     }
 }

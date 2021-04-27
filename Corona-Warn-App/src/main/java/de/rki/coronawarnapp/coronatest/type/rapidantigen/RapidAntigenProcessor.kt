@@ -39,7 +39,9 @@ class RapidAntigenProcessor @Inject constructor(
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.RapidAntigen
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier)
+        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier).also {
+            Timber.tag(TAG).d("Request %s gave us %s", request, it)
+        }
 
         val testResult = registrationData.testResult.validOrThrow()
 
@@ -81,8 +83,10 @@ class RapidAntigenProcessor @Inject constructor(
                 return test
             }
 
-            val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken)
-            Timber.tag(TAG).d("Test result was %s", newTestResult)
+            val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken).let {
+                Timber.tag(TAG).d("Test result was %s", it)
+                it.validOrThrow()
+            }
 
             test.copy(
                 testResult = check60PlusDays(test, newTestResult),

@@ -46,9 +46,13 @@ class PCRProcessor @Inject constructor(
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.PCR
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID)
+        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID).also {
+            Timber.tag(TAG).d("Request %s gave us %s", request, it)
+        }
 
-        testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult) // This saves received at
+        registrationData.testResult.validOrThrow().let {
+            testResultDataCollector.saveTestResultAnalyticsSettings(it) // This saves received at
+        }
 
         return createCoronaTest(request, registrationData)
     }
@@ -103,10 +107,10 @@ class PCRProcessor @Inject constructor(
                 return test
             }
 
-            val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken)
-            Timber.tag(TAG).d("Test result was %s", newTestResult)
-
-            newTestResult.validOrThrow()
+            val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken).let {
+                Timber.tag(TAG).d("Test result was %s", it)
+                it.validOrThrow()
+            }
 
             testResultDataCollector.updatePendingTestResultReceivedTime(newTestResult)
 
