@@ -37,7 +37,6 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShort
 import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
@@ -47,7 +46,6 @@ import javax.inject.Inject
  * connectivity and bluetooth to update the ui.
  *
  * @see ConnectivityHelper
- * @see BackgroundWorkScheduler
  */
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
@@ -79,7 +77,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var powerManagement: PowerManagement
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
-    @Inject lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -195,7 +192,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      */
     override fun onResume() {
         super.onResume()
-        backgroundWorkScheduler.startWorkScheduler()
         vm.doBackgroundNoiseCheck()
         contactDiaryWorkScheduler.schedulePeriodic()
         dataDonationAnalyticsScheduler.schedulePeriodic()

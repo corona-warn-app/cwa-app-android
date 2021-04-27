@@ -26,7 +26,7 @@ data class RATProfileData(
 fun RATProfileData.toRATProfile() = RATProfile(
     firstName = firstName,
     lastName = lastName,
-    birthDate = birthDate?.toString("YYYYMMDD").orEmpty(),
+    birthDate = birthDate,
     street = street,
     zipCode = zipCode,
     city = city,

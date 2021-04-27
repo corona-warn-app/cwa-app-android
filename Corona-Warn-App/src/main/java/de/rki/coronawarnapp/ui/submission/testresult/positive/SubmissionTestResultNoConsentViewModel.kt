@@ -6,9 +6,10 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
-import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -36,7 +37,9 @@ class SubmissionTestResultNoConsentViewModel @AssistedInject constructor(
 
     fun onTestOpened() = launch {
         Timber.v("onTestOpened()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT)
+        if (testType == PCR) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT)
+        }
         submissionRepository.setViewedTestResult(type = testType)
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
