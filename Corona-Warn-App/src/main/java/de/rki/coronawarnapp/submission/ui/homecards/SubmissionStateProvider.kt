@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.submission.ui.homecards
 
 import dagger.Reusable
-import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.CWADebug
@@ -101,7 +101,7 @@ class SubmissionStateProvider @Inject constructor(
 
         fun isInvalid(): Boolean =
             isDeviceRegistered && when (deviceUiState) {
-                is NetworkRequestWrapper.RequestFailed -> deviceUiState.error !is CwaServerError
+                is NetworkRequestWrapper.RequestFailed -> deviceUiState.error is CwaClientError
                 is NetworkRequestWrapper.RequestSuccessful -> deviceUiState.data == DeviceUIState.PAIRED_REDEEMED
                 else -> false
             }
