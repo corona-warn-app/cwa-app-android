@@ -43,15 +43,6 @@ class PCRProcessorTest : BaseTest() {
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
-    private var testQRRegistrationData = CoronaTestService.RegistrationData(
-        registrationToken = "qr-regtoken",
-        testResult = CoronaTestResult.PCR_POSITIVE,
-    )
-    private var testTANRegistrationData = CoronaTestService.RegistrationData(
-        registrationToken = "tan-regtoken",
-        testResult = CoronaTestResult.PCR_POSITIVE,
-    )
-
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
