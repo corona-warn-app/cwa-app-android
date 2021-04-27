@@ -63,7 +63,9 @@ class PCRProcessor @Inject constructor(
 
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
 
-        return createCoronaTest(request, registrationData)
+        return createCoronaTest(request, registrationData).copy(
+            isResultAvailableNotificationSent = true
+        )
     }
 
     private suspend fun createCoronaTest(

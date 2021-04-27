@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
+import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
@@ -41,6 +42,15 @@ class PCRProcessorTest : BaseTest() {
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
+
+    private var testQRRegistrationData = CoronaTestService.RegistrationData(
+        registrationToken = "qr-regtoken",
+        testResult = CoronaTestResult.PCR_POSITIVE,
+    )
+    private var testTANRegistrationData = CoronaTestService.RegistrationData(
+        registrationToken = "tan-regtoken",
+        testResult = CoronaTestResult.PCR_POSITIVE,
+    )
 
     @BeforeEach
     fun setup() {
@@ -170,6 +180,20 @@ class PCRProcessorTest : BaseTest() {
                     instance.pollServer(pcrTest).testResult shouldBe PCR_INVALID
                 }
             }
+        }
+    }
+
+    // TANs are automatically positive, there is no test result available screen that should be reached
+    @Test
+    fun `registering a TAN test automatically consumes the notification flag`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.create(CoronaTestTAN.PCR(tan = "thisIsATan")).apply {
+            isResultAvailableNotificationSent shouldBe true
+        }
+
+        instance.create(CoronaTestQRCode.PCR(qrCodeGUID = "thisIsAQRCodeGUID")).apply {
+            isResultAvailableNotificationSent shouldBe false
         }
     }
 }
