@@ -81,7 +81,7 @@
         <item name="android:background">@color/colorTransparent</item>
     </style>
 
-    <style name="CWAToolbar.Theme" parent="Widget.MaterialComponents.Toolbar">
+    <style name="CWAToolbar.Theme" parent="Widget.AppCompat.ActionBar">
         <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
     </style>
 
