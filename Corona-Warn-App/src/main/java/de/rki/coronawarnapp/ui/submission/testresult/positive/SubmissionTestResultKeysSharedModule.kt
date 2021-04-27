@@ -12,7 +12,7 @@ abstract class SubmissionTestResultKeysSharedModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(SubmissionTestResultKeysSharedViewModel::class)
-    abstract fun SubmissionTestResultKeysSharedFragment(
+    abstract fun submissionTestResultKeysSharedFragment(
         factory: SubmissionTestResultKeysSharedViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
