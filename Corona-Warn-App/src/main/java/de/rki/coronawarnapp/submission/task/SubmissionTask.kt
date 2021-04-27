@@ -4,7 +4,6 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
@@ -42,7 +41,6 @@ class SubmissionTask @Inject constructor(
     private val submissionSettings: SubmissionSettings,
     private val autoSubmission: AutoSubmission,
     private val timeStamper: TimeStamper,
-    private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
     private val checkInsRepository: CheckInRepository,
     private val checkInsTransformer: CheckInsTransformer,
