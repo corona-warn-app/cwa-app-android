@@ -25,7 +25,7 @@ class RATProfileDataKtTest : BaseTest() {
         ratProfileData.toRATProfile() shouldBe RATProfile(
             firstName = "First name",
             lastName = "Last name",
-            birthDate = "",
+            birthDate = null,
             street = "Main street",
             zipCode = "12132",
             city = "London",
@@ -41,7 +41,7 @@ class RATProfileDataKtTest : BaseTest() {
             RATProfile(
                 firstName = "First name",
                 lastName = "Last name",
-                birthDate = "19800101",
+                birthDate = birthDate,
                 street = "Main street",
                 zipCode = "12132",
                 city = "London",
