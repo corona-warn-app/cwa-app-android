@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -28,5 +29,24 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
     fun `state determination, unregistered test`() = runBlockingTest {
         val test: RACoronaTest? = null
         test.toSubmissionState(timeStamper.nowUTC, coronaTestConfig) shouldBe SubmissionStateRAT.NoTest
+    }
+
+    @Test
+    fun `submission done mapping`() = runBlockingTest {
+        val test = RACoronaTest(
+            identifier = "identifier",
+            registeredAt = Instant.ofEpochMilli(123),
+            registrationToken = "regtoken",
+            testResult = CoronaTestResult.RAT_POSITIVE,
+            testedAt = Instant.EPOCH,
+            isSubmitted = true, // <---
+            dateOfBirth = null,
+            firstName = null,
+            lastName = null,
+            lastUpdatedAt = Instant.EPOCH,
+        )
+        test.toSubmissionState(timeStamper.nowUTC, coronaTestConfig) shouldBe SubmissionStateRAT.SubmissionDone(
+            testRegisteredAt = Instant.ofEpochMilli(123)
+        )
     }
 }

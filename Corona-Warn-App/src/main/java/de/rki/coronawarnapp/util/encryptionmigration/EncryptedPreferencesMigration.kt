@@ -59,8 +59,8 @@ class EncryptedPreferencesMigration @Inject constructor(
         }
 
         OnboardingLocalData(encryptedSharedPreferences).apply {
-            onboardingSettings.onboardingCompletedTimestamp = onboardingCompletedTimestamp()?.let {
-                Instant.ofEpochMilli(it)
+            onboardingSettings.onboardingCompletedTimestamp.update {
+                onboardingCompletedTimestamp()?.let { Instant.ofEpochMilli(it) }
             }
             onboardingSettings.isBackgroundCheckDone = isBackgroundCheckDone()
         }
