@@ -13,10 +13,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_test_result_container"
-        android:contentDescription="@string/submission_test_result_headline"
-        android:accessibilityLiveRegion="assertive"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:accessibilityLiveRegion="assertive"
+        android:contentDescription="@string/submission_test_result_headline">
 
         <include
             android:id="@+id/submission_test_result_consent_given_header"
@@ -30,14 +30,15 @@
             app:title="@{@string/submission_test_result_consent_given_heading}" />
 
         <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintEnd_toEndOf="@+id/guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            android:layout_marginBottom="12dp"
             android:fillViewport="true"
-            app:layout_constraintTop_toBottomOf="@+id/submission_test_result_consent_given_header"
-            app:layout_constraintBottom_toTopOf="@+id/include_submission_test_result_consent_given_buttons"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/submission_test_result_consent_given_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -65,7 +66,7 @@
                     android:text="@string/submission_test_result_consent_given_subtitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_section" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_section" />
 
                 <TextView
                     android:id="@+id/submission_test_result_consent_given_body"
@@ -77,39 +78,32 @@
                     android:text="@string/submission_test_result_consent_given_body"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_consent_given_subtitle" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_consent_given_subtitle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/include_submission_test_result_consent_given_buttons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierAllowsGoneWidgets="false"
-            app:barrierDirection="top"
-            app:constraint_referenced_ids="submission_test_result_button_consent_given_continue" />
 
         <Button
             android:id="@+id/submission_test_result_button_consent_given_continue"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="18dp"
             android:text="@string/submission_test_result_positive_continue_button_with_symptoms"
-            app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button__consent_given_continue_without_symptoms"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/guideline_action_large" />
+            app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue_without_symptoms"
+            app:layout_constraintEnd_toStartOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
         <Button
             android:id="@+id/submission_test_result_button_consent_given_continue_without_symptoms"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
             android:text="@string/submission_test_result_consent_given_breakup_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/submission_test_result_button_consent_given_continue" />
+            app:layout_constraintEnd_toStartOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
         <include layout="@layout/merge_guidelines_side" />
 
