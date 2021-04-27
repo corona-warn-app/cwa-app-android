@@ -73,6 +73,10 @@
 
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Installed %s days ago"</string>
+    <!-- XTXT: risk card - Days since installation if today -->
+    <string name="risk_card_body_installation_today"></string>
+    !-- XTXT: risk card - Days since installation if yesterday -->
+    <string name="risk_card_body_installation_yesterday"></string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the past 14 days"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
