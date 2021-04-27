@@ -7,6 +7,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.coronatest.antigen.profile.VCard
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -18,6 +19,7 @@ import timber.log.Timber
 class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
     private val ratProfileSettings: RATProfileSettings,
     private val qrCodeGenerator: QrCodeGenerator,
+    private val vCard: VCard,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel() {
 
@@ -50,7 +52,7 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
     private suspend fun RATProfile?.qrCode(): Bitmap? =
         try {
             if (this != null) {
-                qrCodeGenerator.createQrCode(toString())
+                qrCodeGenerator.createQrCode(vCard.create(this))
             } else {
                 Timber.d("No Profile available")
                 null
