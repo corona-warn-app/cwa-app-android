@@ -208,7 +208,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
             )
         }
         is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
-            // TODO
+            routeToScreen.postValue(
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionTestResultKeysSharedFragment(CoronaTest.Type.PCR)
+            )
         }
     }
 
@@ -261,7 +264,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 submissionRepository.removeTestFromDevice(type = CoronaTest.Type.RAPID_ANTIGEN)
             }
             is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state) {
-                // TODO
+                routeToScreen.postValue(
+                    HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultKeysSharedFragment(CoronaTest.Type.RAPID_ANTIGEN)
+                )
             }
         }
 
