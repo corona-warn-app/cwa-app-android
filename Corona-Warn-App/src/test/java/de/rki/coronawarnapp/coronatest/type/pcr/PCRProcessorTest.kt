@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type.pcr
 
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
@@ -18,7 +19,6 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestRe
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -49,11 +49,29 @@ class PCRProcessorTest : BaseTest() {
         every { timeStamper.nowUTC } returns nowUTC
 
         submissionService.apply {
-            coEvery { asyncRequestTestResult(any()) } answers { PCR_OR_RAT_PENDING }
+            coEvery { asyncRequestTestResult(any()) } returns PCR_OR_RAT_PENDING
+            coEvery { asyncRegisterDeviceViaGUID(any()) } returns CoronaTestService.RegistrationData(
+                registrationToken = "regtoken-qr",
+                testResult = PCR_OR_RAT_PENDING,
+            )
+            coEvery { asyncRegisterDeviceViaTAN(any()) } returns CoronaTestService.RegistrationData(
+                registrationToken = "regtoken-tan",
+                testResult = PCR_OR_RAT_PENDING,
+            )
         }
 
+        analyticsKeySubmissionCollector.apply {
+            coEvery { reportRegisteredWithTeleTAN() } just Runs
+            coEvery { reset() } just Runs
+            coEvery { reportPositiveTestResultReceived() } just Runs
+            coEvery { reportTestRegistered() } just Runs
+        }
         testResultDataCollector.apply {
             coEvery { updatePendingTestResultReceivedTime(any()) } just Runs
+            coEvery { saveTestResultAnalyticsSettings(any()) } just Runs
+        }
+        deadmanNotificationScheduler.apply {
+            every { cancelScheduledWork() } just Runs
         }
     }
 
@@ -87,7 +105,38 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `polling filters out invalid test result values`() = runBlockingTest {
+    fun `registering a new test maps invalid results to INVALID state`() = runBlockingTest {
+        var registrationData = CoronaTestService.RegistrationData(
+            registrationToken = "regtoken",
+            testResult = PCR_OR_RAT_PENDING,
+        )
+        coEvery { submissionService.asyncRegisterDeviceViaGUID(any()) } answers { registrationData }
+
+        val instance = createInstance()
+
+        val request = CoronaTestQRCode.PCR(qrCodeGUID = "guid")
+
+        values().forEach {
+            registrationData = registrationData.copy(testResult = it)
+            when (it) {
+                PCR_OR_RAT_PENDING,
+                PCR_NEGATIVE,
+                PCR_POSITIVE,
+                PCR_INVALID,
+                PCR_REDEEMED -> instance.create(request).testResult shouldBe it
+
+                RAT_PENDING,
+                RAT_NEGATIVE,
+                RAT_POSITIVE,
+                RAT_INVALID,
+                RAT_REDEEMED ->
+                    instance.create(request).testResult shouldBe PCR_INVALID
+            }
+        }
+    }
+
+    @Test
+    fun `polling maps invalid results to INVALID state`() = runBlockingTest {
         var pollResult: CoronaTestResult = PCR_OR_RAT_PENDING
         coEvery { submissionService.asyncRequestTestResult(any()) } answers { pollResult }
 
@@ -118,8 +167,7 @@ class PCRProcessorTest : BaseTest() {
                 RAT_INVALID,
                 RAT_REDEEMED -> {
                     Timber.v("Should throw for $it")
-                    instance.pollServer(pcrTest).testResult shouldBe PCR_POSITIVE
-                    instance.pollServer(pcrTest).lastError shouldBe instanceOf(IllegalArgumentException::class)
+                    instance.pollServer(pcrTest).testResult shouldBe PCR_INVALID
                 }
             }
         }

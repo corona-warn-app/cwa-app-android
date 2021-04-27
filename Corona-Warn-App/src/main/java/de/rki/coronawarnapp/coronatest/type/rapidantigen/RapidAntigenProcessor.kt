@@ -43,7 +43,10 @@ class RapidAntigenProcessor @Inject constructor(
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        val testResult = registrationData.testResult.validOrThrow()
+        val testResult = registrationData.testResult.let {
+            Timber.tag(TAG).v("Raw test result was %s", it)
+            it.toValidatedResult()
+        }
 
         val now = timeStamper.nowUTC
 
@@ -84,8 +87,8 @@ class RapidAntigenProcessor @Inject constructor(
             }
 
             val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken).let {
-                Timber.tag(TAG).d("Test result was %s", it)
-                it.validOrThrow()
+                Timber.tag(TAG).v("Raw test result was %s", it)
+                it.toValidatedResult()
             }
 
             test.copy(
@@ -161,11 +164,11 @@ class RapidAntigenProcessor @Inject constructor(
 
     companion object {
         private val FINAL_STATES = setOf(RAT_POSITIVE, RAT_NEGATIVE, RAT_REDEEMED)
-        private const val TAG = "RapidAntigenProcessor"
+        internal const val TAG = "RapidAntigenProcessor"
     }
 }
 
-private fun CoronaTestResult.validOrThrow(): CoronaTestResult {
+private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     val isValid = when (this) {
         PCR_OR_RAT_PENDING,
         RAT_PENDING,
@@ -180,6 +183,10 @@ private fun CoronaTestResult.validOrThrow(): CoronaTestResult {
         PCR_REDEEMED -> false
     }
 
-    if (!isValid) throw IllegalArgumentException("Invalid testResult $this")
-    return this
+    return if (isValid) {
+        this
+    } else {
+        Timber.tag(RapidAntigenProcessor.TAG).e("Server returned invalid RapidAntigen testresult $this")
+        RAT_INVALID
+    }
 }

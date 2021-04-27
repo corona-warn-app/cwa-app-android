@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
@@ -15,7 +16,6 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -26,7 +26,6 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import timber.log.Timber
 
 class RapidAntigenProcessorTest : BaseTest() {
 
@@ -43,6 +42,14 @@ class RapidAntigenProcessorTest : BaseTest() {
 
         submissionService.apply {
             coEvery { asyncRequestTestResult(any()) } returns PCR_OR_RAT_PENDING
+            coEvery { asyncRegisterDeviceViaGUID(any()) } returns CoronaTestService.RegistrationData(
+                registrationToken = "regtoken-qr",
+                testResult = PCR_OR_RAT_PENDING,
+            )
+            coEvery { asyncRegisterDeviceViaTAN(any()) } returns CoronaTestService.RegistrationData(
+                registrationToken = "regtoken-tan",
+                testResult = PCR_OR_RAT_PENDING,
+            )
         }
     }
 
@@ -74,6 +81,39 @@ class RapidAntigenProcessorTest : BaseTest() {
     }
 
     @Test
+    fun `registering a new test maps invalid results to INVALID state`() = runBlockingTest {
+        var registrationData = CoronaTestService.RegistrationData(
+            registrationToken = "regtoken",
+            testResult = PCR_OR_RAT_PENDING,
+        )
+        coEvery { submissionService.asyncRegisterDeviceViaGUID(any()) } answers { registrationData }
+
+        val instance = createInstance()
+
+        val request = CoronaTestQRCode.RapidAntigen(
+            hash = "hash",
+            createdAt = Instant.EPOCH,
+        )
+
+        values().forEach {
+            registrationData = registrationData.copy(testResult = it)
+            when (it) {
+                PCR_NEGATIVE,
+                PCR_POSITIVE,
+                PCR_INVALID,
+                PCR_REDEEMED -> instance.create(request).testResult shouldBe RAT_INVALID
+
+                PCR_OR_RAT_PENDING,
+                RAT_PENDING,
+                RAT_NEGATIVE,
+                RAT_POSITIVE,
+                RAT_INVALID,
+                RAT_REDEEMED -> instance.create(request).testResult shouldBe it
+            }
+        }
+    }
+
+    @Test
     fun `polling filters out invalid test result values`() = runBlockingTest {
         var pollResult: CoronaTestResult = PCR_OR_RAT_PENDING
         coEvery { submissionService.asyncRequestTestResult(any()) } answers { pollResult }
@@ -95,20 +135,14 @@ class RapidAntigenProcessorTest : BaseTest() {
                 PCR_NEGATIVE,
                 PCR_POSITIVE,
                 PCR_INVALID,
-                PCR_REDEEMED -> {
-                    Timber.v("Should throw for $it")
-                    instance.pollServer(raTest).testResult shouldBe RAT_POSITIVE
-                    instance.pollServer(raTest).lastError shouldBe instanceOf(IllegalArgumentException::class)
-                }
+                PCR_REDEEMED -> instance.pollServer(raTest).testResult shouldBe RAT_INVALID
+
                 PCR_OR_RAT_PENDING,
                 RAT_PENDING,
                 RAT_NEGATIVE,
                 RAT_POSITIVE,
                 RAT_INVALID,
-                RAT_REDEEMED -> {
-                    Timber.v("Should NOT throw for $it")
-                    instance.pollServer(raTest).testResult shouldBe it
-                }
+                RAT_REDEEMED -> instance.pollServer(raTest).testResult shouldBe it
             }
         }
     }

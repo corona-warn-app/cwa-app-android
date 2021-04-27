@@ -50,9 +50,7 @@ class PCRProcessor @Inject constructor(
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        registrationData.testResult.validOrThrow().let {
-            testResultDataCollector.saveTestResultAnalyticsSettings(it) // This saves received at
-        }
+        testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult) // This saves received at
 
         return createCoronaTest(request, registrationData)
     }
@@ -74,9 +72,12 @@ class PCRProcessor @Inject constructor(
     ): PCRCoronaTest {
         analyticsKeySubmissionCollector.reset()
 
-        val testResult = response.testResult.validOrThrow()
+        val testResult = response.testResult.let {
+            Timber.tag(TAG).v("Raw test result $it")
+            testResultDataCollector.updatePendingTestResultReceivedTime(it)
 
-        testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
+            it.toValidatedResult()
+        }
 
         if (testResult == PCR_POSITIVE) {
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
@@ -108,11 +109,11 @@ class PCRProcessor @Inject constructor(
             }
 
             val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken).let {
-                Timber.tag(TAG).d("Test result was %s", it)
-                it.validOrThrow()
-            }
+                Timber.tag(TAG).d("Raw test result was %s", it)
+                testResultDataCollector.updatePendingTestResultReceivedTime(it)
 
-            testResultDataCollector.updatePendingTestResultReceivedTime(newTestResult)
+                it.toValidatedResult()
+            }
 
             if (newTestResult == PCR_POSITIVE) {
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
@@ -195,11 +196,11 @@ class PCRProcessor @Inject constructor(
 
     companion object {
         private val FINAL_STATES = setOf(PCR_POSITIVE, PCR_NEGATIVE, PCR_REDEEMED)
-        private const val TAG = "PCRProcessor"
+        internal const val TAG = "PCRProcessor"
     }
 }
 
-private fun CoronaTestResult.validOrThrow(): CoronaTestResult {
+private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     val isValid = when (this) {
         PCR_OR_RAT_PENDING,
         PCR_NEGATIVE,
@@ -214,6 +215,10 @@ private fun CoronaTestResult.validOrThrow(): CoronaTestResult {
         RAT_REDEEMED -> false
     }
 
-    if (!isValid) throw IllegalArgumentException("Invalid testResult $this")
-    return this
+    return if (isValid) {
+        this
+    } else {
+        Timber.tag(PCRProcessor.TAG).e("Server returned invalid PCR testresult $this")
+        PCR_INVALID
+    }
 }

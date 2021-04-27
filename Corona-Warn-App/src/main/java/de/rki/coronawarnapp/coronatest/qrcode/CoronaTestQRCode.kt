@@ -34,9 +34,9 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest {
     data class RapidAntigen(
         val hash: RapidAntigenHash,
         val createdAt: Instant,
-        val firstName: String?,
-        val lastName: String?,
-        val dateOfBirth: LocalDate?,
+        val firstName: String? = null,
+        val lastName: String? = null,
+        val dateOfBirth: LocalDate? = null,
     ) : CoronaTestQRCode() {
 
         @IgnoredOnParcel
