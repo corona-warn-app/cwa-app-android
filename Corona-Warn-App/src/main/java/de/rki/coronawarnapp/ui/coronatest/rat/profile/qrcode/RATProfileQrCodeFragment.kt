@@ -15,9 +15,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.format.DateTimeFormat
-import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -45,51 +42,36 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 popBackStack()
             }
         }
-        viewModel.profile.observe(viewLifecycleOwner) {
-            binding.bindViews(it)
-        }
-
-        viewModel.qrCodeImage.observe(viewLifecycleOwner) {
-            binding.progressBar.hide()
-            binding.qrCodeImage.setImageBitmap(it)
+        viewModel.profile.observe(viewLifecycleOwner) { personProfile ->
+            with(binding) {
+                progressBar.hide()
+                personProfile.profile?.let { bindViews(it) }
+                qrCodeImage.setImageBitmap(personProfile.bitmap)
+            }
         }
     }
 
-    private fun RatProfileQrCodeFragmentBinding.bindViews(ratProfile: RATProfile?) {
-        val nameExists = !ratProfile?.firstName.isNullOrBlank() ||
-            !ratProfile?.lastName.isNullOrBlank()
-
-        name.isVisible = nameExists
+    private fun RatProfileQrCodeFragmentBinding.bindViews(ratProfile: RATProfile) {
+        val nameExists = ratProfile.firstName.isNotBlank() || ratProfile.lastName.isNotBlank()
         if (nameExists) {
             name.text = getString(
                 R.string.rat_qr_code_profile_name,
-                ratProfile?.firstName.orEmpty(),
-                ratProfile?.lastName.orEmpty()
+                ratProfile.firstName,
+                ratProfile.lastName
             )
         }
 
-        val birthDateExists = !ratProfile?.birthDate.isNullOrBlank()
-        birthDate.isVisible = birthDateExists
-        if (birthDateExists) {
+        val birthDateExists = ratProfile.birthDate != null
+        ratProfile.birthDate?.let {
             birthDate.text = getString(
                 R.string.rat_qr_code_profile_birth_date,
-                formatBirthDate(ratProfile)
+                it.toString("dd.MM.yyyy").orEmpty()
             )
         }
-        personData.isVisible = nameExists || birthDateExists
-    }
 
-    private fun formatBirthDate(ratProfile: RATProfile?): String {
-        return try {
-            if (ratProfile?.birthDate.isNullOrBlank()) {
-                Timber.d("Birth date does not exist")
-                return ""
-            }
-            formatter.parseDateTime(ratProfile!!.birthDate).toString("dd.MM.yyyy")
-        } catch (e: Exception) {
-            Timber.e(e, "Malformed birth date %s", ratProfile?.birthDate)
-            ""
-        }
+        name.isVisible = nameExists
+        birthDate.isVisible = birthDateExists
+        personData.isVisible = nameExists || birthDateExists
     }
 
     private fun setToolbarOverlay() {
@@ -104,9 +86,5 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
         behavior.overlayTop = ((width) / 2) - 24
-    }
-
-    companion object {
-        private val formatter = DateTimeFormat.forPattern("YYYYMMDD")
     }
 }
