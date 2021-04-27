@@ -27,7 +27,6 @@ class RiskCombinator @Inject constructor(
         override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
-        override val daysWithEncounters: Int = 0
     }
 
     private val initialPTRiskLevelResult: PtRiskLevelResult = PtRiskLevelResult(
@@ -48,7 +47,6 @@ class RiskCombinator @Inject constructor(
             override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
             override val exposureWindows: List<ExposureWindow>? = null
             override val matchedKeyCount: Int = 0
-            override val daysWithEncounters: Int = 0
         }
 
     private val ptCurrentLowRiskLevelResult: PtRiskLevelResult

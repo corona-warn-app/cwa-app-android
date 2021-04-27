@@ -18,12 +18,12 @@ import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.EnvironmentModule
-import de.rki.coronawarnapp.presencetracing.PresenceTracingModule
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.ENFModule
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.playbook.PlaybookModule
+import de.rki.coronawarnapp.presencetracing.PresenceTracingModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
@@ -44,7 +44,6 @@ import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.security.SecurityModule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.worker.WorkerBinder
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import javax.inject.Singleton
 
 @Singleton
@@ -102,8 +101,6 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val bugReporter: BugReporter
 
     fun inject(logger: DebugLogger)
-
-    fun inject(backgroundWorkScheduler: BackgroundWorkScheduler)
 
     val encryptedMigration: EncryptedPreferencesMigration
 

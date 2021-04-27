@@ -13,7 +13,9 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<CheckInOnboardingNavigation>()
 
     fun onAcknowledged() {
-        settings.onboardingStatus = TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
+        settings.onboardingStatus.update {
+            TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
+        }
         events.value = CheckInOnboardingNavigation.AcknowledgedNavigation
     }
 
@@ -25,7 +27,7 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
         events.value = CheckInOnboardingNavigation.AcknowledgedNavigation
     }
 
-    val isOnboardingComplete = settings.onboardingStatus == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
+    val isOnboardingComplete = settings.onboardingStatus.value == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<CheckInOnboardingViewModel>

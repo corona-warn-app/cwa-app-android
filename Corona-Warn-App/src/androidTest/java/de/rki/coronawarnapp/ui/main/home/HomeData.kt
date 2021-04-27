@@ -165,7 +165,8 @@ object HomeData {
         val TEST_SUBMISSION_DONE_ITEM = PcrTestSubmissionDoneCard.Item(
             state = SubmissionDone(
                 testRegisteredAt = Instant.now()
-            )
+            ),
+            onClickAction = {}
         )
     }
 }

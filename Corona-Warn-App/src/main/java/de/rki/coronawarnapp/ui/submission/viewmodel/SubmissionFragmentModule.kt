@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAv
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableModule
 import de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyFragment
 import de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyModule
+import de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneFragment
+import de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneModule
 import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment
 import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarModule
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
@@ -85,6 +87,9 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [SubmissionTestResultAvailableModule::class])
     abstract fun submissionTestResultAvailableScreen(): SubmissionTestResultAvailableFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionDoneModule::class])
+    abstract fun submissionDoneScreen(): SubmissionDoneFragment
 
     @ContributesAndroidInjector(modules = [SubmissionTestResultConsentGivenModule::class])
     abstract fun submissionTestResultConsentGivenScreen(): SubmissionTestResultConsentGivenFragment

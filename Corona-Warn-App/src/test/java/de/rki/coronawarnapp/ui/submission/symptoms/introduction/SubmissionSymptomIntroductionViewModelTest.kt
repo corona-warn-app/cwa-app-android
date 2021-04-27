@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -30,6 +34,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var testType: CoronaTest.Type
     private val currentSymptoms = mockFlowPreference<Symptoms?>(null)
 
     @BeforeEach
@@ -45,7 +50,8 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         submissionRepository = submissionRepository,
         autoSubmission = autoSubmission,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        testType = testType
     )
 
     @Test
@@ -55,7 +61,8 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
             onNextClicked()
             navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
                 .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment(
-                    symptomIndication = Symptoms.Indication.POSITIVE
+                    symptomIndication = Symptoms.Indication.POSITIVE,
+                    testType = testType
                 )
         }
 
@@ -120,5 +127,23 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
             uploadStatus.value = false
             showUploadDialog.value shouldBe false
         }
+    }
+
+    @Test
+    fun `onNewUserActivity() should call analyticsKeySubmissionCollector for PCR tests`() {
+        testType = PCR
+
+        createViewModel().onNewUserActivity()
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS) }
+    }
+
+    @Test
+    fun `onNewUserActivity() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+        testType = RAPID_ANTIGEN
+
+        createViewModel().onNewUserActivity()
+
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS) }
     }
 }

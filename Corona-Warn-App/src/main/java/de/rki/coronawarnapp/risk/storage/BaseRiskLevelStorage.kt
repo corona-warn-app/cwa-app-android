@@ -190,7 +190,8 @@ abstract class BaseRiskLevelStorage constructor(
             presenceTracingRiskRepository.allEntries()
         ) { ewRiskLevelResults, ptRiskLevelResults ->
 
-            val combinedResults = riskCombinator.combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
+            val combinedResults = riskCombinator
+                .combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
                 .sortedByDescending { it.calculatedAt }
 
             LastCombinedRiskResults(
