@@ -41,4 +41,3 @@ class EwRiskLevelResultTest : BaseTest() {
         override val matchedKeyCount: Int = 0
     }
 }
-
