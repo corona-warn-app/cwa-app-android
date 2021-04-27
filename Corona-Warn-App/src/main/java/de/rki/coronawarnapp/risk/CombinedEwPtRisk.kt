@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
@@ -15,7 +16,7 @@ data class CombinedEwPtDayRisk(
 data class CombinedEwPtRiskLevelResult(
     private val ptRiskLevelResult: PtRiskLevelResult,
     private val ewRiskLevelResult: EwRiskLevelResult,
-    var exposureWindowDayRisks: List<ExposureWindowDayRisk>? = null
+    private val exposureWindowDayRisks: List<ExposureWindowDayRisk>? = null
 ) {
 
     val riskState: RiskState by lazy {
@@ -69,12 +70,14 @@ data class CombinedEwPtRiskLevelResult(
         ewRiskLevelResult.matchedKeyCount + ptRiskLevelResult.checkInOverlapCount
     }
 
-    private val ewDaysWithHighRisk: List<LocalDate>
+    @VisibleForTesting
+    internal val ewDaysWithHighRisk: List<LocalDate>
         get() = exposureWindowDayRisks?.filter {
             it.riskLevel.mapToRiskState() == RiskState.INCREASED_RISK
         }?.map { it.localDateUtc } ?: emptyList()
 
-    private val ewDaysWithLowRisk: List<LocalDate>
+    @VisibleForTesting
+    internal val ewDaysWithLowRisk: List<LocalDate>
         get() = exposureWindowDayRisks?.filter {
             it.riskLevel.mapToRiskState() == RiskState.LOW_RISK
         }?.map { it.localDateUtc } ?: emptyList()
