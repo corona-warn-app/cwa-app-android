@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -18,8 +17,6 @@ import timber.log.Timber
 
 /**
  * Periodic background noise worker
- *
- * @see BackgroundWorkScheduler
  */
 class BackgroundNoisePeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,

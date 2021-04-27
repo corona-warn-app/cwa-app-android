@@ -31,12 +31,14 @@ data class CombinedEwPtRiskLevelResult(
     val daysWithEncounters: Int by lazy {
         when (riskState) {
             RiskState.INCREASED_RISK -> {
-                (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0) +
-                    ptRiskLevelResult.numberOfDaysWithHighRisk
+                ewRiskLevelResult.daysWithHighRisk
+                    .plus(ptRiskLevelResult.daysWithHighRisk)
+                    .distinct().count()
             }
             RiskState.LOW_RISK -> {
-                (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0) +
-                    ptRiskLevelResult.numberOfDaysWithLowRisk
+                ewRiskLevelResult.daysWithLowRisk
+                    .plus(ptRiskLevelResult.daysWithLowRisk)
+                    .distinct().count()
             }
             else -> 0
         }

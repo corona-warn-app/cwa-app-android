@@ -21,7 +21,6 @@ class EwRiskLevelResultExtensionsTest : BaseTest() {
             get() = if (!hasResult) EwRiskLevelResult.FailureReason.UNKNOWN else null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
-        override val daysWithEncounters: Int = 0
     }
 
     @Test
