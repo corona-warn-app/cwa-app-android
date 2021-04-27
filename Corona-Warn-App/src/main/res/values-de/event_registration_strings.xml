@@ -78,7 +78,7 @@
     <string name="tracelocation_organizer_category_educational_institution_subtitle">Klassenzimmer, Vorlesungssaal, Bibliothek</string>
 
     <!-- XTXT: Title for the public building category  -->
-    <string name="tracelocation_organizer_category_public_building_title">öffentliches Gebäude</string>
+    <string name="tracelocation_organizer_category_public_building_title">Öffentliches Gebäude</string>
     <!-- XTXT: Subtitle for the public building category  -->
     <string name="tracelocation_organizer_category_public_building_subtitle">Bürgeramt, Museum</string>
 
