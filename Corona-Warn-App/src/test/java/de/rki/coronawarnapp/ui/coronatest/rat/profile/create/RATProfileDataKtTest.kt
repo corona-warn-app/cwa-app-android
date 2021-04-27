@@ -21,7 +21,7 @@ class RATProfileDataKtTest : BaseTest() {
     )
 
     @Test
-    fun `Map ratProfileData when  birthDate is missing `() {
+    fun `Map ratProfileData - birthDate is missing `() {
         ratProfileData.toRATProfile() shouldBe RATProfile(
             firstName = "First name",
             lastName = "Last name",
@@ -35,7 +35,7 @@ class RATProfileDataKtTest : BaseTest() {
     }
 
     @Test
-    fun `Map ratProfileData when birthDate exists`() {
+    fun `Map ratProfileData - birthDate exists`() {
         val birthDate = formatter.parseDateTime("01.01.1980").toLocalDate()
         ratProfileData.copy(birthDate = birthDate).toRATProfile() shouldBe
             RATProfile(

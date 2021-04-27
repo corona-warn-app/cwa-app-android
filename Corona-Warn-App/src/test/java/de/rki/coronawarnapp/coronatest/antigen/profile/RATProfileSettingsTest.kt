@@ -6,6 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
 import testhelpers.BaseTest
@@ -16,6 +17,17 @@ internal class RATProfileSettingsTest : BaseTest() {
     @MockK lateinit var context: Context
     private val mockPreferences = MockSharedPreferences()
     private lateinit var ratProfileSettings: RATProfileSettings
+    private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val profile = RATProfile(
+        firstName = "First name",
+        lastName = "Last name",
+        birthDate = formatter.parseLocalDate("1950-08-01"),
+        street = "Main street",
+        zipCode = "12132",
+        city = "London",
+        phone = "111111111",
+        email = "email@example.com"
+    )
 
     @BeforeEach
     fun setup() {
@@ -32,17 +44,7 @@ internal class RATProfileSettingsTest : BaseTest() {
     }
 
     @Test
-    fun getProfile() {
-        val profile = RATProfile(
-            firstName = "First name",
-            lastName = "Last name",
-            birthDate = "19800101",
-            street = "Main street",
-            zipCode = "12132",
-            city = "London",
-            phone = "111111111",
-            email = "email@example.com"
-        )
+    fun `Profile has birth date`() {
         ratProfileSettings.profile.update { profile }
         val json = (mockPreferences.dataMapPeek["ratprofile.settings.profile"] as String)
         json.toComparableJsonPretty() shouldBe
@@ -50,7 +52,44 @@ internal class RATProfileSettingsTest : BaseTest() {
                 {
                   "firstName": "First name",
                   "lastName": "Last name",
-                  "birthDate": "19800101",
+                  "birthDate": "1950-08-01",
+                  "street": "Main street",
+                  "zipCode": "12132",
+                  "city": "London",
+                  "phone": "111111111",
+                  "email": "email@example.com"
+                }
+            """.trimIndent()
+    }
+
+    @Test
+    fun `Profile hasn't birth date`() {
+        ratProfileSettings.profile.update { profile.copy(birthDate = null) }
+        val json = (mockPreferences.dataMapPeek["ratprofile.settings.profile"] as String)
+        json.toComparableJsonPretty() shouldBe
+            """
+                {
+                  "firstName": "First name",
+                  "lastName": "Last name",
+                  "street": "Main street",
+                  "zipCode": "12132",
+                  "city": "London",
+                  "phone": "111111111",
+                  "email": "email@example.com"
+                }
+            """.trimIndent()
+    }
+
+    @Test
+    fun `Profile has empty properties`() {
+        ratProfileSettings.profile.update { profile.copy(firstName = "", lastName = "") }
+        val json = (mockPreferences.dataMapPeek["ratprofile.settings.profile"] as String)
+        json.toComparableJsonPretty() shouldBe
+            """
+                {
+                  "firstName": "",
+                  "lastName": "",
+                  "birthDate": "1950-08-01",
                   "street": "Main street",
                   "zipCode": "12132",
                   "city": "London",
