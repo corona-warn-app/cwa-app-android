@@ -180,4 +180,12 @@
     <string name="rat_qr_code_profile_next_button">Weiter</string>
     <!-- XBUT: Create RAT Qr code profile close button-->
     <string name="rat_qr_code_profile_close_button">Schliessen</string>
+    <!-- XTXT: Create RAT Qr code profile delete item-->
+    <string name="rat_qr_code_profile_delete_item">Entfernen</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog title-->
+    <string name="rat_qr_code_profile_dialog_title">Wollen Sie wirklich löschen?</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->
+    <string name="rat_qr_code_profile_dialog_positive_button">Löschen</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog negative button-->
+    <string name="rat_qr_code_profile_dialog_negative_button">Absagen</string>
 </resources>

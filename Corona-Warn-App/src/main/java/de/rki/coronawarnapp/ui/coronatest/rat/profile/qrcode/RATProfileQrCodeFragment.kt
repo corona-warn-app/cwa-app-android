@@ -6,7 +6,9 @@ import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
@@ -35,11 +37,12 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 }
             )
 
-            closeButton.setOnClickListener { popBackStack() }
-            toolbar.setNavigationOnClickListener { popBackStack() }
+            closeButton.setOnClickListener { viewModel.onClose() }
+            nextButton.setOnClickListener { viewModel.onNext() }
+            toolbar.setNavigationOnClickListener { viewModel.onClose() }
             toolbar.setOnMenuItemClickListener {
-                viewModel.deleteProfile()
-                popBackStack()
+                confirmDeletionDialog()
+                true
             }
         }
         viewModel.profile.observe(viewLifecycleOwner) { personProfile ->
@@ -49,6 +52,26 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 qrCodeImage.setImageBitmap(personProfile.bitmap)
             }
         }
+
+        viewModel.events.observe(viewLifecycleOwner) {
+            when (it) {
+                ProfileQrCodeNavigation.Back -> popBackStack()
+                ProfileQrCodeNavigation.SubmissionConsent ->
+                    findNavController().navigate(R.id.submissionConsentFragment)
+            }
+        }
+    }
+
+    private fun confirmDeletionDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.rat_qr_code_profile_dialog_title))
+            .setPositiveButton(getString(R.string.rat_qr_code_profile_dialog_positive_button)) { _, _ ->
+                viewModel.deleteProfile()
+            }
+            .setNegativeButton(getString(R.string.rat_qr_code_profile_dialog_negative_button)) { _, _ ->
+                // No-Op
+            }
+            .show()
     }
 
     private fun RatProfileQrCodeFragmentBinding.bindViews(ratProfile: RATProfile) {

@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
@@ -28,8 +29,22 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
             )
         }.asLiveData(context = dispatcherProvider.Default)
 
+    val events = SingleLiveEvent<ProfileQrCodeNavigation>()
+
     fun deleteProfile() {
+        Timber.d("deleteProfile")
         ratProfileSettings.deleteProfile()
+        events.postValue(ProfileQrCodeNavigation.Back)
+    }
+
+    fun onClose() {
+        Timber.d("onClose")
+        events.postValue(ProfileQrCodeNavigation.Back)
+    }
+
+    fun onNext() {
+        Timber.d("onNext")
+        events.postValue(ProfileQrCodeNavigation.SubmissionConsent)
     }
 
     private suspend fun RATProfile?.qrCode(): Bitmap? =
