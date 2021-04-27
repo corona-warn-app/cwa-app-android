@@ -131,7 +131,7 @@ abstract class BaseRiskLevelStorage constructor(
         aggregatedRiskPerDateResultTables.allEntries()
             .map {
                 it.map { persistedAggregatedRiskPerDateResult ->
-                    persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult()
+                    persistedAggregatedRiskPerDateResult.toExposureWindowDayRisk()
                 }
             }
             .shareLatest(tag = TAG, scope = scope)
@@ -187,15 +187,19 @@ abstract class BaseRiskLevelStorage constructor(
     override val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<LastCombinedRiskResults>
         get() = combine(
             allEwRiskLevelResults,
-            presenceTracingRiskRepository.allEntries()
-        ) { ewRiskLevelResults, ptRiskLevelResults ->
+            presenceTracingRiskRepository.allEntries(),
+            ewDayRiskStates
+        ) { ewRiskLevelResults, ptRiskLevelResults, ewDayRiskStates ->
 
             val combinedResults = riskCombinator
                 .combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
                 .sortedByDescending { it.calculatedAt }
 
             LastCombinedRiskResults(
-                lastCalculated = combinedResults.firstOrNull() ?: riskCombinator.latestCombinedResult,
+                lastCalculated = combinedResults.firstOrNull()?.copy(
+                    // need to provide the data here as they are null in EwAggregatedRiskResult
+                    exposureWindowDayRisks = ewDayRiskStates
+                ) ?: riskCombinator.latestCombinedResult,
                 lastSuccessfullyCalculated = combinedResults.find {
                     it.wasSuccessfullyCalculated
                 } ?: riskCombinator.initialCombinedResult

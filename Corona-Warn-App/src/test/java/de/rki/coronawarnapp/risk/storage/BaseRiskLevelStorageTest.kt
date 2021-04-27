@@ -124,7 +124,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             val instance = createInstance()
             val allEntries = instance.aggregatedRiskPerDateResultTables.allEntries()
             allEntries shouldBe testPersistedAggregatedRiskPerDateResultFlow
-            allEntries.first().map { it.toAggregatedRiskPerDateResult() } shouldBe listOf(
+            allEntries.first().map { it.toExposureWindowDayRisk() } shouldBe listOf(
                 testAggregatedRiskPerDateResult
             )
 

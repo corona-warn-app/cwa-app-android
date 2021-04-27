@@ -14,7 +14,7 @@ data class PersistedAggregatedRiskPerDateResult(
     @ColumnInfo(name = "minimumDistinctEncountersWithLowRisk") val minimumDistinctEncountersWithLowRisk: Int,
     @ColumnInfo(name = "minimumDistinctEncountersWithHighRisk") val minimumDistinctEncountersWithHighRisk: Int
 ) {
-    fun toAggregatedRiskPerDateResult(): ExposureWindowDayRisk =
+    fun toExposureWindowDayRisk(): ExposureWindowDayRisk =
         ExposureWindowDayRisk(
             dateMillisSinceEpoch = dateMillisSinceEpoch,
             riskLevel = riskLevel,
