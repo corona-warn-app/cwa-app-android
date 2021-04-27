@@ -7,6 +7,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -21,7 +22,8 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1010010101)
-        every { coronaTestConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated } returns 48
+        every { coronaTestConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated } returns
+            Duration.standardHours(48)
     }
 
     @Test
