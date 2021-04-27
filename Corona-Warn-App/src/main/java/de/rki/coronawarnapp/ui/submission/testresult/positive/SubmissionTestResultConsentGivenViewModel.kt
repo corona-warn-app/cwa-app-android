@@ -6,9 +6,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
-import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState

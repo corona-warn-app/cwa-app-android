@@ -7,8 +7,9 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
-import de.rki.coronawarnapp.coronatest.worker.execution.RAResultScheduler
+import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -16,7 +17,6 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.deniability.NoiseScheduler
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.GeneralNotifications
-import de.rki.coronawarnapp.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutNotification
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut

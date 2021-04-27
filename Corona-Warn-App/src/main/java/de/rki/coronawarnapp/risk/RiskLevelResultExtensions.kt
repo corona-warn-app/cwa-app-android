@@ -30,7 +30,6 @@ private object EwInitialLowRiskLevelResult : EwRiskLevelResult {
     override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
     override val exposureWindows: List<ExposureWindow>? = null
     override val matchedKeyCount: Int = 0
-    override val daysWithEncounters: Int = 0
 }
 
 private object EwUndeterminedRiskLevelResult : EwRiskLevelResult {
@@ -40,5 +39,4 @@ private object EwUndeterminedRiskLevelResult : EwRiskLevelResult {
     override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
     override val exposureWindows: List<ExposureWindow>? = null
     override val matchedKeyCount: Int = 0
-    override val daysWithEncounters: Int = 0
 }
