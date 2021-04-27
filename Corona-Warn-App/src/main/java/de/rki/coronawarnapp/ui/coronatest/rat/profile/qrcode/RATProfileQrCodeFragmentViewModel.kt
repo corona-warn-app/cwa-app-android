@@ -23,7 +23,8 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
     val profile: LiveData<PersonProfile> = ratProfileSettings.profile.flow
         .map { profile ->
             PersonProfile(
-                profile, profile.qrCode()
+                profile,
+                profile.qrCode()
             )
         }.asLiveData(context = dispatcherProvider.Default)
 
