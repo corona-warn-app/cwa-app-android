@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -12,6 +14,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.net.SocketException
 
 class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
     @MockK lateinit var coronaTestConfig: CoronaTestConfig
@@ -48,5 +51,46 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
         test.toSubmissionState(timeStamper.nowUTC, coronaTestConfig) shouldBe SubmissionStateRAT.SubmissionDone(
             testRegisteredAt = Instant.ofEpochMilli(123)
         )
+    }
+
+    // EXPOSUREAPP-6784 / https://github.com/corona-warn-app/cwa-app-android/issues/2953
+    @Test
+    fun `errors that are not http 400 do not affect result state`() = runBlockingTest {
+        val test = RACoronaTest(
+            identifier = "identifier",
+            registeredAt = Instant.ofEpochMilli(123),
+            registrationToken = "regtoken",
+            testResult = CoronaTestResult.RAT_POSITIVE,
+            testedAt = Instant.EPOCH,
+            dateOfBirth = null,
+            firstName = null,
+            lastName = null,
+            lastUpdatedAt = Instant.EPOCH,
+            lastError = SocketException("Connection reset")
+        )
+        test.toSubmissionState(
+            timeStamper.nowUTC,
+            coronaTestConfig
+        ) shouldBe instanceOf(SubmissionStateRAT.TestResultReady::class)
+    }
+
+    @Test
+    fun `client http 400 errors result in invalid test state`() = runBlockingTest {
+        val test = RACoronaTest(
+            identifier = "identifier",
+            registeredAt = Instant.ofEpochMilli(123),
+            registrationToken = "regtoken",
+            testResult = CoronaTestResult.RAT_POSITIVE,
+            testedAt = Instant.EPOCH,
+            dateOfBirth = null,
+            firstName = null,
+            lastName = null,
+            lastUpdatedAt = Instant.EPOCH,
+            lastError = BadRequestException("")
+        )
+        test.toSubmissionState(
+            timeStamper.nowUTC,
+            coronaTestConfig
+        ) shouldBe instanceOf(SubmissionStateRAT.TestInvalid::class)
     }
 }
