@@ -1967,16 +1967,9 @@
     <!-- ####################################
         Incompatibility warning card
     ###################################### -->
-    <string name="incompatible_headline">Incompatibility warning</string>
-    <string name="incompatible_advertising_not_supported">Unfortunately, your device is only
-        partially compatible with Bluetooth-based Exposure Notifications. You can be notified of
-        risk contacts but won\'t be able to warn users outside of locations and events you have
-        checked in to.
-    </string>
-    <string name="incompatible_scanning_not_supported">Unfortunately, your device is not compatible
-        with Bluetooth-based Exposure Notifications. Only check-In functionality is supported on
-        your device.
-    </string>
+    <string name="incompatible_headline"></string>
+    <string name="incompatible_advertising_not_supported"></string>
+    <string name="incompatible_scanning_not_supported"></string>
 
     <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
 
