@@ -24,3 +24,11 @@ val CoronaTestRepository.latestRAT: Flow<RACoronaTest?>
             } as? RACoronaTest
         }
         .distinctUntilChanged()
+
+/**
+ * Should we keep the background workers for our risk results running?
+ */
+val CoronaTestRepository.isRiskCalculationNecessary: Flow<Boolean>
+    get() = coronaTests.map { tests ->
+        tests.none { it.isPositive }
+    }

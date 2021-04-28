@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
-import de.rki.coronawarnapp.coronatest.worker.execution.PCRResultScheduler
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -26,6 +25,8 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.worker.BackgroundConstants
+import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,7 +38,6 @@ class PCRProcessor @Inject constructor(
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val testResultDataCollector: TestResultDataCollector,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
-    private val pcrTestResultScheduler: PCRResultScheduler,
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
@@ -61,7 +61,9 @@ class PCRProcessor @Inject constructor(
 
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
 
-        return createCoronaTest(request, registrationData)
+        return createCoronaTest(request, registrationData).copy(
+            isResultAvailableNotificationSent = true
+        )
     }
 
     private suspend fun createCoronaTest(
@@ -81,13 +83,12 @@ class PCRProcessor @Inject constructor(
 
         analyticsKeySubmissionCollector.reportTestRegistered()
 
-        if (testResult == PCR_OR_RAT_PENDING) {
-            pcrTestResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = true)
-        }
+        val now = timeStamper.nowUTC
 
         return PCRCoronaTest(
             identifier = request.identifier,
-            registeredAt = timeStamper.nowUTC,
+            registeredAt = now,
+            lastUpdatedAt = now,
             registrationToken = response.registrationToken,
             testResult = testResult,
             testResultReceivedAt = determineReceivedDate(null, testResult),
@@ -117,8 +118,9 @@ class PCRProcessor @Inject constructor(
             }
 
             test.copy(
-                testResult = newTestResult,
+                testResult = check60PlusDays(test, newTestResult),
                 testResultReceivedAt = determineReceivedDate(test, newTestResult),
+                lastUpdatedAt = timeStamper.nowUTC,
                 lastError = null
             )
         } catch (e: Exception) {
@@ -127,6 +129,19 @@ class PCRProcessor @Inject constructor(
 
             test as PCRCoronaTest
             test.copy(lastError = e)
+        }
+    }
+
+    // After 60 days, the previously EXPIRED test is deleted from the server, and it will return pending again.
+    private fun check60PlusDays(test: CoronaTest, newResult: CoronaTestResult): CoronaTestResult {
+        val calculateDays = Duration(test.registeredAt, timeStamper.nowUTC).standardDays
+        Timber.tag(TAG).d("Calculated test age: %d days", calculateDays)
+
+        return if (newResult == PCR_OR_RAT_PENDING && calculateDays >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS) {
+            Timber.tag(TAG).d("$calculateDays is exceeding the maximum polling duration")
+            PCR_REDEEMED
+        } else {
+            newResult
         }
     }
 

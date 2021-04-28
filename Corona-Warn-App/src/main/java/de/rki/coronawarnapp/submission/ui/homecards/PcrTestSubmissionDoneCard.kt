@@ -30,6 +30,7 @@ class PcrTestSubmissionDoneCard(
     }
 
     data class Item(
-        val state: SubmissionStatePCR.SubmissionDone
+        val state: SubmissionStatePCR.SubmissionDone,
+        val onClickAction: (Item) -> Unit,
     ) : TestResultItem.PCR
 }

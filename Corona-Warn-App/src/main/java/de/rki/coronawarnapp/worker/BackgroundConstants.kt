@@ -4,21 +4,8 @@ import java.util.concurrent.TimeUnit
 
 /**
  * The background work constants are used inside the BackgroundWorkScheduler
- *
- * @see BackgroundWorkScheduler
  */
 object BackgroundConstants {
-
-    /**
-     * Total minutes in one day
-     */
-    const val MINUTES_IN_DAY = 1440
-
-    /**
-     * Total tries count for diagnosis key retrieval per day
-     * Internal requirement
-     */
-    const val DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY = 12
 
     /**
      * Kind initial delay in minutes for periodic work for accessibility reason
