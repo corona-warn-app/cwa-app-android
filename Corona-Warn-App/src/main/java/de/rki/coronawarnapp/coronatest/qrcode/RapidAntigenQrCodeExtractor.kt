@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.coronatest.qrcode
 import com.google.common.io.BaseEncoding
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.hashing.isSha256Hash
 import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.internal.commonToUtf8String
@@ -21,14 +22,16 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         Timber.v("extract(rawString=%s)", rawString)
         val payload = CleanPayload(extractData(rawString))
 
-        payload.requireValidPersonalData()
+        payload.requireValidData()
 
         return CoronaTestQRCode.RapidAntigen(
             hash = payload.hash,
             createdAt = payload.createdAt,
             firstName = payload.firstName,
             lastName = payload.lastName,
-            dateOfBirth = payload.dateOfBirth
+            dateOfBirth = payload.dateOfBirth,
+            testid = payload.testId,
+            salt = payload.salt
         )
     }
 
@@ -68,7 +71,9 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         @SerializedName("timestamp") val timestamp: Long?,
         @SerializedName("fn") val firstName: String?,
         @SerializedName("ln") val lastName: String?,
-        @SerializedName("dob") val dateOfBirth: String?
+        @SerializedName("dob") val dateOfBirth: String?,
+        @SerializedName("testid") val testid: String?,
+        @SerializedName("salt") val salt: String?
     )
 
     private data class CleanPayload(val raw: RawPayload) {
@@ -104,7 +109,20 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
             }
         }
 
-        fun requireValidPersonalData() {
+        val testId: String? by lazy {
+            if (raw.testid.isNullOrEmpty()) null else raw.testid
+        }
+
+        val salt: String? by lazy {
+            if (raw.salt.isNullOrEmpty()) null else raw.salt
+        }
+
+        fun requireValidData() {
+            requireValidPersonalData()
+            requireValidHash()
+        }
+
+        private fun requireValidPersonalData() {
             val allOrNothing = listOf(
                 firstName != null,
                 lastName != null,
@@ -112,6 +130,16 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
             )
             val complete = allOrNothing.all { it } || allOrNothing.all { !it }
             if (!complete) throw InvalidQRCodeException("QRCode contains incomplete personal data: $raw")
+        }
+
+        private fun requireValidHash() {
+            val isQrCodeWithPersonalData = firstName != null && lastName != null && dateOfBirth != null
+            val generatedHash =
+                "${raw.dateOfBirth}#${raw.firstName}#${raw.lastName}#${raw.timestamp}#${raw.testid}#${raw.salt}"
+                    .toSHA256()
+            if (isQrCodeWithPersonalData && !generatedHash.equals(hash, true)) {
+                throw InvalidQRCodeException("Generated hash doesn't match QRCode hash")
+            }
         }
     }
 
