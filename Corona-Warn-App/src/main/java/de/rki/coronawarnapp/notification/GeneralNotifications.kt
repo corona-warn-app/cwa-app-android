@@ -107,7 +107,7 @@ class GeneralNotifications @Inject constructor(
 
     fun newBaseBuilder(): NotificationCompat.Builder {
         val common = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
-            setSmallIcon(R.drawable.ic_splash_logo)
+            setSmallIcon(R.drawable.ic_notification_icon_default_small)
             priority = NotificationCompat.PRIORITY_MAX
 
             val defaultIntent = PendingIntent.getActivity(
