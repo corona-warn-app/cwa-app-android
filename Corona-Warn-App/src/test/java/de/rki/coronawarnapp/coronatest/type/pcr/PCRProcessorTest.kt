@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.coronatest.type.pcr
 
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
@@ -29,6 +31,15 @@ class PCRProcessorTest : BaseTest() {
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
+    private var testQRRegistrationData = CoronaTestService.RegistrationData(
+        registrationToken = "qr-regtoken",
+        testResult = CoronaTestResult.PCR_POSITIVE,
+    )
+    private var testTANRegistrationData = CoronaTestService.RegistrationData(
+        registrationToken = "tan-regtoken",
+        testResult = CoronaTestResult.PCR_POSITIVE,
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -37,10 +48,22 @@ class PCRProcessorTest : BaseTest() {
 
         submissionService.apply {
             coEvery { asyncRequestTestResult(any()) } answers { CoronaTestResult.PCR_OR_RAT_PENDING }
+            coEvery { asyncRegisterDeviceViaTAN(any()) } answers { testTANRegistrationData }
+            coEvery { asyncRegisterDeviceViaGUID(any()) } answers { testQRRegistrationData }
         }
 
+        analyticsKeySubmissionCollector.apply {
+            coEvery { reportRegisteredWithTeleTAN() } just Runs
+            coEvery { reset() } just Runs
+            coEvery { reportPositiveTestResultReceived() } just Runs
+            coEvery { reportTestRegistered() } just Runs
+        }
         testResultDataCollector.apply {
             coEvery { updatePendingTestResultReceivedTime(any()) } just Runs
+            coEvery { saveTestResultAnalyticsSettings(any()) } just Runs
+        }
+        deadmanNotificationScheduler.apply {
+            every { cancelScheduledWork() } just Runs
         }
     }
 
@@ -71,5 +94,19 @@ class PCRProcessorTest : BaseTest() {
         )
 
         instance.pollServer(past60DaysTest).testResult shouldBe CoronaTestResult.PCR_REDEEMED
+    }
+
+    // TANs are automatically positive, there is no test result available screen that should be reached
+    @Test
+    fun `registering a TAN test automatically consumes the notification flag`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.create(CoronaTestTAN.PCR(tan = "thisIsATan")).apply {
+            isResultAvailableNotificationSent shouldBe true
+        }
+
+        instance.create(CoronaTestQRCode.PCR(qrCodeGUID = "thisIsAQRCodeGUID")).apply {
+            isResultAvailableNotificationSent shouldBe false
+        }
     }
 }
