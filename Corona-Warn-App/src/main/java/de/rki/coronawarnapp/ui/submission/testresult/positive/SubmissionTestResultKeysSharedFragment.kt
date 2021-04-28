@@ -28,7 +28,7 @@ class SubmissionTestResultKeysSharedFragment :
     Fragment(R.layout.fragment_submission_test_result_positive_keys_shared),
     AutoInject {
 
-    private val navArgs by navArgs<SubmissionTestResultConsentGivenFragmentArgs>()
+    private val navArgs by navArgs<SubmissionTestResultKeysSharedFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionTestResultKeysSharedViewModel by cwaViewModelsAssisted(
