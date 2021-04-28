@@ -66,6 +66,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
     private fun confirmDeletionDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.rat_qr_code_profile_dialog_title))
+            .setMessage(getString(R.string.rat_qr_code_profile_dialog_message))
             .setPositiveButton(getString(R.string.rat_qr_code_profile_dialog_positive_button)) { _, _ ->
                 viewModel.deleteProfile()
             }
