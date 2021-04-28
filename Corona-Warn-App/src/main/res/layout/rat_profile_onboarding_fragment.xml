@@ -7,7 +7,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar"
+        style="@style/CWAToolbar.Close"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,8 +103,10 @@
                     android:id="@+id/rat_profile_onboarding_bulletpoint1"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
+                    android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/rat_profile_onboarding_body1"
+                    app:layout_constraintTop_toBottomOf="@+id/rat_profile_onboarding_card_title"
                     app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
@@ -113,7 +115,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:focusable="true"
                     android:text="@string/rat_profile_onboarding_card_consnet1"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -125,6 +127,7 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body1"
                     app:srcCompat="@drawable/bullet_point" />
@@ -147,6 +150,7 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body2"
                     app:srcCompat="@drawable/bullet_point" />
@@ -169,6 +173,7 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body3"
                     app:srcCompat="@drawable/bullet_point" />
@@ -191,6 +196,7 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body4"
                     app:srcCompat="@drawable/bullet_point" />
@@ -213,6 +219,7 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body5"
                     app:srcCompat="@drawable/bullet_point" />
@@ -235,6 +242,7 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body6"
                     app:srcCompat="@drawable/bullet_point" />
