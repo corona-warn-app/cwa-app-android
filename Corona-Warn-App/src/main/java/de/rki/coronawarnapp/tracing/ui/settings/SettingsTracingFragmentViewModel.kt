@@ -65,6 +65,8 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
         }
     }
 
+    val ensErrorEvents = SingleLiveEvent<Throwable>()
+
     private val tracingPermissionHelper =
         tracingPermissionHelperFactory.create(
             object : TracingPermissionHelper.Callback {
@@ -96,7 +98,8 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
                 }
 
                 override fun onError(error: Throwable) {
-                    Timber.w(error, "Failed to start tracing")
+                    Timber.w(error, "Failed to start tracing from settings screen.")
+                    ensErrorEvents.postValue(error)
                 }
             }
         )

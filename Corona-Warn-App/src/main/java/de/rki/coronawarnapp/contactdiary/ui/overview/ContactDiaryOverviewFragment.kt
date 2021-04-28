@@ -6,6 +6,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewAdapter
 import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
@@ -25,6 +26,13 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: ContactDiaryOverviewViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryOverviewFragmentBinding by viewBindingLazy()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

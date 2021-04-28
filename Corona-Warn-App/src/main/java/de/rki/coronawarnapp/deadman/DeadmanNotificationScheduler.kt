@@ -4,15 +4,54 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import dagger.Reusable
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.flow.combine
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
 class DeadmanNotificationScheduler @Inject constructor(
+    @AppScope val appScope: CoroutineScope,
     val timeCalculation: DeadmanNotificationTimeCalculation,
     val workManager: WorkManager,
-    val workBuilder: DeadmanNotificationWorkBuilder
+    val workBuilder: DeadmanNotificationWorkBuilder,
+    val onboardingSettings: OnboardingSettings,
+    val enfClient: ENFClient,
+    val coronaTestRepository: CoronaTestRepository
 ) {
+
+    fun setup() {
+        Timber.i("setup() DeadmanNotificationScheduler")
+
+        combine(
+            onboardingSettings.isOnboardedFlow,
+            coronaTestRepository.coronaTests,
+            enfClient.isTracingEnabled
+        ) { isOnboarded, coronaTests, isTracingEnabled ->
+            val noPositiveTestRegistered = coronaTests.none { it.isPositive }
+            Timber.d(
+                "isOnboarded = $isOnboarded, " +
+                    "noPositiveTestRegistered = $noPositiveTestRegistered, " +
+                    "isTracingEnabled = $isTracingEnabled"
+            )
+            isOnboarded && noPositiveTestRegistered && isTracingEnabled
+        }
+            .onEach { shouldSchedulePeriodic ->
+                Timber.d("shouldSchedulePeriodic: $shouldSchedulePeriodic")
+                if (shouldSchedulePeriodic) {
+                    schedulePeriodic()
+                } else {
+                    cancelScheduledWork()
+                }
+            }
+            .launchIn(appScope)
+    }
 
     /**
      * Enqueue background deadman notification onetime work
@@ -25,6 +64,7 @@ class DeadmanNotificationScheduler @Inject constructor(
         if (delay < 0) {
             return
         } else {
+            Timber.d("DeadmanNotification will be scheduled for $delay minutes in the future")
             // Create unique work and enqueue
             workManager.enqueueUniqueWork(
                 ONE_TIME_WORK_NAME,
