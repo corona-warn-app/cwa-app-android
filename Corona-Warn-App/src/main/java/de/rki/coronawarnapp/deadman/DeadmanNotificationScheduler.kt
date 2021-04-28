@@ -34,7 +34,7 @@ class DeadmanNotificationScheduler @Inject constructor(
             coronaTestRepository.coronaTests,
             enfClient.isTracingEnabled
         ) { isOnboarded, coronaTests, isTracingEnabled ->
-            val noPositiveTestRegistered = coronaTests.none { it.isSubmissionAllowed }
+            val noPositiveTestRegistered = coronaTests.none { it.isPositive }
             Timber.d(
                 "isOnboarded = $isOnboarded, " +
                     "noPositiveTestRegistered = $noPositiveTestRegistered, " +

@@ -144,7 +144,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
         every { coronaTestRepository.coronaTests } returns flowOf(
             setOf(
                 mockk<CoronaTest>().apply {
-                    every { isSubmissionAllowed } returns false
+                    every { isPositive } returns false
                 }
             )
         )
@@ -160,7 +160,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
         every { coronaTestRepository.coronaTests } returns flowOf(
             setOf(
                 mockk<CoronaTest>().apply {
-                    every { isSubmissionAllowed } returns true
+                    every { isPositive } returns true
                 }
             )
         )
