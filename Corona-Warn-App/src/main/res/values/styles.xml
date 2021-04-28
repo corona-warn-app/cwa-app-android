@@ -9,6 +9,8 @@
 
         <item name="materialCalendarTheme">@style/ThemeOverlay.App.DatePicker</item>
         <item name="materialTimePickerTheme">@style/ThemeOverlay.App.TimePicker</item>
+
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
     </style>
 
     <style name="ThemeOverlay.App.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
