@@ -60,7 +60,6 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             }
 
             continueButton.setOnClickListener {
-
                 viewModel.deleteExistingAndRegisterNewTest()
             }
 
@@ -84,6 +83,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
         viewModel.registrationState.observe2(this) { state ->
             binding.submissionQrCodeScanSpinner.isVisible = state.apiRequestState == ApiRequestState.STARTED
+            binding.continueButton.isVisible = state.apiRequestState != ApiRequestState.STARTED
 
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
 
