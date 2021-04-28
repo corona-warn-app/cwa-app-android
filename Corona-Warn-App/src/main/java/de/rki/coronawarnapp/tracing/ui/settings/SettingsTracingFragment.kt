@@ -6,6 +6,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
@@ -73,6 +74,10 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
 
         vm.isTracingSwitchChecked.observe2(this) { checked ->
             binding.settingsTracingSwitchRow.settingsSwitchRowSwitch.isChecked = checked
+        }
+
+        vm.ensErrorEvents.observe2(this) { error ->
+            error.toErrorDialogBuilder(requireContext()).show()
         }
 
         setButtonOnClickListener()
