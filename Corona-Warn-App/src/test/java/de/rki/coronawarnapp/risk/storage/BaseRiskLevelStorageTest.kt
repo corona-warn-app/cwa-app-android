@@ -103,6 +103,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         riskResultDatabaseFactory = databaseFactory,
         presenceTracingRiskRepository = presenceTracingRiskRepository,
         riskCombinator = riskCombinator,
+        timeStamper = timeStamper,
     ) {
         override val storedResultLimit: Int = storedResultLimit
 
