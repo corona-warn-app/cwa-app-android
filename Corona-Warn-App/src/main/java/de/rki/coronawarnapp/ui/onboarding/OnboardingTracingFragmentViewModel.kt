@@ -28,6 +28,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
         .asLiveData(context = dispatcherProvider.Default)
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
     val permissionRequestEvent = SingleLiveEvent<(Activity) -> Unit>()
+    val ensErrorEvents = SingleLiveEvent<Throwable>()
 
     private val tracingPermissionHelper =
         tracingPermissionHelperFactory.create(
@@ -49,6 +50,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
 
                 override fun onError(error: Throwable) {
                     Timber.e(error, "Failed to activate tracing during onboarding.")
+                    ensErrorEvents.postValue(error)
                 }
             }
         )
