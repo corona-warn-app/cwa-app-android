@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -120,16 +121,13 @@ class DefaultTracingStatus @Inject constructor(
             scope = scope
         )
 
-    private suspend fun isEnabled(): Boolean = suspendCoroutine { cont ->
-        client.isEnabled
-            .addOnSuccessListener {
-                Timber.tag(TAG).v("Tracing isEnabled=$it")
-                cont.resume(it)
-            }
-            .addOnFailureListener {
-                Timber.tag(TAG).w(it, "Failed to determine tracing status.")
-                cont.resumeWithException(it)
-            }
+    private suspend fun isEnabled(): Boolean = try {
+        client.isEnabled.await().also {
+            Timber.tag(TAG).v("Tracing isEnabled=$it")
+        }
+    } catch (e: Throwable) {
+        Timber.tag(TAG).w(e, "Failed to determine tracing status.")
+        throw e
     }
 
     companion object {

@@ -6,12 +6,13 @@ import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorStateListCompat
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import java.util.regex.Pattern
 
-private fun AlertDialog.Builder.setMessageView(
+private fun MaterialAlertDialogBuilder.setMessageView(
     message: String,
     textHasLinks: Boolean,
 ) {
@@ -40,7 +41,7 @@ private fun AlertDialog.Builder.setMessageView(
     setView(textView)
 }
 
-fun Throwable.toErrorDialogBuilder(context: Context) = AlertDialog.Builder(context).apply {
+fun Throwable.toErrorDialogBuilder(context: Context) = MaterialAlertDialogBuilder(context).apply {
     val error = this@toErrorDialogBuilder
     val humanReadable = error.tryHumanReadableError(context)
 
