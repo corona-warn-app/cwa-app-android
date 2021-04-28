@@ -46,7 +46,7 @@ class SubmissionTestResultKeysSharedFragment :
 
         viewModel.onTestOpened()
 
-        binding.submissionDonePcrValidation.root.isVisible = navArgs.testType == CoronaTest.Type.RAPID_ANTIGEN
+        binding.submissionDonePcrValidation.root.isVisible = viewModel.testType == CoronaTest.Type.RAPID_ANTIGEN
 
         binding.toolbar.setNavigationOnClickListener {
             popBackStack()

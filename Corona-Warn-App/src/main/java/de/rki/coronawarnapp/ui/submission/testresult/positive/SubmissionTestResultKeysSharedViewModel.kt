@@ -20,7 +20,7 @@ import timber.log.Timber
 
 class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
-    @Assisted private val testType: Type,
+    @Assisted val testType: Type,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
