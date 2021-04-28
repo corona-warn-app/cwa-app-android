@@ -87,20 +87,32 @@ class DefaultTracingStatus @Inject constructor(
     override val isTracingEnabled: Flow<Boolean> = flow {
         while (true) {
             try {
-                emit(isEnabled())
-                delay(POLLING_DELAY_MS)
+                try {
+                    emit(isEnabled())
+                    delay(POLLING_DELAY_MS)
+                } catch (e: ApiException) {
+                    emit(false)
+                    if (e.statusCode == 17) {
+                        // No ENS installed, no need to keep polling.
+                        Timber.tag(TAG).v("No ENS available, aborting polling, assuming permanent.")
+                        break
+                    } else {
+                        Timber.tag(TAG).v("Polling failed, will retry with backoff.")
+                        delay(POLLING_DELAY_MS * 5)
+                    }
+                }
             } catch (e: CancellationException) {
-                Timber.d("isBackgroundRestricted was cancelled")
+                Timber.tag(TAG).d("isBackgroundRestricted was cancelled")
                 break
             }
         }
     }
         .distinctUntilChanged()
-        .onStart { Timber.v("isTracingEnabled FLOW start") }
-        .onEach { Timber.v("isTracingEnabled FLOW emission: %b", it) }
-        .onCompletion { if (it == null) Timber.v("isTracingEnabled FLOW completed.") }
+        .onStart { Timber.tag(TAG).v("isTracingEnabled FLOW start") }
+        .onEach { Timber.tag(TAG).v("isTracingEnabled FLOW emission: %b", it) }
+        .onCompletion { if (it == null) Timber.tag(TAG).v("isTracingEnabled FLOW completed.") }
         .catch {
-            Timber.w(it, "ENF isEnabled failed.")
+            Timber.tag(TAG).w(it, "ENF isEnabled failed.")
             it.report(ExceptionCategory.EXPOSURENOTIFICATION, TAG, null)
             emit(false)
         }
@@ -111,8 +123,14 @@ class DefaultTracingStatus @Inject constructor(
 
     private suspend fun isEnabled(): Boolean = suspendCoroutine { cont ->
         client.isEnabled
-            .addOnSuccessListener { cont.resume(it) }
-            .addOnFailureListener { cont.resumeWithException(it) }
+            .addOnSuccessListener {
+                Timber.tag(TAG).v("Tracing isEnabled=$it")
+                cont.resume(it)
+            }
+            .addOnFailureListener {
+                Timber.tag(TAG).w(it, "Failed to determine tracing status.")
+                cont.resumeWithException(it)
+            }
     }
 
     companion object {
