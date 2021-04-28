@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
@@ -85,7 +84,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val cwaSettings: CWASettings,
     private val appConfigProvider: AppConfigProvider,
     statisticsProvider: StatisticsProvider,
-    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
     private val appShortcutsHelper: AppShortcutsHelper,
     private val tracingSettings: TracingSettings,
     private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
@@ -193,7 +191,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             )
         }
         is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
-            popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
+            popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog(CoronaTest.Type.PCR))
         }
         is SubmissionStatePCR.TestError -> PcrTestErrorCard.Item(state) {
             routeToScreen.postValue(
@@ -242,7 +240,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
             is SubmissionStateRAT.TestInvalid -> RapidTestInvalidCard.Item(state) {
-                popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
+                popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog(CoronaTest.Type.RAPID_ANTIGEN))
             }
             is SubmissionStateRAT.TestError -> RapidTestErrorCard.Item(state) {
                 routeToScreen.postValue(
@@ -374,8 +372,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingRepository.refreshRiskResult()
     }
 
-    fun deregisterWarningAccepted() {
-        submissionRepository.removeTestFromDevice(type = CoronaTest.Type.PCR)
+    fun deregisterWarningAccepted(type: CoronaTest.Type) {
+        submissionRepository.removeTestFromDevice(type)
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
