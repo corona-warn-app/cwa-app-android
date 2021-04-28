@@ -128,7 +128,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         CoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
                         CoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
                     }
-                    setTitle(getString(R.string.errors_generic_headline_short) + ": " + getString(testName))
+                    setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
                 }?.show()
             }
         }
