@@ -174,8 +174,6 @@
     <string name="rat_qr_code_profile_description">Bitte zeigen Sie diesen QR-Code an der Teststelle vor, um Ihre persönlichen Daten schnell erfassen zu lassen. Bitte halten zusätzlich Sie Ihren Personalausweis bereit.</string>
     <!-- XTXT: Create RAT Qr code profile birth date-->
     <string name="rat_qr_code_profile_birth_date">geboren %1$s</string>
-    <!-- XTXT: Create RAT Qr code profile name-->
-    <string name="rat_qr_code_profile_name">%1$s %2$s</string>
     <!-- XBUT: Create RAT Qr code profile next button-->
     <string name="rat_qr_code_profile_next_button">Weiter</string>
     <!-- XBUT: Create RAT Qr code profile close button-->

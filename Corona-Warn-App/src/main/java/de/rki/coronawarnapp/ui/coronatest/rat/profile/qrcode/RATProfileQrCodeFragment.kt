@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.isVisible
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.AppBarLayout
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.joinToSpannable
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -47,7 +49,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         viewModel.profile.observe(viewLifecycleOwner) { personProfile ->
             with(binding) {
                 progressBar.hide()
-                personProfile.profile?.let { bindViews(it) }
+                personProfile.profile?.let { bindPersonInfo(it) }
                 qrCodeImage.setImageBitmap(personProfile.bitmap)
             }
         }
@@ -73,27 +75,19 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
             .show()
     }
 
-    private fun RatProfileQrCodeFragmentBinding.bindViews(ratProfile: RATProfile) {
-        val nameExists = ratProfile.firstName.isNotBlank() || ratProfile.lastName.isNotBlank()
-        if (nameExists) {
-            name.text = getString(
-                R.string.rat_qr_code_profile_name,
-                ratProfile.firstName,
-                ratProfile.lastName
-            )
-        }
-
-        val birthDateExists = ratProfile.birthDate != null
-        ratProfile.birthDate?.let {
-            birthDate.text = getString(
+    private fun bindPersonInfo(ratProfile: RATProfile) = with(ratProfile) {
+        val name = buildSpannedString { bold { append("$firstName $lastName") } }
+        val birthDate = birthDate?.let {
+            getString(
                 R.string.rat_qr_code_profile_birth_date,
-                it.toString("dd.MM.yyyy").orEmpty()
+                birthDate.toString("dd.MM.yyyy").orEmpty()
             )
-        }
+        }.orEmpty()
 
-        name.isVisible = nameExists
-        birthDate.isVisible = birthDateExists
-        personData.isVisible = nameExists || birthDateExists
+        val address = "$zipCode $city"
+        binding.profileInfo.text = arrayOf(name, birthDate, street, address, phone, email)
+            .filter { it.isNotBlank() }
+            .joinToSpannable("\n")
     }
 
     private fun setToolbarOverlay() {
