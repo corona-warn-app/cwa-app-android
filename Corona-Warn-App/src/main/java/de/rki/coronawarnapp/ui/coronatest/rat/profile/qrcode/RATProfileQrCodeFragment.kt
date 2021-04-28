@@ -104,10 +104,10 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
             as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.title.layoutParams as (LinearLayout.LayoutParams)
-        textParams.bottomMargin = ((width) / 2) - 24 /* 24 is space between screen border and QrCode */
+        textParams.bottomMargin = (width / 2) - 24 /* 24 is space between screen border and QrCode */
         binding.title.requestLayout() /* 24 is space between screen border and QrCode */
 
-        val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
-        behavior.overlayTop = ((width) / 2) - 24
+        val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
+        behavior.overlayTop = (width / 2) - 24
     }
 }
