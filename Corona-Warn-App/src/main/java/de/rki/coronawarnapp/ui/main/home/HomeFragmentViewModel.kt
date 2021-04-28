@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
+import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
@@ -101,6 +102,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         .asLiveData(dispatcherProvider.Default)
 
     val popupEvents = SingleLiveEvent<HomeFragmentEvents>()
+
+    val coronaTestErrors = coronaTestRepository.testErrorsSingleEvent
+        .asLiveData(context = dispatcherProvider.Default)
 
     fun showPopUps() {
         launch {

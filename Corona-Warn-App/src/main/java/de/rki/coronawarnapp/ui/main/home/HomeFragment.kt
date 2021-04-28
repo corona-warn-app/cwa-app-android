@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
@@ -118,6 +119,18 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (!showDialog) return@observe2
             deviceTimeIncorrectDialog.show { viewModel.userHasAcknowledgedIncorrectDeviceTime() }
+        }
+
+        viewModel.coronaTestErrors.observe2(this) { tests ->
+            tests.forEach { test ->
+                test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
+                    val testName = when (test.type) {
+                        CoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
+                        CoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
+                    }
+                    setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
+                }?.show()
+            }
         }
     }
 
