@@ -67,6 +67,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionNegativeAntigenTestResultFragment"
             app:destination="@id/submissionNegativeAntigenTestResultFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionTestResultKeysSharedFragment"
+            app:destination="@id/submissionTestResultKeysSharedFragment" />
     </fragment>
 
     <fragment
@@ -787,5 +790,14 @@
         <argument
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type"/>
+    </fragment>
+    <fragment
+        android:id="@+id/submissionTestResultKeysSharedFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultKeysSharedFragment"
+        android:label="SubmissionTestResultKeysSharedFragment"
+        tools:layout="@layout/fragment_submission_test_result_positive_keys_shared">
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
 </navigation>
