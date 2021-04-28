@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.coronatest.type.rapidantigen.notification
 import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.common.TestResultAvailableNotificationService
@@ -38,30 +37,41 @@ class RATTestResultAvailableNotificationService @Inject constructor(
     notificationHelper,
     cwaSettings,
     NotificationConstants.RAT_TEST_RESULT_AVAILABLE_NOTIFICATION_ID,
+    logTag = TAG,
 ) {
     fun setup() {
         Timber.tag(TAG).d("setup() - RATTestResultAvailableNotificationService")
 
-        coronaTestRepository.latestPCRT
+        @Suppress("RedundantLambdaArrow")
+        coronaTestRepository.latestRAT
             .onEach { _ ->
+                // We want the flow to trigger us, but not work with outdated data due to queue processing
                 val test = coronaTestRepository.latestRAT.first()
+                Timber.tag(TAG).v("RA test change: %s", test)
+
                 if (test == null) {
                     cancelTestResultAvailableNotification()
                     return@onEach
                 }
 
-                val alreadySent = test.isResultAvailableNotificationSent
+                val notSentYet = !test.isResultAvailableNotificationSent
                 val isInteresting = INTERESTING_STATES.contains(test.testResult)
-                Timber.tag(TAG).v("alreadySent=$alreadySent, isInteresting=$isInteresting")
+                val isTestViewed = test.isViewed
+                Timber.tag(TAG).v("notSentYet=$notSentYet, isInteresting=$isInteresting, isTestViewed=$isTestViewed")
 
-                if (!alreadySent && isInteresting) {
-                    coronaTestRepository.updateResultNotification(identifier = test.identifier, sent = true)
-                    showTestResultAvailableNotification(test)
-                    notificationHelper.cancelCurrentNotification(
-                        NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-                    )
-                } else {
-                    cancelTestResultAvailableNotification()
+                when {
+                    notSentYet && isInteresting -> {
+                        Timber.tag(TAG).d("Showing RA test result notification.")
+                        showTestResultAvailableNotification(test)
+                        coronaTestRepository.updateResultNotification(identifier = test.identifier, sent = true)
+                        notificationHelper.cancelCurrentNotification(
+                            NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+                        )
+                    }
+                    isTestViewed -> {
+                        Timber.tag(TAG).d("Canceling RA test result notification as it has already been viewed.")
+                        cancelTestResultAvailableNotification()
+                    }
                 }
             }
             .launchIn(appScope)
