@@ -87,8 +87,8 @@ class AppConfigServer @Inject constructor(
             } else {
                 Duration.standardSeconds(it.toLong())
             }
-
         }
+
         return InternalConfigData(
             rawData = rawConfig,
             etag = etag,
