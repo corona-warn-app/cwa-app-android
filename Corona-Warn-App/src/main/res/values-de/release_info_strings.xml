@@ -17,32 +17,24 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Registrierung von Antigen-Schnelltests</item>
-        <item>Anzeige von Nachweisen</item>
-        <item>Technische Hotline nun auch aus dem Ausland erreichbar</item>
-        <item>TAN-Hotline nun auch aus dem Ausland erreichbar</item>
+        <item>Aufzeichnung von Fehleranalyse-Protokollen</item>
+        <item>Anlegen von Schnelltest-Profilen</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können sich nun zusätzlich zu Ergebnissen von PCR-Tests auch Ergebnisse von Antigen-Schnelltests in der App anzeigen lassen und nutzen, um andere zu warnen.</item>
-        <item>Auf Wunsch können Sie über die App Ihren persönlichen Infektionsstatus nachweisen (z.B. negativer Schnelltest). Bitte beachten Sie, dass Sie grundsätzlich nicht zum Nachweis Ihres Infektionsstatus per App verpflichtet sind. Sie können Ihren Infektionsstatus im Rahmen der rechtlichen Bestimmungen an Ihrem Aufenthaltsort auch auf andere Weise nachweisen.</item>
-        <item>Sie können die technische Hotline nun auch aus dem Ausland unter der Nummer +49 30 498 75401 erreichen. Es fallen Gebühren des jeweiligen Telefonanbieters an.</item>
-        <item>Sie können bei einem positiven Befund nun auch aus dem Ausland eine TAN anfordern unter der Nummer +49 30 498 75402. Es fallen Gebühren des jeweiligen Telefonanbieters an.</item>
+        <item>Sie können nun im Rahmen des technischen Supports für die App einen Fehlerprotokoll erstellen, das die Schritte aufzeichnet, die Sie in der App ausführen. Somit wird die Analyse von möglichen Fehlern erleichtert, welches zu einer schnelleren Fehlerbehebung führen kann.</item>
+        <item>Sie können nun ein Schnelltest-Profil mit Ihren persönlichen Daten anlegen. Ihr Profil kann dann an Teststellen per QR-Code schnell und einfach gescannt werden.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item></item>
         <item></item>
-        <item></item>
-        <item></item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item></item>
-        <item></item>
         <item></item>
         <item></item>
     </string-array>
