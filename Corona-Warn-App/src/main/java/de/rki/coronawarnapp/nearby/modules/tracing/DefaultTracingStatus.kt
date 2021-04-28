@@ -84,26 +84,25 @@ class DefaultTracingStatus @Inject constructor(
             .addOnFailureListener { cont.resumeWithException(it) }
     }
 
+    @Suppress("LoopWithTooManyJumpStatements")
     override val isTracingEnabled: Flow<Boolean> = flow {
         while (true) {
             try {
-                try {
-                    emit(isEnabled())
-                    delay(POLLING_DELAY_MS)
-                } catch (e: ApiException) {
-                    emit(false)
-                    if (e.statusCode == 17) {
-                        // No ENS installed, no need to keep polling.
-                        Timber.tag(TAG).v("No ENS available, aborting polling, assuming permanent.")
-                        break
-                    } else {
-                        Timber.tag(TAG).v("Polling failed, will retry with backoff.")
-                        delay(POLLING_DELAY_MS * 5)
-                    }
-                }
+                emit(isEnabled())
+                delay(POLLING_DELAY_MS)
             } catch (e: CancellationException) {
                 Timber.tag(TAG).d("isBackgroundRestricted was cancelled")
                 break
+            } catch (e: ApiException) {
+                emit(false)
+                if (e.statusCode == 17) {
+                    // No ENS installed, no need to keep polling.
+                    Timber.tag(TAG).v("No ENS available, aborting polling, assuming permanent.")
+                    break
+                } else {
+                    Timber.tag(TAG).v("Polling failed, will retry with backoff.")
+                    delay(POLLING_DELAY_MS * 5)
+                }
             }
         }
     }
