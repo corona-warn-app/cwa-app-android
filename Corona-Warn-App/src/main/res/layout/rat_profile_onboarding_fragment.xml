@@ -83,12 +83,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="32dp"
-                android:background="#F5F5F5"
-                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rat_profile_onboarding_subtitle">
+                app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_subtitle">
 
                 <TextView
                     android:id="@+id/rat_profile_onboarding_card_title"
@@ -117,7 +114,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
                     android:focusable="true"
-                    android:text="@string/rat_profile_onboarding_card_consnet1"
+                    android:text="@string/rat_profile_onboarding_card_consent1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint1"
                     app:layout_constraintTop_toBottomOf="@+id/rat_profile_onboarding_card_title" />
@@ -140,7 +137,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
                     android:focusable="true"
-                    android:text="@string/rat_profile_onboarding_card_consnet2"
+                    android:text="@string/rat_profile_onboarding_card_consent2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint2"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body1" />
@@ -163,7 +160,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
                     android:focusable="true"
-                    android:text="@string/rat_profile_onboarding_card_consnet3"
+                    android:text="@string/rat_profile_onboarding_card_consent3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint3"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body2" />
@@ -186,7 +183,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
                     android:focusable="true"
-                    android:text="@string/rat_profile_onboarding_card_consnet4"
+                    android:text="@string/rat_profile_onboarding_card_consent4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint4"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body3" />
@@ -209,7 +206,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
                     android:focusable="true"
-                    android:text="@string/rat_profile_onboarding_card_consnet5"
+                    android:text="@string/rat_profile_onboarding_card_consent5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint5"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body4" />
@@ -232,7 +229,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
                     android:focusable="true"
-                    android:text="@string/rat_profile_onboarding_card_consnet6"
+                    android:text="@string/rat_profile_onboarding_card_consent6"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint6"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body5" />
@@ -255,7 +252,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
                     android:focusable="true"
-                    android:text="@string/rat_profile_onboarding_card_consnet7"
+                    android:text="@string/rat_profile_onboarding_card_consent7"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint7"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body6" />
