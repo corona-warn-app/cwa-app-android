@@ -48,9 +48,13 @@ class CWASettings @Inject constructor(
         ).let { raw -> ConfigData.DeviceTimeState.values().single { it.key == raw } }
         set(value) = prefs.edit { putString(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE, value.key) }
 
-    var numberOfRemainingSharePositiveTestResultReminders: Int
-        get() = prefs.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)
-        set(value) = prefs.edit { putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, value) }
+    var numberOfRemainingSharePositiveTestResultRemindersPcr: Int
+        get() = prefs.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR, Int.MIN_VALUE)
+        set(value) = prefs.edit { putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR, value) }
+
+    var numberOfRemainingSharePositiveTestResultRemindersRat: Int
+        get() = prefs.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT, Int.MIN_VALUE)
+        set(value) = prefs.edit { putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT, value) }
 
     val isNotificationsRiskEnabled = prefs.createFlowPreference(
         key = PKEY_NOTIFICATIONS_RISK_ENABLED,
@@ -80,7 +84,10 @@ class CWASettings @Inject constructor(
         private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE = "devicetime.laststatechange.state"
         private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "notifications.risk.enabled"
         private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "notifications.test.enabled"
-        private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT = "testresults.count"
+
+        private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR = "testresults.count"
+        private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT = "testresults.count.rat"
+
         private const val LAST_CHANGELOG_VERSION = "update.changelog.lastversion"
         private const val DEFAULT_APP_VERSION = 1L
     }

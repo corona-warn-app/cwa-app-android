@@ -54,13 +54,13 @@ class EncryptedPreferencesMigration @Inject constructor(
             cwaSettings.wasTracingExplanationDialogShown = wasTracingExplanationDialogShown()
             cwaSettings.isNotificationsRiskEnabled.update { isNotificationsRiskEnabled() }
             cwaSettings.isNotificationsTestEnabled.update { isNotificationsTestEnabled() }
-            cwaSettings.numberOfRemainingSharePositiveTestResultReminders =
+            cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr =
                 numberOfRemainingSharePositiveTestResultReminders()
         }
 
         OnboardingLocalData(encryptedSharedPreferences).apply {
-            onboardingSettings.onboardingCompletedTimestamp = onboardingCompletedTimestamp()?.let {
-                Instant.ofEpochMilli(it)
+            onboardingSettings.onboardingCompletedTimestamp.update {
+                onboardingCompletedTimestamp()?.let { Instant.ofEpochMilli(it) }
             }
             onboardingSettings.isBackgroundCheckDone = isBackgroundCheckDone()
         }
