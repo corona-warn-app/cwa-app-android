@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -39,7 +38,6 @@ class PCRProcessorTest : BaseTest() {
     @MockK lateinit var submissionService: CoronaTestService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var testResultDataCollector: TestResultDataCollector
-    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
@@ -71,17 +69,13 @@ class PCRProcessorTest : BaseTest() {
             coEvery { updatePendingTestResultReceivedTime(any()) } just Runs
             coEvery { saveTestResultAnalyticsSettings(any()) } just Runs
         }
-        deadmanNotificationScheduler.apply {
-            every { cancelScheduledWork() } just Runs
-        }
     }
 
     fun createInstance() = PCRProcessor(
         timeStamper = timeStamper,
         submissionService = submissionService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        testResultDataCollector = testResultDataCollector,
-        deadmanNotificationScheduler = deadmanNotificationScheduler,
+        testResultDataCollector = testResultDataCollector
     )
 
     @Test
