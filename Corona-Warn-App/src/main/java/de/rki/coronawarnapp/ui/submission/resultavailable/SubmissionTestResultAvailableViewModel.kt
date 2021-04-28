@@ -99,7 +99,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     )
 
     init {
-        submissionRepository.refreshTest(type = PCR)
+        submissionRepository.refreshTest(type = testType)
     }
 
     fun goBack() {

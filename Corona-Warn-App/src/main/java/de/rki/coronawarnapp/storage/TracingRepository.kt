@@ -7,10 +7,11 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.lastSubmission
+import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTaskProgress
 import de.rki.coronawarnapp.risk.RiskLevelTask
-import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
+import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -47,7 +48,8 @@ class TracingRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val exposureDetectionTracker: ExposureDetectionTracker,
     private val backgroundModeStatus: BackgroundModeStatus,
-    private val riskWorkScheduler: RiskWorkScheduler,
+    private val exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler,
+    private val presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler,
 ) {
 
     @SuppressLint("BinaryOperationInTimber")
@@ -96,14 +98,8 @@ class TracingRepository @Inject constructor(
     fun refreshRiskResult() = scope.launch {
         Timber.tag(TAG).d("refreshRiskResults()")
 
-        riskWorkScheduler.runRiskTasksNow()
-
-        taskController.submit(
-            DefaultTaskRequest(
-                RiskLevelTask::class,
-                originTag = "TracingRepository.refreshRiskResult()"
-            )
-        )
+        exposureWindowRiskWorkScheduler.runRiskTasksNow(sourceTag = TAG)
+        presenceTracingRiskWorkScheduler.runRiskTaskNow(sourceTag = TAG)
     }
 
     /**
@@ -164,6 +160,6 @@ class TracingRepository @Inject constructor(
     }
 
     companion object {
-        private val TAG: String? = TracingRepository::class.simpleName
+        private const val TAG: String = "TracingRepository"
     }
 }
