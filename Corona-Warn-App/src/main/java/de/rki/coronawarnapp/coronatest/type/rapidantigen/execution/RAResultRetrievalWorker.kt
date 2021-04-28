@@ -46,7 +46,7 @@ class RAResultRetrievalWorker @AssistedInject constructor(
                 Timber.tag(TAG).w("There is no RapidAntigen test available!?")
                 return Result.success()
             }
-            Timber.tag(TAG).v(" $id Running RA test result refresh.")
+            Timber.tag(TAG).v("$id Running RA test result refresh.")
             coronaTestRepository.refresh(CoronaTest.Type.RAPID_ANTIGEN)
             Timber.tag(TAG).d("$id: RA test result refreshed.")
 

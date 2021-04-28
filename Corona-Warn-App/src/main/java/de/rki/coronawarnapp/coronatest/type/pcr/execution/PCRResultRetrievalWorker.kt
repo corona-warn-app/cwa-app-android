@@ -41,7 +41,7 @@ class PCRResultRetrievalWorker @AssistedInject constructor(
                 return Result.success()
             }
 
-            Timber.tag(TAG).v(" $id Running PCR test result refresh.")
+            Timber.tag(TAG).v("$id Running PCR test result refresh.")
             coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
             Timber.tag(TAG).d("$id: PCR test result refreshed.")
 
