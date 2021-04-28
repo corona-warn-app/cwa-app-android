@@ -1995,4 +1995,22 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">Ok</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">Abbrechen</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <string name="incompatible_headline">Inkompatibilitätswarnung</string>
+    <string name="incompatible_advertising_not_supported">Ihr Smartphone kann
+        COVID-19-Benachrichtigungen über die Bluetooth-Schnittstelle lediglich empfangen, jedoch
+        nicht versenden. Das heißt, dass Sie über diese Schnittstelle von Risiko-Begegnungen gewarnt
+        werden können, jedoch nicht selbst warnen können. Warnungen, die im Rahmen von Check-ins
+        erfolgen, können Sie sowohl empfangen als auch selbst versenden.
+    </string>
+    <string name="incompatible_scanning_not_supported">Ihr Smartphone kann
+        COVID-19-Benachrichtigungen über die Bluetooth-Schnittstelle weder empfangen noch senden.
+        Warnungen, die im Rahmen von Check-ins erfolgen, können Sie sowohl empfangen als auch selbst
+        versenden.
+    </string>
+    <string name="incompatible_link">"https://www.coronawarn.app/de/faq/#incompatibility_warning"</string>
 </resources>

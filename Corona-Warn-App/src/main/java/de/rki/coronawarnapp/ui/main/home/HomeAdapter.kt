@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -50,6 +51,7 @@ class HomeAdapter :
                 StableIdMod(data),
                 DataBinderMod<HomeItem, HomeItemVH<HomeItem, ViewBinding>>(data),
                 TypedVHCreatorMod({ data[it] is FAQCard.Item }) { FAQCard(it) },
+                TypedVHCreatorMod({ data[it] is IncompatibleCard.Item }) { IncompatibleCard(it) },
                 TypedVHCreatorMod({ data[it] is CreateTraceLocationCard.Item }) { CreateTraceLocationCard(it) },
                 TypedVHCreatorMod({ data[it] is IncreasedRiskCard.Item }) { IncreasedRiskCard(it) },
                 TypedVHCreatorMod({ data[it] is LowRiskCard.Item }) { LowRiskCard(it) },
