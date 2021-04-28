@@ -1377,24 +1377,6 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Споделете своите случайни ИД кодове, за да предупредите останалите потребители."</string>
 
-    <!-- Reenable risk card -->
-    <!-- XHED: Card title for re-enable risk card -->
-    <string name="reenable_risk_card_title">"Проверката за излагане на риск е спряна"</string>
-    <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Дата на регистриране на теста: %s"</string>
-    <!-- YTXT: Description text for re-enable risk card -->
-    <string name="reenable_risk_card_description_text">"Автоматичната проверка за излагане на риск е спряна, защото Ви е била поставена диагноза „коронавирус“ и понастоящем сте в изолация. Можете да активирате проверката отново по всяко време, като в този случай регистрираният от Вас тест ще бъде изтрит автоматично."</string>
-    <!-- XBUT: Button for re-enabling risk calculation -->
-    <string name="reenable_risk_card_button_text">"Включване на проверката за излагане на риск "</string>
-    <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Активиране на проверката за излагане на риск"</string>
-    <!-- YTXT: Dialog text for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_message">"Текущия Ви тест ще бъде изтрит от приложението. Ако желаете, може да регистрирате нов тест."</string>
-    <!-- XBUT: Positive button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_positive">"Активиране"</string>
-    <!-- XBUT: Negative button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_negative">"Отказ"</string>
-
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Вашата диагноза %s:"</string>
     <!-- YTXT: virus name text -->

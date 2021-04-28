@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -58,7 +57,6 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
-    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
@@ -98,7 +96,6 @@ class HomeFragmentViewModelTest : BaseTest() {
         cwaSettings = cwaSettings,
         appConfigProvider = appConfigProvider,
         statisticsProvider = statisticsProvider,
-        deadmanNotificationScheduler = deadmanNotificationScheduler,
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
         traceLocationOrganizerSettings = traceLocationOrganizerSettings,

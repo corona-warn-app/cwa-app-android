@@ -1377,24 +1377,6 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Udostępnij swoje losowe identyfikatory, aby umożliwić ostrzeganie innych osób."</string>
 
-    <!-- Reenable risk card -->
-    <!-- XHED: Card title for re-enable risk card -->
-    <string name="reenable_risk_card_title">"Zakończono sprawdzanie narażeń"</string>
-    <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Test zarejestrowany dnia %s"</string>
-    <!-- YTXT: Description text for re-enable risk card -->
-    <string name="reenable_risk_card_description_text">"Automatyczne sprawdzanie narażeń zakończyło się, ponieważ zdiagnozowano u Ciebie koronawirusa i przebywasz obecnie na izolacji. W każdej chwili możesz ponownie aktywować test narażenia. Jeśli to zrobisz, zarejestrowany test zostanie automatycznie usunięty."</string>
-    <!-- XBUT: Button for re-enabling risk calculation -->
-    <string name="reenable_risk_card_button_text">"Włącz sprawdzanie narażeń "</string>
-    <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Aktywuj sprawdzanie narażeń."</string>
-    <!-- YTXT: Dialog text for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_message">"Twój bieżący test zostanie usunięty z aplikacji, więc w razie potrzeby możesz zarejestrować nowy test."</string>
-    <!-- XBUT: Positive button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_positive">"Aktywuj"</string>
-    <!-- XBUT: Negative button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_negative">"Anuluj"</string>
-
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Twoja %s diagnoza:"</string>
     <!-- YTXT: virus name text -->

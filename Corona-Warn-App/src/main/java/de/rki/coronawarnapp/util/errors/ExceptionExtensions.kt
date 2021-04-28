@@ -9,3 +9,9 @@ fun Throwable.causes(): Sequence<Throwable> = sequence {
         error = error.cause ?: break
     }
 }
+
+fun Throwable.stackTraceToStringList(): List<String> {
+    return stackTrace.toList().map { traceElement ->
+        traceElement.toString()
+    }
+}

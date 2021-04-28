@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.nearby.modules.tracing
 
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.storage.TracingSettings
 import io.kotest.matchers.shouldBe
@@ -99,5 +101,32 @@ class DefaultTracingStatusTest : BaseTest() {
 
         every { client.isEnabled } answers { MockGMSTask.forValue(false) }
         instance.isTracingEnabled.first() shouldBe false
+    }
+
+    @Test
+    fun `api errors during state polling are mapped to false`() = runBlockingTest2(ignoreActive = true) {
+        every { client.isEnabled } answers { MockGMSTask.forError(ApiException(Status.RESULT_INTERNAL_ERROR)) }
+
+        val instance = createInstance(scope = this)
+
+        instance.isTracingEnabled.first() shouldBe false
+    }
+
+    @Test
+    fun `api errors during state setting are rethrown`() = runBlockingTest2(ignoreActive = true) {
+        val ourError = ApiException(Status.RESULT_INTERNAL_ERROR)
+        every { client.isEnabled } answers { MockGMSTask.forError(ourError) }
+
+        val instance = createInstance(scope = this)
+
+        var thrownError: Throwable? = null
+        instance.setTracing(
+            enable = true,
+            onSuccess = {},
+            onError = { thrownError = it },
+            onPermissionRequired = {}
+        )
+
+        thrownError shouldBe ourError
     }
 }

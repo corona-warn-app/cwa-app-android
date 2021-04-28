@@ -50,7 +50,7 @@ class PresenceTracingNotifications @Inject constructor(
 
     fun newBaseBuilder(): NotificationCompat.Builder {
         val common = NotificationCompat.Builder(context, channelId).apply {
-            setSmallIcon(R.drawable.ic_splash_logo)
+            setSmallIcon(R.drawable.ic_notification_icon_default_small)
             priority = NotificationCompat.PRIORITY_DEFAULT
 
             val pendingIntent = NavDeepLinkBuilder(context)

@@ -13,13 +13,13 @@ import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestNegative
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestPending
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestPositive
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestResultReady
-import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.BadRequestException
 
 fun PCRCoronaTest?.toSubmissionState() = when {
     this == null -> NoTest
     isSubmitted -> SubmissionStatePCR.SubmissionDone(testRegisteredAt = registeredAt)
     isProcessing -> FetchingResult
-    lastError != null -> if (lastError is CwaServerError) TestPending else TestInvalid
+    lastError is BadRequestException -> TestInvalid
     else -> when (state) {
         INVALID -> TestError
         POSITIVE -> when {
