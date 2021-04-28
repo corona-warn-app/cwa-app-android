@@ -22,18 +22,19 @@ open class TestResultAvailableNotificationService(
     private val notificationHelper: GeneralNotifications,
     private val cwaSettings: CWASettings,
     private val notificationId: NotificationId,
+    private val logTag: String,
 ) {
 
     suspend fun showTestResultAvailableNotification(test: CoronaTest) {
-        Timber.d("showTestResultAvailableNotification(test=%s)", test)
+        Timber.tag(logTag).v("showTestResultAvailableNotification(test=%s)", test)
 
         if (foregroundState.isInForeground.first()) {
-            Timber.d("App in foreground, skipping notification.")
+            Timber.tag(logTag).d("App in foreground, skipping notification.")
             return
         }
 
         if (!cwaSettings.isNotificationsTestEnabled.value) {
-            Timber.i("Don't show test result available notification because user doesn't want to be informed")
+            Timber.tag(logTag).i("User has disabled test result notifications.")
             return
         }
 
@@ -63,7 +64,7 @@ open class TestResultAvailableNotificationService(
             setContentIntent(pendingIntent)
         }.build()
 
-        Timber.i("Showing TestResultAvailable notification!")
+        Timber.tag(logTag).i("Showing test result notification($notificationId) for %s", test)
         notificationHelper.sendNotification(
             notificationId = notificationId,
             notification = notification,
@@ -71,6 +72,7 @@ open class TestResultAvailableNotificationService(
     }
 
     fun cancelTestResultAvailableNotification() {
+        Timber.tag(logTag).i("Canceling test result notification($notificationId)")
         notificationHelper.cancelCurrentNotification(notificationId)
     }
 }
