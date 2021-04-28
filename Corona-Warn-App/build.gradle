@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         applicationId 'de.rki.coronawarnapp'
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
 
         ndkVersion "21.2.6472646"
