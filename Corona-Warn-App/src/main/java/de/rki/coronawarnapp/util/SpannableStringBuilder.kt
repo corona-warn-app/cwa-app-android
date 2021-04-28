@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.util
 
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.URLSpan
