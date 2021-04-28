@@ -7,6 +7,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
@@ -32,6 +33,10 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+
         binding.apply {
             contactDiaryOnboardingNextButton.setOnClickListener {
                 vm.onNextButtonClick()
