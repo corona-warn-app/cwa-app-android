@@ -8,6 +8,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -23,6 +25,7 @@ import timber.log.Timber
 
 class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     @Assisted val symptomIndication: Symptoms.Indication,
+    @Assisted val testType: Type,
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
@@ -87,12 +90,20 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
                 startOfSymptoms = symptomStartInternal.value
             ).also { Timber.tag(TAG).v("Symptoms updated to %s", it) }
         }
-        performSubmission { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow() }
+        performSubmission {
+            if (testType == PCR) {
+                analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow()
+            }
+        }
     }
 
     fun onCancelConfirmed() {
         Timber.d("onCancelConfirmed() clicked on calendar screen.")
-        performSubmission { analyticsKeySubmissionCollector.reportSubmittedAfterCancel() }
+        performSubmission {
+            if (testType == PCR) {
+                analyticsKeySubmissionCollector.reportSubmittedAfterCancel()
+            }
+        }
     }
 
     private fun performSubmission(onSubmitted: () -> Unit) {
@@ -106,7 +117,8 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
                 Timber.i("Hide uploading progress and navigate to HomeFragment")
                 mediatorShowUploadDialog.postValue(false)
                 routeToScreen.postValue(
-                    SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToMainFragment()
+                    SubmissionSymptomCalendarFragmentDirections
+                        .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
                 )
             }
         }
@@ -114,14 +126,16 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET)
+        if (testType == PCR) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET)
+        }
         autoSubmission.updateLastSubmissionUserActivity()
     }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionSymptomCalendarViewModel> {
 
-        fun create(symptomIndication: Symptoms.Indication): SubmissionSymptomCalendarViewModel
+        fun create(symptomIndication: Symptoms.Indication, testType: Type): SubmissionSymptomCalendarViewModel
     }
 
     companion object {

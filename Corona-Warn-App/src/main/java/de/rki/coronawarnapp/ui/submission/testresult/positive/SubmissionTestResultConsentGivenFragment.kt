@@ -69,7 +69,9 @@ class SubmissionTestResultConsentGivenFragment :
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
                     doNavigate(
                         SubmissionTestResultConsentGivenFragmentDirections
-                            .actionSubmissionTestResultConsentGivenFragmentToSubmissionSymptomIntroductionFragment()
+                            .actionSubmissionTestResultConsentGivenFragmentToSubmissionSymptomIntroductionFragment(
+                                navArgs.testType
+                            )
                     )
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     doNavigate(

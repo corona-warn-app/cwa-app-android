@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
+import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -75,7 +76,7 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
-    fun refreshTest(type: CoronaTest.Type) {
+    fun refreshTest(type: CoronaTest.Type? = null) {
         Timber.tag(TAG).v("refreshTest(type=%s)", type)
 
         scope.launch {
@@ -101,9 +102,15 @@ class SubmissionRepository @Inject constructor(
 
         scope.launch {
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
-                ?: throw IllegalStateException("No test of type $type available")
-
-            coronaTestRepository.removeTest(identifier = test.identifier)
+            if (test == null) {
+                Timber.tag(TAG).w("There is no test of type=$type to remove.")
+                return@launch
+            }
+            try {
+                coronaTestRepository.removeTest(identifier = test.identifier)
+            } catch (e: CoronaTestNotFoundException) {
+                Timber.tag(TAG).e(e, "Test not found (type=$type), already removed?")
+            }
         }
     }
 

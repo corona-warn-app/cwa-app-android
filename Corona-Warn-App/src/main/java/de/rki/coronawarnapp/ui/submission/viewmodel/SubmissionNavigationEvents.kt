@@ -23,5 +23,7 @@ sealed class SubmissionNavigationEvents {
     ) : SubmissionNavigationEvents()
     data class NavigateToDeletionWarningFragmentFromTan(val coronaTestTan: CoronaTestTAN, val consentGiven: Boolean) :
         SubmissionNavigationEvents()
+    object NavigateToCreateProfile : SubmissionNavigationEvents()
+    object NavigateToOpenProfile : SubmissionNavigationEvents()
     data class ResolvePlayServicesException(val exception: ApiException) : SubmissionNavigationEvents()
 }

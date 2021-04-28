@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -19,6 +18,7 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
@@ -57,11 +57,11 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
-    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var bluetoothSupport: BluetoothSupport
 
     @BeforeEach
     fun setup() {
@@ -78,6 +78,11 @@ class HomeFragmentViewModelTest : BaseTest() {
         coEvery { statisticsProvider.current } returns emptyFlow()
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(100101010)
+
+        bluetoothSupport.apply {
+            every { isAdvertisingSupported } returns true
+            every { isScanningSupported } returns true
+        }
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -91,11 +96,11 @@ class HomeFragmentViewModelTest : BaseTest() {
         cwaSettings = cwaSettings,
         appConfigProvider = appConfigProvider,
         statisticsProvider = statisticsProvider,
-        deadmanNotificationScheduler = deadmanNotificationScheduler,
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
         traceLocationOrganizerSettings = traceLocationOrganizerSettings,
-        timeStamper = timeStamper
+        timeStamper = timeStamper,
+        bluetoothSupport = bluetoothSupport
     )
 
     @Test

@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
-import de.rki.coronawarnapp.coronatest.type.CommonSubmissionStates
+import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
@@ -61,9 +60,10 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanati
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
-import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
+import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -87,17 +87,18 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val cwaSettings: CWASettings,
     private val appConfigProvider: AppConfigProvider,
     statisticsProvider: StatisticsProvider,
-    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
     private val appShortcutsHelper: AppShortcutsHelper,
     private val tracingSettings: TracingSettings,
     private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val bluetoothSupport: BluetoothSupport,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
+    val openIncompatibleEvent = SingleLiveEvent<Unit>()
     val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
@@ -105,6 +106,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         .asLiveData(dispatcherProvider.Default)
 
     val popupEvents = SingleLiveEvent<HomeFragmentEvents>()
+
+    val coronaTestErrors = coronaTestRepository.testErrorsSingleEvent
+        .asLiveData(context = dispatcherProvider.Default)
 
     fun showPopUps() {
         launch {
@@ -195,7 +199,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             )
         }
         is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
-            popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
+            popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog(CoronaTest.Type.PCR))
         }
         is SubmissionStatePCR.TestError -> PcrTestErrorCard.Item(state) {
             routeToScreen.postValue(
@@ -209,7 +213,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
             )
         }
-        is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state)
+        is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
+            routeToScreen.postValue(
+                HomeFragmentDirections
+                    .actionMainFragmentToSubmissionTestResultKeysSharedFragment(CoronaTest.Type.PCR)
+            )
+        }
     }
 
     private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig) =
@@ -239,7 +248,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
             is SubmissionStateRAT.TestInvalid -> RapidTestInvalidCard.Item(state) {
-                popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
+                popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog(CoronaTest.Type.RAPID_ANTIGEN))
             }
             is SubmissionStateRAT.TestError -> RapidTestErrorCard.Item(state) {
                 routeToScreen.postValue(
@@ -260,7 +269,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
                 submissionRepository.removeTestFromDevice(type = CoronaTest.Type.RAPID_ANTIGEN)
             }
-            is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state)
+            is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state) {
+                routeToScreen.postValue(
+                    HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultKeysSharedFragment(CoronaTest.Type.RAPID_ANTIGEN)
+                )
+            }
         }
 
     val homeItems: LiveData<List<HomeItem>> = combine(
@@ -282,6 +296,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
+            }
+
+            if (bluetoothSupport.isAdvertisingSupported == false) {
+                add(
+                    IncompatibleCard.Item(
+                        onClickAction = { openIncompatibleEvent.postValue(Unit) },
+                        bluetoothSupported = bluetoothSupport.isScanningSupported != false
+                    )
+                )
             }
 
             // TODO: Would be nice to have a more elegant solution of displaying the result cards in the right order
@@ -309,16 +332,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
 
-            bothTestStates.firstOrNull { it is CommonSubmissionStates.SubmissionDone }?.let {
-                it as CommonSubmissionStates.SubmissionDone
-                add(
-                    ReenableRiskCard.Item(
-                        data = it,
-                        onClickAction = { popupEvents.postValue(HomeFragmentEvents.ShowReactivateRiskCheckDialog) }
-                    )
-                )
-            }
-
             if (statsData.isDataAvailable) {
                 add(
                     StatisticsHomeCard.Item(
@@ -337,12 +350,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
         .distinctUntilChanged()
         .asLiveData(dispatcherProvider.Default)
-
-    fun reenableRiskCalculation() {
-        deregisterWarningAccepted()
-        deadmanNotificationScheduler.schedulePeriodic()
-        refreshRiskResult()
-    }
 
     private var isLoweredRiskLevelDialogBeingShown = false
 
@@ -367,7 +374,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun refreshRequiredData() {
         launch {
-            submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
+            submissionRepository.refreshTest()
             tracingRepository.refreshRiskLevel()
         }
     }
@@ -382,8 +389,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingRepository.refreshRiskResult()
     }
 
-    fun deregisterWarningAccepted() {
-        submissionRepository.removeTestFromDevice(type = CoronaTest.Type.PCR)
+    fun deregisterWarningAccepted(type: CoronaTest.Type) {
+        submissionRepository.removeTestFromDevice(type)
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {

@@ -9,6 +9,8 @@
 
         <item name="materialCalendarTheme">@style/ThemeOverlay.App.DatePicker</item>
         <item name="materialTimePickerTheme">@style/ThemeOverlay.App.TimePicker</item>
+
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
     </style>
 
     <style name="ThemeOverlay.App.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
@@ -233,6 +235,10 @@
 
     <style name="GreyCard.Ripple">
         <item name="android:background">@drawable/grey_card_ripple</item>
+    </style>
+
+    <style name="BlueCard">
+        <item name="android:background">@drawable/blue_card_ripple</item>
     </style>
 
     <style name="cardTracing">
@@ -485,8 +491,8 @@
         <item name="android:height">@dimen/button_icon</item>
         <item name="android:width">@dimen/button_icon</item>
         <item name="android:src">@drawable/ic_info</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingStart">7dp</item>
+        <item name="android:paddingEnd">7dp</item>
         <item name="android:paddingTop">7dp</item>
         <item name="android:paddingBottom">7dp</item>
         <item name="android:contentDescription">@string/statistics_info_button</item>

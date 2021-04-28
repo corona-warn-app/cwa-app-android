@@ -1379,24 +1379,6 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
 
-    <!-- Reenable risk card -->
-    <!-- XHED: Card title for re-enable risk card -->
-    <string name="reenable_risk_card_title">"Risiko-Überprüfung beendet"</string>
-    <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Test registriert am %s"</string>
-    <!-- YTXT: Description text for re-enable risk card -->
-    <string name="reenable_risk_card_description_text">"Die automatische Risiko-Überprüfung wurde beendet, weil Sie sich aufgrund Ihres positiven Tests aktuell in Isolation befinden. Sie können die Risiko-Überprüfung jederzeit wieder einschalten. Ihr registrierter Test wird dann automatisch gelöscht."</string>
-    <!-- XBUT: Button for re-enabling risk calculation -->
-    <string name="reenable_risk_card_button_text">"Risiko-Überprüfung Einschalten "</string>
-    <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Risiko-Überprüfung aktivieren."</string>
-    <!-- YTXT: Dialog text for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_message">"Ihr aktueller Test wird aus der App gelöscht, damit Sie bei Bedarf einen neuen Test registrieren können."</string>
-    <!-- XBUT: Positive button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_positive">"Aktivieren"</string>
-    <!-- XBUT: Negative button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_negative">"Abbrechen"</string>
-
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Ihr %s-Befund:"</string>
     <!-- YTXT: virus name text -->
@@ -2013,4 +1995,22 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">Ok</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">Abbrechen</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <string name="incompatible_headline">Inkompatibilitätswarnung</string>
+    <string name="incompatible_advertising_not_supported">Ihr Smartphone kann
+        COVID-19-Benachrichtigungen über die Bluetooth-Schnittstelle lediglich empfangen, jedoch
+        nicht versenden. Das heißt, dass Sie über diese Schnittstelle von Risiko-Begegnungen gewarnt
+        werden können, jedoch nicht selbst warnen können. Warnungen, die im Rahmen von Check-ins
+        erfolgen, können Sie sowohl empfangen als auch selbst versenden.
+    </string>
+    <string name="incompatible_scanning_not_supported">Ihr Smartphone kann
+        COVID-19-Benachrichtigungen über die Bluetooth-Schnittstelle weder empfangen noch senden.
+        Warnungen, die im Rahmen von Check-ins erfolgen, können Sie sowohl empfangen als auch selbst
+        versenden.
+    </string>
+    <string name="incompatible_link">"https://www.coronawarn.app/de/faq/#incompatibility_warning"</string>
 </resources>

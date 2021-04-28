@@ -106,10 +106,11 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         every { cwaSettings.isNotificationsRiskEnabled } returns mockRiskPreference
         val mockTestPreference = mockFlowPreference(true)
         every { cwaSettings.isNotificationsTestEnabled } returns mockTestPreference
-        every { cwaSettings.numberOfRemainingSharePositiveTestResultReminders = Int.MAX_VALUE } just Runs
+        every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = Int.MAX_VALUE } just Runs
 
         // OnboardingLocalData
-        every { onboardingSettings.onboardingCompletedTimestamp = Instant.ofEpochMilli(10101010L) } just Runs
+        val mockOnboardingCompletedTimestamp = mockFlowPreference(Instant.ofEpochMilli(10101010L))
+        every { onboardingSettings.onboardingCompletedTimestamp } returns mockOnboardingCompletedTimestamp
         every { onboardingSettings.isBackgroundCheckDone = true } just Runs
 
         // TracingLocalData

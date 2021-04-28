@@ -249,7 +249,7 @@
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Smartfon wyświetla różne treści oznaczone numerami od 1 do 3."</string>
     <!-- XACT: App main page title -->
-    <string name="main_title">"Strona główna Corona-Warn-App"</string>
+    <string name="main_title">"Ekran główny Corona-Warn-App"</string>
 
     <!-- ####################################
                Risk Details
@@ -787,7 +787,10 @@
     <string name="information_contact_subtitle_phone">"Infolinia techniczna:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"0800 7540001"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline information page -->
     <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
+    <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
     <!-- XLNK: Description for national technical contact and hotline information page -->
     <string name="information_contact_button_phone_description">"Dla połączeń z terytorium Niemiec. Połączenie jest bezpłatne."</string>
     <!-- XLNK: Description for international technical contact and hotline information page -->
@@ -1134,19 +1137,19 @@
     <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
     <string name="submission_dispatcher_needs_testing_subheadline">"Czy wykonano Ci test?"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
-    <string name="submission_dispatcher_already_positive_subheadline">"Czy Twój wynik testu na obecność koronawirusa był pozytywny?"</string>
+    <string name="submission_dispatcher_already_positive_subheadline">"Czy wynik Twojego testu PCR był pozytywny?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Test z kodem QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Zarejestruj test poprzez zeskanowanie kodu QR dokumentu testu."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"Wpisz TAN"</string>
+    <string name="submission_dispatcher_card_tan_code">"Wpisz TAN do testu PCR"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"Czy masz numer TAN? Naciśnij tutaj, aby go wprowadzić i dzięki temu ostrzegać innych."</string>
+    <string name="submission_dispatcher_tan_code_card_text">"Czy masz numer TAN do swojego testu PCR? Naciśnij tutaj, aby go wprowadzić i dzięki temu ostrzegać innych."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"Nie masz jeszcze numeru TAN?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"Poproś o TAN do testu PCR"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
-    <string name="submission_dispatcher_tan_tele_card_text">"Zadzwoń i odbierz numer TAN."</string>
+    <string name="submission_dispatcher_tan_tele_card_text">"Zadzwoń i odbierz numer TAN do testu PCR."</string>
     <!-- XACT: Dispatcher Tan page title -->
     <string name="submission_dispatcher_accessibility_title">"Jakie informacje posiadasz?"</string>
 
@@ -1204,10 +1207,15 @@
     <string name="submission_done_body">"Twoje wsparcie pozwala na ostrzeganie innych osób i daje im możliwość odpowiedniego zareagowania."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Uwaga:"</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_pcr_validation">"Wykonaj test PCR, aby zweryfikować wynik tego testu."</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_share_keys">"Udostępnij swoje losowe identyfikatory, aby umożliwić ostrzeganie innych osób."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Organ ds. zdrowia publicznego skontaktuje się z Tobą w ciągu kilku najbliższych dni."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Możesz zarażać. Izoluj się od innych osób."</string>
+
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Inne informacje:"</string>
     <!-- YTXT: submission done further info bullet points -->
@@ -1268,7 +1276,7 @@
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
-    <string name="submission_contact_title">"Poproś o TAN"</string>
+    <string name="submission_contact_title">"Poproś o TAN do testu PCR"</string>
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"Jak to działa:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
@@ -1284,7 +1292,7 @@
     <!-- XLNK: Technical number which is called when the user clicks on the display number -->
     <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
-    <string name="submission_contact_step_2_body">"Zarejestruj swój test poprzez wpisanie numeru TAN w aplikacji."</string>
+    <string name="submission_contact_step_2_body">"Zarejestruj swój test PCR poprzez wpisanie numeru TAN w aplikacji."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Zapewniamy obsługę klienta w następujących językach: \nangielskim, niemieckim, tureckim\n\nGodziny pracy:\n24/7"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
@@ -1369,47 +1377,12 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Udostępnij swoje losowe identyfikatory, aby umożliwić ostrzeganie innych osób."</string>
 
-
-    <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Dalej"</string>
-    <!-- XBUT: submission deletion warning button cancel -->
-    <string name="submission_deletion_warning_cancel_button">"Anuluj"</string>
-    <!-- XHED: submission deletion warning title -->
-    <string name="submission_deletion_warning_title">"Uwaga"</string>
-    <!-- YTXT: Headline for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_antigen_test">"Zarejestrowano już szybki test."</string>
-    <!-- YTXT: Body for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_body_antigen_test">"Zarejestrowano już szybki test. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie. Jeśli zarejestrujesz kolejny szybki test, pierwszy szybki test zostanie usunięty z aplikacji."</string>
-    <!-- YTXT: Headline for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_pcr_test">"Zarejestrowano już test PCR."</string>
-    <!-- YTXT: Body for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_body_pcr_test">"Zarejestrowano już test PCR. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie. Jeśli zarejestrujesz kolejny test PCR, pierwszy test PCR zostanie usunięty z aplikacji."</string>
-
-
-    <!-- Reenable risk card -->
-    <!-- XHED: Card title for re-enable risk card -->
-    <string name="reenable_risk_card_title">"Zakończono sprawdzanie narażeń"</string>
-    <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Test zarejestrowany dnia %s"</string>
-    <!-- YTXT: Description text for re-enable risk card -->
-    <string name="reenable_risk_card_description_text">"Automatyczne sprawdzanie narażeń zakończyło się, ponieważ zdiagnozowano u Ciebie koronawirusa i przebywasz obecnie na izolacji. W każdej chwili możesz ponownie aktywować test narażenia. Jeśli to zrobisz, zarejestrowany test zostanie automatycznie usunięty."</string>
-    <!-- XBUT: Button for re-enabling risk calculation -->
-    <string name="reenable_risk_card_button_text">"Włącz sprawdzanie narażeń "</string>
-    <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Aktywuj sprawdzanie narażeń."</string>
-    <!-- YTXT: Dialog text for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_message">"Twój bieżący test zostanie usunięty z aplikacji, więc w razie potrzeby możesz zarejestrować nowy test."</string>
-    <!-- XBUT: Positive button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_positive">"Aktywuj"</string>
-    <!-- XBUT: Negative button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_negative">"Anuluj"</string>
-
     <!-- Test Result Card -->
-    <string name="test_result_card_headline">"Twoja diagnoza:"</string>
+    <string name="test_result_card_headline">"Twoja %s diagnoza:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->
-    <string name="test_result_card_registered_at_text">"Zarejestrowano dnia %s"</string>
+    <string name="test_result_card_registered_at_text">"Test dodany dnia %s"</string>
     <!-- YTXT: negative status text -->
     <string name="test_result_card_status_negative">"Brak zakażenia"</string>
     <!-- YTXT: positive status text -->
@@ -1994,7 +1967,7 @@
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Wersja do druku"</string>
     <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Udostępnić Twoje zameldowania w lokalizacji?"</string>
+    <string name="trace_location_attendee_consent_title">"Udostępnić zameldowania w lokalizacji?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
     <string name="trace_location_attendee_consent_header_description">"Ostrzegaj inne osoby, które się zameldowały w pobliżu. Twoje dane osobowe nie będą udostępniane."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
