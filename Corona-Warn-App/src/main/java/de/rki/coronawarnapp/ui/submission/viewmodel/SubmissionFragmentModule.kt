@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAv
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableModule
 import de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyFragment
 import de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyModule
+import de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneFragment
+import de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneModule
 import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment
 import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarModule
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
@@ -30,6 +32,8 @@ import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResul
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingModule
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenModule
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultKeysSharedFragment
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultKeysSharedModule
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentModule
 import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentFragment
@@ -37,7 +41,7 @@ import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOth
 import de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentFragment
 import de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentModule
 
-@Suppress("FunctionNaming", "MaxLineLength")
+@Suppress("FunctionNaming", "MaxLineLength", "TooManyFunctions")
 @Module
 internal abstract class SubmissionFragmentModule {
 
@@ -86,6 +90,9 @@ internal abstract class SubmissionFragmentModule {
     @ContributesAndroidInjector(modules = [SubmissionTestResultAvailableModule::class])
     abstract fun submissionTestResultAvailableScreen(): SubmissionTestResultAvailableFragment
 
+    @ContributesAndroidInjector(modules = [SubmissionDoneModule::class])
+    abstract fun submissionDoneScreen(): SubmissionDoneFragment
+
     @ContributesAndroidInjector(modules = [SubmissionTestResultConsentGivenModule::class])
     abstract fun submissionTestResultConsentGivenScreen(): SubmissionTestResultConsentGivenFragment
 
@@ -100,4 +107,7 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [RATResultNegativeModule::class])
     abstract fun submissionNegativeRATResultScreen(): RATResultNegativeFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionTestResultKeysSharedModule::class])
+    abstract fun submissionTestResultKeysSharedScreen(): SubmissionTestResultKeysSharedFragment
 }

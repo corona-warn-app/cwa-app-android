@@ -13,7 +13,7 @@
     <string name="contact_diary_add_person_title">"Person"</string>
     <string name="contact_diary_add_person_text_input_name_hint">"Name"</string>
     <string name="contact_diary_add_text_input_phone_hint">"Phone"</string>
-    <string name="contact_diary_add_text_input_email_hint">"e-mail"</string>
+    <string name="contact_diary_add_text_input_email_hint">"E-mail"</string>
     <string name="contact_diary_add_person_save_button">"Save"</string>
     <string name="contact_diary_add_location_title">"Place"</string>
     <string name="contact_diary_add_location_text_input_hint">"Description"</string>

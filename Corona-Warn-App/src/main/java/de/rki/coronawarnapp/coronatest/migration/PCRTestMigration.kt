@@ -65,6 +65,7 @@ class PCRTestMigration @Inject constructor(
             identifier = LEGACY_IDENTIFIER,
             registrationToken = token,
             registeredAt = devicePairingSuccessfulAt,
+            lastUpdatedAt = devicePairingSuccessfulAt,
             testResult = when (isAllowedToSubmitKeys) {
                 true -> CoronaTestResult.PCR_POSITIVE
                 else -> CoronaTestResult.PCR_OR_RAT_PENDING

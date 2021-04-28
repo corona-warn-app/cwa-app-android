@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
@@ -97,13 +98,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         onPositive = { viewModel.errorResetDialogDismissed() }
                     )
                 }
-                HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog()
+                is HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog(event.type)
                 HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                     HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
                 )
-                HomeFragmentEvents.ShowReactivateRiskCheckDialog -> {
-                    showReactivateRiskCheckDialog()
-                }
                 HomeFragmentEvents.ShowTracingExplanation -> {
                     tracingExplanationDialog.show {
                         viewModel.tracingExplanationWasShown()
@@ -130,7 +128,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun showRemoveTestDialog() {
+    private fun showRemoveTestDialog(type: CoronaTest.Type) {
         val removeTestDialog = DialogHelper.DialogInstance(
             requireActivity(),
             R.string.submission_test_result_dialog_remove_test_title,
@@ -138,24 +136,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             R.string.submission_test_result_dialog_remove_test_button_positive,
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
-                viewModel.deregisterWarningAccepted()
-            }
-        )
-        DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
-        }
-    }
-
-    private fun showReactivateRiskCheckDialog() {
-        val removeTestDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.dialog_reactivate_risk_calculation_title,
-            R.string.dialog_reactivate_risk_calculation_message,
-            R.string.dialog_reactivate_risk_calculation_button_positive,
-            R.string.dialog_reactivate_risk_calculation_button_negative,
-            positiveButtonFunction = {
-                viewModel.reenableRiskCalculation()
+                viewModel.deregisterWarningAccepted(type)
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
