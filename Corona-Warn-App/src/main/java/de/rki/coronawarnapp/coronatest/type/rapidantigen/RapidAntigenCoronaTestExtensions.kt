@@ -17,14 +17,14 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.Test
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestPending
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestPositive
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestResultReady
-import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.BadRequestException
 import org.joda.time.Instant
 
 fun RACoronaTest?.toSubmissionState(nowUTC: Instant = Instant.now(), coronaTestConfig: CoronaTestConfig) = when {
     this == null -> NoTest
     isSubmitted -> SubmissionDone(testRegisteredAt = registeredAt)
     isProcessing -> FetchingResult
-    lastError != null -> if (lastError is CwaServerError) TestPending else TestInvalid
+    lastError is BadRequestException -> TestInvalid
     else -> when (getState(nowUTC, coronaTestConfig)) {
         INVALID -> TestError
         POSITIVE -> {
