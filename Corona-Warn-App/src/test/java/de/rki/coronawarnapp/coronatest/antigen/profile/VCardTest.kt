@@ -40,6 +40,7 @@ class VCardTest : BaseTest() {
             BEGIN:VCARD
             VERSION:4.0
             N:Mustermann;Max;;;
+            FN:Max Mustermann
             BDAY:19800625
             EMAIL;TYPE=home:max@mustermann.de
             TEL;TYPE="cell,home":0190 1234567
@@ -66,6 +67,7 @@ class VCardTest : BaseTest() {
             BEGIN:VCARD
             VERSION:4.0
             N:;;;;
+            FN:
             BDAY:
             EMAIL;TYPE=home:
             TEL;TYPE="cell,home":
@@ -92,6 +94,7 @@ class VCardTest : BaseTest() {
             BEGIN:VCARD
             VERSION:4.0
             N:Mustermann;Max;;;
+            FN:Max Mustermann
             BDAY:19800625
             EMAIL;TYPE=home:max@mustermann.de
             TEL;TYPE="cell,home":0190 1234567
@@ -118,6 +121,7 @@ class VCardTest : BaseTest() {
             BEGIN:VCARD
             VERSION:4.0
             N:Mustermann\;;Max\,;;;
+            FN:Max\, Mustermann\;
             BDAY:19800625
             EMAIL;TYPE=home:max@mustermann\,\;\\.de
             TEL;TYPE="cell,home":0190 \\1234567

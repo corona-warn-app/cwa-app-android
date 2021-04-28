@@ -17,6 +17,12 @@ class VCard @Inject constructor(
     fun create(ratProfile: RATProfile): String = ratProfile.run {
         val lastName = lastName.escapeAll()
         val firstName = firstName.escapeAll()
+        val fullName = buildString {
+            append(firstName)
+            if (lastName.isNotBlank()) {
+                append(" $lastName")
+            }
+        }
         val city = city.escapeAll()
         val street = street.escapeAll()
         val zipCode = zipCode.escapeAll()
@@ -28,6 +34,7 @@ class VCard @Inject constructor(
             BEGIN:VCARD
             VERSION:4.0
             N:$lastName;$firstName;;;
+            FN:$fullName
             BDAY:$birthDate
             EMAIL;TYPE=home:$email
             TEL;TYPE="cell,home":$phone
