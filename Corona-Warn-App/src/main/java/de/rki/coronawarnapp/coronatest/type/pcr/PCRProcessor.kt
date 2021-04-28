@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -36,8 +35,7 @@ class PCRProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    private val testResultDataCollector: TestResultDataCollector,
-    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
+    private val testResultDataCollector: TestResultDataCollector
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
@@ -78,7 +76,6 @@ class PCRProcessor @Inject constructor(
 
         if (testResult == PCR_POSITIVE) {
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
-            deadmanNotificationScheduler.cancelScheduledWork()
         }
 
         analyticsKeySubmissionCollector.reportTestRegistered()
@@ -114,7 +111,6 @@ class PCRProcessor @Inject constructor(
 
             if (newTestResult == PCR_POSITIVE) {
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
-                deadmanNotificationScheduler.cancelScheduledWork()
             }
 
             test.copy(
