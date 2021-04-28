@@ -20,9 +20,10 @@
         style="@style/buttonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginHorizontal="@dimen/spacing_normal"
+        android:layout_marginVertical="@dimen/spacing_small"
         android:text="@string/trace_location_onboarding_body_confirm"
+        app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_scroll_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -31,7 +32,9 @@
         android:id="@+id/check_in_onboarding_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
+        android:paddingBottom="@dimen/spacing_small"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay"
         app:layout_constraintBottom_toTopOf="@+id/check_in_onboarding_acknowledge"
         app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_toolbar">
 
