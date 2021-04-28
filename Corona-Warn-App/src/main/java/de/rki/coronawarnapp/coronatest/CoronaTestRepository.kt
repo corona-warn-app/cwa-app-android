@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
+import de.rki.coronawarnapp.coronatest.errors.DuplicateCoronaTestException
+import de.rki.coronawarnapp.coronatest.errors.UnknownTestTypeException
 import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -78,13 +80,13 @@ class CoronaTestRepository @Inject constructor(
 
         val currentTests = internalData.updateBlocking {
             if (values.any { it.type == request.type }) {
-                throw IllegalStateException("There is already a test of this type: ${request.type}.")
+                throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
             }
 
             val test = when (request) {
                 is CoronaTestQRCode -> processor.create(request)
                 is CoronaTestTAN -> processor.create(request)
-                else -> throw IllegalArgumentException("Unknown test request: $request")
+                else -> throw UnknownTestTypeException("Unknown test request: $request")
             }
 
             Timber.tag(TAG).i("Adding new test: %s", test)
