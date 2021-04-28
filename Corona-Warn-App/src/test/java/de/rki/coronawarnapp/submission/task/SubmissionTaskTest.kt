@@ -4,7 +4,6 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
@@ -54,7 +53,6 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var tekHistoryCalculations: ExposureKeyHistoryCalculations
     @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
     @MockK lateinit var submissionSettings: SubmissionSettings
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var autoSubmission: AutoSubmission
 
@@ -84,7 +82,7 @@ class SubmissionTaskTest : BaseTest() {
                 every { isSubmitted } returns false
                 every { registrationToken } returns "regtoken"
                 every { identifier } returns "coronatest-identifier"
-                every { type } returns CoronaTest.Type.PCR
+                every { type } returns PCR
             }
         )
     )
@@ -171,7 +169,6 @@ class SubmissionTaskTest : BaseTest() {
         tekHistoryCalculations = tekHistoryCalculations,
         tekHistoryStorage = tekHistoryStorage,
         submissionSettings = submissionSettings,
-        shareTestResultNotificationService = shareTestResultNotificationService,
         timeStamper = timeStamper,
         autoSubmission = autoSubmission,
         testResultAvailableNotificationService = testResultAvailableNotificationService,

@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -36,8 +35,7 @@ class PCRProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    private val testResultDataCollector: TestResultDataCollector,
-    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
+    private val testResultDataCollector: TestResultDataCollector
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
@@ -46,7 +44,9 @@ class PCRProcessor @Inject constructor(
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.PCR
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID)
+        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID).also {
+            Timber.tag(TAG).d("Request %s gave us %s", request, it)
+        }
 
         testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult) // This saves received at
 
@@ -72,13 +72,15 @@ class PCRProcessor @Inject constructor(
     ): PCRCoronaTest {
         analyticsKeySubmissionCollector.reset()
 
-        val testResult = response.testResult.validOrThrow()
+        val testResult = response.testResult.let {
+            Timber.tag(TAG).v("Raw test result $it")
+            testResultDataCollector.updatePendingTestResultReceivedTime(it)
 
-        testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
+            it.toValidatedResult()
+        }
 
         if (testResult == PCR_POSITIVE) {
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
-            deadmanNotificationScheduler.cancelScheduledWork()
         }
 
         analyticsKeySubmissionCollector.reportTestRegistered()
@@ -105,16 +107,15 @@ class PCRProcessor @Inject constructor(
                 return test
             }
 
-            val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken)
-            Timber.tag(TAG).d("Test result was %s", newTestResult)
+            val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken).let {
+                Timber.tag(TAG).d("Raw test result was %s", it)
+                testResultDataCollector.updatePendingTestResultReceivedTime(it)
 
-            newTestResult.validOrThrow()
-
-            testResultDataCollector.updatePendingTestResultReceivedTime(newTestResult)
+                it.toValidatedResult()
+            }
 
             if (newTestResult == PCR_POSITIVE) {
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
-                deadmanNotificationScheduler.cancelScheduledWork()
             }
 
             test.copy(
@@ -193,11 +194,11 @@ class PCRProcessor @Inject constructor(
 
     companion object {
         private val FINAL_STATES = setOf(PCR_POSITIVE, PCR_NEGATIVE, PCR_REDEEMED)
-        private const val TAG = "PCRProcessor"
+        internal const val TAG = "PCRProcessor"
     }
 }
 
-private fun CoronaTestResult.validOrThrow(): CoronaTestResult {
+private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     val isValid = when (this) {
         PCR_OR_RAT_PENDING,
         PCR_NEGATIVE,
@@ -212,6 +213,10 @@ private fun CoronaTestResult.validOrThrow(): CoronaTestResult {
         RAT_REDEEMED -> false
     }
 
-    if (!isValid) throw IllegalArgumentException("Invalid testResult $this")
-    return this
+    return if (isValid) {
+        this
+    } else {
+        Timber.tag(PCRProcessor.TAG).e("Server returned invalid PCR testresult $this")
+        PCR_INVALID
+    }
 }

@@ -35,6 +35,7 @@ class DefaultRiskLevelStorageTest : BaseTest() {
     @MockK lateinit var riskResultTables: RiskResultDatabase.RiskResultsDao
     @MockK lateinit var exposureWindowTables: RiskResultDatabase.ExposureWindowsDao
     @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
+    @MockK lateinit var timeStamper: TimeStamper
 
     private val testRiskLevelResultDao = PersistedRiskLevelResultDao(
         id = "riskresult-id",
@@ -101,6 +102,7 @@ class DefaultRiskLevelStorageTest : BaseTest() {
         riskResultDatabaseFactory = databaseFactory,
         presenceTracingRiskRepository = presenceTracingRiskRepository,
         riskCombinator = RiskCombinator(TimeStamper()),
+        timeStamper = timeStamper,
     )
 
     @Test
