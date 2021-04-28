@@ -93,7 +93,10 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+            android:paddingBottom="@dimen/spacing_normal"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -426,9 +429,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:layout_marginBottom="23dp"
                     android:contentDescription="@string/statistics_explanation_trend_description"
                     android:focusable="true"
                     android:text="@string/statistics_explanation_trend_description" />
@@ -436,13 +438,6 @@
             </LinearLayout>
 
         </ScrollView>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
 
         <include layout="@layout/merge_guidelines_side" />
 
