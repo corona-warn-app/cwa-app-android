@@ -67,6 +67,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionNegativeAntigenTestResultFragment"
             app:destination="@id/submissionNegativeAntigenTestResultFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionTestResultKeysSharedFragment"
+            app:destination="@id/submissionTestResultKeysSharedFragment" />
     </fragment>
 
     <fragment
@@ -436,6 +439,11 @@
             app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionDoneFragment"
+            app:destination="@id/submissionDoneFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
@@ -458,6 +466,11 @@
             app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionDoneFragment"
+            app:destination="@id/submissionDoneFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/submissionConsentFragment"
@@ -760,6 +773,29 @@
             app:destination="@id/submissionTestResultConsentGivenFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionDoneFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneFragment"
+        android:label="SubmissionDoneFragment"
+        tools:layout="@layout/fragment_submission_done">
+        <action
+            android:id="@+id/action_submissionDoneFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"/>
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type"/>
+    </fragment>
+    <fragment
+        android:id="@+id/submissionTestResultKeysSharedFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultKeysSharedFragment"
+        android:label="SubmissionTestResultKeysSharedFragment"
+        tools:layout="@layout/fragment_submission_test_result_positive_keys_shared">
         <argument
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />

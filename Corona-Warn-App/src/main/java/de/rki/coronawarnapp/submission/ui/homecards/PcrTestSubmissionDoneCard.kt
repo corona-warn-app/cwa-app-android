@@ -24,12 +24,13 @@ class PcrTestSubmissionDoneCard(
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-
+        itemView.setOnClickListener { curItem.onClickAction(item) }
         val userDate = curItem.state.getFormattedRegistrationDate()
         date.text = resources.getString(R.string.ag_homescreen_card_pcr_body_result_date, userDate)
     }
 
     data class Item(
-        val state: SubmissionStatePCR.SubmissionDone
+        val state: SubmissionStatePCR.SubmissionDone,
+        val onClickAction: (Item) -> Unit,
     ) : TestResultItem.PCR
 }

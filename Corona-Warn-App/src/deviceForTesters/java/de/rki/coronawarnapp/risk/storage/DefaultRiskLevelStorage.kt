@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao.PersistedScanInstance
 import de.rki.coronawarnapp.risk.storage.internal.windows.toPersistedExposureWindow
 import de.rki.coronawarnapp.risk.storage.internal.windows.toPersistedScanInstances
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.firstOrNull
@@ -20,11 +21,13 @@ class DefaultRiskLevelStorage @Inject constructor(
     presenceTracingRiskRepository: PresenceTracingRiskRepository,
     @AppScope val scope: CoroutineScope,
     riskCombinator: RiskCombinator,
+    timeStamper: TimeStamper,
 ) : BaseRiskLevelStorage(
     riskResultDatabaseFactory,
     presenceTracingRiskRepository,
     scope,
     riskCombinator,
+    timeStamper,
 ) {
 
     // 14 days, 6 times per day

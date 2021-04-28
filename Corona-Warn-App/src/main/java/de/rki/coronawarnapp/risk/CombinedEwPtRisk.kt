@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.risk
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
@@ -13,7 +15,8 @@ data class CombinedEwPtDayRisk(
 
 data class CombinedEwPtRiskLevelResult(
     private val ptRiskLevelResult: PtRiskLevelResult,
-    private val ewRiskLevelResult: EwRiskLevelResult
+    private val ewRiskLevelResult: EwRiskLevelResult,
+    private val exposureWindowDayRisks: List<ExposureWindowDayRisk>? = null
 ) {
 
     val riskState: RiskState by lazy {
@@ -31,12 +34,14 @@ data class CombinedEwPtRiskLevelResult(
     val daysWithEncounters: Int by lazy {
         when (riskState) {
             RiskState.INCREASED_RISK -> {
-                (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0) +
-                    ptRiskLevelResult.numberOfDaysWithHighRisk
+                ewDaysWithHighRisk
+                    .plus(ptRiskLevelResult.daysWithHighRisk)
+                    .distinct().count()
             }
             RiskState.LOW_RISK -> {
-                (ewRiskLevelResult.ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0) +
-                    ptRiskLevelResult.numberOfDaysWithLowRisk
+                ewDaysWithLowRisk
+                    .plus(ptRiskLevelResult.daysWithLowRisk)
+                    .distinct().count()
             }
             else -> 0
         }
@@ -64,6 +69,18 @@ data class CombinedEwPtRiskLevelResult(
     val matchedRiskCount: Int by lazy {
         ewRiskLevelResult.matchedKeyCount + ptRiskLevelResult.checkInOverlapCount
     }
+
+    @VisibleForTesting
+    internal val ewDaysWithHighRisk: List<LocalDate>
+        get() = exposureWindowDayRisks?.filter {
+            it.riskLevel.mapToRiskState() == RiskState.INCREASED_RISK
+        }?.map { it.localDateUtc } ?: emptyList()
+
+    @VisibleForTesting
+    internal val ewDaysWithLowRisk: List<LocalDate>
+        get() = exposureWindowDayRisks?.filter {
+            it.riskLevel.mapToRiskState() == RiskState.LOW_RISK
+        }?.map { it.localDateUtc } ?: emptyList()
 }
 
 data class LastCombinedRiskResults(
