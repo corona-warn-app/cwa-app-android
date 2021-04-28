@@ -54,7 +54,7 @@ class EncryptedPreferencesMigration @Inject constructor(
             cwaSettings.wasTracingExplanationDialogShown = wasTracingExplanationDialogShown()
             cwaSettings.isNotificationsRiskEnabled.update { isNotificationsRiskEnabled() }
             cwaSettings.isNotificationsTestEnabled.update { isNotificationsTestEnabled() }
-            cwaSettings.numberOfRemainingSharePositiveTestResultReminders =
+            cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr =
                 numberOfRemainingSharePositiveTestResultReminders()
         }
 
