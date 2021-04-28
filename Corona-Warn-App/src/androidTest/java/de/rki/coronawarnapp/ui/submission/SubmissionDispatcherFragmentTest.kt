@@ -12,9 +12,12 @@ import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiT
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -23,9 +26,11 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
+import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.preferences.mockFlowPreference
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -39,7 +44,12 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
-    private fun createViewModel() = SubmissionDispatcherViewModel()
+    @MockK lateinit var ratProfileSettings: RATProfileSettings
+
+    private fun createViewModel() = SubmissionDispatcherViewModel(
+        ratProfileSettings,
+        TestDispatcherProvider()
+    )
 
     private val navController = TestNavHostController(
         ApplicationProvider.getApplicationContext()
@@ -50,6 +60,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
+        every { ratProfileSettings.profile } returns mockFlowPreference(null)
         setupMockViewModel(
             object : SubmissionDispatcherViewModel.Factory {
                 override fun create(): SubmissionDispatcherViewModel = createViewModel()
