@@ -1383,24 +1383,6 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Share your random IDs so that others can be warned."</string>
 
-    <!-- Reenable risk card -->
-    <!-- XHED: Card title for re-enable risk card -->
-    <string name="reenable_risk_card_title">"Exposure Check Ended"</string>
-    <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Test registered on %s"</string>
-    <!-- YTXT: Description text for re-enable risk card -->
-    <string name="reenable_risk_card_description_text">"The automatic exposure check has ended because you have been diagnosed with coronavirus and are currently in isolation. You can reactivate the exposure test at any time. If you do, your registered test will be deleted automatically."</string>
-    <!-- XBUT: Button for re-enabling risk calculation -->
-    <string name="reenable_risk_card_button_text">"Turn On Exposure Check "</string>
-    <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Activate exposure check."</string>
-    <!-- YTXT: Dialog text for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_message">"Your current test will be deleted from the app, so you can register a new test if necessary."</string>
-    <!-- XBUT: Positive button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_positive">"Activate"</string>
-    <!-- XBUT: Negative button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_negative">"Cancel"</string>
-
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Your %s diagnosis:"</string>
     <!-- YTXT: virus name text -->
