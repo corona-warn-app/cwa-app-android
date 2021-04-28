@@ -195,7 +195,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         vm.doBackgroundNoiseCheck()
         contactDiaryWorkScheduler.schedulePeriodic()
         dataDonationAnalyticsScheduler.schedulePeriodic()
-        vm.checkDeadMan()
     }
 
     private fun showEnergyOptimizedEnabledForBackground() {
