@@ -37,7 +37,6 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 }
             )
 
-            closeButton.setOnClickListener { viewModel.onClose() }
             nextButton.setOnClickListener { viewModel.onNext() }
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             toolbar.setOnMenuItemClickListener {

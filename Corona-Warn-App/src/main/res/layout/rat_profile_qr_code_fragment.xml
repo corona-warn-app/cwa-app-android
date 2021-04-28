@@ -201,19 +201,6 @@
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="8dp"
         android:text="@string/rat_qr_code_profile_next_button"
-        app:layout_constraintBottom_toTopOf="@id/close_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/close_button"
-        style="@style/buttonTraceLocation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        android:layout_marginBottom="4dp"
-        android:text="@string/rat_qr_code_profile_close_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
