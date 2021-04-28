@@ -19,6 +19,7 @@ fun SpannableStringBuilder.urlSpan(start: Int, end: Int, value: String): Spannab
  * in which case only the first [limit]
  * elements will be appended, followed by the [truncated] string (which defaults to "...").
  **/
+@Suppress("LongParameterList")
 fun <T> Iterable<T>.joinToSpannable(
     separator: CharSequence = ", ",
     prefix: CharSequence = "",
