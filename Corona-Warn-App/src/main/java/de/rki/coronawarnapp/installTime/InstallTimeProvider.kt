@@ -21,7 +21,9 @@ class InstallTimeProvider @Inject constructor(
     )
         .toLocalDateUserTz()
 
-    val today = Instant.now().toLocalDateUserTz()
+    val today: LocalDate
+        get() = Instant.now().toLocalDateUserTz()
 
-    val daysSinceInstallation: Int get() = Days.daysBetween(dayOfInstallation, today).days
+    val daysSinceInstallation: Int
+        get() = Days.daysBetween(dayOfInstallation, today).days
 }
