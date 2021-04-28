@@ -64,6 +64,7 @@ class DeadmanNotificationScheduler @Inject constructor(
         if (delay < 0) {
             return
         } else {
+            Timber.d("DeadmanNotification will be scheduled for $delay minutes in the future")
             // Create unique work and enqueue
             workManager.enqueueUniqueWork(
                 ONE_TIME_WORK_NAME,

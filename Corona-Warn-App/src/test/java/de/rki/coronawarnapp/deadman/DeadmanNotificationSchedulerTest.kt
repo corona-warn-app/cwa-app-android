@@ -141,9 +141,13 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
 
     @Test
     fun `work should be scheduled if only negative test is registered`() = runBlockingTest {
-        every { coronaTestRepository.coronaTests } returns flowOf(setOf(mockk<CoronaTest>().apply {
-            every { isSubmissionAllowed } returns false
-        }))
+        every { coronaTestRepository.coronaTests } returns flowOf(
+            setOf(
+                mockk<CoronaTest>().apply {
+                    every { isSubmissionAllowed } returns false
+                }
+            )
+        )
 
         createScheduler(this).apply { setup() }
 
@@ -153,9 +157,13 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
 
     @Test
     fun `scheduled work should be cancelled if positive test is registered`() = runBlockingTest {
-        every { coronaTestRepository.coronaTests } returns flowOf(setOf(mockk<CoronaTest>().apply {
-            every { isSubmissionAllowed } returns true
-        }))
+        every { coronaTestRepository.coronaTests } returns flowOf(
+            setOf(
+                mockk<CoronaTest>().apply {
+                    every { isSubmissionAllowed } returns true
+                }
+            )
+        )
 
         createScheduler(this).apply { setup() }
 
@@ -184,10 +192,10 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     }
 
     private fun verifyCancelScheduledWork(exactly: Int = 1) {
-        verify(exactly = exactly){
+        verify(exactly = exactly) {
             workManager.cancelUniqueWork(DeadmanNotificationScheduler.PERIODIC_WORK_NAME)
         }
-        verify(exactly = exactly){
+        verify(exactly = exactly) {
             workManager.cancelUniqueWork(DeadmanNotificationScheduler.ONE_TIME_WORK_NAME)
         }
     }
