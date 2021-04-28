@@ -40,10 +40,8 @@ import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.runBlocking
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
@@ -114,16 +112,11 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             .launchIn(GlobalScope)
 
         if (onboardingSettings.isOnboarded) {
-            // TODO this is on the main thread, not very nice...
-            runBlocking {
-                val isAllowedToSubmitKeys = coronaTestRepository.coronaTests.first().any { it.isSubmissionAllowed }
-                if (!isAllowedToSubmitKeys) {
-                    deadmanNotificationScheduler.schedulePeriodic()
-                }
-            }
-
             contactDiaryWorkScheduler.schedulePeriodic()
         }
+
+        Timber.v("Setting up deadman notification scheduler")
+        deadmanNotificationScheduler.setup()
 
         Timber.v("Setting up risk work schedulers.")
         exposureWindowRiskWorkScheduler.setup()

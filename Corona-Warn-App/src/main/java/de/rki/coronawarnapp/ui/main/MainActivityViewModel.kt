@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 
 @Suppress("LongParameterList")
 class MainActivityViewModel @AssistedInject constructor(
@@ -94,16 +93,6 @@ class MainActivityViewModel @AssistedInject constructor(
     private suspend fun checkForEnergyOptimizedEnabled() {
         if (!backgroundModeStatus.isIgnoringBatteryOptimizations.first()) {
             showEnergyOptimizedEnabledForBackground.postValue(Unit)
-        }
-    }
-
-    fun checkDeadMan() {
-        launch {
-            val isAllowedToSubmitKeys = coronaTestRepository.coronaTests.first().any { it.isSubmissionAllowed }
-            if (!isAllowedToSubmitKeys) {
-                Timber.v("We are not allowed to submit keys, scheduling deadman.")
-                deadmanScheduler.schedulePeriodic()
-            }
         }
     }
 
