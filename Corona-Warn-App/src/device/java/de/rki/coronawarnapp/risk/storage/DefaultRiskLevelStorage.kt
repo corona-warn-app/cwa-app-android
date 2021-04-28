@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.CoroutineScope
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,11 +17,13 @@ class DefaultRiskLevelStorage @Inject constructor(
     presenceTracingRiskRepository: PresenceTracingRiskRepository,
     @AppScope scope: CoroutineScope,
     riskCombinator: RiskCombinator,
+    timeStamper: TimeStamper,
 ) : BaseRiskLevelStorage(
     riskResultDatabaseFactory,
     presenceTracingRiskRepository,
     scope,
-    riskCombinator
+    riskCombinator,
+    timeStamper,
 ) {
 
     // 2 days, 6 times per day, data is considered stale after 48 hours with risk calculation

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.coronatest
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -123,7 +124,7 @@ class CoronaTestRepository @Inject constructor(
 
         internalData.updateBlocking {
             val toBeRemoved = values.singleOrNull { it.identifier == identifier }
-                ?: throw IllegalArgumentException("No found for $identifier")
+                ?: throw CoronaTestNotFoundException("No found for $identifier")
 
             getProcessor(toBeRemoved.type).onRemove(toBeRemoved)
 
@@ -236,7 +237,7 @@ class CoronaTestRepository @Inject constructor(
     ) {
         internalData.updateBlocking {
             val original = values.singleOrNull { it.identifier == identifier }
-                ?: throw IllegalArgumentException("No found for $identifier")
+                ?: throw CoronaTestNotFoundException("No test found for $identifier")
 
             val processor = getProcessor(original.type)
 

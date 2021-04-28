@@ -1377,24 +1377,6 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Trimiteți ID-ul dvs. aleatoriu pentru a-i avertiza și pe alții."</string>
 
-    <!-- Reenable risk card -->
-    <!-- XHED: Card title for re-enable risk card -->
-    <string name="reenable_risk_card_title">"Verificarea expunerii s-a încheiat"</string>
-    <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Test înregistrat pe %s"</string>
-    <!-- YTXT: Description text for re-enable risk card -->
-    <string name="reenable_risk_card_description_text">"Verificarea automată a expunerii s-a încheiat deoarece ați fost diagnosticat cu coronavirus și în prezent sunteți în izolare. Puteți reactiva oricând testarea expunerii. Dacă faceți acest lucru, testul dvs. înregistrat va fi șters automat."</string>
-    <!-- XBUT: Button for re-enabling risk calculation -->
-    <string name="reenable_risk_card_button_text">"Pornire verificarea expunerii "</string>
-    <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Activați verificarea expunerii."</string>
-    <!-- YTXT: Dialog text for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_message">"Testul dvs. curent va fi șters din aplicație pentru a putea înregistra un test nou dacă este necesar."</string>
-    <!-- XBUT: Positive button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_positive">"Activare"</string>
-    <!-- XBUT: Negative button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_negative">"Anulare"</string>
-
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Diagnosticul dvs. pentru %s:"</string>
     <!-- YTXT: virus name text -->

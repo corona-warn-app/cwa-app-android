@@ -36,31 +36,43 @@ class PCRTestResultAvailableNotificationService @Inject constructor(
     navDeepLinkBuilderProvider,
     notificationHelper,
     cwaSettings,
-    NotificationConstants.PCR_TEST_RESULT_AVAILABLE_NOTIFICATION_ID
+    NotificationConstants.PCR_TEST_RESULT_AVAILABLE_NOTIFICATION_ID,
+    logTag = TAG,
 ) {
+
     fun setup() {
         Timber.tag(TAG).d("setup() - PCRTestResultAvailableNotificationService")
 
+        @Suppress("RedundantLambdaArrow")
         coronaTestRepository.latestPCRT
             .onEach { _ ->
+                // We want the flow to trigger us, but not work with outdated data due to queue processing
                 val test = coronaTestRepository.latestPCRT.first()
+                Timber.tag(TAG).v("PCR test change: %s", test)
+
                 if (test == null) {
                     cancelTestResultAvailableNotification()
                     return@onEach
                 }
 
-                val alreadySent = test.isResultAvailableNotificationSent
+                val notSentYet = !test.isResultAvailableNotificationSent
                 val isInteresting = INTERESTING_STATES.contains(test.testResult)
-                Timber.tag(TAG).v("alreadySent=$alreadySent, isInteresting=$isInteresting")
+                val isTestViewed = test.isViewed
+                Timber.tag(TAG).v("notSentYet=$notSentYet, isInteresting=$isInteresting, isTestViewed=$isTestViewed")
 
-                if (!alreadySent && isInteresting) {
-                    coronaTestRepository.updateResultNotification(identifier = test.identifier, sent = true)
-                    showTestResultAvailableNotification(test)
-                    notificationHelper.cancelCurrentNotification(
-                        NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-                    )
-                } else {
-                    cancelTestResultAvailableNotification()
+                when {
+                    notSentYet && isInteresting -> {
+                        Timber.tag(TAG).d("Showing PCR test result notification.")
+                        showTestResultAvailableNotification(test)
+                        coronaTestRepository.updateResultNotification(identifier = test.identifier, sent = true)
+                        notificationHelper.cancelCurrentNotification(
+                            NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+                        )
+                    }
+                    isTestViewed -> {
+                        Timber.tag(TAG).d("Canceling PCR test result notification.")
+                        cancelTestResultAvailableNotification()
+                    }
                 }
             }
             .launchIn(appScope)

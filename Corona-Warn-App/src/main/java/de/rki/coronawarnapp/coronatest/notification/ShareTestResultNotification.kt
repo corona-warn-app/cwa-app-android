@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.coronatest.notification
 
 import android.content.Context
+import android.os.Bundle
 import androidx.navigation.NavDeepLinkBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET
@@ -22,20 +24,25 @@ class ShareTestResultNotification @Inject constructor(
     private val notificationHelper: GeneralNotifications,
 ) {
 
-    fun scheduleSharePositiveTestResultReminder() {
+    fun scheduleSharePositiveTestResultReminder(testType: CoronaTest.Type) {
         notificationHelper.scheduleRepeatingNotification(
+            testType,
             timeStamper.nowUTC.plus(POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
             POSITIVE_RESULT_NOTIFICATION_INTERVAL,
             POSITIVE_RESULT_NOTIFICATION_ID
         )
     }
 
-    fun showSharePositiveTestResultNotification(notificationId: Int) {
+    fun showSharePositiveTestResultNotification(notificationId: Int, testType: CoronaTest.Type) {
         Timber.d("showSharePositiveTestResultNotification(notificationId=$notificationId)")
+
+        val args = Bundle().apply { putSerializable("testType", testType) }
+
         val pendingIntent = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.nav_graph)
             .setComponentName(MainActivity::class.java)
             .setDestination(R.id.submissionTestResultAvailableFragment)
+            .setArguments(args)
             .createPendingIntent()
 
         val notification = notificationHelper.newBaseBuilder().apply {
@@ -50,8 +57,8 @@ class ShareTestResultNotification @Inject constructor(
         )
     }
 
-    fun cancelSharePositiveTestResultNotification() {
-        notificationHelper.cancelFutureNotifications(POSITIVE_RESULT_NOTIFICATION_ID)
+    fun cancelSharePositiveTestResultNotification(testType: CoronaTest.Type) {
+        notificationHelper.cancelFutureNotifications(POSITIVE_RESULT_NOTIFICATION_ID, testType)
         Timber.v("Future positive test result notifications have been canceled")
     }
 }
