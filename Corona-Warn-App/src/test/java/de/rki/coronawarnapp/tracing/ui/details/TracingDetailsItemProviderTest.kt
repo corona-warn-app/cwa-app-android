@@ -64,7 +64,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         status: GeneralTracingStatus.Status,
         riskState: RiskState,
         matchedKeyCount: Int,
-        daysSinceInstallation: Long,
+        daysSinceInstallation: Int,
         availableSurveys: List<Surveys.Type> = emptyList()
     ) {
         every { tracingStatus.generalStatus } returns flowOf(status)
