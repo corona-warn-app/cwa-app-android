@@ -21,7 +21,7 @@ data class VaccinatedPerson(
         get() = LocalDate.now()
 
     val vaccinationStatus: Status
-        get() = Status.INCOMPLETE
+        get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
 
     enum class Status {
         INCOMPLETE,

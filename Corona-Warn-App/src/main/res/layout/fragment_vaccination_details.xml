@@ -35,7 +35,7 @@
                     android:layout_height="match_parent"
                     android:importantForAccessibility="no"
                     app:layout_collapseMode="parallax"
-                    app:srcCompat="@drawable/vaccination_gradient_background" />
+                    app:srcCompat="@drawable/vaccination_compelete_gradient" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

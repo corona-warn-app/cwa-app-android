@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestVaccinationBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -24,8 +24,22 @@ class VaccinationTestFragment : Fragment(R.layout.fragment_test_vaccination), Au
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.openVaccinationDetails.setOnClickListener {
-            findNavController().navigate(R.id.vaccination_nav_graph)
+        binding.openVaccinationDetailsIncomplete.setOnClickListener {
+            doNavigate(
+                VaccinationTestFragmentDirections
+                    .actionVaccinationTestFragmentToVaccinationDetailsFragment(
+                        "05930482748454836478695764787840"
+                    )
+            )
+        }
+
+        binding.openVaccinationDetailsComplete.setOnClickListener {
+            doNavigate(
+                VaccinationTestFragmentDirections
+                    .actionVaccinationTestFragmentToVaccinationDetailsFragment(
+                        "05930482748454836478695764787841"
+                    )
+            )
         }
     }
 

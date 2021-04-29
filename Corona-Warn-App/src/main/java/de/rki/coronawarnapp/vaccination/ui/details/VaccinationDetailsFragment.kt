@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.vaccination.ui.details
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -15,6 +16,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
@@ -29,7 +31,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
             factory.create(
-                certificateId = "" // TODO args.certificateId,
+                certificateId = args.certificateId,
             )
         }
     )
@@ -37,30 +39,44 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
-            deleteButton.setOnClickListener { viewModel.deleteVaccination() }
+            deleteButton.setOnClickListener {
+                Toast.makeText(requireContext(), "TODO \uD83D\uDEA7", Toast.LENGTH_LONG).show()
+                viewModel.deleteVaccination()
+            }
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
-                name.text = it.run { "$firstName $lastName" }
-                birthDate.text = getString(
-                    R.string.vaccination_details_birth_date,
-                    it.dateOfBirth.toString(format)
-                )
-                vaccinatedAt.text = it.vaccinatedAt.toString(format)
-                vaccinationName.text = it.vaccinationName
-                vaccinationManufacturer.text = it.vaccinationManufacturer
-                chargeId.text = it.chargeId
-                certificateIssuer.text = it.certificateIssuer
-                certificateCountry.text = it.certificateCountry.getLabel(requireContext())
-                certificateId.text = it.certificateId
+                it.certificate?.let { certificate -> bindCertificateViews(certificate) }
 
                 appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                     title.alpha = titleAlpha
                     subtitle.alpha = subtitleAlpha
                 }
-
                 setToolbarOverlay()
+                val background = if (it.isComplete)
+                    R.drawable.vaccination_compelete_gradient
+                else
+                    R.drawable.vaccination_incomplete
+
+                expandedImage.setImageResource(background)
             }
         }
+
+    private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
+        certificate: VaccinationCertificate
+    ) {
+        name.text = certificate.run { "$firstName $lastName" }
+        birthDate.text = getString(
+            R.string.vaccination_details_birth_date,
+            certificate.dateOfBirth.toString(format)
+        )
+        vaccinatedAt.text = certificate.vaccinatedAt.toString(format)
+        vaccinationName.text = certificate.vaccinationName
+        vaccinationManufacturer.text = certificate.vaccinationManufacturer
+        chargeId.text = certificate.chargeId
+        certificateIssuer.text = certificate.certificateIssuer
+        certificateCountry.text = certificate.certificateCountry.getLabel(requireContext())
+        certificateId.text = certificate.certificateId
+    }
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
