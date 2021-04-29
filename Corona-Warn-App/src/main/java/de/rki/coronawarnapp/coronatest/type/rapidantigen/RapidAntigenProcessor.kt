@@ -112,7 +112,7 @@ class RapidAntigenProcessor @Inject constructor(
             }
 
             test.copy(
-                testResult = check60PlusDays(test, newTestResult),
+                testResult = check21PlusDays(test, newTestResult),
                 testResultReceivedAt = determineReceivedDate(test, newTestResult),
                 lastUpdatedAt = nowUTC,
                 lastError = null
@@ -126,10 +126,10 @@ class RapidAntigenProcessor @Inject constructor(
         }
     }
 
-    // After 60 days, the previously EXPIRED test is deleted from the server, and it will return pending again.
-    private fun check60PlusDays(test: CoronaTest, newResult: CoronaTestResult): CoronaTestResult {
+    // After 21 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
+    private fun check21PlusDays(test: CoronaTest, newResult: CoronaTestResult): CoronaTestResult {
         val calculateDays = Duration(test.registeredAt, timeStamper.nowUTC).standardDays
-        Timber.tag(TAG).d("Calculated test age: %d days", calculateDays)
+        Timber.tag(TAG).d("Calculated test age: %d days, newResult=%s", calculateDays, newResult)
 
         return if (
             (newResult == PCR_OR_RAT_PENDING || newResult == RAT_PENDING) &&
