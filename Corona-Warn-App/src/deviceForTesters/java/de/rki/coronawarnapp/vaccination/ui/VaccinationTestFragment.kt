@@ -1,0 +1,29 @@
+package de.rki.coronawarnapp.vaccination.ui
+
+import android.annotation.SuppressLint
+import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.FragmentTestVaccinationBinding
+import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
+
+@SuppressLint("SetTextI18n")
+class VaccinationTestFragment : Fragment(R.layout.fragment_test_vaccination), AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: VaccinationTestFragmentViewModel by cwaViewModels { viewModelFactory }
+
+    private val binding: FragmentTestVaccinationBinding by viewBindingLazy()
+
+    companion object {
+        val MENU_ITEM = TestMenuItem(
+            title = "Vaccination",
+            description = "View & Control vaccination related features.",
+            targetId = R.id.vaccinationTestFragment
+        )
+    }
+}
