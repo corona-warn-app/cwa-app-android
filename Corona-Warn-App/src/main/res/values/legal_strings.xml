@@ -159,7 +159,7 @@
     <!-- YMSG: RAT Profile Onboarding bullet points -->
     <string name="rat_profile_onboarding_card_consent4" translatable="false">To begin with, only you will have access to your personal rapid test profile. Other people can only access the personal data contained in your rapid test profile if you show them your rapid test profile’s QR code. This will not provide access to other data from the app (e.g. your check-ins or information in your contact journal).</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
-    <string name="rat_profile_onboarding_card_consent5" translatable="false">You have the possibility to delete your rapid test profile at any time. Until then, it will remain stored in the app on your device.</string>
+    <string name="rat_profile_onboarding_card_consent5" translatable="false">You have the possibility to delete your rapid test profile at any time. Until then, it will remain stored in the app on your smartphone.</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
     <string name="rat_profile_onboarding_card_consent6" translatable="false">The QR code contains your personal information. Do not provide your personal QR code to anyone if you do not want the data to be read. We do not recommend publishing your personal QR code or sending it by email.</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
