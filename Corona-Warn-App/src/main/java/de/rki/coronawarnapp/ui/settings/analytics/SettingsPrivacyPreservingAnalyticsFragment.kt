@@ -29,28 +29,12 @@ class SettingsPrivacyPreservingAnalyticsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-
-            // Privacy Preserving Analytics Switch
-            val updateAnalyticsSwitch =
-                settingsPpaSwitchRow.settingsSwitchRowSwitch
-            // Additional click target to toggle switch
-            val updateAnalyticsRow =
-                settingsPpaSwitchRow.settingsSwitchRow
-
-            settingsPpaHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            settingsPpaHeader.setNavigationOnClickListener {
                 popBackStack()
             }
 
-            updateAnalyticsSwitch.setOnCheckedChangeListener { view, _ ->
-                // Make sure that listener is called by user interaction
-                if (!view.isPressed) return@setOnCheckedChangeListener
-
+            settingsPpaSwitchRow.setOnClickListener {
                 viewModel.analyticsToggleEnabled()
-            }
-
-            // Additional click target to toggle switch
-            updateAnalyticsRow.setOnClickListener {
-                if (updateAnalyticsRow.isEnabled) viewModel.analyticsToggleEnabled()
             }
 
             federalStateRow.setOnClickListener {
@@ -95,8 +79,8 @@ class SettingsPrivacyPreservingAnalyticsFragment :
 
             binding.federalStateRowBody.text = it.getFederalStateRowBodyText(requireContext())
 
-            binding.settingsPpaSwitchRow.status = it.isSettingsPpaSwitchOn()
-            binding.settingsPpaSwitchRow.statusText = it.getSettingsPpaSwitchRowStateText(requireContext())
+            binding.settingsPpaSwitchRow.setChecked(it.isSettingsPpaSwitchOn())
+            binding.settingsPpaSwitchRow.setSubtitle(it.getSettingsPpaSwitchRowStateText(requireContext()))
         }
     }
 

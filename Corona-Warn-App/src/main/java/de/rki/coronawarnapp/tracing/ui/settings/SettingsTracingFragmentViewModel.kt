@@ -104,25 +104,33 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
             }
         )
 
-    fun onTracingToggled(isChecked: Boolean) {
+    fun turnTracingOn() {
         try {
-            if (isChecked) {
-                tracingPermissionHelper.startTracing()
-            } else {
-                isTracingSwitchChecked.postValue(false)
-                launch {
-                    if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                        InternalExposureNotificationClient.asyncStop()
-                        exposureWindowRiskWorkScheduler.setPeriodicRiskCalculation(enabled = false)
-                    }
-                }
-            }
+            tracingPermissionHelper.startTracing()
         } catch (exception: Exception) {
             exception.report(
                 ExceptionCategory.EXPOSURENOTIFICATION,
                 SettingsTracingFragment.TAG,
                 null
             )
+        }
+    }
+
+    fun turnTracingOff() {
+        isTracingSwitchChecked.postValue(false)
+        launch {
+            try {
+                if (InternalExposureNotificationClient.asyncIsEnabled()) {
+                    InternalExposureNotificationClient.asyncStop()
+                    exposureWindowRiskWorkScheduler.setPeriodicRiskCalculation(enabled = false)
+                }
+            } catch (exception: Exception) {
+                exception.report(
+                    ExceptionCategory.EXPOSURENOTIFICATION,
+                    SettingsTracingFragment.TAG,
+                    null
+                )
+            }
         }
     }
 

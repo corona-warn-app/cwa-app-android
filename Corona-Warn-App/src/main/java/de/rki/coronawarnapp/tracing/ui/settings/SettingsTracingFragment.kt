@@ -46,14 +46,13 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         vm.tracingSettingsState.observe2(this) { state ->
             binding.settingsTracingState = state
 
-            binding.settingsTracingSwitchRow.settingsSwitchRow.apply {
+            binding.switchRow.apply {
                 when (state) {
                     TracingSettingsState.BluetoothDisabled,
                     TracingSettingsState.LocationDisabled -> setOnClickListener(null)
                     TracingSettingsState.TracingInactive,
                     TracingSettingsState.TracingActive -> setOnClickListener {
-                        val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
-                        onTracingToggled(!switch.isChecked)
+                        onTracingToggled(!binding.switchRow.isChecked)
                     }
                 }
             }
@@ -73,7 +72,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         }
 
         vm.isTracingSwitchChecked.observe2(this) { checked ->
-            binding.settingsTracingSwitchRow.settingsSwitchRowSwitch.isChecked = checked
+            binding.switchRow.setChecked(checked)
         }
 
         vm.ensErrorEvents.observe2(this) { error ->
@@ -98,12 +97,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
             popBackStack()
         }
 
-        val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
-        switch.setOnCheckedChangeListener { view, isChecked ->
-            if (!view.isPressed) return@setOnCheckedChangeListener
-            onTracingToggled(isChecked)
-        }
-
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         bluetooth.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
@@ -121,7 +114,10 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
     }
 
     private fun onTracingToggled(isChecked: Boolean) {
-        vm.onTracingToggled(isChecked)
+        if (isChecked)
+            vm.turnTracingOn()
+        else
+            vm.turnTracingOff()
     }
 
     private fun navigateToInteroperability() {

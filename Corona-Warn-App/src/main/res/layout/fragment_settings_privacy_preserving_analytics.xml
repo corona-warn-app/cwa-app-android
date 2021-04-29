@@ -10,18 +10,15 @@
         android:fillViewport="true"
         android:focusable="true">
 
-        <include
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/settings_ppa_header"
-            layout="@layout/include_header"
-            android:layout_width="0dp"
+            style="@style/CWAToolbar.BackArrow"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/settings_background_priority_title"
-            android:focusable="true"
-            app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/settings_privacy_preserving_analytics_title}" />
+            app:title="@string/settings_privacy_preserving_analytics_title" />
 
         <ScrollView
             android:id="@+id/scrollview"
@@ -66,21 +63,26 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/onboarding_illustration" />
 
-                <include
+                <de.rki.coronawarnapp.ui.view.SwitchRowView
                     android:id="@+id/settings_ppa_switch_row"
-                    layout="@layout/include_settings_switch_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    gone="@{false}"
-                    app:enabled="@{true}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/onboarding_body"
-                    app:showDivider="@{true}"
-                    app:status="@{false}"
-                    app:statusText="@{@string/settings_on}"
-                    app:subtitle="@{@string/settings_analytics_switch_subtitle}" />
+                    app:checked="@{false}"
+                    app:subtitle="@{@string/settings_off}"
+                    app:switchEnabled="@{true}"
+                    app:title="@{@string/settings_analytics_switch_subtitle}" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_ppa_switch_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@id/federal_state_row"
