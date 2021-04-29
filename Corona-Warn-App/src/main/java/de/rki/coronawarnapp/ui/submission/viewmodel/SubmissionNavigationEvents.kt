@@ -21,9 +21,11 @@ sealed class SubmissionNavigationEvents {
         val coronaTestQRCode: CoronaTestQRCode,
         val consentGiven: Boolean
     ) : SubmissionNavigationEvents()
+
     data class NavigateToDeletionWarningFragmentFromTan(val coronaTestTan: CoronaTestTAN, val consentGiven: Boolean) :
         SubmissionNavigationEvents()
-    object NavigateToCreateProfile : SubmissionNavigationEvents()
+
+    data class NavigateToCreateProfile(val onboarded: Boolean = false) : SubmissionNavigationEvents()
     object NavigateToOpenProfile : SubmissionNavigationEvents()
     data class ResolvePlayServicesException(val exception: ApiException) : SubmissionNavigationEvents()
 }
