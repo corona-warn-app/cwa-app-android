@@ -78,6 +78,28 @@ class BugCensorTest : BaseTest() {
     }
 
     @Test
+    fun `city censoring validity`() {
+        BugCensor.withValidCity(null) {} shouldBe false
+        BugCensor.withValidCity("   ") {} shouldBe false
+        BugCensor.withValidCity("        ") {} shouldBe false
+        BugCensor.withValidCity("a") {} shouldBe false
+        BugCensor.withValidCity("ab") {} shouldBe false
+        BugCensor.withValidCity("abc") {} shouldBe true
+    }
+
+    @Test
+    fun `zip-code censoring validity`() {
+        BugCensor.withValidZipCode(null) {} shouldBe false
+        BugCensor.withValidZipCode("   ") {} shouldBe false
+        BugCensor.withValidZipCode("        ") {} shouldBe false
+        BugCensor.withValidZipCode("1") {} shouldBe false
+        BugCensor.withValidZipCode("12") {} shouldBe false
+        BugCensor.withValidZipCode("123") {} shouldBe false
+        BugCensor.withValidZipCode("1234") {} shouldBe false
+        BugCensor.withValidZipCode("12345") {} shouldBe true
+    }
+
+    @Test
     fun `loglines are only copied if the message is different`() {
         val logLine = LogLine(
             timestamp = 1,

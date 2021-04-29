@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.bugreporting.censors.presencetracing.CheckInsCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RACoronaTestCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.RatProfileCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RegistrationTokenCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
@@ -112,4 +113,8 @@ class BugReportingSharedModule {
     @Provides
     @IntoSet
     fun traceLocationsCensor(censor: TraceLocationCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun ratProfileCensor(censor: RatProfileCensor): BugCensor = censor
 }
