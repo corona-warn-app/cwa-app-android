@@ -65,6 +65,10 @@
 
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Seit %s Tagen installiert"</string>
+    <!-- XTXT: risk card - Days since installation if today -->
+    <string name="risk_card_body_installation_today">Seit heute installiert</string>
+    <!-- XTXT: risk card - Days since installation if yesterday -->
+    <string name="risk_card_body_installation_yesterday">Seit gestern installiert</string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Risiko-Ermittlung war für %1$s der letzten 14 Tage aktiv"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
