@@ -16,11 +16,17 @@ class RATProfileOnboardingFragment : Fragment(R.layout.rat_profile_onboarding_fr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
-
             nextButton.setOnClickListener {
                 doNavigate(
                     RATProfileOnboardingFragmentDirections
                         .actionRatProfileOnboardingFragmentToRatProfileCreateFragment()
+                )
+            }
+
+            ratProfileOnboardingPrivacy.setOnClickListener {
+                doNavigate(
+                    RATProfileOnboardingFragmentDirections
+                        .actionRatProfileOnboardingFragmentToPrivacyFragment()
                 )
             }
         }
