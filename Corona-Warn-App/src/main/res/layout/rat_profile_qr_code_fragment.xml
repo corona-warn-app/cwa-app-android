@@ -171,6 +171,7 @@
                         style="@style/materialSubtitleSixteen"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:lineSpacingExtra="8dp"
                         tools:text="Max Mustermann\ngeboren 17.11.1990\nLange Straße 51\n4471 Potsdam\n0151123456789\nmaxmustermann@web.de" />
 
                 </LinearLayout>
