@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
-class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details) {
+class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
@@ -27,6 +29,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         }
     )
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
+        with(binding) {
+            toolbar.setNavigationOnClickListener { popBackStack() }
+            deleteButton.setOnClickListener { viewModel.deleteVaccination() }
+        }
 }

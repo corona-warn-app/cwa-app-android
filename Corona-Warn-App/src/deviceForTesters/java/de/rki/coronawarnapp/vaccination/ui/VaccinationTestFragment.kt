@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.vaccination.ui
 
 import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestVaccinationBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
@@ -18,6 +21,13 @@ class VaccinationTestFragment : Fragment(R.layout.fragment_test_vaccination), Au
     private val vm: VaccinationTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentTestVaccinationBinding by viewBindingLazy()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.openVaccinationDetails.setOnClickListener {
+            findNavController().navigate(R.id.vaccination_nav_graph)
+        }
+    }
 
     companion object {
         val MENU_ITEM = TestMenuItem(

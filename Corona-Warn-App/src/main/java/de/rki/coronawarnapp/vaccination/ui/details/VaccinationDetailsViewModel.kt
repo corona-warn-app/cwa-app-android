@@ -12,6 +12,10 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     @Assisted private val certificateId: String
 ) : CWAViewModel() {
 
+    fun deleteVaccination() = launch {
+        vaccinationRepository.deleteVaccinationCertificate(certificateId)
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<VaccinationDetailsViewModel> {
         fun create(
