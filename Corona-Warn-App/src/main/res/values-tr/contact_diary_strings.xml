@@ -13,7 +13,7 @@
     <string name="contact_diary_add_person_title">"Kişi"</string>
     <string name="contact_diary_add_person_text_input_name_hint">"Ad"</string>
     <string name="contact_diary_add_text_input_phone_hint">"Telefon"</string>
-    <string name="contact_diary_add_text_input_email_hint">"e-posta"</string>
+    <string name="contact_diary_add_text_input_email_hint">"E-posta"</string>
     <string name="contact_diary_add_person_save_button">"Kaydet"</string>
     <string name="contact_diary_add_location_title">"Yer"</string>
     <string name="contact_diary_add_location_text_input_hint">"Tanım"</string>

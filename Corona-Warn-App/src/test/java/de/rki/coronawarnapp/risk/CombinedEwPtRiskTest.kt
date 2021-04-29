@@ -90,8 +90,6 @@ class CombinedEwPtRiskTest : BaseTest() {
             minimumDistinctEncountersWithHighRisk = 0
         )
 
-        every { ewAggregatedRiskResult.exposureWindowDayRisks } returns listOf(ewDayRisk, ewDayRisk2)
-
         val ptDayRisk = PresenceTracingDayRisk(
             riskState = RiskState.LOW_RISK,
             localDateUtc = Instant.ofEpochMilli(1000).toLocalDateUtc()
@@ -114,8 +112,47 @@ class CombinedEwPtRiskTest : BaseTest() {
             ewRiskLevelResult = createEwRiskLevel(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
                 ewAggregatedRiskResult
-            )
+            ),
+            exposureWindowDayRisks = listOf(ewDayRisk, ewDayRisk2)
         ).daysWithEncounters shouldBe 3
+    }
+
+    @Test
+    fun `counts days correctly`() {
+        val dayRisk = ExposureWindowDayRisk(
+            dateMillisSinceEpoch = 1000,
+            riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
+            minimumDistinctEncountersWithLowRisk = 0,
+            minimumDistinctEncountersWithHighRisk = 1
+        )
+        val dayRisk2 = ExposureWindowDayRisk(
+            dateMillisSinceEpoch = 1000 + MILLIS_DAY,
+            riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW,
+            minimumDistinctEncountersWithLowRisk = 1,
+            minimumDistinctEncountersWithHighRisk = 0
+        )
+        val dayRisk3 = ExposureWindowDayRisk(
+            dateMillisSinceEpoch = 1000 + 2 * MILLIS_DAY,
+            riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
+            minimumDistinctEncountersWithLowRisk = 1,
+            minimumDistinctEncountersWithHighRisk = 2
+        )
+
+        val result = CombinedEwPtRiskLevelResult(
+            ptRiskLevelResult = createPtRiskLevelResult(
+                calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
+                riskState = RiskState.LOW_RISK,
+                presenceTracingDayRisk = listOf()
+            ),
+            ewRiskLevelResult = createEwRiskLevel(
+                calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
+                ewAggregatedRiskResult
+            ),
+            exposureWindowDayRisks = listOf(dayRisk, dayRisk2, dayRisk3)
+        )
+
+        result.ewDaysWithHighRisk.size shouldBe 2
+        result.ewDaysWithLowRisk.size shouldBe 1
     }
 
     private fun createPtRiskLevelResult(

@@ -37,11 +37,11 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     fun `personal data is extracted`() {
         val data = instance.extract(raQrCode3)
         data.type shouldBe CoronaTest.Type.RAPID_ANTIGEN
-        data.hash shouldBe "7b1c063e883063f8c33ffaa256aded506afd907f7446143b3da0f938a21967a9"
-        data.createdAt shouldBe Instant.ofEpochMilli(1618563782000)
-        data.dateOfBirth shouldBe LocalDate.parse("1962-01-08")
-        data.lastName shouldBe "Hayes"
-        data.firstName shouldBe "Alma"
+        data.hash shouldBe "7dce08db0d4abd5ac1d2498b571afb221ca947c75c847d05466b4cfe9d95dc66"
+        data.createdAt shouldBe Instant.ofEpochMilli(1619618352000)
+        data.dateOfBirth shouldBe LocalDate.parse("1963-03-17")
+        data.lastName shouldBe "Tyler"
+        data.firstName shouldBe "Jacob"
     }
 
     @Test

@@ -103,6 +103,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         riskResultDatabaseFactory = databaseFactory,
         presenceTracingRiskRepository = presenceTracingRiskRepository,
         riskCombinator = riskCombinator,
+        timeStamper = timeStamper,
     ) {
         override val storedResultLimit: Int = storedResultLimit
 
@@ -124,7 +125,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             val instance = createInstance()
             val allEntries = instance.aggregatedRiskPerDateResultTables.allEntries()
             allEntries shouldBe testPersistedAggregatedRiskPerDateResultFlow
-            allEntries.first().map { it.toAggregatedRiskPerDateResult() } shouldBe listOf(
+            allEntries.first().map { it.toExposureWindowDayRisk() } shouldBe listOf(
                 testAggregatedRiskPerDateResult
             )
 
