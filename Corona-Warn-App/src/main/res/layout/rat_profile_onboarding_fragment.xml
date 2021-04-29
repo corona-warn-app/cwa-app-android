@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/rat_profile_create_title" />
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:id="@+id/rat_profile_onboarding_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -69,7 +69,7 @@
                 style="@style/cardTracing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginHorizontal="@dimen/guideline_card"
                 android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -256,7 +256,7 @@
                 app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_card_container"
                 app:titleText="@string/rat_profile_onboarding_privacy" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
     <Button
         android:id="@+id/next_button"
