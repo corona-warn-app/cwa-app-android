@@ -158,7 +158,7 @@
     <!-- YMSG: RAT Profile Onboarding bullet points -->
     <string name="rat_profile_onboarding_card_consent4" translatable="false">Kişisel hızlı test profilinize öncelikle sadece siz erişebilirsiniz. Hızlı test profilinizin kare kodunu başkalarına gösterirseniz ancak o zaman bu kişiler hızlı test profilinizdeki kişisel verilere erişebilir. Bu sırada uygulamadaki diğer verilere erişim sağlanmaz (örn. Check-ins ya da rehber bilgileri gibi).</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
-    <string name="rat_profile_onboarding_card_consent5" translatable="false">Hızlı test profilinizi istediğiniz zaman tekrar kaldırabilirsiniz. O zamana kadar cihazınızdaki uygulamada kayıtlı kalır.</string>
+    <string name="rat_profile_onboarding_card_consent5" translatable="false">Hızlı test profilinizi istediğiniz zaman tekrar kaldırabilirsiniz. O zamana kadar akıllı telefonunuzdaki uygulamada kayıtlı kalır.</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
     <string name="rat_profile_onboarding_card_consent6" translatable="false">Kare kodu kişisel verilerinizi içerir. Verilerinizin okunmasını istemiyorsanız kişisel kare kodunuzu kimseyle paylaşmayın. Kişisel kare kodunuzu paylaşmamanızı ve e-posta üzerinden göndermemenizi öneriyoruz.</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
