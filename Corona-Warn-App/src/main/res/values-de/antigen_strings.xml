@@ -172,7 +172,7 @@
     <string name="rat_profile_create_email_hint">E-Mail-Adresse</string>
 
     <!--RAT profile onboarding-->
-    <string name="rat_profile_onboarding_image_content_description">Eine Frau mit einem Smartphone in der Hand steht vor einem Gebäude. Ein QR-Code symbolisiert den zu scannenden Schnelltest-Profil.</string>
+    <string name="rat_profile_onboarding_image_content_description">Eine Frau mit einem Smartphone in der Hand steht vor einem Gebäude. Ein QR-Code symbolisiert das zu scannende Schnelltest-Profil.</string>
     <!-- XTXT: Create RAT profile onboarding title -->
     <string name="rat_profile_onboarding_title">Legen Sie Ihre persönlichen Daten als QR-Code ab, um die Registrierung an der Teststelle zu beschleunigen.</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
