@@ -114,9 +114,9 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             // remember version code of this execution for next time
             settings.updateLastVersionCodeToCurrent()
 
-            val isAllowedToSubmitKeys = coronaTestRepository.coronaTests.first().any { it.isSubmissionAllowed }
-            if (isAllowedToSubmitKeys) {
-                Timber.tag(TAG).i("task aborted, positive test result")
+            val isPositive = coronaTestRepository.coronaTests.first().any { it.isPositive }
+            if (isPositive) {
+                Timber.tag(TAG).i("Task aborted, positive test result available.")
                 return object : Task.Result {}
             }
 

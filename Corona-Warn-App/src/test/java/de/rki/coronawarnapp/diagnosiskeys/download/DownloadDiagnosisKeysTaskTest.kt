@@ -53,7 +53,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
     private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
         setOf(
-            mockk<CoronaTest>().apply { every { isSubmissionAllowed } returns false }
+            mockk<CoronaTest>().apply { every { isPositive } returns false }
         )
     )
 
@@ -241,7 +241,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @Test
     fun `we do not submit keys if user got positive test results`() = runBlockingTest {
         coronaTests.value = setOf(
-            mockk<CoronaTest>().apply { every { isSubmissionAllowed } returns true }
+            mockk<CoronaTest>().apply { every { isPositive } returns true }
         )
 
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())
