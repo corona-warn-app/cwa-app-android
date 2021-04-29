@@ -10,11 +10,11 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragmentBinding
+import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
-import kotlin.math.abs
 
 class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_detail_fragment), AutoInject {
 
@@ -55,16 +54,10 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
         setToolbarOverlay()
 
         binding.apply {
-            appBarLayout.addOnOffsetChangedListener(
-                OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                    title.alpha = (
-                        1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.5f))
-                        )
-                    subtitle.alpha = (
-                        1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.7f))
-                        )
-                }
-            )
+            appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
+                title.alpha = titleAlpha
+                subtitle.alpha = subtitleAlpha
+            }
 
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)

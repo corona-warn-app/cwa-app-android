@@ -9,9 +9,6 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -33,7 +30,7 @@ class VaccinationRepository @Inject constructor(
     }
 
     suspend fun vaccinationCertificateFor(certificateId: String): VaccinationCertificate {
-        //TODO get certificate from DB
+        // TODO get certificate from DB
         return VaccinationCertificate(
             firstName = "Max",
             lastName = "Mustermann",

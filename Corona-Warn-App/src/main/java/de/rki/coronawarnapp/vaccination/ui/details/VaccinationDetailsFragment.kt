@@ -2,17 +2,20 @@ package de.rki.coronawarnapp.vaccination.ui.details
 
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
+import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
@@ -26,7 +29,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
             factory.create(
-                certificateId = args.certificateId,
+                certificateId = "" // TODO args.certificateId,
             )
         }
     )
@@ -49,8 +52,29 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 certificateIssuer.text = it.certificateIssuer
                 certificateCountry.text = it.certificateCountry.getLabel(requireContext())
                 certificateId.text = it.certificateId
+
+                appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
+                    title.alpha = titleAlpha
+                    subtitle.alpha = subtitleAlpha
+                }
+
+                setToolbarOverlay()
             }
         }
+
+    private fun setToolbarOverlay() {
+        val width = requireContext().resources.displayMetrics.widthPixels
+
+        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
+            as (CoordinatorLayout.LayoutParams)
+
+        val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
+        textParams.bottomMargin = (width / 3) - 24 /* 24 is space between screen border and QrCode */
+        binding.subtitle.requestLayout() /* 24 is space between screen border and QrCode */
+
+        val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
+        behavior.overlayTop = (width / 3) - 24
+    }
 
     companion object {
         private val format = DateTimeFormat.shortDate()
