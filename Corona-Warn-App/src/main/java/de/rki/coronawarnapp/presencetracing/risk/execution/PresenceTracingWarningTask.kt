@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskMapper
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
@@ -31,7 +32,8 @@ class PresenceTracingWarningTask @Inject constructor(
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     private val traceWarningRepository: TraceWarningRepository,
     private val checkInsRepository: CheckInRepository,
-    private val presenceTracingRiskMapper: PresenceTracingRiskMapper
+    private val presenceTracingRiskMapper: PresenceTracingRiskMapper,
+    private val autoCheckOut: AutoCheckOut,
 ) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<PresenceTracingWarningTaskProgress>()
@@ -41,6 +43,12 @@ class PresenceTracingWarningTask @Inject constructor(
 
     override suspend fun run(arguments: Task.Arguments): Result = try {
         Timber.d("Running with arguments=%s", arguments)
+
+        autoCheckOut.apply {
+            Timber.tag(TAG).d("Processing overdue check-outs before risk calculation.")
+            processOverDueCheckouts()
+            refreshAlarm()
+        }
 
         try {
             doWork()

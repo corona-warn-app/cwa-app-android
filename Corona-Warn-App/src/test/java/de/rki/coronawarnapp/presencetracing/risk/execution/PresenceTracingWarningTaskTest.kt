@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskMapper
 import de.rki.coronawarnapp.presencetracing.risk.calculation.createCheckIn
@@ -42,6 +43,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var traceWarningRepository: TraceWarningRepository
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var presenceTracingRiskMapper: PresenceTracingRiskMapper
+    @MockK lateinit var autoCheckOut: AutoCheckOut
 
     @BeforeEach
     fun setup() {
@@ -75,6 +77,9 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         }
 
         coEvery { presenceTracingRiskMapper.clearConfig() } just Runs
+
+        coEvery { autoCheckOut.processOverDueCheckouts() } returns emptyList()
+        coEvery { autoCheckOut.refreshAlarm() } returns true
     }
 
     private fun createInstance() = PresenceTracingWarningTask(
@@ -84,7 +89,8 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         presenceTracingRiskRepository = presenceTracingRiskRepository,
         traceWarningRepository = traceWarningRepository,
         checkInsRepository = checkInsRepository,
-        presenceTracingRiskMapper = presenceTracingRiskMapper
+        presenceTracingRiskMapper = presenceTracingRiskMapper,
+        autoCheckOut = autoCheckOut,
     )
 
     @Test
@@ -92,6 +98,9 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {
+            autoCheckOut.processOverDueCheckouts()
+            autoCheckOut.refreshAlarm()
+
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
