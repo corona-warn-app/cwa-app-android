@@ -9,30 +9,18 @@
         android:id="@+id/toolbar"
         style="@style/CWAToolbar.Close"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/rat_profile_create_title" />
-
-    <Button
-        android:id="@+id/next_button"
-        style="@style/buttonPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/rat_profile_onboarding_next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/rat_profile_onboarding_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/next_button"
+        app:layout_constraintBottom_toTopOf="@id/next_button"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -97,7 +85,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/rat_profile_onboarding_bulletpoint1"
+                    android:id="@+id/rat_profile_onboarding_bullet_point1"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
@@ -116,11 +104,11 @@
                     android:focusable="true"
                     android:text="@string/rat_profile_onboarding_card_consent1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint1"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point1"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_card_title" />
 
                 <ImageView
-                    android:id="@+id/rat_profile_onboarding_bulletpoint2"
+                    android:id="@+id/rat_profile_onboarding_bullet_point2"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
@@ -139,11 +127,11 @@
                     android:focusable="true"
                     android:text="@string/rat_profile_onboarding_card_consent2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint2"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point2"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body1" />
 
                 <ImageView
-                    android:id="@+id/rat_profile_onboarding_bulletpoint3"
+                    android:id="@+id/rat_profile_onboarding_bullet_point3"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
@@ -162,11 +150,11 @@
                     android:focusable="true"
                     android:text="@string/rat_profile_onboarding_card_consent3"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint3"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point3"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body2" />
 
                 <ImageView
-                    android:id="@+id/rat_profile_onboarding_bulletpoint4"
+                    android:id="@+id/rat_profile_onboarding_bullet_point4"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
@@ -185,11 +173,11 @@
                     android:focusable="true"
                     android:text="@string/rat_profile_onboarding_card_consent4"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint4"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point4"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body3" />
 
                 <ImageView
-                    android:id="@+id/rat_profile_onboarding_bulletpoint5"
+                    android:id="@+id/rat_profile_onboarding_bullet_point5"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
@@ -208,11 +196,11 @@
                     android:focusable="true"
                     android:text="@string/rat_profile_onboarding_card_consent5"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint5"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point5"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body4" />
 
                 <ImageView
-                    android:id="@+id/rat_profile_onboarding_bulletpoint6"
+                    android:id="@+id/rat_profile_onboarding_bullet_point6"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
@@ -231,11 +219,11 @@
                     android:focusable="true"
                     android:text="@string/rat_profile_onboarding_card_consent6"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint6"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point6"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body5" />
 
                 <ImageView
-                    android:id="@+id/rat_profile_onboarding_bulletpoint7"
+                    android:id="@+id/rat_profile_onboarding_bullet_point7"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
@@ -254,7 +242,7 @@
                     android:focusable="true"
                     android:text="@string/rat_profile_onboarding_card_consent7"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bulletpoint7"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point7"
                     app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body6" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -265,9 +253,21 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="30dp"
                 android:focusable="true"
-                app:layout_constraintTop_toBottomOf="@+id/rat_profile_onboarding_card_container"
+                app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_card_container"
                 app:titleText="@string/rat_profile_onboarding_privacy" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/next_button"
+        style="@style/buttonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/rat_profile_onboarding_next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
