@@ -104,7 +104,6 @@ class PCRProcessor @Inject constructor(
             Timber.tag(TAG).v("pollServer(test=%s)", test)
             test as PCRCoronaTest
 
-
             if (test.isSubmitted) {
                 Timber.tag(TAG).w("Not polling, we have already submitted.")
                 return test
