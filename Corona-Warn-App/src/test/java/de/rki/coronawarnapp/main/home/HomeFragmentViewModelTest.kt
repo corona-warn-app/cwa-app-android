@@ -3,12 +3,8 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -21,6 +17,8 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
@@ -31,11 +29,10 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -56,15 +53,15 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingRepository: TracingRepository
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
-    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var bluetoothSupport: BluetoothSupport
 
     @BeforeEach
     fun setup() {
@@ -79,6 +76,13 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         coEvery { appConfigProvider.currentConfig } returns emptyFlow()
         coEvery { statisticsProvider.current } returns emptyFlow()
+
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(100101010)
+
+        bluetoothSupport.apply {
+            every { isAdvertisingSupported } returns true
+            every { isScanningSupported } returns true
+        }
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -86,17 +90,17 @@ class HomeFragmentViewModelTest : BaseTest() {
         errorResetTool = errorResetTool,
         tracingStatus = generalTracingStatus,
         tracingRepository = tracingRepository,
-        shareTestResultNotificationService = shareTestResultNotificationService,
         submissionRepository = submissionRepository,
         coronaTestRepository = coronaTestRepository,
         tracingStateProviderFactory = tracingStateProviderFactory,
         cwaSettings = cwaSettings,
         appConfigProvider = appConfigProvider,
         statisticsProvider = statisticsProvider,
-        deadmanNotificationScheduler = deadmanNotificationScheduler,
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
-        traceLocationOrganizerSettings = traceLocationOrganizerSettings
+        traceLocationOrganizerSettings = traceLocationOrganizerSettings,
+        timeStamper = timeStamper,
+        bluetoothSupport = bluetoothSupport
     )
 
     @Test
@@ -141,48 +145,6 @@ class HomeFragmentViewModelTest : BaseTest() {
             coVerify {
                 tracingStateProvider.state
                 coronaTestRepository.coronaTests
-            }
-        }
-    }
-
-    @Test
-    fun `positive test result notification is triggered on positive QR code result`() {
-//        every { submissionRepository.deviceUIStateFlow } returns flowOf(
-//            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE)
-//        )
-        every { submissionRepository.pcrTest } returns flowOf(
-            mockk<PCRCoronaTest>().apply {
-                every { testResult } returns CoronaTestResult.PCR_POSITIVE
-                every { lastError } returns null
-            }
-        )
-        every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
-
-        runBlocking {
-            createInstance().apply {
-                observeTestResultToSchedulePositiveTestResultReminder()
-                verify { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
-            }
-        }
-    }
-
-    @Test
-    fun `positive test result notification is triggered on positive TeleTan code result`() {
-//        every { submissionRepository.deviceUIStateFlow } returns flowOf(
-//            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN)
-//        )
-        every { submissionRepository.pcrTest } returns flowOf(
-            mockk<PCRCoronaTest>().apply {
-                every { testResult } returns CoronaTestResult.PCR_POSITIVE
-                every { lastError } returns null
-            }
-        )
-        every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
-
-        runBlocking {
-            createInstance().apply {
-                observeTestResultToSchedulePositiveTestResultReminder()
-                verify { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
             }
         }
     }

@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.worker
 
-import androidx.work.NetworkType
+import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import org.junit.Assert
 import org.junit.Test
 
@@ -9,14 +9,8 @@ class BackgroundWorkHelperTest {
     @Test
     fun getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval() {
         Assert.assertEquals(
-            BackgroundWorkHelper.getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(),
+            PCRResultScheduler.getPcrTestResultRetrievalPeriodicWorkTimeInterval(),
             120
         )
-    }
-
-    @Test
-    fun getConstraintsForDiagnosisKeyOneTimeBackgroundWork() {
-        val constraints = BackgroundWorkHelper.getConstraintsForDiagnosisKeyOneTimeBackgroundWork()
-        Assert.assertEquals(constraints.requiredNetworkType, NetworkType.CONNECTED)
     }
 }

@@ -173,7 +173,7 @@ class Analytics @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToTimeSinceOnboarding(): Boolean {
-        val onboarding = onboardingSettings.onboardingCompletedTimestamp ?: return true
+        val onboarding = onboardingSettings.onboardingCompletedTimestamp.value ?: return true
         return onboarding.plus(Hours.hours(ONBOARDING_DELAY_HOURS).toStandardDuration()).isAfter(timeStamper.nowUTC)
     }
 

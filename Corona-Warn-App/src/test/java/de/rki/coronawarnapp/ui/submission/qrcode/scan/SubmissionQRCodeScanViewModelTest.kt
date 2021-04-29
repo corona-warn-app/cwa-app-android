@@ -1,25 +1,33 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
+import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor.ValidationState
 import de.rki.coronawarnapp.util.permission.CameraSettings
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
+import io.mockk.just
 import io.mockk.verify
-import org.junit.Assert
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.preferences.mockFlowPreference
 
@@ -29,16 +37,33 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cameraSettings: CameraSettings
     @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
+    @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+
+    private val coronaTestFlow = MutableStateFlow<CoronaTest?>(
+        null
+    )
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+
+        every { submissionRepository.testForType(any()) } returns coronaTestFlow
+        coEvery { qrCodeRegistrationStateProcessor.showRedeemedTokenWarning } returns SingleLiveEvent()
+        coEvery { qrCodeRegistrationStateProcessor.registrationState } returns MutableLiveData(
+            QrCodeRegistrationStateProcessor.RegistrationState(ApiRequestState.IDLE)
+        )
+        coEvery { qrCodeRegistrationStateProcessor.registrationError } returns SingleLiveEvent()
     }
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
-        submissionRepository,
+        TestDispatcherProvider(),
         cameraSettings,
-        qrCodeValidator
+        qrCodeRegistrationStateProcessor,
+        isConsentGiven = true,
+        submissionRepository,
+        qrCodeValidator,
+        analyticsKeySubmissionCollector
     )
 
     @Test
@@ -54,33 +79,24 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
         every { qrCodeValidator.validate(validQrCode) } returns coronaTestQRCode
         every { qrCodeValidator.validate(invalidQrCode) } throws InvalidQRCodeException()
+
         val viewModel = createViewModel()
 
         // start
-        viewModel.scanStatusValue.value = ScanStatus.STARTED
+        viewModel.qrCodeValidationState.value = ValidationState.STARTED
 
-        viewModel.scanStatusValue.value shouldBe ScanStatus.STARTED
+        viewModel.qrCodeValidationState.value shouldBe ValidationState.STARTED
 
         PcrQrCodeCensor.lastGUID = null
 
-        viewModel.validateTestGUID(validQrCode)
-        viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.SUCCESS, it.value) }
+        viewModel.onQrCodeAvailable(validQrCode)
+        viewModel.qrCodeValidationState.observeForever {}
+        viewModel.qrCodeValidationState.value shouldBe ValidationState.SUCCESS
         PcrQrCodeCensor.lastGUID = guid
 
         // invalid guid
-        viewModel.validateTestGUID(invalidQrCode)
-        viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.INVALID, it.value) }
-    }
-
-    @Test
-    fun `doDeviceRegistration calls TestResultDataCollector`() {
-        val viewModel = createViewModel()
-        val mockResult = mockk<CoronaTestQRCode>().apply {
-            every { registrationIdentifier } returns "guid"
-        }
-        val mockTest = mockk<CoronaTest>()
-        coEvery { submissionRepository.registerTest(any()) } returns mockTest
-        viewModel.doDeviceRegistration(mockResult)
+        viewModel.onQrCodeAvailable(invalidQrCode)
+        viewModel.qrCodeValidationState.value shouldBe ValidationState.INVALID
     }
 
     @Test
@@ -89,5 +105,31 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         createViewModel().setCameraDeniedPermanently(true)
 
         verify { cameraSettings.isCameraDeniedPermanently }
+    }
+
+    @Test
+    fun `startQrCodeRegistration() should call analyticsKeySubmissionCollector for PCR tests`() = runBlockingTest {
+        val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "123456-12345678-1234-4DA7-B166-B86D85475064")
+
+        every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
+        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
+        coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
+
+        createViewModel().startQrCodeRegistration(rawResult = "", isConsentGiven = true)
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() }
+    }
+
+    @Test
+    fun `startQrCodeRegistration() should NOT call analyticsKeySubmissionCollector for RAT tests`() = runBlockingTest {
+        val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "123456-12345678-1234-4DA7-B166-B86D85475064")
+
+        every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
+        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
+        coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
+
+        createViewModel().startQrCodeRegistration(rawResult = "", isConsentGiven = true)
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() }
     }
 }

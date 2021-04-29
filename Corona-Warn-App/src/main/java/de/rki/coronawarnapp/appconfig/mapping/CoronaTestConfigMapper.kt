@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.CoronaRapidAntigenTestParametersContainer
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.appconfig.CoronaTestConfigContainer
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid.ApplicationConfigurationAndroid
+import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,7 +26,9 @@ class CoronaTestConfigMapper @Inject constructor() : CoronaTestConfig.Mapper {
     private fun ApplicationConfigurationAndroid.mapCoronaTestParameters(): CoronaTestConfig {
         val coronaRapidAntigenTestParameters = if (coronaTestParameters.hasCoronaRapidAntigenTestParameters()) {
             CoronaRapidAntigenTestParametersContainer(
-                coronaTestParameters.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated
+                Duration.standardHours(
+                    coronaTestParameters.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated.toLong()
+                )
             )
         } else {
             Timber.d("coronaRapidAntigenTestParameters is missing")

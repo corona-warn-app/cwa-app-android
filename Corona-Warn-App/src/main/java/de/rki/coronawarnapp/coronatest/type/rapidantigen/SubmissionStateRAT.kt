@@ -6,13 +6,27 @@ import org.joda.time.Instant
 sealed class SubmissionStateRAT {
 
     object NoTest : SubmissionStateRAT(), CommonSubmissionStates.TestUnregistered
+
     object FetchingResult : SubmissionStateRAT(), CommonSubmissionStates.TestFetching
+
     object TestResultReady : SubmissionStateRAT()
-    object TestPositive : SubmissionStateRAT()
-    object TestNegative : SubmissionStateRAT()
+
+    data class TestPositive(
+        override val testRegisteredAt: Instant
+    ) : SubmissionStateRAT(), CommonSubmissionStates.PositiveTest
+
+    data class TestNegative(
+        override val testRegisteredAt: Instant
+    ) : SubmissionStateRAT(), CommonSubmissionStates.NegativeTest
+
     object TestError : SubmissionStateRAT()
+
     object TestInvalid : SubmissionStateRAT()
+
     object TestPending : SubmissionStateRAT()
+
+    object TestOutdated : SubmissionStateRAT()
+
     data class SubmissionDone(
         override val testRegisteredAt: Instant
     ) : SubmissionStateRAT(), CommonSubmissionStates.SubmissionDone

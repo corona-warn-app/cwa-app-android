@@ -18,8 +18,19 @@ interface CoronaTest {
     val isSubmitted: Boolean
     val isViewed: Boolean
 
+    val isPositive: Boolean
+
+    val isPending: Boolean
+
+    /**
+     * Has this test reached it's final state, i.e. can polling be stopped?
+     */
+    val isFinal: Boolean
+
     val testResultReceivedAt: Instant?
     val testResult: CoronaTestResult
+
+    val lastUpdatedAt: Instant
 
     // TODO why do we need this PER test
     val isAdvancedConsentGiven: Boolean

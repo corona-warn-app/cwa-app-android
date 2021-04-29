@@ -2,20 +2,31 @@ package de.rki.coronawarnapp.coronatest.type.pcr
 
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
-import de.rki.coronawarnapp.coronatest.execution.TestResultScheduler
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.worker.BackgroundConstants
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,9 +35,7 @@ class PCRProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    private val testResultDataCollector: TestResultDataCollector,
-    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
-    private val testResultScheduler: TestResultScheduler,
+    private val testResultDataCollector: TestResultDataCollector
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
@@ -35,7 +44,9 @@ class PCRProcessor @Inject constructor(
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.PCR
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID)
+        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID).also {
+            Timber.tag(TAG).d("Request %s gave us %s", request, it)
+        }
 
         testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult) // This saves received at
 
@@ -50,7 +61,9 @@ class PCRProcessor @Inject constructor(
 
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
 
-        return createCoronaTest(request, registrationData)
+        return createCoronaTest(request, registrationData).copy(
+            isResultAvailableNotificationSent = true
+        )
     }
 
     private suspend fun createCoronaTest(
@@ -58,31 +71,29 @@ class PCRProcessor @Inject constructor(
         response: CoronaTestService.RegistrationData
     ): PCRCoronaTest {
         analyticsKeySubmissionCollector.reset()
-        response.testResult.validOrThrow()
 
-        testResultDataCollector.updatePendingTestResultReceivedTime(response.testResult)
+        val testResult = response.testResult.let {
+            Timber.tag(TAG).v("Raw test result $it")
+            testResultDataCollector.updatePendingTestResultReceivedTime(it)
 
-        if (response.testResult == CoronaTestResult.PCR_POSITIVE) {
+            it.toValidatedResult()
+        }
+
+        if (testResult == PCR_POSITIVE) {
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
-            deadmanNotificationScheduler.cancelScheduledWork()
         }
 
         analyticsKeySubmissionCollector.reportTestRegistered()
 
-//        val currentTime = timeStamper.nowUTC
-//        submissionSettings.initialTestResultReceivedAt = currentTime
-//        testResultReceivedDateFlowInternal.value = currentTime.toDate()
-        if (response.testResult == CoronaTestResult.PCR_OR_RAT_PENDING) {
-//            riskWorkScheduler.setPeriodicRiskCalculation(enabled = true)
-
-            testResultScheduler.setPeriodicTestPolling(enabled = true)
-        }
+        val now = timeStamper.nowUTC
 
         return PCRCoronaTest(
             identifier = request.identifier,
-            registeredAt = timeStamper.nowUTC,
+            registeredAt = now,
+            lastUpdatedAt = now,
             registrationToken = response.registrationToken,
-            testResult = response.testResult,
+            testResult = testResult,
+            testResultReceivedAt = determineReceivedDate(null, testResult),
         )
     }
 
@@ -91,25 +102,26 @@ class PCRProcessor @Inject constructor(
             Timber.tag(TAG).v("pollServer(test=%s)", test)
             test as PCRCoronaTest
 
-            if (test.isSubmitted || test.isSubmissionAllowed) {
-                Timber.tag(TAG).w("Not refreshing already final test.")
+            if (test.isSubmitted) {
+                Timber.tag(TAG).w("Not refreshing, we have already submitted.")
                 return test
             }
 
-            val testResult = submissionService.asyncRequestTestResult(test.registrationToken)
-            Timber.tag(TAG).d("Test result was %s", testResult)
+            val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken).let {
+                Timber.tag(TAG).d("Raw test result was %s", it)
+                testResultDataCollector.updatePendingTestResultReceivedTime(it)
 
-            testResult.validOrThrow()
+                it.toValidatedResult()
+            }
 
-            testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
-
-            if (testResult == CoronaTestResult.PCR_POSITIVE) {
+            if (newTestResult == PCR_POSITIVE) {
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
-                deadmanNotificationScheduler.cancelScheduledWork()
             }
 
             test.copy(
-                testResult = testResult,
+                testResult = check60PlusDays(test, newTestResult),
+                testResultReceivedAt = determineReceivedDate(test, newTestResult),
+                lastUpdatedAt = timeStamper.nowUTC,
                 lastError = null
             )
         } catch (e: Exception) {
@@ -119,6 +131,25 @@ class PCRProcessor @Inject constructor(
             test as PCRCoronaTest
             test.copy(lastError = e)
         }
+    }
+
+    // After 60 days, the previously EXPIRED test is deleted from the server, and it will return pending again.
+    private fun check60PlusDays(test: CoronaTest, newResult: CoronaTestResult): CoronaTestResult {
+        val calculateDays = Duration(test.registeredAt, timeStamper.nowUTC).standardDays
+        Timber.tag(TAG).d("Calculated test age: %d days", calculateDays)
+
+        return if (newResult == PCR_OR_RAT_PENDING && calculateDays >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS) {
+            Timber.tag(TAG).d("$calculateDays is exceeding the maximum polling duration")
+            PCR_REDEEMED
+        } else {
+            newResult
+        }
+    }
+
+    private fun determineReceivedDate(oldTest: PCRCoronaTest?, newTestResult: CoronaTestResult): Instant? = when {
+        oldTest != null && FINAL_STATES.contains(oldTest.testResult) -> oldTest.testResultReceivedAt
+        FINAL_STATES.contains(newTestResult) -> timeStamper.nowUTC
+        else -> null
     }
 
     override suspend fun onRemove(toBeRemoved: CoronaTest) {
@@ -162,24 +193,30 @@ class PCRProcessor @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "PCRProcessor"
+        private val FINAL_STATES = setOf(PCR_POSITIVE, PCR_NEGATIVE, PCR_REDEEMED)
+        internal const val TAG = "PCRProcessor"
     }
 }
 
-private fun CoronaTestResult.validOrThrow() {
+private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     val isValid = when (this) {
-        CoronaTestResult.PCR_OR_RAT_PENDING,
-        CoronaTestResult.PCR_NEGATIVE,
-        CoronaTestResult.PCR_POSITIVE,
-        CoronaTestResult.PCR_INVALID,
-        CoronaTestResult.PCR_REDEEMED -> true
+        PCR_OR_RAT_PENDING,
+        PCR_NEGATIVE,
+        PCR_POSITIVE,
+        PCR_INVALID,
+        PCR_REDEEMED -> true
 
-        CoronaTestResult.RAT_PENDING,
-        CoronaTestResult.RAT_NEGATIVE,
-        CoronaTestResult.RAT_POSITIVE,
-        CoronaTestResult.RAT_INVALID,
-        CoronaTestResult.RAT_REDEEMED -> false
+        RAT_PENDING,
+        RAT_NEGATIVE,
+        RAT_POSITIVE,
+        RAT_INVALID,
+        RAT_REDEEMED -> false
     }
 
-    if (!isValid) throw IllegalArgumentException("Invalid testResult $this")
+    return if (isValid) {
+        this
+    } else {
+        Timber.tag(PCRProcessor.TAG).e("Server returned invalid PCR testresult $this")
+        PCR_INVALID
+    }
 }

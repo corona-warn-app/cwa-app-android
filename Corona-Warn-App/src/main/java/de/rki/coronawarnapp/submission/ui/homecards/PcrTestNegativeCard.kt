@@ -26,10 +26,18 @@ class PcrTestNegativeCard(
     override val onBindData: HomeSubmissionPcrStatusCardNegativeBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { _, _ -> }
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+
+        val userDate = curItem.state.getFormattedRegistrationDate()
+        date.text = resources.getString(R.string.ag_homescreen_card_pcr_body_result_date, userDate)
+
+        itemView.setOnClickListener { curItem.onClickAction(item) }
+    }
 
     data class Item(
-        val state: SubmissionStatePCR.TestNegative
+        val state: SubmissionStatePCR.TestNegative,
+        val onClickAction: (Item) -> Unit
     ) : TestResultItem.PCR, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }

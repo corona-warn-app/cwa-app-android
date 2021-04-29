@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsS
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
+import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
@@ -35,7 +37,6 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShort
 import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
@@ -45,7 +46,6 @@ import javax.inject.Inject
  * connectivity and bluetooth to update the ui.
  *
  * @see ConnectivityHelper
- * @see BackgroundWorkScheduler
  */
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var powerManagement: PowerManagement
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
-    @Inject lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -178,9 +177,14 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun navigateByIntentUri(intent: Intent?) {
-        val uri = intent?.data ?: return
-        Timber.i("Uri:$uri")
-        navController.navigate(CheckInsFragment.createCheckInUri(uri.toString()))
+        val uriString = intent?.data?.toString() ?: return
+        Timber.i("Uri:$uriString")
+        when {
+            CheckInsFragment.canHandle(uriString) ->
+                navController.navigate(CheckInsFragment.createDeepLink(uriString))
+            SubmissionConsentFragment.canHandle(uriString) ->
+                navController.navigate(NavGraphDirections.actionSubmissionConsentFragment(uriString))
+        }
     }
 
     /**
@@ -188,11 +192,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      */
     override fun onResume() {
         super.onResume()
-        backgroundWorkScheduler.startWorkScheduler()
         vm.doBackgroundNoiseCheck()
         contactDiaryWorkScheduler.schedulePeriodic()
         dataDonationAnalyticsScheduler.schedulePeriodic()
-        vm.checkDeadMan()
     }
 
     private fun showEnergyOptimizedEnabledForBackground() {

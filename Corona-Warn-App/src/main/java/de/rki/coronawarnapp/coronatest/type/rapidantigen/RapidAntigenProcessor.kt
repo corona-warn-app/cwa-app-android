@@ -3,6 +3,16 @@ package de.rki.coronawarnapp.coronatest.type.rapidantigen
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
@@ -11,6 +21,9 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.worker.BackgroundConstants
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -26,15 +39,24 @@ class RapidAntigenProcessor @Inject constructor(
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.RapidAntigen
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier)
+        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier).also {
+            Timber.tag(TAG).d("Request %s gave us %s", request, it)
+        }
 
-        registrationData.testResult.validOrThrow()
+        val testResult = registrationData.testResult.let {
+            Timber.tag(TAG).v("Raw test result was %s", it)
+            it.toValidatedResult()
+        }
+
+        val now = timeStamper.nowUTC
 
         return RACoronaTest(
             identifier = request.identifier,
-            registeredAt = timeStamper.nowUTC,
+            registeredAt = now,
+            lastUpdatedAt = now,
             registrationToken = registrationData.registrationToken,
-            testResult = registrationData.testResult,
+            testResult = testResult,
+            testResultReceivedAt = determineReceivedDate(null, testResult),
             testedAt = request.createdAt,
             firstName = request.firstName,
             lastName = request.lastName,
@@ -48,21 +70,31 @@ class RapidAntigenProcessor @Inject constructor(
         throw UnsupportedOperationException("There are no TAN based RATs")
     }
 
+    private fun determineReceivedDate(oldTest: RACoronaTest?, newTestResult: CoronaTestResult): Instant? = when {
+        oldTest != null && FINAL_STATES.contains(oldTest.testResult) -> oldTest.testResultReceivedAt
+        FINAL_STATES.contains(newTestResult) -> timeStamper.nowUTC
+        else -> null
+    }
+
     override suspend fun pollServer(test: CoronaTest): CoronaTest {
         return try {
             Timber.tag(TAG).v("pollServer(test=%s)", test)
             test as RACoronaTest
 
-            if (test.isSubmitted || test.isSubmissionAllowed) {
-                Timber.tag(TAG).w("Not refreshing already final test.")
+            if (test.isSubmitted) {
+                Timber.tag(TAG).w("Not refreshing, we have already submitted.")
                 return test
             }
 
-            val testResult = submissionService.asyncRequestTestResult(test.registrationToken)
-            Timber.tag(TAG).d("Test result was %s", testResult)
+            val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken).let {
+                Timber.tag(TAG).v("Raw test result was %s", it)
+                it.toValidatedResult()
+            }
 
             test.copy(
-                testResult = testResult,
+                testResult = check60PlusDays(test, newTestResult),
+                testResultReceivedAt = determineReceivedDate(test, newTestResult),
+                lastUpdatedAt = timeStamper.nowUTC,
                 lastError = null
             )
         } catch (e: Exception) {
@@ -71,6 +103,22 @@ class RapidAntigenProcessor @Inject constructor(
 
             test as RACoronaTest
             test.copy(lastError = e)
+        }
+    }
+
+    // After 60 days, the previously EXPIRED test is deleted from the server, and it will return pending again.
+    private fun check60PlusDays(test: CoronaTest, newResult: CoronaTestResult): CoronaTestResult {
+        val calculateDays = Duration(test.registeredAt, timeStamper.nowUTC).standardDays
+        Timber.tag(TAG).d("Calculated test age: %d days", calculateDays)
+
+        return if (
+            (newResult == PCR_OR_RAT_PENDING || newResult == RAT_PENDING) &&
+            calculateDays >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
+        ) {
+            Timber.tag(TAG).d("$calculateDays is exceeding the maximum polling duration")
+            RAT_REDEEMED
+        } else {
+            newResult
         }
     }
 
@@ -115,24 +163,30 @@ class RapidAntigenProcessor @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "RapidAntigenProcessor"
+        private val FINAL_STATES = setOf(RAT_POSITIVE, RAT_NEGATIVE, RAT_REDEEMED)
+        internal const val TAG = "RapidAntigenProcessor"
     }
 }
 
-private fun CoronaTestResult.validOrThrow() {
+private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     val isValid = when (this) {
-        CoronaTestResult.PCR_OR_RAT_PENDING,
-        CoronaTestResult.RAT_PENDING,
-        CoronaTestResult.RAT_NEGATIVE,
-        CoronaTestResult.RAT_POSITIVE,
-        CoronaTestResult.RAT_INVALID,
-        CoronaTestResult.RAT_REDEEMED -> true
+        PCR_OR_RAT_PENDING,
+        RAT_PENDING,
+        RAT_NEGATIVE,
+        RAT_POSITIVE,
+        RAT_INVALID,
+        RAT_REDEEMED -> true
 
-        CoronaTestResult.PCR_NEGATIVE,
-        CoronaTestResult.PCR_POSITIVE,
-        CoronaTestResult.PCR_INVALID,
-        CoronaTestResult.PCR_REDEEMED -> false
+        PCR_NEGATIVE,
+        PCR_POSITIVE,
+        PCR_INVALID,
+        PCR_REDEEMED -> false
     }
 
-    if (!isValid) throw IllegalArgumentException("Invalid testResult $this")
+    return if (isValid) {
+        this
+    } else {
+        Timber.tag(RapidAntigenProcessor.TAG).e("Server returned invalid RapidAntigen testresult $this")
+        RAT_INVALID
+    }
 }

@@ -25,9 +25,9 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
 import org.joda.time.LocalTime
 import javax.inject.Inject
 
@@ -121,8 +121,8 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                     placeInputEdit.setText(it.address)
                 }
                 viewModel.apply {
-                    begin = it.startDate?.let { time -> LocalDateTime(time) }
-                    end = it.endDate?.let { time -> LocalDateTime(time) }
+                    begin = it.startDate?.toDateTime()
+                    end = it.endDate?.toDateTime()
                     checkInLength = Duration.standardMinutes(it.defaultCheckInLengthInMinutes?.toLong() ?: 0L)
                 }
             }
@@ -152,9 +152,9 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     }
 
     private fun showDatePicker(
-        defaultValue: LocalDateTime?,
-        minConstraint: LocalDateTime? = null,
-        callback: (LocalDateTime) -> Unit
+        defaultValue: DateTime?,
+        minConstraint: DateTime? = null,
+        callback: (DateTime) -> Unit
     ) {
         MaterialDatePicker
             .Builder
@@ -181,7 +181,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             .show(childFragmentManager, DATE_PICKER_TAG)
     }
 
-    private fun showTimePicker(date: LocalDate, hours: Int?, minutes: Int?, callback: (LocalDateTime) -> Unit) {
+    private fun showTimePicker(date: LocalDate, hours: Int?, minutes: Int?, callback: (DateTime) -> Unit) {
         MaterialTimePicker
             .Builder()
             .setTimeFormat(if (is24HourFormat(requireContext())) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H)
@@ -194,7 +194,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    callback(date.toLocalDateTime(LocalTime(this.hour, this.minute)))
+                    callback(date.toDateTime(LocalTime(this.hour, this.minute)))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)
@@ -228,8 +228,8 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         savedInstanceState?.getLong(LENGTH_OF_STAY)?.let {
             viewModel.checkInLength = Duration.standardMinutes(it)
         }
-        viewModel.begin = savedInstanceState?.getSerializable(BEGIN) as LocalDateTime?
-        viewModel.end = savedInstanceState?.getSerializable(END) as LocalDateTime?
+        viewModel.begin = savedInstanceState?.getSerializable(BEGIN) as DateTime?
+        viewModel.end = savedInstanceState?.getSerializable(END) as DateTime?
     }
 
     companion object {

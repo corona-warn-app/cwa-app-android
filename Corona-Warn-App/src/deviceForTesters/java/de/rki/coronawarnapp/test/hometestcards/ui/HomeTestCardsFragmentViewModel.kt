@@ -44,17 +44,17 @@ class HomeTestCardsFragmentViewModel @AssistedInject constructor(
             PcrTestReadyCard.Item(SubmissionStatePCR.TestResultReady) {},
             PcrTestInvalidCard.Item(SubmissionStatePCR.TestInvalid) {},
             PcrTestErrorCard.Item(SubmissionStatePCR.TestError) {},
-            PcrTestNegativeCard.Item(SubmissionStatePCR.TestNegative),
-            PcrTestPositiveCard.Item(SubmissionStatePCR.TestPositive) {},
-            PcrTestSubmissionDoneCard.Item(SubmissionStatePCR.SubmissionDone(Instant.now())),
+            PcrTestNegativeCard.Item(SubmissionStatePCR.TestNegative(Instant.now())) {},
+            PcrTestPositiveCard.Item(SubmissionStatePCR.TestPositive(Instant.now())) {},
+            PcrTestSubmissionDoneCard.Item(SubmissionStatePCR.SubmissionDone(Instant.now())) {},
             RapidTestPendingCard.Item(SubmissionStateRAT.TestPending) {},
             RapidTestReadyCard.Item(SubmissionStateRAT.TestResultReady) {},
             RapidTestInvalidCard.Item(SubmissionStateRAT.TestInvalid) {},
-            RapidTestOutdatedCard.Item(SubmissionStateRAT.TestInvalid) {},
+            RapidTestOutdatedCard.Item(SubmissionStateRAT.TestOutdated) {},
             RapidTestErrorCard.Item(SubmissionStateRAT.TestError) {},
-            RapidTestNegativeCard.Item(SubmissionStateRAT.TestNegative),
-            RapidTestPositiveCard.Item(SubmissionStateRAT.TestPositive) {},
-            RapidTestSubmissionDoneCard.Item(SubmissionStateRAT.SubmissionDone(Instant.now()))
+            RapidTestNegativeCard.Item(SubmissionStateRAT.TestNegative(Instant.now())) {},
+            RapidTestPositiveCard.Item(SubmissionStateRAT.TestPositive(Instant.now())) {},
+            RapidTestSubmissionDoneCard.Item(SubmissionStateRAT.SubmissionDone(Instant.now())) {}
         )
     )
 

@@ -134,12 +134,17 @@ object HomeData {
         )
 
         val TEST_POSITIVE_ITEM = PcrTestPositiveCard.Item(
-            state = TestPositive,
+            state = TestPositive(
+                testRegisteredAt = Instant.now()
+            ),
             onClickAction = {}
         )
 
         val TEST_NEGATIVE_ITEM = PcrTestNegativeCard.Item(
-            state = TestNegative
+            state = TestNegative(
+                testRegisteredAt = Instant.now()
+            ),
+            onClickAction = {}
         )
 
         val TEST_INVALID_ITEM = PcrTestInvalidCard.Item(
@@ -160,7 +165,8 @@ object HomeData {
         val TEST_SUBMISSION_DONE_ITEM = PcrTestSubmissionDoneCard.Item(
             state = SubmissionDone(
                 testRegisteredAt = Instant.now()
-            )
+            ),
+            onClickAction = {}
         )
     }
 }

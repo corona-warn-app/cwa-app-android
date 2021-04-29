@@ -5,9 +5,11 @@ import android.content.Intent
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -34,13 +36,11 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     interoperabilityRepository: InteroperabilityRepository,
     private val submissionRepository: SubmissionRepository,
     private val checkInRepository: CheckInRepository,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    @Assisted private val testType: CoronaTest.Type
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    // TODO Use navargs to supply this
-    private val coronaTestType: CoronaTest.Type = CoronaTest.Type.PCR
-
     init {
-        Timber.v("init() coronaTestType=%s", coronaTestType)
+        Timber.v("init() coronaTestType=%s", testType)
     }
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -66,12 +66,14 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
                 val navDirections = if (completedCheckInsExist) {
                     Timber.tag(TAG).d("Navigate to CheckInsConsentFragment")
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToCheckInsConsentFragment()
+                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToCheckInsConsentFragment(testType)
                 } else {
                     autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
                     Timber.tag(TAG).d("Navigate to SubmissionResultReadyFragment")
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
+                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment(
+                            testType
+                        )
                 }
                 routeToScreen.postValue(navDirections)
             }
@@ -111,7 +113,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     fun onConsentButtonClicked() = launch {
         showKeysRetrievalProgress.postValue(true)
-        submissionRepository.giveConsentToSubmission(type = coronaTestType)
+        submissionRepository.giveConsentToSubmission(type = testType)
         launch {
             if (enfClient.isTracingEnabled.first()) {
                 Timber.tag(TAG).d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission()")
@@ -139,12 +141,14 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onResume() {
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS)
+        if (testType == PCR) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS)
+        }
     }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionResultPositiveOtherWarningNoConsentViewModel> {
-        fun create(): SubmissionResultPositiveOtherWarningNoConsentViewModel
+        fun create(testType: CoronaTest.Type): SubmissionResultPositiveOtherWarningNoConsentViewModel
     }
 
     companion object {

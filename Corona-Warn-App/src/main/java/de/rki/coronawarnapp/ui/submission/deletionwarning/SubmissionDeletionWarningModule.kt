@@ -12,8 +12,8 @@ abstract class SubmissionDeletionWarningModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(SubmissionDeletionWarningFragmentViewModel::class)
+    @CWAViewModelKey(SubmissionDeletionWarningViewModel::class)
     abstract fun submissionDeletionWarningFragmentVM(
-        factory: SubmissionDeletionWarningFragmentViewModel.Factory
+        factory: SubmissionDeletionWarningViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

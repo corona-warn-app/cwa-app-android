@@ -4,8 +4,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import dagger.android.AndroidInjection
+import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TEST_TYPE
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -19,8 +22,16 @@ class NotificationReceiver : BroadcastReceiver() {
         AndroidInjection.inject(this, context)
         when (val notificationId = intent.getIntExtra(NOTIFICATION_ID, Int.MIN_VALUE)) {
             POSITIVE_RESULT_NOTIFICATION_ID -> {
-                Timber.tag(TAG).v("NotificationReceiver received intent to show a positive test result notification")
-                shareTestResultNotificationService.showSharePositiveTestResultNotification(notificationId)
+                val testTypeRaw = intent.getStringExtra(POSITIVE_RESULT_NOTIFICATION_TEST_TYPE)
+                val testType = CoronaTest.Type.values().first { it.raw == testTypeRaw }
+                Timber.tag(TAG).v(
+                    "NotificationReceiver received intent to show a positive test result notification for test type %s",
+                    testType
+                )
+                shareTestResultNotificationService.maybeShowSharePositiveTestResultNotification(
+                    notificationId,
+                    testType
+                )
             }
             else ->
                 Timber.tag(TAG).d("NotificationReceiver received an undefined notificationId: %s", notificationId)

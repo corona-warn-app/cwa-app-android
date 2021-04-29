@@ -10,6 +10,9 @@ import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryLocationListFragmentTest
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOnboardingFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryPersonListFragmentTestModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.CreateEventTestModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.QrCodeDetailFragmentTestModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationsFragmentTestModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingAnalyticsFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragmentTestModule
@@ -74,7 +77,11 @@ import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
         StatisticsExplanationFragmentTestModule::class,
         // Bugreporting
         DebugLogUploadTestModule::class,
-        DebugLogTestModule::class
+        DebugLogTestModule::class,
+        // Event Registration
+        CreateEventTestModule::class,
+        TraceLocationsFragmentTestModule::class,
+        QrCodeDetailFragmentTestModule::class
     ]
 )
 class FragmentTestModuleRegistrar

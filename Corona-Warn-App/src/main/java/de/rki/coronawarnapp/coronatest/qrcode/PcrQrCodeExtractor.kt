@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import java.util.regex.Pattern
 import javax.inject.Inject
 
-class PcrQrCodeExtractor @Inject constructor() : QrCodeExtractor {
+class PcrQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCode> {
 
     override fun canHandle(rawString: String): Boolean = rawString.startsWith(prefix, ignoreCase = true)
 

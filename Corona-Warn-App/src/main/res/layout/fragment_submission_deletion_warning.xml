@@ -94,26 +94,26 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_normal"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/spacing_normal"
         android:text="@string/submission_deletion_warning_continue_button"
-        app:layout_constraintBottom_toTopOf="@id/cancel_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="@string/submission_deletion_warning_continue_button" />
 
-    <Button
-        android:id="@+id/cancel_button"
-        style="@style/buttonLight"
-        android:layout_width="0dp"
+    <ProgressBar
+        android:id="@+id/submission_qr_code_scan_spinner"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        android:layout_marginBottom="4dp"
-        android:text="@string/submission_deletion_warning_cancel_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/submission_deletion_warning_cancel_button" />
+        android:indeterminateTint="@color/colorAccentTintIcon"
+        android:indeterminateTintMode="src_in"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/continue_button"
+        app:layout_constraintEnd_toEndOf="@id/continue_button"
+        app:layout_constraintStart_toStartOf="@id/continue_button"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
