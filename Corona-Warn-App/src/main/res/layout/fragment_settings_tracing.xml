@@ -151,81 +151,81 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/settingsInteroperabilityRow" />
 
-                <LinearLayout
+
+                <androidx.constraintlayout.helper.widget.Flow
                     android:id="@+id/settings_tracing_status"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settingsInteroperabilityRow">
+                    android:orientation="horizontal"
+                    app:flow_maxElementsWrap="1"
+                    app:flow_verticalBias="0"
+                    app:constraint_referenced_ids="settings_tracing_status_location,settings_tracing_status_bluetooth,risk_details_period_logged_headline,risk_details_period_logged_subtitle,risk_details_period_logged_body_notice,risk_details_period_logged_days"
+                    app:flow_verticalStyle="packed"
+                    app:flow_wrapMode="chain"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/settingsInteroperabilityRow" />
 
-                    <include
-                        android:id="@+id/settings_tracing_status_location"
-                        gone="@{!settingsTracingState.isLocationCardVisible()}"
-                        layout="@layout/include_tracing_status_card_location"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/guideline_card"
-                        app:buttonText="@{@string/settings_tracing_status_location_button}"
-                        app:headline="@{@string/settings_tracing_status_location_headline}"
-                        app:icon="@{@drawable/ic_location}" />
+                <include
+                    android:id="@+id/settings_tracing_status_location"
+                    gone="@{!settingsTracingState.isLocationCardVisible()}"
+                    layout="@layout/include_tracing_status_card_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:buttonText="@{@string/settings_tracing_status_location_button}"
+                    app:headline="@{@string/settings_tracing_status_location_headline}"
+                    app:icon="@{@drawable/ic_location}" />
 
-                    <include
-                        android:id="@+id/settings_tracing_status_bluetooth"
-                        gone="@{!settingsTracingState.isBluetoothCardVisible()}"
-                        layout="@layout/include_tracing_status_card"
-                        android:layout_marginBottom="@dimen/spacing_small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/guideline_card"
-                        app:body="@{@string/settings_tracing_status_bluetooth_body}"
-                        app:buttonText="@{@string/settings_tracing_status_bluetooth_button}"
-                        app:headline="@{@string/settings_tracing_status_bluetooth_headline}"
-                        app:icon="@{@drawable/ic_settings_tracing_bluetooth}" />
+                <include
+                    android:id="@+id/settings_tracing_status_bluetooth"
+                    gone="@{!settingsTracingState.isBluetoothCardVisible()}"
+                    layout="@layout/include_tracing_status_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:body="@{@string/settings_tracing_status_bluetooth_body}"
+                    app:buttonText="@{@string/settings_tracing_status_bluetooth_button}"
+                    app:headline="@{@string/settings_tracing_status_bluetooth_headline}"
+                    app:icon="@{@drawable/ic_settings_tracing_bluetooth}" />
 
-                    <TextView
-                        android:id="@+id/risk_details_period_logged_headline"
-                        style="@style/headline5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        android:text="@string/risk_details_headline_period_logged"
-                        android:layout_marginHorizontal="@dimen/spacing_normal" />
+                <TextView
+                    android:id="@+id/risk_details_period_logged_headline"
+                    style="@style/headline5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:paddingTop="@dimen/spacing_small"
+                    android:text="@string/risk_details_headline_period_logged" />
 
-                    <TextView
-                        android:id="@+id/risk_details_period_logged_subtitle"
-                        style="@style/subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_tiny"
-                        android:focusable="false"
-                        android:text="@string/risk_details_subtitle_period_logged"
-                        android:layout_marginHorizontal="@dimen/spacing_normal"/>
+                <TextView
+                    android:id="@+id/risk_details_period_logged_subtitle"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/spacing_tiny"
+                    android:focusable="false"
+                    android:text="@string/risk_details_subtitle_period_logged"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"/>
 
-                    <TextView
-                        android:id="@id/risk_details_period_logged_body_notice"
-                        style="@style/subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal"
-                        android:focusable="true"
-                        android:text="@string/risk_details_information_body_period_logged"
-                        android:layout_marginHorizontal="@dimen/spacing_normal" />
+                <TextView
+                    android:id="@id/risk_details_period_logged_body_notice"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/risk_details_information_body_period_logged"
+                    android:layout_marginHorizontal="@dimen/spacing_normal" />
 
-                    <TextView
-                        android:id="@+id/risk_details_period_logged_days"
-                        style="@style/subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal"
-                        android:focusable="true"
-                        android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
-                        android:layout_marginHorizontal="@dimen/spacing_normal" />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/risk_details_period_logged_days"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
+                    android:layout_marginHorizontal="@dimen/spacing_normal" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/risk_details_body"
