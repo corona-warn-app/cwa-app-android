@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/trace_location_gradient_background"
-    android:contentDescription="@string/trace_location_event_detail_title_accessibility">
+    android:layout_height="match_parent">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -53,7 +51,7 @@
                         android:layout_marginTop="90dp"
                         android:layout_marginBottom="12dp"
                         android:gravity="center"
-                        android:text="Erste Impfung"
+                        android:text="@string/vaccination_details_title"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -66,7 +64,7 @@
                         android:layout_marginHorizontal="24dp"
                         android:layout_marginBottom="8dp"
                         android:gravity="center"
-                        android:text="Impfzertifikat"
+                        android:text="@string/vaccination_details_subtitle"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
 
@@ -117,82 +115,89 @@
                 android:padding="16dp">
 
                 <TextView
+                    android:id="@+id/name"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Andrea Schneider" />
+                    tools:text="Andrea Schneider" />
 
                 <TextView
+                    android:id="@+id/birth_date"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="geboren 18.04.1943" />
+                    tools:text="geboren 18.04.1943" />
 
                 <TextView
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Andrea Schneider" />
+                    android:text="@string/vaccination_details_certificate_date" />
 
                 <TextView
+                    android:id="@+id/vaccinated_at"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="geboren 18.04.1943" />
+                    tools:text="12.04.2021" />
 
                 <TextView
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Andrea Schneider" />
+                    android:text="@string/vaccination_details_certificate_name" />
 
                 <TextView
+                    android:id="@+id/vaccination_name"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="geboren 18.04.1943" />
+                    tools:text="Comirnaty (mRNA)" />
 
                 <TextView
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Andrea Schneider" />
+                    android:text="@string/vaccination_details_certificate_manufacturer" />
 
                 <TextView
+                    android:id="@+id/vaccination_manufacturer"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="geboren 18.04.1943" />
+                    tools:text="BioNTech" />
 
                 <TextView
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Andrea Schneider" />
+                    android:text="@string/vaccination_details_charge_id" />
 
                 <TextView
+                    android:id="@+id/charge_id"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="geboren 18.04.1943" />
+                    tools:text="CB2342" />
 
                 <TextView
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Aussteller" />
+                    android:text="@string/vaccination_details_certificate_issuer" />
 
                 <TextView
+                    android:id="@+id/certificate_issuer"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -204,9 +209,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Land" />
+                    android:text="@string/vaccination_details_certificate_country" />
 
                 <TextView
+                    android:id="@+id/certificate_country"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -218,9 +224,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Zertifikationsnummer" />
+                    android:text="@string/vaccination_details_certificate_id" />
 
                 <TextView
+                    android:id="@+id/certificate_id"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -241,7 +248,7 @@
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="8dp"
-        android:text="Impfzertifikat entfernen"
+        android:text="@string/vaccination_details_delete_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

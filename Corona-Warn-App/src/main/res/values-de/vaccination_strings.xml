@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- XTXT: Vaccination Details birth date -->
+    <string name="vaccination_details_birth_date">geboren %1$s</string>
+    <!-- XTXT: Vaccination Details certificate date -->
+    <string name="vaccination_details_certificate_date">Datum der Impfung</string>
+    <!-- XTXT: Vaccination Details certificate name -->
+    <string name="vaccination_details_certificate_name">Impfstoff</string>
+    <!-- XTXT: Vaccination Details certificate manufacturer -->
+    <string name="vaccination_details_certificate_manufacturer">Hersteller</string>
+    <!-- XTXT: Vaccination Details certificate charge id -->
+    <string name="vaccination_details_charge_id">Chargennummer</string>
+    <!-- XTXT: Vaccination Details certificate issuer -->
+    <string name="vaccination_details_certificate_issuer">Aussteller</string>
+    <!-- XTXT: Vaccination Details certificate country -->
+    <string name="vaccination_details_certificate_country">Land</string>
+    <!-- XTXT: Vaccination Details certificate id -->
+    <string name="vaccination_details_certificate_id">Zertifikationsnummer</string>
+    <!-- XBUT: Vaccination Details delete button -->
+    <string name="vaccination_details_delete_button">Impfzertifikat entfernen</string>
+    <!-- XTXT: Vaccination Details subtitle-->
+    <string name="vaccination_details_subtitle">Impfzertifikat</string>
+    <!-- XTXT: Vaccination Details title-->
+    <string name="vaccination_details_title">Erste Impfung</string>
 </resources>
