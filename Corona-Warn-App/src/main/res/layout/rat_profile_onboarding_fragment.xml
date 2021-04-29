@@ -1,43 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.coronatest.rat.profile.onboarding.RATProfileOnboardingFragment">
+    android:background="@color/colorBackground">
 
-    <!--    TODO: implement onboarding screen-->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/CWAToolbar.Close"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Schnelltest-Profil" />
+        app:title="@string/rat_profile_create_title" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="🚧 Onboarding Screen"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/nextButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:id="@+id/rat_profile_onboarding_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/next_button"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/rat_profile_onboarding_image"
+                android:layout_width="0dp"
+                android:layout_height="190dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="4dp"
+                android:contentDescription="@string/rat_profile_onboarding_image_content_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/rat_profile_onboarding" />
+
+            <TextView
+                android:id="@+id/rat_profile_onboarding_title"
+                style="@style/headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/rat_profile_onboarding_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_image" />
+
+            <TextView
+                android:id="@+id/rat_profile_onboarding_subtitle"
+                style="@style/subtitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="22dp"
+                android:text="@string/rat_profile_onboarding_subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_title" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rat_profile_onboarding_card_container"
+                style="@style/cardTracing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/guideline_card"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_subtitle">
+
+                <TextView
+                    android:id="@+id/rat_profile_onboarding_card_title"
+                    style="@style/headline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rat_profile_onboarding_card_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/rat_profile_onboarding_bullet_point1"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_card_title"
+                    app:srcCompat="@drawable/bullet_point" />
+
+                <TextView
+                    android:id="@+id/rat_profile_onboarding_body1"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="16dp"
+                    android:focusable="true"
+                    android:text="@string/rat_profile_onboarding_card_consent1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point1"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_card_title" />
+
+                <ImageView
+                    android:id="@+id/rat_profile_onboarding_bullet_point2"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body1"
+                    app:srcCompat="@drawable/bullet_point" />
+
+                <TextView
+                    android:id="@+id/rat_profile_onboarding_body2"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="16dp"
+                    android:focusable="true"
+                    android:text="@string/rat_profile_onboarding_card_consent2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point2"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body1" />
+
+                <ImageView
+                    android:id="@+id/rat_profile_onboarding_bullet_point3"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body2"
+                    app:srcCompat="@drawable/bullet_point" />
+
+                <TextView
+                    android:id="@+id/rat_profile_onboarding_body3"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="16dp"
+                    android:focusable="true"
+                    android:text="@string/rat_profile_onboarding_card_consent3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point3"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body2" />
+
+                <ImageView
+                    android:id="@+id/rat_profile_onboarding_bullet_point4"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body3"
+                    app:srcCompat="@drawable/bullet_point" />
+
+                <TextView
+                    android:id="@+id/rat_profile_onboarding_body4"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="16dp"
+                    android:focusable="true"
+                    android:text="@string/rat_profile_onboarding_card_consent4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point4"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body3" />
+
+                <ImageView
+                    android:id="@+id/rat_profile_onboarding_bullet_point5"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body4"
+                    app:srcCompat="@drawable/bullet_point" />
+
+                <TextView
+                    android:id="@+id/rat_profile_onboarding_body5"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="16dp"
+                    android:focusable="true"
+                    android:text="@string/rat_profile_onboarding_card_consent5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point5"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body4" />
+
+                <ImageView
+                    android:id="@+id/rat_profile_onboarding_bullet_point6"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body5"
+                    app:srcCompat="@drawable/bullet_point" />
+
+                <TextView
+                    android:id="@+id/rat_profile_onboarding_body6"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="16dp"
+                    android:focusable="true"
+                    android:text="@string/rat_profile_onboarding_card_consent6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point6"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body5" />
+
+                <ImageView
+                    android:id="@+id/rat_profile_onboarding_bullet_point7"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="22dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body6"
+                    app:srcCompat="@drawable/bullet_point" />
+
+                <TextView
+                    android:id="@+id/rat_profile_onboarding_body7"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="16dp"
+                    android:focusable="true"
+                    android:text="@string/rat_profile_onboarding_card_consent7"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/rat_profile_onboarding_bullet_point7"
+                    app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_body6" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+                android:id="@+id/rat_profile_onboarding_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="30dp"
+                android:focusable="true"
+                app:layout_constraintTop_toBottomOf="@id/rat_profile_onboarding_card_container"
+                app:titleText="@string/rat_profile_onboarding_privacy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <Button
-        android:id="@+id/nextButton"
+        android:id="@+id/next_button"
         style="@style/buttonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="24dp"
-        android:text="Weiter"
+        android:text="@string/rat_profile_onboarding_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
