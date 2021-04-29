@@ -36,7 +36,6 @@ message QRCodePosterTemplateIOS {
   uint32 qrCodeSideLength = 4;
 
   QRCodeTextBoxIOS descriptionTextBox = 5;
-  QRCodeTextBoxIOS addressTextBox = 6;
 
   message QRCodeTextBoxIOS {
     uint32 offsetX = 1;
