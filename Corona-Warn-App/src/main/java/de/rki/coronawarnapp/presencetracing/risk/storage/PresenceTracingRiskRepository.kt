@@ -9,7 +9,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.TypeConverter
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskCalcResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
@@ -90,9 +90,9 @@ class PresenceTracingRiskRepository @Inject constructor(
         val result = if (successful) {
             val last14daysPlusToday = normalizedTimeOfLast14DaysPlusToday.first()
             val risk = presenceTracingRiskCalculator.calculateTotalRisk(last14daysPlusToday)
-            PtRiskLevelResult(nowUTC, risk)
+            PtRiskCalcResult(nowUTC, risk)
         } else {
-            PtRiskLevelResult(nowUTC, RiskState.CALCULATION_FAILED)
+            PtRiskCalcResult(nowUTC, RiskState.CALCULATION_FAILED)
         }
         addResult(result)
     }
@@ -135,7 +135,7 @@ class PresenceTracingRiskRepository @Inject constructor(
                 }
             }
 
-    private fun addResult(result: PtRiskLevelResult) {
+    private fun addResult(result: PtRiskCalcResult) {
         Timber.i("Saving risk calculation from ${result.calculatedAt} with result ${result.riskState}.")
         riskLevelResultDao.insert(result.toRiskLevelEntity())
     }
@@ -238,14 +238,14 @@ data class PresenceTracingRiskLevelResultEntity(
 private fun PresenceTracingRiskLevelResultEntity.toRiskLevelResult(
     presenceTracingDayRisks: List<PresenceTracingDayRisk>?,
     checkInWarningOverlaps: List<CheckInWarningOverlap>?
-) = PtRiskLevelResult(
+) = PtRiskCalcResult(
     calculatedAt = Instant.ofEpochMilli((calculatedAtMillis)),
     riskState = riskState,
     presenceTracingDayRisk = presenceTracingDayRisks,
     checkInWarningOverlaps = checkInWarningOverlaps,
 )
 
-private fun PtRiskLevelResult.toRiskLevelEntity() = PresenceTracingRiskLevelResultEntity(
+private fun PtRiskCalcResult.toRiskLevelEntity() = PresenceTracingRiskLevelResultEntity(
     calculatedAtMillis = calculatedAt.millis,
     riskState = riskState
 )

@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.risk.storage
 
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskCalcResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
@@ -213,12 +213,12 @@ class BaseRiskLevelStorageTest : BaseTest() {
         val calculatedAt = ewCalculatedAt.plus(6000L)
         every { presenceTracingRiskRepository.latestEntries(2) } returns flowOf(
             listOf(
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = calculatedAt,
                     presenceTracingDayRisk = null,
                     riskState = RiskState.CALCULATION_FAILED
                 ),
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = ewCalculatedAt.minus(1000L),
                     presenceTracingDayRisk = listOf(testPresenceTracingDayRisk),
                     riskState = RiskState.INCREASED_RISK
@@ -228,7 +228,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest2(ignoreActive = true) {
             val instance = createInstance(scope = this)
 
-            val riskLevelResults = instance.latestCombinedEwPtRiskLevelResults.first()
+            val riskLevelResults = instance.latestCombinedEwPtRiskCalcResults.first()
             riskLevelResults.size shouldBe 2
 
             riskLevelResults[0].calculatedAt shouldBe calculatedAt
@@ -250,7 +250,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         val calculatedAt = ewCalculatedAt.minus(400L)
         every { presenceTracingRiskRepository.latestEntries(2) } returns flowOf(
             listOf(
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = calculatedAt,
                     presenceTracingDayRisk = null,
                     riskState = RiskState.LOW_RISK
@@ -260,7 +260,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest2(ignoreActive = true) {
             val instance = createInstance(scope = this)
 
-            val riskLevelResults = instance.latestCombinedEwPtRiskLevelResults.first()
+            val riskLevelResults = instance.latestCombinedEwPtRiskCalcResults.first()
             riskLevelResults.size shouldBe 2
 
             riskLevelResults[0].calculatedAt shouldBe ewCalculatedAt
@@ -312,12 +312,12 @@ class BaseRiskLevelStorageTest : BaseTest() {
         val calculatedAt = ewCalculatedAt.minus(400L)
         every { presenceTracingRiskRepository.latestEntries(2) } returns flowOf(
             listOf(
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = calculatedAt,
                     presenceTracingDayRisk = null,
                     riskState = RiskState.INCREASED_RISK
                 ),
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = calculatedAt.minus(400L),
                     presenceTracingDayRisk = null,
                     riskState = RiskState.CALCULATION_FAILED
@@ -327,7 +327,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest2(ignoreActive = true) {
             val instance = createInstance(scope = this)
 
-            val riskLevelResults = instance.latestCombinedEwPtRiskLevelResults.first()
+            val riskLevelResults = instance.latestCombinedEwPtRiskCalcResults.first()
             riskLevelResults.size shouldBe 2
 
             riskLevelResults[0].calculatedAt shouldBe ewCalculatedAt
@@ -366,12 +366,12 @@ class BaseRiskLevelStorageTest : BaseTest() {
         val calculatedAt = ewCalculatedAt.plus(6000L)
         every { presenceTracingRiskRepository.allEntries() } returns flowOf(
             listOf(
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = calculatedAt,
                     presenceTracingDayRisk = null,
                     riskState = RiskState.CALCULATION_FAILED
                 ),
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = ewCalculatedAt.minus(1000L),
                     presenceTracingDayRisk = listOf(testPresenceTracingDayRisk),
                     riskState = RiskState.INCREASED_RISK
@@ -404,12 +404,12 @@ class BaseRiskLevelStorageTest : BaseTest() {
     fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult are combined 2`() {
         every { presenceTracingRiskRepository.allEntries() } returns flowOf(
             listOf(
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = ewCalculatedAt.plus(6000L),
                     presenceTracingDayRisk = null,
                     riskState = RiskState.CALCULATION_FAILED
                 ),
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = ewCalculatedAt.minus(1000L),
                     presenceTracingDayRisk = listOf(testPresenceTracingDayRisk),
                     riskState = RiskState.INCREASED_RISK
@@ -463,12 +463,12 @@ class BaseRiskLevelStorageTest : BaseTest() {
     fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult are combined 3`() {
         every { presenceTracingRiskRepository.allEntries() } returns flowOf(
             listOf(
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = ewCalculatedAt.plus(6000L),
                     presenceTracingDayRisk = null,
                     riskState = RiskState.CALCULATION_FAILED
                 ),
-                PtRiskLevelResult(
+                PtRiskCalcResult(
                     calculatedAt = ewCalculatedAt.minus(100L),
                     presenceTracingDayRisk = listOf(testPresenceTracingDayRisk),
                     riskState = RiskState.LOW_RISK

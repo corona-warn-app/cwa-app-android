@@ -1,10 +1,8 @@
 package de.rki.coronawarnapp.risk
 
-import androidx.annotation.VisibleForTesting
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
-import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
+import de.rki.coronawarnapp.presencetracing.risk.EwRiskCalcResult
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskCalcResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -13,14 +11,13 @@ data class CombinedEwPtDayRisk(
     val riskState: RiskState
 )
 
-data class CombinedEwPtRiskLevelResult(
-    private val ptRiskLevelResult: PtRiskLevelResult,
-    private val ewRiskLevelResult: EwRiskLevelResult,
-    private val exposureWindowDayRisks: List<ExposureWindowDayRisk>? = null
+data class CombinedEwPtRiskCalcResult(
+    private val ptRiskCalcResult: PtRiskCalcResult,
+    private val ewRiskCalcResult: EwRiskCalcResult,
 ) {
 
     val riskState: RiskState by lazy {
-        RiskCombinator.combine(ptRiskLevelResult.riskState, ewRiskLevelResult.riskState)
+        RiskCombinator.combine(ptRiskCalcResult.riskState, ewRiskCalcResult.riskState)
     }
 
     val wasSuccessfullyCalculated: Boolean by lazy {
@@ -28,19 +25,19 @@ data class CombinedEwPtRiskLevelResult(
     }
 
     val calculatedAt: Instant by lazy {
-        max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt)
+        max(ewRiskCalcResult.calculatedAt, ptRiskCalcResult.calculatedAt)
     }
 
     val daysWithEncounters: Int by lazy {
         when (riskState) {
             RiskState.INCREASED_RISK -> {
-                ewDaysWithHighRisk
-                    .plus(ptRiskLevelResult.daysWithHighRisk)
+                ewRiskCalcResult.daysWithHighRisk
+                    .plus(ptRiskCalcResult.daysWithHighRisk)
                     .distinct().count()
             }
             RiskState.LOW_RISK -> {
-                ewDaysWithLowRisk
-                    .plus(ptRiskLevelResult.daysWithLowRisk)
+                ewRiskCalcResult.daysWithLowRisk
+                    .plus(ptRiskCalcResult.daysWithLowRisk)
                     .distinct().count()
             }
             else -> 0
@@ -50,12 +47,12 @@ data class CombinedEwPtRiskLevelResult(
     val lastRiskEncounterAt: LocalDate? by lazy {
         when (riskState) {
             RiskState.INCREASED_RISK -> max(
-                ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithHighRisk?.toLocalDateUtc(),
-                ptRiskLevelResult.mostRecentDateWithHighRisk
+                ewRiskCalcResult.mostRecentDateWithHighRisk,
+                ptRiskCalcResult.mostRecentDateWithHighRisk
             )
             RiskState.LOW_RISK -> max(
-                ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithLowRisk?.toLocalDateUtc(),
-                ptRiskLevelResult.mostRecentDateWithLowRisk
+                ewRiskCalcResult.mostRecentDateWithLowRisk,
+                ptRiskCalcResult.mostRecentDateWithLowRisk
             )
             else -> null
         }
@@ -67,25 +64,13 @@ data class CombinedEwPtRiskLevelResult(
      * the UI displays additional information in the risk details screen.
      */
     val matchedRiskCount: Int by lazy {
-        ewRiskLevelResult.matchedKeyCount + ptRiskLevelResult.checkInOverlapCount
+        ewRiskCalcResult.matchedKeyCount + ptRiskCalcResult.checkInOverlapCount
     }
-
-    @VisibleForTesting
-    internal val ewDaysWithHighRisk: List<LocalDate>
-        get() = exposureWindowDayRisks?.filter {
-            it.riskLevel.mapToRiskState() == RiskState.INCREASED_RISK
-        }?.map { it.localDateUtc } ?: emptyList()
-
-    @VisibleForTesting
-    internal val ewDaysWithLowRisk: List<LocalDate>
-        get() = exposureWindowDayRisks?.filter {
-            it.riskLevel.mapToRiskState() == RiskState.LOW_RISK
-        }?.map { it.localDateUtc } ?: emptyList()
 }
 
 data class LastCombinedRiskResults(
-    val lastCalculated: CombinedEwPtRiskLevelResult,
-    val lastSuccessfullyCalculated: CombinedEwPtRiskLevelResult
+    val lastCalculated: CombinedEwPtRiskCalcResult,
+    val lastSuccessfullyCalculatedRiskState: RiskState
 )
 
 internal fun max(left: Instant, right: Instant): Instant {

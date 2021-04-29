@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.risk.storage.internal
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskCalcResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
@@ -150,19 +150,19 @@ class RiskCombinatorTest : BaseTest() {
     fun `combineEwPtRiskLevelResults works`() {
         val startInstant = Instant.ofEpochMilli(10000)
 
-        val ptResult = PtRiskLevelResult(
+        val ptResult = PtRiskCalcResult(
             calculatedAt = startInstant.plus(1000L),
             riskState = LOW_RISK
         )
-        val ptResult2 = PtRiskLevelResult(
+        val ptResult2 = PtRiskCalcResult(
             calculatedAt = startInstant.plus(3000L),
             riskState = LOW_RISK
         )
-        val ptResult3 = PtRiskLevelResult(
+        val ptResult3 = PtRiskCalcResult(
             calculatedAt = startInstant.plus(6000L),
             riskState = CALCULATION_FAILED
         )
-        val ptResult4 = PtRiskLevelResult(
+        val ptResult4 = PtRiskCalcResult(
             calculatedAt = startInstant.plus(7000L),
             riskState = CALCULATION_FAILED
         )

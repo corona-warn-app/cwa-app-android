@@ -54,7 +54,7 @@ class RiskLevelChangeDetector @Inject constructor(
             .catch { Timber.e(it, "App config change checks failed.") }
             .launchIn(appScope)
 
-        riskLevelStorage.latestCombinedEwPtRiskLevelResults
+        riskLevelStorage.latestCombinedEwPtRiskCalcResults
             .map { results ->
                 results.sortedBy { it.calculatedAt }.takeLast(2)
             }
@@ -67,7 +67,7 @@ class RiskLevelChangeDetector @Inject constructor(
             .launchIn(appScope)
     }
 
-    private suspend fun checkCombinedRiskForStateChanges(results: List<CombinedEwPtRiskLevelResult>) {
+    private suspend fun checkCombinedRiskForStateChanges(results: List<CombinedEwPtRiskCalcResult>) {
         val oldResult = results.first()
         val newResult = results.last()
 

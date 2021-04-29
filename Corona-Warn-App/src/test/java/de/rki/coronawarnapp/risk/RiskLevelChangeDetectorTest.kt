@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.GeneralNotifications
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskCalcResult
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
 import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
@@ -110,7 +110,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     private fun createPtRiskLevel(
         riskState: RiskState,
         calculatedAt: Instant = Instant.EPOCH
-    ): PtRiskLevelResult = PtRiskLevelResult(
+    ): PtRiskCalcResult = PtRiskCalcResult(
         calculatedAt = calculatedAt,
         riskState = riskState
     )
@@ -119,7 +119,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         riskState: RiskState,
         calculatedAt: Instant = Instant.EPOCH,
         ewAggregatedRiskResult: EwAggregatedRiskResult? = null
-    ): CombinedEwPtRiskLevelResult = CombinedEwPtRiskLevelResult(
+    ): CombinedEwPtRiskCalcResult = CombinedEwPtRiskCalcResult(
         ewRiskLevelResult = createEwRiskLevel(riskState, calculatedAt, ewAggregatedRiskResult),
         ptRiskLevelResult = createPtRiskLevel(riskState, calculatedAt)
     )
@@ -140,7 +140,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `nothing happens if there is only one result yet`() {
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.latestCombinedEwPtRiskCalcResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
         every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(listOf(createEwRiskLevel(LOW_RISK)))
 
@@ -167,7 +167,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.latestCombinedEwPtRiskCalcResults } returns
             flowOf(
                 listOf(
                     createCombinedRiskLevel(LOW_RISK),
@@ -196,7 +196,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.latestCombinedEwPtRiskCalcResults } returns
             flowOf(
                 listOf(
                     createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1)),
@@ -227,7 +227,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.latestCombinedEwPtRiskCalcResults } returns
             flowOf(
                 listOf(
                     createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
@@ -258,7 +258,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
                 createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
             )
         )
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.latestCombinedEwPtRiskCalcResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
         runBlockingTest {
             val instance = createInstance(scope = this)
@@ -280,7 +280,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.latestCombinedEwPtRiskCalcResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
 
         runBlockingTest {
@@ -303,7 +303,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.latestCombinedEwPtRiskCalcResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
 
@@ -328,7 +328,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.latestCombinedEwPtRiskCalcResults } returns
             flowOf(
                 listOf(
                     createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
@@ -368,7 +368,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.latestCombinedEwPtRiskCalcResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
 
         runBlockingTest {
@@ -405,7 +405,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.latestCombinedEwPtRiskCalcResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
 
         runBlockingTest {

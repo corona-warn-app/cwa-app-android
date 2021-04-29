@@ -5,7 +5,7 @@ import android.content.res.Resources
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
-import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
+import de.rki.coronawarnapp.risk.CombinedEwPtRiskCalcResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskState
@@ -45,7 +45,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     @MockK lateinit var installTimeProvider: InstallTimeProvider
     @MockK lateinit var surveys: Surveys
 
-    @MockK(relaxed = true) lateinit var combinedResult: CombinedEwPtRiskLevelResult
+    @MockK(relaxed = true) lateinit var combinedResult: CombinedEwPtRiskCalcResult
 
     @BeforeEach
     fun setup() {

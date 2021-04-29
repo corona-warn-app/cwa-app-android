@@ -1,14 +1,17 @@
 package de.rki.coronawarnapp.risk.storage
 
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.EwRiskCalcResult
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskCalcResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.risk.toEwRiskCalcResult
 import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
-import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
+import de.rki.coronawarnapp.risk.CombinedEwPtRiskCalcResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
@@ -16,7 +19,6 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
@@ -84,6 +86,13 @@ abstract class BaseRiskLevelStorage constructor(
         }
     }
         .shareLatest(tag = TAG, scope = scope)
+
+    private val ewRiskCalcResults: Flow<List<EwRiskCalcResult>> = allEwRiskLevelResults
+        .map {
+            it.map {
+                it.toEwRiskCalcResult()
+            }
+        }
 
     override val latestEwRiskLevelResults: Flow<List<EwRiskLevelResult>> = riskResultsTables.latestEntries(2)
         .map { results ->
@@ -194,38 +203,32 @@ abstract class BaseRiskLevelStorage constructor(
     // used for risk state in tracing state/details
     override val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<LastCombinedRiskResults>
         get() = combine(
-            allEwRiskLevelResults,
+            ewRiskCalcResults,
             presenceTracingRiskRepository.allEntries(),
-            ewDayRiskStates
-        ) { ewRiskLevelResults, ptRiskLevelResults, ewDayRiskStates ->
+        ) { ewRiskCalcResults, ptRiskLevelResults ->
 
             val combinedResults = riskCombinator
-                .combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
+                .combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskCalcResults)
                 .sortedByDescending { it.calculatedAt }
 
             LastCombinedRiskResults(
-                lastCalculated = combinedResults.firstOrNull()?.copy(
-                    // need to provide the data here as they are null in EwAggregatedRiskResult
-                    exposureWindowDayRisks = ewDayRiskStates.filter { ewDayRisk ->
-                        ewDayRisk.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc())
-                    }
-                ) ?: riskCombinator.latestCombinedResult,
-                lastSuccessfullyCalculated = combinedResults.find {
+                lastCalculated = combinedResults.firstOrNull() ?: riskCombinator.latestCombinedResult,
+                lastSuccessfullyCalculatedRiskState = combinedResults.find {
                     it.wasSuccessfullyCalculated
-                } ?: riskCombinator.initialCombinedResult
+                }?.riskState ?: RiskState.LOW_RISK
             )
         }
 
-    private val latestPtRiskLevelResults: Flow<List<PtRiskLevelResult>> =
+    private val latestPtRiskCalcResults: Flow<List<PtRiskCalcResult>> =
         presenceTracingRiskRepository
             .latestEntries(2)
             .shareLatest(tag = TAG, scope = scope)
 
     // used for risk level change detector to trigger notification
-    override val latestCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
+    override val latestCombinedEwPtRiskCalcResults: Flow<List<CombinedEwPtRiskCalcResult>>
         get() = combine(
             latestEwRiskLevelResults,
-            latestPtRiskLevelResults
+            latestPtRiskCalcResults
         ) { ewRiskLevelResults, ptRiskLevelResults ->
             riskCombinator.combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
                 .sortedByDescending { it.calculatedAt }

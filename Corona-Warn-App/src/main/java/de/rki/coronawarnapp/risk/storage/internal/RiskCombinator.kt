@@ -1,15 +1,13 @@
 package de.rki.coronawarnapp.risk.storage.internal
 
-import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import dagger.Reusable
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.EwRiskCalcResult
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskCalcResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
-import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
-import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.CombinedEwPtRiskCalcResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.mapToRiskState
-import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Instant
@@ -20,65 +18,57 @@ class RiskCombinator @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
-    private val initialEWRiskLevelResult = object : EwRiskLevelResult {
-        override val calculatedAt: Instant = Instant.EPOCH
-        override val riskState: RiskState = RiskState.LOW_RISK
-        override val failureReason: EwRiskLevelResult.FailureReason? = null
-        override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
-        override val exposureWindows: List<ExposureWindow>? = null
-        override val matchedKeyCount: Int = 0
-    }
-
-    private val initialPTRiskLevelResult: PtRiskLevelResult = PtRiskLevelResult(
+    private val initialEwRiskCalcResult: EwRiskCalcResult = EwRiskCalcResult(
         calculatedAt = Instant.EPOCH,
         riskState = RiskState.LOW_RISK
     )
 
-    internal val initialCombinedResult = CombinedEwPtRiskLevelResult(
-        ptRiskLevelResult = initialPTRiskLevelResult,
-        ewRiskLevelResult = initialEWRiskLevelResult
+    private val initialPtRiskCalcResult: PtRiskCalcResult = PtRiskCalcResult(
+        calculatedAt = Instant.EPOCH,
+        riskState = RiskState.LOW_RISK
     )
 
-    private val ewCurrentLowRiskLevelResult
-        get() = object : EwRiskLevelResult {
-            override val calculatedAt: Instant = timeStamper.nowUTC
-            override val riskState: RiskState = RiskState.LOW_RISK
-            override val failureReason: EwRiskLevelResult.FailureReason? = null
-            override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
-            override val exposureWindows: List<ExposureWindow>? = null
-            override val matchedKeyCount: Int = 0
-        }
+    internal val initialCombinedResult = CombinedEwPtRiskCalcResult(
+        ptRiskCalcResult = initialPtRiskCalcResult,
+        ewRiskCalcResult = initialEwRiskCalcResult
+    )
 
-    private val ptCurrentLowRiskLevelResult: PtRiskLevelResult
-        get() = PtRiskLevelResult(
+    private val ewCurrentLowRiskLevelResult: EwRiskCalcResult
+        get() = EwRiskCalcResult(
             calculatedAt = timeStamper.nowUTC,
             riskState = RiskState.LOW_RISK
         )
 
-    internal val latestCombinedResult: CombinedEwPtRiskLevelResult
-        get() = CombinedEwPtRiskLevelResult(
-            ptCurrentLowRiskLevelResult,
+    private val ptCurrentLowRiskCalcResult: PtRiskCalcResult
+        get() = PtRiskCalcResult(
+            calculatedAt = timeStamper.nowUTC,
+            riskState = RiskState.LOW_RISK
+        )
+
+    internal val latestCombinedResult: CombinedEwPtRiskCalcResult
+        get() = CombinedEwPtRiskCalcResult(
+            ptCurrentLowRiskCalcResult,
             ewCurrentLowRiskLevelResult
         )
 
     internal fun combineEwPtRiskLevelResults(
-        ptRiskResults: List<PtRiskLevelResult>,
-        ewRiskResults: List<EwRiskLevelResult>
-    ): List<CombinedEwPtRiskLevelResult> {
+        ptRiskResults: List<PtRiskCalcResult>,
+        ewRiskResults: List<EwRiskCalcResult>
+    ): List<CombinedEwPtRiskCalcResult> {
         val allDates = ptRiskResults.map { it.calculatedAt }.plus(ewRiskResults.map { it.calculatedAt }).distinct()
         val sortedPtResults = ptRiskResults.sortedByDescending { it.calculatedAt }
         val sortedEwResults = ewRiskResults.sortedByDescending { it.calculatedAt }
         return allDates.map { date ->
             val ptRisk = sortedPtResults.find {
                 it.calculatedAt <= date
-            } ?: initialPTRiskLevelResult
+            } ?: initialPtRiskCalcResult
             val ewRisk = sortedEwResults.find {
                 it.calculatedAt <= date
-            } ?: initialEWRiskLevelResult
+            } ?: initialEwRiskCalcResult
 
-            CombinedEwPtRiskLevelResult(
-                ptRiskLevelResult = ptRisk,
-                ewRiskLevelResult = ewRisk
+            CombinedEwPtRiskCalcResult(
+                ptRiskCalcResult = ptRisk,
+                ewRiskCalcResult = ewRisk
             )
         }
     }

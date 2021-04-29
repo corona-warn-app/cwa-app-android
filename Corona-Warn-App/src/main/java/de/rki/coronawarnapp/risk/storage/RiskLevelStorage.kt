@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.risk.storage
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
-import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
+import de.rki.coronawarnapp.risk.CombinedEwPtRiskCalcResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
@@ -33,7 +33,7 @@ interface RiskLevelStorage {
      * Can be 0-2 entries.
      * Newest item first.
      */
-    val latestCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
+    val latestCombinedEwPtRiskCalcResults: Flow<List<CombinedEwPtRiskCalcResult>>
 
     /** EXPOSURE WINDOW RISK RESULT
      * The newest result, and the last successfully result.

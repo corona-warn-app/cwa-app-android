@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskCalcResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
@@ -62,7 +62,7 @@ class CombinedEwPtRiskTest : BaseTest() {
 
         every { ewAggregatedRiskResult.isIncreasedRisk() } returns true
 
-        CombinedEwPtRiskLevelResult(
+        CombinedEwPtRiskCalcResult(
             ptRiskLevelResult = createPtRiskLevelResult(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
                 riskState = RiskState.LOW_RISK,
@@ -103,7 +103,7 @@ class CombinedEwPtRiskTest : BaseTest() {
         every { ewAggregatedRiskResult.isLowRisk() } returns true
         every { ewAggregatedRiskResult.isIncreasedRisk() } returns false
 
-        CombinedEwPtRiskLevelResult(
+        CombinedEwPtRiskCalcResult(
             ptRiskLevelResult = createPtRiskLevelResult(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
                 riskState = RiskState.LOW_RISK,
@@ -138,7 +138,7 @@ class CombinedEwPtRiskTest : BaseTest() {
             minimumDistinctEncountersWithHighRisk = 2
         )
 
-        val result = CombinedEwPtRiskLevelResult(
+        val result = CombinedEwPtRiskCalcResult(
             ptRiskLevelResult = createPtRiskLevelResult(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
                 riskState = RiskState.LOW_RISK,
@@ -159,7 +159,7 @@ class CombinedEwPtRiskTest : BaseTest() {
         calculatedAt: Instant,
         riskState: RiskState,
         presenceTracingDayRisk: List<PresenceTracingDayRisk>
-    ): PtRiskLevelResult = PtRiskLevelResult(
+    ): PtRiskCalcResult = PtRiskCalcResult(
         calculatedAt = calculatedAt,
         riskState = riskState,
         presenceTracingDayRisk = presenceTracingDayRisk
