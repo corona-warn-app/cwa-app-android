@@ -16,6 +16,9 @@
     <!--    Rapid antigen test profile graph-->
     <include app:graph="@navigation/rapid_antigen_test_profile_nav_graph" />
 
+    <!--    Vaccination graph-->
+    <include app:graph="@navigation/vaccination_nav_graph" />
+
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
@@ -449,7 +452,7 @@
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
@@ -476,7 +479,7 @@
             android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/submissionConsentFragment"
@@ -792,10 +795,10 @@
             android:id="@+id/action_submissionDoneFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type"/>
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultKeysSharedFragment"

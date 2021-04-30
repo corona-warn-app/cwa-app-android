@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.vaccination.core
 
 import org.joda.time.Instant
 
-interface ProofCertificate {
-
+data class ProofCertificate(
     val expiresAt: Instant
-}
+)

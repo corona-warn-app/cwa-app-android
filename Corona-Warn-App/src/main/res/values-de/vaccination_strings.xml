@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- XTXT: Vaccination Details birth date -->
+    <string name="vaccination_details_birth_date">Geboren %1$s</string>
+    <!-- XTXT: Vaccination Details certificate date -->
+    <string name="vaccination_details_certificate_date">Datum der Impfung</string>
+    <!-- XTXT: Vaccination Details vaccine name -->
+    <string name="vaccination_details_vaccine_name">Impfstoff</string>
+    <!-- XTXT: Vaccination Details vaccine manufacturer -->
+    <string name="vaccination_details_vaccine_manufacturer">Hersteller</string>
+    <!-- XTXT: Vaccination Details certificate charge id -->
+    <string name="vaccination_details_charge_id">Chargennummer</string>
+    <!-- XTXT: Vaccination Details certificate issuer -->
+    <string name="vaccination_details_certificate_issuer">Aussteller</string>
+    <!-- XTXT: Vaccination Details certificate country -->
+    <string name="vaccination_details_certificate_country">Land</string>
+    <!-- XTXT: Vaccination Details certificate id -->
+    <string name="vaccination_details_certificate_id">Zertifikationsnummer</string>
+    <!-- XBUT: Vaccination Details delete button -->
+    <string name="vaccination_details_delete_button">Impfzertifikat entfernen</string>
+    <!-- XTXT: Vaccination Details subtitle-->
+    <string name="vaccination_details_subtitle">Impfzertifikat</string>
+    <!-- XTXT: Vaccination Details title-->
+    <string name="vaccination_details_title">Erste Impfung</string>
+    <!-- XTXT: Vaccination Details deletion dialog title-->
+    <string name="vaccination_details_deletion_dialog_title">Wollen Sie das Impfzertifikat wirklich entfernen?</string>
+    <!-- XTXT: Vaccination Details deletion dialog message-->
+    <string name="vaccination_details_deletion_dialog_message">Wenn Sie das Impfzertifikat entfernen, kann die App die Impfung nicht mehr für die Prüfung Ihres Impfstatus berücksichtigen.</string>
+    <!-- XBUT: Vaccination Details deletion dialog positive button-->
+    <string name="vaccination_details_deletion_dialog_positive_button">Entfernen</string>
+    <!-- XBUT: Vaccination Details deletion dialog negative button-->
+    <string name="vaccination_details_deletion_dialog_negative_button">Abbrechen</string>
+</resources>
