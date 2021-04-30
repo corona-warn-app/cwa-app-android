@@ -103,4 +103,29 @@ class CoronaTestCensorTest : BaseTest() {
         )
         instance.checkLog(filterMeNot) shouldBe null
     }
+
+    @Test
+    fun `censoring still works after test was deleted`() = runBlockingTest {
+
+        val censor = createInstance()
+
+        val filterMe = LogLine(
+            timestamp = 1,
+            priority = 3,
+            message = "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier",
+            tag = "I'm a tag",
+            throwable = null
+        )
+
+        censor.checkLog(filterMe) shouldBe filterMe.copy(
+            message = "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
+        )
+
+        // delete all tests
+        coronaTests.value = emptySet()
+
+        censor.checkLog(filterMe) shouldBe filterMe.copy(
+            message = "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
+        )
+    }
 }

@@ -70,6 +70,17 @@ class DiaryVisitCensorTest : BaseTest() {
                 only to find out the supermarket was Visit#3/Circumstances.
                 """.trimIndent()
         )
+
+        // censoring should still work even after visits are deleted
+        every { diaryRepo.locationVisits } returns flowOf(emptyList())
+        instance.checkLog(censorMe) shouldBe censorMe.copy(
+            message =
+                """
+                After having a Visit#1/Circumstances,
+                I got my Visit#2/Circumstances,
+                only to find out the supermarket was Visit#3/Circumstances.
+                """.trimIndent()
+        )
     }
 
     @Test

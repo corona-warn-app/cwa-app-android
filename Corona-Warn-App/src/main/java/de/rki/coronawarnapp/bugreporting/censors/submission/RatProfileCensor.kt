@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidNa
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidZipCode
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import kotlinx.coroutines.flow.first
 import org.joda.time.format.DateTimeFormat
@@ -18,45 +19,53 @@ class RatProfileCensor @Inject constructor(
 ) : BugCensor {
 
     private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val ratProfileHistory = mutableSetOf<RATProfile>()
 
     override suspend fun checkLog(entry: LogLine): LogLine? {
-        val ratProfile = ratProfileSettings.profile.flow.first() ?: return null
+        val ratProfile = ratProfileSettings.profile.flow.first()
+
+        // store the profile in a property so we still have a reference after it was deleted by the user
+        if (ratProfile != null) {
+            ratProfileHistory.add(ratProfile)
+        }
 
         var newMessage = entry.message
 
-        with(ratProfile) {
-            withValidName(firstName) { firstName ->
-                newMessage = newMessage.replace(firstName, "RAT-Profile/FirstName")
-            }
+        ratProfileHistory.forEach { profile ->
+            with(profile) {
+                withValidName(firstName) { firstName ->
+                    newMessage = newMessage.replace(firstName, "RAT-Profile/FirstName")
+                }
 
-            withValidName(lastName) { lastName ->
-                newMessage = newMessage.replace(lastName, "RAT-Profile/LastName")
-            }
+                withValidName(lastName) { lastName ->
+                    newMessage = newMessage.replace(lastName, "RAT-Profile/LastName")
+                }
 
-            val dateOfBirthString = birthDate?.toString(dayOfBirthFormatter)
+                val dateOfBirthString = birthDate?.toString(dayOfBirthFormatter)
 
-            if (dateOfBirthString != null) {
-                newMessage = newMessage.replace(dateOfBirthString, "RAT-Profile/DateOfBirth")
-            }
+                if (dateOfBirthString != null) {
+                    newMessage = newMessage.replace(dateOfBirthString, "RAT-Profile/DateOfBirth")
+                }
 
-            withValidAddress(street) { street ->
-                newMessage = newMessage.replace(street, "RAT-Profile/Street")
-            }
+                withValidAddress(street) { street ->
+                    newMessage = newMessage.replace(street, "RAT-Profile/Street")
+                }
 
-            withValidCity(city) { city ->
-                newMessage = newMessage.replace(city, "RAT-Profile/City")
-            }
+                withValidCity(city) { city ->
+                    newMessage = newMessage.replace(city, "RAT-Profile/City")
+                }
 
-            withValidZipCode(zipCode) { zipCode ->
-                newMessage = newMessage.replace(zipCode, "RAT-Profile/Zip-Code")
-            }
+                withValidZipCode(zipCode) { zipCode ->
+                    newMessage = newMessage.replace(zipCode, "RAT-Profile/Zip-Code")
+                }
 
-            withValidPhoneNumber(phone) { phone ->
-                newMessage = newMessage.replace(phone, "RAT-Profile/Phone")
-            }
+                withValidPhoneNumber(phone) { phone ->
+                    newMessage = newMessage.replace(phone, "RAT-Profile/Phone")
+                }
 
-            withValidPhoneNumber(email) { phone ->
-                newMessage = newMessage.replace(phone, "RAT-Profile/eMail")
+                withValidPhoneNumber(email) { phone ->
+                    newMessage = newMessage.replace(phone, "RAT-Profile/eMail")
+                }
             }
         }
 

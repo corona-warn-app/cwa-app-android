@@ -14,17 +14,21 @@ class CoronaTestCensor @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
 ) : BugCensor {
 
+    // Keep a history to have references even after the user deletes a test
+    private val tokenHistory = mutableSetOf<String>()
+    private val identifierHistory = mutableSetOf<String>()
+
     override suspend fun checkLog(entry: LogLine): LogLine? {
 
         // The Registration Token is received after registration of PCR and RAT tests. It is required to poll the test result.
         val tokens = coronaTestRepository.coronaTests.first().map { it.registrationToken }
-        val identifiers = coronaTestRepository.coronaTests.first().map { it.identifier }
+        tokenHistory.addAll(tokens)
 
-        if (tokens.isEmpty()) return null
+        val identifiers = coronaTestRepository.coronaTests.first().map { it.identifier }
+        identifierHistory.addAll(identifiers)
 
         var newMessage = entry.message
-
-        for (token in tokens) {
+        for (token in tokenHistory) {
             if (!entry.message.contains(token)) continue
 
             newMessage = if (CWADebug.isDeviceForTestersBuild) {
@@ -34,7 +38,7 @@ class CoronaTestCensor @Inject constructor(
             }
         }
 
-        identifiers
+        identifierHistory
             .filter { entry.message.contains(it) }
             .forEach {
                 newMessage = newMessage.replace(it, "${it.take(11)}CoronaTest/Identifier")

@@ -62,6 +62,16 @@ internal class RACoronaTestCensorTest : BaseTest() {
                 Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
                 """.trimIndent()
         )
+
+        // censoring should still work when test gets deleted
+        every { coronaTestRepository.coronaTests } returns flowOf(emptySet())
+
+        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
+            message =
+                """
+                Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
+                """.trimIndent()
+        )
     }
 
     @Test
@@ -103,5 +113,9 @@ internal class RACoronaTestCensorTest : BaseTest() {
             throwable = null
         )
         censor.checkLog(logLine) shouldBe null
+    }
+
+    @Test
+    fun `censoring should still work when test gets deleted`() {
     }
 }

@@ -72,6 +72,17 @@ class DiaryEncounterCensorTest : BaseTest() {
                     everyone disliked that.
                 """.trimIndent()
         )
+
+        // censoring should still work after encounters are deleted
+        every { diaryRepo.personEncounters } returns flowOf(emptyList())
+        instance.checkLog(censorMe) shouldBe censorMe.copy(
+            message =
+                """
+                    On Encounter#2/Circumstances,
+                    two persons Encounter#3/Circumstances,
+                    everyone disliked that.
+                """.trimIndent()
+        )
     }
 
     @Test

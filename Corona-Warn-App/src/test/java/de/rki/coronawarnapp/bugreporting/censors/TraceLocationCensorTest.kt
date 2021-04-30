@@ -84,6 +84,17 @@ internal class TraceLocationCensorTest : BaseTest() {
                 Afterwards we had some food in TraceLocation#1/Description in TraceLocation#1/Address. It a nice TraceLocation#1/Type.
                 """.trimIndent()
         )
+
+        // censoring should still work after the user deletes his trace locations
+        every { traceLocationRepo.allTraceLocations } returns flowOf(emptyList())
+
+        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
+            message =
+                """
+                The type is TraceLocation#2/Type. Yesterday we went to the TraceLocation#2/Description. The spectacle took place in TraceLocation#2/Address. 
+                Afterwards we had some food in TraceLocation#1/Description in TraceLocation#1/Address. It a nice TraceLocation#1/Type.
+                """.trimIndent()
+        )
     }
 
     @Test

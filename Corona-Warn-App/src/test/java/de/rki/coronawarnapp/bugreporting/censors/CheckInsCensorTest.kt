@@ -78,6 +78,17 @@ internal class CheckInsCensorTest : BaseTest() {
                 Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
                 """.trimIndent()
         )
+
+        // censoring should still work after user deletes his check-ins
+        every { checkInsRepo.allCheckIns } returns flowOf(emptyList())
+
+        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
+            message =
+                """
+                Let's go to CheckIn#1/Description in CheckIn#1/Address.
+                Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
+                """.trimIndent()
+        )
     }
 
     @Test
