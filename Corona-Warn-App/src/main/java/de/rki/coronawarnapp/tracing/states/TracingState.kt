@@ -94,7 +94,7 @@ data class LowRisk(
     val lastEncounterAt: LocalDate?,
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int,
-    val daysSinceInstallation: Long
+    val daysSinceInstallation: Int
 ) : TracingState() {
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
@@ -131,8 +131,11 @@ data class LowRisk(
     }
 
     fun getDaysSinceInstall(context: Context): String =
-        context.getString(R.string.risk_card_body_days_since_installation)
-            .format(daysSinceInstallation)
+        when (daysSinceInstallation) {
+            0 -> context.getString(R.string.risk_card_body_installation_today)
+            1 -> context.getString(R.string.risk_card_body_installation_yesterday)
+            else -> context.getString(R.string.risk_card_body_days_since_installation).format(daysSinceInstallation)
+        }
 
     fun appInstalledForOverTwoWeeks(): Boolean = daysSinceInstallation < 14 && lastEncounterAt == null
 
@@ -154,8 +157,6 @@ data class LowRisk(
     }
 
     fun isGoneOnContentLowView(context: Context) = getRiskContactLast(context) != null && !isInDetailsMode
-
-    fun getProgressColorLowRisk(context: Context) = context.getColorCompat(R.color.colorStableLight)
 }
 
 // tracing_content_failed_view

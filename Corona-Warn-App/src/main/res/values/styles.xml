@@ -83,6 +83,14 @@
         <item name="android:background">@color/colorTransparent</item>
     </style>
 
+    <style name="CWAToolbar.Theme" parent="Widget.AppCompat.ActionBar">
+        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
+    </style>
+
+    <style name="OverflowButtonStyle" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:tint">@android:color/white</item>
+    </style>
+
     <!-- Dialog Theme-->
     <style name="DialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/DialogButtonTheme</item>
@@ -282,6 +290,7 @@
     <style name="headline4" parent="@style/TextAppearance.MaterialComponents.Headline4">
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
+
     <style name="headline4Bold" parent="@style/headline4">
         <item name="android:textStyle">bold</item>
     </style>
