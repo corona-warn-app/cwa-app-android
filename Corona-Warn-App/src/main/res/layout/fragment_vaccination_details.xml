@@ -151,10 +151,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_details_certificate_name" />
+                    android:text="@string/vaccination_details_vaccine_name" />
 
                 <TextView
-                    android:id="@+id/vaccination_name"
+                    android:id="@+id/vaccine_name"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -166,10 +166,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_details_certificate_manufacturer" />
+                    android:text="@string/vaccination_details_vaccine_manufacturer" />
 
                 <TextView
-                    android:id="@+id/vaccination_manufacturer"
+                    android:id="@+id/vaccine_manufacturer"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
