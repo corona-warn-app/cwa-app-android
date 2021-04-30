@@ -7,12 +7,14 @@
         </shape>
     </item>
     <item
-        android:height="@dimen/submission_tan_input_digit_stroke"
-        android:gravity="bottom">
+        android:top="-4dp"
+        android:right="-4dp"
+        android:left="-4dp">
         <shape android:shape="rectangle">
-            <corners android:bottomLeftRadius="@dimen/submission_tan_input_digit_radius" />
-            <corners android:bottomRightRadius="@dimen/submission_tan_input_digit_radius" />
-            <solid android:color="@color/colorTextSemanticNeutral" />
+            <stroke
+                android:width="@dimen/submission_tan_input_digit_stroke"
+                android:color="@color/colorTextSemanticNeutral"
+                />
         </shape>
     </item>
 </layer-list>
