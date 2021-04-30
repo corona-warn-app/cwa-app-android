@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -17,9 +18,9 @@ import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
@@ -31,7 +32,8 @@ class PresenceTracingWarningTask @Inject constructor(
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     private val traceWarningRepository: TraceWarningRepository,
     private val checkInsRepository: CheckInRepository,
-    private val presenceTracingRiskMapper: PresenceTracingRiskMapper
+    private val presenceTracingRiskMapper: PresenceTracingRiskMapper,
+    private val coronaTestRepository: CoronaTestRepository,
 ) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<PresenceTracingWarningTaskProgress>()
@@ -59,7 +61,6 @@ class PresenceTracingWarningTask @Inject constructor(
     }
 
     private suspend fun doWork(): Result {
-        val nowUTC = timeStamper.nowUTC
         checkCancel()
 
         Timber.tag(TAG).d("Resetting config to make sure latest changes are considered.")
@@ -75,7 +76,7 @@ class PresenceTracingWarningTask @Inject constructor(
         } else {
             Timber.tag(TAG).w("WarningPackage sync failed: %s", syncResult)
             presenceTracingRiskRepository.reportCalculation(successful = false)
-            return Result(calculatedAt = nowUTC)
+            return Result()
         }
 
         presenceTracingRiskRepository.deleteStaleData()
@@ -89,7 +90,13 @@ class PresenceTracingWarningTask @Inject constructor(
 
             presenceTracingRiskRepository.reportCalculation(successful = true)
 
-            return Result(calculatedAt = nowUTC)
+            return Result()
+        }
+
+        val isPositive = coronaTestRepository.coronaTests.first().any { it.isPositive }
+        if (isPositive) {
+            Timber.tag(TAG).i("PT risk calculation aborted, positive test result available.")
+            return Result()
         }
 
         val unprocessedPackages = traceWarningRepository.unprocessedWarningPackages.firstOrNull() ?: emptyList()
@@ -100,7 +107,7 @@ class PresenceTracingWarningTask @Inject constructor(
 
             presenceTracingRiskRepository.reportCalculation(successful = true)
 
-            return Result(calculatedAt = nowUTC)
+            return Result()
         }
 
         Timber.tag(TAG).d("Running check-in matcher.")
@@ -131,7 +138,7 @@ class PresenceTracingWarningTask @Inject constructor(
             matcherResult.processedPackages.map { it.warningPackage.packageId }
         )
 
-        return Result(calculatedAt = nowUTC)
+        return Result()
     }
 
     private fun checkCancel() {
@@ -143,9 +150,7 @@ class PresenceTracingWarningTask @Inject constructor(
         isCanceled = true
     }
 
-    data class Result(
-        val calculatedAt: Instant
-    ) : Task.Result
+    class Result : Task.Result
 
     data class Config(
         override val executionTimeout: Duration = Duration.standardMinutes(9),
