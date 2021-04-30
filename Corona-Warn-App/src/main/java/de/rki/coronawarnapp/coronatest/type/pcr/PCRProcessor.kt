@@ -18,9 +18,11 @@ import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
@@ -103,15 +105,33 @@ class PCRProcessor @Inject constructor(
             test as PCRCoronaTest
 
             if (test.isSubmitted) {
-                Timber.tag(TAG).w("Not refreshing, we have already submitted.")
+                Timber.tag(TAG).w("Not polling, we have already submitted.")
                 return test
             }
 
-            val newTestResult = submissionService.asyncRequestTestResult(test.registrationToken).let {
-                Timber.tag(TAG).d("Raw test result was %s", it)
-                testResultDataCollector.updatePendingTestResultReceivedTime(it)
+            val nowUTC = timeStamper.nowUTC
+            val isOlderThan21Days = test.isOlderThan21Days(nowUTC)
 
-                it.toValidatedResult()
+            if (isOlderThan21Days && test.testResult == PCR_REDEEMED) {
+                Timber.tag(TAG).w("Not polling, test is older than 21 days.")
+                return test
+            }
+
+            val newTestResult = try {
+                submissionService.asyncRequestTestResult(test.registrationToken).let {
+                    Timber.tag(TAG).d("Raw test result was %s", it)
+                    testResultDataCollector.updatePendingTestResultReceivedTime(it)
+
+                    it.toValidatedResult()
+                }
+            } catch (e: BadRequestException) {
+                if (isOlderThan21Days) {
+                    Timber.tag(TAG).w("HTTP 400 error after 21 days, remapping to PCR_REDEEMED.")
+                    PCR_REDEEMED
+                } else {
+                    Timber.tag(TAG).v("Unexpected HTTP 400 error, rethrowing...")
+                    throw e
+                }
             }
 
             if (newTestResult == PCR_POSITIVE) {
@@ -119,9 +139,9 @@ class PCRProcessor @Inject constructor(
             }
 
             test.copy(
-                testResult = check60PlusDays(test, newTestResult),
+                testResult = check21PlusDays(test, newTestResult),
                 testResultReceivedAt = determineReceivedDate(test, newTestResult),
-                lastUpdatedAt = timeStamper.nowUTC,
+                lastUpdatedAt = nowUTC,
                 lastError = null
             )
         } catch (e: Exception) {
@@ -133,10 +153,10 @@ class PCRProcessor @Inject constructor(
         }
     }
 
-    // After 60 days, the previously EXPIRED test is deleted from the server, and it will return pending again.
-    private fun check60PlusDays(test: CoronaTest, newResult: CoronaTestResult): CoronaTestResult {
+    // After 21 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
+    private fun check21PlusDays(test: CoronaTest, newResult: CoronaTestResult): CoronaTestResult {
         val calculateDays = Duration(test.registeredAt, timeStamper.nowUTC).standardDays
-        Timber.tag(TAG).d("Calculated test age: %d days", calculateDays)
+        Timber.tag(TAG).d("Calculated test age: %d days, newResult=%s", calculateDays, newResult)
 
         return if (newResult == PCR_OR_RAT_PENDING && calculateDays >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS) {
             Timber.tag(TAG).d("$calculateDays is exceeding the maximum polling duration")
