@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidAd
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidDescription
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
+import de.rki.coronawarnapp.presencetracing.locations.TraceLocationUserInput
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,6 +16,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+/**
+ * Censors Trace Location Data
+ *
+ * The information about which data to censor comes from two places
+ * - traceLocationRepository, for traceLocations that are already stored
+ * - dataToCensor, which is set before a traceLocation is created; this is needed in cases when the app crashes between
+ * data input and storing
+ */
 @Reusable
 class TraceLocationCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
@@ -33,9 +42,7 @@ class TraceLocationCensor @Inject constructor(
 
         val traceLocations = traceLocationsFlow.first()
 
-        if (traceLocations.isEmpty()) return null
-
-        val newLogMsg = traceLocations.fold(entry.message) { initial, traceLocation ->
+        var newLogMsg = traceLocations.fold(entry.message) { initial, traceLocation ->
             var acc = initial
 
             acc = acc.replace(traceLocation.type.name, "TraceLocation#${traceLocation.id}/Type")
@@ -51,6 +58,18 @@ class TraceLocationCensor @Inject constructor(
             acc
         }
 
+        val inputDataToCensor = dataToCensor
+        if (inputDataToCensor != null) {
+            newLogMsg = newLogMsg
+                .replace(inputDataToCensor.type.name, "TraceLocationUserInput#Type")
+                .replace(inputDataToCensor.description, "TraceLocationUserInput#Description")
+                .replace(inputDataToCensor.address, "TraceLocationUserInput#Address")
+        }
+
         return entry.toNewLogLineIfDifferent(newLogMsg)
+    }
+
+    companion object {
+        var dataToCensor: TraceLocationUserInput? = null
     }
 }

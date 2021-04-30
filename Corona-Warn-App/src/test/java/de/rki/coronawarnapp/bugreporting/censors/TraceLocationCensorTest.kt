@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.bugreporting.censors
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.locations.TraceLocationUserInput
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
@@ -14,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -25,6 +27,11 @@ internal class TraceLocationCensorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+    }
+
+    @AfterEach
+    fun teardown() {
+        TraceLocationCensor.dataToCensor = null
     }
 
     private fun createInstance(scope: CoroutineScope) = TraceLocationCensor(
@@ -45,7 +52,7 @@ internal class TraceLocationCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return LogLine with censored trace location information`() = runBlocking {
+    fun `checkLog() should return LogLine with censored trace location information from repository`() = runBlocking {
         every { traceLocationRepo.allTraceLocations } returns flowOf(
             listOf(
                 mockTraceLocation(
@@ -96,6 +103,42 @@ internal class TraceLocationCensorTest : BaseTest() {
                 """.trimIndent()
         )
     }
+
+    @Test
+    fun `checkLog() should return LogLine with censored trace location information from companion object`() =
+        runBlocking {
+            every { traceLocationRepo.allTraceLocations } returns flowOf(emptyList())
+            TraceLocationCensor.dataToCensor = TraceLocationUserInput(
+                type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_PRIVATE_EVENT,
+                description = "Top Secret Private Event",
+                address = "top secret address",
+                startDate = null,
+                endDate = null,
+                defaultCheckInLengthInMinutes = 180
+            )
+
+            val censor = createInstance(this)
+
+            val logLineToCensor = LogLine(
+                timestamp = 1,
+                priority = 3,
+                message =
+                    """
+                The user just created a new traceLocation with Top Secret Private Event as the description and
+                top secret address as the address. The type is LOCATION_TYPE_TEMPORARY_PRIVATE_EVENT. 
+                    """.trimIndent(),
+                tag = "I am tag",
+                throwable = null
+            )
+
+            censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
+                message =
+                    """
+                The user just created a new traceLocation with TraceLocationUserInput#Description as the description and
+                TraceLocationUserInput#Address as the address. The type is TraceLocationUserInput#Type. 
+                    """.trimIndent()
+            )
+        }
 
     @Test
     fun `checkLog() should return null if no trace locations are stored`() = runBlockingTest {
