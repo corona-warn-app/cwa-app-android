@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.risk.execution
 
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
@@ -25,6 +27,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
@@ -44,10 +47,19 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var presenceTracingRiskMapper: PresenceTracingRiskMapper
     @MockK lateinit var autoCheckOut: AutoCheckOut
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+
+    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
+        setOf(
+            mockk<CoronaTest>().apply { every { isPositive } returns false }
+        )
+    )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        every { coronaTestRepository.coronaTests } returns coronaTests
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(9000)
         coEvery { syncTool.syncPackages() } returns TraceWarningPackageSyncTool.SyncResult(successful = true)
@@ -90,6 +102,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         traceWarningRepository = traceWarningRepository,
         checkInsRepository = checkInsRepository,
         presenceTracingRiskMapper = presenceTracingRiskMapper,
+        coronaTestRepository = coronaTestRepository,
         autoCheckOut = autoCheckOut,
     )
 
@@ -104,6 +117,9 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             syncTool.syncPackages()
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
+
+            coronaTestRepository.coronaTests
+
             traceWarningRepository.unprocessedWarningPackages
 
             checkInWarningMatcher.process(any(), any())
@@ -236,6 +252,35 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         // Worker execution time
         val maxDuration = Duration.standardMinutes(9).plus(1)
         PresenceTracingWarningTask.Config().executionTimeout shouldBeLessThan maxDuration
+    }
+
+    @Test
+    fun `we do not submit keys if user got positive test results`() = runBlockingTest {
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply { every { isPositive } returns true }
+        )
+
+        createInstance().run(mockk()) shouldNotBe null
+
+        coVerifySequence {
+            syncTool.syncPackages()
+            presenceTracingRiskRepository.deleteStaleData()
+            checkInsRepository.checkInsWithinRetention
+
+            coronaTestRepository.coronaTests
+        }
+
+        coVerify(exactly = 0) {
+            traceWarningRepository.unprocessedWarningPackages
+
+            checkInWarningMatcher.process(any(), any())
+
+            presenceTracingRiskRepository.reportCalculation(
+                successful = any(),
+                overlaps = any()
+            )
+            traceWarningRepository.markPackagesProcessed(any())
+        }
     }
 
     companion object {
