@@ -8,6 +8,7 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
@@ -28,6 +29,8 @@ class DebugLogStorageCheckTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { targetPath.usableSpace } returns 250 * 1000 * 1024L
+        every { targetPath.parentFile } returns null
+        every { targetPath.exists() } returns true
         every { logWriter.write(any()) } just Runs
     }
 
@@ -68,13 +71,29 @@ class DebugLogStorageCheckTest : BaseTest() {
         every { targetPath.usableSpace } returns 199 * 1000 * 1024L
         val instance = createInstance()
         instance.isLowStorage() shouldBe true
-        instance.isLowStorage() shouldBe true
 
         currentTime += 60 * 1000L
         instance.isLowStorage() shouldBe true
 
         // We only write the warning once
         verify(exactly = 1) { logWriter.write(any()) }
+    }
+
+    @Test
+    fun `target path does not exists`() {
+        val parentPath = mockk<File>()
+        every { parentPath.exists() } returns true
+        every { parentPath.parentFile } returns null
+        every { parentPath.usableSpace } returns 250 * 1000 * 1024L
+
+        every { targetPath.exists() } returns false
+        every { targetPath.parentFile } returns parentPath
+        every { targetPath.usableSpace } returns 0L
+
+        val instance = createInstance()
+        instance.isLowStorage() shouldBe false
+
+        verify { logWriter wasNot Called }
     }
 
     @Test

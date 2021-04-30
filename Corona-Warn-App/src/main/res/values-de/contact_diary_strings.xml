@@ -52,7 +52,7 @@
 
 
     <!-- XTXT: Menu information entry for contact diary overview screen -->
-    <string name="menu_contact_diary_information">"Information"</string>
+    <string name="menu_contact_diary_information">"Informationen"</string>
     <!-- XTXT: Menu export entry for contact diary overview screen -->
     <string name="menu_contact_export_entries">"Einträge exportieren"</string>
     <!-- XTXT: Menu edit persons entry for contact diary overview screen -->

@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.toOkioByteString
 import kotlinx.coroutines.CoroutineScope
@@ -106,6 +107,9 @@ internal suspend fun findMatches(
             checkIns
                 .mapNotNull { checkIn ->
                     checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
+                        if (!CWADebug.isDebugBuildOrMode) {
+                            return@also
+                        }
                         if (overlap == null) {
                             Timber.tag(TAG).v("No match found for $checkIn and $warning")
                         } else {

@@ -5,7 +5,7 @@
         path="share/" />
     <cache-path
         name="shared_logs"
-        path="debuglog/shared/" />
+        path="debuglog_snapshots/" />
 
     <cache-path
         name="Poster"
