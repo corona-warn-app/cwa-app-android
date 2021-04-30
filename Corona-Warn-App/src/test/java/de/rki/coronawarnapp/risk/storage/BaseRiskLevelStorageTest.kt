@@ -390,8 +390,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
             riskLevelResult.lastCalculated.calculatedAt shouldBe calculatedAt
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.INCREASED_RISK
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe calculatedAt
-            riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.INCREASED_RISK
+            riskLevelResult.lastSuccessfullyCalculatedRiskState shouldBe RiskState.INCREASED_RISK
 
             verify {
                 presenceTracingRiskRepository.allEntries()
@@ -449,8 +448,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
             riskLevelResult.lastCalculated.calculatedAt shouldBe ewCalculatedAt.plus(6000L)
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.CALCULATION_FAILED
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe ewCalculatedAt
-            riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.INCREASED_RISK
+            riskLevelResult.lastSuccessfullyCalculatedRiskState shouldBe RiskState.INCREASED_RISK
 
             verify {
                 presenceTracingRiskRepository.allEntries()
@@ -508,8 +506,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
             riskLevelResult.lastCalculated.calculatedAt shouldBe ewCalculatedAt.plus(6000L)
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.CALCULATION_FAILED
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe ewCalculatedAt
-            riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.LOW_RISK
+            riskLevelResult.lastSuccessfullyCalculatedRiskState shouldBe RiskState.LOW_RISK
 
             verify {
                 presenceTracingRiskRepository.allEntries()
@@ -563,8 +560,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
             riskLevelResult.lastCalculated.calculatedAt shouldBe ewCalculatedAt
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.LOW_RISK
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe ewCalculatedAt
-            riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.LOW_RISK
+            riskLevelResult.lastSuccessfullyCalculatedRiskState shouldBe RiskState.LOW_RISK
         }
     }
 

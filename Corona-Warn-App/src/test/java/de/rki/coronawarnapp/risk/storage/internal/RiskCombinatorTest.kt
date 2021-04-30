@@ -1,14 +1,12 @@
 package de.rki.coronawarnapp.risk.storage.internal
 
-import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.presencetracing.risk.EwRiskCalcResult
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskCalcResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
-import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
 import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
-import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
 import de.rki.coronawarnapp.util.TimeStamper
@@ -168,19 +166,19 @@ class RiskCombinatorTest : BaseTest() {
         )
 
         val ptResults = listOf(ptResult, ptResult2, ptResult4, ptResult3)
-        val ewResult = createEwRiskLevelResult(
+        val ewResult = createEwRiskCalcResult(
             calculatedAt = startInstant.plus(2000L),
             riskState = LOW_RISK
         )
-        val ewResult2 = createEwRiskLevelResult(
+        val ewResult2 = createEwRiskCalcResult(
             calculatedAt = startInstant.plus(4000L),
             riskState = INCREASED_RISK
         )
-        val ewResult3 = createEwRiskLevelResult(
+        val ewResult3 = createEwRiskCalcResult(
             calculatedAt = startInstant.plus(5000L),
             riskState = CALCULATION_FAILED
         )
-        val ewResult4 = createEwRiskLevelResult(
+        val ewResult4 = createEwRiskCalcResult(
             calculatedAt = startInstant.plus(8000L),
             riskState = CALCULATION_FAILED
         )
@@ -222,14 +220,12 @@ class RiskCombinatorTest : BaseTest() {
     }
 }
 
-private fun createEwRiskLevelResult(
+private fun createEwRiskCalcResult(
     calculatedAt: Instant,
-    riskState: RiskState
-): EwRiskLevelResult = object : EwRiskLevelResult {
-    override val calculatedAt: Instant = calculatedAt
-    override val riskState: RiskState = riskState
-    override val failureReason: EwRiskLevelResult.FailureReason? = null
-    override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
-    override val exposureWindows: List<ExposureWindow>? = null
-    override val matchedKeyCount: Int = 0
-}
+    riskState: RiskState,
+    exposureWindowDayRisks: List<ExposureWindowDayRisk>? = null
+): EwRiskCalcResult = EwRiskCalcResult(
+    calculatedAt = calculatedAt,
+    riskState = riskState,
+    exposureWindowDayRisks = exposureWindowDayRisks,
+)

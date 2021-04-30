@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.risk
 
-import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.presencetracing.risk.EwRiskCalcResult
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskCalcResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
@@ -60,17 +60,17 @@ class CombinedEwPtRiskTest : BaseTest() {
             localDateUtc = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY).toLocalDateUtc()
         )
 
-        every { ewAggregatedRiskResult.isIncreasedRisk() } returns true
 
         CombinedEwPtRiskCalcResult(
-            ptRiskLevelResult = createPtRiskLevelResult(
+            ptRiskCalcResult = createPtRiskCalcResult(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
                 riskState = RiskState.LOW_RISK,
                 presenceTracingDayRisk = listOf(ptDayRisk, ptDayRisk2, ptDayRisk3)
             ),
-            ewRiskLevelResult = createEwRiskLevel(
+            ewRiskCalcResult = createEwRiskCalcResult(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
-                ewAggregatedRiskResult
+                riskState = RiskState.INCREASED_RISK,
+                listOf(ewDayRisk, ewDayRisk2, ewDayRisk3)
             )
         ).daysWithEncounters shouldBe 2
     }
@@ -104,17 +104,18 @@ class CombinedEwPtRiskTest : BaseTest() {
         every { ewAggregatedRiskResult.isIncreasedRisk() } returns false
 
         CombinedEwPtRiskCalcResult(
-            ptRiskLevelResult = createPtRiskLevelResult(
+            ptRiskCalcResult = createPtRiskCalcResult(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
                 riskState = RiskState.LOW_RISK,
                 presenceTracingDayRisk = listOf(ptDayRisk, ptDayRisk3)
             ),
-            ewRiskLevelResult = createEwRiskLevel(
+            ewRiskCalcResult = createEwRiskCalcResult(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
-                ewAggregatedRiskResult
+                riskState = RiskState.LOW_RISK,
+                exposureWindowDayRisks = listOf(ewDayRisk, ewDayRisk2)
             ),
-            exposureWindowDayRisks = listOf(ewDayRisk, ewDayRisk2)
-        ).daysWithEncounters shouldBe 3
+
+            ).daysWithEncounters shouldBe 3
     }
 
     @Test
@@ -139,23 +140,22 @@ class CombinedEwPtRiskTest : BaseTest() {
         )
 
         val result = CombinedEwPtRiskCalcResult(
-            ptRiskLevelResult = createPtRiskLevelResult(
+            ptRiskCalcResult = createPtRiskCalcResult(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
                 riskState = RiskState.LOW_RISK,
                 presenceTracingDayRisk = listOf()
             ),
-            ewRiskLevelResult = createEwRiskLevel(
+            ewRiskCalcResult = createEwRiskCalcResult(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
-                ewAggregatedRiskResult
+                riskState = RiskState.INCREASED_RISK,
+                exposureWindowDayRisks = listOf(dayRisk, dayRisk2, dayRisk3)
             ),
-            exposureWindowDayRisks = listOf(dayRisk, dayRisk2, dayRisk3)
-        )
 
-        result.ewDaysWithHighRisk.size shouldBe 2
-        result.ewDaysWithLowRisk.size shouldBe 1
+            )
+        result.daysWithEncounters shouldBe 2
     }
 
-    private fun createPtRiskLevelResult(
+    private fun createPtRiskCalcResult(
         calculatedAt: Instant,
         riskState: RiskState,
         presenceTracingDayRisk: List<PresenceTracingDayRisk>
@@ -165,16 +165,15 @@ class CombinedEwPtRiskTest : BaseTest() {
         presenceTracingDayRisk = presenceTracingDayRisk
     )
 
-    private fun createEwRiskLevel(
+    private fun createEwRiskCalcResult(
         calculatedAt: Instant,
-        ewAggregatedRiskResult: EwAggregatedRiskResult?
-    ): EwRiskLevelResult = object : EwRiskLevelResult {
-        override val calculatedAt = calculatedAt
-        override val ewAggregatedRiskResult: EwAggregatedRiskResult? = ewAggregatedRiskResult
-        override val failureReason: EwRiskLevelResult.FailureReason? = null
-        override val exposureWindows: List<ExposureWindow>? = null
-        override val matchedKeyCount: Int = 0
-    }
+        riskState: RiskState,
+        exposureWindowDayRisks: List<ExposureWindowDayRisk>? = null
+    ): EwRiskCalcResult = EwRiskCalcResult(
+        calculatedAt = calculatedAt,
+        riskState = riskState,
+        exposureWindowDayRisks = exposureWindowDayRisks,
+    )
 }
 
 private const val MILLIS_DAY = (1000 * 60 * 60 * 24).toLong()
