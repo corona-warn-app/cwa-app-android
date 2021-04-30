@@ -120,13 +120,13 @@
     <!-- XHED: submission result antigen fragment negative result proof title -->
     <string name="submission_test_result_antigen_negative_proof_title">"Caracteristica de verificare"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
-    <string name="submission_test_result_antigen_negative_proof_body">"De asemenea, puteți utiliza rezultatul testului afișat aici ca dovadă a unui rezultat negativ la un test rapid. Pentru mai multe informații, familiarizați-vă cu criteriile de acceptare ale dovezii testării dintr-un stat federal. Rețineți, de asemenea, că nu aveți nicio obligație de a utiliza aplicația pentru a dovedi starea dvs. de infectare. Puteți dovedi rezultatul testului dvs. rapid și într-un alt mod care respectă reglementările legale."</string>
+    <string name="submission_test_result_antigen_negative_proof_body">"De asemenea, puteți utiliza rezultatul testului afișat aici ca dovadă a unui rezultat negativ la un test rapid. \n\nRețineți că trebuie să faceți dovada rezultatului testului dvs. rapid doar dacă acest lucru este cerut de lege. Puteți face dovada rezultatului utilizând aplicația sau într-un alt mod. Pentru mai multe informații, familiarizați-vă cu criteriile de acceptare a dovezii testării din statul dvs. federal."</string>
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Rezultat disponibil de la"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
     <string name="coronatest_negative_antigen_result_first_info_title">"Testul dvs. rapid a fost adăugat."</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
-    <string name="coronatest_negative_antigen_result_first_info_body">"Rezultatul testului dvs. este afișat timp de 48 de ore. De asemenea, aplicația creează o intrare în jurnalul dvs. de contacte."</string>
+    <string name="coronatest_negative_antigen_result_first_info_body">"Rezultatul testului dvs. este afișat timp de 48 de ore."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
     <string name="coronatest_negative_antigen_result_second_info_title">"Diagnostic negativ"</string>
     <!-- XTXT: coronatest negative antigen result second info body -->
