@@ -173,13 +173,13 @@
             tools:text="@string/debugging_debuglog_action_share_log" />
 
         <Button
-            android:id="@+id/toggle_store_log"
+            android:id="@+id/toggle_export_log"
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/debugging_debuglog_action_local_log_store"
-            tools:text="@string/debugging_debuglog_action_local_log_store" />
+            android:text="@string/debugging_debuglog_action_local_log_export"
+            tools:text="@string/debugging_debuglog_action_local_log_export" />
 
         <Button
             android:id="@+id/toggle_recording"

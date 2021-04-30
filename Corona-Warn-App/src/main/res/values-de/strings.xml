@@ -65,6 +65,10 @@
 
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Seit %s Tagen installiert"</string>
+    <!-- XTXT: risk card - Days since installation if today -->
+    <string name="risk_card_body_installation_today">Seit heute installiert</string>
+    <!-- XTXT: risk card - Days since installation if yesterday -->
+    <string name="risk_card_body_installation_yesterday">Seit gestern installiert</string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Risiko-Ermittlung war für %1$s der letzten 14 Tage aktiv"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -865,10 +869,10 @@
     <string name="debugging_debuglog_action_start_recording">"Starten"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Stoppen und löschen"</string>
-    <!-- XBUT: Button text to share the log recording -->
+    <!-- XBUT: Button text to send the log recording to the server-->
     <string name="debugging_debuglog_action_share_log">"Fehlerbericht senden"</string>
-    <!-- XBUT: Button text to locally store the log recording -->
-    <string name="debugging_debuglog_action_local_log_store">"Lokal speichern und fortsetzen"</string>
+    <!-- XBUT: Button text to export the log -->
+    <string name="debugging_debuglog_action_local_log_export">"Teilen und fortsetzen"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Aufzeichnung läuft"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -895,12 +899,7 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Analyse fortführen"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Sie brauchen mindestens 200 MB Speicherplatz, um die Fehleranalyse zu starten. Bitte geben Sie Speicherplatz frei."</string>
-    <!-- XHED: Dialog title if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_title">"Lokal gespeichert"</string>
-    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_message">"Die Fehleranalyse wurde lokal gespeichert."</string>
-    <!-- YTXT: Dialog message if local export has failed -->
-    <string name="debugging_debuglog_localexport_error_message">"Das Speichern des Fehlerberichts ist fehlgeschlagen. Bitte überprüfen Sie, ob genügend Speicherplatz zur Verfügung steht."</string>
+
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Ausführliche Informationen zur Übersendung der Fehlerberichte"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -2000,4 +1999,22 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">Ok</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">Abbrechen</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <string name="incompatible_headline">Inkompatibilitätswarnung</string>
+    <string name="incompatible_advertising_not_supported">Ihr Smartphone kann
+        COVID-19-Benachrichtigungen über die Bluetooth-Schnittstelle lediglich empfangen, jedoch
+        nicht versenden. Das heißt, dass Sie über diese Schnittstelle von Risiko-Begegnungen gewarnt
+        werden können, jedoch nicht selbst warnen können. Warnungen, die im Rahmen von Check-ins
+        erfolgen, können Sie sowohl empfangen als auch selbst versenden.
+    </string>
+    <string name="incompatible_scanning_not_supported">Ihr Smartphone kann
+        COVID-19-Benachrichtigungen über die Bluetooth-Schnittstelle weder empfangen noch senden.
+        Warnungen, die im Rahmen von Check-ins erfolgen, können Sie sowohl empfangen als auch selbst
+        versenden.
+    </string>
+    <string name="incompatible_link">"https://www.coronawarn.app/de/faq/#incompatibility_warning"</string>
 </resources>

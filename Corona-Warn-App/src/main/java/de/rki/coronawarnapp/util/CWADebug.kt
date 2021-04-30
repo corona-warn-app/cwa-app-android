@@ -28,8 +28,7 @@ object CWADebug {
         setupExceptionHandler()
 
         debugLogger = debugLoggerFactory(application).also {
-            // TODO Disabled until all parties are satisfied, search for ¯\_(ツ)_/¯
-            if (isDeviceForTestersBuild) it.init()
+            it.init()
         }
 
         logDeviceInfos()
@@ -37,10 +36,7 @@ object CWADebug {
 
     fun initAfterInjection(component: ApplicationComponent) {
         Timber.v("initAfterInjection(%s)", component)
-        // TODO ¯\_(ツ)_/¯
-        if (isDeviceForTestersBuild) {
-            debugLogger.setInjectionIsReady(component)
-        }
+        debugLogger.setInjectionIsReady(component)
     }
 
     val isLogging: Boolean
