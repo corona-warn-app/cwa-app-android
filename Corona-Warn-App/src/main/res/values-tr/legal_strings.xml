@@ -29,7 +29,7 @@
     <!-- YTXT: Body for your consent screen agreement share symptoms -->
     <string name="submission_your_consent_agreement_share_symptoms">"<b>Hızlı test durumunda sadece Korona Uyarı Uygulamasının kullanıcıları uyarılır. Semptomlarınızın başladığına ilişkin ek bilgiler verirseniz bu veriler de paylaşılır.</b>\n\nYukarıdaki “Diğer Kullanıcıları Uyarın” seçeneğini devre dışı bırakarak, verdiğiniz rıza beyanını geri alabilirsiniz."</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms with additional hint for test result-->
-    <string name="submission_your_consent_agreement_share_symptoms_2">"<b>Ayrıca semptomlarınızın başlangıcı hakkında bilgi verirseniz, bu veri de paylaşılacaktır.</b>\n\nYukarıdaki “Diğer Kullanıcıları Uyarın” seçeneğini devre dışı bırakarak, verdiğiniz rıza beyanını geri alabilirsiniz. Bunun ardından test sonucunuz size görüntülenir.</string>
+    <string name="submission_your_consent_agreement_share_symptoms_2">"<b>Hızlı test durumunda sadece Korona Uyarı Uygulamasının kullanıcıları uyarılır. Semptomlarınızın başladığına ilişkin ek bilgiler verirseniz bu veriler de paylaşılır.</b>\n\nYukarıdaki “Diğer Kullanıcıları Uyarın” seçeneğini devre dışı bırakarak, verdiğiniz rıza beyanını geri alabilirsiniz. Bunun ardından test sonucunuz size görüntülenir.</string>
     <!-- YTXT: Body for keys submission no consent text first part-->
     <string name="submission_no_consent_your_consent_subsection_body_first_part">"“Kabul ediyorum”a tıklayarak, aşağıdaki adımlara onay vermiş olursunuz:"</string>
     <!-- YTXT: Body for keys submission no consent text second part-->

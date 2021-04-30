@@ -30,7 +30,7 @@
     <!-- YTXT: Body for your consent screen agreement share symptoms -->
     <string name="submission_your_consent_agreement_share_symptoms" translatable="false">"<b>In the case of rapid tests, only users of the Corona-Warn-App will be warned. If you provide additional information about the onset of symptoms, this will be also shared.</b>\n\nYou can withdraw your consent by disabling “Warn Others” above."</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms with additional hint for test result-->
-    <string name="submission_your_consent_agreement_share_symptoms_2" translatable="false"><b>If you provide additional information about the onset of your symptoms, this will also be shared.</b>\n\nYou can withdraw your consent by disabling “Warn others” above. Your test result will then be shown to you.</string>
+    <string name="submission_your_consent_agreement_share_symptoms_2" translatable="false"><b>In the case of rapid tests, only users of the Corona-Warn-App will be warned. If you provide additional information about the onset of symptoms, this will be also shared.</b>\n\nYou can withdraw your consent by disabling “Warn others” above. Your test result will then be shown to you.</string>
     <!-- YTXT: Body for keys submission no consent text first part-->
     <string name="submission_no_consent_your_consent_subsection_body_first_part" translatable="false">"By tapping on “Accept”, you consent to the following:"</string>
     <!-- YTXT: Body for keys submission no consent text second part-->
