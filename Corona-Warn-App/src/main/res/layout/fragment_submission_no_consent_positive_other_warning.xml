@@ -102,7 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    app:itemText="@{@string/submission_consent_main_first_point}"
+                    app:itemText="@{@string/submission_no_consent_first_point}"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/submission_positive_other_privacy" />
@@ -113,7 +113,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
-                    app:itemText="@{@string/submission_consent_main_third_point}"
+                    app:itemText="@{@string/submission_no_consent_second_point}"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_first_point" />
@@ -124,10 +124,32 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
-                    app:itemText="@{@string/submission_consent_main_fourth_point}"
+                    app:itemText="@{@string/submission_no_consent_third_point}"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_second_point" />
+
+                <include
+                    android:id="@+id/submission_no_consent_main_fourth_point"
+                    layout="@layout/view_bullet_point_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:itemText="@{@string/submission_no_consent_fourth_point}"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_third_point" />
+
+                <include
+                    android:id="@+id/submission_no_consent_main_fifth_point"
+                    layout="@layout/view_bullet_point_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:itemText="@{@string/submission_no_consent_fifth_point}"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_fourth_point" />
 
                 <FrameLayout
                     android:id="@+id/divider"
@@ -137,7 +159,7 @@
                     android:background="@color/colorHairline"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_third_point" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_fifth_point" />
 
                 <TextView
                     android:id="@+id/submission_consent_main_bottom_body"
