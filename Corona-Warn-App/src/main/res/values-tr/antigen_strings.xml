@@ -126,7 +126,7 @@
     <!-- XHED: coronatest negative antigen result first info title -->
     <string name="coronatest_negative_antigen_result_first_info_title">"Hızlı testiniz eklendi."</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
-    <string name="coronatest_negative_antigen_result_first_info_body">"Test sonucu 48 saat süreyle burada görüntülenir. Uygulama ayrıca temas güncenizde bir giriş oluşturur."</string>
+    <string name="coronatest_negative_antigen_result_first_info_body">"Test sonucu 48 saat süreyle burada görüntülenir."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
     <string name="coronatest_negative_antigen_result_second_info_title">"Negatif Tanı"</string>
     <!-- XTXT: coronatest negative antigen result second info body -->
