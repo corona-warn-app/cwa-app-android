@@ -1,17 +1,13 @@
 package de.rki.coronawarnapp.util.device
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
-import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.hasAPILevel
 import javax.inject.Inject
 import javax.inject.Singleton
 

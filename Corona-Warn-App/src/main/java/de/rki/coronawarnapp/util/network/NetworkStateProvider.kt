@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.util.network
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.LinkProperties
