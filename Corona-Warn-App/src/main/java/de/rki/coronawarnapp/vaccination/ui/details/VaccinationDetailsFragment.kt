@@ -8,6 +8,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
@@ -40,8 +41,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
             deleteButton.setOnClickListener {
-                Toast.makeText(requireContext(), "TODO \uD83D\uDEA7", Toast.LENGTH_LONG).show()
-                viewModel.deleteVaccination()
+                showDeletionDialog()
             }
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
@@ -61,6 +61,20 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 expandedImage.setImageResource(background)
             }
         }
+
+    private fun showDeletionDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.vaccination_details_deletion_dialog_title))
+            .setMessage(getString(R.string.vaccination_details_deletion_dialog_message))
+            .setPositiveButton(getString(R.string.vaccination_details_deletion_dialog_positive_button)) { _, _ ->
+                Toast.makeText(requireContext(), "TODO \uD83D\uDEA7", Toast.LENGTH_LONG).show()
+                viewModel.deleteVaccination()
+            }
+            .setNegativeButton(getString(R.string.vaccination_details_deletion_dialog_negative_button)) { _, _ ->
+                // No-Op
+            }
+            .show()
+    }
 
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
