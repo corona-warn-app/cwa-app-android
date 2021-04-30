@@ -127,7 +127,7 @@
     <!-- XHED: coronatest negative antigen result first info title -->
     <string name="coronatest_negative_antigen_result_first_info_title">"Ihr Schnelltest wurde hinzugefügt."</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
-    <string name="coronatest_negative_antigen_result_first_info_body">"Das Test-Ergebnis wird 48 Stunden hier angezeigt. Zusätzlich legt die App einen Eintrag in Ihrem Kontakt-Tagebuch an."</string>
+    <string name="coronatest_negative_antigen_result_first_info_body">"Das Test-Ergebnis wird 48 Stunden hier angezeigt."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
     <string name="coronatest_negative_antigen_result_second_info_title">"Befund negativ"</string>
     <!-- XTXT: coronatest negative antigen result second info body -->
