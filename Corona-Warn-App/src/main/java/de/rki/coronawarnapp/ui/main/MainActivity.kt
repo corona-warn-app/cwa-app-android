@@ -193,7 +193,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun onResume() {
         super.onResume()
         vm.doBackgroundNoiseCheck()
-        contactDiaryWorkScheduler.schedulePeriodic()
         dataDonationAnalyticsScheduler.schedulePeriodic()
     }
 

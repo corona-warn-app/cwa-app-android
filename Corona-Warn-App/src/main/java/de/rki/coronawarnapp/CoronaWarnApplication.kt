@@ -31,7 +31,6 @@ import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWo
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
-import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
@@ -68,7 +67,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
     @Inject lateinit var autoSubmission: AutoSubmission
     @Inject lateinit var coronaTestRepository: CoronaTestRepository
-    @Inject lateinit var onboardingSettings: OnboardingSettings
     @Inject lateinit var autoCheckOut: AutoCheckOut
     @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
     @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
@@ -111,9 +109,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             .onEach { isAppInForeground = it }
             .launchIn(GlobalScope)
 
-        if (onboardingSettings.isOnboarded) {
-            contactDiaryWorkScheduler.schedulePeriodic()
-        }
+        Timber.v("Setting up contact diary work scheduler")
+        contactDiaryWorkScheduler.setup()
 
         Timber.v("Setting up deadman notification scheduler")
         deadmanNotificationScheduler.setup()
