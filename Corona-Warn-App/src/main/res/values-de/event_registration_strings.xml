@@ -78,12 +78,12 @@
     <string name="tracelocation_organizer_category_educational_institution_subtitle">Klassenzimmer, Vorlesungssaal, Bibliothek</string>
 
     <!-- XTXT: Title for the public building category  -->
-    <string name="tracelocation_organizer_category_public_building_title">öffentliches Gebäude</string>
+    <string name="tracelocation_organizer_category_public_building_title">Öffentliches Gebäude</string>
     <!-- XTXT: Subtitle for the public building category  -->
     <string name="tracelocation_organizer_category_public_building_subtitle">Bürgeramt, Museum</string>
 
     <!-- XTXT: Title for other location  -->
-    <string name="tracelocation_organizer_category_other_location_title">anderer Ort</string>
+    <string name="tracelocation_organizer_category_other_location_title">Anderer Ort</string>
 
     <!-- XHED: Title of event types in the category list screen of the event creation -->
     <string name="tracelocation_organizer_category_type_event_header">Event</string>
@@ -99,7 +99,7 @@
     <string name="tracelocation_organizer_category_club_activity_subtitle">Sporttraining, Mitgliederversammlung</string>
 
     <!-- XTXT: Title for the private event category  -->
-    <string name="tracelocation_organizer_category_private_event_title">private Feier</string>
+    <string name="tracelocation_organizer_category_private_event_title">Private Feier</string>
     <!-- XTXT: Subtitle for the private event category  -->
     <string name="tracelocation_organizer_category_private_event_subtitle">Geburtstag, Familienfeier</string>
 
@@ -107,7 +107,7 @@
     <string name="tracelocation_organizer_category_worship_service_title">Gottesdienst</string>
 
     <!-- XTXT: Title for other event  -->
-    <string name="tracelocation_organizer_category_other_event_title">anderes Event</string>
+    <string name="tracelocation_organizer_category_other_event_title">Anderes Event</string>
 
     <!-- XTXT: Title for event description  -->
     <string name="tracelocation_organizer_add_event_description">"Bezeichnung"</string>
