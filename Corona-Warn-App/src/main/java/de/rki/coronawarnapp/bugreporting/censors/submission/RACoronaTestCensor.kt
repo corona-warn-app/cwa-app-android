@@ -21,6 +21,8 @@ class RACoronaTestCensor @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository
 ) : BugCensor {
 
+    private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+
     private val coronaTestFlow by lazy {
         coronaTestRepository.coronaTests.stateIn(
             scope = debugScope,
@@ -46,8 +48,7 @@ class RACoronaTestCensor @Inject constructor(
                 newMessage = newMessage.replace(lastName, "RATest/LastName")
             }
 
-            val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-            val dateOfBirthString = dateOfBirth?.toString(formatter) ?: return@with
+            val dateOfBirthString = dateOfBirth?.toString(dayOfBirthFormatter) ?: return@with
 
             newMessage = newMessage.replace(dateOfBirthString, "RATest/DateOfBirth")
         }

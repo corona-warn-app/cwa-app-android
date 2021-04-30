@@ -17,6 +17,8 @@ class RatProfileCensor @Inject constructor(
     private val ratProfileSettings: RATProfileSettings
 ) : BugCensor {
 
+    private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+
     override suspend fun checkLog(entry: LogLine): LogLine? {
         val ratProfile = ratProfileSettings.profile.flow.first() ?: return null
 
@@ -31,8 +33,7 @@ class RatProfileCensor @Inject constructor(
                 newMessage = newMessage.replace(lastName, "RAT-Profile/LastName")
             }
 
-            val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-            val dateOfBirthString = birthDate?.toString(formatter)
+            val dateOfBirthString = birthDate?.toString(dayOfBirthFormatter)
 
             if (dateOfBirthString != null) {
                 newMessage = newMessage.replace(dateOfBirthString, "RAT-Profile/DateOfBirth")
