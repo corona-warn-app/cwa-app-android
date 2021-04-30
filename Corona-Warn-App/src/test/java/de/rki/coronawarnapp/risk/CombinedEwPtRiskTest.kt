@@ -60,7 +60,6 @@ class CombinedEwPtRiskTest : BaseTest() {
             localDateUtc = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY).toLocalDateUtc()
         )
 
-
         CombinedEwPtRiskCalcResult(
             ptRiskCalcResult = createPtRiskCalcResult(
                 calculatedAt = Instant.ofEpochMilli(1000 + 2 * MILLIS_DAY),
@@ -114,8 +113,7 @@ class CombinedEwPtRiskTest : BaseTest() {
                 riskState = RiskState.LOW_RISK,
                 exposureWindowDayRisks = listOf(ewDayRisk, ewDayRisk2)
             ),
-
-            ).daysWithEncounters shouldBe 3
+        ).daysWithEncounters shouldBe 3
     }
 
     @Test
@@ -150,8 +148,7 @@ class CombinedEwPtRiskTest : BaseTest() {
                 riskState = RiskState.INCREASED_RISK,
                 exposureWindowDayRisks = listOf(dayRisk, dayRisk2, dayRisk3)
             ),
-
-            )
+        )
         result.daysWithEncounters shouldBe 2
     }
 
