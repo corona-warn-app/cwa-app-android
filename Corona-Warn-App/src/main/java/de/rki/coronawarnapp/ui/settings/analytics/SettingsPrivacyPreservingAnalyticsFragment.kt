@@ -75,6 +75,7 @@ class SettingsPrivacyPreservingAnalyticsFragment :
             binding.ageGroupRowBody.text = it.getAgeGroupRowBodyText(requireContext())
 
             binding.districtRow.isVisible = it.isDistrictRowVisible()
+            binding.districtRowDivider.isVisible = it.isDistrictRowVisible()
             binding.districtRowBody.text = it.getDistrictRowBodyText(requireContext())
 
             binding.federalStateRowBody.text = it.getFederalStateRowBodyText(requireContext())

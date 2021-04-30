@@ -61,7 +61,7 @@
                     android:text="@string/onboarding_ppa_body"
                     app:layout_constraintEnd_toEndOf="@id/body_end"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_illustration" />
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_illustration" />
 
                 <de.rki.coronawarnapp.ui.view.SwitchRowView
                     android:id="@+id/settings_ppa_switch_row"
@@ -70,7 +70,7 @@
                     android:layout_marginTop="@dimen/spacing_small"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_body"
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_body"
                     app:checked="@{false}"
                     app:subtitle="@{@string/settings_off}"
                     app:switchEnabled="@{true}"
@@ -82,7 +82,7 @@
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:background="@color/colorHairline"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_ppa_switch_row" />
+                    app:layout_constraintTop_toBottomOf="@id/settings_ppa_switch_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@id/federal_state_row"
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_ppa_switch_row">
+                    app:layout_constraintTop_toBottomOf="@id/settings_ppa_switch_row">
 
                     <TextView
                         android:id="@id/federal_state_row_subtitle"
@@ -116,19 +116,16 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/federal_state_row_subtitle" />
+                        app:layout_constraintTop_toBottomOf="@id/federal_state_row_subtitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include
-                    layout="@layout/include_divider"
-                    android:layout_width="0dp"
+                <View
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/federal_state_row" />
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@id/federal_state_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@id/district_row"
@@ -137,7 +134,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/federal_state_row">
+                    app:layout_constraintTop_toBottomOf="@id/federal_state_row">
 
                     <TextView
                         android:id="@id/district_row_subtitle"
@@ -162,19 +159,17 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/district_row_subtitle" />
+                        app:layout_constraintTop_toBottomOf="@id/district_row_subtitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include
-                    layout="@layout/include_divider"
-                    android:layout_width="0dp"
+                <View
+                    android:id="@+id/district_row_divider"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/district_row" />
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@id/district_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@id/age_group_row"
@@ -183,7 +178,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/district_row">
+                    app:layout_constraintTop_toBottomOf="@id/district_row">
 
                     <TextView
                         android:id="@id/age_group_row_subtitle"
@@ -208,19 +203,16 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/age_group_row_subtitle" />
+                        app:layout_constraintTop_toBottomOf="@id/age_group_row_subtitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include
-                    layout="@layout/include_divider"
-                    android:layout_width="0dp"
+                <View
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/age_group_row" />
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@id/age_group_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@id/consent_layout"
@@ -230,8 +222,8 @@
                     android:layout_marginTop="32dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/age_group_row">
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/age_group_row">
 
                     <TextView
                         android:id="@id/legal_title"
@@ -315,7 +307,7 @@
                         android:text="@string/ppa_onboarding_privacy_information_point_sixteen"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
-                        app:layout_constraintTop_toBottomOf="@+id/legal_point_identity" />
+                        app:layout_constraintTop_toBottomOf="@id/legal_point_identity" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@id/bullet_point_sixteen"
@@ -337,7 +329,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/consent_layout">
+                    app:layout_constraintTop_toBottomOf="@id/consent_layout">
 
                     <TextView
                         android:id="@id/more_info_title"
@@ -352,15 +344,14 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include
-                    layout="@layout/include_divider"
+                <View
                     android:layout_width="0dp"
                     android:layout_height="@dimen/card_divider"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/more_info_row" />
+                    app:layout_constraintTop_toBottomOf="@id/more_info_row" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@id/body_start"
