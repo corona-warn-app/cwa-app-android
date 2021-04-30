@@ -170,4 +170,31 @@
     <string name="rat_profile_create_phone_hint">Telefonnummer</string>
     <!-- XTXT: Create RAT profile email hint -->
     <string name="rat_profile_create_email_hint">E-Mail-Adresse</string>
+
+    <!--RAT profile onboarding-->
+    <string name="rat_profile_onboarding_image_content_description">Eine Frau mit einem Smartphone in der Hand steht vor einem Gebäude. Ein QR-Code symbolisiert das zu scannende Schnelltest-Profil.</string>
+    <!-- XTXT: Create RAT profile onboarding title -->
+    <string name="rat_profile_onboarding_title">Legen Sie Ihre persönlichen Daten als QR-Code ab, um die Registrierung an der Teststelle zu beschleunigen.</string>
+    <!-- XTXT: Create RAT profile onboarding subtitle -->
+    <string name="rat_profile_onboarding_subtitle">Mit Ihrem eigenen Schnelltest-Profil müssen Sie Ihre persönlichen Daten nicht bei jedem neuen Schnelltest erneut ausfüllen.</string>
+    <!-- XTXT: Create RAT profile onboarding next button -->
+    <string name="rat_profile_onboarding_next">Weiter</string>
+    <!-- XTXT: Create RAT profile onboarding privacy -->
+    <string name="rat_profile_onboarding_privacy">Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis.</string>
+    <!-- XTXT: Create RAT Qr code profile description-->
+    <string name="rat_qr_code_profile_description">Bitte zeigen Sie diesen QR-Code an der Teststelle vor, um Ihre persönlichen Daten schnell erfassen zu lassen. Bitte halten zusätzlich Sie Ihren Personalausweis bereit.</string>
+    <!-- XTXT: Create RAT Qr code profile birth date-->
+    <string name="rat_qr_code_profile_birth_date">geboren %1$s</string>
+    <!-- XBUT: Create RAT Qr code profile next button-->
+    <string name="rat_qr_code_profile_next_button">Weiter</string>
+    <!-- XTXT: Create RAT Qr code profile delete item-->
+    <string name="rat_qr_code_profile_delete_item">Entfernen</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog title-->
+    <string name="rat_qr_code_profile_dialog_title">Wollen Sie das Schnelltest-Profil wirklich entfernen?</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog message-->
+    <string name="rat_qr_code_profile_dialog_message">Bitte denken Sie daran, dass der QR-Code danach nicht mehr zum Registrieren verwendet werden kann.</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->
+    <string name="rat_qr_code_profile_dialog_positive_button">Löschen</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog negative button-->
+    <string name="rat_qr_code_profile_dialog_negative_button">Abbrechen</string>
 </resources>

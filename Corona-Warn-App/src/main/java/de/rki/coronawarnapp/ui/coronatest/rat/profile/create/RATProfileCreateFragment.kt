@@ -40,6 +40,11 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
 
             // Birth date
             birthDateInputEdit.setOnClickListener { openDatePicker() }
+            birthDateInputEdit.doAfterTextChanged {
+                if (it.toString().isBlank()) {
+                    viewModel.birthDateChanged(null)
+                }
+            }
 
             // Address
             streetInputEdit.doAfterTextChanged { viewModel.streetChanged(it.toString()) }
