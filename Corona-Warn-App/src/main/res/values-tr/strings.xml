@@ -64,6 +64,10 @@
 
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"%s gün önce yüklendi"</string>
+    <!-- XTXT: risk card - Days since installation if today -->
+    <string name="risk_card_body_installation_today">"Bugün yüklendi"</string>
+    <!-- XTXT: risk card - Days since installation if yesterday -->
+    <string name="risk_card_body_installation_yesterday">"Dün yüklendi"</string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Maruz kalma günlüğü son 14 günde %1$s gün etkindi"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -864,10 +868,10 @@
     <string name="debugging_debuglog_action_start_recording">"Başlat"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Durdur ve Sil"</string>
-    <!-- XBUT: Button text to send the log recording to the server -->
+    <!-- XBUT: Button text to send the log recording to the server-->
     <string name="debugging_debuglog_action_share_log">"Hata Raporu Gönder"</string>
     <!-- XBUT: Button text to export the log -->
-    <string name="debugging_debuglog_action_local_log_export">"Yerel Olarak Kaydet ve Devam Et"</string>
+    <string name="debugging_debuglog_action_local_log_export">"Paylaş ve Devam Et"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Kayıt Etkin"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -894,6 +898,7 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Analizi Devam Ettir"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Hata analizini başlatmak için en az 200 MB bellek alanınızın olması gerekir. Lütfen belleği boşaltın."</string>
+
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Hata Raporlarını Gönderme Konusunda Ayrıntılı Bilgi"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -1993,4 +1998,13 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"Tamam"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"İptal Et"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <string name="incompatible_headline">"Uyumsuzluk Uyarısı"</string>
+    <string name="incompatible_advertising_not_supported">"Akıllı telefonunuz Bluetooth üzerinden COVID-19 bildirimlerini yalnızca alabiliyor ancak gönderemiyor. Buna göre, bu arayüz ile maruz kalmalar konusunda uyarı alabilirsiniz ancak siz diğer kullanıcıları uyaramazsınız. Check-in’lerden kaynaklanan uyarıları alabilir ve gönderebilirsiniz."</string>
+    <string name="incompatible_scanning_not_supported">"Akıllı telefonunuz Bluetooth üzerinden COVID-19 bildirimleri gönderemiyor veya alamıyor. Check-in’lerden kaynaklanan uyarıları alabilir ve gönderebilirsiniz."</string>
+    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
 </resources>

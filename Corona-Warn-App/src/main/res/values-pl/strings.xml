@@ -64,6 +64,10 @@
 
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Zainstalowano %s dni temu"</string>
+    <!-- XTXT: risk card - Days since installation if today -->
+    <string name="risk_card_body_installation_today">"Zainstalowano dzisiaj"</string>
+    <!-- XTXT: risk card - Days since installation if yesterday -->
+    <string name="risk_card_body_installation_yesterday">"Zainstalowano wczoraj"</string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Rejestrowanie narażenia było aktywne przez %1$s z ostatnich 14 dni"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -864,10 +868,10 @@
     <string name="debugging_debuglog_action_start_recording">"Uruchom"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Zatrzymaj i usuń"</string>
-    <!-- XBUT: Button text to send the log recording to the server -->
+    <!-- XBUT: Button text to send the log recording to the server-->
     <string name="debugging_debuglog_action_share_log">"Wyślij raport o błędzie"</string>
     <!-- XBUT: Button text to export the log -->
-    <string name="debugging_debuglog_action_local_log_export">"Zapisz lokalnie i kontynuuj"</string>
+    <string name="debugging_debuglog_action_local_log_export">"Udostępnij i kontynuuj"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Nagrywanie aktywne"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -894,6 +898,7 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Kontynuuj analizę"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Aby rozpocząć analizę błędu, potrzebujesz co najmniej 200 MB pamięci. Zwolnij pamięć."</string>
+
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Szczegółowe informacje na temat wysyłania raportów o błędach"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -1180,7 +1185,7 @@
     <!-- XTXT: First bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_1"><b>"Udostępnij swój wynik testu i pomóż chronić innych przed infekcją."</b></string>
     <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
-    <string name="submission_test_result_positive_no_consent_text_2">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swoje wyniki testów."</string>
+    <string name="submission_test_result_positive_no_consent_text_2">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swój wynik testu."</string>
     <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_3">"Postępuj zgodnie z poleceniami organu ds. zdrowia publicznego i zostań w domu, aby nie zarażać innych."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
@@ -1993,4 +1998,13 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Anuluj"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <string name="incompatible_headline">"Ostrzeżenie o niekompatybilności"</string>
+    <string name="incompatible_advertising_not_supported">"Twój smartfon może tylko odbierać powiadomienia dotyczące COVID-19 przez Bluetooth, ale nie może ich wysyłać. Oznacza to, że możesz otrzymywać ostrzeżenia o narażeniach za pośrednictwem tego interfejsu, ale nie możesz ostrzegać innych o narażeniach. Możesz wysyłać i odbierać ostrzeżenia, które wynikają z zameldowań."</string>
+    <string name="incompatible_scanning_not_supported">"Twój smartfon nie może wysyłać ani odbierać powiadomień dotyczących COVID-19 przez Bluetooth. Możesz wysyłać i odbierać ostrzeżenia wynikające z zameldowań."</string>
+    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
 </resources>

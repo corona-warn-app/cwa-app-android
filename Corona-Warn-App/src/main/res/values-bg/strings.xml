@@ -64,6 +64,10 @@
 
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Инсталирано преди %s дни"</string>
+    <!-- XTXT: risk card - Days since installation if today -->
+    <string name="risk_card_body_installation_today">"Инсталирано днес"</string>
+    <!-- XTXT: risk card - Days since installation if yesterday -->
+    <string name="risk_card_body_installation_yesterday">"Инсталирано вчера"</string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Регистрирането на излагания на риск е било активно през %1$s от изминалите 14 дни"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -864,10 +868,10 @@
     <string name="debugging_debuglog_action_start_recording">"Начало"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Спиране и изтриване"</string>
-    <!-- XBUT: Button text to send the log recording to the server -->
+    <!-- XBUT: Button text to send the log recording to the server-->
     <string name="debugging_debuglog_action_share_log">"Изпращане на отчет за грешки"</string>
     <!-- XBUT: Button text to export the log -->
-    <string name="debugging_debuglog_action_local_log_export">"Локално запазване и продължаване"</string>
+    <string name="debugging_debuglog_action_local_log_export">"Споделяне и напред"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Записването е активно"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -894,6 +898,7 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Продължаване на анализа"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Необходими са поне 200 MB памет, за да се стартира анализа на грешките. Моля, освободете място."</string>
+
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Подробна информация относно изпращането на отчети за грешки"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -1993,4 +1998,13 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"ОК"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Отказ"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <string name="incompatible_headline">"Предупреждение за несъвместимост"</string>
+    <string name="incompatible_advertising_not_supported">"Вашето мобилно устройство може да поучава известия за COVID-19 чрез Bluetooth, но не може да изпраща такива. Това означава, че Вие ще получавате предупреждения, но без да известявате околните, че са били в контакт с вас. Можете както да получавате, така и да изпращате предупреждения в следствие на регистрации в дадена локация."</string>
+    <string name="incompatible_scanning_not_supported">"Вашето мобилно устройство не може нито да изпраща, нито да получава известия за COVID-19 чрез Bluetooth. Можете както да получавате, така и да изпращате предупреждения в следствие на регистрации в дадена локация."</string>
+    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
 </resources>
