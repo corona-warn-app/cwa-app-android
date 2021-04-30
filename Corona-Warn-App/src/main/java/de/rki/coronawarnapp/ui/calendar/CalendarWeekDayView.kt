@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.widget.TextViewCompat
 import de.rki.coronawarnapp.R
 
 /**
@@ -43,9 +44,9 @@ class CalendarWeekDayView @JvmOverloads constructor(
         textView.text = text
 
         if (isSelected) {
-            textView.setTextAppearance(context, R.style.calendarWeekDaySelected)
+            TextViewCompat.setTextAppearance(textView, R.style.calendarWeekDaySelected)
         } else {
-            textView.setTextAppearance(context, R.style.calendarWeekDayNormal)
+            TextViewCompat.setTextAppearance(textView, R.style.calendarWeekDayNormal)
         }
     }
 }

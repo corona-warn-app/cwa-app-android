@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.widget.TextViewCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.contactdiary.util.setClickLabel
@@ -48,10 +49,10 @@ class DiaryLocationViewHolder(
             if (duration == null || duration.millis == 0L) {
                 text = context.getString(R.string.duration_dialog_default_value)
                 setBackgroundResource(R.drawable.contact_diary_duration_background_default)
-                setTextAppearance(context, R.style.bodyNeutral)
+                TextViewCompat.setTextAppearance(this, R.style.bodyNeutral)
             } else {
                 setBackgroundResource(R.drawable.contact_diary_duration_background_selected)
-                setTextAppearance(context, R.style.body1)
+                TextViewCompat.setTextAppearance(this, R.style.body1)
             }
         }
 

@@ -12,6 +12,7 @@ import androidx.annotation.ColorInt
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
+import androidx.core.view.ViewCompat
 import androidx.core.widget.ImageViewCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.setUrl
@@ -61,7 +62,7 @@ class BehaviorInfoRow @JvmOverloads constructor(
     }
 
     fun setBackgroundTint(@ColorInt color: Int) {
-        iconBackground.background.setColorFilter(color, PorterDuff.Mode.SRC_OVER)
+        ViewCompat.setBackgroundTintList(iconBackground, ColorStateList.valueOf(color))
     }
 
     fun setForegroundTint(@ColorInt color: Int) {
