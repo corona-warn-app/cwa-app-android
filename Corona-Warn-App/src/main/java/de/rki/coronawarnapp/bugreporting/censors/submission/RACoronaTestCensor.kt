@@ -33,13 +33,12 @@ class RACoronaTestCensor @Inject constructor(
 
     override suspend fun checkLog(entry: LogLine): LogLine? {
 
-        val raCoronaTest = coronaTestFlow.map { tests -> tests.filterIsInstance<RACoronaTest>() }.first()
-
-        if (raCoronaTest.isEmpty()) return null
+        val raCoronaTestFlow = coronaTestFlow.map { tests -> tests.filterIsInstance<RACoronaTest>() }.first()
+        val raCoronaTest = raCoronaTestFlow.firstOrNull() ?: return null
 
         var newMessage = entry.message
 
-        with(raCoronaTest.first()) {
+        with(raCoronaTest) {
             withValidName(firstName) { firstName ->
                 newMessage = newMessage.replace(firstName, "RATest/FirstName")
             }
