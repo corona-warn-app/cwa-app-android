@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- XTXT: Vaccination Details birth date -->
-    <string name="vaccination_details_birth_date">geboren %1$s</string>
+    <string name="vaccination_details_birth_date">Geboren %1$s</string>
     <!-- XTXT: Vaccination Details certificate date -->
     <string name="vaccination_details_certificate_date">Datum der Impfung</string>
     <!-- XTXT: Vaccination Details vaccine name -->
