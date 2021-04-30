@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog
 
 import android.app.Application
 import dagger.Lazy
-import de.rki.coronawarnapp.bugreporting.censors.submission.RegistrationTokenCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogTree
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.ApplicationComponent
@@ -29,7 +29,7 @@ class DebugLoggerTest : BaseIOTest() {
 
     @MockK lateinit var application: Application
     @MockK lateinit var component: ApplicationComponent
-    @MockK lateinit var registrationTokenCensor: RegistrationTokenCensor
+    @MockK lateinit var coronaTestCensor: CoronaTestCensor
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val cacheDir = File(testDir, "cache")
@@ -49,10 +49,10 @@ class DebugLoggerTest : BaseIOTest() {
         every { application.cacheDir } returns cacheDir
         every { component.inject(any<DebugLogger>()) } answers {
             val logger = arg<DebugLogger>(0)
-            logger.bugCensors = Lazy { setOf(registrationTokenCensor) }
+            logger.bugCensors = Lazy { setOf(coronaTestCensor) }
         }
 
-        coEvery { registrationTokenCensor.checkLog(any()) } returns null
+        coEvery { coronaTestCensor.checkLog(any()) } returns null
     }
 
     @AfterEach

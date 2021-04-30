@@ -9,16 +9,16 @@ import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-/**
- * The Registration Token is received after registration of PCR and RAT tests. It is required to poll the test result.
- */
 @Reusable
-class RegistrationTokenCensor @Inject constructor(
+class CoronaTestCensor @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
 ) : BugCensor {
 
     override suspend fun checkLog(entry: LogLine): LogLine? {
+
+        // The Registration Token is received after registration of PCR and RAT tests. It is required to poll the test result.
         val tokens = coronaTestRepository.coronaTests.first().map { it.registrationToken }
+        val identifiers = coronaTestRepository.coronaTests.first().map { it.identifier }
 
         if (tokens.isEmpty()) return null
 
@@ -33,6 +33,12 @@ class RegistrationTokenCensor @Inject constructor(
                 newMessage.replace(token, PLACEHOLDER + token.takeLast(4))
             }
         }
+
+        identifiers
+            .filter { entry.message.contains(it) }
+            .forEach {
+                newMessage = newMessage.replace(it, "${it.take(11)}CoronaTest/Identifier")
+            }
 
         return entry.toNewLogLineIfDifferent(newMessage)
     }
