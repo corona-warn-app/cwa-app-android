@@ -34,9 +34,11 @@
     <!-- YTXT: Body for keys submission no consent text first part-->
     <string name="submission_no_consent_your_consent_subsection_body_first_part" translatable="false">"By tapping on “Accept”, you consent to the following:"</string>
     <!-- YTXT: Body for keys submission no consent text second part-->
-    <string name="submission_no_consent_your_consent_subsection_body_second_part" translatable="false">"<b>The app will share your test result in order to warn other users of official coronavirus apps whom you have encountered. The warning will work in the countries mentioned above. If you provide additional information about the onset of your symptoms, this will also be shared.</b>In the next step, please share your test result (or more precisely: your random IDs from the last 14 days) by tapping on “Share”."</string>
+    <string name="submission_no_consent_your_consent_subsection_body_second_part" translatable="false">"<b>The app will share your test result in order to warn users whom you have encountered. This applies to users of coronavirus apps from the above countries and users who were simultaneously checked in at the same event or place as you. In the case of rapid tests, only users of the Corona-Warn-App will be warned. If you provide additional information about the onset of symptoms, this will be also shared.</b>"</string>
     <!-- YTXT: Body for keys submission no consent text third part-->
-    <string name="submission_no_consent_your_consent_subsection_body_third_part" translatable="false">"If you have already warned other users, you can withdraw your consent by deleting the app."</string>
+    <string name="submission_no_consent_your_consent_subsection_body_third_part" translatable="false">"In the next step, grant your consent to access random IDs."</string>
+    <!-- YTXT: Body for keys submission no consent text fourth part-->
+    <string name="submission_no_consent_your_consent_subsection_body_fourth_part" translatable="false">"If you have already warned other users, you can withdraw your consent by deleting the app."</string>
 
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_privacy_information_title" translatable="false">"Information on Data Processing"</string>

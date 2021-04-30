@@ -33,9 +33,11 @@
     <!-- YTXT: Body for keys submission no consent text first part-->
     <string name="submission_no_consent_your_consent_subsection_body_first_part">"“Kabul ediyorum”a tıklayarak, aşağıdaki adımlara onay vermiş olursunuz:"</string>
     <!-- YTXT: Body for keys submission no consent text second part-->
-    <string name="submission_no_consent_your_consent_subsection_body_second_part">"<b>Uygulama, karşılaştığınız resmi Korona uygulamaları kullanıcıları uyarmak üzere onlara test sonucunuzu paylaşır. Uyarı, yukarıda sözü geçen ülkelerde çalışır. Ayrıca semptomlarınızın başlangıcı hakkında bilgi verirseniz, bu veri de paylaşılacaktır.</b> Lütfen bir sonraki adımda “Paylaş”a tıklayarak test sonucunuzu (daha doğrusu: Son 14 güne ait rastgele kimlik no\'larınız) paylaşın."</string>
+    <string name="submission_no_consent_your_consent_subsection_body_second_part">"<b>Uygulama test sonucunuzu, karşılaştığınız kullanıcıları uyarmak için paylaşır. Bu yukarıda belirtilen ülkelerdeki Korona Uygulamasının kullanıcıları ve aynı zamanda aynı etkinlikte ya da yerde bulunduğunuz kullanıcılar için geçerlidir. Hızlı test durumunda sadece Korona Uyarı Uygulamasının kullanıcıları uyarılır. Semptomlarınızın başladığına ilişkin ek bilgiler verirseniz bu veriler de paylaşılır.</b>"</string>
     <!-- YTXT: Body for keys submission no consent text third part-->
-    <string name="submission_no_consent_your_consent_subsection_body_third_part">"Uyarı gerçekleştikten sonra, Uygulamayı silerek verdiğiniz rıza beyanını da geri alabilirsiniz."</string>
+    <string name="submission_no_consent_your_consent_subsection_body_third_part">"Sonraki adımada, rastgele kimiliklerinize erişim onayı verin."</string>
+     <!-- YTXT: Body for keys submission no consent text fourth part-->
+    <string name="submission_no_consent_your_consent_subsection_body_fourth_part">"Uyarı gerçekleştikten sonra, Uygulamayı silerek verdiğiniz rıza beyanını da geri alabilirsiniz."</string>
 
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_privacy_information_title">"Veri İşlemeye İlişkin Notlar"</string>
