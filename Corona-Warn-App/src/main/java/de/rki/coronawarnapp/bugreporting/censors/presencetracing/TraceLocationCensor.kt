@@ -60,10 +60,15 @@ class TraceLocationCensor @Inject constructor(
 
         val inputDataToCensor = dataToCensor
         if (inputDataToCensor != null) {
-            newLogMsg = newLogMsg
-                .replace(inputDataToCensor.type.name, "TraceLocationUserInput#Type")
-                .replace(inputDataToCensor.description, "TraceLocationUserInput#Description")
-                .replace(inputDataToCensor.address, "TraceLocationUserInput#Address")
+            newLogMsg = newLogMsg.replace(inputDataToCensor.type.name, "TraceLocationUserInput#Type")
+
+            withValidDescription(inputDataToCensor.description) {
+                newLogMsg = newLogMsg.replace(inputDataToCensor.description, "TraceLocationUserInput#Description")
+            }
+
+            withValidAddress(inputDataToCensor.address) {
+                newLogMsg = newLogMsg.replace(inputDataToCensor.address, "TraceLocationUserInput#Address")
+            }
         }
 
         return entry.toNewLogLineIfDifferent(newLogMsg)
