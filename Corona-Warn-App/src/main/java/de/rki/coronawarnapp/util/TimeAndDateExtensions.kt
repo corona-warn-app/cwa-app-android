@@ -102,6 +102,8 @@ object TimeAndDateExtensions {
     val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
 
     fun Instant.toUserTimeZone() = this.toDateTime(DateTimeZone.forTimeZone(TimeZone.getDefault()))
+
+    fun Instant.toLocalDateUserTz(): LocalDate = this.toUserTimeZone().toLocalDate()
 }
 
 typealias HourInterval = Long

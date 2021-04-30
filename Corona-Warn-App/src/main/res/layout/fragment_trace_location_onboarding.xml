@@ -23,17 +23,17 @@
         android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginVertical="@dimen/spacing_small"
         android:text="@string/trace_location_onboarding_body_confirm"
-        app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_scroll_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_scroll_view" />
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:id="@+id/check_in_onboarding_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingBottom="@dimen/spacing_small"
         android:clipToPadding="false"
+        android:paddingBottom="@dimen/spacing_small"
         android:scrollbarStyle="outsideOverlay"
         app:layout_constraintBottom_toTopOf="@+id/check_in_onboarding_acknowledge"
         app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_toolbar">
@@ -49,10 +49,10 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="4dp"
                 android:contentDescription="@string/trace_location_onboarding_content_description"
-                app:srcCompat="@drawable/trace_location_onboarding"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/trace_location_onboarding" />
 
             <TextView
                 android:id="@+id/check_in_onboarding_title"
@@ -86,9 +86,9 @@
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:importantForAccessibility="no"
-                app:srcCompat="@drawable/ic_qr_tracing_static"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_subtitle" />
+                app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_subtitle"
+                app:srcCompat="@drawable/ic_qr_tracing_static" />
 
             <TextView
                 android:id="@+id/check_in_onboarding_warning"
@@ -108,9 +108,9 @@
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:importantForAccessibility="no"
-                app:srcCompat="@drawable/ic_qr_time"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_warning" />
+                app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_warning"
+                app:srcCompat="@drawable/ic_qr_time" />
 
             <TextView
                 android:id="@+id/check_in_onboarding_stay"
@@ -128,10 +128,8 @@
                 style="@style/cardTracing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginHorizontal="@dimen/guideline_card"
                 android:layout_marginTop="24dp"
-                android:background="#F5F5F5"
-                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_stay">
@@ -161,9 +159,9 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="24dp"
-                    app:srcCompat="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_card_subtitle" />
+                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_card_subtitle"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/check_in_onboarding_body2"
@@ -197,9 +195,9 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
-                    app:srcCompat="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body3" />
+                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body3"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/check_in_onboarding_body4"
@@ -220,9 +218,9 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
-                    app:srcCompat="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body4" />
+                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body4"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/check_in_onboarding_body5"
@@ -262,6 +260,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/check_in_onboarding_card_container"
                 app:titleText="@string/contact_diary_onboarding_legal_information" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

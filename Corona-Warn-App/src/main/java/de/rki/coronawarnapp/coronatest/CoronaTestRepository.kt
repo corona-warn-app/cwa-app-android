@@ -168,7 +168,7 @@ class CoronaTestRepository @Inject constructor(
             }
         }
 
-        return refreshedData.values.toSet()
+        return refreshedData.values.filter { toRefresh.contains(it.identifier) }.toSet()
     }
 
     suspend fun clear() {

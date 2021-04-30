@@ -147,4 +147,22 @@
     <string name="trace_location_onboarding_body_consent5">Falls Sie später selbst eine Warnung auslösen, werden automatisch alle anderen Nutzer, die zeitgleich mit Ihnen bei einem unter „Meine Check-ins“ eingetragenen Event oder Ort eingecheckt waren, anhand der Event-ID gewarnt.</string>
     <!-- YMSG: Onboarding trace location bullet points -->
     <string name="trace_location_onboarding_body_consent6">Unter „Meine Check-ins“ können Sie einen Check-in jederzeit löschen. In diesem Fall werden Sie nur gewarnt, wenn Ihr Smartphone die Zufalls-IDs des positiv getesteten Nutzers empfangen und eine Risiko-Begegnung ermittelt hat.</string>
+
+    <!-- RAT Profile Onboarding -->
+    <!-- XHED: Title for RAT Profile onboarding consent card -->
+    <string name="rat_profile_onboarding_card_title" translatable="false">Datenschutz und Datensicherheit</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent1" translatable="false">Das Anlegen eines Schnelltest-Profils in der App und dessen Verwendung sind freiwillig.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent2" translatable="false">Die App wandelt die Daten, die Sie für Ihr Schnelltest-Profil eingeben, in Ihren persönlichen QR-Code um. Im QR-Code sind dann alle eingegebenen Daten enthalten.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent3" translatable="false">In der Teststelle können Sie den QR-Code Ihres Schnelltest-Profils scannen lassen, um der Teststelle Ihre Daten schnell und sicher bereitzustellen. Die Teststelle benötigt Ihre Daten zur Durchführung des Tests. Sie können die Daten aber auch ohne die App bereitstellen. Sie entscheiden selbst, welche Daten im QR-Code enthalten sind und welche Sie der Teststelle auf andere Weise mitteilen.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent4" translatable="false">Auf Ihr persönliches Schnelltest-Profil haben zunächst nur Sie Zugriff. Nur wenn Sie den QR-Code des Schnelltest-Profils anderen Personen zeigen, können diese Zugriff auf die persönlichen Daten Ihres Schnelltest-Profils erhalten. Ein Zugriff auf andere Daten aus der App erfolgt dabei nicht (z.B. Ihre Check-ins oder Angaben im Kontakt-Tagebuch).</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent5" translatable="false">Sie haben jederzeit die Möglichkeit, Ihr Schnelltest-Profil wieder zu entfernen. Bis dahin bleibt es in der App auf Ihrem Smartphone gespeichert.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent6" translatable="false">Der QR-Code enthält Ihre persönlichen Angaben. Stellen Sie Ihren persönlichen QR-Code niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen werden. Wir empfehlen Ihren persönlichen QR-Code nicht zu veröffentlichen und nicht per E-Mail zu versenden.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent7" translatable="false">Private Personen oder Unternehmen dürfen von Ihnen nicht verlangen, dass Sie Ihr Schnelltest-Profil vorzeigen.</string>
 </resources>
