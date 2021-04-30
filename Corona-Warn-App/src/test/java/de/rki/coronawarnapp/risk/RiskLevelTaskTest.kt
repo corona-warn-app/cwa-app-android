@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
@@ -55,7 +54,6 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
-    @MockK lateinit var autoCheckOut: AutoCheckOut
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
@@ -99,9 +97,6 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns emptyList()
 
         coEvery { riskLevelStorage.storeResult(any()) } just Runs
-
-        coEvery { autoCheckOut.processOverDueCheckouts() } returns emptyList()
-        coEvery { autoCheckOut.refreshAlarm() } returns true
     }
 
     private fun createTask() = RiskLevelTask(
@@ -116,7 +111,6 @@ class RiskLevelTaskTest : BaseTest() {
         keyCacheRepository = keyCacheRepository,
         coronaTestRepository = coronaTestRepository,
         analyticsExposureWindowCollector = analyticsExposureWindowCollector,
-        autoCheckOut = autoCheckOut
     )
 
     @Test
