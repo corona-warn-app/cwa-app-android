@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.coronatest
 
-import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
+import de.rki.coronawarnapp.coronatest.errors.DuplicateCoronaTestException
+import de.rki.coronawarnapp.coronatest.errors.UnknownTestTypeException
 import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -71,44 +72,23 @@ class CoronaTestRepository @Inject constructor(
 
     private fun getProcessor(type: CoronaTest.Type) = processors.single { it.type == type }
 
-    suspend fun registerTest(registrationRequest: TestRegistrationRequest): CoronaTest = when (registrationRequest) {
-        is CoronaTestQRCode -> registerTestByQRCode(registrationRequest)
-        is CoronaTestTAN -> registerTestByTAN(registrationRequest)
-        else -> throw IllegalArgumentException("Unknown test request: $registrationRequest")
-    }
+    suspend fun registerTest(request: TestRegistrationRequest): CoronaTest {
+        Timber.tag(TAG).i("registerTest(request=%s)", request)
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun registerTestByTAN(request: CoronaTestTAN): CoronaTest {
-        Timber.tag(TAG).i("registerTestByQRCode(request=%s)", request)
         // We check early, if there is no processor, crash early, "should" never happen though...
         val processor = getProcessor(request.type)
 
         val currentTests = internalData.updateBlocking {
             if (values.any { it.type == request.type }) {
-                throw IllegalStateException("There is already a test of this type: ${request.type}.")
+                throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
             }
 
-            val test = processor.create(request)
-            Timber.tag(TAG).i("Adding new test: %s", test)
-
-            toMutableMap().apply { this[test.identifier] = test }
-        }
-
-        return currentTests[request.identifier]!!
-    }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun registerTestByQRCode(request: CoronaTestQRCode): CoronaTest {
-        Timber.tag(TAG).i("registerTestByQRCode(request=%s)", request)
-        // We check early, if there is no processor, crash early, "should" never happen though...
-        val processor = getProcessor(request.type)
-
-        val currentTests = internalData.updateBlocking {
-            if (values.any { it.type == request.type }) {
-                throw IllegalStateException("There is already a test of this type: ${request.type}.")
+            val test = when (request) {
+                is CoronaTestQRCode -> processor.create(request)
+                is CoronaTestTAN -> processor.create(request)
+                else -> throw UnknownTestTypeException("Unknown test request: $request")
             }
 
-            val test = processor.create(request)
             Timber.tag(TAG).i("Adding new test: %s", test)
 
             toMutableMap().apply { this[test.identifier] = test }
