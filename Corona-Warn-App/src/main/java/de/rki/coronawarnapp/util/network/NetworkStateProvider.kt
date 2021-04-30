@@ -9,6 +9,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.net.ConnectivityManagerCompat
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.BuildVersionWrap
@@ -92,40 +93,43 @@ class NetworkStateProvider @Inject constructor(
         )
 
     private val currentState: State
-        @SuppressLint("NewApi")
-        get() = if (BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.M)) {
-            manager.activeNetwork.let { network ->
+        get() = when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> api23NetworkState()
+            else -> {
+                // Most state information is not available
                 State(
-                    activeNetwork = network,
-                    capabilities = network?.let {
-                        try {
-                            manager.getNetworkCapabilities(it)
-                        } catch (e: SecurityException) {
-                            Timber.tag(TAG).e(e, "Failed to determine network capabilities.")
-                            null
-                        }
-                    },
-                    linkProperties = network?.let {
-                        try {
-                            manager.getLinkProperties(it)
-                        } catch (e: Exception) {
-                            Timber.tag(TAG).e(e, "Failed to determine link properties.")
-                            null
-                        }
-                    },
-                    assumeMeteredConnection = testSettings.fakeMeteredConnection.value
+                    activeNetwork = null,
+                    capabilities = null,
+                    linkProperties = null,
+                    assumeMeteredConnection = testSettings.fakeMeteredConnection.value ||
+                        ConnectivityManagerCompat.isActiveNetworkMetered(manager)
                 )
             }
-        } else {
-            // Most state information is not available
-            State(
-                activeNetwork = null,
-                capabilities = null,
-                linkProperties = null,
-                assumeMeteredConnection = testSettings.fakeMeteredConnection.value ||
-                    ConnectivityManagerCompat.isActiveNetworkMetered(manager)
-            )
         }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun api23NetworkState() = manager.activeNetwork.let { network ->
+        State(
+            activeNetwork = network,
+            capabilities = network?.let {
+                try {
+                    manager.getNetworkCapabilities(it)
+                } catch (e: SecurityException) {
+                    Timber.tag(TAG).e(e, "Failed to determine network capabilities.")
+                    null
+                }
+            },
+            linkProperties = network?.let {
+                try {
+                    manager.getLinkProperties(it)
+                } catch (e: Exception) {
+                    Timber.tag(TAG).e(e, "Failed to determine link properties.")
+                    null
+                }
+            },
+            assumeMeteredConnection = testSettings.fakeMeteredConnection.value
+        )
+    }
 
     data class State(
         val activeNetwork: Network?,

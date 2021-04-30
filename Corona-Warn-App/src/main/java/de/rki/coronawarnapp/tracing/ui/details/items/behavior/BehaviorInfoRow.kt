@@ -65,10 +65,11 @@ class BehaviorInfoRow @JvmOverloads constructor(
     }
 
     fun setBackgroundTint(@ColorInt color: Int) {
-        if (BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.LOLLIPOP_MR1)) {
-            ViewCompat.setBackgroundTintList(iconBackground, ColorStateList.valueOf(color))
-        } else {
-            iconBackground.background.setColorFilter(color, PorterDuff.Mode.SRC_OVER)
+        when {
+            BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.LOLLIPOP_MR1) ->
+                ViewCompat.setBackgroundTintList(iconBackground, ColorStateList.valueOf(color))
+            else ->
+                iconBackground.background.setColorFilter(color, PorterDuff.Mode.SRC_OVER)
         }
     }
 

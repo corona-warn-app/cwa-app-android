@@ -76,16 +76,18 @@ object ConnectivityHelper {
      * @return current network status
      *
      */
-    @SuppressLint("NewApi")
     fun isNetworkEnabled(context: Context): Boolean {
         val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return if (BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.M)) {
-            val activeNetwork = manager.activeNetwork
-            val caps: NetworkCapabilities? = manager.getNetworkCapabilities(activeNetwork)
-            caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) ?: false
-        } else {
-            val activeNetworkInfo = manager.activeNetworkInfo
-            activeNetworkInfo != null && activeNetworkInfo.isConnected
+        return when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
+                val activeNetwork = manager.activeNetwork
+                val caps: NetworkCapabilities? = manager.getNetworkCapabilities(activeNetwork)
+                caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) ?: false
+            }
+            else -> {
+                val activeNetworkInfo = manager.activeNetworkInfo
+                activeNetworkInfo != null && activeNetworkInfo.isConnected
+            }
         }
     }
 

@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
+import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.di.AppContext
@@ -21,19 +23,13 @@ class PowerManagement @Inject constructor(
     private val powerManager by lazy { context.getSystemService<PowerManager>()!! }
 
     val isIgnoringBatteryOptimizations
-        @SuppressLint("NewApi")
-        get() = if (BuildVersionWrap.hasAPILevel(android.os.Build.VERSION_CODES.M)) {
+        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             powerManager.isIgnoringBatteryOptimizations(context.packageName)
         } else {
             true
         }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     val toBatteryOptimizationSettingsIntent =
         Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
-
-    val disableBatteryOptimizationsIntent =
-        Intent(
-            Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-            Uri.parse("package:${context.packageName}")
-        )
 }
