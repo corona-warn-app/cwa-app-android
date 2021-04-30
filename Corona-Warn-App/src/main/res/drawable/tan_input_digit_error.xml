@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        This asset is only used below Android 6. These Android versions
+        do not support the `android:height` and `android:width` attributes,
+        making tricks necessary.
+    -->
+
+
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="@dimen/submission_tan_input_digit_radius" />
