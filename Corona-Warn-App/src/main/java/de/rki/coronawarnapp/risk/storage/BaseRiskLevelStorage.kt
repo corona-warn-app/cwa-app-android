@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
@@ -89,8 +90,15 @@ abstract class BaseRiskLevelStorage constructor(
 
     private val ewRiskCalcResults: Flow<List<EwRiskCalcResult>> = allEwRiskLevelResults
         .map {
-            it.map {
-                it.toEwRiskCalcResult()
+            it.sortedByDescending {
+                it.calculatedAt
+            }.mapIndexed { index, result ->
+                if (index == 0)
+                    result.toEwRiskCalcResult(
+                        ewDayRiskStates.first().filter { it.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc()) }
+                    )
+                else
+                    result.toEwRiskCalcResult()
             }
         }
 
@@ -230,7 +238,10 @@ abstract class BaseRiskLevelStorage constructor(
             latestEwRiskLevelResults,
             latestPtRiskCalcResults
         ) { ewRiskLevelResults, ptRiskLevelResults ->
-            riskCombinator.combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
+            riskCombinator.combineEwPtRiskLevelResults(
+                ptRiskLevelResults,
+                ewRiskLevelResults.map { it.toEwRiskCalcResult() }
+            )
                 .sortedByDescending { it.calculatedAt }
                 .take(2)
         }
