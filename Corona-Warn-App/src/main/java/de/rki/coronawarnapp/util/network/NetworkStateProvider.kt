@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.network
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.LinkProperties
@@ -92,8 +93,9 @@ class NetworkStateProvider @Inject constructor(
         )
 
     private val currentState: State
+        @SuppressLint("NewApi")
         get() = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> api23NetworkState()
+            BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.M) -> api23NetworkState()
             else -> {
                 // Most state information is not available
                 State(
