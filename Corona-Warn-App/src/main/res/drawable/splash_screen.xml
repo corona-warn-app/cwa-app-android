@@ -4,4 +4,11 @@
     <!-- background with solid color -->
     <item android:drawable="@color/colorBackground" />
 
+    <!-- logo -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/ic_splash_logo_round" />
+    </item>
+
 </layer-list>
