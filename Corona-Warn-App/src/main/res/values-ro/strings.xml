@@ -1179,6 +1179,7 @@
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_no_consent_body_second_part">"Caracteristica de avertizare funcționează în câteva țări. Următoarele țări participă în prezent:"</string>
 
+
     <!-- Test result positive and no consent given -->
     <!-- XHED: Title for test result positive and no consent given-->
     <string name="submission_test_result_positive_no_consent_subtitle">"Să ne ajutăm împreună!"</string>
