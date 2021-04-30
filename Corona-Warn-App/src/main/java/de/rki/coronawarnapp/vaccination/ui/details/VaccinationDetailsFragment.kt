@@ -52,10 +52,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     subtitle.alpha = subtitleAlpha
                 }
                 setToolbarOverlay()
-                val background = if (it.isComplete)
+                val background = if (it.isComplete) {
                     R.drawable.vaccination_compelete_gradient
-                else
+                } else {
                     R.drawable.vaccination_incomplete
+                }
 
                 expandedImage.setImageResource(background)
             }
