@@ -1176,9 +1176,6 @@
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_no_consent_body_first_part">"Ze względu na pozytywny wynik testu na obecność koronawirusa możesz teraz ostrzegać innych za pośrednictwem aplikacji."</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_second_part">"Funkcja ostrzegania działa w kilku krajach. Obecnie są to następujące kraje:"</string>
-
 
     <!-- Test result positive and no consent given -->
     <!-- XHED: Title for test result positive and no consent given-->

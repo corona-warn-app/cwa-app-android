@@ -1176,9 +1176,6 @@
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_no_consent_body_first_part">"Тъй като тестът Ви за коронавирус е положителен, можете да предупредите останалите чрез приложението."</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_second_part">"Функцията за предупреждаване работи в няколко държави. Към момента това са:"</string>
-
 
     <!-- Test result positive and no consent given -->
     <!-- XHED: Title for test result positive and no consent given-->
