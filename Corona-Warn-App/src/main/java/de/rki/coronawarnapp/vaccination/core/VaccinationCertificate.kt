@@ -12,8 +12,8 @@ interface VaccinationCertificate {
 
     val vaccinatedAt: Instant
 
-    val vaccinationName: String
-    val vaccinationManufacturer: String
+    val vaccineName: String
+    val vaccineManufacturer: String
 
     val chargeId: String
 
