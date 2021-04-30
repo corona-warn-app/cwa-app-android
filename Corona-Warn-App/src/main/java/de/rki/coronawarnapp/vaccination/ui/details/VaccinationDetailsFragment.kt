@@ -31,7 +31,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
             factory.create(
-                certificateId = args.certificateId,
+                certificateId = args.vaccinationCertificateId,
             )
         }
     )

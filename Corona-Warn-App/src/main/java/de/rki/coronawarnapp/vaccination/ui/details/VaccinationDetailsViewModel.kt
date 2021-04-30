@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.map
 
 class VaccinationDetailsViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
-    @Assisted private val certificateId: String,
+    @Assisted private val vaccinationCertificateId: String,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel() {
 
@@ -23,18 +23,18 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     fun deleteVaccination() = launch {
-        vaccinationRepository.deleteVaccinationCertificate(certificateId)
+        vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
     }
 
     private fun findVaccinationDetails(vaccinatedPersons: Set<VaccinatedPerson>): VaccinationDetails {
         val vaccinatedPerson = vaccinatedPersons.find { vaccinatedPerson ->
             vaccinatedPerson
                 .vaccinationCertificates
-                .any { it.certificateId == certificateId }
+                .any { it.certificateId == vaccinationCertificateId }
         }
 
         return VaccinationDetails(
-            certificate = vaccinatedPerson?.vaccinationCertificates?.find { it.certificateId == certificateId },
+            certificate = vaccinatedPerson?.vaccinationCertificates?.find { it.certificateId == vaccinationCertificateId },
             isComplete = vaccinatedPerson?.vaccinationStatus == VaccinatedPerson.Status.COMPLETE
         )
     }

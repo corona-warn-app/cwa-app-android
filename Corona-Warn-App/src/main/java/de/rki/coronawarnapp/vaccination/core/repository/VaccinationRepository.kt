@@ -78,7 +78,7 @@ class VaccinationRepository @Inject constructor(
         throw NotImplementedError()
     }
 
-    suspend fun deleteVaccinationCertificate(certificateId: String) =
+    suspend fun deleteVaccinationCertificate(vaccinationCertificateId: String) =
         scope.launch {
             // TODO delete Vaccination
         }
