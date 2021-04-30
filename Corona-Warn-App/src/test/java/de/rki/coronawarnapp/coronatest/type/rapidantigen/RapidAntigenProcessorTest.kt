@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -144,6 +145,59 @@ class RapidAntigenProcessorTest : BaseTest() {
                 RAT_INVALID,
                 RAT_REDEEMED -> instance.pollServer(raTest).testResult shouldBe it
             }
+        }
+    }
+
+    @Test
+    fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runBlockingTest {
+        coEvery { submissionService.asyncRequestTestResult(any()) } answers { RAT_POSITIVE }
+
+        val instance = createInstance()
+
+        val raTest = RACoronaTest(
+            identifier = "identifier",
+            lastUpdatedAt = Instant.EPOCH,
+            registeredAt = nowUTC.minus(Duration.standardDays(22)),
+            registrationToken = "regtoken",
+            testResult = RAT_REDEEMED,
+            testedAt = Instant.EPOCH,
+        )
+
+        // Older than 21 days and already redeemed
+        instance.pollServer(raTest) shouldBe raTest
+
+        // Older than 21 days but not in final state, we take value from server
+        instance.pollServer(
+            raTest.copy(testResult = RAT_NEGATIVE)
+        ).testResult shouldBe RAT_POSITIVE
+    }
+
+    @Test
+    fun `http 400 errors map to REDEEMED (EXPIRED) state after 21 days`() = runBlockingTest {
+        val ourBadRequest = BadRequestException("Who?")
+        coEvery { submissionService.asyncRequestTestResult(any()) } throws ourBadRequest
+
+        val instance = createInstance()
+
+        val raTest = RACoronaTest(
+            identifier = "identifier",
+            lastUpdatedAt = Instant.EPOCH,
+            registeredAt = nowUTC,
+            registrationToken = "regtoken",
+            testResult = RAT_POSITIVE,
+            testedAt = Instant.EPOCH,
+        )
+
+        // Test is not older than 21 days, we want the error!
+        instance.pollServer(raTest).apply {
+            testResult shouldBe RAT_POSITIVE
+            lastError shouldBe ourBadRequest
+        }
+
+        // Test IS older than 21 days, we expected the error, and map it to REDEEMED (expired)
+        instance.pollServer(raTest.copy(registeredAt = nowUTC.minus(Duration.standardDays(22)))).apply {
+            testResult shouldBe RAT_REDEEMED
+            lastError shouldBe null
         }
     }
 }
