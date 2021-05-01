@@ -80,8 +80,10 @@ class CWASettings @Inject constructor(
         private const val PKEY_TRACING_DIALOG_SHOWN = "tracing.dialog.shown"
         private const val PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE = "interoperability.showed"
         private const val PKEY_DEVICE_TIME_FIRST_RELIABLE = "devicetime.correct.first"
-        private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME = "devicetime.laststatechange.timestamp"
-        private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE = "devicetime.laststatechange.state"
+        private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME =
+            "devicetime.laststatechange.timestamp"
+        private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE =
+            "devicetime.laststatechange.state"
         private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "notifications.risk.enabled"
         private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "notifications.test.enabled"
 
