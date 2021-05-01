@@ -1,11 +1,7 @@
 package de.rki.coronawarnapp.notification
 
 import android.annotation.TargetApi
-import android.app.AlarmManager
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.content.Context
 import android.content.Intent
@@ -87,7 +83,12 @@ class GeneralNotifications @Inject constructor(
         val pendingIntent = createPendingIntentToScheduleNotification(notificationId, testType)
         val manager =
             context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        manager.setInexactRepeating(AlarmManager.RTC, initialTime.millis, interval.millis, pendingIntent)
+        manager.setInexactRepeating(
+            AlarmManager.RTC,
+            initialTime.millis,
+            interval.millis,
+            pendingIntent
+        )
     }
 
     private fun createPendingIntentToScheduleNotification(
@@ -144,6 +145,7 @@ class GeneralNotifications @Inject constructor(
 
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal const val MAIN_CHANNEL_ID = "de.rki.coronawarnapp.notification.exposureNotificationChannelId"
+        internal const val MAIN_CHANNEL_ID =
+            "de.rki.coronawarnapp.notification.exposureNotificationChannelId"
     }
 }
