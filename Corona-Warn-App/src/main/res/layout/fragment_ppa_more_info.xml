@@ -3,19 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".datadonation.analytics.ui.PpaMoreInfoFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/header"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="@dimen/header">
 
             <include
                 android:id="@+id/button_back"
@@ -39,44 +37,35 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header"
-            app:layout_constraintVertical_bias="1.0">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/spacing_medium"
+            android:paddingHorizontal="@dimen/spacing_normal"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/onboarding_headline"
                     style="@style/headline4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="12dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/onboarding_ppa_more_info_headline"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_headline"
-                    app:layout_constraintEnd_toEndOf="@id/body_end"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:text="@string/onboarding_ppa_more_info_headline" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:id="@+id/legal_layout"
                     style="@style/cardTracing"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="45dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_headline">
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/legal_title"
@@ -86,686 +75,602 @@
                         android:layout_marginEnd="@dimen/spacing_small"
                         android:contentDescription="@string/ppa_onboarding_more_info_title"
                         android:focusable="true"
-                        android:text="@string/ppa_onboarding_more_info_title"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:text="@string/ppa_onboarding_more_info_title" />
 
                     <TextView
                         android:id="@+id/legal_body"
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="27dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:focusable="true"
-                        android:text="@string/ppa_onboarding_more_info_body"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/legal_title" />
+                        android:text="@string/ppa_onboarding_more_info_body" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/data_processing_title"
                     style="@style/subtitleBoldSixteen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="41dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginTop="@dimen/spacing_large"
                     android:contentDescription="@string/onboarding_ppa_more_info_data_processing_title"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_data_processing_title"
-                    app:layout_constraintEnd_toEndOf="@id/body_end"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/legal_layout" />
+                    android:text="@string/onboarding_ppa_more_info_data_processing_title" />
 
                 <TextView
                     android:id="@+id/data_processing_body"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:contentDescription="@string/onboarding_ppa_more_info_data_processing_body"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_data_processing_body"
-                    app:layout_constraintEnd_toEndOf="@id/body_end"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/data_processing_title" />
+                    android:text="@string/onboarding_ppa_more_info_data_processing_body" />
 
-                <TextView
-                    android:id="@+id/data_processing_point_1_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <TableLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="35dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_data_processing_point_1_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/data_processing_body" />
+                    android:layout_marginTop="@dimen/spacing_small">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/data_processing_point_1"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/data_processing_point_1_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
 
-                <TextView
-                    android:id="@+id/data_processing_point_2_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_data_processing_point_2_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/data_processing_point_1_text" />
+                        <ImageView
+                            android:id="@+id/data_processing_point_1"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/data_processing_point_2"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/data_processing_point_2_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <TextView
+                            android:id="@+id/data_processing_point_1_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_data_processing_point_1_text" />
+                    </TableRow>
 
-                <TextView
-                    android:id="@+id/data_processing_point_3_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_data_processing_point_3_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/data_processing_point_2_text" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+                        <ImageView
+                            android:id="@+id/data_processing_point_2"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/data_processing_point_3"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/data_processing_point_3_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <TextView
+                            android:id="@+id/data_processing_point_2_text"
+                            style="@style/subtitle"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_data_processing_point_2_text"
+                            android:layout_weight="1" />
 
-                <TextView
-                    android:id="@+id/data_processing_point_4_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_data_processing_point_4_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/data_processing_point_3_text" />
+                    </TableRow>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/data_processing_point_4"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/data_processing_point_4_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/data_processing_point_3"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/data_processing_point_3_text"
+                            style="@style/subtitle"
+                            android:layout_marginStart="13dp"
+                            android:layout_weight="1"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_data_processing_point_3_text" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/data_processing_point_4"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/data_processing_point_4_text"
+                            style="@style/subtitle"
+                            android:layout_marginStart="13dp"
+                            android:layout_weight="1"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_data_processing_point_4_text" />
+
+                    </TableRow>
+                </TableLayout>
 
                 <TextView
                     android:id="@+id/rki_data_title"
                     style="@style/subtitleBoldSixteen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="41dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginTop="@dimen/spacing_large"
                     android:contentDescription="@string/onboarding_ppa_more_info_rki_data_title"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_title"
-                    app:layout_constraintEnd_toEndOf="@id/body_end"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/data_processing_point_4_text" />
+                    android:text="@string/onboarding_ppa_more_info_rki_data_title" />
 
-                <TextView
-                    android:id="@+id/rki_data_point_1_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <TableLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="23dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_1_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_title" />
+                    android:layout_marginTop="@dimen/spacing_small">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_1"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_1_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
 
-                <TextView
-                    android:id="@+id/rki_data_point_2_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_2_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_1_text" />
+                        <ImageView
+                            android:id="@+id/rki_data_point_1"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_2"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_2_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <TextView
+                            android:id="@+id/rki_data_point_1_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_1_text" />
 
-                <TextView
-                    android:id="@+id/rki_data_point_3_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_3_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_2_text" />
+                    </TableRow>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_3"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_3_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
 
-                <TextView
-                    android:id="@+id/rki_data_point_4_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_4_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_3_text" />
+                        <ImageView
+                            android:id="@+id/rki_data_point_2"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_4"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_4_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <TextView
+                            android:id="@+id/rki_data_point_2_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_2_text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/rki_data_point_3"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/rki_data_point_3_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_3_text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/rki_data_point_4"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/rki_data_point_4_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_4_text" />
+
+                    </TableRow>
+                </TableLayout>
 
                 <TextView
                     android:id="@+id/rki_data_body_1"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="23dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:contentDescription="@string/onboarding_ppa_more_info_rki_data_body_1"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_body_1"
-                    app:layout_constraintEnd_toEndOf="@id/body_end"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_4_text" />
+                    android:text="@string/onboarding_ppa_more_info_rki_data_body_1" />
 
-                <TextView
-                    android:id="@+id/rki_data_point_5_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <TableLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="23dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_5_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_body_1" />
+                    android:layout_marginTop="@dimen/spacing_small">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_5"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_5_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
 
-                <TextView
-                    android:id="@+id/rki_data_point_6_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_6_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_5_text" />
+                        <ImageView
+                            android:id="@+id/rki_data_point_5"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_6"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_6_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <TextView
+                            android:id="@+id/rki_data_point_5_text"
+                            style="@style/subtitle"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_5_text" />
 
-                <TextView
-                    android:id="@+id/rki_data_point_7_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_7_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_6_text" />
+                    </TableRow>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_7"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_7_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
 
-                <TextView
-                    android:id="@+id/rki_data_point_8_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_8_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_7_text" />
+                        <ImageView
+                            android:id="@+id/rki_data_point_6"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_8"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_8_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <TextView
+                            android:id="@+id/rki_data_point_6_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_6_text" />
 
-                <TextView
-                    android:id="@+id/rki_data_point_9_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_9_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_8_text" />
+                    </TableRow>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_9"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_9_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/rki_data_point_7"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/rki_data_point_7_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_7_text" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/rki_data_point_8"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/rki_data_point_8_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_8_text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/rki_data_point_9"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/rki_data_point_9_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_9_text" />
+
+                    </TableRow>
+
+                </TableLayout>
 
                 <TextView
                     android:id="@+id/rki_data_body_2"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="23dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:contentDescription="@string/onboarding_ppa_more_info_rki_data_body_2"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_body_2"
-                    app:layout_constraintEnd_toEndOf="@id/body_end"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_9_text" />
+                    android:text="@string/onboarding_ppa_more_info_rki_data_body_2" />
 
-                <TextView
-                    android:id="@+id/rki_data_point_10_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <TableLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="23dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_10_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_body_2" />
+                    android:layout_marginTop="@dimen/spacing_small">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_10"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_10_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
 
-                <TextView
-                    android:id="@+id/rki_data_point_11_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_11_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_10_text" />
+                        <ImageView
+                            android:id="@+id/rki_data_point_10"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_11"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_11_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <TextView
+                            android:id="@+id/rki_data_point_10_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_10_text" />
 
-                <TextView
-                    android:id="@+id/rki_data_point_12_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_12_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_11_text" />
+                    </TableRow>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_12"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_12_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
 
-                <TextView
-                    android:id="@+id/rki_data_point_13_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_13_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_12_text" />
+                        <ImageView
+                            android:id="@+id/rki_data_point_11"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_13"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_13_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <TextView
+                            android:id="@+id/rki_data_point_11_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_11_text" />
 
-                <TextView
-                    android:id="@+id/rki_data_point_14_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_14_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_13_text" />
+                    </TableRow>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_14"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_14_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
 
-                <TextView
-                    android:id="@+id/rki_data_point_15_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_15_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_14_text" />
+                        <ImageView
+                            android:id="@+id/rki_data_point_12"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_15"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_15_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <TextView
+                            android:id="@+id/rki_data_point_12_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_12_text" />
 
-                <TextView
-                    android:id="@+id/rki_data_point_16_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_point_16_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_15_text" />
+                    </TableRow>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rki_data_point_16"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_16_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/rki_data_point_13"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/rki_data_point_13_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_13_text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/rki_data_point_14"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/rki_data_point_14_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_14_text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/rki_data_point_15"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/rki_data_point_15_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_15_text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/rki_data_point_16"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/rki_data_point_16_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_rki_data_point_16_text" />
+
+                    </TableRow>
+
+                </TableLayout>
 
                 <TextView
                     android:id="@+id/other_info_body"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="23dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:contentDescription="@string/onboarding_ppa_more_info_other_info_body"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_other_info_body"
-                    app:layout_constraintEnd_toEndOf="@id/body_end"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/rki_data_point_16_text" />
+                    android:text="@string/onboarding_ppa_more_info_other_info_body" />
 
-                <TextView
-                    android:id="@+id/other_info_point_1_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <TableLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="23dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_other_info_point_1_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/other_info_body" />
+                    android:layout_marginTop="@dimen/spacing_small">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/other_info_point_1"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/other_info_point_1_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
 
-                <TextView
-                    android:id="@+id/other_info_point_3_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_other_info_point_2_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/other_info_point_1_text" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/other_info_point_1"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/other_info_point_3"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/other_info_point_3_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <TextView
+                            android:id="@+id/other_info_point_1_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_other_info_point_1_text" />
+                    </TableRow>
 
-                <TextView
-                    android:id="@+id/other_info_point_4_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_other_info_point_3_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/other_info_point_3_text" />
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/other_info_point_4"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/other_info_point_4_text"
-                    app:srcCompat="@drawable/bullet_point" />
+                        <ImageView
+                            android:id="@+id/other_info_point_3"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/other_info_point_3_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_other_info_point_2_text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="@dimen/spacing_small">
+
+                        <ImageView
+                            android:id="@+id/other_info_point_4"
+                            android:layout_width="@dimen/bullet_point_size"
+                            android:layout_height="@dimen/bullet_point_size"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/bullet_point" />
+
+                        <TextView
+                            android:id="@+id/other_info_point_4_text"
+                            style="@style/subtitle"
+                            android:layout_weight="1"
+                            android:layout_marginStart="13dp"
+                            android:focusable="true"
+                            android:text="@string/onboarding_ppa_more_info_other_info_point_3_text" />
+
+                    </TableRow>
+
+                </TableLayout>
 
                 <TextView
                     android:id="@+id/much_privacy_body"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:contentDescription="@string/onboarding_ppa_more_info_much_privacy_body"
                     android:focusable="true"
-                    android:paddingBottom="51dp"
-                    android:text="@string/onboarding_ppa_more_info_much_privacy_body"
-                    app:layout_constraintEnd_toEndOf="@id/body_end"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/other_info_point_4_text" />
+                    android:text="@string/onboarding_ppa_more_info_much_privacy_body" />
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/body_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/body_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_end="@dimen/guideline_end" />
-
-                <include layout="@layout/merge_guidelines_card" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </ScrollView>
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

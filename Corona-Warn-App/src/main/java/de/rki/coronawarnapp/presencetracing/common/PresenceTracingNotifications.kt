@@ -12,8 +12,9 @@ import androidx.navigation.NavDeepLinkBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.ApiLevel
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.hasAPILevel
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,7 +27,6 @@ import javax.inject.Inject
 @Reusable
 class PresenceTracingNotifications @Inject constructor(
     @AppContext private val context: Context,
-    private val apiLevel: ApiLevel,
     private val notificationManagerCompat: NotificationManagerCompat,
 ) {
 
@@ -50,7 +50,7 @@ class PresenceTracingNotifications @Inject constructor(
 
     fun newBaseBuilder(): NotificationCompat.Builder {
         val common = NotificationCompat.Builder(context, channelId).apply {
-            setSmallIcon(R.drawable.ic_splash_logo)
+            setSmallIcon(R.drawable.ic_notification_icon_default_small)
             priority = NotificationCompat.PRIORITY_DEFAULT
 
             val pendingIntent = NavDeepLinkBuilder(context)
@@ -77,7 +77,7 @@ class PresenceTracingNotifications @Inject constructor(
     }
 
     fun sendNotification(notificationId: Int, notification: Notification) {
-        if (apiLevel.hasAPILevel(Build.VERSION_CODES.O) && !isNotificationChannelSetup) {
+        if (BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.O) && !isNotificationChannelSetup) {
             isNotificationChannelSetup = true
             setupChannel()
         }

@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -16,6 +20,7 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -31,6 +36,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var testType: CoronaTest.Type
     private lateinit var currentSymptoms: FlowPreference<Symptoms?>
 
     @BeforeEach
@@ -51,7 +57,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             dispatcherProvider = TestDispatcherProvider(),
             submissionRepository = submissionRepository,
             autoSubmission = autoSubmission,
-            analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+            analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+            testType = testType
         )
 
     @Test
@@ -110,5 +117,65 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             uploadStatus.value = false
             showUploadDialog.value shouldBe false
         }
+    }
+
+    @Test
+    fun `onNewUserActivity() should call analyticsKeySubmissionCollector for PCR tests`() {
+        testType = PCR
+
+        createViewModel().onNewUserActivity()
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET) }
+    }
+
+    @Test
+    fun `onNewUserActivity() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+        testType = RAPID_ANTIGEN
+
+        createViewModel().onNewUserActivity()
+
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET) }
+    }
+
+    @Test
+    fun `onCancelConfirmed() should call analyticsKeySubmissionCollector for PCR tests`() {
+        testType = PCR
+
+        createViewModel().onCancelConfirmed()
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel() }
+    }
+
+    @Test
+    fun `onCancelConfirmed() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+        testType = RAPID_ANTIGEN
+
+        createViewModel().onCancelConfirmed()
+
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel() }
+    }
+
+    @Test
+    fun `onDone() should call analyticsKeySubmissionCollector for PCR tests`() = runBlockingTest {
+        testType = PCR
+
+        createViewModel().apply {
+            onLastSevenDaysStart()
+            onDone()
+        }
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow() }
+    }
+
+    @Test
+    fun `onDone() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+        testType = RAPID_ANTIGEN
+
+        createViewModel().apply {
+            onLastSevenDaysStart()
+            onDone()
+        }
+
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow() }
     }
 }

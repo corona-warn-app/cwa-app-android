@@ -8,7 +8,8 @@ import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
 import de.rki.coronawarnapp.release.NewReleaseInfoFragmentModule
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule
-import de.rki.coronawarnapp.ui.eventregistration.EventRegistrationUIModule
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.RATProfileUIModule
+import de.rki.coronawarnapp.ui.presencetracing.PresenceTracingUIModule
 import de.rki.coronawarnapp.ui.information.InformationFragmentModule
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragmentModule
@@ -34,7 +35,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
         InformationFragmentModule::class,
         NewReleaseInfoFragmentModule::class,
         AnalyticsUIModule::class,
-        EventRegistrationUIModule::class,
+        PresenceTracingUIModule::class,
+        RATProfileUIModule::class,
     ]
 )
 abstract class MainActivityModule {

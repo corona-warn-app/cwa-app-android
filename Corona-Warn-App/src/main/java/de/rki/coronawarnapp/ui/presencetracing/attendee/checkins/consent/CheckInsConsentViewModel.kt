@@ -6,17 +6,19 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
-import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
@@ -25,10 +27,12 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val checkInRepository: CheckInRepository,
     private val submissionRepository: SubmissionRepository,
-    private val autoSubmission: AutoSubmission
+    private val autoSubmission: AutoSubmission,
+    @Assisted private val testType: CoronaTest.Type
 ) : CWAViewModel(dispatcherProvider) {
 
     private val selectedSetFlow = MutableStateFlow(initialSet())
+    private val coronaTest = submissionRepository.testForType(testType).filterNotNull()
 
     val checkIns: LiveData<List<CheckInsConsentItem>> = combine(
         checkInRepository.completedCheckIns,
@@ -56,7 +60,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
             consent = true,
         )
 
-        val event = if (submissionRepository.hasViewedTestResult.first()) {
+        val event = if (coronaTest.first().isViewed) {
             Timber.d("Navigate to SubmissionResultReadyFragment")
             CheckInsConsentNavigation.ToSubmissionResultReadyFragment
         } else {
@@ -72,7 +76,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
 
         Timber.d("Navigate to doNotShareCheckIns")
         autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
-        val event = if (submissionRepository.hasViewedTestResult.first()) {
+        val event = if (coronaTest.first().isViewed) {
             Timber.d("Navigate to SubmissionResultReadyFragment")
             CheckInsConsentNavigation.ToSubmissionResultReadyFragment
         } else {
@@ -83,7 +87,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     }
 
     fun onCloseClick() = launch {
-        val event = if (submissionRepository.hasViewedTestResult.first()) {
+        val event = if (coronaTest.first().isViewed) {
             Timber.d("openSkipDialog")
             CheckInsConsentNavigation.OpenSkipDialog
         } else {
@@ -156,6 +160,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<CheckInsConsentViewModel> {
         fun create(
             savedState: SavedStateHandle,
+            testType: CoronaTest.Type
         ): CheckInsConsentViewModel
     }
 

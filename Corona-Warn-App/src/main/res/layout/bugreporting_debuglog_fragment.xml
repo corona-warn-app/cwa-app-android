@@ -22,9 +22,8 @@
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="12dp"
         android:clipToPadding="false"
-        android:paddingBottom="8dp"
+        android:paddingBottom="@dimen/spacing_normal"
         app:layout_constraintBottom_toTopOf="@id/log_control_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +126,7 @@
                 android:layout_marginVertical="8dp"
                 android:layout_marginStart="16dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_debug_log_indicator_deactivated"
+                app:srcCompat="@drawable/ic_debug_log_indicator_deactivated"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -174,13 +173,13 @@
             tools:text="@string/debugging_debuglog_action_share_log" />
 
         <Button
-            android:id="@+id/toggle_store_log"
+            android:id="@+id/toggle_export_log"
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/debugging_debuglog_action_local_log_store"
-            tools:text="@string/debugging_debuglog_action_local_log_store" />
+            android:text="@string/debugging_debuglog_action_local_log_export"
+            tools:text="@string/debugging_debuglog_action_local_log_export" />
 
         <Button
             android:id="@+id/toggle_recording"

@@ -16,21 +16,33 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Meldowanie się za pomocą kodu QR w celu skutecznego śledzenia łańcuchów zakażeń"</item>
+        <item>"Rejestracja szybkich testów antygenowych"</item>
+        <item>"Przedstawienie dowodu"</item>
+        <item>"Infolinia techniczna już dostępna poza granicami Niemiec"</item>
+        <item>"Infolinia TAN już dostępna poza granicami Niemiec"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"CWA umożliwia teraz meldowanie obecności w wydarzeniach i miejscach. Organizatorzy wydarzeń i właściciele sklepów mogą wykorzystać tę aplikację do utworzenia kodu QR. Goście mogą zeskanować ten kod QR po przybyciu na miejsce, aby zarejestrować swoją obecność. Na życzenie aplikacja może również utworzyć wpis w dzienniku. Jeśli u osoby, która zameldowała swoją obecność w danym wydarzeniu lub miejscu, zostanie później zdiagnozowany koronawirus, inne osoby, które zameldowały się w tym samym czasie, otrzymają ostrzeżenie."</item>
+        <item>"Oprócz wyników testów PCR, w aplikacji można teraz wyświetlać również wyniki szybkich testów antygenowych i wykorzystywać je do ostrzegania innych."</item>
+        <item>"Jeśli chcesz, możesz użyć aplikacji, aby udowodnić swój osobisty status dotyczący zakażenia (na przykład negatywny wynik szybkiego testu). Pamiętaj jednak, że nie masz obowiązku korzystania z aplikacji w celu potwierdzenia swojego statusu dotyczącego zakażenia. Możesz również udowodnić swój status dotyczący zakażenia w inny sposób, zgodny z przepisami prawnymi obowiązującymi w Twoim miejscu zamieszkania."</item>
+        <item>"Z infolinią techniczną można się teraz połączyć również poza terytorium Niemiec, pod numerem +49 30 498 75401. W takim przypadku obowiązują opłaty pobierane przez operatora telefonicznego."</item>
+        <item>"Jeśli zdiagnozowano u Ciebie koronawirusa, możesz teraz poprosić o numer TAN poza terytorium Niemiec, dzwoniąc na numer +49 30 498 75402. W takim przypadku obowiązują opłaty pobierane przez operatora telefonicznego."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
+        <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
+        <item/>
         <item/>
     </string-array>
 

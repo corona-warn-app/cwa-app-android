@@ -3,22 +3,21 @@ package de.rki.coronawarnapp.ui.submission.testresult.pending
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
-import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
@@ -27,63 +26,64 @@ import timber.log.Timber
 
 class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val shareTestResultNotificationService: ShareTestResultNotificationService,
-    private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository,
+    @Assisted private val testType: CoronaTest.Type
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    init {
+        Timber.v("init() coronaTestType=%s", testType)
+    }
 
     val routeToScreen = SingleLiveEvent<NavDirections?>()
 
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
-    val consentGiven = submissionRepository.hasGivenConsentToSubmission.asLiveData()
+    val consentGiven = submissionRepository.testForType(type = testType).map {
+        it?.isAdvancedConsentGiven ?: false
+    }.asLiveData()
 
     private var wasRedeemedTokenErrorShown = false
     private val tokenErrorMutex = Mutex()
 
-    private val testResultFlow = combine(
-        submissionRepository.deviceUIStateFlow,
-        submissionRepository.testResultReceivedDateFlow
-    ) { deviceUiState, resultDate ->
-
-        tokenErrorMutex.withLock {
-            if (!wasRedeemedTokenErrorShown) {
-                deviceUiState.withSuccess {
-                    if (it == DeviceUIState.PAIRED_REDEEMED) {
+    private val testResultFlow = submissionRepository.testForType(type = testType)
+        .filterNotNull()
+        .map { test ->
+            tokenErrorMutex.withLock {
+                if (!wasRedeemedTokenErrorShown) {
+                    if (test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_REDEEMED) {
                         wasRedeemedTokenErrorShown = true
                         showRedeemedTokenWarning.postValue(Unit)
                     }
                 }
             }
+            TestResultUIState(coronaTest = test)
         }
 
-        TestResultUIState(
-            deviceUiState = deviceUiState,
-            testResultReceivedDate = resultDate
-        )
-    }
     val testState: LiveData<TestResultUIState> = testResultFlow
         .onEach { testResultUIState ->
-            testResultUIState.deviceUiState.withSuccess { deviceState ->
-                when (deviceState) {
-                    DeviceUIState.PAIRED_POSITIVE ->
-                        SubmissionTestResultPendingFragmentDirections
-                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment()
-                    DeviceUIState.PAIRED_NEGATIVE ->
-                        SubmissionTestResultPendingFragmentDirections
-                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment()
-                    DeviceUIState.PAIRED_REDEEMED,
-                    DeviceUIState.PAIRED_ERROR ->
-                        SubmissionTestResultPendingFragmentDirections
-                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment()
-                    else -> {
-                        Timber.w("Unknown success state: %s", deviceState)
-                        null
-                    }
-                }?.let { routeToScreen.postValue(it) }
-            }
+            when (val deviceState = testResultUIState.coronaTest.testResult) {
+                CoronaTestResult.PCR_POSITIVE, CoronaTestResult.RAT_POSITIVE ->
+                    SubmissionTestResultPendingFragmentDirections
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(testType)
+                CoronaTestResult.PCR_NEGATIVE ->
+                    SubmissionTestResultPendingFragmentDirections
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(testType)
+                CoronaTestResult.RAT_NEGATIVE ->
+                    SubmissionTestResultPendingFragmentDirections
+                        .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment()
+                CoronaTestResult.PCR_REDEEMED,
+                CoronaTestResult.PCR_INVALID,
+                CoronaTestResult.RAT_REDEEMED,
+                CoronaTestResult.RAT_INVALID ->
+                    SubmissionTestResultPendingFragmentDirections
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(testType)
+                else -> {
+                    Timber.w("Unknown success state: $deviceState")
+                    null
+                }
+            }?.let { routeToScreen.postValue(it) }
         }
-        .filter {
-            val isPositiveTest = it.deviceUiState is NetworkRequestWrapper.RequestSuccessful &&
-                it.deviceUiState.data == DeviceUIState.PAIRED_POSITIVE
+        .filter { testResultUIState ->
+            val isPositiveTest = testResultUIState.coronaTest.isPositive
             if (isPositiveTest) {
                 Timber.w("Filtering out positive test emission as we don't display this here.")
             }
@@ -91,44 +91,32 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         }
         .asLiveData(context = dispatcherProvider.Default)
 
-    val cwaWebExceptionLiveData = submissionRepository.deviceUIStateFlow
-        .filterIsInstance<NetworkRequestWrapper.RequestFailed<DeviceUIState, Throwable>>()
-        .map { it.error }
+    val cwaWebExceptionLiveData = submissionRepository.testForType(type = testType)
+        .filterNotNull()
+        .filter { it.lastError != null }
+        .map { it.lastError!! }
         .asLiveData()
 
-    fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
-        submissionRepository.deviceUIStateFlow
-            .first { request ->
-                request.withSuccess(false) {
-                    it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN
-                }
-            }
-            .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
-    }
-
-    fun deregisterTestFromDevice() {
+    fun deregisterTestFromDevice() = launch {
         Timber.d("deregisterTestFromDevice()")
-        launch {
-            submissionRepository.removeTestFromDevice()
-            routeToScreen.postValue(null)
-        }
+        submissionRepository.removeTestFromDevice(type = testType)
+        routeToScreen.postValue(null)
     }
 
-    fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
-        submissionRepository.refreshDeviceUIState(refreshTestResult)
+    fun refreshDeviceUIState() = launch {
+        Timber.v("refreshDeviceUIState()")
+        submissionRepository.refreshTest(type = testType)
     }
 
     fun onConsentClicked() {
         routeToScreen.postValue(
             SubmissionTestResultPendingFragmentDirections
-                .actionSubmissionResultFragmentToSubmissionYourConsentFragment()
+                .actionSubmissionResultFragmentToSubmissionYourConsentFragment(testType = testType)
         )
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultPendingViewModel>
-
-    companion object {
-        private const val TAG = "SubmissionTestResult:VM"
+    interface Factory : CWAViewModelFactory<SubmissionTestResultPendingViewModel> {
+        fun create(testType: CoronaTest.Type): SubmissionTestResultPendingViewModel
     }
 }

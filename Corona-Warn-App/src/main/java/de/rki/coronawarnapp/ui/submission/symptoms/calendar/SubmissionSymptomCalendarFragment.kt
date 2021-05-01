@@ -32,7 +32,7 @@ class SubmissionSymptomCalendarFragment :
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionSymptomCalendarViewModel.Factory
-            factory.create(navArgs.symptomIndication)
+            factory.create(navArgs.symptomIndication, navArgs.testType)
         }
     )
 

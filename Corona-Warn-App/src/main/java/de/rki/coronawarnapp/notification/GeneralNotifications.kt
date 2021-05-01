@@ -17,7 +17,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import dagger.Reusable
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TEST_TYPE
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
@@ -63,8 +65,8 @@ class GeneralNotifications @Inject constructor(
         notificationManager.createNotificationChannel(channel)
     }
 
-    fun cancelFutureNotifications(notificationId: Int) {
-        val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
+    fun cancelFutureNotifications(notificationId: Int, testType: CoronaTest.Type) {
+        val pendingIntent = createPendingIntentToScheduleNotification(notificationId, testType)
         val manager =
             context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pendingIntent)
@@ -77,11 +79,12 @@ class GeneralNotifications @Inject constructor(
     }
 
     fun scheduleRepeatingNotification(
+        testType: CoronaTest.Type,
         initialTime: Instant,
         interval: Duration,
         notificationId: NotificationId
     ) {
-        val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
+        val pendingIntent = createPendingIntentToScheduleNotification(notificationId, testType)
         val manager =
             context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.setInexactRepeating(AlarmManager.RTC, initialTime.millis, interval.millis, pendingIntent)
@@ -89,6 +92,7 @@ class GeneralNotifications @Inject constructor(
 
     private fun createPendingIntentToScheduleNotification(
         notificationId: NotificationId,
+        testType: CoronaTest.Type,
         flag: Int = FLAG_CANCEL_CURRENT
     ) =
         PendingIntent.getBroadcast(
@@ -96,13 +100,14 @@ class GeneralNotifications @Inject constructor(
             notificationId,
             Intent(context, NotificationReceiver::class.java).apply {
                 putExtra(NOTIFICATION_ID, notificationId)
+                putExtra(POSITIVE_RESULT_NOTIFICATION_TEST_TYPE, testType.raw)
             },
             flag
         )
 
     fun newBaseBuilder(): NotificationCompat.Builder {
         val common = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
-            setSmallIcon(R.drawable.ic_splash_logo)
+            setSmallIcon(R.drawable.ic_notification_icon_default_small)
             priority = NotificationCompat.PRIORITY_MAX
 
             val defaultIntent = PendingIntent.getActivity(

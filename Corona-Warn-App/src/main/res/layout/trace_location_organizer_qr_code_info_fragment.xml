@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:contentDescription="@string/tracelocation_organizer_category_title"
     android:background="@color/colorBackground"
-    tools:context=".ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragment">
+    tools:context=".ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_huge"
                 android:contentDescription="@string/trace_location_qr_info_content_description"
-                android:src="@drawable/ic_qr_info"
+                app:srcCompat="@drawable/ic_qr_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_qr_tracing_static"
+                app:srcCompat="@drawable/ic_qr_tracing_static"
                 app:layout_constraintStart_toStartOf="@id/trace_location_qr_info_subtitle"
                 app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_subtitle" />
 
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_qr_code_illustration"
+                app:srcCompat="@drawable/ic_qr_code_illustration"
                 app:layout_constraintStart_toStartOf="@id/trace_location_tracing_icon"
                 app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_tracing" />
 
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_qr_time"
+                app:srcCompat="@drawable/ic_qr_time"
                 app:layout_constraintTop_toBottomOf="@id/trace_location_qr_code_illustration_text"
                 app:layout_constraintStart_toStartOf="@id/trace_location_qr_code_icon" />
 
@@ -166,7 +166,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <android.widget.Button
+    <Button
         android:id="@+id/trace_location_qr_info_understand_button"
         style="@style/buttonPrimary"
         android:layout_width="0dp"

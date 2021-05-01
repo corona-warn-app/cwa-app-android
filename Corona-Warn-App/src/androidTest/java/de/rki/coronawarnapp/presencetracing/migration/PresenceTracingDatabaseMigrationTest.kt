@@ -5,9 +5,9 @@ import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
-import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
-import de.rki.coronawarnapp.eventregistration.storage.migration.PresenceTracingDatabaseMigration1To2
+import de.rki.coronawarnapp.presencetracing.storage.TraceLocationDatabase
+import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.presencetracing.storage.migration.PresenceTracingDatabaseMigration1To2
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -112,7 +112,7 @@ class PresenceTracingDatabaseMigrationTest : BaseTestInstrumentation() {
             isSubmitted = false,
             hasSubmissionConsent = false,
         )
-        runBlocking { daoDb.eventCheckInDao().allEntries().first() }.single() shouldBe checkin
+        runBlocking { daoDb.checkInDao().allEntries().first() }.single() shouldBe checkin
     }
 
     @Test

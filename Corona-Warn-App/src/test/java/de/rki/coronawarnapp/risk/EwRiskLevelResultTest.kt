@@ -3,12 +3,32 @@ package de.rki.coronawarnapp.risk
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
 import io.mockk.mockk
 import org.joda.time.Instant
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class EwRiskLevelResultTest : BaseTest() {
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+    }
+
+    @Test
+    fun testUnsuccessfulRiskLevels() {
+        createRiskLevel(
+            ewAggregatedRiskResult = null,
+            failureReason = EwRiskLevelResult.FailureReason.UNKNOWN
+        ).wasSuccessfullyCalculated shouldBe false
+
+        createRiskLevel(
+            ewAggregatedRiskResult = mockk(),
+            failureReason = null
+        ).wasSuccessfullyCalculated shouldBe true
+    }
 
     private fun createRiskLevel(
         ewAggregatedRiskResult: EwAggregatedRiskResult?,
@@ -19,19 +39,5 @@ class EwRiskLevelResultTest : BaseTest() {
         override val failureReason: EwRiskLevelResult.FailureReason? = failureReason
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
-        override val daysWithEncounters: Int = 0
-    }
-
-    @Test
-    fun testUnsuccessfulRistLevels() {
-        createRiskLevel(
-            ewAggregatedRiskResult = null,
-            failureReason = EwRiskLevelResult.FailureReason.UNKNOWN
-        ).wasSuccessfullyCalculated shouldBe false
-
-        createRiskLevel(
-            ewAggregatedRiskResult = mockk(),
-            failureReason = null
-        ).wasSuccessfullyCalculated shouldBe true
     }
 }

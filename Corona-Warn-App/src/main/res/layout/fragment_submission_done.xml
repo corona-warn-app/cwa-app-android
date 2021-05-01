@@ -11,15 +11,14 @@
         android:fillViewport="true"
         tools:context=".ui.submission.fragment.SubmissionDoneFragment">
 
-        <include
-            android:id="@+id/submission_done_header"
-            layout="@layout/include_header"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/submission_done_title" />
 
         <include
             android:id="@+id/submission_done_content"
@@ -29,7 +28,7 @@
             app:layout_constraintBottom_toBottomOf="@id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_done_header" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
         <Button
             android:id="@+id/submission_done_button_done"
@@ -41,7 +40,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/guideline_action" />
+            app:layout_constraintTop_toBottomOf="@id/guideline_action" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_action"

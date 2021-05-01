@@ -2,8 +2,9 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
@@ -21,13 +22,16 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
 
     private val binding: CheckInsConsentFragmentBinding by viewBindingLazy()
 
+    private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
+
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: CheckInsConsentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, savedState ->
             factory as CheckInsConsentViewModel.Factory
             factory.create(
-                savedState = savedState
+                savedState = savedState,
+                testType = navArgs.testType,
             )
         }
     )
@@ -65,11 +69,13 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
                     CheckInsConsentFragmentDirections.actionCheckInsConsentFragmentToMainFragment()
                 )
                 CheckInsConsentNavigation.ToSubmissionResultReadyFragment -> doNavigate(
-                    CheckInsConsentFragmentDirections.actionCheckInsConsentFragmentToSubmissionResultReadyFragment()
+                    CheckInsConsentFragmentDirections.actionCheckInsConsentFragmentToSubmissionResultReadyFragment(
+                        navArgs.testType
+                    )
                 )
                 CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment -> doNavigate(
                     CheckInsConsentFragmentDirections
-                        .actionCheckInsConsentFragmentToSubmissionTestResultConsentGivenFragment()
+                        .actionCheckInsConsentFragmentToSubmissionTestResultConsentGivenFragment(navArgs.testType)
                 )
             }
         }

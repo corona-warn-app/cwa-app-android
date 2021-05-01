@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -84,23 +85,34 @@ class DefaultTracingStatus @Inject constructor(
             .addOnFailureListener { cont.resumeWithException(it) }
     }
 
+    @Suppress("LoopWithTooManyJumpStatements")
     override val isTracingEnabled: Flow<Boolean> = flow {
         while (true) {
             try {
                 emit(isEnabled())
                 delay(POLLING_DELAY_MS)
             } catch (e: CancellationException) {
-                Timber.d("isBackgroundRestricted was cancelled")
+                Timber.tag(TAG).d("isBackgroundRestricted was cancelled")
                 break
+            } catch (e: ApiException) {
+                emit(false)
+                if (e.statusCode == 17) {
+                    // No ENS installed, no need to keep polling.
+                    Timber.tag(TAG).v("No ENS available, aborting polling, assuming permanent.")
+                    break
+                } else {
+                    Timber.tag(TAG).v("Polling failed, will retry with backoff.")
+                    delay(POLLING_DELAY_MS * 5)
+                }
             }
         }
     }
         .distinctUntilChanged()
-        .onStart { Timber.v("isTracingEnabled FLOW start") }
-        .onEach { Timber.v("isTracingEnabled FLOW emission: %b", it) }
-        .onCompletion { if (it == null) Timber.v("isTracingEnabled FLOW completed.") }
+        .onStart { Timber.tag(TAG).v("isTracingEnabled FLOW start") }
+        .onEach { Timber.tag(TAG).v("isTracingEnabled FLOW emission: %b", it) }
+        .onCompletion { if (it == null) Timber.tag(TAG).v("isTracingEnabled FLOW completed.") }
         .catch {
-            Timber.w(it, "ENF isEnabled failed.")
+            Timber.tag(TAG).w(it, "ENF isEnabled failed.")
             it.report(ExceptionCategory.EXPOSURENOTIFICATION, TAG, null)
             emit(false)
         }
@@ -109,10 +121,13 @@ class DefaultTracingStatus @Inject constructor(
             scope = scope
         )
 
-    private suspend fun isEnabled(): Boolean = suspendCoroutine { cont ->
-        client.isEnabled
-            .addOnSuccessListener { cont.resume(it) }
-            .addOnFailureListener { cont.resumeWithException(it) }
+    private suspend fun isEnabled(): Boolean = try {
+        client.isEnabled.await().also {
+            Timber.tag(TAG).v("Tracing isEnabled=$it")
+        }
+    } catch (e: Throwable) {
+        Timber.tag(TAG).w(e, "Failed to determine tracing status.")
+        throw e
     }
 
     companion object {

@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.ui.submission.yourconsent
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.Country
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -26,22 +26,30 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
+    @MockK lateinit var testType: CoronaTest.Type
 
     private val countryList = Country.values().toList()
+
+    private val coronaTestFlow = MutableStateFlow(
+        mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns true
+        }
+    )
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+        every { submissionRepository.testForType(any()) } returns coronaTestFlow
         every { interoperabilityRepository.countryList } returns MutableStateFlow(countryList)
-        every { submissionRepository.hasGivenConsentToSubmission } returns flowOf(true)
-        every { submissionRepository.giveConsentToSubmission() } just Runs
-        every { submissionRepository.revokeConsentToSubmission() } just Runs
+        every { submissionRepository.giveConsentToSubmission(any()) } just Runs
+        every { submissionRepository.revokeConsentToSubmission(any()) } just Runs
     }
 
     private fun createViewModel(): SubmissionYourConsentViewModel = SubmissionYourConsentViewModel(
         interoperabilityRepository = interoperabilityRepository,
         submissionRepository = submissionRepository,
-        dispatcherProvider = TestDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider(),
+        testType = testType
     )
 
     @Test
@@ -62,33 +70,38 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
 
     @Test
     fun `consent removed`() {
-        val viewModel = createViewModel()
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns true
+        }
 
-        coEvery { submissionRepository.hasGivenConsentToSubmission } returns flowOf(true)
-        viewModel.switchConsent()
-        verify(exactly = 1) { submissionRepository.revokeConsentToSubmission() }
+        createViewModel().switchConsent()
+        verify(exactly = 1) { submissionRepository.revokeConsentToSubmission(any()) }
     }
 
     @Test
     fun `consent given`() {
-        val viewModel = createViewModel()
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns false
+        }
 
-        coEvery { submissionRepository.hasGivenConsentToSubmission } returns flowOf(false)
-        viewModel.switchConsent()
-        verify(exactly = 1) { submissionRepository.giveConsentToSubmission() }
+        createViewModel().switchConsent()
+        verify(exactly = 1) { submissionRepository.giveConsentToSubmission(any()) }
     }
 
     @Test
     fun `consent repository changed`() {
-        val consentMutable = MutableStateFlow(false)
-        every { submissionRepository.hasGivenConsentToSubmission } returns consentMutable
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns false
+        }
 
         val viewModel = createViewModel()
 
         viewModel.consent.observeForever { }
         viewModel.consent.value shouldBe false
 
-        consentMutable.value = true
+        coronaTestFlow.value = mockk<CoronaTest>().apply {
+            every { isAdvancedConsentGiven } returns true
+        }
         viewModel.consent.value shouldBe true
     }
 

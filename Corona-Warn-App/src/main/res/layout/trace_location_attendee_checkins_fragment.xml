@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/trace_location_checkins_empty_illustration_accessibility"
-            android:src="@drawable/trace_location_my_check_ins_empty_illustration" />
+            app:srcCompat="@drawable/trace_location_my_check_ins_empty_illustration" />
 
         <TextView
             style="@style/subtitleMedium"

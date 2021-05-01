@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
-            app:layout_constraintEnd_toStartOf="@id/test_result_section_status_icon"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Ihr Befund"/>
@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_normal"
-            app:layout_constraintBottom_toTopOf="@id/test_result_section_registered_at_text"
             app:layout_constraintEnd_toStartOf="@id/test_result_section_status_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/test_result_section_headline"
@@ -40,11 +39,11 @@
             android:id="@+id/test_result_section_status_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/test_result_section_content"
             tools:src="@drawable/ic_test_result_illustration_negative" />
-
         <TextView
             android:id="@+id/test_result_section_registered_at_text"
             style="@style/body2"

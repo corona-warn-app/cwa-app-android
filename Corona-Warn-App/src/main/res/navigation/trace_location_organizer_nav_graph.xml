@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/traceLocationInfoFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.qrinfo.TraceLocationQRInfoFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment"
         android:label="TraceLocationQRInfoFragment"
         tools:layout="@layout/trace_location_organizer_qr_code_info_fragment">
 
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/traceLocationCategoryFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.category.TraceLocationCategoryFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.category.TraceLocationCategoryFragment"
         android:label="TraceLocationCategoryFragment"
         tools:layout="@layout/trace_location_organizer_category_fragment">
         <action
@@ -30,16 +30,16 @@
     </fragment>
     <fragment
         android:id="@+id/traceLocationCreateFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.create.TraceLocationCreateFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.create.TraceLocationCreateFragment"
         android:label="trace_location_create_fragment"
         tools:layout="@layout/trace_location_create_fragment">
         <argument
             android:name="category"
-            app:argType="de.rki.coronawarnapp.ui.eventregistration.organizer.category.adapter.category.TraceLocationCategory" />
+            app:argType="de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.TraceLocationCategory" />
         <argument
             android:name="originalItem"
             android:defaultValue="@null"
-            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation"
+            app:argType="de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation"
             app:nullable="true" />
         <action
             android:id="@+id/action_traceLocationCreateFragment_to_traceLocationOrganizerListFragment"
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/traceLocationsFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.list.TraceLocationsFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.list.TraceLocationsFragment"
         android:label="TraceLocationsFragment"
         tools:layout="@layout/trace_location_organizer_trace_locations_list_fragment">
         <action
@@ -73,7 +73,7 @@
     </fragment>
     <fragment
         android:id="@+id/qrCodeDetailFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.details.QrCodeDetailFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFragment"
         android:label="QrCodeDetailFragment"
         tools:layout="@layout/trace_location_organizer_qr_code_detail_fragment">
         <argument
@@ -89,7 +89,7 @@
 
     <fragment
         android:id="@+id/qrCodePosterFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.organizer.poster.QrCodePosterFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.poster.QrCodePosterFragment"
         android:label="qr_code_poster_fragment"
         tools:layout="@layout/qr_code_poster_fragment">
         <argument

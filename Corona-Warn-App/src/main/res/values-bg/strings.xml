@@ -249,7 +249,7 @@
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Смартфон, показващ различни блокове съдържание с номера от 1 до 3."</string>
     <!-- XACT: App main page title -->
-    <string name="main_title">"Главна страница на приложението Corona-Warn-App"</string>
+    <string name="main_title">"Главен екран на приложението Corona-Warn-App"</string>
 
     <!-- ####################################
                Risk Details
@@ -398,12 +398,16 @@
     <string name="onboarding_onboarding_accessibility_title">"Въведение - страница 1 от 6 Да се преборим с коронавируса заедно"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Да се преборим с коронавируса заедно"</string>
-    <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
-    <string name="onboarding_subtitle">"Повече защита за Вас и за всички нас. С помощта на приложението Corona-Warn-App можем да прекъснем веригите на заразяване много по-бързо."</string>
-    <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Превърнете смартфона си в предупредителна система за коронавирус. Прегледайте своя статус на риск и разберете дали през последните 14 дни сте имали близък контакт с лице, диагностицирано с коронавирус."</string>
-    <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"Приложението регистрира контакти на лица посредством обмяна на криптирани случайни ИД кодове между устройствата им, без да осъществява достъп до каквито и да било лични данни."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_1">"Повече защита за Вас и за всички нас. С помощта на приложението Corona-Warn-App можем да прекъснем веригите на заразяване много по-бързо."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_2">"Превърнете смартфона си в предупредителна система за коронавирус. Прегледайте своя статус на риск и разберете дали през последните 14 дни сте имали близък контакт с лице, диагностицирано с коронавирус."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_3">"Покажете резултатите си от теста (PCR тест или бърз антигенен тест) в приложението и предупредете останалите, ако Ви е поставена диагноза за коронавирусна инфекция."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_4">"Ако желаете, може да използвате приложението за доказване на личния ви статус на заразяване (например отрицателен бърз тест). Но имайте предвид, че по никакъв начин не сте задължени да използвате приложението за тази цел. Може да докажете статуса си и по друг начин, съобразен с правните разпоредби на вашето място на пребиваване."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_5">"Приложението регистрира контакти на лица посредством обмяна на криптирани случайни ИД кодове между устройствата им, без да осъществява достъп до каквито и да било лични данни."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Група лица използват смартфоните си, придвижвайки се из града."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -783,12 +787,20 @@
     <string name="information_contact_subtitle_phone">"Технически въпроси:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"0800 7540001"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
+    <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
+    <!-- XLNK: Description for national technical contact and hotline information page -->
+    <string name="information_contact_button_phone_description">"За обаждания на територията на Германия.\nОбаждането е безплатно."</string>
+    <!-- XLNK: Description for international technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone_description">"За обаждания извън територията на Германия.\nВажат тарифите на телефонния ви оператор."</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
     <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_phone">"Нашият екип за обслужване на клиенти е готов да Ви помогне."</string>
+    <string name="information_contact_body_phone">"Нашият екип за обслужване на клиенти е готов да Ви помогне на следните езици:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Езици: английски, немски, турски\nРаботно време:"<xliff:g id="line_break">"\n"</xliff:g>"понеделник до неделя: 7:00 - 22:00"<xliff:g id="line_break">"\n(с изключение на национални празници)"</xliff:g><xliff:g id="line_break">"\nОбаждането е безплатно."</xliff:g></string>
+    <string name="information_contact_body_open">"Английски, немски, турски\n\nРаботно време:\nот понеделник до неделя: 7:00 - 22:00\n(с изключение на национални празници)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Ако имате въпроси, свързани със здравето, се обадете на личния си лекар или на горещата линия на службата за медицинска помощ на телефон 116 117."</string>
     <!-- XACT: describes illustration -->
@@ -852,10 +864,10 @@
     <string name="debugging_debuglog_action_start_recording">"Начало"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Спиране и изтриване"</string>
-    <!-- XBUT: Button text to share the log recording -->
+    <!-- XBUT: Button text to send the log recording to the server -->
     <string name="debugging_debuglog_action_share_log">"Изпращане на отчет за грешки"</string>
-    <!-- XBUT: Button text to locally store the log recording -->
-    <string name="debugging_debuglog_action_local_log_store">"Локално запазване и продължаване"</string>
+    <!-- XBUT: Button text to export the log -->
+    <string name="debugging_debuglog_action_local_log_export">"Локално запазване и продължаване"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Записването е активно"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -882,12 +894,6 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Продължаване на анализа"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Необходими са поне 200 MB памет, за да се стартира анализа на грешките. Моля, освободете място."</string>
-    <!-- XHED: Dialog title if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_title">"Запазено локално"</string>
-    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_message">"Анализът на грешките е запазен локално."</string>
-    <!-- YTXT: Dialog message if local export has failed -->
-    <string name="debugging_debuglog_localexport_error_message">"Отчетът за грешките не беше запазен. Моля, проверете дали има достатъчно свободна памет."</string>
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Подробна информация относно изпращането на отчети за грешки"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -1013,11 +1019,11 @@
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Сега сканирайте QR кода от Вашия тест, за да получите резултата."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_test_only_once">"Можете да сканирате Вашия тест само веднъж. Приложението не може да обработва няколко теста едновременно."</string>
+    <string name="submission_consent_call_test_result_scan_test_only_once">"Можете да сканирате Вашия тест само веднъж. Приложението може да обработва едновременно само един бърз тест и един PCR тест."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Моля, помогнете на хората, с които сте имали контакт, като ги предупредите!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"Ако Ви е поставена диагноза „коронавирус“, можете да предупредите останалите с помощта на приложението. Функцията за предупреждаване работи в няколко държави. Към момента това са:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"Ако Ви е поставена диагноза „коронавирус“, можете да предупредите останалите с помощта на приложението. Ако сте направили бърз тест, функцията за предупреждаване ще работи само в Германия. Ако сте направили PCR тест, тя ще работи в следните държави:"</string>
     <!-- YTXT: Body for consent help by warning others - info about events -->
     <string name="submission_consent_help_by_warning_others_body_event">"Ще бъдат предупредени и хората, които са се регистрирали за същите събития или места по същото време."</string>
     <!-- YTXT: Page bottom text for consent screen -->
@@ -1131,19 +1137,19 @@
     <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
     <string name="submission_dispatcher_needs_testing_subheadline">"Правили ли сте си тест?"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
-    <string name="submission_dispatcher_already_positive_subheadline">"Положителен ли е Вашият резултат от теста за коронавирус?"</string>
+    <string name="submission_dispatcher_already_positive_subheadline">"Положителен ли е Вашият резултат от PCR теста?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Тест с QR код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Регистрирайте теста си, като сканирате QR кода на документа."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"Въведете ТАН код"</string>
+    <string name="submission_dispatcher_card_tan_code">"Въведете ТАН код за PCR тест"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"Имате TAN код? Въведете го тук, за да предупредите останалите."</string>
+    <string name="submission_dispatcher_tan_code_card_text">"Имате TAN код за вашия PCR тест? Въведете го тук, за да предупредите останалите."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"Все още нямате TAN код?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"Заявете ТАН код за PCR тест"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
-    <string name="submission_dispatcher_tan_tele_card_text">"Позвънете ни, за да получите TAN код."</string>
+    <string name="submission_dispatcher_tan_tele_card_text">"Позвънете ни, за да получите TAN код за PCR тест."</string>
     <!-- XACT: Dispatcher Tan page title -->
     <string name="submission_dispatcher_accessibility_title">"С каква информация разполагате?"</string>
 
@@ -1201,10 +1207,15 @@
     <string name="submission_done_body">"Благодарение на Вашата подкрепа други хора ще бъдат предупредени и ще могат да реагират адекватно."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Моля, не забравяйте:"</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_pcr_validation">"Направете PCR тест, за да потвърдите този резултат от тест."</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_share_keys">"Споделете своите случайни ИД кодове, за да предупредите останалите потребители."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"От службата за обществено здравеопазване (Gesundheitsamt) ще се свържат с Вас в следващите няколко дни."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Вие сте носител на заразата. Необходимо е да се самоизолирате."</string>
+
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Още информация:"</string>
     <!-- YTXT: submission done further info bullet points -->
@@ -1265,7 +1276,7 @@
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
-    <string name="submission_contact_title">"Заявка за ТАН код"</string>
+    <string name="submission_contact_title">"Заявете ТАН код за PCR тест"</string>
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"Как работи:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
@@ -1281,9 +1292,9 @@
     <!-- XLNK: Technical number which is called when the user clicks on the display number -->
     <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
-    <string name="submission_contact_step_2_body">"Регистрирайте теста си, като въведете ТАН кода в приложението."</string>
+    <string name="submission_contact_step_2_body">"Регистрирайте PCR теста си, като въведете ТАН кода в приложението."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Езици: \nанглийски, немски, турски\n\nРаботно време:\n24/7\n\nОбажданията са безплатни."</string>
+    <string name="submission_contact_operating_hours_body">"Нашият екип за обслужване на клиенти е готов да Ви помогне на следните езици: \nанглийски, немски, турски\n\nРаботно време:\n24/7"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"Ако имате въпроси, свързани със здравето, се обадете на личния си лекар или на горещата линия на службата за медицинска помощ на телефон 116 117."</string>
 
@@ -1366,30 +1377,12 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Споделете своите случайни ИД кодове, за да предупредите останалите потребители."</string>
 
-    <!-- Reenable risk card -->
-    <!-- XHED: Card title for re-enable risk card -->
-    <string name="reenable_risk_card_title">"Проверката за излагане на риск е спряна"</string>
-    <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Дата на регистриране на теста: %s"</string>
-    <!-- YTXT: Description text for re-enable risk card -->
-    <string name="reenable_risk_card_description_text">"Автоматичната проверка за излагане на риск е спряна, защото Ви е била поставена диагноза „коронавирус“ и понастоящем сте в изолация. Можете да активирате проверката отново по всяко време, като в този случай регистрираният от Вас тест ще бъде изтрит автоматично."</string>
-    <!-- XBUT: Button for re-enabling risk calculation -->
-    <string name="reenable_risk_card_button_text">"Включване на проверката за излагане на риск "</string>
-    <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Активиране на проверката за излагане на риск"</string>
-    <!-- YTXT: Dialog text for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_message">"Текущия Ви тест ще бъде изтрит от приложението. Ако желаете, може да регистрирате нов тест."</string>
-    <!-- XBUT: Positive button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_positive">"Активиране"</string>
-    <!-- XBUT: Negative button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_negative">"Отказ"</string>
-
     <!-- Test Result Card -->
-    <string name="test_result_card_headline">"Вашата диагноза:"</string>
+    <string name="test_result_card_headline">"Вашата диагноза %s:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->
-    <string name="test_result_card_registered_at_text">"Регистрирано на %s"</string>
+    <string name="test_result_card_registered_at_text">"Тестът е добавен на %s"</string>
     <!-- YTXT: negative status text -->
     <string name="test_result_card_status_negative">"Отрицателен"</string>
     <!-- YTXT: positive status text -->

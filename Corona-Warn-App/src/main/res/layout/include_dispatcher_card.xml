@@ -50,7 +50,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_forward"
+            app:srcCompat="@drawable/ic_forward"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/colorTextPrimary1" />

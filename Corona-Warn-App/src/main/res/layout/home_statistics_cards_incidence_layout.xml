@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:importantForAccessibility="no"
             android:contentDescription="@null"
-            android:src="@drawable/ic_statistics_incidence"
+            app:srcCompat="@drawable/ic_statistics_incidence"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/spacing_small"
             app:layout_constraintEnd_toEndOf="parent"

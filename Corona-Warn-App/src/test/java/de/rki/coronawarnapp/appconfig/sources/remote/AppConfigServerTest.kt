@@ -229,6 +229,35 @@ class AppConfigServerTest : BaseIOTest() {
         )
     }
 
+    @Test
+    fun `cache control with max-age=0 defaults to 300 seconds`() = runBlockingTest {
+        coEvery { api.getApplicationConfiguration() } returns Response.success(
+            APPCONFIG_BUNDLE.toResponseBody(),
+            Headers.headersOf(
+                "Date",
+                "Tue, 03 Nov 2020 08:46:03 GMT",
+                "ETag",
+                "I am an ETag :)!",
+                "Cache-Control",
+                "max-age=0, no-cache, no-store"
+            )
+        )
+
+        val downloadServer = createInstance()
+
+        val configDownload = downloadServer.downloadAppConfig()
+        configDownload shouldBe InternalConfigData(
+            rawData = APPCONFIG_RAW,
+            serverTime = Instant.parse("2020-11-03T08:46:03.000Z"),
+            localOffset = Duration(
+                Instant.parse("2020-11-03T08:46:03.000Z"),
+                Instant.ofEpochMilli(123456789)
+            ),
+            etag = "I am an ETag :)!",
+            cacheValidity = Duration.standardSeconds(300)
+        )
+    }
+
     companion object {
         private val APPCONFIG_BUNDLE =
             (

@@ -58,7 +58,6 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
                     DialogHelper.showDialog(deleteLocationConfirmationDialog)
                 }
                 locationSaveButton.setOnClickListener {
-                    it.hideKeyboard()
                     viewModel.updateLocation(
                         location,
                         phoneNumber = binding.locationPhoneInput.text.toString(),
@@ -71,7 +70,6 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
             binding.apply {
                 locationDeleteButton.visibility = View.GONE
                 locationSaveButton.setOnClickListener {
-                    it.hideKeyboard()
                     viewModel.addLocation(
                         phoneNumber = binding.locationPhoneInput.text.toString(),
                         emailAddress = binding.locationEmailInput.text.toString()
@@ -84,7 +82,6 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
             locationNameInputEdit.focusAndShowKeyboard()
 
             locationCloseButton.setOnClickListener {
-                it.hideKeyboard()
                 viewModel.closePressed()
             }
             locationNameInputEdit.doAfterTextChanged {
@@ -105,6 +102,7 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
         }
 
         viewModel.shouldClose.observe2(this) {
+            binding.root.hideKeyboard()
             popBackStack()
         }
 

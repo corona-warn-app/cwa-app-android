@@ -16,21 +16,33 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Enfeksiyon zincirlerini etkili bir biçimde takip etmek için QR kod ile check in"</item>
+        <item>"Hızlı Antijen Testlerinin Kaydı"</item>
+        <item>"Kanıtın Görüntülenmesi"</item>
+        <item>"Teknik Yardım Hattına Artık Almanya Dışından Ulaşılabilir"</item>
+        <item>"TAN Yardım Hattına Artık Almanya Dışından Ulaşılabilir"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"CWA artık etkinliklere ve yerlere check in yapabilmenizi sağlar. Etkinlik organizatörleri ve mağaza sahipleri uygulamayı kullanarak bir QR kod oluşturabilir. Ardından konuklar geldiklerinde bu QR kodu tarayarak katılımlarını kayıt altına alabilir. Uygulama, talep üzerine günce girişi oluşturma seçeneği de sunmaktadır. Bu etkinliğe ya da yere check in yapan bir kişi daha sonra koronavirüs tanısı alırsa aynı anda check in yapmış diğer kişilere uyarı gönderilebilir."</item>
+        <item>"PCR testlerinin sonuçlarına ek olarak artık hızlı antijen testlerinin sonuçlarını da uygulamada görüntüleyebilir ve bu sonuçları kullanarak diğer kullanıcıları uyarabilirsiniz."</item>
+        <item>"Dilerseniz uygulamayı kişisel enfeksiyon durumunuzu (örneğin, negatif sonuç veren bir hızlı test) kanıtlamak için kullanabilirsiniz. Ancak lütfen unutmayın; enfeksiyon durumunuzu kanıtlamak için uygulamayı kullanmak zorunda değilsiniz. Enfeksiyon durumunuzu, ikamet ettiğiniz bölgede geçerli olan yasal düzenlemeler uyarınca başka bir şekilde de kanıtlayabilirsiniz."</item>
+        <item>"Teknik yardım hattına artık +49 30 498 75401 numaralı hattı arayarak Almanya dışından da ulaşabilirsiniz. Telefon sağlayıcınız tarafından uygulanan ücretler geçerlidir."</item>
+        <item>"Koronavirüs tanısı aldıysanız artık +49 30 498 75402 numaralı hattı arayarak Almanya dışından TAN talebinde bulunabilirsiniz. Telefon sağlayıcınız tarafından uygulanan ücretler geçerlidir."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
+        <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
+        <item/>
         <item/>
     </string-array>
 

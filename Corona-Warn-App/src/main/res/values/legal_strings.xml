@@ -18,15 +18,17 @@
     <!-- YTXT: Body for consent sub section your consent subtext -->
     <string name="submission_consent_your_consent_subsection_tapping_agree" translatable="false">"By tapping on “Accept”, you consent to the following steps:"</string>
     <!-- YTXT: Body for consent sub section your consent subtext first point  -->
-    <string name="submission_consent_your_consent_subsection_first_point" translatable="false">"<b>The app will retrieve your test result.</b> If you change your mind later, you can delete the test in the app."</string>
+    <string name="submission_consent_your_consent_subsection_first_point" translatable="false">"<b>"The app will retrieve your test result.</b> If you change your mind later, you can delete the test in the app."</string>
     <!-- YTXT: Body for consent sub section your consent subtext second point  -->
-    <string name="submission_consent_your_consent_subsection_second_point" translatable="false">"<b>If you have tested positive for coronavirus, the app will share your test result in order to warn other users whom you have encountered. This applies to users of coronavirus apps from the above countries and users who were simultaneously checked in at the same event or place as you.\n\nIf you provide additional information about the onset of your symptoms, this will also be shared.</b>"</string>
+    <string name="submission_consent_your_consent_subsection_second_point" translatable="false">"<b>If you have tested positive for coronavirus, the app will share your test result in order to warn other users whom you have encountered. This applies to users of coronavirus apps from the above countries and users who were simultaneously checked in at the same event or place as you. In the case of rapid tests, only users of the Corona-Warn-App will be warned.</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
-    <string name="submission_consent_your_consent_subsection_third_point" translatable="false">"You can withdraw your consent at any time. The setting for this can be found under “Display Test”. Before sharing your test result, you will be reminded of your consent."</string>
+    <string name="submission_consent_your_consent_subsection_third_point" translatable="false">"<b>"If you provide additional information about the onset of your symptoms, this will also be shared."</b>"</string>
+    <!-- YTXT: Body for consent sub section your consent subtext fourth point  -->
+    <string name="submission_consent_your_consent_subsection_fourth_point" translatable="false">"You can withdraw your consent at any time. The setting for this can be found under "Display Test". Before sharing your test result, you will be reminded of your consent."</string>
     <!-- YTXT: Body for your consent screen agreement share test results -->
-    <string name="submission_your_consent_agreement_share_test_results" translatable="false">"<b>If you have tested positive for coronavirus, the app will share your test result in order to warn other users whom you have encountered.</b>\n\n<b>The warning will reach users of the official coronavirus apps of the following participating countries:</b>"</string>
+    <string name="submission_your_consent_agreement_share_test_results" translatable="false">"<b>"If you have tested positive for coronavirus, the app will share your test result in order to warn other users whom you have encountered.</b>\n\n<b>This warning only affects users who were simultaneously checked in at the same event or place as you and users of coronavirus apps in the following countries:</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms -->
-    <string name="submission_your_consent_agreement_share_symptoms" translatable="false">"<b>If you provide additional information about the onset of your symptoms, this will also be shared.</b>\n\nYou can withdraw your consent by disabling “Warn Others” above."</string>
+    <string name="submission_your_consent_agreement_share_symptoms" translatable="false">"<b>In the case of rapid tests, only users of the Corona-Warn-App will be warned. If you provide additional information about the onset of symptoms, this will be also shared.</b>\n\nYou can withdraw your consent by disabling “Warn Others” above."</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms with additional hint for test result-->
     <string name="submission_your_consent_agreement_share_symptoms_2" translatable="false"><b>If you provide additional information about the onset of your symptoms, this will also be shared.</b>\n\nYou can withdraw your consent by disabling “Warn others” above. Your test result will then be shown to you.</string>
     <!-- YTXT: Body for keys submission no consent text first part-->
@@ -103,7 +105,7 @@
     <!-- XHED: Title for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_title" translatable="false">"Your consent"</string>
     <!-- YTXT: First body section for Bugreporting share log Privacy Card -->
-    <string name="debugging_debuglog_share_privacy_card_body_1" translatable="false">"By tapping on “Accept and Send”, you consent to the following steps:"</string>
+    <string name="debugging_debuglog_share_privacy_card_body_1" translatable="false">"By tapping on “Agree and Send”, you consent to the following steps:"</string>
     <!-- YTXT: First bullet point for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_bullet_point_1" translatable="false">"The error report you create will be sent to the RKI for error analysis purposes. The RKI will analyse the error report in order to be able to identify and fix possible causes of the errors that occur in your app. If you provide the error report ID to the technical support team, then the RKI will be able to associate the error report with you personally."</string>
     <!-- YTXT: Second bullet point for Bugreporting share log Privacy Card -->

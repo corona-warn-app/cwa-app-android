@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
+import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -21,7 +22,6 @@ import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -35,7 +35,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     installTimeProvider: InstallTimeProvider,
     private val backgroundStatus: BackgroundModeStatus,
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
-    private val backgroundWorkScheduler: BackgroundWorkScheduler
+    private val exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val loggingPeriod: LiveData<PeriodLoggedBox.Item> =
@@ -65,6 +65,8 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
         }
     }
 
+    val ensErrorEvents = SingleLiveEvent<Throwable>()
+
     private val tracingPermissionHelper =
         tracingPermissionHelperFactory.create(
             object : TracingPermissionHelper.Callback {
@@ -76,7 +78,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
                             if (!backgroundStatus.isIgnoringBatteryOptimizations.first()) {
                                 events.postValue(Event.ManualCheckingDialog)
                             }
-                            backgroundWorkScheduler.startWorkScheduler()
+                            exposureWindowRiskWorkScheduler.setPeriodicRiskCalculation(enabled = true)
                         }
                         isTracingSwitchChecked.postValue(isTracingEnabled)
                     }
@@ -96,7 +98,8 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
                 }
 
                 override fun onError(error: Throwable) {
-                    Timber.w(error, "Failed to start tracing")
+                    Timber.w(error, "Failed to start tracing from settings screen.")
+                    ensErrorEvents.postValue(error)
                 }
             }
         )
@@ -110,7 +113,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
                 launch {
                     if (InternalExposureNotificationClient.asyncIsEnabled()) {
                         InternalExposureNotificationClient.asyncStop()
-                        backgroundWorkScheduler.stopWorkScheduler()
+                        exposureWindowRiskWorkScheduler.setPeriodicRiskCalculation(enabled = false)
                     }
                 }
             }

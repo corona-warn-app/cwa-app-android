@@ -16,19 +16,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.base.startActivitySafely
-import de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsFragment
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
+import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -36,7 +37,6 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShort
 import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
@@ -46,7 +46,6 @@ import javax.inject.Inject
  * connectivity and bluetooth to update the ui.
  *
  * @see ConnectivityHelper
- * @see BackgroundWorkScheduler
  */
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
@@ -76,11 +75,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private val navController by lazy { supportFragmentManager.findNavController(R.id.nav_host_fragment) }
 
     @Inject lateinit var powerManagement: PowerManagement
-    @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
-    @Inject lateinit var submissionSettings: SubmissionSettings
-    @Inject lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -118,7 +114,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 if (count > 0) {
                     val badge = getOrCreateBadge(targetId)
                     badge.number = count
-                    badge.badgeTextColor = getColor(android.R.color.white)
+                    badge.badgeTextColor = getColorCompat(android.R.color.white)
                 } else {
                     removeBadge(targetId)
                 }
@@ -181,9 +177,14 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun navigateByIntentUri(intent: Intent?) {
-        val uri = intent?.data ?: return
-        Timber.i("Uri:$uri")
-        navController.navigate(CheckInsFragment.createCheckInUri(uri.toString()))
+        val uriString = intent?.data?.toString() ?: return
+        Timber.i("Uri:$uriString")
+        when {
+            CheckInsFragment.canHandle(uriString) ->
+                navController.navigate(CheckInsFragment.createDeepLink(uriString))
+            SubmissionConsentFragment.canHandle(uriString) ->
+                navController.navigate(NavGraphDirections.actionSubmissionConsentFragment(uriString))
+        }
     }
 
     /**
@@ -191,13 +192,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      */
     override fun onResume() {
         super.onResume()
-        backgroundWorkScheduler.startWorkScheduler()
         vm.doBackgroundNoiseCheck()
         contactDiaryWorkScheduler.schedulePeriodic()
         dataDonationAnalyticsScheduler.schedulePeriodic()
-        if (!submissionSettings.isAllowedToSubmitKeys) {
-            deadmanScheduler.schedulePeriodic()
-        }
     }
 
     private fun showEnergyOptimizedEnabledForBackground() {

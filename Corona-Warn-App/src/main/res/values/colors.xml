@@ -24,6 +24,7 @@
     <color name="colorTextPrimary1Inverted">#FFFFFF</color>
     <color name="colorTextPrimary1Stable">#17191A</color>
     <color name="colorTextPrimary1InvertedStable">#FFFFFF</color>
+    <color name="colorTextPrimary1InvertedStableTransparent">#80FFFFFF</color>
     <color name="colorTextPrimary2">#9917191A</color>
     <color name="colorTextPrimary3">#4D17191A</color>
     <color name="colorTextEmphasizedButton">#FFFFFF</color>
@@ -103,4 +104,6 @@
 
     <!-- Swipe to delete background color -->
     <color name="swipeDeleteBackgroundColor">#EB4D3D</color>
+
+    <color name="whiteAlpha60">#99FFFFFF</color>
 </resources>

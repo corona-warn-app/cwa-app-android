@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.eventregistration.TraceLocationSettings
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
 import de.rki.coronawarnapp.playbook.BackgroundNoise
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
 import de.rki.coronawarnapp.util.CWADebug
@@ -22,6 +24,7 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class MainActivityViewModelTest : BaseTest() {
@@ -33,6 +36,8 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var deadManScheduler: DeadmanNotificationScheduler
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     @BeforeEach
     fun setup() {
@@ -42,7 +47,9 @@ class MainActivityViewModelTest : BaseTest() {
 
         every { onboardingSettings.isOnboarded } returns true
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
-        every { traceLocationSettings.onboardingStatus } returns TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
+        every { traceLocationSettings.onboardingStatus } returns mockFlowPreference(
+            TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
+        )
         every { onboardingSettings.isBackgroundCheckDone } returns true
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
     }
@@ -55,7 +62,9 @@ class MainActivityViewModelTest : BaseTest() {
         backgroundNoise = backgroundNoise,
         onboardingSettings = onboardingSettings,
         checkInRepository = checkInRepository,
-        traceLocationSettings = traceLocationSettings
+        traceLocationSettings = traceLocationSettings,
+        deadmanScheduler = deadManScheduler,
+        coronaTestRepository = coronaTestRepository,
     )
 
     @Test

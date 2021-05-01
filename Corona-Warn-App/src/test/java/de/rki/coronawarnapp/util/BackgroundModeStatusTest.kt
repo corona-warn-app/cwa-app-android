@@ -27,7 +27,6 @@ class BackgroundModeStatusTest : BaseTest() {
     @MockK lateinit var activityManager: ActivityManager
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var powerManagement: PowerManagement
-    @MockK lateinit var apiLevel: ApiLevel
 
     @BeforeEach
     fun setup() {
@@ -35,7 +34,8 @@ class BackgroundModeStatusTest : BaseTest() {
 
         mockkObject(BuildConfigWrap)
 
-        every { apiLevel.hasAPILevel(any()) } returns true
+        mockkObject(BuildVersionWrap)
+        every { BuildVersionWrap.SDK_INT } returns 42
 
         every { foregroundState.isInForeground } returns flowOf(true)
     }
@@ -44,8 +44,7 @@ class BackgroundModeStatusTest : BaseTest() {
         activityManager = activityManager,
         appScope = scope,
         foregroundState = foregroundState,
-        powerManagement = powerManagement,
-        apiLevel = apiLevel
+        powerManagement = powerManagement
     )
 
     @Test
@@ -153,7 +152,7 @@ class BackgroundModeStatusTest : BaseTest() {
 
         createInstance(scope = this).isBackgroundRestricted.first() shouldBe true
 
-        every { apiLevel.hasAPILevel(any()) } returns false
+        every { BuildVersionWrap.SDK_INT } returns 16
 
         createInstance(scope = this).isBackgroundRestricted.first() shouldBe false
     }

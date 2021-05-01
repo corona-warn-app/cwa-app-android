@@ -21,12 +21,16 @@ data class PtRiskLevelResult(
         riskState != RiskState.CALCULATION_FAILED
     }
 
-    val numberOfDaysWithHighRisk: Int by lazy {
-        presenceTracingDayRisk?.count { it.riskState == RiskState.INCREASED_RISK } ?: 0
+    val daysWithHighRisk: List<LocalDate> by lazy {
+        presenceTracingDayRisk?.filter {
+            it.riskState == RiskState.INCREASED_RISK
+        }?.map { it.localDateUtc } ?: emptyList()
     }
 
-    val numberOfDaysWithLowRisk: Int by lazy {
-        presenceTracingDayRisk?.count { it.riskState == RiskState.LOW_RISK } ?: 0
+    val daysWithLowRisk: List<LocalDate> by lazy {
+        presenceTracingDayRisk?.filter {
+            it.riskState == RiskState.LOW_RISK
+        }?.map { it.localDateUtc } ?: emptyList()
     }
 
     val mostRecentDateWithHighRisk: LocalDate? by lazy {

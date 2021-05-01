@@ -249,7 +249,7 @@
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Bir akıllı telefon, 1 ila 3 olarak numaralandırılmış farklı içerikleri gösterir."</string>
     <!-- XACT: App main page title -->
-    <string name="main_title">"Corona-Warn-App Ana sayfası"</string>
+    <string name="main_title">"Corona-Warn-App Ana ekranı"</string>
 
     <!-- ####################################
                Risk Details
@@ -398,12 +398,16 @@
     <string name="onboarding_onboarding_accessibility_title">"Etkinleştirme sayfası 1/6: Koronavirüs ile birlikte mücadele edelim"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Koronavirüs ile birlikte mücadele edelim"</string>
-    <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
-    <string name="onboarding_subtitle">"Sizin için ve hepimiz için daha fazla koruma. Corona-Warn-App uygulamasını kullanarak enfeksiyon zincirlerini çok daha kısa süre içinde kırabiliriz."</string>
-    <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Akıllı telefonunuzu koronavirüs uyarı sistemine dönüştürün. Risk durumunuza ilişkin genel bir bakış elde edin ve son 14 gün içinde koronavirüs tanısı konan herhangi biri ile yakın temasa geçip geçmediğinizi öğrenin."</string>
-    <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"Uygulama kişilerin akıllı telefonları arasında şifrelenmiş rastgele kimlikleri paylaşarak karşılaşma günlüğü oluşturur ve bu sırada hiçbir kişisel veriye erişim sağlanmaz."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_1">"Sizin için ve hepimiz için daha fazla koruma. Corona-Warn-App uygulamasını kullanarak enfeksiyon zincirlerini çok daha kısa süre içinde kırabiliriz."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_2">"Akıllı telefonunuzu koronavirüs uyarı sistemine dönüştürün. Risk durumunuza ilişkin genel bir bakış elde edin ve son 14 gün içinde koronavirüs tanısı konan herhangi biri ile yakın temasa geçip geçmediğinizi öğrenin."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_3">"Uygulamada test sonuçlarınızı (PCR testi veya hızlı antijen testi) görüntüleyin ve koronavirüs tanısı alırsanız diğer kullanıcıları uyarın."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_4">"Dilerseniz uygulamayı kişisel enfeksiyon durumunuzu (örneğin, negatif sonuç veren bir hızlı test) kanıtlamak için kullanabilirsiniz. Ancak lütfen unutmayın; enfeksiyon durumunuzu kanıtlamak için uygulamayı kullanmak zorunda değilsiniz. Enfeksiyon durumunuzu, ikamet ettiğiniz bölgede geçerli olan yasal düzenlemeler uyarınca başka bir şekilde de kanıtlayabilirsiniz."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_5">"Uygulama kişilerin akıllı telefonları arasında şifrelenmiş rastgele kimlikleri paylaşarak karşılaşma günlüğü oluşturur ve bu sırada hiçbir kişisel veriye erişim sağlanmaz."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Bölgedeki bir grup insan akıllı telefonlarını kullanıyor."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -783,12 +787,20 @@
     <string name="information_contact_subtitle_phone">"Teknik yardım hattı:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"0800 7540001"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
+    <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
+    <!-- XLNK: Description for national technical contact and hotline information page -->
+    <string name="information_contact_button_phone_description">"Almanya’dan yapılan aramalar içindir. Arama ücretsizdir."</string>
+    <!-- XLNK: Description for international technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone_description">"Almanya dışından yapılan aramalar içindir. Telefon sağlayıcınız tarafından uygulanan ücretler geçerlidir."</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
     <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_phone">"Müşteri hizmetlerimiz size yardımcı olmaya hazır."</string>
+    <string name="information_contact_body_phone">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Diller: İngilizce, Almanca, Türkçe\nMesai saatleri:"<xliff:g id="line_break">"\n"</xliff:g>"Pazartesi - Cumartesi: 7.00 - 22.00"<xliff:g id="line_break">"\n(ulusal tatiller hariçtir)"</xliff:g><xliff:g id="line_break">"\nAramalar ücretsizdir."</xliff:g></string>
+    <string name="information_contact_body_open">"İngilizce, Almanca, Türkçe\n\nMesai saatleri:\nPazartesi - Cumartesi: 7.00 - 22.00 (CET)\n(ulusal tatiller hariçtir)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Sağlıkla ilgili tüm sorularınız için lütfen aile hekiminizle veya tıbbi acil servis yardım hattı ile iletişime geçin. Telefon: 116 117."</string>
     <!-- XACT: describes illustration -->
@@ -852,10 +864,10 @@
     <string name="debugging_debuglog_action_start_recording">"Başlat"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Durdur ve Sil"</string>
-    <!-- XBUT: Button text to share the log recording -->
+    <!-- XBUT: Button text to send the log recording to the server -->
     <string name="debugging_debuglog_action_share_log">"Hata Raporu Gönder"</string>
-    <!-- XBUT: Button text to locally store the log recording -->
-    <string name="debugging_debuglog_action_local_log_store">"Yerel Olarak Kaydet ve Devam Et"</string>
+    <!-- XBUT: Button text to export the log -->
+    <string name="debugging_debuglog_action_local_log_export">"Yerel Olarak Kaydet ve Devam Et"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Kayıt Etkin"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -882,12 +894,6 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Analizi Devam Ettir"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Hata analizini başlatmak için en az 200 MB bellek alanınızın olması gerekir. Lütfen belleği boşaltın."</string>
-    <!-- XHED: Dialog title if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_title">"Yerel Olarak Kaydedildi"</string>
-    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_message">"Hata analizi yerel olarak kaydedilmiştir."</string>
-    <!-- YTXT: Dialog message if local export has failed -->
-    <string name="debugging_debuglog_localexport_error_message">"Hata raporunu kaydetme denemesi başarısız oldu. Lütfen yeterli bellek alanı olup olmadığını kontrol edin."</string>
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Hata Raporlarını Gönderme Konusunda Ayrıntılı Bilgi"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -964,7 +970,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Belirtilerinizi girmeyi iptal etmek istiyor musunuz?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"Belirtilerinizle ilgili olarak bilgi verirseniz diğer kullanıcıları daha doğru bir şekilde uyarabilirsiniz."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"Belirtilerinizle ilgili olarak bilgi verirseniz diğer kullanıcıları çok daha doğru bir şekilde uyarabilirsiniz."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Evet"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -1013,11 +1019,11 @@
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Şimdi, testinizin QR kodunu tarayın ve test sonucunuzu alın."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_test_only_once">"Testiniz yalnızca bir kez taranabilir. Uygulama aynı anda birden fazla testi yönetememektedir."</string>
+    <string name="submission_consent_call_test_result_scan_test_only_once">"Her bir test yalnızca bir kez taranabilir. Uygulama tek seferde en fazla bir hızlı testi ve bir PCR testini yönetebilir."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Lütfen karşılaştığınız diğer kullanıcıları uyararak onlara yardımcı olun!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"Koronavirüs tanısı aldıysanız uygulama üzerinden diğer kullanıcıları uyarabilirsiniz. Uyarı özelliği birden fazla ülkede etkindir. Şu anda aşağıdaki ülkeler katılmaktadır:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"Koronavirüs tanısı aldıysanız uygulama üzerinden diğer kullanıcıları uyarabilirsiniz. Hızlı test yaptıysanız uyarı özelliği yalnızca Almanya’da etkindir. PCR testi yaptırdıysanız uyarı özelliği şu ülkelerde etkindir:"</string>
     <!-- YTXT: Body for consent help by warning others - info about events -->
     <string name="submission_consent_help_by_warning_others_body_event">"Sizinle aynı anda aynı etkinliklerde veya yerlerde check in yapan kişilere de uyarı gönderilecektir."</string>
     <!-- YTXT: Page bottom text for consent screen -->
@@ -1131,19 +1137,19 @@
     <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
     <string name="submission_dispatcher_needs_testing_subheadline">"Test yaptırdınız mı?"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
-    <string name="submission_dispatcher_already_positive_subheadline">"Koronavirüs testinizin sonucu pozitif mi?"</string>
+    <string name="submission_dispatcher_already_positive_subheadline">"PCR testinizin sonucu pozitif miydi?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"QR Kodlu Test"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Test belgenizin QR kodunu tarayarak testinizi kaydedin."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"TAN gir"</string>
+    <string name="submission_dispatcher_card_tan_code">"PCR Testi için TAN girin"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"TAN\'niz var mı? Diğer kullanıcıları uyarabilmek için TAN\'nizi girmek üzere buraya dokunun."</string>
+    <string name="submission_dispatcher_tan_code_card_text">"PCR testiniz için bir TAN\'niz var mı? Diğer kullanıcıları uyarabilmek için TAN\'nizi girmek üzere buraya dokunun."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"TAN yok mu?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"PCR Testi için TAN talebinde bulunulsun mu?"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
-    <string name="submission_dispatcher_tan_tele_card_text">"Bizi arayın ve TAN alın."</string>
+    <string name="submission_dispatcher_tan_tele_card_text">"Bizi arayın ve PCR testiniz için bir TAN alın."</string>
     <!-- XACT: Dispatcher Tan page title -->
     <string name="submission_dispatcher_accessibility_title">"Hangi bilgilere sahipsiniz?"</string>
 
@@ -1201,10 +1207,15 @@
     <string name="submission_done_body">"Desteğiniz sayesinde artık diğer kullanıcılar uyarılabilir ve buna uygun şekilde hareket edebilir."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Lütfen unutmayın:"</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_pcr_validation">"Bu test sonucunu doğrulamak için PCR testi yapın."</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_share_keys">"Diğer kullanıcıların uyarılabilmesi için rastgele kimliklerinizi paylaşın."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşacaktır."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Bulaşıcı bir hastalık taşıyorsunuz. Kendinizi diğer insanlardan izole edin."</string>
+
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Diğer bilgiler:"</string>
     <!-- YTXT: submission done further info bullet points -->
@@ -1265,7 +1276,7 @@
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
-    <string name="submission_contact_title">"TAN Talebi"</string>
+    <string name="submission_contact_title">"PCR Testi için TAN talebinde bulunun"</string>
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"Nasıl çalışır?"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
@@ -1281,9 +1292,9 @@
     <!-- XLNK: Technical number which is called when the user clicks on the display number -->
     <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
-    <string name="submission_contact_step_2_body">"Uygulamaya TAN girerek testinizi kaydedin."</string>
+    <string name="submission_contact_step_2_body">"Uygulamaya TAN girerek PCR testinizi kaydedin."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Diller: \nİngilizce, Almanca, Türkçe\n\nMesai saatleri:\n7 gün 24 saat\n\nArama ücretsizdir."</string>
+    <string name="submission_contact_operating_hours_body">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:\nİngilizce, Almanca, Türkçe\n\nMesai saatleri:\n7 gün 24 saat"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"Sağlıkla ilgili tüm sorularınız için lütfen aile hekiminizle veya tıbbi acil servis yardım hattı ile iletişime geçin. Telefon: 116 117."</string>
 
@@ -1366,30 +1377,12 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Diğer kullanıcıların uyarılabilmesi için rastgele kimliklerinizi paylaşın."</string>
 
-    <!-- Reenable risk card -->
-    <!-- XHED: Card title for re-enable risk card -->
-    <string name="reenable_risk_card_title">"Maruz Kalma Denetimi Sona Erdi"</string>
-    <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Test %s tarihinde kaydedildi"</string>
-    <!-- YTXT: Description text for re-enable risk card -->
-    <string name="reenable_risk_card_description_text">"Koronavirüs tanısı aldığınız ve şu anda izolasyonda olduğunuz için otomatik maruz kalma denetimi sona erdi. Maruz kalma testini dilediğiniz zaman yeniden etkinleştirebilirsiniz. Etkinleştirirseniz kayıtlı testiniz otomatik olarak silinir."</string>
-    <!-- XBUT: Button for re-enabling risk calculation -->
-    <string name="reenable_risk_card_button_text">"Maruz Kalma Denetimini Aç "</string>
-    <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Maruz kalma denetimini etkinleştirin."</string>
-    <!-- YTXT: Dialog text for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_message">"Gerekli olması halinde yeni bir test kaydedebilmeniz için mevcut testiniz uygulamadan silinecek."</string>
-    <!-- XBUT: Positive button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_positive">"Etkinleştir"</string>
-    <!-- XBUT: Negative button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_negative">"İptal"</string>
-
     <!-- Test Result Card -->
-    <string name="test_result_card_headline">"Tanı sonucunuz:"</string>
+    <string name="test_result_card_headline">"%s tanınız:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->
-    <string name="test_result_card_registered_at_text">"Kayıt tarihi: %s"</string>
+    <string name="test_result_card_registered_at_text">"Testin eklenme tarihi: %s"</string>
     <!-- YTXT: negative status text -->
     <string name="test_result_card_status_negative">"Negatif"</string>
     <!-- YTXT: positive status text -->
@@ -1974,7 +1967,7 @@
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Yazdırma Sürümü"</string>
     <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Konum Check-In’leriniz Paylaşılsın Mı?"</string>
+    <string name="trace_location_attendee_consent_title">"Konum Check-In’leri Paylaşılsın Mı?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
     <string name="trace_location_attendee_consent_header_description">"Sizin yakınınızda check in yapmış olan diğer kullanıcıları uyarın. Kişisel verileriniz paylaşılmayacaktır."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->

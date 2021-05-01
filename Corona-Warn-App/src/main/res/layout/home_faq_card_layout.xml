@@ -15,7 +15,7 @@
             android:layout_width="@dimen/icon_size_button"
             android:layout_height="@dimen/icon_size_button"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_main_about"
+            app:srcCompat="@drawable/ic_main_about"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/main_card_header_headline"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,10 +42,9 @@
             android:layout_width="@dimen/icon_size_external_link"
             android:layout_height="@dimen/icon_size_external_link"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_link"
-            app:layout_constraintBottom_toBottomOf="@+id/main_card_header_headline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/main_card_header_headline" />
+            app:layout_constraintTop_toTopOf="@+id/main_card_header_headline"
+            app:srcCompat="@drawable/ic_link" />
 
         <TextView
             android:id="@+id/main_card_content_body"

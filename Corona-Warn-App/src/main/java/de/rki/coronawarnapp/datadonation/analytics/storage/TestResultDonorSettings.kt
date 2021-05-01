@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.datadonation.analytics.storage
 
 import android.content.Context
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import org.joda.time.Instant
@@ -59,7 +59,7 @@ class TestResultDonorSettings @Inject constructor(
             if (value == -1) {
                 null
             } else {
-                TestResult.fromInt(value)
+                CoronaTestResult.fromInt(value)
             }
         },
         writer = { key, result ->
@@ -95,10 +95,10 @@ class TestResultDonorSettings @Inject constructor(
         }
     )
 
-    fun saveTestResultDonorDataAtRegistration(testResult: TestResult, lastEwRiskResult: EwRiskLevelResult) {
+    fun saveTestResultDonorDataAtRegistration(testResult: CoronaTestResult, lastEwRiskResult: EwRiskLevelResult) {
         testScannedAfterConsent.update { true }
         testResultAtRegistration.update { testResult }
-        if (testResult in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)) {
+        if (testResult in listOf(CoronaTestResult.PCR_POSITIVE, CoronaTestResult.PCR_NEGATIVE)) {
             finalTestResultReceivedAt.update { timeStamper.nowUTC }
         }
 

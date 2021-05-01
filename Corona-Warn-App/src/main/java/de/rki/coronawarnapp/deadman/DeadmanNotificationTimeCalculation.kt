@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.first
 import org.joda.time.DateTimeConstants
 import org.joda.time.Hours
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
@@ -29,6 +30,7 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
      */
     suspend fun getDelay(): Long {
         val lastSuccess = enfClient.lastSuccessfulTrackedExposureDetection().first()?.finishedAt
+        Timber.d("enfClient.lastSuccessfulTrackedExposureDetection: $lastSuccess")
         return if (lastSuccess != null) {
             getHoursDiff(lastSuccess).toLong()
         } else {

@@ -16,16 +16,20 @@
     <string name="submission_consent_your_consent_subsection_headline">"Ihr Einverständnis"</string>
     <!-- YTXT: Body for consent sub section your consent subtext -->
     <string name="submission_consent_your_consent_subsection_tapping_agree">"Durch Antippen von „Einverstanden“ willigen Sie in folgende Schritte ein:"</string>
+
     <!-- YTXT: Body for consent sub section your consent subtext first point  -->
     <string name="submission_consent_your_consent_subsection_first_point">"<b>Die App ruft Ihr Testergebnis ab.</b> Wenn Sie es sich später anders überlegen, können Sie den Test in der App entfernen."</string>
     <!-- YTXT: Body for consent sub section your consent subtext second point  -->
-    <string name="submission_consent_your_consent_subsection_second_point">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von Corona-Apps der oben genannten Länder und Nutzer, die zeitgleich am selben Event oder Ort wie Sie eingecheckt waren.\n\nWenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>"</string>
+    <string name="submission_consent_your_consent_subsection_second_point">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von Corona-Apps der oben genannten Länder und Nutzer, die zeitgleich am selben Event oder Ort wie Sie eingecheckt waren. Im Falle von Schnelltests werden nur Nutzer der Corona-Warn-App gewarnt.</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
-    <string name="submission_consent_your_consent_subsection_third_point">"Sie können Ihr Einverständnis jederzeit zurücknehmen. Die Einstellung hierfür finden Sie unter „Test anzeigen“. Vor dem Teilen werden Sie nochmal auf Ihr Einverständnis hingewiesen."</string>
+    <string name="submission_consent_your_consent_subsection_third_point">"<b>Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>"</string>
+    <!-- YTXT: Body for consent sub section your consent subtext fourth point  -->
+    <string name="submission_consent_your_consent_subsection_fourth_point">"Sie können Ihr Einverständnis jederzeit zurücknehmen. Die Einstellung hierfür finden Sie unter „Test anzeigen“. Vor dem Teilen werden Sie nochmal auf Ihr Einverständnis hingewiesen."</string>
     <!-- YTXT: Body for your consent screen agreement share test results -->
-    <string name="submission_your_consent_agreement_share_test_results">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer zu warnen, denen Sie begegnet sind.</b>\n\n<b>Die Warnung erreicht Nutzer von offiziellen Corona-Apps der folgenden teilnehmenden Länder:</b>"</string>
+    <string name="submission_your_consent_agreement_share_test_results">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen.</b>\n\n<b>Die Warnung betrifft Nutzer, die zeitgleich am selben Event oder Ort wie Sie eingecheckt waren und Nutzer der Corona-Apps der folgenden Länder:</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms -->
-    <string name="submission_your_consent_agreement_share_symptoms">"<b>Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>\n\nSie können Ihr Einverständnis zurücknehmen, indem Sie oben „Andere warnen“ deaktivieren."</string>
+    <string name="submission_your_consent_agreement_share_symptoms">"<b>Im Falle von Schnelltests werden nur Nutzer der Corona-Warn-App gewarnt. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese Daten geteilt.</b>\n\nSie können Ihr Einverständnis zurücknehmen, indem Sie oben „Andere warnen“ deaktivieren."</string>
+
     <!-- YTXT: Body for your consent screen agreement share symptoms with additional hint for test result-->
     <string name="submission_your_consent_agreement_share_symptoms_2"><b>Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>\n\nSie können Ihr Einverständnis zurücknehmen, indem Sie oben „Andere warnen“ deaktivieren. Ihr Testergebnis wird Ihnen anschließend angezeigt.</string>
     <!-- YTXT: Body for keys submission no consent text first part-->
@@ -126,7 +130,7 @@
     <!-- XTXT: Third bulletpoint text for privacy card -->
     <string name="trace_location_privacy_card_third_bulletpoint_text">"Bitte stellen Sie den QR-Code so zur Verfügung, dass alle Ihre Gäste ihn unter Einhaltung der Abstands- und Hygieneregeln (mindestens 1,5 Meter) scannen können."</string>
     <!-- XTXT: Fourth bulletpoint text for privacy card -->
-    <string name="trace_location_privacy_card_fourth_bulletpoint_text">"Wir empfehlen die QR-Codes für Orte in einmal täglich außerhalb der Öffnungszeiten neu zu erstellen, um dauerhaft zuverlässige Warnungen zu ermöglichen und Missbrauch der QR-Codes zu verhindern."</string>
+    <string name="trace_location_privacy_card_fourth_bulletpoint_text">"Wir empfehlen die QR-Codes für Orte in regelmäßigen Abständen neu zu erstellen, um dauerhaft zuverlässige Warnungen zu ermöglichen und Missbrauch der QR-Codes zu verhindern."</string>
 
     <!-- Trace Location Onboarding Strings -->
     <!-- XHED: Title for the trace location onboarding consent card -->

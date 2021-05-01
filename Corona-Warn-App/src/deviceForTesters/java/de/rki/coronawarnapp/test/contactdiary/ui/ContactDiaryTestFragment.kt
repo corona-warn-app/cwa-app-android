@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
-import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.databinding.FragmentTestContactDiaryBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
+import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
+import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -96,7 +96,7 @@ class ContactDiaryTestFragment :
         val TAG: String = ContactDiaryTestFragment::class.simpleName!!
         val MENU_ITEM = TestMenuItem(
             title = "Contact Diary Test Options",
-            description = "Contact Diary related test options..",
+            description = "Contact Diary related test options.",
             targetId = R.id.test_contact_diary_fragment
         )
     }

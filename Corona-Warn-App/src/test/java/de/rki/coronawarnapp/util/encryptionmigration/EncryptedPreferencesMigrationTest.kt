@@ -15,6 +15,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.verify
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -24,6 +25,7 @@ import testhelpers.preferences.MockSharedPreferences
 import testhelpers.preferences.mockFlowPreference
 import java.io.File
 
+@Suppress("DEPRECATION")
 class EncryptedPreferencesMigrationTest : BaseIOTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var encryptedPreferencesHelper: EncryptedPreferencesHelper
@@ -104,26 +106,26 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         every { cwaSettings.isNotificationsRiskEnabled } returns mockRiskPreference
         val mockTestPreference = mockFlowPreference(true)
         every { cwaSettings.isNotificationsTestEnabled } returns mockTestPreference
-        every { cwaSettings.numberOfRemainingSharePositiveTestResultReminders = Int.MAX_VALUE } just Runs
+        every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = Int.MAX_VALUE } just Runs
 
         // OnboardingLocalData
-        every { onboardingSettings.onboardingCompletedTimestamp = Instant.ofEpochMilli(10101010L) } just Runs
+        val mockOnboardingCompletedTimestamp = mockFlowPreference(Instant.ofEpochMilli(10101010L))
+        every { onboardingSettings.onboardingCompletedTimestamp } returns mockOnboardingCompletedTimestamp
         every { onboardingSettings.isBackgroundCheckDone = true } just Runs
 
         // TracingLocalData
-        every { tracingSettings.initialPollingForTestResultTimeStamp = 10101010L } just Runs
-        every { tracingSettings.isTestResultAvailableNotificationSent = true } just Runs
+        every { tracingSettings.initialPollingForTestResultTimeStampMigration = 10101010L } just Runs
+        every { tracingSettings.isTestResultAvailableNotificationSentMigration = true } just Runs
         val mockNotificationPreference = mockFlowPreference(false)
         every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockNotificationPreference
         every { tracingSettings.isConsentGiven = true } just Runs
 
         // SubmissionLocalData
-        val mockRegtokenPreference = mockFlowPreference<String?>(null)
-        every { submissionSettings.registrationToken } returns mockRegtokenPreference
-        every { submissionSettings.initialTestResultReceivedAt = Instant.ofEpochMilli(10101010L) } just Runs
-        every { submissionSettings.devicePairingSuccessfulAt = Instant.ofEpochMilli(10101010L) } just Runs
-        every { submissionSettings.isSubmissionSuccessful = true } just Runs
-        every { submissionSettings.isAllowedToSubmitKeys = true } just Runs
+        every { submissionSettings.registrationTokenMigration = any() } just Runs
+        every { submissionSettings.initialTestResultReceivedAtMigration = Instant.ofEpochMilli(10101010L) } just Runs
+        every { submissionSettings.devicePairingSuccessfulAtMigration = Instant.ofEpochMilli(10101010L) } just Runs
+        every { submissionSettings.isSubmissionSuccessfulMigration = true } just Runs
+        every { submissionSettings.isAllowedToSubmitKeysMigration = true } just Runs
 
         val migrationInstance = createInstance()
 
@@ -137,7 +139,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         mockNotificationPreference.value shouldBe true
 
         // SubmissionLocalData
-        mockRegtokenPreference.value shouldBe "super_secret_token"
+        verify { submissionSettings.registrationTokenMigration = "super_secret_token" }
     }
 
     @Test

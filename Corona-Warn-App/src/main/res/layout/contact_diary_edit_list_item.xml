@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/contact_diary_edit_icon_content_description"
         android:padding="@dimen/spacing_small"
-        android:src="@drawable/ic_baseline_edit_24"
+        app:srcCompat="@drawable/ic_baseline_edit_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -97,7 +97,8 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
         scope = TestCoroutineScope(),
         riskResultDatabaseFactory = databaseFactory,
         presenceTracingRiskRepository = presenceTracingRiskRepository,
-        riskCombinator = RiskCombinator(TimeStamper())
+        riskCombinator = RiskCombinator(TimeStamper()),
+        timeStamper = TimeStamper(),
     )
 
     @Test

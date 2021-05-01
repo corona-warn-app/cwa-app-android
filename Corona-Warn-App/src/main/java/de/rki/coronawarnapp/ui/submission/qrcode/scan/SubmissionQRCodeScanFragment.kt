@@ -6,38 +6,47 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment :
-    Fragment(R.layout.fragment_submission_qr_code_scan),
-    AutoInject {
-
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
+
+    private val args by navArgs<SubmissionQRCodeScanFragmentArgs>()
+
+    private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionQRCodeScanViewModel.Factory
+            factory.create(args.isConsentGiven)
+        }
+    )
 
     private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
@@ -62,12 +71,29 @@ class SubmissionQRCodeScanFragment :
             submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
         }
 
-        viewModel.scanStatusValue.observe2(this) {
-            if (ScanStatus.INVALID == it) {
-                showInvalidScanDialog()
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
+                    doNavigate(
+                        NavGraphDirections
+                            .actionToSubmissionDeletionWarningFragment(
+                                it.consentGiven,
+                                it.coronaTestQRCode
+                            )
+                    )
+                }
+                is SubmissionNavigationEvents.NavigateToDispatcher ->
+                    navigateToDispatchScreen()
+                is SubmissionNavigationEvents.NavigateToConsent ->
+                    goBack()
             }
         }
 
+        viewModel.qrCodeValidationState.observe2(this) {
+            if (QrCodeRegistrationStateProcessor.ValidationState.INVALID == it) {
+                showInvalidScanDialog()
+            }
+        }
         viewModel.showRedeemedTokenWarning.observe2(this) {
             val dialog = DialogHelper.DialogInstance(
                 requireActivity(),
@@ -86,16 +112,55 @@ class SubmissionQRCodeScanFragment :
                 else -> View.GONE
             }
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
-                if (state.testResult == TestResult.POSITIVE) {
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
-                    )
-                } else {
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
-                    )
+                when (state.test?.testResult) {
+                    CoronaTestResult.PCR_POSITIVE ->
+                        doNavigate(
+                            NavGraphDirections
+                                .actionToSubmissionTestResultAvailableFragment(testType = CoronaTest.Type.PCR)
+                        )
+                    CoronaTestResult.PCR_OR_RAT_PENDING -> {
+                        if (state.test.type == CoronaTest.Type.RAPID_ANTIGEN) {
+                            doNavigate(
+                                NavGraphDirections
+                                    .actionSubmissionTestResultPendingFragment(
+                                        testType = CoronaTest.Type.RAPID_ANTIGEN
+                                    )
+                            )
+                        } else {
+                            doNavigate(
+                                NavGraphDirections
+                                    .actionSubmissionTestResultPendingFragment(
+                                        testType = CoronaTest.Type.PCR
+                                    )
+                            )
+                        }
+                    }
+                    CoronaTestResult.PCR_NEGATIVE,
+                    CoronaTestResult.PCR_INVALID,
+                    CoronaTestResult.PCR_REDEEMED ->
+                        doNavigate(
+                            NavGraphDirections
+                                .actionSubmissionTestResultPendingFragment(
+                                    testType = CoronaTest.Type.PCR
+                                )
+                        )
+                    CoronaTestResult.RAT_POSITIVE ->
+                        doNavigate(
+                            NavGraphDirections
+                                .actionToSubmissionTestResultAvailableFragment(
+                                    testType = CoronaTest.Type.RAPID_ANTIGEN
+                                )
+                        )
+                    CoronaTestResult.RAT_NEGATIVE,
+                    CoronaTestResult.RAT_INVALID,
+                    CoronaTestResult.RAT_PENDING,
+                    CoronaTestResult.RAT_REDEEMED ->
+                        doNavigate(
+                            NavGraphDirections
+                                .actionSubmissionTestResultPendingFragment(
+                                    testType = CoronaTest.Type.RAPID_ANTIGEN
+                                )
+                        )
                 }
             }
         }
@@ -103,20 +168,11 @@ class SubmissionQRCodeScanFragment :
         viewModel.registrationError.observe2(this) {
             DialogHelper.showDialog(buildErrorDialog(it))
         }
-
-        viewModel.routeToScreen.observe2(this) {
-            when (it) {
-                is SubmissionNavigationEvents.NavigateToDispatcher ->
-                    navigateToDispatchScreen()
-                is SubmissionNavigationEvents.NavigateToConsent ->
-                    goBack()
-            }
-        }
     }
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle {
-            viewModel.validateTestGUID(it.text)
+            viewModel.onQrCodeAvailable(it.text)
         }
     }
 
@@ -250,7 +306,7 @@ class SubmissionQRCodeScanFragment :
         DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
-    private fun goBack() = (activity as MainActivity).goBack()
+    private fun goBack() = popBackStack()
 
     private fun requestCameraPermission() = requestPermissions(
         arrayOf(Manifest.permission.CAMERA),

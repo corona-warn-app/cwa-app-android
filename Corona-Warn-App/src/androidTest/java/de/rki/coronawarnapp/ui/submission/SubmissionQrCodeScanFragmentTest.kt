@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
+import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragmentArgs
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -19,12 +20,14 @@ class SubmissionQrCodeScanFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: SubmissionQRCodeScanViewModel
 
+    private var fragmentArgs = SubmissionQRCodeScanFragmentArgs(isConsentGiven = true).toBundle()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(
             object : SubmissionQRCodeScanViewModel.Factory {
-                override fun create(): SubmissionQRCodeScanViewModel = viewModel
+                override fun create(isConsentGiven: Boolean): SubmissionQRCodeScanViewModel = viewModel
             }
         )
     }
@@ -36,7 +39,9 @@ class SubmissionQrCodeScanFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<SubmissionQRCodeScanFragment>()
+        launchFragment2<SubmissionQRCodeScanFragment>(
+            fragmentArgs = fragmentArgs
+        )
     }
 }
 

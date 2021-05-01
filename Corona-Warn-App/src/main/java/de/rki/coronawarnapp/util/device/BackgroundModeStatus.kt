@@ -3,9 +3,10 @@ package de.rki.coronawarnapp.util.device
 import android.annotation.TargetApi
 import android.app.ActivityManager
 import android.os.Build
-import de.rki.coronawarnapp.util.ApiLevel
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
+import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -24,7 +25,6 @@ class BackgroundModeStatus @Inject constructor(
     foregroundState: ForegroundState,
     private val powerManagement: PowerManagement,
     private val activityManager: ActivityManager,
-    private val apiLevel: ApiLevel,
     @AppScope private val appScope: CoroutineScope
 ) {
 
@@ -53,7 +53,7 @@ class BackgroundModeStatus @Inject constructor(
      * Else always return false
      */
     @TargetApi(Build.VERSION_CODES.P)
-    private fun pollIsBackgroundRestricted(): Boolean = if (apiLevel.hasAPILevel(Build.VERSION_CODES.P)) {
+    private fun pollIsBackgroundRestricted(): Boolean = if (BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.P)) {
         activityManager.isBackgroundRestricted
     } else false
 

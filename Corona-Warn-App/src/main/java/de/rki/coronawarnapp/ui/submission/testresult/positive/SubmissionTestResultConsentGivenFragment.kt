@@ -6,6 +6,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultConsentGivenBinding
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
@@ -15,7 +16,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 /**
@@ -26,8 +27,16 @@ class SubmissionTestResultConsentGivenFragment :
     Fragment(R.layout.fragment_submission_test_result_consent_given),
     AutoInject {
 
+    private val navArgs by navArgs<SubmissionTestResultConsentGivenFragmentArgs>()
+
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SubmissionTestResultConsentGivenViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: SubmissionTestResultConsentGivenViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionTestResultConsentGivenViewModel.Factory
+            factory.create(navArgs.testType)
+        }
+    )
 
     private val binding: FragmentSubmissionTestResultConsentGivenBinding by viewBindingLazy()
 
@@ -47,7 +56,7 @@ class SubmissionTestResultConsentGivenFragment :
         viewModel.uiState.observe2(this) {
             binding.apply {
                 uiState = it
-                submissionTestResultSection.setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
+                submissionTestResultSection.setTestResultSection(it.coronaTest)
             }
         }
 
@@ -60,7 +69,9 @@ class SubmissionTestResultConsentGivenFragment :
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
                     doNavigate(
                         SubmissionTestResultConsentGivenFragmentDirections
-                            .actionSubmissionTestResultConsentGivenFragmentToSubmissionSymptomIntroductionFragment()
+                            .actionSubmissionTestResultConsentGivenFragmentToSubmissionSymptomIntroductionFragment(
+                                navArgs.testType
+                            )
                     )
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     doNavigate(

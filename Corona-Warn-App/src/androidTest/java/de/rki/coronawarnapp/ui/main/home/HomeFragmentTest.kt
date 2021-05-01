@@ -2,35 +2,33 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
-import de.rki.coronawarnapp.submission.ui.homecards.TestSubmissionDoneCard
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
-import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.statistics.Statistics
+import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -62,17 +60,17 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
     @MockK lateinit var tracingStatus: GeneralTracingStatus
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
-    @MockK lateinit var submissionStateProvider: SubmissionStateProvider
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingRepository: TracingRepository
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
-    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var bluetoothSupport: BluetoothSupport
 
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
 
@@ -84,7 +82,6 @@ class HomeFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         homeFragmentViewModel = homeFragmentViewModelSpy()
         with(homeFragmentViewModel) {
-            every { observeTestResultToSchedulePositiveTestResultReminder() } just Runs
             every { refreshRequiredData() } just Runs
             every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
@@ -99,6 +96,9 @@ class HomeFragmentTest : BaseUITest() {
                 override fun create(): HomeFragmentViewModel = homeFragmentViewModel
             }
         )
+
+        every { bluetoothSupport.isScanningSupported } returns true
+        every { bluetoothSupport.isAdvertisingSupported } returns true
     }
 
     @Screenshot
@@ -110,7 +110,7 @@ class HomeFragmentTest : BaseUITest() {
         captureHomeFragment("low_risk_no_encounters")
 
         // also scroll down and capture a screenshot of the faq card
-        Espresso.onView(ViewMatchers.withId(R.id.recycler_view)).perform(recyclerScrollTo())
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
         takeScreenshot<HomeFragment>("faq_card")
     }
 
@@ -244,6 +244,30 @@ class HomeFragmentTest : BaseUITest() {
         }
     }
 
+    @Screenshot
+    @Test
+    fun captureHomeFragmentCompatibilityBleBroadcastNotSupported() {
+        every { homeFragmentViewModel.homeItems } returns
+            homeFragmentItemsLiveData(HomeData.Tracing.TRACING_FAILED_ITEM)
+        every { bluetoothSupport.isScanningSupported } returns true
+        every { bluetoothSupport.isAdvertisingSupported } returns false
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+        captureHomeFragment("compatibility_ble_broadcast_not_supported")
+    }
+
+    @Screenshot
+    @Test
+    fun captureHomeFragmentCompatibilityBleScanNotSupported() {
+        every { homeFragmentViewModel.homeItems } returns
+            homeFragmentItemsLiveData(HomeData.Tracing.TRACING_FAILED_ITEM)
+        every { bluetoothSupport.isScanningSupported } returns false
+        every { bluetoothSupport.isAdvertisingSupported } returns true
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+        captureHomeFragment("compatibility_ble_scan_not_supported")
+    }
+
     @After
     fun teardown() {
         clearAllViewModels()
@@ -266,17 +290,17 @@ class HomeFragmentTest : BaseUITest() {
             errorResetTool = errorResetTool,
             tracingRepository = tracingRepository,
             tracingStateProviderFactory = tracingStateProviderFactory,
-            shareTestResultNotificationService = shareTestResultNotificationService,
             appConfigProvider = appConfigProvider,
             tracingStatus = tracingStatus,
             submissionRepository = submissionRepository,
-            submissionStateProvider = submissionStateProvider,
+            coronaTestRepository = coronaTestRepository,
             cwaSettings = cwaSettings,
             statisticsProvider = statisticsProvider,
-            deadmanNotificationScheduler = deadmanNotificationScheduler,
             appShortcutsHelper = appShortcutsHelper,
             tracingSettings = tracingSettings,
-            traceLocationOrganizerSettings = traceLocationOrganizerSettings
+            traceLocationOrganizerSettings = traceLocationOrganizerSettings,
+            timeStamper = timeStamper,
+            bluetoothSupport = bluetoothSupport
         )
     )
 
@@ -288,8 +312,8 @@ class HomeFragmentTest : BaseUITest() {
         MutableLiveData(
             mutableListOf<HomeItem>().apply {
                 when (submissionTestResultItem) {
-                    is TestSubmissionDoneCard.Item,
-                    is TestPositiveCard.Item -> {
+                    is PcrTestSubmissionDoneCard.Item,
+                    is PcrTestPositiveCard.Item -> {
                         Timber.d("Tracing item is not added, submission:$submissionTestResultItem")
                     }
                     else -> add(tracingStateItem)

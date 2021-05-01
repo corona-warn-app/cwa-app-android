@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -14,7 +17,7 @@ import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
 
@@ -22,7 +25,8 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    @Assisted private val testType: Type
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val symptomIndicationInternal = MutableStateFlow<Symptoms.Indication?>(null)
@@ -50,7 +54,8 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                     navigation.postValue(
                         SubmissionSymptomIntroductionFragmentDirections
                             .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment(
-                                symptomIndication = Symptoms.Indication.POSITIVE
+                                symptomIndication = Symptoms.Indication.POSITIVE,
+                                testType = testType
                             )
                     )
                 }
@@ -62,6 +67,11 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                         )
                     }
                     doSubmit()
+
+                    navigation.postValue(
+                        SubmissionSymptomIntroductionFragmentDirections
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
+                    )
                 }
                 Symptoms.Indication.NO_INFORMATION -> {
                     submissionRepository.currentSymptoms.update {
@@ -71,6 +81,11 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                         )
                     }
                     doSubmit()
+
+                    navigation.postValue(
+                        SubmissionSymptomIntroductionFragmentDirections
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
+                    )
                 }
             }
         }
@@ -121,10 +136,14 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS)
+        if (testType == PCR) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS)
+        }
         autoSubmission.updateLastSubmissionUserActivity()
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionSymptomIntroductionViewModel>
+    interface Factory : CWAViewModelFactory<SubmissionSymptomIntroductionViewModel> {
+        fun create(testType: Type): SubmissionSymptomIntroductionViewModel
+    }
 }
