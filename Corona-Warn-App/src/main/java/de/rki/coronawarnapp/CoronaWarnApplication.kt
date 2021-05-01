@@ -44,6 +44,8 @@ import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
 import javax.inject.Inject
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class CoronaWarnApplication : Application(), HasAndroidInjector {
 
