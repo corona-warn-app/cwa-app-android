@@ -40,8 +40,6 @@ import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
@@ -49,37 +47,64 @@ import javax.inject.Inject
 
 class CoronaWarnApplication : Application(), HasAndroidInjector {
 
-    @Inject lateinit var component: ApplicationComponent
+    @Inject
+    lateinit var component: ApplicationComponent
 
-    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
-    @Inject lateinit var watchdogService: WatchdogService
-    @Inject lateinit var taskController: TaskController
-    @Inject lateinit var foregroundState: ForegroundState
-    @Inject lateinit var workManager: WorkManager
-    @Inject lateinit var configChangeDetector: ConfigChangeDetector
-    @Inject lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
-    @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
-    @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
-    @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
-    @Inject lateinit var notificationHelper: GeneralNotifications
-    @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
-    @Inject lateinit var autoSubmission: AutoSubmission
-    @Inject lateinit var coronaTestRepository: CoronaTestRepository
-    @Inject lateinit var onboardingSettings: OnboardingSettings
-    @Inject lateinit var autoCheckOut: AutoCheckOut
-    @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
-    @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
-    @Inject lateinit var exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler
-    @Inject lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler
-    @Inject lateinit var pcrTestResultScheduler: PCRResultScheduler
-    @Inject lateinit var raTestResultScheduler: RAResultScheduler
-    @Inject lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
-    @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
+    @Inject
+    lateinit var watchdogService: WatchdogService
+    @Inject
+    lateinit var taskController: TaskController
+    @Inject
+    lateinit var foregroundState: ForegroundState
+    @Inject
+    lateinit var workManager: WorkManager
+    @Inject
+    lateinit var configChangeDetector: ConfigChangeDetector
+    @Inject
+    lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
+    @Inject
+    lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @Inject
+    lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
+    @Inject
+    lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
+    @Inject
+    lateinit var notificationHelper: GeneralNotifications
+    @Inject
+    lateinit var deviceTimeHandler: DeviceTimeHandler
+    @Inject
+    lateinit var autoSubmission: AutoSubmission
+    @Inject
+    lateinit var coronaTestRepository: CoronaTestRepository
+    @Inject
+    lateinit var onboardingSettings: OnboardingSettings
+    @Inject
+    lateinit var autoCheckOut: AutoCheckOut
+    @Inject
+    lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
+    @Inject
+    lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
+    @Inject
+    lateinit var exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler
+    @Inject
+    lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler
+    @Inject
+    lateinit var pcrTestResultScheduler: PCRResultScheduler
+    @Inject
+    lateinit var raTestResultScheduler: RAResultScheduler
+    @Inject
+    lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
+    @Inject
+    lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
 
-    @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
+    @LogHistoryTree
+    @Inject
+    lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
         instance = this
