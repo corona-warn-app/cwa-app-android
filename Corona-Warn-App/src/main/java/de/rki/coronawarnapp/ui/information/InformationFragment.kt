@@ -95,7 +95,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             )
         }
         binding.informationHelp.mainRow.setOnClickListener {
-            openUrl(requireContext().getString(R.string.main_about_link))
+            openUrl(getString(R.string.main_about_link))
         }
         binding.informationLegal.mainRow.setOnClickListener {
             doNavigate(
