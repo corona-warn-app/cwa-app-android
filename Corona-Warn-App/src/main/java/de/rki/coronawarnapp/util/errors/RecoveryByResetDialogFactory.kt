@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 
 class RecoveryByResetDialogFactory(private val fragment: Fragment) {
