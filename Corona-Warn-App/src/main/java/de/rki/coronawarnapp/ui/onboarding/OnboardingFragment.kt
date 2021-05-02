@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import java.util.Locale
@@ -41,7 +42,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
     }
 
     private fun openEasyLanguageLink() {
-        ExternalActionHelper.openUrl(this, getString(R.string.onboarding_tracing_easy_language_explanation_url))
+        openUrl(getString(R.string.onboarding_tracing_easy_language_explanation_url))
     }
 
     override fun onResume() {

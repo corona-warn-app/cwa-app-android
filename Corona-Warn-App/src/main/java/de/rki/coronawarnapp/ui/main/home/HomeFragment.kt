@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -79,11 +79,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         viewModel.openFAQUrlEvent.observe2(this) {
-            ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
+            openUrl(getString(R.string.main_about_link))
         }
 
         viewModel.openIncompatibleEvent.observe2(this) {
-            ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.incompatible_link))
+            openUrl(getString(R.string.incompatible_link))
         }
 
         viewModel.openTraceLocationOrganizerFlow.observe2(this) {

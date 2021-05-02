@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 
 class RecoveryByResetDialogFactory(private val fragment: Fragment) {
 
@@ -27,7 +28,7 @@ class RecoveryByResetDialogFactory(private val fragment: Fragment) {
             .create()
         dialog.show()
         dialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
-            ExternalActionHelper.openUrl(fragment, context.getString(detailsLink))
+            fragment.openUrl(context.getString(detailsLink))
         }
     }
 }

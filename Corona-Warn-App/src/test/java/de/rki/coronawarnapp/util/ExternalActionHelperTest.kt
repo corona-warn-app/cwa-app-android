@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.util.ExternalActionHelper.call
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
+import de.rki.coronawarnapp.util.ExternalActionHelper.shareText
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -31,13 +34,6 @@ class ExternalActionHelperTest : BaseTest() {
     }
 
     @Test
-    fun toConnectionsTest() {
-        every { context.startActivity(any()) } just Runs
-        ExternalActionHelper.toConnections(context = context)
-        verify(exactly = 1) { context.startActivity(any()) }
-    }
-
-    @Test
     fun toNotificationsTest() {
         every { context.startActivity(any()) } just Runs
         every { context.packageName } returns "package_name"
@@ -48,33 +44,29 @@ class ExternalActionHelperTest : BaseTest() {
     }
 
     @Test
-    fun toMainSettingsTest() {
-        every { context.startActivity(any()) } just Runs
-        ExternalActionHelper.toConnections(context = context)
-        verify(exactly = 1) { context.startActivity(any()) }
-    }
-
-    @Test
     fun openUrlTest() {
-        val fragment = mockk<Fragment>()
-        every { fragment.startActivity(any()) } just Runs
-        ExternalActionHelper.openUrl(fragment = fragment, url = "url_path")
-        verify(exactly = 1) { fragment.startActivity(any()) }
+        mockk<Fragment>().apply {
+            every { startActivity(any()) } just Runs
+            openUrl(url = "url_path")
+            verify(exactly = 1) { startActivity(any()) }
+        }
     }
 
     @Test
     fun callTest() {
-        val fragment = mockk<Fragment>()
-        every { fragment.startActivity(any()) } just Runs
-        ExternalActionHelper.call(fragment = fragment, uri = "call_path")
-        verify(exactly = 1) { fragment.startActivity(any()) }
+        mockk<Fragment>().apply {
+            every { startActivity(any()) } just Runs
+            call(phoneNumber = "01234343535")
+            verify(exactly = 1) { startActivity(any()) }
+        }
     }
 
     @Test
     fun shareTextTest() {
-        val fragment = mockk<Fragment>()
-        every { fragment.startActivity(any()) } just Runs
-        ExternalActionHelper.shareText(fragment = fragment, text = "text", title = "title")
-        verify(exactly = 1) { fragment.startActivity(any()) }
+        mockk<Fragment>().apply {
+            every { startActivity(any()) } just Runs
+            shareText(text = "text", title = "title")
+            verify(exactly = 1) { startActivity(any()) }
+        }
     }
 }

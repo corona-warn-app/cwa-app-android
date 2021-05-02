@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -95,7 +95,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             )
         }
         binding.informationHelp.mainRow.setOnClickListener {
-            ExternalActionHelper.openUrl(this, requireContext().getString(R.string.main_about_link))
+            openUrl(requireContext().getString(R.string.main_about_link))
         }
         binding.informationLegal.mainRow.setOnClickListener {
             doNavigate(
@@ -113,7 +113,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             )
         }
         binding.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
+            popBackStack()
         }
         binding.informationRelease.mainRow.setOnClickListener {
             doNavigate(

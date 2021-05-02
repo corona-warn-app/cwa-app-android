@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsFragmentLayoutBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -56,10 +57,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
                 is TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment -> doNavigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSurveyConsentFragment(it.type)
                 )
-                is TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser -> ExternalActionHelper.openUrl(
-                    this,
-                    it.url
-                )
+                is TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser -> openUrl(it.url)
             }
         }
 

@@ -15,18 +15,14 @@ import de.rki.coronawarnapp.exception.reporting.report
  *
  */
 object ExternalActionHelper {
-    private val TAG: String? = ExternalActionHelper::class.simpleName
-
     /**
      * Opens the share default overlay to provide the Corona-Warn-App installation link
-     *
-     * @param fragment
      * @param text
      * @param title
      */
-    fun shareText(fragment: Fragment, text: String, title: String?) {
+    fun Fragment.shareText(text: String, title: String?) {
         try {
-            fragment.startActivity(
+            startActivity(
                 Intent.createChooser(
                     Intent().apply {
                         action = Intent.ACTION_SEND
@@ -47,17 +43,12 @@ object ExternalActionHelper {
 
     /**
      * Opens the client default phone app and inserts a given number
-     *
-     * @param fragment
-     * @param uri
+     * @param phoneNumber
      */
-    fun call(fragment: Fragment, uri: String) {
+    fun Fragment.call(phoneNumber: String) {
         try {
-            fragment.startActivity(
-                Intent(
-                    Intent.ACTION_DIAL,
-                    Uri.parse("tel:$uri")
-                )
+            startActivity(
+                Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
             )
         } catch (exception: Exception) {
             // catch generic exception on call
@@ -70,40 +61,17 @@ object ExternalActionHelper {
 
     /**
      * Opens a given url in the client default browser
-     *
-     * @param fragment
      * @param url
      */
-    fun openUrl(fragment: Fragment, url: String) {
+    fun Fragment.openUrl(url: String) {
         try {
-            fragment.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(url)
-                )
+            startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse(url))
             )
         } catch (exception: Exception) {
             // catch generic exception on url navigation
             // most likely due to bad url format
             // or less likely no browser installed
-            ExternalActionException(exception).report(
-                ExceptionCategory.UI
-            )
-        }
-    }
-
-    /**
-     * Navigate the user to the os connection settings.
-     *
-     * @param context
-     */
-    fun toConnections(context: Context) {
-        try {
-            val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
-            context.startActivity(intent)
-        } catch (exception: Exception) {
-            // catch generic exception on settings navigation
-            // most likely due to device / rom specific intent issue
             ExternalActionException(exception).report(
                 ExceptionCategory.UI
             )
@@ -117,20 +85,18 @@ object ExternalActionHelper {
      */
     fun toNotifications(context: Context) {
         try {
-            val intent = Intent()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                intent.putExtra(
-                    Settings.EXTRA_APP_PACKAGE,
-                    context.packageName
-                )
-            } else {
-                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                intent.putExtra(
-                    "app_package",
-                    context.packageName
-                )
-                intent.putExtra("app_uid", context.applicationInfo.uid)
+            val intent = Intent().apply {
+                when {
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                        action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                    }
+                    else -> {
+                        action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                        putExtra("app_package", context.packageName)
+                        putExtra("app_uid", context.applicationInfo.uid)
+                    }
+                }
             }
             context.startActivity(intent)
         } catch (exception: Exception) {

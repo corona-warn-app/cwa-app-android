@@ -6,9 +6,9 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationContactBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.call
 import de.rki.coronawarnapp.util.linkifyPhoneNumbers
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
@@ -32,15 +32,13 @@ class InformationContactFragment : Fragment(R.layout.fragment_information_contac
 
     private fun setButtonOnClickListener() {
         binding.informationContactHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
+            popBackStack()
         }
         binding.informationContactNavigationRowPhone.navigationRow.setOnClickListener {
-            val number = getString(R.string.information_contact_phone_call_number)
-            ExternalActionHelper.call(this, number)
+            call(getString(R.string.information_contact_phone_call_number))
         }
         binding.informationContactNavigationRowInternationalPhone.navigationRow.setOnClickListener {
-            val number = getString(R.string.information_contact_button_international_phone)
-            ExternalActionHelper.call(this, number)
+            call(getString(R.string.information_contact_button_international_phone))
         }
     }
 }

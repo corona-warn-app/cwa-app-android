@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionContactBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.call
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.linkifyPhoneNumbers
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -58,13 +58,11 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
         }
         binding.includeSubmissionContact.submissionContactNavigationRowPhone.navigationRow
             .setOnClickListener {
-                val number = getString(R.string.submission_contact_number_display)
-                ExternalActionHelper.call(this, number)
+                call(getString(R.string.submission_contact_number_display))
             }
         binding.includeSubmissionContact.submissionContactNavigationRowInternationalPhone.navigationRow
             .setOnClickListener {
-                val number = getString(R.string.submission_contact_button_international_phone)
-                ExternalActionHelper.call(this, number)
+                call(getString(R.string.submission_contact_button_international_phone))
             }
         binding.submissionContactButtonEnter.setOnClickListener {
             viewModel.onEnterTanPressed()

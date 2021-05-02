@@ -253,20 +253,4 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         )
         DialogHelper.showDialog(dialog)
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        supportFragmentManager.currentNavigationFragment?.onActivityResult(
-            requestCode,
-            resultCode,
-            data
-        )
-    }
-
-    /**
-     * Function is called from back buttons in fragments.
-     */
-    fun goBack() {
-        onBackPressed()
-    }
 }

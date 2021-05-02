@@ -6,10 +6,10 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -82,7 +82,7 @@ class NotificationSettingsFragment :
             if (updateTestNotificationRow.isEnabled) vm.toggleNotificationsTestEnabled()
         }
         goBack.setOnClickListener {
-            (activity as MainActivity).goBack()
+            popBackStack()
         }
         // System Settings
         settingsRow.setOnClickListener {
