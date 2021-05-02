@@ -6,7 +6,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationContactBinding
-import de.rki.coronawarnapp.util.ExternalActionHelper.call
+import de.rki.coronawarnapp.util.ExternalActionHelper.callPhone
 import de.rki.coronawarnapp.util.linkifyPhoneNumbers
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -35,10 +35,10 @@ class InformationContactFragment : Fragment(R.layout.fragment_information_contac
             popBackStack()
         }
         binding.informationContactNavigationRowPhone.navigationRow.setOnClickListener {
-            call(getString(R.string.information_contact_phone_call_number))
+            callPhone(getString(R.string.information_contact_phone_call_number))
         }
         binding.informationContactNavigationRowInternationalPhone.navigationRow.setOnClickListener {
-            call(getString(R.string.information_contact_button_international_phone))
+            callPhone(getString(R.string.information_contact_button_international_phone))
         }
     }
 }

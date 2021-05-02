@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.util.ExternalActionHelper.call
+import de.rki.coronawarnapp.util.ExternalActionHelper.callPhone
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.ExternalActionHelper.shareText
 import io.mockk.MockKAnnotations
@@ -56,7 +56,7 @@ class ExternalActionHelperTest : BaseTest() {
     fun callTest() {
         mockk<Fragment>().apply {
             every { startActivity(any()) } just Runs
-            call(phoneNumber = "01234343535")
+            callPhone(phoneNumber = "01234343535")
             verify(exactly = 1) { startActivity(any()) }
         }
     }

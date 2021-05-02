@@ -45,7 +45,7 @@ object ExternalActionHelper {
      * Opens the client default phone app and inserts a given number
      * @param phoneNumber
      */
-    fun Fragment.call(phoneNumber: String) {
+    fun Fragment.callPhone(phoneNumber: String) {
         try {
             startActivity(
                 Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
@@ -111,13 +111,11 @@ object ExternalActionHelper {
     /**
      * Navigate the user to the os settings as navigation to
      * bluetooth settings directly is not reliable for all devices
-     *
-     * @param context
      */
-    fun toMainSettings(context: Context) {
+    fun Fragment.openDeviceAppSettings() {
         try {
             val intent = Intent(Settings.ACTION_SETTINGS)
-            context.startActivity(intent)
+            startActivity(intent)
         } catch (exception: Exception) {
             // catch generic exception on settings navigation
             // most likely due to device / rom specific intent issue
