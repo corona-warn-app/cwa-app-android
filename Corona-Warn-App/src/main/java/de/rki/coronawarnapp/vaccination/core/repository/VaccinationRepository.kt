@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.vaccination.core.repository
 
 import android.content.Context
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
@@ -10,8 +11,11 @@ import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
+import de.rki.coronawarnapp.vaccination.core.repository.storage.toVaccinationContainer
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationProofServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +33,7 @@ import javax.inject.Singleton
 class VaccinationRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
+    private val timeStamper: TimeStamper,
     @AppContext private val context: Context,
     private val storage: VaccinationStorage,
     private val valueSetsRepository: ValueSetsRepository,
@@ -43,7 +48,7 @@ class VaccinationRepository @Inject constructor(
         storage.personContainers
             .map { personContainer ->
                 VaccinatedPerson(
-                    person = personContainer,
+                    data = personContainer,
                     valueSet = null,
                     isUpdatingData = false,
                     lastError = null
@@ -58,7 +63,7 @@ class VaccinationRepository @Inject constructor(
             .onStart { Timber.tag(TAG).d("Observing test data.") }
             .onEach { vaccinatedPersons ->
                 Timber.tag(TAG).v("Vaccination data changed: %s", vaccinatedPersons)
-                storage.personContainers = vaccinatedPersons.map { it.person }.toSet()
+                storage.personContainers = vaccinatedPersons.map { it.data }.toSet()
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot vaccination data to storage.")
@@ -77,11 +82,55 @@ class VaccinationRepository @Inject constructor(
     suspend fun registerVaccination(
         qrCode: VaccinationCertificateQRCode
     ): VaccinationCertificate {
+        Timber.tag(TAG).v("registerVaccination(qrCode=%s)", qrCode)
+
+        val newCertificate: VaccinationCertificate? = null
+
+        internalData.updateBlocking {
+
+            val existingPerson = if (this.isNotEmpty()) {
+                Timber.tag(TAG).d("There is an existing person we must match.")
+                this.single().also {
+                    it.identifier.requireMatch(qrCode.certificate.personIdentifier)
+                    Timber.tag(TAG).i("New certificate matches existing person!")
+                }
+            } else {
+                VaccinatedPerson(
+                    data = PersonData(
+                        vaccinations = emptySet(),
+                        proofs = emptySet()
+                    ),
+                    valueSet = null,
+                )
+            }
+
+            val modifiedPerson = existingPerson.copy(
+                data = existingPerson.data.copy(
+                    vaccinations = existingPerson.data.vaccinations.plus(
+                        qrCode.toVaccinationContainer(scannedAt = timeStamper.nowUTC)
+                    )
+                )
+            )
+
+            this.toMutableSet().apply {
+                remove(existingPerson)
+                add(modifiedPerson)
+            }
+
+            throw NotImplementedError()
+        }
+
+        return newCertificate!!
+    }
+
+    suspend fun checkForProof(personIdentifier: VaccinatedPersonIdentifier?) {
+        Timber.tag(TAG).i("checkForProof(personIdentifier=%s)", personIdentifier)
         throw NotImplementedError()
     }
 
     suspend fun refresh(personIdentifier: VaccinatedPersonIdentifier?) {
         Timber.tag(TAG).d("refresh(personIdentifier=%s)", personIdentifier)
+        throw NotImplementedError()
     }
 
     suspend fun clear() {
@@ -102,8 +151,8 @@ class VaccinationRepository @Inject constructor(
             )
 
             val newTarget = target.copy(
-                person = target.person.copy(
-                    vaccinations = target.person.vaccinations.filter {
+                data = target.data.copy(
+                    vaccinations = target.data.vaccinations.filter {
                         it.certificateId != vaccinationCertificateId
                     }.toSet()
                 )

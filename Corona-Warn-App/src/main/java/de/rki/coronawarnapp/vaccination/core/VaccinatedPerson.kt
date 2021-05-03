@@ -6,27 +6,27 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
-    internal val person: PersonData,
+    internal val data: PersonData,
     private val valueSet: VaccinationValueSet?,
-    val isUpdatingData: Boolean,
-    val lastError: Throwable?,
+    val isUpdatingData: Boolean = false,
+    val lastError: Throwable? = null,
 ) {
     val identifier: VaccinatedPersonIdentifier
-        get() = person.identifier
+        get() = data.identifier
 
     val lastUpdatedAt: Instant
-        get() = person.proofs.maxOfOrNull { it.updatedAt } ?: person.vaccinations.maxOf { it.scannedAt }
+        get() = data.proofs.maxOfOrNull { it.updatedAt } ?: data.vaccinations.maxOf { it.scannedAt }
 
     val vaccinationStatus: Status
         get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
 
     val vaccinationCertificates: Set<VaccinationCertificate>
-        get() = person.vaccinations.map {
+        get() = data.vaccinations.map {
             it.toVaccinationCertificate(valueSet)
         }.toSet()
 
     val proofCertificates: Set<ProofCertificate>
-        get() = person.proofs.map {
+        get() = data.proofs.map {
             it.toProofCertificate()
         }.toSet()
 

@@ -78,6 +78,9 @@ class VaccinationStorageTest : BaseTest() {
         ),
         proofs = setOf(
             ProofContainer(
+                proof = ProofContainer.StoredProof(
+                    identifier = "some-identifier"
+                ),
                 expiresAt = Instant.ofEpochMilli(1620322034474),
                 updatedAt = Instant.ofEpochMilli(1620062834474),
                 proofCBORBase64 = "BASE64",
@@ -195,11 +198,16 @@ class VaccinationStorageTest : BaseTest() {
                 ],
                 "proofData": [
                     {
+                        "proof": {
+                            "identifier": "some-identifier"
+                        },
                         "expiresAt": 1620322034474,
                         "updatedAt": 1620062834474,
                         "proofCBORBase64": "BASE64"
                     }
-                ]
+                ],
+                "lastSuccessfulProofCertificateRun": 0,
+                "proofCertificateRunPending": true
             }
         """.toComparableJsonPretty()
 
@@ -244,7 +252,9 @@ class VaccinationStorageTest : BaseTest() {
                         "scannedAt": 1620062834471
                     }
                 ],
-                "proofData": []
+                "proofData": [],
+                "lastSuccessfulProofCertificateRun": 0,
+                "proofCertificateRunPending": true
             }
         """.toComparableJsonPretty()
 

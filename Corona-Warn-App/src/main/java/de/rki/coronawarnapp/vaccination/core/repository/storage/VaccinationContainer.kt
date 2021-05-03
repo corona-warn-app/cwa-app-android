@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -96,3 +97,27 @@ data class VaccinationContainer(
     }
 }
 
+fun VaccinationCertificateQRCode.toVaccinationContainer(scannedAt: Instant) = VaccinationContainer(
+    certificate = VaccinationContainer.StoredCertificate(
+        firstName = certificate.firstName,
+        firstNameStandardized = certificate.firstNameStandardized,
+        lastName = certificate.lastName,
+        lastNameStandardized = certificate.lastNameStandardized,
+        dateOfBirth = certificate.dateOfBirth,
+        vaccinatedAt = certificate.vaccinatedAt,
+        vaccinationLocation = certificate.vaccinationLocation,
+        targetId = certificate.targetId,
+        vaccineId = certificate.vaccineId,
+        medicalProductId = certificate.medicalProductId,
+        marketAuthorizationHolderId = certificate.marketAuthorizationHolderId,
+        doseNumber = certificate.doseNumber,
+        totalSeriesOfDoses = certificate.totalSeriesOfDoses,
+        chargeId = certificate.chargeId,
+        certificateIssuer = certificate.certificateIssuer,
+        certificateCountryCode = certificate.certificateCountryCode,
+        certificateId = certificate.certificateId
+    ),
+    certificateCBORBase64 = qrCodeOriginalCBOR.base64(),
+    certificateBase45 = qrCodeOriginalBase45,
+    scannedAt = scannedAt
+)
