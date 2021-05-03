@@ -59,7 +59,6 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     }
 
     private suspend fun deleteExistingAndRegisterNewTestWitTAN() {
-
         try {
             val currentTest = submissionRepository.testForType(CoronaTest.Type.PCR).first()
             coronaTestRepository.removeTest(currentTest!!.identifier)
@@ -89,9 +88,6 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
         } catch (err: Exception) {
             mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             err.report(ExceptionCategory.INTERNAL)
-        } finally {
-            // TODO Should not be necessary? What new data would we
-            submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
         }
     }
 
