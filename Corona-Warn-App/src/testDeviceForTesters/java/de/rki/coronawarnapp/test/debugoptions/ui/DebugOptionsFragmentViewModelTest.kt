@@ -1,25 +1,19 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
-import androidx.lifecycle.Observer
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTestInstrumentation
 import testhelpers.TestDispatcherProvider
-import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
-import testhelpers.flakyTest
+import testhelpers.extensions.getOrAwaitValue
 
-@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
+@ExtendWith(InstantExecutorExtension::class)
 class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var environmentSetup: EnvironmentSetup
@@ -54,38 +48,15 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
     )
 
     @Test
-    fun `toggeling the env works`() = flakyTest {
+    fun `toggeling the env works`() {
         currentEnvironment = EnvironmentSetup.Type.DEV
         val vm = createViewModel()
-
-        val states = mutableListOf<EnvironmentState>()
-        val observerState = mockk<Observer<EnvironmentState>>()
-        every { observerState.onChanged(capture(states)) } just Runs
-        vm.environmentState.observeForever(observerState)
-
-        val events = mutableListOf<EnvironmentSetup.Type>()
-        val observerEvent = mockk<Observer<EnvironmentSetup.Type>>()
-        every { observerEvent.onChanged(capture(events)) } just Runs
-        vm.environmentChangeEvent.observeForever(observerEvent)
+        vm.environmentState.getOrAwaitValue().current shouldBe EnvironmentSetup.Type.DEV
 
         vm.selectEnvironmentTytpe(EnvironmentSetup.Type.DEV.rawKey)
+        vm.environmentState.getOrAwaitValue().current shouldBe EnvironmentSetup.Type.DEV
+
         vm.selectEnvironmentTytpe(EnvironmentSetup.Type.WRU_XA.rawKey)
-
-        verify(exactly = 3, timeout = 3000) { observerState.onChanged(any()) }
-        verify(exactly = 2, timeout = 3000) { observerEvent.onChanged(any()) }
-
-        states[0].apply {
-            current shouldBe EnvironmentSetup.Type.DEV
-        }
-
-        states[1].apply {
-            current shouldBe EnvironmentSetup.Type.DEV
-        }
-        events[0] shouldBe EnvironmentSetup.Type.DEV
-
-        states[2].apply {
-            current shouldBe EnvironmentSetup.Type.WRU_XA
-        }
-        events[1] shouldBe EnvironmentSetup.Type.WRU_XA
+        vm.environmentState.getOrAwaitValue().current shouldBe EnvironmentSetup.Type.WRU_XA
     }
 }
