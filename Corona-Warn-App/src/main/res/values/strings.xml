@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
-
-    <!-- ####################################
-                     Non translatable
-    ###################################### -->
-
-    <!-- XTXT: Path to the full blown legal html, currently not translated -->
-    <string name="information_technical_html_path" translatable="false">"technical.html"</string>
-
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -74,9 +66,9 @@
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Installed %s days ago"</string>
     <!-- XTXT: risk card - Days since installation if today -->
-    <string name="risk_card_body_installation_today"></string>
-    !-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday"></string>
+    <string name="risk_card_body_installation_today">"Installed today"</string>
+    <!-- XTXT: risk card - Days since installation if yesterday -->
+    <string name="risk_card_body_installation_yesterday">"Installed yesterday"</string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the past 14 days"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -877,10 +869,10 @@
     <string name="debugging_debuglog_action_start_recording">"Start"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Stop and Delete"</string>
-    <!-- XBUT: Button text to send the log recording to the server -->
+    <!-- XBUT: Button text to send the log recording to the server-->
     <string name="debugging_debuglog_action_share_log">"Send Error Report"</string>
     <!-- XBUT: Button text to export the log -->
-    <string name="debugging_debuglog_action_local_log_export">"Save Locally and Continue"</string>
+    <string name="debugging_debuglog_action_local_log_export">"Share and Continue"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Recording Active"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -907,6 +899,7 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Continue Analysis"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"You need at least 200 MB of memory to start the error analysis. Please free up memory."</string>
+
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Detailed Information on Sending Error Reports"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -1193,10 +1186,7 @@
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_first_part">"Because you tested positive for coronavirus, you can now warn others through the app."</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_second_part">"The warning feature works in several countries. The following countries are currently participating:"</string>
-
+    <string name="submission_positive_other_warning_no_consent_body_first_part">"Because you have been diagnosed with coronavirus, you can warn others through the app. If you took a rapid test, the warning feature only works in Germany. If you took a PCR test, the warning feature works in the following countries:"</string>
 
     <!-- Test result positive and no consent given -->
     <!-- XHED: Title for test result positive and no consent given-->
@@ -1959,16 +1949,7 @@
     <!-- XACT: Button/Dialog label to cancel something-->
     <string name="generic_action_abort">"Cancel"</string>
     <!-- XACT: Button/Dialog label to remove something-->
-    <string name="generic_action_remove">Remove</string>
-
-    <!-- ####################################
-        Incompatibility warning card
-    ###################################### -->
-    <string name="incompatible_headline"></string>
-    <string name="incompatible_advertising_not_supported"></string>
-    <string name="incompatible_scanning_not_supported"></string>
-
-    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
+    <string name="generic_action_remove">"Remove"</string>
 
     <!-- ####################################
        Trace Location
@@ -2026,4 +2007,13 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Cancel"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <string name="incompatible_headline">"Incompatibility Warning"</string>
+    <string name="incompatible_advertising_not_supported">"Your smartphone can only receive COVID-19 notifications via Bluetooth, but not send them. This means you can be warned of exposures through this interface, but you cannot warn others of exposures yourself. You can send and receive warnings that result from check-ins."</string>
+    <string name="incompatible_scanning_not_supported">"Your smartphone cannot send or receive COVID-19 notifications via Bluetooth. You can send and receive warnings that result from check-ins."</string>
+    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
 </resources>
