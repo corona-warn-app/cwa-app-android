@@ -55,3 +55,7 @@ License: Apache-2.0
 Files: Corona-Warn-App/src/main/res/font/roboto.ttf
 Copyright: 2011 Google Inc.
 License: Apache-2.0
+
+Files: Corona-Warn-App/src/test/java/testhelpers/extensions/LiveDataTestUtil.kt
+Copyright: 2019 The Android Open Source Project
+License: Apache-2.0
