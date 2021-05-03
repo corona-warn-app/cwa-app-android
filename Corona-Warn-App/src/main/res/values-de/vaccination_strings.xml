@@ -30,4 +30,19 @@
     <string name="vaccination_details_deletion_dialog_positive_button">Entfernen</string>
     <!-- XBUT: Vaccination Details deletion dialog negative button-->
     <string name="vaccination_details_deletion_dialog_negative_button">Abbrechen</string>
+
+    <!-- XTXT: Vaccination List title-->
+    <string name="vaccination_list_title">Digitaler Impfnachweis</string>
+    <!-- XTXT: Vaccination List top card title-->
+    <string name="vaccination_list_top_card_title">SARS-CoV-2 Impfung</string>
+    <!-- XTXT: Vaccination List top card subtitle-->
+    <string name="vaccination_list_top_card_subtitle">Unvollständiger Impfschutz</string>
+    <!-- XTXT: Vaccination List name card subtitle-->
+    <string name="vaccination_list_name_card_subtitle">geboren %1$s</string>
+    <!-- XTXT: Vaccination List top card subtitle-->
+    <string name="vaccination_list_vaccination_card_title">Impfung %1$s von %2$s</string>
+    <!-- XTXT: Vaccination List top card subtitle-->
+    <string name="vaccination_list_vaccination_card_subtitle">durchgeführt am %1$s</string>
+    <!-- XBUT: Vaccination List register additional vaccination button -->
+    <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung registrieren</string>
 </resources>

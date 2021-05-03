@@ -170,9 +170,23 @@
         android:name="de.rki.coronawarnapp.vaccination.ui.VaccinationTestFragment"
         android:label="VaccinationTestFragment"
         tools:layout="@layout/fragment_test_vaccination" >
+
         <action
             android:id="@+id/action_vaccinationTestFragment_to_vaccinationDetailsFragment"
             app:destination="@id/vaccinationDetailsFragment" />
+        <action
+            android:id="@+id/action_vaccinationTestFragment_to_vaccinationListFragment"
+            app:destination="@id/vaccinationListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/vaccinationListFragment"
+        android:name="de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment"
+        android:label="fragment_vaccination_list"
+        tools:layout="@layout/fragment_vaccination_list">
+        <argument
+            android:name="vaccinatedPersonId"
+            app:argType="string" />
     </fragment>
 
     <fragment

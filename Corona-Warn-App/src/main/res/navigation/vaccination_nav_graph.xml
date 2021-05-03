@@ -6,6 +6,16 @@
     app:startDestination="@id/vaccinationDetailsFragment">
 
     <fragment
+        android:id="@+id/vaccinationListFragment"
+        android:name="de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment"
+        android:label="fragment_vaccination_list"
+        tools:layout="@layout/fragment_vaccination_list">
+        <argument
+            android:name="vaccinatedPersonId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
         android:id="@+id/vaccinationDetailsFragment"
         android:name="de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragment"
         android:label="fragment_vaccination_details"
