@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
+import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryEncounterCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -63,6 +64,17 @@ class DiaryEncounterCensorTest : BaseTest() {
             throwable = null
         )
 
+        instance.checkLog(censorMe) shouldBe censorMe.copy(
+            message =
+                """
+                    On Encounter#2/Circumstances,
+                    two persons Encounter#3/Circumstances,
+                    everyone disliked that.
+                """.trimIndent()
+        )
+
+        // censoring should still work after encounters are deleted
+        every { diaryRepo.personEncounters } returns flowOf(emptyList())
         instance.checkLog(censorMe) shouldBe censorMe.copy(
             message =
                 """

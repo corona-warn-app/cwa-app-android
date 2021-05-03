@@ -8,6 +8,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
 import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.locations.TraceLocationCreator
@@ -67,6 +68,8 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
             endDate = end?.toDateTime()?.toInstant(),
             defaultCheckInLengthInMinutes = checkInLength.standardMinutes.toInt()
         )
+
+        TraceLocationCensor.dataToCensor = userInput
 
         launch {
             try {

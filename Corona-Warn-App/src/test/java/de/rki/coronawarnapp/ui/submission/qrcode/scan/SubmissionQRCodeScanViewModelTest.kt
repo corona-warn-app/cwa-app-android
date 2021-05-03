@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import androidx.lifecycle.MutableLiveData
-import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
@@ -87,12 +86,9 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
         viewModel.qrCodeValidationState.value shouldBe ValidationState.STARTED
 
-        QRCodeCensor.lastGUID = null
-
         viewModel.onQrCodeAvailable(validQrCode)
         viewModel.qrCodeValidationState.observeForever {}
         viewModel.qrCodeValidationState.value shouldBe ValidationState.SUCCESS
-        QRCodeCensor.lastGUID = guid
 
         // invalid guid
         viewModel.onQrCodeAvailable(invalidQrCode)
