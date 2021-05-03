@@ -16,32 +16,24 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Înregistrarea testelor antigen rapide"</item>
-        <item>"Afișarea dovezii"</item>
-        <item>"Hotline tehnic disponibil acum din afara Germaniei"</item>
-        <item>"Hotline TAN disponibil acum din afara Germaniei"</item>
+        <item>"Înregistrarea jurnalelor de depanare"</item>
+        <item>"Crearea profilurilor de test rapid"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Pe lângă rezultatele testelor PCR, acum puteți afișa și rezultatele testelor antigen rapide în aplicație și le puteți utiliza pentru a-i avertiza pe ceilalți."</item>
-        <item>"Dacă doriți, puteți utiliza aplicația pentru a dovedi starea de infectare personală (de exemplu, un test rapid negativ). Rețineți, totuși, că nu aveți nicio obligație de a utiliza aplicația pentru a dovedi starea dvs. de infectare. De asemenea, puteți dovedi starea dvs. de infectare într-un alt mod care respectă reglementările legale din localitatea dvs. de domiciliu."</item>
-        <item>"Acum puteți contacta hotline-ul tehnic și din afara Germaniei, la numărul +49 30 498 75401. Se vor aplica tarifele furnizorului dvs. de servicii de telefonie."</item>
-        <item>"Dacă sunteți diagnosticat cu coronavirus, acum puteți solicita un cod TAN din afara Germaniei, la numărul +49 30 498 75402. Se vor aplica tarifele furnizorului dvs. de servicii de telefonie."</item>
+        <item>"Acum puteți genera un jurnal de erori în caracteristica de suport tehnic pentru aplicație. Aceasta înregistrează etapele pe care le efectuați în aplicație, pentru a simplifica analiza de erori potențiale și pentru a ne ajuta să le corectăm mai rapid."</item>
+        <item>"Acum puteți crea un profil de test rapid în datele dvs. personale. Apoi, profilul dvs. poate fi scanat în punctele de testare, rapid și ușor, prin intermediul codului QR."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
         <item/>
         <item/>
     </string-array>
