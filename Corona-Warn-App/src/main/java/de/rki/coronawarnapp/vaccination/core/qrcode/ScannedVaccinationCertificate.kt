@@ -10,6 +10,7 @@ interface ScannedVaccinationCertificate {
     val lastNameStandardized: String
     val dateOfBirth: LocalDate
     val vaccinatedAt: LocalDate
+    val vaccinationLocation: String
     val vaccineId: String
     val medicalProductId: String
     val marketAuthorizationHolderId: String
