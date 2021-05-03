@@ -64,6 +64,10 @@
 
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Instalat acum %s zile"</string>
+    <!-- XTXT: risk card - Days since installation if today -->
+    <string name="risk_card_body_installation_today">"Instalat astăzi"</string>
+    <!-- XTXT: risk card - Days since installation if yesterday -->
+    <string name="risk_card_body_installation_yesterday">"Instalat ieri"</string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"În ultimele 14 zile, înregistrarea în jurnal a expunerilor a fost activă timp de %1$s zile"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -864,10 +868,10 @@
     <string name="debugging_debuglog_action_start_recording">"Pornire"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Oprire și ștergere"</string>
-    <!-- XBUT: Button text to send the log recording to the server -->
+    <!-- XBUT: Button text to send the log recording to the server-->
     <string name="debugging_debuglog_action_share_log">"Trimitere raport de erori"</string>
     <!-- XBUT: Button text to export the log -->
-    <string name="debugging_debuglog_action_local_log_export">"Salvare locală și continuare"</string>
+    <string name="debugging_debuglog_action_local_log_export">"Partajare și continuare"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Înregistrare activă"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -894,6 +898,7 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Continuare analiză"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Aveți nevoie de cel puțin 200 MB de memorie pentru a începe analiza erorilor. Eliberați memorie."</string>
+
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Informații detaliate despre trimiterea rapoartelor de erori"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -1041,6 +1046,17 @@
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"O persoană ține în mână un smartphone. Un cod QR de pe un test simbolizează codul care va fi scanat."</string>
 
+    <!-- YTXT: Body for no consent section first point  -->
+    <string name="submission_no_consent_first_point">"Consimțământul dvs. este voluntar."</string>
+    <!-- YTXT: Body for no consent section second point  -->
+    <string name="submission_no_consent_second_point">"Puteți afla rezultatul testului dvs. chiar dacă alegeți să nu îl partajați. Dar dacă partajați rezultatul testului dvs., veți ajuta la protejarea celorlalți împotriva infectării."</string>
+    <!-- YTXT: Body for no consent section third point  -->
+    <string name="submission_no_consent_third_point">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
+    <!-- YTXT: Body for no consent section fourth point  -->
+    <string name="submission_no_consent_fourth_point">"La „Check-inurile mele”, puteți vedea evenimentele și locurile ale căror invitați cu check-inul făcut vor fi avertizați. Puteți elimina check-inuri individuale din listă pentru a le exclude din procesul de avertizare."</string>
+    <!-- YTXT: Body for no consent section fifth point  -->
+    <string name="submission_no_consent_fifth_point">"Trebuie să aveți cel puțin 16 ani pentru a vă acorda consimțământul."</string>
+
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
     <string name="submission_test_result_headline">"Rezultat test"</string>
@@ -1169,10 +1185,7 @@
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_first_part">"Deoarece ați fost testat pozitiv la coronavirus, acum puteți să îi avertizați pe ceilalți prin intermediul aplicației."</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_second_part">"Caracteristica de avertizare funcționează în câteva țări. Următoarele țări participă în prezent:"</string>
-
+    <string name="submission_positive_other_warning_no_consent_body_first_part">"Deoarece ați fost diagnosticat cu coronavirus, puteți să îi avertizați pe ceilalți prin intermediul aplicației. Dacă ați făcut un test rapid, caracteristica de avertizare funcționează doar în Germania. Dacă ați făcut un test PCR, caracteristica de avertizare funcționează doar în următoarele țări:"</string>
 
     <!-- Test result positive and no consent given -->
     <!-- XHED: Title for test result positive and no consent given-->
@@ -1993,4 +2006,13 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Anulare"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <string name="incompatible_headline">"Avertizare de incompatibilitate"</string>
+    <string name="incompatible_advertising_not_supported">"Smartphone-ul dvs. poate doar primi notificări despre COVID-19 prin Bluetooth, dar nu le poate expedia. Aceasta înseamnă că puteți fi avertizat privind expunerile prin această interfață, dar dvs. nu îi puteți avertiza pe ceilalți de expuneri. Puteți trimite și primi avertizări care rezultă din check-inuri."</string>
+    <string name="incompatible_scanning_not_supported">"Smartphone-ul dvs. nu poate trimite sau primi notificări despre COVID-19 prin Bluetooth. Puteți trimite și primi avertizări care rezultă din check-inuri."</string>
+    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
 </resources>
