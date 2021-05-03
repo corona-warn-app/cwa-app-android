@@ -30,7 +30,7 @@ internal class LowRiskTest {
     private val defaultRisk = LowRisk(
         riskState = RiskState.LOW_RISK,
         isInDetailsMode = false,
-        lastExposureDetectionTime = Instant.now(),
+        lastCalculationTime = Instant.now(),
         allowManualUpdate = false,
         daysWithEncounters = 0,
         daysSinceInstallation = 4,

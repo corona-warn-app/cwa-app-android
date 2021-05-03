@@ -53,11 +53,18 @@ class TracingStateProvider @AssistedInject constructor(
         val latestCalc = riskLevelResults.lastCalculated
         val lastSuccessfullyCalc = riskLevelResults.lastSuccessfullyCalculated
 
+        val lastCalcTime = if (lastSuccessfullyCalc.calculatedAt == lastSuccessfullyCalc.ewCalculatedAt) {
+            // for EW take the date from the last ENF submission instead if available
+            latestSubmission?.startedAt ?: lastSuccessfullyCalc.calculatedAt
+        } else {
+            lastSuccessfullyCalc.calculatedAt
+        }
+
         return@combine when {
             tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> TracingDisabled(
                 isInDetailsMode = isDetailsMode,
                 riskState = lastSuccessfullyCalc.riskState,
-                lastExposureDetectionTime = latestSubmission?.startedAt
+                lastCalculationTime = lastCalcTime
             )
             tracingProgress != TracingProgress.Idle -> TracingInProgress(
                 isInDetailsMode = isDetailsMode,
@@ -67,7 +74,7 @@ class TracingStateProvider @AssistedInject constructor(
             latestCalc.riskState == RiskState.LOW_RISK -> LowRisk(
                 isInDetailsMode = isDetailsMode,
                 riskState = latestCalc.riskState,
-                lastExposureDetectionTime = latestSubmission?.startedAt,
+                lastCalculationTime = lastCalcTime,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
                 allowManualUpdate = !isBackgroundJobEnabled,
@@ -76,7 +83,7 @@ class TracingStateProvider @AssistedInject constructor(
             latestCalc.riskState == RiskState.INCREASED_RISK -> IncreasedRisk(
                 isInDetailsMode = isDetailsMode,
                 riskState = latestCalc.riskState,
-                lastExposureDetectionTime = latestSubmission?.startedAt,
+                lastCalculationTime = lastCalcTime,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
                 allowManualUpdate = !isBackgroundJobEnabled
@@ -84,7 +91,7 @@ class TracingStateProvider @AssistedInject constructor(
             else -> TracingFailed(
                 isInDetailsMode = isDetailsMode,
                 riskState = lastSuccessfullyCalc.riskState,
-                lastExposureDetectionTime = latestSubmission?.startedAt
+                lastCalculationTime = lastCalcTime
             )
         }
     }

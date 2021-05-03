@@ -31,6 +31,10 @@ data class CombinedEwPtRiskLevelResult(
         max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt)
     }
 
+    val ewCalculatedAt: Instant by lazy {
+        ewRiskLevelResult.calculatedAt
+    }
+
     val daysWithEncounters: Int by lazy {
         when (riskState) {
             RiskState.INCREASED_RISK -> {

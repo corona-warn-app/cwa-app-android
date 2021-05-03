@@ -29,7 +29,7 @@ sealed class TracingState {
 data class IncreasedRisk(
     override val riskState: RiskState,
     override val isInDetailsMode: Boolean,
-    val lastExposureDetectionTime: Instant?,
+    val lastCalculationTime: Instant?,
     val lastEncounterAt: LocalDate?,
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int
@@ -37,10 +37,10 @@ data class IncreasedRisk(
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
 
-    fun getTimeFetched(context: Context): String = if (lastExposureDetectionTime != null) {
+    fun getTimeFetched(context: Context): String = if (lastCalculationTime != null) {
         context.getString(
             R.string.risk_card_body_time_fetched,
-            formatRelativeDateTimeString(context, lastExposureDetectionTime)
+            formatRelativeDateTimeString(context, lastCalculationTime)
         )
     } else {
         context.getString(R.string.risk_card_body_not_yet_fetched)
@@ -90,7 +90,7 @@ data class IncreasedRisk(
 data class LowRisk(
     override val riskState: RiskState,
     override val isInDetailsMode: Boolean,
-    val lastExposureDetectionTime: Instant?,
+    val lastCalculationTime: Instant?,
     val lastEncounterAt: LocalDate?,
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int,
@@ -99,10 +99,10 @@ data class LowRisk(
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
 
-    fun getTimeFetched(context: Context): String = if (lastExposureDetectionTime != null) {
+    fun getTimeFetched(context: Context): String = if (lastCalculationTime != null) {
         context.getString(
             R.string.risk_card_body_time_fetched,
-            formatRelativeDateTimeString(context, lastExposureDetectionTime)
+            formatRelativeDateTimeString(context, lastCalculationTime)
         )
     } else {
         context.getString(R.string.risk_card_body_not_yet_fetched)
@@ -163,15 +163,15 @@ data class LowRisk(
 data class TracingFailed(
     override val riskState: RiskState, // Here it's the latest successful
     override val isInDetailsMode: Boolean,
-    val lastExposureDetectionTime: Instant?
+    val lastCalculationTime: Instant?
 ) : TracingState() {
 
     val showRestartButton: Boolean = !isInDetailsMode
 
-    fun getTimeFetched(context: Context): String = if (lastExposureDetectionTime != null) {
+    fun getTimeFetched(context: Context): String = if (lastCalculationTime != null) {
         context.getString(
             R.string.risk_card_body_time_fetched,
-            formatRelativeDateTimeString(context, lastExposureDetectionTime)
+            formatRelativeDateTimeString(context, lastCalculationTime)
         )
     } else {
         context.getString(R.string.risk_card_body_not_yet_fetched)
@@ -193,15 +193,15 @@ data class TracingFailed(
 data class TracingDisabled(
     override val riskState: RiskState, // Here it's the latest successful
     override val isInDetailsMode: Boolean,
-    val lastExposureDetectionTime: Instant?
+    val lastCalculationTime: Instant?
 ) : TracingState() {
 
     val showEnableTracingButton: Boolean = !isInDetailsMode
 
-    fun getTimeFetched(c: Context): String = if (lastExposureDetectionTime != null) {
+    fun getTimeFetched(c: Context): String = if (lastCalculationTime != null) {
         c.getString(
             R.string.risk_card_body_time_fetched,
-            formatRelativeDateTimeString(c, lastExposureDetectionTime)
+            formatRelativeDateTimeString(c, lastCalculationTime)
         )
     } else {
         c.getString(R.string.risk_card_body_not_yet_fetched)

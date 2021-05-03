@@ -59,7 +59,7 @@ internal class IncreasedRiskTest {
     private val defaultRisk = IncreasedRisk(
         riskState = RiskState.INCREASED_RISK,
         isInDetailsMode = false,
-        lastExposureDetectionTime = Instant.now(),
+        lastCalculationTime = Instant.now(),
         allowManualUpdate = false,
         daysWithEncounters = 1,
         lastEncounterAt = Instant.now().toLocalDateUtc()
