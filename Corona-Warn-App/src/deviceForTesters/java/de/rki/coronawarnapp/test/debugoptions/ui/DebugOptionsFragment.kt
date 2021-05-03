@@ -75,7 +75,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                 environmentPubkeyAppconfig.text = "AppConfigPubKey:\n${state.pubKeyAppConfig}"
             }
         }
-        vm.environmentChangeEvent.observe2(this) {
+        vm.environmentStateChange.observe2(this) {
             showSnackBar("Environment changed to: $it\nForce stop & restart the app!")
         }
     }
