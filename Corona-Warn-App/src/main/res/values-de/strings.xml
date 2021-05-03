@@ -2002,7 +2002,7 @@
     <!-- XHED: Trace location check-ins invalid qr code dialog title -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_title">QR-Code nicht gültig</string>
     <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">Der gescannte QR-Code gilt nicht für das Einchecken für ein Event oder einen Ort. Bitte scannen Sie einen geeigneten QR-Code.\n\n(%1$s)</string>
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">Der gescannte QR-Code gilt nicht für das Einchecken für ein Event oder einen Ort. \nBitte scannen Sie einen geeigneten QR-Code.\n\n(%1$s)</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">OK</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
