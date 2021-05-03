@@ -14,7 +14,17 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
 
     @Test
     fun `valid codes are recognized`() {
-        listOf(raQrCode1, raQrCode2, raQrCode3, raQrCode4, raQrCode5, raQrCode6, raQrCode7, raQrCode8).forEach {
+        listOf(
+            raQrCode1,
+            raQrCode2,
+            raQrCode3,
+            raQrCode4,
+            raQrCode5,
+            raQrCode6,
+            raQrCode7,
+            raQrCode8,
+            raQrCode9withUmlaut
+        ).forEach {
             instance.canHandle(it) shouldBe true
         }
     }
@@ -28,7 +38,17 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
 
     @Test
     fun `extracting valid codes does not throw exception`() {
-        listOf(raQrCode1, raQrCode2, raQrCode3, raQrCode4, raQrCode5, raQrCode6, raQrCode7, raQrCode8).forEach {
+        listOf(
+            raQrCode1,
+            raQrCode2,
+            raQrCode3,
+            raQrCode4,
+            raQrCode5,
+            raQrCode6,
+            raQrCode7,
+            raQrCode8,
+            raQrCode9withUmlaut
+        ).forEach {
             instance.extract(it)
         }
     }

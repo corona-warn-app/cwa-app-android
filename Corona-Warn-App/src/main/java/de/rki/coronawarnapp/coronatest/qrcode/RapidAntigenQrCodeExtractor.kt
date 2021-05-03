@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.hashing.isSha256Hash
 import de.rki.coronawarnapp.util.serialization.fromJson
+import okio.ByteString.Companion.encode
 import okio.internal.commonToUtf8String
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -134,10 +135,14 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
 
         private fun requireValidHash() {
             val isQrCodeWithPersonalData = firstName != null && lastName != null && dateOfBirth != null
-            val generatedHash =
+            val stringToHash =
                 "${raw.dateOfBirth}#${raw.firstName}#${raw.lastName}#${raw.timestamp}#${raw.testid}#${raw.salt}"
-                    .toSHA256()
+                    .encode(Charsets.ISO_8859_1).toByteArray()
+
+            val generatedHash = stringToHash.toSHA256()
+
             if (isQrCodeWithPersonalData && !generatedHash.equals(hash, true)) {
+                Timber.e("Generated hash doesn't match QRCode hash")
                 throw InvalidQRCodeException("Generated hash doesn't match QRCode hash")
             }
         }

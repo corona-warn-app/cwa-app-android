@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.util.HashExtensions.Format.BASE64
 import de.rki.coronawarnapp.util.HashExtensions.Format.HEX
+import okio.ByteString
 import okio.ByteString.Companion.toByteString
 import java.io.File
 import java.security.MessageDigest
@@ -26,6 +27,8 @@ internal object HashExtensions {
     fun String.toMD5(format: Format = HEX) = this.hashString("MD5", format)
 
     private fun String.hashString(type: String, format: Format): String = toByteArray().hashByteArray(type, format)
+
+    private fun ByteString.hashString(type: String, format: Format): String = toByteArray().hashByteArray(type, format)
 
     private fun ByteArray.hashByteArray(type: String, format: Format): String = MessageDigest
         .getInstance(type)
