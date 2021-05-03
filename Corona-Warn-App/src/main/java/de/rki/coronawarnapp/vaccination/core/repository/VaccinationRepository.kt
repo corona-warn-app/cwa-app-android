@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
-import android.content.Context
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
@@ -34,7 +32,6 @@ class VaccinationRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     private val timeStamper: TimeStamper,
-    @AppContext private val context: Context,
     private val storage: VaccinationStorage,
     private val valueSetsRepository: ValueSetsRepository,
     private val vaccinationProofServer: VaccinationProofServer,
