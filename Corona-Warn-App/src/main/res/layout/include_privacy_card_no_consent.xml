@@ -58,6 +58,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/privacy_card_text_part_second" />
 
+        <TextView
+            android:id="@+id/privacy_card_text_part_fourth"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_no_consent_your_consent_subsection_body_fourth_part"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/privacy_card_text_part_third" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
