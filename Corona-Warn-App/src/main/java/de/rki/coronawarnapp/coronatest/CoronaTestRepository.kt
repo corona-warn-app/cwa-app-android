@@ -201,14 +201,17 @@ class CoronaTestRepository @Inject constructor(
     ) {
         internalData.updateBlocking {
             val original = values.singleOrNull { it.identifier == identifier }
-                ?: throw ModifyNotFoundTestException("No test found for $identifier")
-
-            val processor = getProcessor(original.type)
-
-            val updated = update(processor, original)
-            Timber.tag(TAG).d("Updated %s to %s", original, updated)
-
-            toMutableMap().apply { this[original.identifier] = updated }
+            if (original == null) {
+                Timber.tag(TAG).e("No test found for $identifier")
+                if (BuildConfigWrap.DEBUG) throw ModifyNotFoundTestException("No test found for $identifier")
+                toMap()
+            } else {
+                Timber.tag(TAG).e("Updating test for =$identifier")
+                val processor = getProcessor(original.type)
+                val updated = update(processor, original)
+                Timber.tag(TAG).d("Updated %s to %s", original, updated)
+                toMutableMap().apply { this[original.identifier] = updated }
+            }
         }
     }
 
