@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.qrcode.scan
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -43,8 +42,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     suspend fun startQrCodeRegistration(rawResult: String, isConsentGiven: Boolean) {
         try {
             val coronaTestQRCode = qrCodeValidator.validate(rawResult)
-            // TODO this needs to be adapted to work for different types
-            QRCodeCensor.lastGUID = coronaTestQRCode.registrationIdentifier
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.SUCCESS)
             val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
 
