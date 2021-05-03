@@ -124,13 +124,13 @@ class VaccinationStorage @Inject constructor(
             VaccinatedPerson(
                 vaccinationCertificates = setOf(
                     VaccinationContainer(
-                        certificateV1 = testVacCert1,
+                        certificate = testVacCert1,
                         scannedAt = Instant.now(),
                         qrCodeOriginalBase45 = "",
                         qrCodeOriginalCBOR = "".decodeHex()
                     ),
                     VaccinationContainer(
-                        certificateV1 = testVacCert2,
+                        certificate = testVacCert2,
                         scannedAt = Instant.now(),
                         qrCodeOriginalBase45 = "",
                         qrCodeOriginalCBOR = "".decodeHex()
