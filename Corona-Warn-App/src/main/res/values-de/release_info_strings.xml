@@ -23,7 +23,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können nun im Rahmen des technischen Supports für die App einen Fehlerprotokoll erstellen, das die Schritte aufzeichnet, die Sie in der App ausführen. Somit wird die Analyse von möglichen Fehlern erleichtert, welches zu einer schnelleren Fehlerbehebung führen kann.</item>
+        <item>Sie können nun im Rahmen des technischen Supports für die App ein Fehlerprotokoll erstellen, das die Schritte aufzeichnet, die Sie in der App ausführen. Somit wird die Analyse von möglichen Fehlern erleichtert, welches zu einer schnelleren Fehlerbehebung führen kann.</item>
         <item>Sie können nun ein Schnelltest-Profil mit Ihren persönlichen Daten anlegen. Ihr Profil kann dann an Teststellen per QR-Code schnell und einfach gescannt werden.</item>
     </string-array>
 
