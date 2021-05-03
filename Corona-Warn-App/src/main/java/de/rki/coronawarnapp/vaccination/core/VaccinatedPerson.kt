@@ -1,12 +1,19 @@
 package de.rki.coronawarnapp.vaccination.core
 
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
+@Keep
 data class VaccinatedPerson(
+    @SerializedName("vaccinationCertificates")
     val vaccinationCertificates: Set<VaccinationCertificate>,
+    @SerializedName("proofCertificates")
     val proofCertificates: Set<ProofCertificate>,
+    @SerializedName("isRefreshing")
     val isRefreshing: Boolean,
+    @SerializedName("lastUpdatedAt")
     val lastUpdatedAt: Instant,
 ) {
     val identifier: VaccinatedPersonIdentifier = ""
