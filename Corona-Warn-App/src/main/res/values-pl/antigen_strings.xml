@@ -120,13 +120,13 @@
     <!-- XHED: submission result antigen fragment negative result proof title -->
     <string name="submission_test_result_antigen_negative_proof_title">"Funkcja weryfikacji"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
-    <string name="submission_test_result_antigen_negative_proof_body">"Wyświetlony tutaj wynik testu może również służyć jako dowód negatywnego wyniku szybkiego testu. Aby uzyskać więcej informacji, zapoznaj się z kryteriami akceptacji dowodu przeprowadzenia testów w swoim kraju związkowym. Pamiętaj, że nie masz obowiązku używania aplikacji do udowodnienia statusu dotyczącego zakażenia. Wynik szybkiego testu możesz również udowodnić w inny sposób zgodny z przepisami prawa."</string>
+    <string name="submission_test_result_antigen_negative_proof_body">"Wyświetlony tutaj wynik testu może również służyć jako dowód negatywnego wyniku szybkiego testu. \n\nPamiętaj, że wynik szybkiego testu musisz przedstawić tylko wtedy, gdy jest to wymagane przez prawo. Możesz przedstawić wynik za pomocą aplikacji lub w inny sposób. Aby uzyskać więcej informacji, zapoznaj się z kryteriami akceptacji dowodu przeprowadzenia testów w swoim kraju związkowym."</string>
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Wynik dostępny od"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
     <string name="coronatest_negative_antigen_result_first_info_title">"Twój szybki test został dodany."</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
-    <string name="coronatest_negative_antigen_result_first_info_body">"Wynik testu jest wyświetlany tutaj przez 48 godzin. Aplikacja tworzy również wpis w Twoim dzienniku kontaktów."</string>
+    <string name="coronatest_negative_antigen_result_first_info_body">"Wynik testu jest wyświetlany tutaj przez 48 godzin."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
     <string name="coronatest_negative_antigen_result_second_info_title">"Diagnoza: brak zakażenia"</string>
     <!-- XTXT: coronatest negative antigen result second info body -->
