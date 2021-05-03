@@ -9,6 +9,7 @@ import javax.inject.Inject
  */
 @Reusable
 class VaccinationServer @Inject constructor() {
+
     suspend fun getVaccinationValueSets(languageCode: Locale): VaccinationValueSet {
         throw NotImplementedError()
     }

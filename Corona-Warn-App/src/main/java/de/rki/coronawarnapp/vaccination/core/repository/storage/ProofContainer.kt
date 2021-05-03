@@ -7,6 +7,14 @@ import org.joda.time.Instant
 
 @Keep
 data class ProofContainer(
-    @SerializedName("expiresAt") override val expiresAt: Instant,
-    @SerializedName("updatedAt") override val updatedAt: Instant,
-) : ProofCertificate
+    @SerializedName("expiresAt") val expiresAt: Instant,
+    @SerializedName("updatedAt") val updatedAt: Instant,
+    @SerializedName("proofCBORBase64") val proofCBORBase64: String,
+) {
+    fun toProofCertificate(): ProofCertificate = object : ProofCertificate {
+        override val expiresAt: Instant
+            get() = this@ProofContainer.expiresAt
+        override val updatedAt: Instant
+            get() = this@ProofContainer.updatedAt
+    }
+}

@@ -1,22 +1,34 @@
 package de.rki.coronawarnapp.vaccination.core
 
-import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
+import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
-    private val valueSet: VaccinationValueSet,
-    val vaccinationCertificates: Set<VaccinationContainer>,
-    val proofCertificates: Set<ProofCertificate>,
-    @Transient val isUpdatingData: Boolean,
-    @Transient val lastError: Throwable?,
+    internal val person: PersonData,
+    private val valueSet: VaccinationValueSet?,
+    val isUpdatingData: Boolean,
+    val lastError: Throwable?,
 ) {
     val identifier: VaccinatedPersonIdentifier
-        get() = vaccinationCertificates.first().personIdentifier
+        get() = person.identifier
 
     val lastUpdatedAt: Instant
-        get() = proofCertificates.maxOfOrNull { it.updatedAt } ?: vaccinationCertificates.maxOf { it.scannedAt }
+        get() = person.proofs.maxOfOrNull { it.updatedAt } ?: person.vaccinations.maxOf { it.scannedAt }
+
+    val vaccinationStatus: Status
+        get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
+
+    val vaccinationCertificates: Set<VaccinationCertificate>
+        get() = person.vaccinations.map {
+            it.toVaccinationCertificate(valueSet)
+        }.toSet()
+
+    val proofCertificates: Set<ProofCertificate>
+        get() = person.proofs.map {
+            it.toProofCertificate()
+        }.toSet()
 
     val firstName: String
         get() = vaccinationCertificates.first().firstName
@@ -27,13 +39,9 @@ data class VaccinatedPerson(
     val dateOfBirth: LocalDate
         get() = vaccinationCertificates.first().dateOfBirth
 
-    val vaccinationStatus: Status
-        get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
-
     enum class Status {
         INCOMPLETE,
         COMPLETE
     }
 }
 
-typealias VaccinatedPersonIdentifier = String
