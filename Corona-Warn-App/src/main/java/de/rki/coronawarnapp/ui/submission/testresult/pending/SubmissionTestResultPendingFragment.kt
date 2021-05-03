@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
@@ -34,7 +36,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     private val navArgs by navArgs<SubmissionTestResultPendingFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val pendingViewModel: SubmissionTestResultPendingViewModel by cwaViewModelsAssisted(
+    private val viewModel: SubmissionTestResultPendingViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultPendingViewModel.Factory
@@ -45,11 +47,11 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pendingViewModel.consentGiven.observe2(this) {
+        viewModel.consentGiven.observe2(this) {
             binding.consentStatus.consent = it
         }
 
-        pendingViewModel.testState.observe2(this) { result ->
+        viewModel.testState.observe2(this) { result ->
             val hasResult = !result.coronaTest.isProcessing
             binding.apply {
                 submissionTestResultSection.setTestResultSection(result.coronaTest)
@@ -59,11 +61,22 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
+        binding.apply {
+
+            (viewModel.testType == CoronaTest.Type.PCR).apply {
+                testResultPendingStepsContactDiaryResult.isVisible = !this
+                testResultPendingStepsWaitingPcrResult.isVisible = this
+                testResultPendingStepsWaitingAntigenResult.isVisible = !this
+                testResultPendingStepsRatAdded.isVisible = !this
+                testResultPendingStepsPcrAdded.isVisible = this
+            }
+        }
+
         skipInitialTestResultRefresh = arguments?.getBoolean("skipInitialTestResultRefresh") ?: false
 
         binding.apply {
             submissionTestResultButtonPendingRefresh.setOnClickListener {
-                pendingViewModel.refreshDeviceUIState()
+                viewModel.refreshDeviceUIState()
                 binding.submissionTestResultSection.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             }
 
@@ -73,10 +86,10 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                 navigateToMainScreen()
             }
 
-            consentStatus.setOnClickListener { pendingViewModel.onConsentClicked() }
+            consentStatus.setOnClickListener { viewModel.onConsentClicked() }
         }
 
-        pendingViewModel.showRedeemedTokenWarning.observe2(this) {
+        viewModel.showRedeemedTokenWarning.observe2(this) {
             val dialog = DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_tan_redeemed_title,
@@ -87,7 +100,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             DialogHelper.showDialog(dialog)
         }
 
-        pendingViewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe2(this) {
             it?.let { doNavigate(it) } ?: navigateToMainScreen()
         }
     }
@@ -95,15 +108,15 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        pendingViewModel.refreshDeviceUIState()
+        viewModel.refreshDeviceUIState()
         skipInitialTestResultRefresh = false
-        pendingViewModel.cwaWebExceptionLiveData.observeOnce(this.viewLifecycleOwner) { exception ->
+        viewModel.cwaWebExceptionLiveData.observeOnce(this.viewLifecycleOwner) { exception ->
             handleError(exception)
         }
     }
 
     override fun onPause() {
-        pendingViewModel.cwaWebExceptionLiveData.removeObservers(this.viewLifecycleOwner)
+        viewModel.cwaWebExceptionLiveData.removeObservers(this.viewLifecycleOwner)
         errorDialog?.dismiss()
         super.onPause()
     }
@@ -116,7 +129,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             R.string.submission_test_result_dialog_remove_test_button_positive,
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
-                pendingViewModel.deregisterTestFromDevice()
+                viewModel.deregisterTestFromDevice()
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {

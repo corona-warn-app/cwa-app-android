@@ -27,7 +27,7 @@ import timber.log.Timber
 class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
-    @Assisted private val testType: CoronaTest.Type
+    @Assisted val testType: CoronaTest.Type
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     init {
