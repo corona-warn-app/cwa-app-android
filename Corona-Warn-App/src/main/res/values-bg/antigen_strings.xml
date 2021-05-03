@@ -136,4 +136,64 @@
     <!-- XTXT: coronatest negative antigen result third info body -->
     <string name="coronatest_negative_antigen_restul_third_info_body">"Моля, изтрийте теста от приложението Corona-Warn-App, за да можете да запазите нов код на тест, ако е необходимо."</string>
 
+    <!-- ####################################
+     Rapid Antigen Test Profile
+     ###################################### -->
+    <!-- XHED: Create RAT profile card title -->
+    <string name="rat_profile_create_card_title">"Създаване на профил за бързи тестове"</string>
+    <!-- XTXT: Create RAT profile card subtitle -->
+    <string name="rat_profile_create_card_subtitle">"Можете да създадете профил с личните си данни, който да представяте под формата на QR код при всеки бърз тест."</string>
+    <!-- XHED: Open RAT profile card title -->
+    <string name="rat_profile_open_card_title">"Профил за бързи тестове"</string>
+    <!-- XTXT: Open RAT profile card subtitle -->
+    <string name="rat_profile_open_card_subtitle">"Спестете време като представите профила си в пункта за тестване."</string>
+    <!-- XHED: Create RAT profile title -->
+    <string name="rat_profile_create_title">"Профил за бързи тестове"</string>
+    <!-- XTXT: Create RAT profile first name hint -->
+    <string name="rat_profile_create_first_name_hint">"Име"</string>
+    <!-- XTXT: Create RAT profile last name hint -->
+    <string name="rat_profile_create_last_name_hint">"Фамилия"</string>
+    <!-- XTXT: Create RAT profile birth date hint -->
+    <string name="rat_profile_create_birth_date_hint">"Дата на раждане"</string>
+    <!-- XBUT: Create RAT profile save button -->
+    <string name="rat_profile_create_button">"Запазване"</string>
+    <!-- XTXT: Create RAT profile description -->
+    <string name="rat_profile_create_description">"Запазете личните си данни като QR код, за да ускорите регистрацията в пунктовете за тестване."</string>
+    <!-- XTXT: Create RAT profile street hint -->
+    <string name="rat_profile_create_street_hint">"Улица и номер"</string>
+    <!-- XTXT: Create RAT profile post code hint -->
+    <string name="rat_profile_create_zip_code_hint">"Пощенски код"</string>
+    <!-- XTXT: Create RAT profile city hint -->
+    <string name="rat_profile_create_city_hint">"Град"</string>
+    <!-- XTXT: Create RAT profile phone hint -->
+    <string name="rat_profile_create_phone_hint">"Телефонен номер"</string>
+    <!-- XTXT: Create RAT profile email hint -->
+    <string name="rat_profile_create_email_hint">"Имейл адрес"</string>
+
+    <!--RAT profile onboarding-->
+    <string name="rat_profile_onboarding_image_content_description">"Жена със смартфон в ръката стои пред сграда. QR кодът символизира профила за бързи тестове, който трябва да се сканира."</string>
+    <!-- XTXT: Create RAT profile onboarding title -->
+    <string name="rat_profile_onboarding_title">"Запазете личните си данни като QR код, за да ускорите регистрацията в пунктовете за тестване."</string>
+    <!-- XTXT: Create RAT profile onboarding subtitle -->
+    <string name="rat_profile_onboarding_subtitle">"Ако си създадете профил за бързи тестове, няма да се налага да попълвате личните си данни наново при всеки антигенен тест."</string>
+    <!-- XTXT: Create RAT profile onboarding next button -->
+    <string name="rat_profile_onboarding_next">"Напред"</string>
+    <!-- XTXT: Create RAT profile onboarding privacy -->
+    <string name="rat_profile_onboarding_privacy">"Подробна информация за обработването на данни и Вашето съгласие"</string>
+    <!-- XTXT: Create RAT Qr code profile description-->
+    <string name="rat_qr_code_profile_description">"Представете този QR код в пункта за тестване, за да ускорите снемането на личните си данни. Дръжте и личната си ката подръка."</string>
+    <!-- XTXT: Create RAT Qr code profile birth date-->
+    <string name="rat_qr_code_profile_birth_date">"Дата на раждане %1$s"</string>
+    <!-- XBUT: Create RAT Qr code profile next button-->
+    <string name="rat_qr_code_profile_next_button">"Напред"</string>
+    <!-- XTXT: Create RAT Qr code profile delete item-->
+    <string name="rat_qr_code_profile_delete_item">"Премахване"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog title-->
+    <string name="rat_qr_code_profile_dialog_title">"Желаете ли да премахнете профила си за бързи тестове?"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog message-->
+    <string name="rat_qr_code_profile_dialog_message">"Моля, имайте предвид, че ако го направите, този код повече няма да може да се използва за регистрации."</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->
+    <string name="rat_qr_code_profile_dialog_positive_button">"Изтриване"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog negative button-->
+    <string name="rat_qr_code_profile_dialog_negative_button">"Отказ"</string>
 </resources>
