@@ -1,72 +1,65 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
-import de.rki.coronawarnapp.ui.Country
+import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.vaccination.core.ProofCertificate
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.mutate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
+import de.rki.coronawarnapp.vaccination.core.server.VaccinationProofServer
+import de.rki.coronawarnapp.vaccination.core.server.VaccinationServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.plus
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class VaccinationRepository @Inject constructor(
-    @AppScope private val scope: CoroutineScope,
+    @AppScope private val appScope: CoroutineScope,
+    dispatcherProvider: DispatcherProvider,
+    private val storage: VaccinationStorage,
+    private val vaccinationServer: VaccinationServer,
+    private val vaccinationProofServer: VaccinationProofServer,
 ) {
 
-    private val vc = VaccinationCertificate(
-        firstName = "Max",
-        lastName = "Mustermann",
-        dateOfBirth = LocalDate.now(),
-        vaccinatedAt = Instant.now(),
-        vaccineName = "Comirnaty (mRNA)",
-        vaccineManufacturer = "BioNTech",
-        chargeId = "CB2342",
-        certificateIssuer = "Landratsamt Potsdam",
-        certificateCountry = Country.DE,
-        certificateId = "05930482748454836478695764787840"
-    )
+    private val internalData: HotDataFlow<Map<VaccinatedPersonIdentifier, VaccinatedPerson>> = HotDataFlow(
+        loggingTag = TAG,
+        scope = appScope + dispatcherProvider.IO,
+        sharingBehavior = SharingStarted.Lazily,
+    ) {
+        storage.vaccinatedPersons.map { it.identifier to it }.toMap().also {
+            Timber.tag(TAG).v("Restored vaccination data: %s", it)
+        }
+    }
 
-    private val vc1 = VaccinationCertificate(
-        firstName = "Max",
-        lastName = "Mustermann",
-        dateOfBirth = LocalDate.now(),
-        vaccinatedAt = Instant.now(),
-        vaccineName = "Comirnaty (mRNA)",
-        vaccineManufacturer = "BioNTech",
-        chargeId = "CB2342",
-        certificateIssuer = "Landratsamt Potsdam",
-        certificateCountry = Country.DE,
-        certificateId = "05930482748454836478695764787841"
-    )
+    init {
+        internalData.data
+            .onStart { Timber.tag(CoronaTestRepository.TAG).d("Observing test data.") }
+            .onEach {
+                Timber.tag(TAG).v("Vaccination data changed: %s", it)
+                storage.vaccinatedPersons = it.values.toSet()
+            }
+            .catch {
+                it.reportProblem(TAG, "Failed to snapshot vaccination data to storage.")
+                throw it
+            }
+            .launchIn(appScope + dispatcherProvider.IO)
+    }
 
-    private val pc = ProofCertificate(
-        expiresAt = Instant.now()
-    )
-
-    // TODO read from repos
-    val vaccinationInfos: Flow<Set<VaccinatedPerson>> = flowOf(
-        setOf(
-            VaccinatedPerson(
-                setOf(vc),
-                setOf(),
-                isRefreshing = false,
-                lastUpdatedAt = Instant.now()
-            ),
-            VaccinatedPerson(
-                setOf(vc1),
-                setOf(pc),
-                isRefreshing = false,
-                lastUpdatedAt = Instant.now()
-            )
-        )
-    )
+    val vaccinationInfos: Flow<Set<VaccinatedPerson>> = internalData.data.map { it.values.toSet() }
 
     suspend fun registerVaccination(
         qrCode: VaccinationCertificateQRCode
@@ -75,11 +68,33 @@ class VaccinationRepository @Inject constructor(
     }
 
     suspend fun clear() {
-        throw NotImplementedError()
+        Timber.tag(TAG).w("Clearing vaccination data.")
+        internalData.updateBlocking {
+            Timber.tag(TAG).v("Deleting: %s", this)
+            emptyMap()
+        }
     }
 
-    suspend fun deleteVaccinationCertificate(vaccinationCertificateId: String) =
-        scope.launch {
-            // TODO delete Vaccination
+    suspend fun deleteVaccinationCertificate(vaccinationCertificateId: String) {
+        Timber.tag(TAG).w("deleteVaccinationCertificate(certificateId=%s)", vaccinationCertificateId)
+        internalData.updateBlocking {
+            val target = values.find { person ->
+                person.vaccinationCertificates.any { it.certificateId == vaccinationCertificateId }
+            } ?: throw VaccinationCertificateNotFoundException(
+                "No vaccination certificate found for $vaccinationCertificateId"
+            )
+
+            this.mutate {
+                this[target.identifier] = target.copy(
+                    vaccinationCertificates = target.vaccinationCertificates.filter {
+                        it.certificateId != vaccinationCertificateId
+                    }.toSet()
+                )
+            }
         }
+    }
+
+    companion object {
+        private const val TAG = "VaccinationRepository"
+    }
 }
