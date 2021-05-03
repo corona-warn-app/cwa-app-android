@@ -1,5 +1,5 @@
 package de.rki.coronawarnapp.coronatest.errors
 
-class CoronaTestNotFoundException(
-    message: String
-) : IllegalArgumentException(message)
+class ModifyNotFoundTestException(message: String) : IllegalArgumentException(message)
+
+class RemoveTestNotFoundException(message: String) : IllegalArgumentException(message)
