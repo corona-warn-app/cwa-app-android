@@ -42,7 +42,7 @@ object HomeData {
             state = LowRisk(
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = false,
-                lastExposureDetectionTime = Instant.now(),
+                calculatedAt = Instant.now(),
                 lastEncounterAt = null,
                 allowManualUpdate = false,
                 daysWithEncounters = 0,
@@ -56,7 +56,7 @@ object HomeData {
             state = LowRisk(
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = false,
-                lastExposureDetectionTime = todayAtNineFiftyFive,
+                calculatedAt = todayAtNineFiftyFive,
                 lastEncounterAt = null,
                 allowManualUpdate = false,
                 daysWithEncounters = 0,
@@ -70,7 +70,7 @@ object HomeData {
             state = LowRisk(
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = false,
-                lastExposureDetectionTime = todayAtNineFiftyFive,
+                calculatedAt = todayAtNineFiftyFive,
                 lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc(),
                 allowManualUpdate = false,
                 daysWithEncounters = 1,
@@ -84,7 +84,7 @@ object HomeData {
             state = IncreasedRisk(
                 riskState = RiskState.INCREASED_RISK,
                 isInDetailsMode = false,
-                lastExposureDetectionTime = todayAtNineFiftyFive,
+                calculatedAt = todayAtNineFiftyFive,
                 allowManualUpdate = false,
                 daysWithEncounters = 1,
                 lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
@@ -97,7 +97,7 @@ object HomeData {
             state = TracingDisabled(
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = false,
-                lastExposureDetectionTime = todayAtNineFiftyFive
+                calculatedAt = todayAtNineFiftyFive
             ),
             onCardClick = {},
             onEnableTracingClick = {}
@@ -116,7 +116,7 @@ object HomeData {
             state = TracingFailed(
                 riskState = RiskState.CALCULATION_FAILED,
                 isInDetailsMode = false,
-                lastExposureDetectionTime = todayAtNineFiftyFive
+                calculatedAt = todayAtNineFiftyFive
             ),
             onCardClick = {},
             onRetryClick = {}

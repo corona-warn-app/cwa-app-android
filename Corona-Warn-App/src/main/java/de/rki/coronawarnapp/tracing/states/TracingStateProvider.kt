@@ -4,16 +4,14 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
-import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
-import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -25,7 +23,6 @@ class TracingStateProvider @AssistedInject constructor(
     backgroundModeStatus: BackgroundModeStatus,
     tracingRepository: TracingRepository,
     riskLevelStorage: RiskLevelStorage,
-    exposureDetectionTracker: ExposureDetectionTracker,
     installTimeProvider: InstallTimeProvider
 ) {
     val state: Flow<TracingState> = combine(
@@ -38,16 +35,12 @@ class TracingStateProvider @AssistedInject constructor(
         riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult.onEach {
             Timber.tag(TAG).v("riskLevelResults: $it")
         },
-        exposureDetectionTracker.latestSubmission().onEach {
-            Timber.tag(TAG).v("latestSubmission: $it")
-        },
         backgroundModeStatus.isAutoModeEnabled.onEach {
             Timber.tag(TAG).v("isAutoModeEnabled: $it")
         }
     ) { tracingStatus,
         tracingProgress,
         riskLevelResults,
-        latestSubmission,
         isBackgroundJobEnabled ->
 
         val latestCalc = riskLevelResults.lastCalculated
@@ -57,7 +50,7 @@ class TracingStateProvider @AssistedInject constructor(
             tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> TracingDisabled(
                 isInDetailsMode = isDetailsMode,
                 riskState = lastSuccessfullyCalc.riskState,
-                lastExposureDetectionTime = latestSubmission?.startedAt
+                calculatedAt = lastSuccessfullyCalc.calculatedAt
             )
             tracingProgress != TracingProgress.Idle -> TracingInProgress(
                 isInDetailsMode = isDetailsMode,
@@ -67,7 +60,7 @@ class TracingStateProvider @AssistedInject constructor(
             latestCalc.riskState == RiskState.LOW_RISK -> LowRisk(
                 isInDetailsMode = isDetailsMode,
                 riskState = latestCalc.riskState,
-                lastExposureDetectionTime = latestSubmission?.startedAt,
+                calculatedAt = latestCalc.calculatedAt,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
                 allowManualUpdate = !isBackgroundJobEnabled,
@@ -76,7 +69,7 @@ class TracingStateProvider @AssistedInject constructor(
             latestCalc.riskState == RiskState.INCREASED_RISK -> IncreasedRisk(
                 isInDetailsMode = isDetailsMode,
                 riskState = latestCalc.riskState,
-                lastExposureDetectionTime = latestSubmission?.startedAt,
+                calculatedAt = latestCalc.calculatedAt,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
                 allowManualUpdate = !isBackgroundJobEnabled
@@ -84,7 +77,7 @@ class TracingStateProvider @AssistedInject constructor(
             else -> TracingFailed(
                 isInDetailsMode = isDetailsMode,
                 riskState = lastSuccessfullyCalc.riskState,
-                lastExposureDetectionTime = latestSubmission?.startedAt
+                calculatedAt = lastSuccessfullyCalc.calculatedAt
             )
         }
     }

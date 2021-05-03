@@ -36,7 +36,7 @@ object TracingData {
                 state = TracingDisabled(
                     riskState = RiskState.LOW_RISK,
                     isInDetailsMode = true,
-                    lastExposureDetectionTime = todayAtNineFiftyFive
+                    calculatedAt = todayAtNineFiftyFive
                 )
             ),
             BehaviorNormalRiskBox.Item(
@@ -63,7 +63,7 @@ object TracingData {
                 state = LowRisk(
                     riskState = RiskState.LOW_RISK,
                     isInDetailsMode = true,
-                    lastExposureDetectionTime = todayAtNineFiftyFive,
+                    calculatedAt = todayAtNineFiftyFive,
                     allowManualUpdate = false,
                     daysWithEncounters = 0,
                     daysSinceInstallation = 4,
@@ -94,7 +94,7 @@ object TracingData {
                 state = LowRisk(
                     riskState = RiskState.LOW_RISK,
                     isInDetailsMode = true,
-                    lastExposureDetectionTime = todayAtNineFiftyFive,
+                    calculatedAt = todayAtNineFiftyFive,
                     allowManualUpdate = false,
                     daysWithEncounters = 1,
                     daysSinceInstallation = 4,
@@ -125,7 +125,7 @@ object TracingData {
                 state = LowRisk(
                     riskState = RiskState.LOW_RISK,
                     isInDetailsMode = true,
-                    lastExposureDetectionTime = todayAtNineFiftyFive,
+                    calculatedAt = todayAtNineFiftyFive,
                     allowManualUpdate = false,
                     daysWithEncounters = 2,
                     daysSinceInstallation = 4,
@@ -156,7 +156,7 @@ object TracingData {
                 state = IncreasedRisk(
                     riskState = RiskState.INCREASED_RISK,
                     isInDetailsMode = true,
-                    lastExposureDetectionTime = todayAtNineFiftyFive,
+                    calculatedAt = todayAtNineFiftyFive,
                     allowManualUpdate = false,
                     daysWithEncounters = 1,
                     lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
@@ -185,7 +185,7 @@ object TracingData {
                 state = TracingFailed(
                     riskState = RiskState.CALCULATION_FAILED,
                     isInDetailsMode = true,
-                    lastExposureDetectionTime = null
+                    calculatedAt = null
                 )
             ),
             BehaviorNormalRiskBox.Item(
