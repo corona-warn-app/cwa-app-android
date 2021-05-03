@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.coronatest
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
+import de.rki.coronawarnapp.coronatest.errors.ModifyNotFoundTestException
+import de.rki.coronawarnapp.coronatest.errors.RemoveTestNotFoundException
 import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -11,6 +12,7 @@ import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -124,7 +126,7 @@ class CoronaTestRepository @Inject constructor(
 
         internalData.updateBlocking {
             val toBeRemoved = values.singleOrNull { it.identifier == identifier }
-                ?: throw CoronaTestNotFoundException("No found for $identifier")
+                ?: throw RemoveTestNotFoundException("No found for $identifier")
 
             getProcessor(toBeRemoved.type).onRemove(toBeRemoved)
 
@@ -148,45 +150,7 @@ class CoronaTestRepository @Inject constructor(
             .filter { if (type == null) true else it.type == type }
             .map { it.identifier }
 
-        Timber.tag(TAG).d("Will refresh %s", toRefresh)
-
-        toRefresh.forEach {
-            modifyTest(it) { processor, test ->
-                processor.markProcessing(test, true)
-            }
-        }
-
-        val refreshedData = internalData.updateBlocking {
-            val polling = values
-                .filter { if (type == null) true else it.type == type }
-                .filter { toRefresh.contains(it.identifier) }
-                .map { coronaTest ->
-
-                    withContext(context = dispatcherProvider.IO) {
-                        async {
-                            Timber.tag(TAG).v("Polling for %s", coronaTest)
-                            // This will not throw an exception
-                            // Any error encountered during polling will be in CoronaTest.lastError
-                            getProcessor(coronaTest.type).pollServer(coronaTest)
-                        }
-                    }
-                }
-
-            Timber.tag(TAG).d("Waiting for test status polling: %s", polling)
-            val pollingResults = polling.awaitAll()
-
-            this.toMutableMap().apply {
-                for (updatedResult in pollingResults) {
-                    this[updatedResult.identifier] = updatedResult
-                }
-            }
-        }
-
-        toRefresh.forEach {
-            modifyTest(it) { processor, test ->
-                processor.markProcessing(test, false)
-            }
-        }
+        val refreshedData = tryToRefresh(toRefresh, type)
 
         return refreshedData.values.filter { toRefresh.contains(it.identifier) }.toSet()
     }
@@ -237,7 +201,7 @@ class CoronaTestRepository @Inject constructor(
     ) {
         internalData.updateBlocking {
             val original = values.singleOrNull { it.identifier == identifier }
-                ?: throw CoronaTestNotFoundException("No test found for $identifier")
+                ?: throw ModifyNotFoundTestException("No test found for $identifier")
 
             val processor = getProcessor(original.type)
 
@@ -245,6 +209,57 @@ class CoronaTestRepository @Inject constructor(
             Timber.tag(TAG).d("Updated %s to %s", original, updated)
 
             toMutableMap().apply { this[original.identifier] = updated }
+        }
+    }
+
+    private suspend fun tryToRefresh(
+        toRefresh: List<TestIdentifier>,
+        type: CoronaTest.Type?
+    ): Map<CoronaTestGUID, CoronaTest> {
+        Timber.tag(TAG).d("Will refresh %s", toRefresh)
+        tryProcessing(toRefresh, true)
+        val refreshedData = internalData.updateBlocking {
+            val polling = values
+                .filter { if (type == null) true else it.type == type }
+                .filter { toRefresh.contains(it.identifier) }
+                .map { coronaTest ->
+                    withContext(context = dispatcherProvider.IO) {
+                        async {
+                            Timber.tag(TAG).v("Polling for %s", coronaTest)
+                            // This will not throw an exception
+                            // Any error encountered during polling will be in CoronaTest.lastError
+                            getProcessor(coronaTest.type).pollServer(coronaTest)
+                        }
+                    }
+                }
+
+            Timber.tag(TAG).d("Waiting for test status polling: %s", polling)
+            val pollingResults = polling.awaitAll()
+
+            this.toMutableMap().apply {
+                for (updatedResult in pollingResults) {
+                    this[updatedResult.identifier] = updatedResult
+                }
+            }
+        }
+        tryProcessing(toRefresh, false)
+        return refreshedData
+    }
+
+    private suspend fun tryProcessing(
+        toRefresh: List<TestIdentifier>,
+        isProcessing: Boolean
+    ) {
+        Timber.tag(TAG).d("tryProcessing=$isProcessing")
+        try {
+            toRefresh.forEach {
+                modifyTest(it) { processor, test ->
+                    processor.markProcessing(test, isProcessing)
+                }
+            }
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to modify tests=%s", toRefresh)
+            if (BuildConfigWrap.DEBUG) throw e
         }
     }
 

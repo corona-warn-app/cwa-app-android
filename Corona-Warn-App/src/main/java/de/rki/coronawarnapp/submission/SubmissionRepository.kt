@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.submission
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
-import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
+import de.rki.coronawarnapp.coronatest.errors.RemoveTestNotFoundException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -108,7 +108,7 @@ class SubmissionRepository @Inject constructor(
             }
             try {
                 coronaTestRepository.removeTest(identifier = test.identifier)
-            } catch (e: CoronaTestNotFoundException) {
+            } catch (e: RemoveTestNotFoundException) {
                 Timber.tag(TAG).e(e, "Test not found (type=$type), already removed?")
             }
         }
