@@ -38,21 +38,32 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                 popBackStack()
             }
 
-            viewModel.vaccinatedPerson.observe(viewLifecycleOwner) { vaccinatedPerson ->
-
-                nameCardTitle.text = "Andrea Schneider"
-                nameCardSubtitle.text = getString(
-                    R.string.vaccination_list_name_card_subtitle,
-                    vaccinatedPerson.dateOfBirth
-                )
-
-                vaccinationCardTitle.text = "Impfung 1 von 2"
-                vaccinationCardSubtitle.text = "durchgeführt am 12.04.2021"
+            viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+                bindUiState(uiState)
             }
 
             registerNewVaccinationButton.setOnClickListener {
                 Toast.makeText(requireContext(), "TODO \uD83D\uDEA7", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun FragmentVaccinationListBinding.bindUiState(uiState: VaccinationListViewModel.UiState) = with(uiState) {
+        nameCardTitle.text = fullName
+        nameCardSubtitle.text = getString(
+            R.string.vaccination_list_name_card_subtitle,
+            dayOfBirth
+        )
+
+        vaccinationCardTitle.text = getString(
+            R.string.vaccination_list_vaccination_card_title,
+            vaccinations.first().doseNumber,
+            vaccinations.first().totalSeriesOfDoses
+        )
+
+        vaccinationCardSubtitle.text = getString(
+            R.string.vaccination_list_vaccination_card_subtitle,
+            vaccinations.first().vaccinatedAt
+        )
     }
 }
