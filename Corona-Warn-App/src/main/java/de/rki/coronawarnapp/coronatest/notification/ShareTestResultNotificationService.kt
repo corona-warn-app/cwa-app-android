@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
+import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -27,44 +27,12 @@ class ShareTestResultNotificationService @Inject constructor(
 
     fun setup() {
         Timber.d("setup()")
-
-        coronaTestRepository.coronaTests
-            .onEach { tests ->
-
-                // schedule reminder if test wasn't submitted
-                tests.filter { test ->
-                    test.isSubmissionAllowed && !test.isSubmitted
-                }.forEach { test ->
-                    maybeScheduleSharePositiveTestResultReminder(test.type)
-                }
-
-                // cancel the reminder when test is submitted
-                tests
-                    .filter { it.isSubmitted }
-                    .forEach { notification.cancelSharePositiveTestResultNotification(it.type) }
-            }
-            .catch { Timber.e(it, "Failed to schedule positive test result reminder.") }
-            .launchIn(appScope)
-
+        // Schedule positive test reminders
+        schedulePositiveTestsReminder()
         // if no PCR test is stored or if it was deleted, we reset the reminder
-        coronaTestRepository.latestPCRT
-            .onEach {
-                if (it == null) {
-                    resetSharePositiveTestResultNotification(PCR)
-                }
-            }
-            .catch { Timber.tag(TAG).e(it, "Failed to reset positive test result reminder for PCR test.") }
-            .launchIn(appScope)
-
+        resetPositivePCRTestReminder()
         // if no RAT test is stored or if it was deleted, we reset the reminder
-        coronaTestRepository.latestRAT
-            .onEach {
-                if (it == null) {
-                    resetSharePositiveTestResultNotification(RAPID_ANTIGEN)
-                }
-            }
-            .catch { Timber.tag(TAG).e(it, "Failed to reset positive test result reminder for RAT test.") }
-            .launchIn(appScope)
+        resetPositiveRATTestReminder()
     }
 
     fun maybeShowSharePositiveTestResultNotification(notificationId: Int, testType: CoronaTest.Type) {
@@ -87,6 +55,58 @@ class ShareTestResultNotificationService @Inject constructor(
             } else {
                 notification.cancelSharePositiveTestResultNotification(testType)
             }
+        }
+    }
+
+    private fun resetPositivePCRTestReminder() {
+        Timber.tag(TAG).v("resetPositivePCRTestReminder")
+        try {
+            coronaTestRepository.latestPCRT
+                .onEach {
+                    if (it == null) {
+                        resetSharePositiveTestResultNotification(PCR)
+                    }
+                }
+                .launchIn(appScope)
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to reset positive test result reminder for PCR test.")
+        }
+    }
+
+    private fun resetPositiveRATTestReminder() {
+        Timber.tag(TAG).v("resetPositiveRATTestReminder")
+        try {
+            coronaTestRepository.latestRAT
+                .onEach {
+                    if (it == null) {
+                        resetSharePositiveTestResultNotification(RAPID_ANTIGEN)
+                    }
+                }
+                .launchIn(appScope)
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to reset positive test result reminder for RAT test.")
+        }
+    }
+
+    private fun schedulePositiveTestsReminder() {
+        Timber.tag(TAG).v("schedulePositiveTestsReminder")
+        try {
+            coronaTestRepository.coronaTests
+                .onEach { tests ->
+                    // schedule reminder if test wasn't submitted
+                    tests.filter { test ->
+                        test.isSubmissionAllowed && !test.isSubmitted
+                    }.forEach { test ->
+                        maybeScheduleSharePositiveTestResultReminder(test.type)
+                    }
+
+                    // cancel the reminder when test is submitted
+                    tests.filter { it.isSubmitted }
+                        .forEach { notification.cancelSharePositiveTestResultNotification(it.type) }
+                }
+                .launchIn(appScope)
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to schedule positive test result reminder.")
         }
     }
 
