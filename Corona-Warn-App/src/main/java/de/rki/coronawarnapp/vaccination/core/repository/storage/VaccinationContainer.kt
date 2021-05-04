@@ -51,8 +51,8 @@ data class VaccinationContainer(
         override val medicalProductName: String
             get() = valueSet?.getDisplayText(certificate.medicalProductId) ?: certificate.medicalProductId
 
-        override val chargeId: String
-            get() = certificate.chargeId
+        override val lotNumber: String?
+            get() = certificate.lotNumber
 
         override val certificateIssuer: String
             get() = certificate.certificateIssuer
@@ -72,7 +72,6 @@ data class VaccinationContainer(
         @SerializedName("dateOfBirth") val dateOfBirth: LocalDate,
 
         @SerializedName("vaccinatedAt") val vaccinatedAt: LocalDate,
-        @SerializedName("vaccinationLocation") val vaccinationLocation: String,
 
         @SerializedName("targetId") val targetId: String,
         @SerializedName("vaccineId") val vaccineId: String,
@@ -83,7 +82,7 @@ data class VaccinationContainer(
         @SerializedName("doseNumber") val doseNumber: Int,
         @SerializedName("totalSeriesOfDoses") val totalSeriesOfDoses: Int,
 
-        @SerializedName("chargeId") val chargeId: String,
+        @SerializedName("lotNumber") val lotNumber: String?,
         @SerializedName("certificateIssuer") val certificateIssuer: String,
         @SerializedName("certificateCountryCode") val certificateCountryCode: String,
         @SerializedName("certificateId") val certificateId: String,
@@ -105,14 +104,13 @@ fun VaccinationCertificateQRCode.toVaccinationContainer(scannedAt: Instant) = Va
         lastNameStandardized = certificate.lastNameStandardized,
         dateOfBirth = certificate.dateOfBirth,
         vaccinatedAt = certificate.vaccinatedAt,
-        vaccinationLocation = certificate.vaccinationLocation,
         targetId = certificate.targetId,
         vaccineId = certificate.vaccineId,
         medicalProductId = certificate.medicalProductId,
         marketAuthorizationHolderId = certificate.marketAuthorizationHolderId,
         doseNumber = certificate.doseNumber,
         totalSeriesOfDoses = certificate.totalSeriesOfDoses,
-        chargeId = certificate.chargeId,
+        lotNumber = certificate.lotNumber,
         certificateIssuer = certificate.certificateIssuer,
         certificateCountryCode = certificate.certificateCountryCode,
         certificateId = certificate.certificateId

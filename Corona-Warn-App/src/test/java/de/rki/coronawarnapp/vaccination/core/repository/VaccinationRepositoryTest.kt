@@ -65,8 +65,7 @@ class VaccinationRepositoryTest : BaseTest() {
         certificateCountryCode = "NL",
         certificateIssuer = "Ministry of Public Health, Welfare and Sport",
         certificateId = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
-        chargeId = "chargeId",
-        vaccinationLocation = "vaccinationLocation"
+        lotNumber = "0020617",
     )
 
     private val completePersonCert2 = completePersonCert1.copy(
@@ -117,8 +116,7 @@ class VaccinationRepositoryTest : BaseTest() {
         certificateCountryCode = "NL",
         certificateIssuer = "Ministry of Public Health, Welfare and Sport",
         certificateId = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
-        chargeId = "chargeId",
-        vaccinationLocation = "vaccinationLocation"
+        lotNumber = null,
     )
 
     private val incompletePerson = PersonData(

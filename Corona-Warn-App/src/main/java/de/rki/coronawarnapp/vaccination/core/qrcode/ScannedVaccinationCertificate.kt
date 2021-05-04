@@ -17,7 +17,6 @@ interface ScannedVaccinationCertificate {
     val dateOfBirth: LocalDate
 
     val vaccinatedAt: LocalDate
-    val vaccinationLocation: String
 
     // Disease or agent targeted
     val targetId: String
@@ -30,7 +29,7 @@ interface ScannedVaccinationCertificate {
     val doseNumber: Int
     val totalSeriesOfDoses: Int
 
-    val chargeId: String
+    val lotNumber: String?
 
     val certificateIssuer: String
     val certificateCountryCode: String

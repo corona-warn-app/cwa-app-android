@@ -79,8 +79,7 @@ class VaccinationStorage @Inject constructor(
                 certificateCountryCode = "NL",
                 certificateIssuer = "Ministry of Public Health, Welfare and Sport",
                 certificateId = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
-                chargeId = "chargeId",
-                vaccinationLocation = "vaccinationLocation"
+                lotNumber = "0020617",
             )
 
             val completePersonCert2 = completePersonCert1.copy(

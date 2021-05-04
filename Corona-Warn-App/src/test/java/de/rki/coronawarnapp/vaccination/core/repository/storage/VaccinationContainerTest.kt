@@ -25,8 +25,7 @@ class VaccinationContainerTest : BaseTest() {
         certificateCountryCode = "NL",
         certificateIssuer = "Ministry of Public Health, Welfare and Sport",
         certificateId = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
-        chargeId = "chargeId",
-        vaccinationLocation = "vaccinationLocation"
+        lotNumber = "lotNumber",
     )
 
     private val container = VaccinationContainer(

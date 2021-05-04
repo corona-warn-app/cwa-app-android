@@ -16,7 +16,7 @@ interface VaccinationCertificate {
     val doseNumber: Int
     val totalSeriesOfDoses: Int
 
-    val chargeId: String
+    val lotNumber: String?
 
     val certificateIssuer: String
     val certificateCountry: Country

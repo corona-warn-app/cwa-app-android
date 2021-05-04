@@ -52,8 +52,7 @@ class VaccinationStorageTest : BaseTest() {
         certificateCountryCode = "NL",
         certificateIssuer = "Ministry of Public Health, Welfare and Sport",
         certificateId = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
-        chargeId = "chargeId",
-        vaccinationLocation = "vaccinationLocation"
+        lotNumber = "0020617",
     )
 
     private val completePersonCert2 = completePersonCert1.copy(
@@ -104,8 +103,7 @@ class VaccinationStorageTest : BaseTest() {
         certificateCountryCode = "NL",
         certificateIssuer = "Ministry of Public Health, Welfare and Sport",
         certificateId = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
-        chargeId = "chargeId",
-        vaccinationLocation = "vaccinationLocation"
+        lotNumber = null,
     )
 
     private val incompletePerson = PersonData(
@@ -155,14 +153,13 @@ class VaccinationStorageTest : BaseTest() {
                             "lastNameStandardized": "DARSONS\u003cVAN\u003cHALEN",
                             "dateOfBirth": "2009-02-28",
                             "vaccinatedAt": "2021-04-21",
-                            "vaccinationLocation": "vaccinationLocation",
                             "targetId": "840539006",
                             "vaccineId": "1119349007",
                             "medicalProductId": "EU/1/20/1528",
                             "marketAuthorizationHolderId": "ORG-100030215",
                             "doseNumber": 1,
                             "totalSeriesOfDoses": 2,
-                            "chargeId": "chargeId",
+                            "lotNumber": "0020617",
                             "certificateIssuer": "Ministry of Public Health, Welfare and Sport",
                             "certificateCountryCode": "NL",
                             "certificateId": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
@@ -179,14 +176,13 @@ class VaccinationStorageTest : BaseTest() {
                             "lastNameStandardized": "DARSONS\u003cVAN\u003cHALEN",
                             "dateOfBirth": "2009-02-28",
                             "vaccinatedAt": "2021-04-22",
-                            "vaccinationLocation": "vaccinationLocation",
                             "targetId": "840539006",
                             "vaccineId": "1119349007",
                             "medicalProductId": "EU/1/20/1528",
                             "marketAuthorizationHolderId": "ORG-100030215",
                             "doseNumber": 2,
                             "totalSeriesOfDoses": 2,
-                            "chargeId": "chargeId",
+                            "lotNumber": "0020617",
                             "certificateIssuer": "Ministry of Public Health, Welfare and Sport",
                             "certificateCountryCode": "NL",
                             "certificateId": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
@@ -235,14 +231,12 @@ class VaccinationStorageTest : BaseTest() {
                             "lastNameStandardized": "VON\u003cMUSTERMENSCH",
                             "dateOfBirth": "1996-12-24",
                             "vaccinatedAt": "2021-04-21",
-                            "vaccinationLocation": "vaccinationLocation",
                             "targetId": "840539006",
                             "vaccineId": "1119349007",
                             "medicalProductId": "EU/1/20/1528",
                             "marketAuthorizationHolderId": "ORG-100030215",
                             "doseNumber": 1,
                             "totalSeriesOfDoses": 2,
-                            "chargeId": "chargeId",
                             "certificateIssuer": "Ministry of Public Health, Welfare and Sport",
                             "certificateCountryCode": "NL",
                             "certificateId": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
