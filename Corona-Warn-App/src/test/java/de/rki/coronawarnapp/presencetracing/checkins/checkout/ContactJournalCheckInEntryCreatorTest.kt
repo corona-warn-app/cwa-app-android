@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import io.kotest.matchers.shouldBe
@@ -119,10 +120,10 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
             testCheckIn.copy(traceLocationStart = null, traceLocationEnd = null)
 
         createInstance().apply {
-            testCheckIn.validateLocationName(testCheckIn.toLocationName())
-            testCheckInNoTraceLocationStartDate.validateLocationName(testCheckInNoTraceLocationStartDate.toLocationName())
-            testCheckInNoTraceLocationEndDate.validateLocationName(testCheckInNoTraceLocationEndDate.toLocationName())
-            testCheckInNoTraceLocationStartAndEndDate.validateLocationName(testCheckInNoTraceLocationStartAndEndDate.toLocationName())
+            testCheckIn.validateLocationName(testCheckIn.locationName)
+            testCheckInNoTraceLocationStartDate.validateLocationName(testCheckInNoTraceLocationStartDate.locationName)
+            testCheckInNoTraceLocationEndDate.validateLocationName(testCheckInNoTraceLocationEndDate.locationName)
+            testCheckInNoTraceLocationStartAndEndDate.validateLocationName(testCheckInNoTraceLocationStartAndEndDate.locationName)
         }
     }
 
