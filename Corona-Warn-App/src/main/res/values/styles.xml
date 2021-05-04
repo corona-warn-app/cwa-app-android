@@ -251,8 +251,7 @@
 
     <style name="cardTracing">
         <item name="android:padding">@dimen/card_padding</item>
-        <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/colorSurface2</item>
+        <item name="android:background">@drawable/card_dark</item>
     </style>
 
     <style name="selectionButton" parent="@style/Widget.AppCompat.Button.Borderless">

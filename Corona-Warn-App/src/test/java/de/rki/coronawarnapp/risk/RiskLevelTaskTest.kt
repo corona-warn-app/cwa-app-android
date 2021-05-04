@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -83,6 +84,9 @@ class RiskLevelTaskTest : BaseTest() {
                     every { hasCapability(any()) } returns true
                 }
             }
+            every { activeNetworkInfo } returns mockk<NetworkInfo>().apply {
+                every { isConnected } returns true
+            }
         }
 
         every { enfClient.isTracingEnabled } returns flowOf(true)
@@ -137,6 +141,9 @@ class RiskLevelTaskTest : BaseTest() {
                 every { getNetworkCapabilities(any()) } returns mockk<NetworkCapabilities>().apply {
                     every { hasCapability(any()) } returns false
                 }
+            }
+            every { activeNetworkInfo } returns mockk<NetworkInfo>().apply {
+                every { isConnected } returns false
             }
         }
 
