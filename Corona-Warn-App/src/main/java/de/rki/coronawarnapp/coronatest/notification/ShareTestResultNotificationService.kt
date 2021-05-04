@@ -28,7 +28,6 @@ class ShareTestResultNotificationService @Inject constructor(
 
     fun setup() {
         Timber.d("setup()")
-        // Schedule positive test reminders
         schedulePositiveTestsReminder()
         // if no PCR test is stored or if it was deleted, we reset the reminder
         resetPositivePCRTestReminder()
