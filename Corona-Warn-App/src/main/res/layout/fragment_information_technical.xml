@@ -34,12 +34,13 @@
             android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay">
 
+            <!-- Won't be translated, for that it's hardcoded -->
             <include
                 android:id="@+id/information_technical_header_details"
                 layout="@layout/include_information_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:body="@{FormatterHelper.parseHtmlFromAssets(context, @string/information_technical_html_path)}"
+                app:body='@{FormatterHelper.parseHtmlFromAssets(context, "technical.html")}'
                 app:illustration="@{@drawable/ic_information_illustration_technical}"
                 app:illustrationDescription="@{@string/information_technical_illustration_description}" />
 
