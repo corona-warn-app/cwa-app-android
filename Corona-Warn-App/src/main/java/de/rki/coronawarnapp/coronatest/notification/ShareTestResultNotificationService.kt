@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.notification
 
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
@@ -60,33 +61,33 @@ class ShareTestResultNotificationService @Inject constructor(
 
     private fun resetPositivePCRTestReminder() {
         Timber.tag(TAG).v("resetPositivePCRTestReminder")
-        coronaTestRepository.latestPCRT
+        coronaTestRepository.latestPCRT // This should not crash ,it is just a flow already constructed
             .onEach {
                 if (it == null) {
                     resetSharePositiveTestResultNotification(PCR)
                 }
-            }.catch {
-                Timber.tag(TAG).e(it, "Failed to reset positive test result reminder for PCR test.")
             }
+            // Catch error in onEach block
+            .catch { it.reportProblem("Failed to reset positive test result reminder for PCR test.") }
             .launchIn(appScope)
     }
 
     private fun resetPositiveRATTestReminder() {
         Timber.tag(TAG).v("resetPositiveRATTestReminder")
-        coronaTestRepository.latestRAT
+        coronaTestRepository.latestRAT  // This should not crash ,it is just a flow already constructed
             .onEach {
                 if (it == null) {
                     resetSharePositiveTestResultNotification(RAPID_ANTIGEN)
                 }
-            }.catch {
-                Timber.tag(TAG).e(it, "Failed to reset positive test result reminder for RAT test.")
             }
+            // Catch error in onEach block
+            .catch { it.reportProblem("Failed to reset positive test result reminder for RAT test.") }
             .launchIn(appScope)
     }
 
     private fun schedulePositiveTestsReminder() {
         Timber.tag(TAG).v("schedulePositiveTestsReminder")
-        coronaTestRepository.coronaTests
+        coronaTestRepository.coronaTests  // This should not crash ,it is just a flow already constructed
             .onEach { tests ->
                 // schedule reminder if test wasn't submitted
                 tests.filter { test ->
@@ -98,9 +99,9 @@ class ShareTestResultNotificationService @Inject constructor(
                 // cancel the reminder when test is submitted
                 tests.filter { it.isSubmitted }
                     .forEach { notification.cancelSharePositiveTestResultNotification(it.type) }
-            }.catch {
-                Timber.e(it, "Failed to schedule positive test result reminder.")
             }
+            // Catch error in onEach block
+            .catch { it.reportProblem("Failed to schedule positive test result reminder.") }
             .launchIn(appScope)
     }
 
