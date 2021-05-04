@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -22,7 +21,6 @@ import okio.ByteString.Companion.encode
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.Minutes
-import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -51,7 +49,7 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
 
     private val testLocation = DefaultContactDiaryLocation(
         locationId = 123L,
-        locationName = "${testCheckIn.description}, ${testCheckIn.address}, ${testCheckIn.traceLocationStart?.toPrettyDate()} - ${testCheckIn.traceLocationEnd?.toPrettyDate()}",
+        locationName = testCheckIn.locationName,
         traceLocationID = testCheckIn.traceLocationId
     )
 
@@ -62,8 +60,6 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
         checkInID = testCheckIn.id,
         duration = Minutes.minutes(60).toStandardDuration()
     )
-
-    private fun Instant.toPrettyDate(): String = toUserTimeZone().toString(DateTimeFormat.shortDateTime())
 
     @BeforeEach
     fun setup() {
@@ -109,28 +105,6 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
             coVerify(exactly = 2) {
                 contactDiaryRepo.addLocation(any())
             }
-        }
-    }
-
-    @Test
-    fun `Location name concatenates description, address and if both are set trace location start and end date`() {
-        val testCheckInNoTraceLocationStartDate = testCheckIn.copy(traceLocationStart = null)
-        val testCheckInNoTraceLocationEndDate = testCheckIn.copy(traceLocationEnd = null)
-        val testCheckInNoTraceLocationStartAndEndDate =
-            testCheckIn.copy(traceLocationStart = null, traceLocationEnd = null)
-
-        createInstance().apply {
-            testCheckIn.validateLocationName(testCheckIn.locationName)
-            testCheckInNoTraceLocationStartDate.validateLocationName(testCheckInNoTraceLocationStartDate.locationName)
-            testCheckInNoTraceLocationEndDate.validateLocationName(testCheckInNoTraceLocationEndDate.locationName)
-            testCheckInNoTraceLocationStartAndEndDate.validateLocationName(testCheckInNoTraceLocationStartAndEndDate.locationName)
-        }
-    }
-
-    private fun CheckIn.validateLocationName(nameToValidate: String) {
-        nameToValidate shouldBe when (traceLocationStart != null && traceLocationEnd != null) {
-            true -> "$description, $address, ${traceLocationStart?.toPrettyDate()} - ${traceLocationEnd?.toPrettyDate()}"
-            else -> "$description, $address"
         }
     }
 
