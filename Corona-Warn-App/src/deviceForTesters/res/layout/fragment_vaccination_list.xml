@@ -101,7 +101,8 @@
                     android:layout_marginTop="16dp"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="24dp">
+                    android:paddingTop="24dp"
+                    android:paddingBottom="16dp">
 
                     <TextView
                         android:id="@+id/top_card_title"
