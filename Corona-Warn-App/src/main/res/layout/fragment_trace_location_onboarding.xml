@@ -250,7 +250,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+            <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/check_in_onboarding_privacy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

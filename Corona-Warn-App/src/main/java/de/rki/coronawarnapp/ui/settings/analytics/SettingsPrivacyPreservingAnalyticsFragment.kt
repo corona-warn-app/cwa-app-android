@@ -29,7 +29,7 @@ class SettingsPrivacyPreservingAnalyticsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            settingsPpaHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            settingsPpaHeader.setNavigationOnClickListener {
                 popBackStack()
             }
 
