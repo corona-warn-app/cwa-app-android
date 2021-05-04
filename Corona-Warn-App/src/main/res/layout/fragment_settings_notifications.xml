@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/settings_notifications_header"
             style="@style/CWAToolbar.BackArrow"
             android:layout_width="0dp"
