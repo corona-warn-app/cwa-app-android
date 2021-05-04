@@ -3,10 +3,14 @@ package de.rki.coronawarnapp.vaccination.ui.list
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentVaccinationListBinding
+import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -40,6 +44,12 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
                 bindUiState(uiState)
+
+                appBarLayout.onOffsetChange { titleAlpha, _ ->
+                    title.alpha = titleAlpha
+                }
+
+                setToolbarOverlay()
             }
 
             registerNewVaccinationButton.setOnClickListener {
@@ -65,5 +75,19 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             R.string.vaccination_list_vaccination_card_subtitle,
             vaccinations.first().vaccinatedAt
         )
+    }
+
+    private fun setToolbarOverlay() {
+        val deviceWidth = requireContext().resources.displayMetrics.widthPixels
+
+        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
+            as (CoordinatorLayout.LayoutParams)
+
+        val textParams = binding.title.layoutParams as (CollapsingToolbarLayout.LayoutParams)
+        textParams.bottomMargin = (deviceWidth / 3) - 24 /* 24 is space between screen border and Card */
+        binding.title.requestLayout()
+
+        val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
+        behavior.overlayTop = (deviceWidth / 3) - 24
     }
 }
