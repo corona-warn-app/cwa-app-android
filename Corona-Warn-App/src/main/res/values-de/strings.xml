@@ -2002,9 +2002,9 @@
     <!-- XHED: Trace location check-ins invalid qr code dialog title -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_title">QR-Code nicht gültig</string>
     <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">Der gescannte QR-Code ist nicht gültig.\nBitte scannen Sie einen gültigen QR-Code.\n\n(%1$s)</string>
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">Der gescannte QR-Code gilt nicht für das Einchecken für ein Event oder einen Ort. \nBitte scannen Sie einen geeigneten QR-Code.\n\n(%1$s)</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">Ok</string>
+    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">OK</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">Abbrechen</string>
 
@@ -2012,17 +2012,21 @@
         Incompatibility warning card
     ###################################### -->
 
+    <!-- XHED: Incompitability card title -->
     <string name="incompatible_headline">Inkompatibilitätswarnung</string>
+    <!-- XTXT: Incompitability card content -->
     <string name="incompatible_advertising_not_supported">Ihr Smartphone kann
         COVID-19-Benachrichtigungen über die Bluetooth-Schnittstelle lediglich empfangen, jedoch
         nicht versenden. Das heißt, dass Sie über diese Schnittstelle von Risiko-Begegnungen gewarnt
         werden können, jedoch nicht selbst warnen können. Warnungen, die im Rahmen von Check-ins
         erfolgen, können Sie sowohl empfangen als auch selbst versenden.
     </string>
+    <!-- XTXT: Incompitability card content -->
     <string name="incompatible_scanning_not_supported">Ihr Smartphone kann
         COVID-19-Benachrichtigungen über die Bluetooth-Schnittstelle weder empfangen noch senden.
         Warnungen, die im Rahmen von Check-ins erfolgen, können Sie sowohl empfangen als auch selbst
         versenden.
     </string>
+    <!-- XTXT: Incompitability faq link -->
     <string name="incompatible_link">"https://www.coronawarn.app/de/faq/#incompatibility_warning"</string>
 </resources>
