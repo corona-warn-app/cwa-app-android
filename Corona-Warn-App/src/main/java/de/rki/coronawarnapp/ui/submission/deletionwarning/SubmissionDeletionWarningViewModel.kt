@@ -89,9 +89,6 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
         } catch (err: Exception) {
             mutableRegistrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             err.report(ExceptionCategory.INTERNAL)
-        } finally {
-            // TODO Should not be necessary? What new data would we
-            submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
         }
     }
 
