@@ -333,11 +333,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
 
-            add(CreateVaccinationHomeCard.Item(
-                onClickAction = {
-                    //TODO: implement in another PR
-                }
-            ))
+            add(
+                CreateVaccinationHomeCard.Item(
+                    onClickAction = {
+                        // TODO: implement in another PR
+                    }
+                )
+            )
 
             if (statsData.isDataAvailable) {
                 add(
