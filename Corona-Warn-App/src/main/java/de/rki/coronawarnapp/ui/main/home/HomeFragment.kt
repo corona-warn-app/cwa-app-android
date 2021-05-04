@@ -95,6 +95,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
         }
 
+        viewModel.openVaccinationRegistrationFlow.observe2(this) {
+            //TODO: should we show consent only once?
+            doNavigate(HomeFragmentDirections.actionMainFragmentToTraceVaccinationNavGraph())
+        }
+
         viewModel.popupEvents.observe2(this) { event ->
             when (event) {
                 HomeFragmentEvents.ShowErrorResetDialog -> {

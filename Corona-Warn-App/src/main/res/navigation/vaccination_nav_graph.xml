@@ -3,7 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/vaccination_nav_graph"
-    app:startDestination="@id/vaccinationDetailsFragment">
+    app:startDestination="@id/vaccinationConsentFragment">
+
+    <fragment
+        android:id="@+id/vaccinationConsentFragment"
+        android:name="de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment"
+        android:label="VaccinationConsentFragment"
+        tools:layout="@layout/vaccination_consent_fragment">
+        <argument
+            android:name="vaccinationCertificateId"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/vaccinationDetailsFragment"

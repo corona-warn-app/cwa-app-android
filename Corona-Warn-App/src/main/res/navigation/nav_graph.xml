@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionTestResultKeysSharedFragment"
             app:destination="@id/submissionTestResultKeysSharedFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_trace_vaccination_nav_graph"
+            app:destination="@id/vaccination_nav_graph" />
     </fragment>
 
     <fragment

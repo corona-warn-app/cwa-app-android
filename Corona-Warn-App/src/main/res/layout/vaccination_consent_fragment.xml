@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@string/tracelocation_organizer_category_title"
+    android:background="@color/colorBackground"
+    tools:context=".ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close.Transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Vaccination Consent" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/button_consent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/trace_location_qr_info_graphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_huge"
+                android:contentDescription="@string/trace_location_qr_info_content_description"
+                app:srcCompat="@drawable/ic_qr_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/trace_location_qr_info_headline"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_huge"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/trace_location_qr_info_headline_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_graphic" />
+
+            <TextView
+                android:id="@+id/trace_location_qr_info_subtitle"
+                style="@style/subtitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/trace_location_qr_info_subtitle_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_headline" />
+
+            <ImageView
+                android:id="@+id/trace_location_tracing_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_qr_tracing_static"
+                app:layout_constraintStart_toStartOf="@id/trace_location_qr_info_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_subtitle" />
+
+            <TextView
+                android:id="@+id/trace_location_qr_info_tracing"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/trace_location_qr_info_tracing_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/trace_location_tracing_icon"
+                app:layout_constraintTop_toTopOf="@id/trace_location_tracing_icon" />
+
+            <ImageView
+                android:id="@+id/trace_location_qr_code_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_qr_code_illustration"
+                app:layout_constraintStart_toStartOf="@id/trace_location_tracing_icon"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_tracing" />
+
+            <TextView
+                android:id="@+id/trace_location_qr_code_illustration_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/trace_location_qr_info_qr_code_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/trace_location_qr_code_icon"
+                app:layout_constraintTop_toTopOf="@id/trace_location_qr_code_icon" />
+
+            <ImageView
+                android:id="@+id/trace_location_qr_time_sheet_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_qr_time"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_code_illustration_text"
+                app:layout_constraintStart_toStartOf="@id/trace_location_qr_code_icon" />
+
+            <TextView
+                android:id="@+id/trace_location_qr_time_sheet_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/trace_location_qr_info_time_text"
+                app:layout_constraintTop_toTopOf="@id/trace_location_qr_time_sheet_icon"
+                app:layout_constraintStart_toEndOf="@id/trace_location_qr_time_sheet_icon"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <include
+                android:id="@+id/privacy_card"
+                layout="@layout/trace_location_privacy_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_time_sheet_text" />
+
+            <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+                android:id="@+id/privacy_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:focusable="true"
+                app:titleText="@string/contact_diary_onboarding_legal_information"
+                app:layout_constraintTop_toBottomOf="@id/privacy_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_consent"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/acknowledge_button"
+        app:layout_constraintTop_toBottomOf="@id/scrollview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/acknowledge_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -101,6 +101,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
     val openIncompatibleEvent = SingleLiveEvent<Unit>()
     val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
+    val openVaccinationRegistrationFlow = SingleLiveEvent<Unit>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
@@ -336,7 +337,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             add(
                 CreateVaccinationHomeCard.Item(
                     onClickAction = {
-                        // TODO: implement in another PR
+                        openVaccinationRegistrationFlow.postValue(Unit)
                     }
                 )
             )
