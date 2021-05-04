@@ -854,7 +854,7 @@
     <!-- YTXT: Description one for the debug option to record log files -->
     <string name="debugging_debuglog_intro_explanation_section_one">"To help the app technical support team with error analysis, you can record an error report from the CWA. When you do so, the individual technical steps and results of app processes are recorded. You can then send the error report to technical support and help to identify and correct the error."</string>
     <!-- YTXT: Description two for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation_section_two">"For further information, please see our FAQ page:\nFAQ for error reports"</string>
+    <string name="debugging_debuglog_intro_explanation_section_two">"For further information, please see our FAQ page: FAQ for error reports"</string>
     <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="debugging_debuglog_intro_explanation_section_two_link_label">"FAQ for error reports"</string>
     <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->

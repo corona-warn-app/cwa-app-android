@@ -17,16 +17,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/settings_notifications_header"
-            layout="@layout/include_header"
+            style="@style/CWAToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/settings_notifications_title}" />
+            app:title="@string/settings_notifications_title" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -57,36 +56,49 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <include
+                <de.rki.coronawarnapp.ui.view.SwitchRowView
                     android:id="@+id/settings_switch_row_notifications_risk"
-                    layout="@layout/include_settings_switch_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     gone="@{state != null &amp;&amp; !state.isNotificationsEnabled}"
-                    app:enabled="@{true}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_notifications_header_details"
-                    app:showDivider="@{true}"
-                    app:status="@{state.isNotificationsRiskEnabled}"
-                    app:statusText="@{state.getRiskNotificationStatusText(context)}"
-                    app:subtitle="@{@string/settings_notifications_subtitle_update_risk}" />
+                    app:checked="@{state.isNotificationsRiskEnabled}"
+                    app:subtitle="@{state.getRiskNotificationStatusText(context)}"
+                    app:switchEnabled="@{true}"
+                    app:title="@{@string/settings_notifications_subtitle_update_risk}" />
 
-                <include
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@id/settings_switch_row_notifications_risk" />
+
+                <de.rki.coronawarnapp.ui.view.SwitchRowView
                     android:id="@+id/settings_switch_row_notifications_test"
-                    layout="@layout/include_settings_switch_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
                     gone="@{ state != null &amp;&amp; !state.isNotificationsEnabled}"
-                    app:enabled="@{true}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_switch_row_notifications_risk"
-                    app:showDivider="@{true}"
-                    app:status="@{state.isNotificationsTestEnabled}"
-                    app:statusText="@{state.getTestNotificationStatusText(context)}"
-                    app:subtitle="@{@string/settings_notifications_subtitle_update_test}" />
+                    app:checked="@{state.isNotificationsTestEnabled}"
+                    app:subtitle="@{state.getTestNotificationStatusText(context)}"
+                    app:switchEnabled="@{true}"
+                    app:title="@{@string/settings_notifications_subtitle_update_test}" />
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@id/settings_switch_row_notifications_test" />
 
                 <include
                     android:id="@+id/settings_notifications_card"
