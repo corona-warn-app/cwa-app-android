@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -44,9 +45,9 @@ class SubmissionRepository @Inject constructor(
     val currentSymptoms = submissionSettings.symptoms
 
     // to be used by new submission flow screens
-    fun giveConsentToSubmission(type: CoronaTest.Type) {
+    suspend fun giveConsentToSubmission(type: CoronaTest.Type) {
         Timber.tag(TAG).v("giveConsentToSubmission(type=%s)", type)
-        scope.launch {
+        withContext(scope.coroutineContext) {
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
                 ?: throw IllegalStateException("No test of type $type available")
             Timber.tag(TAG).v("giveConsentToSubmission(type=$type): %s", test)
@@ -55,9 +56,9 @@ class SubmissionRepository @Inject constructor(
     }
 
     // to be used by new submission flow screens
-    fun revokeConsentToSubmission(type: CoronaTest.Type) {
+    suspend fun revokeConsentToSubmission(type: CoronaTest.Type) {
         Timber.tag(TAG).v("revokeConsentToSubmission(type=%s)", type)
-        scope.launch {
+        withContext(scope.coroutineContext) {
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
                 ?: throw IllegalStateException("No test of type $type available")
 
@@ -66,9 +67,9 @@ class SubmissionRepository @Inject constructor(
     }
 
     // to be set to true once the user has opened and viewed their test result
-    fun setViewedTestResult(type: CoronaTest.Type) {
+    suspend fun setViewedTestResult(type: CoronaTest.Type) {
         Timber.tag(TAG).v("setViewedTestResult(type=%s)", type)
-        scope.launch {
+        withContext(scope.coroutineContext) {
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
                 ?: throw IllegalStateException("No test of type $type available")
 
