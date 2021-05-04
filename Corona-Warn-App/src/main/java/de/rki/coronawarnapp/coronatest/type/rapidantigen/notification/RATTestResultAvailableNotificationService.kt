@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.common.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.GeneralNotifications

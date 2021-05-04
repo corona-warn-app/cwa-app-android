@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.coronatest.notification
 
-import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
@@ -79,7 +78,6 @@ class ShareTestResultNotificationService @Inject constructor(
                 if (it == null) {
                     resetSharePositiveTestResultNotification(RAPID_ANTIGEN)
                 }
-                throw RuntimeException()
             }.catch {
                 Timber.tag(TAG).e(it, "Failed to reset positive test result reminder for RAT test.")
             }
