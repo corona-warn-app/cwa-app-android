@@ -7,10 +7,11 @@ import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class CreateVaccinationHomeCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<CreateVaccinationHomeCard.Item, HomeVaccinationRegistrationCardBinding>(
-    R.layout.home_card_container_layout,
-    parent
-) {
+class CreateVaccinationHomeCard(parent: ViewGroup) :
+    HomeAdapter.HomeItemVH<CreateVaccinationHomeCard.Item, HomeVaccinationRegistrationCardBinding>(
+        R.layout.home_card_container_layout,
+        parent
+    ) {
 
     override val viewBinding = lazy {
         HomeVaccinationRegistrationCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
