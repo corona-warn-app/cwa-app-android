@@ -198,7 +198,7 @@ class NetworkStateProviderTest : BaseTest() {
     }
 
     @Test
-    fun `metered connection state can be overriden via test settings`() = runBlockingTest2(ignoreActive = true) {
+    fun `metered connection state can be overridden via test settings`() = runBlockingTest2(ignoreActive = true) {
         every { testSettings.fakeMeteredConnection } returns mockFlowPreference(true)
         val instance = createInstance(this)
 
