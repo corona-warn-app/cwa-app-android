@@ -18,7 +18,6 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -75,7 +74,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private val navController by lazy { supportFragmentManager.findNavController(R.id.nav_host_fragment) }
 
     @Inject lateinit var powerManagement: PowerManagement
-    @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -193,7 +191,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun onResume() {
         super.onResume()
         vm.doBackgroundNoiseCheck()
-        contactDiaryWorkScheduler.schedulePeriodic()
         dataDonationAnalyticsScheduler.schedulePeriodic()
     }
 
