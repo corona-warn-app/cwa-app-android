@@ -10,7 +10,7 @@ import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class CheckInExtensionTest: BaseTest() {
+class CheckInExtensionTest : BaseTest() {
 
     private val testCheckIn = CheckIn(
         id = 42L,
