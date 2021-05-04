@@ -60,7 +60,7 @@ class VaccinationRepository @Inject constructor(
                 lastUpdatedAt = Instant.now()
             ),
             VaccinatedPerson(
-                setOf(vc1),
+                setOf(vc, vc1),
                 setOf(pc),
                 isRefreshing = false,
                 lastUpdatedAt = Instant.now()

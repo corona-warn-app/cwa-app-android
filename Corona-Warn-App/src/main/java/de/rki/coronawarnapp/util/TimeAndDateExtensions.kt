@@ -16,6 +16,7 @@ import java.util.Date
 import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
+@Suppress("TooManyFunctions")
 object TimeAndDateExtensions {
 
     private const val MS_TO_DAYS = (1000 * 60 * 60 * 24)

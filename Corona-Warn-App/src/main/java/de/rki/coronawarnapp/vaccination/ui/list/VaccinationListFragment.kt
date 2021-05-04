@@ -42,8 +42,9 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                 popBackStack()
             }
 
-            viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-                bindUiState(uiState)
+            viewModel.vaccinationListItems.observe(viewLifecycleOwner) { list ->
+                val adapter = VaccinationListAdapter(list) { }
+                binding.recyclerViewVaccinationList.adapter = adapter
 
                 appBarLayout.onOffsetChange { titleAlpha, _ ->
                     title.alpha = titleAlpha
@@ -58,29 +59,10 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         }
     }
 
-    private fun FragmentVaccinationListBinding.bindUiState(uiState: VaccinationListViewModel.UiState) = with(uiState) {
-        nameCardTitle.text = fullName
-        nameCardSubtitle.text = getString(
-            R.string.vaccination_list_name_card_subtitle,
-            dayOfBirth
-        )
-
-        vaccinationCardTitle.text = getString(
-            R.string.vaccination_list_vaccination_card_title,
-            vaccinations.first().doseNumber,
-            vaccinations.first().totalSeriesOfDoses
-        )
-
-        vaccinationCardSubtitle.text = getString(
-            R.string.vaccination_list_vaccination_card_subtitle,
-            vaccinations.first().vaccinatedAt
-        )
-    }
-
     private fun setToolbarOverlay() {
         val deviceWidth = requireContext().resources.displayMetrics.widthPixels
 
-        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
+        val params: CoordinatorLayout.LayoutParams = binding.recyclerViewVaccinationList.layoutParams
             as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.title.layoutParams as (CollapsingToolbarLayout.LayoutParams)
