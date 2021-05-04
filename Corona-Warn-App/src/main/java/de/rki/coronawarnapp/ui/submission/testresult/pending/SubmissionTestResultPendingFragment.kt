@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
@@ -89,6 +90,9 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
         pendingViewModel.routeToScreen.observe2(this) {
             it?.let { doNavigate(it) } ?: navigateToMainScreen()
+        }
+        pendingViewModel.errorEvent.observe2(this) {
+            it.toErrorDialogBuilder(requireContext()).show()
         }
     }
 

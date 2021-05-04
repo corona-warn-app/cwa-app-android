@@ -35,6 +35,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     }
 
     val routeToScreen = SingleLiveEvent<NavDirections?>()
+    val errorEvent = SingleLiveEvent<Throwable>()
 
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val consentGiven = submissionRepository.testForType(type = testType).map {
@@ -105,7 +106,11 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
 
     fun updateTestResult() = launch {
         Timber.v("updateTestResult()")
-        submissionRepository.refreshTest(type = testType)
+        try {
+            submissionRepository.refreshTest(type = testType)
+        } catch (e: Exception) {
+            errorEvent.postValue(e)
+        }
     }
 
     fun onConsentClicked() {
