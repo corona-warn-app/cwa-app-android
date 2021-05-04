@@ -10,7 +10,7 @@
         android:fillViewport="true"
         android:focusable="true">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/settings_ppa_header"
             style="@style/CWAToolbar.BackArrow"
             android:layout_width="match_parent"
