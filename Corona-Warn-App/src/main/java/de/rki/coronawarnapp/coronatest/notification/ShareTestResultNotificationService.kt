@@ -53,7 +53,7 @@ class ShareTestResultNotificationService @Inject constructor(
                     resetSharePositiveTestResultNotification(PCR)
                 }
             }
-            .catch { Timber.e(it, "Failed to reset positive test result reminder for PCR test.") }
+            .catch { Timber.tag(TAG).e(it, "Failed to reset positive test result reminder for PCR test.") }
             .launchIn(appScope)
 
         // if no RAT test is stored or if it was deleted, we reset the reminder
@@ -63,12 +63,16 @@ class ShareTestResultNotificationService @Inject constructor(
                     resetSharePositiveTestResultNotification(RAPID_ANTIGEN)
                 }
             }
-            .catch { Timber.e(it, "Failed to reset positive test result reminder for RAT test.") }
+            .catch { Timber.tag(TAG).e(it, "Failed to reset positive test result reminder for RAT test.") }
             .launchIn(appScope)
     }
 
     fun maybeShowSharePositiveTestResultNotification(notificationId: Int, testType: CoronaTest.Type) {
-        Timber.d("maybeShowSharePositiveTestResultNotification(notificationId=$notificationId)")
+        Timber.tag(TAG).d(
+            "maybeShowSharePositiveTestResultNotification(notificationId=%s,testType=%s)",
+            notificationId,
+            testType
+        )
         if (testType == PCR) {
             if (cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr > 0) {
                 cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr -= 1
@@ -90,28 +94,29 @@ class ShareTestResultNotificationService @Inject constructor(
         when (testType) {
             PCR -> {
                 if (cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr < 0) {
-                    Timber.v("Schedule positive test result notification for PCR test")
+                    Timber.tag(TAG).v("Schedule positive test result notification for PCR test")
                     cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr =
                         POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
                     notification.scheduleSharePositiveTestResultReminder(testType)
                 } else {
-                    Timber.v("Positive test result notification for PCR test has already been scheduled")
+                    Timber.tag(TAG).v("Positive test result notification for PCR test has already been scheduled")
                 }
             }
             RAPID_ANTIGEN -> {
                 if (cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat < 0) {
-                    Timber.v("Schedule positive test result notification for RAT test")
+                    Timber.tag(TAG).v("Schedule positive test result notification for RAT test")
                     cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat =
                         POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
                     notification.scheduleSharePositiveTestResultReminder(testType)
                 } else {
-                    Timber.v("Positive test result notification for RAT test has already been scheduled")
+                    Timber.tag(TAG).v("Positive test result notification for RAT test has already been scheduled")
                 }
             }
         }
     }
 
     private fun resetSharePositiveTestResultNotification(testType: CoronaTest.Type) {
+        Timber.tag(TAG).v("resetSharePositiveTestResultNotification(testType=%s)", testType)
         notification.cancelSharePositiveTestResultNotification(testType)
 
         when (testType) {
@@ -119,6 +124,10 @@ class ShareTestResultNotificationService @Inject constructor(
             RAPID_ANTIGEN -> cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat = Int.MIN_VALUE
         }
 
-        Timber.v("Share positive test result notification counter has been reset for all test types")
+        Timber.tag(TAG).v("Share positive test result notification counter has been reset for all test types")
+    }
+
+    companion object {
+        private val TAG = ShareTestResultNotificationService::class.simpleName
     }
 }
