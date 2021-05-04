@@ -10,18 +10,15 @@
         android:fillViewport="true"
         android:focusable="true">
 
-        <include
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/settings_ppa_header"
-            layout="@layout/include_header"
-            android:layout_width="0dp"
+            style="@style/CWAToolbar.BackArrow"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/settings_background_priority_title"
-            android:focusable="true"
-            app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/settings_privacy_preserving_analytics_title}" />
+            app:title="@string/settings_privacy_preserving_analytics_title" />
 
         <ScrollView
             android:id="@+id/scrollview"
@@ -64,9 +61,9 @@
                     android:text="@string/onboarding_ppa_body"
                     app:layout_constraintEnd_toEndOf="@id/body_end"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_illustration" />
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_illustration" />
 
-                <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+                <de.rki.coronawarnapp.ui.view.MoreInformationView
                     android:id="@id/settings_ppa_switch_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -83,7 +80,7 @@
                     app:toggleOffText="@string/settings_off"
                     app:toggleOnText="@string/settings_on" />
 
-                <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+                <de.rki.coronawarnapp.ui.view.MoreInformationView
                     android:id="@id/federal_state_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -96,7 +93,7 @@
                     app:subtitleText="@string/onboarding_ppa_state_title"
                     app:titleText="@string/onboarding_ppa_state_title" />
 
-                <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+                <de.rki.coronawarnapp.ui.view.MoreInformationView
                     android:id="@id/district_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -105,11 +102,11 @@
                     app:isTopDividerVisible="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/federal_state_row"
+                    app:layout_constraintTop_toBottomOf="@id/federal_state_row"
                     app:subtitleText="@string/onboarding_ppa_district_title"
                     app:titleText="@string/onboarding_ppa_district_title" />
 
-                <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+                <de.rki.coronawarnapp.ui.view.MoreInformationView
                     android:id="@id/age_group_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -129,9 +126,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/age_group_row">
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/age_group_row">
 
                     <TextView
                         android:id="@id/legal_title"
@@ -215,7 +212,7 @@
                         android:text="@string/ppa_onboarding_privacy_information_point_sixteen"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
-                        app:layout_constraintTop_toBottomOf="@+id/legal_point_identity" />
+                        app:layout_constraintTop_toBottomOf="@id/legal_point_identity" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@id/bullet_point_sixteen"
@@ -229,7 +226,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+                <de.rki.coronawarnapp.ui.view.MoreInformationView
                     android:id="@id/more_info_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -238,7 +235,7 @@
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/consent_layout"
+                    app:layout_constraintTop_toBottomOf="@id/consent_layout"
                     app:titleText="@string/onboarding_ppa_more_info_title" />
 
                 <androidx.constraintlayout.widget.Guideline
