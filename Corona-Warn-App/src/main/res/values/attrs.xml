@@ -43,8 +43,12 @@
     <declare-styleable name="MoreInformationView">
         <attr name="isTopDividerVisible" format="boolean" />
         <attr name="isBottomDividerVisible" format="boolean" />
+        <attr name="isToggleVisible" format="boolean" />
         <attr name="titleText" format="string" localization="suggested" />
         <attr name="subtitleText" format="string" />
+        <attr name="toggleOnText" format="string" />
+        <attr name="toggleOffText" format="string" />
+        <attr name="android:checked" />
     </declare-styleable>
 
     <declare-styleable name="TraceLocationHighlightView">
