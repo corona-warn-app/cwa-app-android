@@ -38,7 +38,8 @@ class QrCodeGenerator @Inject constructor(
 
         val hints = mapOf(
             EncodeHintType.ERROR_CORRECTION to correctionLevel,
-            EncodeHintType.MARGIN to margin
+            EncodeHintType.MARGIN to margin,
+            EncodeHintType.CHARACTER_SET to Charsets.UTF_8
         )
         return MultiFormatWriter().encode(
             input,
