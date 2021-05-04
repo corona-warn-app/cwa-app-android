@@ -3,12 +3,11 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -36,88 +35,6 @@ class VaccinationStorageTest : BaseTest() {
         baseGson = SerializationModule().baseGson()
     )
 
-    private val completePersonCert1 = VaccinationContainer.StoredCertificate(
-        firstName = "François-Joan",
-        firstNameStandardized = "FRANCOIS<JOAN",
-        lastName = "d'Arsøns - van Halen",
-        lastNameStandardized = "DARSONS<VAN<HALEN",
-        dateOfBirth = LocalDate.parse("2009-02-28"),
-        targetId = "840539006",
-        vaccineId = "1119349007",
-        medicalProductId = "EU/1/20/1528",
-        marketAuthorizationHolderId = "ORG-100030215",
-        doseNumber = 1,
-        totalSeriesOfDoses = 2,
-        vaccinatedAt = LocalDate.parse("2021-04-21"),
-        certificateCountryCode = "NL",
-        certificateIssuer = "Ministry of Public Health, Welfare and Sport",
-        certificateId = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
-        lotNumber = "0020617",
-    )
-
-    private val completePersonCert2 = completePersonCert1.copy(
-        doseNumber = 2,
-        vaccinatedAt = completePersonCert1.vaccinatedAt.plusDays(1)
-    )
-
-    private val completePerson = PersonData(
-        vaccinations = setOf(
-            VaccinationContainer(
-                certificate = completePersonCert1,
-                scannedAt = Instant.ofEpochMilli(1620062834471),
-                certificateBase45 = "BASE45",
-                certificateCBORBase64 = "BASE64"
-            ),
-            VaccinationContainer(
-                certificate = completePersonCert2,
-                scannedAt = Instant.ofEpochMilli(1620149234473),
-                certificateBase45 = "BASE45",
-                certificateCBORBase64 = "BASE64"
-            )
-        ),
-        proofs = setOf(
-            ProofContainer(
-                proof = ProofContainer.StoredProof(
-                    identifier = "some-identifier"
-                ),
-                expiresAt = Instant.ofEpochMilli(1620322034474),
-                updatedAt = Instant.ofEpochMilli(1620062834474),
-                proofCBORBase64 = "BASE64",
-            )
-        ),
-    )
-
-    private val incompletePersonCert1 = VaccinationContainer.StoredCertificate(
-        firstName = "Sir Jakob",
-        firstNameStandardized = "SIR<JAKOB",
-        lastName = "Von Mustermensch",
-        lastNameStandardized = "VON<MUSTERMENSCH",
-        dateOfBirth = LocalDate.parse("1996-12-24"),
-        targetId = "840539006",
-        vaccineId = "1119349007",
-        medicalProductId = "EU/1/20/1528",
-        marketAuthorizationHolderId = "ORG-100030215",
-        doseNumber = 1,
-        totalSeriesOfDoses = 2,
-        vaccinatedAt = LocalDate.parse("2021-04-21"),
-        certificateCountryCode = "NL",
-        certificateIssuer = "Ministry of Public Health, Welfare and Sport",
-        certificateId = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
-        lotNumber = null,
-    )
-
-    private val incompletePerson = PersonData(
-        vaccinations = setOf(
-            VaccinationContainer(
-                certificate = incompletePersonCert1,
-                scannedAt = Instant.ofEpochMilli(1620062834471),
-                certificateBase45 = "BASE45",
-                certificateCBORBase64 = "BASE64"
-            ),
-        ),
-        proofs = emptySet()
-    )
-
     @Test
     fun `init is sideeffect free`() {
         createInstance()
@@ -137,7 +54,7 @@ class VaccinationStorageTest : BaseTest() {
     @Test
     fun `store one fully vaccinated person`() {
         val instance = createInstance()
-        instance.personContainers = setOf(completePerson)
+        instance.personContainers = setOf(VaccinationTestData.PERSON_A_DATA_2VAC_PROOF)
 
         val json =
             (mockPreferences.dataMapPeek["vaccination.person.2009-02-28#DARSONS<VAN<HALEN#FRANCOIS<JOAN"] as String)
@@ -195,11 +112,25 @@ class VaccinationStorageTest : BaseTest() {
                 "proofData": [
                     {
                         "proof": {
-                            "identifier": "some-identifier"
+                            "firstName": "François-Joan",
+                            "firstNameStandardized": "FRANCOIS\u003cJOAN",
+                            "lastName": "d\u0027Arsøns - van Halen",
+                            "lastNameStandardized": "DARSONS\u003cVAN\u003cHALEN",
+                            "dateOfBirth": "2009-02-28",
+                            "targetId": "840539006",
+                            "vaccineId": "1119349007",
+                            "medicalProductId": "EU/1/20/1528",
+                            "marketAuthorizationHolderId": "ORG-100030215",
+                            "doseNumber": 2,
+                            "totalSeriesOfDoses": 2,
+                            "vaccinatedAt": "2021-04-21",
+                            "certificateIssuer": "Ministry of Public Health, Welfare and Sport",
+                            "certificateId": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
                         },
                         "expiresAt": 1620322034474,
-                        "updatedAt": 1620062834474,
-                        "proofCBORBase64": "BASE64"
+                        "issuedAt": 1620062834474,
+                        "issuedBy": "DE",
+                        "proofCOSEBase64": "BASE64"
                     }
                 ],
                 "lastSuccessfulProofCertificateRun": 0,
@@ -208,7 +139,7 @@ class VaccinationStorageTest : BaseTest() {
         """.toComparableJsonPretty()
 
         instance.personContainers.single().apply {
-            this shouldBe completePerson
+            this shouldBe VaccinationTestData.PERSON_A_DATA_2VAC_PROOF
             identifier.code shouldBe "2009-02-28#DARSONS<VAN<HALEN#FRANCOIS<JOAN"
         }
     }
@@ -216,7 +147,7 @@ class VaccinationStorageTest : BaseTest() {
     @Test
     fun `store incompletely vaccinated person`() {
         val instance = createInstance()
-        instance.personContainers = setOf(incompletePerson)
+        instance.personContainers = setOf(VaccinationTestData.PERSON_B_DATA_1VAC_NOPROOF)
 
         val json = (mockPreferences.dataMapPeek["vaccination.person.1996-12-24#VON<MUSTERMENSCH#SIR<JAKOB"] as String)
 
@@ -253,7 +184,7 @@ class VaccinationStorageTest : BaseTest() {
         """.toComparableJsonPretty()
 
         instance.personContainers.single().apply {
-            this shouldBe incompletePerson
+            this shouldBe VaccinationTestData.PERSON_B_DATA_1VAC_NOPROOF
             identifier.code shouldBe "1996-12-24#VON<MUSTERMENSCH#SIR<JAKOB"
         }
     }
@@ -261,8 +192,12 @@ class VaccinationStorageTest : BaseTest() {
     @Test
     fun `store two persons`() {
         createInstance().apply {
-            personContainers = setOf(incompletePerson, completePerson)
-            personContainers shouldBe setOf(incompletePerson, completePerson)
+            personContainers =
+                setOf(VaccinationTestData.PERSON_B_DATA_1VAC_NOPROOF, VaccinationTestData.PERSON_A_DATA_2VAC_PROOF)
+            personContainers shouldBe setOf(
+                VaccinationTestData.PERSON_B_DATA_1VAC_NOPROOF,
+                VaccinationTestData.PERSON_A_DATA_2VAC_PROOF
+            )
 
             personContainers = emptySet()
             personContainers shouldBe emptySet()

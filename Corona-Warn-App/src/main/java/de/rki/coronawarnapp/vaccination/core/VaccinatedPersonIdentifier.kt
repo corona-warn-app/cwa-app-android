@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.vaccination.core
 import de.rki.coronawarnapp.vaccination.core.qrcode.ScannedVaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationDateOfBirthMissmatchException
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationNameMissmatchException
+import de.rki.coronawarnapp.vaccination.core.repository.storage.ProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
 import org.joda.time.LocalDate
 
@@ -45,6 +46,13 @@ val VaccinationContainer.StoredCertificate.personIdentifier: VaccinatedPersonIde
     )
 
 val ScannedVaccinationCertificate.personIdentifier: VaccinatedPersonIdentifier
+    get() = VaccinatedPersonIdentifier(
+        dateOfBirth = dateOfBirth,
+        lastNameStandardized = lastNameStandardized,
+        firstNameStandardized = firstNameStandardized
+    )
+
+val ProofContainer.StoredProof.personIdentifier: VaccinatedPersonIdentifier
     get() = VaccinatedPersonIdentifier(
         dateOfBirth = dateOfBirth,
         lastNameStandardized = lastNameStandardized,

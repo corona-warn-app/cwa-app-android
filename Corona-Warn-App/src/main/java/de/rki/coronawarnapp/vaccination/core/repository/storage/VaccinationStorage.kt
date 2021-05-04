@@ -105,11 +105,25 @@ class VaccinationStorage @Inject constructor(
                 proofs = setOf(
                     ProofContainer(
                         proof = ProofContainer.StoredProof(
-                            identifier = "some-identifier"
+                            firstName = "François-Joan",
+                            firstNameStandardized = "FRANCOIS<JOAN",
+                            lastName = "d'Arsøns - van Halen",
+                            lastNameStandardized = "DARSONS<VAN<HALEN",
+                            dateOfBirth = LocalDate.parse("2009-02-28"),
+                            targetId = "840539006",
+                            vaccineId = "1119349007",
+                            medicalProductId = "EU/1/20/1528",
+                            marketAuthorizationHolderId = "ORG-100030215",
+                            doseNumber = 2,
+                            totalSeriesOfDoses = 2,
+                            vaccinatedAt = LocalDate.parse("2021-04-21"),
+                            certificateIssuer = "Ministry of Public Health, Welfare and Sport",
+                            certificateId = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
                         ),
                         expiresAt = Instant.ofEpochMilli(1620322034474),
-                        updatedAt = Instant.ofEpochMilli(1620062834474),
-                        proofCBORBase64 = "BASE64",
+                        issuedAt = Instant.ofEpochMilli(1620062834474),
+                        issuedBy = "DE",
+                        proofCOSEBase64 = "BASE64",
                     )
                 ),
             )

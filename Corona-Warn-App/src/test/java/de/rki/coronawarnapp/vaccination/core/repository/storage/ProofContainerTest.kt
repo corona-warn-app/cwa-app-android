@@ -7,9 +7,9 @@ import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class VaccinationContainerTest : BaseTest() {
+class ProofContainerTest : BaseTest() {
 
-    private val storedCert = VaccinationTestData.PERSON_A_VAC_1_CERT
+    private val storedProof = VaccinationTestData.PERSON_A_VAC_1_CERT
 
     private val container = VaccinationTestData.PERSON_A_VAC_1_CONTAINER
 
@@ -24,11 +24,11 @@ class VaccinationContainerTest : BaseTest() {
         container.personIdentifier.code shouldBe "2009-02-28#DARSONS<VAN<HALEN#FRANCOIS<JOAN"
 
         container.copy(
-            certificate = storedCert.copy(firstNameStandardized = " ")
+            certificate = storedProof.copy(firstNameStandardized = " ")
         ).personIdentifier.code shouldBe "2009-02-28#DARSONS<VAN<HALEN# "
 
         container.copy(
-            certificate = storedCert.copy(firstNameStandardized = "")
+            certificate = storedProof.copy(firstNameStandardized = "")
         ).personIdentifier.code shouldBe "2009-02-28#DARSONS<VAN<HALEN#"
     }
 }

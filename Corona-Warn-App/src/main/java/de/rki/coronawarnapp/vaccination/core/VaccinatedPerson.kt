@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
-import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
@@ -14,9 +13,6 @@ data class VaccinatedPerson(
     val identifier: VaccinatedPersonIdentifier
         get() = data.identifier
 
-    val lastUpdatedAt: Instant
-        get() = data.proofs.maxOfOrNull { it.updatedAt } ?: data.vaccinations.maxOf { it.scannedAt }
-
     val vaccinationStatus: Status
         get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
 
@@ -27,7 +23,7 @@ data class VaccinatedPerson(
 
     val proofCertificates: Set<ProofCertificate>
         get() = data.proofs.map {
-            it.toProofCertificate()
+            it.toProofCertificate(valueSet)
         }.toSet()
 
     val firstName: String
