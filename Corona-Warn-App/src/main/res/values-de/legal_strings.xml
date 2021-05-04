@@ -31,13 +31,15 @@
     <string name="submission_your_consent_agreement_share_symptoms">"<b>Im Falle von Schnelltests werden nur Nutzer der Corona-Warn-App gewarnt. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese Daten geteilt.</b>\n\nSie können Ihr Einverständnis zurücknehmen, indem Sie oben „Andere warnen“ deaktivieren."</string>
 
     <!-- YTXT: Body for your consent screen agreement share symptoms with additional hint for test result-->
-    <string name="submission_your_consent_agreement_share_symptoms_2"><b>Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>\n\nSie können Ihr Einverständnis zurücknehmen, indem Sie oben „Andere warnen“ deaktivieren. Ihr Testergebnis wird Ihnen anschließend angezeigt.</string>
+    <string name="submission_your_consent_agreement_share_symptoms_2"><b>Im Falle von Schnelltests werden nur Nutzer der Corona-Warn-App gewarnt. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese Daten geteilt.</b>\n\nSie können Ihr Einverständnis zurücknehmen, indem Sie oben „Andere warnen“ deaktivieren. Ihr Testergebnis wird Ihnen anschließend angezeigt.</string>
     <!-- YTXT: Body for keys submission no consent text first part-->
     <string name="submission_no_consent_your_consent_subsection_body_first_part">"Durch Antippen von „Einverstanden“ willigen Sie wie folgt ein:"</string>
     <!-- YTXT: Body for keys submission no consent text second part-->
-    <string name="submission_no_consent_your_consent_subsection_body_second_part">"<b>Die App teilt Ihr Testergebnis, um Nutzer von offiziellen Corona-Apps, denen Sie begegnet sind, zu warnen. Die Warnung funktioniert in den oben genannten Ländern. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b> Bitte geben Sie Ihr Testergebnis (genauer gesagt: Ihre Zufalls-IDs der letzten 14 Tage) im nächsten Schritt frei, indem Sie „Teilen“ antippen."</string>
+    <string name="submission_no_consent_your_consent_subsection_body_second_part">"<b>Die App teilt Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von Corona-Apps der oben genannten Länder und Nutzer, die zeitgleich am selben Event oder Ort wie Sie eingecheckt waren. Im Falle von Schnelltests werden nur Nutzer der Corona-Warn-App gewarnt. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese Daten geteilt.</b>"</string>
     <!-- YTXT: Body for keys submission no consent text third part-->
-    <string name="submission_no_consent_your_consent_subsection_body_third_part">"Sie können Ihr Einverständnis nach bereits erfolgter Warnung zurücknehmen, indem Sie die App löschen."</string>
+    <string name="submission_no_consent_your_consent_subsection_body_third_part">"Erteilen Sie im nächsten Schritt bitte Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs."</string>
+    <!-- YTXT: Body for keys submission no consent text fourth part-->
+    <string name="submission_no_consent_your_consent_subsection_body_fourth_part">"Sie können Ihr Einverständnis nach bereits erfolgter Warnung zurücknehmen, indem Sie die App löschen."</string>
 
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_privacy_information_title">Hinweise zur Datenverarbeitung</string>

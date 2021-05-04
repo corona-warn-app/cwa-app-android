@@ -14,6 +14,7 @@ import androidx.annotation.DimenRes
 import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.getDrawableCompat
 import java.util.Locale
 import kotlin.math.max
@@ -107,9 +108,9 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
 
         tanDigit.setTextColor(
             if (Tan.isTanCharacterValid(text))
-                resources.getColor(R.color.colorTextPrimary1, null)
+                context.getColorCompat(R.color.colorTextPrimary1)
             else
-                resources.getColor(R.color.colorTextSemanticRed, null)
+                context.getColorCompat(R.color.colorTextSemanticRed)
         )
     }
 

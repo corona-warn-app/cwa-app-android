@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.settings.analytics
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.core.view.isVisible
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsPrivacyPreservingAnalyticsBinding
@@ -33,7 +33,7 @@ class SettingsPrivacyPreservingAnalyticsFragment :
                 popBackStack()
             }
 
-            settingsPpaSwitchRow.setOnClickListener {
+            settingsPpaSwitchRow.setUserToggleListener { _, _ ->
                 viewModel.analyticsToggleEnabled()
             }
 
@@ -72,16 +72,22 @@ class SettingsPrivacyPreservingAnalyticsFragment :
         }
 
         viewModel.settingsPrivacyPreservingAnalyticsState.observe2(this) {
-            binding.ageGroupRowBody.text = it.getAgeGroupRowBodyText(requireContext())
+            binding.ageGroupRow.apply {
+                isGone = !it.isAgeGroupVisible
+                setSubtitle(it.getAgeGroupRowBodyText(requireContext()))
+            }
 
-            binding.districtRow.isVisible = it.isDistrictRowVisible()
-            binding.districtRowDivider.isVisible = it.isDistrictRowVisible()
-            binding.districtRowBody.text = it.getDistrictRowBodyText(requireContext())
+            binding.districtRow.apply {
+                isGone = !it.isDistrictRowVisible
+                setSubtitle(it.getDistrictRowBodyText(requireContext()))
+            }
 
-            binding.federalStateRowBody.text = it.getFederalStateRowBodyText(requireContext())
+            binding.federalStateRow.apply {
+                isGone = !it.isFederalStateRowVisible
+                setSubtitle(it.getFederalStateRowBodyText(requireContext()))
+            }
 
-            binding.settingsPpaSwitchRow.setChecked(it.isSettingsPpaSwitchOn())
-            binding.settingsPpaSwitchRow.setSubtitle(it.getSettingsPpaSwitchRowStateText(requireContext()))
+            binding.settingsPpaSwitchRow.setChecked(it.isAnalyticsEnabled, notify = false)
         }
     }
 
