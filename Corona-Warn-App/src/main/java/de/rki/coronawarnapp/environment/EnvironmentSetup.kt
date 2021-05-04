@@ -12,6 +12,8 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.LOG_UPLOAD
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SAFETYNET_API_KEY
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SUBMISSION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VACCINATION_PROOF
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VACCINATION_VALUE
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION_KEYS
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
@@ -36,6 +38,8 @@ class EnvironmentSetup @Inject constructor(
         VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION"),
         DATA_DONATION("DATA_DONATION_CDN_URL"),
         LOG_UPLOAD("LOG_UPLOAD_SERVER_URL"),
+        VACCINATION_PROOF("VACCINATION_PROOF_SERVER_URL"),
+        VACCINATION_VALUE("VACCINATION_VALUE_SET_CDN_URL"),
         SAFETYNET_API_KEY("SAFETYNET_API_KEY"),
         CROWD_NOTIFIER_PUBLIC_KEY("CROWD_NOTIFIER_PUBLIC_KEY")
     }
@@ -134,6 +138,12 @@ class EnvironmentSetup @Inject constructor(
 
     val logUploadServerUrl: String
         get() = getEnvironmentValue(LOG_UPLOAD).asString
+
+    val vaccinationProofServerUrl: String
+        get() = getEnvironmentValue(VACCINATION_PROOF).asString
+
+    val vaccinationValueCdnUrl: String
+        get() = getEnvironmentValue(VACCINATION_VALUE).asString
 
     companion object {
         private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
