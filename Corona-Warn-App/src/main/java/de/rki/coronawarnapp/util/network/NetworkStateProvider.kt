@@ -40,23 +40,26 @@ class NetworkStateProvider @Inject constructor(
 
     val networkState: Flow<State> = callbackFlow {
         send(currentState)
-        val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                Timber.tag(TAG).v("onAvailable(network=%s)", network)
-                appScope.launch { send(currentState) }
-            }
-
-            override fun onUnavailable() {
-                Timber.tag(TAG).v("onUnavailable()")
-                appScope.launch { send(currentState) }
-            }
-        }
 
         val request = networkRequestBuilderProvider.get()
             .addCapability(NET_CAPABILITY_INTERNET)
             .build()
 
+        var registeredCallback: ConnectivityManager.NetworkCallback? = null
+
         try {
+            val callback = object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    Timber.tag(TAG).v("onAvailable(network=%s)", network)
+                    appScope.launch { send(currentState) }
+                }
+
+                override fun onUnavailable() {
+                    Timber.tag(TAG).v("onUnavailable()")
+                    appScope.launch { send(currentState) }
+                }
+            }
+
             /**
              * This may throw java.lang.SecurityException on Samsung devices
              * java.lang.SecurityException:
@@ -64,6 +67,7 @@ class NetworkStateProvider @Inject constructor(
              * at android.net.ConnectivityManager.registerNetworkCallback (ConnectivityManager.java:4564)
              */
             manager.registerNetworkCallback(request, callback)
+            registeredCallback = callback
         } catch (e: SecurityException) {
             Timber.e(e, "registerNetworkCallback() threw an undocumented SecurityException, Just Samsung Things™️")
             State(
@@ -82,8 +86,8 @@ class NetworkStateProvider @Inject constructor(
         }
 
         awaitClose {
-            Timber.tag(TAG).v("unregisterNetworkCallback()")
-            manager.unregisterNetworkCallback(callback)
+            Timber.tag(TAG).v("unregisterNetworkCallback(%s)", registeredCallback)
+            registeredCallback?.let { manager.unregisterNetworkCallback(it) }
             fakeConnectionSubscriber.cancel()
         }
     }
