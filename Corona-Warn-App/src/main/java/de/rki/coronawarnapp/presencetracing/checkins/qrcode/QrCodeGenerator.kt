@@ -39,7 +39,9 @@ class QrCodeGenerator @Inject constructor(
         val hints = mapOf(
             EncodeHintType.ERROR_CORRECTION to correctionLevel,
             EncodeHintType.MARGIN to margin,
-            EncodeHintType.CHARACTER_SET to Charsets.UTF_8
+            // we cannot use Charsets.UTF_8 as zxing calls toString internally and some android version
+            // return the class name and not the charset name
+            EncodeHintType.CHARACTER_SET to Charsets.UTF_8.name()
         )
         return MultiFormatWriter().encode(
             input,
