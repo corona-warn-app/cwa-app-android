@@ -2,27 +2,22 @@ package de.rki.coronawarnapp.main.home
 
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.states.LowRisk
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
-import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
-import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
-import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE_TELETAN
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
+import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
@@ -33,11 +28,10 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -56,17 +50,16 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
     @MockK lateinit var tracingStateProvider: TracingStateProvider
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
-    @MockK lateinit var submissionStateProvider: SubmissionStateProvider
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingRepository: TracingRepository
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
-    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    @MockK lateinit var timeStamper: TimeStamper
 
     @BeforeEach
     fun setup() {
@@ -77,12 +70,12 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { tracingStateProviderFactory.create(isDetailsMode = false) } returns tracingStateProvider
         every { tracingStateProvider.state } returns flowOf(mockk<LowRisk>())
 
-        every { submissionStateProvider.state } returns flowOf(mockk<SubmissionDone>())
-
-        every { submissionRepository.hasViewedTestResult } returns flowOf(true)
+        every { coronaTestRepository.coronaTests } returns emptyFlow()
 
         coEvery { appConfigProvider.currentConfig } returns emptyFlow()
         coEvery { statisticsProvider.current } returns emptyFlow()
+
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(100101010)
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -90,17 +83,16 @@ class HomeFragmentViewModelTest : BaseTest() {
         errorResetTool = errorResetTool,
         tracingStatus = generalTracingStatus,
         tracingRepository = tracingRepository,
-        shareTestResultNotificationService = shareTestResultNotificationService,
         submissionRepository = submissionRepository,
-        submissionStateProvider = submissionStateProvider,
+        coronaTestRepository = coronaTestRepository,
         tracingStateProviderFactory = tracingStateProviderFactory,
         cwaSettings = cwaSettings,
         appConfigProvider = appConfigProvider,
         statisticsProvider = statisticsProvider,
-        deadmanNotificationScheduler = deadmanNotificationScheduler,
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
-        traceLocationOrganizerSettings = traceLocationOrganizerSettings
+        traceLocationOrganizerSettings = traceLocationOrganizerSettings,
+        timeStamper = timeStamper
     )
 
     @Test
@@ -144,37 +136,7 @@ class HomeFragmentViewModelTest : BaseTest() {
             this.homeItems.observeForTesting { }
             coVerify {
                 tracingStateProvider.state
-                submissionStateProvider.state
-            }
-        }
-    }
-
-    @Test
-    fun `positive test result notification is triggered on positive QR code result`() {
-        every { submissionRepository.deviceUIStateFlow } returns flowOf(
-            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE)
-        )
-        every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
-
-        runBlocking {
-            createInstance().apply {
-                observeTestResultToSchedulePositiveTestResultReminder()
-                verify { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
-            }
-        }
-    }
-
-    @Test
-    fun `positive test result notification is triggered on positive TeleTan code result`() {
-        every { submissionRepository.deviceUIStateFlow } returns flowOf(
-            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN)
-        )
-        every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
-
-        runBlocking {
-            createInstance().apply {
-                observeTestResultToSchedulePositiveTestResultReminder()
-                verify { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
+                coronaTestRepository.coronaTests
             }
         }
     }

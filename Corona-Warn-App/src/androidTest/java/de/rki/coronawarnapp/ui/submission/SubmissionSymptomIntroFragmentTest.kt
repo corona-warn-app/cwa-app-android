@@ -9,11 +9,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
+import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragmentArgs
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -58,7 +60,8 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
                 TestDispatcherProvider(),
                 submissionRepository,
                 autoSubmission,
-                analyticsKeySubmissionCollector
+                analyticsKeySubmissionCollector,
+                CoronaTest.Type.PCR
             )
         )
         with(viewModel) {
@@ -66,7 +69,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
         }
         setupMockViewModel(
             object : SubmissionSymptomIntroductionViewModel.Factory {
-                override fun create(): SubmissionSymptomIntroductionViewModel = viewModel
+                override fun create(testType: CoronaTest.Type): SubmissionSymptomIntroductionViewModel = viewModel
             }
         )
     }
@@ -78,12 +81,20 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<SubmissionSymptomIntroductionFragment>()
+        launchFragment2<SubmissionSymptomIntroductionFragment>(
+            fragmentArgs = SubmissionSymptomIntroductionFragmentArgs(
+                CoronaTest.Type.PCR
+            ).toBundle()
+        )
     }
 
     @Test
     fun testSymptomNextClicked() {
-        launchFragmentInContainer2<SubmissionSymptomIntroductionFragment>()
+        launchFragmentInContainer2<SubmissionSymptomIntroductionFragment>(
+            fragmentArgs = SubmissionSymptomIntroductionFragmentArgs(
+                CoronaTest.Type.PCR
+            ).toBundle()
+        )
         onView(withId(R.id.symptom_button_next))
             .perform(click())
     }
@@ -91,7 +102,11 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        captureScreenshot<SubmissionSymptomIntroductionFragment>()
+        captureScreenshot<SubmissionSymptomIntroductionFragment>(
+            fragmentArgs = SubmissionSymptomIntroductionFragmentArgs(
+                CoronaTest.Type.PCR
+            ).toBundle()
+        )
         onView(withId(R.id.target_button_verify))
             .perform(scrollTo())
         takeScreenshot<SubmissionSymptomIntroductionFragment>("2")

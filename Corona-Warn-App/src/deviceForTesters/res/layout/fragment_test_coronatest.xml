@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:ignore="HardcodedText">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_tiny"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/qrcode_container"
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny">
+
+            <TextView
+                android:id="@+id/qrcode_title"
+                style="@style/headline6Sixteen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="QRCodes (ɔ◔‿◔)ɔ ♥"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/qrcode_scan_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Scan using CWA"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/qrcode_title" />
+
+            <FrameLayout
+                android:id="@+id/qrcode_scan_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/scan_qr_code_viewfinder_size"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/qrcode_scan_action"
+                tools:visibility="visible">
+
+                <com.journeyapps.barcodescanner.BarcodeView
+                    android:id="@+id/qrcode_scan_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:zxing_framing_rect_height="@dimen/scan_qr_code_viewfinder_size"
+                    app:zxing_framing_rect_width="@dimen/scan_qr_code_viewfinder_size" />
+
+                <com.journeyapps.barcodescanner.ViewfinderView
+                    android:id="@+id/qrcode_scan_viewfinder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:zxing_viewfinder_laser_visibility="false"
+                    app:zxing_viewfinder_mask="@color/colorQrCodeScanMask" />
+
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/pcrt_container"
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny">
+
+            <TextView
+                android:id="@+id/pcrt_title"
+                style="@style/headline6Sixteen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Polymerase chain reaction test"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/pcrt_delete_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Delete"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pcrt_title" />
+
+            <Button
+                android:id="@+id/pcrt_refresh_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Refresh"
+                app:layout_constraintStart_toEndOf="@id/pcrt_delete_action"
+                app:layout_constraintTop_toBottomOf="@id/pcrt_title" />
+
+            <TextView
+                android:id="@+id/pcrt_data"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="No data."
+                app:layout_constraintTop_toBottomOf="@id/pcrt_delete_action" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rat_container"
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny">
+
+            <TextView
+                android:id="@+id/rat_title"
+                style="@style/headline6Sixteen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Rapid antigen test"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/rat_delete_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Delete"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rat_title" />
+
+            <Button
+                android:id="@+id/rat_refresh_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Refresh"
+                app:layout_constraintStart_toEndOf="@id/rat_delete_action"
+                app:layout_constraintTop_toBottomOf="@id/rat_title" />
+
+            <TextView
+                android:id="@+id/rat_data"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="No data."
+                app:layout_constraintTop_toBottomOf="@id/rat_delete_action" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

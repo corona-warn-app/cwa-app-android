@@ -9,14 +9,14 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.ViewTestResultSectionBinding
+import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
-import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import de.rki.coronawarnapp.util.formatter.formatTestResult
-import java.util.Date
+import org.joda.time.Instant
 
 /**
  * The [TestResultSectionView] Displays the appropriate test result.
@@ -47,49 +47,52 @@ constructor(
         }
     }
 
-    fun setTestResultSection(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?, registeredAt: Date?) {
+    fun setTestResultSection(coronaTest: CoronaTest?) {
         binding.apply {
-            testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
-            testResultSectionRegisteredAtText.text = formatTestResultRegisteredAtText(registeredAt)
-            val testResultIcon = formatTestStatusIcon(uiState)
+            when (coronaTest?.type) {
+                CoronaTest.Type.PCR ->
+                    testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
+                        .format(context.getString(R.string.ag_homescreen_card_pcr_title))
+                CoronaTest.Type.RAPID_ANTIGEN ->
+                    testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
+                        .format(context.getString(R.string.submission_test_result_antigen_title))
+            }
+
+            testResultSectionRegisteredAtText.text = formatTestResultRegisteredAtText(coronaTest?.registeredAt)
+            val testResultIcon = formatTestStatusIcon(coronaTest)
             testResultSectionStatusIcon.setImageDrawable(testResultIcon)
-            testResultSectionContent.text = formatTestResultSectionContent(uiState)
+            testResultSectionContent.text = formatTestResultSectionContent(coronaTest)
         }
     }
 
-    private fun formatTestStatusIcon(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Drawable? {
-        return uiState.withSuccess(R.drawable.ic_test_result_illustration_invalid) {
-            when (it) {
-                DeviceUIState.PAIRED_NO_RESULT -> R.drawable.ic_test_result_illustration_pending
-                DeviceUIState.PAIRED_POSITIVE_TELETAN,
-                DeviceUIState.PAIRED_POSITIVE -> R.drawable.ic_test_result_illustration_positive
-                DeviceUIState.PAIRED_NEGATIVE -> R.drawable.ic_test_result_illustration_negative
-                DeviceUIState.PAIRED_ERROR,
-                DeviceUIState.PAIRED_REDEEMED -> R.drawable.ic_test_result_illustration_invalid
-                else -> R.drawable.ic_test_result_illustration_invalid
-            }
-        }.let { context.getDrawableCompat(it) }
+    private fun formatTestStatusIcon(coronaTest: CoronaTest?): Drawable? {
+        val drawable = when (coronaTest?.testResult.toDeviceUIState()) {
+            DeviceUIState.PAIRED_NO_RESULT -> R.drawable.ic_test_result_illustration_pending
+            DeviceUIState.PAIRED_POSITIVE -> R.drawable.ic_test_result_illustration_positive
+            DeviceUIState.PAIRED_NEGATIVE -> R.drawable.ic_test_result_illustration_negative
+            DeviceUIState.PAIRED_ERROR,
+            DeviceUIState.PAIRED_REDEEMED -> R.drawable.ic_test_result_illustration_invalid
+            else -> R.drawable.ic_test_result_illustration_invalid
+        }
+        return context.getDrawableCompat(drawable)
     }
 
-    private fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
+    private fun formatTestResultRegisteredAtText(registeredAt: Instant?): String {
         return context.getString(R.string.test_result_card_registered_at_text)
-            .format(registeredAt?.toUIFormat(context))
+            .format(registeredAt?.toDate()?.toUIFormat(context))
     }
 
-    private fun formatTestResultSectionContent(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Spannable {
-        return uiState.withSuccess(SpannableString("")) {
-            when (it) {
-                DeviceUIState.PAIRED_NO_RESULT ->
-                    SpannableString(context.getString(R.string.test_result_card_status_pending))
-                DeviceUIState.PAIRED_ERROR,
-                DeviceUIState.PAIRED_REDEEMED ->
-                    SpannableString(context.getString(R.string.test_result_card_status_invalid))
+    private fun formatTestResultSectionContent(coronaTest: CoronaTest?): Spannable {
+        return when (val uiState = coronaTest?.testResult.toDeviceUIState()) {
+            DeviceUIState.PAIRED_NO_RESULT ->
+                SpannableString(context.getString(R.string.test_result_card_status_pending))
+            DeviceUIState.PAIRED_ERROR,
+            DeviceUIState.PAIRED_REDEEMED ->
+                SpannableString(context.getString(R.string.test_result_card_status_invalid))
 
-                DeviceUIState.PAIRED_POSITIVE,
-                DeviceUIState.PAIRED_POSITIVE_TELETAN,
-                DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(context, uiState))
-                else -> SpannableString("")
-            }
+            DeviceUIState.PAIRED_POSITIVE,
+            DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(context, uiState))
+            else -> SpannableString("")
         }
     }
 }

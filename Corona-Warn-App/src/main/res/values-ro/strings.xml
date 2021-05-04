@@ -249,7 +249,7 @@
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Un smartphone afișează conținut variat, numerotat de la 1 la 3."</string>
     <!-- XACT: App main page title -->
-    <string name="main_title">"Pagina principală a aplicației Corona-Warn"</string>
+    <string name="main_title">"Ecranul principal al aplicației Corona-Warn"</string>
 
     <!-- ####################################
                Risk Details
@@ -292,9 +292,9 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Medicul de familie"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"Serviciul general de urgență la numărul de telefon 112"</string>
+    <string name="risk_details_behavior_increased_body_2">"Serviciul general de urgență la numărul de telefon 116117"</string>
     <!-- XMSG: risk details - public health department, bullet point -->
-    <string name="risk_details_behavior_increased_body_3">"Direcția de sănătate publică relevantă"</string>
+    <string name="risk_details_behavior_increased_body_3">"Autoritatea de sănătate publică relevantă"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risc de infectare"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -398,12 +398,16 @@
     <string name="onboarding_onboarding_accessibility_title">"Pagina de înregistrare 1 din 6: Să combatem împreună COVID-19"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Să combatem împreună COVID-19"</string>
-    <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
-    <string name="onboarding_subtitle">"Mai multă protecție pentru dvs. și pentru noi toți. Utilizând Corona-Warn-App putem întrerupe mai ușor lanțurile de infectare."</string>
-    <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Transformați-vă smartphone-ul într-un sistem de avertizare împotriva coronavirusului. Obțineți un sumar al stării de risc și aflați dacă ați intrat în contact strâns cu persoane diagnosticate cu coronavirus în ultimele 14 zile."</string>
-    <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"Aplicația înregistrează în jurnal întâlnirile dintre persoane prin smartphone-urile acestora, care schimbă ID-uri aleatorii criptate, fără a accesa niciun fel de date personale."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_1">"Mai multă protecție pentru dvs. și pentru noi toți. Utilizând Corona-Warn-App putem întrerupe mai ușor lanțul de infectare."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_2">"Transformați-vă smartphone-ul într-un sistem de avertizare împotriva coronavirusului. Obțineți un sumar al stării de risc și aflați dacă ați intrat în contact strâns cu persoane diagnosticate cu coronavirus în ultimele 14 zile."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_3">"Afișați rezultatele testelor dvs. (test PCR sau test antigen rapid) în aplicație și avertizați-i pe ceilalți dacă sunteți diagnosticat cu coronavirus."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_4">"Dacă doriți, puteți utiliza aplicația pentru a dovedi starea de infectare personală (de exemplu, un test rapid negativ). Rețineți, totuși, că nu aveți nicio obligație de a utiliza aplicația pentru a dovedi starea dvs. de infectare. De asemenea, puteți dovedi starea dvs. de infectare într-un alt mod care respectă reglementările legale din localitatea dvs. de domiciliu."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_5">"Aplicația înregistrează în jurnal întâlnirile dintre persoane prin smartphone-urile acestora, care schimbă ID-uri aleatorii criptate, fără a accesa niciun fel de date personale."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Un grup de persoane își utilizează smartphone-urile prin oraș."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -783,14 +787,22 @@
     <string name="information_contact_subtitle_phone">"Hotline tehnic:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"0800 7540001"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
+    <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
+    <!-- XLNK: Description for national technical contact and hotline information page -->
+    <string name="information_contact_button_phone_description">"Pentru apeluri din Germania. Apelul este gratuit."</string>
+    <!-- XLNK: Description for international technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone_description">"Pentru apeluri din afara Germaniei. Se vor aplica tarifele furnizorului dvs. de servicii de telefonie."</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
     <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_phone">"Serviciul clienți vă stă la dispoziție."</string>
+    <string name="information_contact_body_phone">"Serviciul clienți vă stă la dispoziție în următoarele limbi:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Limbi: engleză, germană, turcă\nProgram de lucru:"<xliff:g id="line_break">"\n"</xliff:g>"luni - sâmbătă: 07:00 - 22:00"<xliff:g id="line_break">"\n(exceptând sărbătorile legale)"</xliff:g><xliff:g id="line_break">"\nApelul este gratuit."</xliff:g></string>
+    <string name="information_contact_body_open">"engleză, germană, turcă\n\nProgram de lucru:\nluni - sâmbătă: 07:00 - 22:00 (CET)\n(exceptând sărbătorile legale)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_other">"Dacă aveți întrebări legate de starea de sănătate, vă rugăm să contactați medicul de familie sau hotline-ul pentru servicii medicale de urgență, la numărul de telefon: 116 117 (Germania) sau 112 (România)."</string>
+    <string name="information_contact_body_other">"Dacă aveți întrebări legate de starea de sănătate, vă rugăm să contactați medicul de familie sau hotline-ul pentru servicii medicale de urgență, la numărul de telefon: 116 117."</string>
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Un bărbat poartă căști în timpul unei convorbiri telefonice."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
@@ -964,7 +976,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Doriți să anulați introducerea simptomelor dvs.?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"Dacă furnizați informații despre simptomele dvs., îi puteți avertiza pe ceilalți într-un mod mai precis."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"Dacă furnizați informații despre simptomele dvs., îi puteți avertiza pe ceilalți într-un mod mai exact."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Da"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -992,7 +1004,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Codul QR este nevalabil"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, direcția de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Reîncercați."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -1013,11 +1025,11 @@
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Acum scanați codul QR de pe testul dvs. și aflați rezultatul testului."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_test_only_once">"Testul dvs. poate fi scanat o singură dată. Aplicația nu poate gestiona mai multe teste simultan."</string>
+    <string name="submission_consent_call_test_result_scan_test_only_once">"Fiecare test poate fi scanat o singură dată. Aplicația poate gestiona cel mult un test rapid și un test PCR în același timp."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Vă rugăm să îi ajutați pe ceilalți cu care v-ați întâlnit, avertizându-i!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"Dacă ați fost diagnosticat cu coronavirus, puteți să îi avertizați pe ceilalți prin intermediul aplicației. Caracteristica de avertizare funcționează în câteva țări. Următoarele țări participă în prezent:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"Dacă ați fost diagnosticat cu coronavirus, puteți să îi avertizați pe ceilalți prin intermediul aplicației. Dacă ați făcut un test rapid, caracteristica de avertizare funcționează doar în Germania. Dacă ați făcut un test PCR, caracteristica de avertizare funcționează doar în următoarele țări:"</string>
     <!-- YTXT: Body for consent help by warning others - info about events -->
     <string name="submission_consent_help_by_warning_others_body_event">"Persoanele care au făcut check-in la aceleași evenimente sau în aceleași locuri în același timp cu dvs. vor fi, de asemenea, avertizate."</string>
     <!-- YTXT: Page bottom text for consent screen -->
@@ -1034,6 +1046,17 @@
     <string name="submission_consent_main_id_consent">"În etapa următoare, acordați-vă consimțământul pentru a accesa ID-urile aleatorii."</string>
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"O persoană ține în mână un smartphone. Un cod QR de pe un test simbolizează codul care va fi scanat."</string>
+
+    <!-- YTXT: Body for no consent section first point  -->
+    <string name="submission_no_consent_first_point">"Consimțământul dvs. este voluntar."</string>
+    <!-- YTXT: Body for no consent section second point  -->
+    <string name="submission_no_consent_second_point">"Puteți afla rezultatul testului dvs. chiar dacă alegeți să nu îl partajați. Dar dacă partajați rezultatul testului dvs., veți ajuta la protejarea celorlalți împotriva infectării."</string>
+    <!-- YTXT: Body for no consent section third point  -->
+    <string name="submission_no_consent_third_point">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
+    <!-- YTXT: Body for no consent section fourth point  -->
+    <string name="submission_no_consent_fourth_point">"La „Check-inurile mele”, puteți vedea evenimentele și locurile ale căror invitați cu check-inul făcut vor fi avertizați. Puteți elimina check-inuri individuale din listă pentru a le exclude din procesul de avertizare."</string>
+    <!-- YTXT: Body for no consent section fifth point  -->
+    <string name="submission_no_consent_fifth_point">"Trebuie să aveți cel puțin 16 ani pentru a vă acorda consimțământul."</string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
@@ -1083,7 +1106,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Testul poate fi scanat o singură dată."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Dacă eliminați testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, direcția de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Dacă eliminați testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Eliminare"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -1131,19 +1154,19 @@
     <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
     <string name="submission_dispatcher_needs_testing_subheadline">"Ați fost testat?"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
-    <string name="submission_dispatcher_already_positive_subheadline">"Ați fost testat pozitiv la coronavirus?"</string>
+    <string name="submission_dispatcher_already_positive_subheadline">"Testul dvs. PCR a fost pozitiv?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Testarea cu cod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Înregistrați-vă testul scanând codul QR al documentului de testare."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"Introduceți TAN"</string>
+    <string name="submission_dispatcher_card_tan_code">"Introduceți codul TAN pentru testul PCR"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"Aveți un cod TAN? Atingeți aici pentru a introduce codul dvs. TAN pentru a-i putea avertiza pe ceilalți."</string>
+    <string name="submission_dispatcher_tan_code_card_text">"Aveți un cod TAN pentru testul dvs. PCR? Atingeți aici pentru a introduce codul dvs. TAN pentru a-i putea avertiza pe ceilalți."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"Nu aveți un cod TAN încă?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"Solicitați un cod TAN pentru testul PCR?"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
-    <string name="submission_dispatcher_tan_tele_card_text">"Sunați-ne și obțineți un cod TAN."</string>
+    <string name="submission_dispatcher_tan_tele_card_text">"Sunați-ne și obțineți un cod TAN pentru testul dvs. PCR."</string>
     <!-- XACT: Dispatcher Tan page title -->
     <string name="submission_dispatcher_accessibility_title">"Ce informații aveți?"</string>
 
@@ -1163,10 +1186,7 @@
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_first_part">"Deoarece ați fost testat pozitiv la coronavirus, acum puteți să îi avertizați pe ceilalți prin intermediul aplicației."</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_second_part">"Caracteristica de avertizare funcționează în câteva țări. Următoarele țări participă în prezent:"</string>
-
+    <string name="submission_positive_other_warning_no_consent_body_first_part">"Deoarece ați fost diagnosticat cu coronavirus, puteți să îi avertizați pe ceilalți prin intermediul aplicației. Dacă ați făcut un test rapid, caracteristica de avertizare funcționează doar în Germania. Dacă ați făcut un test PCR, caracteristica de avertizare funcționează doar în următoarele țări:"</string>
 
     <!-- Test result positive and no consent given -->
     <!-- XHED: Title for test result positive and no consent given-->
@@ -1176,7 +1196,7 @@
     <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_2">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
     <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
-    <string name="submission_test_result_positive_no_consent_text_3">"Asigurați-vă că urmați instrucțiunile direcției dvs. de sănătate publică și că stați acasă, pentru a nu-i infecta pe ceilalți."</string>
+    <string name="submission_test_result_positive_no_consent_text_3">"Asigurați-vă că urmați instrucțiunile autorității dvs. de sănătate publică și că stați acasă, pentru a nu-i infecta pe ceilalți."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Avertizați-i pe ceilalți"</string>
 
@@ -1201,10 +1221,15 @@
     <string name="submission_done_body">"Datorită sprijinului dvs., alte persoane pot fi acum avertizate și pot reacționa adecvat."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Rețineți:"</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_pcr_validation">"Efectuați un test PCR pentru a verifica rezultatul acestui test."</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_share_keys">"Trimiteți ID-ul dvs. aleatoriu pentru a-i avertiza și pe alții."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Autoritatea de sănătate publică vă va contacta în următoarele zile."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Sunteți infectat. Izolați-vă de alte persoane."</string>
+
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Alte informații:"</string>
     <!-- YTXT: submission done further info bullet points -->
@@ -1221,7 +1246,7 @@
 
     <!-- Submission Done No Consent-->
     <!-- XHED: Page title for completed submission page -->
-    <string name="submission_done_no_consent_title">"Vă mulţumim"</string>
+    <string name="submission_done_no_consent_title">"Vă mulțumim"</string>
     <!-- YTXT: Page subtitle for completed submission page -->
     <string name="submission_done_no_consent_subtitle">"Vă mulțumim pentru ajutorul dat la oprirea răspândirii coronavirusului."</string>
     <!-- YTXT: Page body for submission no consent page -->
@@ -1265,7 +1290,7 @@
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
-    <string name="submission_contact_title">"Solicitare TAN"</string>
+    <string name="submission_contact_title">"Solicitare cod TAN pentru testul PCR"</string>
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"Cum funcționează:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
@@ -1281,11 +1306,11 @@
     <!-- XLNK: Technical number which is called when the user clicks on the display number -->
     <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
-    <string name="submission_contact_step_2_body">"Înregistrați testul dvs. introducând codul TAN în aplicație."</string>
+    <string name="submission_contact_step_2_body">"Înregistrați testul dvs. PCR introducând codul TAN în aplicație."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Limbi: \nengleză, germană, turcă\n\nProgram de lucru:\n24/7\n\nApelul este gratuit."</string>
+    <string name="submission_contact_operating_hours_body">"Serviciul clienți vă stă la dispoziție în următoarele limbi: \nengleză, germană, turcă\n\nProgram de lucru:\n24/7"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="submission_contact_body_other">"Dacă aveți întrebări legate de starea de sănătate, vă rugăm să contactați medicul de familie sau hotline-ul pentru servicii medicale de urgență, la numărul de telefon: 116 117 (Germania) sau 112 (România)."</string>
+    <string name="submission_contact_body_other">"Dacă aveți întrebări legate de starea de sănătate, vă rugăm să contactați medicul de familie sau hotline-ul pentru servicii medicale de urgență, la numărul de telefon: 116 117."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Sunați la hotline și solicitați un TAN"</string>
@@ -1366,30 +1391,12 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Trimiteți ID-ul dvs. aleatoriu pentru a-i avertiza și pe alții."</string>
 
-    <!-- Reenable risk card -->
-    <!-- XHED: Card title for re-enable risk card -->
-    <string name="reenable_risk_card_title">"Verificarea expunerii s-a încheiat"</string>
-    <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Test înregistrat pe %s"</string>
-    <!-- YTXT: Description text for re-enable risk card -->
-    <string name="reenable_risk_card_description_text">"Verificarea automată a expunerii s-a încheiat deoarece ați fost diagnosticat cu coronavirus și în prezent sunteți în izolare. Puteți reactiva oricând testarea expunerii. Dacă faceți acest lucru, testul dvs. înregistrat va fi șters automat."</string>
-    <!-- XBUT: Button for re-enabling risk calculation -->
-    <string name="reenable_risk_card_button_text">"Pornire verificarea expunerii "</string>
-    <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Activați verificarea expunerii."</string>
-    <!-- YTXT: Dialog text for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_message">"Testul dvs. curent va fi șters din aplicație pentru a putea înregistra un test nou dacă este necesar."</string>
-    <!-- XBUT: Positive button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_positive">"Activare"</string>
-    <!-- XBUT: Negative button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_negative">"Anulare"</string>
-
     <!-- Test Result Card -->
-    <string name="test_result_card_headline">"Diagnosticul dvs.:"</string>
+    <string name="test_result_card_headline">"Diagnosticul dvs. pentru %s:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->
-    <string name="test_result_card_registered_at_text">"Înregistrat la %s"</string>
+    <string name="test_result_card_registered_at_text">"Test adăugat pe %s"</string>
     <!-- YTXT: negative status text -->
     <string name="test_result_card_status_negative">"Negativ"</string>
     <!-- YTXT: positive status text -->
@@ -1974,7 +1981,7 @@
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Versiune de tipărire"</string>
     <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Partajați check-inurile locației dvs.?"</string>
+    <string name="trace_location_attendee_consent_title">"Partajați check-inurile locației?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
     <string name="trace_location_attendee_consent_header_description">"Avertizați-i pe ceilalți care au făcut check-in în aproprierea dvs. Datele dvs. personale nu vor fi partajate."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->

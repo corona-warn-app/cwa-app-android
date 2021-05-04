@@ -31,7 +31,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:focusable="true"
                 android:scaleType="fitStart"
-                android:src="@drawable/ic_main_header"
+                app:srcCompat="@drawable/ic_main_header"
                 bind:cwaContentDescription="@{@string/accessibility_logo}"
                 tools:ignore="ContentDescription" />
         </Toolbar>

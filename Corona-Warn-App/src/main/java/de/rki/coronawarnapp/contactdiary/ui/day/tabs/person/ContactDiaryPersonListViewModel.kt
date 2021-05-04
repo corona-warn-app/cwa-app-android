@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
@@ -42,7 +43,7 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     private val dayEncounters = contactDiaryRepository.personEncountersForDate(localDate)
     private val selectablePersons = contactDiaryRepository.people
 
-    val uiList: LiveData<List<DiaryPersonListItem>> = combine(
+    private val diaryPersonListItems: Flow<List<DiaryPersonListItem>> = combine(
         selectablePersons,
         dayEncounters
     ) { persons, encounters ->
@@ -53,7 +54,7 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
             DiaryPersonListItem(
                 item = person,
                 personEncounter = encounter,
-                onItemClick = { onPersonSelectionChanged(it as DiaryPersonListItem) },
+                onItemClick = { onPersonSelectionChanged(it.stableId) },
                 onDurationChanged = { item, duration ->
                     onDurationChanged(item, duration)
                 },
@@ -71,23 +72,28 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
                 }
             )
         }
-    }.asLiveData(context = dispatcherProvider.Default)
+    }
+
+    val uiList: LiveData<List<DiaryPersonListItem>> = diaryPersonListItems
+        .asLiveData(context = dispatcherProvider.Default)
 
     private fun onPersonSelectionChanged(
-        item: DiaryPersonListItem
+        itemId: Long
     ) = launchOnAppScope {
-        if (!item.selected) {
-            contactDiaryRepository.addPersonEncounter(
-                DefaultContactDiaryPersonEncounter(
-                    date = localDate,
-                    contactDiaryPerson = item.item
+        diaryPersonListItems.first().find { it.stableId == itemId }?.let { item ->
+            if (!item.selected) {
+                contactDiaryRepository.addPersonEncounter(
+                    DefaultContactDiaryPersonEncounter(
+                        date = localDate,
+                        contactDiaryPerson = item.item
+                    )
                 )
-            )
-        } else {
-            val visit = dayEncounters.first()
-                .find { it.contactDiaryPerson.personId == item.item.personId }
-            visit?.let { contactDiaryRepository.deletePersonEncounter(it) }
-        }
+            } else {
+                val visit = dayEncounters.first()
+                    .find { it.contactDiaryPerson.personId == item.item.personId }
+                visit?.let { contactDiaryRepository.deletePersonEncounter(it) }
+            }
+        } ?: run { Timber.d("No item found for id $itemId") }
     }
 
     private fun onDurationChanged(

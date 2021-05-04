@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
@@ -105,7 +106,8 @@ class SubmissionServerTest : BaseTest() {
             keyList = listOf(googleKeyList),
             consentToFederation = true,
             visitedCountries = listOf("DE"),
-            checkIns = listOf(checkIn)
+            checkIns = listOf(checkIn),
+            submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
         )
         server.submitPayload(submissionData)
 
@@ -174,7 +176,8 @@ class SubmissionServerTest : BaseTest() {
             keyList = listOf(googleKeyList),
             consentToFederation = true,
             visitedCountries = listOf("DE"),
-            checkIns = listOf(checkIn)
+            checkIns = listOf(checkIn),
+            submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
         )
         server.submitPayload(submissionData)
 
@@ -236,7 +239,8 @@ class SubmissionServerTest : BaseTest() {
             keyList = listOf(googleKeyList),
             consentToFederation = true,
             visitedCountries = listOf("DE"),
-            checkIns = emptyList()
+            checkIns = emptyList(),
+            submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
         )
         webServer.enqueue(MockResponse().setBody("{}"))
         server.submitPayload(submissionData)

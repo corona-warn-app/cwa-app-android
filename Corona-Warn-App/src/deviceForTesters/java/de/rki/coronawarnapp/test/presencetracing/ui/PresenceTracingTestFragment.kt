@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestPresenceTracingBinding
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject

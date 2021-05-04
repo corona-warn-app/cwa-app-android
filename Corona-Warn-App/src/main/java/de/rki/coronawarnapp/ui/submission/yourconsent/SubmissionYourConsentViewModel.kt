@@ -1,24 +1,38 @@
 package de.rki.coronawarnapp.ui.submission.yourconsent
 
 import androidx.lifecycle.asLiveData
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 class SubmissionYourConsentViewModel @AssistedInject constructor(
     val dispatcherProvider: DispatcherProvider,
     interoperabilityRepository: InteroperabilityRepository,
-    val submissionRepository: SubmissionRepository
+    val submissionRepository: SubmissionRepository,
+    @Assisted private val testType: CoronaTest.Type
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
+    init {
+        Timber.v("init() coronaTestType=%s", testType)
+    }
+
     val clickEvent: SingleLiveEvent<SubmissionYourConsentEvents> = SingleLiveEvent()
-    val consent = submissionRepository.hasGivenConsentToSubmission.asLiveData()
+    private val consentFlow = submissionRepository.testForType(type = testType)
+        .filterNotNull()
+        .map { it.isAdvancedConsentGiven }
+    val consent = consentFlow.asLiveData(context = dispatcherProvider.Default)
+
     val countryList = interoperabilityRepository.countryList
         .asLiveData(context = dispatcherProvider.Default)
 
@@ -26,13 +40,13 @@ class SubmissionYourConsentViewModel @AssistedInject constructor(
         clickEvent.postValue(SubmissionYourConsentEvents.GoBack)
     }
 
-    fun switchConsent() {
-        launch {
-            if (submissionRepository.hasGivenConsentToSubmission.first()) {
-                submissionRepository.revokeConsentToSubmission()
-            } else {
-                submissionRepository.giveConsentToSubmission()
-            }
+    fun switchConsent() = launch {
+        if (consentFlow.first()) {
+            Timber.v("revokeConsentToSubmission()")
+            submissionRepository.revokeConsentToSubmission(type = testType)
+        } else {
+            Timber.v("giveConsentToSubmission()")
+            submissionRepository.giveConsentToSubmission(type = testType)
         }
     }
 
@@ -41,5 +55,7 @@ class SubmissionYourConsentViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionYourConsentViewModel>
+    interface Factory : CWAViewModelFactory<SubmissionYourConsentViewModel> {
+        fun create(testType: CoronaTest.Type): SubmissionYourConsentViewModel
+    }
 }

@@ -6,8 +6,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.BuildConfigWrap
-import de.rki.coronawarnapp.eventregistration.TraceLocationSettings
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -50,14 +50,13 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     }
 
     fun isAttendeeOnboardingDone() =
-        traceLocationSettings.onboardingStatus == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
+        traceLocationSettings.onboardingStatus.value == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
 
     fun setAttendeeOnboardingDone(value: Boolean) {
-        traceLocationSettings.onboardingStatus =
-            if (value)
-                TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
-            else
-                TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
+        traceLocationSettings.onboardingStatus.update {
+            if (value) TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
+            else TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
+        }
     }
 
     @AssistedFactory

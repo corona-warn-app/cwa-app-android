@@ -3,22 +3,24 @@ package de.rki.coronawarnapp.submission.task
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInsTransformer
-import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.preferences.FlowPreference
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.throwables.shouldThrowMessage
 import io.kotest.matchers.shouldBe
@@ -32,6 +34,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -50,8 +53,7 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var tekHistoryCalculations: ExposureKeyHistoryCalculations
     @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
     @MockK lateinit var submissionSettings: SubmissionSettings
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
-    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
+    @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var autoSubmission: AutoSubmission
 
     @MockK lateinit var tekBatch: TEKHistoryStorage.TEKBatch
@@ -63,16 +65,27 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var checkInsTransformer: CheckInsTransformer
     @MockK lateinit var checkInRepository: CheckInRepository
-    @MockK lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
 
-    private val registrationToken: FlowPreference<String?> = mockFlowPreference("regtoken")
-    private val settingHasGivenConsent: FlowPreference<Boolean> = mockFlowPreference(true)
     private val settingAutoSubmissionAttemptsCount: FlowPreference<Int> = mockFlowPreference(0)
     private val settingAutoSubmissionAttemptsLast: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
 
     private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plus(1))
+
+    private val coronaTestsFlow = MutableStateFlow(
+        setOf(
+            mockk<CoronaTest>().apply {
+                every { isAdvancedConsentGiven } returns true
+                every { isSubmissionAllowed } returns true
+                every { isSubmitted } returns false
+                every { registrationToken } returns "regtoken"
+                every { identifier } returns "coronatest-identifier"
+                every { type } returns PCR
+            }
+        )
+    )
 
     private val validCheckIn = CheckIn(
         id = 1L,
@@ -102,11 +115,10 @@ class SubmissionTaskTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { submissionSettings.registrationToken } returns registrationToken
-        every { submissionSettings.isSubmissionSuccessful = any() } just Runs
-
-        every { backgroundWorkScheduler.stopWorkScheduler() } just Runs
-        every { backgroundWorkScheduler.startWorkScheduler() } just Runs
+        coronaTestRepository.apply {
+            every { coronaTests } returns coronaTestsFlow
+            coEvery { markAsSubmitted("coronatest-identifier") } just Runs
+        }
 
         every { tekBatch.keys } returns listOf(tek)
         every { tekHistoryStorage.tekData } returns flowOf(listOf(tekBatch))
@@ -118,7 +130,6 @@ class SubmissionTaskTest : BaseTest() {
 
         settingSymptomsPreference = mockFlowPreference(userSymptoms)
         every { submissionSettings.symptoms } returns settingSymptomsPreference
-        every { submissionSettings.hasGivenConsent } returns settingHasGivenConsent
         every { submissionSettings.lastSubmissionUserActivityUTC } returns settingLastUserActivityUTC
         every { submissionSettings.autoSubmissionAttemptsCount } returns settingAutoSubmissionAttemptsCount
         every { submissionSettings.autoSubmissionAttemptsLast } returns settingAutoSubmissionAttemptsLast
@@ -131,21 +142,24 @@ class SubmissionTaskTest : BaseTest() {
         every { analyticsKeySubmissionCollector.reportSubmitted() } just Runs
         every { analyticsKeySubmissionCollector.reportSubmittedInBackground() } just Runs
 
-        every { shareTestResultNotificationService.cancelSharePositiveTestResultNotification() } just Runs
         every { testResultAvailableNotificationService.cancelTestResultAvailableNotification() } just Runs
 
         every { autoSubmission.updateMode(any()) } just Runs
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
 
-        every { checkInRepository.checkInsWithinRetention } returns flowOf(
-            listOf(
-                validCheckIn,
-                invalidCheckIn1,
-                invalidCheckIn2,
-                invalidCheckIn3
+        checkInRepository.apply {
+            every { checkInsWithinRetention } returns flowOf(
+                listOf(
+                    validCheckIn,
+                    invalidCheckIn1,
+                    invalidCheckIn2,
+                    invalidCheckIn3
+                )
             )
-        )
+            coEvery { updatePostSubmissionFlags(any()) } just Runs
+        }
+
         coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
     }
 
@@ -155,14 +169,13 @@ class SubmissionTaskTest : BaseTest() {
         tekHistoryCalculations = tekHistoryCalculations,
         tekHistoryStorage = tekHistoryStorage,
         submissionSettings = submissionSettings,
-        shareTestResultNotificationService = shareTestResultNotificationService,
         timeStamper = timeStamper,
         autoSubmission = autoSubmission,
         testResultAvailableNotificationService = testResultAvailableNotificationService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         checkInsRepository = checkInRepository,
         checkInsTransformer = checkInsTransformer,
-        backgroundWorkScheduler = backgroundWorkScheduler,
+        coronaTestRepository = coronaTestRepository,
     )
 
     @Test
@@ -175,16 +188,14 @@ class SubmissionTaskTest : BaseTest() {
         coVerifySequence {
             submissionSettings.lastSubmissionUserActivityUTC
             settingLastUserActivityUTC.value
-            submissionSettings.hasGivenConsent
-            settingHasGivenConsent.value
+            coronaTestRepository.coronaTests
 
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
-            submissionSettings.registrationToken
 
-            registrationToken.value
+            coronaTestRepository.coronaTests
             tekHistoryStorage.tekData
             submissionSettings.symptoms
             settingSymptomsPreference.value
@@ -200,12 +211,10 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("NL"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
-
-            analyticsKeySubmissionCollector.reportSubmitted()
-            analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
             tekHistoryStorage.clear()
             submissionSettings.symptoms
@@ -215,11 +224,8 @@ class SubmissionTaskTest : BaseTest() {
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
-            backgroundWorkScheduler.stopWorkScheduler()
-            submissionSettings.isSubmissionSuccessful = true
-            backgroundWorkScheduler.startWorkScheduler()
+            coronaTestRepository.markAsSubmitted(any())
 
-            shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
         }
 
@@ -254,9 +260,8 @@ class SubmissionTaskTest : BaseTest() {
         }
 
         coVerifySequence {
-            settingHasGivenConsent.value
-
-            registrationToken.value
+            coronaTestRepository.coronaTests // Consent
+            coronaTestRepository.coronaTests // regToken
             tekHistoryStorage.tekData
             settingSymptomsPreference.value
 
@@ -269,7 +274,8 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("NL"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         }
@@ -277,7 +283,6 @@ class SubmissionTaskTest : BaseTest() {
             tekHistoryStorage.clear()
             checkInRepository.clear()
             settingSymptomsPreference.update(any())
-            shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             autoSubmission.updateMode(any())
         }
         submissionSettings.symptoms.value shouldBe userSymptoms
@@ -285,10 +290,16 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `task throws if no registration token is available`() = runBlockingTest {
-        every { submissionSettings.registrationToken } returns mockFlowPreference(null)
+        coronaTestsFlow.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { isAdvancedConsentGiven } returns true
+                every { isSubmissionAllowed } returns false
+                every { isSubmitted } returns false
+            }
+        )
 
         val task = createTask()
-        shouldThrow<NoRegistrationTokenSetException> {
+        shouldThrow<IllegalStateException> {
             task.run(SubmissionTask.Arguments())
         }
     }
@@ -308,7 +319,8 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList()
+                    checkIns = emptyList(),
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
         }
@@ -368,5 +380,43 @@ class SubmissionTaskTest : BaseTest() {
             task.run(SubmissionTask.Arguments())
         }
         verify { autoSubmission.updateMode(AutoSubmission.Mode.DISABLED) }
+    }
+
+    @Test
+    fun `PPA is collected for PCR tests`() = runBlockingTest {
+        coronaTestsFlow.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { type } returns PCR
+                every { isAdvancedConsentGiven } returns true
+                every { isSubmissionAllowed } returns true
+                every { isSubmitted } returns false
+                every { registrationToken } returns "regtoken"
+                every { identifier } returns "coronatest-identifier"
+            }
+        )
+
+        createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted() }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground() }
+    }
+
+    @Test
+    fun `PPA is NOT collected for RAT tests`() = runBlockingTest {
+        coronaTestsFlow.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { type } returns RAPID_ANTIGEN
+                every { isAdvancedConsentGiven } returns true
+                every { isSubmissionAllowed } returns true
+                every { isSubmitted } returns false
+                every { registrationToken } returns "regtoken"
+                every { identifier } returns "coronatest-identifier"
+            }
+        )
+
+        createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
+
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted() }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground() }
     }
 }

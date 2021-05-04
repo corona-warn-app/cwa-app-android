@@ -122,23 +122,25 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             riskLevel = latestCalc.riskState,
             riskLevelLastSuccessfulCalculated = latestSuccessfulCalc.riskState,
             matchedKeyCount = latestCalc.matchedKeyCount,
-            daysSinceLastExposure = latestCalc.daysWithEncounters,
+            noOfDaysWithExposures = if (latestCalc.riskState == RiskState.INCREASED_RISK)
+                latestCalc.ewAggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0
+            else latestCalc.ewAggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0,
             lastKeySubmission = latestSubmission?.startedAt
         )
     }.asLiveData()
 
-    private suspend fun createAdditionalRiskCalcInfo(
+    private fun createAdditionalRiskCalcInfo(
         lastTimeRiskLevelCalculation: Instant,
         riskLevel: RiskState,
         riskLevelLastSuccessfulCalculated: RiskState,
         matchedKeyCount: Int,
-        daysSinceLastExposure: Int,
+        noOfDaysWithExposures: Int,
         lastKeySubmission: Instant?
     ): String = StringBuilder()
         .appendLine("Risk Level: $riskLevel")
         .appendLine("Last successful Risk Level: $riskLevelLastSuccessfulCalculated")
         .appendLine("Matched key count: $matchedKeyCount")
-        .appendLine("Days since last Exposure: $daysSinceLastExposure days")
+        .appendLine("Days with exposures: $noOfDaysWithExposures days")
         .appendLine("Last key submission: $lastKeySubmission")
         .appendLine("Last time risk level calculation $lastTimeRiskLevelCalculation")
         .toString()

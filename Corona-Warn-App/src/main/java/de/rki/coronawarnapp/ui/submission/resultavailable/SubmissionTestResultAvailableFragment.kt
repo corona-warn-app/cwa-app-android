@@ -6,6 +6,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultAvailableBinding
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
@@ -17,7 +18,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,9 +30,18 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
 
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SubmissionTestResultAvailableViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionTestResultAvailableBinding by viewBindingLazy()
     private lateinit var keyRetrievalProgress: SubmissionBlockingDialog
+
+    private val navArgs by navArgs<SubmissionTestResultAvailableFragmentArgs>()
+
+    private val viewModel: SubmissionTestResultAvailableViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionTestResultAvailableViewModel.Factory
+            factory.create(navArgs.testType)
+        }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,11 +49,11 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         keyRetrievalProgress = SubmissionBlockingDialog(requireContext())
 
         val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = vm.goBack()
+            override fun handleOnBackPressed() = viewModel.goBack()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        vm.consent.observe2(this) {
+        viewModel.consent.observe2(this) {
             if (it) {
                 binding.submissionTestResultAvailableText.setText(
                     R.string.submission_test_result_available_text_consent_given
@@ -56,30 +66,30 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
             binding.submissionTestResultAvailableConsentStatus.consent = it
         }
 
-        vm.showKeysRetrievalProgress.observe2(this) { show ->
+        viewModel.showKeysRetrievalProgress.observe2(this) { show ->
             Timber.i("SubmissionTestResult:showKeyRetrievalProgress:$show")
             keyRetrievalProgress.setState(show)
             binding.submissionTestResultAvailableProceedButton.isEnabled = !show
         }
 
         binding.apply {
-            submissionTestResultAvailableProceedButton.setOnClickListener { vm.proceed() }
-            submissionTestResultAvailableConsentStatus.setOnClickListener { vm.goConsent() }
-            submissionTestResultAvailableHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
+            submissionTestResultAvailableProceedButton.setOnClickListener { viewModel.proceed() }
+            submissionTestResultAvailableConsentStatus.setOnClickListener { viewModel.goConsent() }
+            submissionTestResultAvailableHeader.headerButtonBack.buttonIcon.setOnClickListener { viewModel.goBack() }
         }
 
-        vm.showCloseDialog.observe2(this) {
+        viewModel.showCloseDialog.observe2(this) {
             showCloseDialog()
         }
 
-        vm.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe2(this) {
             doNavigate(it)
         }
 
-        vm.showPermissionRequest.observe2(this) { permissionRequest ->
+        viewModel.showPermissionRequest.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
-        vm.showTracingConsentDialog.observe2(this) { onConsentResult ->
+        viewModel.showTracingConsentDialog.observe2(this) { onConsentResult ->
             TracingConsentDialog(requireContext()).show(
                 onConsentGiven = { onConsentResult(true) },
                 onConsentDeclined = { onConsentResult(false) }
@@ -102,12 +112,12 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
             negativeButton = R.string.submission_test_result_available_close_dialog_cancel_button,
             cancelable = true,
             positiveButtonFunction = {},
-            negativeButtonFunction = { vm.onCancelConfirmed() }
+            negativeButtonFunction = { viewModel.onCancelConfirmed() }
         )
         DialogHelper.showDialog(closeDialogInstance)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        vm.handleActivityResult(requestCode, resultCode, data)
+        viewModel.handleActivityResult(requestCode, resultCode, data)
     }
 }

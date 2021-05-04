@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.submission.testresult.pending
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
-import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,41 +24,40 @@ import testhelpers.extensions.InstantExecutorExtension
 @ExtendWith(InstantExecutorExtension::class)
 class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
-    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var testType: CoronaTest.Type
+
+    private val testFlow = MutableStateFlow<CoronaTest?>(null)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         submissionRepository.apply {
-            every { hasGivenConsentToSubmission } returns emptyFlow()
-            every { deviceUIStateFlow } returns emptyFlow()
-            every { testResultReceivedDateFlow } returns emptyFlow()
+            every { testForType(any()) } returns testFlow
+            every { setViewedTestResult(any()) } just Runs
         }
     }
 
     fun createInstance(scope: CoroutineScope = TestCoroutineScope()) = SubmissionTestResultPendingViewModel(
         dispatcherProvider = scope.asDispatcherProvider(),
-        shareTestResultNotificationService = shareTestResultNotificationService,
-        submissionRepository = submissionRepository
+        submissionRepository = submissionRepository,
+        testType = testType
     )
 
     @Test
     fun `web exception handling`() {
-        val expectedType = NetworkRequestWrapper.RequestFailed<DeviceUIState, CwaWebException>(
-            CwaWebException(statusCode = 1, message = "message")
-        )
-        val unexpectedType =
-            NetworkRequestWrapper.RequestFailed<DeviceUIState, Throwable>(UnsupportedOperationException())
-        val deviceUI = MutableStateFlow<NetworkRequestWrapper<DeviceUIState, Throwable>>(expectedType)
-        every { submissionRepository.deviceUIStateFlow } returns deviceUI
+        val expectedError = CwaWebException(statusCode = 1, message = "message")
+        val unexpectedError = UnsupportedOperationException()
+
+        testFlow.value = mockk<CoronaTest>().apply { every { lastError } returns expectedError }
+
         createInstance().apply {
             cwaWebExceptionLiveData.observeForever {}
-            cwaWebExceptionLiveData.value shouldBe expectedType.error
+            cwaWebExceptionLiveData.value shouldBe expectedError
 
-            deviceUI.value = unexpectedType
-            cwaWebExceptionLiveData.value shouldBe unexpectedType.error
+            testFlow.value = mockk<CoronaTest>().apply { every { lastError } returns unexpectedError }
+            cwaWebExceptionLiveData.value shouldBe unexpectedError
         }
     }
 }

@@ -7,7 +7,7 @@
         android:layout_width="@dimen/bullet_point_size"
         android:layout_height="@dimen/bullet_point_size"
         android:baseline="@dimen/bullet_point_baseline_offset"
-        android:src="@drawable/bullet_point"
+        app:srcCompat="@drawable/bullet_point"
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         tools:showIn="@layout/include_submission_consent_body" />

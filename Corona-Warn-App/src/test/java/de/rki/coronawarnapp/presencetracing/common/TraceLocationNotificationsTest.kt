@@ -2,13 +2,14 @@ package de.rki.coronawarnapp.presencetracing.common
 
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
-import de.rki.coronawarnapp.util.ApiLevel
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -17,7 +18,6 @@ import testhelpers.BaseTest
 class TraceLocationNotificationsTest : BaseTest() {
 
     @MockK lateinit var context: Context
-    @MockK lateinit var apiLevel: ApiLevel
     @MockK lateinit var notificationManager: NotificationManagerCompat
 
     @BeforeEach
@@ -29,7 +29,8 @@ class TraceLocationNotificationsTest : BaseTest() {
             every { getString(any()) } returns ""
         }
 
-        every { apiLevel.hasAPILevel(any()) } returns true
+        mockkObject(BuildVersionWrap)
+        every { BuildVersionWrap.SDK_INT } returns 42
 
         notificationManager.apply {
             every { createNotificationChannel(any()) } just Runs
@@ -39,7 +40,6 @@ class TraceLocationNotificationsTest : BaseTest() {
 
     fun createInstance() = PresenceTracingNotifications(
         context = context,
-        apiLevel = apiLevel,
         notificationManagerCompat = notificationManager
     )
 
@@ -55,14 +55,12 @@ class TraceLocationNotificationsTest : BaseTest() {
     }
 
     @Test
-    fun `sending does not setup a notification channel on API levels`() {
-        every { apiLevel.hasAPILevel(any()) } returns true
+    fun `sending does not setup a notification channel on sub API26`() {
+        every { BuildVersionWrap.SDK_INT } returns 21
         val instance = createInstance()
         instance.sendNotification(1, mockk())
 
-        verify {
-            notificationManager.createNotificationChannel(any())
-            notificationManager.notify(1, any())
-        }
+        verify(exactly = 0) { notificationManager.createNotificationChannel(any()) }
+        verify { notificationManager.notify(1, any()) }
     }
 }

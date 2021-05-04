@@ -16,12 +16,16 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import org.joda.time.Days
+import org.joda.time.Instant
 import timber.log.Timber
 import de.rki.coronawarnapp.util.flow.combine as flowCombine
 
@@ -30,12 +34,16 @@ abstract class BaseRiskLevelStorage constructor(
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
     scope: CoroutineScope,
     private val riskCombinator: RiskCombinator,
+    private val timeStamper: TimeStamper,
 ) : RiskLevelStorage {
 
     private val database by lazy { riskResultDatabaseFactory.create() }
     internal val riskResultsTables by lazy { database.riskResults() }
     internal val exposureWindowsTables by lazy { database.exposureWindows() }
     internal val aggregatedRiskPerDateResultTables by lazy { database.aggregatedRiskPerDate() }
+
+    private val fifteenDaysAgo: Instant
+        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
 
     abstract val storedResultLimit: Int
 
@@ -131,7 +139,7 @@ abstract class BaseRiskLevelStorage constructor(
         aggregatedRiskPerDateResultTables.allEntries()
             .map {
                 it.map { persistedAggregatedRiskPerDateResult ->
-                    persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult()
+                    persistedAggregatedRiskPerDateResult.toExposureWindowDayRisk()
                 }
             }
             .shareLatest(tag = TAG, scope = scope)
@@ -187,14 +195,21 @@ abstract class BaseRiskLevelStorage constructor(
     override val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<LastCombinedRiskResults>
         get() = combine(
             allEwRiskLevelResults,
-            presenceTracingRiskRepository.allEntries()
-        ) { ewRiskLevelResults, ptRiskLevelResults ->
+            presenceTracingRiskRepository.allEntries(),
+            ewDayRiskStates
+        ) { ewRiskLevelResults, ptRiskLevelResults, ewDayRiskStates ->
 
-            val combinedResults = riskCombinator.combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
+            val combinedResults = riskCombinator
+                .combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
                 .sortedByDescending { it.calculatedAt }
 
             LastCombinedRiskResults(
-                lastCalculated = combinedResults.firstOrNull() ?: riskCombinator.latestCombinedResult,
+                lastCalculated = combinedResults.firstOrNull()?.copy(
+                    // need to provide the data here as they are null in EwAggregatedRiskResult
+                    exposureWindowDayRisks = ewDayRiskStates.filter { ewDayRisk ->
+                        ewDayRisk.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc())
+                    }
+                ) ?: riskCombinator.latestCombinedResult,
                 lastSuccessfullyCalculated = combinedResults.find {
                     it.wasSuccessfullyCalculated
                 } ?: riskCombinator.initialCombinedResult

@@ -5,8 +5,10 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionResultReadyBinding
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckInsConsentFragmentArgs
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -26,6 +28,8 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionResultReadyViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionResultReadyBinding by viewBindingLazy()
+
+    private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
 
     private lateinit var uploadDialog: SubmissionBlockingDialog
 
@@ -50,7 +54,7 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
 
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction -> doNavigate(
                     SubmissionResultReadyFragmentDirections
-                        .actionSubmissionResultReadyFragmentToSubmissionSymptomIntroductionFragment()
+                        .actionSubmissionResultReadyFragmentToSubmissionSymptomIntroductionFragment(navArgs.testType)
                 )
             }
         }

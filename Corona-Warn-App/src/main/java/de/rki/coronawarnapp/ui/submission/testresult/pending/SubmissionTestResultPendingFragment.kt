@@ -5,13 +5,13 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -20,19 +20,27 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submission_test_result_pending), AutoInject {
-
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val pendingViewModel: SubmissionTestResultPendingViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentSubmissionTestResultPendingBinding by viewBindingLazy()
 
     private var skipInitialTestResultRefresh = false
 
     private var errorDialog: AlertDialog? = null
+
+    private val navArgs by navArgs<SubmissionTestResultPendingFragmentArgs>()
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val pendingViewModel: SubmissionTestResultPendingViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionTestResultPendingViewModel.Factory
+            factory.create(navArgs.testType)
+        }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,9 +50,9 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         pendingViewModel.testState.observe2(this) { result ->
-            val hasResult = result.deviceUiState is NetworkRequestWrapper.RequestSuccessful
+            val hasResult = !result.coronaTest.isProcessing
             binding.apply {
-                submissionTestResultSection.setTestResultSection(result.deviceUiState, result.testResultReceivedDate)
+                submissionTestResultSection.setTestResultSection(result.coronaTest)
                 submissionTestResultSpinner.setInvisible(hasResult)
                 submissionTestResultContent.setInvisible(!hasResult)
                 buttonContainer.setInvisible(!hasResult)
@@ -82,14 +90,12 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         pendingViewModel.routeToScreen.observe2(this) {
             it?.let { doNavigate(it) } ?: navigateToMainScreen()
         }
-
-        pendingViewModel.observeTestResultToSchedulePositiveTestResultReminder()
     }
 
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        pendingViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
+        pendingViewModel.refreshDeviceUIState()
         skipInitialTestResultRefresh = false
         pendingViewModel.cwaWebExceptionLiveData.observeOnce(this.viewLifecycleOwner) { exception ->
             handleError(exception)

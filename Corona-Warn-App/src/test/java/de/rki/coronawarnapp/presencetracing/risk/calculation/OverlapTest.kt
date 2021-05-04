@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.risk.calculation
 
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.toOkioByteString
 import de.rki.coronawarnapp.util.toProtoByteString

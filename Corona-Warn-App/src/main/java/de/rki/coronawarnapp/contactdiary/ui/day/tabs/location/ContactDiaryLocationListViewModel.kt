@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -43,45 +44,50 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     private val dayElement = contactDiaryRepository.locationVisitsForDate(localDate)
     private val selectableLocations = contactDiaryRepository.locations
 
-    val uiList = selectableLocations.combine(dayElement) { locations, encounters ->
-        locations.map { location ->
-            val visit = encounters.singleOrNull {
-                it.contactDiaryLocation.locationId == location.locationId
-            }
-            DiaryLocationListItem(
-                item = location,
-                visit = visit,
-                onItemClick = { onLocationSelectionChanged(it as DiaryLocationListItem) },
-                onDurationChanged = { item, duration ->
-                    onDurationChanged(item, duration)
-                },
-                onCircumstancesChanged = { item, circumstances ->
-                    onCircumstancesChanged(item, circumstances)
-                },
-                onCircumStanceInfoClicked = {
-                    openCommentInfo.postValue(Unit)
-                },
-                onDurationDialog = { item, durationString ->
-                    onDurationDialog(item, durationString)
+    private val diaryLocationListItems: Flow<List<DiaryLocationListItem>> =
+        selectableLocations.combine(dayElement) { locations, encounters ->
+            locations.map { location ->
+                val visit = encounters.singleOrNull {
+                    it.contactDiaryLocation.locationId == location.locationId
                 }
-            )
-        }
-    }.asLiveData()
-
-    private fun onLocationSelectionChanged(item: DiaryLocationListItem) = launchOnAppScope {
-        if (!item.selected) {
-            contactDiaryRepository.addLocationVisit(
-                DefaultContactDiaryLocationVisit(
-                    date = localDate,
-                    contactDiaryLocation = item.item
+                DiaryLocationListItem(
+                    item = location,
+                    visit = visit,
+                    onItemClick = { onLocationSelectionChanged(it.stableId) },
+                    onDurationChanged = { item, duration ->
+                        onDurationChanged(item, duration)
+                    },
+                    onCircumstancesChanged = { item, circumstances ->
+                        onCircumstancesChanged(item, circumstances)
+                    },
+                    onCircumStanceInfoClicked = {
+                        openCommentInfo.postValue(Unit)
+                    },
+                    onDurationDialog = { item, durationString ->
+                        onDurationDialog(item, durationString)
+                    }
                 )
-            )
-        } else {
-            val visit = dayElement
-                .first()
-                .find { it.contactDiaryLocation.locationId == item.item.locationId }
-            visit?.let { contactDiaryRepository.deleteLocationVisit(it) }
+            }
         }
+
+    val uiList = diaryLocationListItems.asLiveData(dispatcherProvider.Default)
+
+    private fun onLocationSelectionChanged(itemId: Long) = launchOnAppScope {
+        diaryLocationListItems.first().find { it.stableId == itemId }?.let { item ->
+            if (!item.selected) {
+                contactDiaryRepository.addLocationVisit(
+                    DefaultContactDiaryLocationVisit(
+                        date = localDate,
+                        contactDiaryLocation = item.item
+                    )
+                )
+            } else {
+                val visit = dayElement
+                    .first()
+                    .find { it.contactDiaryLocation.locationId == item.item.locationId }
+                visit?.let { contactDiaryRepository.deleteLocationVisit(it) }
+            }
+        } ?: run { Timber.d("No item found for id $itemId") }
     }
 
     private fun onDurationDialog(

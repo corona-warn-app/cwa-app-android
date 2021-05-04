@@ -9,7 +9,7 @@
     android:layout_marginVertical="8dp"
     android:focusable="true">
 
-    <de.rki.coronawarnapp.ui.eventregistration.common.TraceLocationCardHighlightView
+    <de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView
         android:id="@+id/traceLocationCardHighlightView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             app:layout_constraintTop_toBottomOf="@id/highlight_duration_label"
             tools:text="00:25" />
 
-    </de.rki.coronawarnapp.ui.eventregistration.common.TraceLocationCardHighlightView>
+    </de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView>
 
     <TextView
         android:id="@+id/description"
@@ -98,6 +98,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/button_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="checkout_info,traceLocationCardHighlightView" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/checkout_action"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -112,6 +119,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkout_info"
         app:strokeColor="@color/colorAccent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

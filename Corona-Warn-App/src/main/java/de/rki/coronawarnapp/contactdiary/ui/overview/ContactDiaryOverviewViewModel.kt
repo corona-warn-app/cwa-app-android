@@ -19,8 +19,8 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.Contact
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
@@ -28,24 +28,26 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
+import org.joda.time.Days
 import org.joda.time.LocalDate
 import timber.log.Timber
+import kotlin.concurrent.fixedRateTimer
 
 class ContactDiaryOverviewViewModel @AssistedInject constructor(
     taskController: TaskController,
     dispatcherProvider: DispatcherProvider,
     contactDiaryRepository: ContactDiaryRepository,
     riskLevelStorage: RiskLevelStorage,
-    timeStamper: TimeStamper,
+    private val timeStamper: TimeStamper,
     checkInRepository: CheckInRepository,
     private val exporter: ContactDiaryExporter
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -53,7 +55,18 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
     val exportLocationsAndPersons: SingleLiveEvent<String> = SingleLiveEvent()
 
-    private val dates = (0 until DAY_COUNT).map { timeStamper.nowUTC.toLocalDateUtc().minusDays(it) }
+    private fun TimeStamper.localDate(): LocalDate = nowUTC.toUserTimeZone().toLocalDate()
+
+    private fun dates() = (0 until DAY_COUNT).map { timeStamper.localDate().minusDays(it) }
+    private val datesFlow = MutableStateFlow(dates())
+
+    private val reloadDatesMidnightTimer = fixedRateTimer(
+        name = "Reload-contact-journal-dates-timer-thread",
+        daemon = true,
+        startAt = timeStamper.localDate().plusDays(1).toDate(),
+        period = Days.ONE.toStandardDuration().millis,
+        action = { datesFlow.value = dates() }
+    )
 
     private val locationVisitsFlow = contactDiaryRepository.locationVisits
     private val personEncountersFlow = contactDiaryRepository.personEncounters
@@ -63,7 +76,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val checkInsWithinRetentionFlow = checkInRepository.checkInsWithinRetention
 
     val listItems = combine(
-        flowOf(dates),
+        datesFlow,
         locationVisitsFlow,
         personEncountersFlow,
         riskLevelPerDateFlow,
@@ -301,6 +314,11 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
             exportLocationsAndPersons.postValue(export)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        reloadDatesMidnightTimer.cancel()
     }
 
     @AssistedFactory

@@ -28,15 +28,6 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.currentTestId.observe2(this) {
-            binding.registrationTokenCurrent.text = "Current: '$it'"
-        }
-
-        binding.apply {
-            deleteTokenAction.setOnClickListener { vm.deleteRegistrationToken() }
-            scrambleTokenAction.setOnClickListener { vm.scrambleRegistrationToken() }
-        }
-
         val tekHistoryAdapter = TEKHistoryAdapter()
         binding.tekHistoryList.apply {
             adapter = tekHistoryAdapter
@@ -85,7 +76,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         val TAG: String = SubmissionTestFragment::class.simpleName!!
         val MENU_ITEM = TestMenuItem(
             title = "Submission Test Options",
-            description = "Submission related test options..",
+            description = "Submission related test options.",
             targetId = R.id.test_submission_fragment
         )
     }

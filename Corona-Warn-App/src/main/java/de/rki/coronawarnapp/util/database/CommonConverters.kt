@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationId
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant

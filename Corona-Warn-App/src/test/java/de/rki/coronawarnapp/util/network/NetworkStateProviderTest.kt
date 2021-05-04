@@ -7,6 +7,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import de.rki.coronawarnapp.storage.TestSettings
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
@@ -16,6 +17,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +49,9 @@ class NetworkStateProviderTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        mockkObject(BuildVersionWrap)
+        every { BuildVersionWrap.SDK_INT } returns 24
 
         every {
             conMan.registerNetworkCallback(
@@ -198,6 +203,33 @@ class NetworkStateProviderTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.networkState.first()
+
+        NetworkStateProvider.State(
+            activeNetwork = null,
+            capabilities = null,
+            linkProperties = null
+        ).isMeteredConnection shouldBe true
+    }
+
+    @Test
+    fun `Android 6 not metered on wifi`() = runBlockingTest2(ignoreActive = true) {
+        every { BuildVersionWrap.SDK_INT } returns 23
+
+        every { capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) } returns true
+
+        NetworkStateProvider.State(
+            activeNetwork = null,
+            capabilities = capabilities,
+            linkProperties = null
+        ).isMeteredConnection shouldBe false
+
+        every { capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) } returns false
+
+        NetworkStateProvider.State(
+            activeNetwork = null,
+            capabilities = capabilities,
+            linkProperties = null
+        ).isMeteredConnection shouldBe true
 
         NetworkStateProvider.State(
             activeNetwork = null,

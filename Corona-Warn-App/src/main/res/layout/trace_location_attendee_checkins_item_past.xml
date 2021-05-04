@@ -17,7 +17,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:orientation="vertical"
-        android:src="@drawable/ic_old_checkin"
+        app:srcCompat="@drawable/ic_old_checkin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

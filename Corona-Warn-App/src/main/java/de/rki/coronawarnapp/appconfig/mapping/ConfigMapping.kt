@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.appconfig.mapping
 
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.CWAConfig
+import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
@@ -22,4 +23,5 @@ interface ConfigMapping :
     val analytics: AnalyticsConfig
     val logUpload: LogUploadConfig
     val presenceTracing: PresenceTracingConfig
+    val coronaTestParameters: CoronaTestConfig
 }

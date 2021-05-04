@@ -14,11 +14,11 @@ data class OneTimePassword(
     val time: Instant = Instant.now()
 ) {
 
-    @Transient
-    val edusOneTimePassword: EdusOtp.EDUSOneTimePassword = EdusOtp.EDUSOneTimePassword.newBuilder()
-        .setOtp(uuid.toString())
-        .build()
+    val edusOneTimePassword: EdusOtp.EDUSOneTimePassword
+        get() = EdusOtp.EDUSOneTimePassword.newBuilder()
+            .setOtp(uuid.toString())
+            .build()
 
-    @Transient
-    val payloadForRequest: ByteArray = edusOneTimePassword.toByteArray()
+    val payloadForRequest: ByteArray
+        get() = edusOneTimePassword.toByteArray()
 }

@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
-import de.rki.coronawarnapp.util.ui.setOnClickListenerThrottled
 
 class DiaryPersonViewHolder(
     parent: ViewGroup
@@ -26,7 +25,7 @@ class DiaryPersonViewHolder(
         val item = changes.firstOrNull() as? DiaryPersonListItem ?: initial
 
         mainBox.apply {
-            header.setOnClickListenerThrottled {
+            header.setOnClickListener {
                 hideKeyboard()
                 it.contentDescription = item.onClickDescription.get(context)
                 it.sendAccessibilityEvent(AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)

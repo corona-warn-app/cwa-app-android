@@ -258,7 +258,7 @@
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"A smartphone displays various content, numbered 1 to 3."</string>
     <!-- XACT: App main page title -->
-    <string name="main_title">"Main page of the Corona-Warn-App"</string>
+    <string name="main_title">"Main screen of the Corona-Warn-App"</string>
 
     <!-- ####################################
                Risk Details
@@ -407,12 +407,16 @@
     <string name="onboarding_onboarding_accessibility_title">"Onboarding page 1 of 6: Fighting coronavirus together"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Let’s fight coronavirus together"</string>
-    <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
-    <string name="onboarding_subtitle">"More protection for you and for us all. By using the Corona-Warn-App we can break chains of infection much quicker."</string>
-    <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you’ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
-    <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_1">"More protection for you and for us all. By using the Corona-Warn-App we can break infection chains much quicker."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_2">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you\'ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_3">"Display your test results (PCR test or rapid antigen test) in the app and warn others if you are diagnosed with coronavirus."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_4">"If you want, you can use the app to prove your personal infection status (a negative rapid test, for example). Please note, however, that you are under no obligation to use the app to prove your infection status. You can also prove your infection status in another manner compliant with the legal regulations at your residence."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_5">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"A group of persons use their smartphones around town."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -792,12 +796,20 @@
     <string name="information_contact_subtitle_phone">"Technical hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"0800 7540001"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
+    <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
+    <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
+    <!-- XLNK: Description for national technical contact and hotline information page -->
+    <string name="information_contact_button_phone_description">"For calls from within Germany. The call is free of charge."</string>
+    <!-- XLNK: Description for international technical contact and hotline information page -->
+    <string name="information_contact_button_international_phone_description">"For calls from outside Germany. The fees from your telephone provider will apply."</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
     <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_phone">"Our customer service is here to help."</string>
+    <string name="information_contact_body_phone">"Our customer service is available in the following languages:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Languages: English, German, Turkish\nBusiness hours:"<xliff:g id="line_break">"\n"</xliff:g>"Monday to Saturday: 7am - 10pm"<xliff:g id="line_break">"\n(except national holidays)"</xliff:g><xliff:g id="line_break">"\nThe call is free of charge."</xliff:g></string>
+    <string name="information_contact_body_open">"English, German, Turkish\n\nBusiness hours:\nMonday to Saturday: 7am - 10pm (CET)\n(except national holidays)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the medical emergency service hotline, telephone: 116 117."</string>
     <!-- XACT: describes illustration -->
@@ -973,7 +985,7 @@
     <!-- XHED: Dialog title for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_title">"Do you want to cancel entering your symptoms?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"If you provide information about your symptoms, you can warn others more accurately."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"If you provide information about your symptoms, you can warn others more exactly."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Yes"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -1022,11 +1034,11 @@
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_your_test_only">"Now scan the QR code for your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_test_only_once">"Your test can only be scanned once. The app cannot manage multiple tests at the same time."</string>
+    <string name="submission_consent_call_test_result_scan_test_only_once">"Each test can only be scanned once. The app can manage a maximum of one rapid test and one PCR test at the same time."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Please help others you have encountered by warning them!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"If you have been diagnosed with coronavirus, you can warn others through the app. The warning feature works in several countries. The following countries are currently participating:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"If you have been diagnosed with coronavirus, you can warn others through the app. If you took a rapid test, the warning feature only works in Germany. If you took a PCR test, the warning feature works in the following countries:"</string>
     <!-- YTXT: Body for consent help by warning others - info about events -->
     <string name="submission_consent_help_by_warning_others_body_event">"People who were checked in to the same events or places at the same time as you were will also be warned."</string>
     <!-- YTXT: Page bottom text for consent screen -->
@@ -1043,6 +1055,17 @@
     <string name="submission_consent_main_id_consent">"In the next step, grant your consent to access the random IDs."</string>
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"A person is holding a smartphone. A QR code on a test symbolizes the code to be scanned."</string>
+
+    <!-- YTXT: Body for no consent section first point  -->
+    <string name="submission_no_consent_first_point">"Your consent is voluntary."</string>
+    <!-- YTXT: Body for no consent section second point  -->
+    <string name="submission_no_consent_second_point">"You can retrieve your test result even if you do not choose to share it. But if you share your test result, you will help to protect others against infection."</string>
+    <!-- YTXT: Body for no consent section third point  -->
+    <string name="submission_no_consent_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
+    <!-- YTXT: Body for no consent section fourth point  -->
+    <string name="submission_no_consent_fourth_point">"Under “My Check-Ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
+    <!-- YTXT: Body for no consent section fifth point  -->
+    <string name="submission_no_consent_fifth_point">"You must be at least 16 years old to grant your consent."</string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
@@ -1140,19 +1163,19 @@
     <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
     <string name="submission_dispatcher_needs_testing_subheadline">"Have you been tested?"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
-    <string name="submission_dispatcher_already_positive_subheadline">"Did you test positive for coronavirus?"</string>
+    <string name="submission_dispatcher_already_positive_subheadline">"Was your PCR test positive?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Test with QR Code"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Register your test by scanning the QR code of your test document."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"Enter TAN"</string>
+    <string name="submission_dispatcher_card_tan_code">"Enter TAN for PCR Test"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"Do you have a TAN? Tap here to enter your TAN so you can warn others. "</string>
+    <string name="submission_dispatcher_tan_code_card_text">"Do you have a TAN for your PCR test? Tap here to enter your TAN so you can warn others."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"No TAN yet?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"Request TAN for PCR Test?"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
-    <string name="submission_dispatcher_tan_tele_card_text">"Call us and get a TAN."</string>
+    <string name="submission_dispatcher_tan_tele_card_text">"Call us and get a TAN for your PCR test."</string>
     <!-- XACT: Dispatcher Tan page title -->
     <string name="submission_dispatcher_accessibility_title">"What information do you have?"</string>
 
@@ -1210,10 +1233,15 @@
     <string name="submission_done_body">"Thanks to your support, other people can now be warned and respond appropriately."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Please note:"</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_pcr_validation">"Take a PCR test to verify this test result."</string>
+    <!-- YTXT: text after submission: pcr validation -->
+    <string name="submission_done_share_keys">"Share your random IDs so that others can be warned."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"The public health authority will contact you within the next few days."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"You are infectious. Isolate yourself from other people."</string>
+
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Other information:"</string>
     <!-- YTXT: submission done further info bullet points -->
@@ -1274,7 +1302,7 @@
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
-    <string name="submission_contact_title">"Request TAN"</string>
+    <string name="submission_contact_title">"Request TAN for PCR Test"</string>
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"How this works:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
@@ -1290,9 +1318,9 @@
     <!-- XLNK: Technical number which is called when the user clicks on the display number -->
     <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
-    <string name="submission_contact_step_2_body">"Register your test by entering the TAN in the app."</string>
+    <string name="submission_contact_step_2_body">"Register your PCR test by entering the TAN in the app."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Languages: \nEnglish, German, Turkish\n\nBusiness hours:\n24/7\n\nThe call is free of charge."</string>
+    <string name="submission_contact_operating_hours_body">"Our customer service is available in the following languages: \nEnglish, German, Turkish\n\nBusiness hours:\n24/7"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the medical emergency service hotline, telephone: 116 117."</string>
 
@@ -1375,30 +1403,12 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Share your random IDs so that others can be warned."</string>
 
-    <!-- Reenable risk card -->
-    <!-- XHED: Card title for re-enable risk card -->
-    <string name="reenable_risk_card_title">"Exposure Check Ended"</string>
-    <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Test registered on %s"</string>
-    <!-- YTXT: Description text for re-enable risk card -->
-    <string name="reenable_risk_card_description_text">"The automatic exposure check has ended because you have been diagnosed with coronavirus and are currently in isolation. You can reactivate the exposure test at any time. If you do, your registered test will be deleted automatically."</string>
-    <!-- XBUT: Button for re-enabling risk calculation -->
-    <string name="reenable_risk_card_button_text">"Turn On Exposure Check "</string>
-    <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Activate exposure check."</string>
-    <!-- YTXT: Dialog text for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_message">"Your current test will be deleted from the app, so you can register a new test if necessary."</string>
-    <!-- XBUT: Positive button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_positive">"Activate"</string>
-    <!-- XBUT: Negative button for reactivate risk calculation -->
-    <string name="dialog_reactivate_risk_calculation_button_negative">"Cancel"</string>
-
     <!-- Test Result Card -->
-    <string name="test_result_card_headline">"Your diagnosis:"</string>
+    <string name="test_result_card_headline">"Your %s diagnosis:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->
-    <string name="test_result_card_registered_at_text">"Registered on %s"</string>
+    <string name="test_result_card_registered_at_text">"Test added on %s"</string>
     <!-- YTXT: negative status text -->
     <string name="test_result_card_status_negative">"Negative"</string>
     <!-- YTXT: positive status text -->
@@ -1983,7 +1993,7 @@
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Print Version"</string>
     <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Share Your Location Check-Ins?"</string>
+    <string name="trace_location_attendee_consent_title">"Share Location Check-Ins?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
     <string name="trace_location_attendee_consent_header_description">"Warn others who checked in near you. Your personal data will not be shared."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->

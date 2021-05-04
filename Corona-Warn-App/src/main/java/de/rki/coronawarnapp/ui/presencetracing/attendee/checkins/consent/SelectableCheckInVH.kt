@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeConsentSelectableCheckInBinding
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.common.checkoutInfo
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 

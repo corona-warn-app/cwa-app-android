@@ -71,7 +71,7 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_mega_tiny"
                 android:importantForAccessibility="no"
-                android:src="@drawable/bullet_point"
+                app:srcCompat="@drawable/bullet_point"
                 app:tint="@color/colorSemanticHighRisk"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_1" />
@@ -97,7 +97,7 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_mega_tiny"
                 android:importantForAccessibility="no"
-                android:src="@drawable/bullet_point"
+                app:srcCompat="@drawable/bullet_point"
                 app:tint="@color/colorSemanticHighRisk"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_2" />
@@ -124,7 +124,7 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_mega_tiny"
                 android:importantForAccessibility="no"
-                android:src="@drawable/bullet_point"
+                app:srcCompat="@drawable/bullet_point"
                 app:tint="@color/colorSemanticHighRisk"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_3" />

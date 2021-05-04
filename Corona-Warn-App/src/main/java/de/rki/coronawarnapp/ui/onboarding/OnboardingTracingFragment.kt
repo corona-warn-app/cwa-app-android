@@ -7,6 +7,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTracingBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.DialogHelper
@@ -61,6 +62,9 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         }
         vm.permissionRequestEvent.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
+        }
+        vm.ensErrorEvents.observe2(this) { error ->
+            error.toErrorDialogBuilder(requireContext()).show()
         }
     }
 

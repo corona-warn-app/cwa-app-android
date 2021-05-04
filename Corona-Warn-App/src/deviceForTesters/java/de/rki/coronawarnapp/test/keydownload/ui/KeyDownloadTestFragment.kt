@@ -72,7 +72,7 @@ class KeyDownloadTestFragment : Fragment(R.layout.fragment_test_keydownload), Au
     companion object {
         val MENU_ITEM = TestMenuItem(
             title = "Key Packages",
-            description = "View & Control the downloaded key pkgs..",
+            description = "View & Control the downloaded key pkgs.",
             targetId = R.id.test_keydownload_fragment
         )
     }

@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.TraceLocationId
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.util.trimToLength
 import kotlinx.parcelize.Parcelize
 

@@ -78,14 +78,10 @@ class StatisticsProvider @Inject constructor(
 
     fun triggerUpdate() {
         Timber.tag(TAG).d("triggerUpdate()")
-        statisticsData.updateSafely {
-            try {
-                fromServer()
-            } catch (e: Exception) {
-                Timber.tag(TAG).e(e, "Failed to update statistics.")
-                this@updateSafely // return previous data
-            }
-        }
+        statisticsData.updateAsync(
+            onUpdate = { fromServer() },
+            onError = { Timber.tag(TAG).e(it, "Failed to update statistics.") }
+        )
     }
 
     fun clear() {

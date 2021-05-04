@@ -48,6 +48,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:test_result_section_headline="@string/test_result_card_headline" />
 
+
                 <TextView
                     android:id="@+id/submission_test_result_subtitle"
                     style="@style/headline5"
@@ -58,7 +59,7 @@
                     android:text="@string/submission_test_result_subtitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_section" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_section" />
 
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry

@@ -12,4 +12,10 @@ message SubmissionPayload {
   optional string origin = 4;
   optional bool consentToFederation = 5;
   repeated de.rki.coronawarnapp.server.protocols.internal.pt.CheckIn checkIns = 6;
+  optional SubmissionType submissionType = 7 [default = SUBMISSION_TYPE_PCR_TEST];
+
+  enum SubmissionType {
+    SUBMISSION_TYPE_PCR_TEST = 0;
+    SUBMISSION_TYPE_RAPID_TEST = 1;
+  }
 }

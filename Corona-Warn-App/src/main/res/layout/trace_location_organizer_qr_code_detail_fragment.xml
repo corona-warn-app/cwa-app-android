@@ -36,7 +36,7 @@
                     android:id="@+id/expandedImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/trace_location_view_cardhighlight_gradient"
+                    app:srcCompat="@drawable/trace_location_view_cardhighlight_gradient"
                     app:layout_collapseMode="parallax" />
 
                 <LinearLayout
@@ -95,7 +95,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="72dp"
-                            android:src="@drawable/ic_cwa_logo_white" />
+                            app:srcCompat="@drawable/ic_cwa_logo_white" />
 
                     </LinearLayout>
 

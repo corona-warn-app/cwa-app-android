@@ -20,9 +20,10 @@
         style="@style/buttonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginHorizontal="@dimen/spacing_normal"
+        android:layout_marginVertical="@dimen/spacing_small"
         android:text="@string/trace_location_onboarding_body_confirm"
+        app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_scroll_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -31,7 +32,9 @@
         android:id="@+id/check_in_onboarding_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
+        android:paddingBottom="@dimen/spacing_small"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay"
         app:layout_constraintBottom_toTopOf="@+id/check_in_onboarding_acknowledge"
         app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_toolbar">
 
@@ -46,7 +49,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="4dp"
                 android:contentDescription="@string/trace_location_onboarding_content_description"
-                android:src="@drawable/trace_location_onboarding"
+                app:srcCompat="@drawable/trace_location_onboarding"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -83,7 +86,7 @@
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_qr_tracing_static"
+                app:srcCompat="@drawable/ic_qr_tracing_static"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_subtitle" />
 
@@ -105,7 +108,7 @@
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_qr_time"
+                app:srcCompat="@drawable/ic_qr_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_warning" />
 
@@ -158,7 +161,7 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="24dp"
-                    android:src="@drawable/bullet_point"
+                    app:srcCompat="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_card_subtitle" />
 
@@ -194,7 +197,7 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
-                    android:src="@drawable/bullet_point"
+                    app:srcCompat="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body3" />
 
@@ -217,7 +220,7 @@
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="22dp"
-                    android:src="@drawable/bullet_point"
+                    app:srcCompat="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body4" />
 

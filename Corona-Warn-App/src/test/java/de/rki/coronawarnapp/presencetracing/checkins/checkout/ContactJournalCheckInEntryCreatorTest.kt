@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.presencetracing.checkins.checkout
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import io.kotest.matchers.shouldBe

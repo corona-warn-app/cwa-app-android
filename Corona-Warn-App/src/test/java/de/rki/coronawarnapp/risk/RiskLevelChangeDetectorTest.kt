@@ -5,6 +5,8 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.GeneralNotifications
@@ -15,7 +17,6 @@ import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
@@ -30,6 +31,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
@@ -47,19 +49,25 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var surveys: Surveys
-    @MockK lateinit var submissionSettings: SubmissionSettings
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var testResultDonorSettings: TestResultDonorSettings
 
     @MockK lateinit var builder: NotificationCompat.Builder
     @MockK lateinit var notification: Notification
 
+    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
+        setOf(
+            mockk<CoronaTest>().apply { every { isSubmitted } returns false }
+        )
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
-        every { submissionSettings.isSubmissionSuccessful } returns false
+        every { coronaTestRepository.coronaTests } returns coronaTests
         every { foregroundState.isInForeground } returns flowOf(false)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
 
@@ -97,7 +105,6 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         override val failureReason: EwRiskLevelResult.FailureReason? = null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
-        override val daysWithEncounters: Int = 0
     }
 
     private fun createPtRiskLevel(
@@ -126,7 +133,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
         surveys = surveys,
-        submissionSettings = submissionSettings,
+        coronaTestRepository = coronaTestRepository,
         tracingSettings = tracingSettings,
         testResultDonorSettings = testResultDonorSettings
     )
@@ -204,7 +211,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                submissionSettings.isSubmissionSuccessful
+                coronaTestRepository.coronaTests
                 foregroundState.isInForeground
                 notificationHelper.newBaseBuilder()
                 notificationHelper.sendNotification(any(), any())
@@ -235,7 +242,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                submissionSettings.isSubmissionSuccessful
+                coronaTestRepository.coronaTests
                 foregroundState.isInForeground
                 notificationHelper.newBaseBuilder()
                 notificationHelper.sendNotification(any(), any())

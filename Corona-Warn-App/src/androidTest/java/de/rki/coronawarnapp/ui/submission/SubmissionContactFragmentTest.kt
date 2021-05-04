@@ -60,13 +60,6 @@ class SubmissionContactFragmentTest : BaseUITest() {
     }
 
     @Test
-    fun testContactCallClicked() {
-        launchFragmentInContainer2<SubmissionContactFragment>()
-        onView(withId(R.id.submission_contact_button_call))
-            .perform(click())
-    }
-
-    @Test
     fun testContactEnterTanClicked() {
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
         runOnUiThread { navController.setGraph(R.navigation.nav_graph) }

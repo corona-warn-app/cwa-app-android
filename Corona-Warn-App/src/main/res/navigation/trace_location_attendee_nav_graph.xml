@@ -6,7 +6,7 @@
     app:startDestination="@id/checkInOnboardingFragment">
     <fragment
         android:id="@+id/checkInOnboardingFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.onboarding.CheckInOnboardingFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment"
         android:label="CheckInOnboardingFragment"
         tools:layout="@layout/fragment_trace_location_onboarding">
         <deepLink app:uri="coronawarnapp://check-ins/{uri}/?cleanHistory={cleanHistory}" />
@@ -39,16 +39,16 @@
         tools:layout="@layout/fragment_information_privacy" />
     <fragment
         android:id="@+id/confirmCheckInFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment"
         android:label="fragment_confirm_check_in"
         tools:layout="@layout/fragment_confirm_check_in">
         <argument
             android:name="verifiedTraceLocation"
-            app:argType="de.rki.coronawarnapp.eventregistration.checkins.qrcode.VerifiedTraceLocation" />
+            app:argType="de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation" />
     </fragment>
     <fragment
         android:id="@+id/editCheckInFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.edit.EditCheckInFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragment"
         android:label="EditCheckInFragment"
         tools:layout="@layout/fragment_edit_check_in">
         <argument
@@ -57,13 +57,13 @@
     </fragment>
     <fragment
         android:id="@+id/scanCheckInQrCodeFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeFragment"
         android:label="ScanCheckInQrCodeFragment"
         tools:layout="@layout/fragment_scan_check_in_qr_code" />
 
     <fragment
         android:id="@+id/checkInsFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.checkins.CheckInsFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment"
         android:label="CheckInsFragment"
         tools:layout="@layout/trace_location_attendee_checkins_fragment">
         <action

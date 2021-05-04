@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
+import de.rki.coronawarnapp.bugreporting.exceptions.findKnownError
 import de.rki.coronawarnapp.util.ui.LazyString
 
 interface HasHumanReadableError {
@@ -15,7 +16,7 @@ data class HumanReadableError(
 fun Throwable.tryHumanReadableError(context: Context): HumanReadableError = when (this) {
     is HasHumanReadableError -> this.toHumanReadableError(context)
     else -> {
-        HumanReadableError(
+        findKnownError(context) ?: HumanReadableError(
             description = (localizedMessage ?: this.message) ?: this.toString()
         )
     }

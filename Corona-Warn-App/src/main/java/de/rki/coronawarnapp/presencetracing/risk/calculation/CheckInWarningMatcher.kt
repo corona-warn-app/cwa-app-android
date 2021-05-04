@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.presencetracing.risk.calculation
 
 import androidx.annotation.VisibleForTesting
-import de.rki.coronawarnapp.eventregistration.checkins.CheckIn
-import de.rki.coronawarnapp.eventregistration.checkins.split.splitByMidnightUTC
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider

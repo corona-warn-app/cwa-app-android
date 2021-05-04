@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:accessibilityHeading="true"
+        android:focusable="false"
+        android:text="@string/ag_homescreen_card_rapidtest_title"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/findings"
+        style="@style/subtitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:focusable="false"
+        android:text="@string/ag_homescreen_card_status_findings"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <TextView
+        android:id="@+id/corona_name"
+        style="@style/headline6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:focusable="false"
+        android:text="@string/ag_homescreen_card_status_name_of_the_cause_of_this_app"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/findings" />
+
+    <TextView
+        android:id="@+id/status"
+        style="@style/headline6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:focusable="false"
+        android:text="@string/ag_homescreen_card_status_negative"
+        android:textColor="@color/colorTextSemanticGreen"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/corona_name" />
+
+    <TextView
+        android:id="@+id/body"
+        style="@style/subtitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:focusable="false"
+        android:text="@string/ag_homescreen_card_body_result_negative"
+        app:layout_constraintBottom_toTopOf="@id/date"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status" />
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/subtitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginBottom="32dp"
+        android:focusable="false"
+        android:text="@string/ag_homescreen_card_rapid_body_result_date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/body" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title"
+        app:srcCompat="@drawable/ic_test_result_illustration_negative_card" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

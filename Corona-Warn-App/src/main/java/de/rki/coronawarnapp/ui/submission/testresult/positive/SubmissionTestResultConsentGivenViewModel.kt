@@ -2,50 +2,55 @@ package de.rki.coronawarnapp.ui.submission.testresult.positive
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
+import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
-import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
-    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
+    private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    @Assisted private val testType: Type,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    init {
+        Timber.v("init() coronaTestType=%s", testType)
+    }
 
     val showUploadDialog = autoSubmission.isSubmissionRunning
         .asLiveData(context = dispatcherProvider.Default)
 
-    val uiState: LiveData<TestResultUIState> = combine(
-        submissionRepository.deviceUIStateFlow,
-        submissionRepository.testResultReceivedDateFlow
-    ) { deviceUiState, resultDate ->
-        TestResultUIState(
-            deviceUiState = deviceUiState,
-            testResultReceivedDate = resultDate
-        )
-    }.asLiveData(context = Dispatchers.Default)
+    val uiState: LiveData<TestResultUIState> = submissionRepository.testForType(type = testType)
+        .filterNotNull()
+        .map { test ->
+            TestResultUIState(coronaTest = test)
+        }.asLiveData(context = Dispatchers.Default)
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     val showCancelDialog = SingleLiveEvent<Unit>()
 
-    fun onTestOpened() {
-        submissionRepository.setViewedTestResult()
+    fun onTestOpened() = launch {
+        Timber.d("onTestOpened()")
+        submissionRepository.setViewedTestResult(type = testType)
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
 
@@ -72,10 +77,14 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT)
+        if (testType == Type.PCR) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT)
+        }
         autoSubmission.updateLastSubmissionUserActivity()
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultConsentGivenViewModel>
+    interface Factory : CWAViewModelFactory<SubmissionTestResultConsentGivenViewModel> {
+        fun create(testType: Type): SubmissionTestResultConsentGivenViewModel
+    }
 }

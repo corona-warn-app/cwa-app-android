@@ -6,7 +6,6 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -21,12 +20,20 @@ import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * A thread safe flow that can be updated blockingly and async, with way to provide an initial (lazy) value.
+ *
+ * @param loggingTag will be prepended to logging tag, i.e. "$loggingTag:HD"
+ * @param scope on which the update operations and callbacks will be executed on
+ * @param coroutineContext used in combination with [scope]
+ * @param sharingBehavior see [Flow.shareIn]
+ * @param startValueProvider provides the first value, errors will be rethrown on [scope]
+ */
 class HotDataFlow<T : Any>(
     loggingTag: String,
     scope: CoroutineScope,
     coroutineContext: CoroutineContext = scope.coroutineContext,
     sharingBehavior: SharingStarted = SharingStarted.WhileSubscribed(),
-    forwardException: Boolean = true,
     private val startValueProvider: suspend CoroutineScope.() -> T
 ) {
     private val tag = "$loggingTag:HD"
@@ -35,19 +42,21 @@ class HotDataFlow<T : Any>(
         Timber.tag(tag).v("init()")
     }
 
-    private val updateActions = MutableSharedFlow<suspend (T) -> T>(
+    private val updateActions = MutableSharedFlow<Update<T>>(
         replay = Int.MAX_VALUE,
         extraBufferCapacity = Int.MAX_VALUE,
         onBufferOverflow = BufferOverflow.SUSPEND
     )
     private val valueGuard = Mutex()
 
-    private val internalProducer: Flow<Holder<T>> = channelFlow {
+    private val internalProducer: Flow<State<T>> = channelFlow {
         var currentValue = valueGuard.withLock {
             startValueProvider().also {
                 Timber.tag(tag).v("startValue=%s", it)
-                val updatedBy: suspend T.() -> T = { it }
-                send(Holder.Data(value = it, updatedBy = updatedBy))
+
+                val initializer = Update<T>(onError = null, onModify = { it })
+
+                send(State(value = it, updatedBy = initializer))
             }
         }
         Timber.tag(tag).v("startValue=%s", currentValue)
@@ -57,10 +66,20 @@ class HotDataFlow<T : Any>(
                 Timber.tag(tag).v("updateActions onCompletion -> resetReplayCache()")
                 updateActions.resetReplayCache()
             }
-            .collect { updateAction ->
+            .collect { update ->
                 currentValue = valueGuard.withLock {
-                    updateAction(currentValue).also {
-                        send(Holder.Data(value = it, updatedBy = updateAction))
+                    try {
+                        update.onModify(currentValue).also {
+                            send(State(value = it, updatedBy = update))
+                        }
+                    } catch (e: Exception) {
+                        Timber.tag(tag).v(e, "Data modifying failed (hasErrorHandler=${update.onError != null})")
+                        if (update.onError != null) {
+                            update.onError.invoke(e)
+                        } else {
+                            send(State(value = currentValue, error = e, updatedBy = update))
+                        }
+                        currentValue
                     }
                 }
             }
@@ -70,16 +89,6 @@ class HotDataFlow<T : Any>(
 
     private val internalFlow = internalProducer
         .onStart { Timber.tag(tag).v("Internal onStart") }
-        .catch {
-            if (forwardException) {
-                Timber.tag(tag).w(it, "Forwarding internal Error")
-                // Wrap the error to get it past `sharedIn`
-                emit(Holder.Error(error = it))
-            } else {
-                Timber.tag(tag).e(it, "Throwing internal Error")
-                throw it
-            }
-        }
         .onCompletion { err ->
             when {
                 err is CancellationException -> Timber.tag(tag).d("internal onCompletion due to cancelation")
@@ -92,31 +101,55 @@ class HotDataFlow<T : Any>(
             replay = 1,
             started = sharingBehavior
         )
-        .map {
-            when (it) {
-                is Holder.Data<T> -> it
-                is Holder.Error<T> -> throw it.error
-            }
-        }
 
-    val data: Flow<T> = internalFlow.map { it.value }.distinctUntilChanged()
+    val data: Flow<T> = internalFlow
+        .map { it.value }
+        .distinctUntilChanged()
 
-    fun updateSafely(update: suspend T.() -> T) = updateActions.tryEmit(update)
+    /**
+     * Non blocking update method.
+     * Gets executed on the scope and context this instance was initialized with.
+     *
+     * @param onError if you don't provide this, and exception in [onUpdate] will the scope passed to this class
+     */
+    fun updateAsync(
+        onError: (suspend (Exception) -> Unit) = { throw it },
+        onUpdate: suspend T.() -> T,
+    ): Boolean {
+        val update: Update<T> = Update(
+            onModify = onUpdate,
+            onError = onError
+        )
+        return updateActions.tryEmit(update)
+    }
 
-    suspend fun updateBlocking(update: suspend T.() -> T): T {
+    /**
+     * Blocking update method
+     * Gets executed on the scope and context this instance was initialized with.
+     * Waiting will happen on the callers scope.
+     *
+     * Any errors that occured during [action] will be rethrown by this method.
+     */
+    suspend fun updateBlocking(action: suspend T.() -> T): T {
+        val update: Update<T> = Update(onModify = action)
         updateActions.tryEmit(update)
+
         Timber.tag(tag).v("Waiting for update.")
-        return internalFlow.first { it.updatedBy == update }.value
+        val ourUpdate = internalFlow.first { it.updatedBy == update }
+
+        ourUpdate.error?.let { throw it }
+
+        return ourUpdate.value
     }
 
-    internal sealed class Holder<T> {
-        data class Data<T>(
-            val value: T,
-            val updatedBy: suspend T.() -> T
-        ) : Holder<T>()
+    private data class Update<T>(
+        val onModify: suspend T.() -> T,
+        val onError: (suspend (Exception) -> Unit)? = null,
+    )
 
-        data class Error<T>(
-            val error: Throwable
-        ) : Holder<T>()
-    }
+    private data class State<T>(
+        val value: T,
+        val error: Exception? = null,
+        val updatedBy: Update<T>,
+    )
 }

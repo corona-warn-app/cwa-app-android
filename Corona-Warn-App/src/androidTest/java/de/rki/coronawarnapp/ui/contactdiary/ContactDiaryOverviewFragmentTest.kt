@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
-import de.rki.coronawarnapp.eventregistration.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.TimeStamper

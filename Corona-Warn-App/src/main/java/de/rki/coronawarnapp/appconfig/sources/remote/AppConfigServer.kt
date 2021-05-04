@@ -79,7 +79,15 @@ class AppConfigServer @Inject constructor(
 
         val cacheControl = CacheControl.parse(headers)
 
-        val maxCacheAge = Duration.standardSeconds(cacheControl.maxAgeSeconds.toLong())
+        val maxCacheAge = cacheControl.maxAgeSeconds.let {
+            if (it == 0) {
+                // Server currently returns `Cache-Control	max-age=0, no-cache, no-store` which breaks our caching
+                Timber.tag(TAG).w("Server returned max-age=0: %s", cacheControl)
+                Duration.standardSeconds(300)
+            } else {
+                Duration.standardSeconds(it.toLong())
+            }
+        }
 
         return InternalConfigData(
             rawData = rawConfig,
