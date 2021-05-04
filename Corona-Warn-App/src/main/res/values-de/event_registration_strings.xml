@@ -175,9 +175,9 @@
     <!-- XBUT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_new_button">"QR-Code"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
-    <string name="trace_location_organiser_list_no_codes_title">"Noch keine QR Codes erstellt"</string>
+    <string name="trace_location_organiser_list_no_codes_title">"Noch keine QR-Codes erstellt"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
-    <string name="trace_location_organiser_list_no_codes_subtitle">"Hier werden alle QR-Codes angezeigt, die Sie für ein Ort oder Event erstellt haben. Sie können die QR-Codes löschen, wenn diese nicht mehr verwendet werden sollen."</string>
+    <string name="trace_location_organiser_list_no_codes_subtitle">"Hier werden alle QR-Codes angezeigt, die Sie für einen Ort oder ein Event erstellt haben. Sie können die QR-Codes löschen, wenn diese nicht mehr verwendet werden sollen."</string>
 
     <!-- XBUT: Event organiser qr codes list: menu: information button  -->
     <string name="trace_location_organizer_list_menu_information_btn">"Informationen"</string>
