@@ -63,7 +63,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
         binding.apply {
             submissionTestResultButtonPendingRefresh.setOnClickListener {
-                pendingViewModel.refreshDeviceUIState()
+                pendingViewModel.updateTestResult()
                 binding.submissionTestResultSection.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             }
 
@@ -95,7 +95,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        pendingViewModel.refreshDeviceUIState()
         skipInitialTestResultRefresh = false
         pendingViewModel.cwaWebExceptionLiveData.observeOnce(this.viewLifecycleOwner) { exception ->
             handleError(exception)

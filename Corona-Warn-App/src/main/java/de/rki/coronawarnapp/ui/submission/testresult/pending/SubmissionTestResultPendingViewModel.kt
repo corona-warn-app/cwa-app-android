@@ -103,8 +103,8 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         routeToScreen.postValue(null)
     }
 
-    fun refreshDeviceUIState() = launch {
-        Timber.v("refreshDeviceUIState()")
+    fun updateTestResult() = launch {
+        Timber.v("updateTestResult()")
         submissionRepository.refreshTest(type = testType)
     }
 
