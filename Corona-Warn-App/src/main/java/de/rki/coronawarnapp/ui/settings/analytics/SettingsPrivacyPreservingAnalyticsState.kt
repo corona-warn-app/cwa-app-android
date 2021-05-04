@@ -12,24 +12,21 @@ data class SettingsPrivacyPreservingAnalyticsState(
     val federalState: PpaData.PPAFederalState,
     val district: Districts.District?
 ) {
+    val isAgeGroupVisible: Boolean
+        get() = isAnalyticsEnabled
+
     fun getAgeGroupRowBodyText(context: Context) =
         context.getString(ageGroup.labelStringRes)
 
-    fun isDistrictRowVisible() =
-        federalState != PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
+    val isDistrictRowVisible
+        get() = federalState != PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED && isAnalyticsEnabled
 
     fun getDistrictRowBodyText(context: Context) =
         district?.districtName ?: context.getString(R.string.analytics_userinput_district_unspecified)
 
+    val isFederalStateRowVisible: Boolean
+        get() = isAnalyticsEnabled
+
     fun getFederalStateRowBodyText(context: Context) =
         context.getString(federalState.labelStringRes)
-
-    fun isSettingsPpaSwitchOn() =
-        isAnalyticsEnabled
-
-    fun getSettingsPpaSwitchRowStateText(context: Context) =
-        when (isAnalyticsEnabled) {
-            true -> context.getString(R.string.settings_on)
-            false -> context.getString(R.string.settings_off)
-        }
 }
