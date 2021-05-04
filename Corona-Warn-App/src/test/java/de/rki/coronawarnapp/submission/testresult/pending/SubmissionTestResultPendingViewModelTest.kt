@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResul
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -35,7 +36,7 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
         submissionRepository.apply {
             every { testForType(any()) } returns testFlow
-            every { setViewedTestResult(any()) } just Runs
+            coEvery { setViewedTestResult(any()) } just Runs
         }
     }
 

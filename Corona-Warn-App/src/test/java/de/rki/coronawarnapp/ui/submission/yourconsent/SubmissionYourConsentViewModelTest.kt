@@ -13,7 +13,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

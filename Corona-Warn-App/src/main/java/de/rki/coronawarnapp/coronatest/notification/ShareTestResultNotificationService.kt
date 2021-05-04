@@ -74,7 +74,7 @@ class ShareTestResultNotificationService @Inject constructor(
 
     private fun resetPositiveRATTestReminder() {
         Timber.tag(TAG).v("resetPositiveRATTestReminder")
-        coronaTestRepository.latestRAT  // This should not crash ,it is just a flow already constructed
+        coronaTestRepository.latestRAT // This should not crash ,it is just a flow already constructed
             .onEach {
                 if (it == null) {
                     resetSharePositiveTestResultNotification(RAPID_ANTIGEN)
@@ -87,7 +87,7 @@ class ShareTestResultNotificationService @Inject constructor(
 
     private fun schedulePositiveTestsReminder() {
         Timber.tag(TAG).v("schedulePositiveTestsReminder")
-        coronaTestRepository.coronaTests  // This should not crash ,it is just a flow already constructed
+        coronaTestRepository.coronaTests // This should not crash ,it is just a flow already constructed
             .onEach { tests ->
                 // schedule reminder if test wasn't submitted
                 tests.filter { test ->
