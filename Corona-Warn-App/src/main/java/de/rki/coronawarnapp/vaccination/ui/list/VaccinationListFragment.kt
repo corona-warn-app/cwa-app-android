@@ -46,7 +46,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             viewModel.vaccinationListItems.observe(viewLifecycleOwner) { list ->
                 val adapter = VaccinationListAdapter(list) { vaccinationItem ->
                     doNavigate(
-                        VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragmentTest(
+                        VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragment(
                             vaccinationItem.vaccinationCertificateId
                         )
                     )

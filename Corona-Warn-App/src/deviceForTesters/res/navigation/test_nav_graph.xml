@@ -173,7 +173,7 @@
 
         <action
             android:id="@+id/action_vaccinationTestFragment_to_vaccinationDetailsFragment"
-            app:destination="@id/vaccinationDetailsFragmentTest" />
+            app:destination="@id/vaccinationDetailsFragment" />
         <action
             android:id="@+id/action_vaccinationTestFragment_to_vaccinationListFragment"
             app:destination="@id/vaccinationListFragment" />
@@ -188,12 +188,12 @@
             android:name="vaccinatedPersonId"
             app:argType="string" />
         <action
-            android:id="@+id/action_vaccinationListFragment_to_vaccinationDetailsFragmentTest"
-            app:destination="@id/vaccinationDetailsFragmentTest" />
+            android:id="@+id/action_vaccinationListFragment_to_vaccinationDetailsFragment"
+            app:destination="@id/vaccinationDetailsFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/vaccinationDetailsFragmentTest"
+        android:id="@+id/vaccinationDetailsFragment"
         android:name="de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragment"
         android:label="fragment_vaccination_details"
         tools:layout="@layout/fragment_vaccination_details">
