@@ -17,32 +17,24 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Registration of Rapid Antigen Tests"</item>
-        <item>"Display of Proof"</item>
-        <item>"Technical Hotline Now Available from Outside Germany"</item>
-        <item>"TAN Hotline Now Available from Outside Germany"</item>
+        <item>"Record Troubleshooting Logs"</item>
+        <item>"Create Rapid Test Profiles"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"In addition to the results of PCR tests, you can now also display the results of rapid antigen tests in the app and use them to warn others."</item>
-        <item>"If you want, you can use the app to prove your personal infection status (a negative rapid test, for example). Please note, however, that you are under no obligation to use the app to prove your infection status. You can also prove your infection status in another manner compliant with the legal regulations at your residence."</item>
-        <item>"You can now reach the technical hotline from outside Germany as well, under the number +49 30 498 75401. The fees from your telephone provider will apply."</item>
-        <item>"If you are diagnosed with coronavirus, you can now request a TAN from outside Germany, under the number +49 30 498 75402. The fees from your telephone provider will apply."</item>
+        <item>"You can now generate an error log in the technical support feature for the app. It records the steps that you perform in the app, to simplify the analysis of potential errors and help us correct them more quickly."</item>
+        <item>"You can now create a rapid test profile in your personal data. Your profile can then be scanned at testing points quickly and easily via QR code."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item />
         <item />
-        <item />
-        <item />
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item />
-        <item />
         <item />
         <item />
     </string-array>

@@ -198,7 +198,7 @@ class NetworkStateProviderTest : BaseTest() {
     }
 
     @Test
-    fun `metered connection state can be overriden via test settings`() = runBlockingTest2(ignoreActive = true) {
+    fun `metered connection state can be overridden via test settings`() = runBlockingTest2(ignoreActive = true) {
         every { testSettings.fakeMeteredConnection } returns mockFlowPreference(true)
         val instance = createInstance(this)
 
@@ -237,4 +237,33 @@ class NetworkStateProviderTest : BaseTest() {
             linkProperties = null
         ).isMeteredConnection shouldBe true
     }
+
+    @Test
+    fun `if we fail to register the callback, we do not attempt to unregister it`() =
+        runBlockingTest2(ignoreActive = true) {
+            every {
+                conMan.registerNetworkCallback(
+                    any(),
+                    any<ConnectivityManager.NetworkCallback>()
+                )
+            } throws SecurityException()
+
+            val instance = createInstance(this)
+
+            instance.networkState.first() shouldBe NetworkStateProvider.State(
+                activeNetwork = null,
+                capabilities = null,
+                linkProperties = null
+            )
+
+            advanceUntilIdle()
+
+            verifySequence {
+                conMan.activeNetwork
+                conMan.getNetworkCapabilities(network)
+                conMan.getLinkProperties(network)
+                conMan.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
+            }
+            verify(exactly = 0) { conMan.unregisterNetworkCallback(any<ConnectivityManager.NetworkCallback>()) }
+        }
 }

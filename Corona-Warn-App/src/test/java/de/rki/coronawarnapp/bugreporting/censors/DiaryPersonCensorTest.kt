@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
+import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryPersonCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -66,6 +67,17 @@ class DiaryPersonCensorTest : BaseTest() {
             tag = "I'm a tag",
             throwable = null
         )
+        instance.checkLog(censorMe) shouldBe censorMe.copy(
+            message =
+                """
+                Person#2/Name requested more coffee from Person#1/PhoneNumber,
+                but Person#3/Name thought he had enough has had enough for today.
+                A quick mail to Person#1/EMail confirmed this.
+                """.trimIndent()
+        )
+
+        // censoring should still work after people are deleted
+        every { diaryRepo.people } returns flowOf(emptyList())
         instance.checkLog(censorMe) shouldBe censorMe.copy(
             message =
                 """
