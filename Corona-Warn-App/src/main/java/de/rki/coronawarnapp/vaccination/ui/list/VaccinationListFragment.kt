@@ -46,38 +46,51 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             }
 
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-                val adapter = VaccinationListAdapter(uiState.listItems) { vaccinationItem ->
-                    doNavigate(
-                        VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragment(
-                            vaccinationItem.vaccinationCertificateId
-                        )
-                    )
-                }
-                recyclerViewVaccinationList.adapter = adapter
-
-                val isVaccinationComplete = uiState.vaccinationStatus == VaccinatedPerson.Status.COMPLETE
-
-                val background = if (isVaccinationComplete) {
-                    R.drawable.vaccination_compelete_gradient
-                } else {
-                    R.drawable.vaccination_incomplete
-                }
-                expandedImage.setImageResource(background)
-
-                subtitle.isVisible = isVaccinationComplete
-
-                appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
-                    title.alpha = titleAlpha
-                    subtitle.alpha = subtitleAlpha
-                }
-
-                setToolbarOverlay(isVaccinationComplete)
+                bindViews(uiState)
             }
 
             registerNewVaccinationButton.setOnClickListener {
                 Toast.makeText(requireContext(), "TODO \uD83D\uDEA7", Toast.LENGTH_LONG).show()
             }
+
+            refreshButton.setOnClickListener {
+                Toast.makeText(requireContext(), "TODO \uD83D\uDEA7", Toast.LENGTH_LONG).show()
+            }
         }
+    }
+
+    private fun FragmentVaccinationListBinding.bindViews(uiState: VaccinationListViewModel.UiState) {
+
+        val adapter = VaccinationListAdapter(uiState.listItems) { vaccinationItem ->
+            doNavigate(
+                VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragment(
+                    vaccinationItem.vaccinationCertificateId
+                )
+            )
+        }
+        recyclerViewVaccinationList.adapter = adapter
+
+        val isVaccinationComplete = uiState.vaccinationStatus == VaccinatedPerson.Status.COMPLETE
+
+        val background = if (isVaccinationComplete) {
+            R.drawable.vaccination_compelete_gradient
+        } else {
+            R.drawable.vaccination_incomplete
+        }
+
+        expandedImage.setImageResource(background)
+
+        subtitle.isVisible = isVaccinationComplete
+
+        refreshButton.isVisible = isVaccinationComplete
+        registerNewVaccinationButton.isCursorVisible = !isVaccinationComplete
+
+        appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
+            title.alpha = titleAlpha
+            subtitle.alpha = subtitleAlpha
+        }
+
+        setToolbarOverlay(isVaccinationComplete)
     }
 
     private fun setToolbarOverlay(isVaccinationComplete: Boolean) {

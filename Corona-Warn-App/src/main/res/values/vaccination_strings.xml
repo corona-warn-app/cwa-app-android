@@ -51,4 +51,6 @@
     <string name="vaccination_list_certificate_card_subtitle">Noch %1$d Tage gültig</string>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung registrieren</string>
+    <!-- XBUT: Vaccination List refresh button -->
+    <string name="vaccination_list_refresh_button">Aktualisieren</string>
 </resources>
