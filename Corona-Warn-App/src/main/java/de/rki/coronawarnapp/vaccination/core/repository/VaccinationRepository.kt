@@ -68,6 +68,24 @@ class VaccinationRepository @Inject constructor(
         )
     )
 
+    // TODO read from repos
+    val vaccinationInfosForList: Flow<Set<VaccinatedPerson>> = flowOf(
+        setOf(
+            VaccinatedPerson(
+                setOf(vc, vc1),
+                setOf(),
+                isRefreshing = false,
+                lastUpdatedAt = Instant.now()
+            ),
+            VaccinatedPerson(
+                setOf(vc, vc1),
+                setOf(pc),
+                isRefreshing = false,
+                lastUpdatedAt = Instant.now()
+            )
+        )
+    )
+
     suspend fun registerVaccination(
         qrCode: VaccinationCertificateQRCode
     ): VaccinationCertificate {

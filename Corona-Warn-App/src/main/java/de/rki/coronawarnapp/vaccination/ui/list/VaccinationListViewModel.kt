@@ -23,8 +23,8 @@ class VaccinationListViewModel @AssistedInject constructor(
     init {
         launch {
             val person = when (vaccinatedPersonIdentifier) {
-                "vaccinated-person-incomplete" -> vaccinationRepository.vaccinationInfos.first().first()
-                "vaccinated-person-complete" -> vaccinationRepository.vaccinationInfos.first().elementAt(1)
+                "vaccinated-person-incomplete" -> vaccinationRepository.vaccinationInfosForList.first().first()
+                "vaccinated-person-complete" -> vaccinationRepository.vaccinationInfosForList.first().elementAt(1)
                 else -> throw IllegalArgumentException()
             }
 
@@ -37,16 +37,16 @@ class VaccinationListViewModel @AssistedInject constructor(
                             dayOfBirth = person.dateOfBirth.toDayFormat()
                         )
                     )
-                    person.vaccinationCertificates.forEach { vaccinationCertificate ->
+                    person.vaccinationCertificates.forEachIndexed { index, vaccinationCertificate ->
                         add(
                             VaccinationListVaccinationCardItem(
                                 vaccinationCertificateId = vaccinationCertificate.certificateId,
-                                // Todo: use values from repository
-                                doseNumber = "1",
+                                // Todo: use properties from repository
+                                doseNumber = (index + 1).toString(),
                                 totalSeriesOfDoses = "2",
                                 vaccinatedAt = vaccinationCertificate.vaccinatedAt.toDayFormat(),
                                 vaccinationStatus = person.vaccinationStatus,
-                                isFinalVaccination = false
+                                isFinalVaccination = (index + 1) == 2
                             )
                         )
                     }
