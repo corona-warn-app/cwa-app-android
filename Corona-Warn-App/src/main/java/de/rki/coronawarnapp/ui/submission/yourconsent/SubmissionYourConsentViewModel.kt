@@ -28,6 +28,7 @@ class SubmissionYourConsentViewModel @AssistedInject constructor(
     }
 
     val clickEvent: SingleLiveEvent<SubmissionYourConsentEvents> = SingleLiveEvent()
+    val errorEvent = SingleLiveEvent<Throwable>()
     private val consentFlow = submissionRepository.testForType(type = testType)
         .filterNotNull()
         .map { it.isAdvancedConsentGiven }
@@ -41,12 +42,17 @@ class SubmissionYourConsentViewModel @AssistedInject constructor(
     }
 
     fun switchConsent() = launch {
-        if (consentFlow.first()) {
-            Timber.v("revokeConsentToSubmission()")
-            submissionRepository.revokeConsentToSubmission(type = testType)
-        } else {
-            Timber.v("giveConsentToSubmission()")
-            submissionRepository.giveConsentToSubmission(type = testType)
+        try {
+            if (consentFlow.first()) {
+                Timber.v("revokeConsentToSubmission()")
+                submissionRepository.revokeConsentToSubmission(type = testType)
+            } else {
+                Timber.v("giveConsentToSubmission()")
+                submissionRepository.giveConsentToSubmission(type = testType)
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "switchConsent()")
+            errorEvent.postValue(e)
         }
     }
 

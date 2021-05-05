@@ -1,12 +1,13 @@
-package de.rki.coronawarnapp.bugreporting.censors
+package de.rki.coronawarnapp.bugreporting.censors.submission
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import javax.inject.Inject
 
 @Reusable
-class QRCodeCensor @Inject constructor() : BugCensor {
+class PcrQrCodeCensor @Inject constructor() : BugCensor {
 
     override suspend fun checkLog(entry: LogLine): LogLine? {
 

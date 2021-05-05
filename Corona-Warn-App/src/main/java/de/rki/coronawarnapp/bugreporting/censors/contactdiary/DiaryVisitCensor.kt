@@ -1,8 +1,8 @@
-package de.rki.coronawarnapp.bugreporting.censors
+package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidComment
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -14,13 +14,13 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @Reusable
-class DiaryEncounterCensor @Inject constructor(
+class DiaryVisitCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
     diary: ContactDiaryRepository
 ) : BugCensor {
 
-    private val encounters by lazy {
-        diary.personEncounters.stateIn(
+    private val visits by lazy {
+        diary.locationVisits.stateIn(
             scope = debugScope,
             started = SharingStarted.Lazily,
             initialValue = null
@@ -28,15 +28,15 @@ class DiaryEncounterCensor @Inject constructor(
     }
 
     override suspend fun checkLog(entry: LogLine): LogLine? {
-        val encountersNow = encounters.first().filter { !it.circumstances.isNullOrBlank() }
+        val visitsNow = visits.first().filter { !it.circumstances.isNullOrBlank() }
 
-        if (encountersNow.isEmpty()) return null
+        if (visitsNow.isEmpty()) return null
 
-        val newMessage = encountersNow.fold(entry.message) { orig, encounter ->
+        val newMessage = visitsNow.fold(entry.message) { orig, visit ->
             var wip = orig
 
-            withValidComment(encounter.circumstances) {
-                wip = wip.replace(it, "Encounter#${encounter.id}/Circumstances")
+            BugCensor.withValidComment(visit.circumstances) {
+                wip = wip.replace(it, "Visit#${visit.id}/Circumstances")
             }
 
             wip
