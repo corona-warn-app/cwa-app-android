@@ -45,6 +45,10 @@
     <string name="vaccination_list_vaccination_card_title">Impfung %1$s von %2$s</string>
     <!-- XTXT: Vaccination List top card subtitle-->
     <string name="vaccination_list_vaccination_card_subtitle">durchgeführt am %1$s</string>
+    <!-- XTXT: Vaccination List top card subtitle-->
+    <string name="vaccination_list_certificate_card_title">COVID-19-Prüfzertifikat</string>
+    <!-- XTXT: Vaccination List top card subtitle-->
+    <string name="vaccination_list_certificate_card_subtitle">Noch %1$d Tage gültig</string>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung registrieren</string>
 </resources>

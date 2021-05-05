@@ -9,7 +9,9 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListCertificateCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListIncompleteTopCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListNameCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVaccinationCardItem
@@ -32,8 +34,19 @@ class VaccinationListViewModel @AssistedInject constructor(
                 else -> throw IllegalArgumentException()
             }
 
+            val isVaccinationComplete = person.vaccinationStatus == COMPLETE
+
             val listItems = mutableListOf<VaccinationListItem>().apply {
-                add(VaccinationListIncompleteTopCardItem)
+                if (isVaccinationComplete) {
+                    add(
+                        VaccinationListCertificateCardItem(
+                            qrCode = null, // TODO: Generate QR-code
+                            remainingValidityInDays = 3 // TODO: set actual value
+                        )
+                    )
+                } else {
+                    add(VaccinationListIncompleteTopCardItem)
+                }
                 add(
                     VaccinationListNameCardItem(
                         fullName = "Andrea Schneider",
