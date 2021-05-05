@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.ui.Country
 import org.joda.time.LocalDate
 
 interface VaccinationCertificate {
-    val firstName: String
+    val firstName: String?
     val lastName: String
     val dateOfBirth: LocalDate
     val vaccinatedAt: LocalDate
@@ -15,8 +15,6 @@ interface VaccinationCertificate {
 
     val doseNumber: Int
     val totalSeriesOfDoses: Int
-
-    val lotNumber: String?
 
     val certificateIssuer: String
     val certificateCountry: Country

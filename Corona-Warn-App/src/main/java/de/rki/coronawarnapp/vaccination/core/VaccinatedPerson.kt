@@ -26,7 +26,7 @@ data class VaccinatedPerson(
             it.toProofCertificate(valueSet)
         }.toSet()
 
-    val firstName: String
+    val firstName: String?
         get() = vaccinationCertificates.first().firstName
 
     val lastName: String

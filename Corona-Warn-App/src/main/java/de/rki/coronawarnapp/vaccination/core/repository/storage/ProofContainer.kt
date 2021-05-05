@@ -4,7 +4,11 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.vaccination.core.ProofCertificate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateServerData
+import de.rki.coronawarnapp.vaccination.core.personIdentifier
+import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateCOSEParser
+import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateData
+import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateResponse
+import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
 import okio.ByteString
 import org.joda.time.Instant
@@ -12,102 +16,67 @@ import org.joda.time.LocalDate
 
 @Keep
 data class ProofContainer(
-    @SerializedName("proof") val proof: StoredProof,
-    @SerializedName("expiresAt") val expiresAt: Instant,
-    @SerializedName("issuedAt") val issuedAt: Instant,
-    @SerializedName("issuedBy") val issuedBy: String,
     @SerializedName("proofCOSE") val proofCOSE: ByteString,
+    @SerializedName("receivedAt") val receivedAt: Instant,
+    @Transient val preParsedData: ProofCertificateData? = null,
 ) {
+
+    // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
+    @Suppress("unused")
+    constructor() : this(ByteString.EMPTY, Instant.EPOCH)
+
+    @delegate:Transient
+    private val proofData: ProofCertificateData by lazy {
+        preParsedData ?: ProofCertificateCOSEParser().parse(proofCOSE)
+    }
+
+    val proof: ProofCertificateV1
+        get() = proofData.proofCertificate
+
+    val vaccination: ProofCertificateV1.VaccinationData
+        get() = proof.vaccinationDatas.single()
 
     val personIdentifier: VaccinatedPersonIdentifier
         get() = proof.personIdentifier
 
     fun toProofCertificate(valueSet: VaccinationValueSet?): ProofCertificate = object : ProofCertificate {
         override val expiresAt: Instant
-            get() = this@ProofContainer.expiresAt
+            get() = proofData.expiresAt
 
         override val personIdentifier: VaccinatedPersonIdentifier
             get() = proof.personIdentifier
 
-        override val firstName: String
-            get() = proof.firstName
+        override val firstName: String?
+            get() = proof.nameData.givenName
         override val lastName: String
-            get() = proof.lastName
+            get() = proof.nameData.familyName ?: proof.nameData.familyNameStandardized
         override val dateOfBirth: LocalDate
             get() = proof.dateOfBirth
 
         override val vaccinatedAt: LocalDate
-            get() = proof.vaccinatedAt
+            get() = vaccination.vaccinatedAt
 
         override val doseNumber: Int
-            get() = proof.doseNumber
+            get() = vaccination.doseNumber
         override val totalSeriesOfDoses: Int
-            get() = proof.totalSeriesOfDoses
+            get() = vaccination.totalSeriesOfDoses
 
         override val vaccineName: String
-            get() = valueSet?.getDisplayText(proof.vaccineId) ?: proof.vaccineId
+            get() = valueSet?.getDisplayText(vaccination.vaccineId) ?: vaccination.vaccineId
         override val vaccineManufacturer: String
-            get() = valueSet?.getDisplayText(proof.marketAuthorizationHolderId)
-                ?: proof.marketAuthorizationHolderId
+            get() = valueSet?.getDisplayText(vaccination.marketAuthorizationHolderId)
+                ?: vaccination.marketAuthorizationHolderId
         override val medicalProductName: String
-            get() = valueSet?.getDisplayText(proof.medicalProductId) ?: proof.medicalProductId
+            get() = valueSet?.getDisplayText(vaccination.medicalProductId) ?: vaccination.medicalProductId
 
         override val certificateIssuer: String
-            get() = proof.certificateIssuer
+            get() = vaccination.certificateIssuer
         override val certificateId: String
-            get() = proof.certificateId
-    }
-
-    data class StoredProof(
-        @SerializedName("firstName") val firstName: String,
-        @SerializedName("firstNameStandardized") val firstNameStandardized: String,
-        @SerializedName("lastName") val lastName: String,
-        @SerializedName("lastNameStandardized") val lastNameStandardized: String,
-
-        @SerializedName("dateOfBirth") val dateOfBirth: LocalDate,
-
-        @SerializedName("targetId") val targetId: String,
-
-        @SerializedName("vaccineId") val vaccineId: String,
-        @SerializedName("medicalProductId") val medicalProductId: String,
-        @SerializedName("marketAuthorizationHolderId") val marketAuthorizationHolderId: String,
-
-        @SerializedName("doseNumber") val doseNumber: Int,
-        @SerializedName("totalSeriesOfDoses") val totalSeriesOfDoses: Int,
-
-        @SerializedName("vaccinatedAt") val vaccinatedAt: LocalDate,
-
-        @SerializedName("certificateIssuer") val certificateIssuer: String,
-        @SerializedName("certificateId") val certificateId: String,
-    ) {
-        val personIdentifier: VaccinatedPersonIdentifier
-            get() = VaccinatedPersonIdentifier(
-                dateOfBirth = dateOfBirth,
-                lastNameStandardized = lastNameStandardized,
-                firstNameStandardized = firstNameStandardized,
-            )
+            get() = vaccination.uniqueCertificateIdentifier
     }
 }
 
-fun ProofCertificateServerData.toProofContainer() = ProofContainer(
-    proof = ProofContainer.StoredProof(
-        firstName = firstName,
-        firstNameStandardized = firstNameStandardized,
-        lastName = lastName,
-        lastNameStandardized = lastNameStandardized,
-        dateOfBirth = dateOfBirth,
-        targetId = targetId,
-        vaccineId = vaccineId,
-        medicalProductId = medicalProductId,
-        marketAuthorizationHolderId = marketAuthorizationHolderId,
-        doseNumber = doseNumber,
-        totalSeriesOfDoses = totalSeriesOfDoses,
-        vaccinatedAt = vaccinatedAt,
-        certificateIssuer = certificateIssuer,
-        certificateId = certificateId,
-    ),
-    expiresAt = expiresAt,
-    issuedAt = issuedAt,
-    issuedBy = issuerCountryCode,
-    proofCOSE = proofCertificateCBOR,
+fun ProofCertificateResponse.toProofContainer(receivedAt: Instant) = ProofContainer(
+    proofCOSE = proofCertificateCOSE,
+    receivedAt = receivedAt
 )

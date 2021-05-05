@@ -5,7 +5,11 @@ import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.vaccination.core.personIdentifier
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
 import okio.ByteString
 import org.joda.time.Instant
@@ -13,113 +17,73 @@ import org.joda.time.LocalDate
 
 @Keep
 data class VaccinationContainer(
-    @SerializedName("certificate") val certificate: StoredCertificate,
-    @SerializedName("certificateBase45") val certificateBase45: String,
-    @SerializedName("certificateCBOR") val certificateCBOR: ByteString,
+    @SerializedName("vaccinationCertificateCOSE") val vaccinationCertificateCOSE: ByteString,
     @SerializedName("scannedAt") val scannedAt: Instant,
+    @Transient val preParsedData: VaccinationCertificateData? = null
 ) {
+
+    // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
+    @Suppress("unused")
+    constructor() : this(ByteString.EMPTY, Instant.EPOCH)
+
+    @delegate:Transient
+    private val certificateData: VaccinationCertificateData by lazy {
+        preParsedData ?: VaccinationCertificateCOSEParser().parse(vaccinationCertificateCOSE)
+    }
+
+    val certificate: VaccinationCertificateV1
+        get() = certificateData.vaccinationCertificate
+
+    val vaccination: VaccinationCertificateV1.VaccinationData
+        get() = certificate.vaccinationDatas.single()
+
+    val certificateId: String
+        get() = vaccination.uniqueCertificateIdentifier
 
     val personIdentifier: VaccinatedPersonIdentifier
         get() = certificate.personIdentifier
 
-    val certificateId: String
-        get() = certificate.certificateId
-
     val isEligbleForProofCertificate: Boolean
-        get() = certificate.doseNumber == certificate.totalSeriesOfDoses
+        get() = vaccination.doseNumber == vaccination.totalSeriesOfDoses
 
     fun toVaccinationCertificate(valueSet: VaccinationValueSet?) = object : VaccinationCertificate {
         override val personIdentifier: VaccinatedPersonIdentifier
             get() = certificate.personIdentifier
 
-        override val firstName: String
-            get() = certificate.firstName
+        override val firstName: String?
+            get() = certificate.nameData.givenName
         override val lastName: String
-            get() = certificate.lastName
+            get() = certificate.nameData.familyName ?: certificate.nameData.familyNameStandardized
+
         override val dateOfBirth: LocalDate
             get() = certificate.dateOfBirth
 
         override val vaccinatedAt: LocalDate
-            get() = certificate.vaccinatedAt
+            get() = vaccination.vaccinatedAt
 
         override val doseNumber: Int
-            get() = certificate.doseNumber
+            get() = vaccination.doseNumber
         override val totalSeriesOfDoses: Int
-            get() = certificate.totalSeriesOfDoses
+            get() = vaccination.totalSeriesOfDoses
 
         override val vaccineName: String
-            get() = valueSet?.getDisplayText(certificate.vaccineId) ?: certificate.vaccineId
+            get() = valueSet?.getDisplayText(vaccination.vaccineId) ?: vaccination.vaccineId
         override val vaccineManufacturer: String
-            get() = valueSet?.getDisplayText(certificate.marketAuthorizationHolderId)
-                ?: certificate.marketAuthorizationHolderId
+            get() = valueSet?.getDisplayText(vaccination.marketAuthorizationHolderId)
+                ?: vaccination.marketAuthorizationHolderId
         override val medicalProductName: String
-            get() = valueSet?.getDisplayText(certificate.medicalProductId) ?: certificate.medicalProductId
-
-        override val lotNumber: String?
-            get() = certificate.lotNumber
+            get() = valueSet?.getDisplayText(vaccination.medicalProductId) ?: vaccination.medicalProductId
 
         override val certificateIssuer: String
-            get() = certificate.certificateIssuer
+            get() = vaccination.certificateIssuer
         override val certificateCountry: Country
-            get() = Country.values().singleOrNull { it.code == certificate.certificateCountryCode } ?: Country.DE
+            get() = Country.values().singleOrNull { it.code == vaccination.countryOfVaccination } ?: Country.DE
         override val certificateId: String
-            get() = certificate.certificateId
-    }
-
-    @Keep
-    data class StoredCertificate(
-        @SerializedName("firstName") val firstName: String,
-        @SerializedName("firstNameStandardized") val firstNameStandardized: String,
-        @SerializedName("lastName") val lastName: String,
-        @SerializedName("lastNameStandardized") val lastNameStandardized: String,
-
-        @SerializedName("dateOfBirth") val dateOfBirth: LocalDate,
-
-        @SerializedName("vaccinatedAt") val vaccinatedAt: LocalDate,
-
-        @SerializedName("targetId") val targetId: String,
-        @SerializedName("vaccineId") val vaccineId: String,
-        @SerializedName("medicalProductId") val medicalProductId: String,
-
-        @SerializedName("marketAuthorizationHolderId") val marketAuthorizationHolderId: String,
-
-        @SerializedName("doseNumber") val doseNumber: Int,
-        @SerializedName("totalSeriesOfDoses") val totalSeriesOfDoses: Int,
-
-        @SerializedName("lotNumber") val lotNumber: String?,
-        @SerializedName("certificateIssuer") val certificateIssuer: String,
-        @SerializedName("certificateCountryCode") val certificateCountryCode: String,
-        @SerializedName("certificateId") val certificateId: String,
-    ) {
-        val personIdentifier: VaccinatedPersonIdentifier
-            get() = VaccinatedPersonIdentifier(
-                dateOfBirth = dateOfBirth,
-                lastNameStandardized = lastNameStandardized,
-                firstNameStandardized = firstNameStandardized,
-            )
+            get() = vaccination.uniqueCertificateIdentifier
     }
 }
 
 fun VaccinationCertificateQRCode.toVaccinationContainer(scannedAt: Instant) = VaccinationContainer(
-    certificate = VaccinationContainer.StoredCertificate(
-        firstName = certificate.firstName,
-        firstNameStandardized = certificate.firstNameStandardized,
-        lastName = certificate.lastName,
-        lastNameStandardized = certificate.lastNameStandardized,
-        dateOfBirth = certificate.dateOfBirth,
-        vaccinatedAt = certificate.vaccinatedAt,
-        targetId = certificate.targetId,
-        vaccineId = certificate.vaccineId,
-        medicalProductId = certificate.medicalProductId,
-        marketAuthorizationHolderId = certificate.marketAuthorizationHolderId,
-        doseNumber = certificate.doseNumber,
-        totalSeriesOfDoses = certificate.totalSeriesOfDoses,
-        lotNumber = certificate.lotNumber,
-        certificateIssuer = certificate.certificateIssuer,
-        certificateCountryCode = certificate.certificateCountryCode,
-        certificateId = certificate.certificateId
-    ),
-    certificateCBOR = qrCodeOriginalCBOR,
-    certificateBase45 = qrCodeOriginalBase45,
+    vaccinationCertificateCOSE = certificateCOSE,
     scannedAt = scannedAt
 )

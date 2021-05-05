@@ -12,7 +12,7 @@ class VaccinationProofServer @Inject constructor() {
 
     suspend fun getProofCertificate(
         vaccinationCertificate: ByteString
-    ): ProofCertificateServerData {
+    ): ProofCertificateResponse {
         throw NotImplementedError()
     }
 }

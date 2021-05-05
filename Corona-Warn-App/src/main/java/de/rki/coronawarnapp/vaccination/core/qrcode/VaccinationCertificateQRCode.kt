@@ -4,7 +4,10 @@ import okio.ByteString
 
 // TODO
 data class VaccinationCertificateQRCode(
-    val certificate: ScannedVaccinationCertificate,
-    val qrCodeOriginalBase45: String,
-    val qrCodeOriginalCBOR: ByteString,
-)
+    val parsedData: VaccinationCertificateData,
+    // COSE representation of the vaccination certificate (as byte sequence)
+    val certificateCOSE: ByteString,
+) {
+    val uniqueCertificateIdentifier: String
+        get() = parsedData.vaccinationCertificate.vaccinationDatas.single().uniqueCertificateIdentifier
+}

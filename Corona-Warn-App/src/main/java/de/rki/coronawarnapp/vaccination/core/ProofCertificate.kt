@@ -8,7 +8,7 @@ interface ProofCertificate {
 
     val expiresAt: Instant
 
-    val firstName: String
+    val firstName: String?
     val lastName: String
 
     val dateOfBirth: LocalDate

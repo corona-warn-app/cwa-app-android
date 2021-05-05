@@ -1,16 +1,16 @@
 package de.rki.coronawarnapp.vaccination.core
 
-import de.rki.coronawarnapp.vaccination.core.qrcode.ScannedVaccinationCertificate
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationDateOfBirthMissmatchException
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationNameMissmatchException
-import de.rki.coronawarnapp.vaccination.core.repository.storage.ProofContainer
-import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
+import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
 import org.joda.time.LocalDate
 
 data class VaccinatedPersonIdentifier(
     val dateOfBirth: LocalDate,
     val lastNameStandardized: String,
-    val firstNameStandardized: String
+    val firstNameStandardized: String?
 ) {
     val code: String by lazy {
         val dob = dateOfBirth.toString()
@@ -38,23 +38,19 @@ data class VaccinatedPersonIdentifier(
     }
 }
 
-val VaccinationContainer.StoredCertificate.personIdentifier: VaccinatedPersonIdentifier
+val VaccinationCertificateV1.personIdentifier: VaccinatedPersonIdentifier
     get() = VaccinatedPersonIdentifier(
         dateOfBirth = dateOfBirth,
-        lastNameStandardized = lastNameStandardized,
-        firstNameStandardized = firstNameStandardized
+        lastNameStandardized = nameData.familyNameStandardized,
+        firstNameStandardized = nameData.givenNameStandardized
     )
 
-val ScannedVaccinationCertificate.personIdentifier: VaccinatedPersonIdentifier
+val ProofCertificateV1.personIdentifier: VaccinatedPersonIdentifier
     get() = VaccinatedPersonIdentifier(
         dateOfBirth = dateOfBirth,
-        lastNameStandardized = lastNameStandardized,
-        firstNameStandardized = firstNameStandardized
+        lastNameStandardized = nameData.familyNameStandardized,
+        firstNameStandardized = nameData.givenNameStandardized
     )
 
-val ProofContainer.StoredProof.personIdentifier: VaccinatedPersonIdentifier
-    get() = VaccinatedPersonIdentifier(
-        dateOfBirth = dateOfBirth,
-        lastNameStandardized = lastNameStandardized,
-        firstNameStandardized = firstNameStandardized
-    )
+val VaccinationCertificateQRCode.personIdentifier: VaccinatedPersonIdentifier
+    get() = parsedData.vaccinationCertificate.personIdentifier

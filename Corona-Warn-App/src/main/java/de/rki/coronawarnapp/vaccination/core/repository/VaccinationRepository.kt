@@ -90,7 +90,7 @@ class VaccinationRepository @Inject constructor(
             val originalPerson = if (this.isNotEmpty()) {
                 Timber.tag(TAG).d("There is an existing person we must match.")
                 this.single().also {
-                    it.identifier.requireMatch(qrCode.certificate.personIdentifier)
+                    it.identifier.requireMatch(qrCode.personIdentifier)
                     Timber.tag(TAG).i("New certificate matches existing person!")
                 }
             } else {
@@ -117,7 +117,7 @@ class VaccinationRepository @Inject constructor(
             }
         }
 
-        val updatedPerson = updatedData.single { it.identifier == qrCode.certificate.personIdentifier }
+        val updatedPerson = updatedData.single { it.identifier == qrCode.personIdentifier }
 
         if (updatedPerson.isEligbleForProofCertificate) {
             Timber.tag(TAG).i("%s is eligble for proof certificate, launching async check.", updatedPerson.identifier)
@@ -127,7 +127,7 @@ class VaccinationRepository @Inject constructor(
         }
 
         return updatedPerson.vaccinationCertificates.single {
-            it.certificateId == qrCode.certificate.certificateId
+            it.certificateId == qrCode.uniqueCertificateIdentifier
         }
     }
 
@@ -142,7 +142,7 @@ class VaccinationRepository @Inject constructor(
                 val eligbleCert = originalPerson.data.vaccinations.first { it.isEligbleForProofCertificate }
 
                 val proof = try {
-                    vaccinationProofServer.getProofCertificate(eligbleCert.certificateCBOR)
+                    vaccinationProofServer.getProofCertificate(eligbleCert.vaccinationCertificateCOSE)
                 } catch (e: Exception) {
                     Timber.tag(TAG).e(e, "Failed to check for proof.")
                     null
@@ -151,7 +151,7 @@ class VaccinationRepository @Inject constructor(
                 val modifiedPerson = proof?.let {
                     originalPerson.copy(
                         data = originalPerson.data.copy(
-                            proofs = setOf(it.toProofContainer())
+                            proofs = setOf(it.toProofContainer(timeStamper.nowUTC))
                         )
                     )
                 } ?: originalPerson
