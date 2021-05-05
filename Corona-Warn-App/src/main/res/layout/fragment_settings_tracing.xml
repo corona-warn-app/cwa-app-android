@@ -77,20 +77,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/illustration" />
 
-                <include
-                    android:id="@+id/settings_tracing_switch_row"
-                    layout="@layout/include_settings_switch_row"
+                <de.rki.coronawarnapp.ui.view.SwitchRowView
+                    android:id="@+id/switch_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    app:enabled="@{settingsTracingState.isTracingSwitchEnabled()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/information_details_header_headline"
-                    app:showDivider="@{true}"
-                    app:status="@{settingsTracingState.isTracingSwitchChecked()}"
-                    app:statusText="@{settingsTracingState.getTracingStatusText(context)}"
-                    app:subtitle="@{@string/settings_tracing_title}" />
+                    app:checked="@{settingsTracingState.isTracingSwitchChecked()}"
+                    app:subtitle="@{settingsTracingState.getTracingStatusText(context)}"
+                    app:switchEnabled="@{settingsTracingState.isTracingSwitchEnabled()}"
+                    app:title="@{@string/settings_tracing_title}" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@+id/switch_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settingsInteroperabilityRow"
@@ -101,7 +106,7 @@
                     android:background="?android:selectableItemBackground"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row">
+                    app:layout_constraintTop_toBottomOf="@id/switch_row">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/flag_eu"

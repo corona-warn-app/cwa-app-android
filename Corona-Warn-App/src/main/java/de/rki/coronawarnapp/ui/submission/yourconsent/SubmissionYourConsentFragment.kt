@@ -37,13 +37,15 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
         super.onViewCreated(view, savedInstanceState)
 
         vm.consent.observe2(this) {
-            binding.submissionYourConsentSwitch.status = it
-            binding.submissionYourConsentSwitch.statusText = getString(
-                if (it) {
-                    R.string.submission_your_consent_switch_status_on
-                } else {
-                    R.string.submission_your_consent_switch_status_off
-                }
+            binding.submissionYourConsentSwitch.setChecked(it)
+            binding.submissionYourConsentSwitch.setSubtitle(
+                getString(
+                    if (it) {
+                        R.string.submission_your_consent_switch_status_on
+                    } else {
+                        R.string.submission_your_consent_switch_status_off
+                    }
+                )
             )
         }
 
@@ -63,11 +65,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
 
         binding.apply {
             submissionYourConsentTitle.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
-            submissionYourConsentSwitch.settingsSwitchRowSwitch.setOnCheckedChangeListener { view, _ ->
-                if (!view.isPressed) return@setOnCheckedChangeListener
-                vm.switchConsent()
-            }
-            submissionYourConsentSwitch.settingsSwitchRow.setOnClickListener { vm.switchConsent() }
+            submissionYourConsentSwitch.setOnClickListener { vm.switchConsent() }
             submissionYourConsentAgreementDetailsText.setOnClickListener { vm.goLegal() }
 
             submissionYourConsentAgreementShareSymptomsText.setText(

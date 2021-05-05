@@ -35,14 +35,14 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val timeStamper: TimeStamper,
     private val settings: DownloadDiagnosisKeysSettings,
     private val coronaTestRepository: CoronaTestRepository,
-) : Task<DownloadDiagnosisKeysTask.Progress, Task.Result> {
+) : Task<DownloadDiagnosisKeysTask.Progress, DownloadDiagnosisKeysTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<Progress>()
     override val progress: Flow<Progress> = internalProgress.asFlow()
 
     private var isCanceled = false
 
-    override suspend fun run(arguments: Task.Arguments): Task.Result {
+    override suspend fun run(arguments: Task.Arguments): Result {
         val rollbackItems = mutableListOf<RollbackItem>()
         try {
             Timber.d("Running with arguments=%s", arguments)
@@ -55,7 +55,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
              */
             if (!enfClient.isTracingEnabled.first()) {
                 Timber.tag(TAG).w("EN is not enabled, skipping RetrieveDiagnosisKeys")
-                return object : Task.Result {}
+                return Result()
             }
 
             throwIfCancelled()
@@ -76,14 +76,14 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             if (!exposureConfig.isDeviceTimeCorrect) {
                 Timber.tag(TAG).w("Aborting, Device time is incorrect, offset=%s", exposureConfig.localOffset)
-                return object : Task.Result {}
+                return Result()
             }
 
             val now = timeStamper.nowUTC
 
             if (exposureConfig.maxExposureDetectionsPerUTCDay == 0) {
                 Timber.tag(TAG).w("Exposure detections are disabled! maxExposureDetectionsPerUTCDay=0")
-                return object : Task.Result {}
+                return Result()
             }
 
             val trackedExposureDetections = enfClient.latestTrackedExposureDetection().first()
@@ -93,12 +93,12 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             if (!isUpdateToEnfV2 && wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
                 // At most one detection every 6h
                 Timber.tag(TAG).i("task aborted, because detection was performed recently")
-                return object : Task.Result {}
+                return Result()
             }
 
             if (!isUpdateToEnfV2 && hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
                 Timber.tag(TAG).i("task aborted, last check was within 24h, and there are no new files")
-                return object : Task.Result {}
+                return Result()
             }
 
             val availableKeyFiles = keySyncResult.availableKeys.map { it.path }
@@ -114,10 +114,10 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             // remember version code of this execution for next time
             settings.updateLastVersionCodeToCurrent()
 
-            val isAllowedToSubmitKeys = coronaTestRepository.coronaTests.first().any { it.isSubmissionAllowed }
-            if (isAllowedToSubmitKeys) {
-                Timber.tag(TAG).i("task aborted, positive test result")
-                return object : Task.Result {}
+            val isPositive = coronaTestRepository.coronaTests.first().any { it.isPositive }
+            if (isPositive) {
+                Timber.tag(TAG).i("EW risk calculation aborted, positive test result available.")
+                return Result()
             }
 
             Timber.tag(TAG).d("Attempting submission to ENF")
@@ -129,7 +129,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             internalProgress.send(Progress.ApiSubmissionFinished)
 
-            return object : Task.Result {}
+            return Result()
         } catch (error: Exception) {
             Timber.tag(TAG).e(error)
 
@@ -214,6 +214,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         Timber.w("cancel() called.")
         isCanceled = true
     }
+
+    class Result : Task.Result
 
     sealed class Progress : Task.Progress {
         object ApiSubmissionStarted : Progress()

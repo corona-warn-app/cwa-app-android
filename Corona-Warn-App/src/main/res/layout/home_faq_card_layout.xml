@@ -42,10 +42,9 @@
             android:layout_width="@dimen/icon_size_external_link"
             android:layout_height="@dimen/icon_size_external_link"
             android:importantForAccessibility="no"
-            app:srcCompat="@drawable/ic_link"
-            app:layout_constraintBottom_toBottomOf="@+id/main_card_header_headline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/main_card_header_headline" />
+            app:layout_constraintTop_toTopOf="@+id/main_card_header_headline"
+            app:srcCompat="@drawable/ic_link" />
 
         <TextView
             android:id="@+id/main_card_content_body"
