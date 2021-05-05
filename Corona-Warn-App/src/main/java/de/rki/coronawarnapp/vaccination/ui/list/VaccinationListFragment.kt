@@ -2,12 +2,13 @@ package de.rki.coronawarnapp.vaccination.ui.list
 
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentVaccinationListBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
@@ -54,19 +55,23 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                 }
                 recyclerViewVaccinationList.adapter = adapter
 
-                val background = if (uiState.vaccinationStatus == VaccinatedPerson.Status.COMPLETE) {
+                val isVaccinationComplete = uiState.vaccinationStatus == VaccinatedPerson.Status.COMPLETE
+
+                val background = if (isVaccinationComplete) {
                     R.drawable.vaccination_compelete_gradient
                 } else {
                     R.drawable.vaccination_incomplete
                 }
-
                 expandedImage.setImageResource(background)
 
-                appBarLayout.onOffsetChange { titleAlpha, _ ->
+                subtitle.isVisible = isVaccinationComplete
+
+                appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                     title.alpha = titleAlpha
+                    subtitle.alpha = subtitleAlpha
                 }
 
-                setToolbarOverlay()
+                setToolbarOverlay(isVaccinationComplete)
             }
 
             registerNewVaccinationButton.setOnClickListener {
@@ -75,15 +80,20 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         }
     }
 
-    private fun setToolbarOverlay() {
+    private fun setToolbarOverlay(isVaccinationComplete: Boolean) {
+
+        // subtitle is only visible when vaccination is complete
+        val bottomTextView = if (isVaccinationComplete) binding.subtitle else binding.title
+
         val deviceWidth = requireContext().resources.displayMetrics.widthPixels
 
         val params: CoordinatorLayout.LayoutParams = binding.recyclerViewVaccinationList.layoutParams
             as (CoordinatorLayout.LayoutParams)
 
-        val textParams = binding.title.layoutParams as (CollapsingToolbarLayout.LayoutParams)
+        val textParams = bottomTextView.layoutParams as (LinearLayout.LayoutParams)
+
         textParams.bottomMargin = (deviceWidth / 3) - 24 /* 24 is space between screen border and Card */
-        binding.title.requestLayout()
+        bottomTextView.requestLayout()
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (deviceWidth / 3) - 24

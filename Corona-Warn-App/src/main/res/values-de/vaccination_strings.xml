@@ -33,6 +33,8 @@
 
     <!-- XTXT: Vaccination List title-->
     <string name="vaccination_list_title">Digitaler Impfnachweis</string>
+    <!-- XTXT: Vaccination List complete vaccination subtitle-->
+    <string name="vaccination_list_complete_vaccination_subtitle">SARS-CoV-2-Impfschutz</string>
     <!-- XTXT: Vaccination List top card title-->
     <string name="vaccination_list_top_card_title">SARS-CoV-2 Impfung</string>
     <!-- XTXT: Vaccination List top card subtitle-->
