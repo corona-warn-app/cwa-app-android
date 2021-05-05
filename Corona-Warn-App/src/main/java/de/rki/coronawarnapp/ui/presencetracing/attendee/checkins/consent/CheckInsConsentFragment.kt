@@ -81,6 +81,11 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.setAutoSubmission()
+    }
+
     private fun showSkipDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.trace_location_attendee_consent_dialog_title)
