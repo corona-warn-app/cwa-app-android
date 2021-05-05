@@ -222,6 +222,9 @@
         <item name="android:elevation">@dimen/elevation_none</item>
     </style>
 
+    <style name="Card.Vaccination" parent="Card.NoElevation">
+        <item name="android:backgroundTint">@color/colorSurface2</item>
+    </style>
 
     <style name="Card.NoPadding">
         <item name="android:padding">@dimen/no_padding</item>
