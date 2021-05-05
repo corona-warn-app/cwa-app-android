@@ -70,6 +70,7 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.vaccination.ui.homecards.CreateVaccinationHomeCard
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -331,6 +332,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     } else add(testRAT.toTestCardItem(coronaTestParameters))
                 }
             }
+
+            add(
+                CreateVaccinationHomeCard.Item(
+                    onClickAction = {
+                        // TODO: implement in another PR
+                    }
+                )
+            )
 
             if (statsData.isDataAvailable) {
                 add(
