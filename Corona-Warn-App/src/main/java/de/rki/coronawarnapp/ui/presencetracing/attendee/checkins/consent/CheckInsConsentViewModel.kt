@@ -51,8 +51,6 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         resetPreviousSubmissionConsents()
 
         Timber.d("Navigate to shareSelectedCheckIns")
-        autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
-
         // Update CheckIns for new submission
         val idsWithConsent = selectedSetFlow.value
         checkInRepository.updateSubmissionConsents(
@@ -75,7 +73,6 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         resetPreviousSubmissionConsents()
 
         Timber.d("Navigate to doNotShareCheckIns")
-        autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
         val event = if (coronaTest.first().isViewed) {
             Timber.d("Navigate to SubmissionResultReadyFragment")
             CheckInsConsentNavigation.ToSubmissionResultReadyFragment
@@ -84,6 +81,11 @@ class CheckInsConsentViewModel @AssistedInject constructor(
             CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment
         }
         events.postValue(event)
+    }
+
+    fun setAutoSubmission() {
+        Timber.d("setAutoSubmission")
+        autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
     }
 
     fun onCloseClick() = launch {
