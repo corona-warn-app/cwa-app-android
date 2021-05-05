@@ -1,4 +1,4 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.Bridge">
         <item name="colorPrimary">@color/colorBrandSecondary</item>
@@ -11,6 +11,9 @@
         <item name="materialTimePickerTheme">@style/ThemeOverlay.App.TimePicker</item>
 
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">
+            @bool/light_navigation_bar
+        </item>
     </style>
 
     <style name="ThemeOverlay.App.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
