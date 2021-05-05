@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.poster
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Matrix
 import android.graphics.pdf.PdfDocument
 import android.view.View
 import androidx.lifecycle.LiveData
