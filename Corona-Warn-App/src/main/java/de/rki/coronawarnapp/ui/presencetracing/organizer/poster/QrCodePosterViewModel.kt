@@ -62,6 +62,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
                     weakView.draw(canvas)
                     finishPage(this)
                 }
+
                 FileOutputStream(file).use {
                     writeTo(it)
                     close()
