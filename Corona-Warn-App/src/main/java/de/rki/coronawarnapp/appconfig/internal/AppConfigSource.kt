@@ -81,6 +81,7 @@ class AppConfigSource @Inject constructor(
     suspend fun clear() {
         Timber.tag(TAG).d("clear()")
         localAppConfigSource.clear()
+        remoteAppConfigSource.clear()
     }
 
     companion object {
