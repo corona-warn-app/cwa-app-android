@@ -75,7 +75,7 @@ class RapidAntigenProcessorTest : BaseTest() {
         instance.pollServer(raTest).testResult shouldBe PCR_OR_RAT_PENDING
 
         val past60DaysTest = raTest.copy(
-            registeredAt = nowUTC.minus(Duration.standardDays(21))
+            registeredAt = nowUTC.minus(Duration.standardDays(61))
         )
 
         instance.pollServer(past60DaysTest).testResult shouldBe RAT_REDEEMED
