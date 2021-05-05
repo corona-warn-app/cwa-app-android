@@ -91,6 +91,7 @@
                     layout="@layout/include_setting_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:gone="@{!backgroundState.showBackgroundPrioritySettings()}"
                     app:body="@{@string/settings_background_priority_body_description}"
                     app:color="@{backgroundState.getBackgroundPriorityIconColor(context)}"
                     app:icon="@{backgroundState.getBackgroundPriorityIcon(context)}"

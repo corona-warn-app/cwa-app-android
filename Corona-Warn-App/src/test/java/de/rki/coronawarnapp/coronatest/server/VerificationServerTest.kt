@@ -13,6 +13,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import org.joda.time.Duration
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -210,5 +211,10 @@ class VerificationServerTest : BaseIOTest() {
         requests.zipWithNext().forEach { (a, b) ->
             a.headerSizeIgnoringContentLength() shouldBe b.headerSizeIgnoringContentLength()
         }
+    }
+
+    @Test
+    fun `test availability constant`() {
+        VerificationServer.TEST_AVAILABLBILITY shouldBe Duration.standardDays(60)
     }
 }

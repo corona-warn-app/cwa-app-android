@@ -48,7 +48,7 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
         val event = if (ratProfileSettings.profile.value != null) {
             SubmissionNavigationEvents.NavigateToOpenProfile
         } else {
-            SubmissionNavigationEvents.NavigateToCreateProfile
+            SubmissionNavigationEvents.NavigateToCreateProfile(ratProfileSettings.onboarded.value)
         }
         routeToScreen.postValue(event)
     }

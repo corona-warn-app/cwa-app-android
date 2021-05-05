@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.contactdiary.util.ContactDiaryData
 import de.rki.coronawarnapp.contactdiary.util.mockStringsForContactDiaryExporterTests
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
@@ -81,16 +82,34 @@ open class ContactDiaryOverviewViewModelTest {
     private val personEncounter = DefaultContactDiaryPersonEncounter(125, date, person)
     private val locationVisit = DefaultContactDiaryLocationVisit(126, date, location)
 
+    private val checkInLow = mockk<CheckIn>().apply {
+        every { id } returns 147
+        every { traceLocationId } returns "12ab-34cd-56ef-78gh-456".decodeBase64()!!
+        every { description } returns "Jahrestreffen der deutschen SAP Anwendergruppe"
+        every { address } returns "Hauptstr 3, 69115 Heidelberg"
+        every { traceLocationStart } returns null
+        every { traceLocationEnd } returns null
+    }
+
+    private val checkInHigh = mockk<CheckIn>().apply {
+        every { id } returns 148
+        every { traceLocationId } returns "12ab-34cd-56ef-78gh-457".decodeBase64()!!
+        every { description } returns "Kiosk"
+        every { address } returns "Hauptstr 4, 69115 Heidelberg"
+        every { traceLocationStart } returns null
+        every { traceLocationEnd } returns null
+    }
+
     private val locationEventLowRisk = DefaultContactDiaryLocation(
         locationId = 456,
-        locationName = "Jahrestreffen der deutschen SAP Anwendergruppe",
-        traceLocationID = "12ab-34cd-56ef-78gh-456".decodeBase64()
+        locationName = checkInLow.locationName,
+        traceLocationID = checkInLow.traceLocationId
     )
 
     private val locationEventHighRisk = DefaultContactDiaryLocation(
         locationId = 457,
-        locationName = "Kiosk",
-        traceLocationID = "12ab-34cd-56ef-78gh-457".decodeBase64()
+        locationName = checkInHigh.locationName,
+        traceLocationID = checkInHigh.traceLocationId
     )
 
     private val locationEventLowRiskVisit = DefaultContactDiaryLocationVisit(
@@ -108,25 +127,15 @@ open class ContactDiaryOverviewViewModelTest {
     )
 
     private val traceLocationCheckInRiskLow = object : TraceLocationCheckInRisk {
-        override val checkInId: Long = 147
+        override val checkInId: Long = checkInLow.id
         override val localDateUtc: LocalDate = date
         override val riskState: RiskState = RiskState.LOW_RISK
     }
 
     private val traceLocationCheckInRiskHigh = object : TraceLocationCheckInRisk {
-        override val checkInId: Long = 148
+        override val checkInId: Long = checkInHigh.id
         override val localDateUtc: LocalDate = date
         override val riskState: RiskState = RiskState.INCREASED_RISK
-    }
-
-    private val checkInLow = mockk<CheckIn>().apply {
-        every { id } returns traceLocationCheckInRiskLow.checkInId
-        every { description } returns "I can make orange rhyme with banana... Bornana"
-    }
-
-    private val checkInHigh = mockk<CheckIn>().apply {
-        every { id } returns traceLocationCheckInRiskHigh.checkInId
-        every { description } returns "I'm the bad guy cause I caused the high risk"
     }
 
     private val aggregatedRiskPerDateResultLowRisk = ExposureWindowDayRisk(
