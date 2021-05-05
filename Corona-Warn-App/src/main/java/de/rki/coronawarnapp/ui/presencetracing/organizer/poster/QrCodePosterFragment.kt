@@ -28,7 +28,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.io.File
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInject {
@@ -100,7 +99,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         viewTreeObserver.addOnGlobalLayoutListener(
             object : OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    viewModel.createPDF(WeakReference(binding.qrCodePoster))
+                    viewModel.createPDF(binding.qrCodePoster)
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             }
