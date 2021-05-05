@@ -18,8 +18,8 @@ import org.joda.time.LocalDate
 data class ProofContainer(
     @SerializedName("proofCOSE") val proofCOSE: ByteString,
     @SerializedName("receivedAt") val receivedAt: Instant,
-    @Transient val preParsedData: ProofCertificateData? = null,
 ) {
+    @Transient internal var preParsedData: ProofCertificateData? = null
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
@@ -78,5 +78,7 @@ data class ProofContainer(
 
 fun ProofCertificateResponse.toProofContainer(receivedAt: Instant) = ProofContainer(
     proofCOSE = proofCertificateCOSE,
-    receivedAt = receivedAt
-)
+    receivedAt = receivedAt,
+).apply {
+    preParsedData = proofCertificateData
+}

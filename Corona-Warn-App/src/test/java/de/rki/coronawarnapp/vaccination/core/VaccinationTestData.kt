@@ -53,8 +53,9 @@ object VaccinationTestData {
     val PERSON_A_VAC_1_CONTAINER = VaccinationContainer(
         scannedAt = Instant.ofEpochMilli(1620062834471),
         vaccinationCertificateCOSE = "VGhlIGNha2UgaXMgYSBsaWUu".decodeBase64()!!,
+    ).apply {
         preParsedData = PERSON_A_VAC_1_DATA
-    )
+    }
 
     val PERSON_A_VAC_2_JSON = VaccinationCertificateV1(
         version = "1.0.0",
@@ -93,8 +94,9 @@ object VaccinationTestData {
     val PERSON_A_VAC_2_CONTAINER = VaccinationContainer(
         scannedAt = Instant.ofEpochMilli(1620149234473),
         vaccinationCertificateCOSE = "VGhlIENha2UgaXMgTm90IGEgTGll".decodeBase64()!!,
-        preParsedData = PERSON_A_VAC_2_DATA,
-    )
+    ).apply {
+        preParsedData = PERSON_A_VAC_2_DATA
+    }
 
     val PERSON_A_PROOF_JSON = ProofCertificateV1(
         version = "1.0.0",
@@ -131,8 +133,9 @@ object VaccinationTestData {
     val PERSON_A_PROOF_1_CONTAINER = ProofContainer(
         receivedAt = Instant.ofEpochMilli(1620062834474),
         proofCOSE = "VGhpc0lzQVByb29mQ09TRQ".decodeBase64()!!,
+    ).apply {
         preParsedData = PERSON_A_PROOF_DATA
-    )
+    }
 
     val PERSON_A_PROOF_1_RESPONSE = object : ProofCertificateResponse {
         override val proofCertificateData: ProofCertificateData
@@ -182,8 +185,9 @@ object VaccinationTestData {
     val PERSON_B_VAC_1_CONTAINER = VaccinationContainer(
         scannedAt = Instant.ofEpochMilli(1620062834471),
         vaccinationCertificateCOSE = "VGhpc0lzSmFrb2I".decodeBase64()!!,
+    ).apply {
         preParsedData = PERSON_B_VAC_1_DATA
-    )
+    }
 
     val PERSON_B_DATA_1VAC_NOPROOF = PersonData(
         vaccinations = setOf(PERSON_B_VAC_1_CONTAINER),
