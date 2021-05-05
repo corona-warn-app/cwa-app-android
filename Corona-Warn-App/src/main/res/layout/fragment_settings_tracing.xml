@@ -81,10 +81,10 @@
                     android:id="@+id/switch_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:checked="@{settingsTracingState.isTracingSwitchChecked()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/information_details_header_headline"
-                    app:checked="@{settingsTracingState.isTracingSwitchChecked()}"
                     app:subtitle="@{settingsTracingState.getTracingStatusText(context)}"
                     app:switchEnabled="@{settingsTracingState.isTracingSwitchEnabled()}"
                     app:title="@{@string/settings_tracing_title}" />
@@ -101,20 +101,20 @@
                     android:id="@+id/settingsInteroperabilityRow"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
                     android:paddingTop="@dimen/spacing_tiny"
                     android:paddingBottom="@dimen/spacing_tiny"
-                    android:background="?android:selectableItemBackground"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/switch_row">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/flag_eu"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
-                        app:srcCompat="@drawable/ic_country_eu"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_country_eu" />
 
                     <TextView
                         android:id="@+id/interoperability_title"
@@ -131,9 +131,9 @@
                         android:id="@+id/flag_ch"
                         android:layout_width="0dp"
                         android:layout_height="22dp"
-                        app:srcCompat="@drawable/ic_country_ch"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/interoperability_title" />
+                        app:layout_constraintTop_toBottomOf="@id/interoperability_title"
+                        app:srcCompat="@drawable/ic_country_ch" />
 
                     <TextView
                         android:id="@+id/interoperability_subtitle"
@@ -163,9 +163,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:orientation="horizontal"
+                    app:constraint_referenced_ids="settings_tracing_status_location,settings_tracing_status_bluetooth,risk_details_period_logged_headline,risk_details_period_logged_subtitle,risk_details_period_logged_body_notice,risk_details_period_logged_days"
                     app:flow_maxElementsWrap="1"
                     app:flow_verticalBias="0"
-                    app:constraint_referenced_ids="settings_tracing_status_location,settings_tracing_status_bluetooth,risk_details_period_logged_headline,risk_details_period_logged_subtitle,risk_details_period_logged_body_notice,risk_details_period_logged_days"
                     app:flow_verticalStyle="packed"
                     app:flow_wrapMode="chain"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -200,37 +200,40 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:paddingTop="@dimen/spacing_small"
-                    android:text="@string/risk_details_headline_period_logged" />
+                    android:text="@string/risk_details_headline_period_logged"
+                    tools:ignore="MissingConstraints" />
 
                 <TextView
                     android:id="@+id/risk_details_period_logged_subtitle"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/spacing_tiny"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:focusable="false"
+                    android:paddingTop="@dimen/spacing_tiny"
                     android:text="@string/risk_details_subtitle_period_logged"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"/>
+                    tools:ignore="MissingConstraints" />
 
                 <TextView
                     android:id="@id/risk_details_period_logged_body_notice"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/spacing_normal"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:focusable="true"
+                    android:paddingTop="@dimen/spacing_normal"
                     android:text="@string/risk_details_information_body_period_logged"
-                    android:layout_marginHorizontal="@dimen/spacing_normal" />
+                    tools:ignore="MissingConstraints" />
 
                 <TextView
                     android:id="@+id/risk_details_period_logged_days"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/spacing_normal"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:focusable="true"
-                    android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
-                    android:layout_marginHorizontal="@dimen/spacing_normal" />
+                    android:paddingTop="@dimen/spacing_normal"
+                    android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/risk_details_body"
