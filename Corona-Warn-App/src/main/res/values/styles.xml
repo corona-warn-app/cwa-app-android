@@ -223,7 +223,11 @@
     </style>
 
     <style name="Card.Vaccination" parent="Card.NoElevation">
-        <item name="android:backgroundTint">@color/colorSurface2</item>
+        <item name="android:backgroundTint">@color/colorVaccinationCardBackground</item>
+    </style>
+
+    <style name="Card.Vaccination.Ripple">
+        <item name="android:background">@drawable/grey_card_ripple</item>
     </style>
 
     <style name="Card.NoPadding">
@@ -286,6 +290,7 @@
     <style name="headline4" parent="@style/TextAppearance.MaterialComponents.Headline4">
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
+
     <style name="headline4Bold" parent="@style/headline4">
         <item name="android:textStyle">bold</item>
     </style>
