@@ -1,32 +1,45 @@
 package de.rki.coronawarnapp.vaccination.core
 
-import org.joda.time.Instant
+import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
+import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
 import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
-    val vaccinationCertificates: Set<VaccinationCertificate>,
-    val proofCertificates: Set<ProofCertificate>,
-    val isRefreshing: Boolean,
-    val lastUpdatedAt: Instant,
+    internal val data: PersonData,
+    private val valueSet: VaccinationValueSet?,
+    val isUpdatingData: Boolean = false,
+    val lastError: Throwable? = null,
 ) {
-    val identifier: VaccinatedPersonIdentifier = ""
-
-    val firstName: String
-        get() = ""
-
-    val lastName: String
-        get() = ""
-
-    val dateOfBirth: LocalDate
-        get() = LocalDate.now()
+    val identifier: VaccinatedPersonIdentifier
+        get() = data.identifier
 
     val vaccinationStatus: Status
         get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
+
+    val vaccinationCertificates: Set<VaccinationCertificate>
+        get() = data.vaccinations.map {
+            it.toVaccinationCertificate(valueSet)
+        }.toSet()
+
+    val proofCertificates: Set<ProofCertificate>
+        get() = data.proofs.map {
+            it.toProofCertificate(valueSet)
+        }.toSet()
+
+    val firstName: String?
+        get() = vaccinationCertificates.first().firstName
+
+    val lastName: String
+        get() = vaccinationCertificates.first().lastName
+
+    val dateOfBirth: LocalDate
+        get() = vaccinationCertificates.first().dateOfBirth
+
+    val isEligbleForProofCertificate: Boolean
+        get() = data.isEligbleForProofCertificate
 
     enum class Status {
         INCOMPLETE,
         COMPLETE
     }
 }
-
-typealias VaccinatedPersonIdentifier = String

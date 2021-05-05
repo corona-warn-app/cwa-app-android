@@ -1,9 +1,10 @@
-package de.rki.coronawarnapp.vaccination.core.qrcode
+package de.rki.coronawarnapp.vaccination.core.server
 
 import com.google.gson.annotations.SerializedName
 import org.joda.time.LocalDate
 
-data class VaccinationCertificateV1(
+// TODO check correctness, copy paste from vaccination cert
+data class ProofCertificateV1(
     @SerializedName("ver") val version: String,
     @SerializedName("nam") val nameData: NameData,
     @SerializedName("dob") val dateOfBirth: LocalDate,
