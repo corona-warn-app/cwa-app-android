@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import javax.inject.Inject
 
 class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), AutoInject {
@@ -43,15 +44,23 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                 popBackStack()
             }
 
-            viewModel.vaccinationListItems.observe(viewLifecycleOwner) { list ->
-                val adapter = VaccinationListAdapter(list) { vaccinationItem ->
+            viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+                val adapter = VaccinationListAdapter(uiState.listItems) { vaccinationItem ->
                     doNavigate(
                         VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragment(
                             vaccinationItem.vaccinationCertificateId
                         )
                     )
                 }
-                binding.recyclerViewVaccinationList.adapter = adapter
+                recyclerViewVaccinationList.adapter = adapter
+
+                val background = if (uiState.vaccinationStatus == VaccinatedPerson.Status.COMPLETE) {
+                    R.drawable.vaccination_compelete_gradient
+                } else {
+                    R.drawable.vaccination_incomplete
+                }
+
+                expandedImage.setImageResource(background)
 
                 appBarLayout.onOffsetChange { titleAlpha, _ ->
                     title.alpha = titleAlpha
