@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVac
 
 class VaccinationListAdapter(
     vaccinationListItems: List<VaccinationListItem>,
-    private val itemClickListener: () -> Unit
+    private val onVaccinationClickListener: (vaccinationItem: VaccinationListVaccinationCardItem) -> Unit
 ) : ModularAdapter<VaccinationListAdapter.ItemVH<VaccinationListItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<VaccinationListItem> {
 
@@ -39,7 +39,7 @@ class VaccinationListAdapter(
                     VaccinationListNameCardItemVH(it)
                 },
                 TypedVHCreatorMod({ data[it] is VaccinationListVaccinationCardItem }) {
-                    VaccinationListVaccinationCardItemVH(it)
+                    VaccinationListVaccinationCardItemVH(it, onVaccinationClickListener)
                 }
             )
         )

@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentVaccinationListBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -43,7 +44,13 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             }
 
             viewModel.vaccinationListItems.observe(viewLifecycleOwner) { list ->
-                val adapter = VaccinationListAdapter(list) { }
+                val adapter = VaccinationListAdapter(list) { vaccinationItem ->
+                    doNavigate(
+                        VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragmentTest(
+                            vaccinationItem.vaccinationCertificateId
+                        )
+                    )
+                }
                 binding.recyclerViewVaccinationList.adapter = adapter
 
                 appBarLayout.onOffsetChange { titleAlpha, _ ->

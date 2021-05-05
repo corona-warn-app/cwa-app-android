@@ -40,6 +40,7 @@ class VaccinationListViewModel @AssistedInject constructor(
                     person.vaccinationCertificates.forEach { vaccinationCertificate ->
                         add(
                             VaccinationListVaccinationCardItem(
+                                vaccinationCertificateId = vaccinationCertificate.certificateId,
                                 // Todo: use values from repository
                                 doseNumber = "1",
                                 totalSeriesOfDoses = "2",

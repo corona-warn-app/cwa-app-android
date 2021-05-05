@@ -13,6 +13,9 @@
         <argument
             android:name="vaccinatedPersonId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_vaccinationListFragment_to_vaccinationDetailsFragment"
+            app:destination="@id/vaccinationDetailsFragment" />
     </fragment>
 
     <fragment
