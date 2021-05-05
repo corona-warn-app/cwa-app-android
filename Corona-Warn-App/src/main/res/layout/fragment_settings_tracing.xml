@@ -233,7 +233,8 @@
                     android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:focusable="true"
                     android:paddingTop="@dimen/spacing_normal"
-                    android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}" />
+                    android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
+                    tools:ignore="MissingConstraints" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/risk_details_body"
