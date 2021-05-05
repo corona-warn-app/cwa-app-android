@@ -16,32 +16,24 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Rejestracja szybkich testów antygenowych"</item>
-        <item>"Przedstawienie dowodu"</item>
-        <item>"Infolinia techniczna już dostępna poza granicami Niemiec"</item>
-        <item>"Infolinia TAN już dostępna poza granicami Niemiec"</item>
+        <item>"Rejestruj dzienniki rozwiązywania problemów"</item>
+        <item>"Utwórz profile szybkich testów"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Oprócz wyników testów PCR, w aplikacji można teraz wyświetlać również wyniki szybkich testów antygenowych i wykorzystywać je do ostrzegania innych."</item>
-        <item>"Jeśli chcesz, możesz użyć aplikacji, aby udowodnić swój osobisty status dotyczący zakażenia (na przykład negatywny wynik szybkiego testu). Pamiętaj jednak, że nie masz obowiązku korzystania z aplikacji w celu potwierdzenia swojego statusu dotyczącego zakażenia. Możesz również udowodnić swój status dotyczący zakażenia w inny sposób, zgodny z przepisami prawnymi obowiązującymi w Twoim miejscu zamieszkania."</item>
-        <item>"Z infolinią techniczną można się teraz połączyć również poza terytorium Niemiec, pod numerem +49 30 498 75401. W takim przypadku obowiązują opłaty pobierane przez operatora telefonicznego."</item>
-        <item>"Jeśli zdiagnozowano u Ciebie koronawirusa, możesz teraz poprosić o numer TAN poza terytorium Niemiec, dzwoniąc na numer +49 30 498 75402. W takim przypadku obowiązują opłaty pobierane przez operatora telefonicznego."</item>
+        <item>"Możesz teraz wygenerować dziennik błędów w funkcji pomocy technicznej dla aplikacji. Rejestruje on kroki, które wykonujesz w aplikacji, aby uprościć analizę potencjalnych błędów i pomóc nam szybciej je poprawić."</item>
+        <item>"Możesz teraz utworzyć profil szybkiego testu w swoich danych osobowych. Twój profil będzie można później w szybki i łatwy sposób zeskanować w punktach testowania za pomocą kodu QR."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
         <item/>
         <item/>
     </string-array>

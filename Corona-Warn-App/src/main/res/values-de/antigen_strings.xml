@@ -121,13 +121,13 @@
     <!-- XHED: submission result antigen fragment negative result proof title -->
     <string name="submission_test_result_antigen_negative_proof_title">"Nachweis-Funktion"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
-    <string name="submission_test_result_antigen_negative_proof_body">"Sie können den hier angezeigten Befund auch als Nachweis für das Vorliegen eines negativen Schnelltest-Ergebnisses verwenden. Informieren Sie sich hierzu bitte auch über die Kriterien für die Anerkennung von Test-Nachweisen in Ihrem Bundesland. Bitte beachten Sie, dass Sie grundsätzlich nicht zum Nachweis per App verpflichtet sind. Sie können Ihr Schnelltest-Ergebnis im Rahmen der rechtlichen Bestimmungen auf andere Weise nachweisen."</string>
+    <string name="submission_test_result_antigen_negative_proof_body">"Sie können den hier angezeigten Befund auch als Nachweis für das Vorliegen eines negativen Schnelltest-Ergebnisses verwenden.\n\nBitte beachten Sie, dass Sie nur dann einen Nachweis über Ihr Schnelltest-Ergebnis erbringen müssen, wenn dies gesetzlich festgelegt ist. Sie können den Nachweis über die App oder auch auf andere Weise erbringen. Informieren Sie sich hierzu bitte auch über die Kriterien für die Anerkennung von Test-Nachweisen in Ihrem Bundesland."</string>
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Ergebnis liegt vor seit"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
     <string name="coronatest_negative_antigen_result_first_info_title">"Ihr Schnelltest wurde hinzugefügt."</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
-    <string name="coronatest_negative_antigen_result_first_info_body">"Das Test-Ergebnis wird 48 Stunden hier angezeigt. Zusätzlich legt die App einen Eintrag in Ihrem Kontakt-Tagebuch an."</string>
+    <string name="coronatest_negative_antigen_result_first_info_body">"Das Test-Ergebnis wird 48 Stunden hier angezeigt."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
     <string name="coronatest_negative_antigen_result_second_info_title">"Befund negativ"</string>
     <!-- XTXT: coronatest negative antigen result second info body -->
@@ -170,4 +170,31 @@
     <string name="rat_profile_create_phone_hint">Telefonnummer</string>
     <!-- XTXT: Create RAT profile email hint -->
     <string name="rat_profile_create_email_hint">E-Mail-Adresse</string>
+
+    <!--RAT profile onboarding-->
+    <string name="rat_profile_onboarding_image_content_description">Eine Frau mit einem Smartphone in der Hand steht vor einem Gebäude. Ein QR-Code symbolisiert das zu scannende Schnelltest-Profil.</string>
+    <!-- XTXT: Create RAT profile onboarding title -->
+    <string name="rat_profile_onboarding_title">Legen Sie Ihre persönlichen Daten als QR-Code ab, um die Registrierung an der Teststelle zu beschleunigen.</string>
+    <!-- XTXT: Create RAT profile onboarding subtitle -->
+    <string name="rat_profile_onboarding_subtitle">Mit Ihrem eigenen Schnelltest-Profil müssen Sie Ihre persönlichen Daten nicht bei jedem neuen Schnelltest erneut ausfüllen.</string>
+    <!-- XTXT: Create RAT profile onboarding next button -->
+    <string name="rat_profile_onboarding_next">Weiter</string>
+    <!-- XTXT: Create RAT profile onboarding privacy -->
+    <string name="rat_profile_onboarding_privacy">Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis.</string>
+    <!-- XTXT: Create RAT Qr code profile description-->
+    <string name="rat_qr_code_profile_description">Bitte zeigen Sie diesen QR-Code an der Teststelle vor, um Ihre persönlichen Daten schnell erfassen zu lassen. Bitte halten zusätzlich Sie Ihren Personalausweis bereit.</string>
+    <!-- XTXT: Create RAT Qr code profile birth date-->
+    <string name="rat_qr_code_profile_birth_date">geboren %1$s</string>
+    <!-- XBUT: Create RAT Qr code profile next button-->
+    <string name="rat_qr_code_profile_next_button">Weiter</string>
+    <!-- XTXT: Create RAT Qr code profile delete item-->
+    <string name="rat_qr_code_profile_delete_item">Entfernen</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog title-->
+    <string name="rat_qr_code_profile_dialog_title">Wollen Sie das Schnelltest-Profil wirklich entfernen?</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog message-->
+    <string name="rat_qr_code_profile_dialog_message">Bitte denken Sie daran, dass der QR-Code danach nicht mehr zum Registrieren verwendet werden kann.</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->
+    <string name="rat_qr_code_profile_dialog_positive_button">Löschen</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog negative button-->
+    <string name="rat_qr_code_profile_dialog_negative_button">Abbrechen</string>
 </resources>

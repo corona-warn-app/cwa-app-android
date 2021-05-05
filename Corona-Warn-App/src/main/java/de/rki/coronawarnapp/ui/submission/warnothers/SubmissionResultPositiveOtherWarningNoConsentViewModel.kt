@@ -114,15 +114,13 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     fun onConsentButtonClicked() = launch {
         showKeysRetrievalProgress.postValue(true)
         submissionRepository.giveConsentToSubmission(type = testType)
-        launch {
-            if (enfClient.isTracingEnabled.first()) {
-                Timber.tag(TAG).d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission()")
-                tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
-            } else {
-                Timber.tag(TAG).d("showEnableTracingEvent:Unit")
-                showKeysRetrievalProgress.postValue(false)
-                showEnableTracingEvent.postValue(Unit)
-            }
+        if (enfClient.isTracingEnabled.first()) {
+            Timber.tag(TAG).d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission()")
+            tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
+        } else {
+            Timber.tag(TAG).d("showEnableTracingEvent:Unit")
+            showKeysRetrievalProgress.postValue(false)
+            showEnableTracingEvent.postValue(Unit)
         }
     }
 

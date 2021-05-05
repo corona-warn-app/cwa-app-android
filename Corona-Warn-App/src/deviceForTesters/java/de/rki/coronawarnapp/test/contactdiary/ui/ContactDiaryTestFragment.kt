@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.contactdiary.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestContactDiaryBinding
@@ -84,10 +85,10 @@ class ContactDiaryTestFragment :
             text = duration.toContactDiaryFormat()
             if (duration.millis == 0L) {
                 setBackgroundResource(R.drawable.contact_diary_duration_background_default)
-                setTextAppearance(R.style.bodyNeutral)
+                TextViewCompat.setTextAppearance(this, R.style.bodyNeutral)
             } else {
                 setBackgroundResource(R.drawable.contact_diary_duration_background_selected)
-                setTextAppearance(R.style.body1)
+                TextViewCompat.setTextAppearance(this, R.style.body1)
             }
         }
     }

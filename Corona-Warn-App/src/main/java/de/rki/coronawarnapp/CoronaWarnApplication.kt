@@ -33,11 +33,13 @@ import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
+import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -85,8 +87,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         CWADebug.init(this)
 
         AppInjector.init(this).let { compPreview ->
-            Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
-            compPreview.encryptedMigration.doMigration()
+            if (BuildVersionWrap.hasAPILevel(23)) {
+                Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
+                compPreview.encryptedMigration.get().doMigration()
+            }
 
             CWADebug.initAfterInjection(compPreview)
 
