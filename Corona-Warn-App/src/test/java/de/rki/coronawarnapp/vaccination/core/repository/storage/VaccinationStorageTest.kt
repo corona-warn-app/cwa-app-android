@@ -82,7 +82,7 @@ class VaccinationStorageTest : BaseTest() {
                             "certificateId": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
                         },
                         "certificateBase45": "BASE45",
-                        "certificateCBORBase64": "BASE64",
+                        "certificateCBOR": "VGhlIGNha2UgaXMgYSBsaWUu",
                         "scannedAt": 1620062834471
                     },
                     {
@@ -102,10 +102,10 @@ class VaccinationStorageTest : BaseTest() {
                             "lotNumber": "0020617",
                             "certificateIssuer": "Ministry of Public Health, Welfare and Sport",
                             "certificateCountryCode": "NL",
-                            "certificateId": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
+                            "certificateId": "urn:uvci:01:NL:THECAKEISALIE"
                         },
                         "certificateBase45": "BASE45",
-                        "certificateCBORBase64": "BASE64",
+                        "certificateCBOR": "VGhlIENha2UgaXMgTm90IGEgTGll",
                         "scannedAt": 1620149234473
                     }
                 ],
@@ -123,18 +123,18 @@ class VaccinationStorageTest : BaseTest() {
                             "marketAuthorizationHolderId": "ORG-100030215",
                             "doseNumber": 2,
                             "totalSeriesOfDoses": 2,
-                            "vaccinatedAt": "2021-04-21",
+                            "vaccinatedAt": "2021-04-22",
                             "certificateIssuer": "Ministry of Public Health, Welfare and Sport",
-                            "certificateId": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
+                            "certificateId": "urn:uvci:01:NL:THECAKEISALIE"
                         },
                         "expiresAt": 1620322034474,
                         "issuedAt": 1620062834474,
                         "issuedBy": "DE",
-                        "proofCOSEBase64": "BASE64"
+                        "proofCOSE": "VGhpc0lzQVByb29mQ09TRQ=="
                     }
                 ],
                 "lastSuccessfulProofCertificateRun": 0,
-                "proofCertificateRunPending": true
+                "proofCertificateRunPending": false
             }
         """.toComparableJsonPretty()
 
@@ -173,13 +173,13 @@ class VaccinationStorageTest : BaseTest() {
                             "certificateId": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
                         },
                         "certificateBase45": "BASE45",
-                        "certificateCBORBase64": "BASE64",
+                        "certificateCBOR": "VGhpc0lzSmFrb2I=",
                         "scannedAt": 1620062834471
                     }
                 ],
                 "proofData": [],
                 "lastSuccessfulProofCertificateRun": 0,
-                "proofCertificateRunPending": true
+                "proofCertificateRunPending": false
             }
         """.toComparableJsonPretty()
 

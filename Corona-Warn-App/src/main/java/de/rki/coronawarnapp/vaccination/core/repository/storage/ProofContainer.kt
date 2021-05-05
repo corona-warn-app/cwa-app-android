@@ -4,7 +4,9 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.vaccination.core.ProofCertificate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
+import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateServerData
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
+import okio.ByteString
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -14,7 +16,7 @@ data class ProofContainer(
     @SerializedName("expiresAt") val expiresAt: Instant,
     @SerializedName("issuedAt") val issuedAt: Instant,
     @SerializedName("issuedBy") val issuedBy: String,
-    @SerializedName("proofCOSEBase64") val proofCOSEBase64: String,
+    @SerializedName("proofCOSE") val proofCOSE: ByteString,
 ) {
 
     val personIdentifier: VaccinatedPersonIdentifier
@@ -86,3 +88,26 @@ data class ProofContainer(
             )
     }
 }
+
+fun ProofCertificateServerData.toProofContainer() = ProofContainer(
+    proof = ProofContainer.StoredProof(
+        firstName = firstName,
+        firstNameStandardized = firstNameStandardized,
+        lastName = lastName,
+        lastNameStandardized = lastNameStandardized,
+        dateOfBirth = dateOfBirth,
+        targetId = targetId,
+        vaccineId = vaccineId,
+        medicalProductId = medicalProductId,
+        marketAuthorizationHolderId = marketAuthorizationHolderId,
+        doseNumber = doseNumber,
+        totalSeriesOfDoses = totalSeriesOfDoses,
+        vaccinatedAt = vaccinatedAt,
+        certificateIssuer = certificateIssuer,
+        certificateId = certificateId,
+    ),
+    expiresAt = expiresAt,
+    issuedAt = issuedAt,
+    issuedBy = issuerCountryCode,
+    proofCOSE = proofCertificateCBOR,
+)

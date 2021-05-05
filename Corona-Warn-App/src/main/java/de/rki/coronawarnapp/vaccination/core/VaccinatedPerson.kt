@@ -35,6 +35,9 @@ data class VaccinatedPerson(
     val dateOfBirth: LocalDate
         get() = vaccinationCertificates.first().dateOfBirth
 
+    val isEligbleForProofCertificate: Boolean
+        get() = data.isEligbleForProofCertificate
+
     enum class Status {
         INCOMPLETE,
         COMPLETE

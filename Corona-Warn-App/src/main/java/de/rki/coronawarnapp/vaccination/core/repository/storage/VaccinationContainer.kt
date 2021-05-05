@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
+import okio.ByteString
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -14,7 +15,7 @@ import org.joda.time.LocalDate
 data class VaccinationContainer(
     @SerializedName("certificate") val certificate: StoredCertificate,
     @SerializedName("certificateBase45") val certificateBase45: String,
-    @SerializedName("certificateCBORBase64") val certificateCBORBase64: String,
+    @SerializedName("certificateCBOR") val certificateCBOR: ByteString,
     @SerializedName("scannedAt") val scannedAt: Instant,
 ) {
 
@@ -23,6 +24,9 @@ data class VaccinationContainer(
 
     val certificateId: String
         get() = certificate.certificateId
+
+    val isEligbleForProofCertificate: Boolean
+        get() = certificate.doseNumber == certificate.totalSeriesOfDoses
 
     fun toVaccinationCertificate(valueSet: VaccinationValueSet?) = object : VaccinationCertificate {
         override val personIdentifier: VaccinatedPersonIdentifier
@@ -115,7 +119,7 @@ fun VaccinationCertificateQRCode.toVaccinationContainer(scannedAt: Instant) = Va
         certificateCountryCode = certificate.certificateCountryCode,
         certificateId = certificate.certificateId
     ),
-    certificateCBORBase64 = qrCodeOriginalCBOR.base64(),
+    certificateCBOR = qrCodeOriginalCBOR,
     certificateBase45 = qrCodeOriginalBase45,
     scannedAt = scannedAt
 )

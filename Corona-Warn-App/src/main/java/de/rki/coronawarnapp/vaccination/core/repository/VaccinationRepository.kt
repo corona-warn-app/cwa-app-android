@@ -11,8 +11,11 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinatedPersonNotFoundException
+import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
+import de.rki.coronawarnapp.vaccination.core.repository.storage.toProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toVaccinationContainer
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationProofServer
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +25,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -81,11 +86,8 @@ class VaccinationRepository @Inject constructor(
     ): VaccinationCertificate {
         Timber.tag(TAG).v("registerVaccination(qrCode=%s)", qrCode)
 
-        val newCertificate: VaccinationCertificate? = null
-
-        internalData.updateBlocking {
-
-            val existingPerson = if (this.isNotEmpty()) {
+        val updatedData = internalData.updateBlocking {
+            val originalPerson = if (this.isNotEmpty()) {
                 Timber.tag(TAG).d("There is an existing person we must match.")
                 this.single().also {
                     it.identifier.requireMatch(qrCode.certificate.personIdentifier)
@@ -101,33 +103,72 @@ class VaccinationRepository @Inject constructor(
                 )
             }
 
-            val modifiedPerson = existingPerson.copy(
-                data = existingPerson.data.copy(
-                    vaccinations = existingPerson.data.vaccinations.plus(
-                        qrCode.toVaccinationContainer(scannedAt = timeStamper.nowUTC)
-                    )
+            val newCertificate = qrCode.toVaccinationContainer(scannedAt = timeStamper.nowUTC)
+
+            val modifiedPerson = originalPerson.copy(
+                data = originalPerson.data.copy(
+                    vaccinations = originalPerson.data.vaccinations.plus(newCertificate)
                 )
             )
 
             this.toMutableSet().apply {
-                remove(existingPerson)
+                remove(originalPerson)
                 add(modifiedPerson)
             }
-
-            throw NotImplementedError()
         }
 
-        return newCertificate!!
+        val updatedPerson = updatedData.single { it.identifier == qrCode.certificate.personIdentifier }
+
+        if (updatedPerson.isEligbleForProofCertificate) {
+            Timber.tag(TAG).i("%s is eligble for proof certificate, launching async check.", updatedPerson.identifier)
+            appScope.launch {
+                refresh(updatedPerson.identifier)
+            }
+        }
+
+        return updatedPerson.vaccinationCertificates.single {
+            it.certificateId == qrCode.certificate.certificateId
+        }
     }
 
     suspend fun checkForProof(personIdentifier: VaccinatedPersonIdentifier?) {
         Timber.tag(TAG).i("checkForProof(personIdentifier=%s)", personIdentifier)
+        withContext(appScope.coroutineContext) {
+            internalData.updateBlocking {
+                val originalPerson = this.singleOrNull {
+                    it.identifier == personIdentifier
+                } ?: throw VaccinatedPersonNotFoundException("Identifier=$personIdentifier")
+
+                val eligbleCert = originalPerson.data.vaccinations.first { it.isEligbleForProofCertificate }
+
+                val proof = try {
+                    vaccinationProofServer.getProofCertificate(eligbleCert.certificateCBOR)
+                } catch (e: Exception) {
+                    Timber.tag(TAG).e(e, "Failed to check for proof.")
+                    null
+                }
+
+                val modifiedPerson = proof?.let {
+                    originalPerson.copy(
+                        data = originalPerson.data.copy(
+                            proofs = setOf(it.toProofContainer())
+                        )
+                    )
+                } ?: originalPerson
+
+
+                this.toMutableSet().apply {
+                    remove(originalPerson)
+                    add(modifiedPerson)
+                }
+            }
+        }
         throw NotImplementedError()
     }
 
     suspend fun refresh(personIdentifier: VaccinatedPersonIdentifier?) {
         Timber.tag(TAG).d("refresh(personIdentifier=%s)", personIdentifier)
-        throw NotImplementedError()
+        // TODO
     }
 
     suspend fun clear() {

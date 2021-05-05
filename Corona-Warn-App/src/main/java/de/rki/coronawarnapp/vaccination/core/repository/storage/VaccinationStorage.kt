@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import timber.log.Timber
@@ -93,13 +94,13 @@ class VaccinationStorage @Inject constructor(
                         certificate = completePersonCert1,
                         scannedAt = Instant.ofEpochMilli(1620062834471),
                         certificateBase45 = "BASE45",
-                        certificateCBORBase64 = "BASE64"
+                        certificateCBOR = "VGhlIGNha2UgaXMgYSBsaWUu".decodeBase64()!!
                     ),
                     VaccinationContainer(
                         certificate = completePersonCert2,
                         scannedAt = Instant.ofEpochMilli(1620149234473),
                         certificateBase45 = "BASE45",
-                        certificateCBORBase64 = "BASE64"
+                        certificateCBOR = "VGhlIENha2UgaXMgTm90IGEgTGll".decodeBase64()!!
                     )
                 ),
                 proofs = setOf(
@@ -123,7 +124,7 @@ class VaccinationStorage @Inject constructor(
                         expiresAt = Instant.ofEpochMilli(1620322034474),
                         issuedAt = Instant.ofEpochMilli(1620062834474),
                         issuedBy = "DE",
-                        proofCOSEBase64 = "BASE64",
+                        proofCOSE = "VGhpc0lzQVByb29mQ09TRQ".decodeBase64()!!,
                     )
                 ),
             )

@@ -8,8 +8,11 @@ data class PersonData(
     @SerializedName("vaccinationData") val vaccinations: Set<VaccinationContainer>,
     @SerializedName("proofData") val proofs: Set<ProofContainer>,
     @SerializedName("lastSuccessfulProofCertificateRun") val lastSuccessfulPCRunAt: Instant = Instant.EPOCH,
-    @SerializedName("proofCertificateRunPending") val isPCRunPending: Boolean = true,
+    @SerializedName("proofCertificateRunPending") val isPCRunPending: Boolean = false,
 ) {
     val identifier: VaccinatedPersonIdentifier
         get() = vaccinations.first().personIdentifier
+
+    val isEligbleForProofCertificate: Boolean
+        get() = vaccinations.any { it.isEligbleForProofCertificate }
 }

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core.server
 
 import dagger.Reusable
-import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
+import okio.ByteString
 import javax.inject.Inject
 
 /**
@@ -11,7 +11,7 @@ import javax.inject.Inject
 class VaccinationProofServer @Inject constructor() {
 
     suspend fun getProofCertificate(
-        vaccinationCertificate: Set<VaccinationCertificate>
+        vaccinationCertificate: ByteString
     ): ProofCertificateServerData {
         throw NotImplementedError()
     }

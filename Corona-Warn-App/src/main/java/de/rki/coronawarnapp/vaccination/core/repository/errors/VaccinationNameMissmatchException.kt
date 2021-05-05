@@ -1,8 +1,8 @@
-package de.rki.coronawarnapp.vaccination.core.repository
+package de.rki.coronawarnapp.vaccination.core.repository.errors
 
 import de.rki.coronawarnapp.vaccination.core.VaccinationException
 
-class VaccinationCertificateNotFoundException(
+class VaccinationNameMissmatchException(
     message: String
 ) : VaccinationException(
     message = message,
