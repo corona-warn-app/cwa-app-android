@@ -11,9 +11,13 @@
         <item name="materialTimePickerTheme">@style/ThemeOverlay.App.TimePicker</item>
 
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">
-            @bool/light_navigation_bar
+
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">@bool/lightSystemUI
         </item>
+        <item name="android:windowLightStatusBar">@bool/lightSystemUI</item>
+
+        <item name="android:navigationBarColor">@color/colorSystemUI</item>
+        <item name="android:statusBarColor">@color/colorSystemUI</item>
     </style>
 
     <style name="ThemeOverlay.App.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
@@ -286,6 +290,7 @@
     <style name="headline4" parent="@style/TextAppearance.MaterialComponents.Headline4">
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
+
     <style name="headline4Bold" parent="@style/headline4">
         <item name="android:textStyle">bold</item>
     </style>
