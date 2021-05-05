@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.poster
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.pdf.PdfDocument
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -8,12 +11,12 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -44,20 +47,19 @@ class QrCodePosterViewModel @AssistedInject constructor(
     /**
      * Create a new PDF file and result is delivered by [sharingIntent]
      * as a sharing [FileSharing.ShareIntentProvider]
+     * @param weakViewRef [WeakReference] of the [View]
      */
     @Suppress("BlockingMethodInNonBlockingContext")
-    fun createPDF(view: View) = launch(context = dispatcher.IO) {
+    fun createPDF(weakViewRef: WeakReference<View>) = launch(context = dispatcher.IO) {
         try {
-            val weakViewRef = WeakReference(view) // Accessing view in background thread
+            val view = weakViewRef.get() ?: return@launch // View is not existing anymore
             val directory = File(view.context.cacheDir, "poster").apply { if (!exists()) mkdirs() }
             val file = File(directory, "cwa-qr-code.pdf")
-
-            val weakView = weakViewRef.get() ?: return@launch // View is not existing anymore
-            val pageInfo = PdfDocument.PageInfo.Builder(weakView.width, weakView.height, 1).create()
-
+            val pageInfo = PdfDocument.PageInfo.Builder(WIDTH, HEIGHT, 1).create()
+            val scaledBitmap = view.toBitmap().resize(WIDTH, HEIGHT)
             PdfDocument().apply {
                 startPage(pageInfo).apply {
-                    weakView.draw(canvas)
+                    canvas.drawBitmap(scaledBitmap, 0.0f, 0.0f, null)
                     finishPage(this)
                 }
 
@@ -70,8 +72,26 @@ class QrCodePosterViewModel @AssistedInject constructor(
             sharingIntent.postValue(fileSharing.getFileIntentProvider(file, traceLocation().description))
         } catch (e: Exception) {
             Timber.d(e, "Creating pdf failed")
-            e.report(ExceptionCategory.INTERNAL)
+            e.report(ExceptionCategory.UI)
         }
+    }
+
+    private fun View.toBitmap(): Bitmap {
+        val bitmap = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(Color.WHITE)
+        draw(canvas)
+        return bitmap
+    }
+
+    private fun Bitmap.resize(newWidth: Int, newHeight: Int): Bitmap {
+        val scaleWidth = newWidth.toFloat() / width
+        val scaleHeight = newHeight.toFloat() / height
+        val matrix = Matrix()
+        matrix.postScale(scaleWidth, scaleHeight)
+        val resizedBitmap = Bitmap.createBitmap(this, 0, 0, width, height, matrix, false)
+        recycle()
+        return resizedBitmap
     }
 
     private fun generatePoster() = launch(context = dispatcher.IO) {
@@ -96,7 +116,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
         } catch (e: Exception) {
             Timber.d(e, "Generating poster failed")
             posterLiveData.postValue(Poster())
-            e.report(ExceptionCategory.INTERNAL)
+            e.report(ExceptionCategory.UI)
         }
     }
 
@@ -107,6 +127,15 @@ class QrCodePosterViewModel @AssistedInject constructor(
         fun create(
             traceLocationId: Long
         ): QrCodePosterViewModel
+    }
+
+    companion object {
+        /**
+         * A4 size in PostScript
+         * https://www.cl.cam.ac.uk/~mgk25/iso-paper-ps.txt
+         */
+        private const val WIDTH = 595 // PostScript
+        private const val HEIGHT = 842 // PostScript
     }
 }
 
