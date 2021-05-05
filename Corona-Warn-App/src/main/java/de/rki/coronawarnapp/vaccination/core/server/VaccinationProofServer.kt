@@ -1,15 +1,18 @@
 package de.rki.coronawarnapp.vaccination.core.server
 
-import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
+import dagger.Reusable
+import okio.ByteString
+import javax.inject.Inject
 
 /**
  * Talks with IBM servers?
  */
-class VaccinationProofServer {
+@Reusable
+class VaccinationProofServer @Inject constructor() {
 
     suspend fun getProofCertificate(
-        vaccinationCertificate: Set<VaccinationCertificate>
-    ): ProofCertificateServerData {
+        vaccinationCertificate: ByteString
+    ): ProofCertificateResponse {
         throw NotImplementedError()
     }
 }

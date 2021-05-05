@@ -5,12 +5,17 @@ import dagger.Provides
 import dagger.Reusable
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.DiaryEncounterCensor
-import de.rki.coronawarnapp.bugreporting.censors.DiaryLocationCensor
-import de.rki.coronawarnapp.bugreporting.censors.DiaryPersonCensor
-import de.rki.coronawarnapp.bugreporting.censors.DiaryVisitCensor
-import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
-import de.rki.coronawarnapp.bugreporting.censors.RegistrationTokenCensor
+import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryEncounterCensor
+import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryLocationCensor
+import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryPersonCensor
+import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryVisitCensor
+import de.rki.coronawarnapp.bugreporting.censors.presencetracing.CheckInsCensor
+import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.RACoronaTestCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.RatProfileCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadApiV1
@@ -71,11 +76,19 @@ class BugReportingSharedModule {
 
     @Provides
     @IntoSet
-    fun registrationTokenCensor(censor: RegistrationTokenCensor): BugCensor = censor
+    fun registrationTokenCensor(censor: CoronaTestCensor): BugCensor = censor
 
     @Provides
     @IntoSet
-    fun qrCodeCensor(censor: QRCodeCensor): BugCensor = censor
+    fun pcrQrCodeCensor(censor: PcrQrCodeCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun ratQrCodeCensor(censor: RatQrCodeCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun raCoronaTestCensor(censor: RACoronaTestCensor): BugCensor = censor
 
     @Provides
     @IntoSet
@@ -92,4 +105,16 @@ class BugReportingSharedModule {
     @Provides
     @IntoSet
     fun diaryVisitCensor(censor: DiaryVisitCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun checkInsCensor(censor: CheckInsCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun traceLocationsCensor(censor: TraceLocationCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun ratProfileCensor(censor: RatProfileCensor): BugCensor = censor
 }

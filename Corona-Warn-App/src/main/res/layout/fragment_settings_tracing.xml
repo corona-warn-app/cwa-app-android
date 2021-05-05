@@ -77,39 +77,44 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/illustration" />
 
-                <include
-                    android:id="@+id/settings_tracing_switch_row"
-                    layout="@layout/include_settings_switch_row"
+                <de.rki.coronawarnapp.ui.view.SwitchRowView
+                    android:id="@+id/switch_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    app:enabled="@{settingsTracingState.isTracingSwitchEnabled()}"
+                    app:checked="@{settingsTracingState.isTracingSwitchChecked()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/information_details_header_headline"
-                    app:showDivider="@{true}"
-                    app:status="@{settingsTracingState.isTracingSwitchChecked()}"
-                    app:statusText="@{settingsTracingState.getTracingStatusText(context)}"
-                    app:subtitle="@{@string/settings_tracing_title}" />
+                    app:subtitle="@{settingsTracingState.getTracingStatusText(context)}"
+                    app:switchEnabled="@{settingsTracingState.isTracingSwitchEnabled()}"
+                    app:title="@{@string/settings_tracing_title}" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@+id/switch_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settingsInteroperabilityRow"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
                     android:paddingTop="@dimen/spacing_tiny"
                     android:paddingBottom="@dimen/spacing_tiny"
-                    android:background="?android:selectableItemBackground"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row">
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/switch_row">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/flag_eu"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
-                        app:srcCompat="@drawable/ic_country_eu"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_country_eu" />
 
                     <TextView
                         android:id="@+id/interoperability_title"
@@ -126,9 +131,9 @@
                         android:id="@+id/flag_ch"
                         android:layout_width="0dp"
                         android:layout_height="22dp"
-                        app:srcCompat="@drawable/ic_country_ch"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/interoperability_title" />
+                        app:layout_constraintTop_toBottomOf="@id/interoperability_title"
+                        app:srcCompat="@drawable/ic_country_ch" />
 
                     <TextView
                         android:id="@+id/interoperability_subtitle"
@@ -151,96 +156,85 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/settingsInteroperabilityRow" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+
+                <androidx.constraintlayout.helper.widget.Flow
                     android:id="@+id/settings_tracing_status"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settingsInteroperabilityRow">
+                    android:orientation="horizontal"
+                    app:constraint_referenced_ids="settings_tracing_status_location,settings_tracing_status_bluetooth,risk_details_period_logged_headline,risk_details_period_logged_subtitle,risk_details_period_logged_body_notice,risk_details_period_logged_days"
+                    app:flow_maxElementsWrap="1"
+                    app:flow_verticalBias="0"
+                    app:flow_verticalStyle="packed"
+                    app:flow_wrapMode="chain"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/settingsInteroperabilityRow" />
 
-                    <include
-                        android:id="@+id/settings_tracing_status_location"
-                        gone="@{!settingsTracingState.isLocationCardVisible()}"
-                        layout="@layout/include_tracing_status_card_location"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:buttonText="@{@string/settings_tracing_status_location_button}"
-                        app:headline="@{@string/settings_tracing_status_location_headline}"
-                        app:icon="@{@drawable/ic_location}"
-                        app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
-                        app:layout_constraintStart_toStartOf="@id/guideline_card_start"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <include
+                    android:id="@+id/settings_tracing_status_location"
+                    gone="@{!settingsTracingState.isLocationCardVisible()}"
+                    layout="@layout/include_tracing_status_card_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:buttonText="@{@string/settings_tracing_status_location_button}"
+                    app:headline="@{@string/settings_tracing_status_location_headline}"
+                    app:icon="@{@drawable/ic_location}" />
 
-                    <include
-                        android:id="@+id/settings_tracing_status_bluetooth"
-                        gone="@{!settingsTracingState.isBluetoothCardVisible()}"
-                        layout="@layout/include_tracing_status_card"
-                        android:layout_marginBottom="@dimen/spacing_small"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:body="@{@string/settings_tracing_status_bluetooth_body}"
-                        app:buttonText="@{@string/settings_tracing_status_bluetooth_button}"
-                        app:headline="@{@string/settings_tracing_status_bluetooth_headline}"
-                        app:icon="@{@drawable/ic_settings_tracing_bluetooth}"
-                        app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
-                        app:layout_constraintStart_toStartOf="@id/guideline_card_start"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <include
+                    android:id="@+id/settings_tracing_status_bluetooth"
+                    gone="@{!settingsTracingState.isBluetoothCardVisible()}"
+                    layout="@layout/include_tracing_status_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:body="@{@string/settings_tracing_status_bluetooth_body}"
+                    app:buttonText="@{@string/settings_tracing_status_bluetooth_button}"
+                    app:headline="@{@string/settings_tracing_status_bluetooth_headline}"
+                    app:icon="@{@drawable/ic_settings_tracing_bluetooth}" />
 
-                    <TextView
-                        android:id="@+id/risk_details_period_logged_headline"
-                        style="@style/headline5"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        android:text="@string/risk_details_headline_period_logged"
-                        app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                        app:layout_constraintStart_toStartOf="@id/guideline_start"
-                        app:layout_constraintTop_toBottomOf="@id/settings_tracing_status_bluetooth" />
+                <TextView
+                    android:id="@+id/risk_details_period_logged_headline"
+                    style="@style/headline5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:paddingTop="@dimen/spacing_small"
+                    android:text="@string/risk_details_headline_period_logged"
+                    tools:ignore="MissingConstraints" />
 
-                    <TextView
-                        android:id="@+id/risk_details_period_logged_subtitle"
-                        style="@style/subtitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_tiny"
-                        android:focusable="false"
-                        android:text="@string/risk_details_subtitle_period_logged"
-                        app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                        app:layout_constraintStart_toStartOf="@id/guideline_start"
-                        app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_headline" />
+                <TextView
+                    android:id="@+id/risk_details_period_logged_subtitle"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:focusable="false"
+                    android:paddingTop="@dimen/spacing_tiny"
+                    android:text="@string/risk_details_subtitle_period_logged"
+                    tools:ignore="MissingConstraints" />
 
-                    <TextView
-                        android:id="@id/risk_details_period_logged_body_notice"
-                        style="@style/subtitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal"
-                        android:focusable="true"
-                        android:text="@string/risk_details_information_body_period_logged"
-                        app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                        app:layout_constraintStart_toStartOf="@id/guideline_start"
-                        app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_subtitle" />
+                <TextView
+                    android:id="@id/risk_details_period_logged_body_notice"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:paddingTop="@dimen/spacing_normal"
+                    android:text="@string/risk_details_information_body_period_logged"
+                    tools:ignore="MissingConstraints" />
 
-                    <TextView
-                        android:id="@+id/risk_details_period_logged_days"
-                        style="@style/subtitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal"
-                        android:focusable="true"
-                        android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
-                        app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                        app:layout_constraintStart_toStartOf="@id/guideline_start"
-                        app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_body_notice" />
-
-                    <include layout="@layout/merge_guidelines_card" />
-
-                    <include layout="@layout/merge_guidelines_side" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/risk_details_period_logged_days"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:paddingTop="@dimen/spacing_normal"
+                    android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
+                    tools:ignore="MissingConstraints" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/risk_details_body"

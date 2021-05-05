@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util.di
 
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Lazy
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
@@ -104,7 +105,7 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
 
     fun inject(logger: DebugLogger)
 
-    val encryptedMigration: EncryptedPreferencesMigration
+    val encryptedMigration: Lazy<EncryptedPreferencesMigration>
 
     @Component.Factory
     interface Factory {
