@@ -22,6 +22,7 @@ class VaccinationListViewModel @AssistedInject constructor(
 
     init {
         launch {
+            // TODO: load real values from Repository
             val person = when (vaccinatedPersonIdentifier) {
                 "vaccinated-person-incomplete" -> vaccinationRepository.vaccinationInfosForList.first().first()
                 "vaccinated-person-complete" -> vaccinationRepository.vaccinationInfosForList.first().elementAt(1)
