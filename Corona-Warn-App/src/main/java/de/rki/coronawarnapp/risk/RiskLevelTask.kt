@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.risk
 
-import android.content.Context
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
@@ -13,7 +12,6 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
-import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.risk.EwRiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -21,10 +19,8 @@ import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
-import de.rki.coronawarnapp.util.ConnectivityHelper.isNetworkEnabled
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -38,7 +34,6 @@ import javax.inject.Provider
 @Suppress("ReturnCount", "LongParameterList")
 class RiskLevelTask @Inject constructor(
     private val riskLevels: RiskLevels,
-    @AppContext private val context: Context,
     private val enfClient: ENFClient,
     private val timeStamper: TimeStamper,
     private val backgroundModeStatus: BackgroundModeStatus,
@@ -48,7 +43,6 @@ class RiskLevelTask @Inject constructor(
     private val keyCacheRepository: KeyCacheRepository,
     private val coronaTestRepository: CoronaTestRepository,
     private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector,
-    private val autoCheckOut: AutoCheckOut,
 ) : Task<DefaultProgress, EwRiskLevelTaskResult> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -58,12 +52,6 @@ class RiskLevelTask @Inject constructor(
 
     override suspend fun run(arguments: Task.Arguments): EwRiskLevelTaskResult = try {
         Timber.d("Running with arguments=%s", arguments)
-
-        autoCheckOut.apply {
-            Timber.tag(TAG).d("Processing overdue check-outs before risk calculation.")
-            processOverDueCheckouts()
-            refreshAlarm()
-        }
 
         val configData: ConfigData = appConfigProvider.getAppConfig()
 
@@ -106,14 +94,6 @@ class RiskLevelTask @Inject constructor(
             return EwRiskLevelTaskResult(
                 calculatedAt = nowUTC,
                 failureReason = FailureReason.INCORRECT_DEVICE_TIME
-            )
-        }
-
-        if (!isNetworkEnabled(context)) {
-            Timber.i("Risk not calculated, internet unavailable.")
-            return EwRiskLevelTaskResult(
-                calculatedAt = nowUTC,
-                failureReason = FailureReason.NO_INTERNET
             )
         }
 

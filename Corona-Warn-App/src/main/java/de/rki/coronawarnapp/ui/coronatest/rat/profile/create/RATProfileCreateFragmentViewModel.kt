@@ -41,7 +41,7 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun birthDateChanged(birthDate: LocalDate) {
+    fun birthDateChanged(birthDate: LocalDate?) {
         profileData.apply {
             value = value?.copy(birthDate = birthDate)
         }

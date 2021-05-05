@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
+import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class QRCodeCensorTest : BaseTest() {
+class PcrQrCodeCensorTest : BaseTest() {
 
     private val testGUID = "63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
 
@@ -26,14 +27,14 @@ class QRCodeCensorTest : BaseTest() {
 
     @AfterEach
     fun teardown() {
-        QRCodeCensor.lastGUID = null
+        PcrQrCodeCensor.lastGUID = null
     }
 
-    private fun createInstance() = QRCodeCensor()
+    private fun createInstance() = PcrQrCodeCensor()
 
     @Test
     fun `censoring replaces the logline message`() = runBlockingTest {
-        QRCodeCensor.lastGUID = testGUID
+        PcrQrCodeCensor.lastGUID = testGUID
         val instance = createInstance()
         val censored = LogLine(
             timestamp = 1,
@@ -54,7 +55,7 @@ class QRCodeCensorTest : BaseTest() {
 
     @Test
     fun `censoring returns null if there is no match`() = runBlockingTest {
-        QRCodeCensor.lastGUID = testGUID.replace("f", "a")
+        PcrQrCodeCensor.lastGUID = testGUID.replace("f", "a")
         val instance = createInstance()
         val notCensored = LogLine(
             timestamp = 1,
@@ -68,7 +69,7 @@ class QRCodeCensorTest : BaseTest() {
 
     @Test
     fun `censoring aborts if no qrcode was set`() = runBlockingTest {
-        QRCodeCensor.lastGUID = null
+        PcrQrCodeCensor.lastGUID = null
         val instance = createInstance()
         val notCensored = LogLine(
             timestamp = 1,
