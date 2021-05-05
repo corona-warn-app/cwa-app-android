@@ -853,7 +853,7 @@
     <!-- YTXT: Description one for the debug option to record log files -->
     <string name="debugging_debuglog_intro_explanation_section_one">"To help the app technical support team with error analysis, you can record an error report from the CWA. When you do so, the individual technical steps and results of app processes are recorded. You can then send the error report to technical support and help to identify and correct the error."</string>
     <!-- YTXT: Description two for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation_section_two">"For further information, please see our FAQ page:\nFAQ for error reports"</string>
+    <string name="debugging_debuglog_intro_explanation_section_two">"For further information, please see our FAQ page: FAQ for error reports"</string>
     <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="debugging_debuglog_intro_explanation_section_two_link_label">"FAQ for error reports"</string>
     <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
@@ -2001,7 +2001,7 @@
     <!-- XHED: Trace location check-ins invalid qr code dialog title -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Invalid QR Code"</string>
     <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"The scanned QR code is not valid.\nPlease scan a valid QR code.\n\n(%1$s)"</string>
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"The scanned QR code is not valid for check-ins for an event or place. \nPlease scan a suitable QR code.\n\n(%1$s)"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
@@ -2011,8 +2011,12 @@
         Incompatibility warning card
     ###################################### -->
 
+    <!-- XHED: Incompitability card title -->
     <string name="incompatible_headline">"Incompatibility Warning"</string>
+    <!-- XTXT: Incompitability card content -->
     <string name="incompatible_advertising_not_supported">"Your smartphone can only receive COVID-19 notifications via Bluetooth, but not send them. This means you can be warned of exposures through this interface, but you cannot warn others of exposures yourself. You can send and receive warnings that result from check-ins."</string>
+    <!-- XTXT: Incompitability card content -->
     <string name="incompatible_scanning_not_supported">"Your smartphone cannot send or receive COVID-19 notifications via Bluetooth. You can send and receive warnings that result from check-ins."</string>
+    <!-- XTXT: Incompitability faq link -->
     <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
 </resources>
