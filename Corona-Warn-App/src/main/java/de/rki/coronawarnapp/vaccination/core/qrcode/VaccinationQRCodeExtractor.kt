@@ -9,7 +9,9 @@ import javax.inject.Inject
 
 class VaccinationQRCodeExtractor @Inject constructor(
     private val base45Decoder: Base45Decoder,
-    private val zlibDecompressor: ZlibDecompressor
+    private val zlibDecompressor: ZlibDecompressor,
+    private val coseDecoder: CoseDecoder,
+    private val CBORDecoder: CBORDecoder,
 ) : QrCodeExtractor<VaccinationCertificateQRCode> {
 
     override fun canHandle(rawString: String): Boolean {
@@ -29,14 +31,13 @@ class VaccinationQRCodeExtractor @Inject constructor(
             .decompress()
             .extractCosePayload()
             .decodeCBOR()
-        val certificate = cbor
+        cbor.payload.utf8()
             .extractData()
             .validate()
         return VaccinationCertificateQRCode(
             // Vaccine or prophylaxis
-            certificate = certificate,
             qrCodeOriginalBase45 = rawString,
-            qrCodeOriginalCBOR = cbor,
+            qrCodeOriginalCBOR = cbor.payload,
         )
     }
 
@@ -58,10 +59,12 @@ class VaccinationQRCodeExtractor @Inject constructor(
 
     // step 3: extract COSE payload
     private fun ByteArray.extractCosePayload(): ByteArray {
+        return coseDecoder.decode(this)
     }
 
     // step 4
-    private fun ByteArray.decodeCBOR(): String {
+    private fun ByteArray.decodeCBOR(): CborDecoderResult {
+        return CBORDecoder.decode(this)
     }
 
     // step 5: Unpack json
@@ -74,7 +77,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
         }
     }
 
-    private fun VaccinationCertificateV1.validate(): ScannedVaccinationCertificate {
+    private fun VaccinationCertificateV1.validate() {
     }
 
     enum class ErrorCode {
