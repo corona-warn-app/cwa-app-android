@@ -30,4 +30,19 @@
     <string name="vaccination_details_deletion_dialog_positive_button">Entfernen</string>
     <!-- XBUT: Vaccination Details deletion dialog negative button-->
     <string name="vaccination_details_deletion_dialog_negative_button">Abbrechen</string>
+
+    <!-- ####################################
+        Homescreen cards
+    ###################################### -->
+    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
+    <string name="vaccination_card_registration_title">"Impfzertifikat registrieren"</string>
+    <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
+    <string name="vaccination_card_registration_body">"Scannen Sie den QR-Code auf Ihrem Impfzertifikat, um Ihre Impfung zu registrieren und einen digitalen Impfnachweis zu erhalten."</string>
+    <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
+    <string name="vaccination_card_register">"Registrieren"</string>
+
+    <!-- XHED: Homescreen card title -->
+    <string name="vaccination_home_card_title">Digitaler Impfnachweis</string>
+    <!-- XTXT: Homescreen card vaccination status label -->
+    <string name="vaccination_home_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
 </resources>

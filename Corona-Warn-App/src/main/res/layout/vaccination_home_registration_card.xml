@@ -45,7 +45,7 @@
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/body"
-            app:srcCompat="@drawable/ic_card_impfzertifikat_registrieren" />
+            app:srcCompat="@drawable/vacciation_card_icon_registration" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/button_barrier"

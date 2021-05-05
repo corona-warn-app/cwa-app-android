@@ -13,9 +13,6 @@ data class VaccinatedPerson(
     val identifier: VaccinatedPersonIdentifier
         get() = data.identifier
 
-    val vaccinationStatus: Status
-        get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
-
     val vaccinationCertificates: Set<VaccinationCertificate>
         get() = data.vaccinations.map {
             it.toVaccinationCertificate(valueSet)
@@ -26,11 +23,20 @@ data class VaccinatedPerson(
             it.toProofCertificate(valueSet)
         }.toSet()
 
+    val vaccinationStatus: Status
+        get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
+
+    val vaccinationName: String
+        get() = vaccinationCertificates.first().vaccineName
+
     val firstName: String?
         get() = vaccinationCertificates.first().firstName
 
     val lastName: String
         get() = vaccinationCertificates.first().lastName
+
+    val combinedName: String
+        get() = "$firstName $lastName"
 
     val dateOfBirth: LocalDate
         get() = vaccinationCertificates.first().dateOfBirth
