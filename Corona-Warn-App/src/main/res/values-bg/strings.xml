@@ -2001,7 +2001,7 @@
     <!-- XHED: Trace location check-ins invalid qr code dialog title -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Невалиден QR код"</string>
     <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Сканираният QR код е невалиден.\nМоля, сканирайте валиден QR код.\n\n(%1$s)"</string>
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Сканираният QR код не е валиден за регистрации за събитие или място. \nМоля, сканирайте подходящ QR код. \n\n(%1$s)"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"ОК"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
@@ -2011,8 +2011,12 @@
         Incompatibility warning card
     ###################################### -->
 
+    <!-- XHED: Incompitability card title -->
     <string name="incompatible_headline">"Предупреждение за несъвместимост"</string>
+    <!-- XTXT: Incompitability card content -->
     <string name="incompatible_advertising_not_supported">"Вашето мобилно устройство може да поучава известия за COVID-19 чрез Bluetooth, но не може да изпраща такива. Това означава, че Вие ще получавате предупреждения, но без да известявате околните, че са били в контакт с вас. Можете както да получавате, така и да изпращате предупреждения в следствие на регистрации в дадена локация."</string>
+    <!-- XTXT: Incompitability card content -->
     <string name="incompatible_scanning_not_supported">"Вашето мобилно устройство не може нито да изпраща, нито да получава известия за COVID-19 чрез Bluetooth. Можете както да получавате, така и да изпращате предупреждения в следствие на регистрации в дадена локация."</string>
+    <!-- XTXT: Incompitability faq link -->
     <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
 </resources>
