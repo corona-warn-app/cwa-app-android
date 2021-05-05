@@ -58,7 +58,6 @@ class VaccinationStorage @Inject constructor(
                     Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
                     putString("$PKEY_PERSON_PREFIX${identifier.code}", raw)
                 }
-
             }
         }
 

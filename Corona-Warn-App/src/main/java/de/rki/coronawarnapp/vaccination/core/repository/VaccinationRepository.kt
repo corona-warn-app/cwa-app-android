@@ -156,7 +156,6 @@ class VaccinationRepository @Inject constructor(
                     )
                 } ?: originalPerson
 
-
                 this.toMutableSet().apply {
                     remove(originalPerson)
                     add(modifiedPerson)
