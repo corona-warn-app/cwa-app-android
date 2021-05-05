@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRProcessor
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -130,13 +129,12 @@ class RapidAntigenProcessor @Inject constructor(
     // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
     private fun check60Days(test: CoronaTest, newResult: CoronaTestResult): CoronaTestResult {
         val calculateDays = Duration(test.registeredAt, timeStamper.nowUTC)
-        Timber.tag(PCRProcessor.TAG)
-            .d("Calculated test age: %d days, newResult=%s", calculateDays.standardDays, newResult)
+        Timber.tag(TAG).d("Calculated test age: %d days, newResult=%s", calculateDays.standardDays, newResult)
 
         return if ((newResult == PCR_OR_RAT_PENDING || newResult == RAT_PENDING) &&
             calculateDays > VerificationServer.TEST_AVAILABLBILITY
         ) {
-            Timber.tag(PCRProcessor.TAG).d("$calculateDays is exceeding the test availability.")
+            Timber.tag(TAG).d("$calculateDays is exceeding the test availability.")
             RAT_REDEEMED
         } else {
             newResult
