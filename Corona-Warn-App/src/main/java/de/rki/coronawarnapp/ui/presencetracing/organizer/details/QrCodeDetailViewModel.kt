@@ -86,6 +86,12 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         }
     }
 
+    fun openFullScreen() {
+        traceLocation?.let {
+            routeToScreen.postValue(QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode(it.locationUrl))
+        }
+    }
+
     data class UiState(
         private val traceLocation: TraceLocation,
         val bitmap: Bitmap? = null

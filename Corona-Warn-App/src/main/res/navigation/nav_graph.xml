@@ -806,4 +806,17 @@
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
+
+    <fragment
+        android:id="@+id/qrCodeFullScreenFragment"
+        android:name="de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragment"
+        android:label="fragment_qr_code_full_screen"
+        tools:layout="@layout/fragment_qr_code_full_screen">
+        <argument
+            android:name="qrCodeText"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_qrCodeFullScreenFragment"
+        app:destination="@id/qrCodeFullScreenFragment" />
 </navigation>

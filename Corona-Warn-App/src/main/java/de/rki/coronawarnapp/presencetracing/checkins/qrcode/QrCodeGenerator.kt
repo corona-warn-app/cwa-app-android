@@ -25,11 +25,17 @@ class QrCodeGenerator @Inject constructor(
      * @param input [String]
      * @param length [Int] QR Code side length
      * @param margin [Int] QR Code side's margin
+     * @param reverseColors [Boolean] reverse white and black colors
      *
      * @throws [Exception] it could throw [IllegalArgumentException] , [WriterException]
      * or exception while creating the bitmap
      */
-    suspend fun createQrCode(input: String, length: Int = 1000, margin: Int = 1): Bitmap {
+    suspend fun createQrCode(
+        input: String,
+        length: Int = 1000,
+        margin: Int = 1,
+        reverseColors: Boolean = false
+    ): Bitmap {
         val correctionLevel = appConfigProvider
             .getAppConfig()
             .presenceTracing
@@ -49,10 +55,13 @@ class QrCodeGenerator @Inject constructor(
             length,
             length,
             hints
-        ).toBitmap()
+        ).toBitmap(reverseColors)
     }
 
-    private fun BitMatrix.toBitmap(): Bitmap {
+    private fun BitMatrix.toBitmap(reverseColors: Boolean): Bitmap {
+        val colors = arrayOf(Color.BLACK, Color.WHITE)
+        if (reverseColors) colors.reverse()
+
         val bitmap = Bitmap.createBitmap(
             context.resources.displayMetrics,
             width,
@@ -62,7 +71,7 @@ class QrCodeGenerator @Inject constructor(
 
         for (x in 0 until width) {
             for (y in 0 until height) {
-                val color = if (get(x, y)) Color.BLACK else Color.WHITE
+                val color = if (get(x, y)) colors[0] else colors[1]
                 bitmap.setPixel(x, y, color)
             }
         }

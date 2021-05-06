@@ -36,8 +36,8 @@
                     android:id="@+id/expandedImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/trace_location_view_cardhighlight_gradient"
-                    app:layout_collapseMode="parallax" />
+                    app:layout_collapseMode="parallax"
+                    app:srcCompat="@drawable/trace_location_view_cardhighlight_gradient" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -124,6 +124,7 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/rounded_white_background"
                     android:contentDescription="@string/trace_location_event_detail_qr_code_accessibility"
+                    android:transitionName="full_qr_code_image"
                     app:layout_constraintDimensionRatio="H,1:1"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
