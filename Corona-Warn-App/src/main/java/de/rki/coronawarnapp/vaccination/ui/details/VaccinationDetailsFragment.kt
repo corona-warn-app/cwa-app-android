@@ -107,6 +107,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     }
 
     companion object {
-        private val format = DateTimeFormat.shortDate()
+        private val format = DateTimeFormat.forPattern("dd.MM.yyyy")
     }
 }
