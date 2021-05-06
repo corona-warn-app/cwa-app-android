@@ -11,6 +11,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -71,14 +72,15 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     }
 
     private fun vaccinationDetailsData(complete: Boolean): MutableLiveData<VaccinationDetails> {
+        val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
         val mockCertificate = mockk<VaccinationCertificate>().apply {
             every { firstName } returns "Max"
             every { lastName } returns "Mustermann"
-            every { dateOfBirth } returns LocalDate.now()
-            every { vaccinatedAt } returns LocalDate.now()
+            every { dateOfBirth } returns LocalDate.parse("01.02.1976", formatter)
+            every { vaccinatedAt } returns LocalDate.parse("01.05.2021", formatter)
             every { vaccineName } returns "Comirnaty (mRNA)"
             every { vaccineManufacturer } returns "BioNTech"
-            every { certificateIssuer } returns "Landratsamt Potsdam"
+            every { certificateIssuer } returns "Landratsamt Musterstadt"
             every { certificateCountry } returns Country.DE
             every { certificateId } returns "05930482748454836478695764787841"
         }
