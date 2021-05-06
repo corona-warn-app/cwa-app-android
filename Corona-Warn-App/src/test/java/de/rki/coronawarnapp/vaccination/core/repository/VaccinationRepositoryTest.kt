@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.vaccination.core.repository
 
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
-import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
+import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationProofServer
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
@@ -30,7 +30,7 @@ class VaccinationRepositoryTest : BaseTest() {
     @MockK lateinit var vaccinationProofServer: VaccinationProofServer
     @MockK lateinit var vaccinationValueSet: VaccinationValueSet
 
-    private var testStorage: Set<PersonData> = emptySet()
+    private var testStorage: Set<VaccinatedPersonData> = emptySet()
 
     private var nowUTC = Instant.ofEpochMilli(1234567890)
 

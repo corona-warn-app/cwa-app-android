@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.vaccination.core
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
-import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ProofContainer
+import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateData
 import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateResponse
@@ -149,7 +149,7 @@ object VaccinationTestData {
             get() = "VGhpc0lzQVByb29mQ09TRQ".decodeBase64()!!
     }
 
-    val PERSON_A_DATA_2VAC_PROOF = PersonData(
+    val PERSON_A_DATA_2VAC_PROOF = VaccinatedPersonData(
         vaccinations = setOf(PERSON_A_VAC_1_CONTAINER, PERSON_A_VAC_2_CONTAINER),
         proofs = setOf(PERSON_A_PROOF_1_CONTAINER),
     )
@@ -189,7 +189,7 @@ object VaccinationTestData {
         preParsedData = PERSON_B_VAC_1_DATA
     }
 
-    val PERSON_B_DATA_1VAC_NOPROOF = PersonData(
+    val PERSON_B_DATA_1VAC_NOPROOF = VaccinatedPersonData(
         vaccinations = setOf(PERSON_B_VAC_1_CONTAINER),
         proofs = emptySet()
     )

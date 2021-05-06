@@ -8,7 +8,7 @@
     android:padding="@dimen/card_padding">
 
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/show_more_action"
         android:layout_width="@dimen/icon_size_risk_card"
         android:layout_height="@dimen/icon_size_risk_card"

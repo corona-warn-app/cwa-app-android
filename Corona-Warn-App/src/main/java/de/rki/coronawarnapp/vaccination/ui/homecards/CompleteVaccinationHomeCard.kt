@@ -23,8 +23,8 @@ class CompleteVaccinationHomeCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
-        vaccinationLabel.text = curItem.vaccinatedPerson.vaccinationName
-        personName.text = curItem.vaccinatedPerson.combinedName
+        vaccinationLabel.text = curItem.vaccinatedPerson.vaccineName
+        personName.text = curItem.vaccinatedPerson.fullName
 
         itemView.setOnClickListener { curItem.onClickAction(item) }
     }
