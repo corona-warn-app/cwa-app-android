@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAv
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -55,7 +56,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         // TODO Check specific behavior
         submissionRepository.apply {
-            every { refreshTest(any()) } just Runs
+            coEvery { refreshTest(any()) } just Runs
             every { testForType(type = any()) } returns coronaTestFlow
         }
     }

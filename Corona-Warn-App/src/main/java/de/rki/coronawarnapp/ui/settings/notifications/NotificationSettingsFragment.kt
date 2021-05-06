@@ -43,49 +43,20 @@ class NotificationSettingsFragment :
     }
 
     private fun setButtonOnClickListener() {
-        // Notifications about risk status
-        val updateRiskNotificationSwitch =
-            binding.settingsSwitchRowNotificationsRisk.settingsSwitchRowSwitch
-        // Additional click target to toggle switch
-        val updateRiskNotificationRow =
-            binding.settingsSwitchRowNotificationsRisk.settingsSwitchRow
-        // Notifications about test status
-        val updateTestNotificationSwitch =
-            binding.settingsSwitchRowNotificationsTest.settingsSwitchRowSwitch
-        // Additional click target to toggle switch
-        val updateTestNotificationRow =
-            binding.settingsSwitchRowNotificationsTest.settingsSwitchRow
-        // Settings
-        val settingsRow = binding.settingsNotificationsCard.tracingStatusCardButton
-        val goBack =
-            binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
-        // Update Risk
-        updateRiskNotificationSwitch.setOnCheckedChangeListener { view, _ ->
-            // Make sure that listener is called by user interaction
-            if (!view.isPressed) return@setOnCheckedChangeListener
-
+        binding.settingsSwitchRowNotificationsRisk.setOnClickListener {
             vm.toggleNotificationsRiskEnabled()
         }
-        // Additional click target to toggle switch
-        updateRiskNotificationRow.setOnClickListener {
-            if (updateRiskNotificationRow.isEnabled) vm.toggleNotificationsRiskEnabled()
-        }
-        // Update Test
-        updateTestNotificationSwitch.setOnCheckedChangeListener { view, _ ->
-            // Make sure that listener is called by user interaction
-            if (!view.isPressed) return@setOnCheckedChangeListener
-
+        binding.settingsSwitchRowNotificationsTest.setOnClickListener {
             vm.toggleNotificationsTestEnabled()
         }
-        // Additional click target to toggle switch
-        updateTestNotificationRow.setOnClickListener {
-            if (updateTestNotificationRow.isEnabled) vm.toggleNotificationsTestEnabled()
+        binding.settingsNotificationsHeader.setNavigationOnClickListener {
+            popBackStack()
         }
         goBack.setOnClickListener {
             popBackStack()
         }
         // System Settings
-        settingsRow.setOnClickListener {
+        binding.settingsNotificationsCard.tracingStatusCardButton.setOnClickListener {
             ExternalActionHelper.toNotifications(requireContext())
         }
     }

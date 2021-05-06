@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
+import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -7,25 +8,24 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnviro
 import de.rki.coronawarnapp.test.debugoptions.ui.EnvironmentState.Companion.toEnvironmentState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
-import de.rki.coronawarnapp.util.ui.smartLiveData
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class DebugOptionsFragmentViewModel @AssistedInject constructor(
     private val envSetup: EnvironmentSetup,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val environmentState by smartLiveData {
-        envSetup.toEnvironmentState()
-    }
-    val environmentChangeEvent = SingleLiveEvent<EnvironmentSetup.Type>()
+    private val environmentStateFlow = MutableStateFlow(envSetup.toEnvironmentState())
+    val environmentState = environmentStateFlow.asLiveData(context = dispatcherProvider.Default)
+    val environmentStateChange = SingleLiveEvent<EnvironmentState>()
 
     fun selectEnvironmentTytpe(type: String) {
-        environmentState.update {
-            envSetup.currentEnvironment = type.toEnvironmentType()
-            environmentChangeEvent.postValue(envSetup.currentEnvironment)
-            envSetup.toEnvironmentState()
+        envSetup.currentEnvironment = type.toEnvironmentType()
+        envSetup.toEnvironmentState().let {
+            environmentStateFlow.value = it
+            environmentStateChange.postValue(it)
         }
     }
 

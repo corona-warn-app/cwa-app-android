@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.coronatest.qrcode
 import com.google.common.io.BaseEncoding
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.hashing.isSha256Hash
 import de.rki.coronawarnapp.util.serialization.fromJson
@@ -21,6 +22,14 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
     override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
         Timber.v("extract(rawString=%s)", rawString)
         val payload = CleanPayload(extractData(rawString))
+
+        RatQrCodeCensor.dataToCensor = RatQrCodeCensor.CensorData(
+            rawString = rawString,
+            hash = payload.hash,
+            firstName = payload.firstName,
+            lastName = payload.lastName,
+            dateOfBirth = payload.dateOfBirth
+        )
 
         payload.requireValidData()
 

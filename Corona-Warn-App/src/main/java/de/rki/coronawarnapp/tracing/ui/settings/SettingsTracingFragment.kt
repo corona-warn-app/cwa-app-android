@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.tracing.ui.settings.SettingsTracingFragmentViewModel.Event
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.ExternalActionHelper.openDeviceAppSettings
+import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -30,7 +30,7 @@ import javax.inject.Inject
 class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SettingsTracingFragmentViewModel by cwaViewModels(
+    private val vm: SettingsTracingFragmentViewModel by cwaViewModels(
         ownerProducer = { requireActivity().viewModelStore },
         factoryProducer = { viewModelFactory }
     )
@@ -40,41 +40,42 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loggingPeriod.observe2(this) {
+        vm.loggingPeriod.observe2(this) {
             binding.loggedPeriod = it
         }
-        viewModel.tracingSettingsState.observe2(this) { state ->
+        vm.tracingSettingsState.observe2(this) { state ->
             binding.settingsTracingState = state
 
-            binding.settingsTracingSwitchRow.settingsSwitchRow.apply {
+            binding.switchRow.apply {
                 when (state) {
                     TracingSettingsState.BluetoothDisabled,
                     TracingSettingsState.LocationDisabled -> setOnClickListener(null)
                     TracingSettingsState.TracingInactive,
                     TracingSettingsState.TracingActive -> setOnClickListener {
-                        val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
-                        onTracingToggled(!switch.isChecked)
+                        onTracingToggled(!binding.switchRow.isChecked)
                     }
                 }
             }
         }
 
-        viewModel.events.observe2(this) {
+        vm.events.observe2(this) {
             when (it) {
                 is Event.RequestPermissions -> it.permissionRequest.invoke(requireActivity())
-                is Event.ManualCheckingDialog -> showManualCheckingRequiredDialog()
-                is Event.TracingConsentDialog -> TracingConsentDialog(requireContext()).show(
-                    onConsentGiven = { it.onConsentResult(true) },
-                    onConsentDeclined = { it.onConsentResult(false) }
-                )
+                Event.ManualCheckingDialog -> showManualCheckingRequiredDialog()
+                is Event.TracingConsentDialog -> {
+                    TracingConsentDialog(requireContext()).show(
+                        onConsentGiven = { it.onConsentResult(true) },
+                        onConsentDeclined = { it.onConsentResult(false) }
+                    )
+                }
             }
         }
 
-        viewModel.isTracingSwitchChecked.observe2(this) { checked ->
-            binding.settingsTracingSwitchRow.settingsSwitchRowSwitch.isChecked = checked
+        vm.isTracingSwitchChecked.observe2(this) { checked ->
+            binding.switchRow.setChecked(checked)
         }
 
-        viewModel.ensErrorEvents.observe2(this) { error ->
+        vm.ensErrorEvents.observe2(this) { error ->
             error.toErrorDialogBuilder(requireContext()).show()
         }
 
@@ -87,7 +88,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        viewModel.handleActivityResult(requestCode, resultCode, data)
+        vm.handleActivityResult(requestCode, resultCode, data)
     }
 
     private fun setButtonOnClickListener() {
@@ -96,29 +97,33 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
             popBackStack()
         }
 
-        val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
-        switch.setOnCheckedChangeListener { view, isChecked ->
-            if (!view.isPressed) return@setOnCheckedChangeListener
-            onTracingToggled(isChecked)
+        val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
+        bluetooth.setOnClickListener {
+            ExternalActionHelper.toMainSettings(requireContext())
         }
 
-        binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
-            openDeviceAppSettings()
+        val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
+        location.setOnClickListener {
+            ExternalActionHelper.toMainSettings(requireContext())
         }
 
-        binding.settingsTracingStatusLocation.tracingStatusCardButton.setOnClickListener {
-            openDeviceAppSettings()
-        }
-
-        binding.settingsInteroperabilityRow.setOnClickListener {
-            doNavigate(
-                SettingsTracingFragmentDirections.actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
-            )
+        val interoperability = binding.settingsInteroperabilityRow
+        interoperability.setOnClickListener {
+            navigateToInteroperability()
         }
     }
 
     private fun onTracingToggled(isChecked: Boolean) {
-        viewModel.onTracingToggled(isChecked)
+        if (isChecked)
+            vm.turnTracingOn()
+        else
+            vm.turnTracingOff()
+    }
+
+    private fun navigateToInteroperability() {
+        doNavigate(
+            SettingsTracingFragmentDirections.actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
+        )
     }
 
     private fun showManualCheckingRequiredDialog() {

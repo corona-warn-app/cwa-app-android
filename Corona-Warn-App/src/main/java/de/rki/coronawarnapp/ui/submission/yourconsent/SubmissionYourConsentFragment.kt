@@ -6,6 +6,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -37,13 +38,15 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
         super.onViewCreated(view, savedInstanceState)
 
         vm.consent.observe2(this) {
-            binding.submissionYourConsentSwitch.status = it
-            binding.submissionYourConsentSwitch.statusText = getString(
-                if (it) {
-                    R.string.submission_your_consent_switch_status_on
-                } else {
-                    R.string.submission_your_consent_switch_status_off
-                }
+            binding.submissionYourConsentSwitch.setChecked(it)
+            binding.submissionYourConsentSwitch.setSubtitle(
+                getString(
+                    if (it) {
+                        R.string.submission_your_consent_switch_status_on
+                    } else {
+                        R.string.submission_your_consent_switch_status_off
+                    }
+                )
             )
         }
 
@@ -63,11 +66,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
 
         binding.apply {
             submissionYourConsentTitle.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
-            submissionYourConsentSwitch.settingsSwitchRowSwitch.setOnCheckedChangeListener { view, _ ->
-                if (!view.isPressed) return@setOnCheckedChangeListener
-                vm.switchConsent()
-            }
-            submissionYourConsentSwitch.settingsSwitchRow.setOnClickListener { vm.switchConsent() }
+            submissionYourConsentSwitch.setOnClickListener { vm.switchConsent() }
             submissionYourConsentAgreementDetailsText.setOnClickListener { vm.goLegal() }
 
             submissionYourConsentAgreementShareSymptomsText.setText(
@@ -77,6 +76,10 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
                     R.string.submission_your_consent_agreement_share_symptoms
                 }
             )
+        }
+
+        vm.errorEvent.observe2(this) {
+            it.toErrorDialogBuilder(requireContext()).show()
         }
     }
 
