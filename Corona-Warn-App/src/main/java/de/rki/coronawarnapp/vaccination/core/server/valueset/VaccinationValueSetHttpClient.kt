@@ -1,3 +1,8 @@
 package de.rki.coronawarnapp.vaccination.core.server.valueset
 
-annotation class VaccinationValueSetHttpClient()
+import javax.inject.Qualifier
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class VaccinationValueSetHttpClient
