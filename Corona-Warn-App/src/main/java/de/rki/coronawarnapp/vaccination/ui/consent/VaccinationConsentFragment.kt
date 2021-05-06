@@ -32,17 +32,13 @@ class VaccinationConsentFragment : Fragment(R.layout.vaccination_consent_fragmen
             }
         }
 
-        viewModel.countryList.observe2(this) {
-            binding.countryList.countries = it
-        }
-
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 VaccinationConsentNavigationEvent.NavigateToDataPrivacy -> {
                     doNavigate(VaccinationConsentFragmentDirections.vaccinationConsentFragmentToPrivacyFragment())
                 }
                 VaccinationConsentNavigationEvent.NavigateToQrCodeScan -> {
-                    // TODO: implement in another PR when screen is ready
+                    // TODO: implement in when screen is ready
                 }
             }
         }

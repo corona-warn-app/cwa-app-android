@@ -134,43 +134,6 @@
                 app:layout_constraintStart_toEndOf="@id/vaccination_consent_time_sheet_icon"
                 app:layout_constraintTop_toTopOf="@id/vaccination_consent_time_sheet_icon" />
 
-            <TextView
-                android:id="@+id/vaccination_consent_conuntries_title"
-                style="@style/headline6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                android:text="@string/vaccination_consent_countries_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vaccination_consent_time_sheet_text" />
-
-            <TextView
-                android:id="@+id/vaccination_consent_conuntries_subtitle"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                android:text="@string/vaccination_consent_countries_subtitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vaccination_consent_conuntries_title" />
-
-            <de.rki.coronawarnapp.ui.view.CountryListView
-                android:id="@+id/country_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vaccination_consent_conuntries_subtitle" />
-
             <include
                 android:id="@+id/privacy_card"
                 layout="@layout/vaccination_consent_privacy_card"
@@ -181,9 +144,9 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/country_list" />
+                app:layout_constraintTop_toBottomOf="@id/vaccination_consent_time_sheet_text" />
 
-            <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+            <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/vaccination_consent_privacy_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
