@@ -2,6 +2,13 @@ package de.rki.coronawarnapp.ui.qrcode.fullscreen
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
+import android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import android.view.View.SYSTEM_UI_FLAG_VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
@@ -41,7 +48,6 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         with(binding) {
             toolbar.setNavigationOnClickListener {
                 popBackStack()
-                exitImmersiveMode()
             }
 
             qrCodeImage.setOnClickListener {
@@ -60,11 +66,16 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
 
     override fun onStop() {
         super.onStop()
-        exitImmersiveMode()
+
         viewModel.existImmersiveMode()
+        resetSystemUIFlags()
     }
 
-    fun exitImmersiveMode() {
+    private fun resetSystemUIFlags() {
+        requireActivity().window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
+    }
+
+    private fun exitImmersiveMode() {
         binding.toolbar.apply {
             animate().translationY(0.0f)
         }
@@ -72,7 +83,7 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         showSystemUI()
     }
 
-    fun enterImmersiveMode() {
+    private fun enterImmersiveMode() {
         hideSystemUI()
         binding.toolbar.apply {
             animate().translationY(-height.toFloat())
@@ -81,20 +92,20 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
 
     private fun hideSystemUI() {
         requireActivity().window.decorView.systemUiVisibility = (
-            View.SYSTEM_UI_FLAG_IMMERSIVE
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
+            SYSTEM_UI_FLAG_IMMERSIVE
+                or SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or SYSTEM_UI_FLAG_FULLSCREEN
             )
     }
 
     private fun showSystemUI() {
         requireActivity().window.decorView.systemUiVisibility = (
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             )
     }
 }
