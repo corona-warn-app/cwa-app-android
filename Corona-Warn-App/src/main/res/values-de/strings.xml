@@ -2027,6 +2027,8 @@
         Warnungen, die im Rahmen von Check-ins erfolgen, können Sie sowohl empfangen als auch selbst
         versenden.
     </string>
-    <!-- XTXT: Incompitability faq link -->
-    <string name="incompatible_link">"https://www.coronawarn.app/de/faq/#incompatibility_warning"</string>
+    <!-- XTXT: Incompitability faq link for partial incompatibility -->
+    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/de/faq/#incompatibility_warning_no_advertising"</string>
+    <!-- XTXT: Incompitability faq link for full incompatibility -->
+    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/de/faq/#incompatibility_warning_no_scanning"</string>
 </resources>

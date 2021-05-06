@@ -100,7 +100,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
-    val openIncompatibleEvent = SingleLiveEvent<Unit>()
+    val openIncompatibleEvent = SingleLiveEvent<Boolean>()
     val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
     val errorEvent = SingleLiveEvent<Throwable>()
 
@@ -301,10 +301,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             if (bluetoothSupport.isAdvertisingSupported == false) {
+
+                val scanningSupported = bluetoothSupport.isScanningSupported != false
+
                 add(
                     IncompatibleCard.Item(
-                        onClickAction = { openIncompatibleEvent.postValue(Unit) },
-                        bluetoothSupported = bluetoothSupport.isScanningSupported != false
+                        onClickAction = { openIncompatibleEvent.postValue(scanningSupported) },
+                        bluetoothSupported = scanningSupported
                     )
                 )
             }
