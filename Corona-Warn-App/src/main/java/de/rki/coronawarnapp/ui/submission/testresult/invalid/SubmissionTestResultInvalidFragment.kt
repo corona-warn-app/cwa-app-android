@@ -37,6 +37,8 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.onTestOpened()
+
         binding.apply {
             submissionTestResultButtonInvalidRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
@@ -54,7 +56,6 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        viewModel.onTestOpened()
     }
 
     private fun removeTestAfterConfirmation() {

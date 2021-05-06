@@ -4,7 +4,7 @@
     package="de.rki.coronawarnapp"
     tools:ignore="LockedOrientationActivity">
 
-    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android,androidx.security" />
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"

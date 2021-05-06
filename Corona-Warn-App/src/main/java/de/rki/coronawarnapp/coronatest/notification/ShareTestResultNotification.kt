@@ -34,7 +34,7 @@ class ShareTestResultNotification @Inject constructor(
     }
 
     fun showSharePositiveTestResultNotification(notificationId: Int, testType: CoronaTest.Type) {
-        Timber.d("showSharePositiveTestResultNotification(notificationId=$notificationId)")
+        Timber.tag(TAG).d("showSharePositiveTestResultNotification(notificationId=$notificationId)")
 
         val args = Bundle().apply { putSerializable("testType", testType) }
 
@@ -59,6 +59,10 @@ class ShareTestResultNotification @Inject constructor(
 
     fun cancelSharePositiveTestResultNotification(testType: CoronaTest.Type) {
         notificationHelper.cancelFutureNotifications(POSITIVE_RESULT_NOTIFICATION_ID, testType)
-        Timber.v("Future positive test result notifications have been canceled")
+        Timber.tag(TAG).v("Future positive test result notifications have been canceled")
+    }
+
+    companion object {
+        private val TAG = ShareTestResultNotification::class.simpleName
     }
 }

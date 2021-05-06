@@ -48,11 +48,17 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionConsentFragment()
                     )
-                is SubmissionNavigationEvents.NavigateToCreateProfile ->
+                is SubmissionNavigationEvents.NavigateToCreateProfile -> {
+                    val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
+                    ratGraph.startDestination = if (it.onboarded)
+                        R.id.ratProfileCreateFragment
+                    else R.id.ratProfileOnboardingFragment
+
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
                     )
+                }
 
                 is SubmissionNavigationEvents.NavigateToOpenProfile -> {
                     val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph

@@ -493,47 +493,6 @@ jobs:
       - store_artifacts:
           path: /tmp/instrumentation_tests_device.zip
           destination: zips/instrumentation_tests_device.zip
-  # Keep it until Firebase Test Lab proves reliability
-  device_screenshots:
-    macos:
-      xcode: "12.3.0"
-    resource_class: large
-    steps:
-      - checkout
-      - restore_cache:
-          key: gem-cache-v1-{{ arch }}-{{ checksum "Gemfile.lock" }}
-      - run: bundle check || bundle install --path vendor/bundle
-      - save_cache:
-          key: gem-cache-v1-{{ arch }}-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-      - setup-android-macos
-      - restore-gradle-cache
-      - restore-android-build-cache-macos
-      - run-gradle-cmd:
-          desc: Build APKs for screenshots
-          cmd: >
-            :Corona-Warn-App:assembleDebug
-            :Corona-Warn-App:assembleAndroidTest
-      - save-gradle-cache
-      - save-android-build-cache-macos
-      - run-emulator-for-api:
-          apilevel: 29
-      - run:
-          name: Run fastlane screengrab
-          command: |
-            for i in {1..5}; do bundle exec fastlane screengrab && break || sleep 15; done
-          no_output_timeout: 30m
-      - kill-all-emulators
-      - store_artifacts:
-          path: fastlane/metadata/android
-          destination: screenshots
-      - compress-path:
-          input: ./fastlane/metadata/android
-          output: /tmp/device_screenshots.zip
-      - store_artifacts:
-          path: /tmp/device_screenshots.zip
-          destination: zips/device_screenshots.zip
 
   firebase_screenshots:
     resource_class: xlarge
