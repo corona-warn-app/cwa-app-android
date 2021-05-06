@@ -1,7 +1,13 @@
-package de.rki.coronawarnapp.vaccination.core.server;
+package de.rki.coronawarnapp.vaccination.core.server
 
-import dagger.Module;
+import dagger.Module
+import de.rki.coronawarnapp.vaccination.core.server.proof.VaccinationProofModule
+import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSetModule
 
-@Module
-public class VaccinationServerModule {
-}
+@Module(
+    includes = [
+        VaccinationValueSetModule::class,
+        VaccinationProofModule::class
+    ]
+)
+abstract class VaccinationServerModule
