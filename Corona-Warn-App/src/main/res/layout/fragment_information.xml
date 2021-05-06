@@ -31,18 +31,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/information_header">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <include
                     android:id="@+id/information_release"
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:subtitle="@{@string/release_info_header}" />
 
                 <include
@@ -50,9 +48,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/information_release"
                     app:subtitle="@{@string/information_about_title}" />
 
                 <include
@@ -61,9 +56,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:icon="@{@drawable/ic_link}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/information_about"
                     app:subtitle="@{@string/information_help_title}" />
 
                 <include
@@ -71,9 +63,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/information_help"
                     app:subtitle="@{@string/information_terms_title}" />
 
                 <include
@@ -81,9 +70,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/information_terms"
                     app:subtitle="@{@string/information_privacy_title}" />
 
                 <include
@@ -91,9 +77,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/information_privacy"
                     app:subtitle="@{@string/information_technical_title}" />
 
                 <include
@@ -101,9 +84,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/information_technical"
                     app:subtitle="@{@string/information_contact_title}" />
 
                 <include
@@ -111,9 +91,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/information_contact"
                     app:subtitle="@{@string/debugging_debuglog_title}" />
 
                 <include
@@ -121,9 +98,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/information_debuglog"
                     app:subtitle="@{@string/information_legal_title}" />
 
                 <TextView
@@ -134,9 +108,6 @@
                     android:layout_marginStart="@dimen/guideline_body_title_padding"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:focusable="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/information_legal"
                     tools:text="v1.8.0-RC1" />
 
                 <TextView
@@ -149,15 +120,9 @@
                     android:focusable="true"
                     android:paddingTop="@dimen/spacing_tiny"
                     android:paddingBottom="@dimen/spacing_tiny"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/information_version"
                     tools:text="16000000"
                     tools:visibility="visible" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            </LinearLayout>
         </ScrollView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
