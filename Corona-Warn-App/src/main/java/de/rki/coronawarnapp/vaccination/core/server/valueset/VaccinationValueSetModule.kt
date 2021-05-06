@@ -18,16 +18,23 @@ class VaccinationValueSetModule {
     @Reusable
     @VaccinationValueSetHttpClient
     @Provides
-    fun httpClient(
-        @AppContext context: Context,
-        @HttpClientDefault defaultHttpClient: OkHttpClient
-    ): OkHttpClient {
+    fun cache(
+        @AppContext context: Context
+    ): Cache {
         val cacheDir = File(context.cacheDir, "vaccination_value")
-        val cache = Cache(File(cacheDir, "http_cache"), CACHE_SIZE_5MB)
-        return defaultHttpClient.newBuilder()
-            .cache(cache)
-            .build()
+        val cacheFile = File(cacheDir, "http_cache")
+        return Cache(cacheFile, CACHE_SIZE_5MB)
     }
+
+    @Reusable
+    @VaccinationValueSetHttpClient
+    @Provides
+    fun httpClient(
+        @HttpClientDefault defaultHttpClient: OkHttpClient,
+        @VaccinationValueSetHttpClient cache: Cache
+    ): OkHttpClient = defaultHttpClient.newBuilder()
+        .cache(cache)
+        .build()
 
     @Reusable
     @Provides
