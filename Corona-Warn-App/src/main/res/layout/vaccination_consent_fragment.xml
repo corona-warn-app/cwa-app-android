@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Vaccination Consent" />
+        app:title="@string/vaccination_consent_title" />
 
     <ScrollView
         android:id="@+id/scrollview"
@@ -38,20 +38,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_huge"
                 android:contentDescription="@string/trace_location_qr_info_content_description"
-                app:srcCompat="@drawable/ic_qr_info"
+                app:srcCompat="@drawable/ic_vaccination_consent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/trace_location_qr_info_headline"
+                android:id="@+id/vaccination_consent_headline"
                 style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_huge"
                 android:layout_marginEnd="@dimen/spacing_normal"
-                android:text="@string/trace_location_qr_info_headline_text"
+                android:text="@string/vaccination_consent_headline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_graphic" />
@@ -64,10 +64,10 @@
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginEnd="@dimen/spacing_normal"
-                android:text="@string/trace_location_qr_info_subtitle_text"
+                android:text="@string/vaccination_consent_info_subtitle_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_headline" />
+                app:layout_constraintTop_toBottomOf="@id/vaccination_consent_headline" />
 
             <ImageView
                 android:id="@+id/trace_location_tracing_icon"
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_normal"
-                android:text="@string/trace_location_qr_info_tracing_text"
+                android:text="@string/vaccination_consent_qr_info_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/trace_location_tracing_icon"
                 app:layout_constraintTop_toTopOf="@id/trace_location_tracing_icon" />
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_normal"
-                android:text="@string/trace_location_qr_info_qr_code_text"
+                android:text="@string/vaccination_consent_qr_info_qr_code_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/trace_location_qr_code_icon"
                 app:layout_constraintTop_toTopOf="@id/trace_location_qr_code_icon" />
@@ -130,14 +130,54 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_normal"
-                android:text="@string/trace_location_qr_info_time_text"
+                android:text="@string/vaccination_consent_qr_info_time_text"
                 app:layout_constraintTop_toTopOf="@id/trace_location_qr_time_sheet_icon"
                 app:layout_constraintStart_toEndOf="@id/trace_location_qr_time_sheet_icon"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+            <TextView
+                android:id="@+id/trace_location_qr_time_sheet_text2"
+                style="@style/headline6"
+                android:layout_width="0dp"
+
+                android:layout_marginTop="32dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/vaccination_consent_countries_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_time_sheet_text" />
+
+            <TextView
+                android:id="@+id/trace_location_qr_time_sheet_text3"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/vaccination_consent_countries_subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_time_sheet_text2" />
+
+
+            <de.rki.coronawarnapp.ui.view.CountryListView
+                android:id="@+id/country_list"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_time_sheet_text3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_small" />
+
+
             <include
                 android:id="@+id/privacy_card"
-                layout="@layout/trace_location_privacy_card"
+                layout="@layout/vaccination_consent_privacy_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
@@ -145,7 +185,7 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_time_sheet_text" />
+                app:layout_constraintTop_toBottomOf="@id/country_list" />
 
             <de.rki.coronawarnapp.util.ui.views.MoreInformationView
                 android:id="@+id/privacy_information"
