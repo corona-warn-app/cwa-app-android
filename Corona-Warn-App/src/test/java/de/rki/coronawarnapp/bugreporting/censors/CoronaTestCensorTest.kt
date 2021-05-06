@@ -68,11 +68,6 @@ class CoronaTestCensorTest : BaseTest() {
             message = "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
         )
 
-        every { CWADebug.isDeviceForTestersBuild } returns true
-        instance.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: ########-e0de-4bd4-90c1-17c2bb683a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
-        )
-
         verify { coronaTestRepository.coronaTests }
     }
 

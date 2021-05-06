@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLin
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenHash
-import de.rki.coronawarnapp.util.CWADebug
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
@@ -25,11 +24,7 @@ class RatQrCodeCensor @Inject constructor() : BugCensor {
         with(dataToCensor) {
             newMessage = newMessage.replace(rawString, "RatQrCode/ScannedRawString")
 
-            newMessage = if (CWADebug.isDeviceForTestersBuild) {
-                newMessage.replace(hash, PLACEHOLDER + hash.takeLast(28))
-            } else {
-                newMessage.replace(hash, PLACEHOLDER + hash.takeLast(4))
-            }
+            newMessage = newMessage.replace(hash, PLACEHOLDER + hash.takeLast(4))
 
             withValidName(firstName) { firstName ->
                 newMessage = newMessage.replace(firstName, "RATest/FirstName")

@@ -56,11 +56,6 @@ internal class RatQrCodeCensorTest {
         censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
             message = "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
         )
-
-        every { CWADebug.isDeviceForTestersBuild } returns true
-        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
-            message = "Here comes the hash: SHA256HASH-ENDING-WITH-61a396177a9cb410ff61f20015ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
-        )
     }
 
     @Test
