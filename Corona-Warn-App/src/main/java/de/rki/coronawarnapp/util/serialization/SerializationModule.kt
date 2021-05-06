@@ -6,9 +6,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import de.rki.coronawarnapp.util.serialization.adapter.ByteArrayAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.ByteStringBase64Adapter
 import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
+import okio.ByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -24,5 +26,6 @@ class SerializationModule {
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(Duration::class.java, DurationAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+        .registerTypeAdapter(ByteString::class.java, ByteStringBase64Adapter())
         .create()
 }
