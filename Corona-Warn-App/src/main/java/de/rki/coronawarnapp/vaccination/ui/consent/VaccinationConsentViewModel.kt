@@ -5,21 +5,26 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 
 class VaccinationConsentViewModel @AssistedInject constructor(
-    private val vaccinationRepository: VaccinationRepository,
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
 
+    val routeToScreen = SingleLiveEvent<VaccinationConsentNavigationEvent>()
+
     val countryList = interoperabilityRepository.countryList
         .asLiveData(context = dispatcherProvider.Default)
 
-    fun doConsent() {
-        //TODO: implement me
+    fun onConsentClick() {
+        routeToScreen.postValue(VaccinationConsentNavigationEvent.NavigateToQrCodeScan)
+    }
+
+    fun onDataPrivacyClick() {
+        routeToScreen.postValue(VaccinationConsentNavigationEvent.NavigateToDataPrivacy)
     }
 
     @AssistedFactory

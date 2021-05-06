@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationConsentFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -23,13 +24,27 @@ class VaccinationConsentFragment : Fragment(R.layout.vaccination_consent_fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
+            vaccinationConsentPrivacyInformation.setOnClickListener {
+                viewModel.onDataPrivacyClick()
+            }
             buttonConsent.setOnClickListener {
-                viewModel.doConsent()
+                viewModel.onConsentClick()
             }
         }
 
         viewModel.countryList.observe2(this) {
             binding.countryList.countries = it
+        }
+
+        viewModel.routeToScreen.observe2(this) {
+            when(it) {
+                VaccinationConsentNavigationEvent.NavigateToDataPrivacy -> {
+                    doNavigate(VaccinationConsentFragmentDirections.vaccinationConsentFragmentToPrivacyFragment())
+                }
+                VaccinationConsentNavigationEvent.NavigateToQrCodeScan -> {
+                    // TODO: implement in another PR when screen is ready
+                }
+            }
         }
     }
 }

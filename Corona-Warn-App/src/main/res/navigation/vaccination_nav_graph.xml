@@ -10,10 +10,9 @@
         android:name="de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment"
         android:label="VaccinationConsentFragment"
         tools:layout="@layout/vaccination_consent_fragment">
-        <argument
-            android:name="vaccinationCertificateId"
-            android:defaultValue=""
-            app:argType="string" />
+        <action
+            android:id="@+id/vaccinationConsentFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
     </fragment>
 
     <fragment
@@ -25,4 +24,10 @@
             android:name="vaccinationCertificateId"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="privacyFragment"
+        tools:layout="@layout/fragment_information_privacy" />
 </navigation>

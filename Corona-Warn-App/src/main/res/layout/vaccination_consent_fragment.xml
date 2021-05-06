@@ -196,7 +196,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/privacy_card"
-                app:titleText="@string/contact_diary_onboarding_legal_information" />
+                app:titleText="@string/vaccination_consent_onboarding_legal_information" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -215,6 +215,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scrollview"
-        tools:text="@string/acknowledge_button" />
+        tools:text="@string/vaccination_consent_accept_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
