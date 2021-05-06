@@ -64,12 +64,21 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
         binding.apply {
 
-            (viewModel.testType == CoronaTest.Type.PCR).apply {
-                testResultPendingStepsContactDiaryResult.isVisible = !this
-                testResultPendingStepsWaitingPcrResult.isVisible = this
-                testResultPendingStepsWaitingAntigenResult.isVisible = !this
-                testResultPendingStepsRatAdded.isVisible = !this
-                testResultPendingStepsPcrAdded.isVisible = this
+            when (viewModel.testType) {
+                CoronaTest.Type.PCR -> {
+                    testResultPendingStepsWaitingPcrResult.isVisible = true
+                    testResultPendingStepsPcrAdded.isVisible = true
+                    testResultPendingStepsContactDiaryResult.isVisible = false
+                    testResultPendingStepsWaitingAntigenResult.isVisible = false
+                    testResultPendingStepsRatAdded.isVisible = false
+                }
+                CoronaTest.Type.RAPID_ANTIGEN -> {
+                    testResultPendingStepsContactDiaryResult.isVisible = true
+                    testResultPendingStepsWaitingAntigenResult.isVisible = true
+                    testResultPendingStepsRatAdded.isVisible = true
+                    testResultPendingStepsWaitingPcrResult.isVisible = false
+                    testResultPendingStepsPcrAdded.isVisible = false
+                }
             }
         }
 
