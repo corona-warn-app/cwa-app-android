@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
@@ -76,7 +77,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
         binding.apply {
             submissionTestResultButtonPendingRefresh.setOnClickListener {
-                viewModel.refreshDeviceUIState()
+                pendingViewModel.updateTestResult()
                 binding.submissionTestResultSection.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             }
 
@@ -103,12 +104,14 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         viewModel.routeToScreen.observe2(this) {
             it?.let { doNavigate(it) } ?: navigateToMainScreen()
         }
+        pendingViewModel.errorEvent.observe2(this) {
+            it.toErrorDialogBuilder(requireContext()).show()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        viewModel.refreshDeviceUIState()
         skipInitialTestResultRefresh = false
         viewModel.cwaWebExceptionLiveData.observeOnce(this.viewLifecycleOwner) { exception ->
             handleError(exception)

@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.os.Build
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 
@@ -76,9 +77,17 @@ object ConnectivityHelper {
      */
     fun isNetworkEnabled(context: Context): Boolean {
         val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork: Network? = manager.activeNetwork
-        val caps: NetworkCapabilities? = manager.getNetworkCapabilities(activeNetwork)
-        return caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) ?: false
+        return when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
+                val activeNetwork = manager.activeNetwork
+                val caps: NetworkCapabilities? = manager.getNetworkCapabilities(activeNetwork)
+                caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) ?: false
+            }
+            else -> {
+                val activeNetworkInfo = manager.activeNetworkInfo
+                activeNetworkInfo != null && activeNetworkInfo.isConnected
+            }
+        }
     }
 
     /**

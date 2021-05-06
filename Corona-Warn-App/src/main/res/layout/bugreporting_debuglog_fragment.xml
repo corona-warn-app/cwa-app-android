@@ -61,7 +61,7 @@
                 android:layout_marginVertical="24dp"
                 android:focusable="true" />
 
-            <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+            <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/debug_log_history_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                 app:titleText="@string/debugging_debuglog_id_history_title"
                 tools:visibility="visible" />
 
-            <de.rki.coronawarnapp.util.ui.views.MoreInformationView
+            <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/debug_log_privacy_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
