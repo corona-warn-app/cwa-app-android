@@ -37,7 +37,7 @@
         android:layout_marginEnd="8dp"
         android:accessibilityHeading="true"
         android:focusable="false"
-        android:text="@string/vaccination_home_card_title"
+        android:text="@string/vaccination_card_status_title"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:layout_constraintEnd_toStartOf="@id/show_more_action"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_title"
-        tools:text="SARS-CoV-2 Impfschutz" />
+        android:text="@string/vaccination_card_status_vaccination_name" />
 
     <TextView
         android:id="@+id/vaccination_state"
@@ -66,7 +66,7 @@
         android:layout_marginEnd="16dp"
         android:accessibilityHeading="true"
         android:focusable="false"
-        android:text="@string/vaccination_home_card_status_vaccination_incomplete"
+        android:text="@string/vaccination_card_status_vaccination_incomplete"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:layout_constraintBottom_toTopOf="@+id/person_name"
         app:layout_constraintEnd_toStartOf="@+id/icon"

@@ -42,7 +42,9 @@
     <string name="vaccination_card_register">"Registrieren"</string>
 
     <!-- XHED: Homescreen card title -->
-    <string name="vaccination_home_card_title">Digitaler Impfnachweis</string>
+    <string name="vaccination_card_status_title">Digitaler Impfnachweis</string>
+    <!-- XHED: Homescreen vaccination status card vaccination name -->
+    <string name="vaccination_card_status_vaccination_name">SARS-CoV-2 Impfschutz</string>
     <!-- XTXT: Homescreen card vaccination status label -->
-    <string name="vaccination_home_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
+    <string name="vaccination_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
 </resources>
