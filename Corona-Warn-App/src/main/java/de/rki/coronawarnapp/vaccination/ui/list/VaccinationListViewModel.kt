@@ -41,21 +41,27 @@ class VaccinationListViewModel @AssistedInject constructor(
         // For now, use mock data
         val vaccinationStatus = INCOMPLETE
         // val vaccinationStatus = COMPLETE
+
+        val nameData = VaccinationCertificateV1.NameData(
+            givenName = "François-Joan",
+            givenNameStandardized = "FRANCOIS<JOAN",
+            familyName = "d'Arsøns - van Halen",
+            familyNameStandardized = "DARSONS<VAN<HALEN",
+        )
+
+        val dateOfBirth = LocalDate.parse("2009-02-28")
+        val medicalProductId = "EU/1/20/1528"
+
         val vaccinationCertificates = setOf(
             VaccinationCertificateV1(
                 version = "1.0.0",
-                nameData = VaccinationCertificateV1.NameData(
-                    givenName = "François-Joan",
-                    givenNameStandardized = "FRANCOIS<JOAN",
-                    familyName = "d'Arsøns - van Halen",
-                    familyNameStandardized = "DARSONS<VAN<HALEN",
-                ),
-                dateOfBirth = LocalDate.parse("2009-02-28"),
+                nameData = nameData,
+                dateOfBirth = dateOfBirth,
                 vaccinationDatas = listOf(
                     VaccinationCertificateV1.VaccinationData(
                         targetId = "840539006",
                         vaccineId = "1119349007",
-                        medicalProductId = "EU/1/20/1528",
+                        medicalProductId = medicalProductId,
                         marketAuthorizationHolderId = "ORG-100030215",
                         doseNumber = 1,
                         totalSeriesOfDoses = 2,
@@ -68,18 +74,13 @@ class VaccinationListViewModel @AssistedInject constructor(
             ),
             VaccinationCertificateV1(
                 version = "1.0.0",
-                nameData = VaccinationCertificateV1.NameData(
-                    givenName = "François-Joan",
-                    givenNameStandardized = "FRANCOIS<JOAN",
-                    familyName = "d'Arsøns - van Halen",
-                    familyNameStandardized = "DARSONS<VAN<HALEN",
-                ),
-                dateOfBirth = LocalDate.parse("2009-02-28"),
+                nameData = nameData,
+                dateOfBirth = dateOfBirth,
                 vaccinationDatas = listOf(
                     VaccinationCertificateV1.VaccinationData(
                         targetId = "840539006",
                         vaccineId = "1119349007",
-                        medicalProductId = "EU/1/20/1528",
+                        medicalProductId = medicalProductId,
                         marketAuthorizationHolderId = "ORG-100030215",
                         doseNumber = 2,
                         totalSeriesOfDoses = 2,
@@ -91,21 +92,22 @@ class VaccinationListViewModel @AssistedInject constructor(
                 )
             )
         )
+        val nameDataProofCertificate = ProofCertificateV1.NameData(
+            givenName = "François-Joan",
+            givenNameStandardized = "FRANCOIS<JOAN",
+            familyName = "d'Arsøns - van Halen",
+            familyNameStandardized = "DARSONS<VAN<HALEN",
+        )
         val proofCertificates = setOf(
             ProofCertificateV1(
                 version = "1.0.0",
-                nameData = ProofCertificateV1.NameData(
-                    givenName = "François-Joan",
-                    givenNameStandardized = "FRANCOIS<JOAN",
-                    familyName = "d'Arsøns - van Halen",
-                    familyNameStandardized = "DARSONS<VAN<HALEN",
-                ),
-                dateOfBirth = LocalDate.parse("2009-02-28"),
+                nameData = nameDataProofCertificate,
+                dateOfBirth = dateOfBirth,
                 vaccinationDatas = listOf(
                     ProofCertificateV1.VaccinationData(
                         targetId = "840539006",
                         vaccineId = "1119349007",
-                        medicalProductId = "EU/1/20/1528",
+                        medicalProductId = medicalProductId,
                         marketAuthorizationHolderId = "ORG-100030215",
                         doseNumber = 2,
                         totalSeriesOfDoses = 2,
@@ -123,7 +125,7 @@ class VaccinationListViewModel @AssistedInject constructor(
             proofCertificates = proofCertificates,
             firstName = "François-Joan",
             lastName = "d'Arsøns - van Halen",
-            dateOfBirth = LocalDate.parse("2009-02-28"),
+            dateOfBirth = dateOfBirth,
             vaccinationStatus,
             timeStamper.nowUTC.plus(Duration.standardDays(3))
         )
