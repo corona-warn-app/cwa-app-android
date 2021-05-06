@@ -7,6 +7,6 @@ import retrofit2.http.Path
 
 interface VaccinationValueSetApiV1 {
 
-    @GET("version/v1/ehn-dgc/value-sets/{lang}")
+    @GET("/version/v1/ehn-dgc/{lang}/value-sets")
     suspend fun getValueSets(@Path("lang") languageCode: String): Response<ResponseBody>
 }
