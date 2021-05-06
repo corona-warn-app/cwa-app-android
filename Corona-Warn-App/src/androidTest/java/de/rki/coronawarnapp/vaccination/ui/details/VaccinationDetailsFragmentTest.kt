@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
+import io.mockk.mockk
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
@@ -35,19 +35,6 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    private val vc = VaccinationCertificate(
-        firstName = "Max",
-        lastName = "Mustermann",
-        dateOfBirth = LocalDate.now(),
-        vaccinatedAt = Instant.now(),
-        vaccineName = "Comirnaty (mRNA)",
-        vaccineManufacturer = "BioNTech",
-        chargeId = "CB2342",
-        certificateIssuer = "Landratsamt Potsdam",
-        certificateCountry = Country.DE,
-        certificateId = "05930482748454836478695764787841"
-    )
 
     private val args = VaccinationDetailsFragmentArgs("vaccinationCertificateId").toBundle()
 
@@ -83,10 +70,23 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         takeScreenshot<VaccinationDetailsFragment>("incomplete")
     }
 
-    private fun vaccinationDetailsData(complete: Boolean) =
-        MutableLiveData(
-            VaccinationDetails(vc, complete)
+    private fun vaccinationDetailsData(complete: Boolean): MutableLiveData<VaccinationDetails> {
+        val mockCertificate = mockk<VaccinationCertificate>().apply {
+            every { firstName } returns "Max"
+            every { lastName } returns "Mustermann"
+            every { dateOfBirth } returns LocalDate.now()
+            every { vaccinatedAt } returns LocalDate.now()
+            every { vaccineName } returns "Comirnaty (mRNA)"
+            every { vaccineManufacturer } returns "BioNTech"
+            every { certificateIssuer } returns "Landratsamt Potsdam"
+            every { certificateCountry } returns Country.DE
+            every { certificateId } returns "05930482748454836478695764787841"
+        }
+
+        return MutableLiveData(
+            VaccinationDetails(mockCertificate, complete)
         )
+    }
 
     @After
     fun tearDown() {
