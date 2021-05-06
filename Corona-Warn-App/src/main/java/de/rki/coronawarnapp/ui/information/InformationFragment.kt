@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -36,10 +37,10 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
         super.onViewCreated(view, savedInstanceState)
 
         vm.currentENFVersion.observe2(this) {
-//            binding.informationEnfVersion.apply {
-//                setGone(it == null)
-//                text = it
-//            }
+            binding.informationEnfVersion.apply {
+                setGone(it == null)
+                text = it
+            }
         }
         vm.appVersion.observe2(this) {
             binding.informationVersion.text = it
