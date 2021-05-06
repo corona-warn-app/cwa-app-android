@@ -974,7 +974,7 @@
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 
     <!-- XHED: Dialog title for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie die Symptom-Erfassung abbrechen?"</string>
+    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie die Erfassung von Symptomen abbrechen?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_body">"Wenn Sie Angaben zu Ihren Symptomen machen, können Sie andere noch genauer warnen."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
