@@ -141,6 +141,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 }?.show()
             }
         }
+
+        viewModel.errorEvent.observe2(this) {
+            it.toErrorDialogBuilder(requireContext()).show()
+        }
     }
 
     override fun onResume() {

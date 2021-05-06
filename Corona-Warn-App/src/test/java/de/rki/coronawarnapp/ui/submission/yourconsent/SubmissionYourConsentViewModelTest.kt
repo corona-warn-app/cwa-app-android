@@ -7,11 +7,12 @@ import de.rki.coronawarnapp.ui.Country
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -41,8 +42,8 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
         every { submissionRepository.testForType(any()) } returns coronaTestFlow
         every { interoperabilityRepository.countryList } returns MutableStateFlow(countryList)
-        every { submissionRepository.giveConsentToSubmission(any()) } just Runs
-        every { submissionRepository.revokeConsentToSubmission(any()) } just Runs
+        coEvery { submissionRepository.giveConsentToSubmission(any()) } just Runs
+        coEvery { submissionRepository.revokeConsentToSubmission(any()) } just Runs
     }
 
     private fun createViewModel(): SubmissionYourConsentViewModel = SubmissionYourConsentViewModel(
@@ -75,7 +76,7 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
         }
 
         createViewModel().switchConsent()
-        verify(exactly = 1) { submissionRepository.revokeConsentToSubmission(any()) }
+        coVerify(exactly = 1) { submissionRepository.revokeConsentToSubmission(any()) }
     }
 
     @Test
@@ -85,7 +86,7 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
         }
 
         createViewModel().switchConsent()
-        verify(exactly = 1) { submissionRepository.giveConsentToSubmission(any()) }
+        coVerify(exactly = 1) { submissionRepository.giveConsentToSubmission(any()) }
     }
 
     @Test

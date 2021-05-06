@@ -45,7 +45,7 @@ class SubmissionConsentViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
         every { interoperabilityRepository.countryList } returns MutableStateFlow(countryList)
-        every { submissionRepository.giveConsentToSubmission(any()) } just Runs
+        coEvery { submissionRepository.giveConsentToSubmission(any()) } just Runs
         coEvery { qrCodeRegistrationStateProcessor.showRedeemedTokenWarning } returns SingleLiveEvent()
         coEvery { qrCodeRegistrationStateProcessor.registrationState } returns MutableLiveData(
             QrCodeRegistrationStateProcessor.RegistrationState(ApiRequestState.IDLE)

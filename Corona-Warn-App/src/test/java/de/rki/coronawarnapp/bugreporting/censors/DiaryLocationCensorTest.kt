@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
+import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryLocationCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -65,6 +66,17 @@ class DiaryLocationCensorTest : BaseTest() {
             tag = "I'm a tag",
             throwable = null
         )
+        instance.checkLog(censorMe) shouldBe censorMe.copy(
+            message =
+                """
+                Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
+                Both agreed that their emails (Location#1/EMail|Location#3/EMail) are awesome,
+                and that Location#2/Name doesn't exist as it has neither phonenumber (null) nor email (null).
+                """.trimIndent()
+        )
+
+        // censoring should still work after locations are deleted
+        every { diaryRepo.locations } returns flowOf(emptyList())
         instance.checkLog(censorMe) shouldBe censorMe.copy(
             message =
                 """
