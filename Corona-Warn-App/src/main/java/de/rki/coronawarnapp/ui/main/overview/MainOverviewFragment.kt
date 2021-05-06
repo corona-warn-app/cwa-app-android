@@ -6,7 +6,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
@@ -32,7 +32,7 @@ class MainOverviewFragment : Fragment(R.layout.fragment_main_overview) {
 
     private fun setButtonOnClickListener() {
         binding.mainOverviewHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
+            popBackStack()
         }
     }
 }
