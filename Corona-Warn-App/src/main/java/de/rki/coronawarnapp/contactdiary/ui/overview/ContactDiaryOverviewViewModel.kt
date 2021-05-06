@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskE
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
@@ -147,13 +148,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
             val riskEventItem = traceLocationCheckInRisksForDate
                 .mapNotNull {
-                    val locationVisit = visitsForDate.find { visit -> visit.checkInID == it.checkInId }
-                    val checkIn = checkInList.find { checkIn -> checkIn.id == it.checkInId }
-
-                    return@mapNotNull when (locationVisit != null && checkIn != null) {
-                        true -> RiskEventDataHolder(it, locationVisit, checkIn)
-                        else -> null
-                    }
+                    val checkIn = checkInList.find { checkIn -> checkIn.id == it.checkInId } ?: return@mapNotNull null
+                    RiskEventDataHolder(it, checkIn)
                 }.toRiskEventItem()
 
             DayOverviewItem(
@@ -209,7 +205,6 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     private data class RiskEventDataHolder(
         val traceLocationCheckInRisk: TraceLocationCheckInRisk,
-        val locationVisit: ContactDiaryLocationVisit,
         val checkIn: CheckIn
     )
 
@@ -234,7 +229,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         }
 
         val events = map { data ->
-            val name = data.locationVisit.contactDiaryLocation.locationName
+            val checkIn = data.checkIn
+            val name = checkIn.locationName
 
             val bulletPointColor: Int
             var riskInfoAddition: Int?
@@ -252,7 +248,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
             if (size < 2) riskInfoAddition = null
 
-            val description = data.checkIn.description
+            val description = checkIn.description
 
             RiskEventItem.Event(
                 name = name,
@@ -261,8 +257,6 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 riskInfoAddition = riskInfoAddition
             )
         }
-
-        if (events.isEmpty()) return null
 
         return RiskEventItem(
             title = title,

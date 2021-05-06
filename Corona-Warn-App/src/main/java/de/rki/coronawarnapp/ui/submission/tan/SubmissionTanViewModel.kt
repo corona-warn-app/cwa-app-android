@@ -89,9 +89,6 @@ class SubmissionTanViewModel @AssistedInject constructor(
         } catch (err: Exception) {
             registrationState.postValue(ApiRequestState.FAILED)
             err.report(ExceptionCategory.INTERNAL)
-        } finally {
-            // TODO Should not be necessary? What new data would we
-            submissionRepository.refreshTest(type = CoronaTest.Type.PCR)
         }
     }
 

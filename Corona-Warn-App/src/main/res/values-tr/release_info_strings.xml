@@ -16,32 +16,24 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Hızlı Antijen Testlerinin Kaydı"</item>
-        <item>"Kanıtın Görüntülenmesi"</item>
-        <item>"Teknik Yardım Hattına Artık Almanya Dışından Ulaşılabilir"</item>
-        <item>"TAN Yardım Hattına Artık Almanya Dışından Ulaşılabilir"</item>
+        <item>"Sorun Giderme Günlüklerini Kaydet"</item>
+        <item>"Hızlı Test Profilleri Oluştur"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"PCR testlerinin sonuçlarına ek olarak artık hızlı antijen testlerinin sonuçlarını da uygulamada görüntüleyebilir ve bu sonuçları kullanarak diğer kullanıcıları uyarabilirsiniz."</item>
-        <item>"Dilerseniz uygulamayı kişisel enfeksiyon durumunuzu (örneğin, negatif sonuç veren bir hızlı test) kanıtlamak için kullanabilirsiniz. Ancak lütfen unutmayın; enfeksiyon durumunuzu kanıtlamak için uygulamayı kullanmak zorunda değilsiniz. Enfeksiyon durumunuzu, ikamet ettiğiniz bölgede geçerli olan yasal düzenlemeler uyarınca başka bir şekilde de kanıtlayabilirsiniz."</item>
-        <item>"Teknik yardım hattına artık +49 30 498 75401 numaralı hattı arayarak Almanya dışından da ulaşabilirsiniz. Telefon sağlayıcınız tarafından uygulanan ücretler geçerlidir."</item>
-        <item>"Koronavirüs tanısı aldıysanız artık +49 30 498 75402 numaralı hattı arayarak Almanya dışından TAN talebinde bulunabilirsiniz. Telefon sağlayıcınız tarafından uygulanan ücretler geçerlidir."</item>
+        <item>"Artık uygulamanın teknik destek özelliğinde bir hata günlüğü oluşturabilirsiniz. Bu günlük, potansiyel hataların analizini basitleştirmek ve bu hataları daha hızlı düzeltmemize yardımcı olmak için uygulamada gerçekleştirdiğiniz adımları kaydeder."</item>
+        <item>"Artık kişisel verilerinizde bir hızlı test profili oluşturabilirsiniz. Ardından QR kod ile hızlı ve kolay bir biçimde test noktalarında profiliniz taranabilir."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
         <item/>
         <item/>
     </string-array>

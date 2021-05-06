@@ -120,7 +120,7 @@
     <!-- XHED: submission result antigen fragment negative result proof title -->
     <string name="submission_test_result_antigen_negative_proof_title">"Caracteristica de verificare"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
-    <string name="submission_test_result_antigen_negative_proof_body">"De asemenea, puteți utiliza rezultatul testului afișat aici ca dovadă a unui rezultat negativ la un test rapid. \n\nRețineți că trebuie să faceți dovada rezultatului testului dvs. rapid doar dacă acest lucru este cerut de lege. Puteți face dovada rezultatului utilizând aplicația sau într-un alt mod. Pentru mai multe informații, familiarizați-vă cu criteriile de acceptare a dovezii testării din statul dvs. federal."</string>
+    <string name="submission_test_result_antigen_negative_proof_body">"Rezultatul testului dvs. este privat, deși unele legi vă pot solicita să îl partajați. Când vi se solicită acest lucru, îl puteți arăta prin intermediul unuia dintre modurile furnizate."</string>
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Rezultat disponibil de la"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
@@ -136,4 +136,64 @@
     <!-- XTXT: coronatest negative antigen result third info body -->
     <string name="coronatest_negative_antigen_restul_third_info_body">"Ștergeți testul din Corona-Warn-App pentru a salva un nou cod de test aici dacă este necesar."</string>
 
+    <!-- ####################################
+     Rapid Antigen Test Profile
+     ###################################### -->
+    <!-- XHED: Create RAT profile card title -->
+    <string name="rat_profile_create_card_title">"Crearea profilului de test rapid"</string>
+    <!-- XTXT: Create RAT profile card subtitle -->
+    <string name="rat_profile_create_card_subtitle">"Puteți crea un profil cu datele dvs. personale, pe care îl puteți transmite prin intermediul codului QR la fiecare test rapid."</string>
+    <!-- XHED: Open RAT profile card title -->
+    <string name="rat_profile_open_card_title">"Profil de test rapid"</string>
+    <!-- XTXT: Open RAT profile card subtitle -->
+    <string name="rat_profile_open_card_subtitle">"Economisiți timp și prezentați profilul dvs. de test rapid la punctul de testare."</string>
+    <!-- XHED: Create RAT profile title -->
+    <string name="rat_profile_create_title">"Profil de test rapid"</string>
+    <!-- XTXT: Create RAT profile first name hint -->
+    <string name="rat_profile_create_first_name_hint">"Prenume"</string>
+    <!-- XTXT: Create RAT profile last name hint -->
+    <string name="rat_profile_create_last_name_hint">"Nume"</string>
+    <!-- XTXT: Create RAT profile birth date hint -->
+    <string name="rat_profile_create_birth_date_hint">"Data nașterii"</string>
+    <!-- XBUT: Create RAT profile save button -->
+    <string name="rat_profile_create_button">"Salvare"</string>
+    <!-- XTXT: Create RAT profile description -->
+    <string name="rat_profile_create_description">"Salvați datele dvs. personale sub formă de cod QR pentru a grăbi înregistrarea în punctele de testare."</string>
+    <!-- XTXT: Create RAT profile street hint -->
+    <string name="rat_profile_create_street_hint">"Strada și numărul"</string>
+    <!-- XTXT: Create RAT profile post code hint -->
+    <string name="rat_profile_create_zip_code_hint">"Cod poștal"</string>
+    <!-- XTXT: Create RAT profile city hint -->
+    <string name="rat_profile_create_city_hint">"Localitate"</string>
+    <!-- XTXT: Create RAT profile phone hint -->
+    <string name="rat_profile_create_phone_hint">"Număr telefon"</string>
+    <!-- XTXT: Create RAT profile email hint -->
+    <string name="rat_profile_create_email_hint">"Adresă e-mail"</string>
+
+    <!--RAT profile onboarding-->
+    <string name="rat_profile_onboarding_image_content_description">"O femeie cu un smartphone în mână stă în fața unei clădiri. Un cod QR simbolizează profilul de test rapid de scanat."</string>
+    <!-- XTXT: Create RAT profile onboarding title -->
+    <string name="rat_profile_onboarding_title">"Salvați datele dvs. personale sub formă de cod QR pentru a grăbi înregistrarea în punctele de testare."</string>
+    <!-- XTXT: Create RAT profile onboarding subtitle -->
+    <string name="rat_profile_onboarding_subtitle">"Când creați un profil de test rapid nu va trebui să completați din nou datele dvs. înainte de fiecare test rapid."</string>
+    <!-- XTXT: Create RAT profile onboarding next button -->
+    <string name="rat_profile_onboarding_next">"Continuare"</string>
+    <!-- XTXT: Create RAT profile onboarding privacy -->
+    <string name="rat_profile_onboarding_privacy">"Informații detaliate privind Prelucrarea datelor și Consimțământul dvs."</string>
+    <!-- XTXT: Create RAT Qr code profile description-->
+    <string name="rat_qr_code_profile_description">"Prezentați acest cod QR în punctul de testare pentru ca datele dvs. personale să poată fi înregistrate mai repede. De asemenea, țineți cartea de identitate la îndemână."</string>
+    <!-- XTXT: Create RAT Qr code profile birth date-->
+    <string name="rat_qr_code_profile_birth_date">"Născut(ă) pe %1$s"</string>
+    <!-- XBUT: Create RAT Qr code profile next button-->
+    <string name="rat_qr_code_profile_next_button">"Continuare"</string>
+    <!-- XTXT: Create RAT Qr code profile delete item-->
+    <string name="rat_qr_code_profile_delete_item">"Eliminare"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog title-->
+    <string name="rat_qr_code_profile_dialog_title">"Doriți să eliminați profilul de test rapid?"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog message-->
+    <string name="rat_qr_code_profile_dialog_message">"Luați în considerare că dacă îl ștergeți, codul QR nu mai poate fi utilizat pentru înregistrare."</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->
+    <string name="rat_qr_code_profile_dialog_positive_button">"Ștergere"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog negative button-->
+    <string name="rat_qr_code_profile_dialog_negative_button">"Anulare"</string>
 </resources>
