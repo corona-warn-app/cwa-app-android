@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
@@ -38,8 +39,8 @@ class VaccinationListViewModel @AssistedInject constructor(
         // val vaccinatedPerson = vaccinatedPersonSet.single { it.identifier.code == vaccinatedPersonIdentifier }
 
         // For now, use mock data
-        // val vaccinationStatus = INCOMPLETE
-        val vaccinationStatus = COMPLETE
+        val vaccinationStatus = INCOMPLETE
+        // val vaccinationStatus = COMPLETE
         val vaccinationCertificates = setOf(
             VaccinationCertificateV1(
                 version = "1.0.0",
@@ -134,6 +135,7 @@ class VaccinationListViewModel @AssistedInject constructor(
 
     // TODO: after using actual values from the repository, we only pass VaccinatedPerson here instead of all these
     // arguments
+    @Suppress("LongParameterList")
     private fun assembleItemList(
         vaccinationCertificates: Set<VaccinationCertificateV1>,
         proofCertificates: Set<ProofCertificateV1>,

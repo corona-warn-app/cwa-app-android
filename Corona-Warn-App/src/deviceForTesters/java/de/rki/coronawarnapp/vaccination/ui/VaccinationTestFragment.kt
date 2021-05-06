@@ -25,18 +25,10 @@ class VaccinationTestFragment : Fragment(R.layout.fragment_test_vaccination), Au
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.openIncompleteVaccinationList.setOnClickListener {
+        binding.openVaccinationList.setOnClickListener {
             doNavigate(
                 VaccinationTestFragmentDirections.actionVaccinationTestFragmentToVaccinationListFragment(
-                    "vaccinated-person-incomplete"
-                )
-            )
-        }
-
-        binding.openCompleteVaccinationList.setOnClickListener {
-            doNavigate(
-                VaccinationTestFragmentDirections.actionVaccinationTestFragmentToVaccinationListFragment(
-                    "vaccinated-person-complete"
+                    "vaccinated-person-identifier"
                 )
             )
         }
