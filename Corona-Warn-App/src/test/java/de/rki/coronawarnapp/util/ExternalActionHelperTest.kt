@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.ExternalActionHelper.callPhone
+import de.rki.coronawarnapp.util.ExternalActionHelper.openAppNotificationSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.ExternalActionHelper.shareText
 import io.mockk.MockKAnnotations
@@ -39,7 +40,7 @@ class ExternalActionHelperTest : BaseTest() {
         every { context.packageName } returns "package_name"
         every { context.applicationInfo } returns applicationInfo
 
-        ExternalActionHelper.toNotifications(context = context)
+        context.openAppNotificationSettings()
         verify(exactly = 1) { context.startActivity(any()) }
     }
 

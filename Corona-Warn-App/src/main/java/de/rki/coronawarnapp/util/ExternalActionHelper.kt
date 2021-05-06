@@ -80,25 +80,23 @@ object ExternalActionHelper {
 
     /**
      * Navigate the user to the os notification settings.
-     *
-     * @param context
      */
-    fun toNotifications(context: Context) {
+    fun Context.openAppNotificationSettings() {
         try {
             val intent = Intent().apply {
                 when {
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                         action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                        putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
                     }
                     else -> {
                         action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                        putExtra("app_package", context.packageName)
-                        putExtra("app_uid", context.applicationInfo.uid)
+                        putExtra("app_package", packageName)
+                        putExtra("app_uid", applicationInfo.uid)
                     }
                 }
             }
-            context.startActivity(intent)
+            startActivity(intent)
         } catch (exception: Exception) {
             // catch generic exception on settings navigation
             // most likely due to device / rom specific intent issue
@@ -112,7 +110,7 @@ object ExternalActionHelper {
      * Navigate the user to the os settings as navigation to
      * bluetooth settings directly is not reliable for all devices
      */
-    fun Fragment.openDeviceAppSettings() {
+    fun Fragment.openDeviceSettings() {
         try {
             val intent = Intent(Settings.ACTION_SETTINGS)
             startActivity(intent)
