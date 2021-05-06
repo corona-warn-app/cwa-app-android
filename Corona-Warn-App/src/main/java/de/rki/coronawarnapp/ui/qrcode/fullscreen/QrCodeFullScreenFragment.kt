@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.qrcode.fullscreen
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -26,8 +25,7 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         constructorCall = { factory, _ ->
             factory as QrCodeFullScreenViewModel.Factory
             factory.create(
-                qrcodeText = args.qrCodeText,
-                resources.configuration.uiMode == Configuration.UI_MODE_NIGHT_YES
+                qrcodeText = args.qrCodeText
             )
         }
     )

@@ -16,7 +16,6 @@ import timber.log.Timber
 
 class QrCodeFullScreenViewModel @AssistedInject constructor(
     @Assisted private val qrcodeText: String,
-    @Assisted private val darkMode: Boolean,
     private val qrCodeGenerator: QrCodeGenerator,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
@@ -30,7 +29,7 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
 
     private fun generateQrCode() = launch {
         try {
-            qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(qrcodeText, reverseColors = darkMode))
+            qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(qrcodeText))
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed")
             e.report(ExceptionCategory.UI)
@@ -40,8 +39,7 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<QrCodeFullScreenViewModel> {
         fun create(
-            qrcodeText: String,
-            darkMode: Boolean
+            qrcodeText: String
         ): QrCodeFullScreenViewModel
     }
 }
