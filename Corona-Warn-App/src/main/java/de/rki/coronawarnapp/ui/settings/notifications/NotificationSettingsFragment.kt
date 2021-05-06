@@ -6,10 +6,10 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openAppNotificationSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -43,50 +43,17 @@ class NotificationSettingsFragment :
     }
 
     private fun setButtonOnClickListener() {
-        // Notifications about risk status
-        val updateRiskNotificationSwitch =
-            binding.settingsSwitchRowNotificationsRisk.settingsSwitchRowSwitch
-        // Additional click target to toggle switch
-        val updateRiskNotificationRow =
-            binding.settingsSwitchRowNotificationsRisk.settingsSwitchRow
-        // Notifications about test status
-        val updateTestNotificationSwitch =
-            binding.settingsSwitchRowNotificationsTest.settingsSwitchRowSwitch
-        // Additional click target to toggle switch
-        val updateTestNotificationRow =
-            binding.settingsSwitchRowNotificationsTest.settingsSwitchRow
-        // Settings
-        val settingsRow = binding.settingsNotificationsCard.tracingStatusCardButton
-        val goBack =
-            binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
-        // Update Risk
-        updateRiskNotificationSwitch.setOnCheckedChangeListener { view, _ ->
-            // Make sure that listener is called by user interaction
-            if (!view.isPressed) return@setOnCheckedChangeListener
-
+        binding.settingsSwitchRowNotificationsRisk.setOnClickListener {
             vm.toggleNotificationsRiskEnabled()
         }
-        // Additional click target to toggle switch
-        updateRiskNotificationRow.setOnClickListener {
-            if (updateRiskNotificationRow.isEnabled) vm.toggleNotificationsRiskEnabled()
-        }
-        // Update Test
-        updateTestNotificationSwitch.setOnCheckedChangeListener { view, _ ->
-            // Make sure that listener is called by user interaction
-            if (!view.isPressed) return@setOnCheckedChangeListener
-
+        binding.settingsSwitchRowNotificationsTest.setOnClickListener {
             vm.toggleNotificationsTestEnabled()
         }
-        // Additional click target to toggle switch
-        updateTestNotificationRow.setOnClickListener {
-            if (updateTestNotificationRow.isEnabled) vm.toggleNotificationsTestEnabled()
+        binding.settingsNotificationsHeader.setNavigationOnClickListener {
+            popBackStack()
         }
-        goBack.setOnClickListener {
-            (activity as MainActivity).goBack()
-        }
-        // System Settings
-        settingsRow.setOnClickListener {
-            ExternalActionHelper.toNotifications(requireContext())
+        binding.settingsNotificationsCard.tracingStatusCardButton.setOnClickListener {
+            requireContext().openAppNotificationSettings()
         }
     }
 }

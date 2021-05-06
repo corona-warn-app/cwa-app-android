@@ -30,13 +30,15 @@
     <!-- YTXT: Body for your consent screen agreement share symptoms -->
     <string name="submission_your_consent_agreement_share_symptoms" translatable="false">"<b>In the case of rapid tests, only users of the Corona-Warn-App will be warned. If you provide additional information about the onset of symptoms, this will be also shared.</b>\n\nYou can withdraw your consent by disabling “Warn Others” above."</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms with additional hint for test result-->
-    <string name="submission_your_consent_agreement_share_symptoms_2" translatable="false"><b>If you provide additional information about the onset of your symptoms, this will also be shared.</b>\n\nYou can withdraw your consent by disabling “Warn others” above. Your test result will then be shown to you.</string>
+    <string name="submission_your_consent_agreement_share_symptoms_2" translatable="false"><b>In the case of rapid tests, only users of the Corona-Warn-App will be warned. If you provide additional information about the onset of symptoms, this will be also shared.</b>\n\nYou can withdraw your consent by disabling “Warn others” above. Your test result will then be shown to you.</string>
     <!-- YTXT: Body for keys submission no consent text first part-->
     <string name="submission_no_consent_your_consent_subsection_body_first_part" translatable="false">"By tapping on “Accept”, you consent to the following:"</string>
     <!-- YTXT: Body for keys submission no consent text second part-->
-    <string name="submission_no_consent_your_consent_subsection_body_second_part" translatable="false">"<b>The app will share your test result in order to warn other users of official coronavirus apps whom you have encountered. The warning will work in the countries mentioned above. If you provide additional information about the onset of your symptoms, this will also be shared.</b>In the next step, please share your test result (or more precisely: your random IDs from the last 14 days) by tapping on “Share”."</string>
+    <string name="submission_no_consent_your_consent_subsection_body_second_part" translatable="false">"<b>The app will share your test result in order to warn users whom you have encountered. This applies to users of coronavirus apps from the above countries and users who were simultaneously checked in at the same event or place as you. In the case of rapid tests, only users of the Corona-Warn-App will be warned. If you provide additional information about the onset of symptoms, this will be also shared.</b>"</string>
     <!-- YTXT: Body for keys submission no consent text third part-->
-    <string name="submission_no_consent_your_consent_subsection_body_third_part" translatable="false">"If you have already warned other users, you can withdraw your consent by deleting the app."</string>
+    <string name="submission_no_consent_your_consent_subsection_body_third_part" translatable="false">"In the next step, grant your consent to access random IDs."</string>
+    <!-- YTXT: Body for keys submission no consent text fourth part-->
+    <string name="submission_no_consent_your_consent_subsection_body_fourth_part" translatable="false">"If you have already warned other users, you can withdraw your consent by deleting the app."</string>
 
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_privacy_information_title" translatable="false">"Information on Data Processing"</string>
@@ -146,4 +148,22 @@
     <string name="trace_location_onboarding_body_consent5" translatable="false">If you later use the warning feature yourself, all of the other users who were checked in at the same time as you at an event or place listed under “My check-ins” will receive a warning based on the event ID.</string>
     <!-- YMSG: Onboarding trace location bullet points -->
     <string name="trace_location_onboarding_body_consent6" translatable="false">You can erase a check-in at any time under “My check-ins”. In this case, you will only be warned if your smartphone identifies a possible exposure after receiving the random IDs of the user who tested positive.</string>
+
+    <!-- RAT Profile Onboarding -->
+    <!-- XHED: Title for RAT Profile onboarding consent card -->
+    <string name="rat_profile_onboarding_card_title" translatable="false">Data protection and data security</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent1" translatable="false">Creating a rapid test profile in the app, and using it, are voluntary.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent2" translatable="false">The app converts the data you enter for your rapid test profile into your personal QR code. The QR code then contains all the data you entered.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent3" translatable="false">At a testing point, you can then have your rapid test profile’s QR code scanned as a means of quickly and securely providing your data to the testing point. The testing point will need your data to carry out the test. However, you do not need the app to provide your data. You decide yourself which data is included in the QR code, and which information you communicate to the testing point by other means.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent4" translatable="false">To begin with, only you will have access to your personal rapid test profile. Other people can only access the personal data contained in your rapid test profile if you show them your rapid test profile’s QR code. This will not provide access to other data from the app (e.g. your check-ins or information in your contact journal).</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent5" translatable="false">You have the possibility to delete your rapid test profile at any time. Until then, it will remain stored in the app on your smartphone.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent6" translatable="false">The QR code contains your personal information. Do not provide your personal QR code to anyone if you do not want the data to be read. We do not recommend publishing your personal QR code or sending it by email.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent7" translatable="false">Private individuals as well as companies are not allowed to make you share your rapid test profile with them.</string>
 </resources>

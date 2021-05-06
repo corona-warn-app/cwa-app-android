@@ -43,6 +43,8 @@ class SubmissionTestResultNoConsentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.onTestOpened()
+
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 showCancelDialog()
@@ -70,7 +72,6 @@ class SubmissionTestResultNoConsentFragment :
     override fun onResume() {
         super.onResume()
         appShortcutsHelper.removeAppShortcut()
-        viewModel.onTestOpened()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 

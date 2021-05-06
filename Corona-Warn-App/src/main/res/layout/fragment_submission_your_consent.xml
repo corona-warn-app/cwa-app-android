@@ -37,18 +37,24 @@
                 android:layout_height="wrap_content"
                 android:focusable="true">
 
-                <include
+                <de.rki.coronawarnapp.ui.view.SwitchRowView
                     android:id="@+id/submission_your_consent_switch"
-                    layout="@layout/include_settings_switch_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    app:enabled="@{true}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:showDivider="@{true}"
-                    app:subtitle="@{@string/submission_your_consent_switch_subtitle}" />
+                    app:switchEnabled="@{true}"
+                    app:title="@{@string/submission_your_consent_switch_subtitle}" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@id/submission_your_consent_switch" />
 
                 <TextView
                     android:id="@+id/submission_your_consent_about_text"
@@ -59,7 +65,7 @@
                     android:text="@string/submission_your_consent_about_agreement"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_your_consent_switch" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_your_consent_switch" />
 
                 <LinearLayout
                     android:id="@+id/submission_your_consent_agreement_card"
@@ -69,9 +75,9 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:focusable="true"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_your_consent_about_text">
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_your_consent_about_text">
 
                     <TextView
                         android:id="@+id/submission_your_consent_agreement_title"
@@ -81,7 +87,7 @@
                         android:layout_marginEnd="@dimen/spacing_small"
                         android:accessibilityHeading="true"
                         android:contentDescription="@string/submission_your_consent_agreement_title"
-                        android:text="@string/submission_your_consent_agreement_title"/>
+                        android:text="@string/submission_your_consent_agreement_title" />
 
                     <TextView
                         android:id="@+id/submission_your_consent_agreement_share_test_results_text"
@@ -114,8 +120,8 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:background="@color/colorHairline"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_your_consent_agreement_card" />
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_your_consent_agreement_card" />
 
                 <TextView
                     android:id="@+id/submission_your_consent_agreement_details_text"
@@ -128,7 +134,7 @@
                     android:text="@string/submission_your_consent_agreement_details"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_your_consent_agreement_details_divider_top" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_your_consent_agreement_details_divider_top" />
 
                 <View
                     android:id="@+id/submission_your_consent_agreement_details_divider_bottom"
@@ -136,8 +142,8 @@
                     android:layout_height="@dimen/card_divider"
                     android:background="@color/colorHairline"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_your_consent_agreement_details_text" />
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_your_consent_agreement_details_text" />
 
                 <include layout="@layout/merge_guidelines_side" />
                 <include layout="@layout/merge_guidelines_card" />
