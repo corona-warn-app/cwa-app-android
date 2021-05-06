@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginEnd="0dp" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+         <ImageView
             android:id="@+id/details_icon"
             gone="@{state.isInDetailsMode}"
             android:layout_width="@dimen/icon_size_risk_card"
