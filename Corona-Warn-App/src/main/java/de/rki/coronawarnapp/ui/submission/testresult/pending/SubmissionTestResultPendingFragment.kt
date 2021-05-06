@@ -77,7 +77,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
         binding.apply {
             submissionTestResultButtonPendingRefresh.setOnClickListener {
-                pendingViewModel.updateTestResult()
+                viewModel.updateTestResult()
                 binding.submissionTestResultSection.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             }
 
@@ -104,7 +104,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         viewModel.routeToScreen.observe2(this) {
             it?.let { doNavigate(it) } ?: navigateToMainScreen()
         }
-        pendingViewModel.errorEvent.observe2(this) {
+        viewModel.errorEvent.observe2(this) {
             it.toErrorDialogBuilder(requireContext()).show()
         }
     }
