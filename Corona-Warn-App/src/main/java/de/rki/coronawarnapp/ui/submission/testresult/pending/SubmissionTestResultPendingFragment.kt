@@ -68,12 +68,10 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                 CoronaTest.Type.PCR -> {
                     testResultPendingStepsWaitingPcrResult.isVisible = true
                     testResultPendingStepsPcrAdded.isVisible = true
-                    testResultPendingStepsContactDiaryResult.isVisible = false
                     testResultPendingStepsWaitingAntigenResult.isVisible = false
                     testResultPendingStepsRatAdded.isVisible = false
                 }
                 CoronaTest.Type.RAPID_ANTIGEN -> {
-                    testResultPendingStepsContactDiaryResult.isVisible = true
                     testResultPendingStepsWaitingAntigenResult.isVisible = true
                     testResultPendingStepsRatAdded.isVisible = true
                     testResultPendingStepsWaitingPcrResult.isVisible = false
