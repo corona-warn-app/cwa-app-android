@@ -96,7 +96,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         viewModel.openVaccinationRegistrationFlow.observe2(this) {
-            //TODO: should we show consent only once?
+            // TODO: should we show consent only once?
             doNavigate(HomeFragmentDirections.actionMainFragmentToTraceVaccinationNavGraph())
         }
 

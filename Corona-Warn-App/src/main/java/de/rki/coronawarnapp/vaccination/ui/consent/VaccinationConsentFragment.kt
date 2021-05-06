@@ -37,7 +37,7 @@ class VaccinationConsentFragment : Fragment(R.layout.vaccination_consent_fragmen
         }
 
         viewModel.routeToScreen.observe2(this) {
-            when(it) {
+            when (it) {
                 VaccinationConsentNavigationEvent.NavigateToDataPrivacy -> {
                     doNavigate(VaccinationConsentFragmentDirections.vaccinationConsentFragmentToPrivacyFragment())
                 }
