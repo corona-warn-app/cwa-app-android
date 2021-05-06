@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/trace_location_qr_privacy_card"
+    android:id="@+id/vaccination_consent_privacy_card"
     style="@style/GreyCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/trace_location_legal_text_card_title"
+        android:id="@+id/vaccination_consent_legal_text_card_title"
         style="@style/headline5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/trace_location_legal_text_card_subtitle"
+        android:id="@+id/vaccination_consent_legal_text_card_subtitle"
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -28,8 +28,8 @@
         android:layout_marginEnd="@dimen/spacing_normal"
         android:text="@string/vaccination_privacy_card_subtitle_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/trace_location_legal_text_card_title"
-        app:layout_constraintTop_toBottomOf="@id/trace_location_legal_text_card_title" />
+        app:layout_constraintStart_toStartOf="@id/vaccination_consent_legal_text_card_title"
+        app:layout_constraintTop_toBottomOf="@id/vaccination_consent_legal_text_card_title" />
 
     <include
         android:id="@+id/bulletpoint_one"
@@ -37,7 +37,7 @@
         android:layout_width="@dimen/bullet_point_size"
         android:layout_height="@dimen/bullet_point_size"
         app:layout_constraintBaseline_toBaselineOf="@id/first_bulletpoint_title"
-        app:layout_constraintStart_toStartOf="@id/trace_location_legal_text_card_subtitle" />
+        app:layout_constraintStart_toStartOf="@id/vaccination_consent_legal_text_card_subtitle" />
 
     <TextView
         android:id="@+id/first_bulletpoint_title"
@@ -48,9 +48,9 @@
         android:layout_marginTop="@dimen/spacing_normal"
         android:text="@string/vaccination_privacy_card_first_bulletpoint_title_text"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/trace_location_legal_text_card_subtitle"
+        app:layout_constraintEnd_toEndOf="@id/vaccination_consent_legal_text_card_subtitle"
         app:layout_constraintStart_toEndOf="@id/bulletpoint_one"
-        app:layout_constraintTop_toBottomOf="@id/trace_location_legal_text_card_subtitle" />
+        app:layout_constraintTop_toBottomOf="@id/vaccination_consent_legal_text_card_subtitle" />
 
     <TextView
         android:id="@+id/first_bulletpoint_subtitle"
@@ -88,7 +88,7 @@
         android:layout_width="@dimen/bullet_point_size"
         android:layout_height="@dimen/bullet_point_size"
         app:layout_constraintBaseline_toBaselineOf="@id/third_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/trace_location_legal_text_card_subtitle" />
+        app:layout_constraintStart_toStartOf="@id/vaccination_consent_legal_text_card_subtitle" />
 
     <TextView
         android:id="@+id/third_bulletpoint_text"
@@ -103,7 +103,7 @@
         app:layout_constraintTop_toBottomOf="@id/second_bulletpoint_title" />
 
     <TextView
-        android:id="@+id/fourth_bulletpoint_text"
+        android:id="@+id/vaccination_consent_legal_text_body"
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
         android:paddingBottom="@dimen/spacing_medium"
         android:text="@string/vaccination_privacy_card_body"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/trace_location_legal_text_card_title"
+        app:layout_constraintStart_toStartOf="@id/vaccination_consent_legal_text_card_title"
         app:layout_constraintTop_toBottomOf="@id/third_bulletpoint_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
