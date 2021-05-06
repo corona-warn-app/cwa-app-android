@@ -64,7 +64,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
         binding.apply {
 
-            when (viewModel.testType) {
+            when (navArgs.testType) {
                 CoronaTest.Type.PCR -> {
                     testResultPendingStepsWaitingPcrResult.isVisible = true
                     testResultPendingStepsPcrAdded.isVisible = true
