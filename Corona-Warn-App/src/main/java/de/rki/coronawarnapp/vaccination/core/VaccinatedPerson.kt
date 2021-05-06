@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
-import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+
 import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
