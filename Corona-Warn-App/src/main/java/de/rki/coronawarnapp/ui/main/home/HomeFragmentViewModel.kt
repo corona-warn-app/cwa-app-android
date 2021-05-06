@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
@@ -70,10 +71,12 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.vaccination.ui.homecards.CreateVaccinationHomeCard
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @Suppress("LongParameterList")
 class HomeFragmentViewModel @AssistedInject constructor(
@@ -100,6 +103,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
     val openIncompatibleEvent = SingleLiveEvent<Unit>()
     val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
+    val errorEvent = SingleLiveEvent<Throwable>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
@@ -286,7 +290,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters ->
         val statePCR = testPCR.toSubmissionState()
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
-        val bothTestStates = setOf(statePCR, stateRAT)
         mutableListOf<HomeItem>().apply {
             when {
                 statePCR is SubmissionStatePCR.TestPositive || statePCR is SubmissionStatePCR.SubmissionDone -> {
@@ -332,6 +335,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
 
+            add(
+                CreateVaccinationHomeCard.Item(
+                    onClickAction = {
+                        // TODO: implement in another PR
+                    }
+                )
+            )
+
             if (statsData.isDataAvailable) {
                 add(
                     StatisticsHomeCard.Item(
@@ -374,7 +385,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun refreshRequiredData() {
         launch {
-            submissionRepository.refreshTest()
+            try {
+                submissionRepository.refreshTest()
+            } catch (e: CoronaTestNotFoundException) {
+                Timber.e(e, "refreshTest failed")
+                errorEvent.postValue(e)
+            }
             tracingRepository.refreshRiskLevel()
         }
     }

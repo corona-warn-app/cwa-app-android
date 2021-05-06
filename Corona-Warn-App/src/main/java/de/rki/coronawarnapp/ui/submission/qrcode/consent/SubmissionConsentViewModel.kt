@@ -4,7 +4,6 @@ import androidx.lifecycle.asLiveData
 import com.google.android.gms.common.api.ApiException
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
@@ -79,8 +78,6 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     private suspend fun validateAndRegister(qrCodeString: String) {
         try {
             val coronaTestQRCode = qrCodeValidator.validate(qrCodeString)
-            // TODO this needs to be adapted to work for different types
-            QRCodeCensor.lastGUID = coronaTestQRCode.registrationIdentifier
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.SUCCESS)
             val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
 

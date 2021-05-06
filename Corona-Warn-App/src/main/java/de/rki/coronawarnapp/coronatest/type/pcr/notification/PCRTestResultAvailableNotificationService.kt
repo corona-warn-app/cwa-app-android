@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.coronatest.type.pcr.notification
 import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.common.TestResultAvailableNotificationService
@@ -64,7 +65,11 @@ class PCRTestResultAvailableNotificationService @Inject constructor(
                     notSentYet && isInteresting -> {
                         Timber.tag(TAG).d("Showing PCR test result notification.")
                         showTestResultAvailableNotification(test)
-                        coronaTestRepository.updateResultNotification(identifier = test.identifier, sent = true)
+                        try {
+                            coronaTestRepository.updateResultNotification(identifier = test.identifier, sent = true)
+                        } catch (e: CoronaTestNotFoundException) {
+                            Timber.tag(TAG).e(e, "updateResultNotification failed")
+                        }
                         notificationHelper.cancelCurrentNotification(
                             NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
                         )
