@@ -37,36 +37,64 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         sharedElementReturnTransition = MaterialContainerTransform()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        toolbar.setNavigationOnClickListener {
-            popBackStack()
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
+        with(binding) {
+            toolbar.setNavigationOnClickListener {
+                popBackStack()
+                exitImmersiveMode()
+            }
 
-        qrCodeImage.setOnClickListener {
-            // if (inImmersiveMode) exitImmersiveMode() else enterImmersiveMode()
-        }
+            qrCodeImage.setOnClickListener {
+                viewModel.switchImmersiveMode()
+            }
 
-        postponeEnterTransition()
-        viewModel.qrcode.observe(viewLifecycleOwner) {
-            qrCodeImage.setImageBitmap(it)
-            startPostponedEnterTransition()
+            postponeEnterTransition()
+            viewModel.qrcode.observe(viewLifecycleOwner) {
+                qrCodeImage.setImageBitmap(it)
+                startPostponedEnterTransition()
+            }
+            viewModel.immersiveMode.observe(viewLifecycleOwner) {
+                if (it) enterImmersiveMode() else exitImmersiveMode()
+            }
         }
-    }
 
     override fun onStop() {
         super.onStop()
         exitImmersiveMode()
+        viewModel.existImmersiveMode()
     }
 
     fun exitImmersiveMode() {
         binding.toolbar.apply {
-            animate().translationX(-height.toFloat())
+            animate().translationY(0.0f)
         }
+
+        showSystemUI()
     }
 
     fun enterImmersiveMode() {
+        hideSystemUI()
         binding.toolbar.apply {
-            animate().translationX(0.0f)
+            animate().translationY(-height.toFloat())
         }
+    }
+
+    private fun hideSystemUI() {
+        requireActivity().window.decorView.systemUiVisibility = (
+            View.SYSTEM_UI_FLAG_IMMERSIVE
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+            )
+    }
+
+    private fun showSystemUI() {
+        requireActivity().window.decorView.systemUiVisibility = (
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            )
     }
 }

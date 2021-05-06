@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import timber.log.Timber
@@ -22,6 +23,7 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
 
     private val qrCodeBitmap = MutableLiveData<Bitmap>()
     val qrcode: LiveData<Bitmap> = qrCodeBitmap
+    val immersiveMode = SingleLiveEvent<Boolean>()
 
     init {
         generateQrCode()
@@ -34,6 +36,14 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
             Timber.d(e, "generateQrCode failed")
             e.report(ExceptionCategory.UI)
         }
+    }
+
+    fun switchImmersiveMode() {
+        immersiveMode.postValue(immersiveMode.value?.not() ?: true)
+    }
+
+    fun existImmersiveMode() {
+        immersiveMode.postValue(false)
     }
 
     @AssistedFactory

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
     tools:context=".ui.qrcode.fullscreen.QrCodeFullScreenFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -21,6 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
+        android:background="@drawable/rounded_white_background"
         android:keepScreenOn="true"
         android:transitionName="full_qr_code_image"
         app:layout_constraintBottom_toBottomOf="parent"
