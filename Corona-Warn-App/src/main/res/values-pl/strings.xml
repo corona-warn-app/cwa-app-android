@@ -2017,6 +2017,8 @@
     <string name="incompatible_advertising_not_supported">"Twój smartfon może tylko odbierać powiadomienia dotyczące COVID-19 przez Bluetooth, ale nie może ich wysyłać. Oznacza to, że możesz otrzymywać ostrzeżenia o narażeniach za pośrednictwem tego interfejsu, ale nie możesz ostrzegać innych o narażeniach. Możesz wysyłać i odbierać ostrzeżenia, które wynikają z zameldowań."</string>
     <!-- XTXT: Incompitability card content -->
     <string name="incompatible_scanning_not_supported">"Twój smartfon nie może wysyłać ani odbierać powiadomień dotyczących COVID-19 przez Bluetooth. Możesz wysyłać i odbierać ostrzeżenia wynikające z zameldowań."</string>
-    <!-- XTXT: Incompitability faq link -->
-    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
+    <!-- XTXT: Incompitability faq link for partial incompatibility -->
+    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#incompatibility_warning_no_advertising"</string>
+    <!-- XTXT: Incompitability faq link for full incompatibility -->
+    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#incompatibility_warning_no_scanning"</string>
 </resources>

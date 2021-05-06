@@ -2017,6 +2017,8 @@
     <string name="incompatible_advertising_not_supported">"Akıllı telefonunuz Bluetooth üzerinden COVID-19 bildirimlerini yalnızca alabiliyor ancak gönderemiyor. Buna göre, bu arayüz ile maruz kalmalar konusunda uyarı alabilirsiniz ancak siz diğer kullanıcıları uyaramazsınız. Check-in’lerden kaynaklanan uyarıları alabilir ve gönderebilirsiniz."</string>
     <!-- XTXT: Incompitability card content -->
     <string name="incompatible_scanning_not_supported">"Akıllı telefonunuz Bluetooth üzerinden COVID-19 bildirimleri gönderemiyor veya alamıyor. Check-in’lerden kaynaklanan uyarıları alabilir ve gönderebilirsiniz."</string>
-    <!-- XTXT: Incompitability faq link -->
-    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
+    <!-- XTXT: Incompitability faq link for partial incompatibility -->
+    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#incompatibility_warning_no_advertising"</string>
+    <!-- XTXT: Incompitability faq link for full incompatibility -->
+    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#incompatibility_warning_no_scanning"</string>
 </resources>
