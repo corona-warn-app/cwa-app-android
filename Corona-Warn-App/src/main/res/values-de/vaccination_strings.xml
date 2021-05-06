@@ -35,8 +35,10 @@
     <string name="vaccination_consent_title">Ihr Einverständnis</string>
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">Impfzertifikat registrieren</string>
-    <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Erstellen Sie einen digitalen Impfnachweis. Sie finden weitere Informationen in der  FAQ zum Impfen."</string>
+    <!-- XTXT: Vaccination Consent subtitle of qr info part 1 -->
+    <string name="vaccination_consent_info_subtitle_text_part1">"Erstellen Sie einen digitalen Impfnachweis. Sie finden weitere Informationen in der "</string>
+    <!-- XTXT: Vaccination Consent subtitle of qr info part 2 -->
+    <string name="vaccination_consent_info_subtitle_text_part2">"FAQ zum Impfen."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
     <string name="vaccination_consent_qr_info_text">"Scannen Sie den QR-Code auf Ihrem Impfzertifikat, um das Zertifikat zu registrieren."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
