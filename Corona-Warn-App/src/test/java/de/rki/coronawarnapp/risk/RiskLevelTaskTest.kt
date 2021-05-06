@@ -1,9 +1,5 @@
 package de.rki.coronawarnapp.risk
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -13,7 +9,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
@@ -43,7 +38,6 @@ import testhelpers.BaseTest
 
 class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var riskLevels: RiskLevels
-    @MockK lateinit var context: Context
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
@@ -54,7 +48,6 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
-    @MockK lateinit var autoCheckOut: AutoCheckOut
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
@@ -67,42 +60,54 @@ class RiskLevelTaskTest : BaseTest() {
         )
     )
 
+    private val testTimeNow = Instant.parse("2020-12-28")
+    private val testAggregatedResult = mockk<EwAggregatedRiskResult>().apply {
+        every { isIncreasedRisk() } returns true
+    }
+    private val testCachedKey = mockk<CachedKey>().apply {
+        every { info } returns mockk<CachedKeyInfo>().apply {
+            every { toDateTime() } returns testTimeNow.toDateTime().minusDays(1)
+        }
+    }
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         mockkObject(TimeVariables)
 
+        // Mocks setup a happy path, i.e. successful calculation
+
+        every { timeStamper.nowUTC } returns testTimeNow
+
         every { coronaTestRepository.coronaTests } returns coronaTests
-        every { configData.isDeviceTimeCorrect } returns true
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         coEvery { appConfigProvider.getAppConfig() } returns configData
-        every { configData.identifier } returns "config-identifier"
 
-        every { context.getSystemService(Context.CONNECTIVITY_SERVICE) } returns mockk<ConnectivityManager>().apply {
-            every { activeNetwork } returns mockk<Network>().apply {
-                every { getNetworkCapabilities(any()) } returns mockk<NetworkCapabilities>().apply {
-                    every { hasCapability(any()) } returns true
-                }
-            }
+        configData.apply {
+            every { identifier } returns "config-identifier"
+            every { isDeviceTimeCorrect } returns true
         }
-
-        every { enfClient.isTracingEnabled } returns flowOf(true)
-        every { timeStamper.nowUTC } returns Instant.EPOCH
 
         every { riskLevelSettings.lastUsedConfigIdentifier = any() } just Runs
 
-        coEvery { keyCacheRepository.getAllCachedKeys() } returns emptyList()
-
         coEvery { riskLevelStorage.storeResult(any()) } just Runs
 
-        coEvery { autoCheckOut.processOverDueCheckouts() } returns emptyList()
-        coEvery { autoCheckOut.refreshAlarm() } returns true
+        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(testCachedKey)
+        enfClient.apply {
+            every { isTracingEnabled } returns flowOf(true)
+            coEvery { exposureWindows() } returns listOf()
+        }
+
+        riskLevels.apply {
+            every { calculateRisk(any(), any()) } returns null
+            every { aggregateResults(any(), any()) } returns testAggregatedResult
+        }
+        coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
     }
 
     private fun createTask() = RiskLevelTask(
         riskLevels = riskLevels,
-        context = context,
         enfClient = enfClient,
         timeStamper = timeStamper,
         backgroundModeStatus = backgroundModeStatus,
@@ -112,7 +117,6 @@ class RiskLevelTaskTest : BaseTest() {
         keyCacheRepository = keyCacheRepository,
         coronaTestRepository = coronaTestRepository,
         analyticsExposureWindowCollector = analyticsExposureWindowCollector,
-        autoCheckOut = autoCheckOut
     )
 
     @Test
@@ -131,24 +135,8 @@ class RiskLevelTaskTest : BaseTest() {
         every { configData.localOffset } returns Duration.standardHours(5)
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
-            calculatedAt = Instant.EPOCH,
+            calculatedAt = testTimeNow,
             failureReason = EwRiskLevelResult.FailureReason.INCORRECT_DEVICE_TIME
-        )
-    }
-
-    @Test
-    fun `risk calculation is skipped if internet is unavailable`() = runBlockingTest {
-        every { context.getSystemService(Context.CONNECTIVITY_SERVICE) } returns mockk<ConnectivityManager>().apply {
-            every { activeNetwork } returns mockk<Network>().apply {
-                every { getNetworkCapabilities(any()) } returns mockk<NetworkCapabilities>().apply {
-                    every { hasCapability(any()) } returns false
-                }
-            }
-        }
-
-        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
-            calculatedAt = Instant.EPOCH,
-            failureReason = EwRiskLevelResult.FailureReason.NO_INTERNET
         )
     }
 
@@ -157,7 +145,7 @@ class RiskLevelTaskTest : BaseTest() {
         every { enfClient.isTracingEnabled } returns flowOf(false)
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
-            calculatedAt = Instant.EPOCH,
+            calculatedAt = testTimeNow,
             failureReason = EwRiskLevelResult.FailureReason.TRACING_OFF
         )
     }
@@ -167,7 +155,7 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf()
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
-            calculatedAt = Instant.EPOCH,
+            calculatedAt = testTimeNow,
             failureReason = EwRiskLevelResult.FailureReason.OUTDATED_RESULTS
         )
     }
@@ -177,7 +165,7 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf()
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
-            calculatedAt = Instant.EPOCH,
+            calculatedAt = testTimeNow,
             failureReason = EwRiskLevelResult.FailureReason.OUTDATED_RESULTS_MANUAL
         )
     }
@@ -282,27 +270,10 @@ class RiskLevelTaskTest : BaseTest() {
 
     @Test
     fun `risk calculation returns aggregated risk result`() = runBlockingTest {
-        val cachedKey = mockk<CachedKey>().apply {
-            every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(1)
-            }
-        }
-        val now = Instant.parse("2020-12-28")
-        val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
-            every { isIncreasedRisk() } returns true
-        }
-
-        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
-        coEvery { enfClient.exposureWindows() } returns listOf()
-        every { riskLevels.calculateRisk(any(), any()) } returns null
-        every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
-        every { timeStamper.nowUTC } returns now
-        coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
-
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
-            calculatedAt = now,
+            calculatedAt = testTimeNow,
             failureReason = null,
-            ewAggregatedRiskResult = aggregatedRiskResult,
+            ewAggregatedRiskResult = testAggregatedResult,
             listOf()
         )
     }

@@ -44,7 +44,7 @@ class GeneralNotifications @Inject constructor(
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun setupNotificationChannel() {
-        Timber.d("setupChannel()")
+        Timber.tag(TAG).d("setupChannel()")
 
         val channel = NotificationChannel(
             MAIN_CHANNEL_ID,
@@ -70,12 +70,12 @@ class GeneralNotifications @Inject constructor(
         val manager =
             context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pendingIntent)
-        Timber.v("Canceled future notifications with id: %s", notificationId)
+        Timber.tag(TAG).v("Canceled future notifications with id: %s", notificationId)
     }
 
     fun cancelCurrentNotification(notificationId: Int) {
         NotificationManagerCompat.from(context).cancel(notificationId)
-        Timber.v("Canceled notifications with id: %s", notificationId)
+        Timber.tag(TAG).v("Canceled notifications with id: %s", notificationId)
     }
 
     fun scheduleRepeatingNotification(
@@ -138,12 +138,13 @@ class GeneralNotifications @Inject constructor(
             isNotificationChannelSetup = true
             setupNotificationChannel()
         }
-        Timber.i("Showing notification for ID=$notificationId: %s", notification)
+        Timber.tag(TAG).i("Showing notification for ID=$notificationId: %s", notification)
         notificationManagerCompat.notify(notificationId, notification)
     }
 
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal const val MAIN_CHANNEL_ID = "de.rki.coronawarnapp.notification.exposureNotificationChannelId"
+        private const val TAG = "GeneralNotifications"
     }
 }

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.util.PaddingTool.requestPadding
 import de.rki.coronawarnapp.util.security.HashHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -113,6 +114,12 @@ class VerificationServer @Inject constructor(
         const val PADDING_LENGTH_BODY_TAN = 31 + VERIFICATION_BODY_FILL
         const val PADDING_LENGTH_BODY_TAN_FAKE = 31 + VERIFICATION_BODY_FILL
         const val DUMMY_REGISTRATION_TOKEN = "11111111-2222-4444-8888-161616161616"
+
+        /**
+         * Test is available for this long on the server.
+         * After this period the server will delete it and return PENDING if the regtoken is polled again.
+         */
+        val TEST_AVAILABLBILITY = Duration.standardDays(60)
 
         private const val TAG = "VerificationServer"
     }

@@ -74,6 +74,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
     }
 
     companion object {
-        private const val DATE_FORMAT = "dd.MM.yy"
+        private const val DATE_FORMAT = "dd.MM.yyyy"
     }
 }
