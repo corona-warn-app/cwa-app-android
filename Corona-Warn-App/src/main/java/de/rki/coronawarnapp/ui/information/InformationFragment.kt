@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -35,10 +36,10 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
         super.onViewCreated(view, savedInstanceState)
 
         vm.currentENFVersion.observe2(this) {
-            binding.informationEnfVersion.apply {
-                setGone(it == null)
-                text = it
-            }
+//            binding.informationEnfVersion.apply {
+//                setGone(it == null)
+//                text = it
+//            }
         }
         vm.appVersion.observe2(this) {
             binding.informationVersion.text = it
@@ -112,8 +113,8 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
                 InformationFragmentDirections.actionInformationFragmentToDebuglogFragment()
             )
         }
-        binding.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
+        binding.informationHeader.setNavigationOnClickListener {
+            popBackStack()
         }
         binding.informationRelease.mainRow.setOnClickListener {
             doNavigate(
