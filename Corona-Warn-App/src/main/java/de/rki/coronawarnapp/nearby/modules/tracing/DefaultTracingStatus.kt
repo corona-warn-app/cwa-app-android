@@ -122,9 +122,7 @@ class DefaultTracingStatus @Inject constructor(
         )
 
     private suspend fun isEnabled(): Boolean = try {
-        client.isEnabled.await().also {
-            Timber.tag(TAG).v("Tracing isEnabled=$it")
-        }
+        client.isEnabled.await()
     } catch (e: Throwable) {
         Timber.tag(TAG).w(e, "Failed to determine tracing status.")
         throw e

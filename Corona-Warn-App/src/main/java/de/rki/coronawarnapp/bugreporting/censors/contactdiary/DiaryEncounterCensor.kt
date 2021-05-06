@@ -1,10 +1,9 @@
-package de.rki.coronawarnapp.bugreporting.censors
+package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidEmail
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidComment
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -16,13 +15,13 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @Reusable
-class DiaryPersonCensor @Inject constructor(
+class DiaryEncounterCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
     diary: ContactDiaryRepository
 ) : BugCensor {
 
-    private val persons by lazy {
-        diary.people.stateIn(
+    private val encounters by lazy {
+        diary.personEncounters.stateIn(
             scope = debugScope,
             started = SharingStarted.Lazily,
             initialValue = null
@@ -30,21 +29,15 @@ class DiaryPersonCensor @Inject constructor(
     }
 
     override suspend fun checkLog(entry: LogLine): LogLine? {
-        val personsNow = persons.first()
+        val encountersNow = encounters.first().filter { !it.circumstances.isNullOrBlank() }
 
-        if (personsNow.isEmpty()) return null
+        if (encountersNow.isEmpty()) return null
 
-        val newMessage = personsNow.fold(entry.message) { orig, person ->
+        val newMessage = encountersNow.fold(entry.message) { orig, encounter ->
             var wip = orig
 
-            withValidName(person.fullName) {
-                wip = wip.replace(it, "Person#${person.personId}/Name")
-            }
-            withValidEmail(person.emailAddress) {
-                wip = wip.replace(it, "Person#${person.personId}/EMail")
-            }
-            withValidPhoneNumber(person.phoneNumber) {
-                wip = wip.replace(it, "Person#${person.personId}/PhoneNumber")
+            withValidComment(encounter.circumstances) {
+                wip = wip.replace(it, "Encounter#${encounter.id}/Circumstances")
             }
 
             wip
