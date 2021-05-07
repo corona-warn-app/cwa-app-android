@@ -4,6 +4,5 @@
     <style name="AppTheme" parent="BaseTheme">
         <item name="android:navigationBarColor">@color/colorSystemUI</item>
         <item name="android:windowLightNavigationBar">@bool/lightSystemUI</item>
-        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 </resources>
