@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.storage
 
 import android.annotation.SuppressLint
-import android.content.Context
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
@@ -17,11 +16,10 @@ import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.tracing.TracingProgress
-import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -41,7 +39,6 @@ import javax.inject.Singleton
  */
 @Singleton
 class TracingRepository @Inject constructor(
-    @AppContext private val context: Context,
     @AppScope private val scope: CoroutineScope,
     private val taskController: TaskController,
     enfClient: ENFClient,
@@ -50,6 +47,7 @@ class TracingRepository @Inject constructor(
     private val backgroundModeStatus: BackgroundModeStatus,
     private val exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler,
     private val presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler,
+    private val networkStateProvider: NetworkStateProvider,
 ) {
 
     @SuppressLint("BinaryOperationInTimber")
@@ -108,7 +106,7 @@ class TracingRepository @Inject constructor(
     // TODO temp place, this needs to go somewhere better
     suspend fun refreshRiskLevel() {
         // check if the network is enabled to make the server fetch
-        val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(context)
+        val isNetworkEnabled = networkStateProvider.networkState.first().isInternetAvailable
 
         // only fetch the diagnosis keys if background jobs are enabled, so that in manual
         // model the keys are only fetched on button press of the user
