@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.vaccination.core.qrcode
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 
 class InvalidHealthCertificateException(
-    errorCode: ErrorCode
+    val errorCode: ErrorCode
 ) : InvalidQRCodeException(errorCode.message) {
     enum class ErrorCode(
         val message: String
