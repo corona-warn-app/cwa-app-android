@@ -8,7 +8,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -48,7 +48,7 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
                     activity?.onBackPressed()
 
                 is SurveyConsentNavigationEvents.NavigateWeb -> {
-                    ExternalActionHelper.openUrl(this, event.url)
+                    openUrl(event.url)
                     popBackStack()
                 }
                 is SurveyConsentNavigationEvents.NavigateToMoreInformationScreen -> {

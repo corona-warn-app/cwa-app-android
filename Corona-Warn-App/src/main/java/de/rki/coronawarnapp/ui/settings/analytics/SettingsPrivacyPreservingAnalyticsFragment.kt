@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.settings.analytics
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.core.view.isVisible
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsPrivacyPreservingAnalyticsBinding
@@ -29,28 +29,12 @@ class SettingsPrivacyPreservingAnalyticsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-
-            // Privacy Preserving Analytics Switch
-            val updateAnalyticsSwitch =
-                settingsPpaSwitchRow.settingsSwitchRowSwitch
-            // Additional click target to toggle switch
-            val updateAnalyticsRow =
-                settingsPpaSwitchRow.settingsSwitchRow
-
-            settingsPpaHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            settingsPpaHeader.setNavigationOnClickListener {
                 popBackStack()
             }
 
-            updateAnalyticsSwitch.setOnCheckedChangeListener { view, _ ->
-                // Make sure that listener is called by user interaction
-                if (!view.isPressed) return@setOnCheckedChangeListener
-
+            settingsPpaSwitchRow.setUserToggleListener { _, _ ->
                 viewModel.analyticsToggleEnabled()
-            }
-
-            // Additional click target to toggle switch
-            updateAnalyticsRow.setOnClickListener {
-                if (updateAnalyticsRow.isEnabled) viewModel.analyticsToggleEnabled()
             }
 
             federalStateRow.setOnClickListener {
@@ -88,15 +72,22 @@ class SettingsPrivacyPreservingAnalyticsFragment :
         }
 
         viewModel.settingsPrivacyPreservingAnalyticsState.observe2(this) {
-            binding.ageGroupRowBody.text = it.getAgeGroupRowBodyText(requireContext())
+            binding.ageGroupRow.apply {
+                isGone = !it.isAgeGroupVisible
+                setSubtitle(it.getAgeGroupRowBodyText(requireContext()))
+            }
 
-            binding.districtRow.isVisible = it.isDistrictRowVisible()
-            binding.districtRowBody.text = it.getDistrictRowBodyText(requireContext())
+            binding.districtRow.apply {
+                isGone = !it.isDistrictRowVisible
+                setSubtitle(it.getDistrictRowBodyText(requireContext()))
+            }
 
-            binding.federalStateRowBody.text = it.getFederalStateRowBodyText(requireContext())
+            binding.federalStateRow.apply {
+                isGone = !it.isFederalStateRowVisible
+                setSubtitle(it.getFederalStateRowBodyText(requireContext()))
+            }
 
-            binding.settingsPpaSwitchRow.status = it.isSettingsPpaSwitchOn()
-            binding.settingsPpaSwitchRow.statusText = it.getSettingsPpaSwitchRowStateText(requireContext())
+            binding.settingsPpaSwitchRow.setChecked(it.isAnalyticsEnabled, notify = false)
         }
     }
 

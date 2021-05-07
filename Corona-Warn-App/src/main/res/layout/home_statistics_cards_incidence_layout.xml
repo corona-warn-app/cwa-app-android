@@ -12,7 +12,7 @@
         android:id="@+id/incidence_container"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
-        <androidx.appcompat.widget.AppCompatImageView
+         <ImageView
             android:id="@+id/background_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

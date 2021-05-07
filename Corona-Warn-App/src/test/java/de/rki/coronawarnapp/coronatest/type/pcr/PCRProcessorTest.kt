@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
+import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -93,7 +94,7 @@ class PCRProcessorTest : BaseTest() {
         instance.pollServer(pcrTest).testResult shouldBe PCR_OR_RAT_PENDING
 
         val past60DaysTest = pcrTest.copy(
-            registeredAt = nowUTC.minus(Duration.standardDays(21))
+            registeredAt = nowUTC.minus(Duration.standardDays(61))
         )
 
         instance.pollServer(past60DaysTest).testResult shouldBe PCR_REDEEMED
@@ -179,6 +180,57 @@ class PCRProcessorTest : BaseTest() {
 
         instance.create(CoronaTestQRCode.PCR(qrCodeGUID = "thisIsAQRCodeGUID")).apply {
             isResultAvailableNotificationSent shouldBe false
+        }
+    }
+
+    @Test
+    fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runBlockingTest {
+        coEvery { submissionService.asyncRequestTestResult(any()) } answers { PCR_POSITIVE }
+
+        val instance = createInstance()
+
+        val pcrTest = PCRCoronaTest(
+            identifier = "identifier",
+            lastUpdatedAt = Instant.EPOCH,
+            registeredAt = nowUTC.minus(Duration.standardDays(22)),
+            registrationToken = "regtoken",
+            testResult = PCR_REDEEMED
+        )
+
+        // Older than 21 days and already redeemed
+        instance.pollServer(pcrTest) shouldBe pcrTest
+
+        // Older than 21 days but not in final state, we take value from server
+        instance.pollServer(
+            pcrTest.copy(testResult = PCR_NEGATIVE)
+        ).testResult shouldBe PCR_POSITIVE
+    }
+
+    @Test
+    fun `http 400 errors map to REDEEMED (EXPIRED) state after 21 days`() = runBlockingTest {
+        val ourBadRequest = BadRequestException("Who?")
+        coEvery { submissionService.asyncRequestTestResult(any()) } throws ourBadRequest
+
+        val instance = createInstance()
+
+        val pcrTest = PCRCoronaTest(
+            identifier = "identifier",
+            lastUpdatedAt = Instant.EPOCH,
+            registeredAt = nowUTC,
+            registrationToken = "regtoken",
+            testResult = PCR_POSITIVE
+        )
+
+        // Test is not older than 21 days, we want the error!
+        instance.pollServer(pcrTest).apply {
+            testResult shouldBe PCR_POSITIVE
+            lastError shouldBe ourBadRequest
+        }
+
+        // Test IS older than 21 days, we expected the error, and map it to REDEEMED (expired)
+        instance.pollServer(pcrTest.copy(registeredAt = nowUTC.minus(Duration.standardDays(22)))).apply {
+            testResult shouldBe PCR_REDEEMED
+            lastError shouldBe null
         }
     }
 }

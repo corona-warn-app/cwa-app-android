@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -57,7 +59,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         every { interoperabilityRepository.countryList } returns emptyFlow()
 
         submissionRepository.apply {
-            every { giveConsentToSubmission(any()) } just Runs
+            coEvery { giveConsentToSubmission(any()) } just Runs
             every { testForType(any()) } returns coronaTestFlow
         }
 
@@ -87,7 +89,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
 
         viewModel.onConsentButtonClicked()
 
-        verify { submissionRepository.giveConsentToSubmission(any()) }
+        coVerify { submissionRepository.giveConsentToSubmission(any()) }
         verify { tekHistoryUpdater.updateTEKHistoryOrRequestPermission() }
     }
 

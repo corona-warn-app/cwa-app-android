@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
-
-    <!-- ####################################
-                     Non translatable
-    ###################################### -->
-
-    <!-- XTXT: Path to the full blown legal html, currently not translated -->
-    <string name="information_technical_html_path" translatable="false">"technical.html"</string>
-
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -74,9 +66,9 @@
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Installed %s days ago"</string>
     <!-- XTXT: risk card - Days since installation if today -->
-    <string name="risk_card_body_installation_today"></string>
-    !-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday"></string>
+    <string name="risk_card_body_installation_today">"Installed today"</string>
+    <!-- XTXT: risk card - Days since installation if yesterday -->
+    <string name="risk_card_body_installation_yesterday">"Installed yesterday"</string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the past 14 days"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -862,7 +854,7 @@
     <!-- YTXT: Description one for the debug option to record log files -->
     <string name="debugging_debuglog_intro_explanation_section_one">"To help the app technical support team with error analysis, you can record an error report from the CWA. When you do so, the individual technical steps and results of app processes are recorded. You can then send the error report to technical support and help to identify and correct the error."</string>
     <!-- YTXT: Description two for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation_section_two">"For further information, please see our FAQ page:\nFAQ for error reports"</string>
+    <string name="debugging_debuglog_intro_explanation_section_two">"For further information, please see our FAQ page: FAQ for error reports"</string>
     <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="debugging_debuglog_intro_explanation_section_two_link_label">"FAQ for error reports"</string>
     <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
@@ -877,10 +869,10 @@
     <string name="debugging_debuglog_action_start_recording">"Start"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Stop and Delete"</string>
-    <!-- XBUT: Button text to send the log recording to the server -->
+    <!-- XBUT: Button text to send the log recording to the server-->
     <string name="debugging_debuglog_action_share_log">"Send Error Report"</string>
     <!-- XBUT: Button text to export the log -->
-    <string name="debugging_debuglog_action_local_log_export">"Save Locally and Continue"</string>
+    <string name="debugging_debuglog_action_local_log_export">"Share and Continue"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Recording Active"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -907,6 +899,7 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Continue Analysis"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"You need at least 200 MB of memory to start the error analysis. Please free up memory."</string>
+
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Detailed Information on Sending Error Reports"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -1054,6 +1047,17 @@
     <!-- YTXT: Content Description for the illustration  -->
     <string name="submission_consent_main_illustration_description">"A person is holding a smartphone. A QR code on a test symbolizes the code to be scanned."</string>
 
+    <!-- YTXT: Body for no consent section first point  -->
+    <string name="submission_no_consent_first_point">"Your consent is voluntary."</string>
+    <!-- YTXT: Body for no consent section second point  -->
+    <string name="submission_no_consent_second_point">"You can retrieve your test result even if you do not choose to share it. But if you share your test result, you will help to protect others against infection."</string>
+    <!-- YTXT: Body for no consent section third point  -->
+    <string name="submission_no_consent_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
+    <!-- YTXT: Body for no consent section fourth point  -->
+    <string name="submission_no_consent_fourth_point">"Under “My Check-Ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
+    <!-- YTXT: Body for no consent section fifth point  -->
+    <string name="submission_no_consent_fifth_point">"You must be at least 16 years old to grant your consent."</string>
+
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
     <string name="submission_test_result_headline">"Test Result"</string>
@@ -1182,10 +1186,7 @@
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_first_part">"Because you tested positive for coronavirus, you can now warn others through the app."</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_second_part">"The warning feature works in several countries. The following countries are currently participating:"</string>
-
+    <string name="submission_positive_other_warning_no_consent_body_first_part">"Because you have been diagnosed with coronavirus, you can warn others through the app. If you took a rapid test, the warning feature only works in Germany. If you took a PCR test, the warning feature works in the following countries:"</string>
 
     <!-- Test result positive and no consent given -->
     <!-- XHED: Title for test result positive and no consent given-->
@@ -1948,16 +1949,7 @@
     <!-- XACT: Button/Dialog label to cancel something-->
     <string name="generic_action_abort">"Cancel"</string>
     <!-- XACT: Button/Dialog label to remove something-->
-    <string name="generic_action_remove">Remove</string>
-
-    <!-- ####################################
-        Incompatibility warning card
-    ###################################### -->
-    <string name="incompatible_headline"></string>
-    <string name="incompatible_advertising_not_supported"></string>
-    <string name="incompatible_scanning_not_supported"></string>
-
-    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
+    <string name="generic_action_remove">"Remove"</string>
 
     <!-- ####################################
        Trace Location
@@ -2010,11 +2002,24 @@
     <!-- XHED: Trace location check-ins invalid qr code dialog title -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Invalid QR Code"</string>
     <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"The scanned QR code is not valid.\nPlease scan a valid QR code.\n\n(%1$s)"</string>
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"The scanned QR code is not valid for check-ins for an event or place. \nPlease scan a suitable QR code.\n\n(%1$s)"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Cancel"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <!-- XHED: Incompitability card title -->
+    <string name="incompatible_headline">"Incompatibility Warning"</string>
+    <!-- XTXT: Incompitability card content -->
+    <string name="incompatible_advertising_not_supported">"Your smartphone can only receive COVID-19 notifications via Bluetooth, but not send them. This means you can be warned of exposures through this interface, but you cannot warn others of exposures yourself. You can send and receive warnings that result from check-ins."</string>
+    <!-- XTXT: Incompitability card content -->
+    <string name="incompatible_scanning_not_supported">"Your smartphone cannot send or receive COVID-19 notifications via Bluetooth. You can send and receive warnings that result from check-ins."</string>
+    <!-- XTXT: Incompitability faq link -->
+    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
 
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_title">"Impfzertifikat registrieren"</string>

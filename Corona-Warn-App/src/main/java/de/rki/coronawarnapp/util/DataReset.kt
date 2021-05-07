@@ -7,16 +7,17 @@ import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -62,6 +63,7 @@ class DataReset @Inject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val traceWarningRepository: TraceWarningRepository,
     private val coronaTestRepository: CoronaTestRepository,
+    private val ratProfileSettings: RATProfileSettings
 ) {
 
     private val mutex = Mutex()
@@ -104,6 +106,7 @@ class DataReset @Inject constructor(
         traceLocationRepository.deleteAllTraceLocations()
         checkInRepository.clear()
         coronaTestRepository.clear()
+        ratProfileSettings.deleteProfile()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
