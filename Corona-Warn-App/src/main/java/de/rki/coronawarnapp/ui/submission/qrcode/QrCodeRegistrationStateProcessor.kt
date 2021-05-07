@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -45,13 +44,6 @@ class QrCodeRegistrationStateProcessor @Inject constructor(
         } catch (err: CwaWebException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
-        } catch (err: TransactionException) {
-            if (err.cause is CwaWebException) {
-                registrationError.postValue(err.cause)
-            } else {
-                err.report(ExceptionCategory.INTERNAL)
-            }
-            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
         } catch (err: InvalidQRCodeException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             Timber.d("deregisterTestFromDevice()")
