@@ -1,17 +1,13 @@
-package de.rki.coronawarnapp.vaccination.core.qrcode
+package de.rki.coronawarnapp.vaccination.decoder
 
+import timber.log.Timber
 import java.util.zip.InflaterInputStream
 import javax.inject.Inject
 
-/**
- * Compresses/decompresses input with ZLIB, [level] specifies the compression level (0-9)
- */
-class ZlibDecompressor @Inject constructor() {
-    /**
-     * *Optionally* decompresses input with ZLIB = inflating.
-     *
-     * If the [input] does not start with ZLIB magic numbers (0x78), no decompression happens
-     */
+// licence
+
+class ZLIBDecompressor @Inject constructor() {
+
     fun decode(input: ByteArray): ByteArray {
         if (input.size >= 2 && input[0] == 0x78.toByte()) {
             // ZLIB magic headers
@@ -23,7 +19,8 @@ class ZlibDecompressor @Inject constructor() {
                 return try {
                     InflaterInputStream(input.inputStream()).readBytes()
                 } catch (e: Throwable) {
-                    input
+                    Timber.e(e)
+                    throw InvalidInputException("Zlib decompression failed.")
                 }
             }
         }

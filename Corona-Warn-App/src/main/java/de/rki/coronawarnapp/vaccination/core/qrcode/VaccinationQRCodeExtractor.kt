@@ -1,89 +1,81 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
-import com.google.gson.Gson
-import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
+import com.upokecenter.cbor.CBORObject
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidVaccinationQRCodeException.ErrorCode.HC_BASE45_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidVaccinationQRCodeException.ErrorCode.HC_CBOR_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidVaccinationQRCodeException.ErrorCode.HC_COSE_MESSAGE_INVALID
+import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidVaccinationQRCodeException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
+import de.rki.coronawarnapp.vaccination.decoder.Base45Decoder
+import de.rki.coronawarnapp.vaccination.decoder.COSEDecoder
+import de.rki.coronawarnapp.vaccination.decoder.ZLIBDecompressor
 import timber.log.Timber
 import javax.inject.Inject
 
 class VaccinationQRCodeExtractor @Inject constructor(
     private val base45Decoder: Base45Decoder,
-    private val zlibDecompressor: ZlibDecompressor,
-    private val coseDecoder: CoseDecoder,
-    private val CBORDecoder: CBORDecoder,
+    private val ZLIBDecompressor: ZLIBDecompressor,
+    private val COSEDecoder: COSEDecoder,
+    private val VaccinationCertificateV1Decoder: VaccinationCertificateV1Decoder,
 ) : QrCodeExtractor<VaccinationCertificateQRCode> {
 
+    private val prefix = "HC1:"
+
     override fun canHandle(rawString: String): Boolean {
-        TODO("Not yet implemented")
+        return rawString.startsWith(prefix)
     }
 
     override fun extract(rawString: String): VaccinationCertificateQRCode {
-
-//        val encoded = contextIdentifierService.decode(input, verificationResult)
-//        val compressed = base45Service.decode(encoded, verificationResult)
-//        val cose = compressorService.decode(compressed, verificationResult)
-//        val cbor = coseService.decode(cose, verificationResult)
-//        return cborService.decode(cbor, verificationResult)
-
-        val cbor = rawString
+        val rawCOSEObject = rawString
+            .removePrefix(prefix)
             .decodeBase45()
             .decompress()
-            .extractCosePayload()
-            .decodeCBOR()
-        cbor.payload.utf8()
-            .extractData()
-            .validate()
+        val certificate = rawCOSEObject
+            .extractCBORObject()
+            .decodeCBORObject()
         return VaccinationCertificateQRCode(
-            // Vaccine or prophylaxis
-            qrCodeOriginalBase45 = rawString,
-            qrCodeOriginalCBOR = cbor.payload,
+            parsedData = VaccinationCertificateData(certificate),
+            certificateCOSE = rawCOSEObject,
         )
     }
 
-    // step1 : decode base45
     private fun String.decodeBase45(): ByteArray {
         return try {
             base45Decoder.decode(this)
         } catch (e: Exception) {
             Timber.e(e)
-            throw InvalidQRCodeException("Unsupported encoding. Supported encoding is base45.")
+            throw InvalidVaccinationQRCodeException(HC_BASE45_DECODING_FAILED)
         }
     }
-
-    // step 2: decompress with zlib
 
     private fun ByteArray.decompress(): ByteArray {
-        return zlibDecompressor.decode(this)
-    }
-
-    // step 3: extract COSE payload
-    private fun ByteArray.extractCosePayload(): ByteArray {
-        return coseDecoder.decode(this)
-    }
-
-    // step 4
-    private fun ByteArray.decodeCBOR(): CborDecoderResult {
-        return CBORDecoder.decode(this)
-    }
-
-    // step 5: Unpack json
-    private fun String.extractData(): VaccinationCertificateV1 {
-        try {
-            return Gson().fromJson(this)
+        return try {
+            ZLIBDecompressor.decode(this)
         } catch (e: Exception) {
             Timber.e(e)
-            throw InvalidQRCodeException("Malformed payload.")
+            throw InvalidVaccinationQRCodeException(HC_ZLIB_DECOMPRESSION_FAILED)
         }
     }
 
-    private fun VaccinationCertificateV1.validate() {
+    private fun ByteArray.extractCBORObject(): CBORObject {
+        return try {
+            COSEDecoder.decode(this)
+        } catch (e: InvalidVaccinationQRCodeException) {
+            throw e
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw InvalidVaccinationQRCodeException(HC_COSE_MESSAGE_INVALID)
+        }
     }
 
-    enum class ErrorCode {
-        HC_BASE45_DECODING_FAILED,
-        HC_ZLIB_DECOMPRESSION_FAILED,
-        HC_COSE_TAG_INVALID,
-        HC_COSE_MESSAGE_INVALID
+    private fun CBORObject.decodeCBORObject(): VaccinationCertificateV1 {
+        return try {
+            VaccinationCertificateV1Decoder.decode(this)
+        } catch (e: InvalidVaccinationQRCodeException) {
+            throw e
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw InvalidVaccinationQRCodeException(HC_CBOR_DECODING_FAILED)
+        }
     }
 }

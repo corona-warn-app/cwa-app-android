@@ -438,5 +438,6 @@ dependencies {
     // ANIMATIONS
     implementation "com.airbnb.android:lottie:3.5.0"
 
+    // HCert
     implementation("com.augustcellars.cose:cose-java:1.1.0")
 }

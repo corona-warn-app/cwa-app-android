@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.core.qrcode
+package de.rki.coronawarnapp.vaccination.decoder
 
 import java.math.BigInteger
 import javax.inject.Inject
@@ -49,7 +49,7 @@ class Base45Decoder @Inject constructor() {
 
     private fun fromThreeCharValue(list: String): Long {
         return list.foldIndexed(0L, { index, acc: Long, element ->
-            if (!alphabet.contains(element)) throw IllegalArgumentException()
+            if (!alphabet.contains(element)) throw IllegalArgumentException(element.toString())
             pow(int45, index) * alphabet.indexOf(element) + acc
         })
     }
