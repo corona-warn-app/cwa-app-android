@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:focusable="true">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/contact_diary_day_header"
             style="@style/CWAToolbar.BackArrow"
             android:layout_width="0dp"

@@ -8,7 +8,7 @@
     android:contentDescription="@string/submission_deletion_warning_title"
     android:focusable="true">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatImageView
+             <ImageView
                 android:id="@+id/deletion_warning_illustration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

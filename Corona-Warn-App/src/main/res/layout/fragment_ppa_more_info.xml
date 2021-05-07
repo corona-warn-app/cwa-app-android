@@ -597,7 +597,7 @@
                     <TableRow
                         android:layout_marginTop="@dimen/spacing_small">
 
-                        <androidx.appcompat.widget.AppCompatImageView
+                         <ImageView
                             android:id="@+id/other_info_point_1"
                             android:layout_width="@dimen/bullet_point_size"
                             android:layout_height="@dimen/bullet_point_size"
