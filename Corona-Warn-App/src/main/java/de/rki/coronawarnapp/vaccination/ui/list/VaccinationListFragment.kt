@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentVaccinationListBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -46,6 +47,14 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                 popBackStack()
             }
 
+            recyclerViewVaccinationList.adapter = VaccinationListAdapter { vaccinationItem ->
+                doNavigate(
+                    VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragment(
+                        vaccinationItem.vaccinationCertificateId
+                    )
+                )
+            }
+
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
                 bindViews(uiState)
             }
@@ -60,19 +69,11 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         }
     }
 
-    private fun FragmentVaccinationListBinding.bindViews(uiState: VaccinationListViewModel.UiState) {
+    private fun FragmentVaccinationListBinding.bindViews(uiState: VaccinationListViewModel.UiState) = with(uiState) {
 
-        val adapter = VaccinationListAdapter(uiState.listItems) { vaccinationItem ->
-            doNavigate(
-                VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragment(
-                    vaccinationItem.vaccinationCertificateId
-                )
-            )
-        }
-        recyclerViewVaccinationList.adapter = adapter
+        (recyclerViewVaccinationList.adapter as VaccinationListAdapter).update(listItems)
 
-
-        val isVaccinationComplete = uiState.vaccinationStatus == VaccinatedPerson.Status.COMPLETE
+        val isVaccinationComplete = vaccinationStatus == VaccinatedPerson.Status.COMPLETE
 
         val background = if (isVaccinationComplete) {
             R.drawable.vaccination_compelete_gradient
@@ -84,8 +85,8 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
         subtitle.isVisible = isVaccinationComplete
 
-        refreshButton.isVisible = uiState.isEligibleForProofCertificate
-        registerNewVaccinationButton.isCursorVisible = !uiState.isEligibleForProofCertificate
+        refreshButton.isVisible = isEligibleForProofCertificate
+        registerNewVaccinationButton.isCursorVisible = isEligibleForProofCertificate
 
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha

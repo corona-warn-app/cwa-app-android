@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.HasStableId
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
-import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
@@ -22,7 +21,6 @@ import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVac
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVaccinationCardItemVH
 
 class VaccinationListAdapter(
-    vaccinationListItems: List<VaccinationListItem>,
     private val onVaccinationClickListener: (vaccinationItem: VaccinationListVaccinationCardItem) -> Unit
 ) : ModularAdapter<VaccinationListAdapter.ItemVH<VaccinationListItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<VaccinationListItem> {
@@ -48,8 +46,6 @@ class VaccinationListAdapter(
                 }
             )
         )
-
-        update(vaccinationListItems)
     }
 
     override fun getItemCount(): Int {
