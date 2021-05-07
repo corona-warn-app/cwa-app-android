@@ -9,11 +9,7 @@ class ZLIBDecompressor @Inject constructor() {
     fun decode(input: ByteArray): ByteArray {
         if (input.size >= 2 && input[0] == 0x78.toByte()) {
             // ZLIB magic headers
-            if (input[1] == 0x01.toByte() ||
-                input[1] == 0x5E.toByte() ||
-                input[1] == 0x9C.toByte() ||
-                input[1] == 0xDA.toByte()
-            ) {
+            if (input[1] in listOf(0x01.toByte(), 0x5E.toByte(), 0x9C.toByte(), 0xDA.toByte())) {
                 return try {
                     InflaterInputStream(input.inputStream()).readBytes()
                 } catch (e: Throwable) {
