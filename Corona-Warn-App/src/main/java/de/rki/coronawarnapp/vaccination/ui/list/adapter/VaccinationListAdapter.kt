@@ -20,9 +20,8 @@ import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListNam
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVaccinationCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVaccinationCardItemVH
 
-class VaccinationListAdapter(
-    private val onVaccinationClickListener: (vaccinationItem: VaccinationListVaccinationCardItem) -> Unit
-) : ModularAdapter<VaccinationListAdapter.ItemVH<VaccinationListItem, ViewBinding>>(),
+class VaccinationListAdapter() :
+    ModularAdapter<VaccinationListAdapter.ItemVH<VaccinationListItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<VaccinationListItem> {
 
     override val asyncDiffer: AsyncDiffer<VaccinationListItem> = AsyncDiffer(adapter = this)
@@ -39,7 +38,7 @@ class VaccinationListAdapter(
                     VaccinationListNameCardItemVH(it)
                 },
                 TypedVHCreatorMod({ data[it] is VaccinationListVaccinationCardItem }) {
-                    VaccinationListVaccinationCardItemVH(it, onVaccinationClickListener)
+                    VaccinationListVaccinationCardItemVH(it)
                 },
                 TypedVHCreatorMod({ data[it] is VaccinationListCertificateCardItem }) {
                     VaccinationListCertificateCardItemVH(it)

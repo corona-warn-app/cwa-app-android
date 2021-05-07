@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListViewModel.Event.NavigateToVaccinationCertificateDetails
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import javax.inject.Inject
 
@@ -39,6 +40,8 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         }
     )
 
+    private val adapter = VaccinationListAdapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -47,16 +50,20 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                 popBackStack()
             }
 
-            recyclerViewVaccinationList.adapter = VaccinationListAdapter { vaccinationItem ->
-                doNavigate(
-                    VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragment(
-                        vaccinationItem.vaccinationCertificateId
-                    )
-                )
-            }
+            recyclerViewVaccinationList.adapter = adapter
 
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
                 bindViews(uiState)
+            }
+
+            viewModel.events.observe(viewLifecycleOwner) { event ->
+                when (event) {
+                    is NavigateToVaccinationCertificateDetails -> doNavigate(
+                        VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragment(
+                            event.vaccinationCertificateId
+                        )
+                    )
+                }
             }
 
             registerNewVaccinationButton.setOnClickListener {
@@ -71,7 +78,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
     private fun FragmentVaccinationListBinding.bindViews(uiState: VaccinationListViewModel.UiState) = with(uiState) {
 
-        (recyclerViewVaccinationList.adapter as VaccinationListAdapter).update(listItems)
+        adapter.update(listItems)
 
         val isVaccinationComplete = vaccinationStatus == VaccinatedPerson.Status.COMPLETE
 

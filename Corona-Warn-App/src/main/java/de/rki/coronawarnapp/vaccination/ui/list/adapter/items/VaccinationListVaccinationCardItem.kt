@@ -15,14 +15,14 @@ data class VaccinationListVaccinationCardItem(
     val totalSeriesOfDoses: String,
     val vaccinatedAt: String,
     val vaccinationStatus: VaccinatedPerson.Status,
-    val isFinalVaccination: Boolean
+    val isFinalVaccination: Boolean,
+    val onCardClick: (String) -> Unit
 ) : VaccinationListItem {
     override val stableId: Long = this.hashCode().toLong()
 }
 
 class VaccinationListVaccinationCardItemVH(
     parent: ViewGroup,
-    onItemClickListener: (vaccinationItem: VaccinationListVaccinationCardItem) -> Unit
 ) :
     VaccinationListAdapter.ItemVH<VaccinationListVaccinationCardItem, VaccinationListVaccinationCardBinding>(
         layoutRes = R.layout.vaccination_list_vaccination_card,
@@ -37,7 +37,7 @@ class VaccinationListVaccinationCardItemVH(
             { item, _ ->
                 with(item) {
                     root.setOnClickListener {
-                        onItemClickListener.invoke(item)
+                        onCardClick.invoke(vaccinationCertificateId)
                     }
                     vaccinationCardTitle.text = context.getString(
                         R.string.vaccination_list_vaccination_card_title,

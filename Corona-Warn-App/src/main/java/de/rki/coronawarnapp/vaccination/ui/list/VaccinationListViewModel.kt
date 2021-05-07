@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.ProofCertificate
@@ -32,6 +33,7 @@ class VaccinationListViewModel @AssistedInject constructor(
     @Assisted private val vaccinatedPersonIdentifier: String
 ) : CWAViewModel() {
 
+    val events = SingleLiveEvent<Event>()
     val uiState: LiveData<UiState> = vaccinationRepository.vaccinationInfos.map { vaccinatedPersonSet ->
 
         // TODO: use the line below once the repository returns actual values
@@ -117,6 +119,9 @@ class VaccinationListViewModel @AssistedInject constructor(
                         vaccinationStatus = vaccinationStatus,
                         isFinalVaccination =
                             doseNumber == totalSeriesOfDoses,
+                        onCardClick = { certificateId ->
+                            events.postValue(Event.NavigateToVaccinationCertificateDetails(certificateId))
+                        }
                     )
                 )
             }
@@ -128,6 +133,10 @@ class VaccinationListViewModel @AssistedInject constructor(
         val vaccinationStatus: VaccinatedPerson.Status,
         val isEligibleForProofCertificate: Boolean
     )
+
+    sealed class Event {
+        data class NavigateToVaccinationCertificateDetails(val vaccinationCertificateId: String) : Event()
+    }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<VaccinationListViewModel> {
