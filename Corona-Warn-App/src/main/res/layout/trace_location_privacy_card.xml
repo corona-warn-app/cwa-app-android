@@ -106,7 +106,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:text="@string/trace_location_privacy_card_third_bulletpoint_text"
+        android:text="@string/trace_location_privacy_card_fourth_bulletpoint_text"
         app:layout_constraintEnd_toEndOf="@id/second_bulletpoint_subtitle"
         app:layout_constraintStart_toStartOf="@id/second_bulletpoint_subtitle"
         app:layout_constraintTop_toBottomOf="@id/second_bulletpoint_subtitle" />
@@ -126,7 +126,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
         android:paddingBottom="@dimen/spacing_medium"
-        android:text="@string/trace_location_privacy_card_fourth_bulletpoint_text"
+        android:text="@string/trace_location_privacy_card_third_bulletpoint_text"
         app:layout_constraintEnd_toEndOf="@id/third_bulletpoint_text"
         app:layout_constraintStart_toStartOf="@id/third_bulletpoint_text"
         app:layout_constraintTop_toBottomOf="@id/third_bulletpoint_text" />

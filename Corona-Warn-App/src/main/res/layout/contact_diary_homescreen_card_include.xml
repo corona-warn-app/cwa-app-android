@@ -34,7 +34,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_diary_card_homescreen_title" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+         <ImageView
             android:id="@+id/contact_diary_card_homescreen_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
