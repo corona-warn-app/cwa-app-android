@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/risk_details_accessibility_title">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             style="@style/CWAToolbar.Close"
             android:layout_width="match_parent"
