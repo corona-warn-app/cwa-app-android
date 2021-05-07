@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="qr_codes__list_no_items_image,qr_codes_list_no_items_title,qr_codes_list_no_items_subtitle" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+     <ImageView
         android:id="@+id/qr_codes__list_no_items_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
