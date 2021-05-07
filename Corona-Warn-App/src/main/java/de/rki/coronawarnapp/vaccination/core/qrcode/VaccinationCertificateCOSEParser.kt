@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class VaccinationCertificateCOSEParser @Inject constructor(
     private val healthCertificateCOSEDecoder: HealthCertificateCOSEDecoder,
-    private val VaccinationCertificateV1Decoder: VaccinationCertificateV1Decoder,
+    private val vaccinationCertificateV1Decoder: VaccinationCertificateV1Decoder,
 ) {
 
     fun parse(rawCOSEObject: RawCOSEObject): VaccinationCertificateData {
@@ -34,7 +34,7 @@ class VaccinationCertificateCOSEParser @Inject constructor(
 
     private fun CBORObject.decodeCBORObject(): VaccinationCertificateV1 {
         return try {
-            VaccinationCertificateV1Decoder.decode(this)
+            vaccinationCertificateV1Decoder.decode(this)
         } catch (e: Exception) {
             Timber.e(e)
             throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)

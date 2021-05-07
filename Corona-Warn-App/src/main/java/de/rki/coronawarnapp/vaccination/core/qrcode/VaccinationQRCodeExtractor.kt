@@ -13,9 +13,9 @@ import javax.inject.Inject
 
 class VaccinationQRCodeExtractor @Inject constructor(
     private val base45Decoder: Base45Decoder,
-    private val ZLIBDecompressor: ZLIBDecompressor,
+    private val zLIBDecompressor: ZLIBDecompressor,
     private val healthCertificateCOSEDecoder: HealthCertificateCOSEDecoder,
-    private val VaccinationCertificateV1Decoder: VaccinationCertificateV1Decoder,
+    private val vaccinationCertificateV1Decoder: VaccinationCertificateV1Decoder,
 ) : QrCodeExtractor<VaccinationCertificateQRCode> {
 
     private val prefix = "HC1:"
@@ -49,7 +49,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
 
     private fun ByteArray.decompress(): ByteArray {
         return try {
-            ZLIBDecompressor.decode(this)
+            zLIBDecompressor.decode(this)
         } catch (e: Exception) {
             Timber.e(e)
             throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
@@ -69,7 +69,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
 
     private fun CBORObject.decodeCBORObject(): VaccinationCertificateV1 {
         return try {
-            VaccinationCertificateV1Decoder.decode(this)
+            vaccinationCertificateV1Decoder.decode(this)
         } catch (e: InvalidHealthCertificateException) {
             throw e
         } catch (e: Exception) {
