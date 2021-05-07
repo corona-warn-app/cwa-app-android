@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.qrcode
 import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -63,7 +62,7 @@ class QrCodeRegistrationStateProcessor @Inject constructor(
         }
 
     private fun checkTestResult(request: CoronaTestQRCode, test: CoronaTest) {
-        if (test.testResult == CoronaTestResult.PCR_REDEEMED) {
+        if (test.isFinal) {
             throw InvalidQRCodeException("CoronaTestResult already redeemed ${request.registrationIdentifier}")
         }
     }
