@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package de.rki.coronawarnapp.util.network
 
 import android.content.Context
@@ -5,6 +7,7 @@ import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import android.net.NetworkRequest
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.BuildVersionWrap
@@ -33,10 +36,11 @@ import testhelpers.preferences.mockFlowPreference
 class NetworkStateProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
-    @MockK lateinit var conMan: ConnectivityManager
+    @MockK lateinit var connectivityManager: ConnectivityManager
     @MockK lateinit var testSettings: TestSettings
 
     @MockK lateinit var network: Network
+    @MockK lateinit var networkInfo: NetworkInfo
     @MockK lateinit var networkRequest: NetworkRequest
     @MockK lateinit var networkRequestBuilder: NetworkRequest.Builder
     @MockK lateinit var networkRequestBuilderProvider: NetworkRequestBuilderProvider
@@ -53,29 +57,44 @@ class NetworkStateProviderTest : BaseTest() {
         mockkObject(BuildVersionWrap)
         every { BuildVersionWrap.SDK_INT } returns 24
 
-        every {
-            conMan.registerNetworkCallback(
-                any<NetworkRequest>(),
-                any<ConnectivityManager.NetworkCallback>()
-            )
-        } answers {
-            lastRequest = arg(0)
-            lastCallback = arg(1)
-            mockk()
-        }
-        every { conMan.unregisterNetworkCallback(any<ConnectivityManager.NetworkCallback>()) } just Runs
-
-        every { context.getSystemService(Context.CONNECTIVITY_SERVICE) } returns conMan
+        every { testSettings.fakeMeteredConnection } returns mockFlowPreference(false)
+        every { context.getSystemService(Context.CONNECTIVITY_SERVICE) } returns connectivityManager
 
         every { networkRequestBuilderProvider.get() } returns networkRequestBuilder
-        every { networkRequestBuilder.addCapability(any()) } returns networkRequestBuilder
-        every { networkRequestBuilder.build() } returns networkRequest
+        networkRequestBuilder.apply {
+            every { addCapability(any()) } returns networkRequestBuilder
+            every { build() } returns networkRequest
+        }
 
-        every { conMan.activeNetwork } returns network
-        every { conMan.getNetworkCapabilities(network) } returns capabilities
-        every { conMan.getLinkProperties(network) } returns linkProperties
+        connectivityManager.apply {
+            every { activeNetwork } returns network
+            every { activeNetworkInfo } answers { networkInfo }
+            every { unregisterNetworkCallback(any<ConnectivityManager.NetworkCallback>()) } just Runs
 
-        every { testSettings.fakeMeteredConnection } returns mockFlowPreference(false)
+            every { getNetworkCapabilities(network) } answers { capabilities }
+            every { getLinkProperties(network) } answers { linkProperties }
+
+            every {
+                registerNetworkCallback(any<NetworkRequest>(), any<ConnectivityManager.NetworkCallback>())
+            } answers {
+                lastRequest = arg(0)
+                lastCallback = arg(1)
+                mockk()
+            }
+        }
+
+        networkInfo.apply {
+            every { type } returns ConnectivityManager.TYPE_WIFI
+            every { isConnected } returns true
+        }
+
+        capabilities.apply {
+            // The happy path is an unmetered internet connection being available
+            every { hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) } returns true
+            every { hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) } returns true
+            every { hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) } returns true
+            every { hasTransport(NetworkCapabilities.TRANSPORT_WIFI) } returns true
+        }
     }
 
     private fun createInstance(scope: CoroutineScope) = NetworkStateProvider(
@@ -90,41 +109,39 @@ class NetworkStateProviderTest : BaseTest() {
         shouldNotThrowAny {
             createInstance(TestCoroutineScope())
         }
-        verify { conMan wasNot Called }
+        verify { connectivityManager wasNot Called }
     }
 
     @Test
     fun `initial state is emitted correctly without callback`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
-        instance.networkState.first() shouldBe NetworkStateProvider.State(
-            activeNetwork = network,
-            capabilities = capabilities,
-            linkProperties = linkProperties
-        )
+        instance.networkState.first().apply {
+            isMeteredConnection shouldBe false
+            isInternetAvailable shouldBe true
+        }
 
         advanceUntilIdle()
 
         verifySequence {
-            conMan.activeNetwork
-            conMan.getNetworkCapabilities(network)
-            conMan.getLinkProperties(network)
-            conMan.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
-            conMan.unregisterNetworkCallback(lastCallback!!)
+            connectivityManager.activeNetwork
+            connectivityManager.getNetworkCapabilities(network)
+            connectivityManager.getLinkProperties(network)
+            connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
+            connectivityManager.unregisterNetworkCallback(lastCallback!!)
         }
     }
 
     @Test
     fun `we can handle null networks`() = runBlockingTest2(ignoreActive = true) {
-        every { conMan.activeNetwork } returns null
+        every { connectivityManager.activeNetwork } returns null
         val instance = createInstance(this)
 
-        instance.networkState.first() shouldBe NetworkStateProvider.State(
-            activeNetwork = null,
-            capabilities = null,
-            linkProperties = null
-        )
-        verify { conMan.activeNetwork }
+        instance.networkState.first().apply {
+            isInternetAvailable shouldBe false
+            isMeteredConnection shouldBe true
+        }
+        verify { connectivityManager.activeNetwork }
     }
 
     @Test
@@ -135,10 +152,10 @@ class NetworkStateProviderTest : BaseTest() {
 
         lastCallback!!.onAvailable(mockk())
 
-        every { conMan.activeNetwork } returns null
+        every { connectivityManager.activeNetwork } returns null
         lastCallback!!.onUnavailable()
 
-        every { conMan.activeNetwork } returns network
+        every { connectivityManager.activeNetwork } returns network
         lastCallback!!.onAvailable(mockk())
 
         advanceUntilIdle()
@@ -150,99 +167,72 @@ class NetworkStateProviderTest : BaseTest() {
 
         verifySequence {
             // Start value
-            conMan.activeNetwork
-            conMan.getNetworkCapabilities(network)
-            conMan.getLinkProperties(network)
-            conMan.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
+            connectivityManager.activeNetwork
+            connectivityManager.getNetworkCapabilities(network)
+            connectivityManager.getLinkProperties(network)
+            connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
 
             // onAvailable
-            conMan.activeNetwork
-            conMan.getNetworkCapabilities(network)
-            conMan.getLinkProperties(network)
+            connectivityManager.activeNetwork
+            connectivityManager.getNetworkCapabilities(network)
+            connectivityManager.getLinkProperties(network)
 
             // onUnavailable
-            conMan.activeNetwork
+            connectivityManager.activeNetwork
 
             // onAvailable
-            conMan.activeNetwork
-            conMan.getNetworkCapabilities(network)
-            conMan.getLinkProperties(network)
+            connectivityManager.activeNetwork
+            connectivityManager.getNetworkCapabilities(network)
+            connectivityManager.getLinkProperties(network)
 
-            conMan.unregisterNetworkCallback(lastCallback!!)
+            connectivityManager.unregisterNetworkCallback(lastCallback!!)
         }
     }
 
     @Test
-    fun `metered connection state checks capabilities`() {
-        val capabilities = mockk<NetworkCapabilities>()
+    fun `metered connection state checks capabilities`() = runBlockingTest2(ignoreActive = true) {
+        createInstance(this).apply {
+            networkState.first().isMeteredConnection shouldBe false
 
-        every { capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) } returns true
-        NetworkStateProvider.State(
-            activeNetwork = null,
-            capabilities = capabilities,
-            linkProperties = null
-        ).isMeteredConnection shouldBe false
+            every { capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) } returns false
+            networkState.first().isMeteredConnection shouldBe true
 
-        NetworkStateProvider.State(
-            activeNetwork = null,
-            capabilities = null,
-            linkProperties = null
-        ).isMeteredConnection shouldBe true
-
-        every { capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) } returns false
-        NetworkStateProvider.State(
-            activeNetwork = null,
-            capabilities = capabilities,
-            linkProperties = null
-        ).isMeteredConnection shouldBe true
+            every { connectivityManager.getNetworkCapabilities(any()) } returns null
+            networkState.first().isMeteredConnection shouldBe true
+        }
     }
 
     @Test
     fun `metered connection state can be overridden via test settings`() = runBlockingTest2(ignoreActive = true) {
-        every { testSettings.fakeMeteredConnection } returns mockFlowPreference(true)
         val instance = createInstance(this)
 
-        instance.networkState.first()
+        instance.networkState.first().isMeteredConnection shouldBe false
 
-        NetworkStateProvider.State(
-            activeNetwork = null,
-            capabilities = null,
-            linkProperties = null
-        ).isMeteredConnection shouldBe true
+        every { testSettings.fakeMeteredConnection } returns mockFlowPreference(true)
+
+        instance.networkState.first().isMeteredConnection shouldBe true
     }
 
     @Test
     fun `Android 6 not metered on wifi`() = runBlockingTest2(ignoreActive = true) {
         every { BuildVersionWrap.SDK_INT } returns 23
-
-        every { capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) } returns true
-
-        NetworkStateProvider.State(
-            activeNetwork = null,
-            capabilities = capabilities,
-            linkProperties = null
-        ).isMeteredConnection shouldBe false
+        val instance = createInstance(this)
 
         every { capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) } returns false
+        instance.networkState.first().isMeteredConnection shouldBe true
 
-        NetworkStateProvider.State(
-            activeNetwork = null,
-            capabilities = capabilities,
-            linkProperties = null
-        ).isMeteredConnection shouldBe true
+        every { capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) } returns true
+        instance.networkState.first().isMeteredConnection shouldBe false
 
-        NetworkStateProvider.State(
-            activeNetwork = null,
-            capabilities = null,
-            linkProperties = null
-        ).isMeteredConnection shouldBe true
+        every { connectivityManager.getNetworkCapabilities(any()) } returns null
+        instance.networkState.first().isMeteredConnection shouldBe true
     }
 
     @Test
     fun `if we fail to register the callback, we do not attempt to unregister it`() =
         runBlockingTest2(ignoreActive = true) {
             every {
-                conMan.registerNetworkCallback(
+                connectivityManager.registerNetworkCallback(
                     any(),
                     any<ConnectivityManager.NetworkCallback>()
                 )
@@ -250,20 +240,45 @@ class NetworkStateProviderTest : BaseTest() {
 
             val instance = createInstance(this)
 
-            instance.networkState.first() shouldBe NetworkStateProvider.State(
-                activeNetwork = null,
-                capabilities = null,
-                linkProperties = null
-            )
+            instance.networkState.first().apply {
+                isInternetAvailable shouldBe true
+                isMeteredConnection shouldBe true
+            }
 
             advanceUntilIdle()
 
             verifySequence {
-                conMan.activeNetwork
-                conMan.getNetworkCapabilities(network)
-                conMan.getLinkProperties(network)
-                conMan.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
+                connectivityManager.activeNetwork
+                connectivityManager.getNetworkCapabilities(network)
+                connectivityManager.getLinkProperties(network)
+                connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
             }
-            verify(exactly = 0) { conMan.unregisterNetworkCallback(any<ConnectivityManager.NetworkCallback>()) }
+            verify(exactly = 0) { connectivityManager.unregisterNetworkCallback(any<ConnectivityManager.NetworkCallback>()) }
         }
+
+    @Test
+    fun `current state is correctly determined below API 23`() = runBlockingTest2(ignoreActive = true) {
+        every { BuildVersionWrap.SDK_INT } returns 22
+
+        createInstance(this).apply {
+            networkState.first().apply {
+                isInternetAvailable shouldBe true
+                isMeteredConnection shouldBe false
+            }
+
+            every { networkInfo.type } returns ConnectivityManager.TYPE_MOBILE
+            networkState.first().apply {
+                isInternetAvailable shouldBe true
+                isMeteredConnection shouldBe true
+            }
+
+            every { networkInfo.isConnected } returns false
+            networkState.first().apply {
+                isInternetAvailable shouldBe false
+                isMeteredConnection shouldBe true
+            }
+        }
+
+        verify { connectivityManager.activeNetworkInfo }
+    }
 }
