@@ -16,7 +16,7 @@ class VaccinationCertificateUrlModule : BaseEnvironmentModule() {
         requireValidUrl(environmentSetup.vaccinationProofServerUrl)
 
     @Reusable
-    @VaccinationCertificateValueSetCDNUrl
+    @VaccinationCertificateCDNUrl
     @Provides
     fun provideVaccinationValueSetUrl(environmentSetup: EnvironmentSetup): String =
         requireValidUrl(environmentSetup.vaccinationCdnUrl)

@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.environment.vaccination.VaccinationCertificateValueSetCDNUrl
+import de.rki.coronawarnapp.environment.vaccination.VaccinationCertificateCDNUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
@@ -40,7 +40,7 @@ class VaccinationValueSetModule {
     @Provides
     fun api(
         @VaccinationValueSetHttpClient httpClient: OkHttpClient,
-        @VaccinationCertificateValueSetCDNUrl url: String
+        @VaccinationCertificateCDNUrl url: String
     ): VaccinationValueSetApiV1 = Retrofit.Builder()
         .client(httpClient)
         .baseUrl(url)
