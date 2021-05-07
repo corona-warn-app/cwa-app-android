@@ -10,12 +10,12 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import de.rki.coronawarnapp.vaccination.core.ProofCertificate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
+import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListCertificateCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListIncompleteTopCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListNameCardItem
@@ -23,8 +23,6 @@ import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVac
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import org.joda.time.Days
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 class VaccinationListViewModel @AssistedInject constructor(
@@ -42,82 +40,15 @@ class VaccinationListViewModel @AssistedInject constructor(
         val vaccinationStatus = INCOMPLETE
         // val vaccinationStatus = COMPLETE
 
-        val nameData = VaccinationCertificateV1.NameData(
-            givenName = "François-Joan",
-            givenNameStandardized = "FRANCOIS<JOAN",
-            familyName = "d'Arsøns - van Halen",
-            familyNameStandardized = "DARSONS<VAN<HALEN",
-        )
-
-        val dateOfBirth = LocalDate.parse("2009-02-28")
-        val medicalProductId = "EU/1/20/1528"
-
         val vaccinationCertificates = setOf(
-            VaccinationCertificateV1(
-                version = "1.0.0",
-                nameData = nameData,
-                dateOfBirth = dateOfBirth,
-                vaccinationDatas = listOf(
-                    VaccinationCertificateV1.VaccinationData(
-                        targetId = "840539006",
-                        vaccineId = "1119349007",
-                        medicalProductId = medicalProductId,
-                        marketAuthorizationHolderId = "ORG-100030215",
-                        doseNumber = 1,
-                        totalSeriesOfDoses = 2,
-                        vaccinatedAt = LocalDate.parse("2021-04-22"),
-                        countryOfVaccination = "NL",
-                        certificateIssuer = "Ministry of Public Health, Welfare and Sport",
-                        uniqueCertificateIdentifier = "urn:uvci:01:NL:THECAKEISALIE",
-                    )
-                )
-            ),
-            VaccinationCertificateV1(
-                version = "1.0.0",
-                nameData = nameData,
-                dateOfBirth = dateOfBirth,
-                vaccinationDatas = listOf(
-                    VaccinationCertificateV1.VaccinationData(
-                        targetId = "840539006",
-                        vaccineId = "1119349007",
-                        medicalProductId = medicalProductId,
-                        marketAuthorizationHolderId = "ORG-100030215",
-                        doseNumber = 2,
-                        totalSeriesOfDoses = 2,
-                        vaccinatedAt = LocalDate.parse("2021-04-22"),
-                        countryOfVaccination = "NL",
-                        certificateIssuer = "Ministry of Public Health, Welfare and Sport",
-                        uniqueCertificateIdentifier = "urn:uvci:01:NL:THECAKEISALIE",
-                    )
-                )
+            getMockVaccinationCertificate(),
+            getMockVaccinationCertificate().copy(
+                doseNumber = 2
             )
         )
-        val nameDataProofCertificate = ProofCertificateV1.NameData(
-            givenName = "François-Joan",
-            givenNameStandardized = "FRANCOIS<JOAN",
-            familyName = "d'Arsøns - van Halen",
-            familyNameStandardized = "DARSONS<VAN<HALEN",
-        )
+
         val proofCertificates = setOf(
-            ProofCertificateV1(
-                version = "1.0.0",
-                nameData = nameDataProofCertificate,
-                dateOfBirth = dateOfBirth,
-                vaccinationDatas = listOf(
-                    ProofCertificateV1.VaccinationData(
-                        targetId = "840539006",
-                        vaccineId = "1119349007",
-                        medicalProductId = medicalProductId,
-                        marketAuthorizationHolderId = "ORG-100030215",
-                        doseNumber = 2,
-                        totalSeriesOfDoses = 2,
-                        vaccinatedAt = LocalDate.parse("2021-04-22"),
-                        countryOfVaccination = "DE",
-                        certificateIssuer = "Ministry of Public Health, Welfare and Sport",
-                        uniqueCertificateIdentifier = "urn:uvci:01:NL:THECAKEISALIE",
-                    )
-                )
-            )
+            getMockProofCertificate()
         )
 
         val listItems = assembleItemList(
@@ -125,9 +56,8 @@ class VaccinationListViewModel @AssistedInject constructor(
             proofCertificates = proofCertificates,
             firstName = "François-Joan",
             lastName = "d'Arsøns - van Halen",
-            dateOfBirth = dateOfBirth,
-            vaccinationStatus,
-            timeStamper.nowUTC.plus(Duration.standardDays(3))
+            dateOfBirth = LocalDate.parse("2009-02-28"),
+            vaccinationStatus
         )
 
         UiState(listItems, vaccinationStatus = vaccinationStatus)
@@ -139,20 +69,19 @@ class VaccinationListViewModel @AssistedInject constructor(
     // arguments
     @Suppress("LongParameterList")
     private fun assembleItemList(
-        vaccinationCertificates: Set<VaccinationCertificateV1>,
-        proofCertificates: Set<ProofCertificateV1>,
+        vaccinationCertificates: Set<VaccinationCertificate>,
+        proofCertificates: Set<ProofCertificate>,
         firstName: String,
         lastName: String,
         dateOfBirth: LocalDate,
-        vaccinationStatus: VaccinatedPerson.Status,
-        proofExpiresAt: Instant
+        vaccinationStatus: VaccinatedPerson.Status
 
     ) = mutableListOf<VaccinationListItem>().apply {
         if (vaccinationStatus == COMPLETE) {
             if (proofCertificates.isNotEmpty()) {
 
                 val proofCertificate = proofCertificates.first()
-                val expiresAt = proofExpiresAt.toLocalDateUserTz()
+                val expiresAt = proofCertificate.expiresAt.toLocalDateUserTz()
                 val today = timeStamper.nowUTC.toLocalDateUserTz()
                 val remainingValidityInDays = Days.daysBetween(today, expiresAt).days
 
@@ -173,10 +102,10 @@ class VaccinationListViewModel @AssistedInject constructor(
             )
         )
         vaccinationCertificates.forEach { vaccinationCertificate ->
-            with(vaccinationCertificate.vaccinationDatas.first()) {
+            with(vaccinationCertificate) {
                 add(
                     VaccinationListVaccinationCardItem(
-                        vaccinationCertificateId = uniqueCertificateIdentifier,
+                        vaccinationCertificateId = certificateId,
                         doseNumber = doseNumber.toString(),
                         totalSeriesOfDoses = totalSeriesOfDoses.toString(),
                         vaccinatedAt = vaccinatedAt.toDayFormat(),
