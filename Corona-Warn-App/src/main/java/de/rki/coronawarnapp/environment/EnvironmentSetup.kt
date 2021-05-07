@@ -39,7 +39,7 @@ class EnvironmentSetup @Inject constructor(
         DATA_DONATION("DATA_DONATION_CDN_URL"),
         LOG_UPLOAD("LOG_UPLOAD_SERVER_URL"),
         VACCINATION_PROOF("VACCINATION_PROOF_SERVER_URL"),
-        VACCINATION_VALUE("VACCINATION_VALUE_SET_CDN_URL"),
+        VACCINATION_VALUE("VACCINATION_CDN_URL"),
         SAFETYNET_API_KEY("SAFETYNET_API_KEY"),
         CROWD_NOTIFIER_PUBLIC_KEY("CROWD_NOTIFIER_PUBLIC_KEY")
     }
@@ -142,7 +142,7 @@ class EnvironmentSetup @Inject constructor(
     val vaccinationProofServerUrl: String
         get() = getEnvironmentValue(VACCINATION_PROOF).asString
 
-    val vaccinationValueCdnUrl: String
+    val vaccinationCdnUrl: String
         get() = getEnvironmentValue(VACCINATION_VALUE).asString
 
     companion object {

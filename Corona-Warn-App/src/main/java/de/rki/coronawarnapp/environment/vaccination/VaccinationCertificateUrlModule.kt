@@ -19,5 +19,5 @@ class VaccinationCertificateUrlModule : BaseEnvironmentModule() {
     @VaccinationCertificateValueSetCDNUrl
     @Provides
     fun provideVaccinationValueSetUrl(environmentSetup: EnvironmentSetup): String =
-        requireValidUrl(environmentSetup.vaccinationValueCdnUrl)
+        requireValidUrl(environmentSetup.vaccinationCdnUrl)
 }
