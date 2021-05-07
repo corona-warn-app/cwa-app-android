@@ -21,10 +21,10 @@ class HealthCertificateCOSEDecoder @Inject constructor() {
     }
 
     private fun CBORObject.validate(): CBORObject {
-        if (this.size() != 4) {
+        if (size() != 4) {
             throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
         }
-        if (!this.HasTag(18)) {
+        if (!HasTag(18)) {
             throw InvalidHealthCertificateException(HC_COSE_TAG_INVALID)
         }
         return this
