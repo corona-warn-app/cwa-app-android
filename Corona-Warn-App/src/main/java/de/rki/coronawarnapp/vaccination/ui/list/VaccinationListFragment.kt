@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import javax.inject.Inject
 
 class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), AutoInject {
@@ -69,6 +70,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             )
         }
         recyclerViewVaccinationList.adapter = adapter
+
 
         val isVaccinationComplete = uiState.vaccinationStatus == VaccinatedPerson.Status.COMPLETE
 

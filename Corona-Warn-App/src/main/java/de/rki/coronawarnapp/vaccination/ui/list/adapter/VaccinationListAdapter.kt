@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.ui.list
+package de.rki.coronawarnapp.vaccination.ui.list.adapter
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes

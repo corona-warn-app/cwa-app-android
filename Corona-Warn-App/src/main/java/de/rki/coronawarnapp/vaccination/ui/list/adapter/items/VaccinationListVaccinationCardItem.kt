@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.databinding.VaccinationListVaccinationCardBinding
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
-import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListAdapter
-import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
 
 data class VaccinationListVaccinationCardItem(
     val vaccinationCertificateId: String,

@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.vaccination.ui.list.adapter.items
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListNameCardBinding
-import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListAdapter
-import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
 
 data class VaccinationListNameCardItem(val fullName: String, val dayOfBirth: String) : VaccinationListItem {
     override val stableId = this.hashCode().toLong()

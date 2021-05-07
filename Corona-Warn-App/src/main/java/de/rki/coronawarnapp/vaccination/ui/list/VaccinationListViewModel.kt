@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListCertificateCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListIncompleteTopCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListNameCardItem
