@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEPa
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1Decoder
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1Parser
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -35,7 +35,7 @@ data class VaccinationContainer(
     private val certificateData: VaccinationCertificateData by lazy {
         preParsedData ?: VaccinationCertificateCOSEParser(
             HealthCertificateCOSEDecoder(),
-            VaccinationCertificateV1Decoder(),
+            VaccinationCertificateV1Parser(),
         ).parse(vaccinationCertificateCOSE)
     }
 

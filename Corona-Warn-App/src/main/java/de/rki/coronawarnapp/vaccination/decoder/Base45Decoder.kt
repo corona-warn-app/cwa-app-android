@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.vaccination.decoder
 import java.math.BigInteger
 import javax.inject.Inject
 
-// TODO:licence
+// TODO:licence?
 
 @OptIn(ExperimentalUnsignedTypes::class)
 class Base45Decoder @Inject constructor() {

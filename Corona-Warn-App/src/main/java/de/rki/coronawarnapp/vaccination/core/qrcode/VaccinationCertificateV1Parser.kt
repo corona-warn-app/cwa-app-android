@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateExce
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import javax.inject.Inject
 
-class VaccinationCertificateV1Decoder @Inject constructor() {
+class VaccinationCertificateV1Parser @Inject constructor() {
 
     private val keyEuDgcV1 = CBORObject.FromObject(1)
     private val keyHCert = CBORObject.FromObject(-260)
@@ -30,7 +30,7 @@ class VaccinationCertificateV1Decoder @Inject constructor() {
     }
 
     private fun VaccinationCertificateV1.validate(): VaccinationCertificateV1 {
-        if (vaccinationDatas.size < 1) {
+        if (vaccinationDatas.isEmpty()) {
             throw InvalidHealthCertificateException(VC_NO_VACCINATION_ENTRY)
         }
         return this

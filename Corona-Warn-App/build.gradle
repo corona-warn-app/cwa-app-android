@@ -439,5 +439,5 @@ dependencies {
     implementation "com.airbnb.android:lottie:3.5.0"
 
     // HCert
-    implementation("com.augustcellars.cose:cose-java:1.1.0")
+    implementation("com.upokecenter:cbor:4.4.1")
 }

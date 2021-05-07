@@ -15,7 +15,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
     private val base45Decoder: Base45Decoder,
     private val zLIBDecompressor: ZLIBDecompressor,
     private val healthCertificateCOSEDecoder: HealthCertificateCOSEDecoder,
-    private val vaccinationCertificateV1Decoder: VaccinationCertificateV1Decoder,
+    private val vaccinationCertificateV1Parser: VaccinationCertificateV1Parser,
 ) : QrCodeExtractor<VaccinationCertificateQRCode> {
 
     private val prefix = "HC1:"
@@ -69,7 +69,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
 
     private fun CBORObject.decodeCBORObject(): VaccinationCertificateV1 {
         return try {
-            vaccinationCertificateV1Decoder.decode(this)
+            vaccinationCertificateV1Parser.decode(this)
         } catch (e: InvalidHealthCertificateException) {
             throw e
         } catch (e: Exception) {

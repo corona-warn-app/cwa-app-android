@@ -16,7 +16,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
     private val base45Decoder = Base45Decoder()
     private val ZLIBDecompressor = ZLIBDecompressor()
     private val healthCertificateCOSEDecoder = HealthCertificateCOSEDecoder()
-    private val vaccinationCertificateV1Decoder = VaccinationCertificateV1Decoder()
+    private val vaccinationCertificateV1Decoder = VaccinationCertificateV1Parser()
 
     private val extractor = VaccinationQRCodeExtractor(
         base45Decoder,
