@@ -3,15 +3,21 @@ package de.rki.coronawarnapp.vaccination.decoder
 import java.math.BigInteger
 import javax.inject.Inject
 
+// TODO:licence
+
+@ExperimentalUnsignedTypes
 class Base45Decoder @Inject constructor() {
     private val alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
     private val int45 = BigInteger.valueOf(45)
     private val int256 = BigInteger.valueOf(256)
 
     fun encode(input: ByteArray) =
-        input.asSequence().map { it.toUByte() }
-            .chunked(2).map(this::encodeTwoCharsPadded)
-            .flatten().joinToString(separator = "")
+        input.asSequence()
+            .map { it.toUByte() }
+            .chunked(2)
+            .map(this::encodeTwoCharsPadded)
+            .flatten()
+            .joinToString(separator = "")
 
     private fun encodeTwoCharsPadded(input: List<UByte>): List<Char> {
         val result = encodeTwoChars(input).toMutableList()
