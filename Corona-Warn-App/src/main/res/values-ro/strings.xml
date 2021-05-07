@@ -1067,9 +1067,9 @@
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Testul dvs. a fost stocat în Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
+    <string name="submission_test_result_pending_steps_waiting_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, eliminați testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, eliminați testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Actualizare"</string>
     <!-- XBUT: test result pending : remove the test button -->

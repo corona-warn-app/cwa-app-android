@@ -1067,9 +1067,9 @@
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Вашият тест е запазен в приложението Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Все още няма резултат от теста Ви."</string>
+    <string name="submission_test_result_pending_steps_waiting_heading">"Все още няма резултат от теста Ви."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Актуализиране"</string>
     <!-- XBUT: test result pending : remove the test button -->

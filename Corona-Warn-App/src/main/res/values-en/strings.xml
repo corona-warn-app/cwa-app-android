@@ -1067,9 +1067,9 @@
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Your test has been stored in the Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Your test result is not available yet."</string>
+    <string name="submission_test_result_pending_steps_waiting_heading">"Your test result is not available yet."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please remove the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please remove the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Update"</string>
     <!-- XBUT: test result pending : remove the test button -->
