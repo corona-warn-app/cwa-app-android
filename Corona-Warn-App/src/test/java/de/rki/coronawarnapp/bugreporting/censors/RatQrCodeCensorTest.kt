@@ -2,11 +2,8 @@ package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
-import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.mockkObject
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
@@ -21,9 +18,6 @@ internal class RatQrCodeCensorTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-
-        mockkObject(CWADebug)
-        every { CWADebug.isDeviceForTestersBuild } returns false
     }
 
     @AfterEach
