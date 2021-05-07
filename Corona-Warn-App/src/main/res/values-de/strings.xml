@@ -467,7 +467,7 @@
     <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
     <string name="onboarding_manual_required_dialog_body">"Beachten Sie, dass Sie ohne Aktivierung der priorisierten Hintergrundaktivität die App mindestens alle 24 Stunden einmal aktiv aufrufen müssen, um Ihren Risikostatus aktualisieren zu können.\n\nSie können die priorisierte Hintergrundaktivität jederzeit in Ihren Einstellungen aktivieren."</string>
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
-    <string name="onboarding_manual_required_dialog_button">"Ok"</string>
+    <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Drei Personen haben die Risiko-Ermittlung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
@@ -1613,7 +1613,7 @@
     <!-- XTXT: error dialog - short text for error reason -->
     <string name="errors_generic_details_headline">"Ursache"</string>
     <!-- XBUT: error dialog - button close -->
-    <string name="errors_generic_button_positive">"Okay"</string>
+    <string name="errors_generic_button_positive">"OK"</string>
     <!-- XBUT: error dialog - button show details -->
     <string name="errors_generic_button_negative">"Details"</string>
     <!-- XTXT: error dialog - text when no error description is available  -->
@@ -1991,7 +1991,7 @@
     <!-- XBUT: Trace location check-ins consent screen skip button -->
     <string name="trace_location_attendee_consent_skip">Überspringen</string>
     <!-- XHED: Trace location check-ins consent screen dialog title -->
-    <string name="trace_location_attendee_consent_dialog_title">Sind Sie sicher, dass Sie Ihre Check-Ins nicht teilen wollen?</string>
+    <string name="trace_location_attendee_consent_dialog_title">Sind Sie sicher, dass Sie Ihre Check-ins nicht teilen wollen?</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
     <string name="trace_location_attendee_consent_dialog_message">Dadurch werden andere, die in Ihrer Nähe waren, nicht gewarnt.</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
