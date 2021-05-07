@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
+             <ImageView
                 style="@style/icon"
                 android:layout_width="@dimen/icon_size_risk_details_behavior"
                 android:layout_height="@dimen/icon_size_risk_details_behavior"
