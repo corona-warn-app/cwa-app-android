@@ -10,7 +10,7 @@
         android:background="@drawable/contact_diary_onboarding_background"
         android:focusable="true">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             style="@style/CWAToolbar.BackArrow"
             android:layout_width="0dp"

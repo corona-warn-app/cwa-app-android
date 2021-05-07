@@ -9,7 +9,7 @@
         android:accessibilityLiveRegion="assertive"
         android:contentDescription="@string/submission_test_result_headline">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             style="@style/CWAToolbar.Close"
             android:layout_width="match_parent"

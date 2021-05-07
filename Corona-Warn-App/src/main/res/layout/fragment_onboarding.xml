@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/spacing_medium">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                 <ImageView
                     android:id="@+id/onboarding_illustration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

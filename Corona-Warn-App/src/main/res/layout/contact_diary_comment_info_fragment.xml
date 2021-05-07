@@ -5,13 +5,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar"
+        style="@style/CWAToolbar.Close"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:navigationIcon="@drawable/ic_close" />
+        android:layout_marginStart="8dp" />
 
     <ScrollView
         android:layout_width="match_parent"
