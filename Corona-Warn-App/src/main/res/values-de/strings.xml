@@ -104,7 +104,7 @@
     <!-- XHED: risk card - risk check failed headline, no internet connection -->
     <string name="risk_card_check_failed_no_internet_headline">"Risiko-Überprüfung fehlgeschlagen"</string>
     <!-- XTXT: risk card - risk check failed, please check your internet connection -->
-    <string name="risk_card_check_failed_no_internet_body">"Der Abgleich der Zufall-IDs mit dem Server ist fehlgeschlagen. Sie können den Abgleich manuell neu starten."</string>
+    <string name="risk_card_check_failed_no_internet_body">"Der Abgleich der Zufalls-IDs mit dem Server ist fehlgeschlagen. Sie können den Abgleich manuell neu starten."</string>
     <!-- XTXT: risk card - risk check failed, restart button -->
     <string name="risk_card_check_failed_no_internet_restart_button">"Erneut starten"</string>
 
