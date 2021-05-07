@@ -82,8 +82,8 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
         subtitle.isVisible = isVaccinationComplete
 
-        refreshButton.isVisible = isVaccinationComplete
-        registerNewVaccinationButton.isCursorVisible = !isVaccinationComplete
+        refreshButton.isVisible = uiState.isEligibleForProofCertificate
+        registerNewVaccinationButton.isCursorVisible = !uiState.isEligibleForProofCertificate
 
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha

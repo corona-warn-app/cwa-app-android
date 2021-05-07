@@ -60,7 +60,12 @@ class VaccinationListViewModel @AssistedInject constructor(
             vaccinationStatus
         )
 
-        UiState(listItems, vaccinationStatus = vaccinationStatus)
+        UiState(
+            listItems,
+            vaccinationStatus = vaccinationStatus,
+            // TODO replace once isEligibleForProof is there
+            isEligibleForProofCertificate = vaccinationStatus == COMPLETE
+        )
     }.catch {
         // TODO Error Handling in an upcoming subtask
     }.asLiveData()
@@ -75,7 +80,6 @@ class VaccinationListViewModel @AssistedInject constructor(
         lastName: String,
         dateOfBirth: LocalDate,
         vaccinationStatus: VaccinatedPerson.Status
-
     ) = mutableListOf<VaccinationListItem>().apply {
         if (vaccinationStatus == COMPLETE) {
             if (proofCertificates.isNotEmpty()) {
@@ -111,7 +115,7 @@ class VaccinationListViewModel @AssistedInject constructor(
                         vaccinatedAt = vaccinatedAt.toDayFormat(),
                         vaccinationStatus = vaccinationStatus,
                         isFinalVaccination =
-                            doseNumber == totalSeriesOfDoses
+                            doseNumber == totalSeriesOfDoses,
                     )
                 )
             }
@@ -120,7 +124,8 @@ class VaccinationListViewModel @AssistedInject constructor(
 
     data class UiState(
         val listItems: List<VaccinationListItem>,
-        val vaccinationStatus: VaccinatedPerson.Status
+        val vaccinationStatus: VaccinatedPerson.Status,
+        val isEligibleForProofCertificate: Boolean
     )
 
     @AssistedFactory
