@@ -21,6 +21,7 @@
         android:layout_height="0dp"
         android:layout_margin="16dp"
         android:background="@drawable/rounded_white_background"
+        android:contentDescription="@string/trace_location_event_detail_qr_code_accessibility"
         android:keepScreenOn="true"
         android:transitionName="full_qr_code_image"
         app:layout_constraintBottom_toBottomOf="parent"

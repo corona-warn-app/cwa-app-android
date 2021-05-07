@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.qrcode.fullscreen
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -42,8 +43,12 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform()
-        sharedElementReturnTransition = MaterialContainerTransform()
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            scrimColor = Color.TRANSPARENT
+        }
+        sharedElementReturnTransition = MaterialContainerTransform().apply {
+            scrimColor = Color.TRANSPARENT
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
