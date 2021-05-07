@@ -76,6 +76,9 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         var flags = SYSTEM_UI_FLAG_VISIBLE
         flags = lightUIFlags(flags)
         requireActivity().window.decorView.systemUiVisibility = flags
+        binding.toolbar.apply {
+            animate().translationY(0.0f)
+        }
     }
 
     private fun exitImmersiveMode() {
