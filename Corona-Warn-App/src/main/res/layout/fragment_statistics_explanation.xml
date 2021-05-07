@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                 <ImageView
                     android:id="@+id/interoperability_illustration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -346,7 +346,7 @@
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="@dimen/guideline_end">
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                     <ImageView
                         android:id="@+id/statistics_explanation_trend_increasing_arrow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -371,7 +371,7 @@
                         app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_increasing_arrow"
                         app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_increasing_arrow" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                     <ImageView
                         android:id="@+id/statistics_explanation_trend_decreasing_arrow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -397,7 +397,7 @@
                         app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_decreasing_arrow"
                         app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_decreasing_arrow" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                     <ImageView
                         android:id="@+id/statistics_explanation_trend_stable_arrow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
