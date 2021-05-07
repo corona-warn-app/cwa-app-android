@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListNam
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVaccinationCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVaccinationCardItemVH
 
-class VaccinationListAdapter() :
+class VaccinationListAdapter :
     ModularAdapter<VaccinationListAdapter.ItemVH<VaccinationListItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<VaccinationListItem> {
 

@@ -51,4 +51,6 @@
     <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung registrieren</string>
     <!-- XBUT: Vaccination List refresh button -->
     <string name="vaccination_list_refresh_button">Aktualisieren</string>
+    <!-- XACT: Vaccination List Qr-Code for screen readers -->
+    <string name="vaccination_list_qr_code_accessibility">Qr-Code</string>
 </resources>

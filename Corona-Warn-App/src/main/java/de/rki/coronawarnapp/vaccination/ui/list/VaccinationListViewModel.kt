@@ -2,9 +2,11 @@ package de.rki.coronawarnapp.vaccination.ui.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeStamper
@@ -14,7 +16,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.ProofCertificate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
@@ -30,6 +31,7 @@ import org.joda.time.LocalDate
 class VaccinationListViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val timeStamper: TimeStamper,
+    private val qrCodeGenerator: QrCodeGenerator,
     @Assisted private val vaccinatedPersonIdentifier: String
 ) : CWAViewModel() {
 
@@ -40,7 +42,7 @@ class VaccinationListViewModel @AssistedInject constructor(
         // val vaccinatedPerson = vaccinatedPersonSet.single { it.identifier.code == vaccinatedPersonIdentifier }
 
         // For now, use mock data
-        val vaccinationStatus = INCOMPLETE
+        val vaccinationStatus = COMPLETE
         // val vaccinationStatus = COMPLETE
 
         val vaccinationCertificates = setOf(
@@ -76,7 +78,7 @@ class VaccinationListViewModel @AssistedInject constructor(
     // TODO: after using actual values from the repository, we only pass VaccinatedPerson here instead of all these
     // arguments
     @Suppress("LongParameterList")
-    private fun assembleItemList(
+    private suspend fun assembleItemList(
         vaccinationCertificates: Set<VaccinationCertificate>,
         proofCertificates: Set<ProofCertificate>,
         firstName: String,
@@ -94,8 +96,10 @@ class VaccinationListViewModel @AssistedInject constructor(
 
                 add(
                     VaccinationListCertificateCardItem(
-                        qrCode = null, // TODO: Generate QR-code
-                        remainingValidityInDays = remainingValidityInDays
+                        qrCodeData = "TODO-TODO-TODO-TODO-TODO-TODO-TODO-TODO-TODO-TODO-TODO-TODO-TODO-TODO",
+                        remainingValidityInDays = remainingValidityInDays,
+                        viewModelScope = viewModelScope,
+                        qrCodeGenerator = qrCodeGenerator
                     )
                 )
             }
