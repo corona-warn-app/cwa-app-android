@@ -23,4 +23,3 @@ class VaccinationQRCodeValidator @Inject constructor(
         return extractors.find { it.canHandle(rawString) }
     }
 }
-

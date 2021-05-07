@@ -7,11 +7,13 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.EmptyRawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.qrcode.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.qrcode.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1Decoder
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -28,9 +30,13 @@ data class VaccinationContainer(
     @Suppress("unused")
     constructor() : this(EmptyRawCOSEObject, Instant.EPOCH)
 
+    // TODO DI/ error handling
     @delegate:Transient
     private val certificateData: VaccinationCertificateData by lazy {
-        preParsedData ?: VaccinationCertificateCOSEParser().parse(vaccinationCertificateCOSE)
+        preParsedData ?: VaccinationCertificateCOSEParser(
+            HealthCertificateCOSEDecoder(),
+            VaccinationCertificateV1Decoder(),
+        ).parse(vaccinationCertificateCOSE)
     }
 
     val certificate: VaccinationCertificateV1

@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 // TODO:licence
 
-@ExperimentalUnsignedTypes
+@OptIn(ExperimentalUnsignedTypes::class)
 class Base45Decoder @Inject constructor() {
     private val alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
     private val int45 = BigInteger.valueOf(45)
@@ -54,10 +54,14 @@ class Base45Decoder @Inject constructor() {
             .map { it.toUByte() }.toList()
 
     private fun fromThreeCharValue(list: String): Long {
-        return list.foldIndexed(0L, { index, acc: Long, element ->
-            if (!alphabet.contains(element)) throw IllegalArgumentException(element.toString())
-            pow(int45, index) * alphabet.indexOf(element) + acc
-        })
+        return list.foldIndexed(
+            0L,
+            { index, acc: Long, element ->
+                if (!alphabet.contains(element))
+                    throw IllegalArgumentException(element.toString())
+                pow(int45, index) * alphabet.indexOf(element) + acc
+            }
+        )
     }
 
     private fun generateSequenceByDivRem(seed: Long, divisor: Int) =

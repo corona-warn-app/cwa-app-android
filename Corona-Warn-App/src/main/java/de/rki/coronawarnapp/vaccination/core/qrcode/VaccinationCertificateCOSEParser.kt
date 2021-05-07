@@ -1,14 +1,13 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import com.upokecenter.cbor.CBORObject
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidVaccinationQRCodeException.ErrorCode.HC_CBOR_DECODING_FAILED
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidVaccinationQRCodeException.ErrorCode.HC_COSE_MESSAGE_INVALID
-import de.rki.coronawarnapp.vaccination.decoder.COSEDecoder
+import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
 import timber.log.Timber
 import javax.inject.Inject
 
 class VaccinationCertificateCOSEParser @Inject constructor(
-    private val COSEDecoder: COSEDecoder,
+    private val healthCertificateCOSEDecoder: HealthCertificateCOSEDecoder,
     private val VaccinationCertificateV1Decoder: VaccinationCertificateV1Decoder,
 ) {
 
@@ -22,14 +21,14 @@ class VaccinationCertificateCOSEParser @Inject constructor(
         )
     }
 
-    private fun ByteArray.extractCBORObject(): CBORObject {
+    private fun RawCOSEObject.extractCBORObject(): CBORObject {
         return try {
-            COSEDecoder.decode(this)
-        } catch (e: InvalidVaccinationQRCodeException) {
+            healthCertificateCOSEDecoder.decode(this)
+        } catch (e: InvalidHealthCertificateException) {
             throw e
         } catch (e: Exception) {
             Timber.e(e)
-            throw InvalidVaccinationQRCodeException(HC_COSE_MESSAGE_INVALID)
+            throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
         }
     }
 
@@ -38,7 +37,7 @@ class VaccinationCertificateCOSEParser @Inject constructor(
             VaccinationCertificateV1Decoder.decode(this)
         } catch (e: Exception) {
             Timber.e(e)
-            throw InvalidVaccinationQRCodeException(HC_CBOR_DECODING_FAILED)
+            throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
         }
     }
 }
