@@ -31,7 +31,7 @@
             tools:text="@string/risk_card_low_risk_headline"
             tools:textColor="@color/colorStableLight" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+         <ImageView
             android:id="@+id/details_icon"
             gone="@{state.isInDetailsMode}"
             android:layout_width="@dimen/icon_size_risk_card"
