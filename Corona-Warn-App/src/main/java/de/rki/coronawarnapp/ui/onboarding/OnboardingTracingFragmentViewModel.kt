@@ -7,8 +7,9 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
+import de.rki.coronawarnapp.nearby.modules.tracing.disableTracingIfEnabled
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -22,6 +23,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
     dispatcherProvider: DispatcherProvider,
     private val tracingSettings: TracingSettings,
+    private val enfClient: ENFClient,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val countryList = interoperabilityRepository.countryList
@@ -63,8 +65,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
     fun resetTracing() {
         launch {
             try {
-                if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                    InternalExposureNotificationClient.asyncStop()
+                if (enfClient.disableTracingIfEnabled()) {
                     tracingSettings.isConsentGiven = false
                 }
             } catch (exception: Exception) {
