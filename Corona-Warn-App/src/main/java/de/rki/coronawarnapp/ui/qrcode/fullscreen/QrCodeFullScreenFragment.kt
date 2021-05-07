@@ -11,6 +11,7 @@ import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 import android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+import android.view.View.SYSTEM_UI_FLAG_VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
@@ -67,7 +68,14 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
 
     override fun onStop() {
         super.onStop()
-        viewModel.existImmersiveMode()
+
+        clearAllFlags()
+    }
+
+    private fun clearAllFlags() {
+        var flags = SYSTEM_UI_FLAG_VISIBLE
+        flags = lightUIFlags(flags)
+        requireActivity().window.decorView.systemUiVisibility = flags
     }
 
     private fun exitImmersiveMode() {
@@ -94,11 +102,7 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
                 or SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or SYSTEM_UI_FLAG_FULLSCREEN
             )
-        if (resources.getBoolean(R.bool.lightSystemUI)) {
-            flags = flags or SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                flags = flags or SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        }
+        flags = lightUIFlags(flags)
         requireActivity().window.decorView.systemUiVisibility = flags
     }
 
@@ -109,12 +113,18 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
                 or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             )
 
+        flags = lightUIFlags(flags)
+
+        requireActivity().window.decorView.systemUiVisibility = flags
+    }
+
+    private fun lightUIFlags(flag: Int): Int {
+        var flags = flag
         if (resources.getBoolean(R.bool.lightSystemUI)) {
             flags = flags or SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 flags = flags or SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         }
-
-        requireActivity().window.decorView.systemUiVisibility = flags
+        return flags
     }
 }
