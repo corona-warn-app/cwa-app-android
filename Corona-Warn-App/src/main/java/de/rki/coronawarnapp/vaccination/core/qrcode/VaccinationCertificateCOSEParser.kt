@@ -12,16 +12,12 @@ class VaccinationCertificateCOSEParser @Inject constructor(
 ) {
 
     fun parse(rawCOSEObject: RawCOSEObject): VaccinationCertificateData {
-        val certificate = rawCOSEObject
-            .extractCBORObject()
+        return rawCOSEObject
+            .decodeCOSEObject()
             .decodeCBORObject()
-
-        return VaccinationCertificateData(
-            vaccinationCertificate = certificate
-        )
     }
 
-    private fun RawCOSEObject.extractCBORObject(): CBORObject {
+    private fun RawCOSEObject.decodeCOSEObject(): CBORObject {
         return try {
             healthCertificateCOSEDecoder.decode(this)
         } catch (e: InvalidHealthCertificateException) {
@@ -32,7 +28,7 @@ class VaccinationCertificateCOSEParser @Inject constructor(
         }
     }
 
-    private fun CBORObject.decodeCBORObject(): VaccinationCertificateV1 {
+    private fun CBORObject.decodeCBORObject(): VaccinationCertificateData {
         return try {
             vaccinationCertificateV1Parser.decode(this)
         } catch (e: Exception) {

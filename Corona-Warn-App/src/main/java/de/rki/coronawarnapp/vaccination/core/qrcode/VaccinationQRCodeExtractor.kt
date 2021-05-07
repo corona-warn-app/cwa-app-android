@@ -30,10 +30,10 @@ class VaccinationQRCodeExtractor @Inject constructor(
             .decodeBase45()
             .decompress()
         val certificate = rawCOSEObject
-            .extractCBORObject()
+            .decodeCOSEObject()
             .decodeCBORObject()
         return VaccinationCertificateQRCode(
-            parsedData = VaccinationCertificateData(certificate),
+            parsedData = certificate,
             certificateCOSE = rawCOSEObject,
         )
     }
@@ -56,7 +56,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
         }
     }
 
-    private fun RawCOSEObject.extractCBORObject(): CBORObject {
+    private fun RawCOSEObject.decodeCOSEObject(): CBORObject {
         return try {
             healthCertificateCOSEDecoder.decode(this)
         } catch (e: InvalidHealthCertificateException) {
@@ -67,7 +67,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
         }
     }
 
-    private fun CBORObject.decodeCBORObject(): VaccinationCertificateV1 {
+    private fun CBORObject.decodeCBORObject(): VaccinationCertificateData {
         return try {
             vaccinationCertificateV1Parser.decode(this)
         } catch (e: InvalidHealthCertificateException) {
