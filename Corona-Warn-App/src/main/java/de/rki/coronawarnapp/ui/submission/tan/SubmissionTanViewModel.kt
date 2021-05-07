@@ -7,7 +7,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -79,13 +78,6 @@ class SubmissionTanViewModel @AssistedInject constructor(
         } catch (err: CwaWebException) {
             registrationState.postValue(ApiRequestState.FAILED)
             registrationError.postValue(err)
-        } catch (err: TransactionException) {
-            if (err.cause is CwaWebException) {
-                registrationError.postValue(err.cause)
-            } else {
-                err.report(ExceptionCategory.INTERNAL)
-            }
-            registrationState.postValue(ApiRequestState.FAILED)
         } catch (err: Exception) {
             registrationState.postValue(ApiRequestState.FAILED)
             err.report(ExceptionCategory.INTERNAL)
