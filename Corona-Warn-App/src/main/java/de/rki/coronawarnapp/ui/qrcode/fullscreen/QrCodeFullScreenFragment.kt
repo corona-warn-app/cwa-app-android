@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.qrcode.fullscreen
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -9,6 +10,9 @@ import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.View.SYSTEM_UI_FLAG_VISIBLE
+import android.view.WindowManager
+import android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
+import android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
@@ -42,6 +46,10 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
 
         sharedElementEnterTransition = MaterialContainerTransform()
         sharedElementReturnTransition = MaterialContainerTransform()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            requireActivity().window.attributes.layoutInDisplayCutoutMode = LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
@@ -72,7 +80,12 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
     }
 
     private fun resetSystemUIFlags() {
-        requireActivity().window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
+        requireActivity().window.apply {
+            decorView.systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                attributes.layoutInDisplayCutoutMode = LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
+            }
+        }
     }
 
     private fun exitImmersiveMode() {
