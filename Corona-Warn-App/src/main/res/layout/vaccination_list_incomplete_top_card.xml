@@ -8,14 +8,15 @@
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingTop="24dp"
-    android:paddingBottom="16dp">
+    android:paddingBottom="12dp">
 
     <TextView
         android:id="@+id/top_card_title"
         style="@style/headline4Bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/vaccination_list_top_card_title" />
+        android:text="@string/vaccination_list_top_card_title"
+        android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/top_card_subtitle"
@@ -24,6 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/vaccination_list_top_card_subtitle"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>
