@@ -8,8 +8,6 @@
     <string name="vaccination_details_vaccine_name">Impfstoff</string>
     <!-- XTXT: Vaccination Details vaccine manufacturer -->
     <string name="vaccination_details_vaccine_manufacturer">Hersteller</string>
-    <!-- XTXT: Vaccination Details certificate charge id -->
-    <string name="vaccination_details_charge_id">Chargennummer</string>
     <!-- XTXT: Vaccination Details certificate issuer -->
     <string name="vaccination_details_certificate_issuer">Aussteller</string>
     <!-- XTXT: Vaccination Details certificate country -->

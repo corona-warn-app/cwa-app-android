@@ -27,7 +27,7 @@
             android:visibility="gone"
             app:constraint_referenced_ids="contact_diary_person_list_no_items_image,contact_diary_person_list_no_items_title,contact_diary_person_list_no_items_subtitle" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+         <ImageView
             android:id="@+id/contact_diary_person_list_no_items_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
