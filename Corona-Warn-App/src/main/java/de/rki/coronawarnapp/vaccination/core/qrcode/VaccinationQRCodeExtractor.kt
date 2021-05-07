@@ -38,43 +38,35 @@ class VaccinationQRCodeExtractor @Inject constructor(
         )
     }
 
-    private fun String.decodeBase45(): ByteArray {
-        return try {
-            base45Decoder.decode(this)
-        } catch (e: Exception) {
-            Timber.e(e)
-            throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
-        }
+    private fun String.decodeBase45(): ByteArray = try {
+        base45Decoder.decode(this)
+    } catch (e: Exception) {
+        Timber.e(e)
+        throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
     }
 
-    private fun ByteArray.decompress(): ByteArray {
-        return try {
-            zLIBDecompressor.decode(this)
-        } catch (e: Exception) {
-            Timber.e(e)
-            throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
-        }
+    private fun ByteArray.decompress(): ByteArray = try {
+        zLIBDecompressor.decode(this)
+    } catch (e: Exception) {
+        Timber.e(e)
+        throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
     }
 
-    private fun RawCOSEObject.decodeCOSEObject(): CBORObject {
-        return try {
-            healthCertificateCOSEDecoder.decode(this)
-        } catch (e: InvalidHealthCertificateException) {
-            throw e
-        } catch (e: Exception) {
-            Timber.e(e)
-            throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
-        }
+    private fun RawCOSEObject.decodeCOSEObject(): CBORObject = try {
+        healthCertificateCOSEDecoder.decode(this)
+    } catch (e: InvalidHealthCertificateException) {
+        throw e
+    } catch (e: Exception) {
+        Timber.e(e)
+        throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
-    private fun CBORObject.decodeCBORObject(): VaccinationCertificateData {
-        return try {
-            vaccinationCertificateV1Parser.decode(this)
-        } catch (e: InvalidHealthCertificateException) {
-            throw e
-        } catch (e: Exception) {
-            Timber.e(e)
-            throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
-        }
+    private fun CBORObject.decodeCBORObject(): VaccinationCertificateData = try {
+        vaccinationCertificateV1Parser.decode(this)
+    } catch (e: InvalidHealthCertificateException) {
+        throw e
+    } catch (e: Exception) {
+        Timber.e(e)
+        throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
     }
 }

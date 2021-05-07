@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateHeader
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
@@ -42,7 +43,14 @@ object VaccinationTestData {
         ),
     )
 
+    val PERSON_A_VAC_1_HEADER = VaccinationCertificateHeader(
+        issuer = "Ministry of Public Health, Welfare and Sport",
+        issuedAt = Instant.ofEpochMilli(1620149204473),
+        expiresAt = Instant.ofEpochMilli(11620149234473)
+    )
+
     val PERSON_A_VAC_1_DATA = VaccinationCertificateData(
+        header = PERSON_A_VAC_1_HEADER,
         vaccinationCertificate = PERSON_A_VAC_1_JSON
     )
 
@@ -83,7 +91,14 @@ object VaccinationTestData {
         ),
     )
 
+    val PERSON_A_VAC_2_HEADER = VaccinationCertificateHeader(
+        issuer = "Ministry of Public Health, Welfare and Sport",
+        issuedAt = Instant.ofEpochMilli(1620149204473),
+        expiresAt = Instant.ofEpochMilli(11620149234473)
+    )
+
     val PERSON_A_VAC_2_DATA = VaccinationCertificateData(
+        header = PERSON_A_VAC_2_HEADER,
         vaccinationCertificate = PERSON_A_VAC_2_JSON
     )
 
@@ -179,7 +194,15 @@ object VaccinationTestData {
             )
         )
     )
+
+    val PERSON_B_VAC_1_HEADER = VaccinationCertificateHeader(
+        issuer = "Ministry of Public Health, Welfare and Sport",
+        issuedAt = Instant.ofEpochMilli(1620149204473),
+        expiresAt = Instant.ofEpochMilli(11620149234473)
+    )
+
     val PERSON_B_VAC_1_DATA = VaccinationCertificateData(
+        header = PERSON_B_VAC_1_HEADER,
         vaccinationCertificate = PERSON_B_VAC_1_JSON
     )
 

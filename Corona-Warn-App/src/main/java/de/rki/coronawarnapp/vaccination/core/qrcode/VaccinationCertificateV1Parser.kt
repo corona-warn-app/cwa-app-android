@@ -57,6 +57,10 @@ class VaccinationCertificateV1Parser @Inject constructor() {
         if (vaccinationDatas.isEmpty()) {
             throw InvalidHealthCertificateException(VC_NO_VACCINATION_ENTRY)
         }
+        dateOfBirth
+        vaccinationDatas.forEach {
+            it.vaccinatedAt
+        }
         return this
     }
 }
