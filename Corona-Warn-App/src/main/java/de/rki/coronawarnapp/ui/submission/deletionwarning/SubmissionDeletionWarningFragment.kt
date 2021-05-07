@@ -7,14 +7,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import javax.inject.Inject
 
 class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_deletion_warning), AutoInject {
@@ -46,7 +47,6 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-
             when (viewModel.getTestType()) {
                 CoronaTest.Type.PCR -> {
                     headline.text = getString(R.string.submission_deletion_warning_headline_pcr_test)
@@ -59,122 +59,63 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 }
             }
 
-            continueButton.setOnClickListener {
-                viewModel.deleteExistingAndRegisterNewTest()
-            }
+            continueButton.setOnClickListener { viewModel.deleteExistingAndRegisterNewTest() }
 
-            toolbar.setNavigationOnClickListener {
-                viewModel.onCancelButtonClick()
-            }
-        }
-
-        viewModel.showRedeemedTokenWarning.observe2(this) {
-            val dialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_tan_redeemed_title,
-                R.string.submission_error_dialog_web_tan_redeemed_body,
-                R.string.submission_error_dialog_web_tan_redeemed_button_positive
-            )
-
-            DialogHelper.showDialog(dialog)
-
-            navigateToDispatchScreen()
+            toolbar.setNavigationOnClickListener { viewModel.onCancelButtonClick() }
         }
 
         viewModel.registrationState.observe2(this) { state ->
-            binding.submissionQrCodeScanSpinner.isVisible = state.apiRequestState == ApiRequestState.STARTED
-            binding.continueButton.isVisible = state.apiRequestState != ApiRequestState.STARTED
-
-            if (ApiRequestState.SUCCESS == state.apiRequestState) {
-
-                when (viewModel.getRegistrationType()) {
-                    SubmissionDeletionWarningViewModel.RegistrationType.QR -> {
-                        if (state.testResult == CoronaTestResult.PCR_POSITIVE) {
-                            viewModel.triggerNavigationToSubmissionTestResultAvailableFragment()
-                        } else {
-                            viewModel.triggerNavigationToSubmissionTestResultPendingFragment()
-                        }
-                    }
-                    SubmissionDeletionWarningViewModel.RegistrationType.TAN -> {
-                        doNavigate(
-                            SubmissionDeletionWarningFragmentDirections
-                                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
-                                    viewModel.getTestType()
-                                )
-                        )
-                    }
-                }
-            }
+            binding.submissionQrCodeScanSpinner.isVisible = state.isFetching
+            binding.continueButton.isVisible = !state.isFetching && state.coronaTest == null
         }
         viewModel.registrationError.observe2(this) {
-            DialogHelper.showDialog(buildErrorDialog(it))
+            showErrorDialog(it)
+            doNavigate(
+                SubmissionDeletionWarningFragmentDirections
+                    .actionSubmissionDeletionWarningFragmentToSubmissionDispatcherFragment()
+            )
         }
 
         viewModel.routeToScreen.observe2(this) {
-            when (it) {
-                SubmissionNavigationEvents.NavigateToConsent -> {
-                    doNavigate(
-                        SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment()
-                    )
-                }
-                is SubmissionNavigationEvents.NavigateToResultAvailableScreen -> {
-                    doNavigate(
-                        SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultAvailableFragment(
-                                testType = it.coronaTestType
-                            )
-                    )
-                }
-                is SubmissionNavigationEvents.NavigateToResultPendingScreen -> {
-                    doNavigate(
-                        SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
-                                testType = it.coronaTestType
-                            )
-                    )
-                }
-            }
+            Timber.d("Navigating to %s", it)
+            doNavigate(it)
         }
     }
 
-    private fun navigateToDispatchScreen() =
-        doNavigate(
-            SubmissionDeletionWarningFragmentDirections
-                .actionSubmissionDeletionWarningFragmentToSubmissionDispatcherFragment()
-        )
-
-    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-        return when (exception) {
-            is BadRequestException -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_qr_code_scan_invalid_dialog_headline,
-                R.string.submission_qr_code_scan_invalid_dialog_body,
-                R.string.submission_qr_code_scan_invalid_dialog_button_positive,
-                R.string.submission_qr_code_scan_invalid_dialog_button_negative,
-                true,
-                { /* startDecode() */ },
-                ::navigateToDispatchScreen
-            )
-            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_network_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToDispatchScreen
-            )
-            else -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToDispatchScreen
-            )
-        }
+    private fun showErrorDialog(exception: Throwable) = when (exception) {
+        is InvalidQRCodeException -> DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.submission_error_dialog_web_tan_redeemed_title,
+            message = R.string.submission_error_dialog_web_tan_redeemed_body,
+            cancelable = true,
+            positiveButton = R.string.submission_error_dialog_web_tan_redeemed_button_positive,
+            positiveButtonFunction = { /* dismiss */ },
+        ).run { DialogHelper.showDialog(this) }
+        is BadRequestException -> DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.submission_qr_code_scan_invalid_dialog_headline,
+            message = R.string.submission_qr_code_scan_invalid_dialog_body,
+            cancelable = true,
+            positiveButton = R.string.submission_qr_code_scan_invalid_dialog_button_positive,
+            positiveButtonFunction = { /* dismiss */ },
+        ).run { DialogHelper.showDialog(this) }
+        is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.submission_error_dialog_web_generic_error_title,
+            message = R.string.submission_error_dialog_web_generic_network_error_body,
+            cancelable = true,
+            positiveButton = R.string.submission_error_dialog_web_generic_error_button_positive,
+            positiveButtonFunction = { /* dismiss */ },
+        ).run { DialogHelper.showDialog(this) }
+        is CwaWebException -> DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.submission_error_dialog_web_generic_error_title,
+            message = R.string.submission_error_dialog_web_generic_error_body,
+            cancelable = true,
+            positiveButton = R.string.submission_error_dialog_web_generic_error_button_positive,
+            positiveButtonFunction = { /* dismiss */ },
+        ).run { DialogHelper.showDialog(this) }
+        else -> exception.toErrorDialogBuilder(requireContext()).show()
     }
 
     override fun onResume() {

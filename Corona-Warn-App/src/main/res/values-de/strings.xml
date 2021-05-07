@@ -104,7 +104,7 @@
     <!-- XHED: risk card - risk check failed headline, no internet connection -->
     <string name="risk_card_check_failed_no_internet_headline">"Risiko-Überprüfung fehlgeschlagen"</string>
     <!-- XTXT: risk card - risk check failed, please check your internet connection -->
-    <string name="risk_card_check_failed_no_internet_body">"Der Abgleich der Zufall-IDs mit dem Server ist fehlgeschlagen. Sie können den Abgleich manuell neu starten."</string>
+    <string name="risk_card_check_failed_no_internet_body">"Der Abgleich der Zufalls-IDs mit dem Server ist fehlgeschlagen. Sie können den Abgleich manuell neu starten."</string>
     <!-- XTXT: risk card - risk check failed, restart button -->
     <string name="risk_card_check_failed_no_internet_restart_button">"Erneut starten"</string>
 
@@ -858,9 +858,9 @@
     <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="debugging_debuglog_intro_explanation_section_two_link_label">"FAQ zu den Fehlerberichten"</string>
     <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/en/faq/#error_log"</string>
+    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/de/faq/#error_log"</string>
     <!-- YTXT: Title of ID History -->
-    <string name="debugging_debuglog_id_history_title">"ID History"</string>
+    <string name="debugging_debuglog_id_history_title">"ID Historie"</string>
     <!-- YTXT: Description of ID History -->
     <string name="debugging_debuglog_id_history_body">"IDs der bisher geteilten Fehleranalysen"</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
@@ -1175,7 +1175,7 @@
     <!-- YTXT: Body text for TAN code dispatcher option -->
     <string name="submission_dispatcher_tan_code_card_text">"Ihnen liegt eine TAN für Ihren PCR-Test vor? Weiter zur TAN-Eingabe, um andere zu warnen. "</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"TAN für PCR-Test anfragen?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"TAN für PCR-Test anfragen"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Rufen Sie uns an und erhalten Sie eine TAN für Ihren PCR-Test."</string>
     <!-- XACT: Dispatcher Tan page title -->
