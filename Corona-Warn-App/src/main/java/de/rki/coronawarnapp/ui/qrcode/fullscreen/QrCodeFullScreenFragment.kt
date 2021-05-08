@@ -13,6 +13,7 @@ import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 import android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 import android.view.View.SYSTEM_UI_FLAG_VISIBLE
+import android.view.animation.AccelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
@@ -45,9 +46,11 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             scrimColor = Color.TRANSPARENT
+            interpolator = AccelerateInterpolator()
         }
         sharedElementReturnTransition = MaterialContainerTransform().apply {
             scrimColor = Color.TRANSPARENT
+            interpolator = AccelerateInterpolator()
         }
     }
 
