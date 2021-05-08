@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.details
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -27,7 +26,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -69,7 +67,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                         1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.7f))
                         )
 
-                    shadowView.isGone = eventDate.bottom <= shadowView.y
+                    shadowView.isGone = nestedScrollView.bottom <= shadowView.y
                 }
             )
 
