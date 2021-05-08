@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -67,9 +68,11 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                         1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.7f))
                         )
 
-                    shadowView.isGone = nestedScrollView.bottom <= shadowView.y
+                    checkShadowVisibility()
                 }
             )
+
+            root.viewTreeObserver.addOnGlobalLayoutListener { checkShadowVisibility() }
 
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)
@@ -159,6 +162,10 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 }
             }
         }
+    }
+
+    private fun TraceLocationOrganizerQrCodeDetailFragmentBinding.checkShadowVisibility() {
+        shadowView.isInvisible = nestedScrollView.bottom <= shadowView.y
     }
 
     private fun setToolbarOverlay() {
