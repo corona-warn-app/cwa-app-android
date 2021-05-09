@@ -44,56 +44,43 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            scrimColor = Color.TRANSPARENT
-            interpolator = AccelerateInterpolator()
-        }
-        sharedElementReturnTransition = MaterialContainerTransform().apply {
-            scrimColor = Color.TRANSPARENT
-            interpolator = AccelerateInterpolator()
-        }
+        val containerTransform = MaterialContainerTransform()
+            .apply {
+                scrimColor = Color.TRANSPARENT
+                interpolator = AccelerateInterpolator()
+            }
+        sharedElementEnterTransition = containerTransform
+        sharedElementReturnTransition = containerTransform
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener {
-                popBackStack()
-            }
-
-            qrCodeImage.setOnClickListener {
-                viewModel.switchImmersiveMode()
-            }
+            toolbar.setNavigationOnClickListener { popBackStack() }
+            qrCodeImage.setOnClickListener { viewModel.switchImmersiveMode() }
 
             postponeEnterTransition()
             viewModel.qrcode.observe(viewLifecycleOwner) {
                 qrCodeImage.setImageBitmap(it)
                 startPostponedEnterTransition()
             }
-            viewModel.immersiveMode.observe(viewLifecycleOwner) {
-                if (it) enterImmersiveMode() else exitImmersiveMode()
+            viewModel.immersiveMode.observe(viewLifecycleOwner) { immersive ->
+                if (immersive) enterImmersiveMode() else exitImmersiveMode()
             }
         }
 
     override fun onStop() {
         super.onStop()
 
-        clearAllFlags()
+        clearSystemUiFlags()
     }
 
-    private fun clearAllFlags() {
-        var flags = SYSTEM_UI_FLAG_VISIBLE
-        flags = lightUIFlags(flags)
-        requireActivity().window.decorView.systemUiVisibility = flags
-        binding.toolbar.apply {
-            animate().translationY(0.0f)
-        }
+    private fun clearSystemUiFlags() {
+        decorView.systemUiVisibility = withLightUiFlags(SYSTEM_UI_FLAG_VISIBLE)
+        binding.toolbar.animate().translationY(0.0f)
     }
 
     private fun exitImmersiveMode() {
-        binding.toolbar.apply {
-            animate().translationY(0.0f)
-        }
-
+        binding.toolbar.animate().translationY(0.0f)
         showSystemUI()
     }
 
@@ -105,37 +92,33 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
     }
 
     private fun hideSystemUI() {
-        var flags = (
+        decorView.systemUiVisibility = withLightUiFlags(
             SYSTEM_UI_FLAG_IMMERSIVE
                 or SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or SYSTEM_UI_FLAG_FULLSCREEN
-            )
-        flags = lightUIFlags(flags)
-        requireActivity().window.decorView.systemUiVisibility = flags
+        )
     }
 
     private fun showSystemUI() {
-        var flags = (
+        decorView.systemUiVisibility = withLightUiFlags(
             SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            )
-
-        flags = lightUIFlags(flags)
-
-        requireActivity().window.decorView.systemUiVisibility = flags
+        )
     }
 
-    private fun lightUIFlags(flag: Int): Int {
-        var flags = flag
+    private val decorView: View get() = requireActivity().window.decorView
+
+    private fun withLightUiFlags(flags: Int): Int {
+        var uiFlags = flags
         if (resources.getBoolean(R.bool.lightSystemUI)) {
-            flags = flags or SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            uiFlags = uiFlags or SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                flags = flags or SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                uiFlags = uiFlags or SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         }
-        return flags
+        return uiFlags
     }
 }

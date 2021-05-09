@@ -38,13 +38,10 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
         }
     }
 
-    fun switchImmersiveMode() {
-        immersiveMode.postValue(immersiveMode.value?.not() ?: true)
-    }
-
-    fun existImmersiveMode() {
-        immersiveMode.postValue(false)
-    }
+    fun switchImmersiveMode() = immersiveMode
+        .run {
+            value = !(value ?: false)
+        }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<QrCodeFullScreenViewModel> {
