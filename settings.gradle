@@ -1,2 +1,9 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenLocal() 
+    }
+}
+
 rootProject.name = 'Corona-Warn'
 include ':Corona-Warn-App', ':Server-Protocol-Buffer'
