@@ -17,13 +17,13 @@ buildscript {
         // Fixed in bleeding-edge
         // Can be upgraded once new Android version is released or
         // the specific version is available via maven
-        classpath 'com.android.tools:r8:2.0.88'
-        classpath 'com.android.tools.build:gradle:4.1.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.google.protobuf:protobuf-gradle-plugin:$protobufVersion"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.4.1"
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.16.0-RC1"
+        classpath 'com.android.tools:r8:_'
+        classpath 'com.android.tools.build:gradle:_'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:_"
+        classpath "com.google.protobuf:protobuf-gradle-plugin:_"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:_"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:_"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:_"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

@@ -293,148 +293,136 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
     getExecutionData().from(fileTree(dir: "$buildDir", includes: ["jacoco/testDeviceReleaseUnitTest.exec"]))
 }
 
-configurations.all {
-    resolutionStrategy {
-        force "androidx.test:monitor:1.3.0"
-    }
-}
-
 dependencies {
     // KOTLIN
-    def coroutineVersion = "1.4.2"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutineVersion"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-reflect:1.4.21"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:_"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:_"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:_"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:_"
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:_"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:_"
 
     // ANDROID STANDARD
-    def nav_version = "2.3.3"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'androidx.work:work-runtime-ktx:2.5.0'
+    implementation 'androidx.appcompat:appcompat:_'
+    implementation 'androidx.core:core-ktx:_'
+    implementation 'com.google.android.material:material:_'
+    implementation 'androidx.constraintlayout:constraintlayout:_'
+    implementation "androidx.navigation:navigation-fragment-ktx:_"
+    implementation "androidx.navigation:navigation-ui-ktx:_"
+    implementation 'androidx.legacy:legacy-support-v4:_'
+    implementation 'androidx.preference:preference-ktx:_'
+    implementation 'androidx.work:work-runtime-ktx:_'
 
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-process:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:_'
+    implementation 'androidx.lifecycle:lifecycle-process:_'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:_'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:_'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:_'
 
-    implementation 'androidx.annotation:annotation:1.1.0'
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
-    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+    implementation 'androidx.annotation:annotation:_'
+    implementation "androidx.recyclerview:recyclerview:_"
+    implementation "androidx.recyclerview:recyclerview-selection:_"
 
     // DAGGER
-    def dagger_version = "2.31.2"
-    implementation "com.google.dagger:dagger:$dagger_version"
-    implementation "com.google.dagger:dagger-android:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
-    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-    kaptTest "com.google.dagger:dagger-android-processor:$dagger_version"
-    kaptAndroidTest "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation "com.google.dagger:dagger:_"
+    implementation "com.google.dagger:dagger-android:_"
+    implementation "com.google.dagger:dagger-android-support:_"
+    kapt "com.google.dagger:dagger-compiler:_"
+    kaptTest "com.google.dagger:dagger-compiler:_"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:_"
+    kapt "com.google.dagger:dagger-android-processor:_"
+    kaptTest "com.google.dagger:dagger-android-processor:_"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:_"
 
     // QR
-    implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }
+    implementation('com.journeyapps:zxing-android-embedded:_') { transitive = false }
     // noinspection GradleDependency - needed for SDK 23 compatibility, in combination with com.journeyapps:zxing-android-embedded:4.1.0
-    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'com.google.zxing:core:_'
 
     //ENA
     implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')
 
     // Testing
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation('org.robolectric:robolectric:4.4') {
+    testImplementation "androidx.arch.core:core-testing:_"
+    testImplementation('org.robolectric:robolectric:_') {
         exclude group: 'com.google.protobuf'
     }
-    testImplementation "io.mockk:mockk:1.10.4"
-    testImplementation "com.squareup.okhttp3:mockwebserver:4.9.0"
-    testImplementation 'org.hamcrest:hamcrest-library:2.2'
+    testImplementation "io.mockk:mockk:_"
+    testImplementation "com.squareup.okhttp3:mockwebserver:_"
+    testImplementation 'org.hamcrest:hamcrest-library:_'
 
     // Testing - jUnit4
-    testImplementation 'junit:junit:4.13.1'
-    testImplementation "org.junit.vintage:junit-vintage-engine:5.7.0"
-    testImplementation "androidx.test:core-ktx:1.3.0"
+    testImplementation 'junit:junit:_'
+    testImplementation "org.junit.vintage:junit-vintage-engine:_"
+    testImplementation "androidx.test:core-ktx:_"
 
 
     // Testing - jUnit5
-    def jupiter_version = "5.7.0"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiter_version"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
-    testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:_"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:_"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:_"
 
-    def kotest_version = "4.3.2"
-    testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
-    testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
-    testImplementation "io.kotest:kotest-property-jvm:$kotest_version"
-    androidTestImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
-    androidTestImplementation "io.kotest:kotest-property-jvm:$kotest_version"
+    testImplementation "io.kotest:kotest-runner-junit5:_"
+    testImplementation "io.kotest:kotest-assertions-core-jvm:_"
+    testImplementation "io.kotest:kotest-property-jvm:_"
+    androidTestImplementation "io.kotest:kotest-assertions-core-jvm:_"
+    androidTestImplementation "io.kotest:kotest-property-jvm:_"
 
-    testImplementation "io.github.classgraph:classgraph:4.8.90"
+    testImplementation "io.github.classgraph:classgraph:_"
 
     // Testing - Instrumentation
-    androidTestImplementation 'junit:junit:4.13.1'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    androidTestImplementation 'androidx.test:rules:1.3.0'
-    androidTestImplementation 'androidx.test.ext:truth:1.3.0'
-    androidTestImplementation 'androidx.work:work-testing:2.5.0'
-    androidTestImplementation "io.mockk:mockk-android:1.10.4"
-    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
-    debugImplementation 'androidx.test:core-ktx:1.3.0'
+    androidTestImplementation 'junit:junit:_'
+    androidTestImplementation 'androidx.test:runner:_'
+    androidTestImplementation 'androidx.test.ext:junit:_'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:_'
+    androidTestImplementation 'androidx.test:rules:_'
+    androidTestImplementation 'androidx.test.ext:truth:_'
+    androidTestImplementation 'androidx.work:work-testing:_'
+    androidTestImplementation "io.mockk:mockk-android:_"
+    debugImplementation 'androidx.fragment:fragment-testing:_'
+    debugImplementation 'androidx.test:core-ktx:_'
 
-    androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+    androidTestImplementation 'tools.fastlane:screengrab:_'
+    androidTestImplementation "androidx.navigation:navigation-testing:_"
 
     // Play Services
-    implementation 'com.google.android.play:core:1.9.0'
-    implementation 'com.google.android.gms:play-services-base:17.5.0'
-    implementation 'com.google.android.gms:play-services-basement:17.5.0'
-    implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
-    implementation 'com.google.android.gms:play-services-tasks:17.2.0'
+    implementation 'com.google.android.play:core:_'
+    implementation 'com.google.android.gms:play-services-base:_'
+    implementation 'com.google.android.gms:play-services-basement:_'
+    implementation 'com.google.android.gms:play-services-safetynet:_'
+    implementation 'com.google.android.gms:play-services-tasks:_'
 
     // HTTP
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation('com.squareup.retrofit2:converter-protobuf:2.9.0') {
+    implementation 'com.squareup.retrofit2:retrofit:_'
+    implementation 'com.squareup.retrofit2:converter-gson:_'
+    implementation('com.squareup.retrofit2:converter-protobuf:_') {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation("com.squareup.okhttp3:logging-interceptor:_")
+    implementation 'com.squareup.okhttp3:okhttp:_'
 
     // PERSISTENCE
-    def room_version = "2.2.6"
-    implementation "androidx.sqlite:sqlite-ktx:2.1.0"
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    implementation "androidx.room:room-guava:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    androidTestImplementation "androidx.room:room-testing:$room_version"
+    implementation "androidx.sqlite:sqlite-ktx:_"
+    implementation "androidx.room:room-runtime:_"
+    implementation "androidx.room:room-ktx:_"
+    implementation "androidx.room:room-guava:_"
+    kapt "androidx.room:room-compiler:_"
+    androidTestImplementation "androidx.room:room-testing:_"
 
     // UTILS
     implementation project(":Server-Protocol-Buffer")
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.google.guava:guava:30.0-android'
-    implementation 'joda-time:joda-time:2.10.6'
+    implementation 'com.google.code.gson:gson:_'
+    implementation 'com.google.guava:guava:_'
+    implementation 'joda-time:joda-time:_'
 
     // SECURITY
     implementation "androidx.security:security-crypto:1.0.0-rc03"
-    implementation 'net.zetetic:android-database-sqlcipher:4.4.0'
-    implementation 'org.conscrypt:conscrypt-android:2.5.1'
+    implementation 'net.zetetic:android-database-sqlcipher:_'
+    implementation 'org.conscrypt:conscrypt-android:_'
 
     // LOGGING
     implementation 'com.jakewharton.timber:timber:4.7.1@aar'
 
     // ANIMATIONS
-    implementation "com.airbnb.android:lottie:3.5.0"
+    implementation "com.airbnb.android:lottie:_"
 }
