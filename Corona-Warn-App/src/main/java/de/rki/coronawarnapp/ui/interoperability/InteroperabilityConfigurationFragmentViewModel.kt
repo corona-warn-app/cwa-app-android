@@ -11,11 +11,12 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class InteroperabilityConfigurationFragmentViewModel @AssistedInject constructor(
     private val interoperabilityRepository: InteroperabilityRepository,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val countryList = interoperabilityRepository.countryList
         .asLiveData(context = dispatcherProvider.Default)
+
     val navigateBack = SingleLiveEvent<Boolean>()
 
     fun onBackPressed() {
@@ -24,12 +25,6 @@ class InteroperabilityConfigurationFragmentViewModel @AssistedInject constructor
 
     fun saveInteroperabilityUsed() {
         interoperabilityRepository.saveInteroperabilityUsed()
-    }
-
-    fun refreshCountries() {
-        launch {
-            interoperabilityRepository.refreshCountries()
-        }
     }
 
     @AssistedFactory

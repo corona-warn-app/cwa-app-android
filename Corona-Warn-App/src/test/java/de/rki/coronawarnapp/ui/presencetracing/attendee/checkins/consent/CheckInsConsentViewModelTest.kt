@@ -15,6 +15,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import okio.ByteString.Companion.decodeBase64
@@ -288,7 +289,6 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
         coVerify {
             checkInRepository.updateSubmissionConsents(any(), false)
-            autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
             checkInRepository.updateSubmissionConsents(any(), true)
         }
     }
@@ -303,7 +303,6 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
         coVerify {
             checkInRepository.updateSubmissionConsents(any(), false)
-            autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
             checkInRepository.updateSubmissionConsents(any(), true)
         }
     }
@@ -318,7 +317,6 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
         coVerify {
             checkInRepository.updateSubmissionConsents(any(), false)
-            autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
         }
     }
 
@@ -332,8 +330,13 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
         coVerify {
             checkInRepository.updateSubmissionConsents(any(), false)
-            autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
         }
+    }
+
+    @Test
+    fun setAutoSubmission() {
+        createViewModel().setAutoSubmission()
+        verify { autoSubmission.updateMode(AutoSubmission.Mode.MONITOR) }
     }
 
     private fun createViewModel() = CheckInsConsentViewModel(
