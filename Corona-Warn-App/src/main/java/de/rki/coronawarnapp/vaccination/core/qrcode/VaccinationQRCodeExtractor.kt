@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import com.upokecenter.cbor.CBORObject
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
+import de.rki.coronawarnapp.vaccination.core.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
@@ -45,8 +46,8 @@ class VaccinationQRCodeExtractor @Inject constructor(
         throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
     }
 
-    private fun ByteArray.decompress(): ByteArray = try {
-        zLIBDecompressor.decode(this)
+    private fun ByteArray.decompress(): RawCOSEObject = try {
+        RawCOSEObject(zLIBDecompressor.decode(this))
     } catch (e: Exception) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)

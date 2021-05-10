@@ -3,12 +3,11 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.ui.Country
+import de.rki.coronawarnapp.vaccination.core.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
-import de.rki.coronawarnapp.vaccination.core.qrcode.EmptyRawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.qrcode.HealthCertificateCOSEDecoder
-import de.rki.coronawarnapp.vaccination.core.qrcode.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
@@ -28,7 +27,7 @@ data class VaccinationContainer(
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
-    constructor() : this(EmptyRawCOSEObject, Instant.EPOCH)
+    constructor() : this(RawCOSEObject.EMPTY, Instant.EPOCH)
 
     // TODO DI/ error handling
     @delegate:Transient

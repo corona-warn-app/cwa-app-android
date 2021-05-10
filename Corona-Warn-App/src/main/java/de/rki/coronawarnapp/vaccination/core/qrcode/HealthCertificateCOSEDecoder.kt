@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import com.upokecenter.cbor.CBORObject
+import de.rki.coronawarnapp.vaccination.core.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
 import timber.log.Timber
@@ -9,7 +10,7 @@ import javax.inject.Inject
 class HealthCertificateCOSEDecoder @Inject constructor() {
     fun decode(input: RawCOSEObject): CBORObject {
         return try {
-            val messageObject = CBORObject.DecodeFromBytes(input).validate()
+            val messageObject = CBORObject.DecodeFromBytes(input.asByteArray).validate()
             val content = messageObject[2].GetByteString()
             CBORObject.DecodeFromBytes(content)
         } catch (e: InvalidHealthCertificateException) {

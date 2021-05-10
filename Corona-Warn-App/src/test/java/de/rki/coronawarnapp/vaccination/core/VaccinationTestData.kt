@@ -7,9 +7,9 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
+import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
 import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateData
 import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateResponse
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
 import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import okio.internal.commonAsUtf8ToByteArray
@@ -219,4 +219,4 @@ object VaccinationTestData {
     )
 }
 
-private fun String.toCOSEObject() = commonAsUtf8ToByteArray()
+private fun String.toCOSEObject() = RawCOSEObject(data = this.commonAsUtf8ToByteArray())
