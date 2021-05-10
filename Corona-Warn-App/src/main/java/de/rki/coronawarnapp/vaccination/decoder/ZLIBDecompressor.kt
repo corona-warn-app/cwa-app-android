@@ -11,7 +11,7 @@ class ZLIBDecompressor @Inject constructor() {
             // ZLIB magic headers
             if (input[1] in listOf(0x01.toByte(), 0x5E.toByte(), 0x9C.toByte(), 0xDA.toByte())) {
                 return try {
-                    InflaterInputStream(input.inputStream()).readBytes()
+                    input.inputStream().use { InflaterInputStream(it).readBytes() }
                 } catch (e: Throwable) {
                     Timber.e(e)
                     throw InvalidInputException("Zlib decompression failed.")
