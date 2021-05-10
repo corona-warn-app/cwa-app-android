@@ -40,7 +40,10 @@ class VaccinationUpdateTask @Inject constructor(
     }
 
     private suspend fun doWork(): Result {
-        // TODO
+
+        Timber.tag(TAG).d("Refreshing vaccination data.")
+        vaccinationRepository.refresh()
+        Timber.tag(TAG).d("Vaccination data refreshed.")
 
         return Result
     }
@@ -53,6 +56,10 @@ class VaccinationUpdateTask @Inject constructor(
         Timber.w("cancel() called.")
         isCanceled = true
     }
+
+    data class Arguments(
+        val silentErrors: Boolean = false
+    ) : Task.Arguments
 
     object Result : Task.Result
 

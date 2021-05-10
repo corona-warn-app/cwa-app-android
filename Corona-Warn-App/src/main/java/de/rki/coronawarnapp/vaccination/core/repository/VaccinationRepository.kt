@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinatedPersonNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
+import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toVaccinationContainer
@@ -121,9 +122,7 @@ class VaccinationRepository @Inject constructor(
 
         if (updatedPerson.isEligbleForProofCertificate) {
             Timber.tag(TAG).i("%s is eligble for proof certificate, launching async check.", updatedPerson.identifier)
-            appScope.launch {
-                refresh(updatedPerson.identifier)
-            }
+            appScope.launch { refresh(updatedPerson.identifier) }
         }
 
         return updatedPerson.vaccinationCertificates.single {
@@ -165,7 +164,10 @@ class VaccinationRepository @Inject constructor(
         throw NotImplementedError()
     }
 
-    suspend fun refresh(personIdentifier: VaccinatedPersonIdentifier?) {
+    /**
+     * Passing null as identifier will refresh all available data, if within constraints.
+     */
+    suspend fun refresh(personIdentifier: VaccinatedPersonIdentifier? = null) {
         Timber.tag(TAG).d("refresh(personIdentifier=%s)", personIdentifier)
         // TODO
     }
@@ -180,12 +182,18 @@ class VaccinationRepository @Inject constructor(
 
     suspend fun deleteVaccinationCertificate(vaccinationCertificateId: String) {
         Timber.tag(TAG).w("deleteVaccinationCertificate(certificateId=%s)", vaccinationCertificateId)
+        var deletedVaccination: VaccinationContainer? = null
+
         internalData.updateBlocking {
             val target = this.find { person ->
                 person.vaccinationCertificates.any { it.certificateId == vaccinationCertificateId }
             } ?: throw VaccinationCertificateNotFoundException(
                 "No vaccination certificate found for $vaccinationCertificateId"
             )
+
+            deletedVaccination = target.data.vaccinations.single {
+                it.certificateId != vaccinationCertificateId
+            }
 
             val newTarget = target.copy(
                 data = target.data.copy(
@@ -198,6 +206,13 @@ class VaccinationRepository @Inject constructor(
             this.map {
                 if (it != target) newTarget else it
             }.toSet()
+        }
+
+        deletedVaccination?.let {
+            if (!it.isEligbleForProofCertificate) return
+
+            Timber.tag(TAG).i("Deleted vaccination was eligble for proof, refreshing: %s", deletedVaccination)
+            appScope.launch { refresh(it.personIdentifier) }
         }
     }
 

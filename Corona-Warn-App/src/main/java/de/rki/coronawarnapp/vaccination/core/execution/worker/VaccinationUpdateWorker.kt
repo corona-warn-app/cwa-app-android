@@ -23,8 +23,13 @@ class VaccinationUpdateWorker @AssistedInject constructor(
     override suspend fun doWork(): Result = try {
         Timber.tag(TAG).v("$id: doWork() started. Run attempt: $runAttemptCount")
 
+        Timber.tag(TAG).i("Running vaccination data update task.")
         val taskState = taskController.submitBlocking(
-            DefaultTaskRequest(VaccinationUpdateTask::class, originTag = TAG)
+            DefaultTaskRequest(
+                VaccinationUpdateTask::class,
+                arguments = VaccinationUpdateTask.Arguments(silentErrors = true),
+                originTag = TAG,
+            )
         )
 
         when {

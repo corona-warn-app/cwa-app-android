@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
 import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
+import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
@@ -37,6 +38,12 @@ data class VaccinatedPerson(
 
     val isEligbleForProofCertificate: Boolean
         get() = data.isEligbleForProofCertificate
+
+    val isProofCertificateCheckPending: Boolean
+        get() = data.isPCRunPending
+
+    val lastProofCheckAt: Instant
+        get() = data.lastSuccessfulPCRunAt
 
     enum class Status {
         INCOMPLETE,
