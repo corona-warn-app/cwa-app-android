@@ -51,11 +51,11 @@ fun Throwable.toErrorDialogBuilder(context: Context) = MaterialAlertDialogBuilde
     setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
 
     setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->
-        val dialogBuilder = MaterialAlertDialogBuilder(context)
-        dialogBuilder.setMessageView(
-            error.toString() + "\n\n" + error.stackTraceToString(),
-            textHasLinks = false
-        )
-        dialogBuilder.create().show()
+        MaterialAlertDialogBuilder(context).apply {
+            setMessageView(
+                error.toString() + "\n\n" + error.stackTraceToString(),
+                textHasLinks = false
+            )
+        }.create().show()
     }
 }
