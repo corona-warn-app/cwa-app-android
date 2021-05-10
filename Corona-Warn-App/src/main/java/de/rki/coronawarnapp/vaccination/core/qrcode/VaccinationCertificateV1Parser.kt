@@ -10,11 +10,13 @@ import javax.inject.Inject
 
 class VaccinationCertificateV1Parser @Inject constructor() {
 
-    private val keyEuDgcV1 = CBORObject.FromObject(1)
-    private val keyHCert = CBORObject.FromObject(-260)
-    private val keyIssuer = CBORObject.FromObject(1)
-    private val keyExpiresAt = CBORObject.FromObject(4)
-    private val keyIssuedAt = CBORObject.FromObject(6)
+    companion object {
+        private val keyEuDgcV1 = CBORObject.FromObject(1)
+        private val keyHCert = CBORObject.FromObject(-260)
+        private val keyIssuer = CBORObject.FromObject(1)
+        private val keyExpiresAt = CBORObject.FromObject(4)
+        private val keyIssuedAt = CBORObject.FromObject(6)
+    }
 
     fun decode(map: CBORObject): VaccinationCertificateData {
         try {
@@ -65,8 +67,3 @@ class VaccinationCertificateV1Parser @Inject constructor() {
     }
 }
 
-data class VaccinationCertificateHeader(
-    val issuer: String,
-    val issuedAt: Instant,
-    val expiresAt: Instant
-)
