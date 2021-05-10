@@ -4,8 +4,8 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
-import de.rki.coronawarnapp.vaccination.core.server.VaccinationProofServer
-import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.proof.VaccinationProofServer
+import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
