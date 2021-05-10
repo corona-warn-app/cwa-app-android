@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.util.DialogHelper
 import timber.log.Timber
-import java.util.Locale
 
 class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {
 

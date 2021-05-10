@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.util.HashExtensions.Format.HEX
 import okio.ByteString.Companion.toByteString
 import java.io.File
 import java.security.MessageDigest
-import java.util.Locale
 
 internal object HashExtensions {
 

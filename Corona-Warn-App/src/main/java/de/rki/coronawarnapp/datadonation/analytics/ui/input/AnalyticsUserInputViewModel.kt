@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
-import java.util.Locale
 
 class AnalyticsUserInputViewModel @AssistedInject constructor(
     @Assisted val type: AnalyticsUserInputFragment.InputType,
@@ -62,7 +61,7 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
                         label = state.labelStringRes.toResolvingString()
                     )
                 }
-                .sortedBy { it.label.get(context).lowercase()  }
+                .sortedBy { it.label.get(context).lowercase() }
 
             val unspecified = UserInfoItem(
                 data = PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED,
@@ -87,7 +86,7 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
                         label = district.districtName.toLazyString()
                     )
                 }
-                .sortedBy { it.label.get(context).lowercase()  }
+                .sortedBy { it.label.get(context).lowercase() }
             val unspecified = UserInfoItem(
                 data = Districts.District(),
                 isSelected = 0 == selected,

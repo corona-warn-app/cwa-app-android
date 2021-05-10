@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.submission.tan
 
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
-import java.util.Locale
 
 data class Tan(
     val value: String
