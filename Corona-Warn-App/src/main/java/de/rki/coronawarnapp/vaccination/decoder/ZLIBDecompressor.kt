@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class ZLIBDecompressor @Inject constructor() {
 
-    fun decode(input: ByteArray): ByteArray {
+    fun decompress(input: ByteArray): ByteArray {
         if (input.size >= 2 && input[0] == 0x78.toByte()) {
             // ZLIB magic headers
             if (input[1] in listOf(0x01.toByte(), 0x5E.toByte(), 0x9C.toByte(), 0xDA.toByte())) {

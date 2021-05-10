@@ -71,7 +71,7 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import de.rki.coronawarnapp.vaccination.ui.homecards.CreateVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -338,7 +338,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             add(
                 CreateVaccinationHomeCard.Item(
                     onClickAction = {
-                        // TODO: implement in another PR
+                        routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
                     }
                 )
             )

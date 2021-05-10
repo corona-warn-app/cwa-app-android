@@ -20,18 +20,18 @@ class VaccinationQRCodeExtractor @Inject constructor(
 
     private val prefix = "HC1:"
 
-    override fun canHandle(rawString: String): Boolean {
-        return rawString.startsWith(prefix)
-    }
+    override fun canHandle(rawString: String): Boolean = rawString.startsWith(prefix)
 
     override fun extract(rawString: String): VaccinationCertificateQRCode {
         val rawCOSEObject = rawString
             .removePrefix(prefix)
             .decodeBase45()
             .decompress()
+
         val certificate = rawCOSEObject
             .decodeCOSEObject()
-            .decodeCBORObject()
+            .parseCBORObject()
+
         return VaccinationCertificateQRCode(
             parsedData = certificate,
             certificateCOSE = rawCOSEObject,
@@ -40,14 +40,14 @@ class VaccinationQRCodeExtractor @Inject constructor(
 
     private fun String.decodeBase45(): ByteArray = try {
         base45Decoder.decode(this)
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
     }
 
     private fun ByteArray.decompress(): ByteArray = try {
-        zLIBDecompressor.decode(this)
-    } catch (e: Exception) {
+        zLIBDecompressor.decompress(this)
+    } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
     }
@@ -56,16 +56,16 @@ class VaccinationQRCodeExtractor @Inject constructor(
         healthCertificateCOSEDecoder.decode(this)
     } catch (e: InvalidHealthCertificateException) {
         throw e
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
-    private fun CBORObject.decodeCBORObject(): VaccinationCertificateData = try {
-        vaccinationCertificateV1Parser.decode(this)
+    private fun CBORObject.parseCBORObject(): VaccinationCertificateData = try {
+        vaccinationCertificateV1Parser.parse(this)
     } catch (e: InvalidHealthCertificateException) {
         throw e
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
     }

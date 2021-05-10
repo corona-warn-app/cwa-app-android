@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.ui.homecards
+package de.rki.coronawarnapp.vaccination.ui.homecard
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
@@ -22,9 +22,16 @@ class CreateVaccinationHomeCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        itemView.setOnClickListener {
+        fun onClick() {
             val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
             curItem.onClickAction(item)
+        }
+
+        itemView.setOnClickListener {
+            onClick()
+        }
+        nextStepsAction.setOnClickListener {
+            onClick()
         }
     }
 

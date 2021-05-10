@@ -8,7 +8,7 @@
     android:transitionName="shared_element_container">
 
     <com.journeyapps.barcodescanner.BarcodeView
-        android:id="@+id/check_in_qr_code_scan_preview"
+        android:id="@+id/qr_code_scan_preview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,7 +21,7 @@
     </com.journeyapps.barcodescanner.BarcodeView>
 
     <com.journeyapps.barcodescanner.ViewfinderView
-        android:id="@+id/check_in_qr_code_scan_viewfinder_view"
+        android:id="@+id/qr_code_scan_viewfinder_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,19 +32,29 @@
         app:zxing_viewfinder_laser_visibility="false" />
 
     <TextView
-        android:id="@+id/check_in_qr_code_scan_body"
+        android:id="@+id/qr_code_scan_body"
         style="@style/qrCodeScanBody"
         android:layout_width="@dimen/scan_qr_code_viewfinder_size"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/scan_qr_code_viewfinder_center_offset"
         android:text="@string/qr_code_scan_body"
-        app:layout_constraintEnd_toEndOf="@id/check_in_qr_code_scan_preview"
-        app:layout_constraintStart_toStartOf="@id/check_in_qr_code_scan_preview"
-        app:layout_constraintTop_toBottomOf="@id/check_in_qr_code_scan_guideline_center" />
+        app:layout_constraintEnd_toEndOf="@id/qr_code_scan_preview"
+        app:layout_constraintStart_toStartOf="@id/qr_code_scan_preview"
+        app:layout_constraintTop_toBottomOf="@id/qr_code_scan_guideline_center" />
 
+    <ProgressBar
+        android:id="@+id/qr_code_scan_spinner"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/qr_code_scan_body"
+        app:layout_constraintStart_toStartOf="@id/qr_code_scan_body"
+        app:layout_constraintTop_toBottomOf="@id/qr_code_scan_body" />
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/check_in_qr_code_scan_toolbar"
+        android:id="@+id/qr_code_scan_toolbar"
         style="@style/CWAToolbar.BackArrow.Transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +66,7 @@
         app:titleTextColor="@color/colorQrCodeScanToolbar">
 
         <ToggleButton
-            android:id="@+id/check_in_qr_code_scan_torch"
+            android:id="@+id/qr_code_scan_torch"
             android:layout_width="@dimen/icon_size_button"
             android:layout_height="@dimen/icon_size_button"
             android:layout_gravity="end"
@@ -69,7 +79,7 @@
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/check_in_qr_code_scan_guideline_center"
+        android:id="@+id/qr_code_scan_guideline_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

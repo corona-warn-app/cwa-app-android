@@ -3,7 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/vaccination_nav_graph"
-    app:startDestination="@id/vaccinationDetailsFragment">
+    app:startDestination="@id/vaccinationQrCodeScanFragment">
+
+    <fragment
+        android:id="@+id/vaccinationQrCodeScanFragment"
+        android:name="de.rki.coronawarnapp.vaccination.ui.scan.VaccinationQrCodeScanFragment"
+        android:label="VaccinationQrCodeScanFragment">
+        <action
+            android:id="@+id/action_vaccinationQrCodeScanFragment_to_vaccinationDetailsFragment"
+            app:destination="@id/vaccinationDetailsFragment"
+            app:popUpTo="@id/vaccinationQrCodeScanFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/vaccinationDetailsFragment"
