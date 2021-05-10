@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListViewModel.Event.NavigateToVaccinationCertificateDetails
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import javax.inject.Inject
