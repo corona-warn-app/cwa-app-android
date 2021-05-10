@@ -45,7 +45,7 @@ class InvalidHealthCertificateException(
         VC_HC_CWT_NO_DGC("Dgc missing."),
         VC_HC_CWT_NO_EXP("Expiration date missing."),
         VC_HC_CWT_NO_HCERT("Health certificate missing."),
-        VC_HC_CWT_NO_ISS("Issuer missing.")
+        VC_HC_CWT_NO_ISS("Issuer missing."),
     }
 
     val errorMessage: LazyString
@@ -78,11 +78,16 @@ class InvalidHealthCertificateException(
             }
         }
 
-    override fun toHumanReadableError(context: Context) = HumanReadableError(
-        description = errorMessage.get(context)
-    )
+    override fun toHumanReadableError(context: Context): HumanReadableError {
+        var errorCodeString = errorCode.toString()
+        errorCodeString = if (errorCodeString.startsWith(PREFIX)) errorCodeString else PREFIX + errorCodeString
+        return HumanReadableError(
+            description = errorMessage.get(context) + "\n\n$errorCodeString"
+        )
+    }
 }
 
+private const val PREFIX = "VC_"
 private const val ERROR_MESSAGE_VC_INVALID = R.string.error_vc_invalid
 private const val ERROR_MESSAGE_VC_NOT_YET_SUPPORTED = R.string.error_vc_not_yet_supported
 private const val ERROR_MESSAGE_VC_SCAN_AGAIN = R.string.error_vc_scan_again

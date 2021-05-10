@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
-import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -67,7 +66,8 @@ class VaccinationQrCodeScanFragment :
 
         viewModel.errorEvent.observe(this) {
             binding.qrCodeScanSpinner.isGone = true
-            it.toErrorDialogBuilder(requireContext())
+            it.toErrorDialogBuilder(requireContext()).show()
+            popBackStack()
         }
     }
 
@@ -107,21 +107,6 @@ class VaccinationQrCodeScanFragment :
         .decodeSingle { barcodeResult ->
             viewModel.onScanResult(barcodeResult)
         }
-
-    private fun showQrCodeScanFailedDialog(errorMessage: LazyString) {
-        val scanFailedDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_qr_code_scan_permission_denied_dialog_headline,
-            R.string.submission_qr_code_scan_permission_denied_dialog_body,
-            R.string.submission_qr_code_scan_permission_denied_dialog_button,
-            cancelable = false,
-            positiveButtonFunction = {
-                leave()
-            }
-        )
-        showsPermissionDialog = true
-        DialogHelper.showDialog(scanFailedDialog)
-    }
 
     private fun showCameraPermissionDeniedDialog() {
         val permissionDeniedDialog = DialogHelper.DialogInstance(
