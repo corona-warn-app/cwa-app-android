@@ -60,12 +60,12 @@
                 android:id="@+id/vaccination_consent_info_subtitle"
                 style="@style/subtitleMedium"
                 android:layout_width="0dp"
-                android:textColorLink="@color/colorAccent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:text="@string/vaccination_consent_info_subtitle_text"
+                android:textColorLink="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vaccination_consent_headline" />
@@ -175,11 +175,10 @@
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_small"
-        android:text="@string/acknowledge_button"
+        android:text="@string/vaccination_consent_accept_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scrollview"
-        tools:text="@string/vaccination_consent_accept_button" />
+        app:layout_constraintTop_toBottomOf="@id/scrollview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
