@@ -32,6 +32,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
 
     init {
         Timber.v("init() coronaTestType=%s", testType)
+        updateTestResult()
     }
 
     val routeToScreen = SingleLiveEvent<NavDirections?>()
