@@ -115,10 +115,11 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
         val textParams = bottomTextView.layoutParams as (LinearLayout.LayoutParams)
 
-        textParams.bottomMargin = (deviceWidth / 3) - 24 /* 24 is space between screen border and Card */
+        val divider = if (isVaccinationComplete) 2 else 3
+        textParams.bottomMargin = (deviceWidth / divider) - 24 /* 24 is space between screen border and Card */
         bottomTextView.requestLayout()
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
-        behavior.overlayTop = (deviceWidth / 3) - 24
+        behavior.overlayTop = (deviceWidth / divider) - 24
     }
 }
