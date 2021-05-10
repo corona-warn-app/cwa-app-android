@@ -34,7 +34,7 @@ data class VaccinationContainer(
     // TODO DI/ error handling
     @delegate:Transient
     private val certificateData: VaccinationCertificateData by lazy {
-        //FixME :: 🛠️
+        // FixME :: 🛠️
         VaccinationCertificateData(
             VaccinationCertificateHeader("issuer", Instant.EPOCH, Instant.now()),
             VaccinationCertificateV1(
@@ -97,8 +97,8 @@ data class VaccinationContainer(
         override val certificateCountry: Country
             get() = Country.values().singleOrNull { it.code == vaccination.countryOfVaccination } ?: Country.DE
         override val certificateId: String
-            //FixME :: 🛠️
-            get() = "certificateId"?: vaccination.uniqueCertificateIdentifier
+            // FixME :: 🛠️
+            get() = "certificateId" ?: vaccination.uniqueCertificateIdentifier
     }
 }
 
