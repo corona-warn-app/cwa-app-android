@@ -4,5 +4,5 @@ data class LocationCode(
     private val rawIdentifier: String
 ) {
     val identifier: String
-        get() = rawIdentifier.lowercase()
+        get() = rawIdentifier.uppercase()
 }
