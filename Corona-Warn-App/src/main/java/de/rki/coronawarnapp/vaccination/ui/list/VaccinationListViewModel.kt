@@ -67,9 +67,7 @@ class VaccinationListViewModel @AssistedInject constructor(
 
         UiState(
             listItems,
-            vaccinationStatus = vaccinationStatus,
-            // TODO replace once isEligibleForProof is there
-            isEligibleForProofCertificate = vaccinationStatus == COMPLETE
+            vaccinationStatus = vaccinationStatus
         )
     }.catch {
         // TODO Error Handling in an upcoming subtask
@@ -134,8 +132,7 @@ class VaccinationListViewModel @AssistedInject constructor(
 
     data class UiState(
         val listItems: List<VaccinationListItem>,
-        val vaccinationStatus: VaccinatedPerson.Status,
-        val isEligibleForProofCertificate: Boolean
+        val vaccinationStatus: VaccinatedPerson.Status
     )
 
     sealed class Event {

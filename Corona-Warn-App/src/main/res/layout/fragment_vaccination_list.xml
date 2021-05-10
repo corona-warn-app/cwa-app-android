@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="12dp"
         android:nestedScrollingEnabled="true"
-        app:layout_constraintBottom_toTopOf="@id/register_new_vaccination_button"
+        app:layout_constraintBottom_toTopOf="@id/refresh_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -112,6 +112,19 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <Button
+        android:id="@+id/refresh_button"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="8dp"
+        android:text="@string/vaccination_list_refresh_button"
+        app:layout_constraintBottom_toTopOf="@id/register_new_vaccination_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
         android:id="@+id/register_new_vaccination_button"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
@@ -123,19 +136,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/refresh_button"
-        style="@style/buttonPrimary"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        android:layout_marginBottom="8dp"
-        android:text="@string/vaccination_list_refresh_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
