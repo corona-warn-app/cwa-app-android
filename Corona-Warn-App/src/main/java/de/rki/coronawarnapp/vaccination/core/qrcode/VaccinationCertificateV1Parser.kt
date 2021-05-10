@@ -66,4 +66,3 @@ class VaccinationCertificateV1Parser @Inject constructor() {
         return this
     }
 }
-
