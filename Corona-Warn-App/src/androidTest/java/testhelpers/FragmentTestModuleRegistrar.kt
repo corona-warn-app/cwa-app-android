@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestNegativeModule
 import de.rki.coronawarnapp.ui.submission.SubmissionYourConsentFragmentTestModule
 import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
+import de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragmentTestModule
 
 @Module(
     includes = [
@@ -78,10 +79,12 @@ import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
         // Bugreporting
         DebugLogUploadTestModule::class,
         DebugLogTestModule::class,
-        // Event Registration
+        // Presence tracing
         CreateEventTestModule::class,
         TraceLocationsFragmentTestModule::class,
-        QrCodeDetailFragmentTestModule::class
+        QrCodeDetailFragmentTestModule::class,
+        // Vaccination Passport
+        VaccinationDetailsFragmentTestModule::class,
     ]
 )
 class FragmentTestModuleRegistrar

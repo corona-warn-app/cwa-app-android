@@ -27,7 +27,6 @@ import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
@@ -40,12 +39,6 @@ import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
-/**
- * This activity holds all the fragments (except onboarding) and also registers a listener for
- * connectivity and bluetooth to update the ui.
- *
- * @see ConnectivityHelper
- */
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
         fun start(context: Context, launchIntent: Intent) {
@@ -258,12 +251,5 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             resultCode,
             data
         )
-    }
-
-    /**
-     * Function is called from back buttons in fragments.
-     */
-    fun goBack() {
-        onBackPressed()
     }
 }

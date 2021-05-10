@@ -734,8 +734,8 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionDispatcherFragment"
-            app:popUpTo="@id/submissionQRCodeScanFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/submissionDispatcherFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionDeletionFragment_to_submissionTestResultNoConsentFragment"
             app:destination="@id/submissionTestResultNoConsentFragment"

@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                 <ImageView
                     android:id="@+id/onboarding_illustration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_body" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                     <ImageView
                         android:id="@id/bullet_point_consent"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
@@ -191,7 +191,7 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_point_consent" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                     <ImageView
                         android:id="@id/bullet_point_identity"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
@@ -214,7 +214,7 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@id/legal_point_identity" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                     <ImageView
                         android:id="@id/bullet_point_sixteen"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"

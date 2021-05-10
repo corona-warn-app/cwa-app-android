@@ -8,10 +8,10 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -56,7 +56,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
 
         vm.clickEvent.observe2(this) {
             when (it) {
-                is SubmissionYourConsentEvents.GoBack -> (activity as MainActivity).goBack()
+                is SubmissionYourConsentEvents.GoBack -> popBackStack()
                 is SubmissionYourConsentEvents.GoLegal -> doNavigate(
                     SubmissionYourConsentFragmentDirections
                         .actionSubmissionYourConsentFragmentToInformationPrivacyFragment()
