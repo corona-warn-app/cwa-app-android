@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.ui.list.adapter.items
+package de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder
 
 import android.graphics.Bitmap
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListCertificateCardBinding
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListCertificateCardItemVH.VaccinationListCertificateCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListCertificateCardItemVH.VaccinationListCertificateCardItem
 
 class VaccinationListCertificateCardItemVH(parent: ViewGroup) :
     VaccinationListAdapter.ItemVH<VaccinationListCertificateCardItem, VaccinationListCertificateCardBinding>(

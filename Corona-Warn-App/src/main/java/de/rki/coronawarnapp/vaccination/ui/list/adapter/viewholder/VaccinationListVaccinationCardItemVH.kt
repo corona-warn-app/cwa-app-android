@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.ui.list.adapter.items
+package de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
 import java.util.Objects
 
 class VaccinationListVaccinationCardItemVH(

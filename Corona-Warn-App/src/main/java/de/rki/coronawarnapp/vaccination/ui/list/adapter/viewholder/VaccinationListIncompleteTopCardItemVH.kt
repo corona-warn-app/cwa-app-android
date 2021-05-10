@@ -1,11 +1,11 @@
-package de.rki.coronawarnapp.vaccination.ui.list.adapter.items
+package de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListIncompleteTopCardBinding
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListIncompleteTopCardItemVH.VaccinationListIncompleteTopCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListIncompleteTopCardItemVH.VaccinationListIncompleteTopCardItem
 
 class VaccinationListIncompleteTopCardItemVH(parent: ViewGroup) :
     VaccinationListAdapter.ItemVH<VaccinationListIncompleteTopCardItem, VaccinationListIncompleteTopCardBinding>(

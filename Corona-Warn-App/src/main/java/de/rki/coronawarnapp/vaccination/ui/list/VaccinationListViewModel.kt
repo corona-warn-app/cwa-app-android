@@ -19,10 +19,10 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListCertificateCardItemVH.VaccinationListCertificateCardItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListIncompleteTopCardItemVH.VaccinationListIncompleteTopCardItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListNameCardItemVH.VaccinationListNameCardItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListCertificateCardItemVH.VaccinationListCertificateCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListIncompleteTopCardItemVH.VaccinationListIncompleteTopCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListNameCardItemVH.VaccinationListNameCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
