@@ -1,6 +1,11 @@
 package de.rki.coronawarnapp.vaccination.core
 
 import dagger.Module
+import de.rki.coronawarnapp.vaccination.core.server.VaccinationServerModule
 
-@Module
-class VaccinationModule
+@Module(
+    includes = [
+        VaccinationServerModule::class
+    ]
+)
+abstract class VaccinationModule
