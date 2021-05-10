@@ -1942,7 +1942,7 @@
     <!-- XBUT: Duration dialog cancel button -->
     <string name="duration_dialog_cancel_button">Abbrechen</string>
     <!-- XBUT: Duration dialog ok button -->
-    <string name="duration_dialog_ok_button">OK</string>
+    <string name="duration_dialog_ok_button">Ok</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">00:00</string>
     <!-- XTXT: Duration hours text -->
