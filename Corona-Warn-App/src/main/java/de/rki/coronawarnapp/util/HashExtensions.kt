@@ -33,7 +33,7 @@ internal object HashExtensions {
         .formatHash(format)
 
     private fun ByteArray.formatHash(format: Format): String = when (format) {
-        HEX -> this.joinToString(separator = "") { String.format("%02X", it) }.toLowerCase(Locale.ROOT)
+        HEX -> this.joinToString(separator = "") { String.format("%02X", it) }.lowercase()
         BASE64 -> this.toByteString().base64()
     }
 

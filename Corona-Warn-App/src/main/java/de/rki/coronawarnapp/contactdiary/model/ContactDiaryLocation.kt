@@ -13,4 +13,4 @@ interface ContactDiaryLocation : HasStableId {
 }
 
 fun List<ContactDiaryLocation>.sortByNameAndIdASC(): List<ContactDiaryLocation> =
-    this.sortedWith(compareBy({ it.locationName.toLowerCase(Locale.ROOT) }, { it.locationId }))
+    this.sortedWith(compareBy({ it.locationName.lowercase()}, { it.locationId }))

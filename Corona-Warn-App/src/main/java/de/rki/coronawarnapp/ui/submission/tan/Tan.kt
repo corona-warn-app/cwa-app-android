@@ -22,14 +22,14 @@ data class Tan(
         fun isChecksumValid(tan: String): Boolean {
             if (tan.trim().length != MAX_LENGTH)
                 return false
-            val subTan = tan.substring(0, MAX_LENGTH - 1).toUpperCase(Locale.ROOT)
+            val subTan = tan.substring(0, MAX_LENGTH - 1).uppercase()
             val tanDigest = MessageDigest.getInstance("SHA-256")
                 .digest(subTan.toByteArray(StandardCharsets.US_ASCII))
             var checkChar = "%02x".format(tanDigest[0])[0]
             if (checkChar == '0') checkChar = 'G'
             if (checkChar == '1') checkChar = 'H'
 
-            return checkChar.toUpperCase() == tan.last().toUpperCase()
+            return checkChar.uppercaseChar() == tan.last().uppercaseChar()
         }
 
         fun allCharactersValid(tan: String): Boolean {

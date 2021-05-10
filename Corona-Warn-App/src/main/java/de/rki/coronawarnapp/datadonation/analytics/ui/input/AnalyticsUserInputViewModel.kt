@@ -62,7 +62,7 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
                         label = state.labelStringRes.toResolvingString()
                     )
                 }
-                .sortedBy { it.label.get(context).toLowerCase(Locale.ROOT) }
+                .sortedBy { it.label.get(context).lowercase()  }
 
             val unspecified = UserInfoItem(
                 data = PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED,
@@ -87,7 +87,7 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
                         label = district.districtName.toLazyString()
                     )
                 }
-                .sortedBy { it.label.get(context).toLowerCase(Locale.ROOT) }
+                .sortedBy { it.label.get(context).lowercase()  }
             val unspecified = UserInfoItem(
                 data = Districts.District(),
                 isSelected = 0 == selected,

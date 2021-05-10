@@ -20,7 +20,7 @@ interface ContactDiaryLocationVisit {
 fun List<ContactDiaryLocationVisit>.sortByNameAndIdASC(): List<ContactDiaryLocationVisit> =
     this.sortedWith(
         compareBy(
-            { it.contactDiaryLocation.locationName.toLowerCase(Locale.ROOT) },
+            { it.contactDiaryLocation.locationName.lowercase() },
             { it.contactDiaryLocation.locationId }
         )
     )

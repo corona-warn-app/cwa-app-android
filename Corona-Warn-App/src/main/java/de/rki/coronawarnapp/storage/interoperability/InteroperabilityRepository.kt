@@ -39,7 +39,7 @@ class InteroperabilityRepository @Inject constructor(
             configData
                 .supportedCountries
                 .mapNotNull { rawCode ->
-                    val countryCode = rawCode.toLowerCase(Locale.ROOT)
+                    val countryCode = rawCode.lowercase()
 
                     val mappedCountry = Country.values().singleOrNull { it.code == countryCode }
                     if (mappedCountry == null) Timber.e("Unknown countrycode: %s", rawCode)

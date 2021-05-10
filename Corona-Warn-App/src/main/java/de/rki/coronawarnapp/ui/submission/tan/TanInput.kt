@@ -82,7 +82,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
     }
 
     private fun updateTan(text: CharSequence) {
-        this.tan = text.toString().toUpperCase(Locale.ROOT)
+        this.tan = text.toString().uppercase()
         updateDigits()
         notifyListener()
     }

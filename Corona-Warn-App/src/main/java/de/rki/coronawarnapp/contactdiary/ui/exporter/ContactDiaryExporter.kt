@@ -98,7 +98,7 @@ class ContactDiaryExporter @Inject constructor(
         return this
     }
 
-    private fun getStringToSortBy(name: String) = name.toLowerCase(Locale.ROOT)
+    private fun getStringToSortBy(name: String) = name.lowercase()
 
     private fun ContactDiaryPersonEncounter.getExportInfo(date: LocalDate) = listOfNotNull(
         date.toFormattedStringWithName(contactDiaryPerson.fullName),
