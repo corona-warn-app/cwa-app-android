@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
+import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -62,6 +63,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var bluetoothSupport: BluetoothSupport
+    @MockK lateinit var vaccinationSettings: VaccinationSettings
 
     @BeforeEach
     fun setup() {
@@ -100,7 +102,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         tracingSettings = tracingSettings,
         traceLocationOrganizerSettings = traceLocationOrganizerSettings,
         timeStamper = timeStamper,
-        bluetoothSupport = bluetoothSupport
+        bluetoothSupport = bluetoothSupport,
+        vaccinationSettings = vaccinationSettings
     )
 
     @Test
