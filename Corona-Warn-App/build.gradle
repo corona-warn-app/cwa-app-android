@@ -12,6 +12,9 @@ def environmentExtractor = { File path ->
     return "\"${escapedJson}\""
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+}
 
 android {
     println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
