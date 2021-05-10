@@ -110,7 +110,7 @@ class VaccinationQrCodeScanFragment :
     private fun showQrCodeScanFailedDialog(errorMessage: LazyString) {
         val scanFailedDialog = DialogHelper.DialogInstance(
             requireActivity(),
-            //TODO
+            // TODO
             R.string.submission_qr_code_scan_permission_denied_dialog_headline,
             R.string.submission_qr_code_scan_permission_denied_dialog_body,
             R.string.submission_qr_code_scan_permission_denied_dialog_button,

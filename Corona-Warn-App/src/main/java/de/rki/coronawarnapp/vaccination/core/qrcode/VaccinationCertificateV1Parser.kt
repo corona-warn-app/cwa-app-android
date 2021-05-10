@@ -21,52 +21,52 @@ class VaccinationCertificateV1Parser @Inject constructor() {
     private val keyExpiresAt = CBORObject.FromObject(4)
     private val keyIssuedAt = CBORObject.FromObject(6)
 
-    fun parse(map: CBORObject): VaccinationCertificateData {
-        try {
-            var issuer: String? = null
-            map[keyIssuer]?.let {
-                issuer = it.AsString()
-            }
-            issuer ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
-
-            var issuedAt: Instant? = null
-            map[keyIssuedAt]?.let {
-                issuedAt = Instant.ofEpochSecond(it.AsNumber().ToInt64Checked())
-            }
-            issuedAt ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
-
-            var expiresAt: Instant? = null
-            map[keyExpiresAt]?.let {
-                expiresAt = Instant.ofEpochSecond(it.AsNumber().ToInt64Checked())
-            }
-            expiresAt ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_EXP)
-
-            var certificate: VaccinationCertificateV1? = null
-            map[keyHCert]?.let { hcert ->
-                hcert[keyEuDgcV1]?.let {
-                    val json = it.ToJSONString()
-                    try {
-                        certificate = Gson().fromJson<VaccinationCertificateV1>(json)
-                    } catch (e: Throwable) {
-                        throw InvalidHealthCertificateException(VC_JSON_SCHEMA_INVALID)
-                    }
-                } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_DGC)
-            } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_HCERT)
-
-            val header = VaccinationCertificateHeader(
-                issuer = issuer!!,
-                issuedAt = issuedAt!!,
-                expiresAt = expiresAt!!
-            )
-            return VaccinationCertificateData(
-                header,
-                certificate!!.validate()
-            )
-        } catch (e: InvalidHealthCertificateException) {
-            throw e
-        } catch (e: Throwable) {
-            throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
+    fun parse(map: CBORObject): VaccinationCertificateData = try {
+        var issuer: String? = null
+        map[keyIssuer]?.let {
+            issuer = it.AsString()
         }
+        issuer ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
+
+        var issuedAt: Instant? = null
+        map[keyIssuedAt]?.let {
+            issuedAt = Instant.ofEpochSecond(it.AsNumber().ToInt64Checked())
+        }
+        issuedAt ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
+
+        var expiresAt: Instant? = null
+        map[keyExpiresAt]?.let {
+            expiresAt = Instant.ofEpochSecond(it.AsNumber().ToInt64Checked())
+        }
+        expiresAt ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_EXP)
+
+        var certificate: VaccinationCertificateV1? = null
+        map[keyHCert]?.let { hcert ->
+            hcert[keyEuDgcV1]?.let {
+                it.toCertificate()
+            } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_DGC)
+        } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_HCERT)
+
+        val header = VaccinationCertificateHeader(
+            issuer = issuer!!,
+            issuedAt = issuedAt!!,
+            expiresAt = expiresAt!!
+        )
+        VaccinationCertificateData(
+            header,
+            certificate!!.validate()
+        )
+    } catch (e: InvalidHealthCertificateException) {
+        throw e
+    } catch (e: Throwable) {
+        throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
+    }
+
+    private fun CBORObject.toCertificate() = try {
+        val json = ToJSONString()
+        Gson().fromJson<VaccinationCertificateV1>(json)
+    } catch (e: Throwable) {
+        throw InvalidHealthCertificateException(VC_JSON_SCHEMA_INVALID)
     }
 
     private fun VaccinationCertificateV1.validate(): VaccinationCertificateV1 {

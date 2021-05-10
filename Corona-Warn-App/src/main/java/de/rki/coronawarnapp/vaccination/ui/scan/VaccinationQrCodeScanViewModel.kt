@@ -26,8 +26,8 @@ class VaccinationQrCodeScanViewModel @AssistedInject constructor(
             event.postValue(Event.QrCodeScanInProgress)
             val qrCode = vaccinationQRCodeValidator.validate(barcodeResult.text)
             // TODO crashes
-            //val certificate = vaccinationRepository.registerVaccination(qrCode)
-            //event.postValue(Event.QrCodeScanSucceeded(certificate.certificateId))
+            // val certificate = vaccinationRepository.registerVaccination(qrCode)
+            // event.postValue(Event.QrCodeScanSucceeded(certificate.certificateId))
             event.postValue(Event.QrCodeScanSucceeded("Scan succeeded"))
         } catch (e: InvalidHealthCertificateException) {
             event.postValue(Event.QrCodeScanFailed(e.errorMessage))
@@ -48,5 +48,3 @@ class VaccinationQrCodeScanViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<VaccinationQrCodeScanViewModel>
 }
-
-
