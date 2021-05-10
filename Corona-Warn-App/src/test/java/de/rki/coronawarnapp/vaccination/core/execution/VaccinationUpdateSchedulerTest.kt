@@ -20,7 +20,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
@@ -52,8 +51,6 @@ class VaccinationUpdateSchedulerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        mockkStatic("de.rki.coronawarnapp.util.coroutine.ListenableFutureKt")
 
         // Happy path is no proofs, no executions / workers
         every { taskController.submit(any()) } just Runs
