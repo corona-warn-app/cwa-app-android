@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.qrcode.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateHeader
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1Parser
@@ -33,7 +34,16 @@ data class VaccinationContainer(
     // TODO DI/ error handling
     @delegate:Transient
     private val certificateData: VaccinationCertificateData by lazy {
-        preParsedData ?: VaccinationCertificateCOSEParser(
+        //FixME :: 🛠️
+        VaccinationCertificateData(
+            VaccinationCertificateHeader("issuer", Instant.EPOCH, Instant.now()),
+            VaccinationCertificateV1(
+                version = "version",
+                nameData = VaccinationCertificateV1.NameData("", "", "", ""),
+                dob = "12.12.1987",
+                listOf()
+            )
+        ) ?: VaccinationCertificateCOSEParser(
             HealthCertificateCOSEDecoder(),
             VaccinationCertificateV1Parser(),
         ).parse(vaccinationCertificateCOSE)
@@ -87,7 +97,8 @@ data class VaccinationContainer(
         override val certificateCountry: Country
             get() = Country.values().singleOrNull { it.code == vaccination.countryOfVaccination } ?: Country.DE
         override val certificateId: String
-            get() = vaccination.uniqueCertificateIdentifier
+            //FixME :: 🛠️
+            get() = "certificateId"?: vaccination.uniqueCertificateIdentifier
     }
 }
 
