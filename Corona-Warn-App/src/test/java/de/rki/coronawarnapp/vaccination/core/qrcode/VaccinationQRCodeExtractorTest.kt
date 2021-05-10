@@ -39,7 +39,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
 
     @Test
     fun `happy path extraction with data`() {
-        val qrCode = extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCodeForJson)
+        val qrCode = extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode3)
 
         with(qrCode.parsedData.header) {
             issuer shouldBe "AT"
