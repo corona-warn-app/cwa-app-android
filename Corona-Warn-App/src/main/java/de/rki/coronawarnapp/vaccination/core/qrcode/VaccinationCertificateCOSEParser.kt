@@ -1,39 +1,39 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
-import okio.ByteString
-import org.joda.time.LocalDate
+import com.upokecenter.cbor.CBORObject
+import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
+import timber.log.Timber
+import javax.inject.Inject
 
-class VaccinationCertificateCOSEParser {
+class VaccinationCertificateCOSEParser @Inject constructor(
+    private val healthCertificateCOSEDecoder: HealthCertificateCOSEDecoder,
+    private val vaccinationCertificateV1Parser: VaccinationCertificateV1Parser,
+) {
 
-    fun parse(vaccinationCOSE: ByteString): VaccinationCertificateData {
-        // TODO
-        val cert = VaccinationCertificateV1(
-            version = "1.0.0",
-            nameData = VaccinationCertificateV1.NameData(
-                givenName = "François-Joan",
-                givenNameStandardized = "FRANCOIS<JOAN",
-                familyName = "d'Arsøns - van Halen",
-                familyNameStandardized = "DARSONS<VAN<HALEN",
-            ),
-            dateOfBirth = LocalDate.parse("2009-02-28"),
-            vaccinationDatas = listOf(
-                VaccinationCertificateV1.VaccinationData(
-                    targetId = "840539006",
-                    vaccineId = "1119349007",
-                    medicalProductId = "EU/1/20/1528",
-                    marketAuthorizationHolderId = "ORG-100030215",
-                    doseNumber = 1,
-                    totalSeriesOfDoses = 2,
-                    vaccinatedAt = LocalDate.parse("2021-04-21"),
-                    countryOfVaccination = "NL",
-                    certificateIssuer = "Ministry of Public Health, Welfare and Sport",
-                    uniqueCertificateIdentifier = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
-                )
-            ),
-        )
+    fun parse(rawCOSEObject: RawCOSEObject): VaccinationCertificateData {
+        return rawCOSEObject
+            .decodeCOSEObject()
+            .decodeCBORObject()
+    }
 
-        return VaccinationCertificateData(
-            vaccinationCertificate = cert
-        )
+    private fun RawCOSEObject.decodeCOSEObject(): CBORObject {
+        return try {
+            healthCertificateCOSEDecoder.decode(this)
+        } catch (e: InvalidHealthCertificateException) {
+            throw e
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
+        }
+    }
+
+    private fun CBORObject.decodeCBORObject(): VaccinationCertificateData {
+        return try {
+            vaccinationCertificateV1Parser.decode(this)
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
+        }
     }
 }

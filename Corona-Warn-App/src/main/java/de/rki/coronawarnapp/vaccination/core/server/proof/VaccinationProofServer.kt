@@ -1,7 +1,7 @@
-package de.rki.coronawarnapp.vaccination.core.server
+package de.rki.coronawarnapp.vaccination.core.server.proof
 
 import dagger.Reusable
-import okio.ByteString
+import de.rki.coronawarnapp.vaccination.core.qrcode.RawCOSEObject
 import javax.inject.Inject
 
 /**
@@ -11,7 +11,7 @@ import javax.inject.Inject
 class VaccinationProofServer @Inject constructor() {
 
     suspend fun getProofCertificate(
-        vaccinationCertificate: ByteString
+        vaccinationCertificate: RawCOSEObject
     ): ProofCertificateResponse {
         throw NotImplementedError()
     }

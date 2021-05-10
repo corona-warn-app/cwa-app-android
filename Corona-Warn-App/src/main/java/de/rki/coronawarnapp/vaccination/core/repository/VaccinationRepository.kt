@@ -18,7 +18,8 @@ import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationConta
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toVaccinationContainer
-import de.rki.coronawarnapp.vaccination.core.server.VaccinationProofServer
+import de.rki.coronawarnapp.vaccination.core.server.proof.VaccinationProofServer
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted

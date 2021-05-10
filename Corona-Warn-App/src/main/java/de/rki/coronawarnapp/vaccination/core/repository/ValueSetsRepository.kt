@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
 import de.rki.coronawarnapp.submission.server.SubmissionServer
-import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject

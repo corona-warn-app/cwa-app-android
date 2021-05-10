@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.core.server
+package de.rki.coronawarnapp.vaccination.core.server.proof
 
 import de.rki.coronawarnapp.vaccination.core.VaccinationException
 

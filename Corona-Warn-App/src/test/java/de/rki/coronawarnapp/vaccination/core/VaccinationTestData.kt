@@ -1,16 +1,18 @@
 package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateHeader
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateData
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateResponse
+import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateData
+import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateResponse
 import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
 import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
+import okio.internal.commonAsUtf8ToByteArray
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -24,7 +26,7 @@ object VaccinationTestData {
             familyName = "d'Arsøns - van Halen",
             familyNameStandardized = "DARSONS<VAN<HALEN",
         ),
-        dateOfBirth = LocalDate.parse("2009-02-28"),
+        dob = "2009-02-28",
         vaccinationDatas = listOf(
             VaccinationCertificateV1.VaccinationData(
                 targetId = "840539006",
@@ -33,7 +35,7 @@ object VaccinationTestData {
                 marketAuthorizationHolderId = "ORG-100030215",
                 doseNumber = 1,
                 totalSeriesOfDoses = 2,
-                vaccinatedAt = LocalDate.parse("2021-04-21"),
+                dt = "2021-04-21",
                 countryOfVaccination = "NL",
                 certificateIssuer = "Ministry of Public Health, Welfare and Sport",
                 uniqueCertificateIdentifier = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
@@ -41,18 +43,25 @@ object VaccinationTestData {
         ),
     )
 
+    val PERSON_A_VAC_1_HEADER = VaccinationCertificateHeader(
+        issuer = "Ministry of Public Health, Welfare and Sport",
+        issuedAt = Instant.ofEpochMilli(1620149204473),
+        expiresAt = Instant.ofEpochMilli(11620149234473)
+    )
+
     val PERSON_A_VAC_1_DATA = VaccinationCertificateData(
+        header = PERSON_A_VAC_1_HEADER,
         vaccinationCertificate = PERSON_A_VAC_1_JSON
     )
 
     val PERSON_A_VAC_1_QRCODE = VaccinationCertificateQRCode(
         parsedData = PERSON_A_VAC_1_DATA,
-        certificateCOSE = "VGhlIENha2UgaXMgTm90IGEgTGll".decodeBase64()!!
+        certificateCOSE = "VGhlIENha2UgaXMgTm90IGEgTGll".toCOSEObject()
     )
 
     val PERSON_A_VAC_1_CONTAINER = VaccinationContainer(
         scannedAt = Instant.ofEpochMilli(1620062834471),
-        vaccinationCertificateCOSE = "VGhlIGNha2UgaXMgYSBsaWUu".decodeBase64()!!,
+        vaccinationCertificateCOSE = "VGhlIGNha2UgaXMgYSBsaWUu".toCOSEObject(),
     ).apply {
         preParsedData = PERSON_A_VAC_1_DATA
     }
@@ -65,7 +74,7 @@ object VaccinationTestData {
             familyName = "d'Arsøns - van Halen",
             familyNameStandardized = "DARSONS<VAN<HALEN",
         ),
-        dateOfBirth = LocalDate.parse("2009-02-28"),
+        dob = "2009-02-28",
         vaccinationDatas = listOf(
             VaccinationCertificateV1.VaccinationData(
                 targetId = "840539006",
@@ -74,7 +83,7 @@ object VaccinationTestData {
                 marketAuthorizationHolderId = "ORG-100030215",
                 doseNumber = 1,
                 totalSeriesOfDoses = 2,
-                vaccinatedAt = LocalDate.parse("2021-04-22"),
+                dt = "2021-04-22",
                 countryOfVaccination = "NL",
                 certificateIssuer = "Ministry of Public Health, Welfare and Sport",
                 uniqueCertificateIdentifier = "urn:uvci:01:NL:THECAKEISALIE",
@@ -82,18 +91,25 @@ object VaccinationTestData {
         ),
     )
 
+    val PERSON_A_VAC_2_HEADER = VaccinationCertificateHeader(
+        issuer = "Ministry of Public Health, Welfare and Sport",
+        issuedAt = Instant.ofEpochMilli(1620149204473),
+        expiresAt = Instant.ofEpochMilli(11620149234473)
+    )
+
     val PERSON_A_VAC_2_DATA = VaccinationCertificateData(
+        header = PERSON_A_VAC_2_HEADER,
         vaccinationCertificate = PERSON_A_VAC_2_JSON
     )
 
     val PERSON_A_VAC_2_QRCODE = VaccinationCertificateQRCode(
         parsedData = PERSON_A_VAC_2_DATA,
-        certificateCOSE = "VGhlIGNha2UgaXMgYSBsaWUu".decodeBase64()!!
+        certificateCOSE = "VGhlIGNha2UgaXMgYSBsaWUu".toCOSEObject()
     )
 
     val PERSON_A_VAC_2_CONTAINER = VaccinationContainer(
         scannedAt = Instant.ofEpochMilli(1620149234473),
-        vaccinationCertificateCOSE = "VGhlIENha2UgaXMgTm90IGEgTGll".decodeBase64()!!,
+        vaccinationCertificateCOSE = "VGhlIENha2UgaXMgTm90IGEgTGll".toCOSEObject(),
     ).apply {
         preParsedData = PERSON_A_VAC_2_DATA
     }
@@ -162,7 +178,7 @@ object VaccinationTestData {
             familyName = "Von Mustermensch",
             familyNameStandardized = "VON<MUSTERMENSCH",
         ),
-        dateOfBirth = LocalDate.parse("1996-12-24"),
+        dob = "1996-12-24",
         vaccinationDatas = listOf(
             VaccinationCertificateV1.VaccinationData(
                 targetId = "840539006",
@@ -171,20 +187,28 @@ object VaccinationTestData {
                 marketAuthorizationHolderId = "ORG-100030215",
                 doseNumber = 1,
                 totalSeriesOfDoses = 2,
-                vaccinatedAt = LocalDate.parse("2021-04-21"),
+                dt = "2021-04-21",
                 countryOfVaccination = "NL",
                 certificateIssuer = "Ministry of Public Health, Welfare and Sport",
                 uniqueCertificateIdentifier = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ",
             )
         )
     )
+
+    val PERSON_B_VAC_1_HEADER = VaccinationCertificateHeader(
+        issuer = "Ministry of Public Health, Welfare and Sport",
+        issuedAt = Instant.ofEpochMilli(1620149204473),
+        expiresAt = Instant.ofEpochMilli(11620149234473)
+    )
+
     val PERSON_B_VAC_1_DATA = VaccinationCertificateData(
+        header = PERSON_B_VAC_1_HEADER,
         vaccinationCertificate = PERSON_B_VAC_1_JSON
     )
 
     val PERSON_B_VAC_1_CONTAINER = VaccinationContainer(
         scannedAt = Instant.ofEpochMilli(1620062834471),
-        vaccinationCertificateCOSE = "VGhpc0lzSmFrb2I".decodeBase64()!!,
+        vaccinationCertificateCOSE = "VGhpc0lzSmFrb2I".toCOSEObject(),
     ).apply {
         preParsedData = PERSON_B_VAC_1_DATA
     }
@@ -194,3 +218,5 @@ object VaccinationTestData {
         proofs = emptySet()
     )
 }
+
+private fun String.toCOSEObject() = commonAsUtf8ToByteArray()
