@@ -59,7 +59,7 @@ class VaccinationListViewModel @AssistedInject constructor(
         }
     }
 
-    val uiState: LiveData<UiState> = combine(vaccinationInfoFlow, proofQrCode){ vaccinatedPerson, proofQrCode ->
+    val uiState: LiveData<UiState> = combine(vaccinationInfoFlow, proofQrCode) { vaccinatedPerson, proofQrCode ->
 
         // For now, use mock data
         val vaccinationStatus = COMPLETE
@@ -140,7 +140,7 @@ class VaccinationListViewModel @AssistedInject constructor(
                         vaccinatedAt = vaccinatedAt.toDayFormat(),
                         vaccinationStatus = vaccinationStatus,
                         isFinalVaccination =
-                        doseNumber == totalSeriesOfDoses,
+                            doseNumber == totalSeriesOfDoses,
                         onCardClick = { certificateId ->
                             events.postValue(Event.NavigateToVaccinationCertificateDetails(certificateId))
                         }
