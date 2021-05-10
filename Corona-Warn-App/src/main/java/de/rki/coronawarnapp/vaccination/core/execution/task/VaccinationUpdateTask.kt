@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.vaccination.core.execution.task
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.task.Task
-import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.util.TimeStamper
@@ -40,16 +39,10 @@ class VaccinationUpdateTask @Inject constructor(
     }
 
     private suspend fun doWork(): Result {
-
         Timber.tag(TAG).d("Refreshing vaccination data.")
         vaccinationRepository.refresh()
         Timber.tag(TAG).d("Vaccination data refreshed.")
-
         return Result
-    }
-
-    private fun checkCancel() {
-        if (isCanceled) throw TaskCancellationException()
     }
 
     override suspend fun cancel() {
@@ -57,9 +50,7 @@ class VaccinationUpdateTask @Inject constructor(
         isCanceled = true
     }
 
-    data class Arguments(
-        val silentErrors: Boolean = false
-    ) : Task.Arguments
+    object Arguments : Task.Arguments
 
     object Result : Task.Result
 

@@ -3,10 +3,15 @@ package de.rki.coronawarnapp.vaccination.core.execution.task
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -17,10 +22,13 @@ class VaccinationUpdateTaskTest : BaseTest() {
 
     private val currentInstant = Instant.ofEpochSecond(1611764225)
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+
         every { timeStamper.nowUTC } returns currentInstant
+
+        coEvery { vaccinationRepository.refresh(any()) } just Runs
     }
 
     private fun createInstance() = VaccinationUpdateTask(
@@ -29,7 +37,11 @@ class VaccinationUpdateTaskTest : BaseTest() {
     )
 
     @Test
-    fun `to do`() {
-        TODO()
+    fun `task calls generic refresh`() = runBlockingTest {
+        val task = createInstance()
+
+        task.run(VaccinationUpdateTask.Arguments)
+
+        coVerify { vaccinationRepository.refresh(null) }
     }
 }

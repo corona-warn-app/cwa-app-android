@@ -8,6 +8,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
@@ -27,7 +28,8 @@ class VaccinationUpdateWorker @AssistedInject constructor(
         val taskState = taskController.submitBlocking(
             DefaultTaskRequest(
                 VaccinationUpdateTask::class,
-                arguments = VaccinationUpdateTask.Arguments(silentErrors = true),
+                arguments = VaccinationUpdateTask.Arguments,
+                errorHandling = TaskFactory.Config.ErrorHandling.SILENT,
                 originTag = TAG,
             )
         )

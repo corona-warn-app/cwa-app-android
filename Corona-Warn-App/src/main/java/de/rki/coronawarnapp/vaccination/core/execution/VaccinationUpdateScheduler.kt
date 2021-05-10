@@ -4,7 +4,9 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.await
@@ -19,7 +21,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,6 +39,8 @@ class VaccinationUpdateScheduler @Inject constructor(
     fun setup() {
         Timber.tag(TAG).d("setup()")
 
+        // If there is a pending check, we can perform it in the background.
+        // We basically consume all "pending check flags" in the background until there are none.
         vaccinationRepository.vaccinationInfos
             .map { vaccinatedPersons ->
                 vaccinatedPersons.any { it.isProofCertificateCheckPending }
@@ -46,21 +49,22 @@ class VaccinationUpdateScheduler @Inject constructor(
             .onEach { hasProofCheckPending ->
                 val alreadyScheduled = isScheduled()
                 Timber.tag(TAG).d("pendingProofCheck=$hasProofCheckPending, isScheduled=$alreadyScheduled")
-                setPeriodicUpdatesEnabled(hasProofCheckPending && !alreadyScheduled)
+                setPeriodicUpdatesEnabled(hasProofCheckPending)
             }
-            .catch { Timber.tag(TAG).e("Failed to monitor for pending proof checks.") }
+            .catch { Timber.tag(TAG).e(it, "Failed to monitor for pending proof checks.") }
             .launchIn(appScope)
 
+        // If there is a pending check or we have stale data, we refresh immediately when opening the app
         combine(
+            // Pending checks?
             vaccinationRepository.vaccinationInfos.map { persons ->
-                persons.any {
-                    it.isProofCertificateCheckPending
-                }
+                persons.any { it.isProofCertificateCheckPending }
             }.distinctUntilChanged(),
+            // Stale data?
             vaccinationRepository.vaccinationInfos.map { persons ->
                 val nowUTC = timeStamper.nowUTC
                 persons.any {
-                    Duration(it.lastProofCheckAt, nowUTC).standardDays > 1
+                    it.lastProofCheckAt.toLocalDateUtc() != nowUTC.toLocalDateUtc() && it.isEligbleForProofCertificate
                 }
             }.distinctUntilChanged(),
             foregroundState.isInForeground
@@ -70,13 +74,14 @@ class VaccinationUpdateScheduler @Inject constructor(
             if (isForeground && (hasPending || staleData)) {
                 Timber.tag(TAG).d("App moved to foreground, with pending checks, initiating refresh.")
                 DefaultTaskRequest(
-                    VaccinationUpdateTask::class,
-                    arguments = VaccinationUpdateTask.Arguments(silentErrors = true),
+                    type = VaccinationUpdateTask::class,
+                    arguments = VaccinationUpdateTask.Arguments,
+                    errorHandling = TaskFactory.Config.ErrorHandling.SILENT,
                     originTag = TAG,
                 ).run { taskController.submit(this) }
             }
         }
-            .catch { Timber.tag(TAG).e("Failed to monitor foreground state changes.") }
+            .catch { Timber.tag(TAG).e(it, "Failed to monitor foreground state changes.") }
             .launchIn(appScope)
     }
 
