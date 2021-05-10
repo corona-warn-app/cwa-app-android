@@ -5,9 +5,6 @@ import dagger.Reusable
 import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
 import javax.inject.Inject
 
-/**
- * Talks with IBM servers?
- */
 @Reusable
 class VaccinationProofServer @Inject constructor(
     private val api: Lazy<VaccinationProofApiV2>
