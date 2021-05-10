@@ -3,13 +3,13 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.list
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
@@ -202,7 +202,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
     }
 
     private fun showDeleteSingleDialog(traceLocation: TraceLocation, position: Int?) {
-        AlertDialog.Builder(requireContext()).apply {
+        MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.trace_location_organiser_list_delete_single_popup_title)
             setMessage(R.string.trace_location_organiser_list_delete_single_popup_message)
             setPositiveButton(R.string.trace_location_organiser_list_delete_all_popup_positive_button) { _, _ ->
