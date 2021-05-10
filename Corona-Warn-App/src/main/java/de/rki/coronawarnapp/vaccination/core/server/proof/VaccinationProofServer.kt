@@ -10,10 +10,11 @@ class VaccinationProofServer @Inject constructor(
     private val api: Lazy<VaccinationProofApiV2>
 ) {
 
-    suspend fun getProofCertificate(
-        vaccinationCertificate: ByteString
-    ): ProofCertificateResponse {
-        val obtainProofCertificateBase45: String = api.get().obtainProofCertificateBase45(vaccinationCertificate)
-        throw NotImplementedError()
-    }
+    suspend fun getProofCertificate(vaccinationCertificate: ByteString) =
+        api.get().obtainProofCertificate(vaccinationCertificate).let {
+            object : ProofCertificateResponse {
+                override val proofCertificateData = ProofCertificateCOSEParser().parse(it)
+                override val proofCertificateCOSE = it
+            }
+        }
 }
