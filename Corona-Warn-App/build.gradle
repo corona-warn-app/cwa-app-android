@@ -355,7 +355,7 @@ dependencies {
 
     // Testing
     testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation('org.robolectric:robolectric:4.4') {
+    testImplementation('org.robolectric:robolectric:4.5.1') {
         exclude group: 'com.google.protobuf'
     }
     testImplementation "io.mockk:mockk:1.10.4"
