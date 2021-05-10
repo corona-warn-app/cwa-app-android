@@ -110,6 +110,22 @@
                     tools:text="LogUpload: ?" />
 
                 <TextView
+                    android:id="@+id/environment_url_vaccination_proof"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="VaccinationProof: ?" />
+
+                <TextView
+                    android:id="@+id/environment_cdn_url_vaccination"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="Vaccination: ?" />
+
+                <TextView
                     android:id="@+id/environment_pubkey_appconfig"
                     style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="match_parent"

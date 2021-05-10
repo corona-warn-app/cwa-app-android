@@ -182,7 +182,7 @@
     <!-- XTXT: Create RAT profile onboarding privacy -->
     <string name="rat_profile_onboarding_privacy">Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis.</string>
     <!-- XTXT: Create RAT Qr code profile description-->
-    <string name="rat_qr_code_profile_description">Bitte zeigen Sie diesen QR-Code an der Teststelle vor, um Ihre persönlichen Daten schnell erfassen zu lassen. Bitte halten zusätzlich Sie Ihren Personalausweis bereit.</string>
+    <string name="rat_qr_code_profile_description">Bitte zeigen Sie diesen QR-Code an der Teststelle vor, um Ihre persönlichen Daten schnell erfassen zu lassen. Bitte halten Sie zusätzlich Ihren Personalausweis bereit.</string>
     <!-- XTXT: Create RAT Qr code profile birth date-->
     <string name="rat_qr_code_profile_birth_date">geboren %1$s</string>
     <!-- XBUT: Create RAT Qr code profile next button-->

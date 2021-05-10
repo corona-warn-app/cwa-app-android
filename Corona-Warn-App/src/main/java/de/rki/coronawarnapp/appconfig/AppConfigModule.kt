@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.appconfig
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
@@ -14,10 +15,13 @@ import de.rki.coronawarnapp.appconfig.mapping.PresenceTracingConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.SurveyConfigMapper
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
+import de.rki.coronawarnapp.util.di.AppContext
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import org.joda.time.Duration
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -27,18 +31,14 @@ class AppConfigModule {
     @Singleton
     @Provides
     fun provideAppConfigApi(
+        @RemoteAppConfigCache cache: Cache,
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory
     ): AppConfigApiV2 {
 
         val configHttpClient = client.newBuilder().apply {
-            // We no longer use the retrofit cache, due to the complexity it adds when invalidating the cache.
-            // The our manual local storage offers more control and should replace it functionally.
-            // See **[de.rki.coronawarnapp.appconfig.sources.local.LocalAppConfigSource]**
-            // If we ever want to use it again, the previous cache path was:
-            // val cacheDir = File(context.cacheDir, "http_app-config")
-            // cache(cache)
+            cache(cache)
             connectTimeout(HTTP_TIMEOUT_APPCONFIG.millis, TimeUnit.MILLISECONDS)
             readTimeout(HTTP_TIMEOUT_APPCONFIG.millis, TimeUnit.MILLISECONDS)
             writeTimeout(HTTP_TIMEOUT_APPCONFIG.millis, TimeUnit.MILLISECONDS)
@@ -51,6 +51,14 @@ class AppConfigModule {
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(AppConfigApiV2::class.java)
+    }
+
+    @RemoteAppConfigCache
+    @Provides
+    @Singleton
+    fun remoteAppConfigHttpCache(@AppContext context: Context): Cache {
+        val cacheDir = File(context.cacheDir, "http_app-config")
+        return Cache(cacheDir, DEFAULT_CACHE_SIZE)
     }
 
     @Provides
@@ -90,5 +98,6 @@ class AppConfigModule {
 
     companion object {
         private val HTTP_TIMEOUT_APPCONFIG = Duration.standardSeconds(10)
+        private const val DEFAULT_CACHE_SIZE = 2 * 1024 * 1024L // 5MB
     }
 }

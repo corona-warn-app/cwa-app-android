@@ -1,5 +1,6 @@
-package de.rki.coronawarnapp.vaccination.core.server
+package de.rki.coronawarnapp.vaccination.core.server.proof
 
+import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
 import okio.ByteString
 import org.joda.time.Instant
 import org.joda.time.LocalDate
