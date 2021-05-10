@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.Gson
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
@@ -25,7 +26,7 @@ class VaccinationStorage @Inject constructor(
         baseGson
     }
 
-    var personContainers: Set<PersonData>
+    var personContainers: Set<VaccinatedPersonData>
         get() {
             Timber.tag(TAG).d("vaccinatedPersons - load()")
             val persons = prefs.all.mapNotNull { (key, value) ->
@@ -33,7 +34,7 @@ class VaccinationStorage @Inject constructor(
                     return@mapNotNull null
                 }
                 value as String
-                gson.fromJson<PersonData>(value).also {
+                gson.fromJson<VaccinatedPersonData>(value).also {
                     Timber.tag(TAG).v("Person loaded: %s", it)
                     requireNotNull(it.identifier)
                 }
@@ -56,6 +57,22 @@ class VaccinationStorage @Inject constructor(
                 }
             }
         }
+
+    init {
+        // TODO REMOVE when all is done
+        if (CWADebug.isDebugBuildOrMode && !CWADebug.isAUnitTest) {
+            personContainers = setOf(
+                VaccinatedPersonData(
+                    vaccinations = setOf(
+                        VaccinationContainer()
+                    ),
+                    proofs = setOf(
+                        ProofContainer() // Remove me to get an incomplete state
+                    )
+                )
+            )
+        }
+    }
 
     companion object {
         private const val TAG = "VaccinationStorage"
