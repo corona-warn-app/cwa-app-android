@@ -48,7 +48,7 @@ class VaccinationUpdateScheduler @Inject constructor(
             .distinctUntilChanged()
             .onEach { hasProofCheckPending ->
                 val alreadyScheduled = isScheduled()
-                Timber.tag(TAG).d("pendingProofCheck=$hasProofCheckPending, isScheduled=$alreadyScheduled")
+                Timber.tag(TAG).d("Enable worker? hasPending=$hasProofCheckPending, scheduled=$alreadyScheduled")
                 setPeriodicUpdatesEnabled(hasProofCheckPending)
             }
             .catch { Timber.tag(TAG).e(it, "Failed to monitor for pending proof checks.") }
@@ -69,7 +69,7 @@ class VaccinationUpdateScheduler @Inject constructor(
             }.distinctUntilChanged(),
             foregroundState.isInForeground
         ) { hasPending, staleData, isForeground ->
-            Timber.tag(TAG).v("pending=$hasPending, staleData=$staleData, isForeground=$isForeground")
+            Timber.tag(TAG).v("Run now? pending=$hasPending, staleData=$staleData, isForeground=$isForeground")
 
             if (isForeground && (hasPending || staleData)) {
                 Timber.tag(TAG).d("App moved to foreground, with pending checks, initiating refresh.")

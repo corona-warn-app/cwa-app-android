@@ -130,17 +130,17 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
-    suspend fun checkForProof(personIdentifier: VaccinatedPersonIdentifier?) {
-        Timber.tag(TAG).i("checkForProof(personIdentifier=%s)", personIdentifier)
-        withContext(appScope.coroutineContext) {
-            internalData.updateBlocking {
-                val originalPerson = this.singleOrNull {
-                    it.identifier == personIdentifier
-                } ?: throw VaccinatedPersonNotFoundException("Identifier=$personIdentifier")
+   private suspend fun checkForProof(personIdentifier: VaccinatedPersonIdentifier?) {
+       Timber.tag(TAG).i("checkForProof(personIdentifier=%s)", personIdentifier)
+       withContext(appScope.coroutineContext) {
+           internalData.updateBlocking {
+               val originalPerson = this.singleOrNull {
+                   it.identifier == personIdentifier
+               } ?: throw VaccinatedPersonNotFoundException("Identifier=$personIdentifier")
 
-                val eligbleCert = originalPerson.data.vaccinations.first { it.isEligbleForProofCertificate }
+               val eligbleCert = originalPerson.data.vaccinations.first { it.isEligbleForProofCertificate }
 
-                val proof = try {
+               val proof = try {
                     vaccinationProofServer.getProofCertificate(eligbleCert.vaccinationCertificateCOSE)
                 } catch (e: Exception) {
                     Timber.tag(TAG).e(e, "Failed to check for proof.")
