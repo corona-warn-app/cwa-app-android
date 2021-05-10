@@ -59,9 +59,8 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
                     is NavigateToVaccinationCertificateDetails -> doNavigate(
-                        VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragment(
-                            event.vaccinationCertificateId
-                        )
+                        VaccinationListFragmentDirections
+                            .actionVaccinationListFragmentToVaccinationDetailsFragment(event.vaccinationCertificateId)
                     )
                 }
             }

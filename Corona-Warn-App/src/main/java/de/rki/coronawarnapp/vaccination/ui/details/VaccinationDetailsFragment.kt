@@ -3,13 +3,13 @@ package de.rki.coronawarnapp.vaccination.ui.details
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -40,37 +40,36 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
-            deleteButton.setOnClickListener {
-                showDeletionDialog()
-            }
+            deleteButton.setOnClickListener { showDeletionDialog() }
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
-
-                appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
-                    title.alpha = titleAlpha
-                    subtitle.alpha = subtitleAlpha
+                val background = when {
+                    it.isComplete -> R.drawable.vaccination_compelete_gradient
+                    else -> R.drawable.vaccination_incomplete
                 }
-                setToolbarOverlay()
-                val background = if (it.isComplete) {
-                    R.drawable.vaccination_compelete_gradient
-                } else {
-                    R.drawable.vaccination_incomplete
-                }
-
                 expandedImage.setImageResource(background)
+            }
+
+            appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
+                title.alpha = titleAlpha
+                subtitle.alpha = subtitleAlpha
+            }
+            setToolbarOverlay()
+
+            viewModel.errors.observe(viewLifecycleOwner) {
+                it.toErrorDialogBuilder(requireContext()).show()
             }
         }
 
     private fun showDeletionDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.vaccination_details_deletion_dialog_title))
-            .setMessage(getString(R.string.vaccination_details_deletion_dialog_message))
-            .setPositiveButton(getString(R.string.vaccination_details_deletion_dialog_positive_button)) { _, _ ->
-                Toast.makeText(requireContext(), "TODO \uD83D\uDEA7", Toast.LENGTH_LONG).show()
+            .setTitle(R.string.vaccination_details_deletion_dialog_title)
+            .setMessage(R.string.vaccination_details_deletion_dialog_message)
+            .setPositiveButton(R.string.vaccination_details_deletion_dialog_positive_button) { _, _ ->
                 viewModel.deleteVaccination()
             }
-            .setNegativeButton(getString(R.string.vaccination_details_deletion_dialog_negative_button)) { _, _ ->
+            .setNegativeButton(R.string.vaccination_details_deletion_dialog_negative_button) { _, _ ->
                 // No-Op
             }
             .show()

@@ -5,12 +5,14 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 class VaccinationDetailsViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
@@ -22,8 +24,15 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         findVaccinationDetails(it)
     }.asLiveData(context = dispatcherProvider.Default)
 
+    val errors = SingleLiveEvent<Throwable>()
+
     fun deleteVaccination() = launch {
-        vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
+        try {
+            vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
+        } catch (e: Exception) {
+            Timber.d(e, "deleteVaccinationCertificate failed")
+            errors.postValue(e)
+        }
     }
 
     private fun findVaccinationDetails(vaccinatedPersons: Set<VaccinatedPerson>): VaccinationDetails {

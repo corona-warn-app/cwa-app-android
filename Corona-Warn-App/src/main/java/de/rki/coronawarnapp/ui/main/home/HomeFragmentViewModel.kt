@@ -339,6 +339,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 CreateVaccinationHomeCard.Item(
                     onClickAction = {
                         // TODO: implement in another PR
+                        popupEvents.postValue(HomeFragmentEvents.VaccinationList)
                     }
                 )
             )
