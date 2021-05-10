@@ -1,15 +1,12 @@
 package de.rki.coronawarnapp.vaccination.ui.consent
 
 import android.os.Bundle
-import android.text.SpannedString
 import android.view.View
-import androidx.core.text.buildSpannedString
-import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationConsentFragmentBinding
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -28,7 +25,11 @@ class VaccinationConsentFragment : Fragment(R.layout.vaccination_consent_fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
-            vaccinationConsentInfoSubtitle.text = getSpannedInfo()
+            vaccinationConsentInfoSubtitle.setUrl(
+                R.string.vaccination_consent_info_subtitle_text,
+                R.string.vaccination_consent_info_subtitle_text_link_label,
+                R.string.vaccination_consent_faq_url //TODO: URL is not final
+            )
             vaccinationConsentPrivacyInformation.setOnClickListener {
                 viewModel.onDataPrivacyClick()
             }
@@ -46,13 +47,6 @@ class VaccinationConsentFragment : Fragment(R.layout.vaccination_consent_fragmen
                     // TODO: implement in when screen is ready
                 }
             }
-        }
-    }
-
-    private fun getSpannedInfo(): SpannedString = buildSpannedString {
-        append(getString(R.string.vaccination_consent_info_subtitle_text_part1))
-        color(requireContext().getColorCompat(R.color.colorAccent)) {
-            append(getString(R.string.vaccination_consent_info_subtitle_text_part2))
         }
     }
 }

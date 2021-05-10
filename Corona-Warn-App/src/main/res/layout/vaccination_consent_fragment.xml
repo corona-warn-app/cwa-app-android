@@ -60,11 +60,12 @@
                 android:id="@+id/vaccination_consent_info_subtitle"
                 style="@style/subtitleMedium"
                 android:layout_width="0dp"
+                android:textColorLink="@color/colorAccent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginEnd="@dimen/spacing_normal"
-                android:text="@string/vaccination_consent_info_subtitle_text_part1"
+                android:text="@string/vaccination_consent_info_subtitle_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vaccination_consent_headline" />
