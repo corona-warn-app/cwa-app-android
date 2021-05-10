@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -34,14 +32,10 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
             qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(qrcodeText))
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed")
-            e.report(ExceptionCategory.UI)
         }
     }
 
-    fun switchImmersiveMode() = immersiveMode
-        .run {
-            value = !(value ?: false)
-        }
+    fun switchImmersiveMode() = immersiveMode.run { value = !(value ?: false) }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<QrCodeFullScreenViewModel> {

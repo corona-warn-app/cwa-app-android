@@ -56,7 +56,7 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
-            qrCodeImage.setOnClickListener { viewModel.switchImmersiveMode() }
+            root.setOnClickListener { viewModel.switchImmersiveMode() }
 
             postponeEnterTransition()
             viewModel.qrcode.observe(viewLifecycleOwner) {
@@ -116,8 +116,7 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         var uiFlags = flags
         if (resources.getBoolean(R.bool.lightSystemUI)) {
             uiFlags = uiFlags or SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                uiFlags = uiFlags or SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) uiFlags = uiFlags or SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         }
         return uiFlags
     }
