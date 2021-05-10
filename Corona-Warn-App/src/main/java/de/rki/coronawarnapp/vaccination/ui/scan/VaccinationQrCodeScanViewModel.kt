@@ -25,10 +25,8 @@ class VaccinationQrCodeScanViewModel @AssistedInject constructor(
         try {
             event.postValue(Event.QrCodeScanInProgress)
             val qrCode = vaccinationQRCodeValidator.validate(barcodeResult.text)
-            // TODO crashes
-            // val certificate = vaccinationRepository.registerVaccination(qrCode)
-            // event.postValue(Event.QrCodeScanSucceeded(certificate.certificateId))
-            event.postValue(Event.QrCodeScanSucceeded("Scan succeeded"))
+            val certificate = vaccinationRepository.registerVaccination(qrCode)
+            event.postValue(Event.QrCodeScanSucceeded(certificate.certificateId))
         } catch (e: Throwable) {
             errorEvent.postValue(e)
         }

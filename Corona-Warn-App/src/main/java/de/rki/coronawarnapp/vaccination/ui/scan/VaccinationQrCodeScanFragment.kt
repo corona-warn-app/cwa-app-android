@@ -5,8 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
-import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import com.google.zxing.BarcodeFormat
@@ -17,6 +15,7 @@ import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -51,12 +50,10 @@ class VaccinationQrCodeScanFragment :
             when (event) {
                 is VaccinationQrCodeScanViewModel.Event.QrCodeScanSucceeded -> {
                     binding.qrCodeScanSpinner.isGone = true
-                    Toast.makeText(context, "QR code scan succeeded!", LENGTH_LONG).show()
-                    // TODO add again once registration works
-//                    doNavigate(
-//                        VaccinationQrCodeScanFragmentDirections
-//                            .actionVaccinationQrCodeScanFragmentToVaccinationDetailsFragment(event.certificateId)
-//                    )
+                    doNavigate(
+                        VaccinationQrCodeScanFragmentDirections
+                            .actionVaccinationQrCodeScanFragmentToVaccinationDetailsFragment(event.certificateId)
+                    )
                 }
                 VaccinationQrCodeScanViewModel.Event.QrCodeScanInProgress -> {
                     binding.qrCodeScanSpinner.isGone = false
