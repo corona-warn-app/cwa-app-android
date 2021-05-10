@@ -9,7 +9,6 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
@@ -33,13 +32,6 @@ class VaccinationQrCodeScanFragment :
 
     private val binding: FragmentScanQrCodeBinding by viewBindingLazy()
     private var showsPermissionDialog = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        sharedElementEnterTransition = MaterialContainerTransform()
-        sharedElementReturnTransition = MaterialContainerTransform()
-    }
 
     override fun onViewCreated(
         view: View,
@@ -65,7 +57,7 @@ class VaccinationQrCodeScanFragment :
                 is VaccinationQrCodeScanViewModel.Event.QrCodeScanSucceeded -> {
                     binding.qrCodeScanSpinner.isGone = true
                     Toast.makeText(context, "QR code scan succeeded!", LENGTH_LONG).show()
-                    // TODO
+                    // TODO add again once registration works
 //                    doNavigate(
 //                        VaccinationQrCodeScanFragmentDirections
 //                            .actionVaccinationQrCodeScanFragmentToVaccinationDetailsFragment(event.certificateId)
