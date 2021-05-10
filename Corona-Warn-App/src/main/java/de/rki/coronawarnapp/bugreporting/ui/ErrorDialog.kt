@@ -5,7 +5,6 @@ import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.TextViewCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
@@ -52,10 +51,11 @@ fun Throwable.toErrorDialogBuilder(context: Context) = MaterialAlertDialogBuilde
     setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
 
     setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->
-        val dialog = AlertDialog.Builder(context).create()
-        dialog.setMessage(
+        val dialogBuilder = MaterialAlertDialogBuilder(context)
+        dialogBuilder.setMessageView(
             error.toString() + "\n\n" + error.stackTraceToString(),
+            textHasLinks = false
         )
-        dialog.show()
+        dialogBuilder.create().show()
     }
 }
