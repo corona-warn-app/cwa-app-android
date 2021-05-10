@@ -28,7 +28,7 @@ class VaccinationConsentFragment : Fragment(R.layout.vaccination_consent_fragmen
             vaccinationConsentInfoSubtitle.setUrl(
                 R.string.vaccination_consent_info_subtitle_text,
                 R.string.vaccination_consent_info_subtitle_text_link_label,
-                R.string.vaccination_consent_faq_url //TODO: URL is not final
+                R.string.vaccination_consent_faq_url // TODO: URL is not final
             )
             vaccinationConsentPrivacyInformation.setOnClickListener {
                 viewModel.onDataPrivacyClick()

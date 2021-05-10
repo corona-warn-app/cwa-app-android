@@ -71,6 +71,7 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.ui.homecards.CreateVaccinationHomeCard
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -95,6 +96,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
     private val timeStamper: TimeStamper,
     private val bluetoothSupport: BluetoothSupport,
+    private val vaccinationSettings: VaccinationSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -424,6 +426,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun wasQRInfoWasAcknowledged() = traceLocationOrganizerSettings.qrInfoAcknowledged
+
+    fun wasVaccinationRegistrationAcknowledged() = vaccinationSettings.registrationAcknowledged
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>

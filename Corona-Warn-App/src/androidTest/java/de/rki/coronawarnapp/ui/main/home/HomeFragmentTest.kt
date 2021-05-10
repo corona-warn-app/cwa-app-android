@@ -32,6 +32,7 @@ import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -68,6 +69,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
+    @MockK lateinit var vaccinationSettings: VaccinationSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var bluetoothSupport: BluetoothSupport
@@ -300,7 +302,8 @@ class HomeFragmentTest : BaseUITest() {
             tracingSettings = tracingSettings,
             traceLocationOrganizerSettings = traceLocationOrganizerSettings,
             timeStamper = timeStamper,
-            bluetoothSupport = bluetoothSupport
+            bluetoothSupport = bluetoothSupport,
+            vaccinationSettings = vaccinationSettings
         )
     )
 
