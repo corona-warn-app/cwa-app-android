@@ -31,6 +31,8 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
         every { environmentSetup.verificationCdnUrl } returns "verificationUrl"
         every { environmentSetup.dataDonationCdnUrl } returns "dataDonationUrl"
         every { environmentSetup.logUploadServerUrl } returns "logUploadServerUrl"
+        every { environmentSetup.vaccinationProofServerUrl } returns "vaccinationProofServerUrl"
+        every { environmentSetup.vaccinationCdnUrl } returns "vaccinationCdnUrl"
         every { environmentSetup.crowdNotifierPublicKey } returns "crowdNotifierPublicKey"
         every { environmentSetup.appConfigPublicKey } returns "appConfigPublicKey"
 

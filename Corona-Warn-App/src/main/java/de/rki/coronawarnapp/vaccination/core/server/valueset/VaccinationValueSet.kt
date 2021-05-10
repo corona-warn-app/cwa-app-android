@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.core.server
+package de.rki.coronawarnapp.vaccination.core.server.valueset
 
 import java.util.Locale
 
