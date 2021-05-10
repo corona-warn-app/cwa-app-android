@@ -89,6 +89,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateIssuer.text = certificate.certificateIssuer
         certificateCountry.text = certificate.certificateCountry.getLabel(requireContext())
         certificateId.text = certificate.certificateId
+        title.text = getString(
+            R.string.vaccination_details_title,
+            certificate.doseNumber,
+            certificate.totalSeriesOfDoses
+        )
     }
 
     private fun setToolbarOverlay() {
