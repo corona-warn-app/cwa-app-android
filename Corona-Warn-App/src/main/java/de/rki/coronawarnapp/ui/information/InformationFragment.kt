@@ -112,7 +112,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
                 InformationFragmentDirections.actionInformationFragmentToDebuglogFragment()
             )
         }
-        binding.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.informationHeader.setNavigationOnClickListener {
             popBackStack()
         }
         binding.informationRelease.mainRow.setOnClickListener {
