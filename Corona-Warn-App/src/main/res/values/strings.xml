@@ -2044,9 +2044,4 @@
     <string name="incompatible_scanning_not_supported">"Your smartphone cannot send or receive COVID-19 notifications via Bluetooth. You can send and receive warnings that result from check-ins."</string>
     <!-- XTXT: Incompitability faq link -->
     <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
-    <string name="error_vc_invalid"></string>
-    <string name="error_vc_not_yet_supported"></string>
-    <string name="error_vc_scan_again"></string>
-    <string name="error_vc_already_registered"></string>
-    <string name="error_vc_different_person"></string>
 </resources>

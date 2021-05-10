@@ -28,4 +28,14 @@
     <string name="vaccination_details_deletion_dialog_positive_button">Entfernen</string>
     <!-- XBUT: Vaccination Details deletion dialog negative button-->
     <string name="vaccination_details_deletion_dialog_negative_button">Abbrechen</string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_invalid"></string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_not_yet_supported"></string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_scan_again"></string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_already_registered"></string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_different_person"></string>
 </resources>

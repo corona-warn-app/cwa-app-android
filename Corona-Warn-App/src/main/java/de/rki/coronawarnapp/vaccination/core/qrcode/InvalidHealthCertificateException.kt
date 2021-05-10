@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
+import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
+import de.rki.coronawarnapp.util.HasHumanReadableError
+import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
@@ -23,7 +26,7 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateExce
 
 class InvalidHealthCertificateException(
     val errorCode: ErrorCode
-) : InvalidQRCodeException(errorCode.message) {
+) : HasHumanReadableError, InvalidQRCodeException(errorCode.message) {
     enum class ErrorCode(
         val message: String
     ) {
@@ -74,6 +77,10 @@ class InvalidHealthCertificateException(
                 context.getString(ERROR_MESSAGE_ALREADY_REGISTERED)
             }
         }
+
+    override fun toHumanReadableError(context: Context) = HumanReadableError(
+        description = errorMessage.get(context)
+    )
 }
 
 private const val ERROR_MESSAGE_VC_INVALID = R.string.error_vc_invalid

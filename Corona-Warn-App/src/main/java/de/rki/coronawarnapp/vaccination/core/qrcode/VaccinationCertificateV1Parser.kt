@@ -43,7 +43,7 @@ class VaccinationCertificateV1Parser @Inject constructor() {
         var certificate: VaccinationCertificateV1? = null
         map[keyHCert]?.let { hcert ->
             hcert[keyEuDgcV1]?.let {
-                it.toCertificate()
+                certificate = it.toCertificate()
             } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_DGC)
         } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_HCERT)
 

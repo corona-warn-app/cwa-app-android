@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -49,11 +50,6 @@ class VaccinationQrCodeScanFragment :
 
         viewModel.event.observe(this) { event ->
             when (event) {
-                is VaccinationQrCodeScanViewModel.Event.QrCodeScanFailed -> {
-                    binding.qrCodeScanSpinner.isGone = true
-                    showQrCodeScanFailedDialog(event.errorMessage)
-                }
-
                 is VaccinationQrCodeScanViewModel.Event.QrCodeScanSucceeded -> {
                     binding.qrCodeScanSpinner.isGone = true
                     Toast.makeText(context, "QR code scan succeeded!", LENGTH_LONG).show()
@@ -67,6 +63,11 @@ class VaccinationQrCodeScanFragment :
                     binding.qrCodeScanSpinner.isGone = false
                 }
             }
+        }
+
+        viewModel.errorEvent.observe(this) {
+            binding.qrCodeScanSpinner.isGone = true
+            it.toErrorDialogBuilder(requireContext())
         }
     }
 
@@ -110,7 +111,6 @@ class VaccinationQrCodeScanFragment :
     private fun showQrCodeScanFailedDialog(errorMessage: LazyString) {
         val scanFailedDialog = DialogHelper.DialogInstance(
             requireActivity(),
-            // TODO
             R.string.submission_qr_code_scan_permission_denied_dialog_headline,
             R.string.submission_qr_code_scan_permission_denied_dialog_body,
             R.string.submission_qr_code_scan_permission_denied_dialog_button,
