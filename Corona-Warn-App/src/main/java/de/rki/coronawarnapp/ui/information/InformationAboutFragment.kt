@@ -8,7 +8,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationAboutBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
@@ -42,7 +42,7 @@ class InformationAboutFragment : Fragment(R.layout.fragment_information_about) {
 
     private fun setButtonOnClickListener() {
         binding.informationAboutHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
+            popBackStack()
         }
     }
 }

@@ -151,7 +151,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
                 getString(R.string.app_name),
                 PrintingAdapter(file),
                 PrintAttributes.Builder()
-                    .setMediaSize(PrintAttributes.MediaSize.ISO_A3)
+                    .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
                     .build()
             )
 

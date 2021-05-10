@@ -8,6 +8,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED
+import android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.net.ConnectivityManagerCompat
@@ -70,11 +71,7 @@ class NetworkStateProvider @Inject constructor(
             registeredCallback = callback
         } catch (e: SecurityException) {
             Timber.e(e, "registerNetworkCallback() threw an undocumented SecurityException, Just Samsung Things™️")
-            State(
-                activeNetwork = null,
-                capabilities = null,
-                linkProperties = null,
-            ).run { send(this) }
+            send(FallbackState)
         }
 
         val fakeConnectionSubscriber = launch {
@@ -99,22 +96,13 @@ class NetworkStateProvider @Inject constructor(
     private val currentState: State
         @SuppressLint("NewApi")
         get() = when {
-            BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.M) -> api23NetworkState()
-            else -> {
-                // Most state information is not available
-                State(
-                    activeNetwork = null,
-                    capabilities = null,
-                    linkProperties = null,
-                    assumeMeteredConnection = testSettings.fakeMeteredConnection.value ||
-                        ConnectivityManagerCompat.isActiveNetworkMetered(manager)
-                )
-            }
+            BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.M) -> modernNetworkState()
+            else -> legacyNetworkState()
         }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun api23NetworkState() = manager.activeNetwork.let { network ->
-        State(
+    private fun modernNetworkState(): State = manager.activeNetwork.let { network ->
+        ModernState(
             activeNetwork = network,
             capabilities = network?.let {
                 try {
@@ -136,13 +124,33 @@ class NetworkStateProvider @Inject constructor(
         )
     }
 
-    data class State(
+    @Suppress("DEPRECATION")
+    private fun legacyNetworkState(): State = StateLegacyAPI21(
+        isInternetAvailable = manager.activeNetworkInfo?.isConnected ?: false,
+        isMeteredConnection = testSettings.fakeMeteredConnection.value ||
+            ConnectivityManagerCompat.isActiveNetworkMetered(manager)
+    )
+
+    interface State {
+        val isMeteredConnection: Boolean
+        val isInternetAvailable: Boolean
+    }
+
+    data class StateLegacyAPI21(
+        override val isMeteredConnection: Boolean,
+        override val isInternetAvailable: Boolean
+    ) : State
+
+    data class ModernState(
         val activeNetwork: Network?,
         val capabilities: NetworkCapabilities?,
         val linkProperties: LinkProperties?,
         private val assumeMeteredConnection: Boolean = false
-    ) {
-        val isMeteredConnection: Boolean
+    ) : State {
+        override val isInternetAvailable: Boolean
+            get() = capabilities?.hasCapability(NET_CAPABILITY_VALIDATED) ?: false
+
+        override val isMeteredConnection: Boolean
             get() {
                 val unMetered = if (BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.N)) {
                     capabilities?.hasCapability(NET_CAPABILITY_NOT_METERED) ?: false
@@ -151,6 +159,11 @@ class NetworkStateProvider @Inject constructor(
                 }
                 return assumeMeteredConnection || !unMetered
             }
+    }
+
+    object FallbackState : State {
+        override val isMeteredConnection: Boolean = true
+        override val isInternetAvailable: Boolean = true
     }
 
     companion object {
