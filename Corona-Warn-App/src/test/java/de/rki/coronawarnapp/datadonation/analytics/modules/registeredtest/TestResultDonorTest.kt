@@ -10,8 +10,10 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.assertions.show.show
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
+import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -127,8 +129,7 @@ class TestResultDonorTest : BaseTest() {
                 timeDayBefore
             )
 
-            val donation = testResultDonor.beginDonation(TestRequest)
-            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
             with(donation.testResultMetadata) {
                 riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
                 testResult shouldBe PpaData.PPATestResult.TEST_RESULT_PENDING
@@ -146,8 +147,7 @@ class TestResultDonorTest : BaseTest() {
             every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
             every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
 
-            val donation = testResultDonor.beginDonation(TestRequest)
-            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
             with(donation.testResultMetadata) {
                 riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
                 testResult shouldBe PpaData.PPATestResult.TEST_RESULT_POSITIVE
@@ -196,8 +196,7 @@ class TestResultDonorTest : BaseTest() {
                 every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             }
 
-            val donation = testResultDonor.beginDonation(TestRequest)
-            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
             donation.testResultMetadata.apply {
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe -1
             }
@@ -214,8 +213,7 @@ class TestResultDonorTest : BaseTest() {
                 every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
                 every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             }
-            val donation = testResultDonor.beginDonation(TestRequest)
-            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
             donation.testResultMetadata.apply {
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe -1
             }
@@ -232,8 +230,7 @@ class TestResultDonorTest : BaseTest() {
                 every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
             }
 
-            val donation = testResultDonor.beginDonation(TestRequest)
-            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
             donation.testResultMetadata.apply {
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe -1
             }
@@ -249,8 +246,7 @@ class TestResultDonorTest : BaseTest() {
                 every { riskLevelTurnedRedTime } returns mockFlowPreference(null)
                 every { mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
             }
-            val donation = testResultDonor.beginDonation(TestRequest)
-            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
             donation.testResultMetadata.apply {
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe -1
             }
@@ -263,8 +259,7 @@ class TestResultDonorTest : BaseTest() {
             every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
             every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
 
-            val donation = testResultDonor.beginDonation(TestRequest)
-            donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+            val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
             with(donation.testResultMetadata) {
                 riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
                 testResult shouldBe PpaData.PPATestResult.TEST_RESULT_NEGATIVE
@@ -297,8 +292,7 @@ class TestResultDonorTest : BaseTest() {
             }
         )
 
-        val donation = testResultDonor.beginDonation(TestRequest)
-        donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+        val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
         with(donation.testResultMetadata) {
             testResult shouldBe PpaData.PPATestResult.TEST_RESULT_NEGATIVE
             hoursSinceTestRegistration shouldBe 20 // hours
@@ -331,8 +325,7 @@ class TestResultDonorTest : BaseTest() {
             }
         )
 
-        val donation = testResultDonor.beginDonation(TestRequest)
-        donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
+        val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
         with(donation.testResultMetadata) {
             testResult shouldBe PpaData.PPATestResult.TEST_RESULT_POSITIVE
             hoursSinceTestRegistration shouldBe 20 // hours
