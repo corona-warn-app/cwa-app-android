@@ -7,14 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListCertificateCardBinding
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
-
-data class VaccinationListCertificateCardItem(
-    val qrCode: Bitmap?,
-    val remainingValidityInDays: Int
-) :
-    VaccinationListItem {
-    override val stableId = this.hashCode().toLong()
-}
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListCertificateCardItemVH.VaccinationListCertificateCardItem
 
 class VaccinationListCertificateCardItemVH(parent: ViewGroup) :
     VaccinationListAdapter.ItemVH<VaccinationListCertificateCardItem, VaccinationListCertificateCardBinding>(
@@ -39,4 +32,12 @@ class VaccinationListCertificateCardItemVH(parent: ViewGroup) :
             certificateCardSubtitle.text =
                 context.getString(R.string.vaccination_list_certificate_card_subtitle, item.remainingValidityInDays)
         }
+
+    data class VaccinationListCertificateCardItem(
+        val qrCode: Bitmap?,
+        val remainingValidityInDays: Int
+    ) :
+        VaccinationListItem {
+        override val stableId = this.hashCode().toLong()
+    }
 }

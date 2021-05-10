@@ -5,10 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListNameCardBinding
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
-
-data class VaccinationListNameCardItem(val fullName: String, val dayOfBirth: String) : VaccinationListItem {
-    override val stableId = this.hashCode().toLong()
-}
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListNameCardItemVH.VaccinationListNameCardItem
 
 class VaccinationListNameCardItemVH(parent: ViewGroup) :
     VaccinationListAdapter.ItemVH<VaccinationListNameCardItem, VaccinationListNameCardBinding>(
@@ -29,4 +26,8 @@ class VaccinationListNameCardItemVH(parent: ViewGroup) :
                 item.dayOfBirth
             )
         }
+
+    data class VaccinationListNameCardItem(val fullName: String, val dayOfBirth: String) : VaccinationListItem {
+        override val stableId = this.hashCode().toLong()
+    }
 }

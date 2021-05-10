@@ -16,14 +16,13 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.ProofCertificate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListCertificateCardItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListIncompleteTopCardItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListNameCardItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVaccinationCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListCertificateCardItemVH.VaccinationListCertificateCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListIncompleteTopCardItemVH.VaccinationListIncompleteTopCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListNameCardItemVH.VaccinationListNameCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.items.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
@@ -63,7 +62,7 @@ class VaccinationListViewModel @AssistedInject constructor(
     val uiState: LiveData<UiState> = combine(vaccinationInfoFlow, proofQrCode){ vaccinatedPerson, proofQrCode ->
 
         // For now, use mock data
-        val vaccinationStatus = INCOMPLETE
+        val vaccinationStatus = COMPLETE
         // val vaccinationStatus = COMPLETE
 
         val vaccinationCertificates = setOf(
