@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1Parser
-import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 

@@ -5,11 +5,12 @@ import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.vaccination.core.ProofCertificate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateCOSEParser
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateData
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateResponse
+import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateCOSEParser
+import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateData
+import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateResponse
 import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
-import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+
 import okio.ByteString
 import org.joda.time.Instant
 import org.joda.time.LocalDate

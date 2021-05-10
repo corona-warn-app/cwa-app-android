@@ -20,8 +20,7 @@ android {
     println("Current VERSION_BUILD: ${VERSION_BUILD}")
 
     compileSdkVersion 29
-    buildToolsVersion "29.0.3"
-
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23

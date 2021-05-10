@@ -104,7 +104,7 @@
     <!-- XHED: risk card - risk check failed headline, no internet connection -->
     <string name="risk_card_check_failed_no_internet_headline">"Risiko-Überprüfung fehlgeschlagen"</string>
     <!-- XTXT: risk card - risk check failed, please check your internet connection -->
-    <string name="risk_card_check_failed_no_internet_body">"Der Abgleich der Zufall-IDs mit dem Server ist fehlgeschlagen. Sie können den Abgleich manuell neu starten."</string>
+    <string name="risk_card_check_failed_no_internet_body">"Der Abgleich der Zufalls-IDs mit dem Server ist fehlgeschlagen. Sie können den Abgleich manuell neu starten."</string>
     <!-- XTXT: risk card - risk check failed, restart button -->
     <string name="risk_card_check_failed_no_internet_restart_button">"Erneut starten"</string>
 
@@ -858,9 +858,9 @@
     <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="debugging_debuglog_intro_explanation_section_two_link_label">"FAQ zu den Fehlerberichten"</string>
     <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/en/faq/#error_log"</string>
+    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/de/faq/#error_log"</string>
     <!-- YTXT: Title of ID History -->
-    <string name="debugging_debuglog_id_history_title">"ID History"</string>
+    <string name="debugging_debuglog_id_history_title">"ID Historie"</string>
     <!-- YTXT: Description of ID History -->
     <string name="debugging_debuglog_id_history_body">"IDs der bisher geteilten Fehleranalysen"</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
@@ -974,7 +974,7 @@
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 
     <!-- XHED: Dialog title for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie die Symptom-Erfassung abbrechen?"</string>
+    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie die Erfassung von Symptomen abbrechen?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_body">"Wenn Sie Angaben zu Ihren Symptomen machen, können Sie andere noch genauer warnen."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
@@ -1071,6 +1071,17 @@
     <string name="submission_test_result_pending_steps_waiting_heading">"Ihr Testergebnis liegt noch nicht vor."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, entfernen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
+    <!-- XHED: Page headline for results next steps  -->
+    <string name="submission_test_result_steps_added_rat_heading">"Ihr Schnelltest wurde hinzugefügt."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Ihr Testergebnis liegt noch nicht vor."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_rat_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Ihr Testergebnis wird dem Kontakt-Tagebuch hinzugefügt."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_contact_diary_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualisieren"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1164,7 +1175,7 @@
     <!-- YTXT: Body text for TAN code dispatcher option -->
     <string name="submission_dispatcher_tan_code_card_text">"Ihnen liegt eine TAN für Ihren PCR-Test vor? Weiter zur TAN-Eingabe, um andere zu warnen. "</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"TAN für PCR-Test anfragen?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"TAN für PCR-Test anfragen"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Rufen Sie uns an und erhalten Sie eine TAN für Ihren PCR-Test."</string>
     <!-- XACT: Dispatcher Tan page title -->
