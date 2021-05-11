@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.util.errors
 
 import android.content.Context
+import android.content.DialogInterface
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 
@@ -16,7 +17,7 @@ class RecoveryByResetDialogFactory(private val fragment: Fragment) {
         @StringRes detailsLink: Int,
         onPositive: () -> Unit
     ) {
-        val dialog = AlertDialog.Builder(context)
+        val dialog = MaterialAlertDialogBuilder(context)
             .setTitle(R.string.errors_generic_headline)
             .setMessage(R.string.errors_generic_text_catastrophic_error_recovery_via_reset)
             .setCancelable(false)
@@ -26,7 +27,7 @@ class RecoveryByResetDialogFactory(private val fragment: Fragment) {
             }
             .create()
         dialog.show()
-        dialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
+        dialog.getButton(DialogInterface.BUTTON_NEUTRAL)?.setOnClickListener {
             fragment.openUrl(context.getString(detailsLink))
         }
     }
