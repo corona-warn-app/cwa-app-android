@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.ui.launcher
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
@@ -46,7 +46,7 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun showUpdateNeededDialog(intent: Intent) {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle(R.string.update_dialog_title)
             .setMessage(R.string.update_dialog_message)
             .setCancelable(false)
