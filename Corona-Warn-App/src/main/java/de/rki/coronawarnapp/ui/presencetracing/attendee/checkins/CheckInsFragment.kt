@@ -15,6 +15,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.BuildConfig
