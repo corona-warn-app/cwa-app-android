@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import com.google.gson.annotations.SerializedName
 import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 
 data class VaccinationCertificateV1(
     @SerializedName("ver") val version: String,
@@ -44,6 +43,5 @@ data class VaccinationCertificateV1(
     }
 
     val dateOfBirth: LocalDate
-        // FixME :: 🛠️
-        get() = LocalDate.parse(dob, DateTimeFormat.forPattern("dd.MM.yyyy"))
+        get() = LocalDate.parse(dob)
 }
