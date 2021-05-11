@@ -1,9 +1,8 @@
 package de.rki.coronawarnapp.vaccination.core.certificate
 
 import com.upokecenter.cbor.CBORObject
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
 import timber.log.Timber
 import javax.inject.Inject
 

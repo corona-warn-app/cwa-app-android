@@ -20,7 +20,7 @@ class ProofCertificateCOSEParser @Inject constructor(
         val cbor = coseDecoder.decode(rawCOSEObject)
 
         return ProofCertificateData(
-            header = headerParser.decode(cbor),
+            header = headerParser.parse(cbor),
             certificate = bodyParser.parse(cbor)
         ).also {
             Timber.v("Parsed proof certificate for %s", it.certificate.nameData.familyNameStandardized)

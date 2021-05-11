@@ -18,7 +18,7 @@ class VaccinationCertificateCOSEParser @Inject constructor(
         val cbor = coseDecoder.decode(rawCOSEObject)
 
         return VaccinationCertificateData(
-            header = headerParser.decode(cbor),
+            header = headerParser.parse(cbor),
             certificate = bodyParser.parse(cbor)
         ).also {
             Timber.v("Parsed vaccination certificate for %s", it.certificate.nameData.familyNameStandardized)

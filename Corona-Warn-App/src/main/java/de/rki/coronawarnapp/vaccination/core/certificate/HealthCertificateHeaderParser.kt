@@ -2,32 +2,30 @@ package de.rki.coronawarnapp.vaccination.core.certificate
 
 import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_EXP
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
 import org.joda.time.Instant
 import javax.inject.Inject
 
 @Reusable
 class HealthCertificateHeaderParser @Inject constructor() {
 
-    fun decode(map: CBORObject): CoseCertificateHeader = try {
-        var issuer: String? = null
-        map[keyIssuer]?.let {
-            issuer = it.AsString()
-        }
-        var issuedAt: Instant? = null
-        map[keyIssuedAt]?.let {
-            issuedAt = Instant.ofEpochSecond(it.AsNumber().ToInt64Checked())
-        }
-        var expiresAt: Instant? = null
-        map[keyExpiresAt]?.let {
-            expiresAt = Instant.ofEpochSecond(it.AsNumber().ToInt64Checked())
-        }
+    fun parse(map: CBORObject): CoseCertificateHeader = try {
+        val issuer: String = map[keyIssuer]?.AsString() ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
+
+        val issuedAt: Instant = map[keyIssuedAt]?.run {
+            Instant.ofEpochSecond(AsNumber().ToInt64Checked())
+        } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
+
+        val expiresAt: Instant = map[keyExpiresAt]?.run {
+            Instant.ofEpochSecond(AsNumber().ToInt64Checked())
+        } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_EXP)
 
         HealthCertificateHeader(
-            issuer = issuer!!,
-            issuedAt = issuedAt!!,
-            expiresAt = expiresAt!!
+            issuer = issuer,
+            issuedAt = issuedAt,
+            expiresAt = expiresAt,
         )
     } catch (e: InvalidHealthCertificateException) {
         throw e
