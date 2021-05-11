@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core.repository.storage
 
 import androidx.annotation.Keep
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
@@ -35,7 +36,7 @@ data class VaccinationContainer(
     private val certificateData: VaccinationCertificateData by lazy {
         preParsedData ?: VaccinationCertificateCOSEParser(
             HealthCertificateCOSEDecoder(),
-            VaccinationCertificateV1Parser(),
+            VaccinationCertificateV1Parser(Gson()),
         ).parse(vaccinationCertificateCOSE)
     }
 

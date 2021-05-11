@@ -74,9 +74,9 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.ui.homecards.CompleteVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecards.CreateVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecards.IncompleteVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.CompleteVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.IncompleteVaccinationHomeCard
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -307,18 +307,22 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 else -> add(tracingItem)
             }
 
-            vaccinatedPersons.forEach {
-                val card = when (it.vaccinationStatus) {
+            vaccinatedPersons.forEach { vaccinatedPerson ->
+                val card = when (vaccinatedPerson.vaccinationStatus) {
                     VaccinatedPerson.Status.COMPLETE -> CompleteVaccinationHomeCard.Item(
-                        vaccinatedPerson = it,
+                        vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
-                            // TODO
+                            popupEvents.postValue(
+                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.code)
+                            )
                         }
                     )
                     VaccinatedPerson.Status.INCOMPLETE -> IncompleteVaccinationHomeCard.Item(
-                        vaccinatedPerson = it,
+                        vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
-                            // TODO
+                            popupEvents.postValue(
+                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.code)
+                            )
                         }
                     )
                 }
@@ -362,7 +366,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             add(
                 CreateVaccinationHomeCard.Item(
                     onClickAction = {
-                        // TODO: implement in another PR
+                        routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
                     }
                 )
             )

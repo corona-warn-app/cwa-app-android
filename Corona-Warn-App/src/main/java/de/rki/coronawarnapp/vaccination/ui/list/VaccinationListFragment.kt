@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -59,9 +60,8 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
                     is NavigateToVaccinationCertificateDetails -> doNavigate(
-                        VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationDetailsFragment(
-                            event.vaccinationCertificateId
-                        )
+                        VaccinationListFragmentDirections
+                            .actionVaccinationListFragmentToVaccinationDetailsFragment(event.vaccinationCertificateId)
                     )
                 }
             }
@@ -118,5 +118,9 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (deviceWidth / divider) - 24
+    }
+
+    companion object {
+        fun navigationUri(personIdentifier: String) = "coronawarnapp://vaccination-list/$personIdentifier".toUri()
     }
 }

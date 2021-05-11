@@ -19,7 +19,7 @@
     <!-- XTXT: Vaccination Details subtitle-->
     <string name="vaccination_details_subtitle">Impfzertifikat</string>
     <!-- XTXT: Vaccination Details title-->
-    <string name="vaccination_details_title">Erste Impfung</string>
+    <string name="vaccination_details_title">Impfung %1$d von %2$d</string>
     <!-- XTXT: Vaccination Details deletion dialog title-->
     <string name="vaccination_details_deletion_dialog_title">Wollen Sie das Impfzertifikat wirklich entfernen?</string>
     <!-- XTXT: Vaccination Details deletion dialog message-->
@@ -70,4 +70,15 @@
     <string name="vaccination_card_status_vaccination_name">SARS-CoV-2 Impfschutz</string>
     <!-- XTXT: Homescreen vaccination status card vaccination status label -->
     <string name="vaccination_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_invalid">Dieser QR-Code ist kein gültiges Impfzertifikat.</string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_not_yet_supported">Dieses Impfzertifikat wird in Ihrer App-Version noch nicht unterstützt. Bitte aktualisieren Sie Ihre App oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_scan_again">Das Impfzertifikat konnte nicht auf Ihrem Smartphone gespeichert werden. Bitte versuchen Sie es später noch einmal oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_already_registered">Das Impfzertifikat ist bereits in Ihrer App registriert.</string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_different_person">Die persönlichen Daten dieses Impfzertifikats stimmen nicht mit denen der bereits registrierten Zertifikate überein. Sie können in der App nur Zertifikate einer Person registrieren.</string>
+
 </resources>
