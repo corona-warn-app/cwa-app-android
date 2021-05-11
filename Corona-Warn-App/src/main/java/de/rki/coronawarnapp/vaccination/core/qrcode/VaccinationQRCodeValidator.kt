@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import dagger.Reusable
-import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
+import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.VC_PREFIX_INVALID
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class VaccinationQRCodeValidator @Inject constructor(
         return findExtractor(rawString)
             ?.extract(rawString)
             ?.also { Timber.i("Extracted data from QR code is $it") }
-            ?: throw InvalidQRCodeException()
+            ?: throw InvalidHealthCertificateException(VC_PREFIX_INVALID)
     }
 
     private fun findExtractor(rawString: String): QrCodeExtractor<VaccinationCertificateQRCode>? {

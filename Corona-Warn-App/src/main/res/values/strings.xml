@@ -1181,7 +1181,7 @@
     <!-- YTXT: Body text for TAN code dispatcher option -->
     <string name="submission_dispatcher_tan_code_card_text">"Do you have a TAN for your PCR test? Tap here to enter your TAN so you can warn others."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"Request TAN for PCR Test?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"Request TAN for PCR Test"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Call us and get a TAN for your PCR test."</string>
     <!-- XACT: Dispatcher Tan page title -->
@@ -2024,13 +2024,6 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Cancel"</string>
-
-    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title">"Impfzertifikat registrieren"</string>
-    <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_body">"Scannen Sie den QR-Code auf Ihrem Impfzertifikat, um Ihre Impfung zu registrieren und einen digitalen Impfnachweis zu erhalten."</string>
-    <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_register">"Registrieren"</string>
 
     <!-- ####################################
         Incompatibility warning card

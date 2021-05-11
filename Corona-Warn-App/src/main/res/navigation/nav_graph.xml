@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionTestResultKeysSharedFragment"
             app:destination="@id/submissionTestResultKeysSharedFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_vaccinationNavGraph"
+            app:destination="@id/vaccination_nav_graph" />
     </fragment>
 
     <fragment
@@ -809,4 +812,5 @@
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
+
 </navigation>

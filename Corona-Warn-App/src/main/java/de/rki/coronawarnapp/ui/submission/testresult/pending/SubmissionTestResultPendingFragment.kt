@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.testresult.pending
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -143,7 +144,8 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
+            getButton(DialogInterface.BUTTON_POSITIVE)
+                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }
 

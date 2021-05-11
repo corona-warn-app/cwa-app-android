@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.testresult.positive
 
-import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -87,7 +87,7 @@ class SubmissionTestResultKeysSharedFragment :
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE)
+            getButton(DialogInterface.BUTTON_POSITIVE)
                 .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }

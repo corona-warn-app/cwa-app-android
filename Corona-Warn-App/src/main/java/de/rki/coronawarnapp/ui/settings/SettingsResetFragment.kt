@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.settings
 
-import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -66,7 +66,8 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
         )
 
         DialogHelper.showDialog(resetDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
+            getButton(DialogInterface.BUTTON_POSITIVE)
+                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }
 }

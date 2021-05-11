@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinatedPersonNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
-import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
+import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toProofContainer
@@ -96,7 +96,7 @@ class VaccinationRepository @Inject constructor(
                 }
             } else {
                 VaccinatedPerson(
-                    data = PersonData(
+                    data = VaccinatedPersonData(
                         vaccinations = emptySet(),
                         proofs = emptySet()
                     ),

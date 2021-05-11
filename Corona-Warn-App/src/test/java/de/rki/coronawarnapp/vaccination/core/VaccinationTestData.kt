@@ -51,7 +51,7 @@ object VaccinationTestData {
         vaccinationCertificateCOSE = PERSON_C_VAC_1_COSE,
     )
 
-    val PERSON_C_DATA_1VAC_NOPROOF = PersonData(
+    val PERSON_C_DATA_1VAC_NOPROOF = VaccinatedPersonData(
         vaccinations = setOf(PERSON_C_VAC_1_CONTAINER),
         proofs = emptySet(),
     )

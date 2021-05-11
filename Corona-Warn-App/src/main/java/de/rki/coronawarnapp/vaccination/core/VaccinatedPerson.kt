@@ -1,21 +1,18 @@
 package de.rki.coronawarnapp.vaccination.core
 
-import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
+import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
-    internal val data: PersonData,
+    internal val data: VaccinatedPersonData,
     private val valueSet: VaccinationValueSet?,
     val isUpdatingData: Boolean = false,
     val lastError: Throwable? = null,
 ) {
     val identifier: VaccinatedPersonIdentifier
         get() = data.identifier
-
-    val vaccinationStatus: Status
-        get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
 
     val vaccinationCertificates: Set<VaccinationCertificate>
         get() = data.vaccinations.map {
@@ -26,6 +23,12 @@ data class VaccinatedPerson(
         get() = data.proofs.map {
             it.toProofCertificate(valueSet)
         }.toSet()
+
+    val vaccinationStatus: Status
+        get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
+
+    val vaccineName: String
+        get() = vaccinationCertificates.first().vaccineName
 
     val firstName: String?
         get() = vaccinationCertificates.first().firstName
