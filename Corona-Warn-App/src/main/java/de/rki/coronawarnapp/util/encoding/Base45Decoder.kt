@@ -15,17 +15,17 @@
 
     Modifications Copyright (c) 2021 SAP SE or an SAP affiliate company.
 */
-package de.rki.coronawarnapp.vaccination.decoder
+package de.rki.coronawarnapp.util.encoding
 
 import java.math.BigInteger
-import javax.inject.Inject
 
 /**
  * Based on
  * https://github.com/ehn-digital-green-development/hcert-kotlin/blob/23203fbb71f53524ee643a9df116264f87b5b32a/src/main/kotlin/ehn/techiop/hcert/kotlin/chain/common/Base45Encoder.kt
  */
-class Base45Decoder @Inject constructor() {
-    private val alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
+@OptIn(ExperimentalUnsignedTypes::class)
+object Base45Decoder {
+    private const val alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
     private val int45 = BigInteger.valueOf(45)
     private val int256 = BigInteger.valueOf(256)
 

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util
+package de.rki.coronawarnapp.util.encoding
 
 import com.google.common.io.BaseEncoding
 import okio.ByteString

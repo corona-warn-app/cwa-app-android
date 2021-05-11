@@ -37,7 +37,10 @@ data class VaccinatedPerson(
         get() = vaccinationCertificates.first().lastName
 
     val fullName: String
-        get() = "$firstName $lastName"
+        get() = when {
+            firstName == null -> lastName
+            else -> "$firstName $lastName"
+        }
 
     val dateOfBirth: LocalDate
         get() = vaccinationCertificates.first().dateOfBirth
