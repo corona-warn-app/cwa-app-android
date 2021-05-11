@@ -1,25 +1,27 @@
 package de.rki.coronawarnapp.vaccination.core.server.valueset
 
+import androidx.annotation.Keep
 import java.util.Locale
 
+@Keep
 interface VaccinationValueSet {
-
     val languageCode: Locale
     val vp: ValueSet
     val mp: ValueSet
     val ma: ValueSet
 
-    fun getDisplayText(key: String): String?
-
     interface ValueSet {
         val items: List<Item>
 
-        fun getDisplayText(key: String): String?
-
-        // Use custom class instead of map to allow for future extensions
+        // Use custom item instead of map to allow for future extensions
         interface Item {
             val key: String
             val displayText: String
         }
     }
 }
+
+fun VaccinationValueSet.getDisplayText(key: String): String? =
+    vp.getDisplayText(key) ?: mp.getDisplayText(key) ?: ma.getDisplayText(key)
+
+fun VaccinationValueSet.ValueSet.getDisplayText(key: String): String? = items.find { key == it.key }?.displayText

@@ -9,13 +9,9 @@ data class DefaultVaccinationValueSet(
     override val ma: VaccinationValueSet.ValueSet
 ) : VaccinationValueSet {
 
-    override fun getDisplayText(key: String): String? =
-        vp.getDisplayText(key) ?: mp.getDisplayText(key) ?: ma.getDisplayText(key)
-
     data class DefaultValueSet(
         override val items: List<VaccinationValueSet.ValueSet.Item>
     ) : VaccinationValueSet.ValueSet {
-        override fun getDisplayText(key: String): String? = items.find { key == it.key }?.displayText
 
         data class DefaultItem(
             override val key: String,
