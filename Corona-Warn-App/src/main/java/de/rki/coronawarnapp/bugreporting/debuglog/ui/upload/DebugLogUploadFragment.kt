@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogUploadFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -49,7 +49,7 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
         }
 
         vm.errorEvent.observe2(this) {
-            AlertDialog.Builder(requireContext()).apply {
+            MaterialAlertDialogBuilder(requireContext()).apply {
                 val errorForHumans = it.tryHumanReadableError(requireContext())
                 setTitle(errorForHumans.title ?: getString(R.string.errors_generic_headline))
                 setMessage(errorForHumans.description)
