@@ -25,7 +25,8 @@ open class CwaServerError(
     statusCode = statusCode,
     message = message,
     cause = cause
-), HasHumanReadableError {
+),
+    HasHumanReadableError {
     init {
         if (statusCode !in 500..599) {
             throw IllegalArgumentException("Invalid HTTP server error code $statusCode (!= 5xx)")
