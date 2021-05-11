@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.util.encoding.decodeBase45
-import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateHeader
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
@@ -20,9 +20,9 @@ import org.joda.time.LocalDate
 
 object VaccinationTestData {
 
-    val PERSON_A_VAC_1_JSON = VaccinationCertificateV1(
+    val PERSON_A_VAC_1_JSON = VaccinationDGCV1(
         version = "1.0.0",
-        nameData = VaccinationCertificateV1.NameData(
+        nameData = VaccinationDGCV1.NameData(
             givenName = "François-Joan",
             givenNameStandardized = "FRANCOIS<JOAN",
             familyName = "d'Arsøns - van Halen",
@@ -30,7 +30,7 @@ object VaccinationTestData {
         ),
         dob = "2009-02-28",
         vaccinationDatas = listOf(
-            VaccinationCertificateV1.VaccinationData(
+            VaccinationDGCV1.VaccinationData(
                 targetId = "840539006",
                 vaccineId = "1119349007",
                 medicalProductId = "EU/1/20/1528",
@@ -53,7 +53,7 @@ object VaccinationTestData {
 
     val PERSON_A_VAC_1_DATA = VaccinationCertificateData(
         header = PERSON_A_VAC_1_HEADER,
-        vaccinationCertificate = PERSON_A_VAC_1_JSON
+        digitalGreenCertificate = PERSON_A_VAC_1_JSON
     )
 
     val PERSON_A_VAC_1_QRCODE = VaccinationCertificateQRCode(
@@ -68,9 +68,9 @@ object VaccinationTestData {
         preParsedData = PERSON_A_VAC_1_DATA
     }
 
-    val PERSON_A_VAC_2_JSON = VaccinationCertificateV1(
+    val PERSON_A_VAC_2_JSON = VaccinationDGCV1(
         version = "1.0.0",
-        nameData = VaccinationCertificateV1.NameData(
+        nameData = VaccinationDGCV1.NameData(
             givenName = "François-Joan",
             givenNameStandardized = "FRANCOIS<JOAN",
             familyName = "d'Arsøns - van Halen",
@@ -78,7 +78,7 @@ object VaccinationTestData {
         ),
         dob = "2009-02-28",
         vaccinationDatas = listOf(
-            VaccinationCertificateV1.VaccinationData(
+            VaccinationDGCV1.VaccinationData(
                 targetId = "840539006",
                 vaccineId = "1119349007",
                 medicalProductId = "EU/1/20/1528",
@@ -101,7 +101,7 @@ object VaccinationTestData {
 
     val PERSON_A_VAC_2_DATA = VaccinationCertificateData(
         header = PERSON_A_VAC_2_HEADER,
-        vaccinationCertificate = PERSON_A_VAC_2_JSON
+        digitalGreenCertificate = PERSON_A_VAC_2_JSON
     )
 
     val PERSON_A_VAC_2_QRCODE = VaccinationCertificateQRCode(
@@ -172,9 +172,9 @@ object VaccinationTestData {
         proofs = setOf(PERSON_A_PROOF_1_CONTAINER),
     )
 
-    val PERSON_B_VAC_1_JSON = VaccinationCertificateV1(
+    val PERSON_B_VAC_1_JSON = VaccinationDGCV1(
         version = "1.0.0",
-        nameData = VaccinationCertificateV1.NameData(
+        nameData = VaccinationDGCV1.NameData(
             givenName = "Sir Jakob",
             givenNameStandardized = "SIR<JAKOB",
             familyName = "Von Mustermensch",
@@ -182,7 +182,7 @@ object VaccinationTestData {
         ),
         dob = "1996-12-24",
         vaccinationDatas = listOf(
-            VaccinationCertificateV1.VaccinationData(
+            VaccinationDGCV1.VaccinationData(
                 targetId = "840539006",
                 vaccineId = "1119349007",
                 medicalProductId = "EU/1/20/1528",
@@ -205,7 +205,7 @@ object VaccinationTestData {
 
     val PERSON_B_VAC_1_DATA = VaccinationCertificateData(
         header = PERSON_B_VAC_1_HEADER,
-        vaccinationCertificate = PERSON_B_VAC_1_JSON
+        digitalGreenCertificate = PERSON_B_VAC_1_JSON
     )
 
     val PERSON_B_VAC_1_CONTAINER = VaccinationContainer(
@@ -225,9 +225,9 @@ object VaccinationTestData {
             .let { ZLIBDecompressor().decode(it.decodeBase45().toByteArray()) }
             .let { RawCOSEObject(data = it) }
 
-    val PERSON_C_VAC_1_CERTIFICATE = VaccinationCertificateV1(
+    val PERSON_C_VAC_1_CERTIFICATE = VaccinationDGCV1(
         version = "1.0.0",
-        nameData = VaccinationCertificateV1.NameData(
+        nameData = VaccinationDGCV1.NameData(
             givenName = "Erika Dörte",
             givenNameStandardized = "ERIKA<DOERTE",
             familyName = "Schmitt Mustermann",
@@ -235,7 +235,7 @@ object VaccinationTestData {
         ),
         dob = "1964-08-12",
         vaccinationDatas = listOf(
-            VaccinationCertificateV1.VaccinationData(
+            VaccinationDGCV1.VaccinationData(
                 targetId = "840539006",
                 vaccineId = "1119349007",
                 medicalProductId = "EU/1/20/1528",

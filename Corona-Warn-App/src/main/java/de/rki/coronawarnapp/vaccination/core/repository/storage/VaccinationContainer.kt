@@ -5,14 +5,12 @@ import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
-import de.rki.coronawarnapp.vaccination.core.qrcode.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1Parser
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -29,19 +27,16 @@ data class VaccinationContainer(
     @Suppress("unused")
     constructor() : this(RawCOSEObject.EMPTY, Instant.EPOCH)
 
-    // TODO DI/ error handling
     @delegate:Transient
     private val certificateData: VaccinationCertificateData by lazy {
-        preParsedData ?: VaccinationCertificateCOSEParser(
-            HealthCertificateCOSEDecoder(),
-            VaccinationCertificateV1Parser(),
-        ).parse(vaccinationCertificateCOSE)
+        // TODO Can we do better and DI this?
+        preParsedData ?: VaccinationCertificateCOSEParser.STORAGE_INSTANCE.parse(vaccinationCertificateCOSE)
     }
 
-    val certificate: VaccinationCertificateV1
-        get() = certificateData.vaccinationCertificate
+    val certificate: VaccinationDGCV1
+        get() = certificateData.certificate
 
-    val vaccination: VaccinationCertificateV1.VaccinationData
+    val vaccination: VaccinationDGCV1.VaccinationData
         get() = certificate.vaccinationDatas.single()
 
     val certificateId: String
