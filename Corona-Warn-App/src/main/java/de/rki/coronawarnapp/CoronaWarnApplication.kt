@@ -40,16 +40,10 @@ import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.hasAPILevel
-import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.execution.VaccinationUpdateScheduler
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import okio.ByteString.Companion.decodeHex
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
@@ -88,9 +82,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
-
-    @Inject lateinit var vaccinationRepository: VaccinationRepository
-    @Inject lateinit var vaccinationCertificateCOSEParser: VaccinationCertificateCOSEParser
 
     override fun onCreate() {
         instance = this
@@ -152,22 +143,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         autoCheckOut.setupMonitor()
         traceLocationDbCleanupScheduler.scheduleDaily()
         shareTestResultNotificationService.setup()
-
-        val techSpecHex =
-            "d28443a10126a104508ede3316d4da418181f0753affc6a3a359013ba401624445041a60b8d32f061a6082879b390103a101a4617681aa6263697831303144452f38343530332f313131393334393030372f44585347574c574c34305355385a464b495949424b33394133235362636f62444562646e026264746a323032312d30322d3032626973782142756e6465736d696e697374657269756d2066c3bc7220476573756e6468656974626d616d4f52472d313030303330323135626d706c45552f312f32302f3135323862736402627467693834303533393030366276706a3131313933343930303763646f626a313936342d30382d3132636e616da462666e725363686d697474204d75737465726d616e6e62676e6c4572696b612044c3b672746563666e74725343484d4954543c4d55535445524d414e4e63676e746c4552494b413c444f455254456376657265312e302e305840d93d362f06a909dc69260149d917498b88ab21ec8658cdbb220d25610f8c858784abd1d488f48153075b0ccbb55a54dd445599dc72db55bd63a50291fba44921"
-                .decodeHex()
-                .let { RawCOSEObject(it) }
-//        val forTheServer = testData
-//            .let { zLIBDecompressor.decode(base45Decoder.decode(it)) }
-
-        GlobalScope.launch {
-            vaccinationRepository.registerVaccination(
-                VaccinationCertificateQRCode(
-                    parsedData = vaccinationCertificateCOSEParser.parse(techSpecHex),
-                    certificateCOSE = techSpecHex
-                )
-            )
-        }
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
