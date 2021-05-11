@@ -29,6 +29,9 @@
             android:id="@+id/action_vaccinationListFragment_to_vaccinationDetailsFragment"
             app:destination="@id/vaccinationDetailsFragment" />
         <deepLink app:uri="coronawarnapp://vaccination-list/{vaccinatedPersonId}" />
+        <action
+            android:id="@+id/action_vaccinationListFragment_to_vaccinationQrCodeScanFragment"
+            app:destination="@id/vaccinationQrCodeScanFragment" />
     </fragment>
 
     <fragment

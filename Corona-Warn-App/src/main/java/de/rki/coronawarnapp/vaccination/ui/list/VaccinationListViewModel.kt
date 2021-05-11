@@ -131,6 +131,10 @@ class VaccinationListViewModel @AssistedInject constructor(
         }
     }.toList()
 
+    fun onRegisterNewVaccinationClick() {
+        events.postValue(Event.NavigateToVaccinationQrCodeScanScreen)
+    }
+
     fun onRefreshClick() {
         if (vaccinationStatusFlow.value == COMPLETE) {
             vaccinationStatusFlow.value = INCOMPLETE
@@ -146,6 +150,7 @@ class VaccinationListViewModel @AssistedInject constructor(
 
     sealed class Event {
         data class NavigateToVaccinationCertificateDetails(val vaccinationCertificateId: String) : Event()
+        object NavigateToVaccinationQrCodeScanScreen : Event()
     }
 
     @AssistedFactory
