@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
+import com.google.gson.Gson
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
@@ -18,7 +19,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
     private val base45Decoder = Base45Decoder()
     private val ZLIBDecompressor = ZLIBDecompressor()
     private val healthCertificateCOSEDecoder = HealthCertificateCOSEDecoder()
-    private val vaccinationCertificateV1Decoder = VaccinationCertificateV1Parser()
+    private val vaccinationCertificateV1Decoder = VaccinationCertificateV1Parser(Gson())
 
     private val extractor = VaccinationQRCodeExtractor(
         base45Decoder,
