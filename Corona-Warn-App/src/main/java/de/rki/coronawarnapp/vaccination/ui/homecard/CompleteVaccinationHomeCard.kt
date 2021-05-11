@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.ui.homecards
+package de.rki.coronawarnapp.vaccination.ui.homecard
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
