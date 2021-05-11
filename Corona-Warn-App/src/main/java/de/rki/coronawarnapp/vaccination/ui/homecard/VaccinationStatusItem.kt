@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.ui.homecards
+package de.rki.coronawarnapp.vaccination.ui.homecard
 
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson

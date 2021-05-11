@@ -1,23 +1,23 @@
-package de.rki.coronawarnapp.vaccination.ui.homecards
+package de.rki.coronawarnapp.vaccination.ui.homecard
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.VaccinationHomeCompleteCardBinding
+import de.rki.coronawarnapp.databinding.VaccinationHomeIncompleteCardBinding
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 
-class CompleteVaccinationHomeCard(parent: ViewGroup) :
-    HomeAdapter.HomeItemVH<CompleteVaccinationHomeCard.Item, VaccinationHomeCompleteCardBinding>(
+class IncompleteVaccinationHomeCard(parent: ViewGroup) :
+    HomeAdapter.HomeItemVH<IncompleteVaccinationHomeCard.Item, VaccinationHomeIncompleteCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ) {
 
     override val viewBinding = lazy {
-        VaccinationHomeCompleteCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        VaccinationHomeIncompleteCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: VaccinationHomeCompleteCardBinding.(
+    override val onBindData: VaccinationHomeIncompleteCardBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->

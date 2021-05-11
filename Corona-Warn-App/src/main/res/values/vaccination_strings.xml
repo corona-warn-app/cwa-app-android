@@ -70,4 +70,15 @@
     <string name="vaccination_card_status_vaccination_name">SARS-CoV-2 Impfschutz</string>
     <!-- XTXT: Homescreen card vaccination status label -->
     <string name="vaccination_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
+
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_invalid"></string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_not_yet_supported"></string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_scan_again"></string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_already_registered"></string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_different_person"></string>
 </resources>
