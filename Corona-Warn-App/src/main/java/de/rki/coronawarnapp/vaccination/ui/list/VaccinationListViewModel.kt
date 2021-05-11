@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.ProofCertificate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
-import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListCertificateCardItemVH.VaccinationListCertificateCardItem
@@ -24,12 +24,12 @@ import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationLi
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListNameCardItemVH.VaccinationListNameCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
 import org.joda.time.Days
-import org.joda.time.LocalDate
 
 class VaccinationListViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
@@ -41,15 +41,15 @@ class VaccinationListViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<Event>()
 
     val vaccinationInfoFlow = vaccinationRepository.vaccinationInfos.map { vaccinatedPersonSet ->
-        // TODO: use the line below once the repository returns actual values
         // val vaccinatedPerson = vaccinatedPersonSet.single { it.identifier.code == vaccinatedPersonIdentifier }
+        vaccinatedPersonSet.first()
     }
 
     private val proofQrCode: Flow<Bitmap?> = vaccinationRepository.vaccinationInfos.transform { vaccinationInfos ->
 
         emit(null)
 
-        // TODO: use actual values from repository instead of these mocked ones
+        // TODO: use actual values from repository instead of these mocked ones once we can retrieve proof Certificates
         val proofCertificates = setOf(
             getMockProofCertificate()
         )
@@ -59,31 +59,19 @@ class VaccinationListViewModel @AssistedInject constructor(
         }
     }
 
-    val uiState: LiveData<UiState> = combine(vaccinationInfoFlow, proofQrCode) { vaccinatedPerson, proofQrCode ->
+    private val vaccinationStatusFlow =  MutableStateFlow(INCOMPLETE)
 
-        // For now, use mock data
-        val vaccinationStatus = COMPLETE
-        // val vaccinationStatus = COMPLETE
-
-        val vaccinationCertificates = setOf(
-            getMockVaccinationCertificate(),
-            getMockVaccinationCertificate().copy(
-                doseNumber = 2
-            )
-        )
+    val uiState: LiveData<UiState> = combine(vaccinationInfoFlow, proofQrCode, vaccinationStatusFlow) { vaccinatedPerson, proofQrCode, vaccinationStatus ->
 
         val proofCertificates = setOf(
             getMockProofCertificate()
         )
 
         val listItems = assembleItemList(
-            vaccinationCertificates = vaccinationCertificates,
+            vaccinatedPerson = vaccinatedPerson,
+            vaccinationStatus = vaccinationStatus,
             proofCertificates = proofCertificates,
-            firstName = "François-Joan",
-            lastName = "d'Arsøns - van Halen",
-            dateOfBirth = LocalDate.parse("2009-02-28"),
-            vaccinationStatus,
-            proofQrCode
+            proofQrCode = proofQrCode
         )
 
         UiState(
@@ -94,16 +82,10 @@ class VaccinationListViewModel @AssistedInject constructor(
         // TODO Error Handling in an upcoming subtask
     }.asLiveData()
 
-    // TODO: after using actual values from the repository, we only pass VaccinatedPerson here instead of all these
-    // arguments
-    @Suppress("LongParameterList")
     private fun assembleItemList(
-        vaccinationCertificates: Set<VaccinationCertificate>,
-        proofCertificates: Set<ProofCertificate>,
-        firstName: String,
-        lastName: String,
-        dateOfBirth: LocalDate,
+        vaccinatedPerson: VaccinatedPerson,
         vaccinationStatus: VaccinatedPerson.Status,
+        proofCertificates: Set<ProofCertificate>,
         proofQrCode: Bitmap?
     ) = mutableListOf<VaccinationListItem>().apply {
         if (vaccinationStatus == COMPLETE) {
@@ -126,11 +108,11 @@ class VaccinationListViewModel @AssistedInject constructor(
         }
         add(
             VaccinationListNameCardItem(
-                fullName = "$firstName $lastName",
-                dayOfBirth = dateOfBirth.toDayFormat()
+                fullName = "${vaccinatedPerson.firstName} ${vaccinatedPerson.lastName}",
+                dayOfBirth = vaccinatedPerson.dateOfBirth.toDayFormat()
             )
         )
-        vaccinationCertificates.forEach { vaccinationCertificate ->
+        vaccinatedPerson.vaccinationCertificates.forEach { vaccinationCertificate ->
             with(vaccinationCertificate) {
                 add(
                     VaccinationListVaccinationCardItem(
@@ -139,8 +121,7 @@ class VaccinationListViewModel @AssistedInject constructor(
                         totalSeriesOfDoses = totalSeriesOfDoses.toString(),
                         vaccinatedAt = vaccinatedAt.toDayFormat(),
                         vaccinationStatus = vaccinationStatus,
-                        isFinalVaccination =
-                            doseNumber == totalSeriesOfDoses,
+                        isFinalVaccination = doseNumber == totalSeriesOfDoses,
                         onCardClick = { certificateId ->
                             events.postValue(Event.NavigateToVaccinationCertificateDetails(certificateId))
                         }
@@ -149,6 +130,14 @@ class VaccinationListViewModel @AssistedInject constructor(
             }
         }
     }.toList()
+
+    fun onRefreshClick() {
+        if (vaccinationStatusFlow.value == COMPLETE) {
+            vaccinationStatusFlow.value = INCOMPLETE
+        } else {
+            vaccinationStatusFlow.value = COMPLETE
+        }
+    }
 
     data class UiState(
         val listItems: List<VaccinationListItem>,

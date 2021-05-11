@@ -71,16 +71,17 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             }
 
             refreshButton.setOnClickListener {
-                Toast.makeText(requireContext(), "TODO \uD83D\uDEA7", Toast.LENGTH_LONG).show()
+                viewModel.onRefreshClick()
             }
         }
     }
 
     private fun FragmentVaccinationListBinding.bindViews(uiState: VaccinationListViewModel.UiState) = with(uiState) {
 
-        adapter.update(listItems)
-
         val isVaccinationComplete = vaccinationStatus == VaccinatedPerson.Status.COMPLETE
+        setToolbarOverlay(isVaccinationComplete)
+
+        adapter.update(listItems)
 
         val background = if (isVaccinationComplete) {
             R.drawable.vaccination_compelete_gradient
@@ -97,17 +98,22 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             subtitle.alpha = subtitleAlpha
         }
 
-        setToolbarOverlay(isVaccinationComplete)
+
     }
 
     private fun setToolbarOverlay(isVaccinationComplete: Boolean) {
+
+        // Reset bottom margins to the default initially
+        val titleBottomMarginDefault = 12
+        val layoutParamsTitle = binding.title.layoutParams as (LinearLayout.LayoutParams)
+        layoutParamsTitle.bottomMargin = titleBottomMarginDefault
 
         // subtitle is only visible when vaccination is complete
         val bottomTextView = if (isVaccinationComplete) binding.subtitle else binding.title
 
         val deviceWidth = requireContext().resources.displayMetrics.widthPixels
 
-        val params: CoordinatorLayout.LayoutParams = binding.recyclerViewVaccinationList.layoutParams
+        val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams = binding.recyclerViewVaccinationList.layoutParams
             as (CoordinatorLayout.LayoutParams)
 
         val textParams = bottomTextView.layoutParams as (LinearLayout.LayoutParams)
@@ -116,7 +122,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         textParams.bottomMargin = (deviceWidth / divider) - 24 /* 24 is space between screen border and Card */
         bottomTextView.requestLayout()
 
-        val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
+        val behavior: AppBarLayout.ScrollingViewBehavior = layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (deviceWidth / divider) - 24
     }
 
