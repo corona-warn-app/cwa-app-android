@@ -313,7 +313,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
                             popupEvents.postValue(
-                                HomeFragmentEvents.VaccinationList(vaccinatedPerson.identifier.code)
+                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.code)
                             )
                         }
                     )
@@ -321,7 +321,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
                             popupEvents.postValue(
-                                HomeFragmentEvents.VaccinationList(vaccinatedPerson.identifier.code)
+                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.code)
                             )
                         }
                     )

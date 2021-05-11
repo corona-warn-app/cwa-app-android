@@ -12,5 +12,5 @@ sealed class HomeFragmentEvents {
 
     data class ShowDeleteTestDialog(val type: CoronaTest.Type) : HomeFragmentEvents()
 
-    data class VaccinationList(val vaccinatedPersonIdentifier: String) : HomeFragmentEvents()
+    data class GoToVaccinationList(val vaccinatedPersonIdentifier: String) : HomeFragmentEvents()
 }

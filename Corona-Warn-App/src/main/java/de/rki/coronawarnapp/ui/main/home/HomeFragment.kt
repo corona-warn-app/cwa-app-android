@@ -117,7 +117,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         viewModel.tracingExplanationWasShown()
                     }
                 }
-                is HomeFragmentEvents.VaccinationList -> findNavController().navigate(
+                is HomeFragmentEvents.GoToVaccinationList -> findNavController().navigate(
                     VaccinationListFragment.navigationUri(event.vaccinatedPersonIdentifier)
                 )
             }
