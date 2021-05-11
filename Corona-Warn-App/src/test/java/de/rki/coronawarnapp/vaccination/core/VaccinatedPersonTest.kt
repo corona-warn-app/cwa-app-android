@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core
 
-import de.rki.coronawarnapp.vaccination.core.repository.storage.PersonData
+import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -16,7 +16,7 @@ class VaccinatedPersonTest : BaseTest() {
         val vaccinationContainer = mockk<VaccinationContainer>().apply {
             every { toVaccinationCertificate(any()) } returns certificate
         }
-        val personData = mockk<PersonData>().apply {
+        val personData = mockk<VaccinatedPersonData>().apply {
             every { vaccinations } returns setOf(vaccinationContainer)
         }
         val vaccinatedPerson = VaccinatedPerson(

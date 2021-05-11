@@ -46,8 +46,8 @@ class VaccinationQRCodeExtractor @Inject constructor(
         throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
     }
 
-    private fun ByteString.decompress(): ByteString = try {
-        zLIBDecompressor.decode(this.toByteArray())
+    private fun ByteString.decompress(): RawCOSEObject = try {
+        RawCOSEObject(zLIBDecompressor.decompress(this.toByteArray()))
     } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
@@ -63,7 +63,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
     }
 
     private fun CBORObject.parseCBORObject(): VaccinationCertificateData = try {
-        vaccinationCertificateV1Parser.decode(this)
+        vaccinationCertificateV1Parser.parse(this)
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
