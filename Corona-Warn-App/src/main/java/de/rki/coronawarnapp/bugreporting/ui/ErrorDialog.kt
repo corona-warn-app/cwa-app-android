@@ -56,6 +56,6 @@ fun Throwable.toErrorDialogBuilder(context: Context) = MaterialAlertDialogBuilde
                 error.toString() + "\n\n" + error.stackTraceToString(),
                 textHasLinks = false
             )
-        }.create().show()
+        }.show()
     }
 }
