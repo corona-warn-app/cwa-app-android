@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.decoder
+package de.rki.coronawarnapp.util.compression
 
 import timber.log.Timber
 import java.util.zip.InflaterInputStream

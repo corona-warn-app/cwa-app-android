@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.decoder
+package de.rki.coronawarnapp.util.compression
 
 class InvalidInputException(
     message: String = "An error occurred while decoding input."

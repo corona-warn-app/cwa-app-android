@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStora
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toVaccinationContainer
 import de.rki.coronawarnapp.vaccination.core.server.proof.VaccinationProofServer
-
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -131,46 +130,57 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
-    private suspend fun checkForProof(personIdentifier: VaccinatedPersonIdentifier?) {
+    private suspend fun checkProof(personIdentifier: VaccinatedPersonIdentifier?) {
         Timber.tag(TAG).i("checkForProof(personIdentifier=%s)", personIdentifier)
         withContext(appScope.coroutineContext) {
             internalData.updateBlocking {
-                val originalPerson = this.singleOrNull {
-                    it.identifier == personIdentifier
-                } ?: throw VaccinatedPersonNotFoundException("Identifier=$personIdentifier")
+                val knownPersons = this
 
-                val eligbleCert = originalPerson.data.vaccinations.first { it.isEligbleForProofCertificate }
-
-                val proof = try {
-                    vaccinationProofServer.getProofCertificate(eligbleCert.vaccinationCertificateCOSE)
-                } catch (e: Exception) {
-                    Timber.tag(TAG).e(e, "Failed to check for proof.")
-                    null
+                personIdentifier?.let {
+                    knownPersons.singleOrNull {
+                        it.identifier == personIdentifier
+                    } ?: throw VaccinatedPersonNotFoundException("Identifier=$personIdentifier")
                 }
 
-                val modifiedPerson = proof?.let {
-                    originalPerson.copy(
-                        data = originalPerson.data.copy(
-                            proofs = setOf(it.toProofContainer(timeStamper.nowUTC))
-                        )
-                    )
-                } ?: originalPerson
+                knownPersons
+                    .filter { it.identifier == personIdentifier || personIdentifier == null }
+                    .map { person ->
+                        if (!person.isEligbleForProofCertificate) {
+                            Timber.tag(TAG).d("Not eligble for proof certificate:")
+                            return@map person
+                        }
 
-                this.toMutableSet().apply {
-                    remove(originalPerson)
-                    add(modifiedPerson)
-                }
+                        val eligbleCert = person.data.vaccinations.first { person.isEligbleForProofCertificate }
+                        Timber.tag(TAG).d("Obtaining proof cert for vacciniation cert: %s", eligbleCert.certificateId)
+
+                        val proof = try {
+                            vaccinationProofServer.getProofCertificate(eligbleCert.vaccinationCertificateCOSE)
+                        } catch (e: Exception) {
+                            Timber.tag(TAG).e(e, "Failed to check for proof.")
+                            null
+                        }
+
+                        Timber.tag(TAG).i("Proof certificate obtained: %s", proof?.proofData)
+
+                        proof?.let {
+                            person.copy(
+                                data = person.data.copy(proofs = setOf(it.toProofContainer(timeStamper.nowUTC)))
+                            )
+                        } ?: person
+                    }
+                    .toSet()
             }
         }
-        throw NotImplementedError()
     }
 
     /**
      * Passing null as identifier will refresh all available data, if within constraints.
+     * Throws VaccinatedPersonNotFoundException is you try to refresh a person that is unknown.
      */
     suspend fun refresh(personIdentifier: VaccinatedPersonIdentifier? = null) {
         Timber.tag(TAG).d("refresh(personIdentifier=%s)", personIdentifier)
-        // TODO
+
+        checkProof(personIdentifier)
     }
 
     suspend fun clear() {

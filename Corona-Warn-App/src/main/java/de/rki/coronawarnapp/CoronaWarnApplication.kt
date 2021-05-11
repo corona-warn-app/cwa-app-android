@@ -42,7 +42,9 @@ import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.hasAPILevel
 import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.execution.VaccinationUpdateScheduler
-import de.rki.coronawarnapp.vaccination.core.server.proof.VaccinationProofServer
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -87,7 +89,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
-    @Inject lateinit var vaccinationProofServer: VaccinationProofServer
+    @Inject lateinit var vaccinationRepository: VaccinationRepository
+    @Inject lateinit var vaccinationCertificateCOSEParser: VaccinationCertificateCOSEParser
 
     override fun onCreate() {
         instance = this
@@ -158,8 +161,11 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 //            .let { zLIBDecompressor.decode(base45Decoder.decode(it)) }
 
         GlobalScope.launch {
-            vaccinationProofServer.getProofCertificate(
-                techSpecHex
+            vaccinationRepository.registerVaccination(
+                VaccinationCertificateQRCode(
+                    parsedData = vaccinationCertificateCOSEParser.parse(techSpecHex),
+                    certificateCOSE = techSpecHex
+                )
             )
         }
     }

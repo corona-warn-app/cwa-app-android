@@ -1,12 +1,13 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
-import de.rki.coronawarnapp.vaccination.core.certificate.DigitalCertificateCertificateV1Parser
+import de.rki.coronawarnapp.util.compression.ZLIBDecompressor
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateCOSEDecoder
+import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateHeaderParser
+import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1Parser
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
-import de.rki.coronawarnapp.vaccination.decoder.ZLIBDecompressor
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -16,12 +17,14 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
 
     private val zLIBDecompressor = ZLIBDecompressor()
     private val healthCertificateCOSEDecoder = HealthCertificateCOSEDecoder()
-    private val vaccinationCertificateV1Decoder = DigitalCertificateCertificateV1Parser()
+    private val headerCOSEParser = HealthCertificateHeaderParser()
+    private val vaccinationDGCV1Parser = VaccinationDGCV1Parser()
 
     private val extractor = VaccinationQRCodeExtractor(
-        zLIBDecompressor,
-        healthCertificateCOSEDecoder,
-        vaccinationCertificateV1Decoder
+        zLIBDecompressor = zLIBDecompressor,
+        healthCertificateCOSEDecoder = healthCertificateCOSEDecoder,
+        headerParser = headerCOSEParser,
+        vaccinationDGCV1Parser = vaccinationDGCV1Parser
     )
 
     @Test
