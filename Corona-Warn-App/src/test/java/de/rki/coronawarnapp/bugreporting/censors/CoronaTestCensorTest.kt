@@ -6,13 +6,11 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
-import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runBlockingTest
@@ -44,9 +42,6 @@ class CoronaTestCensorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        mockkObject(CWADebug)
-        every { CWADebug.isDeviceForTestersBuild } returns false
-
         every { coronaTestRepository.coronaTests } returns coronaTests
     }
 
@@ -66,11 +61,6 @@ class CoronaTestCensorTest : BaseTest() {
         )
         instance.checkLog(filterMe) shouldBe filterMe.copy(
             message = "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
-        )
-
-        every { CWADebug.isDeviceForTestersBuild } returns true
-        instance.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: ########-e0de-4bd4-90c1-17c2bb683a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
         )
 
         verify { coronaTestRepository.coronaTests }
