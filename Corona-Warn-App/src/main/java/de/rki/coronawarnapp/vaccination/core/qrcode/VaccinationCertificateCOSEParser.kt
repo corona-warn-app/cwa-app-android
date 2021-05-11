@@ -24,12 +24,4 @@ class VaccinationCertificateCOSEParser @Inject constructor(
             Timber.v("Parsed vaccination certificate for %s", it.certificate.nameData.familyNameStandardized)
         }
     }
-
-    companion object {
-        val STORAGE_INSTANCE = VaccinationCertificateCOSEParser(
-            coseDecoder = HealthCertificateCOSEDecoder(),
-            headerParser = HealthCertificateHeaderParser(),
-            bodyParser = VaccinationDGCV1Parser(),
-        )
-    }
 }

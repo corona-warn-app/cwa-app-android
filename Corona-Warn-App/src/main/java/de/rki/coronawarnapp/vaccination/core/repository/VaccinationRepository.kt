@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinatedPersonNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationConta
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toVaccinationContainer
+import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.server.proof.VaccinationProofServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -41,6 +43,8 @@ class VaccinationRepository @Inject constructor(
     private val storage: VaccinationStorage,
     private val valueSetsRepository: ValueSetsRepository,
     private val vaccinationProofServer: VaccinationProofServer,
+    private val vaccionationCoseParser: VaccinationCertificateCOSEParser,
+    private val proofCoseParser: ProofCertificateCOSEParser,
 ) {
 
     private val internalData: HotDataFlow<Set<VaccinatedPerson>> = HotDataFlow(
@@ -104,7 +108,10 @@ class VaccinationRepository @Inject constructor(
                 )
             }
 
-            val newCertificate = qrCode.toVaccinationContainer(scannedAt = timeStamper.nowUTC)
+            val newCertificate = qrCode.toVaccinationContainer(
+                scannedAt = timeStamper.nowUTC,
+                coseParser = vaccionationCoseParser,
+            )
 
             val modifiedPerson = originalPerson.copy(
                 data = originalPerson.data.copy(
@@ -163,8 +170,13 @@ class VaccinationRepository @Inject constructor(
                         Timber.tag(TAG).i("Proof certificate obtained: %s", proof?.proofData)
 
                         proof?.let {
+                            val proofContainer = it.toProofContainer(
+                                receivedAt = timeStamper.nowUTC,
+                                coseParser = proofCoseParser,
+                            )
+
                             person.copy(
-                                data = person.data.copy(proofs = setOf(it.toProofContainer(timeStamper.nowUTC)))
+                                data = person.data.copy(proofs = setOf(proofContainer))
                             )
                         } ?: person
                     }

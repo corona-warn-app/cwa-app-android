@@ -26,12 +26,4 @@ class ProofCertificateCOSEParser @Inject constructor(
             Timber.v("Parsed proof certificate for %s", it.certificate.nameData.familyNameStandardized)
         }
     }
-
-    companion object {
-        val STORAGE_INSTANCE = ProofCertificateCOSEParser(
-            coseDecoder = HealthCertificateCOSEDecoder(),
-            headerParser = HealthCertificateHeaderParser(),
-            bodyParser = VaccinationDGCV1Parser(),
-        )
-    }
 }

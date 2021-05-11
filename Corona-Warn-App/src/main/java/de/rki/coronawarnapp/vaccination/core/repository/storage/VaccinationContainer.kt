@@ -16,11 +16,13 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 @Keep
-data class VaccinationContainer(
+data class VaccinationContainer internal constructor(
     @SerializedName("vaccinationCertificateCOSE") val vaccinationCertificateCOSE: RawCOSEObject,
     @SerializedName("scannedAt") val scannedAt: Instant,
 ) {
 
+    // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
+    @Transient lateinit var parser: VaccinationCertificateCOSEParser
     @Transient internal var preParsedData: VaccinationCertificateData? = null
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
@@ -29,8 +31,7 @@ data class VaccinationContainer(
 
     @delegate:Transient
     private val certificateData: VaccinationCertificateData by lazy {
-        // TODO Can we do better and DI this?
-        preParsedData ?: VaccinationCertificateCOSEParser.STORAGE_INSTANCE.parse(vaccinationCertificateCOSE)
+        preParsedData ?: parser.parse(vaccinationCertificateCOSE)
     }
 
     val certificate: VaccinationDGCV1
@@ -85,9 +86,13 @@ data class VaccinationContainer(
     }
 }
 
-fun VaccinationCertificateQRCode.toVaccinationContainer(scannedAt: Instant) = VaccinationContainer(
+fun VaccinationCertificateQRCode.toVaccinationContainer(
+    scannedAt: Instant,
+    coseParser: VaccinationCertificateCOSEParser,
+) = VaccinationContainer(
     vaccinationCertificateCOSE = certificateCOSE,
     scannedAt = scannedAt,
 ).apply {
+    parser = coseParser
     preParsedData = parsedData
 }

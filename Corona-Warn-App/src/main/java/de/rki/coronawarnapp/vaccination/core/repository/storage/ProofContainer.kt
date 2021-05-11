@@ -20,6 +20,9 @@ data class ProofContainer(
     @SerializedName("proofCertificateCOSE") val proofCertificateCOSE: RawCOSEObject,
     @SerializedName("receivedAt") val receivedAt: Instant,
 ) {
+
+    // Either set by [ContainerPostProcessor] or via [toProofContainer]
+    @Transient lateinit var parser: ProofCertificateCOSEParser
     @Transient internal var preParsedData: ProofCertificateData? = null
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
@@ -28,8 +31,7 @@ data class ProofContainer(
 
     @delegate:Transient
     private val proofData: ProofCertificateData by lazy {
-        // TODO Can we do better and DI this?
-        preParsedData ?: ProofCertificateCOSEParser.STORAGE_INSTANCE.parse(proofCertificateCOSE)
+        preParsedData ?: parser.parse(proofCertificateCOSE)
     }
 
     val header: CoseCertificateHeader
@@ -81,9 +83,13 @@ data class ProofContainer(
     }
 }
 
-fun ProofCertificateResponse.toProofContainer(receivedAt: Instant) = ProofContainer(
+fun ProofCertificateResponse.toProofContainer(
+    receivedAt: Instant,
+    coseParser: ProofCertificateCOSEParser,
+) = ProofContainer(
     proofCertificateCOSE = rawCose,
     receivedAt = receivedAt,
 ).apply {
     preParsedData = proofData
+    parser = coseParser
 }

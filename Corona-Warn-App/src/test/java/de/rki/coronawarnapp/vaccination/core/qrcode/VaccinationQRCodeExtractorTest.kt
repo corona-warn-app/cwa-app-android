@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
+import com.google.gson.Gson
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateHeaderParser
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
@@ -19,7 +20,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
 
     private val coseDecoder = HealthCertificateCOSEDecoder()
     private val headerParser = HealthCertificateHeaderParser()
-    private val bodyParser = VaccinationDGCV1Parser()
+    private val bodyParser = VaccinationDGCV1Parser(Gson())
     private val vaccinationCertificateCOSEParser = VaccinationCertificateCOSEParser(
         coseDecoder = coseDecoder,
         headerParser = headerParser,
