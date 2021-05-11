@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.vaccination.core.server.proof.VaccinationProofServer

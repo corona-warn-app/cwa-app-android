@@ -14,7 +14,6 @@ import testhelpers.BaseTest
 
 class VaccinationContainerTest : BaseTest() {
 
-
     @Test
     fun `person identifier calculation`() {
         VaccinationContainer(

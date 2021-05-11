@@ -7,4 +7,3 @@ data class HealthCertificateHeader(
     override val issuedAt: Instant,
     override val expiresAt: Instant,
 ) : CoseCertificateHeader
-

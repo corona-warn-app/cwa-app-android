@@ -10,9 +10,7 @@ import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificat
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import javax.inject.Inject
 
-class VaccinationDGCV1Parser @Inject constructor(
-
-) {
+class VaccinationDGCV1Parser @Inject constructor() {
     // TODO We would like to use the injected one, but we are using it hardcoded in other places,
     // TODO this could lead to issues, due to different serilization if we use the injected one here.
     private val gson: Gson = Gson()
