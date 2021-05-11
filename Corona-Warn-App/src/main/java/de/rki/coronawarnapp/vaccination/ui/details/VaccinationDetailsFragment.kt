@@ -39,7 +39,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.setNavigationOnClickListener { viewModel.onClose() }
             deleteButton.setOnClickListener { showDeletionDialog() }
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
@@ -59,6 +59,12 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.errors.observe(viewLifecycleOwner) {
                 it.toErrorDialogBuilder(requireContext()).show()
+            }
+
+            viewModel.events.observe(viewLifecycleOwner) {
+                when (it) {
+                    VaccinationDetailsNavigation.Back -> popBackStack()
+                }
             }
         }
 

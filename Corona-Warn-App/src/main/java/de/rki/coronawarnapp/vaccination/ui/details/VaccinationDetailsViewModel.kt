@@ -25,14 +25,21 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     val errors = SingleLiveEvent<Throwable>()
+    val events = SingleLiveEvent<VaccinationDetailsNavigation>()
 
     fun deleteVaccination() = launch {
         try {
+            Timber.d("deleteVaccination")
             vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
+            events.postValue(VaccinationDetailsNavigation.Back)
         } catch (e: Exception) {
             Timber.d(e, "deleteVaccinationCertificate failed")
             errors.postValue(e)
         }
+    }
+
+    fun onClose() {
+        events.postValue(VaccinationDetailsNavigation.Back)
     }
 
     private fun findVaccinationDetails(vaccinatedPersons: Set<VaccinatedPerson>): VaccinationDetails {
