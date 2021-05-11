@@ -171,11 +171,11 @@
     <View
         android:id="@+id/shadow_view"
         android:layout_width="0dp"
-        android:layout_height="32dp"
-        android:background="@drawable/shadow"
-        app:layout_constraintBottom_toBottomOf="@id/coordinator_layout"
+        android:layout_height="1dp"
+        android:background="@color/dividerColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/coordinator_layout" />
 
     <Button
         android:id="@+id/qr_code_print_button"
