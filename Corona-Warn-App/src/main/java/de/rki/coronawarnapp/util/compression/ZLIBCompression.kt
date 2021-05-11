@@ -1,24 +1,34 @@
 package de.rki.coronawarnapp.util.compression
 
+import okio.Buffer
 import okio.ByteString
-import okio.ByteString.Companion.toByteString
-import timber.log.Timber
-import java.util.zip.InflaterInputStream
+import okio.inflate
+import java.util.zip.Inflater
 import javax.inject.Inject
 
 class ZLIBCompression @Inject constructor() {
-    fun decompress(input: ByteString): ByteString = if (
-        input.size >= 2 &&
-        input[0] == 0x78.toByte() &&
-        input[1] in listOf(0x01.toByte(), 0x5E.toByte(), 0x9C.toByte(), 0xDA.toByte())
-    ) {
-        try {
-            input.toByteArray().inputStream().use { InflaterInputStream(it).readBytes().toByteString() }
-        } catch (e: Throwable) {
-            Timber.e(e)
-            throw InvalidInputException("Zlib decompression failed.")
+    fun decompress(input: ByteString, sizeLimit: Long = -1L): ByteString = try {
+        val inflaterSource = input.let {
+            val buffer = Buffer().write(it)
+            buffer.inflate(Inflater())
         }
-    } else {
-        input
+
+        val sink = Buffer()
+
+        sink.use { sinkBuffer ->
+            inflaterSource.use {
+                val aboveLimit = if (sizeLimit > 0) sizeLimit + 1L else Long.MAX_VALUE
+                val inflated = it.readOrInflate(sinkBuffer, aboveLimit)
+                if (inflated == aboveLimit) {
+                    throw InvalidInputException("Inflated size exceeds $sizeLimit")
+                }
+            }
+        }
+
+        sink.readByteString()
+    } catch (e: Throwable) {
+        throw InvalidInputException("ZLIB decompression failed.", e)
     }
 }
+
+fun ByteString.inflate(sizeLimit: Long = -1L) = ZLIBCompression().decompress(this, sizeLimit)

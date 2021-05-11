@@ -78,6 +78,11 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
+    fun `happy path extraction 4`() {
+        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode4)
+    }
+
+    @Test
     fun `valid encoding but not a health certificate fails with VC_HC_CWT_NO_ISS`() {
         shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.validEncoded)

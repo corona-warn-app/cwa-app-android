@@ -14,49 +14,65 @@ import testhelpers.BaseTest
 
 class VaccinationContainerTest : BaseTest() {
 
-    private fun createInstance() = VaccinationContainer(
-        vaccinationCertificateCOSE = VaccinationTestData.PERSON_C_VAC_1_COSE,
-        scannedAt = Instant.ofEpochSecond(123456789)
-    )
 
     @Test
     fun `person identifier calculation`() {
-        createInstance().personIdentifier shouldBe VaccinatedPersonIdentifier(
-            dateOfBirth = LocalDate.parse("1964-08-12"),
-            firstNameStandardized = "ERIKA<DOERTE",
-            lastNameStandardized = "SCHMITT<MUSTERMANN"
+        VaccinationContainer(
+            vaccinationCertificateCOSE = VaccinationTestData.PERSON_A_VAC_1_COSE,
+            scannedAt = Instant.ofEpochSecond(123456789)
+        ).personIdentifier shouldBe VaccinatedPersonIdentifier(
+            dateOfBirth = LocalDate.parse("1966-11-11"),
+            firstNameStandardized = "ANDREAS",
+            lastNameStandardized = "ASTRA<EINS"
         )
     }
 
     @Test
-    fun `full property decoding`() {
-        createInstance().apply {
-            certificate shouldBe VaccinationTestData.PERSON_C_VAC_1_CERTIFICATE
-            vaccination shouldBe VaccinationTestData.PERSON_C_VAC_1_CERTIFICATE.vaccinationDatas.single()
-            certificateId shouldBe "01DE/84503/1119349007/DXSGWLWL40SU8ZFKIYIBK39A3#S"
+    fun `full property decoding - 1 of 2`() {
+        VaccinationContainer(
+            vaccinationCertificateCOSE = VaccinationTestData.PERSON_A_VAC_1_COSE,
+            scannedAt = Instant.ofEpochSecond(123456789)
+        ).apply {
+            certificate shouldBe VaccinationTestData.PERSON_A_VAC_1_CERTIFICATE
+            certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
+            isEligbleForProofCertificate shouldBe false
+        }
+    }
+
+    @Test
+    fun `full property decoding - 2 of 2`() {
+        VaccinationContainer(
+            vaccinationCertificateCOSE = VaccinationTestData.PERSON_A_VAC_2_COSE,
+            scannedAt = Instant.ofEpochSecond(123456789)
+        ).apply {
+            certificate shouldBe VaccinationTestData.PERSON_A_VAC_2_CERTIFICATE
+            certificateId shouldBe "01DE/00001/1119305005/6IPYBAIDWEWRWW73QEP92FQSN#S"
             isEligbleForProofCertificate shouldBe true
         }
     }
 
     @Test
     fun `mapping to user facing data - valueset is null`() {
-        createInstance().toVaccinationCertificate(null).apply {
-            firstName shouldBe "Erika Dörte"
-            lastName shouldBe "Schmitt Mustermann"
-            dateOfBirth shouldBe LocalDate.parse("1964-08-12")
-            vaccinatedAt shouldBe LocalDate.parse("2021-02-02")
-            vaccineName shouldBe "1119349007"
-            vaccineManufacturer shouldBe "ORG-100030215"
-            medicalProductName shouldBe "EU/1/20/1528"
-            doseNumber shouldBe 2
+        VaccinationContainer(
+            vaccinationCertificateCOSE = VaccinationTestData.PERSON_A_VAC_1_COSE,
+            scannedAt = Instant.ofEpochSecond(123456789)
+        ).toVaccinationCertificate(null).apply {
+            firstName shouldBe "Andreas"
+            lastName shouldBe "Astrá Eins"
+            dateOfBirth shouldBe LocalDate.parse("1966-11-11")
+            vaccinatedAt shouldBe LocalDate.parse("2021-03-01")
+            vaccineName shouldBe "1119305005"
+            vaccineManufacturer shouldBe "ORG-100001699"
+            medicalProductName shouldBe "EU/1/21/1529"
+            doseNumber shouldBe 1
             totalSeriesOfDoses shouldBe 2
-            certificateIssuer shouldBe "Bundesministerium für Gesundheit"
+            certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe Country.DE
-            certificateId shouldBe "01DE/84503/1119349007/DXSGWLWL40SU8ZFKIYIBK39A3#S"
+            certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
             personIdentifier shouldBe VaccinatedPersonIdentifier(
-                dateOfBirth = LocalDate.parse("1964-08-12"),
-                firstNameStandardized = "ERIKA<DOERTE",
-                lastNameStandardized = "SCHMITT<MUSTERMANN"
+                dateOfBirth = LocalDate.parse("1966-11-11"),
+                firstNameStandardized = "ANDREAS",
+                lastNameStandardized = "ASTRA<EINS"
             )
         }
     }
@@ -64,27 +80,30 @@ class VaccinationContainerTest : BaseTest() {
     @Test
     fun `mapping to user facing data - with valueset`() {
         val valueSet = mockk<VaccinationValueSet> {
-            every { getDisplayText("ORG-100030215") } returns "Manufactorer-Name"
-            every { getDisplayText("EU/1/20/1528") } returns "MedicalProduct-Name"
-            every { getDisplayText("1119349007") } returns "Vaccine-Name"
+            every { getDisplayText("ORG-100001699") } returns "Manufactorer-Name"
+            every { getDisplayText("EU/1/21/1529") } returns "MedicalProduct-Name"
+            every { getDisplayText("1119305005") } returns "Vaccine-Name"
         }
-        createInstance().toVaccinationCertificate(valueSet).apply {
-            firstName shouldBe "Erika Dörte"
-            lastName shouldBe "Schmitt Mustermann"
-            dateOfBirth shouldBe LocalDate.parse("1964-08-12")
-            vaccinatedAt shouldBe LocalDate.parse("2021-02-02")
+        VaccinationContainer(
+            vaccinationCertificateCOSE = VaccinationTestData.PERSON_A_VAC_1_COSE,
+            scannedAt = Instant.ofEpochSecond(123456789)
+        ).toVaccinationCertificate(valueSet).apply {
+            firstName shouldBe "Andreas"
+            lastName shouldBe "Astrá Eins"
+            dateOfBirth shouldBe LocalDate.parse("1966-11-11")
+            vaccinatedAt shouldBe LocalDate.parse("2021-03-01")
             vaccineName shouldBe "Vaccine-Name"
             vaccineManufacturer shouldBe "Manufactorer-Name"
             medicalProductName shouldBe "MedicalProduct-Name"
-            doseNumber shouldBe 2
+            doseNumber shouldBe 1
             totalSeriesOfDoses shouldBe 2
-            certificateIssuer shouldBe "Bundesministerium für Gesundheit"
+            certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe Country.DE
-            certificateId shouldBe "01DE/84503/1119349007/DXSGWLWL40SU8ZFKIYIBK39A3#S"
+            certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
             personIdentifier shouldBe VaccinatedPersonIdentifier(
-                dateOfBirth = LocalDate.parse("1964-08-12"),
-                firstNameStandardized = "ERIKA<DOERTE",
-                lastNameStandardized = "SCHMITT<MUSTERMANN"
+                dateOfBirth = LocalDate.parse("1966-11-11"),
+                firstNameStandardized = "ANDREAS",
+                lastNameStandardized = "ASTRA<EINS"
             )
         }
     }

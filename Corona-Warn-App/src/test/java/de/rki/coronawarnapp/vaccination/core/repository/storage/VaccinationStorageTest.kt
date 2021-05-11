@@ -57,17 +57,25 @@ class VaccinationStorageTest : BaseTest() {
         instance.personContainers = setOf(VaccinationTestData.PERSON_C_DATA_1VAC_NOPROOF)
 
         val json =
-            (mockPreferences.dataMapPeek["vaccination.person.1964-08-12#SCHMITT<MUSTERMANN#ERIKA<DOERTE"] as String)
+            (mockPreferences.dataMapPeek["vaccination.person.1966-11-11#ASTRA<EINS#ANDREAS"] as String)
 
         json.toComparableJsonPretty() shouldBe """
             {
                 "vaccinationData": [
                     {
-                        "vaccinationCertificateCOSE": "${VaccinationTestData.PERSON_C_VAC_1_COSE.data.base64()}",
+                        "vaccinationCertificateCOSE": "${VaccinationTestData.PERSON_A_VAC_1_COSE.data.base64()}",
                         "scannedAt": 1620062834471
+                    }, {
+                        "vaccinationCertificateCOSE": "${VaccinationTestData.PERSON_A_VAC_2_COSE.data.base64()}",
+                        "scannedAt": 1620069934471
                     }
                 ],
-                "proofData": [],
+                "proofData": [
+                    {
+                        "proofCertificateCOSE": "0oRDoQEmoQRQqs76QaMRQrC+bjTS2a3mSFkBK6QBYkRFBBpgo+nnBhpgmk2wOQEDoQGkYXaBqmJjaXgxMDFERS8wMDAwMS8xMTE5MzA1MDA1LzZJUFlCQUlEV0VXUldXNzNRRVA5MkZRU04jU2Jjb2JERWJkbgJiZHRqMjAyMS0wNC0yN2Jpc3gqQnVuZGVzbWluaXN0ZXJpdW0gZsO8ciBHZXN1bmRoZWl0IC0gVGVzdDAxYm1hbU9SRy0xMDAwMDE2OTlibXBsRVUvMS8yMS8xNTI5YnNkAmJ0Z2k4NDA1MzkwMDZidnBqMTExOTMwNTAwNWNkb2JqMTk2Ni0xMS0xMWNuYW2kYmZua0FzdHLDoSBFaW5zYmduZ0FuZHJlYXNjZm50akFTVFJBPEVJTlNjZ250Z0FORFJFQVNjdmVyZTEuMC4wWEC+Y2lLfL80dTSNr6McGcjQw6thEA9CTWF/doSUJh0B728ktjaCt40kn9ABTfuh/WYTdDqzWe7DFFGz7VhNbBm0",
+                        "receivedAt": 1620062839471
+                    }
+                ],
                 "lastSuccessfulProofCertificateRun": 0,
                 "proofCertificateRunPending": false
             }
@@ -75,8 +83,11 @@ class VaccinationStorageTest : BaseTest() {
 
         instance.personContainers.single().apply {
             this shouldBe VaccinationTestData.PERSON_C_DATA_1VAC_NOPROOF
-            this.vaccinations.single().vaccinationCertificateCOSE shouldBe VaccinationTestData.PERSON_C_VAC_1_COSE
-            this.proofs shouldBe emptySet()
+            this.vaccinations shouldBe setOf(
+                VaccinationTestData.PERSON_A_VAC_1_CONTAINER,
+                VaccinationTestData.PERSON_A_VAC_2_CONTAINER,
+            )
+            this.proofs shouldBe setOf(VaccinationTestData.PERSON_A_PROOF_CONTAINER)
         }
     }
 }
