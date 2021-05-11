@@ -1,35 +1,28 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
-import com.google.gson.Gson
-import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateCOSEDecoder
-import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateHeaderParser
+import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
-import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1Parser
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import javax.inject.Inject
 
 class VaccinationQRCodeExtractorTest : BaseTest() {
 
-    private val coseDecoder = HealthCertificateCOSEDecoder()
-    private val headerParser = HealthCertificateHeaderParser()
-    private val bodyParser = VaccinationDGCV1Parser(Gson())
-    private val vaccinationCertificateCOSEParser = VaccinationCertificateCOSEParser(
-        coseDecoder = coseDecoder,
-        headerParser = headerParser,
-        bodyParser = bodyParser
-    )
+    @Inject lateinit var extractor: VaccinationQRCodeExtractor
 
-    private val extractor = VaccinationQRCodeExtractor(
-        vaccinationCertificateCOSEParser = vaccinationCertificateCOSEParser,
-    )
+    @BeforeEach
+    fun setup() {
+        DaggerVaccinationTestComponent.factory().create().inject(this)
+    }
 
     @Test
     fun `happy path extraction`() {
