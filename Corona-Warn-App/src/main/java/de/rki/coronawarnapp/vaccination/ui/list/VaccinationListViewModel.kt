@@ -61,7 +61,11 @@ class VaccinationListViewModel @AssistedInject constructor(
 
     private val vaccinationStatusFlow = MutableStateFlow(INCOMPLETE)
 
-    val uiState: LiveData<UiState> = combine(vaccinationInfoFlow, proofQrCode, vaccinationStatusFlow) { vaccinatedPerson, proofQrCode, vaccinationStatus ->
+    val uiState: LiveData<UiState> = combine(
+        vaccinationInfoFlow,
+        proofQrCode,
+        vaccinationStatusFlow
+    ) { vaccinatedPerson, proofQrCode, vaccinationStatus ->
 
         val proofCertificates = setOf(
             getMockProofCertificate()
