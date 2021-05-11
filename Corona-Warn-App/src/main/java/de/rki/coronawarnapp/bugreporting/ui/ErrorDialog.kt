@@ -41,17 +41,13 @@ private fun MaterialAlertDialogBuilder.setMessageView(
     setView(textView)
 }
 
-fun Throwable.toErrorDialogBuilder(context: Context, onDismiss: () -> Unit = { }) =
+fun Throwable.toErrorDialogBuilder(context: Context) =
     MaterialAlertDialogBuilder(context).apply {
         val error = this@toErrorDialogBuilder
         val humanReadable = error.tryHumanReadableError(context)
 
         setTitle(humanReadable.title ?: context.getString(R.string.errors_generic_headline_short))
         setMessageView(humanReadable.description, textHasLinks = true)
-
-        setOnDismissListener {
-            onDismiss()
-        }
 
         setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
 

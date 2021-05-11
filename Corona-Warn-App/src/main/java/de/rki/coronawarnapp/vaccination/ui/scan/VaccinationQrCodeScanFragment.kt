@@ -46,7 +46,7 @@ class VaccinationQrCodeScanFragment :
             qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
         }
 
-        viewModel.event.observe(this) { event ->
+        viewModel.event.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is VaccinationQrCodeScanViewModel.Event.QrCodeScanSucceeded -> {
                     binding.qrCodeScanSpinner.isGone = true
@@ -61,9 +61,11 @@ class VaccinationQrCodeScanFragment :
             }
         }
 
-        viewModel.errorEvent.observe(this) {
+        viewModel.errorEvent.observe(viewLifecycleOwner) {
             binding.qrCodeScanSpinner.isGone = true
-            it.toErrorDialogBuilder(requireContext()) { popBackStack() }.show()
+            it.toErrorDialogBuilder(requireContext()).apply {
+                setOnDismissListener { popBackStack() }
+            }.show()
         }
     }
 

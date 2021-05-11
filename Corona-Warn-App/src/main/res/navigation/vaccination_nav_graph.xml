@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/vaccinationQrCodeScanFragment"
         android:name="de.rki.coronawarnapp.vaccination.ui.scan.VaccinationQrCodeScanFragment"
-        android:label="VaccinationQrCodeScanFragment">
+        android:label="VaccinationQrCodeScanFragment"
+        tools:layout="@layout/fragment_scan_qr_code">
         <action
             android:id="@+id/action_vaccinationQrCodeScanFragment_to_vaccinationDetailsFragment"
             app:destination="@id/vaccinationDetailsFragment"

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import com.google.gson.Gson
 import com.upokecenter.cbor.CBORObject
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_DGC
@@ -13,7 +14,9 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateExce
 import org.joda.time.Instant
 import javax.inject.Inject
 
-class VaccinationCertificateV1Parser @Inject constructor() {
+class VaccinationCertificateV1Parser @Inject constructor(
+    @BaseGson private val gson: Gson
+) {
 
     companion object {
         private val keyEuDgcV1 = CBORObject.FromObject(1)
@@ -57,7 +60,7 @@ class VaccinationCertificateV1Parser @Inject constructor() {
 
     private fun CBORObject.toCertificate() = try {
         val json = ToJSONString()
-        Gson().fromJson<VaccinationCertificateV1>(json)
+        gson.fromJson<VaccinationCertificateV1>(json)
     } catch (e: Throwable) {
         throw InvalidHealthCertificateException(VC_JSON_SCHEMA_INVALID)
     }
