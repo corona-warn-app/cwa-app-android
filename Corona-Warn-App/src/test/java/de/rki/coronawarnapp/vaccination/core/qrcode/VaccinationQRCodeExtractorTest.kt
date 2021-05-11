@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
-import de.rki.coronawarnapp.util.compression.ZLIBDecompressor
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateHeaderParser
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1Parser
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
@@ -17,16 +17,17 @@ import testhelpers.BaseTest
 
 class VaccinationQRCodeExtractorTest : BaseTest() {
 
-    private val zLIBDecompressor = ZLIBDecompressor()
-    private val healthCertificateCOSEDecoder = HealthCertificateCOSEDecoder()
-    private val headerCOSEParser = HealthCertificateHeaderParser()
-    private val vaccinationDGCV1Parser = VaccinationDGCV1Parser(Gson())
+    private val coseDecoder = HealthCertificateCOSEDecoder()
+    private val headerParser = HealthCertificateHeaderParser()
+    private val bodyParser = VaccinationDGCV1Parser()
+    private val vaccinationCertificateCOSEParser = VaccinationCertificateCOSEParser(
+        coseDecoder = coseDecoder,
+        headerParser = headerParser,
+        bodyParser = bodyParser
+    )
 
     private val extractor = VaccinationQRCodeExtractor(
-        zLIBDecompressor = zLIBDecompressor,
-        healthCertificateCOSEDecoder = healthCertificateCOSEDecoder,
-        headerParser = headerCOSEParser,
-        vaccinationDGCV1Parser = vaccinationDGCV1Parser
+        vaccinationCertificateCOSEParser = vaccinationCertificateCOSEParser,
     )
 
     @Test
@@ -49,7 +50,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
             expiresAt shouldBe Instant.ofEpochSecond(1620564821)
         }
 
-        with(qrCode.parsedData.vaccinationCertificate) {
+        with(qrCode.parsedData.certificate) {
             with(nameData) {
                 familyName shouldBe "Musterfrau-Gößinger"
                 familyNameStandardized shouldBe "MUSTERFRAU<GOESSINGER"
