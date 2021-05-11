@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
-import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
@@ -44,25 +43,26 @@ class VaccinationQrCodeScanFragment :
             qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
             qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
+            qrCodeScanSpinner.hide()
         }
 
         viewModel.event.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is VaccinationQrCodeScanViewModel.Event.QrCodeScanSucceeded -> {
-                    binding.qrCodeScanSpinner.isGone = true
+                    binding.qrCodeScanSpinner.hide()
                     doNavigate(
                         VaccinationQrCodeScanFragmentDirections
                             .actionVaccinationQrCodeScanFragmentToVaccinationDetailsFragment(event.certificateId)
                     )
                 }
                 VaccinationQrCodeScanViewModel.Event.QrCodeScanInProgress -> {
-                    binding.qrCodeScanSpinner.isGone = false
+                    binding.qrCodeScanSpinner.show()
                 }
             }
         }
 
         viewModel.errorEvent.observe(viewLifecycleOwner) {
-            binding.qrCodeScanSpinner.isGone = true
+            binding.qrCodeScanSpinner.hide()
             it.toErrorDialogBuilder(requireContext()).apply {
                 setOnDismissListener { popBackStack() }
             }.show()

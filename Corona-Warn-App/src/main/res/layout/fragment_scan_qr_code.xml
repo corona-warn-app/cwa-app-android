@@ -42,13 +42,15 @@
         app:layout_constraintStart_toStartOf="@id/qr_code_scan_preview"
         app:layout_constraintTop_toBottomOf="@id/qr_code_scan_guideline_center" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/qr_code_scan_spinner"
-        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:visibility="gone"
+        android:indeterminate="true"
+        app:indicatorColor="@android:color/white"
+        app:indicatorSize="64dp"
+        app:trackColor="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="@id/qr_code_scan_body"
         app:layout_constraintStart_toStartOf="@id/qr_code_scan_body"
         app:layout_constraintTop_toBottomOf="@id/qr_code_scan_body" />
