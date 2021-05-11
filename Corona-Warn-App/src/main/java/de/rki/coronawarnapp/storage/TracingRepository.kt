@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.storage
 import android.annotation.SuppressLint
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.lastSubmission
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
@@ -34,8 +33,6 @@ import javax.inject.Singleton
 /**
  * The Tracing Repository refreshes and triggers all tracing relevant data. Some functions get their
  * data directly from the Exposure Notification, others consume the shared preferences.
- *
- * @see InternalExposureNotificationClient
  */
 @Singleton
 class TracingRepository @Inject constructor(
