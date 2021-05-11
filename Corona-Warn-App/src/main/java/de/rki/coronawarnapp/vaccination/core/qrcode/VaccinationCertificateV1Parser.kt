@@ -24,39 +24,30 @@ class VaccinationCertificateV1Parser @Inject constructor() {
     }
 
     fun parse(map: CBORObject): VaccinationCertificateData = try {
-        var issuer: String? = null
-        map[keyIssuer]?.let {
-            issuer = it.AsString()
-        }
-        issuer ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
+        val issuer: String = map[keyIssuer]?.AsString() ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
 
-        var issuedAt: Instant? = null
-        map[keyIssuedAt]?.let {
-            issuedAt = Instant.ofEpochSecond(it.AsNumber().ToInt64Checked())
-        }
-        issuedAt ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
+        val issuedAt: Instant = map[keyIssuedAt]?.run {
+            Instant.ofEpochSecond(AsNumber().ToInt64Checked())
+        } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
 
-        var expiresAt: Instant? = null
-        map[keyExpiresAt]?.let {
-            expiresAt = Instant.ofEpochSecond(it.AsNumber().ToInt64Checked())
-        }
-        expiresAt ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_EXP)
+        val expiresAt: Instant = map[keyExpiresAt]?.run {
+            Instant.ofEpochSecond(AsNumber().ToInt64Checked())
+        } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_EXP)
 
-        var certificate: VaccinationCertificateV1? = null
-        map[keyHCert]?.let { hcert ->
-            hcert[keyEuDgcV1]?.let {
-                certificate = it.toCertificate()
+        val certificate: VaccinationCertificateV1 = map[keyHCert]?.run {
+            this[keyEuDgcV1]?.run {
+                toCertificate()
             } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_DGC)
         } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_HCERT)
 
         val header = VaccinationCertificateHeader(
-            issuer = issuer!!,
-            issuedAt = issuedAt!!,
-            expiresAt = expiresAt!!
+            issuer = issuer,
+            issuedAt = issuedAt,
+            expiresAt = expiresAt
         )
         VaccinationCertificateData(
             header,
-            certificate!!.validate()
+            certificate.validate()
         )
     } catch (e: InvalidHealthCertificateException) {
         throw e

@@ -41,21 +41,26 @@ private fun MaterialAlertDialogBuilder.setMessageView(
     setView(textView)
 }
 
-fun Throwable.toErrorDialogBuilder(context: Context) = MaterialAlertDialogBuilder(context).apply {
-    val error = this@toErrorDialogBuilder
-    val humanReadable = error.tryHumanReadableError(context)
+fun Throwable.toErrorDialogBuilder(context: Context, onDismiss: () -> Unit = { }) =
+    MaterialAlertDialogBuilder(context).apply {
+        val error = this@toErrorDialogBuilder
+        val humanReadable = error.tryHumanReadableError(context)
 
-    setTitle(humanReadable.title ?: context.getString(R.string.errors_generic_headline_short))
-    setMessageView(humanReadable.description, textHasLinks = true)
+        setTitle(humanReadable.title ?: context.getString(R.string.errors_generic_headline_short))
+        setMessageView(humanReadable.description, textHasLinks = true)
 
-    setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
+        setOnDismissListener {
+            onDismiss()
+        }
 
-    setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->
-        MaterialAlertDialogBuilder(context).apply {
-            setMessageView(
-                error.toString() + "\n\n" + error.stackTraceToString(),
-                textHasLinks = false
-            )
-        }.show()
+        setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
+
+        setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->
+            MaterialAlertDialogBuilder(context).apply {
+                setMessageView(
+                    error.toString() + "\n\n" + error.stackTraceToString(),
+                    textHasLinks = false
+                )
+            }.show()
+        }
     }
-}

@@ -63,8 +63,7 @@ class VaccinationQrCodeScanFragment :
 
         viewModel.errorEvent.observe(this) {
             binding.qrCodeScanSpinner.isGone = true
-            it.toErrorDialogBuilder(requireContext()).show()
-            popBackStack()
+            it.toErrorDialogBuilder(requireContext()) { popBackStack() }.show()
         }
     }
 
