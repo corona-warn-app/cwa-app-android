@@ -25,7 +25,7 @@ class VaccinationStorage @Inject constructor(
         baseGson
     }
 
-    var personContainers: Set<PersonData>
+    var personContainers: Set<VaccinatedPersonData>
         get() {
             Timber.tag(TAG).d("vaccinatedPersons - load()")
             val persons = prefs.all.mapNotNull { (key, value) ->
@@ -33,7 +33,7 @@ class VaccinationStorage @Inject constructor(
                     return@mapNotNull null
                 }
                 value as String
-                gson.fromJson<PersonData>(value).also {
+                gson.fromJson<VaccinatedPersonData>(value).also {
                     Timber.tag(TAG).v("Person loaded: %s", it)
                     requireNotNull(it.identifier)
                 }

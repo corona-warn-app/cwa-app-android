@@ -860,7 +860,7 @@
     <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/de/faq/#error_log"</string>
     <!-- YTXT: Title of ID History -->
-    <string name="debugging_debuglog_id_history_title">"ID Historie"</string>
+    <string name="debugging_debuglog_id_history_title">"ID-Historie"</string>
     <!-- YTXT: Description of ID History -->
     <string name="debugging_debuglog_id_history_body">"IDs der bisher geteilten Fehleranalysen"</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
@@ -1624,7 +1624,7 @@
     <!-- XTXT: error dialog - short text for error reason -->
     <string name="errors_generic_details_headline">"Ursache"</string>
     <!-- XBUT: error dialog - button close -->
-    <string name="errors_generic_button_positive">"Okay"</string>
+    <string name="errors_generic_button_positive">"Ok"</string>
     <!-- XBUT: error dialog - button show details -->
     <string name="errors_generic_button_negative">"Details"</string>
     <!-- XTXT: error dialog - text when no error description is available  -->
@@ -1942,7 +1942,7 @@
     <!-- XBUT: Duration dialog cancel button -->
     <string name="duration_dialog_cancel_button">Abbrechen</string>
     <!-- XBUT: Duration dialog ok button -->
-    <string name="duration_dialog_ok_button">OK</string>
+    <string name="duration_dialog_ok_button">Ok</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">00:00</string>
     <!-- XTXT: Duration hours text -->
@@ -2002,7 +2002,7 @@
     <!-- XBUT: Trace location check-ins consent screen skip button -->
     <string name="trace_location_attendee_consent_skip">Überspringen</string>
     <!-- XHED: Trace location check-ins consent screen dialog title -->
-    <string name="trace_location_attendee_consent_dialog_title">Sind Sie sicher, dass Sie Ihre Check-Ins nicht teilen wollen?</string>
+    <string name="trace_location_attendee_consent_dialog_title">Sind Sie sicher, dass Sie Ihre Check-ins nicht teilen wollen?</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
     <string name="trace_location_attendee_consent_dialog_message">Dadurch werden andere, die in Ihrer Nähe waren, nicht gewarnt.</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
@@ -2018,13 +2018,6 @@
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">OK</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">Abbrechen</string>
-
-    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title">"Impfzertifikat registrieren"</string>
-    <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_body">"Scannen Sie den QR-Code auf Ihrem Impfzertifikat, um Ihre Impfung zu registrieren und einen digitalen Impfnachweis zu erhalten."</string>
-    <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_register">"Registrieren"</string>
 
     <!-- ####################################
         Incompatibility warning card
