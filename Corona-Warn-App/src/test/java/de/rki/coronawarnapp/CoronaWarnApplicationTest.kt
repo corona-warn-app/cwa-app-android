@@ -45,40 +45,38 @@ import java.security.Security
 
 class CoronaWarnApplicationTest : BaseTest() {
 
-    @MockK(relaxed = true) lateinit var applicationComponent: ApplicationComponent
-    @MockK(relaxed = true) lateinit var androidInjector: DispatchingAndroidInjector<Any>
-    @MockK(relaxed = true) lateinit var watchdogService: WatchdogService
-    @MockK(relaxed = true) lateinit var taskController: TaskController
-    @MockK(relaxed = true) lateinit var foregroundState: ForegroundState
-    @MockK(relaxed = true) lateinit var workManager: WorkManager
-    @MockK(relaxed = true) lateinit var configChangeDetector: ConfigChangeDetector
-    @MockK(relaxed = true) lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
-    @MockK(relaxed = true) lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
-    @MockK(relaxed = true) lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
-    @MockK(relaxed = true) lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
-    @MockK(relaxed = true) lateinit var notificationHelper: GeneralNotifications
-    @MockK(relaxed = true) lateinit var deviceTimeHandler: DeviceTimeHandler
-    @MockK(relaxed = true) lateinit var autoSubmission: AutoSubmission
-    @MockK(relaxed = true) lateinit var coronaTestRepository: CoronaTestRepository
-    @MockK(relaxed = true) lateinit var autoCheckOut: AutoCheckOut
-    @MockK(relaxed = true) lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
-    @MockK(relaxed = true) lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
-    @MockK(relaxed = true) lateinit var exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler
-    @MockK(relaxed = true) lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler
-    @MockK(relaxed = true) lateinit var pcrTestResultScheduler: PCRResultScheduler
-    @MockK(relaxed = true) lateinit var raTestResultScheduler: RAResultScheduler
+    @MockK lateinit var applicationComponent: ApplicationComponent
+    @MockK lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    @MockK lateinit var watchdogService: WatchdogService
+    @MockK lateinit var taskController: TaskController
+    @MockK lateinit var foregroundState: ForegroundState
+    @MockK lateinit var workManager: WorkManager
+    @MockK lateinit var configChangeDetector: ConfigChangeDetector
+    @MockK lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
+    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @MockK lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
+    @MockK lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
+    @MockK lateinit var notificationHelper: GeneralNotifications
+    @MockK lateinit var deviceTimeHandler: DeviceTimeHandler
+    @MockK lateinit var autoSubmission: AutoSubmission
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var autoCheckOut: AutoCheckOut
+    @MockK lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
+    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
+    @MockK lateinit var exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler
+    @MockK lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler
+    @MockK lateinit var pcrTestResultScheduler: PCRResultScheduler
+    @MockK lateinit var raTestResultScheduler: RAResultScheduler
 
-    @MockK(relaxed = true)
-    lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
+    @MockK lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
 
-    @MockK(relaxed = true)
-    lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
-    @MockK(relaxed = true) lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
-    @MockK(relaxed = true) lateinit var rollingLogHistory: Timber.Tree
+    @MockK lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
+    @MockK lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
+    @MockK lateinit var rollingLogHistory: Timber.Tree
 
     @BeforeEach
     fun setup() {
-        MockKAnnotations.init(this)
+        MockKAnnotations.init(this, relaxed = true)
 
         mockkStatic(Conscrypt::class)
         every { Conscrypt.newProvider() } returns mockk()

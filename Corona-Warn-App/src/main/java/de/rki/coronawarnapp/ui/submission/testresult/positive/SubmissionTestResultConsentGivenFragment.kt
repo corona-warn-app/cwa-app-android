@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.ui.submission.testresult.positive
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultConsentGivenBinding
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
@@ -107,7 +107,7 @@ class SubmissionTestResultConsentGivenFragment :
     }
 
     private fun showCancelDialog() {
-        AlertDialog.Builder(requireContext()).apply {
+        MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
             setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
             setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->

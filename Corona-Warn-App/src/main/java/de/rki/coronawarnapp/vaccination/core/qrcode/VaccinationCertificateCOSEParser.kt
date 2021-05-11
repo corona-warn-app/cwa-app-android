@@ -31,7 +31,7 @@ class VaccinationCertificateCOSEParser @Inject constructor(
 
     private fun CBORObject.decodeCBORObject(): VaccinationCertificateData {
         return try {
-            vaccinationCertificateV1Parser.decode(this)
+            vaccinationCertificateV1Parser.parse(this)
         } catch (e: Exception) {
             Timber.e(e)
             throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)

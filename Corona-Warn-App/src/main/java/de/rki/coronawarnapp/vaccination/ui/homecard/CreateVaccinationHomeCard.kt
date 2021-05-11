@@ -1,30 +1,37 @@
-package de.rki.coronawarnapp.vaccination.ui.homecards
+package de.rki.coronawarnapp.vaccination.ui.homecard
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.HomeVaccinationRegistrationCardBinding
+import de.rki.coronawarnapp.databinding.VaccinationHomeRegistrationCardBinding
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class CreateVaccinationHomeCard(parent: ViewGroup) :
-    HomeAdapter.HomeItemVH<CreateVaccinationHomeCard.Item, HomeVaccinationRegistrationCardBinding>(
+    HomeAdapter.HomeItemVH<CreateVaccinationHomeCard.Item, VaccinationHomeRegistrationCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ) {
 
     override val viewBinding = lazy {
-        HomeVaccinationRegistrationCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        VaccinationHomeRegistrationCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: HomeVaccinationRegistrationCardBinding.(
+    override val onBindData: VaccinationHomeRegistrationCardBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        itemView.setOnClickListener {
+        fun onClick() {
             val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
             curItem.onClickAction(item)
+        }
+
+        itemView.setOnClickListener {
+            onClick()
+        }
+        nextStepsAction.setOnClickListener {
+            onClick()
         }
     }
 
