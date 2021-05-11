@@ -13,6 +13,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 
 internal class SubmissionTestResultNoConsentViewModelTest : BaseTest() {
 
@@ -26,6 +27,7 @@ internal class SubmissionTestResultNoConsentViewModelTest : BaseTest() {
     }
 
     private fun createInstance(testType: Type) = SubmissionTestResultNoConsentViewModel(
+        TestDispatcherProvider(),
         submissionRepository,
         testResultAvailableNotificationService,
         analyticsKeySubmissionCollector,
