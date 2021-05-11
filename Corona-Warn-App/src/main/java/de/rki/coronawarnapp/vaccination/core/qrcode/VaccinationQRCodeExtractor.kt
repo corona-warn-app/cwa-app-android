@@ -2,18 +2,18 @@ package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import com.upokecenter.cbor.CBORObject
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
-import de.rki.coronawarnapp.vaccination.core.RawCOSEObject
+import de.rki.coronawarnapp.util.encoding.decodeBase45
+import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
-import de.rki.coronawarnapp.vaccination.decoder.Base45Decoder
 import de.rki.coronawarnapp.vaccination.decoder.ZLIBDecompressor
+import okio.ByteString
 import timber.log.Timber
 import javax.inject.Inject
 
 class VaccinationQRCodeExtractor @Inject constructor(
-    private val base45Decoder: Base45Decoder,
     private val zLIBDecompressor: ZLIBDecompressor,
     private val healthCertificateCOSEDecoder: HealthCertificateCOSEDecoder,
     private val vaccinationCertificateV1Parser: VaccinationCertificateV1Parser,
@@ -28,7 +28,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
     override fun extract(rawString: String): VaccinationCertificateQRCode {
         val rawCOSEObject = rawString
             .removePrefix(prefix)
-            .decodeBase45()
+            .tryDecodeBase45()
             .decompress()
         val certificate = rawCOSEObject
             .decodeCOSEObject()
@@ -39,15 +39,15 @@ class VaccinationQRCodeExtractor @Inject constructor(
         )
     }
 
-    private fun String.decodeBase45(): ByteArray = try {
-        base45Decoder.decode(this)
+    private fun String.tryDecodeBase45(): ByteString = try {
+        this.decodeBase45()
     } catch (e: Exception) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
     }
 
-    private fun ByteArray.decompress(): RawCOSEObject = try {
-        RawCOSEObject(zLIBDecompressor.decode(this))
+    private fun ByteString.decompress(): RawCOSEObject = try {
+        RawCOSEObject(zLIBDecompressor.decode(this.toByteArray()))
     } catch (e: Exception) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)

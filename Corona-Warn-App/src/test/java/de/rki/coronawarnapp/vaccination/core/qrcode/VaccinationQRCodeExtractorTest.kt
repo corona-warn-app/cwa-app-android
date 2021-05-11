@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateExce
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
-import de.rki.coronawarnapp.vaccination.decoder.Base45Decoder
 import de.rki.coronawarnapp.vaccination.decoder.ZLIBDecompressor
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -13,14 +12,12 @@ import testhelpers.BaseTest
 
 class VaccinationQRCodeExtractorTest : BaseTest() {
 
-    private val base45Decoder = Base45Decoder()
-    private val ZLIBDecompressor = ZLIBDecompressor()
+    private val zLIBDecompressor = ZLIBDecompressor()
     private val healthCertificateCOSEDecoder = HealthCertificateCOSEDecoder()
     private val vaccinationCertificateV1Decoder = VaccinationCertificateV1Parser()
 
     private val extractor = VaccinationQRCodeExtractor(
-        base45Decoder,
-        ZLIBDecompressor,
+        zLIBDecompressor,
         healthCertificateCOSEDecoder,
         vaccinationCertificateV1Decoder
     )

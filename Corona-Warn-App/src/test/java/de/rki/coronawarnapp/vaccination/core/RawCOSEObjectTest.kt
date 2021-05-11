@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.vaccination.core
 
 import com.google.gson.GsonBuilder
 import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.BeforeEach

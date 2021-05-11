@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.vaccination.core.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

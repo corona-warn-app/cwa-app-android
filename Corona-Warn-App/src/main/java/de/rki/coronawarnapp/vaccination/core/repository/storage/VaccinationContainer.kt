@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.ui.Country
-import de.rki.coronawarnapp.vaccination.core.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser

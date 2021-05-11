@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import com.upokecenter.cbor.CBORObject
-import de.rki.coronawarnapp.vaccination.core.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
 import timber.log.Timber

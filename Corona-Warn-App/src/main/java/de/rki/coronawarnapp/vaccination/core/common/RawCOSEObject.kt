@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.core
+package de.rki.coronawarnapp.vaccination.core.common
 
 import com.google.gson.JsonParseException
 import com.google.gson.TypeAdapter
@@ -10,7 +10,7 @@ import okio.ByteString.Companion.toByteString
 import org.json.JSONObject
 
 data class RawCOSEObject(
-    private val data: ByteString
+    val data: ByteString
 ) {
     constructor(data: ByteArray) : this(data.toByteString())
 
@@ -37,5 +37,3 @@ data class RawCOSEObject(
         }
     }
 }
-
-

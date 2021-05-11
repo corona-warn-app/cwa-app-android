@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.vaccination.core.server.proof
 
+import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
-import okio.ByteString
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 class ProofCertificateCOSEParser {
 
-    fun parse(proofCOSE: ByteString): ProofCertificateData {
+    fun parse(proofCOSE: RawCOSEObject): ProofCertificateData {
         // TODO
         val cert = ProofCertificateV1(
             version = "1.0.0",
