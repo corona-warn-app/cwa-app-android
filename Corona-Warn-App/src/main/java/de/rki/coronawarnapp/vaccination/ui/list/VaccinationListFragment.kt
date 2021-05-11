@@ -99,8 +99,6 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
         }
-
-
     }
 
     private fun setToolbarOverlay(isVaccinationComplete: Boolean) {
