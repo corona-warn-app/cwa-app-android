@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.tracing.ui.settings.SettingsTracingFragmentViewModel.Event
 import de.rki.coronawarnapp.util.DialogHelper
@@ -24,8 +23,6 @@ import javax.inject.Inject
 
 /**
  * The user can start/stop tracing and is informed about tracing.
- *
- * @see InternalExposureNotificationClient
  */
 class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), AutoInject {
 

@@ -860,7 +860,7 @@
     <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/de/faq/#error_log"</string>
     <!-- YTXT: Title of ID History -->
-    <string name="debugging_debuglog_id_history_title">"ID Historie"</string>
+    <string name="debugging_debuglog_id_history_title">"ID-Historie"</string>
     <!-- YTXT: Description of ID History -->
     <string name="debugging_debuglog_id_history_body">"IDs der bisher geteilten Fehleranalysen"</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
@@ -1994,7 +1994,7 @@
     <!-- XHED: Trace location check-ins consent screen title -->
     <string name="trace_location_attendee_consent_title">Check-ins für diese Orte teilen?</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">Teilen Sie Ihre Check-ins, um andere zu warnen, die in Ihrer Nähe waren. Ihre Identität bleibt geheim.</string>
+    <string name="trace_location_attendee_consent_header_description">Teilen Sie Ihre Check-ins, um andere zu warnen, die mit Ihnen eingecheckt waren. Ihre Identität bleibt geheim.</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
     <string name="trace_location_attendee_consent_header_button">Alle auswählen</string>
     <!-- XBUT: Trace location check-ins consent screen continue button -->
@@ -2004,7 +2004,7 @@
     <!-- XHED: Trace location check-ins consent screen dialog title -->
     <string name="trace_location_attendee_consent_dialog_title">Sind Sie sicher, dass Sie Ihre Check-ins nicht teilen wollen?</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">Dadurch werden andere, die in Ihrer Nähe waren, nicht gewarnt.</string>
+    <string name="trace_location_attendee_consent_dialog_message">Dadurch werden andere nicht gewarnt, die mit Ihnen eingecheckt waren.</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
     <string name="trace_location_attendee_consent_dialog_positive_button">Teilen</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
