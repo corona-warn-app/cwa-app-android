@@ -1,7 +1,11 @@
 package de.rki.coronawarnapp.exception.http
 
+import android.content.Context
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.reporting.ErrorCodes
 import de.rki.coronawarnapp.exception.reporting.ReportedIOException
+import de.rki.coronawarnapp.util.HasHumanReadableError
+import de.rki.coronawarnapp.util.HumanReadableError
 
 open class CwaWebException(
     val statusCode: Int,
@@ -21,11 +25,18 @@ open class CwaServerError(
     statusCode = statusCode,
     message = message,
     cause = cause
-) {
+),
+    HasHumanReadableError {
     init {
         if (statusCode !in 500..599) {
             throw IllegalArgumentException("Invalid HTTP server error code $statusCode (!= 5xx)")
         }
+    }
+
+    override fun toHumanReadableError(context: Context): HumanReadableError {
+        return HumanReadableError(
+            description = context.getString(R.string.submission_error_dialog_web_generic_network_error_body)
+        )
     }
 }
 
