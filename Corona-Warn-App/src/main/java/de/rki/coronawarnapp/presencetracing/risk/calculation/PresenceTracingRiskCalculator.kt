@@ -13,7 +13,7 @@ class PresenceTracingRiskCalculator @Inject constructor(
             checkInGroup.value.groupBy {
                 it.localDateUtc
             }.map { dateGroup ->
-                val normalizedTimeSum = dateGroup.value.sumByDouble {
+                val normalizedTimeSum = dateGroup.value.sumOf {
                     val value = presenceTracingRiskMapper.lookupTransmissionRiskValue(it.transmissionRiskLevel)
                     it.normalizedTime(value)
                 }
@@ -42,7 +42,7 @@ class PresenceTracingRiskCalculator @Inject constructor(
         list: List<CheckInNormalizedTime>
     ): List<PresenceTracingDayRisk> {
         return list.groupBy { it.localDateUtc }.map {
-            val normalizedTimePerDate = it.value.sumByDouble {
+            val normalizedTimePerDate = it.value.sumOf {
                 it.normalizedTime
             }
             PresenceTracingDayRisk(

@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@id/create_trace_location_card_headline"
         tools:text="@string/create_trace_location_card_subtitle" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+     <ImageView
         android:id="@+id/create_trace_location_card_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

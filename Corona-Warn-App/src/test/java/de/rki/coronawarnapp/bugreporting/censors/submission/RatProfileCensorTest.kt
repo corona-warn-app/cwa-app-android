@@ -7,7 +7,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.joda.time.format.DateTimeFormat
@@ -24,7 +23,7 @@ internal class RatProfileCensorTest : BaseTest() {
         MockKAnnotations.init(this)
     }
 
-    private fun createInstance(scope: CoroutineScope) = RatProfileCensor(
+    private fun createInstance() = RatProfileCensor(
         ratProfileSettings = ratProfileSettings
     )
 
@@ -32,7 +31,7 @@ internal class RatProfileCensorTest : BaseTest() {
     fun `checkLog() should return null if no RAT profile is stored`() = runBlocking {
         every { ratProfileSettings.profile.flow } returns flowOf(null)
 
-        val censor = createInstance(this)
+        val censor = createInstance()
 
         val logLine = LogLine(
             timestamp = 1,
@@ -49,7 +48,7 @@ internal class RatProfileCensorTest : BaseTest() {
     fun `checkLog() should return null if LogLine doesn't need to be censored`() = runBlocking {
         every { ratProfileSettings.profile.flow } returns flowOf(profile)
 
-        val censor = createInstance(this)
+        val censor = createInstance()
 
         val logLine = LogLine(
             timestamp = 1,
@@ -66,7 +65,7 @@ internal class RatProfileCensorTest : BaseTest() {
     fun `checkLog() should return censored LogLine`() = runBlocking {
         every { ratProfileSettings.profile.flow } returns flowOf(profile)
 
-        val censor = createInstance(this)
+        val censor = createInstance()
 
         val logLine = LogLine(
             timestamp = 1,

@@ -1038,7 +1038,7 @@
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Under “My Check-Ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
+    <string name="submission_consent_main_third_point">"Under “My Check-ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"You must be at least 16 years old to grant your consent."</string>
     <!-- YTXT: Body for consent main section final id consent  -->
@@ -1053,7 +1053,7 @@
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
-    <string name="submission_no_consent_fourth_point">"Under “My Check-Ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
+    <string name="submission_no_consent_fourth_point">"Under “My Check-ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
     <!-- YTXT: Body for no consent section fifth point  -->
     <string name="submission_no_consent_fifth_point">"You must be at least 16 years old to grant your consent."</string>
 
@@ -1163,7 +1163,7 @@
     <!-- YTXT: Body text for TAN code dispatcher option -->
     <string name="submission_dispatcher_tan_code_card_text">"Do you have a TAN for your PCR test? Tap here to enter your TAN so you can warn others."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"Request TAN for PCR Test?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"Request TAN for PCR Test"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Call us and get a TAN for your PCR test."</string>
     <!-- XACT: Dispatcher Tan page title -->
@@ -1815,7 +1815,7 @@
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Journal"</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
-    <string name="bottom_nav_check_ins_title">"Check In"</string>
+    <string name="bottom_nav_check_ins_title">"Check-in"</string>
 
     <!-- ####################################
            Data Donation & Survey
@@ -1954,7 +1954,7 @@
        Trace Location
     ###################################### -->
     <!-- XHED: Title for the trace location onboarding -->
-    <string name="trace_location_onboarding_title">"Check In"</string>
+    <string name="trace_location_onboarding_title">"Check-in"</string>
     <!-- XTXT: subtitle for the trace location onboarding -->
     <string name="trace_location_onboarding_title2">"Interrupt chains of infection quickly and reliably"</string>
     <!-- YMSG: Onboarding trace location intro section -->
@@ -1980,7 +1980,7 @@
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Print Version"</string>
     <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Share Location Check-Ins?"</string>
+    <string name="trace_location_attendee_consent_title">"Share location check-ins?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
     <string name="trace_location_attendee_consent_header_description">"Warn others who checked in near you. Your personal data will not be shared."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->

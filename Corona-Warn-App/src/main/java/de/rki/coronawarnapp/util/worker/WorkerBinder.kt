@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutW
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningWorker
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpPeriodicWorker
 import de.rki.coronawarnapp.submission.auto.SubmissionWorker
+import de.rki.coronawarnapp.vaccination.core.execution.worker.VaccinationUpdateWorker
 
 @Module
 abstract class WorkerBinder {
@@ -118,5 +119,12 @@ abstract class WorkerBinder {
     @WorkerKey(PresenceTracingWarningWorker::class)
     abstract fun traceWarningWorker(
         factory: PresenceTracingWarningWorker.Factory
+    ): InjectedWorkerFactory<out ListenableWorker>
+
+    @Binds
+    @IntoMap
+    @WorkerKey(VaccinationUpdateWorker::class)
+    abstract fun vaccinationUpdateWorker(
+        factory: VaccinationUpdateWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }
