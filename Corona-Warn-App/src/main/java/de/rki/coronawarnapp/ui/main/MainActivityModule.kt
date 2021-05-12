@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
 import de.rki.coronawarnapp.ui.presencetracing.PresenceTracingUIModule
+import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragment
+import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentModule
 import de.rki.coronawarnapp.ui.settings.SettingFragmentsModule
 import de.rki.coronawarnapp.ui.settings.SettingsResetFragment
 import de.rki.coronawarnapp.ui.settings.SettingsResetModule
@@ -50,6 +52,9 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [NewReleaseInfoFragmentModule::class])
     abstract fun newReleaseInfoScreen(): NewReleaseInfoFragment
+
+    @ContributesAndroidInjector(modules = [QrCodeFullScreenFragmentModule::class])
+    abstract fun qrCodeFullScreenFragment(): QrCodeFullScreenFragment
 
     @Binds
     @IntoMap

@@ -81,4 +81,5 @@
     <!-- Vaccination -->
     <color name="colorVaccinationCardBackground">#434445</color>
 
+    <color name="dividerColor">#4DFFFFFF</color>
 </resources>
