@@ -12,7 +12,7 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -30,6 +30,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -106,42 +107,32 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 return@observe2
             }
 
-            when (state.test?.testResult) {
-                CoronaTestResult.PCR_POSITIVE -> {
-                    NavGraphDirections
-                        .actionToSubmissionTestResultAvailableFragment(testType = CoronaTest.Type.PCR)
-                        .run { doNavigate(this) }
-                }
+            if (state.test == null) {
+                Timber.w("Successful API request, but test was null?")
+                return@observe2
+            }
 
-                CoronaTestResult.PCR_OR_RAT_PENDING -> {
-                    NavGraphDirections
-                        .actionSubmissionTestResultPendingFragment(testType = state.test.type)
-                        .run { doNavigate(this) }
-                }
+            when (state.test.testResult) {
+                CoronaTestResult.PCR_POSITIVE ->
+                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = Type.PCR)
+
+                CoronaTestResult.PCR_OR_RAT_PENDING ->
+                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
 
                 CoronaTestResult.PCR_NEGATIVE,
                 CoronaTestResult.PCR_INVALID,
-                CoronaTestResult.PCR_REDEEMED -> {
-                    NavGraphDirections
-                        .actionSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
-                        .run { doNavigate(this) }
-                }
+                CoronaTestResult.PCR_REDEEMED ->
+                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = Type.PCR)
 
-                CoronaTestResult.RAT_POSITIVE -> {
-                    NavGraphDirections
-                        .actionToSubmissionTestResultAvailableFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
-                        .run { doNavigate(this) }
-                }
+                CoronaTestResult.RAT_POSITIVE ->
+                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = Type.RAPID_ANTIGEN)
 
                 CoronaTestResult.RAT_NEGATIVE,
                 CoronaTestResult.RAT_INVALID,
                 CoronaTestResult.RAT_PENDING,
-                CoronaTestResult.RAT_REDEEMED -> {
-                    NavGraphDirections
-                        .actionSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
-                        .run { doNavigate(this) }
-                }
-            }
+                CoronaTestResult.RAT_REDEEMED ->
+                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = Type.RAPID_ANTIGEN)
+            }.run { doNavigate(this) }
         }
 
         viewModel.registrationError.observe2(this) {
