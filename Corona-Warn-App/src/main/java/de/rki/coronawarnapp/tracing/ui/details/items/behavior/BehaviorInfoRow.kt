@@ -65,6 +65,7 @@ class BehaviorInfoRow @JvmOverloads constructor(
     }
 
     fun setBackgroundTint(@ColorInt color: Int) {
+        @Suppress("DEPRECATION")
         when {
             BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.LOLLIPOP_MR1) ->
                 ViewCompat.setBackgroundTintList(iconBackground, ColorStateList.valueOf(color))

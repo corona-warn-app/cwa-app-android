@@ -1,12 +1,13 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
@@ -15,9 +16,10 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -27,6 +29,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment
 import javax.inject.Inject
 
 /**
@@ -44,7 +47,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     val binding: HomeFragmentLayoutBinding by viewBindingLazy()
 
-    @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
     @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog
 
@@ -53,7 +55,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeMenu.setupMenu(binding.toolbar)
+        with(binding.toolbar) {
+            menu.findItem(R.id.test_nav_graph).isVisible = CWADebug.isDeviceForTestersBuild
+            setOnMenuItemClickListener { it.onNavDestinationSelected(findNavController()) }
+        }
 
         viewModel.tracingHeaderState.observe2(this) {
             binding.tracingHeader = it
@@ -79,11 +84,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         viewModel.openFAQUrlEvent.observe2(this) {
-            ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
+            openUrl(getString(R.string.main_about_link))
         }
 
         viewModel.openIncompatibleEvent.observe2(this) {
-            ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.incompatible_link))
+            openUrl(getString(R.string.incompatible_link))
         }
 
         viewModel.openTraceLocationOrganizerFlow.observe2(this) {
@@ -93,6 +98,15 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 nestedGraph.startDestination = R.id.traceLocationsFragment
             }
             doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
+        }
+
+        viewModel.openVaccinationRegistrationFlow.observe2(this) {
+            if (viewModel.wasVaccinationRegistrationAcknowledged()) {
+                val nestedGraph =
+                    findNavController().graph.findNode(R.id.vaccination_nav_graph) as NavGraph
+                nestedGraph.startDestination = R.id.vaccinationQrCodeScanFragment
+            }
+            doNavigate(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
         }
 
         viewModel.popupEvents.observe2(this) { event ->
@@ -112,6 +126,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         viewModel.tracingExplanationWasShown()
                     }
                 }
+                is HomeFragmentEvents.GoToVaccinationList -> findNavController().navigate(
+                    VaccinationListFragment.navigationUri(event.vaccinatedPersonIdentifier)
+                )
             }
         }
 
@@ -161,7 +178,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE)
+            getButton(DialogInterface.BUTTON_POSITIVE)
                 .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }
@@ -178,7 +195,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         )
 
         DialogHelper.showDialog(riskLevelLoweredDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextTint))
+            getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextTint))
         }
     }
 }

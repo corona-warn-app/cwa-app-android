@@ -9,6 +9,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
+import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -25,12 +26,15 @@ class AppConfigApiTest : BaseIOTest() {
 
     private lateinit var webServer: MockWebServer
     private lateinit var serverAddress: String
+    private lateinit var cache: Cache
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        cache = Cache(File(testDir, "cache"), 1024L)
 
         webServer = MockWebServer()
         webServer.start()
@@ -57,7 +61,8 @@ class AppConfigApiTest : BaseIOTest() {
         return AppConfigModule().provideAppConfigApi(
             client = cdnHttpClient,
             url = serverAddress,
-            gsonConverterFactory = gsonConverterFactory
+            gsonConverterFactory = gsonConverterFactory,
+            cache = cache,
         )
     }
 

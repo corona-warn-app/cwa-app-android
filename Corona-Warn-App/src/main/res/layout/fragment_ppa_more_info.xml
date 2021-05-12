@@ -324,6 +324,7 @@
                         <TextView
                             android:id="@+id/rki_data_point_5_text"
                             style="@style/subtitle"
+                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_5_text" />
@@ -597,7 +598,7 @@
                     <TableRow
                         android:layout_marginTop="@dimen/spacing_small">
 
-                        <androidx.appcompat.widget.AppCompatImageView
+                         <ImageView
                             android:id="@+id/other_info_point_1"
                             android:layout_width="@dimen/bullet_point_size"
                             android:layout_height="@dimen/bullet_point_size"

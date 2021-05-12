@@ -9,12 +9,15 @@ import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -128,5 +131,33 @@ class DefaultTracingStatusTest : BaseTest() {
         )
 
         thrownError shouldBe ourError
+    }
+
+    @Test
+    fun `extension for disabling tracing if enabled`() {
+        val enabledFlow = MutableStateFlow(false)
+        val tracingStatus = mockk<TracingStatus>().apply {
+            every { isTracingEnabled } returns enabledFlow
+            every { setTracing(any(), any(), any(), any()) } answers {
+                val enabled = arg<Boolean>(0)
+                val onSuccess = arg<(Boolean) -> Unit>(1)
+                val onError = arg<(Throwable) -> Unit>(2)
+                val onPermissionRequired = arg<(Status) -> Unit>(3)
+
+                onSuccess(false)
+            }
+        }
+
+        runBlocking {
+            tracingStatus.disableTracingIfEnabled()
+            verify(exactly = 0) { tracingStatus.setTracing(any(), any(), any(), any()) }
+        }
+
+        enabledFlow.value = true
+
+        runBlocking {
+            tracingStatus.disableTracingIfEnabled() shouldBe true
+            verify(exactly = 1) { tracingStatus.setTracing(any(), any(), any(), any()) }
+        }
     }
 }
