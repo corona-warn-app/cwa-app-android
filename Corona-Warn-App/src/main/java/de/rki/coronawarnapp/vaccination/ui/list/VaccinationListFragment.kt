@@ -129,6 +129,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
     }
 
     companion object {
-        fun navigationUri(personIdentifierCode: String) = "coronawarnapp://vaccination-list/$personIdentifierCode".toUri()
+        fun navigationUri(personIdentifierCode: String) =
+            "coronawarnapp://vaccination-list/$personIdentifierCode".toUri()
     }
 }

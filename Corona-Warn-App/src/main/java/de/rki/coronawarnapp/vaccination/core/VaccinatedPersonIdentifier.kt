@@ -15,7 +15,7 @@ data class VaccinatedPersonIdentifier(
     val dateOfBirth: LocalDate,
     val lastNameStandardized: String,
     val firstNameStandardized: String?
-): Parcelable {
+) : Parcelable {
 
     @IgnoredOnParcel
     val code: String by lazy {
