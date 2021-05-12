@@ -100,6 +100,15 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
         }
 
+        viewModel.openVaccinationRegistrationFlow.observe2(this) {
+            if (viewModel.wasVaccinationRegistrationAcknowledged()) {
+                val nestedGraph =
+                    findNavController().graph.findNode(R.id.vaccination_nav_graph) as NavGraph
+                nestedGraph.startDestination = R.id.vaccinationQrCodeScanFragment
+            }
+            doNavigate(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
+        }
+
         viewModel.popupEvents.observe2(this) { event ->
             when (event) {
                 HomeFragmentEvents.ShowErrorResetDialog -> {
