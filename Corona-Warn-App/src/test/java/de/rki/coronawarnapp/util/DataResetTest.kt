@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
+import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
@@ -60,6 +61,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var ratProfileSettings: RATProfileSettings
+    @MockK lateinit var valueSetsRepository: ValueSetsRepository
 
     @BeforeEach
     fun setUp() {
@@ -91,7 +93,8 @@ internal class DataResetTest : BaseTest() {
         traceLocationSettings = traceLocationSettings,
         traceWarningRepository = traceWarningRepository,
         coronaTestRepository = coronaTestRepository,
-        ratProfileSettings = ratProfileSettings
+        ratProfileSettings = ratProfileSettings,
+        valueSetsRepository = valueSetsRepository,
     )
 
     @Test
@@ -126,5 +129,6 @@ internal class DataResetTest : BaseTest() {
         coVerify(exactly = 1) { checkInRepository.clear() }
         coVerify(exactly = 1) { coronaTestRepository.clear() }
         coVerify(exactly = 1) { ratProfileSettings.deleteProfile() }
+        coVerify(exactly = 1) { valueSetsRepository.clear() }
     }
 }
