@@ -104,7 +104,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             if (viewModel.wasVaccinationRegistrationAcknowledged()) {
                 // TODO: finish in another PR if registration is ready
             }
-            doNavigate(HomeFragmentDirections.actionMainFragmentToTraceVaccinationNavGraph())
+            doNavigate(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
         }
 
         viewModel.popupEvents.observe2(this) { event ->
