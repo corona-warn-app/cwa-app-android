@@ -232,7 +232,7 @@ class VaccinationRepository @Inject constructor(
         }
 
         deletedVaccination?.let {
-            if (!it.isEligbleForProofCertificate) return
+            if (!it.isEligibleForProofCertificate) return
 
             Timber.tag(TAG).i("Deleted vaccination was eligble for proof, refreshing: %s", deletedVaccination)
             appScope.launch { refresh(it.personIdentifier) }

@@ -14,5 +14,5 @@ data class VaccinatedPersonData(
         get() = vaccinations.first().personIdentifier
 
     val isEligbleForProofCertificate: Boolean
-        get() = vaccinations.any { it.isEligbleForProofCertificate }
+        get() = vaccinations.any { it.isEligibleForProofCertificate }
 }
