@@ -32,16 +32,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/open_vaccination_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Vaccination List"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/open_vaccination_details_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,7 +39,7 @@
                 android:text="Vaccination details - complete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/open_vaccination_list" />
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/open_vaccination_details_incomplete"

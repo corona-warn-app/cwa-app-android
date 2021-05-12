@@ -12,6 +12,7 @@ data class VaccinatedPersonIdentifier(
     val lastNameStandardized: String,
     val firstNameStandardized: String?
 ) {
+
     /**
      * Used internally to idenitify and store the data related to this person.
      */
