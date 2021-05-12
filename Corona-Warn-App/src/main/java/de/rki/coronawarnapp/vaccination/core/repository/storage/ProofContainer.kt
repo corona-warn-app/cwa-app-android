@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateData
 import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateResponse
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import de.rki.coronawarnapp.vaccination.core.server.valueset.getDisplayText
-
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 

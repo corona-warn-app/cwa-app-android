@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import de.rki.coronawarnapp.vaccination.core.server.valueset.getDisplayText
-
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
