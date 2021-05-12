@@ -109,4 +109,6 @@
     <color name="colorVaccinationCardBackground">#FFFFFF</color>
 
     <color name="whiteAlpha60">#99FFFFFF</color>
+    <color name="greyAlpha60">#8ACCCCCC</color>
+    <color name="dividerColor">#DEDEDE</color>
 </resources>
