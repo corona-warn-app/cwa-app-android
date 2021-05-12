@@ -67,11 +67,16 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.combine
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.vaccination.ui.homecard.CompleteVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.IncompleteVaccinationHomeCard
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -94,6 +99,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
     private val timeStamper: TimeStamper,
     private val bluetoothSupport: BluetoothSupport,
+    private val vaccinationRepository: VaccinationRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -285,8 +291,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         coronaTestRepository.latestPCRT,
         coronaTestRepository.latestRAT,
         statisticsProvider.current.distinctUntilChanged(),
-        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged()
-    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters ->
+        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
+        vaccinationRepository.vaccinationInfos
+    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, vaccinatedPersons ->
         val statePCR = testPCR.toSubmissionState()
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         mutableListOf<HomeItem>().apply {
@@ -298,6 +305,28 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
+            }
+
+            vaccinatedPersons.forEach { vaccinatedPerson ->
+                val card = when (vaccinatedPerson.vaccinationStatus) {
+                    VaccinatedPerson.Status.COMPLETE -> CompleteVaccinationHomeCard.Item(
+                        vaccinatedPerson = vaccinatedPerson,
+                        onClickAction = {
+                            popupEvents.postValue(
+                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.code)
+                            )
+                        }
+                    )
+                    VaccinatedPerson.Status.INCOMPLETE -> IncompleteVaccinationHomeCard.Item(
+                        vaccinatedPerson = vaccinatedPerson,
+                        onClickAction = {
+                            popupEvents.postValue(
+                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.code)
+                            )
+                        }
+                    )
+                }
+                add(card)
             }
 
             if (bluetoothSupport.isAdvertisingSupported == false) {
@@ -333,6 +362,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     } else add(testRAT.toTestCardItem(coronaTestParameters))
                 }
             }
+
+            add(
+                CreateVaccinationHomeCard.Item(
+                    onClickAction = {
+                        routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
+                    }
+                )
+            )
 
             if (statsData.isDataAvailable) {
                 add(
