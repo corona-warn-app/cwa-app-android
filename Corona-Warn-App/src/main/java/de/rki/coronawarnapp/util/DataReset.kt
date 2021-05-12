@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -63,7 +64,8 @@ class DataReset @Inject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val traceWarningRepository: TraceWarningRepository,
     private val coronaTestRepository: CoronaTestRepository,
-    private val ratProfileSettings: RATProfileSettings
+    private val ratProfileSettings: RATProfileSettings,
+    private val valueSetsRepository: ValueSetsRepository
 ) {
 
     private val mutex = Mutex()
@@ -107,6 +109,8 @@ class DataReset @Inject constructor(
         checkInRepository.clear()
         coronaTestRepository.clear()
         ratProfileSettings.deleteProfile()
+
+        valueSetsRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
