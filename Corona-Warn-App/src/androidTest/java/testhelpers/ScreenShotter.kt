@@ -3,14 +3,11 @@ package testhelpers
 import android.app.Activity
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.test.espresso.ViewAction
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import de.rki.coronawarnapp.R
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.ScreenshotCallback
@@ -29,19 +26,11 @@ inline fun <reified T> takeScreenshot(suffix: String = "", delay: Long = SCREENS
     Thread.sleep(delay)
     val simpleName = T::class.simpleName
     val name = if (suffix.isEmpty()) simpleName else simpleName.plus("_$suffix")
-
-    val contentResolver = getInstrumentation().targetContext.contentResolver
-    val testLabSetting = Settings.System.getString(contentResolver, "firebase.test.lab")
-    val androidStudioMode = InstrumentationRegistry.getArguments().getString("androidStudioMode")
-    if ("true" in listOf(testLabSetting, androidStudioMode)) {
-        Screengrab.screenshot(
-            name,
-            UiAutomatorScreenshotStrategy(),
-            SDCardCallback
-        )
-    } else {
-        Screengrab.screenshot(name)
-    }
+    Screengrab.screenshot(
+        name,
+        UiAutomatorScreenshotStrategy(),
+        SDCardCallback
+    )
 }
 
 /**
