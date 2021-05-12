@@ -29,6 +29,7 @@ class CalendarCalculationTest : BaseTest() {
 
         every { context.resources } returns resources
         every { resources.configuration } returns Configuration().apply {
+            @Suppress("DEPRECATION")
             locale = Locale.ENGLISH
         }
     }

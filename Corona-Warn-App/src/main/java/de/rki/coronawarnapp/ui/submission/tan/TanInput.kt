@@ -16,7 +16,6 @@ import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.getDrawableCompat
-import java.util.Locale
 import kotlin.math.max
 
 class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs) {
@@ -82,7 +81,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
     }
 
     private fun updateTan(text: CharSequence) {
-        this.tan = text.toString().toUpperCase(Locale.ROOT)
+        this.tan = text.toString().uppercase()
         updateDigits()
         notifyListener()
     }
