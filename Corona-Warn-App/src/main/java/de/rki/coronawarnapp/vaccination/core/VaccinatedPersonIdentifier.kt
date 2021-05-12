@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.vaccination.core
 
+import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationDateOfBirthMissmatchException
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationNameMissmatchException
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
 import org.joda.time.LocalDate
 
 data class VaccinatedPersonIdentifier(
@@ -38,14 +37,7 @@ data class VaccinatedPersonIdentifier(
     }
 }
 
-val VaccinationCertificateV1.personIdentifier: VaccinatedPersonIdentifier
-    get() = VaccinatedPersonIdentifier(
-        dateOfBirth = dateOfBirth,
-        lastNameStandardized = nameData.familyNameStandardized,
-        firstNameStandardized = nameData.givenNameStandardized
-    )
-
-val ProofCertificateV1.personIdentifier: VaccinatedPersonIdentifier
+val VaccinationDGCV1.personIdentifier: VaccinatedPersonIdentifier
     get() = VaccinatedPersonIdentifier(
         dateOfBirth = dateOfBirth,
         lastNameStandardized = nameData.familyNameStandardized,
@@ -53,4 +45,4 @@ val ProofCertificateV1.personIdentifier: VaccinatedPersonIdentifier
     )
 
 val VaccinationCertificateQRCode.personIdentifier: VaccinatedPersonIdentifier
-    get() = parsedData.vaccinationCertificate.personIdentifier
+    get() = parsedData.certificate.personIdentifier

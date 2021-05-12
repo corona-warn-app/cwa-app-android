@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.util
 
-import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
@@ -26,6 +25,7 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
+import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.core.VaccinationPreferences
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
@@ -37,7 +37,6 @@ import testhelpers.BaseTest
 
 internal class DataResetTest : BaseTest() {
 
-    @MockK lateinit var context: Context
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var submissionRepository: SubmissionRepository
@@ -47,7 +46,6 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
     @MockK lateinit var contactDiaryPreferences: ContactDiaryPreferences
     @MockK lateinit var traceLocationPreferences: TraceLocationPreferences
-    @MockK lateinit var vaccinationPreferences: VaccinationPreferences
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var surveySettings: SurveySettings
@@ -64,6 +62,8 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var ratProfileSettings: RATProfileSettings
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
+    @MockK lateinit var vaccinationRepository: VaccinationRepository
+    @MockK lateinit var vaccinationPreferences: VaccinationPreferences
 
     @BeforeEach
     fun setUp() {
@@ -71,7 +71,6 @@ internal class DataResetTest : BaseTest() {
     }
 
     fun createInstance() = DataReset(
-        context = context,
         keyCacheRepository = keyCacheRepository,
         appConfigProvider = appConfigProvider,
         submissionRepository = submissionRepository,
@@ -97,42 +96,41 @@ internal class DataResetTest : BaseTest() {
         coronaTestRepository = coronaTestRepository,
         ratProfileSettings = ratProfileSettings,
         valueSetsRepository = valueSetsRepository,
-        vaccinationPreferences = vaccinationPreferences
+        vaccinationPreferences = vaccinationPreferences,
+        vaccinationRepository = vaccinationRepository,
     )
 
     @Test
     fun `clearAllLocalData() should clear all data`() = runBlockingTest {
         createInstance().clearAllLocalData()
 
-        coVerify(exactly = 1) { analytics.setAnalyticsEnabled(false) }
-
-        coVerify(exactly = 1) { submissionRepository.reset() }
-        coVerify(exactly = 1) { keyCacheRepository.clear() }
-        coVerify(exactly = 1) { appConfigProvider.clear() }
-        coVerify(exactly = 1) { exposureDetectionTracker.clear() }
-        coVerify(exactly = 1) { downloadDiagnosisKeysSettings.clear() }
-        coVerify(exactly = 1) { riskLevelStorage.clear() }
-        coVerify(exactly = 1) { contactDiaryPreferences.clear() }
-        coVerify(exactly = 1) { traceLocationPreferences.clear() }
-        coVerify(exactly = 1) { vaccinationPreferences.clear() }
-        coVerify(exactly = 1) { cwaSettings.clear() }
-        coVerify(exactly = 1) { surveySettings.clear() }
-        coVerify(exactly = 1) { analyticsSettings.clear() }
-        coVerify(exactly = 1) { tracingSettings.clear() }
-        coVerify(exactly = 1) { onboardingSettings.clear() }
-        coVerify(exactly = 1) { submissionSettings.clear() }
-        coVerify(exactly = 1) { traceLocationSettings.clear() }
-
-        coVerify(exactly = 1) { contactDiaryRepository.clear() }
-
-        coVerify(exactly = 1) { statisticsProvider.clear() }
-
-        coVerify(exactly = 1) { bugReportingSettings.clear() }
-        coVerify(exactly = 1) { traceWarningRepository.clear() }
-        coVerify(exactly = 1) { traceLocationRepository.deleteAllTraceLocations() }
-        coVerify(exactly = 1) { checkInRepository.clear() }
-        coVerify(exactly = 1) { coronaTestRepository.clear() }
-        coVerify(exactly = 1) { ratProfileSettings.deleteProfile() }
-        coVerify(exactly = 1) { valueSetsRepository.clear() }
+        coVerify(exactly = 1) {
+            analytics.setAnalyticsEnabled(false)
+            submissionRepository.reset()
+            keyCacheRepository.clear()
+            appConfigProvider.clear()
+            exposureDetectionTracker.clear()
+            downloadDiagnosisKeysSettings.clear()
+            riskLevelStorage.clear()
+            contactDiaryPreferences.clear()
+            traceLocationPreferences.clear()
+            cwaSettings.clear()
+            surveySettings.clear()
+            analyticsSettings.clear()
+            tracingSettings.clear()
+            onboardingSettings.clear()
+            submissionSettings.clear()
+            traceLocationSettings.clear()
+            contactDiaryRepository.clear()
+            statisticsProvider.clear()
+            bugReportingSettings.clear()
+            traceWarningRepository.clear()
+            traceLocationRepository.deleteAllTraceLocations()
+            checkInRepository.clear()
+            coronaTestRepository.clear()
+            ratProfileSettings.deleteProfile()
+            vaccinationRepository.clear()
+            vaccinationPreferences.clear()
+        }
     }
 }

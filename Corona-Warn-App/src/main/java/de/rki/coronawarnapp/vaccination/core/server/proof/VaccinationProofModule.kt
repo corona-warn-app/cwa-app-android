@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.Reusable
 import de.rki.coronawarnapp.environment.vaccination.VaccinationCertificateProofServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
+import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
@@ -22,10 +23,11 @@ class VaccinationProofModule {
     @Provides
     fun api(
         @VaccinationProofHttpClient httpClient: OkHttpClient,
-        @VaccinationCertificateProofServerUrl url: String
-    ): VaccinationProofApiV2 = Retrofit.Builder()
-        .client(httpClient)
-        .baseUrl(url)
-        .build()
-        .create(VaccinationProofApiV2::class.java)
+        @VaccinationCertificateProofServerUrl url: String,
+        rawCOSEConverterFactory: RawCOSEObject.RetroFitConverterFactory,
+    ): VaccinationProofApiV2 = Retrofit.Builder().apply {
+        client(httpClient)
+        baseUrl(url)
+        addConverterFactory(rawCOSEConverterFactory)
+    }.build().create(VaccinationProofApiV2::class.java)
 }

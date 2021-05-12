@@ -1,19 +1,16 @@
 package de.rki.coronawarnapp.vaccination.core.repository.storage
 
 import androidx.annotation.Keep
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
-import de.rki.coronawarnapp.vaccination.core.qrcode.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1Parser
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import de.rki.coronawarnapp.vaccination.core.server.valueset.getDisplayText
 
@@ -21,30 +18,28 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 @Keep
-data class VaccinationContainer(
+data class VaccinationContainer internal constructor(
     @SerializedName("vaccinationCertificateCOSE") val vaccinationCertificateCOSE: RawCOSEObject,
     @SerializedName("scannedAt") val scannedAt: Instant,
 ) {
 
+    // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
+    @Transient lateinit var parser: VaccinationCertificateCOSEParser
     @Transient internal var preParsedData: VaccinationCertificateData? = null
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
     constructor() : this(RawCOSEObject.EMPTY, Instant.EPOCH)
 
-    // TODO DI/ error handling
     @delegate:Transient
     private val certificateData: VaccinationCertificateData by lazy {
-        preParsedData ?: VaccinationCertificateCOSEParser(
-            HealthCertificateCOSEDecoder(),
-            VaccinationCertificateV1Parser(Gson()),
-        ).parse(vaccinationCertificateCOSE)
+        preParsedData ?: parser.parse(vaccinationCertificateCOSE)
     }
 
-    val certificate: VaccinationCertificateV1
-        get() = certificateData.vaccinationCertificate
+    val certificate: VaccinationDGCV1
+        get() = certificateData.certificate
 
-    val vaccination: VaccinationCertificateV1.VaccinationData
+    val vaccination: VaccinationDGCV1.VaccinationData
         get() = certificate.vaccinationDatas.single()
 
     val certificateId: String
@@ -93,9 +88,13 @@ data class VaccinationContainer(
     }
 }
 
-fun VaccinationCertificateQRCode.toVaccinationContainer(scannedAt: Instant) = VaccinationContainer(
+fun VaccinationCertificateQRCode.toVaccinationContainer(
+    scannedAt: Instant,
+    coseParser: VaccinationCertificateCOSEParser,
+) = VaccinationContainer(
     vaccinationCertificateCOSE = certificateCOSE,
     scannedAt = scannedAt,
 ).apply {
+    parser = coseParser
     preParsedData = parsedData
 }
