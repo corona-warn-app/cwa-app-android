@@ -71,6 +71,7 @@ import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
+import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
@@ -99,6 +100,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
     private val timeStamper: TimeStamper,
     private val bluetoothSupport: BluetoothSupport,
+    private val vaccinationSettings: VaccinationSettings,
     private val vaccinationRepository: VaccinationRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -108,6 +110,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
     val openIncompatibleEvent = SingleLiveEvent<Unit>()
     val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
+    val openVaccinationRegistrationFlow = SingleLiveEvent<Unit>()
     val errorEvent = SingleLiveEvent<Throwable>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
@@ -366,7 +369,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             add(
                 CreateVaccinationHomeCard.Item(
                     onClickAction = {
-                        routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
+                        openVaccinationRegistrationFlow.postValue(Unit)
                     }
                 )
             )
@@ -451,6 +454,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun wasQRInfoWasAcknowledged() = traceLocationOrganizerSettings.qrInfoAcknowledged
+
+    fun wasVaccinationRegistrationAcknowledged() = vaccinationSettings.registrationAcknowledged
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
