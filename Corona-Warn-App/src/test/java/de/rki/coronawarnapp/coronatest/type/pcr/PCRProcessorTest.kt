@@ -94,7 +94,7 @@ class PCRProcessorTest : BaseTest() {
         instance.pollServer(pcrTest).testResult shouldBe PCR_OR_RAT_PENDING
 
         val past60DaysTest = pcrTest.copy(
-            registeredAt = nowUTC.minus(Duration.standardDays(21))
+            registeredAt = nowUTC.minus(Duration.standardDays(61))
         )
 
         instance.pollServer(past60DaysTest).testResult shouldBe PCR_REDEEMED

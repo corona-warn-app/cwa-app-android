@@ -120,7 +120,7 @@
     <!-- XHED: submission result antigen fragment negative result proof title -->
     <string name="submission_test_result_antigen_negative_proof_title">"Verification Feature"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
-    <string name="submission_test_result_antigen_negative_proof_body">"You can also use the test result displayed here as proof of a negative rapid test result. \n\nPlease note that you are only required to prove your rapid test result if this is required by law. You can prove the result using the app or in a different way. For more information, please familiarize yourself with the criteria for the acceptance of proof of testing in your federal state."</string>
+    <string name="submission_test_result_antigen_negative_proof_body">"Your test result is private, although some laws may require you to share it. When required, you may show it via any of the ways provided."</string>
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Result available since"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
@@ -136,4 +136,64 @@
     <!-- XTXT: coronatest negative antigen result third info body -->
     <string name="coronatest_negative_antigen_restul_third_info_body">"Please delete the test from the Corona-Warn-App, so that you can save a new test code here if necessary."</string>
 
+    <!-- ####################################
+     Rapid Antigen Test Profile
+     ###################################### -->
+    <!-- XHED: Create RAT profile card title -->
+    <string name="rat_profile_create_card_title">"Create Rapid Test Profile"</string>
+    <!-- XTXT: Create RAT profile card subtitle -->
+    <string name="rat_profile_create_card_subtitle">"You can create a profile with your personal data, which you can submit via QR code during every rapid test."</string>
+    <!-- XHED: Open RAT profile card title -->
+    <string name="rat_profile_open_card_title">"Rapid Test Profile"</string>
+    <!-- XTXT: Open RAT profile card subtitle -->
+    <string name="rat_profile_open_card_subtitle">"Save time and present your rapid test profile at the testing point."</string>
+    <!-- XHED: Create RAT profile title -->
+    <string name="rat_profile_create_title">"Rapid Test Profile"</string>
+    <!-- XTXT: Create RAT profile first name hint -->
+    <string name="rat_profile_create_first_name_hint">"First Name"</string>
+    <!-- XTXT: Create RAT profile last name hint -->
+    <string name="rat_profile_create_last_name_hint">"Last Name"</string>
+    <!-- XTXT: Create RAT profile birth date hint -->
+    <string name="rat_profile_create_birth_date_hint">"Date of Birth"</string>
+    <!-- XBUT: Create RAT profile save button -->
+    <string name="rat_profile_create_button">"Save"</string>
+    <!-- XTXT: Create RAT profile description -->
+    <string name="rat_profile_create_description">"Save your personal data as a QR code to speed up registration at testing points."</string>
+    <!-- XTXT: Create RAT profile street hint -->
+    <string name="rat_profile_create_street_hint">"Street and House Number"</string>
+    <!-- XTXT: Create RAT profile post code hint -->
+    <string name="rat_profile_create_zip_code_hint">"Postal Code"</string>
+    <!-- XTXT: Create RAT profile city hint -->
+    <string name="rat_profile_create_city_hint">"City"</string>
+    <!-- XTXT: Create RAT profile phone hint -->
+    <string name="rat_profile_create_phone_hint">"Phone Number"</string>
+    <!-- XTXT: Create RAT profile email hint -->
+    <string name="rat_profile_create_email_hint">"E-Mail Address"</string>
+
+    <!--RAT profile onboarding-->
+    <string name="rat_profile_onboarding_image_content_description">"A woman with a smartphone in her hand is standing in front of a building. A QR code symbolizes the rapid test profile to be scanned."</string>
+    <!-- XTXT: Create RAT profile onboarding title -->
+    <string name="rat_profile_onboarding_title">"Save your personal data as a QR code to speed up registration at testing points."</string>
+    <!-- XTXT: Create RAT profile onboarding subtitle -->
+    <string name="rat_profile_onboarding_subtitle">"When you create a rapid test profile, you will not have to fill out your personal data again before every rapid test."</string>
+    <!-- XTXT: Create RAT profile onboarding next button -->
+    <string name="rat_profile_onboarding_next">"Continue"</string>
+    <!-- XTXT: Create RAT profile onboarding privacy -->
+    <string name="rat_profile_onboarding_privacy">"Detailed Information on Data Processing and Your Consent"</string>
+    <!-- XTXT: Create RAT Qr code profile description-->
+    <string name="rat_qr_code_profile_description">"Please present this QR code at the testing point so your personal data can be recorded more quickly. Also keep your ID card at hand."</string>
+    <!-- XTXT: Create RAT Qr code profile birth date-->
+    <string name="rat_qr_code_profile_birth_date">"Born %1$s"</string>
+    <!-- XBUT: Create RAT Qr code profile next button-->
+    <string name="rat_qr_code_profile_next_button">"Continue"</string>
+    <!-- XTXT: Create RAT Qr code profile delete item-->
+    <string name="rat_qr_code_profile_delete_item">"Remove"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog title-->
+    <string name="rat_qr_code_profile_dialog_title">"Do you want to remove the rapid test profile?"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog message-->
+    <string name="rat_qr_code_profile_dialog_message">"Please consider that if you do, the QR code can no longer be used for registration."</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->
+    <string name="rat_qr_code_profile_dialog_positive_button">"Delete"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog negative button-->
+    <string name="rat_qr_code_profile_dialog_negative_button">"Cancel"</string>
 </resources>

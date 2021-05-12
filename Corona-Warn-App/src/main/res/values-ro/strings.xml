@@ -64,6 +64,10 @@
 
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Instalat acum %s zile"</string>
+    <!-- XTXT: risk card - Days since installation if today -->
+    <string name="risk_card_body_installation_today">"Instalat astăzi"</string>
+    <!-- XTXT: risk card - Days since installation if yesterday -->
+    <string name="risk_card_body_installation_yesterday">"Instalat ieri"</string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"În ultimele 14 zile, înregistrarea în jurnal a expunerilor a fost activă timp de %1$s zile"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -849,7 +853,7 @@
     <!-- YTXT: Description one for the debug option to record log files -->
     <string name="debugging_debuglog_intro_explanation_section_one">"Pentru a ajuta echipa de suport tehnic a aplicației la analiza erorilor, puteți înregistra un raport de erori din aplicația Corona-Warn. Astfel, sunt înregistrate etapele tehnice individuale și rezultatele proceselor aplicației. Puteți trimite apoi raportul de erori la suportul tehnic și ajutați la identificarea și corectarea erorilor."</string>
     <!-- YTXT: Description two for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation_section_two">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente:\nÎntrebări frecvente despre rapoartele de erori"</string>
+    <string name="debugging_debuglog_intro_explanation_section_two">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente: Întrebări frecvente despre rapoartele de erori"</string>
     <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="debugging_debuglog_intro_explanation_section_two_link_label">"Întrebări frecvente despre rapoartele de erori"</string>
     <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
@@ -864,10 +868,10 @@
     <string name="debugging_debuglog_action_start_recording">"Pornire"</string>
     <!-- XBUT: Button text to stop the log recording -->
     <string name="debugging_debuglog_action_stop_recording">"Oprire și ștergere"</string>
-    <!-- XBUT: Button text to share the log recording -->
+    <!-- XBUT: Button text to send the log recording to the server-->
     <string name="debugging_debuglog_action_share_log">"Trimitere raport de erori"</string>
-    <!-- XBUT: Button text to locally store the log recording -->
-    <string name="debugging_debuglog_action_local_log_store">"Salvare locală și continuare"</string>
+    <!-- XBUT: Button text to export the log -->
+    <string name="debugging_debuglog_action_local_log_export">"Partajare și continuare"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Înregistrare activă"</string>
     <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
@@ -894,12 +898,7 @@
     <string name="debugging_debuglog_stop_confirmation_discard_button">"Continuare analiză"</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
     <string name="debugging_debuglog_start_low_storage_error">"Aveți nevoie de cel puțin 200 MB de memorie pentru a începe analiza erorilor. Eliberați memorie."</string>
-    <!-- XHED: Dialog title if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_title">"Salvat local"</string>
-    <!-- YTXT: Dialog message if a user has stored a debug log locally -->
-    <string name="debugging_debuglog_localexport_message">"Analiza erorilor a fost salvată local."</string>
-    <!-- YTXT: Dialog message if local export has failed -->
-    <string name="debugging_debuglog_localexport_error_message">"Încercarea de a salva un raport de erori a eșuat. Verificați dacă este disponibilă suficientă memorie."</string>
+
     <!-- XHED: Title for debug legal screen -->
     <string name="debugging_debuglog_legal_dialog_title">"Informații detaliate despre trimiterea rapoartelor de erori"</string>
     <!-- YTXT: Section Title for debug legal screen -->
@@ -1164,7 +1163,7 @@
     <!-- YTXT: Body text for TAN code dispatcher option -->
     <string name="submission_dispatcher_tan_code_card_text">"Aveți un cod TAN pentru testul dvs. PCR? Atingeți aici pentru a introduce codul dvs. TAN pentru a-i putea avertiza pe ceilalți."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"Solicitați un cod TAN pentru testul PCR?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"Solicitare cod TAN pentru testul PCR"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Sunați-ne și obțineți un cod TAN pentru testul dvs. PCR."</string>
     <!-- XACT: Dispatcher Tan page title -->
@@ -2002,9 +2001,22 @@
     <!-- XHED: Trace location check-ins invalid qr code dialog title -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Cod QR nevalabil"</string>
     <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Codul QR scanat nu este valabil.\nScanați un cod QR valabil.\n\n(%1$s)"</string>
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Codul QR scanat nu este valabil pentru check-inurile la un eveniment sau într-un loc. \nScanați un cod QR corespunzător.\n\n(%1$s)"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Anulare"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <!-- XHED: Incompitability card title -->
+    <string name="incompatible_headline">"Avertizare de incompatibilitate"</string>
+    <!-- XTXT: Incompitability card content -->
+    <string name="incompatible_advertising_not_supported">"Smartphone-ul dvs. poate doar primi notificări despre COVID-19 prin Bluetooth, dar nu le poate expedia. Aceasta înseamnă că puteți fi avertizat privind expunerile prin această interfață, dar dvs. nu îi puteți avertiza pe ceilalți de expuneri. Puteți trimite și primi avertizări care rezultă din check-inuri."</string>
+    <!-- XTXT: Incompitability card content -->
+    <string name="incompatible_scanning_not_supported">"Smartphone-ul dvs. nu poate trimite sau primi notificări despre COVID-19 prin Bluetooth. Puteți trimite și primi avertizări care rezultă din check-inuri."</string>
+    <!-- XTXT: Incompitability faq link -->
+    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
 </resources>

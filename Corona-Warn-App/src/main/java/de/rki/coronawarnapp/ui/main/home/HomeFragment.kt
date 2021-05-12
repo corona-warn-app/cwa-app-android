@@ -82,6 +82,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
         }
 
+        viewModel.openIncompatibleEvent.observe2(this) {
+            ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.incompatible_link))
+        }
+
         viewModel.openTraceLocationOrganizerFlow.observe2(this) {
             if (viewModel.wasQRInfoWasAcknowledged()) {
                 val nestedGraph =
@@ -131,6 +135,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
                 }?.show()
             }
+        }
+
+        viewModel.errorEvent.observe2(this) {
+            it.toErrorDialogBuilder(requireContext()).show()
         }
     }
 

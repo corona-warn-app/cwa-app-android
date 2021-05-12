@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
@@ -60,6 +61,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var bluetoothSupport: BluetoothSupport
 
     @BeforeEach
     fun setup() {
@@ -76,6 +78,11 @@ class HomeFragmentViewModelTest : BaseTest() {
         coEvery { statisticsProvider.current } returns emptyFlow()
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(100101010)
+
+        bluetoothSupport.apply {
+            every { isAdvertisingSupported } returns true
+            every { isScanningSupported } returns true
+        }
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -92,7 +99,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
         traceLocationOrganizerSettings = traceLocationOrganizerSettings,
-        timeStamper = timeStamper
+        timeStamper = timeStamper,
+        bluetoothSupport = bluetoothSupport
     )
 
     @Test

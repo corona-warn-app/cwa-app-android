@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtpRequestAndroid
-import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 import timber.log.Timber
@@ -26,11 +25,6 @@ class LogUploadAuthorizer @Inject constructor(
 
     suspend fun getAuthorizedOTP(otp: UUID = UUID.randomUUID()): LogUploadOtp {
         Timber.tag(TAG).d("getAuthorizedOTP() trying to authorize %s", otp)
-
-        // TODO ¯\_(ツ)_/¯
-        if (!CWADebug.isDeviceForTestersBuild) {
-            throw UnsupportedOperationException()
-        }
 
         val elsOtp = ElsOtp.ELSOneTimePassword.newBuilder().apply {
             setOtp(otp.toString())

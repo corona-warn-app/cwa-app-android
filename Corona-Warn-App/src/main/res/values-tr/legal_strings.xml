@@ -110,7 +110,7 @@
     <!-- YTXT: First bullet point for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_bullet_point_1">"Tarafınızdan oluşturulan hata raporu, hata analizinin gerçekleştirilmesi için RKI’ye aktarılır. RKI, Uygulamanızda ortaya çıkan hataların olası nedenlerini belirlemek ve bunları gidermek için hata raporunu inceleyecektir. Hata raporu kimlik numarasını teknik destek birimine sağladığınızda, RKI bu hata raporunu size kişisel olarak atayabilir."</string>
     <!-- YTXT: Second bullet point for Bugreporting share log Privacy Card -->
-    <string name="debugging_debuglog_share_privacy_card_bullet_point_2">"Rapor RKI’ye gönderilmeden önce, Uygulamanızın orijinal olduğu bir kez kontrol edilir. Bunun için, akıllı telefonunuz tarafından benzersiz bir kimlik kodu oluşturulur ve Apple’ın Uygulamanızın orijinal ürün olduğunu RKI’ye doğrulaması için ABD veya diğer bir üçüncü ülkedeki Apple’a aktarılır. Bu kimlik kodu, akıllı telefonunuzun sürümü ve Uygulama hakkında veriler içerir. Apple, böylece kim olduğunuzu ortaya çıkarabilir ve akıllı telefonunuzun orijinallik kontrolünün yapıldığını anlayabilir. Apple, Uygulamadan daha fazla bilgi almaz."</string>
+    <string name="debugging_debuglog_share_privacy_card_bullet_point_2">"Rapor RKI’ye gönderilmeden önce, Uygulamanızın orijinal olduğu bir kez kontrol edilir. Bunun için, akıllı telefonunuz tarafından benzersiz bir kimlik kodu oluşturulur ve Google’ın Uygulamanızın orijinal ürün olduğunu RKI’ye doğrulaması için ABD veya diğer bir üçüncü ülkedeki Google’a aktarılır. Bu kimlik kodu, akıllı telefonunuzun sürümü ve Uygulama hakkında veriler içerir. Google, böylece kim olduğunuzu ortaya çıkarabilir ve akıllı telefonunuzun orijinallik kontrolünün yapıldığını anlayabilir. Google, Uygulamadan daha fazla bilgi almaz."</string>
     <!-- YTXT: Second body section for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_body_2">"Gönderimden sonra hata raporu kimlik numarasını teknik desteğe bildirirseniz, sağlanan diğer bilgilerin, hata raporu kimliğinin ve hata raporunun silinmesini istediğiniz zaman talep edebilirsiniz. Aksi halde bu hata raporu 14 gün sonra otomatik olarak silinecektir."</string>
 
@@ -147,4 +147,22 @@
     <string name="trace_location_onboarding_body_consent5">Eğer kendiniz daha sonra bir uyarıyı tetiklerseniz, “Giriş denetimlerim” altında girilen bir olay veya konumda sizinle eş zamanlı giriş yapmış olan diğer tüm kullanıcılar, olay kimliği üzerinden otomatik olarak uyarılacaktır.</string>
     <!-- YMSG: Onboarding trace location bullet points -->
     <string name="trace_location_onboarding_body_consent6">“Giriş denetimlerim” altındaki bir giriş denetimini istediğiniz zaman silebilirsiniz.  Bu durumda akıllı telefonunuz yalnızca, bir riskli karşılaşmada testi pozitif çıkan bir kullanıcının rastgele kimlik numaralarını alırsa uyarılırsınız.</string>
+
+    <!-- RAT Profile Onboarding -->
+    <!-- XHED: Title for RAT Profile onboarding consent card -->
+    <string name="rat_profile_onboarding_card_title" translatable="false">Veri koruma ve veri güvenliği</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent1" translatable="false">Uygulamada hızlı test profillerinin oluşturulması ve bunların kullanılması isteğe bağlıdır.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent2" translatable="false">Uygulama hızlı test profiliniz için girdiğiniz verileri kişisel kare kodunuza dönüştürür. Verilen tüm bilgiler kare kodunda mevcuttur.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent3" translatable="false">Test merkezine verilerinizi hızlı ve güvenli bir şekilde hazırlamak için test merkezinde hızlı test profilinizin kare kodunu taratabilirsiniz. Test merkezi verilerinizi test uygulamak için kullanır. Verilerinizi uygulama olmadan da sunabilirsiniz. Kare kodunda bulunan ve test merkezine başka şekilde sunacağınız verileri kendiniz belirlersiniz.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent4" translatable="false">Kişisel hızlı test profilinize öncelikle sadece siz erişebilirsiniz. Hızlı test profilinizin kare kodunu başkalarına gösterirseniz ancak o zaman bu kişiler hızlı test profilinizdeki kişisel verilere erişebilir. Bu sırada uygulamadaki diğer verilere erişim sağlanmaz (örn. Check-ins ya da rehber bilgileri gibi).</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent5" translatable="false">Hızlı test profilinizi istediğiniz zaman tekrar kaldırabilirsiniz. O zamana kadar akıllı telefonunuzdaki uygulamada kayıtlı kalır.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent6" translatable="false">Kare kodu kişisel verilerinizi içerir. Verilerinizin okunmasını istemiyorsanız kişisel kare kodunuzu kimseyle paylaşmayın. Kişisel kare kodunuzu paylaşmamanızı ve e-posta üzerinden göndermemenizi öneriyoruz.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent7" translatable="false">Özel şahıslar ya da şirketler hızlı test profilinizi göstermenizi talep edemezler.</string>
 </resources>

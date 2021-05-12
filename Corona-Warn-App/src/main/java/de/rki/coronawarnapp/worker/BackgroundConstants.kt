@@ -20,13 +20,6 @@ object BackgroundConstants {
     const val WORKER_RETRY_COUNT_THRESHOLD = 2
 
     /**
-     * The maximum validity in days for keeping Background polling active
-     *
-     * @see TimeUnit.DAYS
-     */
-    const val POLLING_VALIDITY_MAX_DAYS = 21
-
-    /**
      * Backoff initial delay
      *
      * @see TimeUnit.MINUTES

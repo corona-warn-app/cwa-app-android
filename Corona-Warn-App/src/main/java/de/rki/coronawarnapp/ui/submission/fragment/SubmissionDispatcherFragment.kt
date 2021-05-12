@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
@@ -15,6 +16,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispatcher), AutoInject {
@@ -46,6 +48,38 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionConsentFragment()
                     )
+                is SubmissionNavigationEvents.NavigateToCreateProfile -> {
+                    val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
+                    ratGraph.startDestination = if (it.onboarded)
+                        R.id.ratProfileCreateFragment
+                    else R.id.ratProfileOnboardingFragment
+
+                    doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
+                    )
+                }
+
+                is SubmissionNavigationEvents.NavigateToOpenProfile -> {
+                    val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
+                    ratGraph.startDestination = R.id.ratProfileQrCodeFragment
+
+                    doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
+                    )
+                }
+            }
+        }
+
+        viewModel.profileCardId.observe(viewLifecycleOwner) { layoutId ->
+            binding.ratProfileCard.viewStub?.apply {
+                layoutResource = layoutId
+                Timber.d("layoutId=$layoutId")
+                inflate()
+                binding.ratProfileCard.root.setOnClickListener {
+                    viewModel.onClickProfileCard()
+                }
             }
         }
     }

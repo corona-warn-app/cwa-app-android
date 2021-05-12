@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
@@ -60,8 +61,10 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanati
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -72,6 +75,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @Suppress("LongParameterList")
 class HomeFragmentViewModel @AssistedInject constructor(
@@ -88,14 +92,17 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val appShortcutsHelper: AppShortcutsHelper,
     private val tracingSettings: TracingSettings,
     private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val bluetoothSupport: BluetoothSupport,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
+    val openIncompatibleEvent = SingleLiveEvent<Unit>()
     val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
+    val errorEvent = SingleLiveEvent<Throwable>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
@@ -282,7 +289,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters ->
         val statePCR = testPCR.toSubmissionState()
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
-        val bothTestStates = setOf(statePCR, stateRAT)
         mutableListOf<HomeItem>().apply {
             when {
                 statePCR is SubmissionStatePCR.TestPositive || statePCR is SubmissionStatePCR.SubmissionDone -> {
@@ -292,6 +298,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
+            }
+
+            if (bluetoothSupport.isAdvertisingSupported == false) {
+                add(
+                    IncompatibleCard.Item(
+                        onClickAction = { openIncompatibleEvent.postValue(Unit) },
+                        bluetoothSupported = bluetoothSupport.isScanningSupported != false
+                    )
+                )
             }
 
             // TODO: Would be nice to have a more elegant solution of displaying the result cards in the right order
@@ -361,7 +376,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun refreshRequiredData() {
         launch {
-            submissionRepository.refreshTest()
+            try {
+                submissionRepository.refreshTest()
+            } catch (e: CoronaTestNotFoundException) {
+                Timber.e(e, "refreshTest failed")
+                errorEvent.postValue(e)
+            }
             tracingRepository.refreshRiskLevel()
         }
     }

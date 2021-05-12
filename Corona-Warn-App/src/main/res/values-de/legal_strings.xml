@@ -99,7 +99,7 @@
     <!-- YTXT: Second bullet point for debug upload screen privacy card -->
     <string name="debug_log_privacy_card_container_section_two">"Auf den Fehlerbericht haben zunächst nur Sie Zugriff. Sie können im Anschluss entscheiden, ob Sie den Fehlerbericht an den technischen Support senden, ob Sie den Fehlerbericht zunächst auf Ihrem Smartphone speichern oder die Aufzeichnung stoppen und löschen wollen. Wenn Sie den Fehlerbericht zunächst lokal speichern, haben Sie die Möglichkeit, sich den Fehlerbericht selbst anzuschauen, bevor Sie diesen an den Support übermitteln."</string>
     <!-- YTXT: Third bullet point for debug upload screen privacy card -->
-    <string name="debug_log_privacy_card_container_section_three">"Der Fehlerbericht enthält sensible Informationen, zum Beispiel Angaben über Ihr Testergebnis oder das für Sie ermittelte Ansteckungsrisiko. Er enthält keine Informationen über die QR-Codes, die Sie bei der Testregistrierung verwendet haben, über Angaben, die Sie im Kontakt-Tagebuch erfasste haben oder Angaben zu Ihrer Identität."</string>
+    <string name="debug_log_privacy_card_container_section_three">"Der Fehlerbericht enthält sensible Informationen, zum Beispiel Angaben über Ihr Testergebnis oder das für Sie ermittelte Ansteckungsrisiko. Er enthält keine Informationen über die QR-Codes, die Sie bei der Testregistrierung verwendet haben, über Angaben, die Sie im Kontakt-Tagebuch erfasst haben oder Angaben zu Ihrer Identität."</string>
     <!-- YTXT: Fourth bullet point for debug upload screen privacy card -->
     <string name="debug_log_privacy_card_container_section_four">"Wir empfehlen die Fehlerberichte nicht zu veröffentlichen und nicht per E-Mail zu versenden."</string>
     <!-- YTXT: Fifth bullet point for debug upload screen privacy card -->
@@ -112,7 +112,8 @@
     <!-- YTXT: First bullet point for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_bullet_point_1">"Der von Ihnen erstellte Fehlerbericht wird zu Zwecken der Fehleranalyse an das RKI übermittelt. Das RKI wird den Fehlerbericht auswerten, um mögliche Ursachen der in Ihrer App auftretenden Fehler erkennen und beheben zu können. Wenn Sie dem technischen Support die Fehlerbericht-ID mitteilen, kann das RKI den Fehlerbericht Ihrer Person zuordnen."</string>
     <!-- YTXT: Second bullet point for Bugreporting share log Privacy Card -->
-    <string name="debugging_debuglog_share_privacy_card_bullet_point_2">"Bevor der Bericht an das RKI übersendet wird, wird die Echtheit Ihrer App einmalig geprüft. Dazu wird durch Ihr Smartphone eine eindeutige Kennung erzeugt und an Apple in die USA oder andere Drittländer übermittelt, damit Apple die Echtheit Ihrer App gegenüber dem RKI bestätigen kann. Die Kennung enthält Informationen über die Version Ihres Smartphones und der App. Apple kann damit möglicherweise auf Ihre Identität schließen und nachvollziehen, dass die Echtheitsprüfung Ihres Smartphones stattgefunden hat. Weitere Angaben aus der App oder dem Fehlerbericht erhält Apple  hierbei nicht."</string>
+    <string name="debugging_debuglog_share_privacy_card_bullet_point_2">"Bevor der Bericht an das RKI übersendet wird, wird die Echtheit Ihrer App einmalig geprüft. Dazu wird durch Ihr Smartphone eine eindeutige Kennung erzeugt und an Google in die USA oder andere Drittländer übermittelt, damit Google die Echtheit Ihrer App gegenüber dem RKI bestätigen kann. Die Kennung enthält Informationen über die Version Ihres Smartphones und der App. Google kann damit möglicherweise auf Ihre Identität schließen und nachvollziehen, dass die Echtheitsprüfung Ihres Smartphones stattgefunden hat. Weitere Angaben aus der App oder dem Fehlerbericht erhält Google hierbei nicht.
+"</string>
     <!-- YTXT: Second body section for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_body_2">"Sollten Sie dem technischen Support nach der Übersendung Ihre Fehlerbericht-ID mitgeteilt haben, können Sie auch jederzeit die Löschung der weiteren mitgeteilten Informationen, der Fehlerbericht-ID und des Fehlerberichtes verlangen. Andernfalls wird der Fehlerbericht automatisch nach 14 Tagen gelöscht."</string>
 
@@ -149,4 +150,22 @@
     <string name="trace_location_onboarding_body_consent5">Falls Sie später selbst eine Warnung auslösen, werden automatisch alle anderen Nutzer, die zeitgleich mit Ihnen bei einem unter „Meine Check-ins“ eingetragenen Event oder Ort eingecheckt waren, anhand der Event-ID gewarnt.</string>
     <!-- YMSG: Onboarding trace location bullet points -->
     <string name="trace_location_onboarding_body_consent6">Unter „Meine Check-ins“ können Sie einen Check-in jederzeit löschen. In diesem Fall werden Sie nur gewarnt, wenn Ihr Smartphone die Zufalls-IDs des positiv getesteten Nutzers empfangen und eine Risiko-Begegnung ermittelt hat.</string>
+
+    <!-- RAT Profile Onboarding -->
+    <!-- XHED: Title for RAT Profile onboarding consent card -->
+    <string name="rat_profile_onboarding_card_title" translatable="false">Datenschutz und Datensicherheit</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent1" translatable="false">Das Anlegen eines Schnelltest-Profils in der App und dessen Verwendung sind freiwillig.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent2" translatable="false">Die App wandelt die Daten, die Sie für Ihr Schnelltest-Profil eingeben, in Ihren persönlichen QR-Code um. Im QR-Code sind dann alle eingegebenen Daten enthalten.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent3" translatable="false">In der Teststelle können Sie den QR-Code Ihres Schnelltest-Profils scannen lassen, um der Teststelle Ihre Daten schnell und sicher bereitzustellen. Die Teststelle benötigt Ihre Daten zur Durchführung des Tests. Sie können die Daten aber auch ohne die App bereitstellen. Sie entscheiden selbst, welche Daten im QR-Code enthalten sind und welche Sie der Teststelle auf andere Weise mitteilen.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent4" translatable="false">Auf Ihr persönliches Schnelltest-Profil haben zunächst nur Sie Zugriff. Nur wenn Sie den QR-Code des Schnelltest-Profils anderen Personen zeigen, können diese Zugriff auf die persönlichen Daten Ihres Schnelltest-Profils erhalten. Ein Zugriff auf andere Daten aus der App erfolgt dabei nicht (z.B. Ihre Check-ins oder Angaben im Kontakt-Tagebuch).</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent5" translatable="false">Sie haben jederzeit die Möglichkeit, Ihr Schnelltest-Profil wieder zu entfernen. Bis dahin bleibt es in der App auf Ihrem Smartphone gespeichert.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent6" translatable="false">Der QR-Code enthält Ihre persönlichen Angaben. Stellen Sie Ihren persönlichen QR-Code niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen werden. Wir empfehlen Ihren persönlichen QR-Code nicht zu veröffentlichen und nicht per E-Mail zu versenden.</string>
+    <!-- YMSG: RAT Profile Onboarding bullet points -->
+    <string name="rat_profile_onboarding_card_consent7" translatable="false">Private Personen oder Unternehmen dürfen von Ihnen nicht verlangen, dass Sie Ihr Schnelltest-Profil vorzeigen.</string>
 </resources>

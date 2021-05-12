@@ -18,7 +18,7 @@
         android:orientation="vertical"
         tools:context=".ui.main.MainActivity">
 
-        <Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 app:srcCompat="@drawable/ic_main_header"
                 bind:cwaContentDescription="@{@string/accessibility_logo}"
                 tools:ignore="ContentDescription" />
-        </Toolbar>
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"

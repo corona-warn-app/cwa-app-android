@@ -6,16 +6,17 @@ import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -58,6 +59,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var ratProfileSettings: RATProfileSettings
 
     @BeforeEach
     fun setUp() {
@@ -88,7 +90,8 @@ internal class DataResetTest : BaseTest() {
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
         traceWarningRepository = traceWarningRepository,
-        coronaTestRepository = coronaTestRepository
+        coronaTestRepository = coronaTestRepository,
+        ratProfileSettings = ratProfileSettings
     )
 
     @Test
@@ -122,5 +125,6 @@ internal class DataResetTest : BaseTest() {
         coVerify(exactly = 1) { traceLocationRepository.deleteAllTraceLocations() }
         coVerify(exactly = 1) { checkInRepository.clear() }
         coVerify(exactly = 1) { coronaTestRepository.clear() }
+        coVerify(exactly = 1) { ratProfileSettings.deleteProfile() }
     }
 }

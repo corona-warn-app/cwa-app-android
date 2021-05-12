@@ -120,7 +120,7 @@
     <!-- XHED: submission result antigen fragment negative result proof title -->
     <string name="submission_test_result_antigen_negative_proof_title">"Doğrulama Özelliği"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
-    <string name="submission_test_result_antigen_negative_proof_body">"Burada görüntülenen test sonucunu da negatif bir hızlı test sonucu kanıtı olarak kullanabilirsiniz. \n\nYalnızca yasalarca gerekli kılındığı takdirde hızlı test sonucunuzu kanıtlamanız gerektiğini unutmayın. Sonucu, uygulamayı kullanarak veya farklı bir şekilde kanıtlayabilirsiniz. Daha fazla bilgi için lütfen federal eyaletinizde geçerli test kanıtı kabül ölçütlerini öğrenin."</string>
+    <string name="submission_test_result_antigen_negative_proof_body">"Test sonucunuz özeldir ancak bazı yasalar nedeniyle paylaşmanız gerekebilir. Paylaşmanız gerekirse sunulan pek çok yöntemden birini kullanarak gösterebilirsiniz."</string>
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Sonucun çıktığı tarih:"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
@@ -136,4 +136,64 @@
     <!-- XTXT: coronatest negative antigen result third info body -->
     <string name="coronatest_negative_antigen_restul_third_info_body">"Gerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
 
+    <!-- ####################################
+     Rapid Antigen Test Profile
+     ###################################### -->
+    <!-- XHED: Create RAT profile card title -->
+    <string name="rat_profile_create_card_title">"Hızlı Test Profili Oluştur"</string>
+    <!-- XTXT: Create RAT profile card subtitle -->
+    <string name="rat_profile_create_card_subtitle">"Kişisel verilerinizle bir profil oluşturabilir ve her hızlı test sırasında QR kod aracılığıyla gönderebilirsiniz."</string>
+    <!-- XHED: Open RAT profile card title -->
+    <string name="rat_profile_open_card_title">"Hızlı Test Profili"</string>
+    <!-- XTXT: Open RAT profile card subtitle -->
+    <string name="rat_profile_open_card_subtitle">"Zamandan tasarruf edip test noktasında hızlı test profilinizi sunabilirsiniz."</string>
+    <!-- XHED: Create RAT profile title -->
+    <string name="rat_profile_create_title">"Hızlı Test Profili"</string>
+    <!-- XTXT: Create RAT profile first name hint -->
+    <string name="rat_profile_create_first_name_hint">"Ad"</string>
+    <!-- XTXT: Create RAT profile last name hint -->
+    <string name="rat_profile_create_last_name_hint">"Soyadı"</string>
+    <!-- XTXT: Create RAT profile birth date hint -->
+    <string name="rat_profile_create_birth_date_hint">"Doğum Tarihi"</string>
+    <!-- XBUT: Create RAT profile save button -->
+    <string name="rat_profile_create_button">"Kaydet"</string>
+    <!-- XTXT: Create RAT profile description -->
+    <string name="rat_profile_create_description">"Test noktalarında kaydınızı hızlandırmak için kişisel verilerinizi bir QR kod olarak kaydedin."</string>
+    <!-- XTXT: Create RAT profile street hint -->
+    <string name="rat_profile_create_street_hint">"Sokak ve Konut Numarası"</string>
+    <!-- XTXT: Create RAT profile post code hint -->
+    <string name="rat_profile_create_zip_code_hint">"Posta Kodu"</string>
+    <!-- XTXT: Create RAT profile city hint -->
+    <string name="rat_profile_create_city_hint">"Şehir"</string>
+    <!-- XTXT: Create RAT profile phone hint -->
+    <string name="rat_profile_create_phone_hint">"Telefon Numarası"</string>
+    <!-- XTXT: Create RAT profile email hint -->
+    <string name="rat_profile_create_email_hint">"E-posta Adresi"</string>
+
+    <!--RAT profile onboarding-->
+    <string name="rat_profile_onboarding_image_content_description">"Elinde akıllı telefon tutan bir kadın bir binanın önünde duruyor. QR kod, taranacak hızlı test profilini sembolize ediyor."</string>
+    <!-- XTXT: Create RAT profile onboarding title -->
+    <string name="rat_profile_onboarding_title">"Test noktalarında kaydınızı hızlandırmak için kişisel verilerinizi bir QR kod olarak kaydedin."</string>
+    <!-- XTXT: Create RAT profile onboarding subtitle -->
+    <string name="rat_profile_onboarding_subtitle">"Hızlı test profili oluşturduğunuzda her hızlı testten önce kişisel verilerinizi yeniden doldurmanız gerekmez."</string>
+    <!-- XTXT: Create RAT profile onboarding next button -->
+    <string name="rat_profile_onboarding_next">"Devam Et"</string>
+    <!-- XTXT: Create RAT profile onboarding privacy -->
+    <string name="rat_profile_onboarding_privacy">"Veri İşleme ve Onayınız Hakkında Ayrıntılı Bilgiler"</string>
+    <!-- XTXT: Create RAT Qr code profile description-->
+    <string name="rat_qr_code_profile_description">"Kişisel verilerinizin daha hızlı kaydedilebilmesi için lütfen test noktasında bu QR kodu sunun. Kimlik kartınızı da elinizde tutun."</string>
+    <!-- XTXT: Create RAT Qr code profile birth date-->
+    <string name="rat_qr_code_profile_birth_date">"Doğum tarihi: %1$s"</string>
+    <!-- XBUT: Create RAT Qr code profile next button-->
+    <string name="rat_qr_code_profile_next_button">"Devam Et"</string>
+    <!-- XTXT: Create RAT Qr code profile delete item-->
+    <string name="rat_qr_code_profile_delete_item">"Kaldır"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog title-->
+    <string name="rat_qr_code_profile_dialog_title">"Hızlı test profilini kaldırmak istiyor musunuz?"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog message-->
+    <string name="rat_qr_code_profile_dialog_message">"Lütfen unutmayın; QR kodu silerseniz artık kayıt yaparken bunu kullanamazsınız."</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->
+    <string name="rat_qr_code_profile_dialog_positive_button">"Sil"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog negative button-->
+    <string name="rat_qr_code_profile_dialog_negative_button">"İptal Et"</string>
 </resources>

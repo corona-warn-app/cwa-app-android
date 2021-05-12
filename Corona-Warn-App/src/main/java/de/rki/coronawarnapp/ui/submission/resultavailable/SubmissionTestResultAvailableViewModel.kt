@@ -98,10 +98,6 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
         }
     )
 
-    init {
-        submissionRepository.refreshTest(type = testType)
-    }
-
     fun goBack() {
         showCloseDialog.postValue(Unit)
     }
