@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.getDisplayText
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
