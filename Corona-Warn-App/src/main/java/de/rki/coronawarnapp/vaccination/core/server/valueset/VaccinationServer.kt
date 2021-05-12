@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.server.valueset
 
+import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
@@ -23,7 +24,7 @@ import javax.inject.Inject
 @Reusable
 class VaccinationServer @Inject constructor(
     @VaccinationValueSetHttpClient private val cache: Cache,
-    private val apiV1: VaccinationValueSetApiV1,
+    private val apiV1: Lazy<VaccinationValueSetApiV1>,
     private val dispatcherProvider: DispatcherProvider,
     private val signatureValidation: SignatureValidation
 ) {
@@ -53,7 +54,7 @@ class VaccinationServer @Inject constructor(
     private suspend fun requestValueSets(languageCode: String): Response<ResponseBody> =
         withContext(dispatcherProvider.IO) {
             Timber.d("Requesting value sets for language $languageCode from server")
-            apiV1.getValueSets(languageCode = languageCode)
+            apiV1.get().getValueSets(languageCode = languageCode)
         }
 
     private fun ResponseBody.parseBody(): ValueSetsOuterClass.ValueSets {
@@ -62,8 +63,7 @@ class VaccinationServer @Inject constructor(
         val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
         val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
 
-        if (exportBinary == null || exportSignature == null)
-            throw ValueSetInvalidSignatureException("Unknown files ${fileMap.entries}")
+        if (exportBinary == null || exportSignature == null) throw ValueSetInvalidSignatureException("Unknown files ${fileMap.entries}")
 
         val hasValidSignature = signatureValidation.hasValidSignature(
             toVerify = exportBinary,
