@@ -36,8 +36,8 @@
                     android:id="@+id/expandedImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/trace_location_view_cardhighlight_gradient"
-                    app:layout_collapseMode="parallax" />
+                    app:layout_collapseMode="parallax"
+                    app:srcCompat="@drawable/trace_location_view_cardhighlight_gradient" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
