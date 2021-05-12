@@ -1070,6 +1070,17 @@
     <string name="submission_test_result_pending_steps_waiting_heading">"Test sonucunuz henüz çıkmadı."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi kaldırın. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
+    <!-- XHED: Page headline for results next steps  -->
+    <string name="submission_test_result_steps_added_rat_heading">"Hızlı testiniz eklendi."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Test sonucunuz henüz çıkmadı."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_rat_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Test sonucunuz temas güncenize eklenecektir."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_contact_diary_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Güncelle"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1982,7 +1993,7 @@
     <!-- XHED: Trace location check-ins consent screen title -->
     <string name="trace_location_attendee_consent_title">"Konum Check-In’leri Paylaşılsın Mı?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Sizin yakınınızda check in yapmış olan diğer kullanıcıları uyarın. Kişisel verileriniz paylaşılmayacaktır."</string>
+    <string name="trace_location_attendee_consent_header_description">"Sizinle birlikte check in yapmış olan diğer kullanıcıları uyarın. Kişisel verileriniz paylaşılmayacaktır."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
     <string name="trace_location_attendee_consent_header_button">"Tümünü seç"</string>
     <!-- XBUT: Trace location check-ins consent screen continue button -->
@@ -1992,7 +2003,7 @@
     <!-- XHED: Trace location check-ins consent screen dialog title -->
     <string name="trace_location_attendee_consent_dialog_title">"Check-in’lerinizi paylaşmak istemediğinizden emin misiniz?"</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"Bu adımı atladığınızda sizin yakınınızda check in yapmış olan hiç kimseye uyarı gönderilmeyecektir."</string>
+    <string name="trace_location_attendee_consent_dialog_message">"Bu adımı atladığınızda sizinle birlikte check in yapmış olan hiç kimseye uyarı gönderilmeyecektir."</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
     <string name="trace_location_attendee_consent_dialog_positive_button">"Paylaş"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
