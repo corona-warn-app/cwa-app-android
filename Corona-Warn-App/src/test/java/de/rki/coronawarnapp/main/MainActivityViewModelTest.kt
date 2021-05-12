@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -36,8 +34,6 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var checkInRepository: CheckInRepository
-    @MockK lateinit var deadManScheduler: DeadmanNotificationScheduler
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     @BeforeEach
     fun setup() {
@@ -63,8 +59,6 @@ class MainActivityViewModelTest : BaseTest() {
         onboardingSettings = onboardingSettings,
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
-        deadmanScheduler = deadManScheduler,
-        coronaTestRepository = coronaTestRepository,
     )
 
     @Test
