@@ -52,7 +52,9 @@ class VaccinationQrCodeScanFragment :
                     binding.qrCodeScanSpinner.hide()
                     doNavigate(
                         VaccinationQrCodeScanFragmentDirections
-                            .actionVaccinationQrCodeScanFragmentToVaccinationDetailsFragment(event.certificateId)
+                            .actionVaccinationQrCodeScanFragmentToVaccinationListFragment(
+                                event.personIdentifierCode
+                            )
                     )
                 }
                 VaccinationQrCodeScanViewModel.Event.QrCodeScanInProgress -> {
