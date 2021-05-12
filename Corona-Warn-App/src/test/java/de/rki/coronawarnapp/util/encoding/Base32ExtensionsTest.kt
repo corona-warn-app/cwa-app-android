@@ -1,12 +1,14 @@
-package de.rki.coronawarnapp.util
+package de.rki.coronawarnapp.util.encoding
 
+import de.rki.coronawarnapp.util.NoPaddingTestProvider
+import de.rki.coronawarnapp.util.WithPaddingTestProvider
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.toByteString
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import testhelpers.BaseTest
 
-class Base32Test : BaseTest() {
+class Base32ExtensionsTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(NoPaddingTestProvider::class)
