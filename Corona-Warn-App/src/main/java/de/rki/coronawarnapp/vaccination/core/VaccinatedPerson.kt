@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -14,18 +15,13 @@ data class VaccinatedPerson(
     val identifier: VaccinatedPersonIdentifier
         get() = data.identifier
 
-    val vaccinationCertificates: Set<VaccinationCertificate>
-        get() = data.vaccinations.map {
-            it.toVaccinationCertificate(valueSet)
-        }.toSet()
+    val vaccinationCertificates: Set<VaccinationCertificate> by lazy {
+        data.vaccinations.map { it.toVaccinationCertificate(valueSet) }.toSet()
+    }
 
-    val proofCertificates: Set<ProofCertificate>
-        get() = data.proofs.map {
-            it.toProofCertificate(valueSet)
-        }.toSet()
-
-    val vaccinationStatus: Status
-        get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
+    val proofCertificates: Set<ProofCertificate> by lazy {
+        data.proofs.map { it.toProofCertificate(valueSet) }.toSet()
+    }
 
     val vaccineName: String
         get() = vaccinationCertificates.first().vaccineName
@@ -54,8 +50,27 @@ data class VaccinatedPerson(
     val lastProofCheckAt: Instant
         get() = data.lastSuccessfulPCRunAt
 
+    fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
+        val newestFullDose = vaccinationCertificates
+            .filter { it.doseNumber == it.totalSeriesOfDoses }
+            .maxByOrNull { it.vaccinatedAt }
+            ?: return Status.INCOMPLETE
+
+        val daysAgo = Duration(newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay(), nowUTC).standardDays
+
+        return when {
+            daysAgo >= IMMUNITY_WAITING_PERIOD.standardDays -> Status.IMMUNITY
+            else -> Status.COMPLETE
+        }
+    }
+
     enum class Status {
         INCOMPLETE,
-        COMPLETE
+        COMPLETE,
+        IMMUNITY
+    }
+
+    companion object {
+        private val IMMUNITY_WAITING_PERIOD = Duration.standardDays(14)
     }
 }
