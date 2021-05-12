@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 
 class VaccinationDetailsViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
@@ -26,17 +25,6 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     val errors = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<VaccinationDetailsNavigation>()
-
-    fun deleteVaccination() = launch {
-        try {
-            Timber.d("deleteVaccination")
-            vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
-            events.postValue(VaccinationDetailsNavigation.Back)
-        } catch (e: Exception) {
-            Timber.d(e, "deleteVaccinationCertificate failed")
-            errors.postValue(e)
-        }
-    }
 
     fun onClose() {
         events.postValue(VaccinationDetailsNavigation.Back)

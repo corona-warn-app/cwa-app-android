@@ -40,7 +40,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
-            deleteButton.setOnClickListener { showDeletionDialog() }
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
@@ -67,19 +66,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 }
             }
         }
-
-    private fun showDeletionDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.vaccination_details_deletion_dialog_title)
-            .setMessage(R.string.vaccination_details_deletion_dialog_message)
-            .setPositiveButton(R.string.vaccination_details_deletion_dialog_positive_button) { _, _ ->
-                viewModel.deleteVaccination()
-            }
-            .setNegativeButton(R.string.vaccination_details_deletion_dialog_negative_button) { _, _ ->
-                // No-Op
-            }
-            .show()
-    }
 
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
