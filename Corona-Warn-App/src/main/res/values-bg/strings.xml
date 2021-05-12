@@ -1070,6 +1070,17 @@
     <string name="submission_test_result_pending_steps_waiting_heading">"Все още няма резултат от теста Ви."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
+    <!-- XHED: Page headline for results next steps  -->
+    <string name="submission_test_result_steps_added_rat_heading">"Бързият Ви тест е добавен."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Все още няма резултат от теста Ви."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_rat_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Резултатът от теста Ви ще бъде добавен и във Вашия дневник на контактите."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_contact_diary_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Актуализиране"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1982,7 +1993,7 @@
     <!-- XHED: Trace location check-ins consent screen title -->
     <string name="trace_location_attendee_consent_title">"Ще споделите ли своите регистрации от локациите, които сте посетили?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Предупредете останалите, които също са се регистрирали в близост до вас. Вашите лични данни няма да бъдат споделени."</string>
+    <string name="trace_location_attendee_consent_header_description">"Предупредете останалите, които също са се регистрирали с вас. Вашите лични данни няма да бъдат споделени."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
     <string name="trace_location_attendee_consent_header_button">"Избери всички"</string>
     <!-- XBUT: Trace location check-ins consent screen continue button -->
@@ -1992,7 +2003,7 @@
     <!-- XHED: Trace location check-ins consent screen dialog title -->
     <string name="trace_location_attendee_consent_dialog_title">"Наистина ли не желаете да споделите своите регистрации?"</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"Като пропускате споделянето, вие не изпращате предупреждение на други контактни лица, регистрирани в близост до вас."</string>
+    <string name="trace_location_attendee_consent_dialog_message">"Като пропускате споделянето, вие не изпращате предупреждение на други контактни лица, регистрирани с вас."</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
     <string name="trace_location_attendee_consent_dialog_positive_button">"Споделяне"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
