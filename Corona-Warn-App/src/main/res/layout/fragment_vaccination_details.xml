@@ -100,119 +100,154 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            style="@style/Card.Vaccination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/name"
-                style="@style/body1"
+            android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/Card.Vaccination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Andrea Schneider" />
+                android:layout_marginHorizontal="24dp">
+                <ImageView
+                    android:id="@+id/qrCodeImage"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:contentDescription="@string/trace_location_event_detail_qr_code_accessibility"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_qr_code" />
 
-            <TextView
-                android:id="@+id/birth_date"
-                style="@style/body2Medium"
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_bar"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    app:hideAnimationBehavior="inward"
+                    app:indicatorColor="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="@id/qrCodeImage"
+                    app:layout_constraintEnd_toEndOf="@id/qrCodeImage"
+                    app:layout_constraintStart_toStartOf="@id/qrCodeImage"
+                    app:layout_constraintTop_toTopOf="@id/qrCodeImage" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                style="@style/Card.Vaccination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                tools:text="geboren 18.04.1943" />
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <TextView
-                style="@style/body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/vaccination_details_certificate_date" />
+                <TextView
+                    android:id="@+id/name"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Andrea Schneider" />
 
-            <TextView
-                android:id="@+id/vaccinated_at"
-                style="@style/body2Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                tools:text="12.04.2021" />
+                <TextView
+                    android:id="@+id/birth_date"
+                    style="@style/body2Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="geboren 18.04.1943" />
 
-            <TextView
-                style="@style/body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/vaccination_details_vaccine_name" />
+                <TextView
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/vaccination_details_certificate_date" />
 
-            <TextView
-                android:id="@+id/vaccine_name"
-                style="@style/body2Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                tools:text="Comirnaty (mRNA)" />
+                <TextView
+                    android:id="@+id/vaccinated_at"
+                    style="@style/body2Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="12.04.2021" />
 
-            <TextView
-                style="@style/body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/vaccination_details_vaccine_manufacturer" />
+                <TextView
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/vaccination_details_vaccine_name" />
 
-            <TextView
-                android:id="@+id/vaccine_manufacturer"
-                style="@style/body2Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                tools:text="BioNTech" />
+                <TextView
+                    android:id="@+id/vaccine_name"
+                    style="@style/body2Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="Comirnaty (mRNA)" />
 
-            <TextView
-                style="@style/body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/vaccination_details_certificate_issuer" />
+                <TextView
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/vaccination_details_vaccine_manufacturer" />
 
-            <TextView
-                android:id="@+id/certificate_issuer"
-                style="@style/body2Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                tools:text="Landratsamt Potsdam" />
+                <TextView
+                    android:id="@+id/vaccine_manufacturer"
+                    style="@style/body2Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="BioNTech" />
 
-            <TextView
-                style="@style/body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/vaccination_details_certificate_country" />
+                <TextView
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/vaccination_details_certificate_issuer" />
 
-            <TextView
-                android:id="@+id/certificate_country"
-                style="@style/body2Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                tools:text="Deutschland" />
+                <TextView
+                    android:id="@+id/certificate_issuer"
+                    style="@style/body2Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="Landratsamt Potsdam" />
 
-            <TextView
-                style="@style/body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/vaccination_details_certificate_id" />
+                <TextView
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/vaccination_details_certificate_country" />
 
-            <TextView
-                android:id="@+id/certificate_id"
-                style="@style/body2Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                tools:text="05930482748454836478695764787840" />
+                <TextView
+                    android:id="@+id/certificate_country"
+                    style="@style/body2Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="Deutschland" />
 
+                <TextView
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/vaccination_details_certificate_id" />
+
+                <TextView
+                    android:id="@+id/certificate_id"
+                    style="@style/body2Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="05930482748454836478695764787840" />
+
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
