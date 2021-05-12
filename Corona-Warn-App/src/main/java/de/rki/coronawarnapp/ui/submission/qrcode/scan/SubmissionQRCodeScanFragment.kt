@@ -54,38 +54,27 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding) {
+        binding.apply {
             submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-                binding.submissionQrCodeScanPreview.setTorch(
-                    isChecked
-                )
+                submissionQrCodeScanPreview.setTorch(isChecked)
             }
 
-            submissionQrCodeScanToolbar.setNavigationOnClickListener {
-                viewModel.onClosePressed()
-            }
+            submissionQrCodeScanToolbar.setNavigationOnClickListener { viewModel.onClosePressed() }
 
-            submissionQrCodeScanPreview.decoderFactory =
-                DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+            submissionQrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
 
-            submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
+            submissionQrCodeScanViewfinderView.setCameraPreview(submissionQrCodeScanPreview)
         }
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
-                    doNavigate(
-                        NavGraphDirections
-                            .actionToSubmissionDeletionWarningFragment(
-                                it.consentGiven,
-                                it.coronaTestQRCode
-                            )
-                    )
+                    NavGraphDirections
+                        .actionToSubmissionDeletionWarningFragment(it.consentGiven, it.coronaTestQRCode)
+                        .run { doNavigate(this) }
                 }
-                is SubmissionNavigationEvents.NavigateToDispatcher ->
-                    navigateToDispatchScreen()
-                is SubmissionNavigationEvents.NavigateToConsent ->
-                    goBack()
+                is SubmissionNavigationEvents.NavigateToDispatcher -> navigateToDispatchScreen()
+                is SubmissionNavigationEvents.NavigateToConsent -> goBack()
             }
         }
 
@@ -111,56 +100,45 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
+
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
-                when (state.test?.testResult) {
-                    CoronaTestResult.PCR_POSITIVE ->
-                        doNavigate(
-                            NavGraphDirections
-                                .actionToSubmissionTestResultAvailableFragment(testType = CoronaTest.Type.PCR)
-                        )
-                    CoronaTestResult.PCR_OR_RAT_PENDING -> {
-                        if (state.test.type == CoronaTest.Type.RAPID_ANTIGEN) {
-                            doNavigate(
-                                NavGraphDirections
-                                    .actionSubmissionTestResultPendingFragment(
-                                        testType = CoronaTest.Type.RAPID_ANTIGEN
-                                    )
-                            )
-                        } else {
-                            doNavigate(
-                                NavGraphDirections
-                                    .actionSubmissionTestResultPendingFragment(
-                                        testType = CoronaTest.Type.PCR
-                                    )
-                            )
-                        }
-                    }
-                    CoronaTestResult.PCR_NEGATIVE,
-                    CoronaTestResult.PCR_INVALID,
-                    CoronaTestResult.PCR_REDEEMED ->
-                        doNavigate(
-                            NavGraphDirections
-                                .actionSubmissionTestResultPendingFragment(
-                                    testType = CoronaTest.Type.PCR
-                                )
-                        )
-                    CoronaTestResult.RAT_POSITIVE ->
-                        doNavigate(
-                            NavGraphDirections
-                                .actionToSubmissionTestResultAvailableFragment(
-                                    testType = CoronaTest.Type.RAPID_ANTIGEN
-                                )
-                        )
-                    CoronaTestResult.RAT_NEGATIVE,
-                    CoronaTestResult.RAT_INVALID,
-                    CoronaTestResult.RAT_PENDING,
-                    CoronaTestResult.RAT_REDEEMED ->
-                        doNavigate(
-                            NavGraphDirections
-                                .actionSubmissionTestResultPendingFragment(
-                                    testType = CoronaTest.Type.RAPID_ANTIGEN
-                                )
-                        )
+                return@observe2
+            }
+
+            when (state.test?.testResult) {
+                CoronaTestResult.PCR_POSITIVE -> {
+                    NavGraphDirections
+                        .actionToSubmissionTestResultAvailableFragment(testType = CoronaTest.Type.PCR)
+                        .run { doNavigate(this) }
+                }
+
+                CoronaTestResult.PCR_OR_RAT_PENDING -> {
+                    NavGraphDirections
+                        .actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                        .run { doNavigate(this) }
+                }
+
+                CoronaTestResult.PCR_NEGATIVE,
+                CoronaTestResult.PCR_INVALID,
+                CoronaTestResult.PCR_REDEEMED -> {
+                    NavGraphDirections
+                        .actionSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
+                        .run { doNavigate(this) }
+                }
+
+                CoronaTestResult.RAT_POSITIVE -> {
+                    NavGraphDirections
+                        .actionToSubmissionTestResultAvailableFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
+                        .run { doNavigate(this) }
+                }
+
+                CoronaTestResult.RAT_NEGATIVE,
+                CoronaTestResult.RAT_INVALID,
+                CoronaTestResult.RAT_PENDING,
+                CoronaTestResult.RAT_REDEEMED -> {
+                    NavGraphDirections
+                        .actionSubmissionTestResultPendingFragment(testType = CoronaTest.Type.RAPID_ANTIGEN)
+                        .run { doNavigate(this) }
                 }
             }
         }
@@ -209,10 +187,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
     }
 
-    private fun navigateToDispatchScreen() =
-        doNavigate(
-            SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
-        )
+    private fun navigateToDispatchScreen() = doNavigate(
+        SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
+    )
 
     private fun showInvalidScanDialog() {
         val invalidScanDialogInstance = DialogHelper.DialogInstance(
