@@ -3,6 +3,7 @@ package testhelpers
 import io.kotest.assertions.retry
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
+import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 import kotlin.time.seconds
 
@@ -15,8 +16,8 @@ import kotlin.time.seconds
 fun <T> flakyTest(flakyAction: () -> T): Unit = runBlocking {
     retry(
         maxRetry = 5,
-        timeout = 30.seconds,
-        delay = 1.seconds,
+        timeout = Duration.seconds(30),
+        delay = Duration.seconds(1),
         multiplier = 1,
         exceptionClass = Exception::class,
         f = {
