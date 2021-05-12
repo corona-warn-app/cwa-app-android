@@ -40,6 +40,7 @@ import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.hasAPILevel
+import de.rki.coronawarnapp.vaccination.core.execution.VaccinationUpdateScheduler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -78,6 +79,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var raTestResultScheduler: RAResultScheduler
     @Inject lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
+    @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -130,6 +132,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("Setting up test result available notification services.")
         pcrTestResultAvailableNotificationService.setup()
         raTestResultAvailableNotificationService.setup()
+
+        Timber.v("Setting up vaccination data update scheduler.")
+        vaccinationUpdateScheduler.setup()
 
         deviceTimeHandler.launch()
         configChangeDetector.launch()

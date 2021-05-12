@@ -127,7 +127,7 @@ android {
             applicationIdSuffix '.test'
 
             ext {
-                envTypeDefault = [debug: "INT", release: "WRU-XD"]
+                envTypeDefault = [debug: "INT", release: "WRU"]
             }
 
             if (signingPropFile.canRead()) {
@@ -436,4 +436,7 @@ dependencies {
 
     // ANIMATIONS
     implementation "com.airbnb.android:lottie:3.5.0"
+
+    // HCert
+    implementation("com.upokecenter:cbor:4.4.1")
 }
