@@ -63,7 +63,7 @@ class VaccinationServer @Inject constructor(
         val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
         val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
 
-        if (exportBinary == null || exportSignature == null) throw ValueSetInvalidSignatureException("Unknown files ${fileMap.entries}")
+        if (exportBinary == null || exportSignature == null) throw ValueSetInvalidSignatureException(msg = "Unknown files ${fileMap.entries}")
 
         val hasValidSignature = signatureValidation.hasValidSignature(
             toVerify = exportBinary,
@@ -71,7 +71,7 @@ class VaccinationServer @Inject constructor(
         )
 
         if (!hasValidSignature) {
-            throw ValueSetInvalidSignatureException("Signature was invalid!")
+            throw ValueSetInvalidSignatureException(msg = "Signature of value sets did not match")
         }
 
         return ValueSetsOuterClass.ValueSets.parseFrom(exportBinary)
