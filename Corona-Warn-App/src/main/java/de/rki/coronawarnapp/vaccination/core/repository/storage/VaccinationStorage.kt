@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +14,8 @@ import javax.inject.Singleton
 @Singleton
 class VaccinationStorage @Inject constructor(
     @AppContext val context: Context,
-    @BaseGson val baseGson: Gson
+    @BaseGson val baseGson: Gson,
+    private val containerPostProcessor: ContainerPostProcessor,
 ) {
 
     private val prefs by lazy {
@@ -25,6 +26,7 @@ class VaccinationStorage @Inject constructor(
         // Allow for custom type adapter.
         baseGson.newBuilder().apply {
             registerTypeAdapter(RawCOSEObject::class.java, RawCOSEObject.JsonAdapter())
+            registerTypeAdapterFactory(containerPostProcessor)
         }.create()
     }
 

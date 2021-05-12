@@ -1,29 +1,28 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
-import com.google.gson.Gson
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
-import de.rki.coronawarnapp.vaccination.core.qrcode.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
-import de.rki.coronawarnapp.vaccination.decoder.ZLIBDecompressor
+import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import javax.inject.Inject
 
 class VaccinationQRCodeExtractorTest : BaseTest() {
 
-    private val zLIBDecompressor = ZLIBDecompressor()
-    private val healthCertificateCOSEDecoder = HealthCertificateCOSEDecoder()
-    private val vaccinationCertificateV1Decoder = VaccinationCertificateV1Parser(Gson())
+    @Inject lateinit var extractor: VaccinationQRCodeExtractor
 
-    private val extractor = VaccinationQRCodeExtractor(
-        zLIBDecompressor,
-        healthCertificateCOSEDecoder,
-        vaccinationCertificateV1Decoder
-    )
+    @BeforeEach
+    fun setup() {
+        DaggerVaccinationTestComponent.factory().create().inject(this)
+    }
 
     @Test
     fun `happy path extraction`() {
@@ -45,7 +44,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
             expiresAt shouldBe Instant.ofEpochSecond(1620564821)
         }
 
-        with(qrCode.parsedData.vaccinationCertificate) {
+        with(qrCode.parsedData.certificate) {
             with(nameData) {
                 familyName shouldBe "Musterfrau-Gößinger"
                 familyNameStandardized shouldBe "MUSTERFRAU<GOESSINGER"
@@ -70,6 +69,11 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
                 vaccinatedAt shouldBe LocalDate.parse("2021-02-18")
             }
         }
+    }
+
+    @Test
+    fun `happy path extraction 4`() {
+        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode4)
     }
 
     @Test
