@@ -13,6 +13,11 @@
         <action
             android:id="@+id/vaccinationConsentFragment_to_privacyFragment"
             app:destination="@id/privacyFragment" />
+        <action
+            android:id="@+id/vaccinationConsentFragment_to_vaccinationQrCodeScanFragment"
+            app:destination="@id/vaccinationQrCodeScanFragment"
+            app:popUpTo="@id/vaccinationConsentFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

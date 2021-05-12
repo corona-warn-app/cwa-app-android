@@ -44,7 +44,7 @@ class VaccinationConsentFragment : Fragment(R.layout.vaccination_consent_fragmen
                     doNavigate(VaccinationConsentFragmentDirections.vaccinationConsentFragmentToPrivacyFragment())
                 }
                 VaccinationConsentNavigationEvent.NavigateToQrCodeScan -> {
-                    // TODO: implement in when screen is ready
+                    doNavigate(VaccinationConsentFragmentDirections.vaccinationConsentFragmentToVaccinationQrCodeScanFragment())
                 }
             }
         }

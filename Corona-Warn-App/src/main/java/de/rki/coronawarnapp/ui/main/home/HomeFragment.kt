@@ -102,7 +102,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         viewModel.openVaccinationRegistrationFlow.observe2(this) {
             if (viewModel.wasVaccinationRegistrationAcknowledged()) {
-                // TODO: finish in another PR if registration is ready
+                val nestedGraph =
+                    findNavController().graph.findNode(R.id.vaccination_nav_graph) as NavGraph
+                nestedGraph.startDestination = R.id.vaccinationQrCodeScanFragment
             }
             doNavigate(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
         }
