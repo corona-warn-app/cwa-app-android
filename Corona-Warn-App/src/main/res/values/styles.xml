@@ -1,6 +1,6 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.Bridge">
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.Bridge">
         <item name="colorPrimary">@color/colorBrandSecondary</item>
         <item name="colorPrimaryDark">@color/colorStableDark</item>
         <item name="android:windowBackground">@color/colorBackground</item>
@@ -12,13 +12,11 @@
 
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
 
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">@bool/lightSystemUI
-        </item>
         <item name="android:windowLightStatusBar">@bool/lightSystemUI</item>
-
-        <item name="android:navigationBarColor">@color/colorSystemUI</item>
         <item name="android:statusBarColor">@color/colorSystemUI</item>
     </style>
+
+    <style name="AppTheme" parent="BaseTheme" />
 
     <style name="ThemeOverlay.App.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="colorPrimary">@color/colorAccent</item>
@@ -237,6 +235,13 @@
         <item name="android:elevation">@dimen/elevation_none</item>
     </style>
 
+    <style name="Card.Vaccination" parent="Card.NoElevation">
+        <item name="android:backgroundTint">@color/colorVaccinationCardBackground</item>
+    </style>
+
+    <style name="Card.Vaccination.Ripple">
+        <item name="android:background">@drawable/grey_card_ripple</item>
+    </style>
 
     <style name="Card.NoPadding">
         <item name="android:padding">@dimen/no_padding</item>

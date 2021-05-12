@@ -12,7 +12,7 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -30,6 +30,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -51,41 +52,31 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
     private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
 
+    @Suppress("ComplexMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding) {
+        binding.apply {
             submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-                binding.submissionQrCodeScanPreview.setTorch(
-                    isChecked
-                )
+                submissionQrCodeScanPreview.setTorch(isChecked)
             }
 
-            submissionQrCodeScanToolbar.setNavigationOnClickListener {
-                viewModel.onClosePressed()
-            }
+            submissionQrCodeScanToolbar.setNavigationOnClickListener { viewModel.onClosePressed() }
 
-            submissionQrCodeScanPreview.decoderFactory =
-                DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+            submissionQrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
 
-            submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
+            submissionQrCodeScanViewfinderView.setCameraPreview(submissionQrCodeScanPreview)
         }
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
-                    doNavigate(
-                        NavGraphDirections
-                            .actionToSubmissionDeletionWarningFragment(
-                                it.consentGiven,
-                                it.coronaTestQRCode
-                            )
-                    )
+                    NavGraphDirections
+                        .actionToSubmissionDeletionWarningFragment(it.consentGiven, it.coronaTestQRCode)
+                        .run { doNavigate(this) }
                 }
-                is SubmissionNavigationEvents.NavigateToDispatcher ->
-                    navigateToDispatchScreen()
-                is SubmissionNavigationEvents.NavigateToConsent ->
-                    goBack()
+                is SubmissionNavigationEvents.NavigateToDispatcher -> navigateToDispatchScreen()
+                is SubmissionNavigationEvents.NavigateToConsent -> goBack()
             }
         }
 
@@ -111,58 +102,37 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
+
             if (ApiRequestState.SUCCESS == state.apiRequestState) {
-                when (state.test?.testResult) {
-                    CoronaTestResult.PCR_POSITIVE ->
-                        doNavigate(
-                            NavGraphDirections
-                                .actionToSubmissionTestResultAvailableFragment(testType = CoronaTest.Type.PCR)
-                        )
-                    CoronaTestResult.PCR_OR_RAT_PENDING -> {
-                        if (state.test.type == CoronaTest.Type.RAPID_ANTIGEN) {
-                            doNavigate(
-                                NavGraphDirections
-                                    .actionSubmissionTestResultPendingFragment(
-                                        testType = CoronaTest.Type.RAPID_ANTIGEN
-                                    )
-                            )
-                        } else {
-                            doNavigate(
-                                NavGraphDirections
-                                    .actionSubmissionTestResultPendingFragment(
-                                        testType = CoronaTest.Type.PCR
-                                    )
-                            )
-                        }
-                    }
-                    CoronaTestResult.PCR_NEGATIVE,
-                    CoronaTestResult.PCR_INVALID,
-                    CoronaTestResult.PCR_REDEEMED ->
-                        doNavigate(
-                            NavGraphDirections
-                                .actionSubmissionTestResultPendingFragment(
-                                    testType = CoronaTest.Type.PCR
-                                )
-                        )
-                    CoronaTestResult.RAT_POSITIVE ->
-                        doNavigate(
-                            NavGraphDirections
-                                .actionToSubmissionTestResultAvailableFragment(
-                                    testType = CoronaTest.Type.RAPID_ANTIGEN
-                                )
-                        )
-                    CoronaTestResult.RAT_NEGATIVE,
-                    CoronaTestResult.RAT_INVALID,
-                    CoronaTestResult.RAT_PENDING,
-                    CoronaTestResult.RAT_REDEEMED ->
-                        doNavigate(
-                            NavGraphDirections
-                                .actionSubmissionTestResultPendingFragment(
-                                    testType = CoronaTest.Type.RAPID_ANTIGEN
-                                )
-                        )
-                }
+                return@observe2
             }
+
+            if (state.test == null) {
+                Timber.w("Successful API request, but test was null?")
+                return@observe2
+            }
+
+            when (state.test.testResult) {
+                CoronaTestResult.PCR_POSITIVE ->
+                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = Type.PCR)
+
+                CoronaTestResult.PCR_OR_RAT_PENDING ->
+                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+
+                CoronaTestResult.PCR_NEGATIVE,
+                CoronaTestResult.PCR_INVALID,
+                CoronaTestResult.PCR_REDEEMED ->
+                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = Type.PCR)
+
+                CoronaTestResult.RAT_POSITIVE ->
+                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = Type.RAPID_ANTIGEN)
+
+                CoronaTestResult.RAT_NEGATIVE,
+                CoronaTestResult.RAT_INVALID,
+                CoronaTestResult.RAT_PENDING,
+                CoronaTestResult.RAT_REDEEMED ->
+                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = Type.RAPID_ANTIGEN)
+            }.run { doNavigate(this) }
         }
 
         viewModel.registrationError.observe2(this) {
@@ -209,10 +179,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
     }
 
-    private fun navigateToDispatchScreen() =
-        doNavigate(
-            SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
-        )
+    private fun navigateToDispatchScreen() = doNavigate(
+        SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
+    )
 
     private fun showInvalidScanDialog() {
         val invalidScanDialogInstance = DialogHelper.DialogInstance(

@@ -168,4 +168,25 @@
     <string name="rat_profile_onboarding_card_consent6" translatable="false">Der QR-Code enthält Ihre persönlichen Angaben. Stellen Sie Ihren persönlichen QR-Code niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen werden. Wir empfehlen Ihren persönlichen QR-Code nicht zu veröffentlichen und nicht per E-Mail zu versenden.</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
     <string name="rat_profile_onboarding_card_consent7" translatable="false">Private Personen oder Unternehmen dürfen von Ihnen nicht verlangen, dass Sie Ihr Schnelltest-Profil vorzeigen.</string>
+
+    <!-- XTXT: Vaccination Consent title-->
+    <string name="vaccination_consent_title">Ihr Einverständnis</string>
+    <!-- XTXT: Vaccination Consent subtitle-->
+    <string name="vaccination_consent_headline">Impfzertifikat registrieren</string>
+    <!-- XTXT: Vaccination Consent subtitle of qr info -->
+    <string name="vaccination_consent_info_subtitle_text">"Erstellen Sie einen digitalen Impfnachweis. Sie finden weitere Informationen in der FAQ zum Impfen."</string>
+    <!-- XTXT: Vaccination Consent subtitle of qr info (part that should be displayed as link) -->
+    <string name="vaccination_consent_info_subtitle_text_link_label">"FAQ zum Impfen."</string>
+    <!-- XTXT: Vaccination Consent text of qr info -->
+    <string name="vaccination_consent_qr_info_text">"Scannen Sie den QR-Code auf Ihrem Impfzertifikat, um das Zertifikat zu registrieren."</string>
+    <!-- XTXT: Vaccination Consent qr code text -->
+    <string name="vaccination_consent_qr_info_qr_code_text">"Die App erstellt einen Impfnachweis. Der QR-Code zum vollständigen Impfnachweis erhalten Sie, wenn Sie alle Impfungen erhalten haben. Je nach Impfstoff können mehrere Impftermine nötig sein."</string>
+    <!-- XTXT: Vaccination Consent time text  -->
+    <string name="vaccination_consent_qr_info_time_text">"Ihr Impfnachweis wird in regelmäßigen Abständen automatisch aktualisiert. Wenn durch Mutationen des Coronavirus neue Impfungen nötig werden, kann Ihr Impfnachweis ungültig werden."</string>
+    <!-- XTXT: Text for vaccination consent legal information button -->
+    <string name="vaccination_consent_onboarding_legal_information">"Weitere Hinweise finden Sie in der Datenschutzerklärung."</string>
+    <!-- XBUT: Text for vaccination consent accept button -->
+    <string name="vaccination_consent_accept_button">"Einverstanden"</string>
+    <!-- XTXT: Vaccination Consent FAQ Url -->
+    <string name="vaccination_consent_faq_url">"https://www.coronawarn.app/de/faq/"</string>
 </resources>

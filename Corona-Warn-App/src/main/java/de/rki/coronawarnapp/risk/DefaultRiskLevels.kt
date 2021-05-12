@@ -200,13 +200,13 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
         // 9. Determine `Total Minimum Distinct Encounters With Low Risk`
         val totalMinimumDistinctEncountersWithLowRisk = exposureHistory
-            .sumBy { it.minimumDistinctEncountersWithLowRisk }
+            .sumOf { it.minimumDistinctEncountersWithLowRisk }
 
         Timber.d("totalMinimumDistinctEncountersWithLowRisk: %d", totalMinimumDistinctEncountersWithLowRisk)
 
         // 10. Determine `Total Minimum Distinct Encounters With High Risk`
         val totalMinimumDistinctEncountersWithHighRisk = exposureHistory
-            .sumBy { it.minimumDistinctEncountersWithHighRisk }
+            .sumOf { it.minimumDistinctEncountersWithHighRisk }
 
         Timber.d("totalMinimumDistinctEncountersWithHighRisk: %d", totalMinimumDistinctEncountersWithHighRisk)
 

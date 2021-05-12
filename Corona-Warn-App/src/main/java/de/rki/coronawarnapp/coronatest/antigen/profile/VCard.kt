@@ -10,6 +10,8 @@ class VCard @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
+    private val now = timeStamper.nowUTC
+
     /**
      * Return V-Card format for [RATProfile]
      * @return [String]
@@ -28,8 +30,8 @@ class VCard @Inject constructor(
         val zipCode = zipCode.escapeAll()
         val phone = phone.escapeAll()
         val email = email.escapeAll()
-        val birthDate = birthDate?.toString(ISODateTimeFormat.basicDate()).orEmpty()
-        val rev = timeStamper.nowUTC.toString(ISODateTimeFormat.basicDateTimeNoMillis()) // Time the vCard was updated
+        val birthDate = birthDate?.toString(birthDateFormatter).orEmpty()
+        val rev = now.toString(revDateFormatter) // Time the vCard was updated
         """
             BEGIN:VCARD
             VERSION:4.0
@@ -48,4 +50,9 @@ class VCard @Inject constructor(
         .replace("\\", "\\\\")
         .replace(",", "\\,")
         .replace(";", "\\;")
+
+    companion object {
+        private val birthDateFormatter = ISODateTimeFormat.basicDate()
+        private val revDateFormatter = ISODateTimeFormat.basicDateTimeNoMillis()
+    }
 }

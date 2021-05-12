@@ -77,4 +77,9 @@
     <!-- QR Code Scan -->
     <color name="colorQrCodeScanToolbar">#FFFFFF</color>
     <color name="colorQrCodeScanMask">#BF000000</color>
+
+    <!-- Vaccination -->
+    <color name="colorVaccinationCardBackground">#434445</color>
+
+    <color name="dividerColor">#4DFFFFFF</color>
 </resources>
