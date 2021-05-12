@@ -53,7 +53,7 @@ class VaccinationQrCodeScanFragment :
                     doNavigate(
                         VaccinationQrCodeScanFragmentDirections
                             .actionVaccinationQrCodeScanFragmentToVaccinationListFragment(
-                                event.vaccinatedPersonIdentifierCode
+                                event.personIdentifierCode
                             )
                     )
                 }

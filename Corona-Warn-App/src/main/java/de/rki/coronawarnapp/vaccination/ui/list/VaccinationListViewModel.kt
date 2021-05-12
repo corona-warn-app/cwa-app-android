@@ -21,25 +21,18 @@ import kotlinx.coroutines.flow.map
 
 class VaccinationListViewModel @AssistedInject constructor(
     vaccinationRepository: VaccinationRepository,
-    @Assisted private val vaccinatedPersonIdentifier: String
+    @Assisted private val personIdentifierCode: String
 ) : CWAViewModel() {
 
     val events = SingleLiveEvent<Event>()
 
-    val vaccinationInfoFlow = vaccinationRepository.vaccinationInfos.map { vaccinatedPersonSet ->
-        // TODO
-        // val vaccinatedPerson = vaccinatedPersonSet.single { it.identifier.code == vaccinatedPersonIdentifier }
-        vaccinatedPersonSet.first()
+    private val vaccinatedPersonFlow = vaccinationRepository.vaccinationInfos.map { vaccinatedPersonSet ->
+        vaccinatedPersonSet.single { it.identifier.code == personIdentifierCode }
     }
 
-    val uiState: LiveData<UiState> = vaccinationInfoFlow.map { vaccinatedPerson ->
-
-        val listItems = assembleItemList(
-            vaccinatedPerson = vaccinatedPerson,
-        )
-
+    val uiState: LiveData<UiState> = vaccinatedPersonFlow.map { vaccinatedPerson ->
         UiState(
-            listItems = listItems,
+            listItems = assembleItemList(vaccinatedPerson = vaccinatedPerson),
             vaccinationStatus = vaccinatedPerson.vaccinationStatus
         )
     }.catch {
@@ -48,7 +41,7 @@ class VaccinationListViewModel @AssistedInject constructor(
 
     private fun assembleItemList(vaccinatedPerson: VaccinatedPerson) = mutableListOf<VaccinationListItem>().apply {
         if (vaccinatedPerson.vaccinationStatus == COMPLETE) {
-            // Tbd what to show on complete vaccination - the proof certificate is obsolete
+            // Tbd what to show on complete vaccination - the proof certificate is now obsolete
         } else {
             add(VaccinationListIncompleteTopCardItem)
         }
@@ -94,7 +87,7 @@ class VaccinationListViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<VaccinationListViewModel> {
         fun create(
-            vaccinatedPersonIdentifier: String
+            personIdentifierCode: String
         ): VaccinationListViewModel
     }
 }
