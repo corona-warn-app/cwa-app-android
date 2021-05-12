@@ -4,26 +4,26 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.vaccination.core.ProofCertificate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
+import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateCOSEParser
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateData
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateResponse
 import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
-import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
-import okio.ByteString
+import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateCOSEParser
+import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateData
+import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateResponse
+import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 @Keep
 data class ProofContainer(
-    @SerializedName("proofCOSE") val proofCOSE: ByteString,
+    @SerializedName("proofCOSE") val proofCOSE: RawCOSEObject,
     @SerializedName("receivedAt") val receivedAt: Instant,
 ) {
     @Transient internal var preParsedData: ProofCertificateData? = null
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
-    constructor() : this(ByteString.EMPTY, Instant.EPOCH)
+    constructor() : this(RawCOSEObject.EMPTY, Instant.EPOCH)
 
     @delegate:Transient
     private val proofData: ProofCertificateData by lazy {

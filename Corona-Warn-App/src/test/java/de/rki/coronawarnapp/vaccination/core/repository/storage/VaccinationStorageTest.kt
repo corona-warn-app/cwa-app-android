@@ -8,15 +8,12 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import okio.ByteString.Companion.decodeBase64
-import org.junit.Ignore
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.MockSharedPreferences
 
-@Ignore
 class VaccinationStorageTest : BaseTest() {
 
     @MockK lateinit var context: Context
@@ -55,60 +52,18 @@ class VaccinationStorageTest : BaseTest() {
     }
 
     @Test
-    fun `store one fully vaccinated person`() {
+    fun `store one person`() {
         val instance = createInstance()
-        instance.personContainers = setOf(VaccinationTestData.PERSON_A_DATA_2VAC_PROOF)
+        instance.personContainers = setOf(VaccinationTestData.PERSON_C_DATA_1VAC_NOPROOF)
 
         val json =
-            (mockPreferences.dataMapPeek["vaccination.person.2009-02-28#DARSONS<VAN<HALEN#FRANCOIS<JOAN"] as String)
+            (mockPreferences.dataMapPeek["vaccination.person.1964-08-12#SCHMITT<MUSTERMANN#ERIKA<DOERTE"] as String)
 
         json.toComparableJsonPretty() shouldBe """
             {
                 "vaccinationData": [
                     {
-                        "vaccinationCertificateCOSE": "VGhlIGNha2UgaXMgYSBsaWUu",
-                        "scannedAt": 1620062834471
-                    },
-                    {
-                        "vaccinationCertificateCOSE": "VGhlIENha2UgaXMgTm90IGEgTGll",
-                        "scannedAt": 1620149234473
-                    }
-                ],
-                "proofData": [
-                    {
-                        "proofCOSE": "VGhpc0lzQVByb29mQ09TRQ==",
-                        "receivedAt": 1620062834474
-                    }
-                ],
-                "lastSuccessfulProofCertificateRun": 0,
-                "proofCertificateRunPending": false
-            }
-        """.toComparableJsonPretty()
-
-        instance.personContainers.single().apply {
-            this shouldBe VaccinationTestData.PERSON_A_DATA_2VAC_PROOF
-            this.vaccinations.map { it.vaccinationCertificateCOSE } shouldBe setOf(
-                "VGhlIGNha2UgaXMgYSBsaWUu".decodeBase64()!!,
-                "VGhlIENha2UgaXMgTm90IGEgTGll".decodeBase64()!!,
-            )
-            this.proofs.map { it.proofCOSE } shouldBe setOf(
-                "VGhpc0lzQVByb29mQ09TRQ==".decodeBase64()!!,
-            )
-        }
-    }
-
-    @Test
-    fun `store incompletely vaccinated person`() {
-        val instance = createInstance()
-        instance.personContainers = setOf(VaccinationTestData.PERSON_B_DATA_1VAC_NOPROOF)
-
-        val json = (mockPreferences.dataMapPeek["vaccination.person.1996-12-24#VON<MUSTERMENSCH#SIR<JAKOB"] as String)
-
-        json.toComparableJsonPretty() shouldBe """
-            {
-                "vaccinationData": [
-                    {
-                        "vaccinationCertificateCOSE": "VGhpc0lzSmFrb2I=",
+                        "vaccinationCertificateCOSE": "${VaccinationTestData.PERSON_C_VAC_1_COSE.data.base64()}",
                         "scannedAt": 1620062834471
                     }
                 ],
@@ -119,25 +74,9 @@ class VaccinationStorageTest : BaseTest() {
         """.toComparableJsonPretty()
 
         instance.personContainers.single().apply {
-            this shouldBe VaccinationTestData.PERSON_B_DATA_1VAC_NOPROOF
-            this.vaccinations.single().vaccinationCertificateCOSE shouldBe "VGhpc0lzSmFrb2I=".decodeBase64()!!
-        }
-    }
-
-    @Test
-    fun `store two persons`() {
-        createInstance().apply {
-            personContainers = setOf(
-                VaccinationTestData.PERSON_B_DATA_1VAC_NOPROOF,
-                VaccinationTestData.PERSON_A_DATA_2VAC_PROOF
-            )
-            personContainers shouldBe setOf(
-                VaccinationTestData.PERSON_B_DATA_1VAC_NOPROOF,
-                VaccinationTestData.PERSON_A_DATA_2VAC_PROOF
-            )
-
-            personContainers = emptySet()
-            personContainers shouldBe emptySet()
+            this shouldBe VaccinationTestData.PERSON_C_DATA_1VAC_NOPROOF
+            this.vaccinations.single().vaccinationCertificateCOSE shouldBe VaccinationTestData.PERSON_C_VAC_1_COSE
+            this.proofs shouldBe emptySet()
         }
     }
 }

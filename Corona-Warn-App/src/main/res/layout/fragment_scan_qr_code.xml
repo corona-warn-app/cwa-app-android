@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/check_in_qr_code_scan_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@string/qr_code_scan_body"
+    android:transitionName="shared_element_container">
+
+    <com.journeyapps.barcodescanner.BarcodeView
+        android:id="@+id/qr_code_scan_preview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:zxing_framing_rect_height="@dimen/scan_qr_code_viewfinder_size"
+        app:zxing_framing_rect_width="@dimen/scan_qr_code_viewfinder_size">
+
+    </com.journeyapps.barcodescanner.BarcodeView>
+
+    <com.journeyapps.barcodescanner.ViewfinderView
+        android:id="@+id/qr_code_scan_viewfinder_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:zxing_viewfinder_mask="@color/colorQrCodeScanMask"
+        app:zxing_viewfinder_laser_visibility="false" />
+
+    <TextView
+        android:id="@+id/qr_code_scan_body"
+        style="@style/qrCodeScanBody"
+        android:layout_width="@dimen/scan_qr_code_viewfinder_size"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/scan_qr_code_viewfinder_center_offset"
+        android:text="@string/qr_code_scan_body"
+        app:layout_constraintEnd_toEndOf="@id/qr_code_scan_preview"
+        app:layout_constraintStart_toStartOf="@id/qr_code_scan_preview"
+        app:layout_constraintTop_toBottomOf="@id/qr_code_scan_guideline_center" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/qr_code_scan_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:indeterminate="true"
+        app:indicatorColor="@android:color/white"
+        app:indicatorSize="64dp"
+        app:trackColor="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="@id/qr_code_scan_body"
+        app:layout_constraintStart_toStartOf="@id/qr_code_scan_body"
+        app:layout_constraintTop_toBottomOf="@id/qr_code_scan_body" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/qr_code_scan_toolbar"
+        style="@style/CWAToolbar.BackArrow.Transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIconTint="@color/colorQrCodeScanToolbar"
+        app:title="@string/qr_code_scan_title"
+        app:titleTextColor="@color/colorQrCodeScanToolbar">
+
+        <ToggleButton
+            android:id="@+id/qr_code_scan_torch"
+            android:layout_width="@dimen/icon_size_button"
+            android:layout_height="@dimen/icon_size_button"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:background="@drawable/ic_registration_qr_code_scan_torch_toggle"
+            android:backgroundTint="@color/colorQrCodeScanToolbar"
+            android:textOff=""
+            android:textOn="" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/qr_code_scan_guideline_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,10 +52,10 @@
                         android:layout_marginTop="90dp"
                         android:layout_marginBottom="12dp"
                         android:gravity="center"
-                        android:text="@string/vaccination_details_title"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="Impfung 1 von 2" />
 
                     <TextView
                         android:id="@+id/subtitle"
@@ -108,7 +108,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
-                style="@style/Card.NoElevation"
+                style="@style/Card.Vaccination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"

@@ -1,23 +1,26 @@
 package de.rki.coronawarnapp.vaccination.core.repository.storage
 
 import androidx.annotation.Keep
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
+import de.rki.coronawarnapp.vaccination.core.qrcode.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
-import de.rki.coronawarnapp.vaccination.core.server.VaccinationValueSet
-import okio.ByteString
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1Parser
+import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 @Keep
 data class VaccinationContainer(
-    @SerializedName("vaccinationCertificateCOSE") val vaccinationCertificateCOSE: ByteString,
+    @SerializedName("vaccinationCertificateCOSE") val vaccinationCertificateCOSE: RawCOSEObject,
     @SerializedName("scannedAt") val scannedAt: Instant,
 ) {
 
@@ -25,11 +28,15 @@ data class VaccinationContainer(
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
-    constructor() : this(ByteString.EMPTY, Instant.EPOCH)
+    constructor() : this(RawCOSEObject.EMPTY, Instant.EPOCH)
 
+    // TODO DI/ error handling
     @delegate:Transient
     private val certificateData: VaccinationCertificateData by lazy {
-        preParsedData ?: VaccinationCertificateCOSEParser().parse(vaccinationCertificateCOSE)
+        preParsedData ?: VaccinationCertificateCOSEParser(
+            HealthCertificateCOSEDecoder(),
+            VaccinationCertificateV1Parser(Gson()),
+        ).parse(vaccinationCertificateCOSE)
     }
 
     val certificate: VaccinationCertificateV1

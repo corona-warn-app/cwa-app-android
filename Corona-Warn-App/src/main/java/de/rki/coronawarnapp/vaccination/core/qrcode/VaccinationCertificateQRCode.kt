@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
-import okio.ByteString
+import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
 
-// TODO
 data class VaccinationCertificateQRCode(
     val parsedData: VaccinationCertificateData,
-    // COSE representation of the vaccination certificate (as byte sequence)
-    val certificateCOSE: ByteString,
+    val certificateCOSE: RawCOSEObject,
 ) {
     val uniqueCertificateIdentifier: String
         get() = parsedData.vaccinationCertificate.vaccinationDatas.single().uniqueCertificateIdentifier

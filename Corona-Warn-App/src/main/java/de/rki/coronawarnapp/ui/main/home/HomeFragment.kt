@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment
 import javax.inject.Inject
 
 /**
@@ -123,6 +124,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         viewModel.tracingExplanationWasShown()
                     }
                 }
+                is HomeFragmentEvents.GoToVaccinationList -> findNavController().navigate(
+                    VaccinationListFragment.navigationUri(event.vaccinatedPersonIdentifier)
+                )
             }
         }
 
@@ -172,7 +176,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE)
+            getButton(DialogInterface.BUTTON_POSITIVE)
                 .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }
@@ -189,7 +193,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         )
 
         DialogHelper.showDialog(riskLevelLoweredDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextTint))
+            getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextTint))
         }
     }
 }

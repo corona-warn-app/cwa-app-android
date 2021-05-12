@@ -5,7 +5,6 @@ import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.TextViewCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
@@ -42,21 +41,22 @@ private fun MaterialAlertDialogBuilder.setMessageView(
     setView(textView)
 }
 
-fun Throwable.toErrorDialogBuilder(context: Context) = MaterialAlertDialogBuilder(context).apply {
-    val error = this@toErrorDialogBuilder
-    val humanReadable = error.tryHumanReadableError(context)
+fun Throwable.toErrorDialogBuilder(context: Context) =
+    MaterialAlertDialogBuilder(context).apply {
+        val error = this@toErrorDialogBuilder
+        val humanReadable = error.tryHumanReadableError(context)
 
-    setTitle(humanReadable.title ?: context.getString(R.string.errors_generic_headline_short))
-    setMessageView(humanReadable.description, textHasLinks = true)
+        setTitle(humanReadable.title ?: context.getString(R.string.errors_generic_headline_short))
+        setMessageView(humanReadable.description, textHasLinks = true)
 
-    setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
+        setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
 
-    setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->
-        AlertDialog.Builder(context).apply {
-            setMessageView(
-                error.toString() + "\n\n" + error.stackTraceToString(),
-                textHasLinks = false
-            )
-        }.show()
+        setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->
+            MaterialAlertDialogBuilder(context).apply {
+                setMessageView(
+                    error.toString() + "\n\n" + error.stackTraceToString(),
+                    textHasLinks = false
+                )
+            }.show()
+        }
     }
-}
