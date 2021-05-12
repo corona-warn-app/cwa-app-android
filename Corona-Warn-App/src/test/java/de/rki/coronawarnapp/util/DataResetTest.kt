@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
+import de.rki.coronawarnapp.vaccination.core.VaccinationPreferences
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
@@ -46,6 +47,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
     @MockK lateinit var contactDiaryPreferences: ContactDiaryPreferences
     @MockK lateinit var traceLocationPreferences: TraceLocationPreferences
+    @MockK lateinit var vaccinationPreferences: VaccinationPreferences
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var surveySettings: SurveySettings
@@ -95,6 +97,7 @@ internal class DataResetTest : BaseTest() {
         coronaTestRepository = coronaTestRepository,
         ratProfileSettings = ratProfileSettings,
         valueSetsRepository = valueSetsRepository,
+        vaccinationPreferences = vaccinationPreferences
     )
 
     @Test
@@ -111,6 +114,7 @@ internal class DataResetTest : BaseTest() {
         coVerify(exactly = 1) { riskLevelStorage.clear() }
         coVerify(exactly = 1) { contactDiaryPreferences.clear() }
         coVerify(exactly = 1) { traceLocationPreferences.clear() }
+        coVerify(exactly = 1) { vaccinationPreferences.clear() }
         coVerify(exactly = 1) { cwaSettings.clear() }
         coVerify(exactly = 1) { surveySettings.clear() }
         coVerify(exactly = 1) { analyticsSettings.clear() }

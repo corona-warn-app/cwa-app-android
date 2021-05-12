@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.vaccination.ui
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment
+import de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragmentModule
 import de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragmentModule
 import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment
@@ -20,4 +22,7 @@ abstract class VaccinationUIModule {
 
     @ContributesAndroidInjector(modules = [VaccinationQrCodeScanModule::class])
     abstract fun vaccinationQrCodeScanFragment(): VaccinationQrCodeScanFragment
+
+    @ContributesAndroidInjector(modules = [VaccinationConsentFragmentModule::class])
+    abstract fun vaccinationConsentFragment(): VaccinationConsentFragment
 }
