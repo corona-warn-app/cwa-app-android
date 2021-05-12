@@ -9,13 +9,13 @@ import de.rki.coronawarnapp.release.NewReleaseInfoFragment
 import de.rki.coronawarnapp.release.NewReleaseInfoFragmentModule
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.RATProfileUIModule
-import de.rki.coronawarnapp.ui.presencetracing.PresenceTracingUIModule
 import de.rki.coronawarnapp.ui.information.InformationFragmentModule
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragmentModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
+import de.rki.coronawarnapp.ui.presencetracing.PresenceTracingUIModule
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragment
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentModule
 import de.rki.coronawarnapp.ui.settings.SettingFragmentsModule
@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionFragmentModule
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
+import de.rki.coronawarnapp.vaccination.ui.VaccinationUIModule
 
 @Module(
     includes = [
@@ -39,6 +40,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
         AnalyticsUIModule::class,
         PresenceTracingUIModule::class,
         RATProfileUIModule::class,
+        VaccinationUIModule::class,
     ]
 )
 abstract class MainActivityModule {

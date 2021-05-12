@@ -66,7 +66,7 @@ class ENFClient @Inject constructor(
     fun isPerformingExposureDetection(): Flow<Boolean> = exposureDetectionTracker.calculations
         .map { it.values }
         .map { values ->
-            values.maxBy { it.startedAt }?.isCalculating == true
+            values.maxByOrNull { it.startedAt }?.isCalculating == true
         }
 
     fun latestTrackedExposureDetection(): Flow<Collection<TrackedExposureDetection>> =

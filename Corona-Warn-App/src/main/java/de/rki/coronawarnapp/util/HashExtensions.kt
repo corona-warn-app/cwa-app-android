@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.util.HashExtensions.Format.HEX
 import okio.ByteString.Companion.toByteString
 import java.io.File
 import java.security.MessageDigest
-import java.util.Locale
 
 internal object HashExtensions {
 
@@ -33,7 +32,7 @@ internal object HashExtensions {
         .formatHash(format)
 
     private fun ByteArray.formatHash(format: Format): String = when (format) {
-        HEX -> this.joinToString(separator = "") { String.format("%02X", it) }.toLowerCase(Locale.ROOT)
+        HEX -> this.joinToString(separator = "") { String.format("%02X", it) }.lowercase()
         BASE64 -> this.toByteString().base64()
     }
 

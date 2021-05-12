@@ -235,6 +235,13 @@
         <item name="android:elevation">@dimen/elevation_none</item>
     </style>
 
+    <style name="Card.Vaccination" parent="Card.NoElevation">
+        <item name="android:backgroundTint">@color/colorVaccinationCardBackground</item>
+    </style>
+
+    <style name="Card.Vaccination.Ripple">
+        <item name="android:background">@drawable/grey_card_ripple</item>
+    </style>
 
     <style name="Card.NoPadding">
         <item name="android:padding">@dimen/no_padding</item>
