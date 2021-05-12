@@ -64,6 +64,17 @@ data class VaccinatedPerson(
         }
     }
 
+    fun getTimeUntilImmunity(nowUTC: Instant = Instant.now()): Duration? {
+        val newestFullDose = vaccinationCertificates
+            .filter { it.doseNumber == it.totalSeriesOfDoses }
+            .maxByOrNull { it.vaccinatedAt }
+            ?: return null
+
+        val immunityAt = newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay().plus(IMMUNITY_WAITING_PERIOD)
+
+        return Duration(nowUTC, immunityAt)
+    }
+
     enum class Status {
         INCOMPLETE,
         COMPLETE,

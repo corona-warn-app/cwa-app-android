@@ -87,14 +87,42 @@ class VaccinatedPersonTest : BaseTest() {
 
         val vaccinatedAt = immunityContainer.vaccination.vaccinatedAt
 
-        vaccinatedPerson.getVaccinationStatus(
-            vaccinatedAt.toDateTimeAtCurrentTime().toInstant()
-        ) shouldBe VaccinatedPerson.Status.COMPLETE
-        vaccinatedPerson.getVaccinationStatus(
-            vaccinatedAt.toDateTimeAtCurrentTime().toInstant().plus(Duration.standardDays(13))
-        ) shouldBe VaccinatedPerson.Status.COMPLETE
-        vaccinatedPerson.getVaccinationStatus(
-            vaccinatedAt.toDateTimeAtCurrentTime().toInstant().plus(Duration.standardDays(14))
-        ) shouldBe VaccinatedPerson.Status.IMMUNITY
+        vaccinatedPerson.apply {
+            getVaccinationStatus(
+                vaccinatedAt.toDateTimeAtStartOfDay().toInstant()
+            ) shouldBe VaccinatedPerson.Status.COMPLETE
+            getVaccinationStatus(
+                vaccinatedAt.toDateTimeAtStartOfDay().toInstant().plus(Duration.standardDays(13))
+            ) shouldBe VaccinatedPerson.Status.COMPLETE
+            getVaccinationStatus(
+                vaccinatedAt.toDateTimeAtStartOfDay().toInstant().plus(Duration.standardDays(14))
+            ) shouldBe VaccinatedPerson.Status.IMMUNITY
+        }
+    }
+
+    @Test
+    fun `time until status IMMUNITY`() {
+        val immunityContainer = testData.personAVac2Container
+        val personData = mockk<VaccinatedPersonData>().apply {
+            every { vaccinations } returns setOf(testData.personAVac1Container, immunityContainer)
+        }
+        val vaccinatedPerson = VaccinatedPerson(
+            data = personData,
+            valueSet = null
+        )
+
+        val vaccinatedAt = immunityContainer.vaccination.vaccinatedAt
+
+        vaccinatedPerson.apply {
+            getTimeUntilImmunity(
+                vaccinatedAt.toDateTimeAtStartOfDay().toInstant()
+            ) shouldBe Duration.standardDays(14)
+            getTimeUntilImmunity(
+                vaccinatedAt.toDateTimeAtStartOfDay().toInstant().plus(Duration.standardDays(13))
+            ) shouldBe Duration.standardDays(1)
+            getTimeUntilImmunity(
+                vaccinatedAt.toDateTimeAtStartOfDay().toInstant().plus(Duration.standardDays(14))
+            ) shouldBe Duration.ZERO
+        }
     }
 }
