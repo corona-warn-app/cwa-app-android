@@ -24,11 +24,6 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     val errors = SingleLiveEvent<Throwable>()
-    val events = SingleLiveEvent<VaccinationDetailsNavigation>()
-
-    fun onClose() {
-        events.postValue(VaccinationDetailsNavigation.Back)
-    }
 
     private fun findVaccinationDetails(vaccinatedPersons: Set<VaccinatedPerson>): VaccinationDetails {
         val vaccinatedPerson = vaccinatedPersons.find { vaccinatedPerson ->

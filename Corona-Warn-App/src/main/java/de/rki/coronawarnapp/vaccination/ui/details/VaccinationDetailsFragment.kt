@@ -38,7 +38,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener { viewModel.onClose() }
+            toolbar.setNavigationOnClickListener { popBackStack() }
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
@@ -57,12 +57,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.errors.observe(viewLifecycleOwner) {
                 it.toErrorDialogBuilder(requireContext()).show()
-            }
-
-            viewModel.events.observe(viewLifecycleOwner) {
-                when (it) {
-                    VaccinationDetailsNavigation.Back -> popBackStack()
-                }
             }
         }
 
