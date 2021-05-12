@@ -1,0 +1,23 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.dgc;
+
+
+message ValueSets {
+  // Vaccine or prophylaxis
+  ValueSet vp = 1;
+  // Vaccine medicinal product
+  ValueSet mp = 2;
+  // Marketing Authorization Holder
+  ValueSet ma = 3;
+}
+
+message ValueSet {
+  // use custom message instead of map to allow for future extensions
+  repeated ValueSetItem items = 1;
+}
+
+message ValueSetItem {
+  string key = 1;
+  string displayText = 2;
+}

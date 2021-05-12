@@ -11,6 +11,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.coVerifyOrder
 import io.mockk.coVerifySequence
 import io.mockk.every
@@ -70,8 +71,14 @@ class AppConfigSourceTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        coEvery { remoteSource.getConfigData() } returns remoteConfig
-        coEvery { localSource.getConfigData() } returns localConfig
+        remoteSource.apply {
+            coEvery { getConfigData() } returns remoteConfig
+            coEvery { clear() } just Runs
+        }
+        localSource.apply {
+            coEvery { getConfigData() } returns localConfig
+            coEvery { clear() } just Runs
+        }
         coEvery { defaultSource.getConfigData() } returns defaultConfig
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
@@ -242,6 +249,16 @@ class AppConfigSourceTest : BaseTest() {
         verify {
             cwaSettings.lastDeviceTimeStateChangeAt = Instant.EPOCH.plus(Duration.standardHours(1))
             cwaSettings.lastDeviceTimeStateChangeState = ConfigData.DeviceTimeState.CORRECT
+        }
+    }
+
+    @Test
+    fun `clear calls subroutines`() = runBlockingTest {
+        createInstance().clear()
+
+        coVerify {
+            localSource.clear()
+            remoteSource.clear()
         }
     }
 }

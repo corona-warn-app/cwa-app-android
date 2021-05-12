@@ -23,7 +23,7 @@
         android:contentDescription="@string/settings_tracing_title"
         android:focusable="true">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             style="@style/CWAToolbar.Close"
             android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/switch_row">
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                     <ImageView
                         android:id="@+id/flag_eu"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
@@ -127,7 +127,7 @@
                         app:layout_constraintStart_toEndOf="@id/flag_eu"
                         app:layout_constraintTop_toTopOf="@id/flag_eu" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                     <ImageView
                         android:id="@+id/flag_ch"
                         android:layout_width="0dp"
                         android:layout_height="22dp"
