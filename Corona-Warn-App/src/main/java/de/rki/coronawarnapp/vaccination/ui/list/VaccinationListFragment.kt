@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.vaccination.ui.list
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
@@ -73,7 +74,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             }
 
             refreshButton.setOnClickListener {
-                viewModel.onRefreshClick()
+                Toast.makeText(requireContext(), "TODO \uD83D\uDEA7", Toast.LENGTH_LONG).show()
             }
         }
     }
