@@ -94,6 +94,7 @@ class ConfigParserTest : BaseTest() {
     @Test
     fun `parsing the 1_8_0 config does not throw an exception`() {
         createInstance().parse(appConfig180.readBytes()).apply {
+            @Suppress("DEPRECATION")
             rawConfig shouldNotBe null
         }
     }

@@ -48,6 +48,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+        @Suppress("DEPRECATION")
         every { intent.getStringExtra(ExposureNotificationClient.EXTRA_TOKEN) } returns "token"
 
         mockkObject(AppInjector)

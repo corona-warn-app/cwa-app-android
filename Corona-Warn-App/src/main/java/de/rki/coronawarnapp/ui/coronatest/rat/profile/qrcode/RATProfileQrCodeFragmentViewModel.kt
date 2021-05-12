@@ -23,6 +23,7 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel() {
 
+    private var card: String? = null
     val profile: LiveData<PersonProfile> = ratProfileSettings.profile.flow
         .map { profile ->
             PersonProfile(
@@ -52,7 +53,9 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
     private suspend fun RATProfile?.qrCode(): Bitmap? =
         try {
             if (this != null) {
-                qrCodeGenerator.createQrCode(vCard.create(this))
+                qrCodeGenerator.createQrCode(
+                    vCard.create(this).also { card = it }
+                )
             } else {
                 Timber.d("No Profile available")
                 null
@@ -61,6 +64,12 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
             Timber.e(e, "Failed to generate profile Qr Code")
             null
         }
+
+    fun openFullScreen() = card?.let {
+        events.postValue(
+            ProfileQrCodeNavigation.FullQrCode(it)
+        )
+    }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<RATProfileQrCodeFragmentViewModel>

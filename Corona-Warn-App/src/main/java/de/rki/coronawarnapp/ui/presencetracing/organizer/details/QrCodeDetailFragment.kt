@@ -7,7 +7,10 @@ import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialContainerTransform
@@ -15,6 +18,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -57,7 +61,9 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
                 subtitle.alpha = subtitleAlpha
+                checkShadowVisibility()
             }
+            root.viewTreeObserver.addOnGlobalLayoutListener { checkShadowVisibility() }
 
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)
@@ -77,6 +83,10 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             }
 
             root.transitionName = navArgs.traceLocationId.toString()
+
+            qrCodeImage.setOnClickListener {
+                viewModel.openFullScreen()
+            }
         }
 
         viewModel.routeToScreen.observe2(this) {
@@ -93,6 +103,12 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> doNavigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
                 )
+                is QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode -> findNavController().navigate(
+                    R.id.action_global_qrCodeFullScreenFragment,
+                    QrCodeFullScreenFragmentArgs(it.qrcodeText).toBundle(),
+                    null,
+                    FragmentNavigatorExtras(binding.qrCodeImage to binding.qrCodeImage.transitionName)
+                )
             }
         }
 
@@ -107,20 +123,25 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                     val endTime = uiState.endDateTime!!.toDateTime()
 
                     eventDate.isGone = false
+
+                    val startDay = startTime.toLocalDate().toString("dd.MM.yyyy")
+                    val startHour = startTime.toLocalTime().toString("HH:mm")
+                    val endDay = endTime.toLocalDate().toString("dd.MM.yyyy")
+                    val endHour = endTime.toLocalTime().toString("HH:mm")
                     eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
                         requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration,
-                            startTime.toLocalDate().toString("dd.MM.yyyy"),
-                            startTime.toLocalTime().toString("HH:mm"),
-                            endTime.toLocalTime().toString("HH:mm")
+                            startDay,
+                            startHour,
+                            endHour
                         )
                     } else {
                         requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration_multiple_days,
-                            startTime.toLocalDate().toString("dd.MM.yyyy"),
-                            startTime.toLocalTime().toString("HH:mm"),
-                            endTime.toLocalDate().toString("dd.MM.yyyy"),
-                            endTime.toLocalTime().toString("HH:mm")
+                            startDay,
+                            startHour,
+                            endDay,
+                            endHour
                         )
                     }
                 } else {
@@ -137,6 +158,10 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 }
             }
         }
+    }
+
+    private fun TraceLocationOrganizerQrCodeDetailFragmentBinding.checkShadowVisibility() {
+        shadowView.isInvisible = nestedScrollView.bottom <= shadowView.y
     }
 
     private fun setToolbarOverlay() {

@@ -8,4 +8,6 @@ sealed class QrCodeDetailNavigationEvents {
     data class NavigateToQrCodePosterFragment(val locationId: Long) : QrCodeDetailNavigationEvents()
     data class NavigateToDuplicateFragment(val traceLocation: TraceLocation, val category: TraceLocationCategory) :
         QrCodeDetailNavigationEvents()
+
+    data class NavigateToFullScreenQrCode(val qrcodeText: String) : QrCodeDetailNavigationEvents()
 }
