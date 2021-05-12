@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
-import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
@@ -19,13 +18,9 @@ data class VaccinatedPerson(
             it.toVaccinationCertificate(valueSet)
         }.toSet()
 
-    val proofCertificates: Set<ProofCertificate>
-        get() = data.proofs.map {
-            it.toProofCertificate(valueSet)
-        }.toSet()
-
+    @Deprecated("Will be removed in PR #3160")
     val vaccinationStatus: Status
-        get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
+        get() = Status.INCOMPLETE
 
     val vaccineName: String
         get() = vaccinationCertificates.first().vaccineName
@@ -44,15 +39,6 @@ data class VaccinatedPerson(
 
     val dateOfBirth: LocalDate
         get() = vaccinationCertificates.first().dateOfBirth
-
-    val isEligbleForProofCertificate: Boolean
-        get() = data.isEligbleForProofCertificate
-
-    val isProofCertificateCheckPending: Boolean
-        get() = data.isPCRunPending
-
-    val lastProofCheckAt: Instant
-        get() = data.lastSuccessfulPCRunAt
 
     enum class Status {
         INCOMPLETE,

@@ -1,11 +1,8 @@
 package de.rki.coronawarnapp.vaccination.ui.list
 
 import de.rki.coronawarnapp.ui.Country
-import de.rki.coronawarnapp.vaccination.core.ProofCertificate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 /**
@@ -28,43 +25,11 @@ internal fun getMockVaccinationCertificate() = MockVaccinationCertificate(
     personIdentifier = getPersonIdentifier()
 )
 
-internal fun getMockProofCertificate() = MockProofCertificate(
-    personIdentifier = getPersonIdentifier(),
-    expiresAt = Instant.now().plus(Duration.standardDays(3)),
-    firstName = "François-Joan",
-    lastName = "FRANCOIS<JOAN",
-    dateOfBirth = LocalDate.parse("2009-02-28"),
-    vaccinatedAt = LocalDate.parse("2021-04-22"),
-    vaccineName = "vaccineName",
-    vaccineManufacturer = "vaccineManufactorer",
-    medicalProductName = "medicalProductName",
-    doseNumber = 1,
-    totalSeriesOfDoses = 2,
-    certificateIssuer = "certificateIssuer",
-    certificateId = "certificate Id"
-)
-
 fun getPersonIdentifier() = VaccinatedPersonIdentifier(
     dateOfBirth = LocalDate.parse("2009-02-28"),
     lastNameStandardized = "DARSONS<VAN<HALEN",
     firstNameStandardized = "FRANCOIS<JOAN"
 )
-
-internal data class MockProofCertificate(
-    override val personIdentifier: VaccinatedPersonIdentifier,
-    override val expiresAt: Instant,
-    override val firstName: String?,
-    override val lastName: String,
-    override val dateOfBirth: LocalDate,
-    override val vaccineName: String,
-    override val medicalProductName: String,
-    override val vaccineManufacturer: String,
-    override val doseNumber: Int,
-    override val totalSeriesOfDoses: Int,
-    override val vaccinatedAt: LocalDate,
-    override val certificateIssuer: String,
-    override val certificateId: String
-) : ProofCertificate
 
 internal data class MockVaccinationCertificate(
     override val firstName: String?,

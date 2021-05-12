@@ -5,18 +5,13 @@ import de.rki.coronawarnapp.util.encoding.decodeBase45
 import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
-import de.rki.coronawarnapp.vaccination.core.repository.storage.ProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
-import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateCOSEParser
-import okio.ByteString.Companion.decodeBase64
-import okio.internal.commonAsUtf8ToByteArray
 import org.joda.time.Instant
 import javax.inject.Inject
 
 class VaccinationTestData @Inject constructor(
     private val vaccinationCertificateCOSEParser: VaccinationCertificateCOSEParser,
-    private val proofCertificateCOSEParser: ProofCertificateCOSEParser,
 ) {
 
     // AndreasAstra1.pdf
@@ -101,22 +96,7 @@ class VaccinationTestData @Inject constructor(
         parser = vaccinationCertificateCOSEParser
     }
 
-    val personAProof1COSE =
-        "0oRDoQEmoQRQqs76QaMRQrC+bjTS2a3mSFkBK6QBYkRFBBpgo+nnBhpgmk2wOQEDoQGkYXaBqmJjaXgxMDFERS8wMDAwMS8xMTE5MzA1MDA1LzZJUFlCQUlEV0VXUldXNzNRRVA5MkZRU04jU2Jjb2JERWJkbgJiZHRqMjAyMS0wNC0yN2Jpc3gqQnVuZGVzbWluaXN0ZXJpdW0gZsO8ciBHZXN1bmRoZWl0IC0gVGVzdDAxYm1hbU9SRy0xMDAwMDE2OTlibXBsRVUvMS8yMS8xNTI5YnNkAmJ0Z2k4NDA1MzkwMDZidnBqMTExOTMwNTAwNWNkb2JqMTk2Ni0xMS0xMWNuYW2kYmZua0FzdHLDoSBFaW5zYmduZ0FuZHJlYXNjZm50akFTVFJBPEVJTlNjZ250Z0FORFJFQVNjdmVyZTEuMC4wWEC+Y2lLfL80dTSNr6McGcjQw6thEA9CTWF/doSUJh0B728ktjaCt40kn9ABTfuh/WYTdDqzWe7DFFGz7VhNbBm0"
-            .decodeBase64()!!
-            .let { RawCOSEObject(data = it) }
-
-    val personAProof1Container = ProofContainer(
-        receivedAt = Instant.ofEpochMilli(1620062839471),
-        proofCertificateCOSE = personAProof1COSE,
-    ).apply {
-        parser = proofCertificateCOSEParser
-    }
-
     val personAData2Vac1Proof = VaccinatedPersonData(
-        vaccinations = setOf(personAVac1Container, personAVac2Container),
-        proofs = setOf(personAProof1Container),
+        vaccinations = setOf(personAVac1Container, personAVac2Container)
     )
 }
-
-private fun String.toCOSEObject() = RawCOSEObject(data = this.commonAsUtf8ToByteArray())
