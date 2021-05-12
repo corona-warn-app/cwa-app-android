@@ -1,16 +1,14 @@
-package de.rki.coronawarnapp.vaccination.core.server
+package de.rki.coronawarnapp.vaccination.core.certificate
 
 import com.google.gson.annotations.SerializedName
 import org.joda.time.LocalDate
 
-// TODO check correctness, copy paste from vaccination cert
-data class ProofCertificateV1(
+data class VaccinationDGCV1(
     @SerializedName("ver") val version: String,
     @SerializedName("nam") val nameData: NameData,
-    @SerializedName("dob") val dateOfBirth: LocalDate,
+    @SerializedName("dob") val dob: String,
     @SerializedName("v") val vaccinationDatas: List<VaccinationData>,
 ) {
-
     data class NameData(
         @SerializedName("fn") val familyName: String?,
         @SerializedName("fnt") val familyNameStandardized: String,
@@ -32,12 +30,18 @@ data class ProofCertificateV1(
         // Total Series of Doses, e.g. "sd": 2,
         @SerializedName("sd") val totalSeriesOfDoses: Int,
         // Date of Vaccination, e.g. "dt" : "2021-04-21"
-        @SerializedName("dt") val vaccinatedAt: LocalDate,
+        @SerializedName("dt") val dt: String,
         // Country of Vaccination, e.g. "co": "NL"
         @SerializedName("co") val countryOfVaccination: String,
         // Certificate Issuer, e.g. "is": "Ministry of Public Health, Welfare and Sport",
         @SerializedName("is") val certificateIssuer: String,
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") val uniqueCertificateIdentifier: String
-    )
+    ) {
+        val vaccinatedAt: LocalDate
+            get() = LocalDate.parse(dt)
+    }
+
+    val dateOfBirth: LocalDate
+        get() = LocalDate.parse(dob)
 }

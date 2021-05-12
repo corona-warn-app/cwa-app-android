@@ -4,9 +4,10 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.vaccination.core.ProofCertificate
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
-import de.rki.coronawarnapp.vaccination.core.common.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.certificate.CoseCertificateHeader
+import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
+import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
-import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
 import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateData
 import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateResponse
@@ -16,9 +17,12 @@ import org.joda.time.LocalDate
 
 @Keep
 data class ProofContainer(
-    @SerializedName("proofCOSE") val proofCOSE: RawCOSEObject,
+    @SerializedName("proofCertificateCOSE") val proofCertificateCOSE: RawCOSEObject,
     @SerializedName("receivedAt") val receivedAt: Instant,
 ) {
+
+    // Either set by [ContainerPostProcessor] or via [toProofContainer]
+    @Transient lateinit var parser: ProofCertificateCOSEParser
     @Transient internal var preParsedData: ProofCertificateData? = null
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
@@ -27,13 +31,16 @@ data class ProofContainer(
 
     @delegate:Transient
     private val proofData: ProofCertificateData by lazy {
-        preParsedData ?: ProofCertificateCOSEParser().parse(proofCOSE)
+        preParsedData ?: parser.parse(proofCertificateCOSE)
     }
 
-    val proof: ProofCertificateV1
-        get() = proofData.proofCertificate
+    val header: CoseCertificateHeader
+        get() = proofData.header
 
-    val vaccination: ProofCertificateV1.VaccinationData
+    val proof: VaccinationDGCV1
+        get() = proofData.certificate
+
+    val vaccination: VaccinationDGCV1.VaccinationData
         get() = proof.vaccinationDatas.single()
 
     val personIdentifier: VaccinatedPersonIdentifier
@@ -41,7 +48,7 @@ data class ProofContainer(
 
     fun toProofCertificate(valueSet: VaccinationValueSet?): ProofCertificate = object : ProofCertificate {
         override val expiresAt: Instant
-            get() = proofData.expiresAt
+            get() = header.expiresAt
 
         override val personIdentifier: VaccinatedPersonIdentifier
             get() = proof.personIdentifier
@@ -76,9 +83,13 @@ data class ProofContainer(
     }
 }
 
-fun ProofCertificateResponse.toProofContainer(receivedAt: Instant) = ProofContainer(
-    proofCOSE = proofCertificateCOSE,
+fun ProofCertificateResponse.toProofContainer(
+    receivedAt: Instant,
+    coseParser: ProofCertificateCOSEParser,
+) = ProofContainer(
+    proofCertificateCOSE = rawCose,
     receivedAt = receivedAt,
 ).apply {
-    preParsedData = proofCertificateData
+    preParsedData = proofData
+    parser = coseParser
 }

@@ -7,12 +7,14 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
+import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.joinToSpannable
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -45,6 +47,10 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 confirmDeletionDialog()
                 true
             }
+
+            qrCodeImage.setOnClickListener {
+                viewModel.openFullScreen()
+            }
         }
         viewModel.profile.observe(viewLifecycleOwner) { personProfile ->
             with(binding) {
@@ -59,6 +65,12 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 ProfileQrCodeNavigation.Back -> popBackStack()
                 ProfileQrCodeNavigation.SubmissionConsent ->
                     findNavController().navigate(R.id.submissionConsentFragment)
+                is ProfileQrCodeNavigation.FullQrCode -> findNavController().navigate(
+                    R.id.action_global_qrCodeFullScreenFragment,
+                    QrCodeFullScreenFragmentArgs(it.qrcodeText).toBundle(),
+                    null,
+                    FragmentNavigatorExtras(binding.qrCodeImage to binding.qrCodeImage.transitionName)
+                )
             }
         }
     }
