@@ -104,11 +104,6 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
     private fun setToolbarOverlay(isVaccinationComplete: Boolean) {
 
-        // Reset bottom margins to the default initially
-        val titleBottomMarginDefault = 12
-        val layoutParamsTitle = binding.title.layoutParams as (LinearLayout.LayoutParams)
-        layoutParamsTitle.bottomMargin = titleBottomMarginDefault
-
         // subtitle is only visible when vaccination is complete
         val bottomTextView = if (isVaccinationComplete) binding.subtitle else binding.title
 
