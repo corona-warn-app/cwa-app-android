@@ -1,21 +1,26 @@
 package de.rki.coronawarnapp.vaccination.core.server.valueset
 
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 import java.util.Locale
 
+@Keep
 data class DefaultVaccinationValueSet(
-    override val languageCode: Locale,
-    override val vp: VaccinationValueSet.ValueSet,
-    override val mp: VaccinationValueSet.ValueSet,
-    override val ma: VaccinationValueSet.ValueSet
+    @SerializedName("languageCode") override val languageCode: Locale,
+    @SerializedName("vp") override val vp: VaccinationValueSet.ValueSet,
+    @SerializedName("mp") override val mp: VaccinationValueSet.ValueSet,
+    @SerializedName("ma") override val ma: VaccinationValueSet.ValueSet
 ) : VaccinationValueSet {
 
+    @Keep
     data class DefaultValueSet(
-        override val items: List<VaccinationValueSet.ValueSet.Item>
+        @SerializedName("items") override val items: List<VaccinationValueSet.ValueSet.Item>
     ) : VaccinationValueSet.ValueSet {
 
+        @Keep
         data class DefaultItem(
-            override val key: String,
-            override val displayText: String
+            @SerializedName("key") override val key: String,
+            @SerializedName("displayText") override val displayText: String
         ) : VaccinationValueSet.ValueSet.Item
     }
 }
