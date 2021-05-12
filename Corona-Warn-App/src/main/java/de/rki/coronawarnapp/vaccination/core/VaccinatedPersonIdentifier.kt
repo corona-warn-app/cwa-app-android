@@ -1,23 +1,18 @@
 package de.rki.coronawarnapp.vaccination.core
 
-import android.os.Parcelable
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateV1
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationDateOfBirthMissmatchException
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationNameMissmatchException
 import de.rki.coronawarnapp.vaccination.core.server.ProofCertificateV1
-import kotlinx.parcelize.IgnoredOnParcel
-import kotlinx.parcelize.Parcelize
 import org.joda.time.LocalDate
 
-@Parcelize
 data class VaccinatedPersonIdentifier(
     val dateOfBirth: LocalDate,
     val lastNameStandardized: String,
     val firstNameStandardized: String?
-) : Parcelable {
+) {
 
-    @IgnoredOnParcel
     val code: String by lazy {
         val dob = dateOfBirth.toString()
         val lastName = lastNameStandardized
