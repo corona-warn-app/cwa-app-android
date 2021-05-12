@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Analyti
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
@@ -20,11 +21,12 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionTestResultNoConsentViewModel @AssistedInject constructor(
+    dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
     private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     @Assisted private val testType: CoronaTest.Type
-) : CWAViewModel() {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     init {
         Timber.v("init() coronaTestType=%s", testType)
     }
