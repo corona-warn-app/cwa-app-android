@@ -42,6 +42,8 @@
             style="@style/headline5Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:autoSizeTextType="uniform"
+            android:maxLines="1"
             android:textColor="@color/colorTextPrimary1InvertedStable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
