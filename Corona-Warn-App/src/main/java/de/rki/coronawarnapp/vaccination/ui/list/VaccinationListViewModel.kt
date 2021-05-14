@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListImmunityInformationCardItemVH.VaccinationListImmunityInformationCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListNameCardItemVH.VaccinationListNameCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH.VaccinationListQrCodeCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
@@ -64,7 +65,7 @@ class VaccinationListViewModel @AssistedInject constructor(
                     totalSeriesOfDoses = vaccinationCertificate.totalSeriesOfDoses,
                     vaccinatedAt = vaccinatedPerson.getMostRecentVaccinationCertificate.vaccinatedAt,
                     expiresAt = vaccinatedPerson.getMostRecentVaccinationCertificate.expiresAt
-                    )
+                )
             )
 
             add(
@@ -73,6 +74,16 @@ class VaccinationListViewModel @AssistedInject constructor(
                     dayOfBirth = vaccinatedPerson.dateOfBirth.toDayFormat()
                 )
             )
+
+            if (vaccinatedPerson.getVaccinationStatus() == VaccinatedPerson.Status.COMPLETE) {
+                val timeUntilImmunity = vaccinatedPerson.getTimeUntilImmunity()
+                if (timeUntilImmunity != null) {
+                    add(
+                        VaccinationListImmunityInformationCardItem(timeUntilImmunity)
+                    )
+                }
+            }
+
             vaccinatedPerson.vaccinationCertificates.forEach { vaccinationCertificate ->
                 with(vaccinationCertificate) {
                     add(

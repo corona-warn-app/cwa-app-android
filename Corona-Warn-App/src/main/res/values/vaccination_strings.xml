@@ -47,6 +47,15 @@
     <string name="vaccination_list_qrcode_card_title">Impfzertifikat %1$d von %2$d</string>
     <!-- XTXT: Vaccination List qrcode card subtitle-->
     <string name="vaccination_list_qrcode_card_subtitle">Geimpft %1$s - gültig bis %2$s</string>
+    <!-- XTXT: Vaccination List immunity information card body-->
+    <plurals name="vaccination_list_immunity_card_body">
+        <item quantity="one">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tag vollständig.</item>
+        <item quantity="other">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+        <item quantity="zero">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+        <item quantity="two">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+        <item quantity="few">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+        <item quantity="many">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+    </plurals>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung registrieren</string>
     <!-- XBUT: Vaccination List refresh button -->
