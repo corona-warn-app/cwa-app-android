@@ -68,7 +68,6 @@ class EnvironmentSetupTest : BaseTest() {
                 dataDonationCdnUrl shouldBe "https://datadonation-${env.rawKey}"
                 logUploadServerUrl shouldBe "https://logupload-${env.rawKey}"
                 crowdNotifierPublicKey shouldBe "123_abc-${env.rawKey}"
-                vaccinationProofServerUrl shouldBe "https://vaccination_proof-${env.rawKey}"
                 vaccinationCdnUrl shouldBe "https://vaccination-${env.rawKey}"
             }
         }
@@ -129,7 +128,6 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.EnvKey.LOG_UPLOAD.rawKey shouldBe "LOG_UPLOAD_SERVER_URL"
         EnvironmentSetup.EnvKey.SAFETYNET_API_KEY.rawKey shouldBe "SAFETYNET_API_KEY"
         EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY.rawKey shouldBe "CROWD_NOTIFIER_PUBLIC_KEY"
-        EnvironmentSetup.EnvKey.VACCINATION_PROOF.rawKey shouldBe "VACCINATION_PROOF_SERVER_URL"
         EnvironmentSetup.EnvKey.VACCINATION_VALUE.rawKey shouldBe "VACCINATION_CDN_URL"
         EnvironmentSetup.EnvKey.values().size shouldBe 11
     }
@@ -153,7 +151,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-PROD",
                     "DATA_DONATION_CDN_URL": "https://datadonation-PROD",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-PROD",
-                    "VACCINATION_PROOF_SERVER_URL": "https://vaccination_proof-PROD",
                     "VACCINATION_CDN_URL": "https://vaccination-PROD",
                     "SAFETYNET_API_KEY": "placeholder-PROD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-PROD",
@@ -166,7 +163,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-DEV",
                     "DATA_DONATION_CDN_URL": "https://datadonation-DEV",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-DEV",
-                    "VACCINATION_PROOF_SERVER_URL": "https://vaccination_proof-DEV",
                     "VACCINATION_CDN_URL": "https://vaccination-DEV",
                     "SAFETYNET_API_KEY": "placeholder-DEV",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-DEV",
@@ -179,7 +175,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-INT",
                     "DATA_DONATION_CDN_URL": "https://datadonation-INT",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-INT",
-                    "VACCINATION_PROOF_SERVER_URL": "https://vaccination_proof-INT",
                     "VACCINATION_CDN_URL": "https://vaccination-INT",
                     "SAFETYNET_API_KEY": "placeholder-INT",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT",
@@ -192,7 +187,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-WRU",
                     "DATA_DONATION_CDN_URL": "https://datadonation-WRU",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU",
-                    "VACCINATION_PROOF_SERVER_URL": "https://vaccination_proof-WRU",
                     "VACCINATION_CDN_URL": "https://vaccination-WRU",
                     "SAFETYNET_API_KEY": "placeholder-WRU",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU",
@@ -206,7 +200,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-WRU-XD",
                     "DATA_DONATION_CDN_URL": "https://datadonation-WRU-XD",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU-XD",
-                    "VACCINATION_PROOF_SERVER_URL": "https://vaccination_proof-WRU-XD",
                     "VACCINATION_CDN_URL": "https://vaccination-WRU-XD",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XD",
@@ -219,7 +212,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-WRU-XA",
                     "DATA_DONATION_CDN_URL": "https://datadonation-WRU-XA",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU-XA",
-                    "VACCINATION_PROOF_SERVER_URL": "https://vaccination_proof-WRU-XA",
                     "VACCINATION_CDN_URL": "https://vaccination-WRU-XA",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XA",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XA",
@@ -232,7 +224,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-TESTER-MOCK",
                     "DATA_DONATION_CDN_URL": "https://datadonation-TESTER-MOCK",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-TESTER-MOCK",
-                    "VACCINATION_PROOF_SERVER_URL": "https://vaccination_proof-TESTER-MOCK",
                     "VACCINATION_CDN_URL": "https://vaccination-TESTER-MOCK",
                     "SAFETYNET_API_KEY": "placeholder-TESTER-MOCK",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-TESTER-MOCK",
@@ -245,7 +236,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "VERIFICATION_CDN_URL": "https://verification-LOCAL",
                     "DATA_DONATION_CDN_URL": "https://datadonation-LOCAL",
                     "LOG_UPLOAD_SERVER_URL": "https://logupload-LOCAL",
-                    "VACCINATION_PROOF_SERVER_URL": "https://vaccination_proof-LOCAL",
                     "VACCINATION_CDN_URL": "https://vaccination-LOCAL",
                     "SAFETYNET_API_KEY": "placeholder-LOCAL",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-LOCAL",
