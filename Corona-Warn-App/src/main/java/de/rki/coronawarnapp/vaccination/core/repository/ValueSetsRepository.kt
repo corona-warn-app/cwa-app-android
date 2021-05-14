@@ -47,10 +47,6 @@ class ValueSetsRepository @Inject constructor(
             initialValue = createEmptyValueSet(Locale.ENGLISH)
         )
 
-    init {
-        reloadValueSet(Locale.GERMAN)
-    }
-
     fun reloadValueSet(languageCode: Locale) {
         Timber.d("reloadValueSet(languageCode=%s)", languageCode)
         internalFlow.value = languageCode
