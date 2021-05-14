@@ -19,18 +19,21 @@ class VaccinationListCertificateCardItemVH(parent: ViewGroup) :
         VaccinationListCertificateCardBinding.bind(itemView)
     }
 
-    override val onBindData: VaccinationListCertificateCardBinding
-    .(item: VaccinationListCertificateCardItem, payloads: List<Any>) -> Unit =
+    override val onBindData: VaccinationListCertificateCardBinding.(
+        item: VaccinationListCertificateCardItem, payloads: List<Any>
+    ) -> Unit =
         { item, _ ->
             when (item.qrCode) {
-                null -> progressBar.isVisible = true
+                null -> progressBar.show()
                 else -> {
-                    qrCodeImage.setImageBitmap(item.qrCode)
-                    progressBar.isVisible = false
+                    image.setImageBitmap(item.qrCode)
+                    progressBar.hide()
                 }
             }
-            certificateCardSubtitle.text =
-                context.getString(R.string.vaccination_list_certificate_card_subtitle, item.remainingValidityInDays)
+            subtitle.text = context.getString(
+                R.string.vaccination_list_certificate_card_subtitle,
+                item.remainingValidityInDays
+            )
         }
 
     data class VaccinationListCertificateCardItem(
