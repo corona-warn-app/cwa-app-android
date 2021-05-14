@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.vaccination.core.certificate.CoseCertificateHeader
 import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
@@ -34,6 +35,9 @@ data class VaccinationContainer internal constructor(
         preParsedData ?: parser.parse(vaccinationCertificateCOSE)
     }
 
+    val header: CoseCertificateHeader
+        get() = certificateData.header
+
     val certificate: VaccinationDGCV1
         get() = certificateData.certificate
 
@@ -45,9 +49,6 @@ data class VaccinationContainer internal constructor(
 
     val personIdentifier: VaccinatedPersonIdentifier
         get() = certificate.personIdentifier
-
-    val isEligbleForProofCertificate: Boolean
-        get() = vaccination.doseNumber == vaccination.totalSeriesOfDoses
 
     fun toVaccinationCertificate(valueSet: VaccinationValueSet?) = object : VaccinationCertificate {
         override val personIdentifier: VaccinatedPersonIdentifier
@@ -83,6 +84,13 @@ data class VaccinationContainer internal constructor(
             get() = Country.values().singleOrNull { it.code == vaccination.countryOfVaccination } ?: Country.DE
         override val certificateId: String
             get() = vaccination.uniqueCertificateIdentifier
+
+        override val issuer: String
+            get() = header.issuer
+        override val issuedAt: Instant
+            get() = header.issuedAt
+        override val expiresAt: Instant
+            get() = header.expiresAt
     }
 }
 
