@@ -47,7 +47,6 @@ class VaccinationContainerTest : BaseTest() {
         testData.personAVac1Container.apply {
             certificate shouldBe testData.personAVac1Certificate
             certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
-            isEligibleForProofCertificate shouldBe false
         }
     }
 
@@ -56,7 +55,6 @@ class VaccinationContainerTest : BaseTest() {
         testData.personAVac2Container.apply {
             certificate shouldBe testData.personAVac2Certificate
             certificateId shouldBe "01DE/00001/1119305005/6IPYBAIDWEWRWW73QEP92FQSN#S"
-            isEligibleForProofCertificate shouldBe true
         }
     }
 

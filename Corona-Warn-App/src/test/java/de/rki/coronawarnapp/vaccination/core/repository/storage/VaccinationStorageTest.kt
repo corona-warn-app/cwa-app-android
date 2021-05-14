@@ -76,15 +76,7 @@ class VaccinationStorageTest : BaseTest() {
                         "vaccinationCertificateCOSE": "${testData.personAVac2COSE.data.base64()}",
                         "scannedAt": 1620069934471
                     }
-                ],
-                "proofData": [
-                    {
-                        "proofCertificateCOSE": "0oRDoQEmoQRQqs76QaMRQrC+bjTS2a3mSFkBK6QBYkRFBBpgo+nnBhpgmk2wOQEDoQGkYXaBqmJjaXgxMDFERS8wMDAwMS8xMTE5MzA1MDA1LzZJUFlCQUlEV0VXUldXNzNRRVA5MkZRU04jU2Jjb2JERWJkbgJiZHRqMjAyMS0wNC0yN2Jpc3gqQnVuZGVzbWluaXN0ZXJpdW0gZsO8ciBHZXN1bmRoZWl0IC0gVGVzdDAxYm1hbU9SRy0xMDAwMDE2OTlibXBsRVUvMS8yMS8xNTI5YnNkAmJ0Z2k4NDA1MzkwMDZidnBqMTExOTMwNTAwNWNkb2JqMTk2Ni0xMS0xMWNuYW2kYmZua0FzdHLDoSBFaW5zYmduZ0FuZHJlYXNjZm50akFTVFJBPEVJTlNjZ250Z0FORFJFQVNjdmVyZTEuMC4wWEC+Y2lLfL80dTSNr6McGcjQw6thEA9CTWF/doSUJh0B728ktjaCt40kn9ABTfuh/WYTdDqzWe7DFFGz7VhNbBm0",
-                        "receivedAt": 1620062839471
-                    }
-                ],
-                "lastSuccessfulProofCertificateRun": 0,
-                "proofCertificateRunPending": false
+                ]
             }
         """.toComparableJsonPretty()
 
@@ -94,7 +86,6 @@ class VaccinationStorageTest : BaseTest() {
                 testData.personAVac1Container,
                 testData.personAVac2Container,
             )
-            this.proofs shouldBe setOf(testData.personAProof1Container)
         }
     }
 }

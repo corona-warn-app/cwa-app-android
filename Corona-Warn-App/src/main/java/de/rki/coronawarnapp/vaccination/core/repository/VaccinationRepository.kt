@@ -12,15 +12,11 @@ import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinatedPersonNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
-import de.rki.coronawarnapp.vaccination.core.repository.storage.toProofContainer
 import de.rki.coronawarnapp.vaccination.core.repository.storage.toVaccinationContainer
-import de.rki.coronawarnapp.vaccination.core.server.proof.ProofCertificateCOSEParser
-import de.rki.coronawarnapp.vaccination.core.server.proof.VaccinationProofServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,7 +26,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -42,9 +37,7 @@ class VaccinationRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val storage: VaccinationStorage,
     private val valueSetsRepository: ValueSetsRepository,
-    private val vaccinationProofServer: VaccinationProofServer,
     private val vaccionationCoseParser: VaccinationCertificateCOSEParser,
-    private val proofCoseParser: ProofCertificateCOSEParser,
 ) {
 
     private val internalData: HotDataFlow<Set<VaccinatedPerson>> = HotDataFlow(
@@ -101,8 +94,7 @@ class VaccinationRepository @Inject constructor(
             } else {
                 VaccinatedPerson(
                     data = VaccinatedPersonData(
-                        vaccinations = emptySet(),
-                        proofs = emptySet()
+                        vaccinations = emptySet()
                     ),
                     valueSet = null,
                 )
@@ -127,61 +119,8 @@ class VaccinationRepository @Inject constructor(
 
         val updatedPerson = updatedData.single { it.identifier == qrCode.personIdentifier }
 
-        if (updatedPerson.isEligbleForProofCertificate) {
-            Timber.tag(TAG).i("%s is eligble for proof certificate, launching async check.", updatedPerson.identifier)
-            appScope.launch { refresh(updatedPerson.identifier) }
-        }
-
         return updatedPerson.vaccinationCertificates.single {
             it.certificateId == qrCode.uniqueCertificateIdentifier
-        }
-    }
-
-    private suspend fun checkProof(personIdentifier: VaccinatedPersonIdentifier?) {
-        Timber.tag(TAG).i("checkForProof(personIdentifier=%s)", personIdentifier)
-        withContext(appScope.coroutineContext) {
-            internalData.updateBlocking {
-                val knownPersons = this
-
-                personIdentifier?.let {
-                    knownPersons.singleOrNull {
-                        it.identifier == personIdentifier
-                    } ?: throw VaccinatedPersonNotFoundException("Identifier=$personIdentifier")
-                }
-
-                knownPersons
-                    .filter { it.identifier == personIdentifier || personIdentifier == null }
-                    .map { person ->
-                        if (!person.isEligbleForProofCertificate) {
-                            Timber.tag(TAG).d("Not eligble for proof certificate:")
-                            return@map person
-                        }
-
-                        val eligbleCert = person.data.vaccinations.first { person.isEligbleForProofCertificate }
-                        Timber.tag(TAG).d("Obtaining proof cert for vacciniation cert: %s", eligbleCert.certificateId)
-
-                        val proof = try {
-                            vaccinationProofServer.getProofCertificate(eligbleCert.vaccinationCertificateCOSE)
-                        } catch (e: Exception) {
-                            Timber.tag(TAG).e(e, "Failed to check for proof.")
-                            null
-                        }
-
-                        Timber.tag(TAG).i("Proof certificate obtained: %s", proof?.proofData)
-
-                        proof?.let {
-                            val proofContainer = it.toProofContainer(
-                                receivedAt = timeStamper.nowUTC,
-                                coseParser = proofCoseParser,
-                            )
-
-                            person.copy(
-                                data = person.data.copy(proofs = setOf(proofContainer))
-                            )
-                        } ?: person
-                    }
-                    .toSet()
-            }
         }
     }
 
@@ -192,7 +131,7 @@ class VaccinationRepository @Inject constructor(
     suspend fun refresh(personIdentifier: VaccinatedPersonIdentifier? = null) {
         Timber.tag(TAG).d("refresh(personIdentifier=%s)", personIdentifier)
 
-        checkProof(personIdentifier)
+        // NOOP
     }
 
     suspend fun clear() {
@@ -232,8 +171,6 @@ class VaccinationRepository @Inject constructor(
         }
 
         deletedVaccination?.let {
-            if (!it.isEligibleForProofCertificate) return
-
             Timber.tag(TAG).i("Deleted vaccination was eligble for proof, refreshing: %s", deletedVaccination)
             appScope.launch { refresh(it.personIdentifier) }
         }

@@ -50,9 +50,6 @@ data class VaccinationContainer internal constructor(
     val personIdentifier: VaccinatedPersonIdentifier
         get() = certificate.personIdentifier
 
-    val isEligibleForProofCertificate: Boolean
-        get() = vaccination.doseNumber == vaccination.totalSeriesOfDoses
-
     fun toVaccinationCertificate(valueSet: VaccinationValueSet?) = object : VaccinationCertificate {
         override val personIdentifier: VaccinatedPersonIdentifier
             get() = certificate.personIdentifier
