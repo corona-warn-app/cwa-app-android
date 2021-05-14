@@ -129,7 +129,7 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.EnvKey.SAFETYNET_API_KEY.rawKey shouldBe "SAFETYNET_API_KEY"
         EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY.rawKey shouldBe "CROWD_NOTIFIER_PUBLIC_KEY"
         EnvironmentSetup.EnvKey.VACCINATION_VALUE.rawKey shouldBe "VACCINATION_CDN_URL"
-        EnvironmentSetup.EnvKey.values().size shouldBe 11
+        EnvironmentSetup.EnvKey.values().size shouldBe 10
     }
 
     companion object {
