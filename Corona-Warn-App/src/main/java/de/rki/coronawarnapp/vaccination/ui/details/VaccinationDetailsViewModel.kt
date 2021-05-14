@@ -47,7 +47,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         val certificate = person?.vaccinationCertificates?.find { it.certificateId == vaccinationCertificateId }
         return VaccinationDetails(
             certificate = certificate,
-            isComplete = person?.vaccinationStatus == VaccinatedPerson.Status.COMPLETE,
+            isComplete = person?.getVaccinationStatus() == VaccinatedPerson.Status.COMPLETE,
         )
     }
 
