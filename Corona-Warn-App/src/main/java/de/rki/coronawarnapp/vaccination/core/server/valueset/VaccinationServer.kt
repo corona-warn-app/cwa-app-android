@@ -23,7 +23,7 @@ import javax.inject.Inject
  */
 @Reusable
 class VaccinationServer @Inject constructor(
-    @VaccinationValueSetHttpClient private val cache: Cache,
+    @ValueSet private val cache: Cache,
     private val apiV1: Lazy<VaccinationValueSetApiV1>,
     private val dispatcherProvider: DispatcherProvider,
     private val signatureValidation: SignatureValidation
@@ -31,24 +31,17 @@ class VaccinationServer @Inject constructor(
 
     suspend fun getVaccinationValueSets(languageCode: Locale): VaccinationValueSet? =
         withContext(dispatcherProvider.Default) {
-            try {
+            return@withContext try {
                 val response = requestValueSets(languageCode.language)
-
                 if (!response.isSuccessful) throw HttpException(response)
-
-                if (response.code() == 304) {
-                    Timber.d("Returning early cause value set did not change")
-                    return@withContext null
-                }
 
                 val body = requireNotNull(response.body()) { "Body of response was null" }
                 val valueSetsProtobuf = body.parseBody()
                 valueSetsProtobuf.toVaccinationValueSet(languageCode = languageCode)
             } catch (e: Exception) {
                 Timber.e(e, "Getting vaccination value sets from server failed cause: ${e.message}")
+                null
             }
-
-            return@withContext null
         }
 
     private suspend fun requestValueSets(languageCode: String): Response<ResponseBody> =
@@ -63,8 +56,7 @@ class VaccinationServer @Inject constructor(
         val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
         val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
 
-        if (exportBinary == null || exportSignature == null)
-            throw ValueSetInvalidSignatureException(msg = "Unknown files ${fileMap.entries}")
+        if (exportBinary == null || exportSignature == null) throw ValueSetInvalidSignatureException(msg = "Unknown files ${fileMap.entries}")
 
         val hasValidSignature = signatureValidation.hasValidSignature(
             toVerify = exportBinary,

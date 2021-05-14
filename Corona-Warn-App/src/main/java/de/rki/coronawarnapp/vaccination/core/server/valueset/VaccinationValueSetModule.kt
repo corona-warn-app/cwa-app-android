@@ -4,7 +4,8 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.environment.vaccination.VaccinationCertificateCDNUrl
+import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
+import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
@@ -16,7 +17,7 @@ import java.io.File
 class VaccinationValueSetModule {
 
     @Reusable
-    @VaccinationValueSetHttpClient
+    @ValueSet
     @Provides
     fun cache(
         @AppContext context: Context
@@ -27,11 +28,11 @@ class VaccinationValueSetModule {
     }
 
     @Reusable
-    @VaccinationValueSetHttpClient
+    @ValueSet
     @Provides
     fun httpClient(
         @HttpClientDefault defaultHttpClient: OkHttpClient,
-        @VaccinationValueSetHttpClient cache: Cache
+        @ValueSet cache: Cache
     ): OkHttpClient = defaultHttpClient.newBuilder()
         .cache(cache)
         .build()
@@ -39,13 +40,20 @@ class VaccinationValueSetModule {
     @Reusable
     @Provides
     fun api(
-        @VaccinationValueSetHttpClient httpClient: OkHttpClient,
-        @VaccinationCertificateCDNUrl url: String
-    ): VaccinationValueSetApiV1 = Retrofit.Builder()
-        .client(httpClient)
-        .baseUrl(url)
-        .build()
-        .create(VaccinationValueSetApiV1::class.java)
+        @DownloadCDNHttpClient httpClient: OkHttpClient,
+        @DownloadCDNServerUrl url: String,
+        @ValueSet cache: Cache
+    ): VaccinationValueSetApiV1 {
+        val client = httpClient.newBuilder()
+            .cache(cache = cache)
+            .build()
+
+        return Retrofit.Builder()
+            .client(client)
+            .baseUrl(url)
+            .build()
+            .create(VaccinationValueSetApiV1::class.java)
+    }
 
     companion object {
         private const val CACHE_SIZE_5MB = 5 * 1024 * 1024L // 5MB

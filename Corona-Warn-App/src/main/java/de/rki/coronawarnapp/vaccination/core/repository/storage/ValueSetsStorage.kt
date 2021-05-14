@@ -31,7 +31,7 @@ class ValueSetsStorage @Inject constructor(
         Timber.d("Loading value set")
         return prefs.getString(PKEY_VALUE_SETS_PREFIX, null)?.let {
             gson.fromJson<VaccinationValueSet>(it).also { loaded -> Timber.d("Loaded %s", loaded) }
-        }
+        }.also { Timber.d("Returning %s", it) }
     }
 
     private fun setValueSet(value: VaccinationValueSet?) {
