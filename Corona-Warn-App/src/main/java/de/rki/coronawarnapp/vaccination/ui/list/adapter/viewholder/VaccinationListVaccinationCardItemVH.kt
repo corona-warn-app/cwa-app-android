@@ -43,7 +43,7 @@ class VaccinationListVaccinationCardItemVH(
 
             val iconRes = when (vaccinationStatus) {
                 INCOMPLETE, COMPLETE -> {
-                        R.drawable.ic_vaccination_incomplete
+                    R.drawable.ic_vaccination_incomplete
                 }
                 IMMUNITY -> {
                     if (isFinalVaccination) {

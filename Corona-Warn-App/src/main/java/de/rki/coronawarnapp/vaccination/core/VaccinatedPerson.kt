@@ -51,8 +51,9 @@ data class VaccinatedPerson(
         get() = data.lastSuccessfulPCRunAt
 
     val getMostRecentVaccinationCertificate: VaccinationCertificate
-        get() = vaccinationCertificates.maxByOrNull { it.vaccinatedAt } ?: throw IllegalStateException("Every " +
-            "Vaccinated Person needs to have at least one vaccinationCertificate")
+        get() = vaccinationCertificates.maxByOrNull { it.vaccinatedAt } ?: throw IllegalStateException(
+            "Every Vaccinated Person needs to have at least one vaccinationCertificate"
+        )
 
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
         val newestFullDose = vaccinationCertificates

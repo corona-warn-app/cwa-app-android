@@ -33,7 +33,8 @@ class VaccinationListAdapter :
                 DataBinderMod<VaccinationListItem, ItemVH<VaccinationListItem, ViewBinding>>(data),
                 TypedVHCreatorMod({ data[it] is VaccinationListNameCardItem }) {
                     VaccinationListNameCardItemVH(it)
-                },TypedVHCreatorMod({ data[it] is VaccinationListImmunityInformationCardItem }) {
+                },
+                TypedVHCreatorMod({ data[it] is VaccinationListImmunityInformationCardItem }) {
                     VaccinationListImmunityInformationCardItemVH(it)
                 },
                 TypedVHCreatorMod({ data[it] is VaccinationListVaccinationCardItem }) {
