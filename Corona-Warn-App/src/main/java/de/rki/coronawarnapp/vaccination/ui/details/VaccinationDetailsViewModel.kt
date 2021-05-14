@@ -24,6 +24,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
+    private var qrCodeText: String? = null
     private val mutableStateFlow = MutableStateFlow<Bitmap?>(null)
     val qrCode = mutableStateFlow.asLiveData(dispatcherProvider.Default)
 
@@ -40,7 +41,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     fun onClose() = events.postValue(VaccinationDetailsNavigation.Back)
 
-    fun openFullScreen() = events.postValue(VaccinationDetailsNavigation.FullQrCode(""))
+    fun openFullScreen() = qrCodeText?.let { events.postValue(VaccinationDetailsNavigation.FullQrCode(it)) }
 
     private fun findVaccinationDetails(
         vaccinatedPersons: Set<VaccinatedPerson>
@@ -59,6 +60,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     private fun generateQrCode(certificate: VaccinationCertificate?) = launch {
         try {
             mutableStateFlow.value = certificate?.let {
+                qrCodeText = it.certificateId
                 qrCodeGenerator.createQrCode(certificate.certificateId)
             }
         } catch (e: Exception) {
