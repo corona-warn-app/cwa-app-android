@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.ui.Country
+import de.rki.coronawarnapp.vaccination.core.qrcode.QrCodeString
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -27,4 +28,6 @@ interface VaccinationCertificate {
     val issuer: String
     val issuedAt: Instant
     val expiresAt: Instant
+
+    val vaccinationQrCodeString: QrCodeString
 }

@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
-import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
-
 data class VaccinationCertificateQRCode(
+    val qrCodeString: QrCodeString,
     val parsedData: VaccinationCertificateData,
-    val certificateCOSE: RawCOSEObject,
 ) {
     val uniqueCertificateIdentifier: String
         get() = parsedData.certificate.vaccinationDatas.single().uniqueCertificateIdentifier
 }
+
+typealias QrCodeString = String
