@@ -11,6 +11,7 @@ data class VaccinatedPersonIdentifier(
     val lastNameStandardized: String,
     val firstNameStandardized: String?
 ) {
+
     val code: String by lazy {
         val dob = dateOfBirth.toString()
         val lastName = lastNameStandardized

@@ -1070,6 +1070,17 @@
     <string name="submission_test_result_pending_steps_waiting_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, eliminați testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
+    <!-- XHED: Page headline for results next steps  -->
+    <string name="submission_test_result_steps_added_rat_heading">"Testul dvs. rapid a fost adăugat."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_rat_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Rezultatul testului dvs. va fi adăugat la jurnalul dvs. de contacte."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_contact_diary_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Actualizare"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1982,7 +1993,7 @@
     <!-- XHED: Trace location check-ins consent screen title -->
     <string name="trace_location_attendee_consent_title">"Partajați check-inurile locației?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Avertizați-i pe ceilalți care au făcut check-in în aproprierea dvs. Datele dvs. personale nu vor fi partajate."</string>
+    <string name="trace_location_attendee_consent_header_description">"Avertizați-i pe ceilalți care au făcut check-in cu dvs. Datele dvs. personale nu vor fi partajate."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
     <string name="trace_location_attendee_consent_header_button">"Selectare tot"</string>
     <!-- XBUT: Trace location check-ins consent screen continue button -->
@@ -1992,7 +2003,7 @@
     <!-- XHED: Trace location check-ins consent screen dialog title -->
     <string name="trace_location_attendee_consent_dialog_title">"Sigur nu doriți să partajați check-inurile dvs.?"</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"Omiterea nu va avertiza contactele care au făcut check-in în apropierea dvs."</string>
+    <string name="trace_location_attendee_consent_dialog_message">"Omiterea nu va avertiza contactele care au făcut check-in cu dvs."</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
     <string name="trace_location_attendee_consent_dialog_positive_button">"Partajare"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
