@@ -91,6 +91,9 @@ data class VaccinationContainer internal constructor(
             get() = header.issuedAt
         override val expiresAt: Instant
             get() = header.expiresAt
+
+        override val vaccinationQrCodeString: QrCodeString
+            get() = vaccinationQrCode
     }
 }
 
