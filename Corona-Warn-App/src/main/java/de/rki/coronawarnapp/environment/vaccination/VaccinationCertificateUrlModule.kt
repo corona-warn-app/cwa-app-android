@@ -10,12 +10,6 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup
 class VaccinationCertificateUrlModule : BaseEnvironmentModule() {
 
     @Reusable
-    @VaccinationCertificateProofServerUrl
-    @Provides
-    fun provideVaccinationProofUrl(environmentSetup: EnvironmentSetup): String =
-        requireValidUrl(environmentSetup.vaccinationProofServerUrl)
-
-    @Reusable
     @VaccinationCertificateCDNUrl
     @Provides
     fun provideVaccinationValueSetUrl(environmentSetup: EnvironmentSetup): String =

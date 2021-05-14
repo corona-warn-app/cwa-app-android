@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -33,11 +34,19 @@ class VaccinationContainerTest : BaseTest() {
     }
 
     @Test
+    fun `header decoding`() {
+        testData.personAVac1Container.header.apply {
+            issuer shouldBe "DE"
+            issuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
+            expiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
+        }
+    }
+
+    @Test
     fun `full property decoding - 1 of 2`() {
         testData.personAVac1Container.apply {
             certificate shouldBe testData.personAVac1Certificate
             certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
-            isEligbleForProofCertificate shouldBe false
         }
     }
 
@@ -46,7 +55,6 @@ class VaccinationContainerTest : BaseTest() {
         testData.personAVac2Container.apply {
             certificate shouldBe testData.personAVac2Certificate
             certificateId shouldBe "01DE/00001/1119305005/6IPYBAIDWEWRWW73QEP92FQSN#S"
-            isEligbleForProofCertificate shouldBe true
         }
     }
 
@@ -118,6 +126,9 @@ class VaccinationContainerTest : BaseTest() {
                 firstNameStandardized = "ANDREAS",
                 lastNameStandardized = "ASTRA<EINS"
             )
+            issuer shouldBe "DE"
+            issuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
+            expiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
         }
     }
 }

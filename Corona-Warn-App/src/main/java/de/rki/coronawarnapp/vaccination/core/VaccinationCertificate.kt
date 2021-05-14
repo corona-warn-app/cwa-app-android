@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.ui.Country
+import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 interface VaccinationCertificate {
@@ -22,4 +23,8 @@ interface VaccinationCertificate {
     val certificateId: String
 
     val personIdentifier: VaccinatedPersonIdentifier
+
+    val issuer: String
+    val issuedAt: Instant
+    val expiresAt: Instant
 }
