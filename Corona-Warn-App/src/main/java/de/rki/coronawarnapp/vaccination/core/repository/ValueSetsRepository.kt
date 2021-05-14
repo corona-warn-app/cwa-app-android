@@ -2,30 +2,20 @@ package de.rki.coronawarnapp.vaccination.core.repository
 
 import dagger.Reusable
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
 import de.rki.coronawarnapp.vaccination.core.server.valueset.DefaultVaccinationValueSet
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationServer
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @Reusable
 class ValueSetsRepository @Inject constructor(
@@ -39,7 +29,8 @@ class ValueSetsRepository @Inject constructor(
     val latestValueSet: Flow<VaccinationValueSet?> = internalFlow
         .filterNotNull()
         .map {
-            fromServer(it) ?: fromLocalStorage() ?: fromServer(Locale.ENGLISH) ?: createEmptyValueSet(it) // Return empty value set as last resort
+            fromServer(it) ?: fromLocalStorage() ?: fromServer(Locale.ENGLISH) ?: createEmptyValueSet(it)
+            // Return empty value set as last resort
         }
         .stateIn(
             scope = appScope,
