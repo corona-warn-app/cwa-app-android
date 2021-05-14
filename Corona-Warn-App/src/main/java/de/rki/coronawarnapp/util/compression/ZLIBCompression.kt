@@ -1,14 +1,13 @@
 package de.rki.coronawarnapp.util.compression
 
 import okio.Buffer
-import okio.ByteString
 import okio.inflate
 import java.util.zip.Inflater
 import javax.inject.Inject
 
 class ZLIBCompression @Inject constructor() {
     @Suppress("NestedBlockDepth")
-    fun decompress(input: ByteString, sizeLimit: Long = -1L): ByteString = try {
+    fun decompress(input: ByteArray, sizeLimit: Long = -1L): ByteArray = try {
         val inflaterSource = input.let {
             val buffer = Buffer().write(it)
             buffer.inflate(Inflater())
@@ -24,10 +23,10 @@ class ZLIBCompression @Inject constructor() {
             }
         }
 
-        sink.readByteString()
+        sink.readByteArray()
     } catch (e: Throwable) {
         throw InvalidInputException("ZLIB decompression failed.", e)
     }
 }
 
-fun ByteString.inflate(sizeLimit: Long = -1L) = ZLIBCompression().decompress(this, sizeLimit)
+fun ByteArray.inflate(sizeLimit: Long = -1L) = ZLIBCompression().decompress(this, sizeLimit)
