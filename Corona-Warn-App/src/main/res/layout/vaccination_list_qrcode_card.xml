@@ -42,23 +42,23 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/certificate_card_title"
+        android:id="@+id/qrcode_card_title"
         style="@style/body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:text="@string/vaccination_list_certificate_card_title" />
+        tools:text="@string/vaccination_list_qrcode_card_title"/>
 
     <TextView
-        android:id="@+id/certificate_card_subtitle"
+        android:id="@+id/qrcode_card_subtitle"
         style="@style/body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="16dp"
         android:layout_marginHorizontal="16dp"
-        tools:text="Noch 3 Tage gültig" />
+        tools:text="@string/vaccination_list_qrcode_card_subtitle" />
 
 </LinearLayout>
