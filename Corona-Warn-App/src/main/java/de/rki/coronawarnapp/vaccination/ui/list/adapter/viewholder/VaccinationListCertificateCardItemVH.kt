@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder
 
 import android.graphics.Bitmap
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListCertificateCardBinding
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
@@ -20,7 +19,8 @@ class VaccinationListCertificateCardItemVH(parent: ViewGroup) :
     }
 
     override val onBindData: VaccinationListCertificateCardBinding.(
-        item: VaccinationListCertificateCardItem, payloads: List<Any>
+        item: VaccinationListCertificateCardItem,
+        payloads: List<Any>
     ) -> Unit =
         { item, _ ->
             when (item.qrCode) {
