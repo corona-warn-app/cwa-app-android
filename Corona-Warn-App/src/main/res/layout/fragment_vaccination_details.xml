@@ -102,43 +102,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="vertical">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                style="@style/Card.Vaccination"
+
+            <include
+                android:id="@+id/qr_code_card"
+                layout="@layout/vaccination_qr_code_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp">
-                <ImageView
-                    android:id="@+id/qrCodeImage"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:contentDescription="@string/trace_location_event_detail_qr_code_accessibility"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/ic_qr_code" />
-
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:id="@+id/progress_bar"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="true"
-                    app:hideAnimationBehavior="inward"
-                    app:indicatorColor="@color/colorAccent"
-                    app:layout_constraintBottom_toBottomOf="@id/qrCodeImage"
-                    app:layout_constraintEnd_toEndOf="@id/qrCodeImage"
-                    app:layout_constraintStart_toStartOf="@id/qrCodeImage"
-                    app:layout_constraintTop_toTopOf="@id/qrCodeImage" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="6dp" />
 
             <LinearLayout
                 style="@style/Card.Vaccination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 android:padding="16dp">
 

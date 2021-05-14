@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -57,8 +58,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.errors.observe(viewLifecycleOwner) { it.toErrorDialogBuilder(requireContext()).show() }
             viewModel.qrCode.observe(viewLifecycleOwner) {
-                progressBar.hide()
-                qrCodeImage.setImageBitmap(it)
+                qrCodeCard.progressBar.hide()
+                qrCodeCard.image.setImageBitmap(it)
             }
         }
 
@@ -80,6 +81,18 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             R.string.vaccination_details_title,
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
+        )
+
+        qrCodeCard.title.text = getString(
+            R.string.vaccination_qr_code_card_title,
+            certificate.doseNumber,
+            certificate.totalSeriesOfDoses
+        )
+
+        qrCodeCard.subtitle.text = getString(
+            R.string.vaccination_qr_code_card_subtitle,
+            certificate.vaccinatedAt.toDayFormat(),
+            certificate.vaccinatedAt.toDayFormat() // TODO
         )
     }
 

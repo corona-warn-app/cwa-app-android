@@ -20,6 +20,10 @@
     <string name="vaccination_details_subtitle">Impfzertifikat</string>
     <!-- XTXT: Vaccination Details title-->
     <string name="vaccination_details_title">Impfung %1$d von %2$d</string>
+    <!-- XTXT: Vaccination Qr Code card title-->
+    <string name="vaccination_qr_code_card_title">Impfzertifikat %1$d von %2$d</string>
+    <!-- XTXT: Vaccination Qr Code card subtitle-->
+    <string name="vaccination_qr_code_card_subtitle">Geimpft %1$s - gültig bis %2$s</string>
     <!-- XTXT: Vaccination Details deletion dialog title-->
     <string name="vaccination_details_deletion_dialog_title">Wollen Sie das Impfzertifikat wirklich entfernen?</string>
     <!-- XTXT: Vaccination Details deletion dialog message-->
