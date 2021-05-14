@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
-import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinatedPersonNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
@@ -37,7 +36,7 @@ class VaccinationRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val timeStamper: TimeStamper,
     private val storage: VaccinationStorage,
-    private val valueSetsRepository: ValueSetsRepository,
+    valueSetsRepository: ValueSetsRepository,
     private val vaccinationQRCodeExtractor: VaccinationQRCodeExtractor,
 ) {
 
