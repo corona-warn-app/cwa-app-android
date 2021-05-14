@@ -27,12 +27,15 @@ import timber.log.Timber
 class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
-    @Assisted private val testType: CoronaTest.Type
+    @Assisted private val testType: CoronaTest.Type,
+    @Assisted private val initialUpdate: Boolean
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     init {
         Timber.v("init() coronaTestType=%s", testType)
-        updateTestResult()
+        if (initialUpdate) {
+            updateTestResult()
+        }
     }
 
     val routeToScreen = SingleLiveEvent<NavDirections?>()
@@ -123,6 +126,6 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultPendingViewModel> {
-        fun create(testType: CoronaTest.Type): SubmissionTestResultPendingViewModel
+        fun create(testType: CoronaTest.Type, initialUpdate: Boolean): SubmissionTestResultPendingViewModel
     }
 }

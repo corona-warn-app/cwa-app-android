@@ -222,7 +222,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is SubmissionStatePCR.TestPending -> PcrTestPendingCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(
+                        testType = CoronaTest.Type.PCR,
+                        forceTestResultUpdate = true
+                    )
             )
         }
         is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
@@ -274,7 +277,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 routeToScreen.postValue(
                     HomeFragmentDirections
                         .actionMainFragmentToSubmissionTestResultPendingFragment(
-                            testType = CoronaTest.Type.RAPID_ANTIGEN
+                            testType = CoronaTest.Type.RAPID_ANTIGEN,
+                            forceTestResultUpdate = true
                         )
                 )
             }
