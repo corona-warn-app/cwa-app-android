@@ -35,9 +35,9 @@ class VaccinationDGCV1Parser @Inject constructor(
         if (vaccinationDatas.isEmpty()) {
             throw InvalidHealthCertificateException(VC_NO_VACCINATION_ENTRY)
         }
+        // Force date parsing
         dateOfBirth
         vaccinationDatas.forEach {
-            // Force date parsing
             it.vaccinatedAt
         }
         return this
