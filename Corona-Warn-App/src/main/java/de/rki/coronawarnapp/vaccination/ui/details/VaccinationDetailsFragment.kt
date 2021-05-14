@@ -5,11 +5,14 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
+import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -60,6 +63,16 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.qrCode.observe(viewLifecycleOwner) {
                 qrCodeCard.progressBar.hide()
                 qrCodeCard.image.setImageBitmap(it)
+                it?.let {
+                    qrCodeCard.image.setOnClickListener {
+                        findNavController().navigate(
+                            R.id.action_global_qrCodeFullScreenFragment,
+                            QrCodeFullScreenFragmentArgs("test").toBundle(),
+                            null,
+                            FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                        )
+                    }
+                }
             }
         }
 
