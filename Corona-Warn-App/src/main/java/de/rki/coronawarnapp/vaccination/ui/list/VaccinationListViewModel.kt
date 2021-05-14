@@ -37,11 +37,11 @@ class VaccinationListViewModel @AssistedInject constructor(
     }
 
     private val vaccinationQrCodeFlow: Flow<Bitmap?> = vaccinatedPersonFlow.transform {
+        // emit null initially, so that the UI can show the list with a loading indicator for the qrcode
+        // immediately ...
         emit(null)
-
-        // TODO: get qr code string from VaccinatedPerson
-        val qrCode = qrCodeGenerator.createQrCode("TODO: get qr code String from VaccinatedPerson")
-        emit(qrCode)
+        // ... and after the QR code was generated, it is emitted
+        emit(qrCodeGenerator.createQrCode(it.getMostRecentVaccinationCertificate.vaccinationQrCodeString))
     }
 
     val uiState: LiveData<UiState> = combine(vaccinatedPersonFlow, vaccinationQrCodeFlow) { vaccinatedPerson, qrCode ->
