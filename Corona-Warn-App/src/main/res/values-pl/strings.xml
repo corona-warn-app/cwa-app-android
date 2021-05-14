@@ -1070,6 +1070,17 @@
     <string name="submission_test_result_pending_steps_waiting_heading">"Twój wynik testu nie jest jeszcze dostępny."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nJeśli otrzymasz powiadomienie o pozytywnym wyniku testu poza aplikacją, usuń test aktualnie zarejestrowany w aplikacji. Zadzwoń na numer podany w sekcji „Poproś o TAN”, aby otrzymać numer TAN. Będziesz mieć wówczas możliwość zarejestrowania swojego wyniku w aplikacji za pomocą tego numeru, aby ostrzegać innych."</string>
+    <!-- XHED: Page headline for results next steps  -->
+    <string name="submission_test_result_steps_added_rat_heading">"Twój szybki test został dodany."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Twój wynik testu nie jest jeszcze dostępny."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_rat_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Wynik Twojego testu zostanie dodany do dziennika kontaktów."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_contact_diary_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualizuj"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1982,7 +1993,7 @@
     <!-- XHED: Trace location check-ins consent screen title -->
     <string name="trace_location_attendee_consent_title">"Udostępnić zameldowania w lokalizacji?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Ostrzegaj inne osoby, które się zameldowały w pobliżu. Twoje dane osobowe nie będą udostępniane."</string>
+    <string name="trace_location_attendee_consent_header_description">"Ostrzegaj inne osoby, które się zameldowały wraz z Tobą. Twoje dane osobowe nie będą udostępniane."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
     <string name="trace_location_attendee_consent_header_button">"Wybierz wszystkie"</string>
     <!-- XBUT: Trace location check-ins consent screen continue button -->
@@ -1992,7 +2003,7 @@
     <!-- XHED: Trace location check-ins consent screen dialog title -->
     <string name="trace_location_attendee_consent_dialog_title">"Czy na pewno nie chcesz udostępniać swoich zameldowań?"</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"W przypadku pominięcia tej operacji żadne kontakty zameldowane w pobliżu nie otrzymają ostrzeżenia."</string>
+    <string name="trace_location_attendee_consent_dialog_message">"W przypadku pominięcia tej operacji żadne kontakty zameldowane wraz z Tobą nie otrzymają ostrzeżenia."</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
     <string name="trace_location_attendee_consent_dialog_positive_button">"Udostępnij"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->

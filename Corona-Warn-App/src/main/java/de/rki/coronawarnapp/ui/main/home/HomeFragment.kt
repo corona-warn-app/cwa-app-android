@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment
 import javax.inject.Inject
 
 /**
@@ -99,6 +100,15 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
         }
 
+        viewModel.openVaccinationRegistrationFlow.observe2(this) {
+            if (viewModel.wasVaccinationRegistrationAcknowledged()) {
+                val nestedGraph =
+                    findNavController().graph.findNode(R.id.vaccination_nav_graph) as NavGraph
+                nestedGraph.startDestination = R.id.vaccinationQrCodeScanFragment
+            }
+            doNavigate(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
+        }
+
         viewModel.popupEvents.observe2(this) { event ->
             when (event) {
                 HomeFragmentEvents.ShowErrorResetDialog -> {
@@ -116,6 +126,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         viewModel.tracingExplanationWasShown()
                     }
                 }
+                is HomeFragmentEvents.GoToVaccinationList -> findNavController().navigate(
+                    VaccinationListFragment.navigationUri(event.personIdentifierCode)
+                )
             }
         }
 

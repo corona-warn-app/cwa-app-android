@@ -4,9 +4,9 @@ import com.google.common.io.BaseEncoding
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.QRCodePayload
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptorOrBuilder
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor.PayloadEncoding
-import de.rki.coronawarnapp.util.decodeBase32
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptorOrBuilder
+import de.rki.coronawarnapp.util.encoding.decodeBase32
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import java.net.URI

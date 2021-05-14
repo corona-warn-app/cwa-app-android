@@ -10,6 +10,7 @@ data class EnvironmentState(
     val urlVerification: String,
     val urlDataDonation: String,
     val urlLogUpload: String,
+    val urlVaccination: String,
     val pubKeyCrowdNotifier: String,
     val pubKeyAppConfig: String,
 ) {
@@ -22,6 +23,7 @@ data class EnvironmentState(
             urlVerification = verificationCdnUrl,
             urlDataDonation = dataDonationCdnUrl,
             urlLogUpload = logUploadServerUrl,
+            urlVaccination = vaccinationCdnUrl,
             pubKeyCrowdNotifier = crowdNotifierPublicKey,
             pubKeyAppConfig = appConfigPublicKey,
         )

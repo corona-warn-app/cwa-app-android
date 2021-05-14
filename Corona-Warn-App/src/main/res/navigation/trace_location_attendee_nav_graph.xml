@@ -59,7 +59,7 @@
         android:id="@+id/scanCheckInQrCodeFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeFragment"
         android:label="ScanCheckInQrCodeFragment"
-        tools:layout="@layout/fragment_scan_check_in_qr_code" />
+        tools:layout="@layout/fragment_scan_qr_code" />
 
     <fragment
         android:id="@+id/checkInsFragment"

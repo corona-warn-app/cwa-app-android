@@ -14,7 +14,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.slot
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -44,7 +43,7 @@ class CheckInRepositoryTest : BaseTest() {
         }
     }
 
-    private fun createInstance(scope: CoroutineScope) = CheckInRepository(factory, timeStamper)
+    private fun createInstance() = CheckInRepository(factory, timeStamper)
 
     @Test
     fun `new entities should have ID 0`() = runBlockingTest {
@@ -66,7 +65,7 @@ class CheckInRepositoryTest : BaseTest() {
                 completed = false,
                 createJournalEntry = false
             )
-            createInstance(scope = this).addCheckIn(checkIn)
+            createInstance().addCheckIn(checkIn)
         }
     }
 
@@ -76,7 +75,7 @@ class CheckInRepositoryTest : BaseTest() {
         runBlockingTest {
             val time = Instant.ofEpochMilli(1397210400000)
             val end = Instant.ofEpochMilli(1397210400001)
-            createInstance(scope = this).addCheckIn(
+            createInstance().addCheckIn(
                 CheckIn(
                     id = 0L,
                     traceLocationId = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
@@ -128,7 +127,7 @@ class CheckInRepositoryTest : BaseTest() {
         coEvery { checkInDao.updateEntityById(any(), capture(slot)) } returns Unit
 
         val checkIn = mockk<CheckIn>()
-        createInstance(scope = this).updateCheckIn(1L) {
+        createInstance().updateCheckIn(1L) {
             checkIn
         }
 
@@ -165,7 +164,7 @@ class CheckInRepositoryTest : BaseTest() {
             )
         )
         runBlockingTest {
-            createInstance(scope = this).allCheckIns.first() shouldBe listOf(
+            createInstance().allCheckIns.first() shouldBe listOf(
                 CheckIn(
                     id = 1L,
                     traceLocationId = "41da2115-eba2-49bd-bf17-adb3d635ddaf".encode(),
@@ -209,7 +208,7 @@ class CheckInRepositoryTest : BaseTest() {
             )
         )
 
-        createInstance(scope = this).checkInsWithinRetention.first() shouldBe
+        createInstance().checkInsWithinRetention.first() shouldBe
             listOf(checkInWithinRetention)
     }
 

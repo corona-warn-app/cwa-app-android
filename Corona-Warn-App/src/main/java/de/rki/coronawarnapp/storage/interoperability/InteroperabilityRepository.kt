@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,7 +38,7 @@ class InteroperabilityRepository @Inject constructor(
             configData
                 .supportedCountries
                 .mapNotNull { rawCode ->
-                    val countryCode = rawCode.toLowerCase(Locale.ROOT)
+                    val countryCode = rawCode.lowercase()
 
                     val mappedCountry = Country.values().singleOrNull { it.code == countryCode }
                     if (mappedCountry == null) Timber.e("Unknown countrycode: %s", rawCode)

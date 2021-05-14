@@ -135,7 +135,7 @@ private fun resolveNameToDrawableId(drawableName: String, ctx: Context): Int? {
 
 fun formatCountryIsoTagToFlagDrawable(context: Context, isoTag: String?): Drawable? {
     val countryName = isoTag?.let {
-        Locale("", it).getDisplayCountry(Locale.ENGLISH).toLowerCase(Locale.ENGLISH)
+        Locale("", it).getDisplayCountry(Locale.ENGLISH).lowercase(Locale.ENGLISH)
     }
 
     val countryId =

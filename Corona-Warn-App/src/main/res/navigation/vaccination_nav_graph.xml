@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vaccination_nav_graph"
+    app:startDestination="@id/vaccinationConsentFragment">
+
+    <fragment
+        android:id="@+id/vaccinationConsentFragment"
+        android:name="de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment"
+        android:label="VaccinationConsentFragment"
+        tools:layout="@layout/vaccination_consent_fragment">
+        <action
+            android:id="@+id/vaccinationConsentFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
+        <action
+            android:id="@+id/vaccinationConsentFragment_to_QrCodeFragment"
+            app:destination="@id/vaccinationQrCodeScanFragment"
+            app:popUpTo="@id/vaccinationConsentFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/vaccinationQrCodeScanFragment"
+        android:name="de.rki.coronawarnapp.vaccination.ui.scan.VaccinationQrCodeScanFragment"
+        android:label="VaccinationQrCodeScanFragment"
+        tools:layout="@layout/fragment_scan_qr_code">
+        <action
+            android:id="@+id/action_vaccinationQrCodeScanFragment_to_vaccinationListFragment"
+            app:destination="@id/vaccinationListFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/vaccinationQrCodeScanFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/vaccinationListFragment"
+        android:name="de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment"
+        android:label="fragment_vaccination_list"
+        tools:layout="@layout/fragment_vaccination_list">
+        <argument
+            android:name="personIdentifierCode"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_vaccinationListFragment_to_vaccinationDetailsFragment"
+            app:destination="@id/vaccinationDetailsFragment" />
+        <deepLink
+            app:uri="coronawarnapp://vaccination-list/{personIdentifierCode}" />
+        <action
+            android:id="@+id/action_vaccinationListFragment_to_vaccinationQrCodeScanFragment"
+            app:destination="@id/vaccinationQrCodeScanFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/vaccinationDetailsFragment"
+        android:name="de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragment"
+        android:label="fragment_vaccination_details"
+        tools:layout="@layout/fragment_vaccination_details">
+        <argument
+            android:name="vaccinationCertificateId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="privacyFragment"
+        tools:layout="@layout/fragment_information_privacy" />
+</navigation>
