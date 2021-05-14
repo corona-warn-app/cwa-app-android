@@ -102,7 +102,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginVertical="16dp"
             android:orientation="vertical">
 
             <include
@@ -180,6 +180,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     tools:text="BioNTech" />
+
+                <TextView
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/vaccination_details_vaccine_medical_product_name" />
+
+                <TextView
+                    android:id="@+id/medical_product_name"
+                    style="@style/body2Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="mRNA" />
 
                 <TextView
                     style="@style/body1"

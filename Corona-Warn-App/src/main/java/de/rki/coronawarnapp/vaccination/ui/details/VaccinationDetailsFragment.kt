@@ -90,6 +90,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         vaccinatedAt.text = certificate.vaccinatedAt.toString(format)
         vaccineName.text = certificate.vaccineName
         vaccineManufacturer.text = certificate.vaccineManufacturer
+        medicalProductName.text = certificate.medicalProductName
         certificateIssuer.text = certificate.certificateIssuer
         certificateCountry.text = certificate.certificateCountry.getLabel(requireContext())
         certificateId.text = certificate.certificateId
