@@ -320,7 +320,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
                             )
                         }
                     )
-                    VaccinatedPerson.Status.INCOMPLETE, VaccinatedPerson.Status.IMMUNITY -> IncompleteVaccinationHomeCard.Item(
+                    VaccinatedPerson.Status.INCOMPLETE,
+                    VaccinatedPerson.Status.IMMUNITY -> IncompleteVaccinationHomeCard.Item(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
                             popupEvents.postValue(
