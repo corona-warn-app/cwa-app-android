@@ -47,7 +47,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
                 val background = when {
-                    it.isComplete -> R.drawable.vaccination_compelete_gradient
+                    it.isImmune -> R.drawable.vaccination_compelete_gradient
                     else -> R.drawable.vaccination_incomplete
                 }
                 expandedImage.setImageResource(background)
@@ -85,7 +85,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         name.text = certificate.run { "$firstName $lastName" }
         birthDate.text = getString(
             R.string.vaccination_details_birth_date,
-            certificate.dateOfBirth.toString(format)
+            certificate.dateOfBirth.toDayFormat()
         )
         vaccinatedAt.text = certificate.vaccinatedAt.toString(format)
         vaccineName.text = certificate.vaccineName
@@ -107,8 +107,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         )
         qrCodeCard.subtitle.text = getString(
             R.string.vaccination_qr_code_card_subtitle,
-            certificate.vaccinatedAt.toDayFormat(),
-            certificate.expiresAt.toDayFormat()
+            certificate.vaccinatedAt.toString(format),
+            certificate.expiresAt.toString(format)
         )
     }
 
@@ -127,6 +127,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     }
 
     companion object {
-        private val format = DateTimeFormat.forPattern("dd.MM.yyyy")
+        private val format = DateTimeFormat.forPattern("dd.MM.yy")
     }
 }

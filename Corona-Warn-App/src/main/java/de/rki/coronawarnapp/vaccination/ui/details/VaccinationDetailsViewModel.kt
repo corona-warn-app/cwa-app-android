@@ -53,15 +53,15 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         val certificate = person?.vaccinationCertificates?.find { it.certificateId == vaccinationCertificateId }
         return VaccinationDetails(
             certificate = certificate,
-            isComplete = person?.getVaccinationStatus() == VaccinatedPerson.Status.COMPLETE,
+            isImmune = person?.getVaccinationStatus() == VaccinatedPerson.Status.IMMUNITY,
         )
     }
 
     private fun generateQrCode(certificate: VaccinationCertificate?) = launch {
         try {
             mutableStateFlow.value = certificate?.let {
-                qrCodeText = it.certificateId // TODO use qrcode text
-                qrCodeGenerator.createQrCode(certificate.certificateId)
+                qrCodeText = it.vaccinationQrCodeString
+                qrCodeGenerator.createQrCode(it.vaccinationQrCodeString)
             }
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed for vaccinationCertificate=%s", certificate)
@@ -79,5 +79,5 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
 data class VaccinationDetails(
     val certificate: VaccinationCertificate?,
-    val isComplete: Boolean = false
+    val isImmune: Boolean = false
 )

@@ -69,12 +69,12 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
 
     @Screenshot
     @Test
-    fun capture_screenshot_complete() {
+    fun capture_screenshot_immune() {
         every { vaccinationDetailsViewModel.vaccinationCertificate } returns vaccinationDetailsData(true)
         launchFragmentInContainer2<VaccinationDetailsFragment>(fragmentArgs = args)
-        takeScreenshot<VaccinationDetailsFragment>("complete")
+        takeScreenshot<VaccinationDetailsFragment>("immune")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
-        takeScreenshot<VaccinationDetailsFragment>("complete_2")
+        takeScreenshot<VaccinationDetailsFragment>("immune_2")
     }
 
     @Screenshot
