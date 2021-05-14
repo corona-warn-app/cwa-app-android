@@ -53,7 +53,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
             certificate = vaccinatedPerson?.vaccinationCertificates?.find {
                 it.certificateId == vaccinationCertificateId
             },
-            isComplete = vaccinatedPerson?.vaccinationStatus == VaccinatedPerson.Status.COMPLETE
+            isComplete = vaccinatedPerson?.getVaccinationStatus() == VaccinatedPerson.Status.COMPLETE
         )
     }
 

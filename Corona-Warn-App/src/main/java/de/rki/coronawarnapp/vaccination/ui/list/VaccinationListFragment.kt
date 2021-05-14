@@ -36,7 +36,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         constructorCall = { factory, _ ->
             factory as VaccinationListViewModel.Factory
             factory.create(
-                vaccinatedPersonIdentifier = args.vaccinatedPersonId
+                personIdentifierCode = args.personIdentifierCode
             )
         }
     )
@@ -63,11 +63,14 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                         VaccinationListFragmentDirections
                             .actionVaccinationListFragmentToVaccinationDetailsFragment(event.vaccinationCertificateId)
                     )
+                    is VaccinationListViewModel.Event.NavigateToVaccinationQrCodeScanScreen -> doNavigate(
+                        VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationQrCodeScanFragment()
+                    )
                 }
             }
 
             registerNewVaccinationButton.setOnClickListener {
-                Toast.makeText(requireContext(), "TODO \uD83D\uDEA7", Toast.LENGTH_LONG).show()
+                viewModel.onRegisterNewVaccinationClick()
             }
 
             refreshButton.setOnClickListener {
@@ -78,9 +81,10 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
     private fun FragmentVaccinationListBinding.bindViews(uiState: VaccinationListViewModel.UiState) = with(uiState) {
 
-        adapter.update(listItems)
-
         val isVaccinationComplete = vaccinationStatus == VaccinatedPerson.Status.COMPLETE
+        setToolbarOverlay(isVaccinationComplete)
+
+        adapter.update(listItems)
 
         val background = if (isVaccinationComplete) {
             R.drawable.vaccination_compelete_gradient
@@ -96,8 +100,6 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
         }
-
-        setToolbarOverlay(isVaccinationComplete)
     }
 
     private fun setToolbarOverlay(isVaccinationComplete: Boolean) {
@@ -107,7 +109,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
         val deviceWidth = requireContext().resources.displayMetrics.widthPixels
 
-        val params: CoordinatorLayout.LayoutParams = binding.recyclerViewVaccinationList.layoutParams
+        val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams = binding.recyclerViewVaccinationList.layoutParams
             as (CoordinatorLayout.LayoutParams)
 
         val textParams = bottomTextView.layoutParams as (LinearLayout.LayoutParams)
@@ -116,11 +118,13 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         textParams.bottomMargin = (deviceWidth / divider) - 24 /* 24 is space between screen border and Card */
         bottomTextView.requestLayout()
 
-        val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
+        val behavior: AppBarLayout.ScrollingViewBehavior =
+            layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (deviceWidth / divider) - 24
     }
 
     companion object {
-        fun navigationUri(personIdentifier: String) = "coronawarnapp://vaccination-list/$personIdentifier".toUri()
+        fun navigationUri(personIdentifierCode: String) =
+            "coronawarnapp://vaccination-list/$personIdentifierCode".toUri()
     }
 }

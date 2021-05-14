@@ -25,7 +25,10 @@ internal fun getMockVaccinationCertificate() = MockVaccinationCertificate(
     certificateIssuer = "certificateIssuer",
     certificateCountry = Country.AT,
     certificateId = "certificate Id",
-    personIdentifier = getPersonIdentifier()
+    personIdentifier = getPersonIdentifier(),
+    issuer = "BMG",
+    issuedAt = Instant.ofEpochMilli(1620835549458).minus(Duration.standardDays(1)),
+    expiresAt = Instant.ofEpochMilli(1620835549458).plus(Duration.standardDays(60))
 )
 
 internal fun getMockProofCertificate() = MockProofCertificate(
@@ -79,5 +82,8 @@ internal data class MockVaccinationCertificate(
     override val certificateIssuer: String,
     override val certificateCountry: Country,
     override val certificateId: String,
-    override val personIdentifier: VaccinatedPersonIdentifier
+    override val personIdentifier: VaccinatedPersonIdentifier,
+    override val issuer: String,
+    override val issuedAt: Instant,
+    override val expiresAt: Instant,
 ) : VaccinationCertificate
