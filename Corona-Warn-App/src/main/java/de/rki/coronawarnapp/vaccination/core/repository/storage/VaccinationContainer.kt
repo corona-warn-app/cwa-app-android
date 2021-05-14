@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.certificate.CoseCertificateHeader
-import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.QrCodeString
@@ -19,7 +18,7 @@ import org.joda.time.LocalDate
 
 @Keep
 data class VaccinationContainer internal constructor(
-    @SerializedName("vaccinationQrCode") val vaccinationQrCodeString: QrCodeString,
+    @SerializedName("vaccinationQrCode") val vaccinationQrCode: QrCodeString,
     @SerializedName("scannedAt") val scannedAt: Instant,
 ) {
 
@@ -33,7 +32,7 @@ data class VaccinationContainer internal constructor(
 
     @delegate:Transient
     private val certificateData: VaccinationCertificateData by lazy {
-        preParsedData ?: qrCodeExtractor.extract(vaccinationQrCodeString).parsedData
+        preParsedData ?: qrCodeExtractor.extract(vaccinationQrCode).parsedData
     }
 
     val header: CoseCertificateHeader
@@ -99,7 +98,7 @@ fun VaccinationCertificateQRCode.toVaccinationContainer(
     scannedAt: Instant,
     qrCodeExtractor: VaccinationQRCodeExtractor,
 ) = VaccinationContainer(
-    vaccinationQrCodeString = this.qrCodeString,
+    vaccinationQrCode = this.qrCodeString,
     scannedAt = scannedAt,
 ).apply {
     this.qrCodeExtractor = qrCodeExtractor

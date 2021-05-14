@@ -42,7 +42,7 @@ class VaccinationTestData @Inject constructor(
 
     val personAVac1Container = VaccinationContainer(
         scannedAt = Instant.ofEpochMilli(1620062834471),
-        vaccinationQrCodeString = personAVac1QR,
+        vaccinationQrCode = personAVac1QR,
     ).apply {
         qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
     }
@@ -78,7 +78,7 @@ class VaccinationTestData @Inject constructor(
 
     val personAVac2Container = VaccinationContainer(
         scannedAt = Instant.ofEpochMilli(1620069934471),
-        vaccinationQrCodeString = personAVac2QR,
+        vaccinationQrCode = personAVac2QR,
     ).apply {
         qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
     }
