@@ -61,7 +61,8 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             SubmissionTestResultPendingViewModel(
                 TestDispatcherProvider(),
                 submissionRepository,
-                testType = CoronaTest.Type.PCR
+                testType = CoronaTest.Type.PCR,
+                initialUpdate = false
             )
         )
 
@@ -81,7 +82,10 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : SubmissionTestResultPendingViewModel.Factory {
-                override fun create(testType: CoronaTest.Type): SubmissionTestResultPendingViewModel = viewModel
+                override fun create(
+                    testType: CoronaTest.Type,
+                    initialUpdate: Boolean
+                ): SubmissionTestResultPendingViewModel = viewModel
             }
         )
     }

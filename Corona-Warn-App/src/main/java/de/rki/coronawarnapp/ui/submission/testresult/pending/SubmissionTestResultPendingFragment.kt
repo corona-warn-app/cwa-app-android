@@ -31,8 +31,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
     private val binding: FragmentSubmissionTestResultPendingBinding by viewBindingLazy()
 
-    private var skipInitialTestResultRefresh = false
-
     private var errorDialog: AlertDialog? = null
 
     private val navArgs by navArgs<SubmissionTestResultPendingFragmentArgs>()
@@ -42,7 +40,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultPendingViewModel.Factory
-            factory.create(navArgs.testType)
+            factory.create(navArgs.testType, navArgs.forceTestResultUpdate)
         }
     )
 
@@ -81,8 +79,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
-        skipInitialTestResultRefresh = arguments?.getBoolean("skipInitialTestResultRefresh") ?: false
-
         binding.apply {
             submissionTestResultButtonPendingRefresh.setOnClickListener {
                 viewModel.updateTestResult()
@@ -120,7 +116,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        skipInitialTestResultRefresh = false
         viewModel.cwaWebExceptionLiveData.observeOnce(this.viewLifecycleOwner) { exception ->
             handleError(exception)
         }
