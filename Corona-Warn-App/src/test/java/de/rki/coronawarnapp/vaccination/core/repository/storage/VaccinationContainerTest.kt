@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -30,6 +31,15 @@ class VaccinationContainerTest : BaseTest() {
             firstNameStandardized = "ANDREAS",
             lastNameStandardized = "ASTRA<EINS"
         )
+    }
+
+    @Test
+    fun `header decoding`() {
+        testData.personAVac1Container.header.apply {
+            issuer shouldBe "DE"
+            issuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
+            expiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
+        }
     }
 
     @Test
@@ -98,6 +108,9 @@ class VaccinationContainerTest : BaseTest() {
                 firstNameStandardized = "ANDREAS",
                 lastNameStandardized = "ASTRA<EINS"
             )
+            issuer shouldBe "DE"
+            issuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
+            expiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
         }
     }
 }

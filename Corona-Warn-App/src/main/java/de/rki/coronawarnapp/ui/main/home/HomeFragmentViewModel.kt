@@ -71,9 +71,9 @@ import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.ui.homecard.CompleteVaccinationHomeCard
 import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
@@ -311,7 +311,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             vaccinatedPersons.forEach { vaccinatedPerson ->
-                val card = when (vaccinatedPerson.vaccinationStatus) {
+                val card = when (vaccinatedPerson.getVaccinationStatus()) {
                     VaccinatedPerson.Status.COMPLETE -> CompleteVaccinationHomeCard.Item(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
@@ -328,6 +328,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
                             )
                         }
                     )
+                    VaccinatedPerson.Status.IMMUNITY -> {
+                        throw NotImplementedError()
+                    }
                 }
                 add(card)
             }
