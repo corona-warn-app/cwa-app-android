@@ -8,6 +8,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -40,11 +41,13 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
         }
     }
 
-    fun createInstance(scope: CoroutineScope = TestCoroutineScope()) = SubmissionTestResultPendingViewModel(
-        dispatcherProvider = scope.asDispatcherProvider(),
-        submissionRepository = submissionRepository,
-        testType = testType
-    )
+    fun createInstance(scope: CoroutineScope = TestCoroutineScope(), forceInitialUpdate: Boolean = false) =
+        SubmissionTestResultPendingViewModel(
+            dispatcherProvider = scope.asDispatcherProvider(),
+            submissionRepository = submissionRepository,
+            testType = testType,
+            initialUpdate = forceInitialUpdate
+        )
 
     @Test
     fun `web exception handling`() {
@@ -59,6 +62,20 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
             testFlow.value = mockk<CoronaTest>().apply { every { lastError } returns unexpectedError }
             cwaWebExceptionLiveData.value shouldBe unexpectedError
+        }
+    }
+
+    @Test
+    fun `initial update triggered when forced`() {
+        createInstance(forceInitialUpdate = true).apply {
+            coVerify(exactly = 1) { submissionRepository.refreshTest(any()) }
+        }
+    }
+
+    @Test
+    fun `initial update not triggered when not forced`() {
+        createInstance().apply {
+            coVerify(exactly = 0) { submissionRepository.refreshTest(any()) }
         }
     }
 }
