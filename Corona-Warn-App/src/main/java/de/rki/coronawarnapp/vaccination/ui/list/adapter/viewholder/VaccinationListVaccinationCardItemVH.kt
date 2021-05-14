@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListVaccinationCardBinding
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.IMMUNITY
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
@@ -22,42 +23,46 @@ class VaccinationListVaccinationCardItemVH(
     override val viewBinding: Lazy<VaccinationListVaccinationCardBinding> = lazy {
         VaccinationListVaccinationCardBinding.bind(itemView)
     }
-    override val onBindData:
-        VaccinationListVaccinationCardBinding.(item: VaccinationListVaccinationCardItem, payloads: List<Any>) -> Unit =
-            { item, _ ->
-                with(item) {
-                    root.setOnClickListener {
-                        onCardClick.invoke(vaccinationCertificateId)
-                    }
-                    vaccinationCardTitle.text = context.getString(
-                        R.string.vaccination_list_vaccination_card_title,
-                        doseNumber,
-                        totalSeriesOfDoses
-                    )
-                    vaccinationCardSubtitle.text = context.getString(
-                        R.string.vaccination_list_vaccination_card_subtitle,
-                        vaccinatedAt
-                    )
+    override val onBindData: VaccinationListVaccinationCardBinding.(
+        item: VaccinationListVaccinationCardItem,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
+        item.apply {
+            root.setOnClickListener {
+                onCardClick.invoke(vaccinationCertificateId)
+            }
+            vaccinationCardTitle.text = context.getString(
+                R.string.vaccination_list_vaccination_card_title,
+                doseNumber,
+                totalSeriesOfDoses
+            )
+            vaccinationCardSubtitle.text = context.getString(
+                R.string.vaccination_list_vaccination_card_subtitle,
+                vaccinatedAt
+            )
 
-                    val iconRes = when (item.vaccinationStatus) {
-                        INCOMPLETE -> {
-                            if (isFinalVaccination) {
-                                R.drawable.ic_vaccination_incomplete_final
-                            } else {
-                                R.drawable.ic_vaccination_incomplete
-                            }
-                        }
-                        COMPLETE -> {
-                            if (isFinalVaccination) {
-                                R.drawable.ic_vaccination_complete_final
-                            } else {
-                                R.drawable.ic_vaccination_complete
-                            }
-                        }
+            val iconRes = when (vaccinationStatus) {
+                INCOMPLETE -> {
+                    if (isFinalVaccination) {
+                        R.drawable.ic_vaccination_incomplete_final
+                    } else {
+                        R.drawable.ic_vaccination_incomplete
                     }
-                    vaccinationIcon.setImageResource(iconRes)
+                }
+                COMPLETE -> {
+                    if (isFinalVaccination) {
+                        R.drawable.ic_vaccination_complete_final
+                    } else {
+                        R.drawable.ic_vaccination_complete
+                    }
+                }
+                IMMUNITY -> {
+                    throw NotImplementedError()
                 }
             }
+            vaccinationIcon.setImageResource(iconRes)
+        }
+    }
 
     data class VaccinationListVaccinationCardItem(
         val vaccinationCertificateId: String,

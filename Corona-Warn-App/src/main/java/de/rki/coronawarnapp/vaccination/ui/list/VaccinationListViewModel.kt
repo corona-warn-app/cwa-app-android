@@ -33,14 +33,14 @@ class VaccinationListViewModel @AssistedInject constructor(
     val uiState: LiveData<UiState> = vaccinatedPersonFlow.map { vaccinatedPerson ->
         UiState(
             listItems = assembleItemList(vaccinatedPerson = vaccinatedPerson),
-            vaccinationStatus = vaccinatedPerson.vaccinationStatus
+            vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
         )
     }.catch {
         // TODO Error Handling in an upcoming subtask
     }.asLiveData()
 
     private fun assembleItemList(vaccinatedPerson: VaccinatedPerson) = mutableListOf<VaccinationListItem>().apply {
-        if (vaccinatedPerson.vaccinationStatus == COMPLETE) {
+        if (vaccinatedPerson.getVaccinationStatus() == COMPLETE) {
             // Tbd what to show on complete vaccination - the proof certificate is now obsolete
         } else {
             add(VaccinationListIncompleteTopCardItem)
@@ -59,7 +59,7 @@ class VaccinationListViewModel @AssistedInject constructor(
                         doseNumber = doseNumber.toString(),
                         totalSeriesOfDoses = totalSeriesOfDoses.toString(),
                         vaccinatedAt = vaccinatedAt.toDayFormat(),
-                        vaccinationStatus = vaccinatedPerson.vaccinationStatus,
+                        vaccinationStatus = vaccinatedPerson.getVaccinationStatus(),
                         isFinalVaccination = doseNumber == totalSeriesOfDoses,
                         onCardClick = { certificateId ->
                             events.postValue(Event.NavigateToVaccinationCertificateDetails(certificateId))
