@@ -6,7 +6,6 @@ import dagger.Provides
 import dagger.Reusable
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
-import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -23,19 +22,8 @@ class VaccinationValueSetModule {
         @AppContext context: Context
     ): Cache {
         val cacheDir = File(context.cacheDir, "vaccination_value")
-        val cacheFile = File(cacheDir, "http_cache")
-        return Cache(cacheFile, CACHE_SIZE_5MB)
+        return Cache(cacheDir, CACHE_SIZE_5MB)
     }
-
-    @Reusable
-    @ValueSet
-    @Provides
-    fun httpClient(
-        @HttpClientDefault defaultHttpClient: OkHttpClient,
-        @ValueSet cache: Cache
-    ): OkHttpClient = defaultHttpClient.newBuilder()
-        .cache(cache)
-        .build()
 
     @Reusable
     @Provides
@@ -45,7 +33,7 @@ class VaccinationValueSetModule {
         @ValueSet cache: Cache
     ): VaccinationValueSetApiV1 {
         val client = httpClient.newBuilder()
-            .cache(cache = cache)
+            .cache(cache)
             .build()
 
         return Retrofit.Builder()
