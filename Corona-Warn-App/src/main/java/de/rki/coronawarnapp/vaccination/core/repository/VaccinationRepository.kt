@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationContainer
@@ -36,8 +36,8 @@ class VaccinationRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val timeStamper: TimeStamper,
     private val storage: VaccinationStorage,
-    private val valueSetsRepository: ValueSetsRepository,
-    private val vaccionationCoseParser: VaccinationCertificateCOSEParser,
+    valueSetsRepository: ValueSetsRepository,
+    private val vaccinationQRCodeExtractor: VaccinationQRCodeExtractor,
 ) {
 
     private val internalData: HotDataFlow<Set<VaccinatedPerson>> = HotDataFlow(
@@ -102,7 +102,7 @@ class VaccinationRepository @Inject constructor(
 
             val newCertificate = qrCode.toVaccinationContainer(
                 scannedAt = timeStamper.nowUTC,
-                coseParser = vaccionationCoseParser,
+                qrCodeExtractor = vaccinationQRCodeExtractor,
             )
 
             val modifiedPerson = originalPerson.copy(
