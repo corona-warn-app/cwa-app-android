@@ -2028,6 +2028,8 @@
     <string name="incompatible_advertising_not_supported">"Вашето мобилно устройство може да поучава известия за COVID-19 чрез Bluetooth, но не може да изпраща такива. Това означава, че Вие ще получавате предупреждения, но без да известявате околните, че са били в контакт с вас. Можете както да получавате, така и да изпращате предупреждения в следствие на регистрации в дадена локация."</string>
     <!-- XTXT: Incompitability card content -->
     <string name="incompatible_scanning_not_supported">"Вашето мобилно устройство не може нито да изпраща, нито да получава известия за COVID-19 чрез Bluetooth. Можете както да получавате, така и да изпращате предупреждения в следствие на регистрации в дадена локация."</string>
-    <!-- XTXT: Incompitability faq link -->
-    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
+    <!-- XTXT: Incompitability faq link for partial incompatibility -->
+    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
+    <!-- XTXT: Incompitability faq link for full incompatibility -->
+    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
 </resources>
