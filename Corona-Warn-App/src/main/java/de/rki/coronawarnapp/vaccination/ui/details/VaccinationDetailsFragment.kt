@@ -63,15 +63,18 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.qrCode.observe(viewLifecycleOwner) {
                 qrCodeCard.progressBar.hide()
                 qrCodeCard.image.setImageBitmap(it)
-                it?.let {
-                    qrCodeCard.image.setOnClickListener {
-                        findNavController().navigate(
-                            R.id.action_global_qrCodeFullScreenFragment,
-                            QrCodeFullScreenFragmentArgs("test").toBundle(),
-                            null,
-                            FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
-                        )
-                    }
+                it?.let { qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() } }
+            }
+
+            viewModel.events.observe(viewLifecycleOwner) { event ->
+                when (event) {
+                    VaccinationDetailsNavigation.Back -> popBackStack()
+                    is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
+                        R.id.action_global_qrCodeFullScreenFragment,
+                        QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                        null,
+                        FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                    )
                 }
             }
         }
