@@ -60,7 +60,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     private fun generateQrCode(certificate: VaccinationCertificate?) = launch {
         try {
             mutableStateFlow.value = certificate?.let {
-                qrCodeText = it.certificateId
+                qrCodeText = it.certificateId // TODO use qrcode text
                 qrCodeGenerator.createQrCode(certificate.certificateId)
             }
         } catch (e: Exception) {
