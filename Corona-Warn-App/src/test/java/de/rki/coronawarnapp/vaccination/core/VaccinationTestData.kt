@@ -57,7 +57,7 @@ class VaccinationTestData @Inject constructor(
         scannedAt = Instant.ofEpochMilli(1620062834471),
         vaccinationCertificateCOSE = personAVac1COSE,
     ).apply {
-        parser = vaccinationCertificateCOSEParser
+        qrCodeExtractor = vaccinationCertificateCOSEParser
     }
 
     // AndreasAstra2.pdf
@@ -98,7 +98,7 @@ class VaccinationTestData @Inject constructor(
         scannedAt = Instant.ofEpochMilli(1620069934471),
         vaccinationCertificateCOSE = personAVac2COSE,
     ).apply {
-        parser = vaccinationCertificateCOSEParser
+        qrCodeExtractor = vaccinationCertificateCOSEParser
     }
 
     val personAProof1COSE =

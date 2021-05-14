@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateCOSEParser
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinatedPersonNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
@@ -43,7 +43,7 @@ class VaccinationRepository @Inject constructor(
     private val storage: VaccinationStorage,
     private val valueSetsRepository: ValueSetsRepository,
     private val vaccinationProofServer: VaccinationProofServer,
-    private val vaccionationCoseParser: VaccinationCertificateCOSEParser,
+    private val vaccinationQRCodeExtractor: VaccinationQRCodeExtractor,
     private val proofCoseParser: ProofCertificateCOSEParser,
 ) {
 
@@ -110,7 +110,7 @@ class VaccinationRepository @Inject constructor(
 
             val newCertificate = qrCode.toVaccinationContainer(
                 scannedAt = timeStamper.nowUTC,
-                coseParser = vaccionationCoseParser,
+                qrCodeExtractor = vaccinationQRCodeExtractor,
             )
 
             val modifiedPerson = originalPerson.copy(
@@ -161,7 +161,7 @@ class VaccinationRepository @Inject constructor(
                         Timber.tag(TAG).d("Obtaining proof cert for vacciniation cert: %s", eligbleCert.certificateId)
 
                         val proof = try {
-                            vaccinationProofServer.getProofCertificate(eligbleCert.vaccinationCertificateCOSE)
+                            vaccinationProofServer.getProofCertificate(eligbleCert.vaccinationQrCodeString)
                         } catch (e: Exception) {
                             Timber.tag(TAG).e(e, "Failed to check for proof.")
                             null
