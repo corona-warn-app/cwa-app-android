@@ -320,7 +320,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                             )
                         }
                     )
-                    VaccinatedPerson.Status.INCOMPLETE -> IncompleteVaccinationHomeCard.Item(
+                    VaccinatedPerson.Status.INCOMPLETE, VaccinatedPerson.Status.IMMUNITY -> IncompleteVaccinationHomeCard.Item(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
                             popupEvents.postValue(
@@ -328,10 +328,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
                             )
                         }
                     )
-                    VaccinatedPerson.Status.IMMUNITY -> {
-                        throw NotImplementedError()
-                    }
                 }
+
                 add(card)
             }
 

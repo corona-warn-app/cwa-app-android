@@ -12,10 +12,8 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListIncompleteTopCardItemVH.VaccinationListIncompleteTopCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListNameCardItemVH.VaccinationListNameCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH.VaccinationListQrCodeCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
@@ -69,11 +67,6 @@ class VaccinationListViewModel @AssistedInject constructor(
                     )
             )
 
-            if (vaccinatedPerson.getVaccinationStatus() == COMPLETE) {
-                // Tbd what to show on complete vaccination - the proof certificate is now obsolete
-            } else {
-                add(VaccinationListIncompleteTopCardItem)
-            }
             add(
                 VaccinationListNameCardItem(
                     fullName = vaccinatedPerson.fullName,

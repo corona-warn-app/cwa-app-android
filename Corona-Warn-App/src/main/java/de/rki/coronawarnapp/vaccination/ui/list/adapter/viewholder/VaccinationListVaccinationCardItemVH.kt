@@ -42,22 +42,15 @@ class VaccinationListVaccinationCardItemVH(
             )
 
             val iconRes = when (vaccinationStatus) {
-                INCOMPLETE -> {
-                    if (isFinalVaccination) {
-                        R.drawable.ic_vaccination_incomplete_final
-                    } else {
+                INCOMPLETE, COMPLETE -> {
                         R.drawable.ic_vaccination_incomplete
-                    }
                 }
-                COMPLETE -> {
+                IMMUNITY -> {
                     if (isFinalVaccination) {
                         R.drawable.ic_vaccination_complete_final
                     } else {
                         R.drawable.ic_vaccination_complete
                     }
-                }
-                IMMUNITY -> {
-                    throw NotImplementedError()
                 }
             }
             vaccinationIcon.setImageResource(iconRes)
