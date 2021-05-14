@@ -19,10 +19,6 @@ data class VaccinatedPerson(
         data.vaccinations.map { it.toVaccinationCertificate(valueSet) }.toSet()
     }
 
-    val proofCertificates: Set<ProofCertificate> by lazy {
-        data.proofs.map { it.toProofCertificate(valueSet) }.toSet()
-    }
-
     val vaccineName: String
         get() = vaccinationCertificates.first().vaccineName
 
@@ -40,15 +36,6 @@ data class VaccinatedPerson(
 
     val dateOfBirth: LocalDate
         get() = vaccinationCertificates.first().dateOfBirth
-
-    val isEligbleForProofCertificate: Boolean
-        get() = data.isEligbleForProofCertificate
-
-    val isProofCertificateCheckPending: Boolean
-        get() = data.isPCRunPending
-
-    val lastProofCheckAt: Instant
-        get() = data.lastSuccessfulPCRunAt
 
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
         val newestFullDose = vaccinationCertificates

@@ -6,7 +6,7 @@ import androidx.work.WorkManager
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.await
@@ -38,18 +38,20 @@ class VaccinationUpdateScheduler @Inject constructor(
 
     fun setup() {
         Timber.tag(TAG).d("setup()")
+        if (!CWADebug.isDeviceForTestersBuild) {
+            // In tester builds we want to keep the logic intact, but in prod we don't need to activate it
+            return
+        }
 
-        // If there is a pending check, we can perform it in the background.
-        // We basically consume all "pending check flags" in the background until there are none.
         vaccinationRepository.vaccinationInfos
             .map { vaccinatedPersons ->
-                vaccinatedPersons.any { it.isProofCertificateCheckPending }
+                false // NOOP, but we want to keep the logic for now
             }
             .distinctUntilChanged()
-            .onEach { hasProofCheckPending ->
+            .onEach { hasPendingChecks ->
                 val alreadyScheduled = isScheduled()
-                Timber.tag(TAG).d("Enable worker? hasPending=$hasProofCheckPending, scheduled=$alreadyScheduled")
-                setPeriodicUpdatesEnabled(hasProofCheckPending)
+                Timber.tag(TAG).d("Enable worker? hasPending=$hasPendingChecks, scheduled=$alreadyScheduled")
+                setPeriodicUpdatesEnabled(hasPendingChecks)
             }
             .catch { Timber.tag(TAG).e(it, "Failed to monitor for pending proof checks.") }
             .launchIn(appScope)
@@ -58,14 +60,11 @@ class VaccinationUpdateScheduler @Inject constructor(
         combine(
             // Pending checks?
             vaccinationRepository.vaccinationInfos.map { persons ->
-                persons.any { it.isProofCertificateCheckPending }
+                false // NOOP, but we want to keep the logic for now
             }.distinctUntilChanged(),
             // Stale data?
             vaccinationRepository.vaccinationInfos.map { persons ->
-                val nowUTC = timeStamper.nowUTC
-                persons.any {
-                    it.lastProofCheckAt.toLocalDateUtc() != nowUTC.toLocalDateUtc() && it.isEligbleForProofCertificate
-                }
+                false // NOOP, but we want to keep the logic for now
             }.distinctUntilChanged(),
             foregroundState.isInForeground
         ) { hasPending, staleData, isForeground ->
