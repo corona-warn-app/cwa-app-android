@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.vaccination.core.repository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
-import de.rki.coronawarnapp.vaccination.core.server.proof.VaccinationProofServer
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import io.mockk.impl.annotations.MockK
 import org.joda.time.Instant
@@ -17,7 +16,6 @@ class VaccinationRepositoryTest : BaseTest() {
 
     @MockK lateinit var storage: VaccinationStorage
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
-    @MockK lateinit var vaccinationProofServer: VaccinationProofServer
     @MockK lateinit var vaccinationValueSet: VaccinationValueSet
 
     private var testStorage: Set<VaccinatedPersonData> = emptySet()
