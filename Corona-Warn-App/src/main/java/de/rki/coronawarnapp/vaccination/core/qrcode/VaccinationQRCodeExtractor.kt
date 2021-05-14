@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
 import de.rki.coronawarnapp.util.compression.inflate
+import de.rki.coronawarnapp.util.encoding.Base45Decoder
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateHeaderParser
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
@@ -9,7 +10,6 @@ import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificat
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
 import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1Parser
-import okio.ByteString
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,15 +34,15 @@ class VaccinationQRCodeExtractor @Inject constructor(
         )
     }
 
-    private fun String.decodeBase45(): ByteString = try {
-        this.decodeBase45()
+    private fun String.decodeBase45(): ByteArray = try {
+        Base45Decoder.decode(this)
     } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
     }
 
-    private fun ByteString.decompress(): RawCOSEObject = try {
-        RawCOSEObject(this.inflate(sizeLimit = DEFAULT_SIZE_LIMIT))
+    private fun ByteArray.decompress(): RawCOSEObject = try {
+        this.inflate(sizeLimit = DEFAULT_SIZE_LIMIT)
     } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
