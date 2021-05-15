@@ -2,17 +2,18 @@ package de.rki.coronawarnapp.task.testtasks.alerterror
 
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.common.Finished
+import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.task.common.DefaultProgress
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
 import javax.inject.Provider
 
 class AlertErrorTask : Task<DefaultProgress, AlertErrorTask.Result> {
 
-    private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
-    override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
+    private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
+    override val progress: Flow<DefaultProgress> = internalProgress
 
     private var isCanceled = false
 
@@ -22,7 +23,7 @@ class AlertErrorTask : Task<DefaultProgress, AlertErrorTask.Result> {
         throw arguments.error
     } finally {
         Timber.i("Finished (isCanceled=$isCanceled).")
-        internalProgress.close()
+        internalProgress.value = Finished
     }
 
     override suspend fun cancel() {

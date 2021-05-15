@@ -63,7 +63,7 @@ class TaskController @Inject constructor(
     }
 
     /**
-     * Don't re-use taskrequests, create new requests for each submission.
+     * Don't re-use task requests, create new requests for each submission.
      * They contain unique IDs.
      */
     fun submit(request: TaskRequest) {
@@ -71,7 +71,7 @@ class TaskController @Inject constructor(
             throw MissingTaskFactoryException(request::class)
         }
         Timber.tag(TAG).i("Task submitted: %s", request)
-        taskQueue.offer(request)
+        taskQueue.trySend(request).isSuccess
     }
 
     suspend fun cancel(requestId: UUID) = internalTaskData.updateSafely {
