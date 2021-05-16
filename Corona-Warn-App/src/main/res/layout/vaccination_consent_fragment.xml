@@ -122,7 +122,7 @@
                 android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="@id/vaccination_consent_qr_code_icon"
                 app:layout_constraintTop_toBottomOf="@id/vaccination_consent_qr_code_text"
-                app:srcCompat="@drawable/ic_qr_time" />
+                app:srcCompat="@drawable/ic_shield_illustration" />
 
             <TextView
                 android:id="@+id/vaccination_consent_time_sheet_text"
