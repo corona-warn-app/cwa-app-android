@@ -2031,9 +2031,9 @@
     <!-- XHED: Incompitability card title -->
     <string name="incompatible_headline">"Incompatibility Warning"</string>
     <!-- XTXT: Incompitability card content -->
-    <string name="incompatible_advertising_not_supported">"Your smartphone can only receive COVID-19 notifications via Bluetooth, but not send them. This means you can be warned of exposures through this interface, but you cannot warn others of exposures yourself. You can send and receive warnings that result from check-ins."</string>
+    <string name="incompatible_advertising_not_supported">"Your smartphone can only receive COVID-19 Exposure Notifications via Bluetooth, but not send them. This means you can be warned of exposures through this interface, but you cannot warn others of exposures yourself. You can send and receive warnings that result from check-ins."</string>
     <!-- XTXT: Incompitability card content -->
-    <string name="incompatible_scanning_not_supported">"Your smartphone cannot send or receive COVID-19 notifications via Bluetooth. You can send and receive warnings that result from check-ins."</string>
+    <string name="incompatible_scanning_not_supported">"Your smartphone cannot send or receive COVID-19 Exposure Notifications via Bluetooth. You can send and receive warnings that result from check-ins."</string>
     <!-- XTXT: Incompatibility faq link for partial incompatibility -->
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
     <!-- XTXT: Incompatibility faq link for full incompatibility -->
