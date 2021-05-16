@@ -3,7 +3,7 @@
 
     <!-- Brand Colors -->
     <color name="colorBrandPrimary">#BD1200</color>
-    <color name="colorBrandSecondary">#80CDEC</color>
+    <color name="colorSecondary">#80CDEC</color>
     <color name="colorBrandTertiary">#59112B</color>
 
     <!-- Backgrounds and Separators -->
@@ -21,7 +21,7 @@
     <color name="colorCardBackgroundHighlightGray">@color/cwaGrayHighlight</color>
 
     <!-- Text -->
-    <color name="colorTextPrimary1">#17191A</color>
+    <color name="colorOnPrimary">#17191A</color>
     <color name="colorTextPrimary1Inverted">#FFFFFF</color>
     <color name="colorTextPrimary1Stable">#17191A</color>
     <color name="colorTextPrimary1InvertedStable">#FFFFFF</color>
@@ -69,7 +69,7 @@
     <color name="colorCalendarBackgroundSelected">@color/colorTextSemanticNeutral</color>
     <color name="colorCalendarBackgroundUnselected">@color/colorSurface2</color>
     <color name="colorCalendarTextSelected">@color/colorTextPrimary1Inverted</color>
-    <color name="colorCalendarTextUnselected">@color/colorTextPrimary1</color>
+    <color name="colorCalendarTextUnselected">@color/colorOnPrimary</color>
     <color name="colorCalendarSelectedDayBackground">@color/colorCalendarBackgroundSelected</color>
     <color name="colorCalendarTodayBorder">@color/colorAccent</color>
     <color name="colorCalendarTodayText">@color/colorAccent</color>

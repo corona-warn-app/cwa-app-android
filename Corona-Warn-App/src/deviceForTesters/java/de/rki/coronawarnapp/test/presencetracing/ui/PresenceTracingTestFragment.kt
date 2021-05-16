@@ -122,7 +122,7 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
             }
 
             scale(0.85f) {
-                color(requireContext().getColorCompat(R.color.colorTextPrimary1)) {
+                color(requireContext().getColorCompat(R.color.colorOnPrimary)) {
                     append(value.toString())
                 }
             }

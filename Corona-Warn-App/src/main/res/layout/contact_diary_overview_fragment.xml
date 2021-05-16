@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorBackground"
-        app:popupTheme="@style/CWAToolbar.Menu"
         app:title="@string/contact_diary_overview_title" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -249,7 +249,7 @@ data class TracingInProgress(
 
     fun getStableTextColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorTextPrimary1InvertedStable
-        else -> R.color.colorTextPrimary1
+        else -> R.color.colorOnPrimary
     }.let { c.getColorCompat(it) }
 
     @ColorInt

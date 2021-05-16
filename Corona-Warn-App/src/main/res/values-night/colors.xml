@@ -3,7 +3,7 @@
 
     <!-- Brand Colors -->
     <color name="colorBrandPrimary">#D13F3F</color>
-    <color name="colorBrandSecondary">#80CDEC</color>
+    <color name="colorSecondary">#80CDEC</color>
     <color name="colorBrandTertiary">#994866</color>
 
     <!-- Backgrounds and Separators -->
@@ -16,7 +16,7 @@
     <color name="colorSystemUI">#000000</color>
 
     <!-- Text -->
-    <color name="colorTextPrimary1">#FFFFFF</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorTextPrimary1Inverted">#17191A</color>
     <color name="colorTextPrimary2">#99FFFFFF</color>
     <color name="colorTextPrimary3">#4DFFFFFF</color>
