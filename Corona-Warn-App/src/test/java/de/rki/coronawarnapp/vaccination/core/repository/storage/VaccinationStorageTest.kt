@@ -70,10 +70,10 @@ class VaccinationStorageTest : BaseTest() {
             {
                 "vaccinationData": [
                     {
-                        "vaccinationQrCode": "${testData.personAVac1QR}",
+                        "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
                         "scannedAt": 1620062834471
                     }, {
-                        "vaccinationQrCode": "${testData.personAVac2QR}",
+                        "vaccinationQrCode": "${testData.personAVac2QRCodeString}",
                         "scannedAt": 1620069934471
                     }
                 ]
