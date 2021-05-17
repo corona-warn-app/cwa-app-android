@@ -576,4 +576,8 @@
     <style name="PosterTextStyle">
         <item name="android:fontFamily">@font/roboto</item>
     </style>
+
+    <style name="ShapeAppearanceOverlay">
+        <item name="cornerSize">3dp</item>
+    </style>
 </resources>
