@@ -108,7 +108,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
-    val openIncompatibleEvent = SingleLiveEvent<Unit>()
+    val openIncompatibleEvent = SingleLiveEvent<Boolean>()
     val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
     val openVaccinationRegistrationFlow = SingleLiveEvent<Unit>()
     val errorEvent = SingleLiveEvent<Throwable>()
@@ -222,7 +222,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is SubmissionStatePCR.TestPending -> PcrTestPendingCard.Item(state) {
             routeToScreen.postValue(
                 HomeFragmentDirections
-                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
+                    .actionMainFragmentToSubmissionTestResultPendingFragment(
+                        testType = CoronaTest.Type.PCR,
+                        forceTestResultUpdate = true
+                    )
             )
         }
         is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
@@ -274,7 +277,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 routeToScreen.postValue(
                     HomeFragmentDirections
                         .actionMainFragmentToSubmissionTestResultPendingFragment(
-                            testType = CoronaTest.Type.RAPID_ANTIGEN
+                            testType = CoronaTest.Type.RAPID_ANTIGEN,
+                            forceTestResultUpdate = true
                         )
                 )
             }
@@ -336,10 +340,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             if (bluetoothSupport.isAdvertisingSupported == false) {
+
+                val scanningSupported = bluetoothSupport.isScanningSupported != false
+
                 add(
                     IncompatibleCard.Item(
-                        onClickAction = { openIncompatibleEvent.postValue(Unit) },
-                        bluetoothSupported = bluetoothSupport.isScanningSupported != false
+                        onClickAction = { openIncompatibleEvent.postValue(scanningSupported) },
+                        bluetoothSupported = scanningSupported
                     )
                 )
             }
