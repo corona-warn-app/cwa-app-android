@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -14,18 +15,9 @@ data class VaccinatedPerson(
     val identifier: VaccinatedPersonIdentifier
         get() = data.identifier
 
-    val vaccinationCertificates: Set<VaccinationCertificate>
-        get() = data.vaccinations.map {
-            it.toVaccinationCertificate(valueSet)
-        }.toSet()
-
-    val proofCertificates: Set<ProofCertificate>
-        get() = data.proofs.map {
-            it.toProofCertificate(valueSet)
-        }.toSet()
-
-    val vaccinationStatus: Status
-        get() = if (proofCertificates.isNotEmpty()) Status.COMPLETE else Status.INCOMPLETE
+    val vaccinationCertificates: Set<VaccinationCertificate> by lazy {
+        data.vaccinations.map { it.toVaccinationCertificate(valueSet) }.toSet()
+    }
 
     val vaccineName: String
         get() = vaccinationCertificates.first().vaccineName
@@ -45,17 +37,38 @@ data class VaccinatedPerson(
     val dateOfBirth: LocalDate
         get() = vaccinationCertificates.first().dateOfBirth
 
-    val isEligbleForProofCertificate: Boolean
-        get() = data.isEligbleForProofCertificate
+    fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
+        val newestFullDose = vaccinationCertificates
+            .filter { it.doseNumber == it.totalSeriesOfDoses }
+            .maxByOrNull { it.vaccinatedAt }
+            ?: return Status.INCOMPLETE
 
-    val isProofCertificateCheckPending: Boolean
-        get() = data.isPCRunPending
+        val daysAgo = Duration(newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay(), nowUTC).standardDays
 
-    val lastProofCheckAt: Instant
-        get() = data.lastSuccessfulPCRunAt
+        return when {
+            daysAgo >= IMMUNITY_WAITING_PERIOD.standardDays -> Status.IMMUNITY
+            else -> Status.COMPLETE
+        }
+    }
+
+    fun getTimeUntilImmunity(nowUTC: Instant = Instant.now()): Duration? {
+        val newestFullDose = vaccinationCertificates
+            .filter { it.doseNumber == it.totalSeriesOfDoses }
+            .maxByOrNull { it.vaccinatedAt }
+            ?: return null
+
+        val immunityAt = newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay().plus(IMMUNITY_WAITING_PERIOD)
+
+        return Duration(nowUTC, immunityAt)
+    }
 
     enum class Status {
         INCOMPLETE,
-        COMPLETE
+        COMPLETE,
+        IMMUNITY
+    }
+
+    companion object {
+        private val IMMUNITY_WAITING_PERIOD = Duration.standardDays(14)
     }
 }

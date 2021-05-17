@@ -4,7 +4,7 @@
     ###################################### -->
 
     <!-- XHED: My check-ins: screen title -->
-    <string name="trace_location_checkins_title">"My Check-ins"</string>
+    <string name="trace_location_checkins_title">"My Check-Ins"</string>
     <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_label">"No entries yet"</string>
     <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->

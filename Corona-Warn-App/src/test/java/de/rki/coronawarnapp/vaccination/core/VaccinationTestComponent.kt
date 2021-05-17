@@ -20,6 +20,7 @@ interface VaccinationTestComponent {
     fun inject(testClass: VaccinationStorageTest)
     fun inject(testClass: VaccinationContainerTest)
     fun inject(testClass: VaccinationQRCodeExtractorTest)
+    fun inject(testClass: VaccinatedPersonTest)
 
     @Component.Factory
     interface Factory {

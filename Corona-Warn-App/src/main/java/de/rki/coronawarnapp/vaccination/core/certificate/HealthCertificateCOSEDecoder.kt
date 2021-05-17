@@ -9,7 +9,7 @@ import javax.inject.Inject
 class HealthCertificateCOSEDecoder @Inject constructor() {
 
     fun decode(input: RawCOSEObject): CBORObject = try {
-        val messageObject = CBORObject.DecodeFromBytes(input.asByteArray).validate()
+        val messageObject = CBORObject.DecodeFromBytes(input).validate()
         val content = messageObject[2].GetByteString()
         CBORObject.DecodeFromBytes(content)
     } catch (e: InvalidHealthCertificateException) {
