@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/GreyCard.Ripple"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/title"
@@ -26,9 +25,9 @@
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:importantForAccessibility="no"
-        app:srcCompat="@drawable/ic_forward"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_forward"
         app:tint="@color/colorTextPrimary1" />
 
     <ImageView
@@ -47,8 +46,11 @@
         style="@style/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="18dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/rat_profile_create_card_subtitle"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/illustration" />
