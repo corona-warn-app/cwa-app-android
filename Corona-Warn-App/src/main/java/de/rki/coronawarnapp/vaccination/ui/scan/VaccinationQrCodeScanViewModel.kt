@@ -26,7 +26,7 @@ class VaccinationQrCodeScanViewModel @AssistedInject constructor(
             event.postValue(Event.QrCodeScanInProgress)
             val qrCode = vaccinationQRCodeValidator.validate(barcodeResult.text)
             val vaccinationCertificate = vaccinationRepository.registerVaccination(qrCode)
-            event.postValue(Event.QrCodeScanSucceeded(vaccinationCertificate.personIdentifier.code))
+            event.postValue(Event.QrCodeScanSucceeded(vaccinationCertificate.personIdentifier.codeSHA256))
         } catch (e: Throwable) {
             errorEvent.postValue(e)
         }
@@ -39,7 +39,7 @@ class VaccinationQrCodeScanViewModel @AssistedInject constructor(
 
     sealed class Event {
         object QrCodeScanInProgress : Event()
-        data class QrCodeScanSucceeded(val personIdentifierCode: String) : Event()
+        data class QrCodeScanSucceeded(val personIdentifierCodeSha256: String) : Event()
     }
 
     @AssistedFactory

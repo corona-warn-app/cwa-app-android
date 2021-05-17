@@ -88,7 +88,14 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         viewModel.openIncompatibleEvent.observe2(this) {
-            openUrl(getString(R.string.incompatible_link))
+            openUrl(
+                getString(
+                    when (it) { // true if scanning is supported
+                        true -> R.string.incompatible_link_advertising_not_supported
+                        else -> R.string.incompatible_link_scanning_not_supported
+                    }
+                )
+            )
         }
 
         viewModel.openTraceLocationOrganizerFlow.observe2(this) {
@@ -127,7 +134,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     }
                 }
                 is HomeFragmentEvents.GoToVaccinationList -> findNavController().navigate(
-                    VaccinationListFragment.navigationUri(event.personIdentifierCode)
+                    VaccinationListFragment.navigationUri(event.personIdentifierCodeSha256)
                 )
             }
         }

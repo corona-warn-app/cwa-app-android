@@ -1039,7 +1039,7 @@
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Under “My Check-ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
+    <string name="submission_consent_main_third_point">"Under “My Check-Ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"You must be at least 16 years old to grant your consent."</string>
     <!-- YTXT: Body for consent main section final id consent  -->
@@ -1054,7 +1054,7 @@
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
-    <string name="submission_no_consent_fourth_point">"Under “My Check-ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
+    <string name="submission_no_consent_fourth_point">"Under “My Check-Ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
     <!-- YTXT: Body for no consent section fifth point  -->
     <string name="submission_no_consent_fifth_point">"You must be at least 16 years old to grant your consent."</string>
 
@@ -1076,17 +1076,16 @@
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Your test result is not available yet."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please remove the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
-
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_rat_heading">"Ihr Schnelltest wurde hinzugefügt."</string>
+    <string name="submission_test_result_steps_added_rat_heading">"Your rapid test was added."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Ihr Testergebnis liegt noch nicht vor."</string>
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Your test result is not available yet."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_rat_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
+    <string name="submission_test_result_pending_steps_waiting_rat_body">"As soon as your test result becomes available, it will be displayed in the app."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_contact_diary_heading">"Ihr Testergebnis wird dem Kontakt-Tagebuch hinzugefügt."</string>
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Your test result will be added to your contact journal."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_contact_diary_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
+    <string name="submission_test_result_pending_steps_contact_diary_body">"As soon as your test result becomes available, it will be displayed in the app."</string>
 
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Update"</string>
@@ -2000,7 +1999,7 @@
     <!-- XHED: Trace location check-ins consent screen title -->
     <string name="trace_location_attendee_consent_title">"Share Location Check-Ins?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Warn others who checked in near you. Your personal data will not be shared."</string>
+    <string name="trace_location_attendee_consent_header_description">"Warn others who checked in with you. Your personal data will not be shared."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
     <string name="trace_location_attendee_consent_header_button">"Select all"</string>
     <!-- XBUT: Trace location check-ins consent screen continue button -->
@@ -2010,7 +2009,7 @@
     <!-- XHED: Trace location check-ins consent screen dialog title -->
     <string name="trace_location_attendee_consent_dialog_title">"Are you sure you don’t want to share your check-ins?"</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"Skipping will not warn any contacts who checked in near you."</string>
+    <string name="trace_location_attendee_consent_dialog_message">"Skipping will not warn any contacts who checked in with you."</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
     <string name="trace_location_attendee_consent_dialog_positive_button">"Share"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
@@ -2035,6 +2034,8 @@
     <string name="incompatible_advertising_not_supported">"Your smartphone can only receive COVID-19 notifications via Bluetooth, but not send them. This means you can be warned of exposures through this interface, but you cannot warn others of exposures yourself. You can send and receive warnings that result from check-ins."</string>
     <!-- XTXT: Incompitability card content -->
     <string name="incompatible_scanning_not_supported">"Your smartphone cannot send or receive COVID-19 notifications via Bluetooth. You can send and receive warnings that result from check-ins."</string>
-    <!-- XTXT: Incompitability faq link -->
-    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
+    <!-- XTXT: Incompatibility faq link for partial incompatibility -->
+    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
+    <!-- XTXT: Incompatibility faq link for full incompatibility -->
+    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
 </resources>
