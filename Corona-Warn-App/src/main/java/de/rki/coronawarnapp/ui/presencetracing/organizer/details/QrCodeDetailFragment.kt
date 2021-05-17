@@ -5,7 +5,6 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
@@ -148,14 +147,8 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                     eventDate.isGone = true
                 }
 
-                uiState.bitmap?.let {
-                    binding.progressBar.hide()
-                    binding.qrCodeImage.apply {
-                        val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
-                        resourceId.cornerRadius = 15f
-                        setImageDrawable(resourceId)
-                    }
-                }
+                binding.progressBar.hide()
+                binding.qrCodeImage.setImageBitmap(uiState.bitmap)
             }
         }
     }
