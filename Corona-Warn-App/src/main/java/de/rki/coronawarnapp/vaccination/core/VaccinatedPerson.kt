@@ -38,9 +38,15 @@ data class VaccinatedPerson(
         get() = vaccinationCertificates.first().dateOfBirth
 
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
-        val duration = getTimeUntilImmunity(nowUTC) ?: return Status.INCOMPLETE
+        val newestFullDose = vaccinationCertificates
+            .filter { it.doseNumber == it.totalSeriesOfDoses }
+            .maxByOrNull { it.vaccinatedAt }
+            ?: return Status.INCOMPLETE
+
+        val daysAgo = Duration(newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay(), nowUTC).standardDays
+
         return when {
-            duration.standardDays >= IMMUNITY_WAITING_PERIOD.standardDays -> Status.IMMUNITY
+            daysAgo >= IMMUNITY_WAITING_PERIOD.standardDays -> Status.IMMUNITY
             else -> Status.COMPLETE
         }
     }
