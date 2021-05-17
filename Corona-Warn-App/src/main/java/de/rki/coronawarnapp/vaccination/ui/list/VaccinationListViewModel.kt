@@ -27,7 +27,7 @@ class VaccinationListViewModel @AssistedInject constructor(
     vaccinationRepository: VaccinationRepository,
     valueSetsRepository: ValueSetsRepository,
     @AppContext context: Context,
-    @Assisted private val personIdentifierCode: String
+    @Assisted private val personIdentifierCodeSha256: String
 ) : CWAViewModel() {
 
     init {
@@ -37,7 +37,7 @@ class VaccinationListViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<Event>()
 
     private val vaccinatedPersonFlow = vaccinationRepository.vaccinationInfos.map { vaccinatedPersonSet ->
-        vaccinatedPersonSet.single { it.identifier.code == personIdentifierCode }
+        vaccinatedPersonSet.single { it.identifier.codeSHA256 == personIdentifierCodeSha256 }
     }
 
     val uiState: LiveData<UiState> = vaccinatedPersonFlow.map { vaccinatedPerson ->
