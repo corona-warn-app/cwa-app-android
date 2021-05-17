@@ -161,15 +161,18 @@ class VaccinationRepository @Inject constructor(
                 it.certificateId == vaccinationCertificateId
             }
 
-            val newTarget = target.copy(
-                data = target.data.copy(
-                    vaccinations = target.data.vaccinations.filter { it != deletedVaccination }.toSet()
+            val newTarget = if (target.data.vaccinations.size > 1) {
+                target.copy(
+                    data = target.data.copy(
+                        vaccinations = target.data.vaccinations.filter { it != deletedVaccination }.toSet()
+                    )
                 )
-            )
+            } else {
+                Timber.tag(TAG).w("Person has no certificate after removal, removing person.")
+                null
+            }
 
-            this.map {
-                if (it == target) newTarget else it
-            }.toSet()
+            this.mapNotNull { if (it == target) newTarget else it }.toSet()
         }
 
         deletedVaccination?.let {

@@ -184,4 +184,20 @@ class VaccinationRepositoryTest : BaseTest() {
             instance.deleteVaccinationCertificate(vaccinationTestData.personBVac1Container.certificateId)
         }
     }
+
+    @Test
+    fun `remove certificate - last certificate for person`() = runBlockingTest2(ignoreActive = true) {
+        testStorage = setOf(vaccinationTestData.personBData1Vac)
+
+        val instance = createInstance(this)
+        advanceUntilIdle()
+
+        instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personBData1Vac
+
+        instance.deleteVaccinationCertificate(vaccinationTestData.personBVac1Container.certificateId)
+        advanceUntilIdle()
+
+        instance.vaccinationInfos.first() shouldBe emptySet()
+        testStorage shouldBe emptySet()
+    }
 }
