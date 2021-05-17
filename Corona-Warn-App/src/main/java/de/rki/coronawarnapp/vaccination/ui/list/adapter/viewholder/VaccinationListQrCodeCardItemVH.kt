@@ -28,18 +28,18 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
             when (item.qrCode) {
                 null -> progressBar.isVisible = true
                 else -> {
-                    qrCodeImage.setImageBitmap(item.qrCode)
+                    image.setImageBitmap(item.qrCode)
                     progressBar.isVisible = false
                 }
             }
-            qrcodeCardTitle.text = context.getString(
-                R.string.vaccination_list_qrcode_card_title,
+            title.text = context.getString(
+                R.string.vaccination_qrcode_card_title,
                 item.doseNumber,
                 item.totalSeriesOfDoses
             )
-            qrcodeCardSubtitle.text =
+            subtitle.text =
                 context.getString(
-                    R.string.vaccination_list_qrcode_card_subtitle,
+                    R.string.vaccination_qrcode_card_subtitle,
                     item.vaccinatedAt.toDayFormat2DigitYear(),
                     item.expiresAt.toDayFormat2DigitYear()
                 )

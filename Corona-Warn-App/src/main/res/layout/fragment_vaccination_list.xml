@@ -55,7 +55,7 @@
                         android:text="@string/vaccination_list_title"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/subtitle"
@@ -67,7 +67,7 @@
                         android:text="@string/vaccination_list_complete_vaccination_subtitle"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -104,7 +104,7 @@
             android:id="@+id/recycler_view_vaccination_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_marginTop="24dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/vaccination_list_qrcode_card" />
