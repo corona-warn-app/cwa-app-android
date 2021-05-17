@@ -20,8 +20,6 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
-import de.rki.coronawarnapp.util.ui.toLazyString
-import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -85,7 +83,7 @@ class CheckInsViewModel @AssistedInject constructor(
     }
 
     fun onRemoveAllCheckIns() {
-        Timber.d("onRemovaAllCheckIns()")
+        Timber.d("onRemoveAllCheckIns()")
         events.postValue(CheckInEvent.ConfirmRemoveAll)
     }
 
@@ -142,23 +140,15 @@ class CheckInsViewModel @AssistedInject constructor(
     }
 
     private fun verifyUri(uri: String) = launch {
-        try {
-            Timber.i("uri: $uri")
-            val qrCodePayload = qrCodeUriParser.getQrCodePayload(uri)
-            when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
-                is TraceLocationVerifier.VerificationResult.Valid -> events.postValue(
-                    if (cleanHistory)
-                        CheckInEvent.ConfirmCheckInWithoutHistory(verifyResult.verifiedTraceLocation)
-                    else
-                        CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation)
-                )
-                is TraceLocationVerifier.VerificationResult.Invalid ->
-                    events.postValue(CheckInEvent.InvalidQrCode(verifyResult.errorTextRes.toResolvingString()))
-            }
-        } catch (e: Exception) {
-            Timber.d(e, "TraceLocation verification failed")
-            val msg = e.message ?: "QR-Code was invalid"
-            events.postValue(CheckInEvent.InvalidQrCode(msg.toLazyString()))
+        Timber.i("uri: $uri")
+        val qrCodePayload = qrCodeUriParser.getQrCodePayload(uri)
+        when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
+            is TraceLocationVerifier.VerificationResult.Valid -> events.postValue(
+                if (cleanHistory)
+                    CheckInEvent.ConfirmCheckInWithoutHistory(verifyResult.verifiedTraceLocation)
+                else
+                    CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation)
+            )
         }
     }
 
