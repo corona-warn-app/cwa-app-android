@@ -48,7 +48,7 @@ class VaccinationValueSetModule {
             .create(VaccinationValueSetApiV1::class.java)
     }
 
-    private class CacheInterceptor() : Interceptor {
+    private class CacheInterceptor : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val response = chain.proceed(chain.request())
 
