@@ -3,15 +3,19 @@ package de.rki.coronawarnapp.vaccination.core.repository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
+import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -66,7 +70,6 @@ class VaccinationRepositoryTest : BaseTest() {
     @Test
     fun `add new certificate - no prior data`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
-
         advanceUntilIdle()
 
         instance.registerVaccination(vaccinationTestData.personAVac1QRCode).apply {
@@ -77,10 +80,10 @@ class VaccinationRepositoryTest : BaseTest() {
 
     @Test
     fun `add new certificate - existing data`() = runBlockingTest2(ignoreActive = true) {
-        val dataBefore = vaccinationTestData.personAData2Vac1Proof.copy(
+        val dataBefore = vaccinationTestData.personAData2Vac.copy(
             vaccinations = setOf(vaccinationTestData.personAVac1Container),
         )
-        val dataAfter = vaccinationTestData.personAData2Vac1Proof.copy(
+        val dataAfter = vaccinationTestData.personAData2Vac.copy(
             vaccinations = setOf(
                 vaccinationTestData.personAVac1Container,
                 vaccinationTestData.personAVac2Container.copy(scannedAt = nowUTC)
@@ -89,7 +92,6 @@ class VaccinationRepositoryTest : BaseTest() {
         testStorage = setOf(dataBefore)
 
         val instance = createInstance(this)
-
         advanceUntilIdle()
 
         instance.registerVaccination(vaccinationTestData.personAVac2QRCode).apply {
@@ -101,22 +103,85 @@ class VaccinationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `add new certificate - does not match existing person`() {
-        TODO()
+    fun `add new certificate - does not match existing person`() = runBlockingTest2(ignoreActive = true) {
+        testStorage = setOf(vaccinationTestData.personAData2Vac)
+
+        val instance = createInstance(this)
+        advanceUntilIdle()
+
+        shouldThrow<InvalidHealthCertificateException> {
+            instance.registerVaccination(vaccinationTestData.personBVac1QRCode)
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
+
+        testStorage shouldBe setOf(vaccinationTestData.personAData2Vac)
     }
 
     @Test
-    fun `add new certificate - duplicate certificate`() {
-        TODO()
+    fun `add new certificate - duplicate certificate`() = runBlockingTest2(ignoreActive = true) {
+        val dataBefore = vaccinationTestData.personAData2Vac.copy(
+            vaccinations = setOf(vaccinationTestData.personAVac1Container),
+        )
+
+        testStorage = setOf(dataBefore)
+
+        val instance = createInstance(this)
+        advanceUntilIdle()
+
+        shouldThrow<InvalidHealthCertificateException> {
+            instance.registerVaccination(vaccinationTestData.personAVac1QRCode)
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
+
+        testStorage.first() shouldBe dataBefore
     }
 
     @Test
-    fun `clear data`() {
-        TODO()
+    fun `clear data`() = runBlockingTest2(ignoreActive = true) {
+        testStorage = setOf(vaccinationTestData.personAData2Vac)
+
+        val instance = createInstance(this)
+        advanceUntilIdle()
+
+        instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
+
+        instance.clear()
+
+        testStorage shouldBe emptySet()
+        instance.vaccinationInfos.first() shouldBe emptySet()
     }
 
     @Test
-    fun `remove certificate`() {
-        TODO()
+    fun `remove certificate`() = runBlockingTest2(ignoreActive = true) {
+        val before = vaccinationTestData.personAData2Vac
+        val after = vaccinationTestData.personAData2Vac.copy(
+            vaccinations = setOf(vaccinationTestData.personAVac1Container)
+        )
+        val toRemove = vaccinationTestData.personAVac2Container
+
+        testStorage = setOf(before)
+
+        val instance = createInstance(this)
+        advanceUntilIdle()
+
+        instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
+
+        instance.deleteVaccinationCertificate(toRemove.certificateId)
+        advanceUntilIdle()
+
+        testStorage shouldBe setOf(after)
+        instance.vaccinationInfos.first().single().data shouldBe after
+    }
+
+    @Test
+    fun `remove certificate - unknown certificate`() = runBlockingTest2(ignoreActive = true) {
+        testStorage = setOf(vaccinationTestData.personAData2Vac)
+
+        val instance = createInstance(this)
+        advanceUntilIdle()
+
+        instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
+
+        shouldThrow<VaccinationCertificateNotFoundException> {
+            instance.deleteVaccinationCertificate(vaccinationTestData.personBVac1Container.certificateId)
+        }
     }
 }

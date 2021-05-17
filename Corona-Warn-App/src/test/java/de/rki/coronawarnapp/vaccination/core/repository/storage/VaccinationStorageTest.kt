@@ -61,7 +61,7 @@ class VaccinationStorageTest : BaseTest() {
     @Test
     fun `store one person`() {
         val instance = createInstance()
-        instance.personContainers = setOf(testData.personAData2Vac1Proof)
+        instance.personContainers = setOf(testData.personAData2Vac)
 
         val json =
             (mockPreferences.dataMapPeek["vaccination.person.1966-11-11#ASTRA<EINS#ANDREAS"] as String)
@@ -81,7 +81,7 @@ class VaccinationStorageTest : BaseTest() {
         """.toComparableJsonPretty()
 
         instance.personContainers.single().apply {
-            this shouldBe testData.personAData2Vac1Proof
+            this shouldBe testData.personAData2Vac
             this.vaccinations shouldBe setOf(
                 testData.personAVac1Container,
                 testData.personAVac2Container,

@@ -118,7 +118,63 @@ class VaccinationTestData @Inject constructor(
         qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
     }
 
-    val personAData2Vac1Proof = VaccinatedPersonData(
+    val personAData2Vac = VaccinatedPersonData(
         vaccinations = setOf(personAVac1Container, personAVac2Container)
+    )
+
+    // BorisJohnson1.pdf
+    val personBVac1QRCodeString =
+        "HC1:6BFOXN*TS0BI\$ZD.P9UOL97O4-2HH77HRM3DSPTLRR+%3QVH9M9ESIGUBA KWML:SPHXK 0DMYF5VC9:BPCNYKMXEE1JAA/CZIK0JK1WL260X638J3-E3ND3DAJ-43 QTCPFFIJRF3O8H43HX37DUF GFE VMJJYC3SM74E5V.499TXY9KK9+OC+G9QJPNF67J6QW67KQ2G66PPM4MLJE+.PDB9L6Q2+PFQ5DB96PP5/P-59A%N+892 7J235II3NJ7PK7SLQMIPUBN9CIZI.EJJ14B2MP41AZRSEQEC5L64HX6IAS3DS2980IQ.DPUHLW\$GAHLW 70SO:GOLIROGO3T59YLQM14+OP\$I/XK\$M8CL6PZB*L8PK99Q9E\$BDZIF9J8-I\$GI0 J1ALL:F71APC9*KF6LF/NLR/FZ.COKEH-BB4OQ9OG4C5AO**HOELK2AZ7LBLEH-BHPLV5GK3DNKE\$JDVPLW1KD0KCZG.M1LUSB5BCQRJ\$DB5N9%V/GO4IHIBBJ-BI%NWRS%LR%\$KR46325NABFDDAFHD9PZP11COD5U*2KQXCA5W8HH/K51DQO8O0-SOSENFH9101U8$3"
+
+    val personBVac1Certificate = VaccinationDGCV1(
+        version = "1.0.0",
+        nameData = VaccinationDGCV1.NameData(
+            givenName = "Boris",
+            givenNameStandardized = "BORIS",
+            familyName = "Johnson Gültig",
+            familyNameStandardized = "JOHNSON<GUELTIG",
+        ),
+        dob = "1966-11-11",
+        vaccinationDatas = listOf(
+            VaccinationDGCV1.VaccinationData(
+                targetId = "840539006",
+                vaccineId = "1119305005",
+                medicalProductId = "EU/1/20/1525",
+                marketAuthorizationHolderId = "ORG-100001417",
+                doseNumber = 1,
+                totalSeriesOfDoses = 1,
+                dt = "2021-04-20",
+                countryOfVaccination = "DE",
+                certificateIssuer = "Bundesministerium für Gesundheit - Test01",
+                uniqueCertificateIdentifier = "01DE/00001/1119305005/3H24U2KVOTPCSINK7N64F2OB9#S",
+            )
+        )
+    )
+
+    val personBVac1CertificateHeader = HealthCertificateHeader(
+        issuer = "DE",
+        issuedAt = Instant.parse("2021-05-11T09:23:03.000Z"),
+        expiresAt = Instant.parse("2022-05-11T09:23:03.000Z"),
+    )
+
+    val personBVac1CertificateData = VaccinationCertificateData(
+        certificate = personBVac1Certificate,
+        header = personBVac1CertificateHeader
+    )
+
+    val personBVac1QRCode = VaccinationCertificateQRCode(
+        qrCodeString = personBVac1QRCodeString,
+        parsedData = personBVac1CertificateData,
+    )
+
+    val personBVac1Container = VaccinationContainer(
+        scannedAt = Instant.ofEpochMilli(1620069934471),
+        vaccinationQrCode = personBVac1QRCodeString,
+    ).apply {
+        qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
+    }
+
+    val personBData1Vac = VaccinatedPersonData(
+        vaccinations = setOf(personBVac1Container)
     )
 }
