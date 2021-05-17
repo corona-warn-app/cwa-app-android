@@ -75,7 +75,7 @@ class TraceWarningPackageSyncTool @Inject constructor(
         cleanUpIrrelevantPackages(location, firstRelevantInterval)
 
         if (firstRelevantInterval > intervalDiscovery.latest) {
-            Timber.tag(TAG).d("Known server IDs are older then ours newest, aborting early.")
+            Timber.tag(TAG).d("Known server IDs are older than our newest, aborting early.")
             return SyncResult(successful = true)
         }
 
