@@ -115,7 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/qrCodeImage"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -129,6 +129,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
                     tools:src="@drawable/ic_qrcode"
                     tools:tint="@android:color/black" />
 

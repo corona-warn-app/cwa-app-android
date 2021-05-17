@@ -21,13 +21,13 @@ import kotlinx.coroutines.flow.map
 
 class VaccinationListViewModel @AssistedInject constructor(
     vaccinationRepository: VaccinationRepository,
-    @Assisted private val personIdentifierCode: String
+    @Assisted private val personIdentifierCodeSha256: String
 ) : CWAViewModel() {
 
     val events = SingleLiveEvent<Event>()
 
     private val vaccinatedPersonFlow = vaccinationRepository.vaccinationInfos.map { vaccinatedPersonSet ->
-        vaccinatedPersonSet.single { it.identifier.code == personIdentifierCode }
+        vaccinatedPersonSet.single { it.identifier.codeSHA256 == personIdentifierCodeSha256 }
     }
 
     val uiState: LiveData<UiState> = vaccinatedPersonFlow.map { vaccinatedPerson ->
