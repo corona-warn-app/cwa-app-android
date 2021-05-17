@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/vaccination_compelete_gradient"
-    android:padding="@dimen/card_padding">
+    android:padding="@dimen/card_padding"
+    tools:ignore="UnusedAttribute">
 
 
     <ImageView
@@ -22,6 +23,7 @@
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_more_action"
@@ -49,11 +51,11 @@
         android:layout_marginEnd="16dp"
         android:accessibilityHeading="true"
         android:focusable="false"
+        android:text="@string/vaccination_card_status_vaccination_name"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_title"
-        android:text="@string/vaccination_card_status_vaccination_name" />
+        app:layout_constraintTop_toBottomOf="@id/card_title" />
 
     <TextView
         android:id="@+id/person_name"
@@ -69,6 +71,6 @@
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vaccination_label"
-        tools:text="François-Joan d'Arsøns - van Halen" />
+        tools:text="Andrea Schneider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

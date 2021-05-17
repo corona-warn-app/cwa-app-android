@@ -75,7 +75,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.ui.homecard.CompleteVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.ImmuneVaccinationHomeCard
 import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
 import de.rki.coronawarnapp.vaccination.ui.homecard.IncompleteVaccinationHomeCard
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -316,7 +316,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
             vaccinatedPersons.forEach { vaccinatedPerson ->
                 val card = when (vaccinatedPerson.getVaccinationStatus()) {
-                    VaccinatedPerson.Status.COMPLETE -> CompleteVaccinationHomeCard.Item(
+                    VaccinatedPerson.Status.COMPLETE -> ImmuneVaccinationHomeCard.Item(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
                             popupEvents.postValue(
