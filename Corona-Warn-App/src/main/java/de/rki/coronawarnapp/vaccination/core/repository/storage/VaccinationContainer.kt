@@ -83,7 +83,7 @@ data class VaccinationContainer internal constructor(
         override val certificateCountry: String
             get() = Locale(
                 Locale.getDefault().language,
-                vaccination.countryOfVaccination.toUpperCase(Locale.ROOT)
+                vaccination.countryOfVaccination.uppercase()
             ).displayCountry
         override val certificateId: String
             get() = vaccination.uniqueCertificateIdentifier

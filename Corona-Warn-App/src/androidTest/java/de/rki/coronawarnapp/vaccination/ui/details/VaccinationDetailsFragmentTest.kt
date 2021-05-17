@@ -13,7 +13,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -104,7 +103,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { vaccineName } returns "Comirnaty (mRNA)"
             every { vaccineManufacturer } returns "BioNTech"
             every { certificateIssuer } returns "Landratsamt Musterstadt"
-            every { certificateCountry } returns Country.DE
+            every { certificateCountry } returns "Deutschland"
             every { certificateId } returns "05930482748454836478695764787841"
             every { expiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
             every { medicalProductName } returns "mRNA"
