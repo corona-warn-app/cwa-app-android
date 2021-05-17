@@ -74,8 +74,10 @@
     <string name="vaccination_card_status_title">Digitaler Impfnachweis</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">SARS-CoV-2 Impfschutz</string>
-    <!-- XTXT: Homescreen card vaccination status label -->
+    <!-- XTXT: Homescreen card incomplete vaccination status label -->
     <string name="vaccination_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <string name="vaccination_card_status_vaccination_complete">Vollständiger Impfschutz in %1$s</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid"></string>

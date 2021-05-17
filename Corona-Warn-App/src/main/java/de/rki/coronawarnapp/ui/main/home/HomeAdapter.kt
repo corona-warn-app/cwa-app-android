@@ -40,7 +40,7 @@ import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 import de.rki.coronawarnapp.vaccination.ui.homecard.ImmuneVaccinationHomeCard
 import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.IncompleteVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationHomeCard
 
 class HomeAdapter :
     ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>>(),
@@ -83,8 +83,8 @@ class HomeAdapter :
                 TypedVHCreatorMod({ data[it] is ImmuneVaccinationHomeCard.Item }) {
                     ImmuneVaccinationHomeCard(it)
                 },
-                TypedVHCreatorMod({ data[it] is IncompleteVaccinationHomeCard.Item }) {
-                    IncompleteVaccinationHomeCard(it)
+                TypedVHCreatorMod({ data[it] is VaccinationHomeCard.Item }) {
+                    VaccinationHomeCard(it)
                 },
                 SavedStateMod<HomeItemVH<HomeItem, ViewBinding>>() // For statistics card scroll position
             )

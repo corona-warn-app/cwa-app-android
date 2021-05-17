@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_more_action"
-        app:srcCompat="@drawable/vaccination_card_icon_complete" />
+        app:srcCompat="@drawable/vaccination_card_icon_immune" />
 
     <TextView
         android:id="@+id/card_title"
