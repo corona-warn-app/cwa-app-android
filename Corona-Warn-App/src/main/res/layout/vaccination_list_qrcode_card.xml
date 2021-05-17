@@ -1,64 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/Card.Vaccination"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="24dp"
-    android:layout_marginTop="16dp"
-    android:padding="0dp"
-    android:orientation="vertical">
+    android:padding="16dp">
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/vaccination_list_qr_code_accessibility"
+        android:transitionName="full_qr_code_image"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
+        tools:src="@drawable/ic_qrcode"
+        tools:tint="@android:color/black" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:padding="4dp">
-
-        <ImageView
-            android:id="@+id/qrCodeImage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@string/vaccination_list_qr_code_accessibility"
-            app:layout_constraintDimensionRatio="H,1:1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_qrcode"
-            tools:tint="@android:color/black" />
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progress_bar"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:hideAnimationBehavior="inward"
-            app:indicatorColor="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="@id/qrCodeImage"
-            app:layout_constraintEnd_toEndOf="@id/qrCodeImage"
-            app:layout_constraintStart_toStartOf="@id/qrCodeImage"
-            app:layout_constraintTop_toTopOf="@id/qrCodeImage" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:indeterminate="true"
+        app:hideAnimationBehavior="inward"
+        app:indicatorColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@id/image"
+        app:layout_constraintEnd_toEndOf="@id/image"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image" />
 
     <TextView
-        android:id="@+id/qrcode_card_title"
+        android:id="@+id/title"
         style="@style/body2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        tools:text="@string/vaccination_list_qrcode_card_title"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        tools:text="Impfzertifikat 2 von 2" />
 
     <TextView
-        android:id="@+id/qrcode_card_subtitle"
+        android:id="@id/subtitle"
         style="@style/body2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginHorizontal="16dp"
-        tools:text="@string/vaccination_list_qrcode_card_subtitle" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        tools:text="Geimpft 24.04.21 - gültig bis 24.04.22" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

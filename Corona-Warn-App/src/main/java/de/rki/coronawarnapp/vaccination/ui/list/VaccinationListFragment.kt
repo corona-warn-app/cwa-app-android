@@ -34,7 +34,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         constructorCall = { factory, _ ->
             factory as VaccinationListViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personIdentifierCode
+                personIdentifierCode = args.personIdentifierCodeSha256
             )
         }
     )
@@ -114,7 +114,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
     }
 
     companion object {
-        fun navigationUri(personIdentifierCode: String) =
-            "coronawarnapp://vaccination-list/$personIdentifierCode".toUri()
+        fun navigationUri(personIdentifierCodeSha256: String) =
+            "coronawarnapp://vaccination-list/$personIdentifierCodeSha256".toUri()
     }
 }
