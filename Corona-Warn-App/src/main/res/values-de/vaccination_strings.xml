@@ -60,7 +60,7 @@
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_title">"Impfzertifikat hinzufügen"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_body">"Fügen Sie Ihre Impfzertifikate in die App hinzu, um sie immer sich zu haben. Scannen Sie dafür den QR-Code Ihres Dokuments."</string>
+    <string name="vaccination_card_registration_body">"Fügen Sie Ihre Impfzertifikate in die App hinzu, um sie immer bei sich zu haben. Scannen Sie dafür den QR-Code Ihres Dokuments."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Hinzufügen"</string>
 
