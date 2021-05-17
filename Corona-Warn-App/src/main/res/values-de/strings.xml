@@ -1237,9 +1237,9 @@
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_share_keys">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
     <!-- YTXT: text after submission: contagious -->
-    <string name="submission_done_contagious">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
+    <string name="submission_done_contagious">"Das Gesundheitsamt wird sich möglicherweise in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->
-    <string name="submission_done_isolate">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
+    <string name="submission_done_isolate">"Sie sind sehr wahrscheinlich ansteckend. Isolieren Sie sich von anderen Personen."</string>
 
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
@@ -1396,9 +1396,9 @@
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text for contagious card -->
-    <string name="submission_status_card_positive_result_contagious">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
+    <string name="submission_status_card_positive_result_contagious">"Sie sind sehr wahrscheinlich ansteckend. Isolieren Sie sich von anderen Personen."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
+    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich möglicherweise in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
 
