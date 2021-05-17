@@ -67,8 +67,6 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         viewModel.routeToScreen.observe2(this) { navDirections ->
             navDirections?.let { doNavigate(it) } ?: popBackStack()
         }
-
-
     }
 
     override fun onResume() {

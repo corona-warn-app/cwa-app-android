@@ -1067,7 +1067,6 @@
     <string name="submission_test_result_steps_added_heading">"Test added successfully"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Your test has been stored in the Corona-Warn-App."</string>
-
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Your test result is not available yet."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
