@@ -26,10 +26,11 @@
         android:label="VaccinationQrCodeScanFragment"
         tools:layout="@layout/fragment_scan_qr_code">
         <action
-            android:id="@+id/action_vaccinationQrCodeScanFragment_to_vaccinationDetailsFragment"
-            app:destination="@id/vaccinationDetailsFragment"
+            android:id="@+id/action_vaccinationQrCodeScanFragment_to_vaccinationListFragment"
+            app:destination="@id/vaccinationListFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/vaccinationQrCodeScanFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
@@ -38,12 +39,15 @@
         android:label="fragment_vaccination_list"
         tools:layout="@layout/fragment_vaccination_list">
         <argument
-            android:name="vaccinatedPersonId"
+            android:name="personIdentifierCodeSha256"
             app:argType="string" />
         <action
             android:id="@+id/action_vaccinationListFragment_to_vaccinationDetailsFragment"
             app:destination="@id/vaccinationDetailsFragment" />
-        <deepLink app:uri="coronawarnapp://vaccination-list/{vaccinatedPersonId}" />
+        <deepLink app:uri="coronawarnapp://vaccination-list/{personIdentifierCodeSha256}" />
+        <action
+            android:id="@+id/action_vaccinationListFragment_to_vaccinationQrCodeScanFragment"
+            app:destination="@id/vaccinationQrCodeScanFragment" />
     </fragment>
 
     <fragment

@@ -1,25 +1,24 @@
 package de.rki.coronawarnapp.vaccination.core.execution
 
-import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.task.TaskController
-import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskRequest
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.vaccination.core.execution.task.VaccinationUpdateTask
 import de.rki.coronawarnapp.vaccination.core.execution.worker.VaccinationUpdateWorkerRequestBuilder
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import io.kotest.matchers.shouldBe
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
@@ -51,6 +50,8 @@ class VaccinationUpdateSchedulerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        mockkObject(CWADebug)
 
         // Happy path is no proofs, no executions / workers
         every { taskController.submit(any()) } just Runs
@@ -85,81 +86,12 @@ class VaccinationUpdateSchedulerTest : BaseTest() {
         timeStamper = timeStamper,
     )
 
-    private fun mockPerson(
-        isEligbleForPC: Boolean,
-        hasPendingCheck: Boolean = false,
-        lastProofCheckTime: Instant = Instant.now()
-    ): VaccinatedPerson = mockk<VaccinatedPerson>().apply {
-        every { isEligbleForProofCertificate } returns isEligbleForPC
-        every { isProofCertificateCheckPending } returns hasPendingCheck
-        every { lastProofCheckAt } returns lastProofCheckTime
-    }
-
     @Test
-    fun `the worker is canceled if there is no elligble vaccination certificate`() =
-        runBlockingTest2(ignoreActive = true) {
-            val instance = createInstance(scope = this)
-            instance.setup()
-
-            verify {
-                workManager.cancelUniqueWork("VaccinationUpdateWorker")
-            }
-        }
-
-    @Test
-    fun `any pending proofs cause the worker to be scheduled`() = runBlockingTest2(ignoreActive = true) {
-        vaccinationInfosFlow.value = setOf(mockPerson(hasPendingCheck = true, isEligbleForPC = true))
+    fun `not used in prod`() = runBlockingTest2(ignoreActive = true) {
+        every { CWADebug.isDeviceForTestersBuild } returns false
 
         createInstance(scope = this).setup()
 
-        verify {
-            workManager.enqueueUniquePeriodicWork(
-                "VaccinationUpdateWorker",
-                ExistingPeriodicWorkPolicy.KEEP,
-                periodicWorkRequest
-            )
-        }
+        verify { vaccinationRepository wasNot Called }
     }
-
-    @Test
-    fun `reaching foreground state with pending proofs causes immediate refresh`() =
-        runBlockingTest2(ignoreActive = true) {
-            vaccinationInfosFlow.value = setOf(mockPerson(hasPendingCheck = true, isEligbleForPC = true))
-
-            createInstance(scope = this).setup()
-
-            verify(exactly = 0) { taskController.submit(any()) }
-
-            foregroundStateFlow.value = true
-
-            advanceUntilIdle()
-
-            verify { taskController.submit(capture(taskRequestSlot)) }
-
-            taskRequestSlot.captured.apply {
-                type shouldBe VaccinationUpdateTask::class
-                errorHandling shouldBe TaskFactory.Config.ErrorHandling.SILENT
-            }
-        }
-
-    @Test
-    fun `reaching foreground state with stale proof data causes immediate refresh`() =
-        runBlockingTest2(ignoreActive = true) {
-            vaccinationInfosFlow.value = setOf(mockPerson(isEligbleForPC = true, lastProofCheckTime = Instant.EPOCH))
-
-            createInstance(scope = this).setup()
-
-            verify(exactly = 0) { taskController.submit(any()) }
-
-            foregroundStateFlow.value = true
-
-            advanceUntilIdle()
-
-            verify { taskController.submit(capture(taskRequestSlot)) }
-
-            taskRequestSlot.captured.apply {
-                type shouldBe VaccinationUpdateTask::class
-                errorHandling shouldBe TaskFactory.Config.ErrorHandling.SILENT
-            }
-        }
 }

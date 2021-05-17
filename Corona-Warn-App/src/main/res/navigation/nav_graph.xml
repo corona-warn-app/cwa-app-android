@@ -310,7 +310,7 @@
         android:label="SubmissionTestResultPendingFragment"
         tools:layout="@layout/fragment_submission_test_result_pending">
         <argument
-            android:name="skipInitialTestResultRefresh"
+            android:name="forceTestResultUpdate"
             android:defaultValue="false"
             app:argType="boolean" />
         <action
@@ -350,12 +350,7 @@
             android:id="@+id/action_submissionTanFragment_to_submissionTestResultPendingFragment"
             app:destination="@id/submissionTestResultPendingFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false">
-            <argument
-                android:name="skipInitialTestResultRefresh"
-                android:defaultValue="true"
-                app:argType="boolean" />
-        </action>
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionTanFragment_to_submissionDeletionWarningFragment"
             app:destination="@id/submissionDeletionWarningFragment" />
@@ -394,12 +389,7 @@
         android:id="@+id/action_submissionTestResultPendingFragment"
         app:destination="@id/submissionTestResultPendingFragment"
         app:popUpTo="@id/mainFragment"
-        app:popUpToInclusive="false">
-        <argument
-            android:name="skipInitialTestResultRefresh"
-            android:defaultValue="true"
-            app:argType="boolean" />
-    </action>
+        app:popUpToInclusive="false" />
 
     <action
         android:id="@+id/action_to_submissionTestResultAvailableFragment"
@@ -745,12 +735,7 @@
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionTestResultPendingFragment"
             app:destination="@id/submissionTestResultPendingFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false">
-            <argument
-                android:name="skipInitialTestResultRefresh"
-                android:defaultValue="true"
-                app:argType="boolean" />
-        </action>
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment"

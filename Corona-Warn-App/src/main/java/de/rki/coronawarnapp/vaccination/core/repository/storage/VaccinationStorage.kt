@@ -6,7 +6,6 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,7 +24,6 @@ class VaccinationStorage @Inject constructor(
     private val gson by lazy {
         // Allow for custom type adapter.
         baseGson.newBuilder().apply {
-            registerTypeAdapter(RawCOSEObject::class.java, RawCOSEObject.JsonAdapter())
             registerTypeAdapterFactory(containerPostProcessor)
         }.create()
     }
