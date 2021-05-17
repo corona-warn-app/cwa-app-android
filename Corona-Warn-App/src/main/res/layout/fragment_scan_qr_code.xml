@@ -48,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
         android:indeterminate="true"
+        android:visibility="invisible"
         app:indicatorColor="@android:color/white"
         app:indicatorSize="64dp"
         app:trackColor="@android:color/transparent"
