@@ -37,6 +37,11 @@ data class VaccinatedPerson(
     val dateOfBirth: LocalDate
         get() = vaccinationCertificates.first().dateOfBirth
 
+    val getMostRecentVaccinationCertificate: VaccinationCertificate
+        get() = vaccinationCertificates.maxByOrNull { it.vaccinatedAt } ?: throw IllegalStateException(
+            "Every Vaccinated Person needs to have at least one vaccinationCertificate"
+        )
+
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
         val newestFullDose = vaccinationCertificates
             .filter { it.doseNumber == it.totalSeriesOfDoses }

@@ -11,12 +11,12 @@ import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListCertificateCardItemVH
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListCertificateCardItemVH.VaccinationListCertificateCardItem
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListIncompleteTopCardItemVH
-import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListIncompleteTopCardItemVH.VaccinationListIncompleteTopCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListImmunityInformationCardItemVH
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListImmunityInformationCardItemVH.VaccinationListImmunityInformationCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListNameCardItemVH
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListNameCardItemVH.VaccinationListNameCardItem
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH
+import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH.VaccinationListQrCodeCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
 
@@ -31,17 +31,17 @@ class VaccinationListAdapter :
             listOf(
                 StableIdMod(data),
                 DataBinderMod<VaccinationListItem, ItemVH<VaccinationListItem, ViewBinding>>(data),
-                TypedVHCreatorMod({ data[it] is VaccinationListIncompleteTopCardItem }) {
-                    VaccinationListIncompleteTopCardItemVH(it)
-                },
                 TypedVHCreatorMod({ data[it] is VaccinationListNameCardItem }) {
                     VaccinationListNameCardItemVH(it)
+                },
+                TypedVHCreatorMod({ data[it] is VaccinationListImmunityInformationCardItem }) {
+                    VaccinationListImmunityInformationCardItemVH(it)
                 },
                 TypedVHCreatorMod({ data[it] is VaccinationListVaccinationCardItem }) {
                     VaccinationListVaccinationCardItemVH(it)
                 },
-                TypedVHCreatorMod({ data[it] is VaccinationListCertificateCardItem }) {
-                    VaccinationListCertificateCardItemVH(it)
+                TypedVHCreatorMod({ data[it] is VaccinationListQrCodeCardItem }) {
+                    VaccinationListQrCodeCardItemVH(it)
                 }
             )
         )
