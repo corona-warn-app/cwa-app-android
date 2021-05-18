@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -33,6 +34,7 @@ import javax.inject.Inject
 class RapidAntigenProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
@@ -40,6 +42,8 @@ class RapidAntigenProcessor @Inject constructor(
     override suspend fun create(request: CoronaTestQRCode): RACoronaTest {
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.RapidAntigen
+
+        analyticsKeySubmissionCollector.reset(type)
 
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier).also {
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
@@ -49,6 +53,12 @@ class RapidAntigenProcessor @Inject constructor(
             Timber.tag(TAG).v("Raw test result was %s", it)
             it.toValidatedResult()
         }
+
+        if (testResult == PCR_POSITIVE) {
+            analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
+        }
+
+        analyticsKeySubmissionCollector.reportTestRegistered(type)
 
         val now = timeStamper.nowUTC
 
@@ -109,6 +119,10 @@ class RapidAntigenProcessor @Inject constructor(
                     Timber.tag(TAG).v("Unexpected HTTP 400 error, rethrowing...")
                     throw e
                 }
+            }
+
+            if (newTestResult == PCR_POSITIVE) {
+                analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
             }
 
             test.copy(

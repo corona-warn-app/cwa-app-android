@@ -1,5 +1,8 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -15,24 +18,26 @@ import javax.inject.Inject
 class AnalyticsKeySubmissionCollector @Inject constructor(
     private val timeStamper: TimeStamper,
     private val analyticsSettings: AnalyticsSettings,
-    private val analyticsKeySubmissionStorage: AnalyticsKeySubmissionStorage,
+    private val pcrStorage: AnalyticsPCRKeySubmissionStorage,
+    private val raStorage: AnalyticsRAKeySubmissionStorage,
     private val riskLevelStorage: RiskLevelStorage,
     private val riskLevelSettings: RiskLevelSettings
 ) {
 
-    fun reset() {
-        analyticsKeySubmissionStorage.clear()
+    fun reset(type: CoronaTest.Type) {
+        type.storage.clear()
     }
 
-    fun reportPositiveTestResultReceived() {
+    fun reportPositiveTestResultReceived(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.testResultReceivedAt.update { timeStamper.nowUTC.millis }
+        type.storage.testResultReceivedAt.update { timeStamper.nowUTC.millis }
     }
 
-    suspend fun reportTestRegistered() {
+    suspend fun reportTestRegistered(type: CoronaTest.Type) {
         if (disabled) return
+
         val testRegisteredAt = timeStamper.nowUTC
-        analyticsKeySubmissionStorage.testRegisteredAt.update { testRegisteredAt.millis }
+        type.storage.testRegisteredAt.update { testRegisteredAt.millis }
 
         val lastRiskResult = riskLevelStorage
             .latestAndLastSuccessfulEwRiskLevelResult
@@ -40,7 +45,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
             .tryLatestEwResultsWithDefaults()
             .lastCalculated
         val riskLevelAtRegistration = lastRiskResult.toMetadataRiskLevel()
-        analyticsKeySubmissionStorage.riskLevelAtTestRegistration.update {
+        type.storage.riskLevelAtTestRegistration.update {
             riskLevelAtRegistration.number
         }
 
@@ -50,13 +55,13 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
                     it,
                     testRegisteredAt
                 ).standardHours.toInt()
-                analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration.update {
+                type.storage.hoursSinceHighRiskWarningAtTestRegistration.update {
                     hours
                 }
             }
         }
 
-        analyticsKeySubmissionStorage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+        type.storage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
                 testRegisteredAt
@@ -64,49 +69,55 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         }
     }
 
-    fun reportSubmitted() {
+    fun reportSubmitted(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.submitted.update { true }
-        analyticsKeySubmissionStorage.submittedAt.update { timeStamper.nowUTC.millis }
+        type.storage.submitted.update { true }
+        type.storage.submittedAt.update { timeStamper.nowUTC.millis }
     }
 
-    fun reportSubmittedInBackground() {
+    fun reportSubmittedInBackground(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.submittedInBackground.update { true }
+        type.storage.submittedInBackground.update { true }
     }
 
-    fun reportSubmittedAfterCancel() {
+    fun reportSubmittedAfterCancel(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.submittedAfterCancel.update { true }
+        type.storage.submittedAfterCancel.update { true }
     }
 
-    fun reportSubmittedAfterSymptomFlow() {
+    fun reportSubmittedAfterSymptomFlow(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.submittedAfterSymptomFlow.update { true }
+        type.storage.submittedAfterSymptomFlow.update { true }
     }
 
-    fun reportLastSubmissionFlowScreen(screen: Screen) {
+    fun reportLastSubmissionFlowScreen(screen: Screen, type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.lastSubmissionFlowScreen.update { screen.code }
+        type.storage.lastSubmissionFlowScreen.update { screen.code }
     }
 
-    fun reportAdvancedConsentGiven() {
+    fun reportAdvancedConsentGiven(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.advancedConsentGiven.update { true }
+        type.storage.advancedConsentGiven.update { true }
     }
 
-    fun reportConsentWithdrawn() {
+    fun reportConsentWithdrawn(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.advancedConsentGiven.update { false }
+        type.storage.advancedConsentGiven.update { false }
     }
 
     fun reportRegisteredWithTeleTAN() {
         if (disabled) return
-        analyticsKeySubmissionStorage.registeredWithTeleTAN.update { true }
+        pcrStorage.registeredWithTeleTAN.update { true }
     }
 
     private val disabled: Boolean
         get() = !analyticsSettings.analyticsEnabled.value
+
+    private val CoronaTest.Type.storage: AnalyticsKeySubmissionStorage
+        get() = when (this) {
+            PCR -> pcrStorage
+            RAPID_ANTIGEN -> raStorage
+        }
 }
 
 enum class Screen(val code: Int) {

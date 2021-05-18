@@ -6,11 +6,25 @@ import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import javax.inject.Inject
 
-class AnalyticsKeySubmissionStorage @Inject constructor(
-    @AppContext val context: Context
+class AnalyticsPCRKeySubmissionStorage @Inject constructor(
+    @AppContext context: Context
+) : AnalyticsKeySubmissionStorage(context) {
+    override val sharedPrefKey = "analytics_key_submission_localdata"
+}
+
+class AnalyticsRAKeySubmissionStorage @Inject constructor(
+    @AppContext context: Context
+) : AnalyticsKeySubmissionStorage(context) {
+    override val sharedPrefKey = "analytics_ra_key_submission_localdata"
+}
+
+abstract class AnalyticsKeySubmissionStorage(
+    val context: Context
 ) {
+    abstract val sharedPrefKey: String
+
     private val prefs by lazy {
-        context.getSharedPreferences("analytics_key_submission_localdata", Context.MODE_PRIVATE)
+        context.getSharedPreferences(sharedPrefKey, Context.MODE_PRIVATE)
     }
 
     val testResultReceivedAt = prefs.createFlowPreference(

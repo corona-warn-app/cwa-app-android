@@ -72,7 +72,8 @@ class PCRProcessor @Inject constructor(
         request: TestRegistrationRequest,
         response: CoronaTestService.RegistrationData
     ): PCRCoronaTest {
-        analyticsKeySubmissionCollector.reset()
+
+        analyticsKeySubmissionCollector.reset(type)
 
         val testResult = response.testResult.let {
             Timber.tag(TAG).v("Raw test result $it")
@@ -82,10 +83,10 @@ class PCRProcessor @Inject constructor(
         }
 
         if (testResult == PCR_POSITIVE) {
-            analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
+            analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
         }
 
-        analyticsKeySubmissionCollector.reportTestRegistered()
+        analyticsKeySubmissionCollector.reportTestRegistered(type)
 
         val now = timeStamper.nowUTC
 
@@ -135,7 +136,7 @@ class PCRProcessor @Inject constructor(
             }
 
             if (newTestResult == PCR_POSITIVE) {
-                analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
+                analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
             }
 
             test.copy(
