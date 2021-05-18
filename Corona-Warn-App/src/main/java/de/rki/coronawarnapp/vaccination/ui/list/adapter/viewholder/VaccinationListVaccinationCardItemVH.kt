@@ -57,7 +57,8 @@ class VaccinationListVaccinationCardItemVH(
                     }
                 }
                 IMMUNITY -> {
-                    throw NotImplementedError()
+                    // TODO
+                    R.drawable.ic_vaccination_complete_final
                 }
             }
             vaccinationIcon.setImageResource(iconRes)
