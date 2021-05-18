@@ -30,19 +30,19 @@ class ValueSetsStorage @Inject constructor(
         set(value) = setValueSet(value)
 
     private fun getValueSet(): VaccinationValueSet? {
-        Timber.v("Loading value set")
+        Timber.d("Loading value set")
         return prefs.getString(PKEY_VALUE_SETS_PREFIX, null)?.let {
-            gson.fromJson(it, StoredVaccinationValueSet::class.java)
-        }.also { loaded -> Timber.v("Loaded value set %s", loaded) }
+            gson.fromJson(it, StoredVaccinationValueSet::class.java).also { loaded -> Timber.d("Loaded %s", loaded) }
+        }.also { Timber.d("Returning %s", it) }
     }
 
     private fun setValueSet(value: VaccinationValueSet?) {
-        Timber.v("Saving value set %s", value)
+        Timber.d("Saving %s", value)
         value?.let {
             prefs.edit {
                 val storeValue = it.toStoredVaccinationValueSet()
                 val json = gson.toJson(storeValue, StoredVaccinationValueSet::class.java)
-                Timber.v("Writing %s to prefs", json)
+                Timber.d("String %s", json)
                 putString(PKEY_VALUE_SETS_PREFIX, json)
             }
         }

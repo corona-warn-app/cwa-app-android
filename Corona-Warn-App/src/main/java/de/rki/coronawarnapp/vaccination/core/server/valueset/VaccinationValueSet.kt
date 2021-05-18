@@ -23,3 +23,7 @@ fun VaccinationValueSet.getDisplayText(key: String): String? =
     vp.getDisplayText(key) ?: mp.getDisplayText(key) ?: ma.getDisplayText(key)
 
 fun VaccinationValueSet.ValueSet.getDisplayText(key: String): String? = items.find { key == it.key }?.displayText
+
+fun VaccinationValueSet.isEmpty(): Boolean = vp.isEmpty() && mp.isEmpty() && ma.isEmpty()
+
+fun VaccinationValueSet.ValueSet.isEmpty(): Boolean = items.isEmpty()

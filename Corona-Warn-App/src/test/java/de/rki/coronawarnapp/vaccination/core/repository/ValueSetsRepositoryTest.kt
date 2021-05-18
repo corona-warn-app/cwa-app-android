@@ -7,14 +7,19 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
 import io.mockk.verify
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.skip
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Duration
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -103,27 +108,46 @@ class ValueSetsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `default value is an empty value set EN`() = runBlockingTest {
+    fun `initial value is an empty value set EN if local storage has none`() = runBlockingTest {
         createInstance().run {
             latestValueSet.first() shouldBe emptyValueSetEN
 
             coVerify(exactly = 0) {
                 vaccinationServer.getVaccinationValueSets(any())
-                valueSetsStorage.vaccinationValueSet
             }
+
+            verify { valueSetsStorage.vaccinationValueSet }
+        }
+    }
+
+    @Test
+    fun `initial value is returned from local storage`() = runBlockingTest {
+        every { valueSetsStorage.vaccinationValueSet } returns valueSetDE
+
+        createInstance().run {
+            latestValueSet.first() shouldBe valueSetDE
+
+            coVerify(exactly = 0) {
+                vaccinationServer.getVaccinationValueSets(any())
+            }
+
+            verify { valueSetsStorage.vaccinationValueSet }
         }
     }
 
     @Test
     fun `falls back to empty value set with specified language code`() = runBlockingTest {
         createInstance().run {
-            reloadValueSet(languageCode = Locale.GERMAN)
+            triggerUpdateValueSet(languageCode = Locale.GERMAN)
             latestValueSet.first() shouldBe emptyValueSetDE
 
             coVerify(exactly = 1) {
-                valueSetsStorage.vaccinationValueSet
                 vaccinationServer.getVaccinationValueSets(Locale.GERMAN)
                 vaccinationServer.getVaccinationValueSets(Locale.ENGLISH)
+            }
+
+            verify(exactly = 2) {
+                valueSetsStorage.vaccinationValueSet
             }
         }
     }
@@ -134,20 +158,20 @@ class ValueSetsRepositoryTest : BaseTest() {
         coEvery { vaccinationServer.getVaccinationValueSets(Locale.ENGLISH) } returns valueSetEN
 
         createInstance().run {
-            reloadValueSet(Locale.GERMAN)
+            triggerUpdateValueSet(Locale.GERMAN)
+            delay(Duration.standardSeconds(5).millis)
             latestValueSet.first() shouldBe valueSetDE
 
-            reloadValueSet(Locale.ENGLISH)
+            triggerUpdateValueSet(Locale.ENGLISH)
             latestValueSet.first() shouldBe valueSetEN
         }
 
-        verify(exactly = 0) {
+        coVerifySequence {
             valueSetsStorage.vaccinationValueSet
-        }
-
-        coVerify(exactly = 1) {
             vaccinationServer.getVaccinationValueSets(Locale.GERMAN)
-            vaccinationServer.getVaccinationValueSets(Locale.ENGLISH)
+            valueSetsStorage.vaccinationValueSet =
+                vaccinationServer.getVaccinationValueSets(Locale.ENGLISH)
+            valueSetsStorage.vaccinationValueSet
         }
     }
 
@@ -156,7 +180,7 @@ class ValueSetsRepositoryTest : BaseTest() {
         coEvery { vaccinationServer.getVaccinationValueSets(Locale.ENGLISH) } returns valueSetEN
 
         createInstance().run {
-            reloadValueSet(Locale.GERMAN)
+            triggerUpdateValueSet(Locale.GERMAN)
             latestValueSet.first() shouldBe valueSetEN
 
             coVerify(exactly = 1) {
@@ -171,12 +195,15 @@ class ValueSetsRepositoryTest : BaseTest() {
         every { valueSetsStorage.vaccinationValueSet } returns valueSetDE
 
         createInstance().run {
-            reloadValueSet(Locale.GERMAN)
+            triggerUpdateValueSet(Locale.GERMAN)
             latestValueSet.first() shouldBe valueSetDE
 
             coVerify(exactly = 1) {
-                valueSetsStorage.vaccinationValueSet
                 vaccinationServer.getVaccinationValueSets(any())
+            }
+
+            verify(exactly = 2) {
+                valueSetsStorage.vaccinationValueSet
             }
         }
     }
@@ -188,11 +215,12 @@ class ValueSetsRepositoryTest : BaseTest() {
         every { valueSetsStorage.vaccinationValueSet } throws userError
 
         createInstance().run {
-            reloadValueSet(Locale.GERMAN)
+            triggerUpdateValueSet(Locale.GERMAN)
+            delay(Duration.standardSeconds(5).millis)
             latestValueSet.first() shouldBe emptyValueSetDE
 
             coVerify(exactly = 1) {
-                valueSetsStorage.vaccinationValueSet
+                //valueSetsStorage.vaccinationValueSet
                 vaccinationServer.getVaccinationValueSets(Locale.GERMAN)
                 vaccinationServer.getVaccinationValueSets(Locale.ENGLISH)
             }
