@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.annotation.Keep
-import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import dagger.Reusable
@@ -12,7 +11,6 @@ import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.vaccination.core.server.valueset.DefaultVaccinationValueSet
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import timber.log.Timber
 import java.util.Locale
