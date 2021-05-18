@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.vaccination.ui.scan
 import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.bugreporting.censors.vaccination.CertificateQrCodeCensor
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -25,8 +24,6 @@ class VaccinationQrCodeScanViewModel @AssistedInject constructor(
     fun onScanResult(barcodeResult: BarcodeResult) = launch {
         try {
             event.postValue(Event.QrCodeScanInProgress)
-            CertificateQrCodeCensor.dataToCensor =
-                CertificateQrCodeCensor.dataToCensor.copy(rawString = barcodeResult.text)
             val qrCode = vaccinationQRCodeValidator.validate(barcodeResult.text)
             val vaccinationCertificate = vaccinationRepository.registerVaccination(qrCode)
             event.postValue(Event.QrCodeScanSucceeded(vaccinationCertificate.personIdentifier.codeSHA256))

@@ -57,8 +57,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
             header = headerParser.parse(cbor),
             certificate = bodyParser.parse(cbor)
         ).also {
-            CertificateQrCodeCensor.dataToCensor =
-                CertificateQrCodeCensor.dataToCensor.copy(certificateData = it)
+            CertificateQrCodeCensor.addCertificateToCensor(it)
         }.also {
             Timber.v("Parsed vaccination certificate for %s", it.certificate.nameData.familyNameStandardized)
         }

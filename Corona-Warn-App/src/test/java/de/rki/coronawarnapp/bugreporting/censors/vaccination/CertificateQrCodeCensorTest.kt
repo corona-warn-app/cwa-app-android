@@ -13,7 +13,8 @@ import org.junit.jupiter.api.Test
 
 internal class CertificateQrCodeCensorTest {
 
-    private val testRawString = "12340923042375893701389asf1283901830dfas"
+    private val testRawString =
+        "HC1:6BFOXN*TS0BI\$ZD.P9UOL97O4-2HH77HRM3DSPTLRR+%3.ZH9M9ESIGUBA KWML/O6HXK 0D+4O5VC9:BPCNYKMXEE1JAA/CZIK0JK1WL260X638J3-E3GG396B-43FZT-43:S0X37*ZV+FNI6HXY0ZSVILVQJF//05MVZJ5V.499TXY9KK9+OC+G9QJPNF67J6QW67KQY466PPM4MLJE+.PDB9L6Q2+PFQ5DB96PP5/P-59A%N+892 7J235II3NJ7PK7SLQMIJSBHVA7UJQWT.+S+ND%%M%331BH.IA.C8KRDL4O54O4IGUJKJGI0JAXD15IAXMFU*GSHGHD63DAOC9JU0H11+*4.\$S6ZC0JBZAB-C3QHISKE MCAOI8%M3V96-PY\$N6XOWLIBPIAYU:*JIRHUF2XZQ4H9 XJ72WG1K36VF/9BL56%E8T1OEEG%5TW5A 6YO67N6UCE:WT6BT-UMM:ABJK2TMDN1:FW-%T+\$D78NDSC3%5F61NYS-P9LOE0%J/ZAY:N5L4H-H/LH:AO3FU JHG7K46IOIMT.RE%PHLA21JRI3HTC\$AH"
     private val testCertificateData = VaccinationCertificateData(
         header = mockk(),
         certificate = VaccinationDGCV1(
@@ -49,20 +50,16 @@ internal class CertificateQrCodeCensorTest {
 
     @AfterEach
     fun teardown() {
-        CertificateQrCodeCensor.dataToCensor = CertificateQrCodeCensor.CensorData(
-            rawString = null,
-            certificateData = null,
-        )
+        CertificateQrCodeCensor.clearCertificateToCensor()
+        CertificateQrCodeCensor.clearQRCodeStringToCensor()
     }
 
     private fun createInstance() = CertificateQrCodeCensor()
 
     @Test
     fun `checkLog() should return censored LogLine`() = runBlockingTest {
-        CertificateQrCodeCensor.dataToCensor = CertificateQrCodeCensor.CensorData(
-            rawString = testRawString,
-            certificateData = testCertificateData,
-        )
+        CertificateQrCodeCensor.addQRCodeStringToCensor(testRawString)
+        CertificateQrCodeCensor.addCertificateToCensor(testCertificateData)
 
         val censor = createInstance()
 
@@ -75,7 +72,7 @@ internal class CertificateQrCodeCensorTest {
         )
 
         censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
-            message = "Here comes the rawString: ########-####-####-####-########dfas of the vaccine certificate",
+            message = "Here comes the rawString: ########-####-####-####-########C\$AH of the vaccine certificate",
         )
 
         val certDataToCensor = LogLine(
@@ -115,10 +112,8 @@ internal class CertificateQrCodeCensorTest {
 
     @Test
     fun `checkLog() should return null if nothing should be censored`() = runBlockingTest {
-        CertificateQrCodeCensor.dataToCensor = CertificateQrCodeCensor.CensorData(
-            rawString = testRawString.replace("1", "2"),
-            certificateData = testCertificateData
-        )
+        CertificateQrCodeCensor.addQRCodeStringToCensor(testRawString.replace("1", "2"))
+        CertificateQrCodeCensor.addCertificateToCensor(testCertificateData)
 
         val censor = createInstance()
 

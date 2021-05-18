@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLin
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
+import java.util.LinkedList
 import javax.inject.Inject
 
 @Reusable
@@ -14,28 +15,28 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
     override suspend fun checkLog(entry: LogLine): LogLine? {
         var newMessage = entry.message
 
-        with(dataToCensor) {
-            rawString?.let {
-                newMessage = newMessage.replace(
-                    it,
-                    PLACEHOLDER + it.takeLast(4)
-                )
-            }
+        synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.toList() }.forEach {
+            newMessage = newMessage.replace(
+                it,
+                PLACEHOLDER + it.takeLast(4)
+            )
+        }
 
-            certificateData?.certificate?.let {
+        synchronized(certsToCensor) { certsToCensor.toList() }.forEach {
+            it.certificate.apply {
                 newMessage = newMessage.replace(
-                    it.dob,
+                    dob,
                     "vaccinationCertificate/dob"
                 )
 
                 newMessage = newMessage.replace(
-                    it.dateOfBirth.toString(),
+                    dateOfBirth.toString(),
                     "vaccinationCertificate/dateOfBirth"
                 )
 
-                newMessage = censorNameData(it.nameData, newMessage)
+                newMessage = censorNameData(nameData, newMessage)
 
-                it.vaccinationDatas.forEach { data ->
+                vaccinationDatas.forEach { data ->
                     newMessage = censorVaccinationData(data, newMessage)
                 }
             }
@@ -131,15 +132,31 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
     }
 
     companion object {
-        var dataToCensor: CensorData = CensorData(
-            rawString = null,
-            certificateData = null
-        )
+        private val qrCodeStringsToCensor = LinkedList<String>()
+
+        fun addQRCodeStringToCensor(rawString: String) = synchronized(qrCodeStringsToCensor) {
+            qrCodeStringsToCensor.apply {
+                if (contains(rawString)) return@apply
+                addFirst(rawString)
+                // Max certs is at 4, but we may scan invalid qr codes that are not added which will be shown in raw
+                if (size > 8) removeLast()
+            }
+        }
+
+        fun clearQRCodeStringToCensor() = synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.clear() }
+
+        private val certsToCensor = LinkedList<VaccinationCertificateData>()
+        fun addCertificateToCensor(cert: VaccinationCertificateData) = synchronized(certsToCensor) {
+            certsToCensor.apply {
+                if (contains(cert)) return@apply
+                addFirst(cert)
+                // max certs we should have is 2, 50% leeway
+                if (size > 4) removeLast()
+            }
+        }
+
+        fun clearCertificateToCensor() = synchronized(certsToCensor) { certsToCensor.clear() }
+
         private const val PLACEHOLDER = "########-####-####-####-########"
     }
-
-    data class CensorData(
-        val rawString: String?,
-        val certificateData: VaccinationCertificateData?
-    )
 }
