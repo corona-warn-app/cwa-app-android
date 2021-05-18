@@ -32,7 +32,7 @@ data class VaccinationContainer internal constructor(
     constructor() : this("", Instant.EPOCH)
 
     @delegate:Transient
-    private val certificateData: VaccinationCertificateData by lazy {
+    internal val certificateData: VaccinationCertificateData by lazy {
         preParsedData ?: qrCodeExtractor.extract(vaccinationQrCode).parsedData
     }
 
