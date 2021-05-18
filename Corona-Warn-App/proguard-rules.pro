@@ -87,3 +87,7 @@
 ##---------------End: proguard configuration for Gson  ----------
 
 -keep class de.rki.coronawarnapp.server.protocols.internal.** { *; }
+
+-keepclassmembers class **.R$* {
+       public static <fields>;
+}
