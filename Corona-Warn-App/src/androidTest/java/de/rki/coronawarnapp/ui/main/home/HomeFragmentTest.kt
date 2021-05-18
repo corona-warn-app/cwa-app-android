@@ -34,6 +34,7 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -325,6 +326,7 @@ class HomeFragmentTest : BaseUITest() {
                     else -> add(tracingStateItem)
                 }
                 add(submissionTestResultItem)
+                add(CreateVaccinationHomeCard.Item {})
                 Statistics.statisticsData?.let {
                     add(StatisticsHomeCard.Item(data = it, onHelpAction = { }))
                 }
