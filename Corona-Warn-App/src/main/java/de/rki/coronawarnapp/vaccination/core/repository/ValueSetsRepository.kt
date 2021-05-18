@@ -5,8 +5,10 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationServer
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.isEmpty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Locale
