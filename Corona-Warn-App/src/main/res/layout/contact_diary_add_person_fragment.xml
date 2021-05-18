@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@color/colorBackground"
-    android:fitsSystemWindows="true"
     android:transitionName="contact_diary_shared_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,7 +64,7 @@
                 android:id="@+id/person_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionNext|flagNoPersonalizedLearning"
                 android:inputType="textCapWords"
                 android:focusable="true"
                 android:maxLength="250" />
@@ -91,7 +90,7 @@
                 android:id="@+id/person_phone_number_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionNext|flagNoPersonalizedLearning"
                 android:inputType="phone"
                 android:maxLength="250" />
 
@@ -115,7 +114,7 @@
                 android:id="@+id/person_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionDone|flagNoPersonalizedLearning"
                 android:inputType="textEmailAddress"
                 android:maxLength="250" />
 
