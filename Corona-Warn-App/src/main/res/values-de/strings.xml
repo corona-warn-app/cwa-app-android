@@ -748,7 +748,7 @@
     <string name="settings_privacy_preserving_analytics_title">"Datenspende"</string>
 
     <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
-    <string name="settings_analytics_switch_subtitle">"Nutzerdaten spenden"</string>
+    <string name="settings_analytics_switch_subtitle">"Datenspende"</string>
 
     <!-- ####################################
                App Information
