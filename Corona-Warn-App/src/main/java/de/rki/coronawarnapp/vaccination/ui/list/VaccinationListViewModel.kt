@@ -130,6 +130,9 @@ class VaccinationListViewModel @AssistedInject constructor(
                             },
                             onDeleteClick = { certificateId ->
                                 events.postValue(Event.DeleteVaccinationEvent(certificateId))
+                            },
+                            onSwipeToDelete = { certificateId, position ->
+                                events.postValue(Event.DeleteVaccinationEvent(certificateId, position))
                             }
                         )
                     )
@@ -156,7 +159,7 @@ class VaccinationListViewModel @AssistedInject constructor(
         data class NavigateToVaccinationCertificateDetails(val vaccinationCertificateId: String) : Event()
         object NavigateToVaccinationQrCodeScanScreen : Event()
         data class NavigateToQrCodeFullScreen(val qrCode: String, val positionInList: Int) : Event()
-        data class DeleteVaccinationEvent(val vaccinationCertificateId: String) : Event()
+        data class DeleteVaccinationEvent(val vaccinationCertificateId: String, val position: Int? = null) : Event()
         object NavigateBack : Event()
     }
 

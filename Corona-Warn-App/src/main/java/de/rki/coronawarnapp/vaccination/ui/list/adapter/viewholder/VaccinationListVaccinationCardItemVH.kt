@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListVaccinationCardBinding
+import de.rki.coronawarnapp.util.list.SwipeConsumer
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.IMMUNITY
@@ -79,8 +80,9 @@ class VaccinationListVaccinationCardItemVH(
         val vaccinationStatus: VaccinatedPerson.Status,
         val isFinalVaccination: Boolean,
         val onCardClick: (String) -> Unit,
-        val onDeleteClick: (String) -> Unit
-    ) : VaccinationListItem {
+        val onDeleteClick: (String) -> Unit,
+        val onSwipeToDelete: (String, Int) -> Unit
+    ) : VaccinationListItem, SwipeConsumer {
 
         override val stableId: Long = Objects.hash(
             vaccinationCertificateId,
@@ -90,6 +92,8 @@ class VaccinationListVaccinationCardItemVH(
             vaccinationStatus,
             isFinalVaccination
         ).toLong()
+
+        override fun onSwipe(position: Int, direction: Int) =  onSwipeToDelete(vaccinationCertificateId, position)
 
         // Ignore onCardClick Listener in equals() to avoid re-drawing when only the click listener is updated
         override fun equals(other: Any?): Boolean {
