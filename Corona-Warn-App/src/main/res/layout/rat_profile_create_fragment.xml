@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
                     android:inputType="textPersonName|textCapWords" />
 
             </com.google.android.material.textfield.TextInputLayout>
