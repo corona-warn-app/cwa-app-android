@@ -320,7 +320,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
                             popupEvents.postValue(
-                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.code)
+                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
                             )
                         }
                     )
@@ -328,13 +328,19 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
                             popupEvents.postValue(
+                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
+                            )
+                        }
+                    )
+                    // TODO wrong card, just placeholder
+                    VaccinatedPerson.Status.IMMUNITY -> CompleteVaccinationHomeCard.Item(
+                        vaccinatedPerson = vaccinatedPerson,
+                        onClickAction = {
+                            popupEvents.postValue(
                                 HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.code)
                             )
                         }
                     )
-                    VaccinatedPerson.Status.IMMUNITY -> {
-                        throw NotImplementedError()
-                    }
                 }
                 add(card)
             }

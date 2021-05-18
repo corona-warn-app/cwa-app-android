@@ -5,13 +5,16 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
+import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -39,13 +42,12 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener { viewModel.onClose() }
-            deleteButton.setOnClickListener { showDeletionDialog() }
+            toolbar.setNavigationOnClickListener { popBackStack() }
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
                 val background = when {
-                    it.isComplete -> R.drawable.vaccination_compelete_gradient
+                    it.isImmune -> R.drawable.vaccination_compelete_gradient
                     else -> R.drawable.vaccination_incomplete
                 }
                 expandedImage.setImageResource(background)
@@ -57,29 +59,25 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
             setToolbarOverlay()
 
-            viewModel.errors.observe(viewLifecycleOwner) {
-                it.toErrorDialogBuilder(requireContext()).show()
+            viewModel.errors.observe(viewLifecycleOwner) { it.toErrorDialogBuilder(requireContext()).show() }
+            viewModel.qrCode.observe(viewLifecycleOwner) {
+                qrCodeCard.progressBar.hide()
+                qrCodeCard.image.setImageBitmap(it)
+                it?.let { qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() } }
             }
 
-            viewModel.events.observe(viewLifecycleOwner) {
-                when (it) {
+            viewModel.events.observe(viewLifecycleOwner) { event ->
+                when (event) {
                     VaccinationDetailsNavigation.Back -> popBackStack()
+                    is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
+                        R.id.action_global_qrCodeFullScreenFragment,
+                        QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                        null,
+                        FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                    )
                 }
             }
         }
-
-    private fun showDeletionDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.vaccination_details_deletion_dialog_title)
-            .setMessage(R.string.vaccination_details_deletion_dialog_message)
-            .setPositiveButton(R.string.vaccination_details_deletion_dialog_positive_button) { _, _ ->
-                viewModel.deleteVaccination()
-            }
-            .setNegativeButton(R.string.vaccination_details_deletion_dialog_negative_button) { _, _ ->
-                // No-Op
-            }
-            .show()
-    }
 
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
@@ -87,18 +85,30 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         name.text = certificate.run { "$firstName $lastName" }
         birthDate.text = getString(
             R.string.vaccination_details_birth_date,
-            certificate.dateOfBirth.toString(format)
+            certificate.dateOfBirth.toDayFormat()
         )
-        vaccinatedAt.text = certificate.vaccinatedAt.toString(format)
+        vaccinatedAt.text = certificate.vaccinatedAt.toDayFormat()
         vaccineName.text = certificate.vaccineName
         vaccineManufacturer.text = certificate.vaccineManufacturer
+        medicalProductName.text = certificate.medicalProductName
         certificateIssuer.text = certificate.certificateIssuer
-        certificateCountry.text = certificate.certificateCountry.getLabel(requireContext())
+        certificateCountry.text = certificate.certificateCountry
         certificateId.text = certificate.certificateId
         title.text = getString(
             R.string.vaccination_details_title,
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
+        )
+        // QrCode details
+        qrCodeCard.title.text = getString(
+            R.string.vaccination_qr_code_card_title,
+            certificate.doseNumber,
+            certificate.totalSeriesOfDoses
+        )
+        qrCodeCard.subtitle.text = getString(
+            R.string.vaccination_qr_code_card_subtitle,
+            certificate.vaccinatedAt.toString(format),
+            certificate.expiresAt.toString(format)
         )
     }
 
@@ -117,6 +127,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     }
 
     companion object {
-        private val format = DateTimeFormat.forPattern("dd.MM.yyyy")
+        private val format = DateTimeFormat.forPattern("dd.MM.yy")
     }
 }

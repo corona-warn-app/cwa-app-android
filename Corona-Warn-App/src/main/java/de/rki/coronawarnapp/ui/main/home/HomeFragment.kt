@@ -134,7 +134,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     }
                 }
                 is HomeFragmentEvents.GoToVaccinationList -> findNavController().navigate(
-                    VaccinationListFragment.navigationUri(event.personIdentifierCode)
+                    VaccinationListFragment.navigationUri(event.personIdentifierCodeSha256)
                 )
             }
         }
