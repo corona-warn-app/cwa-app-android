@@ -115,7 +115,7 @@ class VaccinationListViewModel @AssistedInject constructor(
                 }
             }
 
-            vaccinatedPerson.vaccinationCertificates.forEach { vaccinationCertificate ->
+            vaccinatedPerson.vaccinationCertificates.sortedBy { it.vaccinatedAt }.forEach { vaccinationCertificate ->
                 with(vaccinationCertificate) {
                     add(
                         VaccinationListVaccinationCardItem(
