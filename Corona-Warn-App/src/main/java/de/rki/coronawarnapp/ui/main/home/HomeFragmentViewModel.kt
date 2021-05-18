@@ -332,9 +332,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
                             )
                         }
                     )
-                    VaccinatedPerson.Status.IMMUNITY -> {
-                        throw NotImplementedError()
-                    }
+                    // TODO wrong card, just placeholder
+                    VaccinatedPerson.Status.IMMUNITY -> CompleteVaccinationHomeCard.Item(
+                        vaccinatedPerson = vaccinatedPerson,
+                        onClickAction = {
+                            popupEvents.postValue(
+                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.code)
+                            )
+                        }
+                    )
                 }
                 add(card)
             }

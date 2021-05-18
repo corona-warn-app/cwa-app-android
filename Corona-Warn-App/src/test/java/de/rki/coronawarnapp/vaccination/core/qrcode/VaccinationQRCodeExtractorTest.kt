@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.VaccinationQrCodeTestData
+import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class VaccinationQRCodeExtractorTest : BaseTest() {
 
     @Inject lateinit var extractor: VaccinationQRCodeExtractor
+    @Inject lateinit var vaccinationTestData: VaccinationTestData
 
     @BeforeEach
     fun setup() {
@@ -103,5 +105,17 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
         shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.certificateMissing)
         }.errorCode shouldBe VC_NO_VACCINATION_ENTRY
+    }
+
+    @Test
+    fun `test data person A check`() {
+        val extracted = extractor.extract(vaccinationTestData.personAVac1QRCodeString)
+        extracted shouldBe vaccinationTestData.personAVac1QRCode
+    }
+
+    @Test
+    fun `test data person B check`() {
+        val extracted = extractor.extract(vaccinationTestData.personBVac1QRCodeString)
+        extracted shouldBe vaccinationTestData.personBVac1QRCode
     }
 }
