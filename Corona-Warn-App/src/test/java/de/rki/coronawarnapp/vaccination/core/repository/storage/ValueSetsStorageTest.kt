@@ -81,7 +81,7 @@ class ValueSetsStorageTest : BaseTest() {
     }
 
     @Test
-    fun `Returns latest value`() = runBlockingTest {
+    fun `Updates values`() = runBlockingTest {
         createInstance().valueSet.run {
             update { storedValueSetDE }
             value shouldBe storedValueSetDE
