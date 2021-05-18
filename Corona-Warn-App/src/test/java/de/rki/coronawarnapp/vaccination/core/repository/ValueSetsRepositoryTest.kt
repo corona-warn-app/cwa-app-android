@@ -14,9 +14,7 @@ import io.mockk.just
 import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.skip
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
@@ -220,7 +218,7 @@ class ValueSetsRepositoryTest : BaseTest() {
             latestValueSet.first() shouldBe emptyValueSetDE
 
             coVerify(exactly = 1) {
-                //valueSetsStorage.vaccinationValueSet
+                // valueSetsStorage.vaccinationValueSet
                 vaccinationServer.getVaccinationValueSets(Locale.GERMAN)
                 vaccinationServer.getVaccinationValueSets(Locale.ENGLISH)
             }

@@ -14,7 +14,7 @@ import testhelpers.BaseTest
 import testhelpers.preferences.MockSharedPreferences
 import java.util.Locale
 
-class ValueSetsStorageTest: BaseTest() {
+class ValueSetsStorageTest : BaseTest() {
 
     @MockK lateinit var context: Context
     lateinit var prefs: MockSharedPreferences
@@ -68,7 +68,7 @@ class ValueSetsStorageTest: BaseTest() {
     @Test
     fun `Clear resets value set`() {
         createInstance().run {
-            valueSet.update { storedValueSetDE  }
+            valueSet.update { storedValueSetDE }
             clear()
 
             valueSet.value.also {
@@ -81,7 +81,7 @@ class ValueSetsStorageTest: BaseTest() {
     }
 
     @Test
-    fun `Returns latest value`() = runBlockingTest{
+    fun `Returns latest value`() = runBlockingTest {
         createInstance().valueSet.run {
             update { storedValueSetDE }
             value shouldBe storedValueSetDE
@@ -92,5 +92,4 @@ class ValueSetsStorageTest: BaseTest() {
             flow.first() shouldBe storedValueSetEN
         }
     }
-
 }
