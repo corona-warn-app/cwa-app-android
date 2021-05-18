@@ -324,8 +324,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                             )
                         }
                     )
-                    VaccinatedPerson.Status.INCOMPLETE,
-                    VaccinatedPerson.Status.IMMUNITY -> IncompleteVaccinationHomeCard.Item(
+                    VaccinatedPerson.Status.INCOMPLETE -> IncompleteVaccinationHomeCard.Item(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
                             popupEvents.postValue(
@@ -333,8 +332,16 @@ class HomeFragmentViewModel @AssistedInject constructor(
                             )
                         }
                     )
+                    // TODO wrong card, just placeholder
+                    VaccinatedPerson.Status.IMMUNITY -> CompleteVaccinationHomeCard.Item(
+                        vaccinatedPerson = vaccinatedPerson,
+                        onClickAction = {
+                            popupEvents.postValue(
+                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.code)
+                            )
+                        }
+                    )
                 }
-
                 add(card)
             }
 
