@@ -28,8 +28,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 import kotlinx.coroutines.flow.transform
+import timber.log.Timber
 
 class VaccinationListViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
@@ -128,14 +128,14 @@ class VaccinationListViewModel @AssistedInject constructor(
                             onCardClick = { certificateId ->
                                 events.postValue(Event.NavigateToVaccinationCertificateDetails(certificateId))
                             },
-                        onDeleteClick = { certificateId ->
-                            events.postValue(Event.DeleteVaccinationEvent(certificateId))
-                        }
+                            onDeleteClick = { certificateId ->
+                                events.postValue(Event.DeleteVaccinationEvent(certificateId))
+                            }
+                        )
                     )
-                )
+                }
             }
-        }
-    }.toList()
+        }.toList()
 
     fun onRegisterNewVaccinationClick() {
         events.postValue(Event.NavigateToVaccinationQrCodeScanScreen)

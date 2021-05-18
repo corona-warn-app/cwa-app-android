@@ -90,7 +90,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                         showDeleteVaccinationDialog(event.vaccinationCertificateId)
                     }
                     is NavigateBack -> {
-                       popBackStack()
+                        popBackStack()
                     }
                 }
             }
