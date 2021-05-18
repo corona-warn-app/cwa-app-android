@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import dagger.Reusable
-import de.rki.coronawarnapp.bugreporting.censors.vaccination.CertificateQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_PREFIX_INVALID
@@ -15,7 +14,8 @@ class VaccinationQRCodeValidator @Inject constructor(
     private val extractors = setOf(vaccinationQRCodeExtractor)
 
     fun validate(rawString: String): VaccinationCertificateQRCode {
-        CertificateQrCodeCensor.addQRCodeStringToCensor(rawString)
+        // If there is more than one "extractor" in the future, check censoring again.
+        // CertificateQrCodeCensor.addQRCodeStringToCensor(rawString)
         return findExtractor(rawString)
             ?.extract(rawString)
             ?.also { Timber.i("Extracted data from QR code is %s", it) }

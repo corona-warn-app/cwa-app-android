@@ -23,6 +23,8 @@ class VaccinationQRCodeExtractor @Inject constructor(
     override fun canHandle(rawString: String): Boolean = rawString.startsWith(PREFIX)
 
     override fun extract(rawString: String): VaccinationCertificateQRCode {
+        CertificateQrCodeCensor.addQRCodeStringToCensor(rawString)
+
         val parsedData = rawString
             .removePrefix(PREFIX)
             .decodeBase45()
