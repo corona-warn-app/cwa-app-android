@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.vaccination
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment
 import de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentViewModel
 import io.mockk.MockKAnnotations
@@ -16,7 +15,6 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
-import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
@@ -31,7 +29,7 @@ class VaccinationConsentFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
-    @MockK lateinit var vaccinationSettings: VaccinationSettings
+    @MockK lateinit var viewModel: VaccinationConsentViewModel
 
     @Before
     fun setup() {
@@ -39,11 +37,7 @@ class VaccinationConsentFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : VaccinationConsentViewModel.Factory {
-                override fun create(): VaccinationConsentViewModel =
-                    VaccinationConsentViewModel(
-                        vaccinationSettings = vaccinationSettings,
-                        dispatcherProvider = TestDispatcherProvider()
-                    )
+                override fun create(): VaccinationConsentViewModel = viewModel
             }
         )
     }
