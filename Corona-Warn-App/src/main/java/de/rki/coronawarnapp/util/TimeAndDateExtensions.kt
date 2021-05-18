@@ -122,12 +122,12 @@ object TimeAndDateExtensions {
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an Instant
      */
-    fun Instant.toDayFormat2DigitYear() = toString(dayFormatter2DigitYear)
+    fun Instant.toShortDayFormat() = toString(dayFormatter2DigitYear)
 
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an LocalDate
      */
-    fun LocalDate.toDayFormat2DigitYear() = toString(dayFormatter2DigitYear)
+    fun LocalDate.toShortDayFormat() = toString(dayFormatter2DigitYear)
 }
 
 typealias HourInterval = Long

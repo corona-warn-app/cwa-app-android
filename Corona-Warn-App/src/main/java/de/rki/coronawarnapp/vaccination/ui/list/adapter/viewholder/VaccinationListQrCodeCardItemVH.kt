@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListQrcodeCardBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat2DigitYear
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH.VaccinationListQrCodeCardItem
@@ -40,8 +40,8 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
             subtitle.text =
                 context.getString(
                     R.string.vaccination_qrcode_card_subtitle,
-                    item.vaccinatedAt.toDayFormat2DigitYear(),
-                    item.expiresAt.toDayFormat2DigitYear()
+                    item.vaccinatedAt.toShortDayFormat(),
+                    item.expiresAt.toShortDayFormat()
                 )
         }
 
