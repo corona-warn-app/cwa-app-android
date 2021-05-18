@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core.server.valueset
 
-import androidx.annotation.Keep
 import java.util.Locale
 
-@Keep
 interface VaccinationValueSet {
     val languageCode: Locale
     val vp: ValueSet
