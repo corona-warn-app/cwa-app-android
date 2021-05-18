@@ -748,7 +748,7 @@
     <string name="settings_privacy_preserving_analytics_title">"Datenspende"</string>
 
     <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
-    <string name="settings_analytics_switch_subtitle">"Nutzerdaten spenden"</string>
+    <string name="settings_analytics_switch_subtitle">"Datenspende"</string>
 
     <!-- ####################################
                App Information
@@ -1159,11 +1159,7 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Testergebnis abrufen"</string>
-    <!-- XHED: Page subheadline for dispatcher menu  -->
-    <string name="submission_dispatcher_subheadline">"Rufen Sie über die App Ihr Testergebnis ab und warnen Sie anschließend Ihre Mitmenschen. So schützen Sie sich und andere und helfen mit, die Ausbreitung von Corona zu verhindern."</string>
-    <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
-    <string name="submission_dispatcher_needs_testing_subheadline">"Sie haben sich bereits testen lassen?"</string>
+    <string name="submission_dispatcher_headline">"Test registrieren"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Ihr PCR-Test ist positiv?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
@@ -1245,10 +1241,10 @@
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Die Quarantänezeit beträgt in der Regel 14 Tage. Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
+        <item>"Die Isolationszeit beträgt in der Regel 14 Tage. Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
         <item>"Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Erfassen Sie dabei alle Personen, zu denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten. Nutzen Sie hierfür Ihr Kontakt-Tagebuch. Sie können die Einträge einfach exportieren und ausdrucken oder als E-Mail verschicken."</item>
         <item>"Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone besitzen oder die App nicht installiert haben."</item>
-        <item>"Auch wenn Sie keine Symptome (mehr) haben, können Sie ansteckend sein. Bitte halten Sie die angeordnete Quarantänezeit in jedem Fall ein."</item>
+        <item>"Auch wenn Sie keine Symptome (mehr) haben, können Sie ansteckend sein. Bitte halten Sie die angeordnete Isolationszeit in jedem Fall ein."</item>
     </string-array>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Fertig"</string>
