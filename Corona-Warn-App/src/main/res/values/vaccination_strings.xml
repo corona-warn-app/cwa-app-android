@@ -77,7 +77,14 @@
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
     <string name="vaccination_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
-    <string name="vaccination_card_status_vaccination_complete">Vollständiger Impfschutz in %1$s</string>
+    <plurals name="vaccination_card_status_vaccination_complete">
+        <item quantity="one">Vollständiger Impfschutz in %1$d Tag</item>
+        <item quantity="other">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="zero">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="two">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="few">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="many">Vollständiger Impfschutz in %1$d Tagen</item>
+    </plurals>
 
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid"></string>

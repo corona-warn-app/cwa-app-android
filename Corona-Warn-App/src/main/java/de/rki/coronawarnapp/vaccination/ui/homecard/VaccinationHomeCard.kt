@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.databinding.VaccinationHomeCardBinding
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
-import org.joda.time.format.PeriodFormat
 
 class VaccinationHomeCard(parent: ViewGroup) :
     HomeAdapter.HomeItemVH<VaccinationHomeCard.Item, VaccinationHomeCardBinding>(
@@ -27,9 +26,9 @@ class VaccinationHomeCard(parent: ViewGroup) :
         personName.text = curItem.vaccinatedPerson.fullName
         when (curItem.vaccinatedPerson.getVaccinationStatus()) {
             VaccinatedPerson.Status.COMPLETE -> {
-                vaccinationState.text = context.getString(
-                    R.string.vaccination_card_status_vaccination_complete,
-                    format.print(curItem.vaccinatedPerson.getTimeUntilImmunity()?.toPeriod())
+                val days = curItem.vaccinatedPerson.getTimeUntilImmunity()!!.standardDays.toInt()
+                vaccinationState.text = context.resources.getQuantityString(
+                    R.plurals.vaccination_card_status_vaccination_complete, days, days
                 )
                 icon.setImageResource(R.drawable.vaccination_card_icon_complete)
             }
@@ -47,9 +46,5 @@ class VaccinationHomeCard(parent: ViewGroup) :
     ) : VaccinationStatusItem, HasPayloadDiffer {
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-    }
-
-    companion object {
-        private val format = PeriodFormat.wordBased()
     }
 }
