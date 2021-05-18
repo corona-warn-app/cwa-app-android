@@ -165,4 +165,17 @@
     <string name="rat_profile_onboarding_card_consent6" translatable="false">Kare kodu kişisel verilerinizi içerir. Verilerinizin okunmasını istemiyorsanız kişisel kare kodunuzu kimseyle paylaşmayın. Kişisel kare kodunuzu paylaşmamanızı ve e-posta üzerinden göndermemenizi öneriyoruz.</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
     <string name="rat_profile_onboarding_card_consent7" translatable="false">Özel şahıslar ya da şirketler hızlı test profilinizi göstermenizi talep edemezler.</string>
+
+    <!-- Vaccination Consent Privacy Strings  -->
+    <!-- XHED: Title for privacy card -->
+    <string name="vaccination_privacy_card_title_text" translatable="false">"Veri gizliliği ve veri güvenliği"</string>
+    <!-- XTXT: First bulletpoint title for privacy card -->
+    <string name="vaccination_privacy_card_first_bulletpoint_title_text" translatable="false">"Dijital aşı sertifikasının kullanımı isteğe bağlıdır. Tam aşı korumasının gerçekleştirildiğine ilişkin kanıt, diğer yöntemlerle de sağlanabilir (örn. sarı aşı kartı ile)."</string>
+    <!-- XTXT: First bulletpoint title for privacy card -->
+    <string name="vaccination_privacy_card_second_bulletpoint_title_text" translatable="false">"Aşı sertifikası, yaptırdığınız Korona aşılarınıza ilişkin veriler içerir. Yasal açıdan zorunlu durumlarda aşı koruması yaptırdığınızı kanıtlamak için Uygulamada QR kodu göstermeniz yeterli olacaktır. Söz konusu verilerin okunmasını istemiyorsanız, aşı sertifikasını ve QR kodu hiç kimseye göstermeyin."</string>
+    <!-- XTXT: First bulletpoint title for privacy card -->
+    <string name="vaccination_privacy_card_third_bulletpoint_title_text" translatable="false">"QR kodu Uygulamada gösterirseniz ve bu kod, kontrol uygulamasıyla taranırsa, diğer kişiler sizin tam aşı koruması aldığınızı anlayabilir. Kontrol işlemi sırasında adınız ve doğum tarihiniz de resmi kontrol uygulamasında görüntülenecektir."</string>
+    <!-- XTXT: First bulletpoint title for privacy card -->
+    <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"Aşı sertifikasını istediğiniz zaman Uygulamadan kaldırma seçeneğiniz vardır. Bunu yapıncaya kadar aşı sertifikaları akıllı telefonunuzda kayıtlı kalacaktır."</string>
+
 </resources>
