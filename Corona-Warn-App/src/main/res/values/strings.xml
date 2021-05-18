@@ -1164,7 +1164,7 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Retrieve Test Result"</string>
+    <string name="submission_dispatcher_headline">"Test registrieren"</string>
     <!-- XHED: Page subheadline for dispatcher menu  -->
     <string name="submission_dispatcher_subheadline">"Retrieve your test result through the app and then warn others. You’ll protect yourself and help to stop the spread of coronavirus."</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
