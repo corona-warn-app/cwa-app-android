@@ -8,6 +8,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -20,13 +21,15 @@ import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListIncompleteTopCardItemVH.VaccinationListIncompleteTopCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListNameCardItemVH.VaccinationListNameCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
 class VaccinationListViewModel @AssistedInject constructor(
-    vaccinationRepository: VaccinationRepository,
+    private val vaccinationRepository: VaccinationRepository,
     valueSetsRepository: ValueSetsRepository,
     @AppContext context: Context,
+    @AppScope private val appScope: CoroutineScope,
     @Assisted private val personIdentifierCodeSha256: String
 ) : CWAViewModel() {
 
@@ -85,6 +88,12 @@ class VaccinationListViewModel @AssistedInject constructor(
 
     fun onRegisterNewVaccinationClick() {
         events.postValue(Event.NavigateToVaccinationQrCodeScanScreen)
+    }
+
+    fun deleteVaccination(vaccinationCertificateId: String) {
+        launch(scope = appScope) {
+            vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
+        }
     }
 
     data class UiState(
