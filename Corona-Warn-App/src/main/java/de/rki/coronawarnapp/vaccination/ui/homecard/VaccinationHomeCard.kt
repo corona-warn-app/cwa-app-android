@@ -28,7 +28,9 @@ class VaccinationHomeCard(parent: ViewGroup) :
             VaccinatedPerson.Status.COMPLETE -> {
                 val days = curItem.vaccinatedPerson.getTimeUntilImmunity()!!.standardDays.toInt()
                 vaccinationState.text = context.resources.getQuantityString(
-                    R.plurals.vaccination_card_status_vaccination_complete, days, days
+                    R.plurals.vaccination_card_status_vaccination_complete,
+                    days,
+                    days
                 )
                 icon.setImageResource(R.drawable.vaccination_card_icon_complete)
             }
