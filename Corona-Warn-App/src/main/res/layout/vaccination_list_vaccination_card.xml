@@ -2,17 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/vaccination_card"
-    style="@style/Card.Vaccination.Ripple"
+    style="@style/Card.Vaccination.Ripple.NoPadding"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="24dp"
-    android:layout_marginTop="8dp"
-    android:padding="16dp">
+    android:layout_marginTop="8dp">
 
     <ImageView
         android:id="@+id/vaccination_icon"
         android:layout_width="88dp"
         android:layout_height="95dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="16dp"
         android:importantForAccessibility="no"
         app:srcCompat="@drawable/ic_vaccination_incomplete"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,9 +29,9 @@
         android:text="@string/vaccination_list_vaccination_card_title"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/arrow_right"
+        app:layout_constraintEnd_toStartOf="@id/overflow_menu"
         app:layout_constraintStart_toEndOf="@id/vaccination_icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/vaccination_icon" />
 
     <TextView
         android:id="@+id/vaccination_card_subtitle"
@@ -38,18 +40,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
+        android:paddingBottom="16dp"
         android:text="@string/vaccination_list_vaccination_card_subtitle"
-        app:layout_constraintEnd_toStartOf="@id/arrow_right"
+        app:layout_constraintEnd_toStartOf="@id/overflow_menu"
         app:layout_constraintStart_toEndOf="@id/vaccination_icon"
         app:layout_constraintTop_toBottomOf="@id/vaccination_card_title" />
 
-    <ImageView
-        android:id="@+id/arrow_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:importantForAccessibility="no"
-        app:srcCompat="@drawable/ic_arrow_right_grey"
+    <ImageButton
+        android:id="@+id/overflow_menu"
+        style="@style/CardOverFlowButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
