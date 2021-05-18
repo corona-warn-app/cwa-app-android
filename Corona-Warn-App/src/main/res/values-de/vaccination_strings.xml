@@ -40,7 +40,7 @@
     <!-- XTXT: Vaccination List top card subtitle-->
     <string name="vaccination_list_name_card_subtitle">geboren %1$s</string>
     <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_vaccination_card_title">Impfung %1$s von %2$s</string>
+    <string name="vaccination_list_vaccination_card_title">Impfung %1$d von %2$d</string>
     <!-- XTXT: Vaccination List top card subtitle-->
     <string name="vaccination_list_vaccination_card_subtitle">durchgeführt am %1$s</string>
     <!-- XTXT: Vaccination List immunity information card body-->
