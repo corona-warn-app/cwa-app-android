@@ -93,7 +93,7 @@ class VaccinationListVaccinationCardItemVH(
             isFinalVaccination
         ).toLong()
 
-        override fun onSwipe(position: Int, direction: Int) =  onSwipeToDelete(vaccinationCertificateId, position)
+        override fun onSwipe(position: Int, direction: Int) = onSwipeToDelete(vaccinationCertificateId, position)
 
         // Ignore onCardClick Listener in equals() to avoid re-drawing when only the click listener is updated
         override fun equals(other: Any?): Boolean {
