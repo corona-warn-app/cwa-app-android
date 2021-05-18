@@ -5,10 +5,8 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationServer
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
-import de.rki.coronawarnapp.vaccination.core.server.valueset.isEmpty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Locale
@@ -28,7 +26,11 @@ class ValueSetsRepository @Inject constructor(
         var valueSet = vaccinationServer.getVaccinationValueSets(languageCode = languageCode)
 
         if (valueSet == null && valueSetsStorage.valueSet.value.isEmpty()) {
-            Timber.d("Got no value set from server for %s and local value set is empty... Try fallback to value set for en", languageCode.language)
+            Timber.d(
+                "Got no value set from server for %s and local value set is empty... " +
+                    "Try fallback to value set for en",
+                languageCode.language
+            )
             valueSet = vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
         }
 
@@ -51,14 +53,16 @@ class ValueSetsRepository @Inject constructor(
             ma = ma.toStoredValueSet()
         )
 
-    private fun VaccinationValueSet.ValueSet.toStoredValueSet(): ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet =
-        ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(
-            items = items.map { it.toStoredItem() }
-        )
+    private fun VaccinationValueSet.ValueSet.toStoredValueSet():
+        ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet =
+            ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(
+                items = items.map { it.toStoredItem() }
+            )
 
-    private fun VaccinationValueSet.ValueSet.Item.toStoredItem(): ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem =
-        ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem(
-            key = key,
-            displayText = displayText
-        )
+    private fun VaccinationValueSet.ValueSet.Item.toStoredItem():
+        ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem =
+            ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem(
+                key = key,
+                displayText = displayText
+            )
 }
