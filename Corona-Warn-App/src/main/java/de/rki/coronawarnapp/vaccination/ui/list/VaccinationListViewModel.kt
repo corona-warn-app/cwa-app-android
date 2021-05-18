@@ -89,8 +89,8 @@ class VaccinationListViewModel @AssistedInject constructor(
                     add(
                         VaccinationListVaccinationCardItem(
                             vaccinationCertificateId = certificateId,
-                            doseNumber = doseNumber.toString(),
-                            totalSeriesOfDoses = totalSeriesOfDoses.toString(),
+                            doseNumber = doseNumber,
+                            totalSeriesOfDoses = totalSeriesOfDoses,
                             vaccinatedAt = vaccinatedAt.toDayFormat(),
                             vaccinationStatus = vaccinatedPerson.getVaccinationStatus(),
                             isFinalVaccination = doseNumber == totalSeriesOfDoses,

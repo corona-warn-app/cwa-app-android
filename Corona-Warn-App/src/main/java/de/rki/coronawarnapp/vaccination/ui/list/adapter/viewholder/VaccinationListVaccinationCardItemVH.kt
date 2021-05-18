@@ -59,8 +59,8 @@ class VaccinationListVaccinationCardItemVH(
 
     data class VaccinationListVaccinationCardItem(
         val vaccinationCertificateId: String,
-        val doseNumber: String,
-        val totalSeriesOfDoses: String,
+        val doseNumber: Int,
+        val totalSeriesOfDoses: Int,
         val vaccinatedAt: String,
         val vaccinationStatus: VaccinatedPerson.Status,
         val isFinalVaccination: Boolean,
