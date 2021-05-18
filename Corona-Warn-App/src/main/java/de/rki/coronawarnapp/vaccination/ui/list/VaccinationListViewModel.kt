@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.vaccination.ui.list
 
-import android.graphics.Bitmap
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
@@ -74,7 +74,15 @@ class VaccinationListViewModel @AssistedInject constructor(
                     doseNumber = vaccinationCertificate.doseNumber,
                     totalSeriesOfDoses = vaccinationCertificate.totalSeriesOfDoses,
                     vaccinatedAt = vaccinatedPerson.getMostRecentVaccinationCertificate.vaccinatedAt,
-                    expiresAt = vaccinatedPerson.getMostRecentVaccinationCertificate.expiresAt
+                    expiresAt = vaccinatedPerson.getMostRecentVaccinationCertificate.expiresAt,
+                    onQrCodeClick = {
+                        events.postValue(
+                            Event.NavigateToQrCodeFullScreen(
+                                qrCode = vaccinatedPerson.getMostRecentVaccinationCertificate.vaccinationQrCodeString,
+                                positionInList = 0
+                            )
+                        )
+                    }
                 )
             )
 
@@ -125,6 +133,7 @@ class VaccinationListViewModel @AssistedInject constructor(
     sealed class Event {
         data class NavigateToVaccinationCertificateDetails(val vaccinationCertificateId: String) : Event()
         object NavigateToVaccinationQrCodeScanScreen : Event()
+        data class NavigateToQrCodeFullScreen(val qrCode: String, val positionInList: Int) : Event()
     }
 
     @AssistedFactory

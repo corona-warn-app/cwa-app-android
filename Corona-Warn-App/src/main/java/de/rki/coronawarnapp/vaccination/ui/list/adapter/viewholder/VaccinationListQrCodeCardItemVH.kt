@@ -30,6 +30,9 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
                 else -> {
                     image.setImageBitmap(item.qrCode)
                     progressBar.isVisible = false
+                    image.setOnClickListener {
+                        item.onQrCodeClick.invoke()
+                    }
                 }
             }
             title.text = context.getString(
@@ -50,7 +53,8 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
         val doseNumber: Int,
         val totalSeriesOfDoses: Int,
         val vaccinatedAt: LocalDate,
-        val expiresAt: Instant
+        val expiresAt: Instant,
+        val onQrCodeClick: () -> Unit
     ) :
         VaccinationListItem {
         override val stableId = this.hashCode().toLong()
