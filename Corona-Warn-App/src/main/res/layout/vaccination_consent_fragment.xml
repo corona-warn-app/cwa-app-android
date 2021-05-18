@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/vaccination_consent_info_graphic"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_vaccination_consent" />
+                android:src="@drawable/ic_vaccination_consent" />
 
             <TextView
                 android:id="@+id/vaccination_consent_headline"
@@ -78,7 +78,7 @@
                 android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="@id/vaccination_consent_info_subtitle"
                 app:layout_constraintTop_toBottomOf="@id/vaccination_consent_info_subtitle"
-                app:srcCompat="@drawable/ic_qr_tracing_static" />
+                android:src="@drawable/ic_qr_tracing_static" />
 
             <TextView
                 android:id="@+id/vaccination_consent_info_text"
@@ -100,7 +100,7 @@
                 android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="@id/vaccination_consent_info_icon"
                 app:layout_constraintTop_toBottomOf="@id/vaccination_consent_info_text"
-                app:srcCompat="@drawable/ic_qr_code_illustration" />
+                android:src="@drawable/ic_qr_code_illustration" />
 
             <TextView
                 android:id="@+id/vaccination_consent_qr_code_text"
@@ -122,7 +122,7 @@
                 android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="@id/vaccination_consent_qr_code_icon"
                 app:layout_constraintTop_toBottomOf="@id/vaccination_consent_qr_code_text"
-                app:srcCompat="@drawable/ic_shield_illustration" />
+                android:src="@drawable/ic_shield_illustration" />
 
             <TextView
                 android:id="@+id/vaccination_consent_time_sheet_text"
