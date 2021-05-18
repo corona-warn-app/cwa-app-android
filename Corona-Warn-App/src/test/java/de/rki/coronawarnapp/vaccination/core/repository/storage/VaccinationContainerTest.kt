@@ -138,7 +138,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `nonsense country code appears unchanged`() {
-        testData.personWithoutCountryContainer.toVaccinationCertificate(null).apply {
+        testData.personXVac1ContainerBadCountryData.toVaccinationCertificate(null).apply {
             certificateCountry shouldBe "YY"
         }
     }
