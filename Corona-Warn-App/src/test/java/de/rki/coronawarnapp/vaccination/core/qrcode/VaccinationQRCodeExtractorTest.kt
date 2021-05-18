@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
+import de.rki.coronawarnapp.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED

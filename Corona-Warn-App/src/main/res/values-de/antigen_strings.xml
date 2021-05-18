@@ -143,7 +143,7 @@
     <!-- XHED: Create RAT profile card title -->
     <string name="rat_profile_create_card_title">Schnelltest-Profil anlegen</string>
     <!-- XTXT: Create RAT profile card subtitle -->
-    <string name="rat_profile_create_card_subtitle">Legen Sie ein Profil mit Ihren persönlichen Daten an, die Sie dann per QR-Code bei jedem Schnelltest vorlegen können.</string>
+    <string name="rat_profile_create_card_subtitle">Legen Sie ein Profil mit Ihren persönlichen Daten an, das Sie per QR-Code bei jeder teilnehmenden Teststelle vorlegen können.</string>
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">Schnelltest-Profil</string>
     <!-- XTXT: Open RAT profile card subtitle -->
@@ -159,7 +159,7 @@
     <!-- XBUT: Create RAT profile save button -->
     <string name="rat_profile_create_button">Speichern</string>
     <!-- XTXT: Create RAT profile description -->
-    <string name="rat_profile_create_description">Legen Sie Ihre persönlichen Daten als QR-Code ab, um die Registrierung an der Teststelle zu beschleunigen.</string>
+    <string name="rat_profile_create_description">Legen Sie ein Profil mit Ihren persönlichen Daten an, das Sie per QR-Code bei jeder teilnehmenden Teststelle vorlegen können.</string>
     <!-- XTXT: Create RAT profile street hint -->
     <string name="rat_profile_create_street_hint">Straße und Hausnummer</string>
     <!-- XTXT: Create RAT profile post code hint -->
@@ -174,7 +174,7 @@
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">Eine Frau mit einem Smartphone in der Hand steht vor einem Gebäude. Ein QR-Code symbolisiert das zu scannende Schnelltest-Profil.</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">Legen Sie Ihre persönlichen Daten als QR-Code ab, um die Registrierung an der Teststelle zu beschleunigen.</string>
+    <string name="rat_profile_onboarding_title">Legen Sie ein Profil mit Ihren persönlichen Daten an, das Sie per QR-Code bei jeder teilnehmenden Teststelle vorlegen können.</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
     <string name="rat_profile_onboarding_subtitle">Mit Ihrem eigenen Schnelltest-Profil müssen Sie Ihre persönlichen Daten nicht bei jedem neuen Schnelltest erneut ausfüllen.</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
