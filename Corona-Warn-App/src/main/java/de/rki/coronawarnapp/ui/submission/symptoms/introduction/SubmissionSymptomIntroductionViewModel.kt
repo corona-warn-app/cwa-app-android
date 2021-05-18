@@ -48,43 +48,45 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     val showUploadDialog: LiveData<Boolean> = mediatorShowUploadDialog
 
     fun onNextClicked() {
-        when (symptomIndicationInternal.value) {
-            Symptoms.Indication.POSITIVE -> {
-                navigation.postValue(
-                    SubmissionSymptomIntroductionFragmentDirections
-                        .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment(
-                            symptomIndication = Symptoms.Indication.POSITIVE,
-                            testType = testType
+        launch {
+            when (symptomIndicationInternal.value) {
+                Symptoms.Indication.POSITIVE -> {
+                    navigation.postValue(
+                        SubmissionSymptomIntroductionFragmentDirections
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment(
+                                symptomIndication = Symptoms.Indication.POSITIVE,
+                                testType = testType
+                            )
+                    )
+                }
+                Symptoms.Indication.NEGATIVE -> {
+                    submissionRepository.currentSymptoms.update {
+                        Symptoms(
+                            startOfSymptoms = null,
+                            symptomIndication = Symptoms.Indication.NEGATIVE
                         )
-                )
-            }
-            Symptoms.Indication.NEGATIVE -> {
-                submissionRepository.currentSymptoms.update {
-                    Symptoms(
-                        startOfSymptoms = null,
-                        symptomIndication = Symptoms.Indication.NEGATIVE
+                    }
+                    doSubmit()
+
+                    navigation.postValue(
+                        SubmissionSymptomIntroductionFragmentDirections
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
                     )
                 }
-                doSubmit()
+                Symptoms.Indication.NO_INFORMATION -> {
+                    submissionRepository.currentSymptoms.update {
+                        Symptoms(
+                            startOfSymptoms = null,
+                            symptomIndication = Symptoms.Indication.NO_INFORMATION
+                        )
+                    }
+                    doSubmit()
 
-                navigation.postValue(
-                    SubmissionSymptomIntroductionFragmentDirections
-                        .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
-                )
-            }
-            Symptoms.Indication.NO_INFORMATION -> {
-                submissionRepository.currentSymptoms.update {
-                    Symptoms(
-                        startOfSymptoms = null,
-                        symptomIndication = Symptoms.Indication.NO_INFORMATION
+                    navigation.postValue(
+                        SubmissionSymptomIntroductionFragmentDirections
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
                     )
                 }
-                doSubmit()
-
-                navigation.postValue(
-                    SubmissionSymptomIntroductionFragmentDirections
-                        .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
-                )
             }
         }
     }
