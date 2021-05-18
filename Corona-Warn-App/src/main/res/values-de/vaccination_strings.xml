@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- XTXT: Vaccination Details birth date -->
     <string name="vaccination_details_birth_date">Geboren %1$s</string>
     <!-- XTXT: Vaccination Details certificate date -->
@@ -68,13 +68,22 @@
     <string name="vaccination_card_registration_body">"Fügen Sie Ihre Impfzertifikate in die App hinzu, um sie immer bei sich zu haben. Scannen Sie dafür den QR-Code Ihres Dokuments."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Hinzufügen"</string>
-
     <!-- XHED: Homescreen vaccination status card title -->
     <string name="vaccination_card_status_title">Digitaler Impfnachweis</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">SARS-CoV-2 Impfschutz</string>
-    <!-- XTXT: Homescreen vaccination status card vaccination status label -->
+    <!-- XTXT: Homescreen card incomplete vaccination status label -->
     <string name="vaccination_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <plurals name="vaccination_card_status_vaccination_complete" tools:ignore="UnusedQuantity">
+        <item quantity="one">Vollständiger Impfschutz in %1$d Tag</item>
+        <item quantity="other">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="zero">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="two">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="few">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="many">Vollständiger Impfschutz in %1$d Tagen</item>
+    </plurals>
+
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">Dieser QR-Code ist kein gültiges Impfzertifikat.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
