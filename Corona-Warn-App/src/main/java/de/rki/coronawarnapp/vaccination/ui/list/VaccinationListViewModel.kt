@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationLi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 class VaccinationListViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
@@ -48,8 +49,17 @@ class VaccinationListViewModel @AssistedInject constructor(
             listItems = assembleItemList(vaccinatedPerson = vaccinatedPerson),
             vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
         )
-    }.catch {
-        // TODO Error Handling in an upcoming subtask
+    }.catch { exception ->
+        when (exception) {
+            is NoSuchElementException -> {
+                Timber.d(exception, "Seems like all vaccination certificates got deleted. Navigate back ...")
+                events.postValue(Event.NavigateBack)
+            }
+            else -> {
+                Timber.e(exception, "Something unexpected went wrong... Let's navigate back...")
+                events.postValue(Event.NavigateBack)
+            }
+        }
     }.asLiveData()
 
     private fun assembleItemList(vaccinatedPerson: VaccinatedPerson) = mutableListOf<VaccinationListItem>().apply {
@@ -105,6 +115,7 @@ class VaccinationListViewModel @AssistedInject constructor(
         data class NavigateToVaccinationCertificateDetails(val vaccinationCertificateId: String) : Event()
         object NavigateToVaccinationQrCodeScanScreen : Event()
         data class DeleteVaccinationEvent(val vaccinationCertificateId: String) : Event()
+        object NavigateBack : Event()
     }
 
     @AssistedFactory

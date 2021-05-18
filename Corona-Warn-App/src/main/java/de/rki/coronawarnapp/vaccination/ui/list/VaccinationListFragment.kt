@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListViewModel.Event.DeleteVaccinationEvent
+import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListViewModel.Event.NavigateBack
 import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListViewModel.Event.NavigateToVaccinationCertificateDetails
 import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListViewModel.Event.NavigateToVaccinationQrCodeScanScreen
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
@@ -71,6 +72,9 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                     )
                     is DeleteVaccinationEvent -> {
                         showDeleteVaccinationDialog(event.vaccinationCertificateId)
+                    }
+                    is NavigateBack -> {
+                       popBackStack()
                     }
                 }
             }
