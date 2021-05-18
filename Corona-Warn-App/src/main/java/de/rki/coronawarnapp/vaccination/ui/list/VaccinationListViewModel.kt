@@ -73,6 +73,9 @@ class VaccinationListViewModel @AssistedInject constructor(
                         isFinalVaccination = doseNumber == totalSeriesOfDoses,
                         onCardClick = { certificateId ->
                             events.postValue(Event.NavigateToVaccinationCertificateDetails(certificateId))
+                        },
+                        onDeleteClick = { certificateId ->
+                            events.postValue(Event.DeleteVaccinationEvent(certificateId))
                         }
                     )
                 )
@@ -92,6 +95,7 @@ class VaccinationListViewModel @AssistedInject constructor(
     sealed class Event {
         data class NavigateToVaccinationCertificateDetails(val vaccinationCertificateId: String) : Event()
         object NavigateToVaccinationQrCodeScanScreen : Event()
+        data class DeleteVaccinationEvent(val vaccinationCertificateId: String) : Event()
     }
 
     @AssistedFactory
