@@ -169,24 +169,15 @@
     <!-- YMSG: RAT Profile Onboarding bullet points -->
     <string name="rat_profile_onboarding_card_consent7" translatable="false">Private Personen oder Unternehmen dürfen von Ihnen nicht verlangen, dass Sie Ihr Schnelltest-Profil vorzeigen.</string>
 
-    <!-- XTXT: Vaccination Consent title-->
-    <string name="vaccination_consent_title">Ihr Einverständnis</string>
-    <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">Impfzertifikat registrieren</string>
-    <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Erstellen Sie einen digitalen Impfnachweis. Sie finden weitere Informationen in der FAQ zum Impfen."</string>
-    <!-- XTXT: Vaccination Consent subtitle of qr info (part that should be displayed as link) -->
-    <string name="vaccination_consent_info_subtitle_text_link_label">"FAQ zum Impfen."</string>
-    <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Scannen Sie den QR-Code auf Ihrem Impfzertifikat, um das Zertifikat zu registrieren."</string>
-    <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Die App erstellt einen Impfnachweis. Der QR-Code zum vollständigen Impfnachweis erhalten Sie, wenn Sie alle Impfungen erhalten haben. Je nach Impfstoff können mehrere Impftermine nötig sein."</string>
-    <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Ihr Impfnachweis wird in regelmäßigen Abständen automatisch aktualisiert. Wenn durch Mutationen des Coronavirus neue Impfungen nötig werden, kann Ihr Impfnachweis ungültig werden."</string>
-    <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"Weitere Hinweise finden Sie in der Datenschutzerklärung."</string>
-    <!-- XBUT: Text for vaccination consent accept button -->
-    <string name="vaccination_consent_accept_button">"Einverstanden"</string>
-    <!-- XTXT: Vaccination Consent FAQ Url -->
-    <string name="vaccination_consent_faq_url">"https://www.coronawarn.app/de/faq/"</string>
+    <!-- Vaccination Consent Privacy Strings  -->
+    <!-- XHED: Title for privacy card -->
+    <string name="vaccination_privacy_card_title_text" translatable="false">"Datenschutz und Datensicherheit"</string>
+    <!-- XTXT: First bulletpoint title for privacy card -->
+    <string name="vaccination_privacy_card_first_bulletpoint_title_text" translatable="false">"Die Verwendung des digitalen Impfnachweises ist freiwillig. Der Nachweis des vollständigen Impfschutzes kann auch auf andere Weise erbracht werden (z.B. mit dem gelben Impfausweis)."</string>
+    <!-- XTXT: First bulletpoint title for privacy card -->
+    <string name="vaccination_privacy_card_second_bulletpoint_title_text" translatable="false">"Das Impfzertifikat enthält die Daten über Ihre Corona-Impfung. Zum Nachweis Ihres Impfschutzes in den gesetzlich vorgesehenen Fällen genügt das Vorzeigen des QR-Codes in der App. Stellen Sie die Impfzertifikate und QR-Codes niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen werden."</string>
+    <!-- XTXT: First bulletpoint title for privacy card -->
+    <string name="vaccination_privacy_card_third_bulletpoint_title_text" translatable="false">"Wenn Sie den QR-Code in der App vorzeigen und dieser mit der Prüf-App gescannt wird, können andere Personen nachvollziehen, ob Ihr Impfschutz vollständig ist. Bei der Prüfung werden in der offiziellen Prüf-App auch Ihr Name und Ihr Geburtsdatum angezeigt."</string>
+    <!-- XTXT: First bulletpoint title for privacy card -->
+    <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"Sie haben jederzeit die Möglichkeit, Impfzertifikate in der App wieder zu entfernen. Bis dahin bleiben die Impfzertifikate auf Ihrem Smartphone gespeichert."</string>
 </resources>
