@@ -24,6 +24,7 @@ object TimeAndDateExtensions {
     private const val MS_TO_SECONDS = 1000
 
     private val dayFormatter = DateTimeFormat.forPattern("dd.MM.yyyy")
+    private val dayFormatter2DigitYear = DateTimeFormat.forPattern("dd.MM.yy")
 
     fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
 
@@ -117,6 +118,16 @@ object TimeAndDateExtensions {
      * Returns a readable date String with the format "dd.MM.yyyy" like 23.05.1989 of a LocalDate
      */
     fun LocalDate.toDayFormat() = toString(dayFormatter)
+
+    /**
+     * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an Instant
+     */
+    fun Instant.toShortDayFormat() = toString(dayFormatter2DigitYear)
+
+    /**
+     * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an LocalDate
+     */
+    fun LocalDate.toShortDayFormat() = toString(dayFormatter2DigitYear)
 }
 
 typealias HourInterval = Long

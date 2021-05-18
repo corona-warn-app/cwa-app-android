@@ -6,6 +6,9 @@ import androidx.appcompat.widget.PopupMenu
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListVaccinationCardBinding
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.IMMUNITY
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
@@ -41,23 +44,15 @@ class VaccinationListVaccinationCardItemVH(
             )
 
             val iconRes = when (vaccinationStatus) {
-                VaccinatedPerson.Status.INCOMPLETE -> {
-                    if (isFinalVaccination) {
-                        R.drawable.ic_vaccination_incomplete_final
-                    } else {
-                        R.drawable.ic_vaccination_incomplete
-                    }
+                INCOMPLETE, COMPLETE -> {
+                    R.drawable.ic_vaccination_incomplete
                 }
-                VaccinatedPerson.Status.COMPLETE -> {
+                IMMUNITY -> {
                     if (isFinalVaccination) {
                         R.drawable.ic_vaccination_complete_final
                     } else {
                         R.drawable.ic_vaccination_complete
                     }
-                }
-                VaccinatedPerson.Status.IMMUNITY -> {
-                    // TODO
-                    R.drawable.ic_vaccination_complete_final
                 }
             }
             vaccinationIcon.setImageResource(iconRes)
@@ -78,8 +73,8 @@ class VaccinationListVaccinationCardItemVH(
 
     data class VaccinationListVaccinationCardItem(
         val vaccinationCertificateId: String,
-        val doseNumber: String,
-        val totalSeriesOfDoses: String,
+        val doseNumber: Int,
+        val totalSeriesOfDoses: Int,
         val vaccinatedAt: String,
         val vaccinationStatus: VaccinatedPerson.Status,
         val isFinalVaccination: Boolean,
