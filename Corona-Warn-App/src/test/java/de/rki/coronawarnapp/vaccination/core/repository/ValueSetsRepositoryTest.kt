@@ -1,26 +1,26 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
+import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
 import de.rki.coronawarnapp.vaccination.core.server.valueset.DefaultVaccinationValueSet
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationServer
+import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Ordering
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
-import io.mockk.verify
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.joda.time.Duration
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 import java.util.Locale
 
 class ValueSetsRepositoryTest : BaseTest() {
@@ -31,7 +31,8 @@ class ValueSetsRepositoryTest : BaseTest() {
     private val testScope = TestCoroutineScope()
 
     private val emptyValueSetEN = createValueSet(languageCode = Locale.ENGLISH)
-    private val emptyValueSetDE = createValueSet(languageCode = Locale.GERMAN)
+    private val valueSetPref: FlowPreference<ValueSetsStorage.StoredVaccinationValueSet> =
+        mockFlowPreference(emptyValueSetEN.toStoredVaccinationValueSet())
 
     private val valueSetEN = createValueSet(
         languageCode = Locale.ENGLISH,
@@ -92,141 +93,75 @@ class ValueSetsRepositoryTest : BaseTest() {
     private fun createInstance() = ValueSetsRepository(
         vaccinationServer = vaccinationServer,
         valueSetsStorage = valueSetsStorage,
-        appScope = testScope
+        scope = testScope
     )
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         coEvery { vaccinationServer.getVaccinationValueSets(any()) } returns null
+        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns valueSetEN
+        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.GERMAN) } returns valueSetDE
         every { vaccinationServer.clear() } just runs
-        every { valueSetsStorage.vaccinationValueSet } returns null
-        every { valueSetsStorage.vaccinationValueSet = any() } just runs
+
+        every { valueSetsStorage.valueSet } returns valueSetPref
         every { valueSetsStorage.clear() } just runs
     }
 
     @Test
-    fun `initial value is an empty value set EN if local storage has none`() = runBlockingTest {
-        createInstance().run {
-            latestValueSet.first() shouldBe emptyValueSetEN
-
-            coVerify(exactly = 0) {
-                vaccinationServer.getVaccinationValueSets(any())
-            }
-
-            verify { valueSetsStorage.vaccinationValueSet }
-        }
-    }
-
-    @Test
-    fun `initial value is returned from local storage`() = runBlockingTest {
-        every { valueSetsStorage.vaccinationValueSet } returns valueSetDE
-
-        createInstance().run {
-            latestValueSet.first() shouldBe valueSetDE
-
-            coVerify(exactly = 0) {
-                vaccinationServer.getVaccinationValueSets(any())
-            }
-
-            verify { valueSetsStorage.vaccinationValueSet }
-        }
-    }
-
-    @Test
-    fun `falls back to empty value set with specified language code`() = runBlockingTest {
+    fun `successful update for de`() = runBlockingTest {
         createInstance().run {
             triggerUpdateValueSet(languageCode = Locale.GERMAN)
-            latestValueSet.first() shouldBe emptyValueSetDE
+            latestValueSet.first()
+        }.also { it.validateValues(valueSetDE) }
 
-            coVerify(exactly = 1) {
-                vaccinationServer.getVaccinationValueSets(Locale.GERMAN)
-                vaccinationServer.getVaccinationValueSets(Locale.ENGLISH)
-            }
+        coVerify(exactly = 1) {
+            vaccinationServer.getVaccinationValueSets(languageCode = Locale.GERMAN)
+        }
 
-            verify(exactly = 2) {
-                valueSetsStorage.vaccinationValueSet
-            }
+        coVerify(exactly = 0) {
+            vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
         }
     }
 
     @Test
-    fun `returns value set for specified language from server`() = runBlockingTest {
-        coEvery { vaccinationServer.getVaccinationValueSets(Locale.GERMAN) } returns valueSetDE
-        coEvery { vaccinationServer.getVaccinationValueSets(Locale.ENGLISH) } returns valueSetEN
+    fun `fallback to en`() = runBlockingTest {
+        createInstance().run {
+            triggerUpdateValueSet(languageCode = Locale.FRENCH)
+            latestValueSet.first()
+        }.also { it.validateValues(valueSetEN) }
+
+        coVerify(ordering = Ordering.ORDERED) {
+            vaccinationServer.getVaccinationValueSets(languageCode = Locale.FRENCH)
+            vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
+        }
+    }
+
+    @Test
+    fun `server returns nothing`() = runBlockingTest {
+        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.GERMAN) } returns null
+        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns null
 
         createInstance().run {
-            triggerUpdateValueSet(Locale.GERMAN)
-            delay(Duration.standardSeconds(5).millis)
-            latestValueSet.first() shouldBe valueSetDE
+            triggerUpdateValueSet(languageCode = Locale.GERMAN)
+            latestValueSet.first()
+        }.also { it.validateValues(emptyValueSetEN) }
 
-            triggerUpdateValueSet(Locale.ENGLISH)
-            latestValueSet.first() shouldBe valueSetEN
-        }
-
-        coVerifySequence {
-            valueSetsStorage.vaccinationValueSet
-            vaccinationServer.getVaccinationValueSets(Locale.GERMAN)
-            valueSetsStorage.vaccinationValueSet =
-                vaccinationServer.getVaccinationValueSets(Locale.ENGLISH)
-            valueSetsStorage.vaccinationValueSet
+        coVerify(ordering = Ordering.ORDERED) {
+            vaccinationServer.getVaccinationValueSets(languageCode = Locale.GERMAN)
+            vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
         }
     }
 
     @Test
-    fun `if no value set is available for specified language fall back to EN`() = runBlockingTest {
-        coEvery { vaccinationServer.getVaccinationValueSets(Locale.ENGLISH) } returns valueSetEN
-
-        createInstance().run {
-            triggerUpdateValueSet(Locale.GERMAN)
-            latestValueSet.first() shouldBe valueSetEN
-
-            coVerify(exactly = 1) {
-                vaccinationServer.getVaccinationValueSets(Locale.GERMAN)
-                vaccinationServer.getVaccinationValueSets(Locale.ENGLISH)
-            }
-        }
+    fun `mapping is to stored version is correct`() {
+        valueSetDE.also { it.toStoredVaccinationValueSet().validateValues(it) }
+        valueSetEN.also { it.toStoredVaccinationValueSet().validateValues(it) }
+        emptyValueSetEN.also { it.toStoredVaccinationValueSet().validateValues(it) }
     }
 
     @Test
-    fun `use local storage if server returns nothing`() = runBlockingTest {
-        every { valueSetsStorage.vaccinationValueSet } returns valueSetDE
-
-        createInstance().run {
-            triggerUpdateValueSet(Locale.GERMAN)
-            latestValueSet.first() shouldBe valueSetDE
-
-            coVerify(exactly = 1) {
-                vaccinationServer.getVaccinationValueSets(any())
-            }
-
-            verify(exactly = 2) {
-                valueSetsStorage.vaccinationValueSet
-            }
-        }
-    }
-
-    @Test
-    fun `user errors will not crash the app`() = runBlockingTest {
-        val userError = Exception("User error")
-        coEvery { vaccinationServer.getVaccinationValueSets(any()) } throws userError
-        every { valueSetsStorage.vaccinationValueSet } throws userError
-
-        createInstance().run {
-            triggerUpdateValueSet(Locale.GERMAN)
-            delay(Duration.standardSeconds(5).millis)
-            latestValueSet.first() shouldBe emptyValueSetDE
-
-            coVerify(exactly = 1) {
-                // valueSetsStorage.vaccinationValueSet
-                vaccinationServer.getVaccinationValueSets(Locale.GERMAN)
-                vaccinationServer.getVaccinationValueSets(Locale.ENGLISH)
-            }
-        }
-    }
-
-    @Test
-    fun `clear() clears server and local storage`() {
+    fun `clear data of server and local storage`() {
         createInstance().run {
             clear()
 
@@ -234,6 +169,22 @@ class ValueSetsRepositoryTest : BaseTest() {
                 vaccinationServer.clear()
                 valueSetsStorage.clear()
             }
+        }
+    }
+
+    private fun VaccinationValueSet.validateValues(v2: VaccinationValueSet) {
+        languageCode shouldBe v2.languageCode
+        vp.validateValues(v2.vp)
+        mp.validateValues(v2.mp)
+        ma.validateValues(v2.ma)
+    }
+
+    private fun VaccinationValueSet.ValueSet.validateValues(v2: VaccinationValueSet.ValueSet) {
+        items.forEachIndexed { index, item1 ->
+            val item2 = v2.items[index]
+
+            item1.key shouldBe item2.key
+            item1.displayText shouldBe item2.displayText
         }
     }
 }

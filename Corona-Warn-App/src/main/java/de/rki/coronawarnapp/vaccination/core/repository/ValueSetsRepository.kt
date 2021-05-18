@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
+import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
@@ -46,25 +47,27 @@ class ValueSetsRepository @Inject constructor(
         vaccinationServer.clear()
         valueSetsStorage.clear()
     }
-
-    private fun VaccinationValueSet.toStoredVaccinationValueSet(): ValueSetsStorage.StoredVaccinationValueSet =
-        ValueSetsStorage.StoredVaccinationValueSet(
-            languageCode = languageCode,
-            vp = vp.toStoredValueSet(),
-            mp = mp.toStoredValueSet(),
-            ma = ma.toStoredValueSet()
-        )
-
-    private fun VaccinationValueSet.ValueSet.toStoredValueSet():
-        ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet =
-            ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(
-                items = items.map { it.toStoredItem() }
-            )
-
-    private fun VaccinationValueSet.ValueSet.Item.toStoredItem():
-        ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem =
-            ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem(
-                key = key,
-                displayText = displayText
-            )
 }
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun VaccinationValueSet.toStoredVaccinationValueSet(): ValueSetsStorage.StoredVaccinationValueSet =
+    ValueSetsStorage.StoredVaccinationValueSet(
+        languageCode = languageCode,
+        vp = vp.toStoredValueSet(),
+        mp = mp.toStoredValueSet(),
+        ma = ma.toStoredValueSet()
+    )
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun VaccinationValueSet.ValueSet.toStoredValueSet(): ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet =
+    ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(
+        items = items.map { it.toStoredItem() }
+    )
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun VaccinationValueSet.ValueSet.Item.toStoredItem():
+    ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem =
+        ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem(
+            key = key,
+            displayText = displayText
+        )
