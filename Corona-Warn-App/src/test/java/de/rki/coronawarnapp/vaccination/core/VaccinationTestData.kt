@@ -178,7 +178,7 @@ class VaccinationTestData @Inject constructor(
         vaccinations = setOf(personBVac1Container)
     )
 
-    val personWithoutCountryContainer = VaccinationContainer(
+    val personXVac1ContainerBadCountryData = VaccinationContainer(
         scannedAt = Instant.ofEpochMilli(1620062834471),
         vaccinationQrCode = VaccinationQrCodeTestData.qrCodeWithNonsenseCountry,
     ).apply {
