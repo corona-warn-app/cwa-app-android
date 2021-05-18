@@ -169,17 +169,14 @@
 
     <!-- Vaccination Consent Privacy Strings  -->
     <!-- XHED: Title for privacy card -->
-    <string name="vaccination_privacy_card_title_text" translatable="false">"Ihr Einverständnis"</string>
-    <!-- XTXT: Subtitle for privacy card -->
-    <string name="vaccination_privacy_card_subtitle_text" translatable="false">"Durch Antippen von „Einverstanden“ willigen Sie in folgende Schritte ein:"</string>
+    <string name="vaccination_privacy_card_title_text" translatable="false">"Data protection and data security"</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_first_bulletpoint_title_text" translatable="false">"Die App legal"</string>
-    <!-- XTXT: First bulletpoint subtitle for privacy card -->
-    <string name="vaccination_privacy_card_first_bulletpoint_subtitle_text" translatable="false">"Wenn Sie es sich später anders überlegen, können Sie den Test in der App entfernen."</string>
+    <string name="vaccination_privacy_card_first_bulletpoint_title_text" translatable="false">"Using the digital vaccination certificate feature is voluntary. There are other ways to prove that you are fully vaccinated (e.g. using a yellow vaccination booklet)."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_second_bulletpoint_title_text" translatable="false">"Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von Corona-Apps der oben genannten Länder und Nutzer, die zeitgleich am selben Event oder Ort wie Sie eingecheckt waren. Im Falle von Schnelltests werden nur Nutzer der Corona-Warn-App gewarnt."</string>
+    <string name="vaccination_privacy_card_second_bulletpoint_title_text" translatable="false">"The vaccination certificate contains your COVID-19 vaccination details. In cases where you are required by law to prove that you have been vaccinated, it is sufficient to show the QR code in the app. Do not provide vaccination certificates or QR codes to anyone if you do not want the data to be read."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_third_bulletpoint_title_text" translatable="false">"Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt. "</string>
-    <!-- XTXT: Subtitle for privacy card -->
-    <string name="vaccination_privacy_card_body" translatable="false">"Sie können Ihr Einverständnis jederzeit zurücknehmen. Die Einstellung hierfür finden Sie unter „Test anzeigen“. Vor dem Teilen werden Sie nochmal auf Ihr Einverständnis hingewiesen."</string>
+    <string name="vaccination_privacy_card_third_bulletpoint_title_text" translatable="false">"If you present the QR code in the app and it is scanned using the verification app, others will be able to tell whether you are fully vaccinated. During verification, the official verification app will also display your name and date of birth."</string>
+    <!-- XTXT: First bulletpoint title for privacy card -->
+    <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"You have the possibility to delete vaccination certificates in the app at any time. Until then, the vaccination certificates will be stored on your smartphone."</string>
+
 </resources>
