@@ -36,9 +36,9 @@ class VaccinationStorage @Inject constructor(
                     return@mapNotNull null
                 }
                 value as String
-                gson.fromJson<VaccinatedPersonData>(value).also {
-                    Timber.tag(TAG).v("Person loaded: %s", it)
-                    requireNotNull(it.identifier)
+                gson.fromJson<VaccinatedPersonData>(value).also { personData ->
+                    Timber.tag(TAG).v("Person loaded: %s", personData)
+                    requireNotNull(personData.identifier)
                 }
             }
             return persons.toSet()

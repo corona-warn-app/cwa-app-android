@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
+import de.rki.coronawarnapp.bugreporting.censors.vaccination.CertificateQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
 import de.rki.coronawarnapp.util.compression.inflate
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
@@ -22,6 +23,8 @@ class VaccinationQRCodeExtractor @Inject constructor(
     override fun canHandle(rawString: String): Boolean = rawString.startsWith(PREFIX)
 
     override fun extract(rawString: String): VaccinationCertificateQRCode {
+        CertificateQrCodeCensor.addQRCodeStringToCensor(rawString)
+
         val parsedData = rawString
             .removePrefix(PREFIX)
             .decodeBase45()
@@ -56,6 +59,8 @@ class VaccinationQRCodeExtractor @Inject constructor(
             header = headerParser.parse(cbor),
             certificate = bodyParser.parse(cbor)
         ).also {
+            CertificateQrCodeCensor.addCertificateToCensor(it)
+        }.also {
             Timber.v("Parsed vaccination certificate for %s", it.certificate.nameData.familyNameStandardized)
         }
     }
