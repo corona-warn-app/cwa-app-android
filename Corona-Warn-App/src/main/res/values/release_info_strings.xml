@@ -22,7 +22,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können jetzt Ihre Impfungen in der App hinzufügen und jederzeit per QR-Code als Impfzertifikat vorweisen. 14 Tage nachdem Sie alle notwendigen Impfungen erhalten haben, können Sie den vollständigen Impfnachweis in der App vorzeigen.</item>
+        <item>Sie können jetzt Ihre Impfzertifikate in der App hinzufügen und per QR-Code vorweisen. 14 Tage nach der letzten Impfung zeigt die App den vollständigen Impfschutz an.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
