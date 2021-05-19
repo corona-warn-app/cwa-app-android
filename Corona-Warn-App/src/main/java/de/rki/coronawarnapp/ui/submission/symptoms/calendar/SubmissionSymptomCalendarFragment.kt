@@ -57,6 +57,7 @@ class SubmissionSymptomCalendarFragment :
         }
 
         viewModel.routeToScreen.observe2(this) {
+            uploadDialog.setState(show = false)
             doNavigate(it)
         }
 

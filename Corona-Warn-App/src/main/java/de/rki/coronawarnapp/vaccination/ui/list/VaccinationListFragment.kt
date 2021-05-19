@@ -10,12 +10,16 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentVaccinationListBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.list.isSwipeable
+import de.rki.coronawarnapp.util.list.onSwipeItem
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -23,7 +27,10 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListViewModel.Event.DeleteVaccinationEvent
+import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListViewModel.Event.NavigateBack
 import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListViewModel.Event.NavigateToVaccinationCertificateDetails
+import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListViewModel.Event.NavigateToVaccinationQrCodeScanScreen
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import javax.inject.Inject
 
@@ -43,7 +50,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         }
     )
 
-    private val adapter = VaccinationListAdapter()
+    private val vaccinationListAdapter = VaccinationListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,7 +60,15 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                 popBackStack()
             }
 
-            recyclerViewVaccinationList.adapter = adapter
+            recyclerViewVaccinationList.apply {
+                adapter = vaccinationListAdapter
+                onSwipeItem(requireContext()) { position, direction ->
+                    val vaccinationItem = vaccinationListAdapter.data[position]
+                    if (vaccinationItem.isSwipeable()) {
+                        vaccinationItem.onSwipe(position, direction)
+                    }
+                }
+            }
 
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
                 bindViews(uiState)
@@ -65,7 +80,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                         VaccinationListFragmentDirections
                             .actionVaccinationListFragmentToVaccinationDetailsFragment(event.vaccinationCertificateId)
                     )
-                    is VaccinationListViewModel.Event.NavigateToVaccinationQrCodeScanScreen -> doNavigate(
+                    is NavigateToVaccinationQrCodeScanScreen -> doNavigate(
                         VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationQrCodeScanFragment()
                     )
                     is VaccinationListViewModel.Event.NavigateToQrCodeFullScreen -> {
@@ -82,7 +97,14 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                             navigatorExtras
                         )
                     }
+                    is DeleteVaccinationEvent ->
+                        showDeleteVaccinationDialog(event.vaccinationCertificateId, event.position)
+                    is NavigateBack -> popBackStack()
                 }
+            }
+
+            viewModel.errors.observe(viewLifecycleOwner) { error ->
+                error.toErrorDialogBuilder(requireContext()).show()
             }
 
             registerNewVaccinationButton.setOnClickListener {
@@ -97,7 +119,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
         setToolbarOverlay()
 
-        adapter.update(listItems)
+        vaccinationListAdapter.update(listItems)
 
         val background = if (hasImmunity) {
             R.drawable.vaccination_compelete_gradient
@@ -129,6 +151,22 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         val behavior: AppBarLayout.ScrollingViewBehavior =
             layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (deviceWidth / divider) - 24
+    }
+
+    private fun showDeleteVaccinationDialog(vaccinationCertificateId: String, position: Int?) {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.vaccination_list_deletion_dialog_title)
+            setMessage(R.string.vaccination_list_deletion_dialog_message)
+            setPositiveButton(R.string.vaccination_list_deletion_dialog_positive_button) { _, _ ->
+                viewModel.deleteVaccination(vaccinationCertificateId)
+            }
+            setNegativeButton(R.string.vaccination_list_deletion_dialog_negative_button) { _, _ ->
+                position?.let { vaccinationListAdapter.notifyItemChanged(it) }
+            }
+            setOnCancelListener {
+                position?.let { vaccinationListAdapter.notifyItemChanged(it) }
+            }
+        }.show()
     }
 
     companion object {

@@ -35,6 +35,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationStatusItem
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -90,7 +91,7 @@ class HomeFragmentTest : BaseUITest() {
             every { refreshRequiredData() } just Runs
             every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
-            every { homeItems } returns MutableLiveData(emptyList())
+            every { homeItems } returns homeFragmentItemsLiveData()
             every { popupEvents } returns SingleLiveEvent()
             every { showPopUps() } just Runs
             every { restoreAppShortcuts() } just Runs
@@ -273,6 +274,51 @@ class HomeFragmentTest : BaseUITest() {
         captureHomeFragment("compatibility_ble_scan_not_supported")
     }
 
+    @Screenshot
+    @Test
+    fun captureVaccinationNoCertificate() {
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = 450))
+
+        takeScreenshot<HomeFragment>("vaccination_none")
+    }
+
+    @Screenshot
+    @Test
+    fun captureVaccinationIncomplete() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            vaccinationStatus = HomeData.Vaccination.INCOMPLETE
+        )
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+
+        takeScreenshot<HomeFragment>("vaccination_incomplete")
+    }
+
+    @Screenshot
+    @Test
+    fun captureVaccinationComplete() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            vaccinationStatus = HomeData.Vaccination.COMPLETE
+        )
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+
+        takeScreenshot<HomeFragment>("vaccination_complete")
+    }
+
+    @Screenshot
+    @Test
+    fun captureVaccinationImmunity() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            vaccinationStatus = HomeData.Vaccination.IMMUNITY
+        )
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+
+        takeScreenshot<HomeFragment>("vaccination_immunity")
+    }
+
     @After
     fun teardown() {
         clearAllViewModels()
@@ -314,7 +360,8 @@ class HomeFragmentTest : BaseUITest() {
     // LiveData item for fragments
     private fun homeFragmentItemsLiveData(
         tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS,
-        submissionTestResultItem: TestResultItem = HomeData.Submission.TEST_UNREGISTERED_ITEM
+        submissionTestResultItem: TestResultItem = HomeData.Submission.TEST_UNREGISTERED_ITEM,
+        vaccinationStatus: VaccinationStatusItem? = null,
     ): LiveData<List<HomeItem>> =
         MutableLiveData(
             mutableListOf<HomeItem>().apply {
@@ -325,8 +372,15 @@ class HomeFragmentTest : BaseUITest() {
                     }
                     else -> add(tracingStateItem)
                 }
+
+                vaccinationStatus?.let {
+                    add(it)
+                }
+
                 add(submissionTestResultItem)
+
                 add(CreateVaccinationHomeCard.Item {})
+
                 Statistics.statisticsData?.let {
                     add(StatisticsHomeCard.Item(data = it, onHelpAction = { }))
                 }

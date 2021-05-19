@@ -29,6 +29,12 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.vaccination.ui.homecard.ImmuneVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationHomeCard
+import io.mockk.every
+import io.mockk.mockk
+import org.joda.time.Duration
 import org.joda.time.Instant
 
 object HomeData {
@@ -166,6 +172,36 @@ object HomeData {
             state = SubmissionDone(
                 testRegisteredAt = Instant.now()
             ),
+            onClickAction = {}
+        )
+    }
+
+    object Vaccination {
+        val INCOMPLETE = VaccinationHomeCard.Item(
+            vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+                every { fullName } returns "Andrea Schneider"
+                every { identifier } returns mockk()
+                every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.INCOMPLETE
+                every { getTimeUntilImmunity(any()) } returns Duration.standardDays(14)
+            },
+            onClickAction = {}
+        )
+        val COMPLETE = VaccinationHomeCard.Item(
+            vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+                every { fullName } returns "Andrea Schneider"
+                every { identifier } returns mockk()
+                every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.COMPLETE
+                every { getTimeUntilImmunity(any()) } returns Duration.standardDays(14)
+            },
+            onClickAction = {}
+        )
+        val IMMUNITY = ImmuneVaccinationHomeCard.Item(
+            vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+                every { fullName } returns "Andrea Schneider"
+                every { identifier } returns mockk()
+                every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.IMMUNITY
+                every { getTimeUntilImmunity(any()) } returns Duration.standardDays(14)
+            },
             onClickAction = {}
         )
     }
