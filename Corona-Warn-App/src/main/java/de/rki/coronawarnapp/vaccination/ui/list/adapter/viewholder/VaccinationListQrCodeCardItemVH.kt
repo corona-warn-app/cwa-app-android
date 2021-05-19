@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder
 
 import android.graphics.Bitmap
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListQrcodeCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
@@ -25,15 +24,10 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
     override val onBindData: VaccinationListQrcodeCardBinding
     .(item: VaccinationListQrCodeCardItem, payloads: List<Any>) -> Unit =
         { item, _ ->
-            when (item.qrCode) {
-                null -> progressBar.isVisible = true
-                else -> {
-                    image.setImageBitmap(item.qrCode)
-                    progressBar.isVisible = false
-                    image.setOnClickListener {
-                        item.onQrCodeClick.invoke()
-                    }
-                }
+            image.setImageBitmap(item.qrCode)
+            item.qrCode?.let {
+                image.setOnClickListener { item.onQrCodeClick.invoke() }
+                progressBar.hide()
             }
             title.text = context.getString(
                 R.string.vaccination_qrcode_card_title,

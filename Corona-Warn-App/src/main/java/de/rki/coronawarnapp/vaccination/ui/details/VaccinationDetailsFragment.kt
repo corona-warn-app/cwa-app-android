@@ -61,9 +61,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.errors.observe(viewLifecycleOwner) { it.toErrorDialogBuilder(requireContext()).show() }
             viewModel.qrCode.observe(viewLifecycleOwner) {
-                qrCodeCard.progressBar.hide()
                 qrCodeCard.image.setImageBitmap(it)
-                it?.let { qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() } }
+                it?.let {
+                    qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() }
+                    qrCodeCard.progressBar.hide()
+                }
             }
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
