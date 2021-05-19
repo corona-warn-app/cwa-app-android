@@ -27,7 +27,6 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.yield
 import timber.log.Timber
 import java.io.File
-import kotlin.system.measureNanoTime
 
 @SuppressLint("LogNotTimber", "StaticFieldLeak")
 @Suppress("BlockingMethodInNonBlockingContext")
@@ -165,33 +164,27 @@ class DebugLogger(
                     // Censor data sources need a moment to know what to censor
                     delay(1000)
 
-                    measureNanoTime {
-                        val formattedMessage = rawLine.format()
-                        val censored: Collection<BugCensor.CensoredString> = bugCensors.get()
-                            .map {
-                                async {
-                                    it.checkLog(formattedMessage)
-                                }
-                            }
-                            .awaitAll()
-                            .filterNotNull()
-                            .filter { it.range != null }
-
-                        val toWrite: String = when (censored.size) {
-                            0 -> formattedMessage
-                            1 -> censored.single().string
-                            else -> {
-                                val minMin = censored.minOf { it.range!!.first }
-                                val maxMax = censored.maxOf { it.range!!.last }
-                                formattedMessage.replaceRange(minMin, maxMax, CENSOR_COLLISION_PLACERHOLDER)
+                    val formattedMessage = rawLine.format()
+                    val censored: Collection<BugCensor.CensoredString> = bugCensors.get()
+                        .map {
+                            async {
+                                it.checkLog(formattedMessage)
                             }
                         }
-                        logWriter.write(toWrite)
-                    }.also {
-                        if (it > 101106677) {
-                            Log.i("NANONANO", "$it ns")
+                        .awaitAll()
+                        .filterNotNull()
+                        .filter { it.range != null }
+
+                    val toWrite: String = when (censored.size) {
+                        0 -> formattedMessage
+                        1 -> censored.single().string
+                        else -> {
+                            val minMin = censored.minOf { it.range!!.first }
+                            val maxMax = censored.maxOf { it.range!!.last }
+                            formattedMessage.replaceRange(minMin, maxMax, CENSOR_COLLISION_PLACERHOLDER)
                         }
                     }
+                    logWriter.write(toWrite)
                 }
             }
         } catch (e: CancellationException) {

@@ -10,7 +10,7 @@ import kotlin.coroutines.CoroutineContext
 
 object DebugLoggerScope : CoroutineScope {
     val dispatcher = Executors.newFixedThreadPool(
-        2,
+        4,
         NamedThreadFactory("DebugLogger")
     ).asCoroutineDispatcher()
     override val coroutineContext: CoroutineContext = SupervisorJob() + dispatcher
