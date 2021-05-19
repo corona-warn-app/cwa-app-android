@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListQrcodeCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.list.Movable
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH.VaccinationListQrCodeCardItem
@@ -17,8 +16,7 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
     VaccinationListAdapter.ItemVH<VaccinationListQrCodeCardItem, VaccinationListQrcodeCardBinding>(
         layoutRes = R.layout.vaccination_list_qrcode_card,
         parent = parent
-    ),
-    Movable {
+    ) {
 
     override val viewBinding: Lazy<VaccinationListQrcodeCardBinding> = lazy {
         VaccinationListQrcodeCardBinding.bind(itemView)
