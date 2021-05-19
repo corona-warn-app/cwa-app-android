@@ -4,9 +4,11 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
@@ -42,6 +44,20 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         binding.apply {
             submissionTestResultButtonInvalidRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
+        }
+
+        binding.apply {
+
+            when (navArgs.testType) {
+                CoronaTest.Type.PCR -> {
+                    testResultInvalidStepsPcrAdded.isVisible = true
+                    testResultInvalidStepsRatAdded.isVisible = false
+                }
+                CoronaTest.Type.RAPID_ANTIGEN -> {
+                    testResultInvalidStepsPcrAdded.isVisible = false
+                    testResultInvalidStepsRatAdded.isVisible = true
+                }
+            }
         }
 
         viewModel.testResult.observe2(this) {
