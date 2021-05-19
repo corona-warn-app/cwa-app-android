@@ -192,7 +192,10 @@ internal class VaccinationListFragmentTest : BaseUITest() {
         vaccinatedAt = vaccinatedAt.toDayFormat(),
         vaccinationStatus = vaccinationStatus,
         isFinalVaccination = doseNumber == totalSeriesOfDoses,
-    ) {}
+        onCardClick = {},
+        onDeleteClick = {},
+        onSwipeToDelete = { _, _ -> }
+    )
 
     private fun createNameCardItem() = VaccinationListNameCardItem(
         fullName = "Max Mustermann",
