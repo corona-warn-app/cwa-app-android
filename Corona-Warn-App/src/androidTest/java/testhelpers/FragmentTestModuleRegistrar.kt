@@ -38,6 +38,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionYourConsentFragmentTestModul
 import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
 import de.rki.coronawarnapp.ui.vaccination.VaccinationConsentFragmentTestModule
 import de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragmentTestModule
+import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragmentTestModule
 
 @Module(
     includes = [
@@ -87,6 +88,7 @@ import de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragmentTes
         // Vaccination
         VaccinationDetailsFragmentTestModule::class,
         VaccinationConsentFragmentTestModule::class,
+        VaccinationListFragmentTestModule::class
     ]
 )
 class FragmentTestModuleRegistrar
