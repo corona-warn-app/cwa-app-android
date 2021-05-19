@@ -131,6 +131,7 @@ internal class DataResetTest : BaseTest() {
             ratProfileSettings.deleteProfile()
             vaccinationRepository.clear()
             vaccinationPreferences.clear()
+            valueSetsRepository.clear()
         }
     }
 }
