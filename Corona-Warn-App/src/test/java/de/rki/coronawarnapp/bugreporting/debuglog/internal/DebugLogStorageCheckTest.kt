@@ -57,8 +57,8 @@ class DebugLogStorageCheckTest : BaseTest() {
 
     @Test
     fun `on errors we print it but do expect low storage`() = runBlockingTest {
-        val unexpectedError = Exception("ಠ_ಠ")
-        every { targetPath.usableSpace } throws unexpectedError
+        val unexpectedException = IllegalThreadStateException("ಠ_ಠ")
+        every { targetPath.usableSpace } throws unexpectedException
 
         val logSlot = slot<String>()
         coEvery { logWriter.write(capture(logSlot)) } just Runs
@@ -66,7 +66,10 @@ class DebugLogStorageCheckTest : BaseTest() {
         val instance = createInstance()
         instance.isLowStorage() shouldBe true
 
-        logSlot.captured shouldContain "ಠ_ಠ"
+        logSlot.captured.apply {
+            this shouldContain "ಠ_ಠ"
+            this shouldContain "IllegalThreadStateException"
+        }
     }
 
     @Test
