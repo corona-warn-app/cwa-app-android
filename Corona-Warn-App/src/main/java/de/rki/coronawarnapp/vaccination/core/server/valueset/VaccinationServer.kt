@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.server.valueset
 
+import androidx.annotation.VisibleForTesting
 import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
@@ -15,6 +16,7 @@ import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import timber.log.Timber
+import java.io.InputStream
 import java.util.Locale
 import javax.inject.Inject
 
@@ -50,8 +52,12 @@ class VaccinationServer @Inject constructor(
             apiV1.get().getValueSets(languageCode = languageCode)
         }
 
-    private fun ResponseBody.parseBody(): ValueSetsOuterClass.ValueSets {
-        val fileMap = this.byteStream().unzip().readIntoMap()
+    private fun ResponseBody.parseBody(): ValueSetsOuterClass.ValueSets =
+        parseBody(byteStream())
+
+    @VisibleForTesting
+    internal fun parseBody(inputStream: InputStream): ValueSetsOuterClass.ValueSets {
+        val fileMap = inputStream.unzip().readIntoMap()
 
         val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
         val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
