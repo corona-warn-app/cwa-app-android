@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -21,7 +22,6 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -55,28 +55,19 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             val hasResult = !result.coronaTest.isProcessing
             binding.apply {
                 submissionTestResultSection.setTestResultSection(result.coronaTest)
-                submissionTestResultSpinner.setInvisible(hasResult)
-                submissionTestResultContent.setInvisible(!hasResult)
-                buttonContainer.setInvisible(!hasResult)
+                submissionTestResultSpinner.isInvisible = hasResult
+                submissionTestResultContent.isInvisible = !hasResult
+                buttonContainer.isInvisible = !hasResult
             }
         }
 
         binding.apply {
+            val isPcr = navArgs.testType == CoronaTest.Type.PCR
+            testResultPendingStepsWaitingAntigenResult.isVisible = !isPcr
+            testResultPendingStepsRatAdded.isVisible = !isPcr
 
-            when (navArgs.testType) {
-                CoronaTest.Type.PCR -> {
-                    testResultPendingStepsWaitingPcrResult.isVisible = true
-                    testResultPendingStepsPcrAdded.isVisible = true
-                    testResultPendingStepsWaitingAntigenResult.isVisible = false
-                    testResultPendingStepsRatAdded.isVisible = false
-                }
-                CoronaTest.Type.RAPID_ANTIGEN -> {
-                    testResultPendingStepsWaitingAntigenResult.isVisible = true
-                    testResultPendingStepsRatAdded.isVisible = true
-                    testResultPendingStepsWaitingPcrResult.isVisible = false
-                    testResultPendingStepsPcrAdded.isVisible = false
-                }
-            }
+            testResultPendingStepsWaitingPcrResult.isVisible = isPcr
+            testResultPendingStepsPcrAdded.isVisible = isPcr
         }
 
         binding.apply {
@@ -86,11 +77,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
 
             submissionTestResultButtonPendingRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
-
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
-                navigateToMainScreen()
-            }
-
+            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToMainScreen() }
             consentStatus.setOnClickListener { viewModel.onConsentClicked() }
         }
 
@@ -105,24 +92,18 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             DialogHelper.showDialog(dialog)
         }
 
-        viewModel.routeToScreen.observe2(this) {
-            it?.let { doNavigate(it) } ?: navigateToMainScreen()
-        }
-        viewModel.errorEvent.observe2(this) {
-            it.toErrorDialogBuilder(requireContext()).show()
-        }
+        viewModel.routeToScreen.observe2(this) { it?.let { doNavigate(it) } ?: navigateToMainScreen() }
+        viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
     }
 
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        viewModel.cwaWebExceptionLiveData.observeOnce(this.viewLifecycleOwner) { exception ->
-            handleError(exception)
-        }
+        viewModel.cwaWebExceptionLiveData.observeOnce(viewLifecycleOwner) { handleError(it) }
     }
 
     override fun onPause() {
-        viewModel.cwaWebExceptionLiveData.removeObservers(this.viewLifecycleOwner)
+        viewModel.cwaWebExceptionLiveData.removeObservers(viewLifecycleOwner)
         errorDialog?.dismiss()
         super.onPause()
     }

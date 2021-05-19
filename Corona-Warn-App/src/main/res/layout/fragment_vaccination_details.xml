@@ -107,7 +107,7 @@
 
             <include
                 android:id="@+id/qr_code_card"
-                layout="@layout/vaccination_list_certificate_card"
+                layout="@layout/vaccination_list_qrcode_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"

@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder
 
+import android.view.Gravity
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListVaccinationCardBinding
+import de.rki.coronawarnapp.util.list.SwipeConsumer
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.IMMUNITY
@@ -42,37 +45,44 @@ class VaccinationListVaccinationCardItemVH(
             )
 
             val iconRes = when (vaccinationStatus) {
-                INCOMPLETE -> {
-                    if (isFinalVaccination) {
-                        R.drawable.ic_vaccination_incomplete_final
-                    } else {
-                        R.drawable.ic_vaccination_incomplete
-                    }
+                INCOMPLETE, COMPLETE -> {
+                    R.drawable.ic_vaccination_incomplete
                 }
-                COMPLETE -> {
+                IMMUNITY -> {
                     if (isFinalVaccination) {
                         R.drawable.ic_vaccination_complete_final
                     } else {
                         R.drawable.ic_vaccination_complete
                     }
                 }
-                IMMUNITY -> {
-                    throw NotImplementedError()
-                }
             }
             vaccinationIcon.setImageResource(iconRes)
+
+            val menu = PopupMenu(context, overflowMenu, Gravity.TOP or Gravity.END).apply {
+                inflate(R.menu.menu_vaccination_item)
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menu_delete -> item.onDeleteClick(item.vaccinationCertificateId).let { true }
+                        else -> false
+                    }
+                }
+            }
+
+            overflowMenu.setOnClickListener { menu.show() }
         }
     }
 
     data class VaccinationListVaccinationCardItem(
         val vaccinationCertificateId: String,
-        val doseNumber: String,
-        val totalSeriesOfDoses: String,
+        val doseNumber: Int,
+        val totalSeriesOfDoses: Int,
         val vaccinatedAt: String,
         val vaccinationStatus: VaccinatedPerson.Status,
         val isFinalVaccination: Boolean,
-        val onCardClick: (String) -> Unit
-    ) : VaccinationListItem {
+        val onCardClick: (String) -> Unit,
+        val onDeleteClick: (String) -> Unit,
+        val onSwipeToDelete: (String, Int) -> Unit
+    ) : VaccinationListItem, SwipeConsumer {
 
         override val stableId: Long = Objects.hash(
             vaccinationCertificateId,
@@ -82,6 +92,8 @@ class VaccinationListVaccinationCardItemVH(
             vaccinationStatus,
             isFinalVaccination
         ).toLong()
+
+        override fun onSwipe(position: Int, direction: Int) = onSwipeToDelete(vaccinationCertificateId, position)
 
         // Ignore onCardClick Listener in equals() to avoid re-drawing when only the click listener is updated
         override fun equals(other: Any?): Boolean {

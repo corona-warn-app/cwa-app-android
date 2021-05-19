@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.certificate.CoseCertificateHeader
@@ -16,6 +15,7 @@ import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import de.rki.coronawarnapp.vaccination.core.server.valueset.getDisplayText
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import java.util.Locale
 
 @Keep
 data class VaccinationContainer internal constructor(
@@ -32,7 +32,7 @@ data class VaccinationContainer internal constructor(
     constructor() : this("", Instant.EPOCH)
 
     @delegate:Transient
-    private val certificateData: VaccinationCertificateData by lazy {
+    internal val certificateData: VaccinationCertificateData by lazy {
         preParsedData ?: qrCodeExtractor.extract(vaccinationQrCode).parsedData
     }
 
@@ -81,8 +81,11 @@ data class VaccinationContainer internal constructor(
 
         override val certificateIssuer: String
             get() = vaccination.certificateIssuer
-        override val certificateCountry: Country
-            get() = Country.values().singleOrNull { it.code == vaccination.countryOfVaccination } ?: Country.DE
+        override val certificateCountry: String
+            get() = Locale(
+                Locale.getDefault().language,
+                vaccination.countryOfVaccination.uppercase()
+            ).displayCountry
         override val certificateId: String
             get() = vaccination.uniqueCertificateIdentifier
 

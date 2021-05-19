@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.vaccination.core
 
-import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.vaccination.core.qrcode.QrCodeString
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -20,7 +19,7 @@ interface VaccinationCertificate {
     val totalSeriesOfDoses: Int
 
     val certificateIssuer: String
-    val certificateCountry: Country
+    val certificateCountry: String
     val certificateId: String
 
     val personIdentifier: VaccinatedPersonIdentifier

@@ -46,29 +46,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_illustration_test" />
-
-                <TextView
-                    android:id="@+id/submission_dispatcher_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:text="@string/submission_dispatcher_subheadline"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_illustration" />
-
-                <TextView
-                    android:id="@+id/submission_dispatcher_needs_testing_text"
-                    style="@style/headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:text="@string/submission_dispatcher_needs_testing_subheadline"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_text" />
+                    app:srcCompat="@drawable/ic_register_test_illustration" />
 
                 <include
                     android:id="@+id/submission_dispatcher_qr"
@@ -83,7 +61,7 @@
                     app:illustration="@{@drawable/ic_submission_illustration_qr_code_card}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_needs_testing_text" />
+                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_illustration" />
 
                 <!-- Card layout is inflated lazily based on the profile state-->
                 <ViewStub
