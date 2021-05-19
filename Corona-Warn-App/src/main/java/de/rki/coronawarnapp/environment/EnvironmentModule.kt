@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.environment.bugreporting.BugReportingServerModule
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNModule
 import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.environment.submission.SubmissionCDNModule
-import de.rki.coronawarnapp.environment.vaccination.VaccinationCertificateUrlModule
 import de.rki.coronawarnapp.environment.verification.VerificationCDNModule
 
 @Module(
@@ -14,8 +13,7 @@ import de.rki.coronawarnapp.environment.verification.VerificationCDNModule
         SubmissionCDNModule::class,
         VerificationCDNModule::class,
         DataDonationCDNModule::class,
-        BugReportingServerModule::class,
-        VaccinationCertificateUrlModule::class
+        BugReportingServerModule::class
     ]
 )
 class EnvironmentModule
