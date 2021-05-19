@@ -81,7 +81,8 @@ internal class VaccinationListFragmentTest : BaseUITest() {
 
         val listItems = listOf(
             createQrCodeCardItem(
-                doseNumber = 1, totalSeriesOfDoses = 2
+                doseNumber = 1,
+                totalSeriesOfDoses = 2
             ),
             createNameCardItem(),
             createVaccinationCardItem(
