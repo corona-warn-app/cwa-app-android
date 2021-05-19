@@ -68,7 +68,6 @@ class EnvironmentSetupTest : BaseTest() {
                 dataDonationCdnUrl shouldBe "https://datadonation-${env.rawKey}"
                 logUploadServerUrl shouldBe "https://logupload-${env.rawKey}"
                 crowdNotifierPublicKey shouldBe "123_abc-${env.rawKey}"
-                vaccinationCdnUrl shouldBe "https://vaccination-${env.rawKey}"
             }
         }
     }
@@ -128,8 +127,7 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.EnvKey.LOG_UPLOAD.rawKey shouldBe "LOG_UPLOAD_SERVER_URL"
         EnvironmentSetup.EnvKey.SAFETYNET_API_KEY.rawKey shouldBe "SAFETYNET_API_KEY"
         EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY.rawKey shouldBe "CROWD_NOTIFIER_PUBLIC_KEY"
-        EnvironmentSetup.EnvKey.VACCINATION_VALUE.rawKey shouldBe "VACCINATION_CDN_URL"
-        EnvironmentSetup.EnvKey.values().size shouldBe 10
+        EnvironmentSetup.EnvKey.values().size shouldBe 9
     }
 
     companion object {
