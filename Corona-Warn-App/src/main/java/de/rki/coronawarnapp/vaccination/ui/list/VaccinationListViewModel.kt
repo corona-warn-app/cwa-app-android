@@ -45,6 +45,7 @@ class VaccinationListViewModel @AssistedInject constructor(
     }
 
     val events = SingleLiveEvent<Event>()
+    val errors = SingleLiveEvent<Throwable>()
 
     private val vaccinatedPersonFlow = vaccinationRepository.vaccinationInfos.map { vaccinatedPersonSet ->
         vaccinatedPersonSet.single { it.identifier.codeSHA256 == personIdentifierCodeSha256 }
@@ -149,6 +150,7 @@ class VaccinationListViewModel @AssistedInject constructor(
             try {
                 vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
             } catch (exception: Exception) {
+                errors.postValue(exception)
                 Timber.e(exception, "Something went wrong when trying to delete a vaccination certificate.")
             }
         }

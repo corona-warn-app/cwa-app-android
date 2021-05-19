@@ -13,6 +13,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentVaccinationListBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
@@ -100,6 +101,10 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                         showDeleteVaccinationDialog(event.vaccinationCertificateId, event.position)
                     is NavigateBack -> popBackStack()
                 }
+            }
+
+            viewModel.errors.observe(viewLifecycleOwner) { error ->
+                error.toErrorDialogBuilder(requireContext()).show()
             }
 
             registerNewVaccinationButton.setOnClickListener {
