@@ -166,7 +166,7 @@ class TaskControllerTest : BaseIOTest() {
         arguments.path.exists() shouldBe true
 
         val lastProgressMessage = progressCollector.latestValue!!.primaryMessage.get(mockk())
-       // TODO lastProgressMessage shouldBe arguments.values.last()
+        // TODO lastProgressMessage shouldBe arguments.values.last()
 
         infoFinished.apply {
 
