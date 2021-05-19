@@ -146,7 +146,11 @@ class VaccinationListViewModel @AssistedInject constructor(
 
     fun deleteVaccination(vaccinationCertificateId: String) {
         launch(scope = appScope) {
-            vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
+            try {
+                vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
+            } catch (exception: Exception) {
+                Timber.e(exception, "Something went wrong when trying to delete a vaccination certificate.")
+            }
         }
     }
 
