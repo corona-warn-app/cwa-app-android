@@ -49,6 +49,7 @@ class SubmissionSymptomIntroductionFragment :
         uploadDialog = SubmissionBlockingDialog(requireContext())
 
         viewModel.navigation.observe2(this) {
+            uploadDialog.setState(show = false)
             doNavigate(it)
         }
 

@@ -13,9 +13,21 @@ import com.google.android.material.tabs.TabLayout
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 
-fun recyclerScrollTo(position: Int? = null): ViewAction = RecyclerViewScrollAction(position)
+fun recyclerScrollTo(
+    position: Int? = null,
+    additionalX: Int = 0,
+    additionalY: Int = 0,
+): ViewAction = RecyclerViewScrollAction(
+    position = position,
+    additionalX = additionalX,
+    additionalY = additionalY
+)
 
-private class RecyclerViewScrollAction(private val position: Int? = null) : ViewAction {
+private class RecyclerViewScrollAction(
+    private val position: Int? = null,
+    private val additionalX: Int = 0,
+    private val additionalY: Int = 0,
+) : ViewAction {
     override fun getDescription(): String {
         return "scroll RecyclerView to bottom"
     }
@@ -29,6 +41,8 @@ private class RecyclerViewScrollAction(private val position: Int? = null) : View
         val itemCount = recyclerView.adapter?.itemCount
         val itemPosition = position ?: itemCount?.minus(1) ?: 0
         recyclerView.scrollToPosition(itemPosition)
+        uiController.loopMainThreadUntilIdle()
+        recyclerView.scrollBy(additionalX, additionalY)
         uiController.loopMainThreadUntilIdle()
     }
 }
