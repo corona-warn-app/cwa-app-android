@@ -17,26 +17,22 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Record Troubleshooting Logs"</item>
-        <item>"Create Rapid Test Profiles"</item>
+        <item>Digitaler Impfnachweis</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now generate an error log in the technical support feature for the app. It records the steps that you perform in the app, to simplify the analysis of potential errors and help us correct them more quickly."</item>
-        <item>"You can now create a rapid test profile in your personal data. Your profile can then be scanned at testing points quickly and easily via QR code."</item>
+        <item>Sie können jetzt Ihre Impfzertifikate in der App hinzufügen und per QR-Code vorweisen. 14 Tage nach der letzten Impfung zeigt die App den vollständigen Impfschutz an.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item />
-        <item />
+        <item></item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item />
-        <item />
+        <item></item>
     </string-array>
 
 </resources>
