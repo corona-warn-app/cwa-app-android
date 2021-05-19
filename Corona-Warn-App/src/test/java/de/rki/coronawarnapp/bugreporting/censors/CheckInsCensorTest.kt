@@ -58,23 +58,24 @@ internal class CheckInsCensorTest : BaseTest() {
 
         val censor = createInstance(this)
 
-        val logLineToCensor = """
-                Let's go to Moe's Tavern in Near 742 Evergreen Terrace, 12345 Springfield.
-                Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
-                """.trimIndent()
+        val logLineToCensor =
+            """
+            Let's go to Moe's Tavern in Near 742 Evergreen Terrace, 12345 Springfield.
+            Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
+            """.trimIndent()
 
         censor.checkLog(logLineToCensor)!!.string shouldBe """
-                Let's go to CheckIn#1/Description in CheckIn#1/Address.
-                Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
-                """.trimIndent()
+            Let's go to CheckIn#1/Description in CheckIn#1/Address.
+            Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
+        """.trimIndent()
 
         // censoring should still work after user deletes his check-ins
         every { checkInsRepo.allCheckIns } returns flowOf(emptyList())
 
         censor.checkLog(logLineToCensor)!!.string shouldBe """
-                Let's go to CheckIn#1/Description in CheckIn#1/Address.
-                Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
-                """.trimIndent()
+            Let's go to CheckIn#1/Description in CheckIn#1/Address.
+            Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
+        """.trimIndent()
     }
 
     @Test

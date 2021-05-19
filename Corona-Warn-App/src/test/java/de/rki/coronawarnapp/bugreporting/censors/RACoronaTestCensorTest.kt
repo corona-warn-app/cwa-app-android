@@ -44,20 +44,23 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
         val censor = createInstance(this)
 
-        val logLineToCensor = """
-                Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
-                """.trimIndent()
+        val logLineToCensor =
+            """
+            Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
+            """.trimIndent()
 
-        censor.checkLog(logLineToCensor)!!.string shouldBe """
-                Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
-                """.trimIndent()
+        censor.checkLog(logLineToCensor)!!.string shouldBe
+            """
+            Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
+            """.trimIndent()
 
         // censoring should still work when test gets deleted
         every { coronaTestRepository.coronaTests } returns flowOf(emptySet())
 
-        censor.checkLog(logLineToCensor)!!.string shouldBe """
-                Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
-                """.trimIndent()
+        censor.checkLog(logLineToCensor)!!.string shouldBe
+            """
+            Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
+            """.trimIndent()
     }
 
     @Test

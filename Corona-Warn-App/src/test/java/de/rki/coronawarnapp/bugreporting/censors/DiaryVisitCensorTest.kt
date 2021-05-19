@@ -49,24 +49,27 @@ class DiaryVisitCensorTest : BaseTest() {
             )
         )
         val instance = createInstance(this)
-        val censorMe = """
-                After having a Döner that was too spicy,
-                I got my beard shaved without mask,
-                only to find out the supermarket was out of toiletpaper.
-                """.trimIndent()
-        instance.checkLog(censorMe)!!.string shouldBe """
-                After having a Visit#1/Circumstances,
-                I got my Visit#2/Circumstances,
-                only to find out the supermarket was Visit#3/Circumstances.
-                """.trimIndent()
+        val censorMe =
+            """
+            After having a Döner that was too spicy,
+            I got my beard shaved without mask,
+            only to find out the supermarket was out of toiletpaper.
+            """.trimIndent()
+        instance.checkLog(censorMe)!!.string shouldBe
+            """
+            After having a Visit#1/Circumstances,
+            I got my Visit#2/Circumstances,
+            only to find out the supermarket was Visit#3/Circumstances.
+            """.trimIndent()
 
         // censoring should still work even after visits are deleted
         every { diaryRepo.locationVisits } returns flowOf(emptyList())
-        instance.checkLog(censorMe)!!.string shouldBe """
-                After having a Visit#1/Circumstances,
-                I got my Visit#2/Circumstances,
-                only to find out the supermarket was Visit#3/Circumstances.
-                """.trimIndent()
+        instance.checkLog(censorMe)!!.string shouldBe
+            """
+            After having a Visit#1/Circumstances,
+            I got my Visit#2/Circumstances,
+            only to find out the supermarket was Visit#3/Circumstances.
+            """.trimIndent()
     }
 
     @Test

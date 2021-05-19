@@ -50,25 +50,28 @@ class DiaryEncounterCensorTest : BaseTest() {
         )
 
         val instance = createInstance(this)
-        val censorMe = """
-                On A rainy day,
-                two persons Spilled coffee on each others laptops,
-                everyone disliked that.
-                """.trimIndent()
+        val censorMe =
+            """
+            On A rainy day,
+            two persons Spilled coffee on each others laptops,
+            everyone disliked that.
+            """.trimIndent()
 
-        instance.checkLog(censorMe)!!.string shouldBe """
-                    On Encounter#2/Circumstances,
-                    two persons Encounter#3/Circumstances,
-                    everyone disliked that.
-                """.trimIndent()
+        instance.checkLog(censorMe)!!.string shouldBe
+            """
+            On Encounter#2/Circumstances,
+            two persons Encounter#3/Circumstances,
+            everyone disliked that.
+            """.trimIndent()
 
         // censoring should still work after encounters are deleted
         every { diaryRepo.personEncounters } returns flowOf(emptyList())
-        instance.checkLog(censorMe)!!.string shouldBe """
-                    On Encounter#2/Circumstances,
-                    two persons Encounter#3/Circumstances,
-                    everyone disliked that.
-                """.trimIndent()
+        instance.checkLog(censorMe)!!.string shouldBe
+            """
+            On Encounter#2/Circumstances,
+            two persons Encounter#3/Circumstances,
+            everyone disliked that.
+            """.trimIndent()
     }
 
     @Test
