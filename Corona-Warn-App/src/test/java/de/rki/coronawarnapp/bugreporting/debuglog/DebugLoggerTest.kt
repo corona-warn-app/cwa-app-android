@@ -184,7 +184,7 @@ class DebugLoggerTest : BaseIOTest() {
             Timber.tag("Tag123").v("Message456")
             advanceTimeBy(2000L)
 
-            runningLog.readLines().last().substring(26) shouldBe """
+            runningLog.readLines().last().substring(25) shouldBe """
                 V/Tag123: Message456
             """.trimIndent()
 
@@ -214,7 +214,7 @@ class DebugLoggerTest : BaseIOTest() {
         testCollector.latestValue shouldBe LogState(
             isLogging = true,
             isLowStorage = false,
-            logSize = 78L
+            logSize = 77L
         )
 
         instance.stop()
