@@ -10,6 +10,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -22,25 +23,29 @@ import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationLi
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListNameCardItemVH.VaccinationListNameCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH.VaccinationListQrCodeCardItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
+import timber.log.Timber
 
 class VaccinationListViewModel @AssistedInject constructor(
-    vaccinationRepository: VaccinationRepository,
+    private val vaccinationRepository: VaccinationRepository,
     valueSetsRepository: ValueSetsRepository,
     @AppContext context: Context,
+    @AppScope private val appScope: CoroutineScope,
     private val qrCodeGenerator: QrCodeGenerator,
     @Assisted private val personIdentifierCodeSha256: String
 ) : CWAViewModel() {
 
     init {
-        valueSetsRepository.reloadValueSet(languageCode = context.getLocale())
+        valueSetsRepository.triggerUpdateValueSet(languageCode = context.getLocale())
     }
 
     val events = SingleLiveEvent<Event>()
+    val errors = SingleLiveEvent<Throwable>()
 
     private val vaccinatedPersonFlow = vaccinationRepository.vaccinationInfos.map { vaccinatedPersonSet ->
         vaccinatedPersonSet.single { it.identifier.codeSHA256 == personIdentifierCodeSha256 }
@@ -59,8 +64,17 @@ class VaccinationListViewModel @AssistedInject constructor(
             listItems = assembleItemList(vaccinatedPerson = vaccinatedPerson, qrCode),
             vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
         )
-    }.catch {
-        // TODO Error Handling in an upcoming subtask
+    }.catch { exception ->
+        when (exception) {
+            is NoSuchElementException -> {
+                Timber.d(exception, "Seems like all vaccination certificates got deleted. Navigate back ...")
+                events.postValue(Event.NavigateBack)
+            }
+            else -> {
+                Timber.e(exception, "Something unexpected went wrong... Let's navigate back...")
+                events.postValue(Event.NavigateBack)
+            }
+        }
     }.asLiveData()
 
     private fun assembleItemList(vaccinatedPerson: VaccinatedPerson, qrCode: Bitmap?) =
@@ -102,7 +116,7 @@ class VaccinationListViewModel @AssistedInject constructor(
                 }
             }
 
-            vaccinatedPerson.vaccinationCertificates.forEach { vaccinationCertificate ->
+            vaccinatedPerson.vaccinationCertificates.sortedBy { it.vaccinatedAt }.forEach { vaccinationCertificate ->
                 with(vaccinationCertificate) {
                     add(
                         VaccinationListVaccinationCardItem(
@@ -114,6 +128,12 @@ class VaccinationListViewModel @AssistedInject constructor(
                             isFinalVaccination = doseNumber == totalSeriesOfDoses,
                             onCardClick = { certificateId ->
                                 events.postValue(Event.NavigateToVaccinationCertificateDetails(certificateId))
+                            },
+                            onDeleteClick = { certificateId ->
+                                events.postValue(Event.DeleteVaccinationEvent(certificateId))
+                            },
+                            onSwipeToDelete = { certificateId, position ->
+                                events.postValue(Event.DeleteVaccinationEvent(certificateId, position))
                             }
                         )
                     )
@@ -125,6 +145,17 @@ class VaccinationListViewModel @AssistedInject constructor(
         events.postValue(Event.NavigateToVaccinationQrCodeScanScreen)
     }
 
+    fun deleteVaccination(vaccinationCertificateId: String) {
+        launch(scope = appScope) {
+            try {
+                vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
+            } catch (exception: Exception) {
+                errors.postValue(exception)
+                Timber.e(exception, "Something went wrong when trying to delete a vaccination certificate.")
+            }
+        }
+    }
+
     data class UiState(
         val listItems: List<VaccinationListItem>,
         val vaccinationStatus: VaccinatedPerson.Status
@@ -134,6 +165,8 @@ class VaccinationListViewModel @AssistedInject constructor(
         data class NavigateToVaccinationCertificateDetails(val vaccinationCertificateId: String) : Event()
         object NavigateToVaccinationQrCodeScanScreen : Event()
         data class NavigateToQrCodeFullScreen(val qrCode: String, val positionInList: Int) : Event()
+        data class DeleteVaccinationEvent(val vaccinationCertificateId: String, val position: Int? = null) : Event()
+        object NavigateBack : Event()
     }
 
     @AssistedFactory
