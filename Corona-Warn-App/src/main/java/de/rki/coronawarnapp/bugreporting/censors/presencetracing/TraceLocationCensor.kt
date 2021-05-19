@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.bugreporting.censors.presencetracing
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidAddress
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidDescription
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.presencetracing.locations.TraceLocationUserInput
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
@@ -38,21 +40,21 @@ class TraceLocationCensor @Inject constructor(
         ).filterNotNull()
     }
 
-    override suspend fun checkLog(entry: LogLine): LogLine? {
+    override suspend fun checkLog(message: String): CensoredString? {
 
         val traceLocations = traceLocationsFlow.first()
 
-        var newLogMsg = traceLocations.fold(entry.message) { initial, traceLocation ->
+        var newLogMsg = traceLocations.fold(CensoredString(message)) { initial, traceLocation ->
             var acc = initial
 
-            acc = acc.replace(traceLocation.type.name, "TraceLocation#${traceLocation.id}/Type")
+            acc += acc.censor(traceLocation.type.name, "TraceLocation#${traceLocation.id}/Type")
 
             withValidDescription(traceLocation.description) { description ->
-                acc = acc.replace(description, "TraceLocation#${traceLocation.id}/Description")
+                acc += acc.censor(description, "TraceLocation#${traceLocation.id}/Description")
             }
 
             withValidAddress(traceLocation.address) { address ->
-                acc = acc.replace(address, "TraceLocation#${traceLocation.id}/Address")
+                acc += acc.censor(address, "TraceLocation#${traceLocation.id}/Address")
             }
 
             acc
@@ -60,18 +62,18 @@ class TraceLocationCensor @Inject constructor(
 
         val inputDataToCensor = dataToCensor
         if (inputDataToCensor != null) {
-            newLogMsg = newLogMsg.replace(inputDataToCensor.type.name, "TraceLocationUserInput#Type")
+            newLogMsg += newLogMsg.censor(inputDataToCensor.type.name, "TraceLocationUserInput#Type")
 
             withValidDescription(inputDataToCensor.description) {
-                newLogMsg = newLogMsg.replace(inputDataToCensor.description, "TraceLocationUserInput#Description")
+                newLogMsg += newLogMsg.censor(inputDataToCensor.description, "TraceLocationUserInput#Description")
             }
 
             withValidAddress(inputDataToCensor.address) {
-                newLogMsg = newLogMsg.replace(inputDataToCensor.address, "TraceLocationUserInput#Address")
+                newLogMsg += newLogMsg.censor(inputDataToCensor.address, "TraceLocationUserInput#Address")
             }
         }
 
-        return entry.toNewLogLineIfDifferent(newLogMsg)
+        return newLogMsg.toNullIfUnmodified()
     }
 
     companion object {

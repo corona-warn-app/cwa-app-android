@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.internal
 
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
+import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -34,8 +34,8 @@ class LogWriter @Inject constructor(val logFile: File) {
         updateLogSize()
     }
 
-    suspend fun write(line: LogLine) = mutex.withLock {
-        val formattedLine = line.format()
+    suspend fun write(formattedLine: String) = mutex.withLock {
+        Log.i("#####", formattedLine)
         logFile.appendText(formattedLine, Charsets.UTF_8)
 
         if (ioLimiter % 10 == 0) {

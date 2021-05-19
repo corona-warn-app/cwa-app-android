@@ -64,23 +64,23 @@ class DebugLogStorageCheck @Inject constructor(
 
     companion object {
         private const val TAG = DebugLogger.TAG
-        private val createStorageCheckErrorLine: (Throwable) -> LogLine = {
+        private val createStorageCheckErrorLine: (Throwable) -> String = {
             LogLine(
                 timestamp = System.currentTimeMillis(),
                 priority = Log.ERROR,
                 tag = TAG,
                 message = "Low storage check failed.",
                 throwable = it
-            )
+            ).format()
         }
-        private val createLowStorageLogLine: () -> LogLine = {
+        private val createLowStorageLogLine: () -> String = {
             LogLine(
                 timestamp = System.currentTimeMillis(),
                 priority = Log.WARN,
                 tag = TAG,
                 message = "Low storage, debug logger halted.",
                 throwable = null
-            )
+            ).format()
         }
     }
 }

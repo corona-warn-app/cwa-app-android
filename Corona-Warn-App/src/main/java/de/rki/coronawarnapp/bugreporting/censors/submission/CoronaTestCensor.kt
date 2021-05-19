@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.bugreporting.censors.submission
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import kotlinx.coroutines.CoroutineScope
@@ -40,23 +42,24 @@ class CoronaTestCensor @Inject constructor(
         }
     }
 
-    override suspend fun checkLog(entry: LogLine): LogLine? = mutex.withLock {
+    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
         coronaTestFlow.first()
 
-        var newMessage = entry.message
-        for (token in tokenHistory) {
-            if (!entry.message.contains(token)) continue
+        var newMessage = CensoredString(message)
 
-            newMessage = newMessage.replace(token, PLACEHOLDER + token.takeLast(4))
+        for (token in tokenHistory) {
+            if (!message.contains(token)) continue
+
+            newMessage += newMessage.censor(token, PLACEHOLDER + token.takeLast(4))
         }
 
         identifierHistory
-            .filter { entry.message.contains(it) }
+            .filter { message.contains(it) }
             .forEach {
-                newMessage = newMessage.replace(it, "${it.take(11)}CoronaTest/Identifier")
+                newMessage += newMessage.censor(it, "${it.take(11)}CoronaTest/Identifier")
             }
 
-        return entry.toNewLogLineIfDifferent(newMessage)
+        return newMessage.toNullIfUnmodified()
     }
 
     companion object {

@@ -22,7 +22,7 @@ object CWADebug {
         if (isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
 
         if (isDeviceForTestersBuild) {
-            Timber.plant(Timber.DebugTree())
+//            Timber.plant(Timber.DebugTree())
         }
 
         setupExceptionHandler()
