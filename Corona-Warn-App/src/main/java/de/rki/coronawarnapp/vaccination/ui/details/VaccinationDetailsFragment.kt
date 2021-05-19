@@ -101,12 +101,12 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         )
         // QrCode details
         qrCodeCard.title.text = getString(
-            R.string.vaccination_qr_code_card_title,
+            R.string.vaccination_qrcode_card_title,
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
         )
         qrCodeCard.subtitle.text = getString(
-            R.string.vaccination_qr_code_card_subtitle,
+            R.string.vaccination_qrcode_card_subtitle,
             certificate.vaccinatedAt.toString(format),
             certificate.expiresAt.toString(format)
         )
