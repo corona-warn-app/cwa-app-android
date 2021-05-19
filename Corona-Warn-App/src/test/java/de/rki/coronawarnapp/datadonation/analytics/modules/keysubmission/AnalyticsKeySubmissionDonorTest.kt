@@ -62,8 +62,8 @@ class AnalyticsKeySubmissionDonorTest : BaseTest() {
     fun `regular contribution when keys submitted`() {
         every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
         every { repository.advancedConsentGiven } returns true
-        every { repository.daysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
-        every { repository.hoursSinceHighRiskWarningAtTestRegistration } returns 1
+        every { repository.daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration } returns 1
+        every { repository.hoursSinceEwHighRiskWarningAtTestRegistration } returns 1
         every { repository.hoursSinceTestResult } returns 1
         every { repository.hoursSinceTestRegistration } returns 1
         every { repository.lastSubmissionFlowScreen } returns 1

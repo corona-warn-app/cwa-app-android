@@ -92,6 +92,11 @@ abstract class AnalyticsKeySubmissionStorage(
         defaultValue = -1
     )
 
+    val submittedWithCheckIns = prefs.createFlowPreference(
+        key = "analytics_key_submission_submittedWithCheckIns",
+        defaultValue = false
+    )
+
     fun clear() {
         prefs.clearAndNotify()
     }

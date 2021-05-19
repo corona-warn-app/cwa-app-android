@@ -169,11 +169,8 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("Submitting %s", submissionData)
         playbook.submit(submissionData)
 
-        // PPA will only be used for PCR tests for now
-        if (coronaTest.type == PCR) {
-            analyticsKeySubmissionCollector.reportSubmitted()
-            if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground()
-        }
+        analyticsKeySubmissionCollector.reportSubmitted(coronaTest.type)
+        if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground(coronaTest.type)
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()

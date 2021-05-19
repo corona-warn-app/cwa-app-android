@@ -11,16 +11,35 @@ import javax.inject.Singleton
 
 @Singleton
 class AnalyticsKeySubmissionDonor @Inject constructor(
+    pcrRepository: AnalyticsPCRKeySubmissionRepository,
+    raRepository: AnalyticsRAKeySubmissionRepository,
+    timeStamper: TimeStamper
+) : DonorModule {
+
+    val pcrDonor = BaseAnalyticsKeySubmissionDonor(pcrRepository, timeStamper)
+    val raDonor = BaseAnalyticsKeySubmissionDonor(raRepository, timeStamper)
+
+    override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
+        return if (pcrDonor.shouldSubmitData(request))
+            pcrDonor.beginDonation(request)
+        else
+            raDonor.beginDonation(request)
+    }
+
+    override suspend fun deleteData() {
+        pcrDonor.deleteData()
+        raDonor.deleteData()
+    }
+}
+
+class BaseAnalyticsKeySubmissionDonor(
     private val repository: AnalyticsKeySubmissionRepository,
     private val timeStamper: TimeStamper
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
 
-        val hours = request.currentConfig.analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata
-        val timeSinceTestResultToSubmit = Duration.standardHours(hours.toLong())
-
-        return if (shouldSubmitData(timeSinceTestResultToSubmit)) {
+        return if (shouldSubmitData(request)) {
             object : DonorModule.Contribution {
                 override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
                     val data = createContribution()
@@ -40,10 +59,16 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
         PpaData.PPAKeySubmissionMetadata.newBuilder()
             .setAdvancedConsentGiven(repository.advancedConsentGiven)
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                repository.daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+                repository.daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration
             )
             .setHoursSinceHighRiskWarningAtTestRegistration(
-                repository.hoursSinceHighRiskWarningAtTestRegistration
+                repository.hoursSinceEwHighRiskWarningAtTestRegistration
+            )
+            .setPtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+                repository.daysSinceMostRecentDateAtPtRiskLevelAtTestRegistration
+            )
+            .setPtHoursSinceHighRiskWarningAtTestRegistration(
+                repository.hoursSincePtHighRiskWarningAtTestRegistration
             )
             .setHoursSinceTestResult(repository.hoursSinceTestResult)
             .setHoursSinceTestRegistration(repository.hoursSinceTestRegistration)
@@ -53,9 +78,12 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
             .setSubmittedAfterCancel(repository.submittedAfterCancel)
             .setSubmittedInBackground(repository.submittedInBackground)
             .setSubmittedWithTeleTAN(repository.submittedWithTeleTAN)
+            .setSubmittedAfterRapidAntigenTest(repository.submittedAfterRAT)
+            .setSubmittedWithCheckIns(repository.submittedWithCheckIns)
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
+    fun shouldSubmitData(request: DonorModule.Request): Boolean {
+        val hours = request.currentConfig.analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata
+        val timeSinceTestResultToSubmit = Duration.standardHours(hours.toLong())
         return positiveTestResultReceived && (
             keysSubmitted || enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit)
             )

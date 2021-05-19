@@ -3,9 +3,23 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 import org.joda.time.Duration
 import javax.inject.Inject
 
-class AnalyticsKeySubmissionRepository @Inject constructor(
+class AnalyticsPCRKeySubmissionRepository @Inject constructor(
+    storage: AnalyticsPCRKeySubmissionStorage
+) : AnalyticsKeySubmissionRepository(storage) {
+    override val submittedAfterRAT: Boolean = false
+}
+
+class AnalyticsRAKeySubmissionRepository @Inject constructor(
+    storage: AnalyticsRAKeySubmissionStorage
+) : AnalyticsKeySubmissionRepository(storage) {
+    override val submittedAfterRAT: Boolean = true
+}
+
+abstract class AnalyticsKeySubmissionRepository(
     private val storage: AnalyticsKeySubmissionStorage
 ) {
+    abstract val submittedAfterRAT: Boolean
+
     val testResultReceivedAt: Long
         get() = storage.testResultReceivedAt.value
 
@@ -52,11 +66,20 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
             return Duration.millis(submittedAt - testRegisteredAt).toStandardHours().hours
         }
 
-    val daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
+    val daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration: Int
         get() = storage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
 
-    val hoursSinceHighRiskWarningAtTestRegistration: Int
+    val hoursSinceEwHighRiskWarningAtTestRegistration: Int
         get() = storage.hoursSinceHighRiskWarningAtTestRegistration.value
+
+    val daysSinceMostRecentDateAtPtRiskLevelAtTestRegistration: Int
+        get() = TODO()
+
+    val hoursSincePtHighRiskWarningAtTestRegistration: Int
+        get() = TODO()
+
+    val submittedWithCheckIns: Boolean
+        get() = storage.submittedWithCheckIns.value
 
     fun reset() = storage.clear()
 }
