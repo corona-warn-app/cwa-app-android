@@ -1,11 +1,12 @@
 package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationDateOfBirthMissmatchException
-import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationNameMissmatchException
 import org.joda.time.LocalDate
+import timber.log.Timber
 
 data class VaccinatedPersonIdentifier(
     val dateOfBirth: LocalDate,
@@ -33,19 +34,16 @@ data class VaccinatedPersonIdentifier(
 
     fun requireMatch(other: VaccinatedPersonIdentifier) {
         if (lastNameStandardized != other.lastNameStandardized) {
-            throw VaccinationNameMissmatchException(
-                "Family name does not match, got ${other.lastNameStandardized}, expected $lastNameStandardized"
-            )
+            Timber.d("Family name does not match, got ${other.lastNameStandardized}, expected $lastNameStandardized")
+            throw InvalidHealthCertificateException(ErrorCode.VC_NAME_MISMATCH)
         }
         if (firstNameStandardized != other.firstNameStandardized) {
-            throw VaccinationNameMissmatchException(
-                "Given name does not match, got ${other.firstNameStandardized}, expected $firstNameStandardized"
-            )
+            Timber.d("Given name does not match, got ${other.firstNameStandardized}, expected $firstNameStandardized")
+            throw InvalidHealthCertificateException(ErrorCode.VC_NAME_MISMATCH)
         }
         if (dateOfBirth != other.dateOfBirth) {
-            throw VaccinationDateOfBirthMissmatchException(
-                "Date of birth does not match, got ${other.dateOfBirth}, expected $dateOfBirth"
-            )
+            Timber.d("Date of birth does not match, got ${other.dateOfBirth}, expected $dateOfBirth")
+            throw InvalidHealthCertificateException(ErrorCode.VC_DOB_MISMATCH)
         }
     }
 }
