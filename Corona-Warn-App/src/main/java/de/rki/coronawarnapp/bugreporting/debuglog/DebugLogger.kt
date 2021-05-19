@@ -12,6 +12,8 @@ import de.rki.coronawarnapp.util.di.ApplicationComponent
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -160,10 +162,19 @@ class DebugLogger(
                 launch {
                     // Censor data sources need a moment to know what to censor
                     delay(1000)
-                    val censoredLine = bugCensors.get().fold(rawLine) { prev, censor ->
-                        censor.checkLog(prev) ?: prev
+
+                    val censored: Collection<LogLine> = bugCensors.get().map {
+                        async {
+                            it.checkLog(rawLine)
+                        }
+                    }.awaitAll().filterNotNull()
+
+                    val toWrite = when (censored.size) {
+                        0 -> rawLine
+                        1 -> censored.single()
+                        else -> rawLine.copy(message = CENSOR_COLLISION_PLACERHOLDER)
                     }
-                    logWriter.write(censoredLine)
+                    logWriter.write(toWrite)
                 }
             }
         } catch (e: CancellationException) {
@@ -174,6 +185,7 @@ class DebugLogger(
     }
 
     companion object {
+        private const val CENSOR_COLLISION_PLACERHOLDER = "<censoring-collision>"
         internal const val TAG = "DebugLogger"
     }
 }

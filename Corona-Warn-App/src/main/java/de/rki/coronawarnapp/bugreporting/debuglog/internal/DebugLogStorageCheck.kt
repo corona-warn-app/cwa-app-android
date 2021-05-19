@@ -30,7 +30,7 @@ class DebugLogStorageCheck @Inject constructor(
             return eval.usableSpace
         }
 
-    fun isLowStorage(forceCheck: Boolean = false): Boolean {
+    suspend fun isLowStorage(forceCheck: Boolean = false): Boolean {
         val now = timeProvider()
         if (!forceCheck && now - lastCheckAt < 5_000) return isLowStorage.value
 

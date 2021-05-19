@@ -9,7 +9,8 @@ import javax.inject.Qualifier
 import kotlin.coroutines.CoroutineContext
 
 object DebugLoggerScope : CoroutineScope {
-    val dispatcher = Executors.newSingleThreadExecutor(
+    val dispatcher = Executors.newFixedThreadPool(
+        2,
         NamedThreadFactory("DebugLogger")
     ).asCoroutineDispatcher()
     override val coroutineContext: CoroutineContext = SupervisorJob() + dispatcher

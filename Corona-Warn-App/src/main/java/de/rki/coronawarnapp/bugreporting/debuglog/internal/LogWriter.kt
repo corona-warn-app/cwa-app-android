@@ -2,19 +2,22 @@ package de.rki.coronawarnapp.bugreporting.debuglog.internal
 
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
 class LogWriter @Inject constructor(val logFile: File) {
     private var ioLimiter = 0
+    private val mutex = Mutex()
     val logSize = MutableStateFlow(logFile.length())
 
     private fun updateLogSize() {
         logSize.value = logFile.length()
     }
 
-    fun setup() {
+    suspend fun setup() = mutex.withLock {
         if (!logFile.exists()) {
             logFile.parentFile?.mkdirs()
             if (logFile.createNewFile()) {
@@ -24,14 +27,14 @@ class LogWriter @Inject constructor(val logFile: File) {
         updateLogSize()
     }
 
-    fun teardown() {
+    suspend fun teardown() = mutex.withLock {
         if (logFile.exists() && logFile.delete()) {
             Timber.d("Log file was deleted.")
         }
         updateLogSize()
     }
 
-    fun write(line: LogLine) {
+    suspend fun write(line: LogLine) = mutex.withLock {
         val formattedLine = line.format()
         logFile.appendText(formattedLine, Charsets.UTF_8)
 
