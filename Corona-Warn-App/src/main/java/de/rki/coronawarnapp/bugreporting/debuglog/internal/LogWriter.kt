@@ -33,7 +33,7 @@ class LogWriter @Inject constructor(val logFile: File) {
         updateLogSize()
     }
 
-    suspend fun write(formattedLine: String) = mutex.withLock {
+    suspend fun write(formattedLine: String): Unit = mutex.withLock {
         logFile.appendText(formattedLine, Charsets.UTF_8)
 
         if (ioLimiter % 10 == 0) {
