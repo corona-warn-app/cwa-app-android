@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginBottom="@dimen/spacing_tiny"
-        android:background="@color/colorHairline" />
+        android:background="@color/dividerColor" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/flagGrid"
@@ -27,5 +27,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorHairline" />
+        android:background="@color/dividerColor" />
 </LinearLayout>

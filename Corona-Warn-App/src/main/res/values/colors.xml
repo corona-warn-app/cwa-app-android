@@ -3,17 +3,17 @@
 
     <!-- Brand Colors -->
     <color name="colorSecondary">#80CDEC</color>
-
-    <!-- Backgrounds and Separators -->
+    <color name="colorPrimary">#007FAD</color>
     <color name="colorSurface">#FFFFFF</color>
     <color name="colorSurface1">#FFFFFF</color>
     <color name="colorSurface1Pressed">#E7E8E8</color>
     <color name="colorSurface2">#F5F5F5</color>
     <color name="colorSurface2Pressed">#D7D7D7</color>
-    <color name="colorHairline">#3317191A</color>
-
     <color name="cwaGrayHighlight">#5D6F80</color>
     <color name="colorSystemUI">#F5F5F5</color>
+
+    <color name="colorAccentTintButtonPressed">#02759E</color>
+    <color name="colorAccentTintIcon">@color/colorPrimary</color>
 
     <!--Cards-->
     <color name="colorCardBackgroundHighlightGray">@color/cwaGrayHighlight</color>
@@ -42,11 +42,6 @@
     <color name="colorSemanticNeutralRiskPressed">#556675</color>
     <color name="colorSemanticUnknownRisk">#FFFFFF</color>
     <color name="colorSemanticUnknownRiskPressed">#E7E8E8</color>
-
-    <!-- Accent -->
-    <color name="colorPrimary">#007FAD</color>
-    <color name="colorAccentTintButtonPressed">#02759E</color>
-    <color name="colorAccentTintIcon">@color/colorPrimary</color>
 
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
