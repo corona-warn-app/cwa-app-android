@@ -34,7 +34,8 @@ class LogSnapshotter @Inject constructor(
         }
 
         val now = timeStamper.nowUTC.toUserTimeZone()
-        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")
+        // Avoid ":" in filename since it is a reserved character in Microsoft Windows
+        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH_mm_ss.SSS")
         val formattedFileName = "CWA Log ${now.toString(formatter)}"
         if (!snapshotDir.exists() && snapshotDir.mkdirs()) {
             Timber.tag(TAG).v("Created %s", snapshotDir)
