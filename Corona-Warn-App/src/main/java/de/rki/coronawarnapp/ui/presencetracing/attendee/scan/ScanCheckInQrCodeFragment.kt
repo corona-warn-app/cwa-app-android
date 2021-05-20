@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
@@ -34,7 +34,7 @@ class ScanCheckInQrCodeFragment :
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: ScanCheckInQrCodeViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentScanQrCodeBinding by viewBindingLazy()
+    private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

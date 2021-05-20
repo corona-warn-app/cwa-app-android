@@ -24,7 +24,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionConsentViewModel by cwaViewModels { viewModelFactory }
-    private val binding: FragmentSubmissionConsentBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionConsentBinding by viewBinding()
     private val navArgs by navArgs<SubmissionConsentFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.Duration
@@ -27,7 +27,7 @@ class ContactDiaryTestFragment :
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: ContactDiaryTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentTestContactDiaryBinding by viewBindingLazy()
+    private val binding: FragmentTestContactDiaryBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

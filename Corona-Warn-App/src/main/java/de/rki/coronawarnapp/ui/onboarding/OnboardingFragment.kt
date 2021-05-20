@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import java.util.Locale
 
 /**
@@ -17,7 +17,7 @@ import java.util.Locale
  */
 class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
 
-    private val binding: FragmentOnboardingBinding by viewBindingLazy()
+    private val binding: FragmentOnboardingBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

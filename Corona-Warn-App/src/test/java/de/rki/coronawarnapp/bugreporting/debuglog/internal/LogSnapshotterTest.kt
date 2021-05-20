@@ -28,7 +28,7 @@ class LogSnapshotterTest : BaseIOTest() {
     private val runningLogFake = File(testDir, "running.log")
 
     private val snapshotDir = File(cacheDir, "debuglog_snapshots")
-    private val fileNameDateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")
+    private val fileNameDateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH_mm_ss.SSS")
     private val userTime = Instant.EPOCH.toUserTimeZone()
     private val expectedSnapshot = File(snapshotDir, "CWA Log ${userTime.toString(fileNameDateFormatter)}.zip")
 

@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), AutoInject {
 
-    private val binding: CheckInsConsentFragmentBinding by viewBindingLazy()
+    private val binding: CheckInsConsentFragmentBinding by viewBinding()
 
     private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
 

@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.databinding.FragmentOnboardingTestBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class OnboardingTestFragment : Fragment(R.layout.fragment_onboarding_test), Auto
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: OnboardingTestViewModel by cwaViewModels { viewModelFactory }
-    private val binding: FragmentOnboardingTestBinding by viewBindingLazy()
+    private val binding: FragmentOnboardingTestBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

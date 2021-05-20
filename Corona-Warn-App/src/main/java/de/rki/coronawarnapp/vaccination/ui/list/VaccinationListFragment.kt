@@ -23,7 +23,7 @@ import de.rki.coronawarnapp.util.list.onSwipeItem
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
@@ -39,7 +39,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val args by navArgs<VaccinationListFragmentArgs>()
-    private val binding: FragmentVaccinationListBinding by viewBindingLazy()
+    private val binding: FragmentVaccinationListBinding by viewBinding()
     private val viewModel: VaccinationListViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->

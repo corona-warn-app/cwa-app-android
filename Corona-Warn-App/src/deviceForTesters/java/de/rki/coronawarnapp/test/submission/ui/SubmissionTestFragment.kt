@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SubmissionTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentTestSubmissionBinding by viewBindingLazy()
+    private val binding: FragmentTestSubmissionBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

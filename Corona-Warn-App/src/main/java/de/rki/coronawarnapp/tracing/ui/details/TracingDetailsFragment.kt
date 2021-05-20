@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -31,7 +31,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
         ownerProducer = { requireActivity().viewModelStore },
         factoryProducer = { viewModelFactory }
     )
-    private val binding: TracingDetailsFragmentLayoutBinding by viewBindingLazy()
+    private val binding: TracingDetailsFragmentLayoutBinding by viewBinding()
 
     private val detailsAdapter = TracingDetailsAdapter { vm.onItemClicked(it) }
 

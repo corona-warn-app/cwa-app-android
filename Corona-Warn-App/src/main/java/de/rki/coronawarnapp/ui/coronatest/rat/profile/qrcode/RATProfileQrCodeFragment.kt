@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.joinToSpannable
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -29,7 +29,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val viewModel: RATProfileQrCodeFragmentViewModel by cwaViewModels { viewModelFactory }
-    private val binding: RatProfileQrCodeFragmentBinding by viewBindingLazy()
+    private val binding: RatProfileQrCodeFragmentBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarOverlay()

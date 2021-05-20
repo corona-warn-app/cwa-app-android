@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
@@ -29,7 +29,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: InformationFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentInformationBinding by viewBindingLazy()
+    private val binding: FragmentInformationBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

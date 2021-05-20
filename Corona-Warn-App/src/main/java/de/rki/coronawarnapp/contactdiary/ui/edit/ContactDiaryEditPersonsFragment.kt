@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -25,7 +25,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: ContactDiaryEditPersonsViewModel by cwaViewModels { viewModelFactory }
-    private val binding: ContactDiaryEditPersonsFragmentBinding by viewBindingLazy()
+    private val binding: ContactDiaryEditPersonsFragmentBinding by viewBinding()
 
     private lateinit var listAdapter: PersonEditAdapter
 
