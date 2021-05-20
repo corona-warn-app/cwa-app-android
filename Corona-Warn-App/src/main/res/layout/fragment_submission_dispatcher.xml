@@ -107,7 +107,7 @@
                     layout="@layout/include_dispatcher_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="16dp"
                     android:layout_marginBottom="@dimen/spacing_normal"
                     android:clickable="true"
                     android:focusable="true"
