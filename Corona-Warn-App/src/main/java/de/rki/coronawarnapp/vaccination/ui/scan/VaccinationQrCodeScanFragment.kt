@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class VaccinationQrCodeScanFragment :
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: VaccinationQrCodeScanViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentScanQrCodeBinding by viewBindingLazy()
+    private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false
 
     override fun onViewCreated(

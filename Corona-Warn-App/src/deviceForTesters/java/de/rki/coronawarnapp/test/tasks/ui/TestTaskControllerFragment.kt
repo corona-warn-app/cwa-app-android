@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.databinding.FragmentTestTaskControllerBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class TestTaskControllerFragment : Fragment(R.layout.fragment_test_task_controll
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: TestTaskControllerFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentTestTaskControllerBinding by viewBindingLazy()
+    private val binding: FragmentTestTaskControllerBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

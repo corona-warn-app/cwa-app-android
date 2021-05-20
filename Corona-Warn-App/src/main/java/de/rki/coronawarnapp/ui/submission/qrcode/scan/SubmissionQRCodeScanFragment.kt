@@ -27,7 +27,7 @@ import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
@@ -49,7 +49,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
     )
 
-    private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionQrCodeScanBinding by viewBinding()
     private var showsPermissionDialog = false
 
     @Suppress("ComplexMethod")

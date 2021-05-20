@@ -28,7 +28,7 @@ import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
@@ -51,7 +51,7 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
 
     private var itemId = -1
 
-    private val binding: FragmentTestQrCodePosterBinding by viewBindingLazy()
+    private val binding: FragmentTestQrCodePosterBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
