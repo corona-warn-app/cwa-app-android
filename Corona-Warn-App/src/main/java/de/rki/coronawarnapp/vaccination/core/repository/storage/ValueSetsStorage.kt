@@ -3,13 +3,12 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.annotation.Keep
+import androidx.annotation.VisibleForTesting
+import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import dagger.Reusable
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.FlowPreference
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import timber.log.Timber
@@ -26,26 +25,51 @@ class ValueSetsStorage @Inject constructor(
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
 
-    var valueSet: FlowPreference<StoredVaccinationValueSet> = prefs.createFlowPreference(
-        key = PKEY_VALUE_SETS_PREFIX,
-        reader = FlowPreference.gsonReader(gson = gson, createEmptyValueSet()),
-        writer = FlowPreference.gsonWriter(gson = gson)
-    )
+    var vaccinationValueSet: VaccinationValueSet?
+        get() = getValueSet()
+        set(value) = setValueSet(value)
 
-    fun clear() {
-        Timber.d("Clearing local storage")
-        prefs.clearAndNotify()
+    private fun getValueSet(): VaccinationValueSet? {
+        Timber.v("Loading value set")
+        return prefs.getString(PKEY_VALUE_SETS_PREFIX, null)
+            ?.let { gson.fromJson(it, StoredVaccinationValueSet::class.java) }
+            .also { loaded -> Timber.v("Loaded value set %s", loaded) }
     }
 
-    private fun createEmptyValueSet() = StoredVaccinationValueSet(
-        languageCode = Locale.ENGLISH,
-        vp = StoredVaccinationValueSet.StoredValueSet(items = emptyList()),
-        mp = StoredVaccinationValueSet.StoredValueSet(items = emptyList()),
-        ma = StoredVaccinationValueSet.StoredValueSet(items = emptyList())
-    )
+    private fun setValueSet(value: VaccinationValueSet?) {
+        Timber.v("Saving value set %s", value)
+        value?.let {
+            prefs.edit {
+                val storeValue = it.toStoredVaccinationValueSet()
+                val json = gson.toJson(storeValue, StoredVaccinationValueSet::class.java)
+                Timber.v("Writing %s to prefs", json)
+                putString(PKEY_VALUE_SETS_PREFIX, json)
+            }
+        }
+    }
 
-    @Keep
-    data class StoredVaccinationValueSet(
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun VaccinationValueSet.toStoredVaccinationValueSet(): StoredVaccinationValueSet =
+        StoredVaccinationValueSet(
+            languageCode = languageCode,
+            vp = vp.toStoredValueSet(),
+            mp = mp.toStoredValueSet(),
+            ma = ma.toStoredValueSet()
+        )
+
+    internal fun VaccinationValueSet.ValueSet.toStoredValueSet(): StoredVaccinationValueSet.StoredValueSet =
+        StoredVaccinationValueSet.StoredValueSet(
+            items = items.map { it.toStoredItem() }
+        )
+
+    internal fun VaccinationValueSet.ValueSet.Item.toStoredItem():
+        StoredVaccinationValueSet.StoredValueSet.StoredItem =
+        StoredVaccinationValueSet.StoredValueSet.StoredItem(
+            key = key,
+            displayText = displayText
+        )
+
+    internal data class StoredVaccinationValueSet(
         @SerializedName("languageCode") override val languageCode: Locale,
         @SerializedName("vp") override val vp: StoredValueSet,
         @SerializedName("mp") override val mp: StoredValueSet,
