@@ -7,6 +7,19 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="24dp"
     android:padding="16dp">
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="140dp"
+        android:layout_height="24dp"
+        android:indeterminate="true"
+        app:hideAnimationBehavior="inward"
+        app:indicatorColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@id/image"
+        app:layout_constraintEnd_toEndOf="@id/image"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
         android:layout_width="0dp"
@@ -20,18 +33,6 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
-
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progress_bar"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:hideAnimationBehavior="inward"
-        app:indicatorColor="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="@id/image"
-        app:layout_constraintEnd_toEndOf="@id/image"
-        app:layout_constraintStart_toStartOf="@id/image"
-        app:layout_constraintTop_toTopOf="@id/image" />
 
     <TextView
         android:id="@+id/title"
