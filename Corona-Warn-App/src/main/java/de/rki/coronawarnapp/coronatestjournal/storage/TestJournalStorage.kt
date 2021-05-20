@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import javax.inject.Inject
 
 class TestJournalStorage @Inject constructor(
-    private val riskJournalDatabaseFactory: TestJournalDatabase.Factory,
+    private val testJournalDatabaseFactory: TestJournalDatabase.Factory,
 ) {
-    private val database by lazy { riskJournalDatabaseFactory.create() }
+    private val database by lazy { testJournalDatabaseFactory.create() }
     private val testResultTable by lazy { database.testResultDao() }
 
     fun getTests() = testResultTable.allTests()
