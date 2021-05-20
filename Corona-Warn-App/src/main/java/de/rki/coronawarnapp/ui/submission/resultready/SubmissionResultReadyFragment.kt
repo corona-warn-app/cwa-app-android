@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionResultReadyViewModel by cwaViewModels { viewModelFactory }
-    private val binding: FragmentSubmissionResultReadyBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionResultReadyBinding by viewBinding()
 
     private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
 

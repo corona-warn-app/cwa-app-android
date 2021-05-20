@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.databinding.AnalyticsPpaUserinfoInputFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class AnalyticsUserInputFragment : Fragment(R.layout.analytics_ppa_userinfo_inpu
         }
     )
 
-    private val binding: AnalyticsPpaUserinfoInputFragmentBinding by viewBindingLazy()
+    private val binding: AnalyticsPpaUserinfoInputFragmentBinding by viewBinding()
 
     @Inject lateinit var itemAdapter: UserInfoItemAdapter
 

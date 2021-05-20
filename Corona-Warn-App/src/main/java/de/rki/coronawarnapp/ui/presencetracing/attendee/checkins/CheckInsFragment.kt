@@ -33,7 +33,7 @@ import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
@@ -56,7 +56,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             )
         }
     )
-    private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBindingLazy()
+    private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBinding()
     private val checkInsAdapter = CheckInsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

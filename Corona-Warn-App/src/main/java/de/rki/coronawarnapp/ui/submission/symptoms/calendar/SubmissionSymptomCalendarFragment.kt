@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByS
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
@@ -36,7 +36,7 @@ class SubmissionSymptomCalendarFragment :
         }
     )
 
-    private val binding: FragmentSubmissionSymptomCalendarBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionSymptomCalendarBinding by viewBinding()
     private lateinit var uploadDialog: SubmissionBlockingDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

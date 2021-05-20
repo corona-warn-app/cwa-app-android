@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentStatisticsExplanationBinding
 import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 
 /**
  * The fragment displays static informative content to the user
@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_explanation) {
 
-    private val binding: FragmentStatisticsExplanationBinding by viewBindingLazy()
+    private val binding: FragmentStatisticsExplanationBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

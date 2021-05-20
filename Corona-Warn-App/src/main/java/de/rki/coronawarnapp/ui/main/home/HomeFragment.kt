@@ -26,7 +26,7 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment
@@ -45,7 +45,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         factoryProducer = { viewModelFactory }
     )
 
-    val binding: HomeFragmentLayoutBinding by viewBindingLazy()
+    val binding: HomeFragmentLayoutBinding by viewBinding()
 
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
     @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog

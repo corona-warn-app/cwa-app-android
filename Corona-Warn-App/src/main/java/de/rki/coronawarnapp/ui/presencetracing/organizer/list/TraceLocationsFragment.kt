@@ -27,7 +27,7 @@ import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
@@ -37,7 +37,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: TraceLocationsViewModel by cwaViewModels { viewModelFactory }
-    private val binding: TraceLocationOrganizerTraceLocationsListFragmentBinding by viewBindingLazy()
+    private val binding: TraceLocationOrganizerTraceLocationsListFragmentBinding by viewBinding()
     private val traceLocationsAdapter = TraceLocationsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {

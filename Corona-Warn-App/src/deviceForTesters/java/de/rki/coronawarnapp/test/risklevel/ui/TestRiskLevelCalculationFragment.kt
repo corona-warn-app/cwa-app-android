@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
@@ -39,7 +39,7 @@ class TestRiskLevelCalculationFragment :
         }
     )
 
-    private val binding: FragmentTestRiskLevelCalculationBinding by viewBindingLazy()
+    private val binding: FragmentTestRiskLevelCalculationBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
