@@ -40,7 +40,6 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
     private val args by navArgs<VaccinationListFragmentArgs>()
     private val binding: FragmentVaccinationListBinding by viewBinding()
-    private val binding by viewBinding<FragmentVaccinationListBinding>()
     private val viewModel: VaccinationListViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
