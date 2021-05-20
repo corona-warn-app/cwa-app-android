@@ -54,6 +54,9 @@ data class PCRCoronaTest(
     override val isPositive: Boolean
         get() = testResult == CoronaTestResult.PCR_POSITIVE
 
+    override val isNegative: Boolean
+        get() = testResult == CoronaTestResult.PCR_NEGATIVE
+
     override val isPending: Boolean
         get() = testResult == CoronaTestResult.PCR_OR_RAT_PENDING
 

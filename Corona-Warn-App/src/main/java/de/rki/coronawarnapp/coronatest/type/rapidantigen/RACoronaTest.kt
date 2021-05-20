@@ -92,6 +92,9 @@ data class RACoronaTest(
     override val isPositive: Boolean
         get() = testResult == RAT_POSITIVE
 
+    override val isNegative: Boolean
+        get() = testResult == RAT_NEGATIVE
+
     override val isPending: Boolean
         get() = setOf(PCR_OR_RAT_PENDING, RAT_PENDING).contains(testResult)
 

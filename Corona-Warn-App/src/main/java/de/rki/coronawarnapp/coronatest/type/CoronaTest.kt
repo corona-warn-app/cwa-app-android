@@ -19,6 +19,7 @@ interface CoronaTest {
     val isViewed: Boolean
 
     val isPositive: Boolean
+    val isNegative: Boolean
 
     val isPending: Boolean
 
