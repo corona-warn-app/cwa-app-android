@@ -1997,7 +1997,7 @@
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Druckversion"</string>
     <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">Check-ins für diese Orte teilen?</string>
+    <string name="trace_location_attendee_consent_title">Check-ins teilen?</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
     <string name="trace_location_attendee_consent_header_description">Teilen Sie Ihre Check-ins, um andere zu warnen, die mit Ihnen eingecheckt waren. Ihre Identität bleibt geheim.</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
