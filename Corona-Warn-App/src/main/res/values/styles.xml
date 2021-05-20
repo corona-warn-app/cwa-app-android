@@ -8,6 +8,9 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="shapeAppearanceSmallComponent">@style/SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/LargeComponent</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -56,20 +59,14 @@
         <item name="android:background">@color/colorTransparent</item>
     </style>
 
-    <style name="CWAToolbar.Theme" parent="Widget.MaterialComponents.Toolbar">
-        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
-    </style>
-
-    <style name="OverflowButtonStyle" parent="Widget.AppCompat.Light.ActionButton.Overflow">
-        <item name="android:tint">@android:color/white</item>
-    </style>
-
     <!-- ####################################
                     Button
     ###################################### -->
     <style name="button">
         <item name="android:paddingStart">@dimen/button_padding_start_end</item>
         <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingTop">12dp</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textSize">@dimen/font_button</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -222,7 +219,7 @@
         <item name="android:background">@drawable/card_dark</item>
     </style>
 
-    <style name="selectionButton" parent="@style/Widget.AppCompat.Button.Borderless">
+    <style name="selectionButton">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:gravity">left</item>
         <item name="android:background">@drawable/card</item>
@@ -539,5 +536,20 @@
 
     <style name="ShapeAppearanceOverlay">
         <item name="cornerSize">3dp</item>
+    </style>
+
+    <style name="SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
     </style>
 </resources>
