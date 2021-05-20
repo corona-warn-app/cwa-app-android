@@ -11,7 +11,10 @@ interface BugCensor {
     suspend fun checkLog(message: String): CensoredString?
 
     data class CensoredString(
+        // The censored version of the string
         val string: String,
+        // The range that we censored
+        // If there is a collision, this range in the original needs to be removed.
         val range: IntRange? = null
     )
 
@@ -32,7 +35,7 @@ interface BugCensor {
             val start = this.string.indexOf(orig)
             if (start == -1) return null
 
-            val end = start + replacement.length
+            val end = start + orig.length
             return CensoredString(
                 string = this.string.replace(orig, replacement),
                 range = start..end
