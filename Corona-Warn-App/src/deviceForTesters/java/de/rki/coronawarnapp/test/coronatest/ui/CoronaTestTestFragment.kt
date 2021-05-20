@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class CoronaTestTestFragment : Fragment(R.layout.fragment_test_coronatest), Auto
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: CoronaTestTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentTestCoronatestBinding by viewBindingLazy()
+    private val binding: FragmentTestCoronatestBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

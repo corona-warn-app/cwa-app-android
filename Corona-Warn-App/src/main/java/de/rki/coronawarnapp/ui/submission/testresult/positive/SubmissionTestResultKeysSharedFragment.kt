@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
@@ -39,7 +39,7 @@ class SubmissionTestResultKeysSharedFragment :
         }
     )
 
-    private val binding: FragmentSubmissionTestResultPositiveKeysSharedBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionTestResultPositiveKeysSharedBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
