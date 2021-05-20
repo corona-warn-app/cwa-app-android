@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.coronatestjournal.TestJournalRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
@@ -62,6 +63,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var ratProfileSettings: RATProfileSettings
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var vaccinationPreferences: VaccinationPreferences
+    @MockK lateinit var testjournalRepository: TestJournalRepository
 
     @BeforeEach
     fun setUp() {
@@ -95,6 +97,7 @@ internal class DataResetTest : BaseTest() {
         ratProfileSettings = ratProfileSettings,
         vaccinationPreferences = vaccinationPreferences,
         vaccinationRepository = vaccinationRepository,
+        testJournalRepository = testjournalRepository
     )
 
     @Test
@@ -128,6 +131,7 @@ internal class DataResetTest : BaseTest() {
             ratProfileSettings.deleteProfile()
             vaccinationRepository.clear()
             vaccinationPreferences.clear()
+            testjournalRepository.clear()
         }
     }
 }

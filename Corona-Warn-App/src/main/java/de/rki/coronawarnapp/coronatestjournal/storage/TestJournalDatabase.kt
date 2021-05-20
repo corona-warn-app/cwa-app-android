@@ -11,26 +11,26 @@ import javax.inject.Inject
 @Suppress("MaxLineLength")
 @Database(
     entities = [
-        TestResultEntity::class,
+        TestJournalEntity::class,
     ],
     version = 1,
     exportSchema = true
 )
-abstract class TestResultDatabase : RoomDatabase() {
+abstract class TestJournalDatabase : RoomDatabase() {
 
-    abstract fun testResultDao(): TestResultDao
+    abstract fun testResultDao(): TestJournalDao
 
     class Factory @Inject constructor(@AppContext private val context: Context) {
 
-        fun create(databaseName: String = DATABASE_NAME): TestResultDatabase {
-            Timber.d("Instantiating test result database.")
+        fun create(databaseName: String = DATABASE_NAME): TestJournalDatabase {
+            Timber.d("Instantiating test journal database.")
             return Room
-                .databaseBuilder(context, TestResultDatabase::class.java, databaseName)
+                .databaseBuilder(context, TestJournalDatabase::class.java, databaseName)
                 .build()
         }
     }
 
     companion object {
-        private const val DATABASE_NAME = "testresult.db"
+        private const val DATABASE_NAME = "test_journal.db"
     }
 }

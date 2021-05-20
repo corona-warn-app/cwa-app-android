@@ -7,12 +7,14 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface TestResultDao {
+interface TestJournalDao {
 
-    @Query("SELECT * FROM testresults")
-    fun allEntries(): Flow<List<TestResultEntity>>
+    @Query("SELECT * FROM testjournal")
+    fun allTests(): Flow<List<TestJournalEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertEntry(testResultEntity: TestResultEntity)
+    suspend fun insertTest(testJournalEntity: TestJournalEntity)
 
+    @Query("DELETE FROM testjournal")
+    suspend fun deleteAll()
 }

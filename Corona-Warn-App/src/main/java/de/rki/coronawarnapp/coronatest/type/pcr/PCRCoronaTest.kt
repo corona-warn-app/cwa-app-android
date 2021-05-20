@@ -26,9 +26,6 @@ data class PCRCoronaTest(
     @SerializedName("isAdvancedConsentGiven")
     override val isAdvancedConsentGiven: Boolean = false,
 
-    @SerializedName("isJournalEntryCreated")
-    override val isJournalEntryCreated: Boolean = false,
-
     @SerializedName("isResultAvailableNotificationSent")
     override val isResultAvailableNotificationSent: Boolean = false,
 

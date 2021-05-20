@@ -36,9 +36,6 @@ interface CoronaTest {
     // TODO why do we need this PER test
     val isAdvancedConsentGiven: Boolean
 
-    // TODO Why do we need to store this?
-    val isJournalEntryCreated: Boolean
-
     val isResultAvailableNotificationSent: Boolean
 
     enum class Type(val raw: String) {

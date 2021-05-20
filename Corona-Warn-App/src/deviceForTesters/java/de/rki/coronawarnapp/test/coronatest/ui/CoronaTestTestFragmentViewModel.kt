@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
-import de.rki.coronawarnapp.coronatestjournal.storage.TestResultRepository
+import de.rki.coronawarnapp.coronatestjournal.TestJournalRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -26,7 +26,7 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val coronaTestRepository: CoronaTestRepository,
     private val coronaTestQrCodeValidator: CoronaTestQrCodeValidator,
-    private val testRepository: TestResultRepository,
+    private val testRepository: TestJournalRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val errorEvents = SingleLiveEvent<Throwable>()
