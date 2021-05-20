@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.databinding.FragmentTestAppconfigBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.DateTimeZone
@@ -23,7 +23,7 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: AppConfigTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentTestAppconfigBinding by viewBindingLazy()
+    private val binding: FragmentTestAppconfigBinding by viewBinding()
 
     private val timeFormatter = ISODateTimeFormat.dateTime()
         .withZone(DateTimeZone.forID("Europe/Berlin"))

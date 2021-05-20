@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.LocalDate
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val binding: RatProfileCreateFragmentBinding by viewBindingLazy()
+    private val binding: RatProfileCreateFragmentBinding by viewBinding()
     private val viewModel: RATProfileCreateFragmentViewModel by cwaViewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =

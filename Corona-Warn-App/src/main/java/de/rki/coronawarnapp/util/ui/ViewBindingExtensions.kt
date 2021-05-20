@@ -13,8 +13,8 @@ import timber.log.Timber
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-inline fun <FragmentT : Fragment, reified BindingT : ViewBinding> FragmentT.viewBindingLazy() =
-    this.viewBindingLazy(
+inline fun <reified BindingT : ViewBinding> Fragment.viewBinding() =
+    viewBinding(
         bindingProvider = {
             val bindingMethod = BindingT::class.java.getMethod("bind", View::class.java)
             val binding = bindingMethod(null, requireView()) as BindingT
@@ -27,9 +27,9 @@ inline fun <FragmentT : Fragment, reified BindingT : ViewBinding> FragmentT.view
     )
 
 @Suppress("unused")
-fun <FragmentT : Fragment, BindingT : ViewBinding> FragmentT.viewBindingLazy(
-    bindingProvider: FragmentT.() -> BindingT,
-    lifecycleOwnerProvider: FragmentT.() -> LifecycleOwner
+fun <BindingT : ViewBinding> Fragment.viewBinding(
+    bindingProvider: Fragment.() -> BindingT,
+    lifecycleOwnerProvider: Fragment.() -> LifecycleOwner
 ) = ViewBindingProperty(bindingProvider, lifecycleOwnerProvider)
 
 class ViewBindingProperty<ComponentT : LifecycleOwner, BindingT : ViewBinding>(
