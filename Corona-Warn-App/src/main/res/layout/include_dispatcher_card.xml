@@ -73,9 +73,10 @@
             app:layout_constraintVertical_bias="0.0"
             tools:text="@string/submission_dispatcher_qr_card_text" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/dispatcher_card_illustration"
             android:layout_width="wrap_content"
+            app:shapeAppearanceOverlay="@style/dispatcherImageStyle"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/button_icon_margin"
             android:src="@{illustration}"
