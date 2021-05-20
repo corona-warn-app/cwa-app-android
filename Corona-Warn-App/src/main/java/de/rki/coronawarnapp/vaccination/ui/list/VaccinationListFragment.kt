@@ -18,8 +18,7 @@ import de.rki.coronawarnapp.databinding.FragmentVaccinationListBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.list.isSwipeable
-import de.rki.coronawarnapp.util.list.onSwipeItem
+import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -62,12 +61,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
 
             recyclerViewVaccinationList.apply {
                 adapter = vaccinationListAdapter
-                onSwipeItem(requireContext()) { position, direction ->
-                    val vaccinationItem = vaccinationListAdapter.data[position]
-                    if (vaccinationItem.isSwipeable()) {
-                        vaccinationItem.onSwipe(position, direction)
-                    }
-                }
+                setupSwipe(requireContext())
             }
 
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
@@ -160,10 +154,8 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             setPositiveButton(R.string.vaccination_list_deletion_dialog_positive_button) { _, _ ->
                 viewModel.deleteVaccination(vaccinationCertificateId)
             }
-            setNegativeButton(R.string.vaccination_list_deletion_dialog_negative_button) { _, _ ->
-                position?.let { vaccinationListAdapter.notifyItemChanged(it) }
-            }
-            setOnCancelListener {
+            setNegativeButton(R.string.vaccination_list_deletion_dialog_negative_button) { _, _ -> }
+            setOnDismissListener {
                 position?.let { vaccinationListAdapter.notifyItemChanged(it) }
             }
         }.show()

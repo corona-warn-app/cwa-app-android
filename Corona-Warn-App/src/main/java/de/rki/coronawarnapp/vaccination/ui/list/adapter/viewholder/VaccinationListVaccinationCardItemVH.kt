@@ -3,9 +3,10 @@ package de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder
 import android.view.Gravity
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationListVaccinationCardBinding
-import de.rki.coronawarnapp.util.list.SwipeConsumer
+import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson.Status.IMMUNITY
@@ -15,13 +16,18 @@ import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
 import java.util.Objects
 
-class VaccinationListVaccinationCardItemVH(
-    parent: ViewGroup,
-) :
+class VaccinationListVaccinationCardItemVH(parent: ViewGroup) :
     VaccinationListAdapter.ItemVH<VaccinationListVaccinationCardItem, VaccinationListVaccinationCardBinding>(
         layoutRes = R.layout.vaccination_list_vaccination_card,
         parent = parent
-    ) {
+    ),
+    Swipeable {
+
+    private var latestItem: VaccinationListVaccinationCardItem? = null
+
+    override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
+        latestItem?.let { it.onSwipeToDelete(it.vaccinationCertificateId, holder.adapterPosition) }
+    }
 
     override val viewBinding: Lazy<VaccinationListVaccinationCardBinding> = lazy {
         VaccinationListVaccinationCardBinding.bind(itemView)
@@ -30,6 +36,8 @@ class VaccinationListVaccinationCardItemVH(
         item: VaccinationListVaccinationCardItem,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
+        latestItem = item
+
         item.apply {
             root.setOnClickListener {
                 onCardClick.invoke(vaccinationCertificateId)
@@ -82,7 +90,7 @@ class VaccinationListVaccinationCardItemVH(
         val onCardClick: (String) -> Unit,
         val onDeleteClick: (String) -> Unit,
         val onSwipeToDelete: (String, Int) -> Unit
-    ) : VaccinationListItem, SwipeConsumer {
+    ) : VaccinationListItem {
 
         override val stableId: Long = Objects.hash(
             vaccinationCertificateId,
@@ -92,8 +100,6 @@ class VaccinationListVaccinationCardItemVH(
             vaccinationStatus,
             isFinalVaccination
         ).toLong()
-
-        override fun onSwipe(position: Int, direction: Int) = onSwipeToDelete(vaccinationCertificateId, position)
 
         // Ignore onCardClick Listener in equals() to avoid re-drawing when only the click listener is updated
         override fun equals(other: Any?): Boolean {
