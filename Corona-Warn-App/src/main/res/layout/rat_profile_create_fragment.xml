@@ -61,8 +61,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPersonName" />
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
+                    android:inputType="textPersonName|textCapWords" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,8 +84,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPersonName" />
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
+                    android:inputType="textPersonName|textCapWords" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,7 +110,7 @@
                     android:cursorVisible="false"
                     android:focusable="true"
                     android:focusableInTouchMode="false"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
                     android:inputType="date" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -133,8 +133,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
-                    android:imeOptions="actionNext"
-                    android:inputType="text" />
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
+                    android:inputType="textCapWords" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -155,8 +155,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
-                    android:imeOptions="actionNext"
-                    android:inputType="text" />
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
+                    android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -180,8 +180,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
-                    android:imeOptions="actionNext"
-                    android:inputType="text" />
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
+                    android:inputType="textCapWords" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -203,7 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
                     android:inputType="phone" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -226,7 +226,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
                     android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
