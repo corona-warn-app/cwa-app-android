@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class RiskLevelChangeDetectorTest : BaseTest() {
+class EwRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
@@ -71,14 +71,14 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         every { foregroundState.isInForeground } returns flowOf(false)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
 
-        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = any() } just Runs
-        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns null
+        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp = any() } just Runs
+        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns null
 
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = any() } just Runs
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns null
 
-        every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp = any() } just Runs
-        every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp } returns null
+        every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp = any() } just Runs
+        every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp } returns null
 
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
 
@@ -124,7 +124,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         ptRiskLevelResult = createPtRiskLevel(riskState, calculatedAt)
     )
 
-    private fun createInstance(scope: CoroutineScope) = RiskLevelChangeDetector(
+    private fun createInstance(scope: CoroutineScope) = EwRiskLevelChangeDetector(
         context = context,
         appScope = scope,
         riskLevelStorage = riskLevelStorage,
@@ -305,7 +305,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         )
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
-        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
+        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
 
         runBlockingTest {
             val instance = createInstance(scope = this)
@@ -441,12 +441,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `evaluate risk level change detection function`() {
-        RiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, CALCULATION_FAILED) shouldBe false
-        RiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, LOW_RISK) shouldBe false
-        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, INCREASED_RISK) shouldBe false
-        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, LOW_RISK) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, INCREASED_RISK) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, INCREASED_RISK) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, CALCULATION_FAILED) shouldBe true
+        EwRiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, CALCULATION_FAILED) shouldBe false
+        EwRiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, LOW_RISK) shouldBe false
+        EwRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, INCREASED_RISK) shouldBe false
+        EwRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, LOW_RISK) shouldBe true
+        EwRiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, INCREASED_RISK) shouldBe true
+        EwRiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, INCREASED_RISK) shouldBe true
+        EwRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, CALCULATION_FAILED) shouldBe true
     }
 }

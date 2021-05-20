@@ -67,10 +67,10 @@ abstract class AnalyticsKeySubmissionRepository(
         }
 
     val daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration: Int
-        get() = storage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
+        get() = storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
 
     val hoursSinceEwHighRiskWarningAtTestRegistration: Int
-        get() = storage.hoursSinceHighRiskWarningAtTestRegistration.value
+        get() = storage.ewHoursSinceHighRiskWarningAtTestRegistration.value
 
     val daysSinceMostRecentDateAtPtRiskLevelAtTestRegistration: Int
         get() = TODO()

@@ -10,29 +10,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AnalyticsKeySubmissionDonor @Inject constructor(
+class AnalyticsPcrKeySubmissionDonor @Inject constructor(
     pcrRepository: AnalyticsPCRKeySubmissionRepository,
+    timeStamper: TimeStamper
+) : AnalyticsBaseKeySubmissionDonor(pcrRepository, timeStamper)
+
+@Singleton
+class AnalyticsRaKeySubmissionDonor @Inject constructor(
     raRepository: AnalyticsRAKeySubmissionRepository,
     timeStamper: TimeStamper
-) : DonorModule {
+) : AnalyticsBaseKeySubmissionDonor(raRepository, timeStamper)
 
-    val pcrDonor = BaseAnalyticsKeySubmissionDonor(pcrRepository, timeStamper)
-    val raDonor = BaseAnalyticsKeySubmissionDonor(raRepository, timeStamper)
-
-    override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
-        return if (pcrDonor.shouldSubmitData(request))
-            pcrDonor.beginDonation(request)
-        else
-            raDonor.beginDonation(request)
-    }
-
-    override suspend fun deleteData() {
-        pcrDonor.deleteData()
-        raDonor.deleteData()
-    }
-}
-
-class BaseAnalyticsKeySubmissionDonor(
+abstract class AnalyticsBaseKeySubmissionDonor(
     private val repository: AnalyticsKeySubmissionRepository,
     private val timeStamper: TimeStamper
 ) : DonorModule {
@@ -55,7 +44,7 @@ class BaseAnalyticsKeySubmissionDonor(
         }
     }
 
-    private fun createContribution() =
+    internal fun createContribution() =
         PpaData.PPAKeySubmissionMetadata.newBuilder()
             .setAdvancedConsentGiven(repository.advancedConsentGiven)
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(

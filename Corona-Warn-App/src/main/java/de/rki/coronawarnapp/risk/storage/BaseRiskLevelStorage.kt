@@ -216,6 +216,11 @@ abstract class BaseRiskLevelStorage constructor(
             )
         }
 
+    override val allPtRiskLevelResults: Flow<List<PtRiskLevelResult>> =
+        presenceTracingRiskRepository
+            .allEntries()
+            .shareLatest(tag = TAG, scope = scope)
+
     private val latestPtRiskLevelResults: Flow<List<PtRiskLevelResult>> =
         presenceTracingRiskRepository
             .latestEntries(2)

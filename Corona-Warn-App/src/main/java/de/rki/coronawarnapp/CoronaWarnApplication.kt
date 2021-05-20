@@ -29,7 +29,8 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
-import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
+import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
+import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
@@ -62,7 +63,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var foregroundState: ForegroundState
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var configChangeDetector: ConfigChangeDetector
-    @Inject lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
+    @Inject lateinit var ewRiskLevelChangeDetector: EwRiskLevelChangeDetector
+    @Inject lateinit var combinedRiskLevelChangeDetector: CombinedRiskLevelChangeDetector
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
@@ -138,7 +140,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         deviceTimeHandler.launch()
         configChangeDetector.launch()
-        riskLevelChangeDetector.launch()
+        ewRiskLevelChangeDetector.launch()
+        combinedRiskLevelChangeDetector.launch()
         autoSubmission.setup()
         autoCheckOut.setupMonitor()
         traceLocationDbCleanupScheduler.scheduleDaily()

@@ -170,6 +170,7 @@ class SubmissionTask @Inject constructor(
         playbook.submit(submissionData)
 
         analyticsKeySubmissionCollector.reportSubmitted(coronaTest.type)
+        if (transformedCheckIns.isNotEmpty()) analyticsKeySubmissionCollector.reportSubmittedWithCheckIns(coronaTest.type)
         if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground(coronaTest.type)
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")

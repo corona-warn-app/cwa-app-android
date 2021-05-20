@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
-import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
+import de.rki.coronawarnapp.risk.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
@@ -52,7 +52,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var workManager: WorkManager
     @MockK lateinit var configChangeDetector: ConfigChangeDetector
-    @MockK lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
+    @MockK lateinit var ewRiskLevelChangeDetector: EwRiskLevelChangeDetector
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @MockK lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
@@ -104,7 +104,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.foregroundState = foregroundState
                 app.workManager = workManager
                 app.configChangeDetector = configChangeDetector
-                app.riskLevelChangeDetector = riskLevelChangeDetector
+                app.ewRiskLevelChangeDetector = ewRiskLevelChangeDetector
                 app.deadmanNotificationScheduler = deadmanNotificationScheduler
                 app.contactDiaryWorkScheduler = contactDiaryWorkScheduler
                 app.dataDonationAnalyticsScheduler = dataDonationAnalyticsScheduler
@@ -157,7 +157,7 @@ class CoronaWarnApplicationTest : BaseTest() {
 
             deviceTimeHandler.launch()
             configChangeDetector.launch()
-            riskLevelChangeDetector.launch()
+            ewRiskLevelChangeDetector.launch()
             autoSubmission.setup()
             autoCheckOut.setupMonitor()
             traceLocationDbCleanupScheduler.scheduleDaily()

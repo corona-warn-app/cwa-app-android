@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk.storage
 
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
@@ -18,18 +19,26 @@ interface RiskLevelStorage {
      */
     val allEwRiskLevelResults: Flow<List<EwRiskLevelResult>>
 
-    /** EXPOSURE WINDOW RISK RESULT
+    /** EXPOSURE WINDOW RISK RESULTS
      * The newest 2 results.
-     * Use by the risk level detector to check for state changes (LOW/INCREASED RISK),
+     * Used by the risk level detector to check for state changes (LOW/INCREASED RISK),
      * collecting data for analytics and survey.
      * Can be 0-2 entries.
      * Newest item first.
      */
     val latestEwRiskLevelResults: Flow<List<EwRiskLevelResult>>
 
+    /** PRESENCE TRACING RISK RESULT
+     * Used by the risk level detector to check for state changes (LOW/INCREASED RISK),
+     * collecting data for analytics.
+     * Can be 0-2 entries.
+     * Newest item first.
+     */
+    val allPtRiskLevelResults: Flow<List<PtRiskLevelResult>>
+
     /** COMBINED RISK RESULT
      * The newest 2 results.
-     * Use by the risk level detector to check for state changes (LOW/INCREASED RISK) triggering NOTIFICATION.
+     * Used by the risk level detector to check for state changes (LOW/INCREASED RISK) triggering NOTIFICATION.
      * Can be 0-2 entries.
      * Newest item first.
      */

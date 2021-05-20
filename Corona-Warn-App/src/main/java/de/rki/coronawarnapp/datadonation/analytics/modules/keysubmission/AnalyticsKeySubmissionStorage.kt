@@ -82,13 +82,23 @@ abstract class AnalyticsKeySubmissionStorage(
         defaultValue = -1
     )
 
-    val hoursSinceHighRiskWarningAtTestRegistration = prefs.createFlowPreference(
+    val ewHoursSinceHighRiskWarningAtTestRegistration = prefs.createFlowPreference(
         key = "analytics_key_submission_hoursSinceHighRiskWarningAtTestRegistration",
         defaultValue = -1
     )
 
-    val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = prefs.createFlowPreference(
+    val ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = prefs.createFlowPreference(
         key = "analytics_key_submission_daysSinceMostRecentDateAtRiskLevelAtTestRegistration",
+        defaultValue = -1
+    )
+
+    val ptHoursSinceHighRiskWarningAtTestRegistration = prefs.createFlowPreference(
+        key = "analytics_key_submission_hoursSincePtHighRiskWarningAtTestRegistration",
+        defaultValue = -1
+    )
+
+    val ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = prefs.createFlowPreference(
+        key = "analytics_key_submission_daysSinceMostRecentDateAtPtRiskLevelAtTestRegistration",
         defaultValue = -1
     )
 

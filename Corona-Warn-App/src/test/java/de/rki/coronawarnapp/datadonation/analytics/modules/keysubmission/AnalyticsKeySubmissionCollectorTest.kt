@@ -48,7 +48,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery {
             riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult
         } returns flowOf(listOf(ewRiskLevelResult))
-        every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp } returns now.minus(
+        every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp } returns now.minus(
             Hours.hours(2).toStandardDuration()
         )
         val testRegisteredAt = mockFlowPreference(now.millis)
@@ -57,15 +57,15 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         val riskLevelAtTestRegistration = mockFlowPreference(-1)
         every { analyticsKeySubmissionStorage.riskLevelAtTestRegistration } returns riskLevelAtTestRegistration
         val hoursSinceHighRiskWarningAtTestRegistration = mockFlowPreference(-1)
-        every { analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration } returns
+        every { analyticsKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration } returns
             hoursSinceHighRiskWarningAtTestRegistration
         coEvery {
-            riskLevelSettings.lastChangeCheckedRiskLevelTimestamp
+            riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp
         } returns now
             .minus(Days.days(2).toStandardDuration()).toDateTime().toLocalDate()
             .toDateTime(LocalTime(22, 0)).toInstant()
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = mockFlowPreference(0)
-        every { analyticsKeySubmissionStorage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
+        every { analyticsKeySubmissionStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
             daysSinceMostRecentDateAtRiskLevelAtTestRegistration
         every { analyticsKeySubmissionStorage.clear() } just Runs
         runBlockingTest {
@@ -198,7 +198,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
             collector.reportTestRegistered()
             verify(exactly = 0) { analyticsKeySubmissionStorage.testRegisteredAt }
             verify(exactly = 0) { analyticsKeySubmissionStorage.riskLevelAtTestRegistration }
-            verify(exactly = 0) { analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration }
+            verify(exactly = 0) { analyticsKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration }
             collector.reportSubmitted()
             verify(exactly = 0) { analyticsKeySubmissionStorage.submitted }
             collector.reportSubmittedInBackground()

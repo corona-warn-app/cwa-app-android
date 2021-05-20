@@ -33,7 +33,7 @@ class PpaDataExtensionsTest : BaseTest() {
         val march15At2200 = Instant.parse("2021-03-15T22:00:00.000Z")
         val march17At0500 = Instant.parse("2021-03-17T05:00:00.000Z")
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-            lastChangeCheckedRiskLevelTimestamp = march15At2200,
+            lastDateAtRiskLevel = march15At2200,
             testRegisteredAt = march17At0500
         ) shouldBe 2
     }
@@ -43,7 +43,7 @@ class PpaDataExtensionsTest : BaseTest() {
         val march15At0500 = Instant.parse("2021-03-15T05:00:00.000Z")
         val march15At2200 = Instant.parse("2021-03-15T22:00:00.000Z")
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-            lastChangeCheckedRiskLevelTimestamp = march15At0500,
+            lastDateAtRiskLevel = march15At0500,
             testRegisteredAt = march15At2200
         ) shouldBe 0
     }
@@ -52,7 +52,7 @@ class PpaDataExtensionsTest : BaseTest() {
     fun `days should be -1 if lastChangeCheckedRiskLevelTimestamp is null`() {
         val march15At0500 = Instant.parse("2021-03-15T05:00:00.000Z")
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-            lastChangeCheckedRiskLevelTimestamp = null,
+            lastDateAtRiskLevel = null,
             testRegisteredAt = march15At0500
         ) shouldBe -1
     }
@@ -61,7 +61,7 @@ class PpaDataExtensionsTest : BaseTest() {
     fun `days should be -1 if testRegisteredAt is null`() {
         val march15At0500 = Instant.parse("2021-03-15T05:00:00.000Z")
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-            lastChangeCheckedRiskLevelTimestamp = march15At0500,
+            lastDateAtRiskLevel = march15At0500,
             testRegisteredAt = null
         ) shouldBe -1
     }
@@ -69,7 +69,7 @@ class PpaDataExtensionsTest : BaseTest() {
     @Test
     fun `days should be -1 if both are null`() {
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-            lastChangeCheckedRiskLevelTimestamp = null,
+            lastDateAtRiskLevel = null,
             testRegisteredAt = null
         ) shouldBe -1
     }
@@ -79,7 +79,7 @@ class PpaDataExtensionsTest : BaseTest() {
         val march20At2200 = Instant.parse("2021-03-20T22:00:00.000Z")
         val march10At0500 = Instant.parse("2021-03-10T05:00:00.000Z")
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-            lastChangeCheckedRiskLevelTimestamp = march20At2200,
+            lastDateAtRiskLevel = march20At2200,
             testRegisteredAt = march10At0500
         ) shouldBe -1
     }

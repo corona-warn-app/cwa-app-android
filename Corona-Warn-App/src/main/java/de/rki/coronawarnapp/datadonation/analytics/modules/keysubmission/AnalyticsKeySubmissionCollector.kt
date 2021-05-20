@@ -50,20 +50,27 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         }
 
         if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
-            riskLevelSettings.lastChangeToHighRiskLevelTimestamp?.let {
+            riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp?.let {
                 val hours = Duration(
                     it,
                     testRegisteredAt
                 ).standardHours.toInt()
-                type.storage.hoursSinceHighRiskWarningAtTestRegistration.update {
+                type.storage.ewHoursSinceHighRiskWarningAtTestRegistration.update {
                     hours
                 }
             }
         }
 
-        type.storage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+        type.storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
+                riskLevelSettings.ewMostRecentDateWithHighOrLowRiskLevel,
+                testRegisteredAt
+            )
+        }
+
+        type.storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+            calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+                riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel,
                 testRegisteredAt
             )
         }
@@ -108,6 +115,11 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     fun reportRegisteredWithTeleTAN() {
         if (disabled) return
         pcrStorage.registeredWithTeleTAN.update { true }
+    }
+
+    fun reportSubmittedWithCheckIns(type: CoronaTest.Type) {
+        if (disabled) return
+        type.storage.submittedWithCheckIns.update { true }
     }
 
     private val disabled: Boolean
