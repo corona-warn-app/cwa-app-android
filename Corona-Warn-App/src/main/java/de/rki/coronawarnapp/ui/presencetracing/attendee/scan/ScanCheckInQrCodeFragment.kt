@@ -8,6 +8,7 @@ import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
@@ -17,9 +18,10 @@ import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragmen
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
+import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
@@ -32,7 +34,7 @@ class ScanCheckInQrCodeFragment :
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: ScanCheckInQrCodeViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentScanQrCodeBinding by viewBindingLazy()
+    private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +70,7 @@ class ScanCheckInQrCodeFragment :
                             .build()
                     )
                 }
+                is ScanCheckInQrCodeNavigation.InvalidQrCode -> showInvalidQrCodeInformation(navEvent.errorText)
             }
         }
     }
@@ -124,6 +127,20 @@ class ScanCheckInQrCodeFragment :
         )
         showsPermissionDialog = true
         DialogHelper.showDialog(permissionDeniedDialog)
+    }
+
+    private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            val errorText = lazyErrorText.get(context)
+            setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
+            setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
+            setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ ->
+                startDecode()
+            }
+            setNegativeButton(R.string.trace_location_attendee_invalid_qr_code_dialog_negative_button) { _, _ ->
+                popBackStack()
+            }
+        }.show()
     }
 
     private fun showCameraPermissionRationaleDialog() {

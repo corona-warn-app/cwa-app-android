@@ -20,15 +20,14 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.catego
 import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFragmentArgs
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.list.isSwipeable
-import de.rki.coronawarnapp.util.list.onSwipeItem
+import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
@@ -38,7 +37,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: TraceLocationsViewModel by cwaViewModels { viewModelFactory }
-    private val binding: TraceLocationOrganizerTraceLocationsListFragmentBinding by viewBindingLazy()
+    private val binding: TraceLocationOrganizerTraceLocationsListFragmentBinding by viewBinding()
     private val traceLocationsAdapter = TraceLocationsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,12 +57,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             onScroll {
                 onScrollChange(it)
             }
-            onSwipeItem(context = requireContext()) { position, direction ->
-                val traceLocationItem = traceLocationsAdapter.data[position]
-                if (traceLocationItem.isSwipeable()) {
-                    traceLocationItem.onSwipe(position, direction)
-                }
-            }
+            setupSwipe(context = requireContext())
         }
 
         binding.toolbar.setNavigationOnClickListener {

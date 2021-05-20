@@ -1,12 +1,13 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemActiveBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
-import de.rki.coronawarnapp.util.list.SwipeConsumer
+import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.Duration
 import org.joda.time.DurationFieldType
@@ -20,7 +21,14 @@ class ActiveCheckInVH(parent: ViewGroup) :
     BaseCheckInVH<ActiveCheckInVH.Item, TraceLocationAttendeeCheckinsItemActiveBinding>(
         layoutRes = R.layout.trace_location_attendee_checkins_item_active,
         parent = parent
-    ) {
+    ),
+    Swipeable {
+
+    private var latestItem: Item? = null
+
+    override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
+        latestItem?.let { it.onSwipeItem(it.checkin, holder.adapterPosition) }
+    }
 
     override val viewBinding: Lazy<TraceLocationAttendeeCheckinsItemActiveBinding> = lazy {
         TraceLocationAttendeeCheckinsItemActiveBinding.bind(itemView)
@@ -35,6 +43,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        latestItem = curItem
 
         val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
 
@@ -93,12 +102,10 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val onRemoveItem: (CheckIn) -> Unit,
         val onCheckout: (CheckIn) -> Unit,
         val onSwipeItem: (CheckIn, Int) -> Unit,
-    ) : CheckInsItem, HasPayloadDiffer, SwipeConsumer {
+    ) : CheckInsItem, HasPayloadDiffer {
         override val stableId: Long = checkin.id
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-
-        override fun onSwipe(position: Int, direction: Int) = onSwipeItem(checkin, position)
     }
 
     companion object {

@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
@@ -25,7 +25,7 @@ class ContactDiaryLocationListFragment :
     Fragment(R.layout.contact_diary_location_list_fragment),
     AutoInject {
 
-    private val binding: ContactDiaryLocationListFragmentBinding by viewBindingLazy()
+    private val binding: ContactDiaryLocationListFragmentBinding by viewBinding()
 
     private val navArgs by navArgs<ContactDiaryLocationListFragmentArgs>()
 

@@ -2,6 +2,7 @@
 syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.ppdd;
 
+import "internal/ppdd/tri_state_boolean.proto";
 
 message PPADataIOS {
 
@@ -92,7 +93,7 @@ message PPAKeySubmissionMetadata {
   int32 ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = 13;
   int32 ptHoursSinceHighRiskWarningAtTestRegistration = 14;
 
-  bool submittedWithCheckIns = 15;
+  TriStateBoolean submittedWithCheckIns = 15;
 }
 
 enum PPARiskLevel {

@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
@@ -30,7 +30,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
 
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val binding: FragmentSubmissionTestResultAvailableBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionTestResultAvailableBinding by viewBinding()
     private lateinit var keyRetrievalProgress: SubmissionBlockingDialog
 
     private val navArgs by navArgs<SubmissionTestResultAvailableFragmentArgs>()

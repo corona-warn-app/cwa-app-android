@@ -28,10 +28,10 @@ fun RACoronaTest?.toSubmissionState(nowUTC: Instant = Instant.now(), coronaTestC
     else -> when (getState(nowUTC, coronaTestConfig)) {
         INVALID -> TestError
         POSITIVE -> {
-            if (isViewed) TestPositive(testRegisteredAt = registeredAt)
+            if (isViewed) TestPositive(testRegisteredAt = testedAt)
             else TestResultReady
         }
-        NEGATIVE -> TestNegative(testRegisteredAt = registeredAt)
+        NEGATIVE -> TestNegative(testRegisteredAt = testedAt)
         REDEEMED -> TestInvalid
         PENDING -> TestPending
         OUTDATED -> TestOutdated

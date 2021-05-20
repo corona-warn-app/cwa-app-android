@@ -37,12 +37,13 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.WatchdogService
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.hasAPILevel
 import de.rki.coronawarnapp.vaccination.core.execution.VaccinationUpdateScheduler
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.conscrypt.Conscrypt
@@ -83,6 +84,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
     @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
 
+    @AppScope
+    @Inject lateinit var appScope: CoroutineScope
+
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
@@ -115,7 +119,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         foregroundState.isInForeground
             .onEach { isAppInForeground = it }
-            .launchIn(GlobalScope)
+            .launchIn(appScope)
 
         Timber.v("Setting up contact diary work scheduler")
         contactDiaryWorkScheduler.setup()

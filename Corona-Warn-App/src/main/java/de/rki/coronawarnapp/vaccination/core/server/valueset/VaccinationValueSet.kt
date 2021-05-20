@@ -4,6 +4,26 @@ import java.util.Locale
 
 interface VaccinationValueSet {
     val languageCode: Locale
+    val vp: ValueSet
+    val mp: ValueSet
+    val ma: ValueSet
 
-    fun getDisplayText(key: String): String?
+    interface ValueSet {
+        val items: List<Item>
+
+        // Use custom item instead of map to allow for future extensions
+        interface Item {
+            val key: String
+            val displayText: String
+        }
+    }
 }
+
+fun VaccinationValueSet.getDisplayText(key: String): String? =
+    vp.getDisplayText(key) ?: mp.getDisplayText(key) ?: ma.getDisplayText(key)
+
+fun VaccinationValueSet.ValueSet.getDisplayText(key: String): String? = items.find { key == it.key }?.displayText
+
+fun VaccinationValueSet.isEmpty(): Boolean = vp.isEmpty() && mp.isEmpty() && ma.isEmpty()
+
+fun VaccinationValueSet.ValueSet.isEmpty(): Boolean = items.isEmpty()

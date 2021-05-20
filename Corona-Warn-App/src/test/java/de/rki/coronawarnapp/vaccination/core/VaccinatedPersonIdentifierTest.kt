@@ -1,5 +1,9 @@
 package de.rki.coronawarnapp.vaccination.core
 
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode
+import io.kotest.assertions.throwables.shouldNotThrowAny
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
@@ -42,5 +46,24 @@ class VaccinatedPersonIdentifierTest : BaseTest() {
         person1 shouldBe person2
         person1.code shouldBe person2.code
         person1.codeSHA256 shouldBe person2.codeSHA256
+    }
+
+    @Test
+    fun `required matching`() {
+        shouldNotThrowAny {
+            testPersonMaxData.requireMatch(testPersonMaxData)
+        }
+
+        shouldThrow<InvalidHealthCertificateException> {
+            testPersonMaxData.requireMatch(testPersonMaxData.copy(firstNameStandardized = "nope"))
+        }.errorCode shouldBe ErrorCode.VC_NAME_MISMATCH
+
+        shouldThrow<InvalidHealthCertificateException> {
+            testPersonMaxData.requireMatch(testPersonMaxData.copy(lastNameStandardized = "nope"))
+        }.errorCode shouldBe ErrorCode.VC_NAME_MISMATCH
+
+        shouldThrow<InvalidHealthCertificateException> {
+            testPersonMaxData.requireMatch(testPersonMaxData.copy(dateOfBirth = LocalDate.parse("1900-12-31")))
+        }.errorCode shouldBe ErrorCode.VC_DOB_MISMATCH
     }
 }

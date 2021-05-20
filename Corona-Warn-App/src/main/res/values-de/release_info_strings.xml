@@ -17,25 +17,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Aufzeichnung von Fehleranalyse-Protokollen</item>
-        <item>Anlegen von Schnelltest-Profilen</item>
+        <item>Digitaler Impfnachweis</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können nun im Rahmen des technischen Supports für die App ein Fehlerprotokoll erstellen, das die Schritte aufzeichnet, die Sie in der App ausführen. Somit wird die Analyse von möglichen Fehlern erleichtert, welches zu einer schnelleren Fehlerbehebung führen kann.</item>
-        <item>Sie können nun ein Schnelltest-Profil mit Ihren persönlichen Daten anlegen. Ihr Profil kann dann an Teststellen per QR-Code schnell und einfach gescannt werden.</item>
+        <item>Sie können jetzt Ihre Impfzertifikate in der App hinzufügen und per QR-Code vorweisen. 14 Tage nach der letzten Impfung zeigt die App den vollständigen Impfschutz an.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item></item>
-        <item></item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item></item>
         <item></item>
     </string-array>
 

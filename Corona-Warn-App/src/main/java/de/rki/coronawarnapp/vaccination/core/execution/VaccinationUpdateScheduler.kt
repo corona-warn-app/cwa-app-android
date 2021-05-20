@@ -44,7 +44,7 @@ class VaccinationUpdateScheduler @Inject constructor(
         }
 
         vaccinationRepository.vaccinationInfos
-            .map { vaccinatedPersons ->
+            .map {
                 false // NOOP, but we want to keep the logic for now
             }
             .distinctUntilChanged()
@@ -59,11 +59,11 @@ class VaccinationUpdateScheduler @Inject constructor(
         // If there is a pending check or we have stale data, we refresh immediately when opening the app
         combine(
             // Pending checks?
-            vaccinationRepository.vaccinationInfos.map { persons ->
+            vaccinationRepository.vaccinationInfos.map {
                 false // NOOP, but we want to keep the logic for now
             }.distinctUntilChanged(),
             // Stale data?
-            vaccinationRepository.vaccinationInfos.map { persons ->
+            vaccinationRepository.vaccinationInfos.map {
                 false // NOOP, but we want to keep the logic for now
             }.distinctUntilChanged(),
             foregroundState.isInForeground

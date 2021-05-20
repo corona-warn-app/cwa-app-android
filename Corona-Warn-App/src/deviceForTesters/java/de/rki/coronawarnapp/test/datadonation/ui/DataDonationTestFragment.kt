@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.json.JSONObject
@@ -31,7 +31,7 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: DataDonationTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentTestDatadonationBinding by viewBindingLazy()
+    private val binding: FragmentTestDatadonationBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
