@@ -14,7 +14,7 @@
         android:layout_height="24dp"
         android:indeterminate="true"
         app:hideAnimationBehavior="inward"
-        app:indicatorColor="@color/colorAccent"
+        app:indicatorColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@id/image"
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintStart_toStartOf="@id/image"

@@ -2,12 +2,10 @@
 <resources>
 
     <!-- Brand Colors -->
-    <color name="colorBrandPrimary">#BD1200</color>
     <color name="colorSecondary">#80CDEC</color>
-    <color name="colorBrandTertiary">#59112B</color>
 
     <!-- Backgrounds and Separators -->
-    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorSurface">#FFFFFF</color>
     <color name="colorSurface1">#FFFFFF</color>
     <color name="colorSurface1Pressed">#E7E8E8</color>
     <color name="colorSurface2">#F5F5F5</color>
@@ -33,7 +31,7 @@
     <color name="colorTextSemanticRed">#C00F2D</color>
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">@color/cwaGrayHighlight</color>
-    <color name="colorTextTint">@color/colorAccent</color>
+    <color name="colorTextTint">@color/colorPrimary</color>
 
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C00F2D</color>
@@ -46,10 +44,9 @@
     <color name="colorSemanticUnknownRiskPressed">#E7E8E8</color>
 
     <!-- Accent -->
-    <color name="colorAccent">#007FAD</color>
-    <color name="colorAccentTintButton">@color/colorAccent</color>
+    <color name="colorPrimary">#007FAD</color>
     <color name="colorAccentTintButtonPressed">#02759E</color>
-    <color name="colorAccentTintIcon">@color/colorAccent</color>
+    <color name="colorAccentTintIcon">@color/colorPrimary</color>
 
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
@@ -71,8 +68,8 @@
     <color name="colorCalendarTextSelected">@color/colorTextPrimary1Inverted</color>
     <color name="colorCalendarTextUnselected">@color/colorOnPrimary</color>
     <color name="colorCalendarSelectedDayBackground">@color/colorCalendarBackgroundSelected</color>
-    <color name="colorCalendarTodayBorder">@color/colorAccent</color>
-    <color name="colorCalendarTodayText">@color/colorAccent</color>
+    <color name="colorCalendarTodayBorder">@color/colorPrimary</color>
+    <color name="colorCalendarTodayText">@color/colorPrimary</color>
     <color name="colorCalendarMonthText">#DE000000</color>
 
     <!-- Contact Diary -->
@@ -90,7 +87,7 @@
     <color name="colorStatisticsTrendNeutral">#5D6F80</color>
 
     <!-- Bottom Nav bar-->
-    <color name="navItemColorSelected">@color/colorAccent</color>
+    <color name="navItemColorSelected">@color/colorPrimary</color>
     <color name="navItemColorNormal">#999999</color>
 
     <!-- Trace location -->

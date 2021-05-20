@@ -1,12 +1,11 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:actionOverflowButtonStyle">@style/CWAToolbar.Overflow</item>
-        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
         <item name="android:windowLightStatusBar">@bool/lightSystemUI</item>
         <item name="android:statusBarColor">@color/colorSystemUI</item>
-        <item name="colorSurface">@color/colorBackground</item>
+        <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
     </style>
@@ -111,11 +110,11 @@
     <style name="buttonTraceLocation" parent="button">
         <item name="android:backgroundTint">@color/button_trace_location</item>
         <item name="android:stateListAnimator">@null</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="materialTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog.Flush">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="buttonIcon">
@@ -457,7 +456,7 @@
     </style>
 
     <style name="ContactDiaryCircumstancesTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxBackgroundColor">@color/colorBackground</item>
+        <item name="boxBackgroundColor">@color/colorSurface</item>
         <item name="android:textColorHint">@color/colorTextPrimary2</item>
         <item name="android:textSize">@dimen/font_small</item>
         <item name="hintTextColor">@color/colorTextPrimary2</item>
@@ -478,7 +477,7 @@
         <item name="android:paddingTop">7dp</item>
         <item name="android:paddingBottom">7dp</item>
         <item name="android:contentDescription">@string/statistics_info_button</item>
-        <item name="android:tint">@color/colorAccent</item>
+        <item name="android:tint">@color/colorPrimary</item>
     </style>
 
     <style name="StatisticsCardInfoButton" parent="buttonIcon">
@@ -523,7 +522,7 @@
     </style>
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">
-        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
     </style>
 
     <style name="CardOverFlowButton">

@@ -116,7 +116,7 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
     private fun styleText(key: String, value: Any?): SpannedString =
         buildSpannedString {
             bold {
-                color(requireContext().getColorCompat(R.color.colorAccent)) {
+                color(requireContext().getColorCompat(R.color.colorPrimary)) {
                     append("$key = ")
                 }
             }

@@ -7,7 +7,7 @@
     android:background="@drawable/trace_location_gradient_background">
 
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -54,9 +54,9 @@
                         android:layout_marginTop="110dp"
                         android:layout_marginBottom="12dp"
                         android:gravity="start"
-                        android:textSize="20sp"
                         android:text="@string/edit_checkin_title_text"
                         android:textColor="@color/colorStableLight"
+                        android:textSize="20sp"
                         tools:text="Aufenthaltsdauer anpassen für:" />
 
 
@@ -69,9 +69,7 @@
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:navigationIcon="@drawable/ic_close"
-                    app:navigationIconTint="@color/colorStableLight"
-                    app:titleTextColor="@color/colorAccentTintButton">
+                    app:navigationIcon="@drawable/ic_close_white">
 
                     <LinearLayout
                         android:id="@+id/header_text_layout"

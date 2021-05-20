@@ -121,7 +121,7 @@
                 android:layout_gravity="center"
                 android:text="Qr Code"
                 android:textColor="@android:color/white"
-                app:backgroundTint="@color/colorAccent"
+                app:backgroundTint="@color/colorPrimary"
                 app:icon="@drawable/ic_qrcode"
                 app:iconTint="@android:color/white" />
         </LinearLayout>

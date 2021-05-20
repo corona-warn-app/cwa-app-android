@@ -2,12 +2,8 @@
 <resources>
 
     <!-- Brand Colors -->
-    <color name="colorBrandPrimary">#D13F3F</color>
     <color name="colorSecondary">#80CDEC</color>
-    <color name="colorBrandTertiary">#994866</color>
-
-    <!-- Backgrounds and Separators -->
-    <color name="colorBackground">#000000</color>
+    <color name="colorSurface">#000000</color>
     <color name="colorSurface1">#232324</color>
     <color name="colorSurface1Pressed">#39393A</color>
     <color name="colorSurface2">#434445</color>
@@ -38,7 +34,6 @@
     <color name="colorSemanticUnknownRiskPressed">#39393A</color>
 
     <!-- Accent -->
-    <color name="colorAccentTintButton">#007FAD</color>
     <color name="colorAccentTintButtonPressed">#1B4865</color>
     <color name="colorAccentTintIcon">#83D2F2</color>
 

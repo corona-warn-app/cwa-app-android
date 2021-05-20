@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:contentDescription="@string/contact_diary_overview_title"
-    android:background="@color/colorBackground"
+    android:background="@color/colorSurface"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorBackground"
+        android:background="@color/colorSurface"
         app:title="@string/contact_diary_overview_title" />
 
     <androidx.recyclerview.widget.RecyclerView
