@@ -6,7 +6,7 @@ import androidx.annotation.IntRange
 import androidx.fragment.app.DialogFragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.DurationPickerBinding
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
@@ -23,7 +23,7 @@ class DurationPicker : DialogFragment(R.layout.duration_picker) {
     private val title by lazy { requireArguments().getString(TITLE_KEY).orEmpty() }
     private val minutesArray by lazy { requireArguments().getStringArray(MINUTES_KEY).orEmpty() }
 
-    private val binding: DurationPickerBinding by viewBindingLazy()
+    private val binding: DurationPickerBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val vm: NewReleaseInfoViewModel by cwaViewModels { viewModelFactory }
-    private val binding: NewReleaseInfoScreenFragmentBinding by viewBindingLazy()
+    private val binding: NewReleaseInfoScreenFragmentBinding by viewBinding()
     private val args: NewReleaseInfoFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

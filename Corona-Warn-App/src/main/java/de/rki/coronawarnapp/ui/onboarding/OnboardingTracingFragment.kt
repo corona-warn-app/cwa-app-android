@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -23,7 +23,7 @@ import javax.inject.Inject
  */
 class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing), AutoInject {
 
-    private val binding: FragmentOnboardingTracingBinding by viewBindingLazy()
+    private val binding: FragmentOnboardingTracingBinding by viewBinding()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: OnboardingTracingFragmentViewModel by cwaViewModels { viewModelFactory }

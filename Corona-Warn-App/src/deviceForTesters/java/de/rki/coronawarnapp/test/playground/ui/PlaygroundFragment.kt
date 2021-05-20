@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFr
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragmentArgs
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -22,7 +22,7 @@ class PlaygroundFragment : Fragment(R.layout.fragment_test_playground), AutoInje
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val vm: PlaygroundViewModel by cwaViewModels { viewModelFactory }
-    private val binding: FragmentTestPlaygroundBinding by viewBindingLazy()
+    private val binding: FragmentTestPlaygroundBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
