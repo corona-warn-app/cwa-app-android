@@ -71,7 +71,7 @@ class TaskController @Inject constructor(
             throw MissingTaskFactoryException(request::class)
         }
         Timber.tag(TAG).i("Task submitted: %s", request)
-        taskQueue.trySend(request).isSuccess
+        taskQueue.trySend(request)
     }
 
     suspend fun cancel(requestId: UUID) = internalTaskData.updateSafely {
