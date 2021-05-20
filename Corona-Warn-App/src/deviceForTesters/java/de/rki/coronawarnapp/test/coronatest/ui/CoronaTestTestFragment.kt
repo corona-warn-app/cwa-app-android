@@ -66,7 +66,7 @@ class CoronaTestTestFragment : Fragment(R.layout.fragment_test_coronatest), Auto
         }
 
         vm.pcrtState.observe2(this) {
-            binding.pcrtData.text = it.getNiceTextForHumans(requireContext())
+            binding.pcrtData.text = it.getNiceTextForHumans()
         }
         binding.apply {
             pcrtDeleteAction.setOnClickListener { vm.deletePCRT() }
@@ -74,7 +74,7 @@ class CoronaTestTestFragment : Fragment(R.layout.fragment_test_coronatest), Auto
         }
 
         vm.ratState.observe2(this) {
-            binding.ratData.text = it.getNiceTextForHumans(requireContext())
+            binding.ratData.text = it.getNiceTextForHumans()
         }
         binding.apply {
             ratDeleteAction.setOnClickListener { vm.deleteRAT() }

@@ -3,11 +3,13 @@ package de.rki.coronawarnapp.task.testtasks.queue
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.common.Finished
+import de.rki.coronawarnapp.task.common.ProgressResult
+import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.task.common.DefaultProgress
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.joda.time.Duration
 import timber.log.Timber
 import java.io.File
@@ -17,8 +19,8 @@ import javax.inject.Provider
 
 open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTask.Result> {
 
-    private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
-    override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
+    private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
+    override val progress: Flow<DefaultProgress> = internalProgress
 
     private var isCanceled = false
 
@@ -29,7 +31,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
         }
     } finally {
         Timber.i("Finished (isCanceled=$isCanceled).")
-        internalProgress.close()
+        internalProgress.value = Finished
     }
 
     private suspend fun runSafely(arguments: Arguments): Result {
@@ -40,7 +42,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
             arguments.path.appendText(it)
 
             Timber.v("Progress message: $it")
-            internalProgress.send(DefaultProgress(it))
+            internalProgress.value = ProgressResult(it)
             delay(arguments.delay)
         }
 

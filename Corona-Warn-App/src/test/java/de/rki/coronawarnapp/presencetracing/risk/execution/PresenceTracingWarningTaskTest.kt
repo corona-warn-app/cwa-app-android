@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackage
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
-import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.comparables.shouldBeLessThan
 import io.kotest.matchers.shouldNotBe
@@ -31,7 +30,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -39,7 +37,6 @@ import java.io.IOException
 
 class PresenceTracingWarningTaskTest : BaseTest() {
 
-    @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var syncTool: TraceWarningPackageSyncTool
     @MockK lateinit var checkInWarningMatcher: CheckInWarningMatcher
     @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
@@ -61,7 +58,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
         every { coronaTestRepository.coronaTests } returns coronaTests
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(9000)
         coEvery { syncTool.syncPackages() } returns TraceWarningPackageSyncTool.SyncResult(successful = true)
         coEvery { checkInWarningMatcher.process(any(), any()) } answers {
             CheckInWarningMatcher.Result(
@@ -95,7 +91,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     }
 
     private fun createInstance() = PresenceTracingWarningTask(
-        timeStamper = timeStamper,
         syncTool = syncTool,
         checkInWarningMatcher = checkInWarningMatcher,
         presenceTracingRiskRepository = presenceTracingRiskRepository,

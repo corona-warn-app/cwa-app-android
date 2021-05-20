@@ -3,18 +3,19 @@ package de.rki.coronawarnapp.task.testtasks.timeout
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.common.Finished
+import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.task.common.DefaultProgress
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
 import javax.inject.Provider
 
 abstract class BaseTimeoutTask : Task<DefaultProgress, TimeoutTaskResult> {
 
-    private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
-    override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
+    private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
+    override val progress: Flow<DefaultProgress> = internalProgress
 
     private var isCanceled = false
 
@@ -25,7 +26,7 @@ abstract class BaseTimeoutTask : Task<DefaultProgress, TimeoutTaskResult> {
         }
     } finally {
         Timber.i("Finished (isCanceled=$isCanceled).")
-        internalProgress.close()
+        internalProgress.value = Finished
     }
 
     private suspend fun runSafely(arguments: TimeoutTaskArguments): TimeoutTaskResult {

@@ -2,18 +2,19 @@ package de.rki.coronawarnapp.task.testtasks.precondition
 
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.common.Finished
+import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.task.common.DefaultProgress
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Provider
 
 class PreconditionTask : Task<DefaultProgress, PreconditionTask.Result> {
 
-    private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
-    override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
+    private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
+    override val progress: Flow<DefaultProgress> = internalProgress
 
     private var isCanceled = false
 
@@ -23,7 +24,7 @@ class PreconditionTask : Task<DefaultProgress, PreconditionTask.Result> {
         Result()
     } finally {
         Timber.i("Finished (isCanceled=$isCanceled).")
-        internalProgress.close()
+        internalProgress.value = Finished
     }
 
     override suspend fun cancel() {
