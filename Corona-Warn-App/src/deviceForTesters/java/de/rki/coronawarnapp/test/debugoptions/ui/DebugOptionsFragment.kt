@@ -71,7 +71,6 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                 environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"
                 environmentUrlDatadonation.text = "DataDonation:\n${state.urlDataDonation}"
                 environmentUrlLogUpload.text = "LogUpload:\n${state.urlLogUpload}"
-                environmentCdnUrlVaccination.text = "Vaccination CDN: \n${state.urlVaccination}"
                 environmentPubkeyCrowdnotifier.text = "CrowdNotifierPubKey:\n${state.pubKeyCrowdNotifier}"
                 environmentPubkeyAppconfig.text = "AppConfigPubKey:\n${state.pubKeyAppConfig}"
             }

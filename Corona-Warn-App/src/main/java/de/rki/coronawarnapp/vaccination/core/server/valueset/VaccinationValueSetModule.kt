@@ -25,7 +25,8 @@ class VaccinationValueSetModule {
     fun cache(
         @AppContext context: Context
     ): Cache {
-        val cacheDir = File(context.cacheDir, "vaccination_value")
+        val vaccDir = File(context.cacheDir, "vaccination")
+        val cacheDir = File(vaccDir, "valueset_httpcache")
         return Cache(cacheDir, CACHE_SIZE_5MB)
     }
 

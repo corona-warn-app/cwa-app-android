@@ -41,7 +41,7 @@ class VaccinationListViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     init {
-        valueSetsRepository.reloadValueSet(languageCode = context.getLocale())
+        valueSetsRepository.triggerUpdateValueSet(languageCode = context.getLocale())
     }
 
     val events = SingleLiveEvent<Event>()
