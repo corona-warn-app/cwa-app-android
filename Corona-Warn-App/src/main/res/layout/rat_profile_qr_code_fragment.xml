@@ -125,7 +125,6 @@
                     android:layout_height="wrap_content"
                     android:indeterminate="true"
                     app:hideAnimationBehavior="inward"
-                    app:indicatorColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="@id/qrCodeImage"
                     app:layout_constraintEnd_toEndOf="@id/qrCodeImage"
                     app:layout_constraintStart_toStartOf="@id/qrCodeImage"

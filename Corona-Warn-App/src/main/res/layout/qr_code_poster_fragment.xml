@@ -113,7 +113,6 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         app:hideAnimationBehavior="inward"
-        app:indicatorColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
