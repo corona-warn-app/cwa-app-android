@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class HomeTestCardsFragment : Fragment(R.layout.fragment_test_home_test_cards_la
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: HomeTestCardsFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    val binding: FragmentTestHomeTestCardsLayoutBinding by viewBindingLazy()
+    val binding: FragmentTestHomeTestCardsLayoutBinding by viewBinding()
 
     private val homeAdapter = HomeAdapter()
 

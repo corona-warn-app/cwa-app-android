@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.LocalDate
@@ -28,7 +28,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
     @Inject lateinit var settings: ContactDiarySettings
 
     private val vm: ContactDiaryOnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
-    private val binding: ContactDiaryOnboardingFragmentBinding by viewBindingLazy()
+    private val binding: ContactDiaryOnboardingFragmentBinding by viewBinding()
     private val args by navArgs<ContactDiaryOnboardingFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

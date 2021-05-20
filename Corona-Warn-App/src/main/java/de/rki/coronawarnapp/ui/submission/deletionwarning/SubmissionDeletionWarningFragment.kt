@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
@@ -41,7 +41,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             factory.create(args.coronaTestQrCode, args.coronaTestTan, args.isConsentGiven)
         }
     )
-    private val binding: FragmentSubmissionDeletionWarningBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionDeletionWarningBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

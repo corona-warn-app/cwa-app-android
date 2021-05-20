@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
@@ -29,7 +29,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val args by navArgs<VaccinationDetailsFragmentArgs>()
-    private val binding: FragmentVaccinationDetailsBinding by viewBindingLazy()
+    private val binding: FragmentVaccinationDetailsBinding by viewBinding()
     private val viewModel: VaccinationDetailsViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
@@ -59,11 +59,16 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
             setToolbarOverlay()
 
-            viewModel.errors.observe(viewLifecycleOwner) { it.toErrorDialogBuilder(requireContext()).show() }
-            viewModel.qrCode.observe(viewLifecycleOwner) {
+            viewModel.errors.observe(viewLifecycleOwner) {
                 qrCodeCard.progressBar.hide()
+                it.toErrorDialogBuilder(requireContext()).show()
+            }
+            viewModel.qrCode.observe(viewLifecycleOwner) {
                 qrCodeCard.image.setImageBitmap(it)
-                it?.let { qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() } }
+                it?.let {
+                    qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() }
+                    qrCodeCard.progressBar.hide()
+                }
             }
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
@@ -92,7 +97,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         vaccineManufacturer.text = certificate.vaccineManufacturer
         medicalProductName.text = certificate.medicalProductName
         certificateIssuer.text = certificate.certificateIssuer
-        certificateCountry.text = certificate.certificateCountry.getLabel(requireContext())
+        certificateCountry.text = certificate.certificateCountry
         certificateId.text = certificate.certificateId
         title.text = getString(
             R.string.vaccination_details_title,
@@ -101,12 +106,12 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         )
         // QrCode details
         qrCodeCard.title.text = getString(
-            R.string.vaccination_qr_code_card_title,
+            R.string.vaccination_qrcode_card_title,
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
         )
         qrCodeCard.subtitle.text = getString(
-            R.string.vaccination_qr_code_card_subtitle,
+            R.string.vaccination_qrcode_card_subtitle,
             certificate.vaccinatedAt.toString(format),
             certificate.expiresAt.toString(format)
         )

@@ -14,9 +14,11 @@ class VaccinationQRCodeValidator @Inject constructor(
     private val extractors = setOf(vaccinationQRCodeExtractor)
 
     fun validate(rawString: String): VaccinationCertificateQRCode {
+        // If there is more than one "extractor" in the future, check censoring again.
+        // CertificateQrCodeCensor.addQRCodeStringToCensor(rawString)
         return findExtractor(rawString)
             ?.extract(rawString)
-            ?.also { Timber.i("Extracted data from QR code is $it") }
+            ?.also { Timber.i("Extracted data from QR code is %s", it) }
             ?: throw InvalidHealthCertificateException(VC_PREFIX_INVALID)
     }
 

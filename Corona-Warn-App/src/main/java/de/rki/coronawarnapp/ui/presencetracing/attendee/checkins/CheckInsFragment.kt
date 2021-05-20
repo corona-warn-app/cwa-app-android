@@ -26,16 +26,14 @@ import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPer
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.list.isSwipeable
-import de.rki.coronawarnapp.util.list.onSwipeItem
+import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.tryHumanReadableError
-import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
@@ -58,7 +56,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             )
         }
     )
-    private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBindingLazy()
+    private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBinding()
     private val checkInsAdapter = CheckInsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,8 +96,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 )
             }
 
-            is CheckInEvent.InvalidQrCode -> showInvalidQrCodeInformation(event.errorText)
-
             is CheckInEvent.ConfirmCheckInWithoutHistory -> doNavigate(
                 CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragmentCleanHistory(
                     verifiedTraceLocation = event.verifiedTraceLocation
@@ -132,15 +128,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             }
             is CheckInEvent.OpenDeviceSettings -> openDeviceSettings()
         }
-    }
-
-    private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            val errorText = lazyErrorText.get(context)
-            setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
-            setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
-            setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ -> }
-        }.show()
     }
 
     private fun updateViews(items: List<CheckInsItem>) {
@@ -202,14 +189,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 }
             }
 
-            onSwipeItem(
-                context = requireContext(),
-            ) { position, direction ->
-                val checkInsItem = checkInsAdapter.data[position]
-                if (checkInsItem.isSwipeable()) {
-                    checkInsItem.onSwipe(position, direction)
-                }
-            }
+            setupSwipe(context = requireContext())
         }
     }
 
@@ -223,11 +203,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             setPositiveButton(R.string.generic_action_remove) { _, _ ->
                 viewModel.onRemoveCheckInConfirmed(checkIn)
             }
-            setNegativeButton(R.string.generic_action_abort) { _, _ ->
-                position?.let { checkInsAdapter.notifyItemChanged(position) }
-            }
-
-            setOnCancelListener {
+            setNegativeButton(R.string.generic_action_abort) { _, _ -> }
+            setOnDismissListener {
                 position?.let { checkInsAdapter.notifyItemChanged(position) }
             }
         }.show()

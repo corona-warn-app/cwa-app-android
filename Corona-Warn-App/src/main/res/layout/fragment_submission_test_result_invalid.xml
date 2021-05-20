@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_test_result_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,10 +28,10 @@
             android:layout_marginBottom="@dimen/button_padding_top_bottom"
             android:accessibilityLiveRegion="assertive"
             android:importantForAccessibility="yes"
-            app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button_invalid_remove_test"
+            app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_invalid_remove_test"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_test_result_header">
+            app:layout_constraintTop_toBottomOf="@id/submission_test_result_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -58,21 +59,32 @@
                     android:text="@string/submission_test_result_subtitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_section" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_section" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_invalid_steps_added"
+                    android:id="@+id/test_result_invalid_steps_pcr_added"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_normal"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:layout_marginEnd="@dimen/spacing_normal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
                     app:layout_constraintTop_toBottomOf="@id/submission_test_result_subtitle"
-                    app:simple_step_entry_text="@string/submission_test_result_steps_added_body"
                     app:simple_step_entry_title="@string/submission_test_result_steps_added_heading"
                     app:step_entry_final="false"
+                    app:step_entry_icon="@drawable/ic_test_result_step_done" />
+
+                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                    android:id="@+id/test_result_invalid_steps_rat_added"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintTop_toBottomOf="@id/test_result_invalid_steps_pcr_added"
+                    app:simple_step_entry_title="@string/submission_test_result_steps_added_rat_heading"
+                    app:step_entry_final="false"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     app:step_entry_icon="@drawable/ic_test_result_step_done" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
@@ -83,11 +95,24 @@
                     android:layout_marginEnd="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/test_result_invalid_steps_added"
+                    app:layout_constraintTop_toBottomOf="@id/test_result_invalid_steps_rat_added"
                     app:simple_step_entry_text="@string/submission_test_result_invalid_steps_invalid_body"
                     app:simple_step_entry_title="@string/submission_test_result_invalid_steps_invalid_heading"
-                    app:step_entry_final="true"
                     app:step_entry_icon="@drawable/ic_test_result_step_invalid" />
+
+                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                    android:id="@+id/test_result_invalid_steps_remove_test"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test_result_invalid_steps_invalid_result"
+                    app:simple_step_entry_text="@string/submission_test_result_delete_steps_invalid_body"
+                    app:simple_step_entry_title="@string/submission_test_result_delete_steps_invalid_heading"
+                    app:step_entry_final="true"
+                    app:step_entry_icon="@drawable/ic_test_result_step_deletion" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

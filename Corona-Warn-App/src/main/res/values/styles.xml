@@ -243,6 +243,10 @@
         <item name="android:background">@drawable/grey_card_ripple</item>
     </style>
 
+    <style name="Card.Vaccination.Ripple.NoPadding">
+        <item name="android:padding">@dimen/no_padding</item>
+    </style>
+
     <style name="Card.NoPadding">
         <item name="android:padding">@dimen/no_padding</item>
     </style>
@@ -255,6 +259,11 @@
 
     <style name="GreyCard.Ripple">
         <item name="android:background">@drawable/grey_card_ripple</item>
+    </style>
+
+    <style name="dispatcherImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_card</item>
     </style>
 
     <style name="BlueCard">
