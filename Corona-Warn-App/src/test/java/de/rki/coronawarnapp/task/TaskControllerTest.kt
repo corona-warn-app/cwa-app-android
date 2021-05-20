@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.task
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.testtasks.SkippingTask
 import de.rki.coronawarnapp.task.testtasks.alerterror.AlertErrorTask
 import de.rki.coronawarnapp.task.testtasks.precondition.PreconditionTask
@@ -165,8 +166,7 @@ class TaskControllerTest : BaseIOTest() {
 
         arguments.path.exists() shouldBe true
 
-        val lastProgressMessage = progressCollector.latestValue!!.primaryMessage.get(mockk())
-        // TODO lastProgressMessage shouldBe arguments.values.last()
+        progressCollector.latestValue shouldBe Finished
 
         infoFinished.apply {
 
