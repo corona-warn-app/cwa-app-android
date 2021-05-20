@@ -261,6 +261,11 @@
         <item name="android:background">@drawable/grey_card_ripple</item>
     </style>
 
+    <style name="dispatcherImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_card</item>
+    </style>
+
     <style name="BlueCard">
         <item name="android:background">@drawable/blue_card_ripple</item>
     </style>
