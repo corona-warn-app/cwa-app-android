@@ -16,7 +16,7 @@ data class LogLine(
     fun format(): String {
         val time = Instant.ofEpochMilli(timestamp)
 
-        val baseLine = "$time ${priorityLabel(priority)}/$tag: $message\n"
+        val baseLine = "$time ${priorityLabel(priority)}/$tag: $message"
 
         return if (throwable != null) {
             baseLine + "\n" + getStackTraceString(throwable)
