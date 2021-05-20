@@ -59,11 +59,16 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
             setToolbarOverlay()
 
-            viewModel.errors.observe(viewLifecycleOwner) { it.toErrorDialogBuilder(requireContext()).show() }
-            viewModel.qrCode.observe(viewLifecycleOwner) {
+            viewModel.errors.observe(viewLifecycleOwner) {
                 qrCodeCard.progressBar.hide()
+                it.toErrorDialogBuilder(requireContext()).show()
+            }
+            viewModel.qrCode.observe(viewLifecycleOwner) {
                 qrCodeCard.image.setImageBitmap(it)
-                it?.let { qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() } }
+                it?.let {
+                    qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() }
+                    qrCodeCard.progressBar.hide()
+                }
             }
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
