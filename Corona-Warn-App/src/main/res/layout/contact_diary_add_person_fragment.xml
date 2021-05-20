@@ -2,9 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:background="@color/colorBackground"
-    android:fitsSystemWindows="true"
+    android:fillViewport="true"
     android:transitionName="contact_diary_shared_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,9 +19,9 @@
             android:layout_marginTop="@dimen/spacing_tiny"
             android:contentDescription="@string/accessibility_close"
             android:padding="@dimen/spacing_mega_tiny"
-            app:srcCompat="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close" />
 
         <TextView
             android:id="@+id/contact_diary_person_title"
@@ -44,9 +43,9 @@
             android:layout_marginEnd="@dimen/spacing_tiny"
             android:contentDescription="@string/contact_diary_delete_icon_content_description"
             android:padding="@dimen/button_icon_padding"
-            app:srcCompat="@drawable/ic_baseline_delete"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_delete" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/person_name_input_layout"
@@ -65,12 +64,12 @@
                 android:id="@+id/person_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:focusable="true"
                 android:maxLength="250" />
 
-            <requestFocus/>
+            <requestFocus />
 
         </com.google.android.material.textfield.TextInputLayout>
 
