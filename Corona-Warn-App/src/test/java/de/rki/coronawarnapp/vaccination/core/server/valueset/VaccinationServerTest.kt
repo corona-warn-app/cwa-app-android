@@ -24,12 +24,12 @@ class VaccinationServerTest : BaseTest() {
     /**
      * contains both binary and signature
      */
-    private val exportZip = File("src/test/resources/export.zip")
+    private val exportZip = File("src/test/resources/vaccination/valueset_default.zip")
 
     /**
      * binary is missing
      */
-    private val invalidExportZip = File("src/test/resources/export_invalid.zip")
+    private val invalidExportZip = File("src/test/resources/vaccination/valueset_invalid.zip")
 
     @MockK lateinit var cache: Cache
     @MockK lateinit var apiV1: Lazy<VaccinationValueSetApiV1>
