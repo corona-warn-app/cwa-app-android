@@ -113,7 +113,7 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="materialTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog.Flush">
+    <style name="materialTextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 

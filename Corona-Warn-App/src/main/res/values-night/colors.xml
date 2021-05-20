@@ -72,7 +72,7 @@
     <color name="colorQrCodeScanMask">#BF000000</color>
 
     <!-- Vaccination -->
-    <color name="colorVaccinationCardBackground">#434445</color>
+    <color name="colorVaccinationCardBackground">@color/colorSurface2</color>
 
     <color name="dividerColor">#4DFFFFFF</color>
 </resources>
