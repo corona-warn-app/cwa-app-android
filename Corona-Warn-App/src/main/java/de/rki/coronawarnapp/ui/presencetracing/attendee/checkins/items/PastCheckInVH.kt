@@ -36,7 +36,10 @@ class PastCheckInVH(parent: ViewGroup) :
         description.text = curItem.checkin.description
         address.text = curItem.checkin.address
 
-        checkoutInfo.text = context.getString(R.string.trace_location_attendee_past_event_duration, curItem.checkin.checkoutInfo)
+        checkoutInfo.text = context.getString(
+            R.string.trace_location_attendee_past_event_duration,
+            curItem.checkin.checkoutInfo
+        )
 
         menuAction.setupMenu(R.menu.menu_trace_location_attendee_checkin_item) {
             when (it.itemId) {
