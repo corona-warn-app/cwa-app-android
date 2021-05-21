@@ -12,7 +12,9 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runBlockingTest
+import okio.IOException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -88,5 +90,42 @@ class UpdateCheckerTest : BaseTest() {
         coVerifySequence {
             appConfigProvider.getAppConfig()
         }
+    }
+
+    @Test
+    fun `timeout after 5 seconds`() = runBlockingTest {
+        every { configData.minVersionCode } returns 10
+        every { BuildConfigWrap.VERSION_CODE } returns 9
+
+        coEvery { appConfigProvider.getAppConfig() } coAnswers {
+            delay(4_000)
+            configData
+        }
+
+        createInstance().checkForUpdate().apply {
+            isUpdateNeeded shouldBe true
+            updateIntent shouldNotBe null
+        }
+
+        coEvery { appConfigProvider.getAppConfig() } coAnswers {
+            delay(6_000)
+            throw IOException()
+        }
+
+        createInstance().checkForUpdate().apply {
+            isUpdateNeeded shouldBe false
+            updateIntent shouldBe null
+        }
+
+        coEvery { appConfigProvider.getAppConfig() } coAnswers {
+            delay(6_000)
+            configData
+        }
+
+        createInstance().checkForUpdate().apply {
+            isUpdateNeeded shouldBe false
+            updateIntent shouldBe null
+        }
+
     }
 }
