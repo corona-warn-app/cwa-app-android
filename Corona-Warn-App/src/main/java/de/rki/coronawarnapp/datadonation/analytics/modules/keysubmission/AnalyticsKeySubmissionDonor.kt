@@ -49,16 +49,16 @@ abstract class AnalyticsBaseKeySubmissionDonor(
         PpaData.PPAKeySubmissionMetadata.newBuilder()
             .setAdvancedConsentGiven(repository.advancedConsentGiven)
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                repository.daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration
+                repository.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
             .setHoursSinceHighRiskWarningAtTestRegistration(
-                repository.hoursSinceEwHighRiskWarningAtTestRegistration
+                repository.ewHoursSinceHighRiskWarningAtTestRegistration
             )
             .setPtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                repository.daysSinceMostRecentDateAtPtRiskLevelAtTestRegistration
+                repository.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
             .setPtHoursSinceHighRiskWarningAtTestRegistration(
-                repository.hoursSincePtHighRiskWarningAtTestRegistration
+                repository.ptHoursSinceHighRiskWarningAtTestRegistration
             )
             .setHoursSinceTestResult(repository.hoursSinceTestResult)
             .setHoursSinceTestRegistration(repository.hoursSinceTestRegistration)

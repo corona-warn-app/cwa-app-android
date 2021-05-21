@@ -66,17 +66,17 @@ abstract class AnalyticsKeySubmissionRepository(
             return Duration.millis(submittedAt - testRegisteredAt).toStandardHours().hours
         }
 
-    val daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration: Int
+    val ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
         get() = storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
 
-    val hoursSinceEwHighRiskWarningAtTestRegistration: Int
+    val ewHoursSinceHighRiskWarningAtTestRegistration: Int
         get() = storage.ewHoursSinceHighRiskWarningAtTestRegistration.value
 
-    val daysSinceMostRecentDateAtPtRiskLevelAtTestRegistration: Int
-        get() = TODO()
+    val ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
+        get() = storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
 
-    val hoursSincePtHighRiskWarningAtTestRegistration: Int
-        get() = TODO()
+    val ptHoursSinceHighRiskWarningAtTestRegistration: Int
+        get() = storage.ptHoursSinceHighRiskWarningAtTestRegistration.value
 
     val submittedWithCheckIns: Boolean
         get() = storage.submittedWithCheckIns.value

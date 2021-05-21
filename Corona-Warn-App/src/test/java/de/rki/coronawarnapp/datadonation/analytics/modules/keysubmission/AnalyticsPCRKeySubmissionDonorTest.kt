@@ -19,8 +19,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class AnalyticsRaKeySubmissionDonorTest : BaseTest() {
-    @MockK lateinit var repository: AnalyticsRAKeySubmissionRepository
+class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
+    @MockK lateinit var repository: AnalyticsPCRKeySubmissionRepository
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var configData: ConfigData
     private val request = object : DonorModule.Request {
@@ -62,8 +62,8 @@ class AnalyticsRaKeySubmissionDonorTest : BaseTest() {
     fun `regular contribution when keys submitted`() {
         every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
         every { repository.advancedConsentGiven } returns true
-        every { repository.daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration } returns 1
-        every { repository.hoursSinceEwHighRiskWarningAtTestRegistration } returns 1
+        every { repository.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
+        every { repository.ewHoursSinceHighRiskWarningAtTestRegistration } returns 1
         every { repository.hoursSinceTestResult } returns 1
         every { repository.hoursSinceTestRegistration } returns 1
         every { repository.lastSubmissionFlowScreen } returns 1
@@ -72,6 +72,9 @@ class AnalyticsRaKeySubmissionDonorTest : BaseTest() {
         every { repository.submittedInBackground } returns true
         every { repository.submittedWithTeleTAN } returns false
         every { repository.submitted } returns true
+        every { repository.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
+        every { repository.ptHoursSinceHighRiskWarningAtTestRegistration } returns 1
+        every { repository.submittedAfterRAT } returns false
         every { ppaData.addKeySubmissionMetadataSet(any<PpaData.PPAKeySubmissionMetadata.Builder>()) } returns ppaData
         every { repository.reset() } just Runs
         runBlockingTest {
@@ -98,5 +101,5 @@ class AnalyticsRaKeySubmissionDonorTest : BaseTest() {
         }
     }
 
-    fun createInstance() = AnalyticsRaKeySubmissionDonor(repository, timeStamper)
+    fun createInstance() = AnalyticsPcrKeySubmissionDonor(repository, timeStamper)
 }

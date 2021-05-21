@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -76,6 +77,12 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
             daysSinceMostRecentDateAtRiskLevelAtTestRegistration
         every { analyticsRaKeySubmissionStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
             daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+        every { analyticsPcrKeySubmissionStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
+            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+        every { analyticsRaKeySubmissionStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
+            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+        every { riskLevelSettings.ewMostRecentDateWithHighOrLowRiskLevel } returns now
+        every { riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel } returns now.toLocalDateUtc()
         every { analyticsPcrKeySubmissionStorage.clear() } just Runs
         every { analyticsRaKeySubmissionStorage.clear() } just Runs
         runBlockingTest {

@@ -112,9 +112,13 @@ class PtRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `risk level went from LOW to HIGH`() {
+        val dayRisk = PresenceTracingDayRisk(
+            Instant.EPOCH.plus(1).toLocalDateUtc(),
+            INCREASED_RISK,
+        )
         every { riskLevelStorage.allPtRiskLevelResults } returns flowOf(
             listOf(
-                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1), listOf(dayRisk)),
                 createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
@@ -126,18 +130,25 @@ class PtRiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerify(exactly = 1) {
-                riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp
-                riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel
+                riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp =
+                    Instant.EPOCH.plus(1)
+                riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel =
+                    Instant.EPOCH.plus(1).toLocalDateUtc()
             }
         }
     }
 
     @Test
     fun `risk level went from HIGH to LOW`() {
+        val dayRisk = PresenceTracingDayRisk(
+            Instant.EPOCH.plus(1).toLocalDateUtc(),
+            LOW_RISK,
+        )
+
         every { riskLevelStorage.allPtRiskLevelResults } returns flowOf(
             listOf(
-                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
-                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1), listOf(dayRisk)),
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
             )
         )
 
