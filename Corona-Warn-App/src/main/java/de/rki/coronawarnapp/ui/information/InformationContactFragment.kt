@@ -9,14 +9,14 @@ import de.rki.coronawarnapp.databinding.FragmentInformationContactBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.callPhone
 import de.rki.coronawarnapp.util.linkifyPhoneNumbers
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 
 /**
  * Basic Fragment which only displays static content.
  */
 class InformationContactFragment : Fragment(R.layout.fragment_information_contact) {
 
-    private val binding: FragmentInformationContactBinding by viewBindingLazy()
+    private val binding: FragmentInformationContactBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

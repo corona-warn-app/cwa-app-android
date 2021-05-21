@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrCodeFullScreenBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
@@ -30,7 +30,7 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val binding: FragmentQrCodeFullScreenBinding by viewBindingLazy()
+    private val binding: FragmentQrCodeFullScreenBinding by viewBinding()
     private val args by navArgs<QrCodeFullScreenFragmentArgs>()
     private val viewModel: QrCodeFullScreenViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },

@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.Duration
@@ -34,7 +34,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
     @Inject lateinit var fileSharing: FileSharing
 
     private val vm: DebugLogViewModel by cwaViewModels { viewModelFactory }
-    private val binding: BugreportingDebuglogFragmentBinding by viewBindingLazy()
+    private val binding: BugreportingDebuglogFragmentBinding by viewBinding()
 
     @Suppress("ComplexMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

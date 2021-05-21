@@ -18,20 +18,15 @@ import kotlin.math.min
 /**
  * On [RecyclerView] item swipe listener
  * @param context [Context]
- * @param onSwipe on swipe callback. It passes item's position and swipe direction
+ * @param onSwipe if you want to override the swipe callback globally
  *
- * Usage:
- * ```
- * RecyclerView.onSwipeItem(
- *   context = requireContext()
- * ) { position, direction ->
- *   // Do operation here
- * }
- * ```
+ * After calling this on a recyclerview, every ViewHolder that implements [Swipeable] is swipeable.
  */
-fun RecyclerView.onSwipeItem(
+fun RecyclerView.setupSwipe(
     context: Context,
-    onSwipe: (position: Int, direction: Int) -> Unit
+    onSwipe: (holder: RecyclerView.ViewHolder, direction: Int) -> Unit = { holder, direction ->
+        (holder as? Swipeable)?.let { holder.onSwipe(holder, direction) }
+    }
 ) {
     ItemTouchHelper(
         SwipeCallback(
@@ -46,11 +41,10 @@ fun RecyclerView.onSwipeItem(
  */
 private class SwipeCallback(
     context: Context,
-    private val action: (position: Int, direction: Int) -> Unit
-) : ItemTouchHelper.SimpleCallback(
-    0,
-    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-) {
+    private val action: (holder: RecyclerView.ViewHolder, direction: Int) -> Unit,
+    private val dragDirs: Int = 0,
+    private val swipeDirs: Int = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
+) : ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
     private val icon = context.getDrawableCompat(R.drawable.ic_delete)!!
     private val iconMargin = context.resources.getDimensionPixelSize(R.dimen.swipe_icon_margin)
     private val radius = context.resources.getDimensionPixelSize(R.dimen.radius_card).toFloat()
@@ -69,7 +63,7 @@ private class SwipeCallback(
     ): Boolean = false
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        action(viewHolder.adapterPosition, direction)
+        action(viewHolder, direction)
     }
 
     override fun onChildDraw(
@@ -102,9 +96,12 @@ private class SwipeCallback(
         }
     }
 
-    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-        if (viewHolder.isMovable()) return viewHolder.movementFlags
-        return super.getMovementFlags(recyclerView, viewHolder)
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int = when (viewHolder) {
+        is Swipeable -> viewHolder.movementFlags ?: ItemTouchHelper.Callback.makeMovementFlags(dragDirs, swipeDirs)
+        else -> ItemTouchHelper.ACTION_STATE_IDLE
     }
 
     private fun onSwipeLeft(

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.test.coronatest.ui
 
-import android.content.Context
 import androidx.lifecycle.asLiveData
 import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
@@ -109,7 +108,7 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
     data class PCRTState(
         val coronaTest: PCRCoronaTest?
     ) {
-        fun getNiceTextForHumans(context: Context): String {
+        fun getNiceTextForHumans(): String {
             return coronaTest
                 ?.toString()
                 ?.replace("PCRCoronaTest(", "")
@@ -122,7 +121,7 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
     data class RATState(
         val coronaTest: RACoronaTest?
     ) {
-        fun getNiceTextForHumans(context: Context): String {
+        fun getNiceTextForHumans(): String {
             return coronaTest
                 ?.toString()
                 ?.replace("RACoronaTest(", "")

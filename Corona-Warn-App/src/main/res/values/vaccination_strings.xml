@@ -16,24 +16,14 @@
     <string name="vaccination_details_certificate_country">Land</string>
     <!-- XTXT: Vaccination Details certificate id -->
     <string name="vaccination_details_certificate_id">Zertifikationsnummer</string>
-    <!-- XBUT: Vaccination Details delete button -->
-    <string name="vaccination_details_delete_button">Impfzertifikat entfernen</string>
     <!-- XTXT: Vaccination Details subtitle-->
     <string name="vaccination_details_subtitle">Impfzertifikat</string>
     <!-- XTXT: Vaccination Details title-->
     <string name="vaccination_details_title">Impfung %1$d von %2$d</string>
     <!-- XTXT: Vaccination Qr Code card title-->
-    <string name="vaccination_qr_code_card_title">Impfzertifikat %1$d von %2$d</string>
+    <string name="vaccination_qrcode_card_title">Impfzertifikat %1$d von %2$d</string>
     <!-- XTXT: Vaccination Qr Code card subtitle-->
-    <string name="vaccination_qr_code_card_subtitle">Geimpft %1$s - gültig bis %2$s</string>
-    <!-- XTXT: Vaccination Details deletion dialog title-->
-    <string name="vaccination_details_deletion_dialog_title">Wollen Sie das Impfzertifikat wirklich entfernen?</string>
-    <!-- XTXT: Vaccination Details deletion dialog message-->
-    <string name="vaccination_details_deletion_dialog_message">Wenn Sie das Impfzertifikat entfernen, kann die App die Impfung nicht mehr für die Prüfung Ihres Impfstatus berücksichtigen.</string>
-    <!-- XBUT: Vaccination Details deletion dialog positive button-->
-    <string name="vaccination_details_deletion_dialog_positive_button">Entfernen</string>
-    <!-- XBUT: Vaccination Details deletion dialog negative button-->
-    <string name="vaccination_details_deletion_dialog_negative_button">Abbrechen</string>
+    <string name="vaccination_qrcode_card_subtitle">Geimpft %1$s - gültig bis %2$s</string>
 
     <!-- XTXT: Vaccination List title-->
     <string name="vaccination_list_title">Digitaler Impfnachweis</string>
@@ -46,17 +36,30 @@
     <!-- XTXT: Vaccination List name card subtitle-->
     <string name="vaccination_list_name_card_subtitle">geboren %1$s</string>
     <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_vaccination_card_title">Impfung %1$s von %2$s</string>
+    <string name="vaccination_list_vaccination_card_title">Impfung %1$d von %2$d</string>
     <!-- XTXT: Vaccination List top card subtitle-->
     <string name="vaccination_list_vaccination_card_subtitle">durchgeführt am %1$s</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_certificate_card_title">COVID-19-Prüfzertifikat</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_certificate_card_subtitle">Noch %1$d Tage gültig</string>
+    <!-- XTXT: Vaccination List immunity information card body-->
+    <plurals name="vaccination_list_immunity_card_body">
+        <item quantity="one">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tag vollständig.</item>
+        <item quantity="other">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+        <item quantity="zero">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+        <item quantity="two">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+        <item quantity="few">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+        <item quantity="many">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+    </plurals>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung registrieren</string>
-    <!-- XBUT: Vaccination List refresh button -->
-    <string name="vaccination_list_refresh_button">Aktualisieren</string>
+    <!-- XBUT: Vaccination List delete button -->
+    <string name="vaccination_list_delete_button">Entfernen</string>
+    <!-- XTXT: Vaccination List deletion dialog title-->
+    <string name="vaccination_list_deletion_dialog_title">Wollen Sie das Impfzertifikat wirklich entfernen?</string>
+    <!-- XTXT: Vaccination List deletion dialog message-->
+    <string name="vaccination_list_deletion_dialog_message">Wenn Sie das Impfzertifikat entfernen, kann die App die Impfung nicht mehr für die Prüfung Ihres Impfstatus berücksichtigen.</string>
+    <!-- XBUT: Vaccination List deletion dialog positive button-->
+    <string name="vaccination_list_deletion_dialog_positive_button">Entfernen</string>
+    <!-- XBUT: Vaccination List deletion dialog negative button-->
+    <string name="vaccination_list_deletion_dialog_negative_button">Abbrechen</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">Qr-Code</string>
 
@@ -74,8 +77,17 @@
     <string name="vaccination_card_status_title">Digitaler Impfnachweis</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">SARS-CoV-2 Impfschutz</string>
-    <!-- XTXT: Homescreen card vaccination status label -->
+    <!-- XTXT: Homescreen card incomplete vaccination status label -->
     <string name="vaccination_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <plurals name="vaccination_card_status_vaccination_complete">
+        <item quantity="one">Vollständiger Impfschutz in %1$d Tag</item>
+        <item quantity="other">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="zero">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="two">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="few">Vollständiger Impfschutz in %1$d Tagen</item>
+        <item quantity="many">Vollständiger Impfschutz in %1$d Tagen</item>
+    </plurals>
 
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid"></string>

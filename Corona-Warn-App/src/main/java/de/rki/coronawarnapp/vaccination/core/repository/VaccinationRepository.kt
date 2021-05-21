@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
@@ -24,7 +26,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
@@ -93,11 +94,14 @@ class VaccinationRepository @Inject constructor(
                 }
             } else {
                 VaccinatedPerson(
-                    data = VaccinatedPersonData(
-                        vaccinations = emptySet()
-                    ),
+                    data = VaccinatedPersonData(),
                     valueSet = null,
                 )
+            }
+
+            if (originalPerson.data.vaccinations.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
+                Timber.tag(TAG).e("Certificate is already registered: %s", qrCode.uniqueCertificateIdentifier)
+                throw InvalidHealthCertificateException(ErrorCode.VC_ALREADY_REGISTERED)
             }
 
             val newCertificate = qrCode.toVaccinationContainer(
@@ -154,25 +158,25 @@ class VaccinationRepository @Inject constructor(
             )
 
             deletedVaccination = target.data.vaccinations.single {
-                it.certificateId != vaccinationCertificateId
+                it.certificateId == vaccinationCertificateId
             }
 
-            val newTarget = target.copy(
-                data = target.data.copy(
-                    vaccinations = target.data.vaccinations.filter {
-                        it.certificateId != vaccinationCertificateId
-                    }.toSet()
+            val newTarget = if (target.data.vaccinations.size > 1) {
+                target.copy(
+                    data = target.data.copy(
+                        vaccinations = target.data.vaccinations.filter { it != deletedVaccination }.toSet()
+                    )
                 )
-            )
+            } else {
+                Timber.tag(TAG).w("Person has no certificate after removal, removing person.")
+                null
+            }
 
-            this.map {
-                if (it != target) newTarget else it
-            }.toSet()
+            this.mapNotNull { if (it == target) newTarget else it }.toSet()
         }
 
         deletedVaccination?.let {
-            Timber.tag(TAG).i("Deleted vaccination was eligble for proof, refreshing: %s", deletedVaccination)
-            appScope.launch { refresh(it.personIdentifier) }
+            Timber.tag(TAG).i("Deleted vaccination certificate: %s", it.certificateId)
         }
     }
 

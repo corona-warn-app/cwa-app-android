@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.DateTime
@@ -33,7 +33,7 @@ import javax.inject.Inject
 
 class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_fragment), AutoInject {
 
-    private val binding: TraceLocationCreateFragmentBinding by viewBindingLazy()
+    private val binding: TraceLocationCreateFragmentBinding by viewBinding()
     private val navArgs by navArgs<TraceLocationCreateFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory

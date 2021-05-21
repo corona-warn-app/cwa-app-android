@@ -27,7 +27,7 @@ import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
@@ -49,7 +49,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
     )
 
-    private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionQrCodeScanBinding by viewBinding()
     private var showsPermissionDialog = false
 
     @Suppress("ComplexMethod")
@@ -102,17 +102,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
-
-            if (ApiRequestState.SUCCESS == state.apiRequestState) {
-                return@observe2
-            }
-
-            if (state.test == null) {
-                Timber.w("Successful API request, but test was null?")
-                return@observe2
-            }
-
-            when (state.test.testResult) {
+            when (state.test?.testResult) {
                 CoronaTestResult.PCR_POSITIVE ->
                     NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = Type.PCR)
 
@@ -132,6 +122,10 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 CoronaTestResult.RAT_PENDING,
                 CoronaTestResult.RAT_REDEEMED ->
                     NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = Type.RAPID_ANTIGEN)
+                null -> {
+                    Timber.w("Successful API request, but test was null?")
+                    return@observe2
+                }
             }.run { doNavigate(this) }
         }
 
