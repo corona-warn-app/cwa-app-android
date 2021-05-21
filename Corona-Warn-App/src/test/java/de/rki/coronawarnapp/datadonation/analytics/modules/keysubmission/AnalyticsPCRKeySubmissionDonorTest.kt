@@ -75,6 +75,7 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
         every { repository.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
         every { repository.ptHoursSinceHighRiskWarningAtTestRegistration } returns 1
         every { repository.submittedAfterRAT } returns false
+        every { repository.submittedWithCheckIns } returns false
         every { ppaData.addKeySubmissionMetadataSet(any<PpaData.PPAKeySubmissionMetadata.Builder>()) } returns ppaData
         every { repository.reset() } just Runs
         runBlockingTest {
