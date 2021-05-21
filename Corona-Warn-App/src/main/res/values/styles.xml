@@ -350,7 +350,7 @@
           Progress Bar
     ###################################### -->
 
-    <style name="progressBar" parent="Widget.AppCompat.ProgressBar">
+    <style name="progressBar" parent="Widget.MaterialComponents.CircularProgressIndicator">
         <item name="android:indeterminateTint">@color/colorStableLight</item>
     </style>
 
@@ -501,7 +501,7 @@
         <item name="android:textSize">@dimen/font_huge</item>
     </style>
 
-    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.AppCompat.Body2">
+    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">@dimen/font_title</item>
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
@@ -540,7 +540,7 @@
 
     <style name="SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">4dp</item>
+        <item name="cornerSize">8dp</item>
     </style>
 
     <style name="MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
