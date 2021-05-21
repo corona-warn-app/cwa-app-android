@@ -45,4 +45,23 @@ class LogWriterTest : BaseIOTest() {
             logSize.value shouldBe 0L
         }
     }
+
+    /**
+     * e.g. System cache cleaning interferring
+     */
+    @Test
+    fun `if the file is deleted after setup we try to recreate it and do not crash`() = runBlockingTest {
+        createInstance().apply {
+            setup()
+            write("ABC")
+            logFile.readText() shouldBe "ABC\n"
+
+            logFile.delete()
+            logFile.parentFile!!.delete()
+            logFile.exists() shouldBe false
+
+            write("DEF")
+            logFile.readText() shouldBe "Logfile was deleted.\nDEF\n"
+        }
+    }
 }
