@@ -5,6 +5,7 @@ import androidx.core.content.edit
 import de.rki.coronawarnapp.util.di.AppContext
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import org.joda.time.format.ISODateTimeFormat
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -60,10 +61,18 @@ class RiskLevelSettings @Inject constructor(
 
     var ptMostRecentDateWithHighOrLowRiskLevel: LocalDate?
         get() = prefs.getString(PKEY_MOST_RECENT_DATE_AT_RISK_LEVEL_PT, null).let {
-            if (it != null) LocalDate.parse(it) else null
+            return if (it != null) {
+                try {
+                    LocalDate.parse(it)
+                } catch (e: Throwable) {
+                    null
+                }
+            } else {
+                null
+            }
         }
         set(value) = prefs.edit {
-            putString(PKEY_MOST_RECENT_DATE_AT_RISK_LEVEL_PT, value.toString())
+            putString(PKEY_MOST_RECENT_DATE_AT_RISK_LEVEL_PT, value?.toString(ISODateTimeFormat.localDateParser()))
         }
 
     var ewMostRecentDateWithHighOrLowRiskLevel: Instant?
