@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
@@ -100,15 +99,8 @@ class BugCensorTest : BaseTest() {
     }
 
     @Test
-    fun `loglines are only copied if the message is different`() {
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Message",
-            tag = "Tag",
-            throwable = null
-        )
-        logLine.toNewLogLineIfDifferent("Message") shouldBe null
-        logLine.toNewLogLineIfDifferent("Message ") shouldNotBe logLine
+    fun `cesnsor string is nulled if not modified`() {
+        BugCensor.CensoredString("abc", 1..2).toNullIfUnmodified() shouldNotBe null
+        BugCensor.CensoredString("abc", null).toNullIfUnmodified() shouldBe null
     }
 }
