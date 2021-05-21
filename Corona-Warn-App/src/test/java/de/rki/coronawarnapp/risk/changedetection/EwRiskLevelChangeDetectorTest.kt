@@ -68,8 +68,8 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
 
         every { testResultDonorSettings.riskLevelTurnedRedTime } returns mockFlowPreference(null)
-        every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
-
+        every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns
+            mockFlowPreference(null)
     }
 
     private fun createEwRiskLevel(
