@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.bugreporting.censors.submission
 
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -31,27 +33,27 @@ class RACoronaTestCensor @Inject constructor(
         ).filterNotNull()
     }
 
-    override suspend fun checkLog(entry: LogLine): LogLine? {
+    override suspend fun checkLog(message: String): CensoredString? {
 
         val raCoronaTestFlow = coronaTestFlow.map { tests -> tests.filterIsInstance<RACoronaTest>() }.first()
         val raCoronaTest = raCoronaTestFlow.firstOrNull() ?: return null
 
-        var newMessage = entry.message
+        var newMessage = CensoredString(message)
 
         with(raCoronaTest) {
             withValidName(firstName) { firstName ->
-                newMessage = newMessage.replace(firstName, "RATest/FirstName")
+                newMessage += newMessage.censor(firstName, "RATest/FirstName")
             }
 
             withValidName(lastName) { lastName ->
-                newMessage = newMessage.replace(lastName, "RATest/LastName")
+                newMessage += newMessage.censor(lastName, "RATest/LastName")
             }
 
             val dateOfBirthString = dateOfBirth?.toString(dayOfBirthFormatter) ?: return@with
 
-            newMessage = newMessage.replace(dateOfBirthString, "RATest/DateOfBirth")
+            newMessage += newMessage.censor(dateOfBirthString, "RATest/DateOfBirth")
         }
 
-        return entry.toNewLogLineIfDifferent(newMessage)
+        return newMessage.toNullIfUnmodified()
     }
 }

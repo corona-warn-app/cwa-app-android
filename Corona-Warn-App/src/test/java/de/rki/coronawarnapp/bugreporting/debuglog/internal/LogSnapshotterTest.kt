@@ -8,7 +8,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.DateTime
+import org.joda.time.Instant
+import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,7 +28,9 @@ class LogSnapshotterTest : BaseIOTest() {
     private val runningLogFake = File(testDir, "running.log")
 
     private val snapshotDir = File(cacheDir, "debuglog_snapshots")
-    private val expectedSnapshot = File(snapshotDir, "CWA Log 1970-01-01 00_00_00.000.zip")
+    private val fileNameDateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH_mm_ss.SSS")
+    private val userTime = Instant.EPOCH.toUserTimeZone()
+    private val expectedSnapshot = File(snapshotDir, "CWA Log ${userTime.toString(fileNameDateFormatter)}.zip")
 
     @BeforeEach
     fun setup() {
@@ -39,7 +42,7 @@ class LogSnapshotterTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         every { debugLogger.runningLog } returns runningLogFake
-        every { timeStamper.nowUTC.toUserTimeZone() } returns DateTime.parse("1970-01-01T00:00:00.000Z")
+        every { timeStamper.nowUTC } returns userTime.toInstant()
 
         runningLogFake.parentFile!!.mkdirs()
         runningLogFake.writeText("1 Doge = 1 Doge")
