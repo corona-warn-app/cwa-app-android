@@ -11,14 +11,20 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTask
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.CoronaTestItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.NEGATIVE
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.POSITIVE
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.ANTIGEN
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.PCR
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
@@ -29,6 +35,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -43,6 +50,7 @@ import org.joda.time.LocalDate
 import timber.log.Timber
 import kotlin.concurrent.fixedRateTimer
 
+@Suppress("LongParameterList")
 class ContactDiaryOverviewViewModel @AssistedInject constructor(
     taskController: TaskController,
     dispatcherProvider: DispatcherProvider,
@@ -71,6 +79,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     private val locationVisitsFlow = contactDiaryRepository.locationVisits
     private val personEncountersFlow = contactDiaryRepository.personEncounters
+    private val testResultsFlow = contactDiaryRepository.testResults
 
     private val riskLevelPerDateFlow = riskLevelStorage.ewDayRiskStates
     private val traceLocationCheckInRiskFlow = riskLevelStorage.traceLocationCheckInRiskStates
@@ -82,8 +91,15 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         personEncountersFlow,
         riskLevelPerDateFlow,
         traceLocationCheckInRiskFlow,
-        checkInsWithinRetentionFlow
-    ) { dateList, locationVisists, personEncounters, riskLevelPerDateList, traceLocationCheckInRiskList, checkInList ->
+        checkInsWithinRetentionFlow,
+        testResultsFlow
+    ) { dateList,
+        locationVisists,
+        personEncounters,
+        riskLevelPerDateList,
+        traceLocationCheckInRiskList,
+        checkInList,
+        testResults ->
         mutableListOf<DiaryOverviewItem>().apply {
             add(OverviewSubHeaderItem)
             addAll(
@@ -92,7 +108,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                     personEncounters,
                     riskLevelPerDateList,
                     traceLocationCheckInRiskList,
-                    checkInList
+                    checkInList,
+                    testResults
                 )
             )
         }.toList()
@@ -112,7 +129,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         encounters: List<ContactDiaryPersonEncounter>,
         riskLevelPerDateList: List<ExposureWindowDayRisk>,
         traceLocationCheckInRiskList: List<TraceLocationCheckInRisk>,
-        checkInList: List<CheckIn>
+        checkInList: List<CheckIn>,
+        coronaTests: List<ContactDiaryCoronaTestEntity>
     ): List<DiaryOverviewItem> {
         Timber.v(
             "createListItemList(" +
@@ -121,19 +139,22 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 "encounters=%s, " +
                 "riskLevelPerDateList=%s, " +
                 "traceLocationCheckInRiskList=%s," +
-                "checkInList=%s",
+                "checkInList=%s" +
+                "coronaTests=%s",
             this,
             visits,
             encounters,
             riskLevelPerDateList,
             traceLocationCheckInRiskList,
-            checkInList
+            checkInList,
+            coronaTests
         )
         return map { date ->
 
             val visitsForDate = visits.filter { it.date == date }
             val encountersForDate = encounters.filter { it.date == date }
             val traceLocationCheckInRisksForDate = traceLocationCheckInRiskList.filter { it.localDateUtc == date }
+            val testResultForDate = coronaTests.filter { it.time.toLocalDateUtc() == date }
 
             val coreItemData =
                 encountersForDate.map { it.toContactItemData() } + visitsForDate.map { it.toContactItemData() }
@@ -152,11 +173,16 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                     RiskEventDataHolder(it, checkIn)
                 }.toRiskEventItem()
 
+            val coronaTestItem = testResultForDate
+                .firstOrNull()
+                ?.toCoronaTestItem()
+
             DayOverviewItem(
                 date = date,
                 riskEnfItem = riskEnf,
                 riskEventItem = riskEventItem,
-                contactItem = contactItem
+                contactItem = contactItem,
+                coronaTestItem = coronaTestItem
             ) { onItemPress(it) }
         }
     }
@@ -265,6 +291,21 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             events = events
         )
     }
+
+    fun ContactDiaryCoronaTestEntity.toCoronaTestItem() = CoronaTestItem(
+        icon = when (result) {
+            POSITIVE -> R.drawable.ic_corona_test_icon_red
+            NEGATIVE -> R.drawable.ic_corona_test_icon_green
+        },
+        header = when (testType) {
+            PCR -> R.string.contact_diary_corona_test_pcr_title
+            ANTIGEN -> R.string.contact_diary_corona_test_rat_title
+        },
+        body = when (result) {
+            POSITIVE -> R.string.contact_diary_corona_test_positive
+            NEGATIVE -> R.string.contact_diary_corona_test_negative
+        }
+    )
 
     fun onBackButtonPress() {
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToMainActivity)

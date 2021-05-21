@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewAdapter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactAdapter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.CoronaTestItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventAdapter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemContactBi
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemHeaderBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEnfBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEventBinding
+import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemTestResultBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
 import org.joda.time.LocalDate
 
@@ -39,6 +41,7 @@ class DayOverviewVH(parent: ViewGroup) :
                 dayRiskEnf.apply(riskEnfItem = riskEnfItem)
                 dayRiskEvent.apply(riskEventItem = riskEventItem)
                 dayContact.apply(contactItem = contactItem)
+                dayTestResult.apply(coronaTestItem = coronaTestItem)
             }
 
             dayElementBody.apply {
@@ -68,8 +71,7 @@ class DayOverviewVH(parent: ViewGroup) :
         }
     }
 
-    private fun ContactDiaryOverviewDayListItemRiskEventBinding
-    .apply(riskEventItem: RiskEventItem?) {
+    private fun ContactDiaryOverviewDayListItemRiskEventBinding.apply(riskEventItem: RiskEventItem?) {
         root.isGone = riskEventItem == null
 
         riskEventItem?.let {
@@ -96,6 +98,18 @@ class DayOverviewVH(parent: ViewGroup) :
             recyclerView.apply {
                 adapter = contactAdapter.apply { setItems(it.data) }
                 suppressLayout(true)
+            }
+        }
+    }
+
+    private fun ContactDiaryOverviewDayListItemTestResultBinding.apply(coronaTestItem: CoronaTestItem?) {
+        root.isGone = coronaTestItem == null
+
+        coronaTestItem?.let { test ->
+            with(context) {
+                contactDiaryCoronaTestTitle.text = getString(coronaTestItem.header)
+                contactDiaryCoronaTestImage.setImageResource(coronaTestItem.icon)
+                contactDiaryCoronaTestBody.text = getString(coronaTestItem.body)
             }
         }
     }

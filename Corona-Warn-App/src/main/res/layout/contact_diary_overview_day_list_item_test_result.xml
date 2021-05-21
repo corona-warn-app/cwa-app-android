@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contact_diary_overview_risk_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:paddingBottom="@dimen/spacing_small">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_divider"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/contact_diary_corona_test_image"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:importantForAccessibility="no"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toStartOf="@id/contact_diary_corona_test_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/contact_diary_corona_test_title"
+        tools:src="@drawable/ic_corona_test_icon_red" />
+
+    <TextView
+        android:id="@+id/contact_diary_corona_test_title"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/contact_diary_corona_test_image"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="PCR-Test registriert" />
+
+    <TextView
+        android:id="@+id/contact_diary_corona_test_body"
+        style="@style/subtitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="@id/contact_diary_corona_test_title"
+        app:layout_constraintStart_toStartOf="@+id/contact_diary_corona_test_title"
+        app:layout_constraintTop_toBottomOf="@id/contact_diary_corona_test_title"
+        tools:text="Befund positiv" />
+</androidx.constraintlayout.widget.ConstraintLayout>
