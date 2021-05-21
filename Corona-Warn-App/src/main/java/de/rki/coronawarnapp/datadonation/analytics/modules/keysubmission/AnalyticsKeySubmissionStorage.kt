@@ -14,7 +14,7 @@ class AnalyticsRAKeySubmissionStorage @Inject constructor(
     @AppContext context: Context
 ) : AnalyticsKeySubmissionStorage(context, "_RAT")
 
-abstract class AnalyticsKeySubmissionStorage(
+open class AnalyticsKeySubmissionStorage(
     val context: Context,
     val sharedPrefKeySuffix: String
 ) {
