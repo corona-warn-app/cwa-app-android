@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
-import de.rki.coronawarnapp.coronatestjournal.TestJournalRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
@@ -25,8 +24,8 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
-import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.core.VaccinationPreferences
+import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
@@ -64,7 +63,6 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var ratProfileSettings: RATProfileSettings
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var vaccinationPreferences: VaccinationPreferences
-    @MockK lateinit var testjournalRepository: TestJournalRepository
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
 
     @BeforeEach
@@ -99,7 +97,6 @@ internal class DataResetTest : BaseTest() {
         ratProfileSettings = ratProfileSettings,
         vaccinationPreferences = vaccinationPreferences,
         vaccinationRepository = vaccinationRepository,
-        testJournalRepository = testjournalRepository,
         valueSetsRepository = valueSetsRepository
     )
 
@@ -134,7 +131,6 @@ internal class DataResetTest : BaseTest() {
             ratProfileSettings.deleteProfile()
             vaccinationRepository.clear()
             vaccinationPreferences.clear()
-            testjournalRepository.clear()
             valueSetsRepository.clear()
         }
     }

@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
-import de.rki.coronawarnapp.coronatestjournal.TestJournalRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
@@ -26,9 +25,9 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
-import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import de.rki.coronawarnapp.vaccination.core.VaccinationPreferences
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -67,8 +66,7 @@ class DataReset @Inject constructor(
     private val ratProfileSettings: RATProfileSettings,
     private val valueSetsRepository: ValueSetsRepository,
     private val vaccinationPreferences: VaccinationPreferences,
-    private val vaccinationRepository: VaccinationRepository,
-    private val testJournalRepository: TestJournalRepository
+    private val vaccinationRepository: VaccinationRepository
 ) {
 
     private val mutex = Mutex()
@@ -116,7 +114,6 @@ class DataReset @Inject constructor(
         valueSetsRepository.clear()
         vaccinationRepository.clear()
         vaccinationPreferences.clear()
-        testJournalRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

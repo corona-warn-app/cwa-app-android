@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.errors.DuplicateCoronaTestException
 import de.rki.coronawarnapp.coronatest.errors.UnknownTestTypeException
@@ -8,7 +9,6 @@ import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
-import de.rki.coronawarnapp.coronatestjournal.storage.TestJournalStorage
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
@@ -40,7 +40,7 @@ class CoronaTestRepository @Inject constructor(
     private val storage: CoronaTestStorage,
     private val processors: Set<@JvmSuppressWildcards CoronaTestProcessor>,
     private val legacyMigration: PCRTestMigration,
-    private val testJournalStorage: TestJournalStorage
+    private val contactDiaryRepository: ContactDiaryRepository
 ) {
 
     private val internalData: HotDataFlow<Map<CoronaTestGUID, CoronaTest>> = HotDataFlow(
@@ -64,7 +64,7 @@ class CoronaTestRepository @Inject constructor(
                 Timber.tag(TAG).v("CoronaTest data changed: %s", it)
                 storage.coronaTests = it.values.toSet()
                 legacyMigration.finishMigration()
-                testJournalStorage.updateResults(it)
+                contactDiaryRepository.updateTests(it)
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot CoronaTest data to storage.")

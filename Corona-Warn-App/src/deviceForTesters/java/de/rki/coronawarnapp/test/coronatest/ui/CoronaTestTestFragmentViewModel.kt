@@ -4,11 +4,11 @@ import androidx.lifecycle.asLiveData
 import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
-import de.rki.coronawarnapp.coronatestjournal.TestJournalRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -19,13 +19,12 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
-import java.lang.StringBuilder
 
 class CoronaTestTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val coronaTestRepository: CoronaTestRepository,
     private val coronaTestQrCodeValidator: CoronaTestQrCodeValidator,
-    private val testRepository: TestJournalRepository,
+    contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val errorEvents = SingleLiveEvent<Throwable>()
@@ -41,7 +40,7 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
-    val testsInContactDiary = testRepository.tests.map {
+    val testsInContactDiary = contactDiaryRepository.testResults.map {
         it.foldIndexed(StringBuilder()) { id, buffer, item ->
             buffer.append(id).append(":\n").append(item).append("\n")
         }.toString()
