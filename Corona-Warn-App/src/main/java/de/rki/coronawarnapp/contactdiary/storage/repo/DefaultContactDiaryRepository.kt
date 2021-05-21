@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
-import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryTestDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryCoronaTestDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.asTestResultEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.canBeAddedToJournal
@@ -53,7 +53,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryDatabase.personEncounterDao()
     }
 
-    private val contactDiaryTestDao: ContactDiaryTestDao by lazy {
+    private val contactDiaryCoronaTestDao: ContactDiaryCoronaTestDao by lazy {
         contactDiaryDatabase.testDao()
     }
 
@@ -254,13 +254,13 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     override val testResults: Flow<List<ContactDiaryTestEntity>> by lazy {
-        contactDiaryTestDao.allTests()
+        contactDiaryCoronaTestDao.allTests()
     }
 
     override suspend fun updateTests(tests: Map<CoronaTestGUID, CoronaTest>) {
         tests.filter { it.value.canBeAddedToJournal() }
             .map { it.asTestResultEntity() }
-            .forEach { contactDiaryTestDao.insertTest(it) }
+            .forEach { contactDiaryCoronaTestDao.insertTest(it) }
     }
 
     private suspend fun executeWhenIdNotDefault(id: Long, action: (suspend () -> Unit) = { }) {

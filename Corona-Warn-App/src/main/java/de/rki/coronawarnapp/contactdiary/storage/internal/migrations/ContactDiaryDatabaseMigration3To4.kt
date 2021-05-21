@@ -32,7 +32,7 @@ object ContactDiaryDatabaseMigration3To4 : Migration(3, 4) {
     }
 
     private val migrateTestTable: SupportSQLiteDatabase.() -> Unit = {
-        Timber.d("Create 'tests' table")
-        execSQL("CREATE TABLE IF NOT EXISTS tests (`id` TEXT NOT NULL, `testType` TEXT NOT NULL, `result` TEXT NOT NULL, `time` TEXT NOT NULL, PRIMARY KEY(`id`))")
+        Timber.d("Create 'corona_tests' table")
+        execSQL("CREATE TABLE IF NOT EXISTS corona_tests (`id` TEXT NOT NULL, `testType` TEXT NOT NULL, `result` TEXT NOT NULL, `time` TEXT NOT NULL, PRIMARY KEY(`id`))")
     }
 }

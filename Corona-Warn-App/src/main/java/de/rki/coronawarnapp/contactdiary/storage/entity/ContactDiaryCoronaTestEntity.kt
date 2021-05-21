@@ -7,9 +7,13 @@ import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryTestEntity.TestType.PCR
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryTestEntity.TestType.ANTIGEN
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryTestEntity.TestResult.POSITIVE
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryTestEntity.TestResult.NEGATIVE
 import org.joda.time.Instant
 
-@Entity(tableName = "tests")
+@Entity(tableName = "corona_tests")
 data class ContactDiaryTestEntity(
     @PrimaryKey @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "testType") val testType: TestType,
@@ -41,14 +45,8 @@ fun Map.Entry<CoronaTestGUID, CoronaTest>.asTestResultEntity(): ContactDiaryTest
     return with(value) {
         ContactDiaryTestEntity(
             id = key,
-            testType = if (type == CoronaTest.Type.PCR)
-                ContactDiaryTestEntity.TestType.PCR
-            else
-                ContactDiaryTestEntity.TestType.ANTIGEN,
-            result = if (isPositive)
-                ContactDiaryTestEntity.TestResult.POSITIVE
-            else
-                ContactDiaryTestEntity.TestResult.NEGATIVE,
+            testType = if (type == CoronaTest.Type.PCR) PCR else ANTIGEN,
+            result = if (isPositive) POSITIVE else NEGATIVE,
             time = when (this) {
                 is RACoronaTest -> testedAt
                 else -> registeredAt

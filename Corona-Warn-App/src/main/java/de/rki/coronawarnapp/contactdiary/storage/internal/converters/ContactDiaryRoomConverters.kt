@@ -29,14 +29,14 @@ class ContactDiaryRoomConverters {
 
     @TypeConverter
     fun toTestType(value: String?): ContactDiaryTestEntity.TestType? =
-        value?.let { ContactDiaryTestEntity.TestType.values().single { it.raw == value } }
+        ContactDiaryTestEntity.TestType.values().singleOrNull { it.raw == value }
 
     @TypeConverter
     fun fromTestType(type: ContactDiaryTestEntity.TestType?): String? = type?.raw
 
     @TypeConverter
     fun toTestResult(value: String?): ContactDiaryTestEntity.TestResult? =
-        value?.let { ContactDiaryTestEntity.TestResult.values().single { it.raw == value } }
+        ContactDiaryTestEntity.TestResult.values().singleOrNull { it.raw == value }
 
     @TypeConverter
     fun fromTestResult(type: ContactDiaryTestEntity.TestResult?): String? = type?.raw

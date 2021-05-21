@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "f2ac24886201d26ed2b50af91f63605a",
+    "identityHash": "3ed51cebcbafb1960bf5194f27748e12",
     "entities": [
       {
         "tableName": "locations",
@@ -235,7 +235,7 @@
         ]
       },
       {
-        "tableName": "tests",
+        "tableName": "corona_tests",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `testType` TEXT NOT NULL, `result` TEXT NOT NULL, `time` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -276,7 +276,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f2ac24886201d26ed2b50af91f63605a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3ed51cebcbafb1960bf5194f27748e12')"
     ]
   }
 }

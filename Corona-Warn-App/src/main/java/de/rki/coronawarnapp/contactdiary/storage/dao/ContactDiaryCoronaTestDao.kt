@@ -8,14 +8,14 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryTestEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ContactDiaryTestDao {
+interface ContactDiaryCoronaTestDao {
 
-    @Query("SELECT * FROM tests")
+    @Query("SELECT * FROM corona_tests")
     fun allTests(): Flow<List<ContactDiaryTestEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTest(contactDiaryTestEntity: ContactDiaryTestEntity)
 
-    @Query("DELETE FROM tests")
+    @Query("DELETE FROM corona_tests")
     suspend fun deleteAll()
 }

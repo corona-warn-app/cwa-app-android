@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
-import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryTestDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryCoronaTestDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
@@ -41,7 +41,7 @@ abstract class ContactDiaryDatabase : RoomDatabase() {
     abstract fun locationVisitDao(): ContactDiaryLocationVisitDao
     abstract fun personDao(): ContactDiaryPersonDao
     abstract fun personEncounterDao(): ContactDiaryPersonEncounterDao
-    abstract fun testDao(): ContactDiaryTestDao
+    abstract fun testDao(): ContactDiaryCoronaTestDao
 
     class Factory @Inject constructor(@AppContext private val ctx: Context) {
         fun create(databaseName: String = CONTACT_DIARY_DATABASE_NAME): ContactDiaryDatabase = Room
