@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.tracing.states
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.diagnosiskeys.download.RiskDetectionCanceller
+import de.rki.coronawarnapp.diagnosiskeys.download.RiskDetectionCanceller.CancelResult.CANCEL_DUE_TO_RECENT_RISK_DETECTION
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
@@ -26,7 +28,8 @@ class TracingStateProvider @AssistedInject constructor(
     tracingRepository: TracingRepository,
     riskLevelStorage: RiskLevelStorage,
     exposureDetectionTracker: ExposureDetectionTracker,
-    installTimeProvider: InstallTimeProvider
+    installTimeProvider: InstallTimeProvider,
+    riskDetectionCanceller: RiskDetectionCanceller
 ) {
     val state: Flow<TracingState> = combine(
         tracingStatus.generalStatus.onEach {
@@ -43,12 +46,16 @@ class TracingStateProvider @AssistedInject constructor(
         },
         backgroundModeStatus.isAutoModeEnabled.onEach {
             Timber.tag(TAG).v("isAutoModeEnabled: $it")
+        },
+        riskDetectionCanceller.lastCancelResult.onEach {
+            Timber.tag(TAG).v("lastCancelResult: $it")
         }
     ) { tracingStatus,
         tracingProgress,
         riskLevelResults,
         latestSubmission,
-        isBackgroundJobEnabled ->
+        isBackgroundJobEnabled,
+        lastRiskDetectionCancelResult ->
 
         val latestCalc = riskLevelResults.lastCalculated
         val lastSuccessfullyCalc = riskLevelResults.lastSuccessfullyCalculated
@@ -81,6 +88,35 @@ class TracingStateProvider @AssistedInject constructor(
                 daysWithEncounters = latestCalc.daysWithEncounters,
                 allowManualUpdate = !isBackgroundJobEnabled
             )
+            lastRiskDetectionCancelResult == CANCEL_DUE_TO_RECENT_RISK_DETECTION -> {
+                when (lastSuccessfullyCalc.riskState) {
+                    RiskState.LOW_RISK -> {
+                        LowRisk(
+                            isInDetailsMode = isDetailsMode,
+                            riskState = lastSuccessfullyCalc.riskState,
+                            lastExposureDetectionTime = latestSubmission?.startedAt,
+                            lastEncounterAt = lastSuccessfullyCalc.lastRiskEncounterAt,
+                            daysWithEncounters = lastSuccessfullyCalc.daysWithEncounters,
+                            allowManualUpdate = !isBackgroundJobEnabled,
+                            daysSinceInstallation = installTimeProvider.daysSinceInstallation
+                        )
+                    }
+                    RiskState.INCREASED_RISK -> {
+                        IncreasedRisk(
+                            isInDetailsMode = isDetailsMode,
+                            riskState = latestCalc.riskState,
+                            lastExposureDetectionTime = latestSubmission?.startedAt,
+                            lastEncounterAt = latestCalc.lastRiskEncounterAt,
+                            daysWithEncounters = latestCalc.daysWithEncounters,
+                            allowManualUpdate = !isBackgroundJobEnabled
+                        )
+                    }
+                    else -> throw IllegalStateException(
+                        "Last Successfully calculated Risk State should only either" +
+                            "be LOW_RISK or INCREASED_RISK"
+                    )
+                }
+            }
             else -> TracingFailed(
                 isInDetailsMode = isDetailsMode,
                 riskState = lastSuccessfullyCalc.riskState,

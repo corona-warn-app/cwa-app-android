@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.diagnosiskeys.download.RiskDetectionCanceller.CancelResult.DONT_CANCEL
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -35,6 +36,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val timeStamper: TimeStamper,
     private val settings: DownloadDiagnosisKeysSettings,
     private val coronaTestRepository: CoronaTestRepository,
+    private val riskDetectionCanceller: RiskDetectionCanceller
 ) : Task<DownloadDiagnosisKeysTask.Progress, DownloadDiagnosisKeysTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<Progress>()
@@ -90,9 +92,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val isUpdateToEnfV2 = settings.isUpdateToEnfV2
 
             Timber.tag(TAG).d("isUpdateToEnfV2: %b", isUpdateToEnfV2)
-            if (!isUpdateToEnfV2 && wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
-                // At most one detection every 6h
-                Timber.tag(TAG).i("task aborted, because detection was performed recently")
+            if (!isUpdateToEnfV2 && riskDetectionCanceller.shouldCancel() != DONT_CANCEL) {
                 return Result()
             }
 
