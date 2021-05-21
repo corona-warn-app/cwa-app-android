@@ -92,6 +92,7 @@ object DialogHelper {
                     ) { _, _ ->
                         dialogInstance.negativeButtonFunction()
                     }
+                    setOnCancelListener { dialogInstance.negativeButtonFunction() }
                 }
             }
             builder.create()
