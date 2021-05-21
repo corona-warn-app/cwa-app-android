@@ -54,7 +54,7 @@ class RapidAntigenProcessor @Inject constructor(
             it.toValidatedResult()
         }
 
-        if (testResult == PCR_POSITIVE) {
+        if (testResult == RAT_POSITIVE) {
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
         }
 

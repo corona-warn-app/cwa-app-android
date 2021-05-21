@@ -45,7 +45,7 @@ abstract class AnalyticsBaseKeySubmissionDonor(
         }
     }
 
-    internal fun createContribution() =
+    private fun createContribution() =
         PpaData.PPAKeySubmissionMetadata.newBuilder()
             .setAdvancedConsentGiven(repository.advancedConsentGiven)
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(

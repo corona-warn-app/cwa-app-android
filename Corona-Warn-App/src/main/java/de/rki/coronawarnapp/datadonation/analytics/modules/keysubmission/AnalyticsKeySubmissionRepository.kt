@@ -2,13 +2,16 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
 import org.joda.time.Duration
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AnalyticsPCRKeySubmissionRepository @Inject constructor(
     storage: AnalyticsPCRKeySubmissionStorage
 ) : AnalyticsKeySubmissionRepository(storage) {
     override val submittedAfterRAT: Boolean = false
 }
 
+@Singleton
 class AnalyticsRAKeySubmissionRepository @Inject constructor(
     storage: AnalyticsRAKeySubmissionStorage
 ) : AnalyticsKeySubmissionRepository(storage) {
