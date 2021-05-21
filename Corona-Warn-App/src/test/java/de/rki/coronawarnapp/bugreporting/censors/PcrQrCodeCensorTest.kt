@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.test.runBlockingTest
@@ -30,29 +29,15 @@ class PcrQrCodeCensorTest : BaseTest() {
     fun `censoring replaces the logline message`() = runBlockingTest {
         PcrQrCodeCensor.lastGUID = testGUID
         val instance = createInstance()
-        val censored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm a shy qrcode: $testGUID",
-            tag = "I'm a tag",
-            throwable = null
-        )
-        instance.checkLog(censored) shouldBe censored.copy(
-            message = "I'm a shy qrcode: ########-####-####-####-########3a2f"
-        )
+        val censored = "I'm a shy qrcode: $testGUID"
+        instance.checkLog(censored)!!.string shouldBe "I'm a shy qrcode: ########-####-####-####-########3a2f"
     }
 
     @Test
     fun `censoring returns null if there is no match`() = runBlockingTest {
         PcrQrCodeCensor.lastGUID = testGUID.replace("f", "a")
         val instance = createInstance()
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm a shy qrcode: $testGUID",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "I'm a shy qrcode: $testGUID"
         instance.checkLog(notCensored) shouldBe null
     }
 
@@ -60,13 +45,7 @@ class PcrQrCodeCensorTest : BaseTest() {
     fun `censoring aborts if no qrcode was set`() = runBlockingTest {
         PcrQrCodeCensor.lastGUID = null
         val instance = createInstance()
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm a shy qrcode: $testGUID",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "I'm a shy qrcode: $testGUID"
         instance.checkLog(notCensored) shouldBe null
     }
 }

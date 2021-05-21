@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryVisitCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import io.kotest.matchers.shouldBe
@@ -50,50 +49,34 @@ class DiaryVisitCensorTest : BaseTest() {
             )
         )
         val instance = createInstance(this)
-        val censorMe = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message =
-                """
-                After having a Döner that was too spicy,
-                I got my beard shaved without mask,
-                only to find out the supermarket was out of toiletpaper.
-                """.trimIndent(),
-            tag = "I'm a tag",
-            throwable = null
-        )
-        instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message =
-                """
-                After having a Visit#1/Circumstances,
-                I got my Visit#2/Circumstances,
-                only to find out the supermarket was Visit#3/Circumstances.
-                """.trimIndent()
-        )
+        val censorMe =
+            """
+            After having a Döner that was too spicy,
+            I got my beard shaved without mask,
+            only to find out the supermarket was out of toiletpaper.
+            """.trimIndent()
+        instance.checkLog(censorMe)!!.string shouldBe
+            """
+            After having a Visit#1/Circumstances,
+            I got my Visit#2/Circumstances,
+            only to find out the supermarket was Visit#3/Circumstances.
+            """.trimIndent()
 
         // censoring should still work even after visits are deleted
         every { diaryRepo.locationVisits } returns flowOf(emptyList())
-        instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message =
-                """
-                After having a Visit#1/Circumstances,
-                I got my Visit#2/Circumstances,
-                only to find out the supermarket was Visit#3/Circumstances.
-                """.trimIndent()
-        )
+        instance.checkLog(censorMe)!!.string shouldBe
+            """
+            After having a Visit#1/Circumstances,
+            I got my Visit#2/Circumstances,
+            only to find out the supermarket was Visit#3/Circumstances.
+            """.trimIndent()
     }
 
     @Test
     fun `censoring returns null if all circumstances are blank`() = runBlockingTest {
         every { diaryRepo.locationVisits } returns flowOf(listOf(mockVisit(1, _circumstances = "")))
         val instance = createInstance(this)
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "So many places to visit, but no place like home!",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "So many places to visit, but no place like home!"
         instance.checkLog(notCensored) shouldBe null
     }
 
@@ -101,13 +84,7 @@ class DiaryVisitCensorTest : BaseTest() {
     fun `censoring returns null if there are no visits no match`() = runBlockingTest {
         every { diaryRepo.locationVisits } returns flowOf(emptyList())
         val instance = createInstance(this)
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "So many places to visit, but no place like home!",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "So many places to visit, but no place like home!"
         instance.checkLog(notCensored) shouldBe null
     }
 
@@ -120,13 +97,7 @@ class DiaryVisitCensorTest : BaseTest() {
             )
         )
         val instance = createInstance(this)
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Wakey wakey, eggs and bakey.",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "Wakey wakey, eggs and bakey."
         instance.checkLog(notCensored) shouldBe null
     }
 
@@ -140,13 +111,7 @@ class DiaryVisitCensorTest : BaseTest() {
             )
         )
 
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Lorem ipsum",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Lorem ipsum"
 
         var isFinished = false
 
