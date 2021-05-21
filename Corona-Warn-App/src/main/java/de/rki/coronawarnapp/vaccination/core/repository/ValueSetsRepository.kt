@@ -87,6 +87,7 @@ class ValueSetsRepository @Inject constructor(
 
     suspend fun clear() {
         Timber.d("Clearing value sets")
+        vaccinationServer.clear()
         internalData.updateBlocking {
             Timber.v("Resetting value set to an empty value set")
             createEmptyValueSet()
