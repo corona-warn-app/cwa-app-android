@@ -211,6 +211,8 @@
     <string name="trace_location_organizer_detail_item_duration">"%1$s, %2$s - %3$s Uhr"</string>
     <!-- XTXT: Event organizer detail qr-code: duration with multiple date -->
     <string name="trace_location_organizer_detail_item_duration_multiple_days">"%1$s, %2$s - %3$s, %4$s Uhr"</string>
+    <!-- XTXT: Past Event Info duration -->
+    <string name="trace_location_attendee_past_event_duration">"%1$s"</string>
 
     <!-- XBUT: Event organiser list item: menu: information button  -->
     <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Duplizieren"</string>
