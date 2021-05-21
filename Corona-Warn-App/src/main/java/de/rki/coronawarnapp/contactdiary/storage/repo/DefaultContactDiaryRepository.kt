@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDa
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryCoronaTestDao
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.asTestResultEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.canBeAddedToJournal
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
@@ -253,7 +253,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryPersonEncounterDao.deleteAll()
     }
 
-    override val testResults: Flow<List<ContactDiaryTestEntity>> by lazy {
+    override val testResults: Flow<List<ContactDiaryCoronaTestEntity>> by lazy {
         contactDiaryCoronaTestDao.allTests()
     }
 

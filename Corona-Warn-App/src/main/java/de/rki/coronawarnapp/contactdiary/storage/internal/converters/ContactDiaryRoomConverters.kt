@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.contactdiary.storage.internal.converters
 
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import org.joda.time.Duration
 
 class ContactDiaryRoomConverters {
@@ -28,16 +28,16 @@ class ContactDiaryRoomConverters {
     }
 
     @TypeConverter
-    fun toTestType(value: String?): ContactDiaryTestEntity.TestType? =
-        ContactDiaryTestEntity.TestType.values().singleOrNull { it.raw == value }
+    fun toTestType(value: String?): ContactDiaryCoronaTestEntity.TestType? =
+        ContactDiaryCoronaTestEntity.TestType.values().singleOrNull { it.raw == value }
 
     @TypeConverter
-    fun fromTestType(type: ContactDiaryTestEntity.TestType?): String? = type?.raw
+    fun fromTestType(type: ContactDiaryCoronaTestEntity.TestType?): String? = type?.raw
 
     @TypeConverter
-    fun toTestResult(value: String?): ContactDiaryTestEntity.TestResult? =
-        ContactDiaryTestEntity.TestResult.values().singleOrNull { it.raw == value }
+    fun toTestResult(value: String?): ContactDiaryCoronaTestEntity.TestResult? =
+        ContactDiaryCoronaTestEntity.TestResult.values().singleOrNull { it.raw == value }
 
     @TypeConverter
-    fun fromTestResult(type: ContactDiaryTestEntity.TestResult?): String? = type?.raw
+    fun fromTestResult(type: ContactDiaryCoronaTestEntity.TestResult?): String? = type?.raw
 }

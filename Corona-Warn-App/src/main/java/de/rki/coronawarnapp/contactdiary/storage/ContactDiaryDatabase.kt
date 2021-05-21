@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEnti
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.internal.converters.ContactDiaryRoomConverters
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration1To2
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration2To3
@@ -29,7 +29,7 @@ import javax.inject.Inject
         ContactDiaryLocationVisitEntity::class,
         ContactDiaryPersonEntity::class,
         ContactDiaryPersonEncounterEntity::class,
-        ContactDiaryTestEntity::class
+        ContactDiaryCoronaTestEntity::class
     ],
     version = 4,
     exportSchema = true
