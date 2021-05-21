@@ -2,17 +2,21 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 
 import android.content.Context
 import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.emptyStoredValueSet
+import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.emptyValueSetEn
+import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.storedValueSetDe
+import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.storedValueSetEn
+import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetDe
+import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetEn
+import de.rki.coronawarnapp.vaccination.core.validateValues
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.MockSharedPreferences
-import java.util.Locale
 
 class ValueSetsStorageTest : BaseTest() {
 
@@ -20,28 +24,6 @@ class ValueSetsStorageTest : BaseTest() {
     lateinit var prefs: MockSharedPreferences
 
     private val gson = SerializationModule().baseGson()
-
-    private val storedValueSetDE = ValueSetsStorage.StoredVaccinationValueSet(
-        languageCode = Locale.GERMAN,
-        vp = createValueSet(key = "1119305005", displayText = "Impfstoff-Name"),
-        mp = createValueSet(key = "EU/1/21/1529", displayText = "Arzneimittel-Name"),
-        ma = createValueSet(key = "ORG-100001699", displayText = "Hersteller-Name")
-    )
-
-    private val storedValueSetEN = ValueSetsStorage.StoredVaccinationValueSet(
-        languageCode = Locale.ENGLISH,
-        vp = createValueSet(key = "1119305005", displayText = "Vaccine-Name"),
-        mp = createValueSet(key = "EU/1/21/1529", displayText = "MedicalProduct-Name"),
-        ma = createValueSet(key = "ORG-100001699", displayText = "Manufactorer-Name")
-    )
-
-    private fun createValueSet(key: String, displayText: String): ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet {
-        val item = ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem(
-            key = key,
-            displayText = displayText
-        )
-        return ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(items = listOf(item))
-    }
 
     @BeforeEach
     fun setup() {
@@ -56,40 +38,52 @@ class ValueSetsStorageTest : BaseTest() {
     )
 
     @Test
-    fun `Default value is empty value set`() {
-        createInstance().valueSet.value.run {
-            languageCode shouldBe Locale.ENGLISH
-            vp.items shouldBe emptyList()
-            mp.items shouldBe emptyList()
-            ma.items shouldBe emptyList()
-        }
+    fun `Default value is null`() {
+        createInstance().vaccinationValueSet shouldBe null
     }
 
     @Test
-    fun `Clear resets value set`() {
+    fun `Reset with null`() {
         createInstance().run {
-            valueSet.update { storedValueSetDE }
-            clear()
+            vaccinationValueSet = storedValueSetDe
+            vaccinationValueSet = null
 
-            valueSet.value.also {
-                it.languageCode shouldBe Locale.ENGLISH
-                it.vp.items shouldBe emptyList()
-                it.mp.items shouldBe emptyList()
-                it.ma.items shouldBe emptyList()
-            }
+            vaccinationValueSet shouldBe null
         }
     }
 
     @Test
-    fun `Updates values`() = runBlockingTest {
-        createInstance().valueSet.run {
-            update { storedValueSetDE }
-            value shouldBe storedValueSetDE
-            flow.first() shouldBe storedValueSetDE
+    fun `Updates values`() {
+        createInstance().run {
+            vaccinationValueSet = storedValueSetDe
+            vaccinationValueSet shouldBe storedValueSetDe
 
-            update { storedValueSetEN }
-            value shouldBe storedValueSetEN
-            flow.first() shouldBe storedValueSetEN
+            vaccinationValueSet = storedValueSetEn
+            vaccinationValueSet shouldBe storedValueSetEn
+        }
+    }
+
+    @Test
+    fun `Check mapping is correct`() {
+        createInstance().run {
+            storedValueSetDe.also { it.toStoredVaccinationValueSet() shouldBe it }
+
+            storedValueSetEn.also { it.toStoredVaccinationValueSet() shouldBe it }
+
+            valueSetDe.also {
+                it.toStoredVaccinationValueSet() shouldBe storedValueSetDe
+                it.toStoredVaccinationValueSet().validateValues(it)
+            }
+
+            valueSetEn.also {
+                it.toStoredVaccinationValueSet() shouldBe storedValueSetEn
+                it.toStoredVaccinationValueSet().validateValues(it)
+            }
+
+            emptyValueSetEn.also {
+                it.toStoredVaccinationValueSet() shouldBe emptyStoredValueSet
+                it.toStoredVaccinationValueSet().validateValues(it)
+            }
         }
     }
 }

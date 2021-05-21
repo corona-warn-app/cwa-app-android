@@ -38,18 +38,17 @@ class ValueSetsStorage @Inject constructor(
 
     private fun setValueSet(value: VaccinationValueSet?) {
         Timber.v("Saving value set %s", value)
-        value?.let {
-            prefs.edit {
-                val storeValue = it.toStoredVaccinationValueSet()
-                val json = gson.toJson(storeValue, StoredVaccinationValueSet::class.java)
-                Timber.v("Writing %s to prefs", json)
-                putString(PKEY_VALUE_SETS_PREFIX, json)
+        prefs.edit {
+            val json = value?.let {
+                gson.toJson(it.toStoredVaccinationValueSet(), StoredVaccinationValueSet::class.java)
             }
+            Timber.v("Writing %s to prefs", json)
+            putString(PKEY_VALUE_SETS_PREFIX, json)
         }
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun VaccinationValueSet.toStoredVaccinationValueSet(): StoredVaccinationValueSet =
+    @VisibleForTesting()
+    fun VaccinationValueSet.toStoredVaccinationValueSet(): StoredVaccinationValueSet =
         StoredVaccinationValueSet(
             languageCode = languageCode,
             vp = vp.toStoredValueSet(),
@@ -57,19 +56,22 @@ class ValueSetsStorage @Inject constructor(
             ma = ma.toStoredValueSet()
         )
 
-    internal fun VaccinationValueSet.ValueSet.toStoredValueSet(): StoredVaccinationValueSet.StoredValueSet =
+    @VisibleForTesting()
+    fun VaccinationValueSet.ValueSet.toStoredValueSet(): StoredVaccinationValueSet.StoredValueSet =
         StoredVaccinationValueSet.StoredValueSet(
             items = items.map { it.toStoredItem() }
         )
 
-    internal fun VaccinationValueSet.ValueSet.Item.toStoredItem():
+    @VisibleForTesting()
+    fun VaccinationValueSet.ValueSet.Item.toStoredItem():
         StoredVaccinationValueSet.StoredValueSet.StoredItem =
         StoredVaccinationValueSet.StoredValueSet.StoredItem(
             key = key,
             displayText = displayText
         )
 
-    internal data class StoredVaccinationValueSet(
+    @VisibleForTesting
+    data class StoredVaccinationValueSet(
         @SerializedName("languageCode") override val languageCode: Locale,
         @SerializedName("vp") override val vp: StoredValueSet,
         @SerializedName("mp") override val mp: StoredValueSet,
