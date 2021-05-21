@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -29,9 +30,12 @@ class ValueSetsRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) {
 
+    private fun Flow<VaccinationValueSet>.distinctUntilChangedByHash() = distinctUntilChangedBy { it.hashCode() }
+
     private val internalData: HotDataFlow<VaccinationValueSet> = HotDataFlow(
         loggingTag = TAG,
         scope = scope,
+        coroutineContext = dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Lazily,
         startValueProvider = {
             (valueSetsStorage.vaccinationValueSet ?: createEmptyValueSet())
@@ -41,13 +45,14 @@ class ValueSetsRepository @Inject constructor(
 
     init {
         internalData.data
+            .distinctUntilChangedByHash()
             .onStart { Timber.d("Observing value set") }
             .onEach { valueSetsStorage.vaccinationValueSet = it }
             .catch { Timber.e(it, "Storing new value set failed.") }
             .launchIn(scope + dispatcherProvider.IO)
     }
 
-    val latestValueSet: Flow<VaccinationValueSet> = internalData.data
+    val latestValueSet: Flow<VaccinationValueSet> = internalData.data.distinctUntilChangedByHash()
 
     fun triggerUpdateValueSet(languageCode: Locale) {
         Timber.d("triggerUpdateValueSet(languageCode=%s)", languageCode)
