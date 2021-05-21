@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMost
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
@@ -47,8 +48,8 @@ class TestResultDonor @Inject constructor(
         // In case lastChangeCheckedRiskLevelTimestamp is null
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastChangeCheckedRiskLevelTimestamp,
-                timestampAtRegistration
+                lastChangeCheckedRiskLevelTimestamp?.toLocalDateUtc(),
+                timestampAtRegistration.toLocalDateUtc()
             )
 
         Timber.i(

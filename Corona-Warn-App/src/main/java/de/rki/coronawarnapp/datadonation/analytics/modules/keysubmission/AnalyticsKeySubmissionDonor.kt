@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.TriStateBooleanOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -25,10 +26,10 @@ abstract class AnalyticsBaseKeySubmissionDonor(
     private val repository: AnalyticsKeySubmissionRepository,
     private val timeStamper: TimeStamper
 ) : DonorModule {
-
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
-
-        return if (shouldSubmitData(request)) {
+        val hours = request.currentConfig.analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata
+        val timeSinceTestResultToSubmit = Duration.standardHours(hours.toLong())
+        return if (shouldSubmitData(timeSinceTestResultToSubmit)) {
             object : DonorModule.Contribution {
                 override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
                     val data = createContribution()
@@ -68,11 +69,9 @@ abstract class AnalyticsBaseKeySubmissionDonor(
             .setSubmittedInBackground(repository.submittedInBackground)
             .setSubmittedWithTeleTAN(repository.submittedWithTeleTAN)
             .setSubmittedAfterRapidAntigenTest(repository.submittedAfterRAT)
-            .setSubmittedWithCheckIns(repository.submittedWithCheckIns)
+            .setSubmittedWithCheckIns(repository.submittedWithCheckIns.toTriStateBoolean())
 
-    fun shouldSubmitData(request: DonorModule.Request): Boolean {
-        val hours = request.currentConfig.analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata
-        val timeSinceTestResultToSubmit = Duration.standardHours(hours.toLong())
+    fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
         return positiveTestResultReceived && (
             keysSubmitted || enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit)
             )
@@ -98,3 +97,10 @@ object AnalyticsKeySubmissionNoContribution : DonorModule.Contribution {
     override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) = Unit
     override suspend fun finishDonation(successful: Boolean) = Unit
 }
+
+private fun Boolean?.toTriStateBoolean() =
+    when (this) {
+        true -> TriStateBooleanOuterClass.TriStateBoolean.TSB_TRUE
+        false -> TriStateBooleanOuterClass.TriStateBoolean.TSB_FALSE
+        null -> TriStateBooleanOuterClass.TriStateBoolean.TSB_UNSPECIFIED
+    }

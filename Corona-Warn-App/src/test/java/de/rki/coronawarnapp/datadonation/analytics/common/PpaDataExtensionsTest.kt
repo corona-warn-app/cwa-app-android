@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.common
 
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
@@ -30,8 +31,8 @@ class PpaDataExtensionsTest : BaseTest() {
 
     @Test
     fun `days since most recent date at risk level at test registration are calculated correctly`() {
-        val march15At2200 = Instant.parse("2021-03-15T22:00:00.000Z")
-        val march17At0500 = Instant.parse("2021-03-17T05:00:00.000Z")
+        val march15At2200 = Instant.parse("2021-03-15T22:00:00.000Z").toLocalDateUtc()
+        val march17At0500 = Instant.parse("2021-03-17T05:00:00.000Z").toLocalDateUtc()
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             lastDateAtRiskLevel = march15At2200,
             testRegisteredAt = march17At0500
@@ -40,8 +41,8 @@ class PpaDataExtensionsTest : BaseTest() {
 
     @Test
     fun `days between most recent risk level change and test registration should be 0 if on same day`() {
-        val march15At0500 = Instant.parse("2021-03-15T05:00:00.000Z")
-        val march15At2200 = Instant.parse("2021-03-15T22:00:00.000Z")
+        val march15At0500 = Instant.parse("2021-03-15T05:00:00.000Z").toLocalDateUtc()
+        val march15At2200 = Instant.parse("2021-03-15T22:00:00.000Z").toLocalDateUtc()
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             lastDateAtRiskLevel = march15At0500,
             testRegisteredAt = march15At2200
@@ -50,7 +51,7 @@ class PpaDataExtensionsTest : BaseTest() {
 
     @Test
     fun `days should be -1 if lastChangeCheckedRiskLevelTimestamp is null`() {
-        val march15At0500 = Instant.parse("2021-03-15T05:00:00.000Z")
+        val march15At0500 = Instant.parse("2021-03-15T05:00:00.000Z").toLocalDateUtc()
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             lastDateAtRiskLevel = null,
             testRegisteredAt = march15At0500
@@ -59,7 +60,7 @@ class PpaDataExtensionsTest : BaseTest() {
 
     @Test
     fun `days should be -1 if testRegisteredAt is null`() {
-        val march15At0500 = Instant.parse("2021-03-15T05:00:00.000Z")
+        val march15At0500 = Instant.parse("2021-03-15T05:00:00.000Z").toLocalDateUtc()
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             lastDateAtRiskLevel = march15At0500,
             testRegisteredAt = null
@@ -76,8 +77,8 @@ class PpaDataExtensionsTest : BaseTest() {
 
     @Test
     fun `days should be -1 if order is reversed`() {
-        val march20At2200 = Instant.parse("2021-03-20T22:00:00.000Z")
-        val march10At0500 = Instant.parse("2021-03-10T05:00:00.000Z")
+        val march20At2200 = Instant.parse("2021-03-20T22:00:00.000Z").toLocalDateUtc()
+        val march10At0500 = Instant.parse("2021-03-10T05:00:00.000Z").toLocalDateUtc()
         calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             lastDateAtRiskLevel = march20At2200,
             testRegisteredAt = march10At0500

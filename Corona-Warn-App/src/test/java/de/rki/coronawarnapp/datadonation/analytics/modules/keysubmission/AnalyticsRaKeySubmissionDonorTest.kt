@@ -19,8 +19,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
-    @MockK lateinit var repository: AnalyticsPCRKeySubmissionRepository
+class AnalyticsRaKeySubmissionDonorTest : BaseTest() {
+    @MockK lateinit var repository: AnalyticsRAKeySubmissionRepository
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var configData: ConfigData
     private val request = object : DonorModule.Request {
@@ -98,5 +98,5 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
         }
     }
 
-    fun createInstance() = AnalyticsPcrKeySubmissionDonor(repository, timeStamper)
+    fun createInstance() = AnalyticsRaKeySubmissionDonor(repository, timeStamper)
 }

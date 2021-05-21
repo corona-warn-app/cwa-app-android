@@ -62,9 +62,9 @@ class PCRProcessorTest : BaseTest() {
 
         analyticsKeySubmissionCollector.apply {
             coEvery { reportRegisteredWithTeleTAN() } just Runs
-            coEvery { reset() } just Runs
-            coEvery { reportPositiveTestResultReceived() } just Runs
-            coEvery { reportTestRegistered() } just Runs
+            coEvery { reset(any()) } just Runs
+            coEvery { reportPositiveTestResultReceived(any()) } just Runs
+            coEvery { reportTestRegistered(any()) } just Runs
         }
         testResultDataCollector.apply {
             coEvery { updatePendingTestResultReceivedTime(any()) } just Runs

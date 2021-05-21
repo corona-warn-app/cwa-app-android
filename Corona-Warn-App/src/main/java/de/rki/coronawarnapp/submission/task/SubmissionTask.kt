@@ -20,9 +20,9 @@ import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.common.Started
-import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -171,8 +171,10 @@ class SubmissionTask @Inject constructor(
         playbook.submit(submissionData)
 
         analyticsKeySubmissionCollector.reportSubmitted(coronaTest.type)
-        if (transformedCheckIns.isNotEmpty()) analyticsKeySubmissionCollector.reportSubmittedWithCheckIns(coronaTest.type)
-        if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground(coronaTest.type)
+        if (transformedCheckIns.isNotEmpty())
+            analyticsKeySubmissionCollector.reportSubmittedWithCheckIns(coronaTest.type)
+        if (inBackground)
+            analyticsKeySubmissionCollector.reportSubmittedInBackground(coronaTest.type)
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()

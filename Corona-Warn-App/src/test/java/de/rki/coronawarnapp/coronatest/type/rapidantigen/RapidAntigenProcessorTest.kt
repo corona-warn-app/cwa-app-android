@@ -14,13 +14,16 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -32,6 +35,7 @@ class RapidAntigenProcessorTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var submissionService: CoronaTestService
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
@@ -52,11 +56,19 @@ class RapidAntigenProcessorTest : BaseTest() {
                 testResult = PCR_OR_RAT_PENDING,
             )
         }
+
+        analyticsKeySubmissionCollector.apply {
+            coEvery { reportRegisteredWithTeleTAN() } just Runs
+            coEvery { reset(any()) } just Runs
+            coEvery { reportPositiveTestResultReceived(any()) } just Runs
+            coEvery { reportTestRegistered(any()) } just Runs
+        }
     }
 
     fun createInstance() = RapidAntigenProcessor(
         timeStamper = timeStamper,
         submissionService = submissionService,
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
     )
 
     @Test

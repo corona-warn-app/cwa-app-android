@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.risk
+package de.rki.coronawarnapp.risk.changedetection
 
 import android.app.Notification
 import android.content.Context
@@ -7,10 +7,12 @@ import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
-import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
+import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.RiskLevelSettings
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
 import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
@@ -24,7 +26,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -40,7 +41,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class EwRiskLevelChangeDetectorTest : BaseTest() {
+class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
@@ -48,10 +49,8 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: GeneralNotifications
-    @MockK lateinit var surveys: Surveys
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingSettings: TracingSettings
-    @MockK lateinit var testResultDonorSettings: TestResultDonorSettings
 
     @MockK lateinit var builder: NotificationCompat.Builder
     @MockK lateinit var notification: Notification
@@ -79,11 +78,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp = any() } just Runs
         every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp } returns null
-
-        coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
-
-        every { testResultDonorSettings.riskLevelTurnedRedTime } returns mockFlowPreference(null)
-        every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
 
         every { builder.build() } returns notification
         every { builder.setContentTitle(any()) } returns builder
@@ -124,7 +118,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         ptRiskLevelResult = createPtRiskLevel(riskState, calculatedAt)
     )
 
-    private fun createInstance(scope: CoroutineScope) = EwRiskLevelChangeDetector(
+    private fun createInstance(scope: CoroutineScope) = CombinedRiskLevelChangeDetector(
         context = context,
         appScope = scope,
         riskLevelStorage = riskLevelStorage,
@@ -132,10 +126,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         foregroundState = foregroundState,
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
-        surveys = surveys,
         coronaTestRepository = coronaTestRepository,
-        tracingSettings = tracingSettings,
-        testResultDonorSettings = testResultDonorSettings
     )
 
     @Test
@@ -152,8 +143,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
             coVerifySequence {
                 notificationManagerCompat wasNot Called
-                surveys wasNot Called
-                testResultDonorSettings wasNot Called
             }
         }
     }
@@ -183,7 +172,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
             coVerifySequence {
                 notificationManagerCompat wasNot Called
-                surveys wasNot Called
             }
         }
     }
@@ -251,51 +239,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
     }
 
     @Test
-    fun `risk level went from HIGH to LOW resets survey`() {
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
-            listOf(
-                createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1)),
-                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
-            )
-        )
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
-            flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
-        runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
-
-            advanceUntilIdle()
-
-            coVerifySequence {
-                surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
-            }
-        }
-    }
-
-    @Test
-    fun `risk level went from LOW to HIGH`() {
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
-            listOf(
-                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
-                createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
-            )
-        )
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
-            flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
-
-        runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
-
-            advanceUntilIdle()
-
-            coVerifySequence {
-                surveys wasNot Called
-            }
-        }
-    }
-
-    @Test
     fun `risk level went from LOW to HIGH but it is has already been processed`() {
         every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
@@ -315,7 +258,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
             coVerifySequence {
                 notificationManagerCompat wasNot Called
-                surveys wasNot Called
             }
         }
     }
@@ -346,107 +288,18 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
             coVerifySequence {
                 notificationManagerCompat wasNot Called
-                surveys wasNot Called
             }
         }
     }
 
     @Test
-    fun `riskLevelTurnedRedTime is only set once`() {
-        testResultDonorSettings.riskLevelTurnedRedTime.update { Instant.EPOCH.plus(1) }
-
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
-            listOf(
-                createEwRiskLevel(
-                    INCREASED_RISK,
-                    calculatedAt = Instant.EPOCH.plus(2),
-                    ewAggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
-                        every { isIncreasedRisk() } returns true
-                    }
-                ),
-                createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
-            )
-        )
-
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
-            flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
-
-        runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
-            advanceUntilIdle()
-        }
-
-        testResultDonorSettings.riskLevelTurnedRedTime.value shouldBe Instant.EPOCH.plus(1)
-
-        testResultDonorSettings.riskLevelTurnedRedTime.update { null }
-
-        runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
-            advanceUntilIdle()
-        }
-
-        testResultDonorSettings.riskLevelTurnedRedTime.value shouldBe Instant.EPOCH.plus(2)
-    }
-
-    @Test
-    fun `mostRecentDateWithHighOrLowRiskLevel is updated every time`() {
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
-            listOf(
-                createEwRiskLevel(
-                    INCREASED_RISK,
-                    calculatedAt = Instant.EPOCH.plus(1),
-                    ewAggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
-                        every { mostRecentDateWithHighRisk } returns Instant.EPOCH.plus(10)
-                        every { isIncreasedRisk() } returns true
-                    }
-                ),
-                createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
-            )
-        )
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
-            flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
-
-        runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
-            advanceUntilIdle()
-        }
-
-        testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(10)
-
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
-            listOf(
-                createEwRiskLevel(
-                    INCREASED_RISK,
-                    calculatedAt = Instant.EPOCH.plus(1),
-                    ewAggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
-                        every { mostRecentDateWithLowRisk } returns Instant.EPOCH.plus(20)
-                        every { isIncreasedRisk() } returns false
-                    }
-                ),
-                createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
-            )
-        )
-
-        runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
-            advanceUntilIdle()
-        }
-
-        testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(20)
-    }
-
-    @Test
     fun `evaluate risk level change detection function`() {
-        EwRiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, CALCULATION_FAILED) shouldBe false
-        EwRiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, LOW_RISK) shouldBe false
-        EwRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, INCREASED_RISK) shouldBe false
-        EwRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, LOW_RISK) shouldBe true
-        EwRiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, INCREASED_RISK) shouldBe true
-        EwRiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, INCREASED_RISK) shouldBe true
-        EwRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, CALCULATION_FAILED) shouldBe true
+        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, CALCULATION_FAILED) shouldBe false
+        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, LOW_RISK) shouldBe false
+        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, INCREASED_RISK) shouldBe false
+        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, LOW_RISK) shouldBe true
+        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, INCREASED_RISK) shouldBe true
+        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, INCREASED_RISK) shouldBe true
+        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, CALCULATION_FAILED) shouldBe true
     }
 }

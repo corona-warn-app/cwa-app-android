@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
@@ -63,15 +64,15 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
 
         type.storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                riskLevelSettings.ewMostRecentDateWithHighOrLowRiskLevel,
-                testRegisteredAt
+                riskLevelSettings.ewMostRecentDateWithHighOrLowRiskLevel?.toLocalDateUtc(),
+                testRegisteredAt.toLocalDateUtc()
             )
         }
 
         type.storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel,
-                testRegisteredAt
+                testRegisteredAt.toLocalDateUtc()
             )
         }
     }
