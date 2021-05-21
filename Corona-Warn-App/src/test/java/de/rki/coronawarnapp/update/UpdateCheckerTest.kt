@@ -126,6 +126,5 @@ class UpdateCheckerTest : BaseTest() {
             isUpdateNeeded shouldBe false
             updateIntent shouldBe null
         }
-
     }
 }
