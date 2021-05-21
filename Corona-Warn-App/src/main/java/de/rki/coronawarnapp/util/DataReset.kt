@@ -25,9 +25,9 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
+import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import de.rki.coronawarnapp.vaccination.core.VaccinationPreferences
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -66,7 +66,7 @@ class DataReset @Inject constructor(
     private val ratProfileSettings: RATProfileSettings,
     private val valueSetsRepository: ValueSetsRepository,
     private val vaccinationPreferences: VaccinationPreferences,
-    private val vaccinationRepository: VaccinationRepository
+    private val vaccinationRepository: VaccinationRepository,
 ) {
 
     private val mutex = Mutex()
