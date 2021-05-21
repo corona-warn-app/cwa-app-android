@@ -747,7 +747,7 @@
     <string name="settings_privacy_preserving_analytics_title">"Verileri Paylaş"</string>
 
     <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
-    <string name="settings_analytics_switch_subtitle">"Kullanıcı Verilerini Paylaş"</string>
+    <string name="settings_analytics_switch_subtitle">"Verileri Paylaş"</string>
 
     <!-- ####################################
                App Information
@@ -1038,7 +1038,7 @@
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"“Check-In’lerim” bölümünde check-in yapan konuklarına uyarı gönderilecek etkinlikleri ve yerleri görebilirsiniz. Uyarı işlemlerinin dışında tutmak için listeden ayrı ayrı check-in’leri kaldırabilirsiniz."</string>
+    <string name="submission_consent_main_third_point">"“Check-In’lerim” bölümünde check-in yapan konuklarına uyarı gönderilecek etkinlikleri ve yerleri görebilirsiniz. Uyarı işlemlerinin dışında tutmak için listeden ayrı ayrı check-in’leri silebilirsiniz."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Onay vermek için 16 yaşın üzerinde olmanız gerekir."</string>
     <!-- YTXT: Body for consent main section final id consent  -->
@@ -1053,7 +1053,7 @@
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
-    <string name="submission_no_consent_fourth_point">"“Check-In’lerim” bölümünde check-in yapan konuklarına uyarı gönderilecek etkinlikleri ve yerleri görebilirsiniz. Uyarı işlemlerinin dışında tutmak için listeden ayrı ayrı check-in’leri kaldırabilirsiniz."</string>
+    <string name="submission_no_consent_fourth_point">"“Check-In’lerim” bölümünde check-in yapan konuklarına uyarı gönderilecek etkinlikleri ve yerleri görebilirsiniz. Uyarı işlemlerinin dışında tutmak için listeden ayrı ayrı check-in’leri silebilirsiniz."</string>
     <!-- YTXT: Body for no consent section fifth point  -->
     <string name="submission_no_consent_fifth_point">"Onay vermek için 16 yaşın üzerinde olmanız gerekir."</string>
 
@@ -1063,13 +1063,13 @@
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"Nasıl çalışır?"</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_heading">"Test başarıyla eklendi"</string>
+    <string name="submission_test_result_steps_added_heading">"PCR testiniz başarıyla eklendi."</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Testiniz Corona-Warn-App\'e kaydedildi."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Test sonucunuz henüz çıkmadı."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi kaldırın. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Hızlı testiniz eklendi."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1101,12 +1101,21 @@
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Belirtileri Gir"</string>
     <!-- XBUT: positive test result : continue button without symptoms -->
     <string name="submission_test_result_positive_continue_button_wo_symptoms">"Belirtileri Girme"</string>
+
+
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">"Test Sonucunuz"</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Testiniz değerlendirilemiyor"</string>
+
+    <!-- XHED: Page headline for invalid test result screen  -->
+    <string name="submission_test_result_delete_steps_invalid_heading">"Testi Sil"</string>
+
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"Testinizi değerlendirirken bir problem oluştu. Lütfen sonraki adımlarınız için test merkezi veya laboratuvar ile görüşün.\n\nGerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"Testinizi değerlendirirken bir problem oluştu. Lütfen sonraki adımlarınız için test merkezi veya laboratuvar ile görüşün."</string>
+    <!-- YTXT: Body text for next steps section of invalid test result-->
+    <string name="submission_test_result_delete_steps_invalid_body">"Gerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
+
     <!-- XBUT: invalid test result : remove the test button -->
-    <string name="submission_test_result_invalid_remove_test_button">"Testi kaldır"</string>
+    <string name="submission_test_result_invalid_remove_test_button">"Testi Sil"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
     <string name="submission_test_result_dialog_tracing_required_title">"Maruz Kalma Günlüğü gereklidir"</string>
     <!-- YTXT: Dialog text for tracing required dialog-->
@@ -1116,9 +1125,9 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test yalnızca bir kez taranabilir."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Testi kaldırırsanız test sonucunuzu alamazsınız. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. Koronavirüs tanısı alırsanız kamu sağlığı yetkilisi yasal olarak belirlenen kanal üzerinden bilgilendirilecektir ve kamu sağlığı yetkilisi sizinle iletişime geçecektir."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Testi silerseniz test sonucunuzu alamazsınız. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. Koronavirüs tanısı alırsanız kamu sağlığı yetkilisi yasal olarak belirlenen kanal üzerinden bilgilendirilecektir ve kamu sağlığı yetkilisi sizinle iletişime geçecektir."</string>
     <!-- XBUT: Positive button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_positive">"Kaldır"</string>
+    <string name="submission_test_result_dialog_remove_test_button_positive">"Sil"</string>
     <!-- XBUT: Negative button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_negative">"İptal"</string>
     <!-- XHED: Title for test result card positive -->
@@ -1158,11 +1167,7 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Test Sonucunu Al"</string>
-    <!-- XHED: Page subheadline for dispatcher menu  -->
-    <string name="submission_dispatcher_subheadline">"Uygulama üzerinden test sonucunuzu alın ve ardından diğer kullanıcıları uyarın. Kendinizi koruyacak ve koronavirüsün yayılmasını durdurmaya yardımcı olacaksınız."</string>
-    <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
-    <string name="submission_dispatcher_needs_testing_subheadline">"Test yaptırdınız mı?"</string>
+    <string name="submission_dispatcher_headline">"Testinizi Kaydedin"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"PCR testinizin sonucu pozitif miydi?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
@@ -1236,18 +1241,18 @@
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_share_keys">"Diğer kullanıcıların uyarılabilmesi için rastgele kimliklerinizi paylaşın."</string>
     <!-- YTXT: text after submission: contagious -->
-    <string name="submission_done_contagious">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşacaktır."</string>
+    <string name="submission_done_contagious">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşabilir."</string>
     <!-- YTXT: text after submission: isolate -->
-    <string name="submission_done_isolate">"Bulaşıcı bir hastalık taşıyorsunuz. Kendinizi diğer insanlardan izole edin."</string>
+    <string name="submission_done_isolate">"Yüksek bir olasılıkla enfekte oldunuz. Kendinizi diğer insanlardan izole edin."</string>
 
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Diğer bilgiler:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Karantina süreniz genellikle 14 gündür. Lütfen belirtilerinizi nasıl geliştiğini yakından izleyin."</item>
+        <item>"İzolasyon süreniz genellikle 14 gündür. Lütfen belirtilerinizin nasıl geliştiğini yakından izleyin."</item>
         <item>"Kamu sağlığı yetkiliniz, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, hasta olmadan önceki iki gün içinde 15 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir. Bunun için temas güncenizi kullanabilirsiniz: Girişleri dışa aktarmanız ve ardından yazdırmanız ya da e-posta yoluyla göndermeniz yeterlidir."</item>
         <item>"Lütfen özellikle akıllı telefonu olmadığı veya uygulamayı yüklemediği için doğrudan uygulamanın uyarmayacağı kişileri göz önünde bulundurun."</item>
-        <item>"Hiçbir belirtiniz kalmasa ve kendinizi iyi hissetseniz dahi yine de hastalığı bulaştırabilirsiniz. Bu nedenle lütfen belirlenen karantina süresine uyun."</item>
+        <item>"Hiçbir belirtiniz kalmasa ve kendinizi iyi hissetseniz dahi yine de hastalığı bulaştırabilirsiniz. Bu nedenle lütfen belirlenen izolasyon süresine uyun."</item>
     </string-array>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Tamamlandı"</string>
@@ -1395,9 +1400,9 @@
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Lütfen unutmayın:"</string>
     <!-- YTXT: text for contagious card -->
-    <string name="submission_status_card_positive_result_contagious">"Bulaşıcı bir hastalık taşıyorsunuz. Kendinizi diğer insanlardan izole edin."</string>
+    <string name="submission_status_card_positive_result_contagious">"Yüksek bir olasılıkla enfekte oldunuz. Kendinizi diğer insanlardan izole edin."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşacaktır."</string>
+    <string name="submission_status_card_positive_result_contact">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşabilir."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Diğer kullanıcıların uyarılabilmesi için rastgele kimliklerinizi paylaşın."</string>
 
@@ -1959,7 +1964,7 @@
     <!-- XACT: Button/Dialog label to cancel something-->
     <string name="generic_action_abort">"İptal Et"</string>
     <!-- XACT: Button/Dialog label to remove something-->
-    <string name="generic_action_remove">"Kaldır"</string>
+    <string name="generic_action_remove">"Sil"</string>
 
     <!-- ####################################
        Trace Location
@@ -1991,7 +1996,7 @@
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Yazdırma Sürümü"</string>
     <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Konum Check-In’leri Paylaşılsın Mı?"</string>
+    <string name="trace_location_attendee_consent_title">"Check-In’ler Paylaşılsın Mı?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
     <string name="trace_location_attendee_consent_header_description">"Sizinle birlikte check in yapmış olan diğer kullanıcıları uyarın. Kişisel verileriniz paylaşılmayacaktır."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
@@ -2025,9 +2030,9 @@
     <!-- XHED: Incompitability card title -->
     <string name="incompatible_headline">"Uyumsuzluk Uyarısı"</string>
     <!-- XTXT: Incompitability card content -->
-    <string name="incompatible_advertising_not_supported">"Akıllı telefonunuz Bluetooth üzerinden COVID-19 bildirimlerini yalnızca alabiliyor ancak gönderemiyor. Buna göre, bu arayüz ile maruz kalmalar konusunda uyarı alabilirsiniz ancak siz diğer kullanıcıları uyaramazsınız. Check-in’lerden kaynaklanan uyarıları alabilir ve gönderebilirsiniz."</string>
+    <string name="incompatible_advertising_not_supported">"Akıllı telefonunuz Bluetooth üzerinden COVID-19 maruz kalma bildirimlerini yalnızca alabiliyor ancak gönderemiyor. Buna göre, bu arayüz ile maruz kalmalar konusunda uyarı alabilirsiniz ancak siz diğer kullanıcıları uyaramazsınız. Check-in’lerden kaynaklanan uyarıları alabilir ve gönderebilirsiniz."</string>
     <!-- XTXT: Incompitability card content -->
-    <string name="incompatible_scanning_not_supported">"Akıllı telefonunuz Bluetooth üzerinden COVID-19 bildirimleri gönderemiyor veya alamıyor. Check-in’lerden kaynaklanan uyarıları alabilir ve gönderebilirsiniz."</string>
+    <string name="incompatible_scanning_not_supported">"Akıllı telefonunuz Bluetooth üzerinden COVID-19 maruz kalma bildirimleri gönderemiyor veya alamıyor. Check-in’lerden kaynaklanan uyarıları alabilir ve gönderebilirsiniz."</string>
     <!-- XTXT: Incompitability faq link for partial incompatibility -->
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
     <!-- XTXT: Incompitability faq link for full incompatibility -->
