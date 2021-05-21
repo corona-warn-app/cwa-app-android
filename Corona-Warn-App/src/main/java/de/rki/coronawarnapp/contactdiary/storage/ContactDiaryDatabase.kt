@@ -41,7 +41,7 @@ abstract class ContactDiaryDatabase : RoomDatabase() {
     abstract fun locationVisitDao(): ContactDiaryLocationVisitDao
     abstract fun personDao(): ContactDiaryPersonDao
     abstract fun personEncounterDao(): ContactDiaryPersonEncounterDao
-    abstract fun testDao(): ContactDiaryCoronaTestDao
+    abstract fun coronaTestDao(): ContactDiaryCoronaTestDao
 
     class Factory @Inject constructor(@AppContext private val ctx: Context) {
         fun create(databaseName: String = CONTACT_DIARY_DATABASE_NAME): ContactDiaryDatabase = Room

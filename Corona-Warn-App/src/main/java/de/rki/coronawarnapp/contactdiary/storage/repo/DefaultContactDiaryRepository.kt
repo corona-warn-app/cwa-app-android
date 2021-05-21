@@ -54,7 +54,7 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     private val contactDiaryCoronaTestDao: ContactDiaryCoronaTestDao by lazy {
-        contactDiaryDatabase.testDao()
+        contactDiaryDatabase.coronaTestDao()
     }
 
     // Location
