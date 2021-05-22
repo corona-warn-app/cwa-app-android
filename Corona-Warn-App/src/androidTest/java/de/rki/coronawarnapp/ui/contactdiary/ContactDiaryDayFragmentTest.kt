@@ -63,7 +63,7 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
 
         every { viewModel.uiState } returns MutableLiveData(
             ContactDiaryDayViewModel.UIState(
-                dayText = { LocalDate.now().toFormattedDay(LocaleUtil.getTestLocale() ?: Locale.getDefault()) },
+                dayText = { LocalDate.now().toFormattedDay(Locale.getDefault()) },
                 dayTextContentDescription = { "Description" }
             )
         )
