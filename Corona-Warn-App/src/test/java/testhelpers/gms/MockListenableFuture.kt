@@ -14,7 +14,6 @@ object MockListenableFuture {
         every { cancel(any()) } returns true
         every { addListener(any(), any()) } answers {
             val listener = arg<Runnable>(0)
-            val executor = arg<Executor>(1)
             listener.run()
         }
     }
