@@ -25,6 +25,7 @@ import testhelpers.extensions.CoroutinesTestExtension
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockKExtension::class, CoroutinesTestExtension::class)
+@Suppress("MaxLineLength")
 internal class ContactDiaryExporterTest {
 
     @MockK lateinit var timeStamper: TimeStamper

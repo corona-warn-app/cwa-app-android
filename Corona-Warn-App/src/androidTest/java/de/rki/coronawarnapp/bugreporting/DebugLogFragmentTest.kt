@@ -37,7 +37,6 @@ class DebugLogFragmentTest : BaseUITest() {
     private lateinit var inactiveViewModel: DebugLogViewModel
     private lateinit var activeViewModel: DebugLogViewModel
 
-
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 

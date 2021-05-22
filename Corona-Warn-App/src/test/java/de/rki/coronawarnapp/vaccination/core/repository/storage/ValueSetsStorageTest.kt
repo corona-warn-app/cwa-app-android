@@ -37,12 +37,12 @@ class ValueSetsStorageTest : BaseTest() {
 
     private fun createValueSet(key: String, displayText: String):
         ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet {
-        val item = ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem(
-            key = key,
-            displayText = displayText
-        )
-        return ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(items = listOf(item))
-    }
+            val item = ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem(
+                key = key,
+                displayText = displayText
+            )
+            return ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(items = listOf(item))
+        }
 
     @BeforeEach
     fun setup() {
