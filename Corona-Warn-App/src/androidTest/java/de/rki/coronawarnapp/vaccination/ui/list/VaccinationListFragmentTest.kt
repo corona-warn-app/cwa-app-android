@@ -30,12 +30,10 @@ import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
@@ -44,9 +42,6 @@ import testhelpers.takeScreenshot
 internal class VaccinationListFragmentTest : BaseUITest() {
 
     @MockK lateinit var vaccinationListViewModel: VaccinationListViewModel
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     private val applicationContext = ApplicationProvider.getApplicationContext<Context>()
     private val testQrCode = BitmapFactory.decodeResource(applicationContext.resources, R.drawable.test_qr_code)

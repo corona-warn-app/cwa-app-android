@@ -5,21 +5,16 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingNotificationsFragmentTest : BaseUITest() {
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {

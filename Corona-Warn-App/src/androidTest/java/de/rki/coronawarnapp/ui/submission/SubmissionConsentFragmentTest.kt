@@ -17,12 +17,10 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
 
@@ -34,9 +32,6 @@ class SubmissionConsentFragmentTest : BaseUITest() {
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
     @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
     @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     private lateinit var viewModel: SubmissionConsentViewModel
 

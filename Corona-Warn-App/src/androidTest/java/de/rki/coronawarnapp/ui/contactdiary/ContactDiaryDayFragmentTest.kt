@@ -28,12 +28,10 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
@@ -43,9 +41,6 @@ import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class ContactDiaryDayFragmentTest : BaseUITest() {
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
 

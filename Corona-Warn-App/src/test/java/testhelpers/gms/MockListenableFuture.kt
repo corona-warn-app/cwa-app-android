@@ -3,7 +3,6 @@ package testhelpers.gms
 import com.google.common.util.concurrent.ListenableFuture
 import io.mockk.every
 import io.mockk.mockk
-import java.util.concurrent.Executor
 
 object MockListenableFuture {
     fun <T> forResult(result: T) = mockk<ListenableFuture<T>>().apply {

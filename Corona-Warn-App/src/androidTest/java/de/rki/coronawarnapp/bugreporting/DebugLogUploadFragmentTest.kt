@@ -11,12 +11,10 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
@@ -26,9 +24,6 @@ import testhelpers.takeScreenshot
 class DebugLogUploadFragmentTest : BaseUITest() {
 
     @MockK lateinit var snapShotUploader: SnapshotUploader
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     private lateinit var viewModel: DebugLogUploadViewModel
 

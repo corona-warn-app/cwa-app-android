@@ -30,12 +30,10 @@ import io.mockk.spyk
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
@@ -51,9 +49,6 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     @MockK lateinit var testType: CoronaTest.Type
     private val consentGivenFragmentArgs =
         SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     private lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
 

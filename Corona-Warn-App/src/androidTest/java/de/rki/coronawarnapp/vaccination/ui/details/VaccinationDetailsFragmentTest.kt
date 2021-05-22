@@ -23,12 +23,10 @@ import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
@@ -37,9 +35,6 @@ import testhelpers.takeScreenshot
 class VaccinationDetailsFragmentTest : BaseUITest() {
 
     @MockK lateinit var vaccinationDetailsViewModel: VaccinationDetailsViewModel
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     private val args = VaccinationDetailsFragmentArgs("vaccinationCertificateId").toBundle()
 

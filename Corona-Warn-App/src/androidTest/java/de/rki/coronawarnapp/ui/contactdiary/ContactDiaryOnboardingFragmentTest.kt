@@ -9,21 +9,16 @@ import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFra
 import io.mockk.MockKAnnotations
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class ContactDiaryOnboardingFragmentTest : BaseUITest() {
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     private val fragmentArgs = ContactDiaryOnboardingFragmentArgs(
         showBottomNav = false

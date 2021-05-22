@@ -21,12 +21,10 @@ import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
 
@@ -39,9 +37,6 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
     @MockK lateinit var testType: CoronaTest.Type
     private val resultNegativeFragmentArgs =
         SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {

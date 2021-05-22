@@ -16,21 +16,16 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactViewModel
 import io.mockk.MockKAnnotations
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionContactFragmentTest : BaseUITest() {
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     private fun createViewModel() = SubmissionContactViewModel()
 

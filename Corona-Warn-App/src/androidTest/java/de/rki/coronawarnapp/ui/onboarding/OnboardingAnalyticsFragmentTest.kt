@@ -18,12 +18,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
@@ -36,9 +34,6 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
     @MockK lateinit var analytics: Analytics
 
     private lateinit var viewModel: OnboardingAnalyticsViewModel
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {
