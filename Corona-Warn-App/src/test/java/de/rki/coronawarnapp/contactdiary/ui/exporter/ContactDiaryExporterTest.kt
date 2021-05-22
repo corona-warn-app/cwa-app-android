@@ -145,7 +145,7 @@ internal class ContactDiaryExporterTest {
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_CIRCUMSTANCES,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_CIRCUMSTANCES,
                 expectedExport =
-                """
+                """    
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -153,6 +153,7 @@ internal class ContactDiaryExporterTest {
                     02.01.2021 Barber; Nobody was wearing a mask, but needed a haircut real bad
                     01.01.2021 Andrea Steinhauer; Sicherheitsmaßnahmen eingehalten
                     01.01.2021 Bakery; Very crowdy, but delicious bread
+                
                 """.trimIndent()
             )
         ).map { testItem -> Arguments.of(testItem) }
