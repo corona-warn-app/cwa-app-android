@@ -26,7 +26,6 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingTracingFragmentTest : BaseUITest() {
@@ -35,10 +34,6 @@ class OnboardingTracingFragmentTest : BaseUITest() {
     @MockK lateinit var factory: TracingPermissionHelper.Factory
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var enfClient: ENFClient
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()

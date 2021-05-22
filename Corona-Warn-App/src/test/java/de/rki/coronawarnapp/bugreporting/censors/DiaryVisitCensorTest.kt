@@ -54,32 +54,32 @@ class DiaryVisitCensorTest : BaseTest() {
             timestamp = 1,
             priority = 3,
             message =
-                """
+            """
                 After having a Döner that was too spicy,
                 I got my beard shaved without mask,
                 only to find out the supermarket was out of toiletpaper.
-                """.trimIndent(),
+            """.trimIndent(),
             tag = "I'm a tag",
             throwable = null
         )
         instance.checkLog(censorMe) shouldBe censorMe.copy(
             message =
-                """
+            """
                 After having a Visit#1/Circumstances,
                 I got my Visit#2/Circumstances,
                 only to find out the supermarket was Visit#3/Circumstances.
-                """.trimIndent()
+            """.trimIndent()
         )
 
         // censoring should still work even after visits are deleted
         every { diaryRepo.locationVisits } returns flowOf(emptyList())
         instance.checkLog(censorMe) shouldBe censorMe.copy(
             message =
-                """
+            """
                 After having a Visit#1/Circumstances,
                 I got my Visit#2/Circumstances,
                 only to find out the supermarket was Visit#3/Circumstances.
-                """.trimIndent()
+            """.trimIndent()
         )
     }
 

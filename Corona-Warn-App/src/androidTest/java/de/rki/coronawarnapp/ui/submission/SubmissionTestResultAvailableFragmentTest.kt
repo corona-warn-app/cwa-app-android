@@ -31,7 +31,6 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
@@ -46,10 +45,6 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @MockK lateinit var testType: CoronaTest.Type
     private val resultAvailableFragmentArgs =
         SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()

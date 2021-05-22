@@ -36,7 +36,8 @@ class PersistedRiskResultDaoTest : BaseTest() {
             failureReason shouldBe null
             ewAggregatedRiskResult shouldNotBe null
             ewAggregatedRiskResult?.apply {
-                totalRiskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
+                totalRiskLevel shouldBe
+                    RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
                 totalMinimumDistinctEncountersWithLowRisk shouldBe 89
                 totalMinimumDistinctEncountersWithHighRisk shouldBe 59
                 mostRecentDateWithLowRisk shouldNotBe null
@@ -71,7 +72,8 @@ class PersistedRiskResultDaoTest : BaseTest() {
             failureReason shouldBe null
             ewAggregatedRiskResult shouldNotBe null
             ewAggregatedRiskResult?.apply {
-                totalRiskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
+                totalRiskLevel shouldBe
+                    RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
                 totalMinimumDistinctEncountersWithLowRisk shouldBe 89
                 totalMinimumDistinctEncountersWithHighRisk shouldBe 59
                 mostRecentDateWithLowRisk shouldNotBe null

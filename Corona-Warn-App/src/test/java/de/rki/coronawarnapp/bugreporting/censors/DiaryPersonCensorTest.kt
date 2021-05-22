@@ -59,32 +59,32 @@ class DiaryPersonCensorTest : BaseTest() {
             timestamp = 1,
             priority = 3,
             message =
-                """
+            """
                 Ralf requested more coffee from +49 1234 7777,
                 but Matthias thought he had enough has had enough for today.
                 A quick mail to luka@sap.com confirmed this.
-                """.trimIndent(),
+            """.trimIndent(),
             tag = "I'm a tag",
             throwable = null
         )
         instance.checkLog(censorMe) shouldBe censorMe.copy(
             message =
-                """
+            """
                 Person#2/Name requested more coffee from Person#1/PhoneNumber,
                 but Person#3/Name thought he had enough has had enough for today.
                 A quick mail to Person#1/EMail confirmed this.
-                """.trimIndent()
+            """.trimIndent()
         )
 
         // censoring should still work after people are deleted
         every { diaryRepo.people } returns flowOf(emptyList())
         instance.checkLog(censorMe) shouldBe censorMe.copy(
             message =
-                """
+            """
                 Person#2/Name requested more coffee from Person#1/PhoneNumber,
                 but Person#3/Name thought he had enough has had enough for today.
                 A quick mail to Person#1/EMail confirmed this.
-                """.trimIndent()
+            """.trimIndent()
         )
     }
 

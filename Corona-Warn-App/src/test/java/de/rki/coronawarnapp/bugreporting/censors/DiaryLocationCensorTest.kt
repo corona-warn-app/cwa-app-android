@@ -58,32 +58,32 @@ class DiaryLocationCensorTest : BaseTest() {
             timestamp = 1,
             priority = 3,
             message =
-                """
+            """
                 Bürgermeister of Munich (+49 089 3333) and Karl of Aachen [+49 0241 9999] called each other.
                 Both agreed that their emails (bürgermeister@münchen.de|karl@aachen.de) are awesome,
                 and that Bielefeld doesn't exist as it has neither phonenumber (null) nor email (null).
-                """.trimIndent(),
+            """.trimIndent(),
             tag = "I'm a tag",
             throwable = null
         )
         instance.checkLog(censorMe) shouldBe censorMe.copy(
             message =
-                """
+            """
                 Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
                 Both agreed that their emails (Location#1/EMail|Location#3/EMail) are awesome,
                 and that Location#2/Name doesn't exist as it has neither phonenumber (null) nor email (null).
-                """.trimIndent()
+            """.trimIndent()
         )
 
         // censoring should still work after locations are deleted
         every { diaryRepo.locations } returns flowOf(emptyList())
         instance.checkLog(censorMe) shouldBe censorMe.copy(
             message =
-                """
+            """
                 Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
                 Both agreed that their emails (Location#1/EMail|Location#3/EMail) are awesome,
                 and that Location#2/Name doesn't exist as it has neither phonenumber (null) nor email (null).
-                """.trimIndent()
+            """.trimIndent()
         )
     }
 

@@ -110,7 +110,8 @@ class TestResultDataCollectorTest : BaseTest() {
             for (testResult in listOf(PCR_REDEEMED, PCR_INVALID, PCR_OR_RAT_PENDING)) {
                 every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
                 every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-                every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(PCR_OR_RAT_PENDING)
+                every { testResultDonorSettings.testResultAtRegistration } returns
+                    mockFlowPreference(PCR_OR_RAT_PENDING)
                 testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
 
                 verify {
@@ -146,7 +147,8 @@ class TestResultDataCollectorTest : BaseTest() {
             for (testResult in listOf(PCR_NEGATIVE, PCR_POSITIVE)) {
                 every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
                 every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-                every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(PCR_OR_RAT_PENDING)
+                every { testResultDonorSettings.testResultAtRegistration } returns
+                    mockFlowPreference(PCR_OR_RAT_PENDING)
                 every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.EPOCH)
                 testResultDataCollector.updatePendingTestResultReceivedTime(testResult)
 

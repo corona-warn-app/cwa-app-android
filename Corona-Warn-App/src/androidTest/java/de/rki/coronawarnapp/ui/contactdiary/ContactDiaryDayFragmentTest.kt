@@ -39,16 +39,10 @@ import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.selectTabAtPosition
 import testhelpers.takeScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
-import tools.fastlane.screengrab.locale.LocaleUtil
 import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class ContactDiaryDayFragmentTest : BaseUITest() {
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()

@@ -5,18 +5,15 @@ import de.rki.coronawarnapp.ui.information.InformationPrivacyFragment
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import testhelpers.BaseUITest
 import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
-class ContactDiaryInformationPrivacyFragmentTest {
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
+class ContactDiaryInformationPrivacyFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()

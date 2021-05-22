@@ -42,13 +42,15 @@ internal class RatQrCodeCensorTest {
         val logLineToCensor = LogLine(
             timestamp = 1,
             priority = 3,
-            message = "Here comes the hash: $testHash of the rat test of Milhouse Van Houten. He was born on 1980-07-01",
+            message = "Here comes the hash: $testHash of the rat test " +
+                "of Milhouse Van Houten. He was born on 1980-07-01",
             tag = "I am tag",
             throwable = null
         )
 
         censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
-            message = "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
+            message = "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of " +
+                "the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
         )
     }
 

@@ -60,7 +60,8 @@ class CoronaTestCensorTest : BaseTest() {
             throwable = null
         )
         instance.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
+            message = "I'm a shy registration token: ########-####-####-####-########3a2" +
+                "f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
         )
 
         verify { coronaTestRepository.coronaTests }
@@ -108,14 +109,16 @@ class CoronaTestCensorTest : BaseTest() {
         )
 
         censor.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
+            message = "I'm a shy registration token: ########-####-####-####-########3a2" +
+                "f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
         )
 
         // delete all tests
         coronaTests.value = emptySet()
 
         censor.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
+            message = "I'm a shy registration token: ########-####-####-####-########3" +
+                "a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
         )
     }
 }

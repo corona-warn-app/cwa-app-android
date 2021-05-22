@@ -83,7 +83,8 @@ class WorkerBinderTest : BaseTest() {
 @Component(modules = [WorkerBinder::class, MockProvider::class])
 interface WorkerTestComponent {
 
-    val factories: @JvmSuppressWildcards Map<Class<out ListenableWorker>, Provider<InjectedWorkerFactory<out ListenableWorker>>>
+    val factories:
+        @JvmSuppressWildcards Map<Class<out ListenableWorker>, Provider<InjectedWorkerFactory<out ListenableWorker>>>
 
     @Component.Factory
     interface Factory {

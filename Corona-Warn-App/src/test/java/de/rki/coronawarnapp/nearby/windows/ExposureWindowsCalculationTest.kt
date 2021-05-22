@@ -19,7 +19,13 @@ import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonTrlFilter
 import de.rki.coronawarnapp.risk.DefaultRiskLevels
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TrlFilter
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -128,10 +134,14 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
             // 6 - Check with expected result from test case
             aggregatedRiskResult.totalRiskLevel.number shouldBe case.expTotalRiskLevel
-            aggregatedRiskResult.mostRecentDateWithHighRisk shouldBe getTestCaseDate(case.expAgeOfMostRecentDateWithHighRiskInDays)
-            aggregatedRiskResult.mostRecentDateWithLowRisk shouldBe getTestCaseDate(case.expAgeOfMostRecentDateWithLowRiskInDays)
-            aggregatedRiskResult.totalMinimumDistinctEncountersWithHighRisk shouldBe case.expTotalMinimumDistinctEncountersWithHighRisk
-            aggregatedRiskResult.totalMinimumDistinctEncountersWithLowRisk shouldBe case.expTotalMinimumDistinctEncountersWithLowRisk
+            aggregatedRiskResult.mostRecentDateWithHighRisk shouldBe
+                getTestCaseDate(case.expAgeOfMostRecentDateWithHighRiskInDays)
+            aggregatedRiskResult.mostRecentDateWithLowRisk shouldBe
+                getTestCaseDate(case.expAgeOfMostRecentDateWithLowRiskInDays)
+            aggregatedRiskResult.totalMinimumDistinctEncountersWithHighRisk shouldBe
+                case.expTotalMinimumDistinctEncountersWithHighRisk
+            aggregatedRiskResult.totalMinimumDistinctEncountersWithLowRisk shouldBe
+                case.expTotalMinimumDistinctEncountersWithLowRisk
         }
     }
 
@@ -213,56 +223,65 @@ class ExposureWindowsCalculationTest : BaseTest() {
         result.append("\n\n").append("----------------- \uD83D\uDEE0 CONFIGURATION \uD83D\uDEE0 -----------")
 
         result.append("\n").append("◦ Minutes At Attenuation Filters (${config.minutesAtAttenuationFilters.size})")
-        for (filter: RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters) {
+        for (
+            filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
+        ) {
             result.append("\n\t").append("⇥ Filter")
             result.append(logRange(filter.attenuationRange, "Attenuation Range"))
             result.append(logRange(filter.dropIfMinutesInRange, "Drop If Minutes In Range"))
         }
 
         result.append("\n").append("◦ Minutes At Attenuation Weights (${config.minutesAtAttenuationWeights.size})")
-        for (weight: RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight in config.minutesAtAttenuationWeights) {
+        for (weight: MinutesAtAttenuationWeight in config.minutesAtAttenuationWeights) {
             result.append("\n\t").append("⇥ Weight")
             result.append(logRange(weight.attenuationRange, "Attenuation Range"))
             result.append("\n\t\t").append("↳ Weight: ${weight.weight}")
         }
 
+        val mappingList = config.normalizedTimePerDayToRiskLevelMappingList
         result.append("\n")
-            .append("◦ Normalized Time Per Day To Risk Level Mapping List (${config.normalizedTimePerDayToRiskLevelMappingList.size})")
-        for (mapping: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping in config.normalizedTimePerDayToRiskLevelMappingList) {
+            .append("◦ Normalized Time Per Day To Risk Level Mapping List (${mappingList.size})")
+        for (mapping: NormalizedTimeToRiskLevelMapping in mappingList) {
             result.append("\n\t").append("⇥ Mapping")
             result.append(logRange(mapping.normalizedTimeRange, "Normalized Time Range"))
             result.append("\n\t\t").append("↳ Risk Level: ${mapping.riskLevel}")
         }
 
+        val levelMapping = config.normalizedTimePerExposureWindowToRiskLevelMapping
         result.append("\n")
-            .append("◦ Normalized Time Per Exposure Window To Risk Level Mapping (${config.normalizedTimePerExposureWindowToRiskLevelMapping.size})")
-        for (mapping: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping in config.normalizedTimePerExposureWindowToRiskLevelMapping) {
+            .append("◦ Normalized Time Per Exposure Window To Risk Level Mapping (${levelMapping.size})")
+        for (mapping: NormalizedTimeToRiskLevelMapping in levelMapping) {
             result.append("\n\t").append("⇥ Mapping")
             result.append(logRange(mapping.normalizedTimeRange, "Normalized Time Range"))
             result.append("\n\t\t").append("↳ Risk Level: ${mapping.riskLevel}")
         }
 
         result.append("\n").append("◦ Transmission Risk Level Encoding:")
+        val encoding = config.transmissionRiskLevelEncoding
         result.append("\n\t")
-            .append("↳ Infectiousness Offset High: ${config.transmissionRiskLevelEncoding.infectiousnessOffsetHigh}")
+            .append("↳ Infectiousness Offset High: ${encoding.infectiousnessOffsetHigh}")
         result.append("\n\t")
-            .append("↳ Infectiousness Offset Standard: ${config.transmissionRiskLevelEncoding.infectiousnessOffsetStandard}")
+            .append("↳ Infectiousness Offset Standard: ${encoding.infectiousnessOffsetStandard}")
         result.append("\n\t")
-            .append("↳ Report Type Offset Confirmed Clinical Diagnosis: ${config.transmissionRiskLevelEncoding.reportTypeOffsetConfirmedClinicalDiagnosis}")
+            .append(
+                "↳ Report Type Offset Confirmed Clinical Diagnosis: " +
+                    "${encoding.reportTypeOffsetConfirmedClinicalDiagnosis}"
+            )
         result.append("\n\t")
-            .append("↳ Report Type Offset Confirmed Test: ${config.transmissionRiskLevelEncoding.reportTypeOffsetConfirmedTest}")
+            .append("↳ Report Type Offset Confirmed Test: ${encoding.reportTypeOffsetConfirmedTest}")
         result.append("\n\t")
-            .append("↳ Report Type Offset Recursive: ${config.transmissionRiskLevelEncoding.reportTypeOffsetRecursive}")
+            .append("↳ Report Type Offset Recursive: ${encoding.reportTypeOffsetRecursive}")
         result.append("\n\t")
-            .append("↳ Report Type Offset Self Report: ${config.transmissionRiskLevelEncoding.reportTypeOffsetSelfReport}")
+            .append("↳ Report Type Offset Self Report: ${encoding.reportTypeOffsetSelfReport}")
 
         result.append("\n").append("◦ Transmission Risk Level Filters (${config.transmissionRiskLevelFilters.size})")
-        for (filter: RiskCalculationParametersOuterClass.TrlFilter in config.transmissionRiskLevelFilters) {
+        for (filter: TrlFilter in config.transmissionRiskLevelFilters) {
             result.append("\n\t").append("⇥ Trl Filter")
             result.append(logRange(filter.dropIfTrlInRange, "Drop If Trl In Range"))
         }
 
-        result.append("\n").appendLine("◦ Transmission Risk Value Mapping (${config.transmissionRiskValueMapping.size})")
+        result.append("\n")
+            .appendLine("◦ Transmission Risk Value Mapping (${config.transmissionRiskValueMapping.size})")
         for (mapping in config.transmissionRiskValueMapping) {
             result.append("\t").appendLine("⇥ Mapping")
             result.append("\t\t").append("↳ transmissionRiskLevel: ").appendLine(mapping.transmissionRiskLevel)
@@ -273,7 +292,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
         debugLog(result.toString(), LogLevel.NONE)
     }
 
-    private fun logRange(range: RiskCalculationParametersOuterClass.Range, rangeName: String): String {
+    private fun logRange(range: Range, rangeName: String): String {
         val builder = StringBuilder()
         builder.append("\n\t\t").append("⇥ $rangeName")
         builder.append("\n\t\t\t").append("↳ Min: ${range.min}")
@@ -314,9 +333,9 @@ class ExposureWindowsCalculationTest : BaseTest() {
             configType = ConfigData.Type.FROM_SERVER
         )
 
-        val attenuationFilters = mutableListOf<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>()
+        val attenuationFilters = mutableListOf<MinutesAtAttenuationFilter>()
         for (jsonFilter: JsonMinutesAtAttenuationFilter in json.minutesAtAttenuationFilters) {
-            val filter: RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter = mockk()
+            val filter: MinutesAtAttenuationFilter = mockk()
             every { filter.attenuationRange.min } returns jsonFilter.attenuationRange.min
             every { filter.attenuationRange.max } returns jsonFilter.attenuationRange.max
             every { filter.attenuationRange.minExclusive } returns jsonFilter.attenuationRange.minExclusive
@@ -329,9 +348,9 @@ class ExposureWindowsCalculationTest : BaseTest() {
         }
         every { testConfig.minutesAtAttenuationFilters } returns attenuationFilters
 
-        val attenuationWeights = mutableListOf<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>()
+        val attenuationWeights = mutableListOf<MinutesAtAttenuationWeight>()
         for (jsonWeight: JsonMinutesAtAttenuationWeight in json.minutesAtAttenuationWeights) {
-            val weight: RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight = mockk()
+            val weight: MinutesAtAttenuationWeight = mockk()
             every { weight.attenuationRange.min } returns jsonWeight.attenuationRange.min
             every { weight.attenuationRange.max } returns jsonWeight.attenuationRange.max
             every { weight.attenuationRange.minExclusive } returns jsonWeight.attenuationRange.minExclusive
@@ -342,10 +361,10 @@ class ExposureWindowsCalculationTest : BaseTest() {
         every { testConfig.minutesAtAttenuationWeights } returns attenuationWeights
 
         val normalizedTimePerDayToRiskLevelMapping =
-            mutableListOf<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>()
+            mutableListOf<NormalizedTimeToRiskLevelMapping>()
         for (jsonMapping: JsonNormalizedTimeToRiskLevelMapping in json.normalizedTimePerDayToRiskLevelMapping) {
-            val mapping: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping = mockk()
-            every { mapping.riskLevel } returns RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(
+            val mapping: NormalizedTimeToRiskLevelMapping = mockk()
+            every { mapping.riskLevel } returns NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(
                 jsonMapping.riskLevel
             )
             every { mapping.normalizedTimeRange.min } returns jsonMapping.normalizedTimeRange.min
@@ -357,10 +376,10 @@ class ExposureWindowsCalculationTest : BaseTest() {
         every { testConfig.normalizedTimePerDayToRiskLevelMappingList } returns normalizedTimePerDayToRiskLevelMapping
 
         val normalizedTimePerExposureWindowToRiskLevelMapping =
-            mutableListOf<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>()
+            mutableListOf<NormalizedTimeToRiskLevelMapping>()
         for (jsonMapping: JsonNormalizedTimeToRiskLevelMapping in json.normalizedTimePerEWToRiskLevelMapping) {
-            val mapping: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping = mockk()
-            every { mapping.riskLevel } returns RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(
+            val mapping: NormalizedTimeToRiskLevelMapping = mockk()
+            every { mapping.riskLevel } returns NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(
                 jsonMapping.riskLevel
             )
             every { mapping.normalizedTimeRange.min } returns jsonMapping.normalizedTimeRange.min
@@ -369,20 +388,22 @@ class ExposureWindowsCalculationTest : BaseTest() {
             every { mapping.normalizedTimeRange.maxExclusive } returns jsonMapping.normalizedTimeRange.maxExclusive
             normalizedTimePerExposureWindowToRiskLevelMapping.add(mapping)
         }
-        every { testConfig.normalizedTimePerExposureWindowToRiskLevelMapping } returns normalizedTimePerExposureWindowToRiskLevelMapping
+        every { testConfig.normalizedTimePerExposureWindowToRiskLevelMapping } returns
+            normalizedTimePerExposureWindowToRiskLevelMapping
 
-        val trlEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding = mockk()
+        val trlEncoding: TransmissionRiskLevelEncoding = mockk()
         every { trlEncoding.infectiousnessOffsetHigh } returns json.trlEncoding.infectiousnessOffsetHigh
         every { trlEncoding.infectiousnessOffsetStandard } returns json.trlEncoding.infectiousnessOffsetStandard
-        every { trlEncoding.reportTypeOffsetConfirmedClinicalDiagnosis } returns json.trlEncoding.reportTypeOffsetConfirmedClinicalDiagnosis
+        every { trlEncoding.reportTypeOffsetConfirmedClinicalDiagnosis } returns
+            json.trlEncoding.reportTypeOffsetConfirmedClinicalDiagnosis
         every { trlEncoding.reportTypeOffsetConfirmedTest } returns json.trlEncoding.reportTypeOffsetConfirmedTest
         every { trlEncoding.reportTypeOffsetRecursive } returns json.trlEncoding.reportTypeOffsetRecursive
         every { trlEncoding.reportTypeOffsetSelfReport } returns json.trlEncoding.reportTypeOffsetSelfReport
         every { testConfig.transmissionRiskLevelEncoding } returns trlEncoding
 
-        val trlFilters = mutableListOf<RiskCalculationParametersOuterClass.TrlFilter>()
+        val trlFilters = mutableListOf<TrlFilter>()
         for (jsonFilter: JsonTrlFilter in json.trlFilters) {
-            val filter: RiskCalculationParametersOuterClass.TrlFilter = mockk()
+            val filter: TrlFilter = mockk()
             every { filter.dropIfTrlInRange.min } returns jsonFilter.dropIfTrlInRange.min
             every { filter.dropIfTrlInRange.max } returns jsonFilter.dropIfTrlInRange.max
             every { filter.dropIfTrlInRange.minExclusive } returns jsonFilter.dropIfTrlInRange.minExclusive
@@ -392,9 +413,9 @@ class ExposureWindowsCalculationTest : BaseTest() {
         every { testConfig.transmissionRiskLevelFilters } returns trlFilters
 
         val transmissionRiskValueMapping =
-            mutableListOf<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>()
+            mutableListOf<TransmissionRiskValueMapping>()
         for (jsonMapping: JsonTransmissionRiskValueMapping in json.transmissionRiskValueMapping) {
-            val mapping: RiskCalculationParametersOuterClass.TransmissionRiskValueMapping = mockk()
+            val mapping: TransmissionRiskValueMapping = mockk()
             mapping.run {
                 every { transmissionRiskLevel } returns jsonMapping.transmissionRiskLevel
                 every { transmissionRiskValue } returns jsonMapping.transmissionRiskValue
@@ -408,7 +429,8 @@ class ExposureWindowsCalculationTest : BaseTest() {
         val exposureWindow: ExposureWindow = mockk()
 
         every { exposureWindow.calibrationConfidence } returns json.calibrationConfidence
-        every { exposureWindow.dateMillisSinceEpoch } returns timeStamper.nowUTC.millis - (DateTimeConstants.MILLIS_PER_DAY * json.ageInDays).toLong()
+        every { exposureWindow.dateMillisSinceEpoch } returns
+            timeStamper.nowUTC.millis - (DateTimeConstants.MILLIS_PER_DAY * json.ageInDays).toLong()
         every { exposureWindow.infectiousness } returns json.infectiousness
         every { exposureWindow.reportType } returns json.reportType
         every { exposureWindow.scanInstances } returns json.scanInstances.map { scanInstance ->

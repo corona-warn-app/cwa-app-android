@@ -104,7 +104,9 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
     @Test
     fun `test person encounters`() = runBlockingTest {
-        val list: List<ContactDiaryPersonEncounter> = testDates.map { createContactDiaryPersonEncounter(Instant.parse(it)) }
+        val list: List<ContactDiaryPersonEncounter> = testDates.map {
+            createContactDiaryPersonEncounter(Instant.parse(it))
+        }
 
         every { contactDiaryRepository.personEncounters } returns flowOf(list)
         coEvery { contactDiaryRepository.deletePersonEncounters(any()) } just runs

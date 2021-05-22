@@ -11,14 +11,9 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.captureScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class StatisticsExplanationFragmentTest : BaseUITest() {
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()

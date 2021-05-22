@@ -70,23 +70,29 @@ internal class RatProfileCensorTest : BaseTest() {
         val logLine = LogLine(
             timestamp = 1,
             priority = 3,
-            message = "Mister First name who is also known as Last name and is born on 1950-08-01 lives in Main street, " +
-                "12132 in the beautiful city of London. You can reach him by phone: 111111111 or email: email@example.com",
+            message =
+            "Mister First name who is also known as Last name and is born on 1950-08-01 lives in Main street, " +
+                "12132 in the beautiful city of London. You can reach him by phone: 111111111 or email:" +
+                " email@example.com",
             tag = "I'm a tag",
             throwable = null
         )
 
         censor.checkLog(logLine) shouldBe logLine.copy(
-            message = "Mister RAT-Profile/FirstName who is also known as RAT-Profile/LastName and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
-                "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City. You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
+            message = "Mister RAT-Profile/FirstName who is also known as RAT-Profile/LastName" +
+                " and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
+                "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City." +
+                " You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
         )
 
         // censoring should still work after the user deletes his profile
         every { ratProfileSettings.profile.flow } returns flowOf(null)
 
         censor.checkLog(logLine) shouldBe logLine.copy(
-            message = "Mister RAT-Profile/FirstName who is also known as RAT-Profile/LastName and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
-                "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City. You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
+            message = "Mister RAT-Profile/FirstName who is also known as RAT-Profile" +
+                "/LastName and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
+                "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City." +
+                " You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
         )
     }
 

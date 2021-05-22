@@ -49,18 +49,19 @@ internal class RACoronaTestCensorTest : BaseTest() {
             timestamp = 1,
             priority = 3,
             message =
-                """
+            """
                 Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
-                """.trimIndent(),
+            """.trimIndent(),
             tag = "I am tag",
             throwable = null
         )
 
         censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
             message =
-                """
-                Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
-                """.trimIndent()
+            (
+                "Hello! My name is RATest/FirstName. My friends call me " +
+                    "Mister RATest/LastName and I was born on RATest/DateOfBirth."
+                ).trimIndent()
         )
 
         // censoring should still work when test gets deleted
@@ -68,9 +69,10 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
         censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
             message =
-                """
-                Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
-                """.trimIndent()
+            (
+                "Hello! My name is RATest/FirstName. My friends call me Mister" +
+                    " RATest/LastName and I was born on RATest/DateOfBirth."
+                ).trimIndent()
         )
     }
 
@@ -113,9 +115,5 @@ internal class RACoronaTestCensorTest : BaseTest() {
             throwable = null
         )
         censor.checkLog(logLine) shouldBe null
-    }
-
-    @Test
-    fun `censoring should still work when test gets deleted`() {
     }
 }

@@ -35,7 +35,8 @@ class ValueSetsStorageTest : BaseTest() {
         ma = createValueSet(key = "ORG-100001699", displayText = "Manufactorer-Name")
     )
 
-    private fun createValueSet(key: String, displayText: String): ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet {
+    private fun createValueSet(key: String, displayText: String):
+        ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet {
         val item = ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem(
             key = key,
             displayText = displayText

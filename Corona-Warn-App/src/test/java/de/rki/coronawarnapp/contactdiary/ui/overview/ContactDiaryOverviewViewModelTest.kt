@@ -213,11 +213,13 @@ open class ContactDiaryOverviewViewModelTest {
         with(createInstance()) {
             onItemPress(listItem)
             val navigationEvent = routeToScreen.getOrAwaitValue()
-            navigationEvent should beInstanceOf(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment::class)
+            navigationEvent should
+                beInstanceOf(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment::class)
             navigationEvent as ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment
-            navigationEvent.localDateString shouldBe ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(
-                listItem.date
-            ).localDateString
+            navigationEvent.localDateString shouldBe
+                ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(
+                    listItem.date
+                ).localDateString
         }
     }
 
@@ -507,8 +509,10 @@ open class ContactDiaryOverviewViewModelTest {
         // In this test, now = January, 15
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-15T00:00:00.000Z")
 
-        every { contactDiaryRepository.personEncounters } returns flowOf(ContactDiaryData.TWO_PERSONS_WITH_PHONE_NUMBERS_AND_EMAIL)
-        every { contactDiaryRepository.locationVisits } answers { flowOf(ContactDiaryData.TWO_LOCATIONS_WITH_DURATION) }
+        every { contactDiaryRepository.personEncounters } returns
+            flowOf(ContactDiaryData.TWO_PERSONS_WITH_PHONE_NUMBERS_AND_EMAIL)
+        every { contactDiaryRepository.locationVisits } answers
+            { flowOf(ContactDiaryData.TWO_LOCATIONS_WITH_DURATION) }
 
         val vm = createInstance()
 

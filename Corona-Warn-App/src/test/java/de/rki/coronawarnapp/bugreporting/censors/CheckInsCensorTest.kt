@@ -63,20 +63,20 @@ internal class CheckInsCensorTest : BaseTest() {
             timestamp = 1,
             priority = 3,
             message =
-                """
+            """
                 Let's go to Moe's Tavern in Near 742 Evergreen Terrace, 12345 Springfield.
                 Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
-                """.trimIndent(),
+            """.trimIndent(),
             tag = "I am tag",
             throwable = null
         )
 
         censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
             message =
-                """
+            """
                 Let's go to CheckIn#1/Description in CheckIn#1/Address.
                 Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
-                """.trimIndent()
+            """.trimIndent()
         )
 
         // censoring should still work after user deletes his check-ins
@@ -84,10 +84,10 @@ internal class CheckInsCensorTest : BaseTest() {
 
         censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
             message =
-                """
+            """
                 Let's go to CheckIn#1/Description in CheckIn#1/Address.
                 Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
-                """.trimIndent()
+            """.trimIndent()
         )
     }
 

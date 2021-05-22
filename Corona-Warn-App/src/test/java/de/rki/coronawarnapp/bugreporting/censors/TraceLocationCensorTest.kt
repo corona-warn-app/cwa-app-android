@@ -63,7 +63,8 @@ internal class TraceLocationCensorTest : BaseTest() {
                 ),
                 mockTraceLocation(
                     traceLocationId = 2,
-                    traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
+                    traceLocationType =
+                    TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
                     traceLocationDescription = "Rick Astley Concert",
                     traceLocationAddress = "Never gonna give you up street 1, 12345 RickRoll City"
                 )
@@ -76,20 +77,20 @@ internal class TraceLocationCensorTest : BaseTest() {
             timestamp = 1,
             priority = 3,
             message =
-                """
+            """
                 The type is LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT. Yesterday we went to the Rick Astley Concert. The spectacle took place in Never gonna give you up street 1, 12345 RickRoll City. 
                 Afterwards we had some food in Sushi Place in Sushi Street 123, 12345 Fish Town. It a nice LOCATION_TYPE_PERMANENT_FOOD_SERVICE.
-                """.trimIndent(),
+            """.trimIndent(),
             tag = "I am tag",
             throwable = null
         )
 
         censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
             message =
-                """
+            """
                 The type is TraceLocation#2/Type. Yesterday we went to the TraceLocation#2/Description. The spectacle took place in TraceLocation#2/Address. 
                 Afterwards we had some food in TraceLocation#1/Description in TraceLocation#1/Address. It a nice TraceLocation#1/Type.
-                """.trimIndent()
+            """.trimIndent()
         )
 
         // censoring should still work after the user deletes his trace locations
@@ -97,10 +98,10 @@ internal class TraceLocationCensorTest : BaseTest() {
 
         censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
             message =
-                """
+            """
                 The type is TraceLocation#2/Type. Yesterday we went to the TraceLocation#2/Description. The spectacle took place in TraceLocation#2/Address. 
                 Afterwards we had some food in TraceLocation#1/Description in TraceLocation#1/Address. It a nice TraceLocation#1/Type.
-                """.trimIndent()
+            """.trimIndent()
         )
     }
 
@@ -123,20 +124,20 @@ internal class TraceLocationCensorTest : BaseTest() {
                 timestamp = 1,
                 priority = 3,
                 message =
-                    """
+                """
                 The user just created a new traceLocation with Top Secret Private Event as the description and
                 top secret address as the address. The type is LOCATION_TYPE_TEMPORARY_PRIVATE_EVENT. 
-                    """.trimIndent(),
+                """.trimIndent(),
                 tag = "I am tag",
                 throwable = null
             )
 
             censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
                 message =
-                    """
+                """
                 The user just created a new traceLocation with TraceLocationUserInput#Description as the description and
                 TraceLocationUserInput#Address as the address. The type is TraceLocationUserInput#Type. 
-                    """.trimIndent()
+                """.trimIndent()
             )
         }
 
@@ -162,13 +163,15 @@ internal class TraceLocationCensorTest : BaseTest() {
             listOf(
                 mockTraceLocation(
                     traceLocationId = 1,
-                    traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
+                    traceLocationType =
+                    TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
                     traceLocationDescription = "Description 1",
                     traceLocationAddress = "Address 1"
                 ),
                 mockTraceLocation(
                     traceLocationId = 2,
-                    traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
+                    traceLocationType =
+                    TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
                     traceLocationDescription = "Description 2",
                     traceLocationAddress = "Address 2"
                 )

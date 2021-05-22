@@ -31,7 +31,6 @@ import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
 import testhelpers.takeScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
@@ -39,10 +38,6 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()

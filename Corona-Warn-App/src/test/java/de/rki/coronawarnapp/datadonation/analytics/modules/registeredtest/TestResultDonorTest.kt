@@ -87,14 +87,16 @@ class TestResultDonorTest : BaseTest() {
     @Test
     fun `No donation when test result is INVALID`() = runBlockingTest {
         every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-        every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_INVALID)
+        every { testResultDonorSettings.testResultAtRegistration } returns
+            mockFlowPreference(CoronaTestResult.PCR_INVALID)
         testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is REDEEMED`() = runBlockingTest {
         every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-        every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_REDEEMED)
+        every { testResultDonorSettings.testResultAtRegistration } returns
+            mockFlowPreference(CoronaTestResult.PCR_REDEEMED)
         testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
     }
 
@@ -102,7 +104,8 @@ class TestResultDonorTest : BaseTest() {
     fun `No donation when test result is PENDING and hours isn't greater or equal to config hours`() {
         runBlockingTest {
             every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-            every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
+            every { testResultDonorSettings.testResultAtRegistration } returns
+                mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
 
             testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
         }
@@ -112,7 +115,8 @@ class TestResultDonorTest : BaseTest() {
     fun `Donation is collected when test result is PENDING and hours is greater or equal to config hours`() {
         runBlockingTest {
             every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-            every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
+            every { testResultDonorSettings.testResultAtRegistration } returns
+                mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
 
             val timeDayBefore = baseTime.minus(Duration.standardDays(1))
             coronaTests.value = setOf(
@@ -141,7 +145,8 @@ class TestResultDonorTest : BaseTest() {
     fun `Donation is collected when test result is POSITIVE`() {
         runBlockingTest {
             every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-            every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
+            every { testResultDonorSettings.testResultAtRegistration } returns
+                mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
             every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
 
             val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
@@ -253,7 +258,8 @@ class TestResultDonorTest : BaseTest() {
     fun `Donation is collected when test result is NEGATIVE`() {
         runBlockingTest {
             every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-            every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
+            every { testResultDonorSettings.testResultAtRegistration } returns
+                mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
             every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
 
             val donation = testResultDonor.beginDonation(TestRequest) as TestResultDonor.TestResultMetadataContribution
