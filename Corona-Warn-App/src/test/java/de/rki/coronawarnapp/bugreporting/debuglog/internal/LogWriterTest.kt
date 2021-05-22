@@ -56,12 +56,16 @@ class LogWriterTest : BaseIOTest() {
             write("ABC")
             logFile.readText() shouldBe "ABC\n"
 
+            logSize.value shouldBe 4L
+
             logFile.delete()
             logFile.parentFile!!.delete()
             logFile.exists() shouldBe false
 
             write("DEF")
             logFile.readText() shouldBe "Logfile was deleted.\nDEF\n"
+
+            logSize.value shouldBe 25L
         }
     }
 }

@@ -52,7 +52,10 @@ class LogWriter @Inject constructor(val logFile: File) {
                 logFile.parentFile?.mkdirs()
                 logFile.createNewFile()
                 logFile.writeText("Logfile was deleted.\n")
+
                 performWrite()
+
+                updateLogSize()
             } catch (e: Exception) {
                 Log.e(TAG, "LogWrite retry failed, something is just wrong...", e)
                 return@withLock
