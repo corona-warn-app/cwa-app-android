@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.qrcode.fullscreen
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import android.view.animation.AccelerateInterpolator
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
@@ -23,10 +22,9 @@ import javax.inject.Inject
 class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private val binding: FragmentQrCodeFullScreenBinding by viewBinding()
+    private val binding by viewBinding<FragmentQrCodeFullScreenBinding>()
     private val args by navArgs<QrCodeFullScreenFragmentArgs>()
-    private val viewModel: QrCodeFullScreenViewModel by cwaViewModelsAssisted(
+    private val viewModel by cwaViewModelsAssisted<QrCodeFullScreenViewModel>(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as QrCodeFullScreenViewModel.Factory
@@ -36,12 +34,7 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         }
     )
 
-    private val window: Window get() = requireActivity().window
-    private val insetsController by lazy {
-        WindowInsetsControllerCompat(window, window.decorView).apply {
-            systemBarsBehavior = BEHAVIOR_SHOW_BARS_BY_TOUCH
-        }
-    }
+    private val insetsController by lazy { insetsController() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,5 +76,13 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
     private fun enterImmersiveMode() {
         insetsController.hide(Type.systemBars())
         binding.toolbar.apply { animate().translationY(-height.toFloat()) }
+    }
+
+    private fun insetsController(): WindowInsetsControllerCompat {
+        val window = requireActivity().window
+        return WindowInsetsControllerCompat(window, window.decorView)
+            .apply {
+                systemBarsBehavior = BEHAVIOR_SHOW_BARS_BY_TOUCH
+            }
     }
 }
