@@ -6,7 +6,7 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_TOUCH
+import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
@@ -69,20 +69,20 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
     }
 
     private fun exitImmersiveMode() {
-        binding.toolbar.animate().translationY(0.0f)
+        binding.toolbar.animate().alpha(1.0f)
         insetsController.show(Type.systemBars())
     }
 
     private fun enterImmersiveMode() {
         insetsController.hide(Type.systemBars())
-        binding.toolbar.apply { animate().translationY(-height.toFloat()) }
+        binding.toolbar.animate().alpha(0.0f)
     }
 
     private fun insetsController(): WindowInsetsControllerCompat {
         val window = requireActivity().window
         return WindowInsetsControllerCompat(window, window.decorView)
             .apply {
-                systemBarsBehavior = BEHAVIOR_SHOW_BARS_BY_TOUCH
+                systemBarsBehavior = BEHAVIOR_SHOW_BARS_BY_SWIPE
             }
     }
 }
