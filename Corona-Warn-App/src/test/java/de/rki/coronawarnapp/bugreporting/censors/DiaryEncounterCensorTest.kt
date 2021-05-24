@@ -75,7 +75,7 @@ class DiaryEncounterCensorTest : BaseTest() {
             ),
             listOf(
                 mockEncounter(1, _circumstances = ""),
-               // "a rainy day" was deleted
+                // "a rainy day" was deleted
                 mockEncounter(3, "Spilled coffee on each others laptops")
             )
         )
