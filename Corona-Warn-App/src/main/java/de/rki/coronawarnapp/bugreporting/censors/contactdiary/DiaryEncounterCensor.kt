@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 @Reusable
@@ -21,6 +23,8 @@ class DiaryEncounterCensor @Inject constructor(
     diary: ContactDiaryRepository
 ) : BugCensor {
 
+    private val mutex = Mutex()
+
     // We keep a history of all encounters so that we can censor them even after they got deleted
     private val encounterHistory = mutableSetOf<ContactDiaryPersonEncounter>()
 
@@ -28,7 +32,7 @@ class DiaryEncounterCensor @Inject constructor(
         diary.personEncounters.onEach { encounterHistory.addAll(it) }.launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): CensoredString? {
+    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
 
         if (encounterHistory.isEmpty()) return null
 
