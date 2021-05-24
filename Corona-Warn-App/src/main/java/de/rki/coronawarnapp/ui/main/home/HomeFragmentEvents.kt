@@ -20,6 +20,12 @@ sealed class HomeFragmentEvents {
 
     object OpenFAQUrl : HomeFragmentEvents()
 
+    object GoToRapidTestResultNegativeFragment : HomeFragmentEvents()
+
+    data class GoToPcrTestResultNegativeFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
+
+    data class GoToTestResultKeysSharedFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
+
     data class OpenIncompatibleUrl(val scanningSupported: Boolean) : HomeFragmentEvents() {
         @get:StringRes
         val url: Int
@@ -39,6 +45,10 @@ sealed class HomeFragmentEvents {
     ) : HomeFragmentEvents()
 
     data class ShowDeleteTestDialog(val type: CoronaTest.Type) : HomeFragmentEvents()
+
+    data class GoToTestResultAvailableFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
+
+    data class GoToTestResultPositiveFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
 
     data class GoToVaccinationList(val personIdentifierCodeSha256: String) : HomeFragmentEvents()
 }
