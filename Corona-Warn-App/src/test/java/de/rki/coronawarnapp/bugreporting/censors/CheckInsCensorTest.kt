@@ -41,7 +41,7 @@ internal class CheckInsCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return LogLine with censored check-in information`() = runBlocking {
+    fun `checkLog() should return LogLine with censored check-in information`() = runBlockingTest {
         every { checkInsRepo.allCheckIns } returns flowOf(
             listOf(
                 mockCheckIn(
