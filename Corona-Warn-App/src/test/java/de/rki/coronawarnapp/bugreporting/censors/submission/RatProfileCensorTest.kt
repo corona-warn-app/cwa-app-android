@@ -62,7 +62,7 @@ internal class RatProfileCensorTest : BaseTest() {
         censor.checkLog(logLine)!!.string shouldBe
             "Mister RAT-Profile/FirstName who is also known as RAT-Profile/LastName and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
             "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City. You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
-        }
+    }
 
     @Test
     fun `censoring should still work after the user deletes his profile`() = runBlockingTest {

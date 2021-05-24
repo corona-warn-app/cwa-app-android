@@ -85,13 +85,14 @@ internal class CheckInsCensorTest : BaseTest() {
                     checkInDescription = "Kwik-E-Mart",
                     checkInAddress = "Some Street, 12345 Springfield"
                 )
-            ), listOf(
+            ),
+            listOf(
                 mockCheckIn(
                     checkInId = 1,
                     checkInDescription = "Moe's Tavern",
                     checkInAddress = "Near 742 Evergreen Terrace, 12345 Springfield"
                 ),
-                /* deleted: mockCheckIn(
+                            /* deleted: mockCheckIn(
                     checkInId = 2,
                     checkInDescription = "Kwik-E-Mart",
                     checkInAddress = "Some Street, 12345 Springfield"
