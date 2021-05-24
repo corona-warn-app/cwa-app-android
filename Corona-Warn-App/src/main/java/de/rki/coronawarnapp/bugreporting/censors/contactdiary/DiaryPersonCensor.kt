@@ -23,7 +23,7 @@ class DiaryPersonCensor @Inject constructor(
     diary: ContactDiaryRepository
 ) : BugCensor {
 
-    // We keep a history of all stored persons so that we can censor them even after they got deleted
+    // We keep a history of all persons so that we can censor them even after they got deleted
     private val personHistory = mutableSetOf<ContactDiaryPerson>()
 
     init {
