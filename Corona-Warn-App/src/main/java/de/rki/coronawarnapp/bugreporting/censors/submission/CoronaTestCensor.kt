@@ -9,10 +9,9 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnm
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
@@ -20,7 +19,7 @@ import javax.inject.Inject
 @Reusable
 class CoronaTestCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
-    private val coronaTestRepository: CoronaTestRepository,
+    coronaTestRepository: CoronaTestRepository,
 ) : BugCensor {
 
     private val mutex = Mutex()
@@ -29,16 +28,16 @@ class CoronaTestCensor @Inject constructor(
     private val tokenHistory = mutableSetOf<String>()
     private val identifierHistory = mutableSetOf<String>()
 
-    private val coronaTestFlow by lazy {
-        coronaTestRepository.coronaTests.stateIn(
-            scope = debugScope,
-            started = SharingStarted.Lazily,
-            initialValue = null
-        ).filterNotNull().onEach { tests ->
-            // The Registration Token is received after registration of PCR and RAT tests. It is required to poll the test result.
-            tokenHistory.addAll(tests.map { it.registrationToken })
-            identifierHistory.addAll(tests.map { it.identifier })
-        }
+    init {
+        coronaTestRepository.coronaTests
+            .filterNotNull()
+            .onEach { tests ->
+                mutex.withLock {
+                    // The Registration Token is received after registration of PCR and RAT tests. It is required to poll the test result.
+                    tokenHistory.addAll(tests.map { it.registrationToken })
+                    identifierHistory.addAll(tests.map { it.identifier })
+                }
+            }.launchIn(debugScope)
     }
 
     override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
