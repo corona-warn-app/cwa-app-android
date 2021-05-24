@@ -10,12 +10,11 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidEm
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @Reusable
@@ -24,20 +23,18 @@ class DiaryPersonCensor @Inject constructor(
     diary: ContactDiaryRepository
 ) : BugCensor {
 
-    private val persons by lazy {
-        diary.people.stateIn(
-            scope = debugScope,
-            started = SharingStarted.Lazily,
-            initialValue = null
-        ).filterNotNull()
+    // We keep a history of all stored persons so that we can censor them even after they got deleted
+    private val personHistory = mutableSetOf<ContactDiaryPerson>()
+
+    init {
+        diary.people.onEach { personHistory.addAll(it) }.launchIn(debugScope)
     }
 
     override suspend fun checkLog(message: String): CensoredString? {
-        val personsNow = persons.first()
 
-        if (personsNow.isEmpty()) return null
+        if (personHistory.isEmpty()) return null
 
-        val newMessage = personsNow.fold(CensoredString(message)) { orig, person ->
+        val newMessage = personHistory.fold(CensoredString(message)) { orig, person ->
             var wip = orig
 
             withValidName(person.fullName) {
