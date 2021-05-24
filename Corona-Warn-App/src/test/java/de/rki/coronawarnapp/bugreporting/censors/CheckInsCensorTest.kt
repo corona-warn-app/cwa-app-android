@@ -11,6 +11,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -68,9 +69,43 @@ internal class CheckInsCensorTest : BaseTest() {
             Let's go to CheckIn#1/Description in CheckIn#1/Address.
             Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
         """.trimIndent()
+    }
 
-        // censoring should still work after user deletes his check-ins
-        every { checkInsRepo.allCheckIns } returns flowOf(emptyList())
+    @Test
+    fun `censoring should still work after user deletes his check-ins`() = runBlockingTest {
+        every { checkInsRepo.allCheckIns } returns flowOf(
+            listOf(
+                mockCheckIn(
+                    checkInId = 1,
+                    checkInDescription = "Moe's Tavern",
+                    checkInAddress = "Near 742 Evergreen Terrace, 12345 Springfield"
+                ),
+                mockCheckIn(
+                    checkInId = 2,
+                    checkInDescription = "Kwik-E-Mart",
+                    checkInAddress = "Some Street, 12345 Springfield"
+                )
+            ), listOf(
+                mockCheckIn(
+                    checkInId = 1,
+                    checkInDescription = "Moe's Tavern",
+                    checkInAddress = "Near 742 Evergreen Terrace, 12345 Springfield"
+                ),
+                /* deleted: mockCheckIn(
+                    checkInId = 2,
+                    checkInDescription = "Kwik-E-Mart",
+                    checkInAddress = "Some Street, 12345 Springfield"
+                )*/
+            )
+        )
+
+        val censor = createInstance(this)
+
+        val logLineToCensor =
+            """
+            Let's go to Moe's Tavern in Near 742 Evergreen Terrace, 12345 Springfield.
+            Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
+            """.trimIndent()
 
         censor.checkLog(logLineToCensor)!!.string shouldBe """
             Let's go to CheckIn#1/Description in CheckIn#1/Address.
