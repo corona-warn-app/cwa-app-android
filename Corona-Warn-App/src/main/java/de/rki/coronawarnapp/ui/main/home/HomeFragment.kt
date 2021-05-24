@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -25,6 +24,7 @@ import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -45,7 +45,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         factoryProducer = { viewModelFactory }
     )
 
-    val binding: HomeFragmentLayoutBinding by viewBinding()
+    private val binding: HomeFragmentLayoutBinding by viewBinding()
 
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
     @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog
@@ -60,10 +60,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             setOnMenuItemClickListener { it.onNavDestinationSelected(findNavController()) }
         }
 
-        viewModel.tracingHeaderState.observe2(this) {
-            binding.tracingHeader = it
-        }
-
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
@@ -71,52 +67,14 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             adapter = homeAdapter
         }
 
-        viewModel.homeItems.observe2(this) {
-            homeAdapter.update(it)
-        }
-
-        viewModel.routeToScreen.observe2(this) {
-            doNavigate(it)
-        }
-
         binding.mainTracing.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
 
-        viewModel.openFAQUrlEvent.observe2(this) {
-            openUrl(getString(R.string.main_about_link))
-        }
-
-        viewModel.openIncompatibleEvent.observe2(this) {
-            openUrl(
-                getString(
-                    when (it) { // true if scanning is supported
-                        true -> R.string.incompatible_link_advertising_not_supported
-                        else -> R.string.incompatible_link_scanning_not_supported
-                    }
-                )
-            )
-        }
-
-        viewModel.openTraceLocationOrganizerFlow.observe2(this) {
-            if (viewModel.wasQRInfoWasAcknowledged()) {
-                val nestedGraph =
-                    findNavController().graph.findNode(R.id.trace_location_organizer_nav_graph) as NavGraph
-                nestedGraph.startDestination = R.id.traceLocationsFragment
-            }
-            doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
-        }
-
-        viewModel.openVaccinationRegistrationFlow.observe2(this) {
-            if (viewModel.wasVaccinationRegistrationAcknowledged()) {
-                val nestedGraph =
-                    findNavController().graph.findNode(R.id.vaccination_nav_graph) as NavGraph
-                nestedGraph.startDestination = R.id.vaccinationQrCodeScanFragment
-            }
-            doNavigate(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
-        }
-
-        viewModel.popupEvents.observe2(this) { event ->
+        viewModel.routeToScreen.observe2(this) { doNavigate(it) }
+        viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
+        viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
+        viewModel.events.observe2(this) { event ->
             when (event) {
                 HomeFragmentEvents.ShowErrorResetDialog -> {
                     RecoveryByResetDialogFactory(this).showDialog(
@@ -128,13 +86,31 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                     HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
                 )
-                HomeFragmentEvents.ShowTracingExplanation -> {
-                    tracingExplanationDialog.show {
-                        viewModel.tracingExplanationWasShown()
-                    }
+                HomeFragmentEvents.ShowTracingExplanation -> tracingExplanationDialog.show {
+                    viewModel.tracingExplanationWasShown()
                 }
+
                 is HomeFragmentEvents.GoToVaccinationList -> findNavController().navigate(
                     VaccinationListFragment.navigationUri(event.personIdentifierCodeSha256)
+                )
+                HomeFragmentEvents.GoToRiskDetailsFragment -> doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment()
+                )
+                HomeFragmentEvents.GoToSettingsTracingFragment -> doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment()
+                )
+                HomeFragmentEvents.GoToSubmissionDispatcher -> doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
+                )
+                HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
+                is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
+                is HomeFragmentEvents.OpenVaccinationRegistrationGraph -> openVaccinationGraph(event)
+                is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
+                is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment(
+                        event.testType,
+                        event.forceUpdate
+                    )
                 )
             }
         }
@@ -164,6 +140,20 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.errorEvent.observe2(this) {
             it.toErrorDialogBuilder(requireContext()).show()
         }
+    }
+
+    private fun openPresenceTracingOrganizerGraph(event: HomeFragmentEvents.OpenTraceLocationOrganizerGraph) {
+        if (event.qrInfoAcknowledged) {
+            findNestedGraph(R.id.trace_location_organizer_nav_graph).startDestination = R.id.traceLocationsFragment
+        }
+        doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
+    }
+
+    private fun openVaccinationGraph(event: HomeFragmentEvents.OpenVaccinationRegistrationGraph) {
+        if (event.registrationAcknowledged) {
+            findNestedGraph(R.id.vaccination_nav_graph).startDestination = R.id.vaccinationQrCodeScanFragment
+        }
+        doNavigate(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
     }
 
     override fun onResume() {

@@ -86,51 +86,40 @@ import timber.log.Timber
 @Suppress("LongParameterList")
 class HomeFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val errorResetTool: EncryptionErrorResetTool,
     tracingStatus: GeneralTracingStatus,
     tracingStateProviderFactory: TracingStateProvider.Factory,
-    private val coronaTestRepository: CoronaTestRepository,
+    coronaTestRepository: CoronaTestRepository,
+    statisticsProvider: StatisticsProvider,
+    vaccinationRepository: VaccinationRepository,
+    private val errorResetTool: EncryptionErrorResetTool,
     private val tracingRepository: TracingRepository,
     private val submissionRepository: SubmissionRepository,
     private val cwaSettings: CWASettings,
     private val appConfigProvider: AppConfigProvider,
-    statisticsProvider: StatisticsProvider,
     private val appShortcutsHelper: AppShortcutsHelper,
     private val tracingSettings: TracingSettings,
     private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
     private val timeStamper: TimeStamper,
     private val bluetoothSupport: BluetoothSupport,
     private val vaccinationSettings: VaccinationSettings,
-    private val vaccinationRepository: VaccinationRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
-
-    val routeToScreen = SingleLiveEvent<NavDirections>()
-    val openFAQUrlEvent = SingleLiveEvent<Unit>()
-    val openIncompatibleEvent = SingleLiveEvent<Boolean>()
-    val openTraceLocationOrganizerFlow = SingleLiveEvent<Unit>()
-    val openVaccinationRegistrationFlow = SingleLiveEvent<Unit>()
     val errorEvent = SingleLiveEvent<Throwable>()
+    val routeToScreen = SingleLiveEvent<NavDirections>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
         .asLiveData(dispatcherProvider.Default)
 
-    val popupEvents = SingleLiveEvent<HomeFragmentEvents>()
+    val events = SingleLiveEvent<HomeFragmentEvents>()
 
     val coronaTestErrors = coronaTestRepository.testErrorsSingleEvent
         .asLiveData(context = dispatcherProvider.Default)
 
-    fun showPopUps() {
-        launch {
-            if (errorResetTool.isResetNoticeToBeShown) {
-                popupEvents.postValue(ShowErrorResetDialog)
-            }
-            if (!cwaSettings.wasTracingExplanationDialogShown) {
-                popupEvents.postValue(ShowTracingExplanation)
-            }
-        }
+    fun showPopUps() = launch {
+        if (errorResetTool.isResetNoticeToBeShown) events.postValue(ShowErrorResetDialog)
+        if (!cwaSettings.wasTracingExplanationDialogShown) events.postValue(ShowTracingExplanation)
     }
 
     val showIncorrectDeviceTimeDialog by lazy {
@@ -152,38 +141,26 @@ class HomeFragmentViewModel @AssistedInject constructor(
         when (tracingState) {
             is TracingInProgress -> TracingProgressCard.Item(
                 state = tracingState,
-                onCardClick = {
-                    routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
-                }
+                onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) }
             )
             is TracingDisabled -> TracingDisabledCard.Item(
                 state = tracingState,
-                onCardClick = {
-                    routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
-                },
-                onEnableTracingClick = {
-                    routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
-                }
+                onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
+                onEnableTracingClick = { events.postValue(HomeFragmentEvents.GoToSettingsTracingFragment) }
             )
             is LowRisk -> LowRiskCard.Item(
                 state = tracingState,
-                onCardClick = {
-                    routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
-                },
+                onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
                 onUpdateClick = { refreshRiskResult() }
             )
             is IncreasedRisk -> IncreasedRiskCard.Item(
                 state = tracingState,
-                onCardClick = {
-                    routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
-                },
+                onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
                 onUpdateClick = { refreshRiskResult() }
             )
             is TracingFailed -> TracingFailedCard.Item(
                 state = tracingState,
-                onCardClick = {
-                    routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
-                },
+                onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
                 onRetryClick = { refreshRiskResult() }
             )
         }
@@ -191,7 +168,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private fun PCRCoronaTest?.toTestCardItem() = when (val state = this.toSubmissionState()) {
         is SubmissionStatePCR.NoTest -> TestUnregisteredCard.Item(state) {
-            routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
+            events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
         }
         is SubmissionStatePCR.FetchingResult -> TestFetchingCard.Item(state)
         is SubmissionStatePCR.TestResultReady -> PcrTestReadyCard.Item(state) {
@@ -211,22 +188,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
             )
         }
         is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
-            popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog(CoronaTest.Type.PCR))
+            events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(CoronaTest.Type.PCR))
         }
         is SubmissionStatePCR.TestError -> PcrTestErrorCard.Item(state) {
-            routeToScreen.postValue(
-                HomeFragmentDirections
-                    .actionMainFragmentToSubmissionTestResultPendingFragment(testType = CoronaTest.Type.PCR)
-            )
+            events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(CoronaTest.Type.PCR))
         }
         is SubmissionStatePCR.TestPending -> PcrTestPendingCard.Item(state) {
-            routeToScreen.postValue(
-                HomeFragmentDirections
-                    .actionMainFragmentToSubmissionTestResultPendingFragment(
-                        testType = CoronaTest.Type.PCR,
-                        forceTestResultUpdate = true
-                    )
-            )
+            events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(CoronaTest.Type.PCR, true))
         }
         is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
             routeToScreen.postValue(
@@ -239,7 +207,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig) =
         when (val state = this.toSubmissionState(timeStamper.nowUTC, coronaTestConfig)) {
             is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
-                routeToScreen.postValue(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
+                events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }
             is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
             is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
@@ -263,24 +231,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
             is SubmissionStateRAT.TestInvalid -> RapidTestInvalidCard.Item(state) {
-                popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog(CoronaTest.Type.RAPID_ANTIGEN))
+                events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(CoronaTest.Type.RAPID_ANTIGEN))
             }
             is SubmissionStateRAT.TestError -> RapidTestErrorCard.Item(state) {
-                routeToScreen.postValue(
-                    HomeFragmentDirections
-                        .actionMainFragmentToSubmissionTestResultPendingFragment(
-                            testType = CoronaTest.Type.RAPID_ANTIGEN
-                        )
-                )
+                events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(CoronaTest.Type.RAPID_ANTIGEN))
             }
             is SubmissionStateRAT.TestPending -> RapidTestPendingCard.Item(state) {
-                routeToScreen.postValue(
-                    HomeFragmentDirections
-                        .actionMainFragmentToSubmissionTestResultPendingFragment(
-                            testType = CoronaTest.Type.RAPID_ANTIGEN,
-                            forceTestResultUpdate = true
-                        )
-                )
+                events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(CoronaTest.Type.RAPID_ANTIGEN, true))
             }
             is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
                 submissionRepository.removeTestFromDevice(type = CoronaTest.Type.RAPID_ANTIGEN)
@@ -320,7 +277,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     VaccinatedPerson.Status.INCOMPLETE -> VaccinationHomeCard.Item(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
-                            popupEvents.postValue(
+                            events.postValue(
                                 HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
                             )
                         }
@@ -328,7 +285,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     VaccinatedPerson.Status.IMMUNITY -> ImmuneVaccinationHomeCard.Item(
                         vaccinatedPerson = vaccinatedPerson,
                         onClickAction = {
-                            popupEvents.postValue(
+                            events.postValue(
                                 HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
                             )
                         }
@@ -338,12 +295,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             if (bluetoothSupport.isAdvertisingSupported == false) {
-
                 val scanningSupported = bluetoothSupport.isScanningSupported != false
-
                 add(
                     IncompatibleCard.Item(
-                        onClickAction = { openIncompatibleEvent.postValue(scanningSupported) },
+                        onClickAction = { events.postValue(HomeFragmentEvents.OpenIncompatibleUrl(scanningSupported)) },
                         bluetoothSupported = scanningSupported
                     )
                 )
@@ -365,9 +320,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         add(testRAT.toTestCardItem(coronaTestParameters))
                         add(
                             TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
-                                routeToScreen.postValue(
-                                    HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
-                                )
+                                events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
                             }
                         )
                     } else add(testRAT.toTestCardItem(coronaTestParameters))
@@ -377,7 +330,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
             add(
                 CreateVaccinationHomeCard.Item(
                     onClickAction = {
-                        openVaccinationRegistrationFlow.postValue(Unit)
+                        events.postValue(
+                            HomeFragmentEvents.OpenVaccinationRegistrationGraph(
+                                vaccinationSettings.registrationAcknowledged
+                            )
+                        )
                     }
                 )
             )
@@ -387,15 +344,25 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     StatisticsHomeCard.Item(
                         data = statsData,
                         onHelpAction = {
-                            popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                            events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                         }
                     )
                 )
             }
 
-            add(CreateTraceLocationCard.Item(onClickAction = { openTraceLocationOrganizerFlow.postValue(Unit) }))
+            add(
+                CreateTraceLocationCard.Item(
+                    onClickAction = {
+                        events.postValue(
+                            HomeFragmentEvents.OpenTraceLocationOrganizerGraph(
+                                traceLocationOrganizerSettings.qrInfoAcknowledged
+                            )
+                        )
+                    }
+                )
+            )
 
-            add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
+            add(FAQCard.Item(onClickAction = { events.postValue(HomeFragmentEvents.OpenFAQUrl) }))
         }
     }
         .distinctUntilChanged()
@@ -460,10 +427,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun tracingExplanationWasShown() {
         cwaSettings.wasTracingExplanationDialogShown = true
     }
-
-    fun wasQRInfoWasAcknowledged() = traceLocationOrganizerSettings.qrInfoAcknowledged
-
-    fun wasVaccinationRegistrationAcknowledged() = vaccinationSettings.registrationAcknowledged
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
