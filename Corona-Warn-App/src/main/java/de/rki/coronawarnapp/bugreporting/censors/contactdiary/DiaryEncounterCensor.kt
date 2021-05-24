@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
-import com.google.common.collect.ImmutableSet
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
@@ -39,9 +38,7 @@ class DiaryEncounterCensor @Inject constructor(
 
         if (encounterHistory.isEmpty()) return null
 
-        val immutableHistory = ImmutableSet.copyOf(encounterHistory)
-
-        val newMessage = immutableHistory.fold(CensoredString(message)) { orig, encounter ->
+        val newMessage = encounterHistory.fold(CensoredString(message)) { orig, encounter ->
             var wip = orig
 
             withValidComment(encounter.circumstances) {
