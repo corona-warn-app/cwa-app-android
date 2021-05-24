@@ -30,7 +30,9 @@ class DiaryLocationCensor @Inject constructor(
     private var locationHistory = mutableSetOf<ContactDiaryLocation>()
 
     init {
-        diary.locations.onEach { locationHistory.addAll(it) }.launchIn(debugScope)
+        diary.locations
+            .onEach { mutex.withLock { locationHistory.addAll(it) } }
+            .launchIn(debugScope)
     }
 
     override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {

@@ -29,7 +29,9 @@ class CheckInsCensor @Inject constructor(
     private val checkInsHistory = mutableSetOf<CheckIn>()
 
     init {
-        checkInRepository.allCheckIns.onEach { checkInsHistory.addAll(it) }.launchIn(debugScope)
+        checkInRepository.allCheckIns
+            .onEach { mutex.withLock { checkInsHistory.addAll(it) } }
+            .launchIn(debugScope)
     }
 
     override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {

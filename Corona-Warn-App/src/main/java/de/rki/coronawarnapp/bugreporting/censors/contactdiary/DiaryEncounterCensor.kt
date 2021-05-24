@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
+import com.google.common.collect.ImmutableSet
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
@@ -23,20 +24,24 @@ class DiaryEncounterCensor @Inject constructor(
     diary: ContactDiaryRepository
 ) : BugCensor {
 
-    private val mutex = Mutex()
-
     // We keep a history of all encounters so that we can censor them even after they got deleted
     private val encounterHistory = mutableSetOf<ContactDiaryPersonEncounter>()
 
+    val mutex = Mutex()
+
     init {
-        diary.personEncounters.onEach { encounterHistory.addAll(it) }.launchIn(debugScope)
+        diary.personEncounters
+            .onEach { mutex.withLock { encounterHistory.addAll(it) } }
+            .launchIn(debugScope)
     }
 
     override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
 
         if (encounterHistory.isEmpty()) return null
 
-        val newMessage = encounterHistory.fold(CensoredString(message)) { orig, encounter ->
+        val immutableHistory = ImmutableSet.copyOf(encounterHistory)
+
+        val newMessage = immutableHistory.fold(CensoredString(message)) { orig, encounter ->
             var wip = orig
 
             withValidComment(encounter.circumstances) {

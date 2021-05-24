@@ -30,7 +30,9 @@ class DiaryVisitCensor @Inject constructor(
         diary.locationVisits
             .onEach { locationVisitList ->
                 val visitsWithCircumstances = locationVisitList.filterNot { it.circumstances.isNullOrBlank() }
-                visitsHistory.addAll(visitsWithCircumstances)
+                mutex.withLock {
+                    visitsHistory.addAll(visitsWithCircumstances)
+                }
             }
             .launchIn(debugScope)
     }

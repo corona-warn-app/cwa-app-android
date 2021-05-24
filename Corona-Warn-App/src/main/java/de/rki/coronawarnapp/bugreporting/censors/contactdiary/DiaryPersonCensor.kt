@@ -31,7 +31,9 @@ class DiaryPersonCensor @Inject constructor(
     private val personHistory = mutableSetOf<ContactDiaryPerson>()
 
     init {
-        diary.people.onEach { personHistory.addAll(it) }.launchIn(debugScope)
+        diary.people
+            .onEach { mutex.withLock { personHistory.addAll(it) } }
+            .launchIn(debugScope)
     }
 
     override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {

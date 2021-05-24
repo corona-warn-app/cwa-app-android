@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.censors.submission
 
-import com.google.common.collect.ImmutableSet
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
@@ -14,6 +13,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
@@ -21,6 +22,8 @@ class RACoronaTestCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
     coronaTestRepository: CoronaTestRepository
 ) : BugCensor {
+
+    private val mutex = Mutex()
 
     private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
@@ -31,17 +34,15 @@ class RACoronaTestCensor @Inject constructor(
         coronaTestRepository
             .coronaTests
             .map { it.filterIsInstance<RACoronaTest>() }
-            .onEach { ratCoronaTestHistory.addAll(it) }
+            .onEach { mutex.withLock { ratCoronaTestHistory.addAll(it) } }
             .launchIn(debugScope)
     }
 
     override suspend fun checkLog(message: String): CensoredString? {
 
-        val immutableHistory = ImmutableSet.copyOf(ratCoronaTestHistory)
-
         var newMessage = CensoredString(message)
 
-        immutableHistory.forEach { ratCoronaTest ->
+        ratCoronaTestHistory.forEach { ratCoronaTest ->
             withValidName(ratCoronaTest.firstName) { firstName ->
                 newMessage += newMessage.censor(firstName, "RATest/FirstName")
             }

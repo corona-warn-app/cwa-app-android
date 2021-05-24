@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.censors.presencetracing
 
-import com.google.common.collect.ImmutableSet
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
@@ -16,6 +15,8 @@ import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 /**
@@ -32,17 +33,19 @@ class TraceLocationCensor @Inject constructor(
     traceLocationRepository: TraceLocationRepository
 ) : BugCensor {
 
+    private val mutex = Mutex()
+
     private val traceLocationHistory = mutableSetOf<TraceLocation>()
 
     init {
-        traceLocationRepository.allTraceLocations.onEach { traceLocationHistory.addAll(it) }.launchIn(debugScope)
+        traceLocationRepository.allTraceLocations
+            .onEach { mutex.withLock { traceLocationHistory.addAll(it) } }
+            .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): CensoredString? {
+    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
 
-        val immutableHistory = ImmutableSet.copyOf(traceLocationHistory)
-
-        var newLogMsg = immutableHistory.fold(CensoredString(message)) { initial, traceLocation ->
+        var newLogMsg = traceLocationHistory.fold(CensoredString(message)) { initial, traceLocation ->
             var acc = initial
 
             acc += acc.censor(traceLocation.type.name, "TraceLocation#${traceLocation.id}/Type")
