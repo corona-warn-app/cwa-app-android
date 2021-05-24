@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.sync.Mutex
@@ -43,7 +42,6 @@ class CoronaTestCensor @Inject constructor(
     }
 
     override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
-        coronaTestFlow.first()
 
         var newMessage = CensoredString(message)
 

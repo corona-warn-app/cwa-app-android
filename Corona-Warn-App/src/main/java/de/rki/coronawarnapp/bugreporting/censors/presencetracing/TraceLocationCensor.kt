@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors.presencetracing
 
+import com.google.common.collect.ImmutableSet
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
@@ -9,19 +10,18 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnm
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidAddress
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidDescription
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.locations.TraceLocationUserInput
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 /**
  * Censors Trace Location Data
  *
- * The information about which data to censor comes from two places
+ * The information about what data to censor comes from two places
  * - traceLocationRepository, for traceLocations that are already stored
  * - dataToCensor, which is set before a traceLocation is created; this is needed in cases when the app crashes between
  * data input and storing
@@ -29,22 +29,20 @@ import javax.inject.Inject
 @Reusable
 class TraceLocationCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
-    private val traceLocationRepository: TraceLocationRepository
+    traceLocationRepository: TraceLocationRepository
 ) : BugCensor {
 
-    private val traceLocationsFlow by lazy {
-        traceLocationRepository.allTraceLocations.stateIn(
-            scope = debugScope,
-            started = SharingStarted.Lazily,
-            initialValue = null
-        ).filterNotNull()
+    private val traceLocationHistory = mutableSetOf<TraceLocation>()
+
+    init {
+        traceLocationRepository.allTraceLocations.onEach { traceLocationHistory.addAll(it) }.launchIn(debugScope)
     }
 
     override suspend fun checkLog(message: String): CensoredString? {
 
-        val traceLocations = traceLocationsFlow.first()
+        val immutableHistory = ImmutableSet.copyOf(traceLocationHistory)
 
-        var newLogMsg = traceLocations.fold(CensoredString(message)) { initial, traceLocation ->
+        var newLogMsg = immutableHistory.fold(CensoredString(message)) { initial, traceLocation ->
             var acc = initial
 
             acc += acc.censor(traceLocation.type.name, "TraceLocation#${traceLocation.id}/Type")
