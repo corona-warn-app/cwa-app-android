@@ -66,10 +66,10 @@ class ValueSetsStorage @Inject constructor(
     @VisibleForTesting
     fun VaccinationValueSet.ValueSet.Item.toStoredItem():
         StoredVaccinationValueSet.StoredValueSet.StoredItem =
-        StoredVaccinationValueSet.StoredValueSet.StoredItem(
-            key = key,
-            displayText = displayText
-        )
+            StoredVaccinationValueSet.StoredValueSet.StoredItem(
+                key = key,
+                displayText = displayText
+            )
 
     @VisibleForTesting
     data class StoredVaccinationValueSet(
