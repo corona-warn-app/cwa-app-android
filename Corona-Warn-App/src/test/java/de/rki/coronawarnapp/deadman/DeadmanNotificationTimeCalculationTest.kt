@@ -1,14 +1,17 @@
 package de.rki.coronawarnapp.deadman
 
-import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
-import kotlinx.coroutines.flow.flowOf
+import io.mockk.mockk
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -18,20 +21,33 @@ import testhelpers.BaseTest
 class DeadmanNotificationTimeCalculationTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var enfClient: ENFClient
-    @MockK lateinit var mockExposureDetection: TrackedExposureDetection
+    @MockK lateinit var keyCacheRepository: KeyCacheRepository
+
+    private val allCachedKeysFlow = MutableStateFlow(emptyList<CachedKey>())
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-01T23:00:00.000Z")
-        every { enfClient.lastSuccessfulTrackedExposureDetection() } returns flowOf(mockExposureDetection)
+        coEvery { keyCacheRepository.allCachedKeys() } returns allCachedKeysFlow
     }
 
     private fun createTimeCalculator() = DeadmanNotificationTimeCalculation(
         timeStamper = timeStamper,
-        enfClient = enfClient
+        keyCacheRepository = keyCacheRepository
     )
+
+    private fun mockCachedKey(
+        created: Instant,
+        isComplete: Boolean = true,
+    ): CachedKey {
+        return mockk<CachedKey>().apply {
+            every { info } returns mockk<CachedKeyInfo>().apply {
+                every { createdAt } returns created
+                every { isDownloadComplete } returns isComplete
+            }
+        }
+    }
 
     @Test
     fun `12 hours difference`() {
@@ -57,40 +73,53 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     @Test
     fun `12 hours delay`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00.000Z")
-        every { mockExposureDetection.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
+        allCachedKeysFlow.value = listOf(
+            mockCachedKey(Instant.parse("2020-08-27T14:00:00.000Z"))
+        )
 
         createTimeCalculator().getDelay() shouldBe 720
 
-        verify(exactly = 1) { enfClient.lastSuccessfulTrackedExposureDetection() }
+        coVerify(exactly = 1) { keyCacheRepository.allCachedKeys() }
+    }
+
+    @Test
+    fun `12 hours delay - only completed results count`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00.000Z")
+        allCachedKeysFlow.value = listOf(
+            mockCachedKey(Instant.parse("2020-08-27T14:00:00.000Z")),
+            mockCachedKey(Instant.parse("2020-08-27T16:00:00.000Z"), isComplete = false)
+        )
+
+        createTimeCalculator().getDelay() shouldBe 720
+
+        coVerify(exactly = 1) { keyCacheRepository.allCachedKeys() }
     }
 
     @Test
     fun `negative delay`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00.000Z")
-        every { mockExposureDetection.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
+        allCachedKeysFlow.value = listOf(
+            mockCachedKey(Instant.parse("2020-08-27T14:00:00.000Z"))
+        )
 
         createTimeCalculator().getDelay() shouldBe -2160
-
-        verify(exactly = 1) { enfClient.lastSuccessfulTrackedExposureDetection() }
     }
 
     @Test
     fun `success in future delay`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
-        every { mockExposureDetection.finishedAt } returns Instant.parse("2020-08-27T15:00:00.000Z")
+        allCachedKeysFlow.value = listOf(
+            mockCachedKey(Instant.parse("2020-08-27T15:00:00.000Z"))
+        )
 
         createTimeCalculator().getDelay() shouldBe 2220
-
-        verify(exactly = 1) { enfClient.lastSuccessfulTrackedExposureDetection() }
     }
 
     @Test
     fun `initial delay - no successful calculations yet`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
-        every { enfClient.lastSuccessfulTrackedExposureDetection() } returns flowOf(null)
+        allCachedKeysFlow.value = emptyList()
 
         createTimeCalculator().getDelay() shouldBe 2160
-
-        verify(exactly = 1) { enfClient.lastSuccessfulTrackedExposureDetection() }
     }
 }
