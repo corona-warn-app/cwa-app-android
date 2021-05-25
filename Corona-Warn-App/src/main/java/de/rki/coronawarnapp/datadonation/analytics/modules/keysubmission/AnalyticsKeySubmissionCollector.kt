@@ -4,11 +4,9 @@ import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMost
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
-import de.rki.coronawarnapp.risk.getLastCalculatedWithDefaults
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.TriStateBooleanOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
@@ -36,71 +34,40 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         val testRegisteredAt = timeStamper.nowUTC
         analyticsKeySubmissionStorage.testRegisteredAt.update { testRegisteredAt.millis }
 
-        val lastEwRiskResult = riskLevelStorage
+        val lastRiskResult = riskLevelStorage
             .latestAndLastSuccessfulEwRiskLevelResult
             .first()
             .tryLatestEwResultsWithDefaults()
             .lastCalculated
-
-        val lastPtRiskResult = riskLevelStorage
-            .latestPtRiskLevelResults
-            .first()
-            .getLastCalculatedWithDefaults()
-
-        val ewRiskLevelAtRegistration = lastEwRiskResult.toMetadataRiskLevel()
-        analyticsKeySubmissionStorage.ewRiskLevelAtTestRegistration.update {
-            ewRiskLevelAtRegistration.number
+        val riskLevelAtRegistration = lastRiskResult.toMetadataRiskLevel()
+        analyticsKeySubmissionStorage.riskLevelAtTestRegistration.update {
+            riskLevelAtRegistration.number
         }
 
-        val ptRiskLevelAtRegistration = lastPtRiskResult.toMetadataRiskLevel()
-        analyticsKeySubmissionStorage.ptRiskLevelAtTestRegistration.update {
-            ptRiskLevelAtRegistration.number
-        }
-
-        if (ewRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
-            riskLevelSettings.lastChangeToHighEwRiskLevelTimestamp?.let {
+        if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
+            riskLevelSettings.lastChangeToHighRiskLevelTimestamp?.let {
                 val hours = Duration(
                     it,
                     testRegisteredAt
                 ).standardHours.toInt()
-                analyticsKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration.update {
+                analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration.update {
                     hours
                 }
             }
         }
 
-        if (ptRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
-            riskLevelSettings.lastChangeToHighPtRiskLevelTimestamp?.let {
-                val hours = Duration(
-                    it,
-                    testRegisteredAt
-                ).standardHours.toInt()
-                analyticsKeySubmissionStorage.ptHoursSinceHighRiskWarningAtTestRegistration.update {
-                    hours
-                }
-            }
-        }
-
-        analyticsKeySubmissionStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+        analyticsKeySubmissionStorage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                riskLevelSettings.lastChangeCheckedEwRiskLevelTimestamp,
-                testRegisteredAt
-            )
-        }
-
-        analyticsKeySubmissionStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
-            calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                riskLevelSettings.lastChangeCheckedPtRiskLevelTimestamp,
+                riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
                 testRegisteredAt
             )
         }
     }
 
-    fun reportSubmitted(withCheckins: Boolean) {
+    fun reportSubmitted() {
         if (disabled) return
         analyticsKeySubmissionStorage.submitted.update { true }
         analyticsKeySubmissionStorage.submittedAt.update { timeStamper.nowUTC.millis }
-        analyticsKeySubmissionStorage.submittedWithCheckins.update { withCheckins.asTsb }
     }
 
     fun reportSubmittedInBackground() {
@@ -140,12 +107,6 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
 
     private val disabled: Boolean
         get() = !analyticsSettings.analyticsEnabled.value
-
-    private val Boolean.asTsb: TriStateBooleanOuterClass.TriStateBoolean
-        get() = when (this) {
-            true -> TriStateBooleanOuterClass.TriStateBoolean.TSB_TRUE
-            false -> TriStateBooleanOuterClass.TriStateBoolean.TSB_FALSE
-        }
 }
 
 enum class Screen(val code: Int) {

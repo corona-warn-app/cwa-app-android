@@ -25,36 +25,20 @@ class RiskLevelSettings @Inject constructor(
             putString(PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID, value)
         }
 
-    var lastChangeCheckedEwRiskLevelTimestamp: Instant?
-        get() = prefs.getLong(PKEY_LAST_CHANGE_CHECKED_EW_RISKLEVEL_TIMESTAMP, 0L).let {
+    var lastChangeCheckedRiskLevelTimestamp: Instant?
+        get() = prefs.getLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP, 0L).let {
             if (it != 0L) Instant.ofEpochMilli(it) else null
         }
         set(value) = prefs.edit {
-            putLong(PKEY_LAST_CHANGE_CHECKED_EW_RISKLEVEL_TIMESTAMP, value?.millis ?: 0L)
+            putLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP, value?.millis ?: 0L)
         }
 
-    var lastChangeCheckedPtRiskLevelTimestamp: Instant?
-        get() = prefs.getLong(PKEY_LAST_CHANGE_CHECKED_PT_RISKLEVEL_TIMESTAMP, 0L).let {
+    var lastChangeToHighRiskLevelTimestamp: Instant?
+        get() = prefs.getLong(PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP, 0L).let {
             if (it != 0L) Instant.ofEpochMilli(it) else null
         }
         set(value) = prefs.edit {
-            putLong(PKEY_LAST_CHANGE_CHECKED_PT_RISKLEVEL_TIMESTAMP, value?.millis ?: 0L)
-        }
-
-    var lastChangeToHighEwRiskLevelTimestamp: Instant?
-        get() = prefs.getLong(PKEY_LAST_CHANGE_TO_HIGH_EW_RISKLEVEL_TIMESTAMP, 0L).let {
-            if (it != 0L) Instant.ofEpochMilli(it) else null
-        }
-        set(value) = prefs.edit {
-            putLong(PKEY_LAST_CHANGE_TO_HIGH_EW_RISKLEVEL_TIMESTAMP, value?.millis ?: 0L)
-        }
-
-    var lastChangeToHighPtRiskLevelTimestamp: Instant?
-        get() = prefs.getLong(PKEY_LAST_CHANGE_TO_HIGH_PT_RISKLEVEL_TIMESTAMP, 0L).let {
-            if (it != 0L) Instant.ofEpochMilli(it) else null
-        }
-        set(value) = prefs.edit {
-            putLong(PKEY_LAST_CHANGE_TO_HIGH_PT_RISKLEVEL_TIMESTAMP, value?.millis ?: 0L)
+            putLong(PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP, value?.millis ?: 0L)
         }
 
     var lastChangeCheckedRiskLevelCombinedTimestamp: Instant?
@@ -68,12 +52,9 @@ class RiskLevelSettings @Inject constructor(
     companion object {
         private const val NAME_SHARED_PREFS = "risklevel_localdata"
         private const val PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID = "risklevel.config.identifier.last"
-        private const val PKEY_LAST_CHANGE_CHECKED_EW_RISKLEVEL_TIMESTAMP = "PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID"
-        private const val PKEY_LAST_CHANGE_CHECKED_PT_RISKLEVEL_TIMESTAMP = "PKEY_PT_RISKLEVEL_CALC_LAST_CONFIG_ID"
-        private const val PKEY_LAST_CHANGE_TO_HIGH_EW_RISKLEVEL_TIMESTAMP =
+        private const val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP = "PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID"
+        private const val PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP =
             "PKEY_RISKLEVEL_CALC_LAST_CHANGE_TO_HIGH_RISKLEVEL"
-        private const val PKEY_LAST_CHANGE_TO_HIGH_PT_RISKLEVEL_TIMESTAMP =
-            "PKEY_RISKLEVEL_CALC_LAST_CHANGE_TO_HIGH_PT_RISKLEVEL"
         private const val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED =
             "PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED"
     }

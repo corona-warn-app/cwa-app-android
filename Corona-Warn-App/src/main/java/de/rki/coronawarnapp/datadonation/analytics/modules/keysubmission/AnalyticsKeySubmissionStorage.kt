@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
 import android.content.Context
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.TriStateBooleanOuterClass
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
@@ -64,39 +63,19 @@ class AnalyticsKeySubmissionStorage @Inject constructor(
         defaultValue = false
     )
 
-    val ewRiskLevelAtTestRegistration = prefs.createFlowPreference(
+    val riskLevelAtTestRegistration = prefs.createFlowPreference(
         key = "analytics_key_submission_riskLevelAtTestRegistration",
         defaultValue = -1
     )
 
-    val ptRiskLevelAtTestRegistration = prefs.createFlowPreference(
-        key = "analytics_key_submission_ptRiskLevelAtTestRegistration",
-        defaultValue = -1
-    )
-
-    val ewHoursSinceHighRiskWarningAtTestRegistration = prefs.createFlowPreference(
+    val hoursSinceHighRiskWarningAtTestRegistration = prefs.createFlowPreference(
         key = "analytics_key_submission_hoursSinceHighRiskWarningAtTestRegistration",
         defaultValue = -1
     )
 
-    val ptHoursSinceHighRiskWarningAtTestRegistration = prefs.createFlowPreference(
-        key = "analytics_key_submission_ptHoursSinceHighRiskWarningAtTestRegistration",
-        defaultValue = -1
-    )
-
-    val ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = prefs.createFlowPreference(
+    val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = prefs.createFlowPreference(
         key = "analytics_key_submission_daysSinceMostRecentDateAtRiskLevelAtTestRegistration",
         defaultValue = -1
-    )
-
-    val ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = prefs.createFlowPreference(
-        key = "analytics_key_submission_ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration",
-        defaultValue = -1
-    )
-
-    val submittedWithCheckins = prefs.createFlowPreference(
-        key = "analytics_key_submission_submittedWithCheckins",
-        defaultValue = TriStateBooleanOuterClass.TriStateBoolean.TSB_FALSE
     )
 
     fun clear() {

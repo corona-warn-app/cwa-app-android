@@ -20,9 +20,9 @@ import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
-import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.common.Started
+import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -172,7 +172,7 @@ class SubmissionTask @Inject constructor(
 
         // PPA will only be used for PCR tests for now
         if (coronaTest.type == PCR) {
-            analyticsKeySubmissionCollector.reportSubmitted(checkIns.isNotEmpty())
+            analyticsKeySubmissionCollector.reportSubmitted()
             if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground()
         }
 

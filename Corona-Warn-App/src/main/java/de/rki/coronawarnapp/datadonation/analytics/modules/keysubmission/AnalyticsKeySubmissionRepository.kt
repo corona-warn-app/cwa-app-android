@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.TriStateBooleanOuterClass
 import org.joda.time.Duration
 import javax.inject.Inject
 
@@ -53,20 +52,11 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
             return Duration.millis(submittedAt - testRegisteredAt).toStandardHours().hours
         }
 
-    val ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
-        get() = storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
+    val daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
+        get() = storage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
 
-    val ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
-        get() = storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
-
-    val ewHoursSinceHighRiskWarningAtTestRegistration: Int
-        get() = storage.ewHoursSinceHighRiskWarningAtTestRegistration.value
-
-    val ptHoursSinceHighRiskWarningAtTestRegistration: Int
-        get() = storage.ptHoursSinceHighRiskWarningAtTestRegistration.value
-
-    val submittedWithCheckins: TriStateBooleanOuterClass.TriStateBoolean
-        get() = storage.submittedWithCheckins.value
+    val hoursSinceHighRiskWarningAtTestRegistration: Int
+        get() = storage.hoursSinceHighRiskWarningAtTestRegistration.value
 
     fun reset() = storage.clear()
 }
