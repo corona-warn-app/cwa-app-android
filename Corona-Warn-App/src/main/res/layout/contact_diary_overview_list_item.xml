@@ -21,7 +21,7 @@
 
     <include
         android:id="@+id/day_test_result"
-        layout="@layout/contact_diary_overview_day_list_item_test_result" />
+        layout="@layout/contact_diary_overview_day_list_item_test_results" />
 
     <include
         android:id="@+id/day_contact"

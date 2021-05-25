@@ -173,9 +173,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                     RiskEventDataHolder(it, checkIn)
                 }.toRiskEventItem()
 
-            val coronaTestItem = testResultForDate
-                .firstOrNull()
-                ?.toCoronaTestItem()
+            val coronaTestItem = testResultForDate.toCoronaTestItem()
 
             DayOverviewItem(
                 date = date,
@@ -292,18 +290,22 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         )
     }
 
-    fun ContactDiaryCoronaTestEntity.toCoronaTestItem() = CoronaTestItem(
-        icon = when (result) {
-            POSITIVE -> R.drawable.ic_corona_test_icon_red
-            NEGATIVE -> R.drawable.ic_corona_test_icon_green
-        },
-        header = when (testType) {
-            PCR -> R.string.contact_diary_corona_test_pcr_title
-            ANTIGEN -> R.string.contact_diary_corona_test_rat_title
-        },
-        body = when (result) {
-            POSITIVE -> R.string.contact_diary_corona_test_positive
-            NEGATIVE -> R.string.contact_diary_corona_test_negative
+    fun List<ContactDiaryCoronaTestEntity>.toCoronaTestItem() = CoronaTestItem(
+        map {
+            CoronaTestItem.Data(
+                icon = when (it.result) {
+                    POSITIVE -> R.drawable.ic_corona_test_icon_red
+                    NEGATIVE -> R.drawable.ic_corona_test_icon_green
+                },
+                header = when (it.testType) {
+                    PCR -> R.string.contact_diary_corona_test_pcr_title
+                    ANTIGEN -> R.string.contact_diary_corona_test_rat_title
+                },
+                body = when (it.result) {
+                    POSITIVE -> R.string.contact_diary_corona_test_positive
+                    NEGATIVE -> R.string.contact_diary_corona_test_negative
+                }
+            )
         }
     )
 

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewAdapter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactAdapter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.CoronaTestAdapter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.CoronaTestItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventAdapter
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemHeaderBin
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEnfBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEventBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemTestResultBinding
+import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemTestResultsBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
 import org.joda.time.LocalDate
 
@@ -29,6 +31,7 @@ class DayOverviewVH(parent: ViewGroup) :
 
     private val riskEventAdapter: RiskEventAdapter by lazy { RiskEventAdapter() }
     private val contactAdapter: ContactAdapter by lazy { ContactAdapter() }
+    private val coronaTestAdapter: CoronaTestAdapter by lazy { CoronaTestAdapter() }
 
     override val viewBinding: Lazy<ContactDiaryOverviewListItemBinding> =
         lazy { ContactDiaryOverviewListItemBinding.bind(itemView) }
@@ -102,14 +105,13 @@ class DayOverviewVH(parent: ViewGroup) :
         }
     }
 
-    private fun ContactDiaryOverviewDayListItemTestResultBinding.apply(coronaTestItem: CoronaTestItem?) {
+    private fun ContactDiaryOverviewDayListItemTestResultsBinding.apply(coronaTestItem: CoronaTestItem?) {
         root.isGone = coronaTestItem == null
 
-        coronaTestItem?.let { test ->
-            with(context) {
-                contactDiaryCoronaTestTitle.text = getString(coronaTestItem.header)
-                contactDiaryCoronaTestImage.setImageResource(coronaTestItem.icon)
-                contactDiaryCoronaTestBody.text = getString(coronaTestItem.body)
+        coronaTestItem?.let {
+            recyclerView.apply {
+                adapter = coronaTestAdapter.apply { submitList(it.data) }
+                suppressLayout(true)
             }
         }
     }
