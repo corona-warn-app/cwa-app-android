@@ -96,7 +96,7 @@ object DialogHelper {
                         dialogInstance.negativeButtonFunction()
                     }
                 }
-                if(dialogInstance.cancelFunction != null) {
+                if (dialogInstance.cancelFunction != null) {
                     setOnCancelListener { dialogInstance.cancelFunction() }
                 }
             }
