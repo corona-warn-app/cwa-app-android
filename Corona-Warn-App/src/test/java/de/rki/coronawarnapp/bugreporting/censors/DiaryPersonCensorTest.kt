@@ -66,9 +66,31 @@ class DiaryPersonCensorTest : BaseTest() {
             but Person#3/Name thought he had enough has had enough for today.
             A quick mail to Person#1/EMail confirmed this.
             """.trimIndent()
+    }
 
-        // censoring should still work after people are deleted
-        every { diaryRepo.people } returns flowOf(emptyList())
+    @Test
+    fun `censoring should still work after people are deleted`() = runBlockingTest {
+        every { diaryRepo.people } returns flowOf(
+            listOf(
+                mockPerson(1, "Luka", phone = "+49 1234 7777", mail = "luka@sap.com"),
+                mockPerson(2, "Ralf", phone = null, mail = null),
+                mockPerson(3, "Matthias", phone = null, mail = "matthias@sap.com")
+            ),
+            listOf(
+                mockPerson(1, "Luka", phone = "+49 1234 7777", mail = "luka@sap.com"),
+                mockPerson(2, "Ralf", phone = null, mail = null),
+                // Matthias was deleted
+            )
+        )
+
+        val instance = createInstance(this)
+        val censorMe =
+            """
+            Ralf requested more coffee from +49 1234 7777,
+            but Matthias thought he had enough has had enough for today.
+            A quick mail to luka@sap.com confirmed this.
+            """.trimIndent()
+
         instance.checkLog(censorMe)!!.string shouldBe
             """
             Person#2/Name requested more coffee from Person#1/PhoneNumber,

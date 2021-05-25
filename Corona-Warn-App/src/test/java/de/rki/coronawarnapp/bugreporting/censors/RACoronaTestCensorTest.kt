@@ -11,6 +11,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -31,7 +32,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
     )
 
     @Test
-    fun `checkLog() should return censored LogLine`() = runBlocking {
+    fun `checkLog() should return censored LogLine`() = runBlockingTest {
         every { coronaTestRepository.coronaTests } returns flowOf(
             setOf(
                 mockk<RACoronaTest>().apply {
@@ -53,9 +54,28 @@ internal class RACoronaTestCensorTest : BaseTest() {
             """
             Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
             """.trimIndent()
+    }
 
-        // censoring should still work when test gets deleted
-        every { coronaTestRepository.coronaTests } returns flowOf(emptySet())
+    @Test
+    fun `censoring should still work when test gets deleted`() = runBlockingTest {
+        every { coronaTestRepository.coronaTests } returns flowOf(
+            setOf(
+                mockk<RACoronaTest>().apply {
+                    every { firstName } returns "John"
+                    every { lastName } returns "Doe"
+                    every { dateOfBirth } returns LocalDate.parse("2020-01-01")
+                }
+            ),
+            // Test got deleted
+            emptySet()
+        )
+
+        val censor = createInstance(this)
+
+        val logLineToCensor =
+            """
+            Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
+            """.trimIndent()
 
         censor.checkLog(logLineToCensor)!!.string shouldBe
             """
@@ -90,9 +110,5 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
         val logLine = "Lorem ipsum"
         censor.checkLog(logLine) shouldBe null
-    }
-
-    @Test
-    fun `censoring should still work when test gets deleted`() {
     }
 }
