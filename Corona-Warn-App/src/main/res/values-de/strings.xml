@@ -920,7 +920,7 @@
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Einverstanden und senden"</string>
     <!-- XHED: Title for log upload history -->
-    <string name="debugging_debuglog_uploadhistory_title">"ID Historie"</string>
+    <string name="debugging_debuglog_uploadhistory_title">"ID-Historie"</string>
     <!-- YTXT: Description for log upload history -->
     <string name="debugging_debuglog_uploadhistory_description">"Hier sehen Sie die IDs Ihrer Fehleranalyse-Protokolle."</string>
 
@@ -1178,9 +1178,9 @@
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Ihr PCR-Test ist positiv?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
-    <string name="submission_dispatcher_card_qr">"Test mit QR-Code"</string>
+    <string name="submission_dispatcher_card_qr">"QR-Code scannen"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Registrieren Sie Ihren Test, indem Sie den QR-Code Ihres Testdokuments scannen."</string>
+    <string name="submission_dispatcher_qr_card_text">"Erhalten Sie Ihr Testergebnis in der App und warnen Sie andere."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"TAN für PCR-Test eingeben"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
