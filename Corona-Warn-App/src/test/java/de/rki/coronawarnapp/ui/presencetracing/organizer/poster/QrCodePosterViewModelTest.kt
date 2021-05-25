@@ -54,7 +54,7 @@ class QrCodePosterViewModelTest : BaseTest() {
             textBox = textBox
         )
 
-        coEvery { qrCodeGenerator.createQrCode("locationUrl", any(), any()) } returns qrCodeBitmap
+        coEvery { qrCodeGenerator.createQrCode("locationUrl", any(), any(), any(), any()) } returns qrCodeBitmap
         coEvery { posterTemplateProvider.template() } returns template
         coEvery { traceLocationRepository.traceLocationForId(any()) } returns traceLocation.apply {
             every { description } returns "description"
