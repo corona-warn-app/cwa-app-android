@@ -4,12 +4,26 @@ package de.rki.coronawarnapp.server.protocols.internal.dgc;
 
 
 message ValueSets {
+
+  // General
+  // Disease or agent targeted
+  ValueSet tg = 4;
+
+  // Vaccination Certificates
   // Vaccine or prophylaxis
   ValueSet vp = 1;
   // Vaccine medicinal product
   ValueSet mp = 2;
   // Marketing Authorization Holder
   ValueSet ma = 3;
+
+  // Test Certificates
+  // Type of Test
+  ValueSet tcTt = 5;
+  // RAT Test name and manufacturer
+  ValueSet tcMa = 6;
+  // Test Result
+  ValueSet tcTr = 7;
 }
 
 message ValueSet {
