@@ -56,17 +56,15 @@ class ValueSetsRepository @Inject constructor(
 
     fun triggerUpdateValueSet(languageCode: Locale) {
         Timber.d("triggerUpdateValueSet(languageCode=%s)", languageCode)
-
         internalData.updateAsync(
-            onUpdate = { updateValueSet(languageCode = languageCode) },
+            onUpdate = { getValueSetFromServer(languageCode = languageCode) ?: this },
             onError = { Timber.e(it, "Updating value set failed") }
         )
     }
 
-    private suspend fun updateValueSet(languageCode: Locale): VaccinationValueSet {
-        Timber.v("updateValueSet(languageCode=%s)", languageCode)
+    private suspend fun getValueSetFromServer(languageCode: Locale): VaccinationValueSet? {
+        Timber.v("getValueSetFromServer(languageCode=%s)", languageCode)
         var valueSet = vaccinationServer.getVaccinationValueSets(languageCode = languageCode)
-            ?: valueSetsStorage.vaccinationValueSet
 
         if (valueSet.isEmpty()) {
             Timber.d(
@@ -76,10 +74,8 @@ class ValueSetsRepository @Inject constructor(
             valueSet = vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
         }
 
-        return when (valueSet != null) {
-            true -> valueSet
-            else -> createEmptyValueSet() // Fallback to empty value set
-        }.also { Timber.v("New value set %s", it) }
+        return valueSet
+            .also { Timber.v("New value set %s", it) }
     }
 
     private fun createEmptyValueSet(): VaccinationValueSet =
