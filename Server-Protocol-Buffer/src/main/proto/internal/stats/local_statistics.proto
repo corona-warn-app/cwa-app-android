@@ -42,5 +42,5 @@ message AdministrativeUnitData {
 
 message SevenDayIncidenceData {
   double value = 1;
-  Trend trend = 2;
+  KeyFigure.Trend trend = 2;
 }
