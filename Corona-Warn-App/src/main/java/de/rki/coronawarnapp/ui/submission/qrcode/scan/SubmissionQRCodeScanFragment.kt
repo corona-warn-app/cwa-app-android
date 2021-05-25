@@ -150,6 +150,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 R.string.submission_qr_code_scan_invalid_dialog_button_negative,
                 true,
                 { startDecode() },
+                { viewModel.onBackPressed() },
                 { viewModel.onBackPressed() }
             )
             is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
