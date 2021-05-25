@@ -94,12 +94,8 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
 
     @Test
     fun `EXPECT_NEW_DAY_PACKAGES evaluation`() = runBlockingTest {
-        val cachedKey1 = mockCachedDay(
-            "EUR".loc, "2020-10-30".day
-        )
-        val cachedKey2 = mockCachedDay(
-            "EUR".loc, "2020-10-31".day
-        )
+        val cachedKey1 = mockCachedDay("EUR".loc, "2020-10-30".day)
+        val cachedKey2 = mockCachedDay("EUR".loc, "2020-10-31".day)
 
         val instance = createInstance()
 

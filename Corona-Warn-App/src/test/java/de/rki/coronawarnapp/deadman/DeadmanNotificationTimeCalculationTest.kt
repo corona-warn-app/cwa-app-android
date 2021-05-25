@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.deadman
 
+import de.rki.coronawarnapp.diagnosiskeys.download.createMockCachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
@@ -45,12 +44,11 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
         keyHour: LocalTime? = null,
         isComplete: Boolean = true,
     ): CachedKey = mockk<CachedKey>().apply {
-        every { info } returns mockk<CachedKeyInfo>().apply {
-            every { type } returns if (keyHour != null) Type.LOCATION_HOUR else Type.LOCATION_DAY
-            every { day } returns keyDay
-            every { hour } returns keyHour
-            every { isDownloadComplete } returns isComplete
-        }
+        every { info } returns createMockCachedKeyInfo(
+            dayIdentifier = keyDay,
+            hourIdentifier = keyHour,
+            isComplete = isComplete,
+        )
     }
 
     @Test
