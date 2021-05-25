@@ -71,19 +71,19 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         every { foregroundState.isInForeground } returns flowOf(false)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
 
-        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = any() } just Runs
-        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns null
+        every { riskLevelSettings.lastChangeCheckedEwRiskLevelTimestamp = any() } just Runs
+        every { riskLevelSettings.lastChangeCheckedEwRiskLevelTimestamp } returns null
 
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = any() } just Runs
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns null
 
-        every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp = any() } just Runs
-        every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp } returns null
+        every { riskLevelSettings.lastChangeToHighEwRiskLevelTimestamp = any() } just Runs
+        every { riskLevelSettings.lastChangeToHighEwRiskLevelTimestamp } returns null
 
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
 
         every { testResultDonorSettings.riskLevelTurnedRedTime } returns mockFlowPreference(null)
-        every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
+        every { testResultDonorSettings.ewMostRecentDateWithHighOrLowRiskLevel } returns mockFlowPreference(null)
 
         every { builder.build() } returns notification
         every { builder.setContentTitle(any()) } returns builder
@@ -143,7 +143,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
         every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(listOf(createEwRiskLevel(LOW_RISK)))
-
+        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(listOf(createPtRiskLevel(LOW_RISK)))
         runBlockingTest {
             val instance = createInstance(scope = this)
             instance.launch()
@@ -164,6 +164,13 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             listOf(
                 createEwRiskLevel(LOW_RISK),
                 createEwRiskLevel(LOW_RISK)
+            )
+        )
+
+        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
+            listOf(
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
 
@@ -193,6 +200,13 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
                 createEwRiskLevel(LOW_RISK)
+            )
+        )
+
+        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
+            listOf(
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
 
@@ -227,6 +241,13 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
+        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
+            listOf(
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
+
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
@@ -258,6 +279,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
                 createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
             )
         )
+        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
+            listOf(
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
         runBlockingTest {
@@ -278,6 +305,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             listOf(
                 createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
+        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
+            listOf(
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
@@ -303,9 +336,15 @@ class RiskLevelChangeDetectorTest : BaseTest() {
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
+        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
+            listOf(
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
-        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
+        every { riskLevelSettings.lastChangeCheckedEwRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
 
         runBlockingTest {
             val instance = createInstance(scope = this)
@@ -325,6 +364,13 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
                 createEwRiskLevel(LOW_RISK)
+            )
+        )
+
+        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
+            listOf(
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
 
@@ -368,6 +414,13 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
+        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
+            listOf(
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
+
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
 
@@ -405,6 +458,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
+        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
+            listOf(
+                createPtRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createPtRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
 
@@ -414,7 +473,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
         }
 
-        testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(10)
+        testResultDonorSettings.ewMostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(10)
 
         every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
@@ -436,7 +495,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
         }
 
-        testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(20)
+        testResultDonorSettings.ewMostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(20)
     }
 
     @Test

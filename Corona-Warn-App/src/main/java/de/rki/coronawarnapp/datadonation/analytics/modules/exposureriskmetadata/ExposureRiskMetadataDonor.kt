@@ -86,7 +86,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
             .setPtRiskLevel(riskLevelPtForMetadata)
             .setPtRiskLevelChangedComparedToPreviousSubmission(previousMetadata?.ptRiskLevel != riskLevelPtForMetadata)
             .setPtMostRecentDateAtRiskLevel(mostRecentDateAtPtRiskLevel).ptDateChangedComparedToPreviousSubmission =
-            previousMetadata?.mostRecentDateAtRiskLevel != mostRecentDateAtPtRiskLevel
+            previousMetadata?.ptMostRecentDateAtRiskLevel != mostRecentDateAtPtRiskLevel
     }
 
     override suspend fun deleteData() {

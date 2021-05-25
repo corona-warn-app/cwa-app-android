@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.TriStateBooleanOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -62,8 +63,10 @@ class AnalyticsKeySubmissionDonorTest : BaseTest() {
     fun `regular contribution when keys submitted`() {
         every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
         every { repository.advancedConsentGiven } returns true
-        every { repository.daysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
-        every { repository.hoursSinceHighRiskWarningAtTestRegistration } returns 1
+        every { repository.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
+        every { repository.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
+        every { repository.ewHoursSinceHighRiskWarningAtTestRegistration } returns 1
+        every { repository.ptHoursSinceHighRiskWarningAtTestRegistration } returns 1
         every { repository.hoursSinceTestResult } returns 1
         every { repository.hoursSinceTestRegistration } returns 1
         every { repository.lastSubmissionFlowScreen } returns 1
@@ -72,6 +75,7 @@ class AnalyticsKeySubmissionDonorTest : BaseTest() {
         every { repository.submittedInBackground } returns true
         every { repository.submittedWithTeleTAN } returns false
         every { repository.submitted } returns true
+        every { repository.submittedWithCheckins } returns TriStateBooleanOuterClass.TriStateBoolean.TSB_TRUE
         every { ppaData.addKeySubmissionMetadataSet(any<PpaData.PPAKeySubmissionMetadata.Builder>()) } returns ppaData
         every { repository.reset() } just Runs
         runBlockingTest {
