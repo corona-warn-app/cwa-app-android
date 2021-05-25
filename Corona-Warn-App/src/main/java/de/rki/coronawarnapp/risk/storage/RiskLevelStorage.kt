@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk.storage
 
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
@@ -68,6 +69,14 @@ interface RiskLevelStorage {
      * Risk level per date/day aggregated over check-ins
      */
     val ptDayRiskStates: Flow<List<PresenceTracingDayRisk>>
+
+    /** PRESENCE TRACING RISK RESULT
+     * The newest 2 results.
+     * Used only for analytics
+     * Can be 0-2 entries.
+     * Newest item first.
+     */
+    val latestPtRiskLevelResults: Flow<List<PtRiskLevelResult>>
 
     /** COMBINED RISK RESULT
      * Risk level per date/day aggregated form Exposure Windows and Presence Tracing

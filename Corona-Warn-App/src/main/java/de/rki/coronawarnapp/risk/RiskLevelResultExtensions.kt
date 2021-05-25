@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import org.joda.time.Instant
 
@@ -15,6 +16,16 @@ fun List<EwRiskLevelResult>.tryLatestEwResultsWithDefaults(): DisplayableEwRiskR
         lastCalculated = latestCalculation,
         lastSuccessfullyCalculated = lastSuccessfullyCalculated
     )
+}
+
+fun List<PtRiskLevelResult>.getLastCalculatedWithDefaults(): PtRiskLevelResult {
+    return maxByOrNull { it.calculatedAt }
+        ?: PtRiskLevelResult(
+            calculatedAt = Instant.now(),
+            riskState = RiskState.LOW_RISK,
+            presenceTracingDayRisk = null,
+            checkInWarningOverlaps = null
+        )
 }
 
 data class DisplayableEwRiskResults(
