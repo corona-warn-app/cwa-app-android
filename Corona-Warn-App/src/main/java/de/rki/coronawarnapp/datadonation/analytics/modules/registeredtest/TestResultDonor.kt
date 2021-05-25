@@ -173,6 +173,7 @@ class TestResultDonor @Inject constructor(
         testResultDonorSettings.clear()
     }
 
+    @Suppress("LongParameterList")
     private fun pendingTestMetadataDonation(
         hoursSinceTestRegistrationTime: Int,
         testResult: CoronaTestResult,
@@ -200,6 +201,7 @@ class TestResultDonor @Inject constructor(
         return TestResultMetadataContribution(testResultMetaData, ::cleanUp)
     }
 
+    @Suppress("LongParameterList")
     private fun finalTestMetadataDonation(
         registrationTime: Instant,
         testResult: CoronaTestResult,
