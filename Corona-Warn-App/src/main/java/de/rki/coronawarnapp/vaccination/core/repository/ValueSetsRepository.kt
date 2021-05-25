@@ -5,9 +5,9 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
-import de.rki.coronawarnapp.vaccination.core.server.valueset.DefaultVaccinationValueSet
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationServer
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.emptyVaccinationValueSet
 import de.rki.coronawarnapp.vaccination.core.server.valueset.isEmpty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -38,8 +38,7 @@ class ValueSetsRepository @Inject constructor(
         coroutineContext = dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Lazily,
         startValueProvider = {
-            (valueSetsStorage.vaccinationValueSet ?: createEmptyValueSet())
-                .also { Timber.v("Loaded initial value set %s", it) }
+            valueSetsStorage.vaccinationValueSet.also { Timber.v("Loaded initial value set %s", it) }
         }
     )
 
@@ -78,20 +77,12 @@ class ValueSetsRepository @Inject constructor(
             .also { Timber.v("New value set %s", it) }
     }
 
-    private fun createEmptyValueSet(): VaccinationValueSet =
-        DefaultVaccinationValueSet(
-            languageCode = Locale.ENGLISH,
-            vp = DefaultVaccinationValueSet.DefaultValueSet(items = emptyList()),
-            mp = DefaultVaccinationValueSet.DefaultValueSet(items = emptyList()),
-            ma = DefaultVaccinationValueSet.DefaultValueSet(items = emptyList())
-        )
-
     suspend fun clear() {
         Timber.d("Clearing value sets")
         vaccinationServer.clear()
         internalData.updateBlocking {
             Timber.v("Resetting value set to an empty value set")
-            createEmptyValueSet()
+            emptyVaccinationValueSet
         }
     }
 }

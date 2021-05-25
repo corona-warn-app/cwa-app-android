@@ -38,18 +38,8 @@ class ValueSetsStorageTest : BaseTest() {
     )
 
     @Test
-    fun `Default value is null`() {
-        createInstance().vaccinationValueSet shouldBe null
-    }
-
-    @Test
-    fun `Reset with null`() {
-        createInstance().run {
-            vaccinationValueSet = storedValueSetDe
-            vaccinationValueSet = null
-
-            vaccinationValueSet shouldBe null
-        }
+    fun `Default value is an empty value set`() {
+        createInstance().vaccinationValueSet.validateValues(emptyValueSetEn)
     }
 
     @Test

@@ -11,6 +11,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.emptyVaccinationValueSet
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
@@ -25,29 +26,29 @@ class ValueSetsStorage @Inject constructor(
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
 
-    var vaccinationValueSet: VaccinationValueSet?
+    var vaccinationValueSet: VaccinationValueSet
         get() = getValueSet()
         set(value) = setValueSet(value)
 
-    private fun getValueSet(): VaccinationValueSet? {
+    private fun getValueSet(): VaccinationValueSet {
         Timber.v("Loading value set")
-        return prefs.getString(PKEY_VALUE_SETS_PREFIX, null)
-            ?.let { gson.fromJson(it, StoredVaccinationValueSet::class.java) }
-            .also { loaded -> Timber.v("Loaded value set %s", loaded) }
+        val valueSetString = prefs.getString(PKEY_VALUE_SETS_PREFIX, null)
+        return when (valueSetString != null) {
+            true -> gson.fromJson(valueSetString, StoredVaccinationValueSet::class.java)
+            else -> emptyVaccinationValueSet
+        }.also { loaded -> Timber.v("Loaded value set %s", loaded) }
     }
 
-    private fun setValueSet(value: VaccinationValueSet?) {
+    private fun setValueSet(value: VaccinationValueSet) {
         Timber.v("Saving value set %s", value)
         prefs.edit {
-            val json = value?.let {
-                gson.toJson(it.toStoredVaccinationValueSet(), StoredVaccinationValueSet::class.java)
-            }
+            val json = gson.toJson(value.toStoredVaccinationValueSet(), StoredVaccinationValueSet::class.java)
             Timber.v("Writing %s to prefs", json)
             putString(PKEY_VALUE_SETS_PREFIX, json)
         }
     }
 
-    @VisibleForTesting()
+    @VisibleForTesting
     fun VaccinationValueSet.toStoredVaccinationValueSet(): StoredVaccinationValueSet =
         StoredVaccinationValueSet(
             languageCode = languageCode,
@@ -56,19 +57,19 @@ class ValueSetsStorage @Inject constructor(
             ma = ma.toStoredValueSet()
         )
 
-    @VisibleForTesting()
+    @VisibleForTesting
     fun VaccinationValueSet.ValueSet.toStoredValueSet(): StoredVaccinationValueSet.StoredValueSet =
         StoredVaccinationValueSet.StoredValueSet(
             items = items.map { it.toStoredItem() }
         )
 
-    @VisibleForTesting()
+    @VisibleForTesting
     fun VaccinationValueSet.ValueSet.Item.toStoredItem():
         StoredVaccinationValueSet.StoredValueSet.StoredItem =
-            StoredVaccinationValueSet.StoredValueSet.StoredItem(
-                key = key,
-                displayText = displayText
-            )
+        StoredVaccinationValueSet.StoredValueSet.StoredItem(
+            key = key,
+            displayText = displayText
+        )
 
     @VisibleForTesting
     data class StoredVaccinationValueSet(

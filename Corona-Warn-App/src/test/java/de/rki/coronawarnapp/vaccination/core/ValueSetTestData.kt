@@ -51,12 +51,7 @@ object ValueSetTestData {
         ma = createValueSet(maItemEn)
     )
 
-    val emptyValueSetEn = DefaultVaccinationValueSet(
-        languageCode = Locale.ENGLISH,
-        vp = DefaultVaccinationValueSet.DefaultValueSet(items = emptyList()),
-        mp = DefaultVaccinationValueSet.DefaultValueSet(items = emptyList()),
-        ma = DefaultVaccinationValueSet.DefaultValueSet(items = emptyList())
-    )
+    val emptyValueSetEn = emptyStoredValueSet
 
     fun createStoredValueSet(keyText: Pair<String, String>): ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet {
         val item = ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem(

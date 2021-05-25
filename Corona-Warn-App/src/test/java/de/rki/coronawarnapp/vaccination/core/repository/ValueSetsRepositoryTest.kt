@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetEn
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationServer
 import de.rki.coronawarnapp.vaccination.core.validateValues
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Ordering
 import io.mockk.coEvery
@@ -47,7 +46,7 @@ class ValueSetsRepositoryTest : BaseTest() {
         every { vaccinationServer.clear() } just runs
 
         every { valueSetsStorage.vaccinationValueSet = any() } just runs
-        every { valueSetsStorage.vaccinationValueSet } returns null
+        every { valueSetsStorage.vaccinationValueSet } returns emptyValueSetEn
     }
 
     @Test
@@ -103,9 +102,10 @@ class ValueSetsRepositoryTest : BaseTest() {
         createInstance(this).run {
             clear()
 
-            coVerify() {
+            latestValueSet.first().validateValues(emptyValueSetEn)
+
+            coVerify {
                 vaccinationServer.clear()
-                latestValueSet.first() shouldBe emptyValueSetEn
                 valueSetsStorage.vaccinationValueSet = emptyValueSetEn
             }
         }
