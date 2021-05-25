@@ -61,9 +61,29 @@ class DiaryVisitCensorTest : BaseTest() {
             I got my Visit#2/Circumstances,
             only to find out the supermarket was Visit#3/Circumstances.
             """.trimIndent()
+    }
 
-        // censoring should still work even after visits are deleted
-        every { diaryRepo.locationVisits } returns flowOf(emptyList())
+    @Test
+    fun `censor should still work even after visits are deleted`() = runBlockingTest {
+        every { diaryRepo.locationVisits } returns flowOf(
+            listOf(
+                mockVisit(1, _circumstances = "Döner that was too spicy"),
+                mockVisit(2, _circumstances = "beard shaved without mask"),
+                mockVisit(3, _circumstances = "out of toiletpaper")
+            ),
+            listOf(
+                mockVisit(1, _circumstances = "Döner that was too spicy"),
+                // mockVisit(2, _circumstances = "beard shaved without mask"), => deleted
+                mockVisit(3, _circumstances = "out of toiletpaper")
+            )
+        )
+        val instance = createInstance(this)
+        val censorMe =
+            """
+            After having a Döner that was too spicy,
+            I got my beard shaved without mask,
+            only to find out the supermarket was out of toiletpaper.
+            """.trimIndent()
         instance.checkLog(censorMe)!!.string shouldBe
             """
             After having a Visit#1/Circumstances,
