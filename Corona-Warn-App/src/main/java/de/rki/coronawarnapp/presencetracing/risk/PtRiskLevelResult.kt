@@ -51,8 +51,11 @@ data class PtRiskLevelResult(
         checkInWarningOverlaps?.size ?: 0
     }
 
+    val isIncreasedRisk: Boolean
+        get() = riskState == RiskState.INCREASED_RISK
+
     val lastRiskEncounterAt: LocalDate?
-        get() = if (riskState == RiskState.INCREASED_RISK) {
+        get() = if (isIncreasedRisk) {
             mostRecentDateWithHighRisk
         } else {
             mostRecentDateWithLowRisk

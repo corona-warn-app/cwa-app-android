@@ -118,7 +118,7 @@ class RiskLevelChangeDetector @Inject constructor(
         saveSurveyRiskState(oldRiskState, newRiskState, newResult)
 
         // Save TestDonor risk level timestamps
-        saveTestDonorRiskLevelAnalytics(newResult)
+        ewSaveTestDonorRiskLevelAnalytics(newResult)
     }
 
     private fun checkPtRiskForStateChanges(results: List<PtRiskLevelResult>) {
@@ -130,9 +130,12 @@ class RiskLevelChangeDetector @Inject constructor(
             return
         }
         riskLevelSettings.lastChangeCheckedPtRiskLevelTimestamp = newResult.calculatedAt
+
+        // Save TestDonor risk level timestamps
+        ptSaveTestDonorRiskLevelAnalytics(newResult)
     }
 
-    private fun saveTestDonorRiskLevelAnalytics(
+    private fun ewSaveTestDonorRiskLevelAnalytics(
         newEwRiskState: EwRiskLevelResult
     ) {
         // Save riskLevelTurnedRedTime if not already set before for high risk detection
@@ -156,7 +159,37 @@ class RiskLevelChangeDetector @Inject constructor(
                 lastRiskEncounterAt
             )
 
-            testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.update { lastRiskEncounterAt }
+            testResultDonorSettings.ewMostRecentDateWithHighOrLowRiskLevel.update { lastRiskEncounterAt }
+        }
+    }
+
+    private fun ptSaveTestDonorRiskLevelAnalytics(
+        newEwRiskState: PtRiskLevelResult
+    ) {
+        // Save riskLevelTurnedRedTime if not already set before for high risk detection
+        Timber.i("riskLevelTurnedRedTime=%s", testResultDonorSettings.riskLevelTurnedRedTime.value)
+        if (testResultDonorSettings.riskLevelTurnedRedTime.value == null && newEwRiskState.isIncreasedRisk) {
+            testResultDonorSettings.riskLevelTurnedRedTime.update { newEwRiskState.calculatedAt }
+            Timber.i(
+                "riskLevelTurnedRedTime: newRiskState=%s, riskLevelTurnedRedTime=%s",
+                newEwRiskState.riskState,
+                newEwRiskState.calculatedAt
+            )
+        }
+
+        // Save most recent date of high or low risks
+        if (newEwRiskState.riskState in listOf(RiskState.INCREASED_RISK, RiskState.LOW_RISK)) {
+            Timber.d("newRiskState=$newEwRiskState")
+            val lastRiskEncounterAt = newEwRiskState.lastRiskEncounterAt
+            Timber.i(
+                "mostRecentDateWithHighOrLowRiskLevel: newRiskState=%s, lastRiskEncounterAt=%s",
+                newEwRiskState.riskState,
+                lastRiskEncounterAt
+            )
+
+            testResultDonorSettings.ptMostRecentDateWithHighOrLowRiskLevel.update {
+                lastRiskEncounterAt?.toDateTimeAtStartOfDay()?.toInstant()
+            }
         }
     }
 

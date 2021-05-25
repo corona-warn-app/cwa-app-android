@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.storage
 import android.content.Context
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
@@ -27,8 +28,19 @@ class TestResultDonorSettings @Inject constructor(
         defaultValue = false
     )
 
-    val riskLevelAtTestRegistration = prefs.createFlowPreference(
-        key = PREFS_KEY_RISK_LEVEL_AT_REGISTRATION,
+    val ewRiskLevelAtTestRegistration = prefs.createFlowPreference(
+        key = PREFS_KEY_EW_RISK_LEVEL_AT_REGISTRATION,
+        reader = { key ->
+            PpaData.PPARiskLevel.forNumber(getInt(key, PpaData.PPARiskLevel.RISK_LEVEL_LOW.number))
+                ?: PpaData.PPARiskLevel.RISK_LEVEL_LOW
+        },
+        writer = { key, value ->
+            putInt(key, value.number)
+        }
+    )
+
+    val ptRiskLevelAtTestRegistration = prefs.createFlowPreference(
+        key = PREFS_KEY_PT_RISK_LEVEL_AT_REGISTRATION,
         reader = { key ->
             PpaData.PPARiskLevel.forNumber(getInt(key, PpaData.PPARiskLevel.RISK_LEVEL_LOW.number))
                 ?: PpaData.PPARiskLevel.RISK_LEVEL_LOW
@@ -67,8 +79,22 @@ class TestResultDonorSettings @Inject constructor(
         }
     )
 
-    val mostRecentDateWithHighOrLowRiskLevel = prefs.createFlowPreference(
-        key = PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_RISK_LEVEL,
+    val ewMostRecentDateWithHighOrLowRiskLevel = prefs.createFlowPreference(
+        key = PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_EW_RISK_LEVEL,
+        reader = { key ->
+            getLong(key, 0L).let {
+                if (it != 0L) {
+                    Instant.ofEpochMilli(it)
+                } else null
+            }
+        },
+        writer = { key, value ->
+            putLong(key, value?.millis ?: 0L)
+        }
+    )
+
+    val ptMostRecentDateWithHighOrLowRiskLevel = prefs.createFlowPreference(
+        key = PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_PT_RISK_LEVEL,
         reader = { key ->
             getLong(key, 0L).let {
                 if (it != 0L) {
@@ -95,14 +121,19 @@ class TestResultDonorSettings @Inject constructor(
         }
     )
 
-    fun saveTestResultDonorDataAtRegistration(testResult: CoronaTestResult, lastEwRiskResult: EwRiskLevelResult) {
+    fun saveTestResultDonorDataAtRegistration(
+        testResult: CoronaTestResult,
+        lastEwRiskResult: EwRiskLevelResult,
+        lastPtRiskResult: PtRiskLevelResult,
+    ) {
         testScannedAfterConsent.update { true }
         testResultAtRegistration.update { testResult }
         if (testResult in listOf(CoronaTestResult.PCR_POSITIVE, CoronaTestResult.PCR_NEGATIVE)) {
             finalTestResultReceivedAt.update { timeStamper.nowUTC }
         }
 
-        riskLevelAtTestRegistration.update { lastEwRiskResult.toMetadataRiskLevel() }
+        ewRiskLevelAtTestRegistration.update { lastEwRiskResult.toMetadataRiskLevel() }
+        ptRiskLevelAtTestRegistration.update { lastPtRiskResult.toMetadataRiskLevel() }
     }
 
     fun clear() = prefs.clearAndNotify()
@@ -110,10 +141,13 @@ class TestResultDonorSettings @Inject constructor(
     companion object {
         private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "testResultDonor.testScannedAfterConsent"
         private const val PREFS_KEY_TEST_RESULT_AT_REGISTRATION = "testResultDonor.testResultAtRegistration"
-        private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION = "testResultDonor.riskLevelAtRegistration"
+        private const val PREFS_KEY_EW_RISK_LEVEL_AT_REGISTRATION = "testResultDonor.riskLevelAtRegistration"
+        private const val PREFS_KEY_PT_RISK_LEVEL_AT_REGISTRATION = "testResultDonor.ptRiskLevelAtRegistration"
         private const val PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT = "testResultDonor.finalTestResultReceivedAt"
         private const val PREFS_KEY_RISK_LEVEL_TURNED_RED_TIME = "testResultDonor.riskLevelTurnedRedTime"
-        private const val PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_RISK_LEVEL =
+        private const val PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_EW_RISK_LEVEL =
             "testResultDonor.mostRecentWithHighOrLowRiskLevel"
+        private const val PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_PT_RISK_LEVEL =
+            "testResultDonor.mostRecentWithHighOrLowPtRiskLevel"
     }
 }
