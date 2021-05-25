@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettin
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -54,6 +55,18 @@ class RiskLevelChangeDetector @Inject constructor(
             .catch { Timber.e(it, "App config change checks failed.") }
             .launchIn(appScope)
 
+        riskLevelStorage.latestPtRiskLevelResults
+            .map { results ->
+                results.sortedBy { it.calculatedAt }.takeLast(2)
+            }
+            .filter { it.size == 2 }
+            .onEach {
+                Timber.v("Checking for pt risklevel change.")
+                checkPtRiskForStateChanges(it)
+            }
+            .catch { Timber.e(it, "App config change checks failed.") }
+            .launchIn(appScope)
+
         riskLevelStorage.latestCombinedEwPtRiskLevelResults
             .map { results ->
                 results.sortedBy { it.calculatedAt }.takeLast(2)
@@ -90,12 +103,12 @@ class RiskLevelChangeDetector @Inject constructor(
         val oldResult = results.first()
         val newResult = results.last()
 
-        val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelTimestamp
+        val lastCheckedResult = riskLevelSettings.lastChangeCheckedEwRiskLevelTimestamp
         if (lastCheckedResult == newResult.calculatedAt) {
             Timber.d("We already checked this risk level change, skipping further checks.")
             return
         }
-        riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = newResult.calculatedAt
+        riskLevelSettings.lastChangeCheckedEwRiskLevelTimestamp = newResult.calculatedAt
 
         val oldRiskState = oldResult.riskState
         val newRiskState = newResult.riskState
@@ -106,6 +119,17 @@ class RiskLevelChangeDetector @Inject constructor(
 
         // Save TestDonor risk level timestamps
         saveTestDonorRiskLevelAnalytics(newResult)
+    }
+
+    private fun checkPtRiskForStateChanges(results: List<PtRiskLevelResult>) {
+        val newResult = results.last()
+
+        val lastCheckedResult = riskLevelSettings.lastChangeCheckedPtRiskLevelTimestamp
+        if (lastCheckedResult == newResult.calculatedAt) {
+            Timber.d("We already checked this risk level change, skipping further checks.")
+            return
+        }
+        riskLevelSettings.lastChangeCheckedPtRiskLevelTimestamp = newResult.calculatedAt
     }
 
     private fun saveTestDonorRiskLevelAnalytics(
@@ -174,7 +198,7 @@ class RiskLevelChangeDetector @Inject constructor(
         }
 
         if (oldRiskState == RiskState.LOW_RISK && newRiskState == RiskState.INCREASED_RISK) {
-            riskLevelSettings.lastChangeToHighRiskLevelTimestamp = newResult.calculatedAt
+            riskLevelSettings.lastChangeToHighEwRiskLevelTimestamp = newResult.calculatedAt
         }
     }
 

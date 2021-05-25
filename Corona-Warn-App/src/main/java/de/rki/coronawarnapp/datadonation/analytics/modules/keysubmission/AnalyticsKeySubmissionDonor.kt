@@ -40,10 +40,16 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
         PpaData.PPAKeySubmissionMetadata.newBuilder()
             .setAdvancedConsentGiven(repository.advancedConsentGiven)
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                repository.daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+                repository.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            )
+            .setPtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+                repository.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
             .setHoursSinceHighRiskWarningAtTestRegistration(
-                repository.hoursSinceHighRiskWarningAtTestRegistration
+                repository.ewHoursSinceHighRiskWarningAtTestRegistration
+            )
+            .setPtHoursSinceHighRiskWarningAtTestRegistration(
+                repository.ptHoursSinceHighRiskWarningAtTestRegistration
             )
             .setHoursSinceTestResult(repository.hoursSinceTestResult)
             .setHoursSinceTestRegistration(repository.hoursSinceTestRegistration)
@@ -53,6 +59,7 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
             .setSubmittedAfterCancel(repository.submittedAfterCancel)
             .setSubmittedInBackground(repository.submittedInBackground)
             .setSubmittedWithTeleTAN(repository.submittedWithTeleTAN)
+            .setSubmittedWithCheckIns(repository.submittedWithCheckins)
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
