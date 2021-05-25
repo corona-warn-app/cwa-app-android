@@ -1,17 +1,13 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.mapping.RevokedKeyPackage
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
-import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
-import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -98,16 +94,12 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
 
     @Test
     fun `EXPECT_NEW_DAY_PACKAGES evaluation`() = runBlockingTest {
-        val cachedKey1 = mockk<CachedKey>().apply {
-            every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns Instant.parse("2020-10-30T01:02:03.000Z").toDateTime(DateTimeZone.UTC)
-            }
-        }
-        val cachedKey2 = mockk<CachedKey>().apply {
-            every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns Instant.parse("2020-10-31T01:02:03.000Z").toDateTime(DateTimeZone.UTC)
-            }
-        }
+        val cachedKey1 = mockCachedDay(
+            "EUR".loc, "2020-10-30".day
+        )
+        val cachedKey2 = mockCachedDay(
+            "EUR".loc, "2020-10-31".day
+        )
 
         val instance = createInstance()
 
