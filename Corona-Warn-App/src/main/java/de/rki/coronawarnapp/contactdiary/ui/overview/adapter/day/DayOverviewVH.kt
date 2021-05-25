@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemContactBi
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemHeaderBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEnfBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEventBinding
-import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemTestResultBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemTestResultsBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
 import org.joda.time.LocalDate
@@ -31,7 +30,6 @@ class DayOverviewVH(parent: ViewGroup) :
 
     private val riskEventAdapter: RiskEventAdapter by lazy { RiskEventAdapter() }
     private val contactAdapter: ContactAdapter by lazy { ContactAdapter() }
-    private val coronaTestAdapter: CoronaTestAdapter by lazy { CoronaTestAdapter() }
 
     override val viewBinding: Lazy<ContactDiaryOverviewListItemBinding> =
         lazy { ContactDiaryOverviewListItemBinding.bind(itemView) }
@@ -106,11 +104,11 @@ class DayOverviewVH(parent: ViewGroup) :
     }
 
     private fun ContactDiaryOverviewDayListItemTestResultsBinding.apply(coronaTestItem: CoronaTestItem?) {
-        root.isGone = coronaTestItem == null
+        root.isGone = coronaTestItem == null || coronaTestItem.data.isEmpty()
 
         coronaTestItem?.let {
             recyclerView.apply {
-                adapter = coronaTestAdapter.apply { submitList(it.data) }
+                adapter = CoronaTestAdapter(it.data)
                 suppressLayout(true)
             }
         }

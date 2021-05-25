@@ -1,48 +1,39 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemTestResultBinding
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.CoronaTestAdapter.ViewHolder
+import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemTestResultBinding
+import de.rki.coronawarnapp.ui.lists.BaseAdapter
+import de.rki.coronawarnapp.util.lists.BindableVH
 
-class CoronaTestAdapter : ListAdapter<CoronaTestItem.Data, ViewHolder>(ITEM_COMPARATOR) {
+class CoronaTestAdapter(val items: List<CoronaTestItem.Data>) : BaseAdapter<ViewHolder>() {
 
-    class ViewHolder(private val binding: ContactDiaryOverviewDayListItemTestResultBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    override fun onCreateBaseVH(parent: ViewGroup, viewType: Int) = ViewHolder(parent)
 
-        fun bind(coronaTestItem: CoronaTestItem.Data) {
-            with(binding) {
-                contactDiaryCoronaTestTitle.text = root.context.getString(coronaTestItem.header)
-                contactDiaryCoronaTestImage.setImageResource(coronaTestItem.icon)
-                contactDiaryCoronaTestBody.text = root.context.getString(coronaTestItem.body)
+    override fun onBindBaseVH(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        holder.bind(items[position], payloads)
+    }
+
+    override fun getItemCount(): Int = items.size
+
+    class ViewHolder(parent: ViewGroup) :
+        BaseAdapter.VH(R.layout.contact_diary_overview_day_list_item_test_result, parent),
+        BindableVH<CoronaTestItem.Data, ContactDiaryOverviewDayListItemTestResultBinding> {
+
+        override val viewBinding: Lazy<ContactDiaryOverviewDayListItemTestResultBinding> =
+            lazy { ContactDiaryOverviewDayListItemTestResultBinding.bind(itemView) }
+
+        override val onBindData: ContactDiaryOverviewDayListItemTestResultBinding.(
+            item: CoronaTestItem.Data,
+            payloads: List<Any>
+        ) -> Unit
+            get() = { coronaTestItem, _ ->
+                with(root.context) {
+                    contactDiaryCoronaTestTitle.text = getString(coronaTestItem.header)
+                    contactDiaryCoronaTestImage.setImageResource(coronaTestItem.icon)
+                    contactDiaryCoronaTestBody.text = getString(coronaTestItem.body)
+                }
             }
-        }
-    }
-
-    companion object {
-        private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<CoronaTestItem.Data>() {
-            override fun areItemsTheSame(oldItem: CoronaTestItem.Data, newItem: CoronaTestItem.Data) =
-                oldItem == newItem
-
-            override fun areContentsTheSame(oldItem: CoronaTestItem.Data, newItem: CoronaTestItem.Data) =
-                oldItem == newItem
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            ContactDiaryOverviewDayListItemTestResultBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
     }
 }
