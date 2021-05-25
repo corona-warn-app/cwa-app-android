@@ -807,6 +807,10 @@
         <argument
             android:name="qrCodeText"
             app:argType="string" />
+        <argument
+            android:name="correctionLevel"
+            app:argType="com.google.zxing.qrcode.decoder.ErrorCorrectionLevel"
+            android:defaultValue="Q" />
     </fragment>
     <action
         android:id="@+id/action_global_qrCodeFullScreenFragment"
