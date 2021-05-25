@@ -41,86 +41,49 @@ class TestResultDonor @Inject constructor(
             return TestResultMetadataNoContribution
         }
 
-        val ewLastChangeCheckedRiskLevelTimestamp = testResultDonorSettings.ewMostRecentDateWithHighOrLowRiskLevel.value
-
-        val ptLastChangeCheckedRiskLevelTimestamp = testResultDonorSettings.ptMostRecentDateWithHighOrLowRiskLevel.value
+        val lastChangeCheckedRiskLevelTimestamp = testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value
 
         // Default -1 value is covered by calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
         // In case lastChangeCheckedRiskLevelTimestamp is null
-        val ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration =
+        val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                ewLastChangeCheckedRiskLevelTimestamp,
-                timestampAtRegistration
-            )
-
-        val ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration =
-            calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                ptLastChangeCheckedRiskLevelTimestamp,
+                lastChangeCheckedRiskLevelTimestamp,
                 timestampAtRegistration
             )
 
         Timber.i(
-            "ewLastChangeCheckedRiskLevelTimestamp=%s,timestampAtRegistration=%s",
-            ewLastChangeCheckedRiskLevelTimestamp,
+            "lastChangeCheckedRiskLevelTimestamp=%s,timestampAtRegistration=%s",
+            lastChangeCheckedRiskLevelTimestamp,
             timestampAtRegistration
         )
 
         Timber.i(
-            "ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: %s",
-            ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            "daysSinceMostRecentDateAtRiskLevelAtTestRegistration: %s",
+            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
         )
 
-        Timber.i(
-            "ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: %s",
-            ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
-        )
+        val riskLevelAtRegistration = testResultDonorSettings.riskLevelAtTestRegistration.value
+        val highRiskResultCalculatedAt = testResultDonorSettings.riskLevelTurnedRedTime.value
 
-        val ewRiskLevelAtRegistration = testResultDonorSettings.ewRiskLevelAtTestRegistration.value
-        val ewHighRiskResultCalculatedAt = testResultDonorSettings.riskLevelTurnedRedTime.value
-
-        val hoursSinceEwHighRiskWarningAtTestRegistration =
-            if (ewRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_LOW) {
+        val hoursSinceHighRiskWarningAtTestRegistration =
+            if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_LOW) {
                 DEFAULT_HOURS_SINCE_HIGH_RISK_WARNING
             } else {
-                if (ewHighRiskResultCalculatedAt == null) {
-                    Timber.d("Skipping TestResultMetadata donation (ewHighRiskResultCalculatedAt is missing)")
+                if (highRiskResultCalculatedAt == null) {
+                    Timber.d("Skipping TestResultMetadata donation (highRiskResultCalculatedAt is missing)")
                     return TestResultMetadataNoContribution
                 }
 
                 Timber.i(
                     "highRiskResultCalculatedAt: %s, timestampAtRegistration: %s",
-                    ewHighRiskResultCalculatedAt,
+                    highRiskResultCalculatedAt,
                     timestampAtRegistration
                 )
-                calculatedHoursSinceHighRiskWarning(ewHighRiskResultCalculatedAt, timestampAtRegistration)
+                calculatedHoursSinceHighRiskWarning(highRiskResultCalculatedAt, timestampAtRegistration)
             }
         Timber.i(
             "hoursSinceHighRiskWarningAtTestRegistration: %s",
-            hoursSinceEwHighRiskWarningAtTestRegistration
-        )
-
-        val ptRiskLevelAtRegistration = testResultDonorSettings.ptRiskLevelAtTestRegistration.value
-        val ptHighRiskResultCalculatedAt = testResultDonorSettings.riskLevelTurnedRedTime.value
-
-        val hoursSincePtHighRiskWarningAtTestRegistration =
-            if (ptRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_LOW) {
-                DEFAULT_HOURS_SINCE_HIGH_RISK_WARNING
-            } else {
-                if (ptHighRiskResultCalculatedAt == null) {
-                    Timber.d("Skipping TestResultMetadata donation (ptHighRiskResultCalculatedAt is missing)")
-                    return TestResultMetadataNoContribution
-                }
-
-                Timber.i(
-                    "highRiskResultCalculatedAt: %s, timestampAtRegistration: %s",
-                    ptHighRiskResultCalculatedAt,
-                    timestampAtRegistration
-                )
-                calculatedHoursSinceHighRiskWarning(ptHighRiskResultCalculatedAt, timestampAtRegistration)
-            }
-        Timber.i(
-            "hoursSincePtHighRiskWarningAtTestRegistration: %s",
-            hoursSincePtHighRiskWarningAtTestRegistration
+            hoursSinceHighRiskWarningAtTestRegistration
         )
 
         val configHours = request.currentConfig.analytics.hoursSinceTestRegistrationToSubmitTestResultMetadata
@@ -139,10 +102,8 @@ class TestResultDonor @Inject constructor(
                 pendingTestMetadataDonation(
                     hoursSinceTestRegistrationTime,
                     testResultAtRegistration,
-                    ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration,
-                    ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration,
-                    hoursSinceEwHighRiskWarningAtTestRegistration,
-                    hoursSincePtHighRiskWarningAtTestRegistration,
+                    daysSinceMostRecentDateAtRiskLevelAtTestRegistration,
+                    hoursSinceHighRiskWarningAtTestRegistration
                 )
 
             /**
@@ -154,10 +115,8 @@ class TestResultDonor @Inject constructor(
                 finalTestMetadataDonation(
                     timestampAtRegistration,
                     testResultAtRegistration,
-                    ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration,
-                    ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration,
-                    hoursSinceEwHighRiskWarningAtTestRegistration,
-                    hoursSincePtHighRiskWarningAtTestRegistration,
+                    daysSinceMostRecentDateAtRiskLevelAtTestRegistration,
+                    hoursSinceHighRiskWarningAtTestRegistration
                 )
             else -> {
                 Timber.d("Skipping Data donation")
@@ -177,24 +136,17 @@ class TestResultDonor @Inject constructor(
     private fun pendingTestMetadataDonation(
         hoursSinceTestRegistrationTime: Int,
         testResult: CoronaTestResult,
-        daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration: Int,
-        daysSinceMostRecentDateAtPtRiskLevelAtTestRegistration: Int,
-        hoursSinceEwHighRiskWarningAtTestRegistration: Int,
-        hoursSincePtHighRiskWarningAtTestRegistration: Int,
+        daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
+        hoursSinceHighRiskWarningAtTestRegistration: Int
     ): DonorModule.Contribution {
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
-            .setHoursSinceHighRiskWarningAtTestRegistration(hoursSinceEwHighRiskWarningAtTestRegistration)
-            .setPtHoursSinceHighRiskWarningAtTestRegistration(hoursSincePtHighRiskWarningAtTestRegistration)
+            .setHoursSinceHighRiskWarningAtTestRegistration(hoursSinceHighRiskWarningAtTestRegistration)
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration
-            )
-            .setPtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                daysSinceMostRecentDateAtPtRiskLevelAtTestRegistration
+                daysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
             .setTestResult(testResult.toPPATestResult())
-            .setRiskLevelAtTestRegistration(testResultDonorSettings.ewRiskLevelAtTestRegistration.value)
-            .setPtRiskLevelAtTestRegistration(testResultDonorSettings.ptRiskLevelAtTestRegistration.value)
+            .setRiskLevelAtTestRegistration(testResultDonorSettings.riskLevelAtTestRegistration.value)
             .build()
 
         Timber.i("Pending test result metadata:%s", formString(testResultMetaData))
@@ -205,10 +157,8 @@ class TestResultDonor @Inject constructor(
     private fun finalTestMetadataDonation(
         registrationTime: Instant,
         testResult: CoronaTestResult,
-        daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration: Int,
-        daysSinceMostRecentDateAtPtRiskLevelAtTestRegistration: Int,
-        hoursSinceEwHighRiskWarningAtTestRegistration: Int,
-        hoursSincePtHighRiskWarningAtTestRegistration: Int,
+        daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
+        hoursSinceHighRiskWarningAtTestRegistration: Int
     ): DonorModule.Contribution {
         val finalTestResultReceivedAt = testResultDonorSettings.finalTestResultReceivedAt.value
         val hoursSinceTestRegistrationTime = if (finalTestResultReceivedAt != null) {
@@ -224,17 +174,12 @@ class TestResultDonor @Inject constructor(
 
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
-            .setHoursSinceHighRiskWarningAtTestRegistration(hoursSinceEwHighRiskWarningAtTestRegistration)
-            .setPtHoursSinceHighRiskWarningAtTestRegistration(hoursSincePtHighRiskWarningAtTestRegistration)
+            .setHoursSinceHighRiskWarningAtTestRegistration(hoursSinceHighRiskWarningAtTestRegistration)
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                daysSinceMostRecentDateAtEwRiskLevelAtTestRegistration
-            )
-            .setPtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                daysSinceMostRecentDateAtPtRiskLevelAtTestRegistration
+                daysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
             .setTestResult(testResult.toPPATestResult())
-            .setRiskLevelAtTestRegistration(testResultDonorSettings.ewRiskLevelAtTestRegistration.value)
-            .setPtRiskLevelAtTestRegistration(testResultDonorSettings.ptRiskLevelAtTestRegistration.value)
+            .setRiskLevelAtTestRegistration(testResultDonorSettings.riskLevelAtTestRegistration.value)
             .build()
 
         Timber.i("Final test result metadata:\n%s", formString(testResultMetaData))

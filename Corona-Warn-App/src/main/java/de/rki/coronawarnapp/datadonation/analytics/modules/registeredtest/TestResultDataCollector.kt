@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
-import de.rki.coronawarnapp.risk.getLastCalculatedWithDefaults
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.util.TimeStamper
@@ -33,23 +32,13 @@ class TestResultDataCollector @Inject constructor(
 
         // User consented to donate analytics data
         if (analyticsSettings.analyticsEnabled.value) {
-            val lastEwRiskResult = riskLevelStorage
+            val lastRiskResult = riskLevelStorage
                 .latestAndLastSuccessfulEwRiskLevelResult
                 .first()
                 .tryLatestEwResultsWithDefaults()
                 .lastCalculated
-
-            val lastPtRiskResult = riskLevelStorage
-                .latestPtRiskLevelResults
-                .first()
-                .getLastCalculatedWithDefaults()
-
-            Timber.d("saveTestResultDonorDataAtRegistration($testResult, $lastEwRiskResult, $lastPtRiskResult)")
-            testResultDonorSettings.saveTestResultDonorDataAtRegistration(
-                testResult,
-                lastEwRiskResult,
-                lastPtRiskResult
-            )
+            Timber.d("saveTestResultDonorDataAtRegistration($testResult, $lastRiskResult)")
+            testResultDonorSettings.saveTestResultDonorDataAtRegistration(testResult, lastRiskResult)
         }
     }
 
