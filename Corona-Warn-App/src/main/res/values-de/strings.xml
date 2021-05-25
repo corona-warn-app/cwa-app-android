@@ -920,7 +920,7 @@
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Einverstanden und senden"</string>
     <!-- XHED: Title for log upload history -->
-    <string name="debugging_debuglog_uploadhistory_title">"ID Historie"</string>
+    <string name="debugging_debuglog_uploadhistory_title">"ID-Historie"</string>
     <!-- YTXT: Description for log upload history -->
     <string name="debugging_debuglog_uploadhistory_description">"Hier sehen Sie die IDs Ihrer Fehleranalyse-Protokolle."</string>
 
