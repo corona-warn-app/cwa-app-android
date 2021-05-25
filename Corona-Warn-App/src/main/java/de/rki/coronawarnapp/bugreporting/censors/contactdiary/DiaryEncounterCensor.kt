@@ -2,9 +2,11 @@ package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidComment
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import kotlinx.coroutines.CoroutineScope
@@ -28,21 +30,21 @@ class DiaryEncounterCensor @Inject constructor(
         ).filterNotNull()
     }
 
-    override suspend fun checkLog(entry: LogLine): LogLine? {
+    override suspend fun checkLog(message: String): CensoredString? {
         val encountersNow = encounters.first().filter { !it.circumstances.isNullOrBlank() }
 
         if (encountersNow.isEmpty()) return null
 
-        val newMessage = encountersNow.fold(entry.message) { orig, encounter ->
+        val newMessage = encountersNow.fold(CensoredString(message)) { orig, encounter ->
             var wip = orig
 
             withValidComment(encounter.circumstances) {
-                wip = wip.replace(it, "Encounter#${encounter.id}/Circumstances")
+                wip += wip.censor(it, "Encounter#${encounter.id}/Circumstances")
             }
 
             wip
         }
 
-        return entry.toNewLogLineIfDifferent(newMessage)
+        return newMessage.toNullIfUnmodified()
     }
 }
