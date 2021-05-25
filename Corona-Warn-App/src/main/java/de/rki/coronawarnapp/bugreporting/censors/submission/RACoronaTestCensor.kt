@@ -10,48 +10,50 @@ import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
 class RACoronaTestCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
-    private val coronaTestRepository: CoronaTestRepository
+    coronaTestRepository: CoronaTestRepository
 ) : BugCensor {
+
+    private val mutex = Mutex()
 
     private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
-    private val coronaTestFlow by lazy {
-        coronaTestRepository.coronaTests.stateIn(
-            scope = debugScope,
-            started = SharingStarted.Lazily,
-            initialValue = null
-        ).filterNotNull()
+    // We keep a history of rat corona test so that we are able to censor even after they got deleted
+    private val ratCoronaTestHistory = mutableSetOf<RACoronaTest>()
+
+    init {
+        coronaTestRepository
+            .coronaTests
+            .map { it.filterIsInstance<RACoronaTest>() }
+            .onEach { mutex.withLock { ratCoronaTestHistory.addAll(it) } }
+            .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): CensoredString? {
-
-        val raCoronaTestFlow = coronaTestFlow.map { tests -> tests.filterIsInstance<RACoronaTest>() }.first()
-        val raCoronaTest = raCoronaTestFlow.firstOrNull() ?: return null
+    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
 
         var newMessage = CensoredString(message)
 
-        with(raCoronaTest) {
-            withValidName(firstName) { firstName ->
+        ratCoronaTestHistory.forEach { ratCoronaTest ->
+            withValidName(ratCoronaTest.firstName) { firstName ->
                 newMessage += newMessage.censor(firstName, "RATest/FirstName")
             }
 
-            withValidName(lastName) { lastName ->
+            withValidName(ratCoronaTest.lastName) { lastName ->
                 newMessage += newMessage.censor(lastName, "RATest/LastName")
             }
 
-            val dateOfBirthString = dateOfBirth?.toString(dayOfBirthFormatter) ?: return@with
-
-            newMessage += newMessage.censor(dateOfBirthString, "RATest/DateOfBirth")
+            ratCoronaTest.dateOfBirth?.toString(dayOfBirthFormatter)?.let { dateOfBirthString ->
+                newMessage += newMessage.censor(dateOfBirthString, "RATest/DateOfBirth")
+            }
         }
 
         return newMessage.toNullIfUnmodified()
