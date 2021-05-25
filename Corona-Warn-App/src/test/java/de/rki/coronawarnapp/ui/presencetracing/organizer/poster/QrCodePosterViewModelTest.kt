@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.poster
 
 import android.graphics.Bitmap
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
@@ -13,6 +17,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -32,6 +37,7 @@ class QrCodePosterViewModelTest : BaseTest() {
     @MockK lateinit var templateBitmap: Bitmap
     @MockK lateinit var textBox: QRCodeTextBoxAndroid
     @MockK lateinit var traceLocation: TraceLocation
+    @MockK lateinit var appConfigProvider: AppConfigProvider
     private lateinit var template: Template
 
     @BeforeEach
@@ -55,6 +61,12 @@ class QrCodePosterViewModelTest : BaseTest() {
             every { address } returns "address"
             every { locationUrl } returns "locationUrl"
         }
+
+        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
+            every { presenceTracing } returns mockk<PresenceTracingConfig>().apply {
+                every { qrCodeErrorCorrectionLevel } returns ErrorCorrectionLevel.M
+            }
+        }
     }
 
     @Test
@@ -72,6 +84,7 @@ class QrCodePosterViewModelTest : BaseTest() {
         qrCodeGenerator = qrCodeGenerator,
         posterTemplateProvider = posterTemplateProvider,
         traceLocationRepository = traceLocationRepository,
-        fileSharing = fileSharing
+        fileSharing = fileSharing,
+        appConfigProvider = appConfigProvider
     )
 }
