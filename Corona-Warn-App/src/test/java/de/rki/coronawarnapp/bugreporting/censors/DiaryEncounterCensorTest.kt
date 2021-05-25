@@ -63,9 +63,31 @@ class DiaryEncounterCensorTest : BaseTest() {
             two persons Encounter#3/Circumstances,
             everyone disliked that.
             """.trimIndent()
+    }
 
-        // censoring should still work after encounters are deleted
-        every { diaryRepo.personEncounters } returns flowOf(emptyList())
+    @Test
+    fun `censoring should still work after encounters are deleted`() = runBlockingTest {
+        every { diaryRepo.personEncounters } returns flowOf(
+            listOf(
+                mockEncounter(1, _circumstances = ""),
+                mockEncounter(2, _circumstances = "A rainy day"),
+                mockEncounter(3, "Spilled coffee on each others laptops")
+            ),
+            listOf(
+                mockEncounter(1, _circumstances = ""),
+                // "a rainy day" was deleted
+                mockEncounter(3, "Spilled coffee on each others laptops")
+            )
+        )
+
+        val instance = createInstance(this)
+        val censorMe =
+            """
+            On A rainy day,
+            two persons Spilled coffee on each others laptops,
+            everyone disliked that.
+            """.trimIndent()
+
         instance.checkLog(censorMe)!!.string shouldBe
             """
             On Encounter#2/Circumstances,
