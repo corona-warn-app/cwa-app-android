@@ -38,7 +38,7 @@ class RACoronaTestCensor @Inject constructor(
             .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): CensoredString? {
+    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
 
         var newMessage = CensoredString(message)
 
