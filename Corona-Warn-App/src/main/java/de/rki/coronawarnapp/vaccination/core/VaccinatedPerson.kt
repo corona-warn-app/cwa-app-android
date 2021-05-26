@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core
 
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import org.joda.time.Duration
@@ -43,15 +44,10 @@ data class VaccinatedPerson(
         )
 
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
-        val newestFullDose = vaccinationCertificates
-            .filter { it.doseNumber == it.totalSeriesOfDoses }
-            .maxByOrNull { it.vaccinatedAt }
-            ?: return Status.INCOMPLETE
-
-        val daysAgo = Duration(newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay(), nowUTC).standardDays
+        val daysToImmunity = getTimeUntilImmunity(nowUTC)?.standardDays ?: return Status.INCOMPLETE
 
         return when {
-            daysAgo >= IMMUNITY_WAITING_PERIOD.standardDays -> Status.IMMUNITY
+            daysToImmunity <= 0 -> Status.IMMUNITY
             else -> Status.COMPLETE
         }
     }
@@ -64,7 +60,7 @@ data class VaccinatedPerson(
 
         val immunityAt = newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay().plus(IMMUNITY_WAITING_PERIOD)
 
-        return Duration(nowUTC, immunityAt)
+        return Duration(nowUTC.toLocalDateUtc().toDateTimeAtStartOfDay(), immunityAt)
     }
 
     enum class Status {
