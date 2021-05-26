@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 import timber.log.Timber
 import java.lang.Exception
@@ -24,6 +26,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     @Assisted private val traceLocationId: Long,
     private val dispatcher: DispatcherProvider,
     private val qrCodeGenerator: QrCodeGenerator,
+    private val appConfigProvider: AppConfigProvider,
     private val traceLocationRepository: TraceLocationRepository
 ) : CWAViewModel() {
 
@@ -57,8 +60,17 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     private fun createQrCode(traceLocation: TraceLocation) = launch(context = dispatcher.IO) {
         try {
             val input = traceLocation.locationUrl
+            val correctionLevel = appConfigProvider.currentConfig.first().presenceTracing.qrCodeErrorCorrectionLevel
             Timber.d("input=$input")
-            mutableUiState.postValue(UiState(traceLocation, qrCodeGenerator.createQrCode(input)))
+            mutableUiState.postValue(
+                UiState(
+                    traceLocation,
+                    qrCodeGenerator.createQrCode(
+                        input = input,
+                        correctionLevel = correctionLevel
+                    )
+                )
+            )
         } catch (e: Exception) {
             Timber.d(e, "Qr code creation failed")
             e.report(ExceptionCategory.INTERNAL)
@@ -86,9 +98,15 @@ class QrCodeDetailViewModel @AssistedInject constructor(
         }
     }
 
-    fun openFullScreen() {
+    fun openFullScreen() = launch {
         traceLocation?.let {
-            routeToScreen.postValue(QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode(it.locationUrl))
+            val correctionLevel = appConfigProvider.currentConfig.first().presenceTracing.qrCodeErrorCorrectionLevel
+            routeToScreen.postValue(
+                QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode(
+                    it.locationUrl,
+                    correctionLevel
+                )
+            )
         }
     }
 
