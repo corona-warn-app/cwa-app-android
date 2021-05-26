@@ -38,7 +38,7 @@ class DiaryVisitCensor @Inject constructor(
 
         if (visitsHistory.isEmpty()) return null
 
-        val newMessage = visitsHistory.fold(CensorContainer.fromOriginal(message)) { orig, visit ->
+        val newMessage = visitsHistory.fold(CensorContainer(message)) { orig, visit ->
             var wip = orig
 
             BugCensor.withValidComment(visit.circumstances) {

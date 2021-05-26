@@ -43,7 +43,7 @@ interface BugCensor {
 
             return if (isIntersecting) {
                 CensoredString(
-                    censored = original.replaceRange(minMin, maxMax, "<internal-censor-collision>"),
+                    censored = original.replaceRange(minMin, maxMax, COLLISION_STRING),
                     range = minMin..maxMax
                 )
             } else {
@@ -60,9 +60,7 @@ interface BugCensor {
         )
 
         companion object {
-            fun fromOriginal(original: String): CensorContainer = CensorContainer(
-                original = original
-            )
+            const val COLLISION_STRING = "<censor-collision>"
         }
     }
 

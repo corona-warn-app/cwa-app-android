@@ -35,7 +35,7 @@ class DiaryEncounterCensor @Inject constructor(
 
         if (encounterHistory.isEmpty()) return null
 
-        val newMessage = encounterHistory.fold(CensorContainer.fromOriginal(message)) { orig, encounter ->
+        val newMessage = encounterHistory.fold(CensorContainer(message)) { orig, encounter ->
             var wip = orig
 
             withValidComment(encounter.circumstances) {

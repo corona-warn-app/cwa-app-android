@@ -39,7 +39,7 @@ class CoronaTestCensor @Inject constructor(
 
     override suspend fun checkLog(message: String): BugCensor.CensoredString? = mutex.withLock {
 
-        var newMessage = CensorContainer.fromOriginal(message)
+        var newMessage = CensorContainer(message)
 
         for (token in tokenHistory) {
             if (!message.contains(token)) continue

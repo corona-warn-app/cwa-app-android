@@ -37,7 +37,7 @@ class DiaryPersonCensor @Inject constructor(
 
         if (personHistory.isEmpty()) return null
 
-        val newMessage = personHistory.fold(CensorContainer.fromOriginal(message)) { orig, person ->
+        val newMessage = personHistory.fold(CensorContainer(message)) { orig, person ->
             var wip = orig
 
             withValidName(person.fullName) {

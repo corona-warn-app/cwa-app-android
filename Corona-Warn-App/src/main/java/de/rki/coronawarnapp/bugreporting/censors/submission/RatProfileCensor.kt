@@ -31,7 +31,7 @@ class RatProfileCensor @Inject constructor(
             ratProfileHistory.add(ratProfile)
         }
 
-        var newMessage = CensorContainer.fromOriginal(message)
+        var newMessage = CensorContainer(message)
 
         ratProfileHistory.forEach { profile ->
             with(profile) {

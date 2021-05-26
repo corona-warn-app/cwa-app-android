@@ -12,7 +12,7 @@ class PcrQrCodeCensor @Inject constructor() : BugCensor {
         val guid = lastGUID ?: return null
         if (!message.contains(guid)) return null
 
-        return CensorContainer.fromOriginal(message).censor(guid, PLACEHOLDER + guid.takeLast(4)).compile()
+        return CensorContainer(message).censor(guid, PLACEHOLDER + guid.takeLast(4)).compile()
     }
 
     companion object {
