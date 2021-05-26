@@ -411,7 +411,9 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"Ако желаете, може да използвате приложението за доказване на личния ви статус на заразяване (например отрицателен бърз тест). Но имайте предвид, че по никакъв начин не сте задължени да използвате приложението за тази цел. Може да докажете статуса си и по друг начин, съобразен с правните разпоредби на вашето място на пребиваване."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"Приложението регистрира контакти на лица посредством обмяна на криптирани случайни ИД кодове между устройствата им, без да осъществява достъп до каквито и да било лични данни."</string>
+    <string name="onboarding_body_5">"Можете също да потвърдите личния си ваксинационен статус."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_6">"Приложението регистрира контакти на лица посредством обмяна на криптирани случайни ИД кодове между устройствата им, без да осъществява достъп до каквито и да било лични данни."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Група лица използват смартфоните си, придвижвайки се из града."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -1070,6 +1072,10 @@
     <string name="submission_test_result_pending_steps_waiting_heading">"Все още няма резултат от теста Ви."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Все още няма резултат от теста Ви."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Бързият Ви тест е добавен."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1171,9 +1177,9 @@
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Положителен ли е Вашият резултат от PCR теста?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
-    <string name="submission_dispatcher_card_qr">"Тест с QR код"</string>
+    <string name="submission_dispatcher_card_qr">"Сканиране на QR код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Регистрирайте теста си, като сканирате QR кода на документа."</string>
+    <string name="submission_dispatcher_qr_card_text">"Получете резултата си в приложението и предупредете останалите."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Въведете ТАН код за PCR тест"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
