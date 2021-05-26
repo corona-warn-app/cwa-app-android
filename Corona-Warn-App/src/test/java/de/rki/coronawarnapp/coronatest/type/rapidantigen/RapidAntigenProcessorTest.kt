@@ -13,8 +13,10 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
@@ -36,6 +38,7 @@ class RapidAntigenProcessorTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var submissionService: CoronaTestService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
@@ -63,12 +66,19 @@ class RapidAntigenProcessorTest : BaseTest() {
             coEvery { reportPositiveTestResultReceived(any()) } just Runs
             coEvery { reportTestRegistered(any()) } just Runs
         }
+
+        analyticsTestResultCollector.apply {
+            coEvery { saveTestResult(any(), RAPID_ANTIGEN) } just Runs
+            coEvery { updatePendingTestResultReceivedTime(any(), RAPID_ANTIGEN) } just Runs
+            coEvery { reportTestRegistered(RAPID_ANTIGEN) } just Runs
+        }
     }
 
     fun createInstance() = RapidAntigenProcessor(
         timeStamper = timeStamper,
         submissionService = submissionService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        analyticsTestResultCollector = analyticsTestResultCollector,
     )
 
     @Test

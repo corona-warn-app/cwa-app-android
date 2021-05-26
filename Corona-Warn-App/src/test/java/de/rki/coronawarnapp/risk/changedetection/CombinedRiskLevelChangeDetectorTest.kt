@@ -127,6 +127,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
         coronaTestRepository = coronaTestRepository,
+        tracingSettings = tracingSettings
     )
 
     @Test

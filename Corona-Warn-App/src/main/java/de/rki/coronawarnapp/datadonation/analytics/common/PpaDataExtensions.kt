@@ -78,7 +78,10 @@ fun RiskState.toMetadataRiskLevel(): PpaData.PPARiskLevel =
 
 val CoronaTestResult?.isFinal
     get() = when (this) {
-        CoronaTestResult.PCR_POSITIVE, CoronaTestResult.PCR_NEGATIVE, CoronaTestResult.RAT_POSITIVE, CoronaTestResult.RAT_NEGATIVE -> true
+        CoronaTestResult.PCR_POSITIVE,
+        CoronaTestResult.PCR_NEGATIVE,
+        CoronaTestResult.RAT_POSITIVE,
+        CoronaTestResult.RAT_NEGATIVE -> true
         else -> false
     }
 

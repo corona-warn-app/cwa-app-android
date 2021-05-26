@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
@@ -69,6 +70,7 @@ class PCRProcessorTest : BaseTest() {
         analyticsTestResultCollector.apply {
             coEvery { updatePendingTestResultReceivedTime(any(), any()) } just Runs
             coEvery { saveTestResult(any(), any()) } just Runs
+            coEvery { reportTestRegistered(PCR) } just Runs
         }
     }
 
@@ -76,7 +78,7 @@ class PCRProcessorTest : BaseTest() {
         timeStamper = timeStamper,
         submissionService = submissionService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        testResultDataCollector = analyticsTestResultCollector
+        analyticsTestResultCollector = analyticsTestResultCollector
     )
 
     @Test

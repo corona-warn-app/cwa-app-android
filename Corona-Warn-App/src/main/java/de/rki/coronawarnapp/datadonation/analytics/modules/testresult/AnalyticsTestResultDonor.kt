@@ -48,12 +48,6 @@ abstract class AnalyticsTestResultDonor(
             return TestResultMetadataNoContribution
         }
 
-        Timber.i(
-            "mostRecentDateWithHighOrLowRiskLevel=%s,timestampAtRegistration=%s",
-            testResultSettings.ewMostRecentDateWithHighOrLowRiskLevel.value,
-            timestampAtRegistration
-        )
-
         val configHours = request.currentConfig.analytics.hoursSinceTestRegistrationToSubmitTestResultMetadata
         val hoursSinceTestRegistrationTime = Duration(timestampAtRegistration, timeStamper.nowUTC).standardHours.toInt()
         val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
@@ -70,14 +64,6 @@ abstract class AnalyticsTestResultDonor(
                 pendingTestMetadataDonation(
                     hoursSinceTestRegistrationTime = hoursSinceTestRegistrationTime,
                     testResult = testResultAtRegistration,
-                    ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration =
-                    testResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value,
-                    ewHoursSinceHighRiskWarningAtTestRegistration =
-                    testResultSettings.ewHoursSinceHighRiskWarningAtTestRegistration.value,
-                    ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration =
-                    testResultSettings.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value,
-                    ptHoursSinceHighRiskWarningAtTestRegistration =
-                    testResultSettings.ptHoursSinceHighRiskWarningAtTestRegistration.value
                 )
 
             /**
@@ -89,8 +75,6 @@ abstract class AnalyticsTestResultDonor(
                 finalTestMetadataDonation(
                     timestampAtRegistration,
                     testResultAtRegistration,
-                    testResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value,
-                    testResultSettings.ewHoursSinceHighRiskWarningAtTestRegistration.value
                 )
             else -> {
                 Timber.d("Skipping Data donation")
@@ -109,20 +93,20 @@ abstract class AnalyticsTestResultDonor(
     private fun pendingTestMetadataDonation(
         hoursSinceTestRegistrationTime: Int,
         testResult: CoronaTestResult,
-        ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
-        ewHoursSinceHighRiskWarningAtTestRegistration: Int,
-        ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
-        ptHoursSinceHighRiskWarningAtTestRegistration: Int,
     ): DonorModule.Contribution {
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
-            .setHoursSinceHighRiskWarningAtTestRegistration(ewHoursSinceHighRiskWarningAtTestRegistration)
-            .setPtHoursSinceHighRiskWarningAtTestRegistration(ptHoursSinceHighRiskWarningAtTestRegistration)
+            .setHoursSinceHighRiskWarningAtTestRegistration(
+                testResultSettings.ewHoursSinceHighRiskWarningAtTestRegistration.value
+            )
+            .setPtHoursSinceHighRiskWarningAtTestRegistration(
+                testResultSettings.ptHoursSinceHighRiskWarningAtTestRegistration.value
+            )
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
+                testResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
             )
             .setPtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
+                testResultSettings.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
             )
             .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)
@@ -136,8 +120,6 @@ abstract class AnalyticsTestResultDonor(
     private fun finalTestMetadataDonation(
         registrationTime: Instant,
         testResult: CoronaTestResult,
-        ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
-        ewHoursSinceHighRiskWarningAtTestRegistration: Int
     ): DonorModule.Contribution {
         val finalTestResultReceivedAt = testResultSettings.finalTestResultReceivedAt.value
         val hoursSinceTestRegistrationTime = if (finalTestResultReceivedAt != null) {
@@ -153,9 +135,11 @@ abstract class AnalyticsTestResultDonor(
 
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
-            .setHoursSinceHighRiskWarningAtTestRegistration(ewHoursSinceHighRiskWarningAtTestRegistration)
+            .setHoursSinceHighRiskWarningAtTestRegistration(
+                testResultSettings.ewHoursSinceHighRiskWarningAtTestRegistration.value
+            )
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
+                testResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
             )
             .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)

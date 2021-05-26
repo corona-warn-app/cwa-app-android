@@ -1,9 +1,12 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -36,6 +39,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var ewRiskLevelResult: EwRiskLevelResult
+    @MockK lateinit var ptRiskLevelResult: PtRiskLevelResult
 
     private val now = Instant.now()
 
@@ -47,21 +51,26 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `save test registered`() {
+        val combinedEwPtRiskLevelResult = CombinedEwPtRiskLevelResult(ptRiskLevelResult, ewRiskLevelResult)
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         every { ewRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
+        every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
+
         coEvery {
-            riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult
-        } returns flowOf(listOf(ewRiskLevelResult))
+            riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult
+        } returns flowOf(LastCombinedRiskResults(combinedEwPtRiskLevelResult, combinedEwPtRiskLevelResult))
+
         every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp } returns now.minus(
             Hours.hours(2).toStandardDuration()
         )
-        val testRegisteredAt = mockFlowPreference(now.millis)
-        coEvery { analyticsPcrKeySubmissionStorage.testRegisteredAt } returns testRegisteredAt
-        coEvery { analyticsRaKeySubmissionStorage.testRegisteredAt } returns testRegisteredAt
+
+        val pcrTestRegisteredAt = mockFlowPreference(now.millis)
+        coEvery { analyticsPcrKeySubmissionStorage.testRegisteredAt } returns pcrTestRegisteredAt
+
+        val raTestRegisteredAt = mockFlowPreference(now.millis)
+        coEvery { analyticsRaKeySubmissionStorage.testRegisteredAt } returns raTestRegisteredAt
+
         every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
-        val riskLevelAtTestRegistration = mockFlowPreference(-1)
-        every { analyticsPcrKeySubmissionStorage.riskLevelAtTestRegistration } returns riskLevelAtTestRegistration
-        every { analyticsRaKeySubmissionStorage.riskLevelAtTestRegistration } returns riskLevelAtTestRegistration
         val hoursSinceHighRiskWarningAtTestRegistration = mockFlowPreference(-1)
         every { analyticsPcrKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration } returns
             hoursSinceHighRiskWarningAtTestRegistration
@@ -88,16 +97,14 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         runBlockingTest {
             val collector = createInstance()
             collector.reportTestRegistered(PCR)
-            verify { testRegisteredAt.update(any()) }
-            verify { riskLevelAtTestRegistration.update(any()) }
+            verify { pcrTestRegisteredAt.update(any()) }
             verify { hoursSinceHighRiskWarningAtTestRegistration.update(any()) }
             verify { daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update(any()) }
         }
         runBlockingTest {
             val collector = createInstance()
-            collector.reportTestRegistered(CoronaTest.Type.RAPID_ANTIGEN)
-            verify { testRegisteredAt.update(any()) }
-            verify { riskLevelAtTestRegistration.update(any()) }
+            collector.reportTestRegistered(RAPID_ANTIGEN)
+            verify { raTestRegisteredAt.update(any()) }
             verify { hoursSinceHighRiskWarningAtTestRegistration.update(any()) }
             verify { daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update(any()) }
         }
@@ -222,7 +229,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
             val collector = createInstance()
             collector.reportTestRegistered(PCR)
             verify(exactly = 0) { analyticsPcrKeySubmissionStorage.testRegisteredAt }
-            verify(exactly = 0) { analyticsPcrKeySubmissionStorage.riskLevelAtTestRegistration }
             verify(exactly = 0) { analyticsPcrKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration }
             collector.reportSubmitted(PCR)
             verify(exactly = 0) { analyticsPcrKeySubmissionStorage.submitted }

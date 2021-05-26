@@ -26,7 +26,7 @@ class AnalyticsRATestResultSettings @Inject constructor(
     timeStamper: TimeStamper
 ) : AnalyticsTestResultSettings(context, timeStamper, "_RAT")
 
-abstract class AnalyticsTestResultSettings(
+open class AnalyticsTestResultSettings(
     private val context: Context,
     private val timeStamper: TimeStamper,
     sharedPrefKeySuffix: String
@@ -124,62 +124,6 @@ abstract class AnalyticsTestResultSettings(
         defaultValue = -1
     )
 
-    val ewMostRecentDateWithHighOrLowRiskLevel = prefs.createFlowPreference(
-        key = PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_RISK_LEVEL_EW + sharedPrefKeySuffix,
-        reader = { key ->
-            getLong(key, 0L).let {
-                if (it != 0L) {
-                    Instant.ofEpochMilli(it)
-                } else null
-            }
-        },
-        writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
-        }
-    )
-
-    val ptMostRecentDateWithHighOrLowRiskLevel = prefs.createFlowPreference(
-        key = PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_RISK_LEVEL_PT + sharedPrefKeySuffix,
-        reader = { key ->
-            getLong(key, 0L).let {
-                if (it != 0L) {
-                    Instant.ofEpochMilli(it)
-                } else null
-            }
-        },
-        writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
-        }
-    )
-
-    val ewRiskLevelTurnedRedTime = prefs.createFlowPreference(
-        key = PREFS_KEY_RISK_LEVEL_TURNED_RED_TIME_EW + sharedPrefKeySuffix,
-        reader = { key ->
-            getLong(key, 0L).let {
-                if (it != 0L) {
-                    Instant.ofEpochMilli(it)
-                } else null
-            }
-        },
-        writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
-        }
-    )
-
-    val ptRiskLevelTurnedRedTime = prefs.createFlowPreference(
-        key = PREFS_KEY_RISK_LEVEL_TURNED_RED_TIME_PT + sharedPrefKeySuffix,
-        reader = { key ->
-            getLong(key, 0L).let {
-                if (it != 0L) {
-                    Instant.ofEpochMilli(it)
-                } else null
-            }
-        },
-        writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
-        }
-    )
-
     fun saveTestResultDonorDataAtRegistration(testResult: CoronaTestResult, lastResult: CombinedEwPtRiskLevelResult) {
         testScannedAfterConsent.update { true }
         testResultAtRegistration.update { testResult }
@@ -201,14 +145,6 @@ abstract class AnalyticsTestResultSettings(
         private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION_PT = "testResultDonor.ptRiskLevelAtRegistration"
 
         private const val PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT = "testResultDonor.finalTestResultReceivedAt"
-
-        private const val PREFS_KEY_RISK_LEVEL_TURNED_RED_TIME_EW = "testResultDonor.riskLevelTurnedRedTime"
-        private const val PREFS_KEY_RISK_LEVEL_TURNED_RED_TIME_PT = "testResultDonor.ptRiskLevelTurnedRedTime"
-
-        private const val PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_RISK_LEVEL_EW =
-            "testResultDonor.mostRecentWithHighOrLowRiskLevel"
-        private const val PREFS_KEY_MOST_RECENT_WITH_HIGH_OR_LOW_RISK_LEVEL_PT =
-            "testResultDonor.ptMostRecentWithHighOrLowRiskLevel"
 
         private const val PREFS_KEY_TEST_REGISTERED_AT =
             "testResultDonor.testRegisteredAt"
