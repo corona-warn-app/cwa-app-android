@@ -5,9 +5,7 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.getLastCalculatedWithDefaults
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import kotlinx.coroutines.flow.first
@@ -51,10 +49,10 @@ class ExposureRiskMetadataDonor @Inject constructor(
         builder: PpaData.ExposureRiskMetadata.Builder
     ) {
         val lastEWRiskResult = riskLevelStorage
-            .latestAndLastSuccessfulEwRiskLevelResult
+            .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .first()
-            .tryLatestEwResultsWithDefaults()
             .lastCalculated
+            .ewRiskLevelResult
 
         val riskLevelEWForMetadata = lastEWRiskResult.toMetadataRiskLevel()
         val mostRecentDateAtEWRiskLevel = lastEWRiskResult.lastRiskEncounterAt?.seconds ?: -1
@@ -71,13 +69,14 @@ class ExposureRiskMetadataDonor @Inject constructor(
         builder: PpaData.ExposureRiskMetadata.Builder
     ) {
         val lastPTRiskResult = riskLevelStorage
-            .latestPtRiskLevelResults
+            .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .first()
-            .getLastCalculatedWithDefaults()
+            .lastCalculated
+            .ptRiskLevelResult
 
         val riskLevelPtForMetadata = lastPTRiskResult.toMetadataRiskLevel()
         val mostRecentDateAtPtRiskLevel = lastPTRiskResult
-            .lastRiskEncounterAt
+            .mostRecentDateAtRiskState
             ?.toDateTimeAtStartOfDay()
             ?.toInstant()
             ?.seconds ?: -1

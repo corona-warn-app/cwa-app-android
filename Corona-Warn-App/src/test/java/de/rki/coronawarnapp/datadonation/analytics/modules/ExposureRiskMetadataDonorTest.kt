@@ -6,7 +6,9 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
+import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -91,31 +93,31 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .build()
 
         every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(null)
-        every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(
-            listOf(
-                createEwRiskLevelResult(
-                    ewAggregatedRiskResult = highEwAggregatedRiskResult,
-                    failureReason = null,
-                    calculatedAt = baseDate
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            LastCombinedRiskResults(
+                lastSuccessfullyCalculated = CombinedEwPtRiskLevelResult(
+                    ptRiskLevelResult = createPtRiskLevelResult(
+                        riskState = RiskState.INCREASED_RISK,
+                        presenceTracingDayRisk = highPtDayRisk,
+                        calculatedAt = baseDate
+                    ),
+                    ewRiskLevelResult = createEwRiskLevelResult(
+                        ewAggregatedRiskResult = highEwAggregatedRiskResult,
+                        failureReason = null,
+                        calculatedAt = baseDate
+                    )
                 ),
-                createEwRiskLevelResult(
-                    ewAggregatedRiskResult = lowEwAggregatedRiskResult,
-                    failureReason = EwRiskLevelResult.FailureReason.UNKNOWN,
-                    calculatedAt = baseDate
-                )
-            )
-        )
-        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
-            listOf(
-                createPtRiskLevelResult(
-                    riskState = RiskState.INCREASED_RISK,
-                    presenceTracingDayRisk = highPtDayRisk,
-                    calculatedAt = baseDate
-                ),
-                createPtRiskLevelResult(
-                    riskState = RiskState.LOW_RISK,
-                    presenceTracingDayRisk = lowPtDayRisk,
-                    calculatedAt = baseDate
+                lastCalculated = CombinedEwPtRiskLevelResult(
+                    ptRiskLevelResult = createPtRiskLevelResult(
+                        riskState = RiskState.INCREASED_RISK,
+                        presenceTracingDayRisk = highPtDayRisk,
+                        calculatedAt = baseDate
+                    ),
+                    ewRiskLevelResult = createEwRiskLevelResult(
+                        ewAggregatedRiskResult = highEwAggregatedRiskResult,
+                        failureReason = null,
+                        calculatedAt = baseDate
+                    )
                 )
             )
         )
@@ -163,32 +165,31 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
         every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(initialMetadata)
 
-        every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(
-            listOf(
-                createEwRiskLevelResult(
-                    ewAggregatedRiskResult = highEwAggregatedRiskResult,
-                    failureReason = null,
-                    calculatedAt = baseDate
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            LastCombinedRiskResults(
+                lastSuccessfullyCalculated = CombinedEwPtRiskLevelResult(
+                    ptRiskLevelResult = createPtRiskLevelResult(
+                        riskState = RiskState.INCREASED_RISK,
+                        presenceTracingDayRisk = highPtDayRisk,
+                        calculatedAt = baseDate
+                    ),
+                    ewRiskLevelResult = createEwRiskLevelResult(
+                        ewAggregatedRiskResult = highEwAggregatedRiskResult,
+                        failureReason = null,
+                        calculatedAt = baseDate
+                    )
                 ),
-                createEwRiskLevelResult(
-                    ewAggregatedRiskResult = lowEwAggregatedRiskResult,
-                    failureReason = EwRiskLevelResult.FailureReason.UNKNOWN,
-                    calculatedAt = baseDate
-                )
-            )
-        )
-
-        every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
-            listOf(
-                createPtRiskLevelResult(
-                    riskState = RiskState.INCREASED_RISK,
-                    presenceTracingDayRisk = highPtDayRisk,
-                    calculatedAt = baseDate
-                ),
-                createPtRiskLevelResult(
-                    riskState = RiskState.LOW_RISK,
-                    presenceTracingDayRisk = lowPtDayRisk,
-                    calculatedAt = baseDate
+                lastCalculated = CombinedEwPtRiskLevelResult(
+                    ptRiskLevelResult = createPtRiskLevelResult(
+                        riskState = RiskState.INCREASED_RISK,
+                        presenceTracingDayRisk = highPtDayRisk,
+                        calculatedAt = baseDate
+                    ),
+                    ewRiskLevelResult = createEwRiskLevelResult(
+                        ewAggregatedRiskResult = highEwAggregatedRiskResult,
+                        failureReason = null,
+                        calculatedAt = baseDate
+                    )
                 )
             )
         )
