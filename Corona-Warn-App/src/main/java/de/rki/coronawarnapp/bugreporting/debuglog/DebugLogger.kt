@@ -195,7 +195,7 @@ class DebugLogger(
                                 "<censor-error>Global combination: $e</censor-error"
                             }
                     }
-                    logWriter.write(toWrite)
+                    logWriter.write(rawLine.formatFinal(toWrite))
                 }
             }
         } catch (e: CancellationException) {

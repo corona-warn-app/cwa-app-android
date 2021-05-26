@@ -13,16 +13,15 @@ data class LogLine(
     val throwable: Throwable?
 ) {
 
-    fun format(): String {
+    fun format(): String = if (throwable != null) {
+        message + "\n" + getStackTraceString(throwable)
+    } else {
+        message
+    }
+
+    fun formatFinal(formattedLogLine: String): String {
         val time = Instant.ofEpochMilli(timestamp)
-
-        val baseLine = "$time ${priorityLabel(priority)}/$tag: $message"
-
-        return if (throwable != null) {
-            baseLine + "\n" + getStackTraceString(throwable)
-        } else {
-            baseLine
-        }
+        return "$time ${priorityLabel(priority)}/$tag: $formattedLogLine"
     }
 
     companion object {
