@@ -35,7 +35,7 @@ interface BugCensor {
             val start = this.string.indexOf(orig)
             if (start == -1) return null
 
-            val end = start + orig.length
+            val end = this.string.lastIndexOf(orig) + orig.length
             return CensoredString(
                 string = this.string.replace(orig, replacement),
                 range = start..end

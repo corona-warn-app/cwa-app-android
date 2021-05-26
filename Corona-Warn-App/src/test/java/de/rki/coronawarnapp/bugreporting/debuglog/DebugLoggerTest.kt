@@ -294,15 +294,15 @@ class DebugLoggerTest : BaseIOTest() {
                 testResult=RAT_POSITIVE(7),
                 testedAt=2021-05-25T10:17:51.000Z,
                 firstName=Rüdiger, lastName=Müller,
-                dateOfBirth=1994-05-18, isProcessing=true,
+                dateOfBirth=1994-05-18, isProcessing=false,
                 lastError=IOException()
             )
         """.trimIndent()
         val after = """
             RACoronaTest(
                 identifier=<censoring-collision>,
-                dateOfBirth=1994-05-18, isProcessing=true,
-                lastError=null
+                dateOfBirth=1994-05-18, isProcessing=false,
+                lastError=IOException()
             )
         """.trimIndent()
 
@@ -336,7 +336,7 @@ class DebugLoggerTest : BaseIOTest() {
         val rawWritten = runningLog.readText()
         val cleanedWritten = rawWritten.substring(rawWritten.indexOf("RACoronaTest"))
 
-        cleanedWritten shouldBe after
+        cleanedWritten shouldBe after + "\n"
 
         instance.stop()
         advanceUntilIdle()
