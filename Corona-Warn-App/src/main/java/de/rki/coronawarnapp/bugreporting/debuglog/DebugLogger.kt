@@ -181,7 +181,29 @@ class DebugLogger(
                         else -> {
                             val minMin = censored.minOf { it.range!!.first }
                             val maxMax = censored.maxOf { it.range!!.last }
-                            formattedMessage.replaceRange(minMin, maxMax, CENSOR_COLLISION_PLACERHOLDER)
+                            try {
+                                formattedMessage.replaceRange(minMin, maxMax, CENSOR_COLLISION_PLACERHOLDER)
+                            } catch (exception: IndexOutOfBoundsException) {
+
+                                // For unknown reasons, we sometimes have a start index that is larger than the
+                                // length of formattedMessage here and the app crashes.
+                                // e.g. java.lang.IndexOutOfBoundsException: start 285, end 215, s.length() 215
+                                // Let's log the formattedMessage and censors in this case so that we can better
+                                // investigate why this happens.
+                                val errorMsg = StringBuilder().apply {
+                                    appendLine(exception.message)
+                                    appendLine("formattedMessage = $formattedMessage")
+                                    appendLine("Number of censors: ${censored.size}")
+                                    censored.forEachIndexed { index, censoredString ->
+                                        append("Censor#$index: censoredString: ${censoredString.string},")
+                                        appendLine("range: ${censoredString.range}")
+                                    }
+                                }.toString()
+
+                                Timber.tag(TAG).e(errorMsg)
+
+                                errorMsg
+                            }
                         }
                     }
                     logWriter.write(toWrite)
