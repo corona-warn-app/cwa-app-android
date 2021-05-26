@@ -1,8 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
-import kotlin.math.max
-import kotlin.math.min
-
 interface BugCensor {
 
     /**
@@ -10,53 +7,74 @@ interface BugCensor {
      */
     suspend fun checkLog(message: String): CensoredString?
 
-    data class CensoredString(
+    data class CensorContainer(
         // Original String, necessary for correct censoring ranges
         val original: String,
-        // The censored version of the string
-        val censored: String?,
-        // The range that we censored
-        // If there is a collision, this range in the original needs to be removed.
-        val range: IntRange?
+        val actions: List<Action> = emptyList()
     ) {
+
+        fun censor(toReplace: String, replacement: String): CensorContainer {
+            if (!original.contains(toReplace)) return this
+
+            val start = original.indexOf(toReplace)
+            if (start == -1) return this // Shouldn't happen
+
+            val end = original.lastIndexOf(toReplace) + toReplace.length
+
+            val newAction = Action(
+                range = start..end,
+                execute = { it.replace(toReplace, replacement) }
+            )
+            return this.copy(actions = actions.plus(newAction))
+        }
+
+        fun compile(): CensoredString? {
+            val ranges = actions.map { it.range }
+            if (ranges.isEmpty()) return null
+
+            val isIntersecting = ranges.any { outter ->
+                ranges.any { inner ->
+                    outter != inner && (inner.contains(outter.first) || inner.contains(outter.last))
+                }
+            }
+
+            val minMin = ranges.minOf { it.first }.coerceAtLeast(0).coerceAtMost(original.length)
+            val maxMax = ranges.maxOf { it.last }.coerceAtLeast(0).coerceAtMost(original.length)
+
+            return if (isIntersecting) {
+                CensoredString(
+                    censored = original.replaceRange(minMin, maxMax, "<internal-censor-collision>"),
+                    range = minMin..maxMax
+                )
+            } else {
+                CensoredString(
+                    censored = actions.fold(original) { notOriginal, action -> action.execute(notOriginal) },
+                    range = minMin..maxMax
+                )
+            }
+        }
+
+        data class Action(
+            val range: IntRange,
+            val execute: (String) -> String
+        )
+
         companion object {
-            fun fromOriginal(original: String): CensoredString = CensoredString(
-                original = original,
-                censored = null,
-                range = null,
+            fun fromOriginal(original: String): CensorContainer = CensorContainer(
+                original = original
             )
         }
     }
 
+    data class CensoredString(
+        // The censored version of the string
+        val censored: String,
+        // The range that we censored
+        // If there is a collision, this range in the original needs to be removed.
+        val range: IntRange
+    )
+
     companion object {
-        operator fun CensoredString.plus(newer: CensoredString?): CensoredString {
-            if (newer == null) return this
-
-            val range = when {
-                newer.range == null -> this.range
-                this.range == null -> newer.range
-                else -> min(this.range.first, newer.range.first)..max(this.range.last, newer.range.last)
-            }
-
-            return CensoredString(
-                original = this.original,
-                censored = newer.censored,
-                range = range,
-            )
-        }
-
-        fun CensoredString.censor(toCensor: String, replacement: String): CensoredString? {
-            val start = this.original.indexOf(toCensor)
-            if (start == -1) return null
-
-            val end = this.original.lastIndexOf(toCensor) + toCensor.length
-            return CensoredString(
-                original = this.original,
-                censored = (this.censored ?: this.original).replace(toCensor, replacement),
-                range = start..end,
-            )
-        }
-
         fun withValidName(name: String?, action: (String) -> Unit): Boolean {
             if (name.isNullOrBlank()) return false
             if (name.length < 3) return false
@@ -113,8 +131,8 @@ interface BugCensor {
             return true
         }
 
-        fun CensoredString.toNullIfUnmodified(): CensoredString? {
-            return if (range == null) null else this
+        fun CensorContainer.compile(): CensoredString? {
+            return if (actions.isEmpty()) null else this.compile()
         }
     }
 }

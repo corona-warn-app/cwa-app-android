@@ -2,10 +2,7 @@ package de.rki.coronawarnapp.bugreporting.censors.submission
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import kotlinx.coroutines.CoroutineScope
@@ -40,23 +37,23 @@ class CoronaTestCensor @Inject constructor(
             }.launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): BugCensor.CensoredString? = mutex.withLock {
 
-        var newMessage = CensoredString.fromOriginal(message)
+        var newMessage = CensorContainer.fromOriginal(message)
 
         for (token in tokenHistory) {
             if (!message.contains(token)) continue
 
-            newMessage += newMessage.censor(token, PLACEHOLDER + token.takeLast(4))
+            newMessage = newMessage.censor(token, PLACEHOLDER + token.takeLast(4))
         }
 
         identifierHistory
             .filter { message.contains(it) }
             .forEach {
-                newMessage += newMessage.censor(it, "${it.take(11)}CoronaTest/Identifier")
+                newMessage = newMessage.censor(it, "${it.take(11)}CoronaTest/Identifier")
             }
 
-        return newMessage.toNullIfUnmodified()
+        return newMessage.compile()
     }
 
     companion object {

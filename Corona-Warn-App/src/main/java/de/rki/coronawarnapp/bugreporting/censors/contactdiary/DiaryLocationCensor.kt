@@ -2,10 +2,7 @@ package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidEmail
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
@@ -35,26 +32,26 @@ class DiaryLocationCensor @Inject constructor(
             .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): BugCensor.CensoredString? = mutex.withLock {
 
         if (locationHistory.isEmpty()) return null
 
-        val newMessage = locationHistory.fold(CensoredString.fromOriginal(message)) { orig, location ->
+        val newMessage = locationHistory.fold(CensorContainer.fromOriginal(message)) { orig, location ->
             var wip = orig
 
             withValidName(location.locationName) {
-                wip += wip.censor(it, "Location#${location.locationId}/Name")
+                wip = wip.censor(it, "Location#${location.locationId}/Name")
             }
             withValidEmail(location.emailAddress) {
-                wip += wip.censor(it, "Location#${location.locationId}/EMail")
+                wip = wip.censor(it, "Location#${location.locationId}/EMail")
             }
             withValidPhoneNumber(location.phoneNumber) {
-                wip += wip.censor(it, "Location#${location.locationId}/PhoneNumber")
+                wip = wip.censor(it, "Location#${location.locationId}/PhoneNumber")
             }
 
             wip
         }
 
-        return newMessage.toNullIfUnmodified()
+        return newMessage.compile()
     }
 }

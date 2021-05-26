@@ -51,38 +51,39 @@ internal class TraceLocationCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return LogLine with censored trace location information from repository`() = runBlockingTest {
-        every { traceLocationRepo.allTraceLocations } returns flowOf(
-            listOf(
-                mockTraceLocation(
-                    traceLocationId = 1,
-                    traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_FOOD_SERVICE,
-                    traceLocationDescription = "Sushi Place",
-                    traceLocationAddress = "Sushi Street 123, 12345 Fish Town"
-                ),
-                mockTraceLocation(
-                    traceLocationId = 2,
-                    traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
-                    traceLocationDescription = "Rick Astley Concert",
-                    traceLocationAddress = "Never gonna give you up street 1, 12345 RickRoll City"
+    fun `checkLog() should return LogLine with censored trace location information from repository`() =
+        runBlockingTest {
+            every { traceLocationRepo.allTraceLocations } returns flowOf(
+                listOf(
+                    mockTraceLocation(
+                        traceLocationId = 1,
+                        traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_FOOD_SERVICE,
+                        traceLocationDescription = "Sushi Place",
+                        traceLocationAddress = "Sushi Street 123, 12345 Fish Town"
+                    ),
+                    mockTraceLocation(
+                        traceLocationId = 2,
+                        traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
+                        traceLocationDescription = "Rick Astley Concert",
+                        traceLocationAddress = "Never gonna give you up street 1, 12345 RickRoll City"
+                    )
                 )
             )
-        )
 
-        val censor = createInstance(this)
+            val censor = createInstance(this)
 
-        val logLineToCensor =
-            """
+            val logLineToCensor =
+                """
             The type is LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT. Yesterday we went to the Rick Astley Concert. The spectacle took place in Never gonna give you up street 1, 12345 RickRoll City. 
             Afterwards we had some food in Sushi Place in Sushi Street 123, 12345 Fish Town. It a nice LOCATION_TYPE_PERMANENT_FOOD_SERVICE.
             """.trimIndent()
 
-        censor.checkLog(logLineToCensor)!!.censored shouldBe
-            """
+            censor.checkLog(logLineToCensor)!!.censored shouldBe
+                """
             The type is TraceLocation#2/Type. Yesterday we went to the TraceLocation#2/Description. The spectacle took place in TraceLocation#2/Address. 
             Afterwards we had some food in TraceLocation#1/Description in TraceLocation#1/Address. It a nice TraceLocation#1/Type.
             """.trimIndent()
-    }
+        }
 
     @Test
     fun `censoring should still work after the user deletes his trace locations`() = runBlockingTest {

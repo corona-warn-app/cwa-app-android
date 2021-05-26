@@ -3,9 +3,6 @@ package de.rki.coronawarnapp.bugreporting.debuglog
 import android.app.Application
 import dagger.Lazy
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
-import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogTree
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.ApplicationComponent
@@ -17,6 +14,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -32,8 +30,8 @@ class DebugLoggerTest : BaseIOTest() {
 
     @MockK lateinit var application: Application
     @MockK lateinit var component: ApplicationComponent
-    @MockK lateinit var coronaTestCensor1: CoronaTestCensor
-    @MockK lateinit var coronaTestCensor2: CoronaTestCensor
+    @MockK lateinit var coronaTestCensor1: BugCensor
+    @MockK lateinit var coronaTestCensor2: BugCensor
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val cacheDir = File(testDir, "cache")
@@ -241,7 +239,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString.fromOriginal(msg).censor("says: A hot coffee", "says: A hot tea")
+            BugCensor.CensorContainer(msg).censor("says: A hot coffee", "says: A hot tea").compile()
         }
 
         instance.start()
@@ -249,11 +247,13 @@ class DebugLoggerTest : BaseIOTest() {
         Timber.tag("Test").v(logMsg)
         advanceTimeBy(2000L)
 
+        delay(5000)
+
         runningLog.readLines().last().substring(25) shouldBe "V/Test: Lukas says: A hot tea is really nice!"
 
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString.fromOriginal(msg).censor("says:", "sings:")
+            BugCensor.CensorContainer(msg).censor("says:", "sings:").compile()
         }
 
         Timber.tag("Test").v(logMsg)
@@ -309,18 +309,18 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString.fromOriginal(msg).censor(
+            BugCensor.CensorContainer(msg).censor(
                 "firstName=Rüdiger, lastName=Müller",
                 "firstName=FIRSTNAME, lastName=LASTNAME"
-            )
+            ).compile()
 
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString.fromOriginal(msg).censor(
+            BugCensor.CensorContainer(msg).censor(
                 "qrcode-RAPID_ANTIGEN-9a9a35fa1cf3261be3349fc50a37b58280634bf42487c8e4eca060c48f259eb7",
                 "IDENTIFIER"
-            )
+            ).compile()
         }
 
         val instance = createInstance(scope = this).apply {
@@ -348,16 +348,16 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString.fromOriginal(msg).censor("Before", "After")
+            BugCensor.CensorContainer(msg).censor("Before", "After").compile()
 
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            var orig = BugCensor.CensoredString.fromOriginal(msg)
+            var orig = BugCensor.CensorContainer(msg)
 
-            orig += orig.censor("ort", "thisReallyIsNotShortAnymore")
-            orig += orig.censor("Anymore", "Nevermore")
-            orig
+            orig = orig.censor("ort", "thisReallyIsNotShortAnymore")
+            orig = orig.censor("Anymore", "Nevermore")
+            orig.compile()
         }
 
         val instance = createInstance(scope = this).apply {
@@ -383,16 +383,16 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString.fromOriginal(msg).censor("Berry", "Banana")
+            BugCensor.CensorContainer(msg).censor("Berry", "Banana").compile()
 
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            var orig = BugCensor.CensoredString.fromOriginal(msg)
+            var orig = BugCensor.CensorContainer(msg)
 
-            orig += orig.censor("StrawBerry", "StrawBerryBananaPie")
-            orig += orig.censor("StrawBerryBananaPie", "Apple")
-            orig
+            orig = orig.censor("StrawBerry", "StrawBerryBananaPie")
+            orig = orig.censor("StrawBerryBananaPie", "Apple")
+            orig.compile()
         }
 
         val instance = createInstance(scope = this).apply {
@@ -406,6 +406,41 @@ class DebugLoggerTest : BaseIOTest() {
         advanceTimeBy(2000L)
 
         runningLog.readLines().last().substring(25) shouldBe "V/Test: <censoring-collision>Cake"
+
+        instance.stop()
+        advanceUntilIdle()
+    }
+
+    @Test
+    fun `censoring collision without overlap`() = runBlockingTest {
+        val before = "StrawBerryrawCake" // Without timestamp
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensorContainer(msg).censor("Straw", "Pipe").compile()
+
+        }
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            var orig = BugCensor.CensorContainer(msg)
+
+            orig = orig.censor("Cake", "Fruit")
+            orig.compile()
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(before)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines()
+            .last()
+            .substring(25) shouldBe "V/Test: PipeBerryFruit"
 
         instance.stop()
         advanceUntilIdle()

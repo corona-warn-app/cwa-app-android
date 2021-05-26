@@ -168,26 +168,34 @@ class DebugLogger(
                     val censored: Collection<BugCensor.CensoredString> = bugCensors.get()
                         .map {
                             async {
-                                it.checkLog(formattedMessage)
+                                try {
+                                    it.checkLog(formattedMessage)
+                                } catch (e: Exception) {
+                                    Log.e(TAG, "Error in censor module $it", e)
+                                    BugCensor.CensoredString(
+                                        "<error-in-censor-$it>: $e",
+                                        0..formattedMessage.length
+                                    )
+                                }
                             }
                         }
                         .awaitAll()
                         .filterNotNull()
-                        .filter { it.range != null }
 
                     val toWrite: String = when (censored.size) {
                         0 -> formattedMessage
-                        1 -> censored.single().let { it.censored ?: it.original }
+                        1 -> censored.single().censored
                         else -> {
                             try {
+                                val ranges = censored.map { it.range }
                                 // Lowest censoring range, within original msg bounds
                                 val minMin = censored
-                                    .minOf { it.range!!.first }
+                                    .minOf { it.range.first }
                                     .coerceAtLeast(0)
                                     .coerceAtMost(formattedMessage.length)
 
                                 // Highest censoring range, within original msg bounds
-                                val maxMax = censored.maxOf { it.range!!.last }
+                                val maxMax = censored.maxOf { it.range.last }
                                     .coerceAtLeast(0)
                                     .coerceAtMost(formattedMessage.length)
 

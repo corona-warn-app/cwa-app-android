@@ -1,8 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
@@ -102,99 +99,69 @@ class BugCensorTest : BaseTest() {
 
     @Test
     fun `censor string is nulled if not modified`() {
-        BugCensor.CensoredString("abc", "abc", 1..2).toNullIfUnmodified() shouldNotBe null
-        BugCensor.CensoredString("abc", "abc", null).toNullIfUnmodified() shouldBe null
+        BugCensor.CensorContainer("abc").compile() shouldBe null
+        BugCensor.CensorContainer("abc").censor("abc", "123").compile() shouldNotBe null
+        BugCensor.CensorContainer("abc").censor("123", "abc").compile() shouldBe null
     }
 
     @Test
     fun `censoring range determination`() {
         val input = "1234567890ABCDEFG"
-        val one = BugCensor.CensoredString.fromOriginal(input)
+        val one = BugCensor.CensorContainer(input)
 
-        one.censor("1234", "")!!.apply {
-            censored shouldBe "567890ABCDEFG"
-            range shouldBe 0..4
+        one.censor("1234", "").apply {
+            actions.single().apply {
+                range shouldBe 0..4
+                execute(original) shouldBe "567890ABCDEFG"
+            }
         }
 
-        one.censor("1234", "....")!!.apply {
-            censored shouldBe "....567890ABCDEFG"
-            range shouldBe 0..4
+        one.censor("1234", "....").apply {
+            actions.single().apply {
+                execute(original) shouldBe "....567890ABCDEFG"
+                range shouldBe 0..4
+            }
         }
 
-        one.censor("DEFG", "....")!!.apply {
-            censored shouldBe "1234567890ABC...."
-            range shouldBe 13..(13 + 4)
+        one.censor("DEFG", "....").apply {
+            actions.single().apply {
+                execute(original) shouldBe "1234567890ABC...."
+                range shouldBe 13..(13 + 4)
+            }
         }
 
-        one.censor("1234567890ABCDEFG", "...")!!.apply {
-            censored shouldBe "..."
-            range shouldBe 0..(0 + 17)
+        one.censor("1234567890ABCDEFG", "...").apply {
+            actions.single().apply {
+                execute(original) shouldBe "..."
+                range shouldBe 0..(0 + 17)
+            }
         }
 
-        one.censor("#", "...") shouldBe null
+        one.censor("#", "...").actions shouldBe emptyList()
 
-        one.censor("1234567890ABCDEFG", "1234567890ABCDEFG###")!!.apply {
-            censored shouldBe "1234567890ABCDEFG###"
-            range shouldBe 0..(0 + 17)
+        one.censor("1234567890ABCDEFG", "1234567890ABCDEFG###").apply {
+            actions.single().apply {
+                execute(original) shouldBe "1234567890ABCDEFG###"
+                range shouldBe 0..(0 + 17)
+            }
         }
 
-        one.censor("", " ")!!.apply {
-            censored shouldBe " 1 2 3 4 5 6 7 8 9 0 A B C D E F G "
-            range shouldBe 0..16
+        one.censor("", " ").apply {
+            actions.single().apply {
+                execute(original) shouldBe " 1 2 3 4 5 6 7 8 9 0 A B C D E F G "
+                range shouldBe 0..16
+            }
         }
     }
 
     @Test
     fun `censoring range combination`() {
-        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
-            censored shouldBe "abc"
-            range shouldBe 1..2
-        }
-
-        (BugCensor.CensoredString("abc", "abc", 0..2) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
-            range shouldBe 0..2
-        }
-        (BugCensor.CensoredString("abc", "abc", 0..3) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
-            range shouldBe 0..3
-        }
-        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 0..2)).apply {
-            range shouldBe 0..2
-        }
-        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 0..3)).apply {
-            range shouldBe 0..3
-        }
-
-        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 3..4)).apply {
-            range shouldBe 1..4
-        }
-        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 4..5)).apply {
-            range shouldBe 1..5
-        }
-        (BugCensor.CensoredString("abc", "abc", 1..1) + BugCensor.CensoredString("abc", "abc", 2..2)).apply {
-            range shouldBe 1..2
-        }
-
-        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 0..2)).apply {
-            range shouldBe 0..2
-        }
-        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 0..3)).apply {
-            range shouldBe 0..3
-        }
-        (BugCensor.CensoredString("abc", "abc", 0..2) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
-            range shouldBe 0..2
-        }
-        (BugCensor.CensoredString("abc", "abc", 0..3) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
-            range shouldBe 0..3
-        }
-
-        (BugCensor.CensoredString("abc", "abc", 3..4) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
-            range shouldBe 1..4
-        }
-        (BugCensor.CensoredString("abc", "abc", 4..5) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
-            range shouldBe 1..5
-        }
-        (BugCensor.CensoredString("abc", "abc", 2..2) + BugCensor.CensoredString("abc", "abc", 1..1)).apply {
-            range shouldBe 1..2
-        }
+        val container1 = BugCensor.CensorContainer("abcdefg")
+        container1.actions shouldBe emptyList()
+        val container2 = container1.censor("cde", "345")
+        container2.actions[0].range shouldBe 2..5
+        val container3 = container2.censor("ab", "12")
+        container3.actions[0].range shouldBe 2..5
+        container3.actions[1].range shouldBe 0..2
     }
 }
