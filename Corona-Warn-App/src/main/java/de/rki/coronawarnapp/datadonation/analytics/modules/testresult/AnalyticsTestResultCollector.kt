@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.isPending
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.risk.RiskLevelSettings
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
@@ -25,7 +25,6 @@ class AnalyticsTestResultCollector @Inject constructor(
     private val raSettings: AnalyticsRATestResultSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val timeStamper: TimeStamper,
-    private val riskLevelSettings: RiskLevelSettings
 ) {
 
     suspend fun reportTestRegistered(type: CoronaTest.Type) {
@@ -53,9 +52,17 @@ class AnalyticsTestResultCollector @Inject constructor(
             )
         }
 
+        val ewLastChangeToHighRiskLevelTimestamp = riskLevelStorage.allEwRiskLevelResults
+            .first()
+            .filter { it.wasSuccessfullyCalculated }
+            .filter { it.calculatedAt <= testRegisteredAt }
+            .sortedBy { it.calculatedAt }
+            .lastOrNull { it.riskState == RiskState.INCREASED_RISK }
+            ?.calculatedAt
+
         val ewRiskLevelAtRegistration = lastResult.ewRiskLevelResult.toMetadataRiskLevel()
         if (ewRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
-            riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp?.let {
+            ewLastChangeToHighRiskLevelTimestamp?.let {
                 val hours = Duration(
                     it,
                     testRegisteredAt
@@ -66,9 +73,17 @@ class AnalyticsTestResultCollector @Inject constructor(
             }
         }
 
+        val ptLastChangeToHighRiskLevelTimestamp = riskLevelStorage.allPtRiskLevelResults
+            .first()
+            .filter { it.wasSuccessfullyCalculated }
+            .filter { it.calculatedAt <= testRegisteredAt }
+            .sortedBy { it.calculatedAt }
+            .lastOrNull { it.riskState == RiskState.INCREASED_RISK }
+            ?.calculatedAt
+
         val ptRiskLevelAtRegistration = lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
         if (ptRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
-            riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp?.let {
+            ptLastChangeToHighRiskLevelTimestamp?.let {
                 val hours = Duration(
                     it,
                     testRegisteredAt

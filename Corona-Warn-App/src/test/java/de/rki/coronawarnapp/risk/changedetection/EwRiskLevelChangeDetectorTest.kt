@@ -55,9 +55,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp = any() } just Runs
         every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns null
 
-        every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp = any() } just Runs
-        every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp } returns null
-
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
     }
 

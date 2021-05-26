@@ -33,22 +33,6 @@ class RiskLevelSettings @Inject constructor(
             putLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW, value?.millis ?: 0L)
         }
 
-    var ewLastChangeToHighRiskLevelTimestamp: Instant?
-        get() = prefs.getLong(PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP_EW, 0L).let {
-            if (it != 0L) Instant.ofEpochMilli(it) else null
-        }
-        set(value) = prefs.edit {
-            putLong(PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP_EW, value?.millis ?: 0L)
-        }
-
-    var ptLastChangeToHighRiskLevelTimestamp: Instant?
-        get() = prefs.getLong(PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP_PT, 0L).let {
-            if (it != 0L) Instant.ofEpochMilli(it) else null
-        }
-        set(value) = prefs.edit {
-            putLong(PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP_PT, value?.millis ?: 0L)
-        }
-
     var lastChangeCheckedRiskLevelCombinedTimestamp: Instant?
         get() = prefs.getLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED, 0L).let {
             if (it != 0L) Instant.ofEpochMilli(it) else null
@@ -62,24 +46,11 @@ class RiskLevelSettings @Inject constructor(
         private const val PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID = "risklevel.config.identifier.last"
 
         /*
-        * Last change to high risk at
-        * */
-        private const val PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP_EW =
-            "PKEY_RISKLEVEL_CALC_LAST_CHANGE_TO_HIGH_RISKLEVEL"
-        private const val PKEY_LAST_CHANGE_TO_HIGH_RISKLEVEL_TIMESTAMP_PT =
-            "PKEY_RISKLEVEL_CALC_LAST_CHANGE_TO_HIGH_RISKLEVEL_PT"
-
-        /*
         * Change was last checked at
         * */
         private const val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW =
             "PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID" // seems to be a copy/paste mistake that lives on...
         private const val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED =
             "PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED"
-
-        private const val PKEY_MOST_RECENT_DATE_AT_RISK_LEVEL_EW =
-            "PKEY_MOST_RECENT_DATE_AT_RISK_LEVEL_EW"
-        private const val PKEY_MOST_RECENT_DATE_AT_RISK_LEVEL_PT =
-            "PKEY_MOST_RECENT_DATE_AT_RISK_LEVEL_PT"
     }
 }

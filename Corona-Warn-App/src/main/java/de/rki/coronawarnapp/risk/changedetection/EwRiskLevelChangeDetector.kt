@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 /*
 * Checks for changes in EW risk
-* Collects data for analytics
 * Resets survey
 *
 * */
@@ -62,10 +61,6 @@ class EwRiskLevelChangeDetector @Inject constructor(
 
         if (oldResult.riskState.hasChangedFromHighToLow(newResult.riskState)) {
             surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
-        }
-
-        if (oldResult.riskState.hasChangedFromLowToHigh(newResult.riskState)) {
-            riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp = newResult.calculatedAt
         }
     }
 }

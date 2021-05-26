@@ -27,7 +27,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /*
-* Checks for changes in combined risk and triggers notification
+* Checks for changes in combined risk and triggers notification and pop up
 *
 * TODO: exclude changes due to failed calculations
 * */

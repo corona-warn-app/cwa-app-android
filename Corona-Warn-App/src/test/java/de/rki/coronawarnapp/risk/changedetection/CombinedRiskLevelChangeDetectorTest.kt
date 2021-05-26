@@ -76,9 +76,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = any() } just Runs
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns null
 
-        every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp = any() } just Runs
-        every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp } returns null
-
         every { builder.build() } returns notification
         every { builder.setContentTitle(any()) } returns builder
         every { builder.setContentTextExpandable(any()) } returns builder

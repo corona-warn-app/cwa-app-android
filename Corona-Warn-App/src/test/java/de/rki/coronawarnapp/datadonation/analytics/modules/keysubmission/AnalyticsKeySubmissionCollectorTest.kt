@@ -22,7 +22,6 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Days
-import org.joda.time.Hours
 import org.joda.time.Instant
 import org.joda.time.LocalTime
 import org.junit.jupiter.api.BeforeEach
@@ -59,10 +58,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery {
             riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult
         } returns flowOf(LastCombinedRiskResults(combinedEwPtRiskLevelResult, combinedEwPtRiskLevelResult))
-
-        every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp } returns now.minus(
-            Hours.hours(2).toStandardDuration()
-        )
 
         val pcrTestRegisteredAt = mockFlowPreference(now.millis)
         coEvery { analyticsPcrKeySubmissionStorage.testRegisteredAt } returns pcrTestRegisteredAt
