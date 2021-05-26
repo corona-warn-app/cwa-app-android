@@ -33,7 +33,7 @@ class DefaultPlaybookTest : BaseTest() {
         MockKAnnotations.init(this)
 
         coEvery { verificationServer.retrieveRegistrationToken(any(), any()) } returns "token"
-        coEvery { verificationServer.pollTestResult(any()) } returns CoronaTestResult.PCR_OR_RAT_PENDING
+        coEvery { verificationServer.pollTestResult(any()) } returns (CoronaTestResult.PCR_OR_RAT_PENDING to null)
         coEvery { verificationServer.retrieveTanFake() } returns mockk()
         coEvery { verificationServer.retrieveTan(any()) } returns "tan"
 
@@ -198,14 +198,14 @@ class DefaultPlaybookTest : BaseTest() {
         val expectedToken = "token"
         coEvery { verificationServer.retrieveRegistrationToken(any(), any()) } returns expectedToken
         val expectedResult = CoronaTestResult.PCR_OR_RAT_PENDING
-        coEvery { verificationServer.pollTestResult(expectedToken) } returns expectedResult
+        coEvery { verificationServer.pollTestResult(expectedToken) } returns (expectedResult to null)
         coEvery { submissionServer.submitFakePayload() } throws TestException()
 
         val (registrationToken, testResult) = createPlaybook()
             .initialRegistration("key", VerificationKeyType.GUID)
 
         registrationToken shouldBe expectedToken
-        testResult shouldBe expectedResult
+        testResult shouldBe (expectedResult to null)
     }
 
     @Test

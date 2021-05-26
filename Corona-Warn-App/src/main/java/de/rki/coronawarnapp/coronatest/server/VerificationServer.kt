@@ -64,7 +64,9 @@ class VerificationServer @Inject constructor(
         )
 
         Timber.tag(TAG).d("retrieveTestResults(token=%s) -> %s", token, response)
-        CoronaTestResult.fromInt(response.testResult) to response.sc?.toLong()?.let { Instant.ofEpochSecond(it) }
+
+        CoronaTestResult.fromInt(response.testResult) to
+            response.sampleCollectedAt?.toLong()?.let { Instant.ofEpochSecond(it) }
     }
 
     suspend fun retrieveTan(

@@ -49,14 +49,14 @@ class PCRProcessorTest : BaseTest() {
         every { timeStamper.nowUTC } returns nowUTC
 
         submissionService.apply {
-            coEvery { asyncRequestTestResult(any()) } returns PCR_OR_RAT_PENDING
+            coEvery { asyncRequestTestResult(any()) } returns (PCR_OR_RAT_PENDING to null)
             coEvery { asyncRegisterDeviceViaGUID(any()) } returns CoronaTestService.RegistrationData(
                 registrationToken = "regtoken-qr",
-                testResult = PCR_OR_RAT_PENDING,
+                testResult = PCR_OR_RAT_PENDING to null,
             )
             coEvery { asyncRegisterDeviceViaTAN(any()) } returns CoronaTestService.RegistrationData(
                 registrationToken = "regtoken-tan",
-                testResult = PCR_OR_RAT_PENDING,
+                testResult = PCR_OR_RAT_PENDING to null,
             )
         }
 
@@ -104,7 +104,7 @@ class PCRProcessorTest : BaseTest() {
     fun `registering a new test maps invalid results to INVALID state`() = runBlockingTest {
         var registrationData = CoronaTestService.RegistrationData(
             registrationToken = "regtoken",
-            testResult = PCR_OR_RAT_PENDING,
+            testResult = PCR_OR_RAT_PENDING to null,
         )
         coEvery { submissionService.asyncRegisterDeviceViaGUID(any()) } answers { registrationData }
 
@@ -113,7 +113,7 @@ class PCRProcessorTest : BaseTest() {
         val request = CoronaTestQRCode.PCR(qrCodeGUID = "guid")
 
         values().forEach {
-            registrationData = registrationData.copy(testResult = it)
+            registrationData = registrationData.copy(testResult = it to null)
             when (it) {
                 PCR_OR_RAT_PENDING,
                 PCR_NEGATIVE,
@@ -134,7 +134,7 @@ class PCRProcessorTest : BaseTest() {
     @Test
     fun `polling maps invalid results to INVALID state`() = runBlockingTest {
         var pollResult: CoronaTestResult = PCR_OR_RAT_PENDING
-        coEvery { submissionService.asyncRequestTestResult(any()) } answers { pollResult }
+        coEvery { submissionService.asyncRequestTestResult(any()) } answers { pollResult to null }
 
         val instance = createInstance()
 
@@ -185,7 +185,7 @@ class PCRProcessorTest : BaseTest() {
 
     @Test
     fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runBlockingTest {
-        coEvery { submissionService.asyncRequestTestResult(any()) } answers { PCR_POSITIVE }
+        coEvery { submissionService.asyncRequestTestResult(any()) } answers { PCR_POSITIVE to null }
 
         val instance = createInstance()
 

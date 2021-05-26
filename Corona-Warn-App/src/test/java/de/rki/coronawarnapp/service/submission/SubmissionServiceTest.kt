@@ -48,7 +48,7 @@ class SubmissionServiceTest : BaseTest() {
     fun registrationWithGUIDSucceeds() {
         coEvery {
             mockPlaybook.initialRegistration(guid, VerificationKeyType.GUID)
-        } returns (registrationToken to CoronaTestResult.PCR_OR_RAT_PENDING)
+        } returns (registrationToken to (CoronaTestResult.PCR_OR_RAT_PENDING to null))
 
         runBlocking {
             submissionService.asyncRegisterDeviceViaGUID(guid)
@@ -63,7 +63,7 @@ class SubmissionServiceTest : BaseTest() {
     fun registrationWithTeleTANSucceeds() {
         coEvery {
             mockPlaybook.initialRegistration(any(), VerificationKeyType.TELETAN)
-        } returns (registrationToken to CoronaTestResult.PCR_OR_RAT_PENDING)
+        } returns (registrationToken to (CoronaTestResult.PCR_OR_RAT_PENDING to null))
 
         runBlocking {
             submissionService.asyncRegisterDeviceViaTAN(tan)
@@ -76,10 +76,10 @@ class SubmissionServiceTest : BaseTest() {
 
     @Test
     fun requestTestResultSucceeds() {
-        coEvery { mockPlaybook.testResult(registrationToken) } returns CoronaTestResult.PCR_NEGATIVE
+        coEvery { mockPlaybook.testResult(registrationToken) } returns (CoronaTestResult.PCR_NEGATIVE to null)
 
         runBlocking {
-            submissionService.asyncRequestTestResult(registrationToken) shouldBe CoronaTestResult.PCR_NEGATIVE
+            submissionService.asyncRequestTestResult(registrationToken) shouldBe (CoronaTestResult.PCR_NEGATIVE to null)
         }
         coVerify(exactly = 1) {
             mockPlaybook.testResult(registrationToken)

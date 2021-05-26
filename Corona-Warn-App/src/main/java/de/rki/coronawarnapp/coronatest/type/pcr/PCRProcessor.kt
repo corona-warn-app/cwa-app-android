@@ -50,7 +50,8 @@ class PCRProcessor @Inject constructor(
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult.first) // This saves received at
+        // This saves received at
+        testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult.first)
 
         return createCoronaTest(request, registrationData)
     }
