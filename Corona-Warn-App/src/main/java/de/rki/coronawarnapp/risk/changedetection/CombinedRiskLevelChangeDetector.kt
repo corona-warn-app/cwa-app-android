@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -40,6 +41,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
     private val foregroundState: ForegroundState,
     private val notificationHelper: GeneralNotifications,
     private val coronaTestRepository: CoronaTestRepository,
+    private val tracingSettings: TracingSettings,
 ) {
 
     fun launch() {
@@ -51,15 +53,19 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
             .filter { it.size == 2 }
             .onEach {
                 Timber.v("Checking for combined risklevel change.")
-                checkCombinedRiskForStateChanges(it)
+                it.checkForRiskLevelChanges()
             }
             .catch { Timber.e(it, "App config change checks failed.") }
             .launchIn(appScope)
     }
 
-    private suspend fun checkCombinedRiskForStateChanges(results: List<CombinedEwPtRiskLevelResult>) {
-        val oldResult = results.first()
-        val newResult = results.last()
+    private suspend fun List<CombinedEwPtRiskLevelResult>.checkForRiskLevelChanges() {
+        if (isEmpty()) return
+
+        val oldResult = minByOrNull { it.calculatedAt }
+        val newResult = maxByOrNull { it.calculatedAt }
+
+        if (oldResult == null || newResult == null) return
 
         val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp
         if (lastCheckedResult == newResult.calculatedAt) {
@@ -71,6 +77,11 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
         val oldRiskState = oldResult.riskState
         val newRiskState = newResult.riskState
         Timber.d("Last combined state was $oldRiskState and current state is $newRiskState")
+
+        if (oldResult.riskState.hasChangedFromHighToLow(newResult.riskState)) {
+            tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { true }
+            Timber.d("Risk level changed LocalData is updated. Current Risk level is ${newResult.riskState}")
+        }
 
         // Check sending a notification when risk level changes
         val isSubmissionSuccessful = coronaTestRepository.coronaTests.first().any { it.isSubmitted }

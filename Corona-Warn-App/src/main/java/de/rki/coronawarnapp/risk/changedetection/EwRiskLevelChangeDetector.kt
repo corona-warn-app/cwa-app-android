@@ -1,12 +1,9 @@
 package de.rki.coronawarnapp.risk.changedetection
 
-import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelSettings
-import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
@@ -20,6 +17,7 @@ import javax.inject.Inject
 /*
 * Checks for changes in EW risk
 * Collects data for analytics
+* Resets survey
 *
 * */
 @Suppress("LongParameterList")
@@ -28,8 +26,7 @@ class EwRiskLevelChangeDetector @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage,
     private val riskLevelSettings: RiskLevelSettings,
     private val surveys: Surveys,
-    private val tracingSettings: TracingSettings,
-    private val testResultDonorSettings: TestResultDonorSettings
+
 ) {
     fun launch() {
         Timber.v("Monitoring risk level changes.")
@@ -39,16 +36,20 @@ class EwRiskLevelChangeDetector @Inject constructor(
             }
             .filter { it.size == 2 }
             .onEach {
-                Timber.v("Checking for ew risklevel change.")
-                checkEwRiskForStateChanges(it)
+                Timber.v("Checking for changes in EW risk level.")
+                it.checkForRiskLevelChanges()
             }
             .catch { Timber.e(it, "App config change checks failed.") }
             .launchIn(appScope)
     }
 
-    private fun checkEwRiskForStateChanges(results: List<EwRiskLevelResult>) {
-        val oldResult = results.first()
-        val newResult = results.last()
+    private fun List<EwRiskLevelResult>.checkForRiskLevelChanges() {
+        if (isEmpty()) return
+
+        val oldResult = minByOrNull { it.calculatedAt }
+        val newResult = maxByOrNull { it.calculatedAt }
+
+        if (oldResult == null || newResult == null) return
 
         val lastCheckedResult = riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp
         if (lastCheckedResult == newResult.calculatedAt) {
@@ -57,46 +58,18 @@ class EwRiskLevelChangeDetector @Inject constructor(
         }
         riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp = newResult.calculatedAt
 
-        val oldRiskState = oldResult.riskState
-        val newRiskState = newResult.riskState
-        Timber.d("Last state was $oldRiskState and current state is $newRiskState")
+        Timber.d("Last state was ${oldResult.riskState} and current state is ${newResult.riskState}")
 
-        if (oldRiskState.hasChangedFromHighToLow(newRiskState)) {
-            tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { true }
-            Timber.d("Risk level changed LocalData is updated. Current Risk level is $newRiskState")
-
+        if (oldResult.riskState.hasChangedFromHighToLow(newResult.riskState)) {
             surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
         }
 
-        if (oldRiskState.hasChangedFromLowToHigh(newRiskState)) {
+        if (oldResult.riskState.hasChangedFromLowToHigh(newResult.riskState)) {
             riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp = newResult.calculatedAt
         }
 
-        // Save riskLevelTurnedRedTime if not already set before for high risk detection
-        Timber.i("riskLevelTurnedRedTime=%s", testResultDonorSettings.riskLevelTurnedRedTime.value)
-        if (testResultDonorSettings.riskLevelTurnedRedTime.value == null && newResult.isIncreasedRisk) {
-            testResultDonorSettings.riskLevelTurnedRedTime.update { newResult.calculatedAt }
-            Timber.i(
-                "riskLevelTurnedRedTime: newRiskState=%s, riskLevelTurnedRedTime=%s",
-                newResult.riskState,
-                newResult.calculatedAt
-            )
-        }
-
-        // Save most recent date of high or low risks
-        if (newResult.riskState in listOf(RiskState.INCREASED_RISK, RiskState.LOW_RISK)) {
-            Timber.d("newRiskState=$newResult")
-            val lastRiskEncounterAt = newResult.lastRiskEncounterAt
-            Timber.i(
-                "mostRecentDateWithHighOrLowRiskLevel: newRiskState=%s, lastRiskEncounterAt=%s",
-                newResult.riskState,
-                lastRiskEncounterAt
-            )
-
-            testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.update { lastRiskEncounterAt }
+        if (newResult.wasSuccessfullyCalculated) {
+            riskLevelSettings.ewMostRecentDateWithHighOrLowRiskLevel = newResult.lastRiskEncounterAt
         }
     }
 }
-
-private fun RiskState.hasChangedFromHighToLow(other: RiskState) =
-    this == RiskState.INCREASED_RISK && other == RiskState.LOW_RISK

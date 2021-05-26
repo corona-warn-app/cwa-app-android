@@ -52,14 +52,12 @@ class PtRiskLevelChangeDetector @Inject constructor(
             riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp = newResult.calculatedAt
         }
 
-        if (newResult.wasSuccessfullyCalculated)
+        if (newResult.wasSuccessfullyCalculated) {
             riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel = when (newResult.riskState) {
                 RiskState.INCREASED_RISK -> newResult.mostRecentDateWithHighRisk
                 RiskState.LOW_RISK -> newResult.mostRecentDateWithLowRisk
                 else -> riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel
             }
+        }
     }
 }
-
-internal fun RiskState.hasChangedFromLowToHigh(other: RiskState) =
-    this == RiskState.LOW_RISK && other == RiskState.INCREASED_RISK

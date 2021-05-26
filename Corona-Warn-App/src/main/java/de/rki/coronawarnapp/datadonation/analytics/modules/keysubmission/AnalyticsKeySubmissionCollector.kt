@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -40,23 +39,32 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         val testRegisteredAt = timeStamper.nowUTC
         type.storage.testRegisteredAt.update { testRegisteredAt.millis }
 
-        val lastRiskResult = riskLevelStorage
-            .latestAndLastSuccessfulEwRiskLevelResult
+        val lastResult = riskLevelStorage
+            .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .first()
-            .tryLatestEwResultsWithDefaults()
-            .lastCalculated
-        val riskLevelAtRegistration = lastRiskResult.toMetadataRiskLevel()
-        type.storage.riskLevelAtTestRegistration.update {
-            riskLevelAtRegistration.number
-        }
+            .lastSuccessfullyCalculated
 
-        if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
+        val ewRiskLevelAtRegistration = lastResult.ewRiskLevelResult.toMetadataRiskLevel()
+        if (ewRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
             riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp?.let {
                 val hours = Duration(
                     it,
                     testRegisteredAt
                 ).standardHours.toInt()
                 type.storage.ewHoursSinceHighRiskWarningAtTestRegistration.update {
+                    hours
+                }
+            }
+        }
+
+        val ptRiskLevelAtRegistration = lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
+        if (ptRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
+            riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp?.let {
+                val hours = Duration(
+                    it,
+                    testRegisteredAt
+                ).standardHours.toInt()
+                type.storage.ptHoursSinceHighRiskWarningAtTestRegistration.update {
                     hours
                 }
             }

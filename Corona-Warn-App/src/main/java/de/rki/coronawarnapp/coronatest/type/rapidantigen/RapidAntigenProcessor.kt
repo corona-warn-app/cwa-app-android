@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -35,6 +36,7 @@ class RapidAntigenProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    private val analyticsTestResultCollector: AnalyticsTestResultCollector,
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
@@ -49,8 +51,11 @@ class RapidAntigenProcessor @Inject constructor(
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
+        analyticsTestResultCollector.saveTestResult(registrationData.testResult, type) // This saves received at
+
         val testResult = registrationData.testResult.let {
             Timber.tag(TAG).v("Raw test result was %s", it)
+            analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
             it.toValidatedResult()
         }
 
@@ -59,6 +64,7 @@ class RapidAntigenProcessor @Inject constructor(
         }
 
         analyticsKeySubmissionCollector.reportTestRegistered(type)
+        analyticsTestResultCollector.reportTestRegistered(type)
 
         val now = timeStamper.nowUTC
 

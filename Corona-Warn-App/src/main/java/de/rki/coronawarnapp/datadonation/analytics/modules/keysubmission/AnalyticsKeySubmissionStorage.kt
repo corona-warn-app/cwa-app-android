@@ -75,11 +75,6 @@ open class AnalyticsKeySubmissionStorage(
         defaultValue = false
     )
 
-    val riskLevelAtTestRegistration = prefs.createFlowPreference(
-        key = "analytics_key_submission_riskLevelAtTestRegistration$sharedPrefKeySuffix",
-        defaultValue = -1
-    )
-
     val ewHoursSinceHighRiskWarningAtTestRegistration = prefs.createFlowPreference(
         key = "analytics_key_submission_hoursSinceHighRiskWarningAtTestRegistration$sharedPrefKeySuffix",
         defaultValue = -1

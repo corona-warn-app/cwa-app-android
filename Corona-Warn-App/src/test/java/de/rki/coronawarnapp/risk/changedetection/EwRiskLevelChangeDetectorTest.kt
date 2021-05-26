@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.risk.changedetection
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.TestResultDonorSettings
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.TimeStamper
-import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -67,8 +66,8 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
 
-        every { testResultDonorSettings.riskLevelTurnedRedTime } returns mockFlowPreference(null)
-        every { testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel } returns
+        every { testResultDonorSettings.ewRiskLevelTurnedRedTime } returns mockFlowPreference(null)
+        every { testResultDonorSettings.ewMostRecentDateWithHighOrLowRiskLevel } returns
             mockFlowPreference(null)
     }
 
@@ -246,7 +245,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `riskLevelTurnedRedTime is only set once`() {
-        testResultDonorSettings.riskLevelTurnedRedTime.update { Instant.EPOCH.plus(1) }
+        testResultDonorSettings.ewRiskLevelTurnedRedTime.update { Instant.EPOCH.plus(1) }
 
         every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
@@ -270,9 +269,9 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
         }
 
-        testResultDonorSettings.riskLevelTurnedRedTime.value shouldBe Instant.EPOCH.plus(1)
+        testResultDonorSettings.ewRiskLevelTurnedRedTime.value shouldBe Instant.EPOCH.plus(1)
 
-        testResultDonorSettings.riskLevelTurnedRedTime.update { null }
+        testResultDonorSettings.ewRiskLevelTurnedRedTime.update { null }
 
         runBlockingTest {
             val instance = createInstance(scope = this)
@@ -280,7 +279,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
         }
 
-        testResultDonorSettings.riskLevelTurnedRedTime.value shouldBe Instant.EPOCH.plus(2)
+        testResultDonorSettings.ewRiskLevelTurnedRedTime.value shouldBe Instant.EPOCH.plus(2)
     }
 
     @Test
@@ -307,7 +306,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
         }
 
-        testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(10)
+        testResultDonorSettings.ewMostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(10)
 
         every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
@@ -329,6 +328,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
         }
 
-        testResultDonorSettings.mostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(20)
+        testResultDonorSettings.ewMostRecentDateWithHighOrLowRiskLevel.value shouldBe Instant.EPOCH.plus(20)
     }
 }
