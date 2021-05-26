@@ -31,7 +31,7 @@ class CheckInsCensor @Inject constructor(
             .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): BugCensor.CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
 
         if (checkInsHistory.isEmpty()) return null
 
@@ -50,6 +50,6 @@ class CheckInsCensor @Inject constructor(
             acc
         }
 
-        return newLogMsg.compile()
+        return newLogMsg.nullIfEmpty()
     }
 }

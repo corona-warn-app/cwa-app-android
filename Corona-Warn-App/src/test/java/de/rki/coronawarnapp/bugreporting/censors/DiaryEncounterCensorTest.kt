@@ -57,7 +57,7 @@ class DiaryEncounterCensorTest : BaseTest() {
             everyone disliked that.
             """.trimIndent()
 
-        instance.checkLog(censorMe)!!.censored shouldBe
+        instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             On Encounter#2/Circumstances,
             two persons Encounter#3/Circumstances,
@@ -88,7 +88,7 @@ class DiaryEncounterCensorTest : BaseTest() {
             everyone disliked that.
             """.trimIndent()
 
-        instance.checkLog(censorMe)!!.censored shouldBe
+        instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             On Encounter#2/Circumstances,
             two persons Encounter#3/Circumstances,

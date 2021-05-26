@@ -5,7 +5,7 @@ interface BugCensor {
     /**
      * If there is something to censor a new log line is returned, otherwise returns null
      */
-    suspend fun checkLog(message: String): CensoredString?
+    suspend fun checkLog(message: String): CensorContainer?
 
     data class CensorContainer(
         // Original String, necessary for correct censoring ranges
@@ -38,21 +38,22 @@ interface BugCensor {
                 }
             }
 
-            val minMin = ranges.minOf { it.first }.coerceAtLeast(0).coerceAtMost(original.length)
-            val maxMax = ranges.maxOf { it.last }.coerceAtLeast(0).coerceAtMost(original.length)
-
             return if (isIntersecting) {
+                val minMin = ranges.minOf { it.first }.coerceAtLeast(0).coerceAtMost(original.length)
+                val maxMax = ranges.maxOf { it.last }.coerceAtLeast(0).coerceAtMost(original.length)
                 CensoredString(
                     censored = original.replaceRange(minMin, maxMax, COLLISION_STRING),
-                    range = minMin..maxMax
+                    ranges = listOf(minMin..maxMax)
                 )
             } else {
                 CensoredString(
                     censored = actions.fold(original) { notOriginal, action -> action.execute(notOriginal) },
-                    range = minMin..maxMax
+                    ranges = ranges
                 )
             }
         }
+
+        fun nullIfEmpty(): CensorContainer? = if (actions.isEmpty()) null else this
 
         data class Action(
             val range: IntRange,
@@ -60,7 +61,11 @@ interface BugCensor {
         )
 
         companion object {
-            const val COLLISION_STRING = "<censor-collision>"
+            const val COLLISION_STRING = "<censor-collision/>"
+
+            fun createErrorContainer(censor: BugCensor, exception: Exception): CensorContainer {
+                return CensorContainer("<censor-error>$censor: $exception</censor-error>")
+            }
         }
     }
 
@@ -69,7 +74,7 @@ interface BugCensor {
         val censored: String,
         // The range that we censored
         // If there is a collision, this range in the original needs to be removed.
-        val range: IntRange
+        val ranges: List<IntRange>
     )
 
     companion object {
@@ -127,10 +132,6 @@ interface BugCensor {
             if (zipCode.length < 5) return false
             action(zipCode)
             return true
-        }
-
-        fun CensorContainer.compile(): CensoredString? {
-            return if (actions.isEmpty()) null else this.compile()
         }
     }
 }

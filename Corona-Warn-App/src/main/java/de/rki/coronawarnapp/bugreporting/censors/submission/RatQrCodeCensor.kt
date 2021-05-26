@@ -14,7 +14,7 @@ class RatQrCodeCensor @Inject constructor() : BugCensor {
 
     private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
-    override suspend fun checkLog(message: String): BugCensor.CensoredString? {
+    override suspend fun checkLog(message: String): CensorContainer? {
 
         val dataToCensor = dataToCensor ?: return null
 
@@ -38,7 +38,7 @@ class RatQrCodeCensor @Inject constructor() : BugCensor {
             newMessage = newMessage.censor(dateOfBirthString, "RATest/DateOfBirth")
         }
 
-        return newMessage.compile()
+        return newMessage.nullIfEmpty()
     }
 
     companion object {

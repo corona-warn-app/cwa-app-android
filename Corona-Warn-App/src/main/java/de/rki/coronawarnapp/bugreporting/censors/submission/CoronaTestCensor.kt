@@ -37,7 +37,7 @@ class CoronaTestCensor @Inject constructor(
             }.launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): BugCensor.CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
 
         var newMessage = CensorContainer(message)
 
@@ -53,7 +53,7 @@ class CoronaTestCensor @Inject constructor(
                 newMessage = newMessage.censor(it, "${it.take(11)}CoronaTest/Identifier")
             }
 
-        return newMessage.compile()
+        return newMessage.nullIfEmpty()
     }
 
     companion object {

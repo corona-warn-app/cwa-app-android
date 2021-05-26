@@ -40,7 +40,7 @@ class TraceLocationCensor @Inject constructor(
             .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): BugCensor.CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
 
         var newLogMsg = traceLocationHistory.fold(CensorContainer(message)) { initial, traceLocation ->
             var acc = initial
@@ -71,7 +71,7 @@ class TraceLocationCensor @Inject constructor(
             }
         }
 
-        return newLogMsg.compile()
+        return newLogMsg.nullIfEmpty()
     }
 
     companion object {

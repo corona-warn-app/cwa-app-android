@@ -23,7 +23,7 @@ class RatProfileCensor @Inject constructor(
     private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
     private val ratProfileHistory = mutableSetOf<RATProfile>()
 
-    override suspend fun checkLog(message: String): BugCensor.CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
         val ratProfile = ratProfileSettings.profile.flow.first()
 
         // store the profile in a property so we still have a reference after it was deleted by the user
@@ -71,6 +71,6 @@ class RatProfileCensor @Inject constructor(
             }
         }
 
-        return newMessage.compile()
+        return newMessage.nullIfEmpty()
     }
 }

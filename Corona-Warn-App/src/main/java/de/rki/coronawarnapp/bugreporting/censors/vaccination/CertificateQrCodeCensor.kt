@@ -11,7 +11,7 @@ import javax.inject.Inject
 @Reusable
 class CertificateQrCodeCensor @Inject constructor() : BugCensor {
 
-    override suspend fun checkLog(message: String): BugCensor.CensoredString? {
+    override suspend fun checkLog(message: String): CensorContainer? {
         var newMessage = CensorContainer(message)
 
         synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.toList() }.forEach {
@@ -38,7 +38,7 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
             }
         }
 
-        return newMessage.compile()
+        return newMessage.nullIfEmpty()
     }
 
     private fun censorVaccinationData(

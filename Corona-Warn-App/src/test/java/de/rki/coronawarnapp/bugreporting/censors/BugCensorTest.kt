@@ -164,4 +164,26 @@ class BugCensorTest : BaseTest() {
         container3.actions[0].range shouldBe 2..5
         container3.actions[1].range shouldBe 0..2
     }
+
+    @Test
+    fun `censoring disjoint`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("abc", "123")
+            .censor("efg", "567")
+            .compile()!!.apply {
+                censored shouldBe "#123d567*"
+                ranges shouldBe 1..8
+            }
+    }
+
+    @Test
+    fun `censoring overlap`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("abcd", "1234")
+            .censor("defg", "4567")
+            .compile()!!.apply {
+                censored shouldBe "#<censor-collision/>*"
+                ranges shouldBe listOf(1..8)
+            }
+    }
 }

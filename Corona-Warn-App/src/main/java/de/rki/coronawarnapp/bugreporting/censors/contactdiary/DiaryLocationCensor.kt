@@ -32,7 +32,7 @@ class DiaryLocationCensor @Inject constructor(
             .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): BugCensor.CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
 
         if (locationHistory.isEmpty()) return null
 
@@ -52,6 +52,6 @@ class DiaryLocationCensor @Inject constructor(
             wip
         }
 
-        return newMessage.compile()
+        return newMessage.nullIfEmpty()
     }
 }

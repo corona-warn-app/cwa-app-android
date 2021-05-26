@@ -165,17 +165,14 @@ class DebugLogger(
                     delay(1000)
 
                     val formattedMessage = rawLine.format()
-                    val censored: Collection<BugCensor.CensoredString> = bugCensors.get()
+                    val censored: Collection<BugCensor.CensorContainer> = bugCensors.get()
                         .map {
                             async {
                                 try {
                                     it.checkLog(formattedMessage)
                                 } catch (e: Exception) {
                                     Log.e(TAG, "Error in censor module $it", e)
-                                    BugCensor.CensoredString(
-                                        "<error-in-censor-$it>: $e",
-                                        0..formattedMessage.length
-                                    )
+                                    null
                                 }
                             }
                         }
@@ -184,26 +181,17 @@ class DebugLogger(
 
                     val toWrite: String = when (censored.size) {
                         0 -> formattedMessage
-                        1 -> censored.single().censored
-                        else -> {
-                            try {
-                                val ranges = censored.map { it.range }
-                                // Lowest censoring range, within original msg bounds
-                                val minMin = censored
-                                    .minOf { it.range.first }
-                                    .coerceAtLeast(0)
-                                    .coerceAtMost(formattedMessage.length)
+                        1 -> censored.single().compile()?.censored ?: formattedMessage
+                        else -> try {
+                            val combinedContainer = BugCensor.CensorContainer(
+                                original = formattedMessage,
+                                actions = censored.flatMap { it.actions }
+                            )
 
-                                // Highest censoring range, within original msg bounds
-                                val maxMax = censored.maxOf { it.range.last }
-                                    .coerceAtLeast(0)
-                                    .coerceAtMost(formattedMessage.length)
-
-                                formattedMessage.replaceRange(minMin, maxMax, CENSOR_COLLISION_PLACERHOLDER)
-                            } catch (e: Exception) {
-                                Log.e(TAG, "Censoring collision fail.", e)
-                                "<censoring-collision-error-$e>"
-                            }
+                            combinedContainer.compile()?.censored ?: formattedMessage
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Censoring collision fail.", e)
+                            "<censor-error>Global combination: $e</censor-error"
                         }
                     }
                     logWriter.write(toWrite)
@@ -217,7 +205,6 @@ class DebugLogger(
     }
 
     companion object {
-        private const val CENSOR_COLLISION_PLACERHOLDER = "<censoring-collision>"
         internal const val TAG = "DebugLogger"
     }
 }

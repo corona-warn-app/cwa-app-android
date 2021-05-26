@@ -78,7 +78,7 @@ internal class TraceLocationCensorTest : BaseTest() {
             Afterwards we had some food in Sushi Place in Sushi Street 123, 12345 Fish Town. It a nice LOCATION_TYPE_PERMANENT_FOOD_SERVICE.
             """.trimIndent()
 
-            censor.checkLog(logLineToCensor)!!.censored shouldBe
+            censor.checkLog(logLineToCensor)!!.compile()!!.censored shouldBe
                 """
             The type is TraceLocation#2/Type. Yesterday we went to the TraceLocation#2/Description. The spectacle took place in TraceLocation#2/Address. 
             Afterwards we had some food in TraceLocation#1/Description in TraceLocation#1/Address. It a nice TraceLocation#1/Type.
@@ -127,7 +127,7 @@ internal class TraceLocationCensorTest : BaseTest() {
             Afterwards we had some food in Sushi Place in Sushi Street 123, 12345 Fish Town. It a nice LOCATION_TYPE_PERMANENT_FOOD_SERVICE.
             """.trimIndent()
 
-        censor.checkLog(logLineToCensor)!!.censored shouldBe
+        censor.checkLog(logLineToCensor)!!.compile()!!.censored shouldBe
             """
             The type is TraceLocation#2/Type. Yesterday we went to the TraceLocation#2/Description. The spectacle took place in TraceLocation#2/Address. 
             Afterwards we had some food in TraceLocation#1/Description in TraceLocation#1/Address. It a nice TraceLocation#1/Type.
@@ -155,7 +155,7 @@ internal class TraceLocationCensorTest : BaseTest() {
                 top secret address as the address. The type is LOCATION_TYPE_TEMPORARY_PRIVATE_EVENT. 
                 """.trimIndent()
 
-            censor.checkLog(logLineToCensor)!!.censored shouldBe
+            censor.checkLog(logLineToCensor)!!.compile()!!.censored shouldBe
                 """
                 The user just created a new traceLocation with TraceLocationUserInput#Description as the description and
                 TraceLocationUserInput#Address as the address. The type is TraceLocationUserInput#Type. 

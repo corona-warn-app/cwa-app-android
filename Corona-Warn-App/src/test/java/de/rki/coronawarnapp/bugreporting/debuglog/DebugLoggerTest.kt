@@ -239,7 +239,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensorContainer(msg).censor("says: A hot coffee", "says: A hot tea").compile()
+            BugCensor.CensorContainer(msg).censor("says: A hot coffee", "says: A hot tea")
         }
 
         instance.start()
@@ -253,13 +253,13 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensorContainer(msg).censor("says:", "sings:").compile()
+            BugCensor.CensorContainer(msg).censor("says:", "sings:")
         }
 
         Timber.tag("Test").v(logMsg)
         advanceTimeBy(2000L)
 
-        runningLog.readLines().last().substring(25) shouldBe "V/Test: Lukas <censoring-collision> is really nice!"
+        runningLog.readLines().last().substring(25) shouldBe "V/Test: Lukas <censor-collision/> is really nice!"
 
         instance.stop()
         advanceUntilIdle()
@@ -300,7 +300,7 @@ class DebugLoggerTest : BaseIOTest() {
         """.trimIndent()
         val after = """
             RACoronaTest(
-                identifier=<censoring-collision>,
+                identifier=<censor-collision/>,
                 dateOfBirth=1994-05-18, isProcessing=false,
                 lastError=IOException()
             )
@@ -312,7 +312,7 @@ class DebugLoggerTest : BaseIOTest() {
             BugCensor.CensorContainer(msg).censor(
                 "firstName=Rüdiger, lastName=Müller",
                 "firstName=FIRSTNAME, lastName=LASTNAME"
-            ).compile()
+            )
 
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
@@ -320,7 +320,7 @@ class DebugLoggerTest : BaseIOTest() {
             BugCensor.CensorContainer(msg).censor(
                 "qrcode-RAPID_ANTIGEN-9a9a35fa1cf3261be3349fc50a37b58280634bf42487c8e4eca060c48f259eb7",
                 "IDENTIFIER"
-            ).compile()
+            )
         }
 
         val instance = createInstance(scope = this).apply {
@@ -348,7 +348,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensorContainer(msg).censor("Before", "After").compile()
+            BugCensor.CensorContainer(msg).censor("Before", "After")
 
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
@@ -357,7 +357,7 @@ class DebugLoggerTest : BaseIOTest() {
 
             orig = orig.censor("ort", "thisReallyIsNotShortAnymore")
             orig = orig.censor("Anymore", "Nevermore")
-            orig.compile()
+            orig
         }
 
         val instance = createInstance(scope = this).apply {
@@ -370,7 +370,7 @@ class DebugLoggerTest : BaseIOTest() {
         Timber.tag("Test").v(before)
         advanceTimeBy(2000L)
 
-        runningLog.readLines().last().substring(25) shouldBe "V/Test: sh<censoring-collision>"
+        runningLog.readLines().last().substring(25) shouldBe "V/Test: sh<censor-collision/>"
 
         instance.stop()
         advanceUntilIdle()
@@ -383,7 +383,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensorContainer(msg).censor("Berry", "Banana").compile()
+            BugCensor.CensorContainer(msg).censor("Berry", "Banana")
 
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
@@ -392,7 +392,7 @@ class DebugLoggerTest : BaseIOTest() {
 
             orig = orig.censor("StrawBerry", "StrawBerryBananaPie")
             orig = orig.censor("StrawBerryBananaPie", "Apple")
-            orig.compile()
+            orig
         }
 
         val instance = createInstance(scope = this).apply {
@@ -405,7 +405,7 @@ class DebugLoggerTest : BaseIOTest() {
         Timber.tag("Test").v(before)
         advanceTimeBy(2000L)
 
-        runningLog.readLines().last().substring(25) shouldBe "V/Test: <censoring-collision>Cake"
+        runningLog.readLines().last().substring(25) shouldBe "V/Test: <censor-collision/>Cake"
 
         instance.stop()
         advanceUntilIdle()
@@ -417,7 +417,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensorContainer(msg).censor("Straw", "Pipe").compile()
+            BugCensor.CensorContainer(msg).censor("Straw", "Pipe")
 
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
@@ -425,7 +425,7 @@ class DebugLoggerTest : BaseIOTest() {
             var orig = BugCensor.CensorContainer(msg)
 
             orig = orig.censor("Cake", "Fruit")
-            orig.compile()
+            orig
         }
 
         val instance = createInstance(scope = this).apply {
