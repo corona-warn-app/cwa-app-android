@@ -263,6 +263,11 @@ class DefaultContactDiaryRepository @Inject constructor(
             .forEach { contactDiaryCoronaTestDao.insertTest(it) }
     }
 
+    override suspend fun deleteTests(tests: List<ContactDiaryCoronaTestEntity>) {
+        Timber.d("deleteTests(tests=%s)", tests)
+        contactDiaryCoronaTestDao.delete(tests)
+    }
+
     private suspend fun executeWhenIdNotDefault(id: Long, action: (suspend () -> Unit) = { }) {
         if (id != 0L) {
             action()
