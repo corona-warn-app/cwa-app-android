@@ -82,7 +82,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         viewModel.qrCodeValidationState.observe2(this) {
             if (QrCodeRegistrationStateProcessor.ValidationState.INVALID == it) {
-                DialogHelper.showDialog(showInvalidScanDialog())
+                DialogHelper.showDialog(createInvalidScanDialog())
             }
         }
 
@@ -142,7 +142,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
-            is BadRequestException -> showInvalidScanDialog()
+            is BadRequestException -> createInvalidScanDialog()
             is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
@@ -168,7 +168,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
     )
 
-    private fun showInvalidScanDialog() = DialogHelper.DialogInstance(
+    private fun createInvalidScanDialog() = DialogHelper.DialogInstance(
         requireActivity(),
         R.string.submission_qr_code_scan_invalid_dialog_headline,
         R.string.submission_qr_code_scan_invalid_dialog_body,
