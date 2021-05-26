@@ -266,4 +266,27 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         coronaTestsDao.insertTest(newTest)
         coronaTestsFlow.first().containsAll(listOf(coronaTest, newTest)) shouldBe true
     }
+
+    @Test
+    fun deletingCoronaTests(): Unit = runBlocking {
+        val coronaTestFlow = coronaTestsDao.allTests()
+        val coronaTest2 = coronaTest.copy(id = "Test #2")
+        val coronaTest3 = coronaTest.copy(id = "Test #3")
+
+        coronaTestFlow.first() shouldBe emptyList()
+
+        coronaTestsDao.run {
+            insertTest(coronaTest)
+            insertTest(coronaTest2)
+            insertTest(coronaTest3)
+        }
+
+        coronaTestFlow.first() shouldBe listOf(coronaTest, coronaTest2, coronaTest3)
+
+        coronaTestsDao.delete(listOf(coronaTest2))
+        coronaTestFlow.first() shouldBe listOf(coronaTest, coronaTest3)
+
+        coronaTestsDao.delete(listOf(coronaTest, coronaTest3))
+        coronaTestFlow.first() shouldBe emptyList()
+    }
 }
