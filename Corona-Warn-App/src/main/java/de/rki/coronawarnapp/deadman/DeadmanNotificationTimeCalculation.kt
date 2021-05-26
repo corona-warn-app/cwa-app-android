@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.deadman
 
 import dagger.Reusable
-import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.diagnosiskeys.storage.pkgDateTime
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import org.joda.time.DateTimeConstants
@@ -12,8 +13,8 @@ import javax.inject.Inject
 
 @Reusable
 class DeadmanNotificationTimeCalculation @Inject constructor(
-    val timeStamper: TimeStamper,
-    val enfClient: ENFClient
+    private val timeStamper: TimeStamper,
+    private val keyCacheRepository: KeyCacheRepository,
 ) {
 
     /**
@@ -29,10 +30,15 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
      * If last success date time is null (eg: on application first start) - return [DEADMAN_NOTIFICATION_DELAY]
      */
     suspend fun getDelay(): Long {
-        val lastSuccess = enfClient.lastSuccessfulTrackedExposureDetection().first()?.finishedAt
-        Timber.d("enfClient.lastSuccessfulTrackedExposureDetection: $lastSuccess")
+        val lastSuccess = keyCacheRepository.allCachedKeys()
+            .first()
+            .filter { it.info.isDownloadComplete }
+            .maxByOrNull { it.info.pkgDateTime }
+            ?.info
+
+        Timber.d("Last successful diagnosis key package download: $lastSuccess")
         return if (lastSuccess != null) {
-            getHoursDiff(lastSuccess).toLong()
+            getHoursDiff(lastSuccess.pkgDateTime.toInstant()).toLong()
         } else {
             (DEADMAN_NOTIFICATION_DELAY * DateTimeConstants.MINUTES_PER_HOUR).toLong()
         }
