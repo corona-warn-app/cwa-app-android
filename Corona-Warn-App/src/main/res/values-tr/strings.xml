@@ -411,7 +411,9 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"Dilerseniz uygulamayı kişisel enfeksiyon durumunuzu (örneğin, negatif sonuç veren bir hızlı test) kanıtlamak için kullanabilirsiniz. Ancak lütfen unutmayın; enfeksiyon durumunuzu kanıtlamak için uygulamayı kullanmak zorunda değilsiniz. Enfeksiyon durumunuzu, ikamet ettiğiniz bölgede geçerli olan yasal düzenlemeler uyarınca başka bir şekilde de kanıtlayabilirsiniz."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"Uygulama kişilerin akıllı telefonları arasında şifrelenmiş rastgele kimlikleri paylaşarak karşılaşma günlüğü oluşturur ve bu sırada hiçbir kişisel veriye erişim sağlanmaz."</string>
+    <string name="onboarding_body_5">"Kişisel aşı durumunuzu da doğrulayabilirsiniz."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_6">"Uygulama kişilerin akıllı telefonları arasında şifrelenmiş rastgele kimlikleri paylaşarak karşılaşma günlüğü oluşturur ve bu sırada hiçbir kişisel veriye erişim sağlanmaz."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Bölgedeki bir grup insan akıllı telefonlarını kullanıyor."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -1070,6 +1072,10 @@
     <string name="submission_test_result_pending_steps_waiting_heading">"Test sonucunuz henüz çıkmadı."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Test sonucunuz henüz çıkmadı."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Hızlı testiniz eklendi."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1171,9 +1177,9 @@
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"PCR testinizin sonucu pozitif miydi?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
-    <string name="submission_dispatcher_card_qr">"QR Kodlu Test"</string>
+    <string name="submission_dispatcher_card_qr">"QR Kodu Tara"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Test belgenizin QR kodunu tarayarak testinizi kaydedin."</string>
+    <string name="submission_dispatcher_qr_card_text">"Uygulamada test sonucunuzu alın ve diğer kullanıcıları uyarın."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"PCR Testi için TAN girin"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
