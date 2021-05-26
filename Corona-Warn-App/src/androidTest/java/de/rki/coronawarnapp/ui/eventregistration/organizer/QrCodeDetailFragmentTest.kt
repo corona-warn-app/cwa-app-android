@@ -5,9 +5,13 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFragment
@@ -15,7 +19,10 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFra
 import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import org.joda.time.DateTimeZone
 import org.junit.After
 import org.junit.Before
@@ -30,6 +37,7 @@ import java.util.TimeZone
 class QrCodeDetailFragmentTest : BaseUITest() {
 
     @MockK private lateinit var qrCodeGenerator: QrCodeGenerator
+    @MockK private lateinit var appConfigProvider: AppConfigProvider
     @MockK private lateinit var traceLocationRepository: TraceLocationRepository
 
     private val timeZone = TimeZone.getTimeZone("Europe/Berlin")
@@ -42,6 +50,13 @@ class QrCodeDetailFragmentTest : BaseUITest() {
 
         coEvery { traceLocationRepository.traceLocationForId(1) } returns TraceLocationData.traceLocationSameDate
         coEvery { traceLocationRepository.traceLocationForId(2) } returns TraceLocationData.traceLocationDifferentDate
+        coEvery { appConfigProvider.currentConfig } returns flowOf(
+            mockk<ConfigData>().apply {
+                every { presenceTracing } returns mockk<PresenceTracingConfig>().apply {
+                    every { qrCodeErrorCorrectionLevel } returns ErrorCorrectionLevel.M
+                }
+            }
+        )
 
         setupMockViewModel(
             object : QrCodeDetailViewModel.Factory {
@@ -87,7 +102,8 @@ class QrCodeDetailFragmentTest : BaseUITest() {
             traceLocationId = traceLocationId,
             qrCodeGenerator = qrCodeGenerator,
             traceLocationRepository = traceLocationRepository,
-            dispatcher = TestDispatcherProvider()
+            dispatcher = TestDispatcherProvider(),
+            appConfigProvider = appConfigProvider
         )
 }
 
