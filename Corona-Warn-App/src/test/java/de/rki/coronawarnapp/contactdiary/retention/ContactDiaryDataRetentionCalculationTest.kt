@@ -109,7 +109,6 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         val list: List<ContactDiaryPersonEncounter> =
             testDates.map { createContactDiaryPersonEncounter(Instant.parse(it)) }
 
-
         every { contactDiaryRepository.personEncounters } returns flowOf(list)
         coEvery { contactDiaryRepository.deletePersonEncounters(any()) } just runs
 
