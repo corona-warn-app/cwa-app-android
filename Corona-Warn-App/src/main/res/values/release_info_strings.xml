@@ -17,22 +17,22 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Digitaler Impfnachweis</item>
+        <item>"Digital Proof of Vaccination"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können jetzt Ihre Impfzertifikate in der App hinzufügen und per QR-Code vorweisen. 14 Tage nach der letzten Impfung zeigt die App den vollständigen Impfschutz an.</item>
+        <item>"You can now add your vaccination certificates in the app and present them via QR code. The app displays full vaccination protection 14 days after the final vaccination."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item></item>
+        <item />
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item></item>
+        <item />
     </string-array>
 
 </resources>

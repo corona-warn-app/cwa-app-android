@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.bugreporting.debuglog
 
 import android.app.Application
 import dagger.Lazy
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
 import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogTree
 import de.rki.coronawarnapp.util.CWADebug
@@ -29,7 +31,8 @@ class DebugLoggerTest : BaseIOTest() {
 
     @MockK lateinit var application: Application
     @MockK lateinit var component: ApplicationComponent
-    @MockK lateinit var coronaTestCensor: CoronaTestCensor
+    @MockK lateinit var coronaTestCensor1: CoronaTestCensor
+    @MockK lateinit var coronaTestCensor2: CoronaTestCensor
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val cacheDir = File(testDir, "cache")
@@ -49,10 +52,11 @@ class DebugLoggerTest : BaseIOTest() {
         every { application.cacheDir } returns cacheDir
         every { component.inject(any<DebugLogger>()) } answers {
             val logger = arg<DebugLogger>(0)
-            logger.bugCensors = Lazy { setOf(coronaTestCensor) }
+            logger.bugCensors = Lazy { setOf(coronaTestCensor1, coronaTestCensor2) }
         }
 
-        coEvery { coronaTestCensor.checkLog(any()) } returns null
+        coEvery { coronaTestCensor1.checkLog(any()) } returns null
+        coEvery { coronaTestCensor2.checkLog(any()) } returns null
     }
 
     @AfterEach
@@ -178,19 +182,15 @@ class DebugLoggerTest : BaseIOTest() {
             setInjectionIsReady(component)
         }
 
-        runBlockingTest {
-            instance.start()
+        instance.start()
 
-            Timber.tag("Tag123").v("Message456")
-            advanceTimeBy(2000L)
+        Timber.tag("Tag123").v("Message456")
+        advanceTimeBy(2000L)
 
-            runningLog.readLines().last().substring(26) shouldBe """
-                V/Tag123: Message456
-            """.trimIndent()
+        runningLog.readLines().last().substring(25) shouldBe "V/Tag123: Message456"
 
-            instance.stop()
-            advanceUntilIdle()
-        }
+        instance.stop()
+        advanceUntilIdle()
     }
 
     @Test
@@ -214,7 +214,7 @@ class DebugLoggerTest : BaseIOTest() {
         testCollector.latestValue shouldBe LogState(
             isLogging = true,
             isLowStorage = false,
-            logSize = 78L
+            logSize = 77L
         )
 
         instance.stop()
@@ -227,5 +227,40 @@ class DebugLoggerTest : BaseIOTest() {
         )
 
         testCollector.cancel()
+    }
+
+    @Test
+    fun `affected text ranges are removed when censoring collisions occur`() = runBlockingTest {
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        val logMsg = "Lukas says: A hot coffee is really nice!"
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensoredString(msg).censor("says: A hot coffee", "says: A hot tea")
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(logMsg)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines().last().substring(25) shouldBe "V/Test: Lukas says: A hot tea is really nice!"
+
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensoredString(msg).censor("says:", "sings:")
+        }
+
+        Timber.tag("Test").v(logMsg)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines().last().substring(25) shouldBe "V/Test: Lukas <censoring-collision> is really nice!"
+
+        instance.stop()
+        advanceUntilIdle()
     }
 }

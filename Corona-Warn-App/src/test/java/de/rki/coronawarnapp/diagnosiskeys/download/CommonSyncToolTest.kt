@@ -38,9 +38,6 @@ abstract class CommonSyncToolTest : BaseIOTest() {
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
-    internal val String.loc get() = LocationCode(this)
-    internal val String.day get() = LocalDate.parse(this)
-    internal val String.hour get() = LocalTime.parse(this)
     val keyRepoData = mutableMapOf<String, CachedKey>()
 
     @BeforeEach
@@ -130,28 +127,12 @@ abstract class CommonSyncToolTest : BaseIOTest() {
         hourIdentifier: LocalTime?,
         isComplete: Boolean = true
     ): CachedKey {
-        var keyInfo = CachedKeyInfo(
-            type = when (hourIdentifier) {
-                null -> CachedKeyInfo.Type.LOCATION_DAY
-                else -> CachedKeyInfo.Type.LOCATION_HOUR
-            },
+        val keyInfo = createMockCachedKeyInfo(
             location = location,
-            day = dayIdentifier,
-            hour = hourIdentifier,
-            createdAt = when (hourIdentifier) {
-                null -> dayIdentifier.toLocalDateTime(LocalTime.MIDNIGHT).toDateTime(DateTimeZone.UTC).toInstant()
-                else -> dayIdentifier.toLocalDateTime(hourIdentifier).toDateTime(DateTimeZone.UTC).toInstant()
-            }
+            dayIdentifier = dayIdentifier,
+            hourIdentifier = hourIdentifier,
+            isComplete = isComplete
         )
-        if (isComplete) {
-            keyInfo = keyInfo.copy(
-                etag = when (hourIdentifier) {
-                    null -> "$location-$dayIdentifier"
-                    else -> "$location-$dayIdentifier-$hourIdentifier"
-                },
-                isDownloadComplete = true
-            )
-        }
         Timber.i("mockKeyCacheCreateEntry(...): %s", keyInfo)
         val file = File(testDir, keyInfo.id)
         file.createNewFile()
@@ -159,4 +140,40 @@ abstract class CommonSyncToolTest : BaseIOTest() {
             keyRepoData[it.info.id] = it
         }
     }
+}
+
+internal val String.loc get() = LocationCode(this)
+internal val String.day get() = LocalDate.parse(this)
+internal val String.hour get() = LocalTime.parse(this)
+
+fun createMockCachedKeyInfo(
+    dayIdentifier: LocalDate,
+    hourIdentifier: LocalTime?,
+    isComplete: Boolean,
+    location: LocationCode = "EUR".loc,
+): CachedKeyInfo {
+    var keyInfo = CachedKeyInfo(
+        type = when (hourIdentifier) {
+            null -> CachedKeyInfo.Type.LOCATION_DAY
+            else -> CachedKeyInfo.Type.LOCATION_HOUR
+        },
+        location = location,
+        day = dayIdentifier,
+        hour = hourIdentifier,
+        createdAt = when (hourIdentifier) {
+            null -> dayIdentifier.toLocalDateTime(LocalTime.MIDNIGHT).toDateTime(DateTimeZone.UTC).toInstant()
+            else -> dayIdentifier.toLocalDateTime(hourIdentifier).toDateTime(DateTimeZone.UTC).toInstant()
+        }
+    )
+    if (isComplete) {
+        keyInfo = keyInfo.copy(
+            etag = when (hourIdentifier) {
+                null -> "$location-$dayIdentifier"
+                else -> "$location-$dayIdentifier-$hourIdentifier"
+            },
+            isDownloadComplete = true
+        )
+    }
+    Timber.i("createMockCachedKeyInfo(...): %s", keyInfo)
+    return keyInfo
 }

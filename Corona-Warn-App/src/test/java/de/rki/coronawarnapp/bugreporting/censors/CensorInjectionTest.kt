@@ -13,7 +13,9 @@ import de.rki.coronawarnapp.submission.SubmissionSettings
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
+import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
@@ -67,7 +69,12 @@ class MockProvider {
 
     @Singleton
     @Provides
-    fun diary(): ContactDiaryRepository = mockk()
+    fun diary(): ContactDiaryRepository = mockk() {
+        every { people } returns flowOf(emptyList())
+        every { personEncounters } returns flowOf(emptyList())
+        every { locations } returns flowOf(emptyList())
+        every { locationVisits } returns flowOf(emptyList())
+    }
 
     @Singleton
     @Provides
@@ -75,15 +82,21 @@ class MockProvider {
 
     @Singleton
     @Provides
-    fun coronaTestRepository(): CoronaTestRepository = mockk()
+    fun coronaTestRepository(): CoronaTestRepository = mockk() {
+        every { coronaTests } returns flowOf(emptySet())
+    }
 
     @Singleton
     @Provides
-    fun checkInRepository(): CheckInRepository = mockk()
+    fun checkInRepository(): CheckInRepository = mockk() {
+        every { allCheckIns } returns flowOf(emptyList())
+    }
 
     @Singleton
     @Provides
-    fun traceLocationRepository(): TraceLocationRepository = mockk()
+    fun traceLocationRepository(): TraceLocationRepository = mockk() {
+        every { allTraceLocations } returns flowOf(emptyList())
+    }
 
     @Singleton
     @Provides

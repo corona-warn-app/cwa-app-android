@@ -76,6 +76,7 @@ class VaccinatedPersonTest : BaseTest() {
 
     @Test
     fun `vaccination status - IMMUNITY`() {
+        // vaccinatedAt "2021-04-27"
         val immunityContainer = testData.personAVac2Container
         val personData = mockk<VaccinatedPersonData>().apply {
             every { vaccinations } returns setOf(testData.personAVac1Container, immunityContainer)
@@ -85,23 +86,22 @@ class VaccinatedPersonTest : BaseTest() {
             valueSet = null
         )
 
-        val vaccinatedAt = immunityContainer.vaccination.vaccinatedAt
-
         vaccinatedPerson.apply {
             getVaccinationStatus(
-                vaccinatedAt.toDateTimeAtStartOfDay().toInstant()
+                Instant.parse("2021-04-27T12:00:00.000Z")
             ) shouldBe VaccinatedPerson.Status.COMPLETE
             getVaccinationStatus(
-                vaccinatedAt.toDateTimeAtStartOfDay().toInstant().plus(Duration.standardDays(13))
+                Instant.parse("2021-05-10T12:00:00.000Z")
             ) shouldBe VaccinatedPerson.Status.COMPLETE
             getVaccinationStatus(
-                vaccinatedAt.toDateTimeAtStartOfDay().toInstant().plus(Duration.standardDays(14))
+                Instant.parse("2021-05-11T12:00:00.000Z")
             ) shouldBe VaccinatedPerson.Status.IMMUNITY
         }
     }
 
     @Test
     fun `time until status IMMUNITY`() {
+        // vaccinatedAt "2021-04-27"
         val immunityContainer = testData.personAVac2Container
         val personData = mockk<VaccinatedPersonData>().apply {
             every { vaccinations } returns setOf(testData.personAVac1Container, immunityContainer)
@@ -110,19 +110,16 @@ class VaccinatedPersonTest : BaseTest() {
             data = personData,
             valueSet = null
         )
-
-        val vaccinatedAt = immunityContainer.vaccination.vaccinatedAt
-
         vaccinatedPerson.apply {
             getTimeUntilImmunity(
-                vaccinatedAt.toDateTimeAtStartOfDay().toInstant()
-            ) shouldBe Duration.standardDays(14)
+                Instant.parse("2021-04-27T12:00:00.000Z")
+            )!!.standardDays shouldBe Duration.standardDays(14).standardDays
             getTimeUntilImmunity(
-                vaccinatedAt.toDateTimeAtStartOfDay().toInstant().plus(Duration.standardDays(13))
-            ) shouldBe Duration.standardDays(1)
+                Instant.parse("2021-05-10T12:00:00.000Z")
+            )!!.standardDays shouldBe Duration.standardDays(1).standardDays
             getTimeUntilImmunity(
-                vaccinatedAt.toDateTimeAtStartOfDay().toInstant().plus(Duration.standardDays(14))
-            ) shouldBe Duration.ZERO
+                Instant.parse("2021-05-11T12:00:00.000Z")
+            )!!.standardDays shouldBe Duration.ZERO.standardDays
         }
     }
 }

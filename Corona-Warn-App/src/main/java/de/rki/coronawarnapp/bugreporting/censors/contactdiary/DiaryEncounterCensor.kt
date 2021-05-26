@@ -2,16 +2,19 @@ package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidComment
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 @Reusable
@@ -20,29 +23,31 @@ class DiaryEncounterCensor @Inject constructor(
     diary: ContactDiaryRepository
 ) : BugCensor {
 
-    private val encounters by lazy {
-        diary.personEncounters.stateIn(
-            scope = debugScope,
-            started = SharingStarted.Lazily,
-            initialValue = null
-        ).filterNotNull()
+    // We keep a history of all encounters so that we can censor them even after they got deleted
+    private val encounterHistory = mutableSetOf<ContactDiaryPersonEncounter>()
+
+    val mutex = Mutex()
+
+    init {
+        diary.personEncounters
+            .onEach { mutex.withLock { encounterHistory.addAll(it) } }
+            .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(entry: LogLine): LogLine? {
-        val encountersNow = encounters.first().filter { !it.circumstances.isNullOrBlank() }
+    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
 
-        if (encountersNow.isEmpty()) return null
+        if (encounterHistory.isEmpty()) return null
 
-        val newMessage = encountersNow.fold(entry.message) { orig, encounter ->
+        val newMessage = encounterHistory.fold(CensoredString(message)) { orig, encounter ->
             var wip = orig
 
             withValidComment(encounter.circumstances) {
-                wip = wip.replace(it, "Encounter#${encounter.id}/Circumstances")
+                wip += wip.censor(it, "Encounter#${encounter.id}/Circumstances")
             }
 
             wip
         }
 
-        return entry.toNewLogLineIfDifferent(newMessage)
+        return newMessage.toNullIfUnmodified()
     }
 }
