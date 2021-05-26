@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.util.security.HashHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -51,7 +52,7 @@ class VerificationServer @Inject constructor(
 
     suspend fun pollTestResult(
         token: RegistrationToken
-    ): CoronaTestResult = withContext(Dispatchers.IO) {
+    ): Pair<CoronaTestResult, Instant?> = withContext(Dispatchers.IO) {
         Timber.tag(TAG).v("retrieveTestResults(token=%s)", token)
         val response = api.getTestResult(
             fake = "0",
@@ -63,7 +64,7 @@ class VerificationServer @Inject constructor(
         )
 
         Timber.tag(TAG).d("retrieveTestResults(token=%s) -> %s", token, response)
-        CoronaTestResult.fromInt(response.testResult)
+        CoronaTestResult.fromInt(response.testResult) to response.sc?.toLong()?.let { Instant.ofEpochSecond(it) }
     }
 
     suspend fun retrieveTan(

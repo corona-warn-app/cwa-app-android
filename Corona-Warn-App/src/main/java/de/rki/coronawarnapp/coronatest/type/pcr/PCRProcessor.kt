@@ -50,7 +50,7 @@ class PCRProcessor @Inject constructor(
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult) // This saves received at
+        testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult.first) // This saves received at
 
         return createCoronaTest(request, registrationData)
     }
@@ -74,7 +74,7 @@ class PCRProcessor @Inject constructor(
     ): PCRCoronaTest {
         analyticsKeySubmissionCollector.reset()
 
-        val testResult = response.testResult.let {
+        val testResult = response.testResult.first.let {
             Timber.tag(TAG).v("Raw test result $it")
             testResultDataCollector.updatePendingTestResultReceivedTime(it)
 
@@ -118,7 +118,7 @@ class PCRProcessor @Inject constructor(
             }
 
             val newTestResult = try {
-                submissionService.asyncRequestTestResult(test.registrationToken).let {
+                submissionService.asyncRequestTestResult(test.registrationToken).first.let {
                     Timber.tag(TAG).d("Raw test result was %s", it)
                     testResultDataCollector.updatePendingTestResultReceivedTime(it)
 

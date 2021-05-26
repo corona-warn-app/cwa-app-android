@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.joda.time.Instant
 import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -28,7 +29,7 @@ class DefaultPlaybook @Inject constructor(
     override suspend fun initialRegistration(
         key: String,
         keyType: VerificationKeyType
-    ): Pair<String, CoronaTestResult> {
+    ): Pair<String, Pair<CoronaTestResult, Instant?>> {
         Timber.i("[$uid] New Initial Registration Playbook")
 
         // real registration
@@ -62,7 +63,7 @@ class DefaultPlaybook @Inject constructor(
         propagateException(registrationException, testResultException)
     }
 
-    override suspend fun testResult(registrationToken: String): CoronaTestResult {
+    override suspend fun testResult(registrationToken: String): Pair<CoronaTestResult, Instant?> {
         Timber.i("[$uid] New Test Result Playbook")
 
         // real test result
