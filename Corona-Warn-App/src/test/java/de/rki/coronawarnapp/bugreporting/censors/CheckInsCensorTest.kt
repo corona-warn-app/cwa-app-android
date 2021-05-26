@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.CheckInsCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import io.kotest.matchers.shouldBe
@@ -12,6 +11,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -41,7 +41,7 @@ internal class CheckInsCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return LogLine with censored check-in information`() = runBlocking {
+    fun `checkLog() should return LogLine with censored check-in information`() = runBlockingTest {
         every { checkInsRepo.allCheckIns } returns flowOf(
             listOf(
                 mockCheckIn(
@@ -59,36 +59,59 @@ internal class CheckInsCensorTest : BaseTest() {
 
         val censor = createInstance(this)
 
-        val logLineToCensor = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message =
-                """
-                Let's go to Moe's Tavern in Near 742 Evergreen Terrace, 12345 Springfield.
-                Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
-                """.trimIndent(),
-            tag = "I am tag",
-            throwable = null
+        val logLineToCensor =
+            """
+            Let's go to Moe's Tavern in Near 742 Evergreen Terrace, 12345 Springfield.
+            Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
+            """.trimIndent()
+
+        censor.checkLog(logLineToCensor)!!.string shouldBe """
+            Let's go to CheckIn#1/Description in CheckIn#1/Address.
+            Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
+        """.trimIndent()
+    }
+
+    @Test
+    fun `censoring should still work after user deletes his check-ins`() = runBlockingTest {
+        every { checkInsRepo.allCheckIns } returns flowOf(
+            listOf(
+                mockCheckIn(
+                    checkInId = 1,
+                    checkInDescription = "Moe's Tavern",
+                    checkInAddress = "Near 742 Evergreen Terrace, 12345 Springfield"
+                ),
+                mockCheckIn(
+                    checkInId = 2,
+                    checkInDescription = "Kwik-E-Mart",
+                    checkInAddress = "Some Street, 12345 Springfield"
+                )
+            ),
+            listOf(
+                mockCheckIn(
+                    checkInId = 1,
+                    checkInDescription = "Moe's Tavern",
+                    checkInAddress = "Near 742 Evergreen Terrace, 12345 Springfield"
+                ),
+                            /* deleted: mockCheckIn(
+                    checkInId = 2,
+                    checkInDescription = "Kwik-E-Mart",
+                    checkInAddress = "Some Street, 12345 Springfield"
+                )*/
+            )
         )
 
-        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
-            message =
-                """
-                Let's go to CheckIn#1/Description in CheckIn#1/Address.
-                Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
-                """.trimIndent()
-        )
+        val censor = createInstance(this)
 
-        // censoring should still work after user deletes his check-ins
-        every { checkInsRepo.allCheckIns } returns flowOf(emptyList())
+        val logLineToCensor =
+            """
+            Let's go to Moe's Tavern in Near 742 Evergreen Terrace, 12345 Springfield.
+            Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
+            """.trimIndent()
 
-        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
-            message =
-                """
-                Let's go to CheckIn#1/Description in CheckIn#1/Address.
-                Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
-                """.trimIndent()
-        )
+        censor.checkLog(logLineToCensor)!!.string shouldBe """
+            Let's go to CheckIn#1/Description in CheckIn#1/Address.
+            Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
+        """.trimIndent()
     }
 
     @Test
@@ -96,13 +119,7 @@ internal class CheckInsCensorTest : BaseTest() {
         every { checkInsRepo.allCheckIns } returns flowOf(emptyList())
 
         val censor = createInstance(this)
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Some log message that shouldn't be censored.",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Some log message that shouldn't be censored."
 
         censor.checkLog(logLine) shouldBe null
     }
@@ -126,13 +143,7 @@ internal class CheckInsCensorTest : BaseTest() {
         )
 
         val censor = createInstance(this)
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Some log message that shouldn't be censored.",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Some log message that shouldn't be censored."
 
         censor.checkLog(logLine) shouldBe null
     }

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryPersonCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import io.kotest.matchers.shouldBe
@@ -55,50 +54,56 @@ class DiaryPersonCensorTest : BaseTest() {
             )
         )
         val instance = createInstance(this)
-        val censorMe = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message =
-                """
-                Ralf requested more coffee from +49 1234 7777,
-                but Matthias thought he had enough has had enough for today.
-                A quick mail to luka@sap.com confirmed this.
-                """.trimIndent(),
-            tag = "I'm a tag",
-            throwable = null
-        )
-        instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message =
-                """
-                Person#2/Name requested more coffee from Person#1/PhoneNumber,
-                but Person#3/Name thought he had enough has had enough for today.
-                A quick mail to Person#1/EMail confirmed this.
-                """.trimIndent()
+        val censorMe =
+            """
+            Ralf requested more coffee from +49 1234 7777,
+            but Matthias thought he had enough has had enough for today.
+            A quick mail to luka@sap.com confirmed this.
+            """.trimIndent()
+        instance.checkLog(censorMe)!!.string shouldBe
+            """
+            Person#2/Name requested more coffee from Person#1/PhoneNumber,
+            but Person#3/Name thought he had enough has had enough for today.
+            A quick mail to Person#1/EMail confirmed this.
+            """.trimIndent()
+    }
+
+    @Test
+    fun `censoring should still work after people are deleted`() = runBlockingTest {
+        every { diaryRepo.people } returns flowOf(
+            listOf(
+                mockPerson(1, "Luka", phone = "+49 1234 7777", mail = "luka@sap.com"),
+                mockPerson(2, "Ralf", phone = null, mail = null),
+                mockPerson(3, "Matthias", phone = null, mail = "matthias@sap.com")
+            ),
+            listOf(
+                mockPerson(1, "Luka", phone = "+49 1234 7777", mail = "luka@sap.com"),
+                mockPerson(2, "Ralf", phone = null, mail = null),
+                // Matthias was deleted
+            )
         )
 
-        // censoring should still work after people are deleted
-        every { diaryRepo.people } returns flowOf(emptyList())
-        instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message =
-                """
-                Person#2/Name requested more coffee from Person#1/PhoneNumber,
-                but Person#3/Name thought he had enough has had enough for today.
-                A quick mail to Person#1/EMail confirmed this.
-                """.trimIndent()
-        )
+        val instance = createInstance(this)
+        val censorMe =
+            """
+            Ralf requested more coffee from +49 1234 7777,
+            but Matthias thought he had enough has had enough for today.
+            A quick mail to luka@sap.com confirmed this.
+            """.trimIndent()
+
+        instance.checkLog(censorMe)!!.string shouldBe
+            """
+            Person#2/Name requested more coffee from Person#1/PhoneNumber,
+            but Person#3/Name thought he had enough has had enough for today.
+            A quick mail to Person#1/EMail confirmed this.
+            """.trimIndent()
     }
 
     @Test
     fun `censoring returns null if there are no persons no match`() = runBlockingTest {
         every { diaryRepo.people } returns flowOf(emptyList())
         val instance = createInstance(this)
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "May 2021 be better than 2020.",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "May 2021 be better than 2020."
         instance.checkLog(notCensored) shouldBe null
     }
 
@@ -112,13 +117,7 @@ class DiaryPersonCensorTest : BaseTest() {
             )
         )
         val instance = createInstance(this)
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Lorem ipsum",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Lorem ipsum"
         instance.checkLog(logLine) shouldBe null
     }
 
@@ -133,13 +132,7 @@ class DiaryPersonCensorTest : BaseTest() {
             )
         )
 
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Lorem ipsum",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Lorem ipsum"
 
         var isFinished = false
 

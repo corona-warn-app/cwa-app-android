@@ -6,7 +6,7 @@
     <!-- XHED: Register test homescreen card: title -->
     <string name="ag_homescreen_card_test_register_title">"Register Your Test"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Use the app to retrieve your test results, so you can warn others more quickly."</string>
+    <string name="ag_homescreen_card_test_register_body">"Use the app to register your tests and retrieve your test results, so you can warn others more quickly."</string>
 
     <!-- ####################################
         Homescreen cards - common buttons
@@ -142,7 +142,7 @@
     <!-- XHED: Create RAT profile card title -->
     <string name="rat_profile_create_card_title">"Create Rapid Test Profile"</string>
     <!-- XTXT: Create RAT profile card subtitle -->
-    <string name="rat_profile_create_card_subtitle">"You can create a profile with your personal data, which you can submit via QR code during every rapid test."</string>
+    <string name="rat_profile_create_card_subtitle">"You can create a profile with your personal data, which you can submit via QR code to every participating testing point."</string>
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Rapid Test Profile"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
@@ -158,7 +158,7 @@
     <!-- XBUT: Create RAT profile save button -->
     <string name="rat_profile_create_button">"Save"</string>
     <!-- XTXT: Create RAT profile description -->
-    <string name="rat_profile_create_description">"Save your personal data as a QR code to speed up registration at testing points."</string>
+    <string name="rat_profile_create_description">"You can create a profile with your personal data, which you can submit via QR code to every participating testing point."</string>
     <!-- XTXT: Create RAT profile street hint -->
     <string name="rat_profile_create_street_hint">"Street and House Number"</string>
     <!-- XTXT: Create RAT profile post code hint -->
@@ -173,7 +173,7 @@
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"A woman with a smartphone in her hand is standing in front of a building. A QR code symbolizes the rapid test profile to be scanned."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Save your personal data as a QR code to speed up registration at testing points."</string>
+    <string name="rat_profile_onboarding_title">"You can create a profile with your personal data, which you can submit via QR code to every participating testing point."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
     <string name="rat_profile_onboarding_subtitle">"When you create a rapid test profile, you will not have to fill out your personal data again before every rapid test."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
