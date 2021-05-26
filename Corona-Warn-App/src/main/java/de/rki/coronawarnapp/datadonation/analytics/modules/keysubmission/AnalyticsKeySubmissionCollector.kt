@@ -42,7 +42,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         val lastResult = riskLevelStorage
             .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .first()
-            .lastSuccessfullyCalculated
+            .lastCalculated
 
         val ewRiskLevelAtRegistration = lastResult.ewRiskLevelResult.toMetadataRiskLevel()
         if (ewRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {

@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -70,16 +71,19 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsRaKeySubmissionStorage.testRegisteredAt } returns raTestRegisteredAt
 
         every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
+
         val hoursSinceHighRiskWarningAtTestRegistration = mockFlowPreference(-1)
         every { analyticsPcrKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration } returns
             hoursSinceHighRiskWarningAtTestRegistration
         every { analyticsRaKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration } returns
             hoursSinceHighRiskWarningAtTestRegistration
+
         coEvery {
             riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp
         } returns now
             .minus(Days.days(2).toStandardDuration()).toDateTime().toLocalDate()
             .toDateTime(LocalTime(22, 0)).toInstant()
+
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = mockFlowPreference(0)
         every { analyticsPcrKeySubmissionStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
             daysSinceMostRecentDateAtRiskLevelAtTestRegistration
@@ -89,8 +93,14 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
             daysSinceMostRecentDateAtRiskLevelAtTestRegistration
         every { analyticsRaKeySubmissionStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
             daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+
         every { analyticsPcrKeySubmissionStorage.clear() } just Runs
         every { analyticsRaKeySubmissionStorage.clear() } just Runs
+
+        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns now.minus(Days.days(2).toStandardDuration())
+        every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
+            now.minus(Days.days(2).toStandardDuration()).toLocalDateUtc()
+
         runBlockingTest {
             val collector = createInstance()
             collector.reportTestRegistered(PCR)
@@ -98,6 +108,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
             verify { hoursSinceHighRiskWarningAtTestRegistration.update(any()) }
             verify { daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update(any()) }
         }
+
         runBlockingTest {
             val collector = createInstance()
             collector.reportTestRegistered(RAPID_ANTIGEN)
