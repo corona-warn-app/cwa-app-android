@@ -9,35 +9,36 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnm
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidAddress
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidDescription
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
+import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 @Reusable
 class CheckInsCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
-    private val checkInRepository: CheckInRepository
+    checkInRepository: CheckInRepository
 ) : BugCensor {
 
-    private val checkInsFlow by lazy {
-        checkInRepository.allCheckIns.stateIn(
-            scope = debugScope,
-            started = SharingStarted.Lazily,
-            initialValue = null
-        ).filterNotNull()
+    private val mutex = Mutex()
+
+    private val checkInsHistory = mutableSetOf<CheckIn>()
+
+    init {
+        checkInRepository.allCheckIns
+            .onEach { mutex.withLock { checkInsHistory.addAll(it) } }
+            .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): CensoredString? {
+    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
 
-        val checkIns = checkInsFlow.first()
+        if (checkInsHistory.isEmpty()) return null
 
-        if (checkIns.isEmpty()) return null
-
-        val newLogMsg = checkIns.fold(CensoredString(message)) { initial, checkIn ->
+        val newLogMsg = checkInsHistory.fold(CensoredString(message)) { initial, checkIn ->
 
             var acc = initial
 
