@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.diagnosiskeys.storage.pkgDateTime
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
@@ -81,7 +82,7 @@ class DayPackageSyncTool @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun expectNewDayPackages(cachedDays: List<CachedKey>): Boolean {
         val yesterday = timeStamper.nowUTC.toLocalDateUtc().minusDays(1)
-        val newestDay = cachedDays.map { it.info.toDateTime() }.maxOrNull()?.toLocalDate()
+        val newestDay = cachedDays.map { it.info.pkgDateTime }.maxOrNull()?.toLocalDate()
 
         return yesterday != newestDay
     }

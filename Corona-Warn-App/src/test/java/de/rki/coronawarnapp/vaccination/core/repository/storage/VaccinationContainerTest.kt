@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkObject
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -23,7 +22,6 @@ class VaccinationContainerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         DaggerVaccinationTestComponent.factory().create().inject(this)
-        mockkObject(Locale.getDefault())
     }
 
     @Test
@@ -62,8 +60,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `mapping to user facing data - valueset is null`() {
-        every { Locale.getDefault().language } returns "de"
-        testData.personAVac1Container.toVaccinationCertificate(null).apply {
+        testData.personAVac1Container.toVaccinationCertificate(null, userLocale = Locale.GERMAN).apply {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             dateOfBirth shouldBe LocalDate.parse("1966-11-11")
@@ -110,9 +107,8 @@ class VaccinationContainerTest : BaseTest() {
             every { mp } returns vpMockk
             every { ma } returns vpMockk
         }
-        every { Locale.getDefault().language } returns "de"
 
-        testData.personAVac1Container.toVaccinationCertificate(valueSet).apply {
+        testData.personAVac1Container.toVaccinationCertificate(valueSet, userLocale = Locale.GERMAN).apply {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             dateOfBirth shouldBe LocalDate.parse("1966-11-11")
