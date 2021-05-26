@@ -30,7 +30,7 @@ class PcrQrCodeCensorTest : BaseTest() {
         PcrQrCodeCensor.lastGUID = testGUID
         val instance = createInstance()
         val censored = "I'm a shy qrcode: $testGUID"
-        instance.checkLog(censored)!!.string shouldBe "I'm a shy qrcode: ########-####-####-####-########3a2f"
+        instance.checkLog(censored)!!.censored shouldBe "I'm a shy qrcode: ########-####-####-####-########3a2f"
     }
 
     @Test

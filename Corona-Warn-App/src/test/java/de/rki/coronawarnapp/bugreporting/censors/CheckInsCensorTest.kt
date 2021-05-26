@@ -65,7 +65,7 @@ internal class CheckInsCensorTest : BaseTest() {
             Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
             """.trimIndent()
 
-        censor.checkLog(logLineToCensor)!!.string shouldBe """
+        censor.checkLog(logLineToCensor)!!.censored shouldBe """
             Let's go to CheckIn#1/Description in CheckIn#1/Address.
             Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
         """.trimIndent()
@@ -108,7 +108,7 @@ internal class CheckInsCensorTest : BaseTest() {
             Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
             """.trimIndent()
 
-        censor.checkLog(logLineToCensor)!!.string shouldBe """
+        censor.checkLog(logLineToCensor)!!.censored shouldBe """
             Let's go to CheckIn#1/Description in CheckIn#1/Address.
             Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
         """.trimIndent()

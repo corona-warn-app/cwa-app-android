@@ -177,7 +177,7 @@ class DebugLogger(
 
                     val toWrite: String = when (censored.size) {
                         0 -> formattedMessage
-                        1 -> censored.single().string
+                        1 -> censored.single().let { it.censored ?: it.original }
                         else -> {
                             try {
                                 // Lowest censoring range, within original msg bounds

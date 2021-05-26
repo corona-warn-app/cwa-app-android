@@ -39,7 +39,7 @@ class DiaryLocationCensor @Inject constructor(
 
         if (locationHistory.isEmpty()) return null
 
-        val newMessage = locationHistory.fold(CensoredString(message)) { orig, location ->
+        val newMessage = locationHistory.fold(CensoredString.fromOriginal(message)) { orig, location ->
             var wip = orig
 
             withValidName(location.locationName) {

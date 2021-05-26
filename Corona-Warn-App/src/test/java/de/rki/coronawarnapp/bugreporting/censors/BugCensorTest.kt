@@ -102,98 +102,98 @@ class BugCensorTest : BaseTest() {
 
     @Test
     fun `censor string is nulled if not modified`() {
-        BugCensor.CensoredString("abc", 1..2).toNullIfUnmodified() shouldNotBe null
-        BugCensor.CensoredString("abc", null).toNullIfUnmodified() shouldBe null
+        BugCensor.CensoredString("abc", "abc", 1..2).toNullIfUnmodified() shouldNotBe null
+        BugCensor.CensoredString("abc", "abc", null).toNullIfUnmodified() shouldBe null
     }
 
     @Test
     fun `censoring range determination`() {
         val input = "1234567890ABCDEFG"
-        val one = BugCensor.CensoredString(input, null)
+        val one = BugCensor.CensoredString.fromOriginal(input)
 
         one.censor("1234", "")!!.apply {
-            string shouldBe "567890ABCDEFG"
+            censored shouldBe "567890ABCDEFG"
             range shouldBe 0..4
         }
 
         one.censor("1234", "....")!!.apply {
-            string shouldBe "....567890ABCDEFG"
+            censored shouldBe "....567890ABCDEFG"
             range shouldBe 0..4
         }
 
         one.censor("DEFG", "....")!!.apply {
-            string shouldBe "1234567890ABC...."
+            censored shouldBe "1234567890ABC...."
             range shouldBe 13..(13 + 4)
         }
 
         one.censor("1234567890ABCDEFG", "...")!!.apply {
-            string shouldBe "..."
+            censored shouldBe "..."
             range shouldBe 0..(0 + 17)
         }
 
         one.censor("#", "...") shouldBe null
 
         one.censor("1234567890ABCDEFG", "1234567890ABCDEFG###")!!.apply {
-            string shouldBe "1234567890ABCDEFG###"
+            censored shouldBe "1234567890ABCDEFG###"
             range shouldBe 0..(0 + 17)
         }
 
         one.censor("", " ")!!.apply {
-            string shouldBe " 1 2 3 4 5 6 7 8 9 0 A B C D E F G "
+            censored shouldBe " 1 2 3 4 5 6 7 8 9 0 A B C D E F G "
             range shouldBe 0..16
         }
     }
 
     @Test
     fun `censoring range combination`() {
-        (BugCensor.CensoredString("abc", 1..2) + BugCensor.CensoredString("abc", 1..2)).apply {
-            string shouldBe "abc"
+        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
+            censored shouldBe "abc"
             range shouldBe 1..2
         }
 
-        (BugCensor.CensoredString("abc", 0..2) + BugCensor.CensoredString("abc", 1..2)).apply {
+        (BugCensor.CensoredString("abc", "abc", 0..2) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
             range shouldBe 0..2
         }
-        (BugCensor.CensoredString("abc", 0..3) + BugCensor.CensoredString("abc", 1..2)).apply {
+        (BugCensor.CensoredString("abc", "abc", 0..3) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
             range shouldBe 0..3
         }
-        (BugCensor.CensoredString("abc", 1..2) + BugCensor.CensoredString("abc", 0..2)).apply {
+        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 0..2)).apply {
             range shouldBe 0..2
         }
-        (BugCensor.CensoredString("abc", 1..2) + BugCensor.CensoredString("abc", 0..3)).apply {
+        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 0..3)).apply {
             range shouldBe 0..3
         }
 
-        (BugCensor.CensoredString("abc", 1..2) + BugCensor.CensoredString("abc", 3..4)).apply {
+        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 3..4)).apply {
             range shouldBe 1..4
         }
-        (BugCensor.CensoredString("abc", 1..2) + BugCensor.CensoredString("abc", 4..5)).apply {
+        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 4..5)).apply {
             range shouldBe 1..5
         }
-        (BugCensor.CensoredString("abc", 1..1) + BugCensor.CensoredString("abc", 2..2)).apply {
+        (BugCensor.CensoredString("abc", "abc", 1..1) + BugCensor.CensoredString("abc", "abc", 2..2)).apply {
             range shouldBe 1..2
         }
 
-        (BugCensor.CensoredString("abc", 1..2) + BugCensor.CensoredString("abc", 0..2)).apply {
+        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 0..2)).apply {
             range shouldBe 0..2
         }
-        (BugCensor.CensoredString("abc", 1..2) + BugCensor.CensoredString("abc", 0..3)).apply {
+        (BugCensor.CensoredString("abc", "abc", 1..2) + BugCensor.CensoredString("abc", "abc", 0..3)).apply {
             range shouldBe 0..3
         }
-        (BugCensor.CensoredString("abc", 0..2) + BugCensor.CensoredString("abc", 1..2)).apply {
+        (BugCensor.CensoredString("abc", "abc", 0..2) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
             range shouldBe 0..2
         }
-        (BugCensor.CensoredString("abc", 0..3) + BugCensor.CensoredString("abc", 1..2)).apply {
+        (BugCensor.CensoredString("abc", "abc", 0..3) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
             range shouldBe 0..3
         }
 
-        (BugCensor.CensoredString("abc", 3..4) + BugCensor.CensoredString("abc", 1..2)).apply {
+        (BugCensor.CensoredString("abc", "abc", 3..4) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
             range shouldBe 1..4
         }
-        (BugCensor.CensoredString("abc", 4..5) + BugCensor.CensoredString("abc", 1..2)).apply {
+        (BugCensor.CensoredString("abc", "abc", 4..5) + BugCensor.CensoredString("abc", "abc", 1..2)).apply {
             range shouldBe 1..5
         }
-        (BugCensor.CensoredString("abc", 2..2) + BugCensor.CensoredString("abc", 1..1)).apply {
+        (BugCensor.CensoredString("abc", "abc", 2..2) + BugCensor.CensoredString("abc", "abc", 1..1)).apply {
             range shouldBe 1..2
         }
     }

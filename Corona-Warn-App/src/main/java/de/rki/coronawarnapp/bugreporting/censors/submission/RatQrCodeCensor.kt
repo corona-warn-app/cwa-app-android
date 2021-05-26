@@ -21,7 +21,7 @@ class RatQrCodeCensor @Inject constructor() : BugCensor {
 
         val dataToCensor = dataToCensor ?: return null
 
-        var newMessage = CensoredString(message)
+        var newMessage = CensoredString.fromOriginal(message)
 
         with(dataToCensor) {
             newMessage += newMessage.censor(rawString, "RatQrCode/ScannedRawString")

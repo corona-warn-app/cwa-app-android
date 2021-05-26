@@ -15,7 +15,7 @@ import javax.inject.Inject
 class CertificateQrCodeCensor @Inject constructor() : BugCensor {
 
     override suspend fun checkLog(message: String): CensoredString? {
-        var newMessage = CensoredString(message)
+        var newMessage = CensoredString.fromOriginal(message)
 
         synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.toList() }.forEach {
             newMessage += newMessage.censor(it, PLACEHOLDER + it.takeLast(4))

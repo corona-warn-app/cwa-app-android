@@ -40,7 +40,7 @@ class RACoronaTestCensor @Inject constructor(
 
     override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
 
-        var newMessage = CensoredString(message)
+        var newMessage = CensoredString.fromOriginal(message)
 
         ratCoronaTestHistory.forEach { ratCoronaTest ->
             withValidName(ratCoronaTest.firstName) { firstName ->

@@ -241,7 +241,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString(msg).censor("says: A hot coffee", "says: A hot tea")
+            BugCensor.CensoredString.fromOriginal(msg).censor("says: A hot coffee", "says: A hot tea")
         }
 
         instance.start()
@@ -253,7 +253,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString(msg).censor("says:", "sings:")
+            BugCensor.CensoredString.fromOriginal(msg).censor("says:", "sings:")
         }
 
         Timber.tag("Test").v(logMsg)
@@ -309,7 +309,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString(msg).censor(
+            BugCensor.CensoredString.fromOriginal(msg).censor(
                 "firstName=Rüdiger, lastName=Müller",
                 "firstName=FIRSTNAME, lastName=LASTNAME"
             )
@@ -317,7 +317,7 @@ class DebugLoggerTest : BaseIOTest() {
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString(msg).censor(
+            BugCensor.CensoredString.fromOriginal(msg).censor(
                 "qrcode-RAPID_ANTIGEN-9a9a35fa1cf3261be3349fc50a37b58280634bf42487c8e4eca060c48f259eb7",
                 "IDENTIFIER"
             )
@@ -348,12 +348,12 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString(msg).censor("Before", "After")
+            BugCensor.CensoredString.fromOriginal(msg).censor("Before", "After")
 
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            var orig = BugCensor.CensoredString(msg)
+            var orig = BugCensor.CensoredString.fromOriginal(msg)
 
             orig += orig.censor("ort", "thisReallyIsNotShortAnymore")
             orig += orig.censor("Anymore", "Nevermore")

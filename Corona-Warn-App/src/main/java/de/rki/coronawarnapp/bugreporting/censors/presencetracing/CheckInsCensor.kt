@@ -38,7 +38,7 @@ class CheckInsCensor @Inject constructor(
 
         if (checkInsHistory.isEmpty()) return null
 
-        val newLogMsg = checkInsHistory.fold(CensoredString(message)) { initial, checkIn ->
+        val newLogMsg = checkInsHistory.fold(CensoredString.fromOriginal(message)) { initial, checkIn ->
 
             var acc = initial
 

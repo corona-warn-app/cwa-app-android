@@ -11,12 +11,22 @@ interface BugCensor {
     suspend fun checkLog(message: String): CensoredString?
 
     data class CensoredString(
+        // Original String, necessary for correct censoring ranges
+        val original: String,
         // The censored version of the string
-        val string: String,
+        val censored: String?,
         // The range that we censored
         // If there is a collision, this range in the original needs to be removed.
-        val range: IntRange? = null
-    )
+        val range: IntRange?
+    ) {
+        companion object {
+            fun fromOriginal(original: String): CensoredString = CensoredString(
+                original = original,
+                censored = null,
+                range = null,
+            )
+        }
+    }
 
     companion object {
         operator fun CensoredString.plus(newer: CensoredString?): CensoredString {
@@ -28,17 +38,22 @@ interface BugCensor {
                 else -> min(this.range.first, newer.range.first)..max(this.range.last, newer.range.last)
             }
 
-            return CensoredString(string = newer.string, range = range)
+            return CensoredString(
+                original = this.original,
+                censored = newer.censored,
+                range = range,
+            )
         }
 
-        fun CensoredString.censor(orig: String, replacement: String): CensoredString? {
-            val start = this.string.indexOf(orig)
+        fun CensoredString.censor(toCensor: String, replacement: String): CensoredString? {
+            val start = this.original.indexOf(toCensor)
             if (start == -1) return null
 
-            val end = this.string.lastIndexOf(orig) + orig.length
+            val end = this.original.lastIndexOf(toCensor) + toCensor.length
             return CensoredString(
-                string = this.string.replace(orig, replacement),
-                range = start..end
+                original = this.original,
+                censored = (this.censored ?: this.original).replace(toCensor, replacement),
+                range = start..end,
             )
         }
 
