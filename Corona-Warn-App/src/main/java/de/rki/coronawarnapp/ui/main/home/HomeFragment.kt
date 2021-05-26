@@ -69,7 +69,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         viewModel.showPopUps()
-        viewModel.events.observe2(this) { event -> navigate(event) }
+        viewModel.events.observe2(this) { event -> event?.let { navigate(event) } }
         viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
         viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
@@ -130,7 +130,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
-    private fun navigate(event: HomeFragmentEvents?) {
+    private fun navigate(event: HomeFragmentEvents) {
         when (event) {
             HomeFragmentEvents.ShowErrorResetDialog -> {
                 RecoveryByResetDialogFactory(this).showDialog(
