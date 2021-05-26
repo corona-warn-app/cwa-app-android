@@ -267,7 +267,8 @@ class DebugLoggerTest : BaseIOTest() {
 
     @Test
     fun `censoring collision handling for multiple values in the same string`() = runBlockingTest {
-        val before = """
+        val before =
+            """
             RACoronaTest(
                 identifier=qrcode-RAPID_ANTIGEN-9a9a35fa1cf3261be3349fc50a37b58280634bf42487c8e4eca060c48f259eb7,
                 registeredAt=2021-05-25T10:18:05.275Z,
@@ -297,15 +298,15 @@ class DebugLoggerTest : BaseIOTest() {
                 dateOfBirth=1994-05-18, isProcessing=false,
                 lastError=IOException()
             )
-        """.trimIndent()
-        val after = """
+            """.trimIndent()
+        val after =
+            """
             RACoronaTest(
                 identifier=<censor-collision/>,
                 dateOfBirth=1994-05-18, isProcessing=false,
                 lastError=IOException()
             )
-        """.trimIndent()
-
+            """.trimIndent()
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
@@ -313,7 +314,6 @@ class DebugLoggerTest : BaseIOTest() {
                 "firstName=Rüdiger, lastName=Müller",
                 "firstName=FIRSTNAME, lastName=LASTNAME"
             )
-
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
@@ -349,7 +349,6 @@ class DebugLoggerTest : BaseIOTest() {
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
             BugCensor.CensorContainer(msg).censor("Before", "After")
-
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
@@ -384,7 +383,6 @@ class DebugLoggerTest : BaseIOTest() {
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
             BugCensor.CensorContainer(msg).censor("Berry", "Banana")
-
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
@@ -420,7 +418,6 @@ class DebugLoggerTest : BaseIOTest() {
             BugCensor.CensorContainer(msg)
                 .censor("Straw", "Strap")
                 .censor("With", "More")
-
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)

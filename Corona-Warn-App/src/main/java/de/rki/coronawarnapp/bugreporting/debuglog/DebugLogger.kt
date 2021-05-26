@@ -182,17 +182,18 @@ class DebugLogger(
                     val toWrite: String = when (censored.size) {
                         0 -> formattedMessage
                         1 -> censored.single().compile()?.censored ?: formattedMessage
-                        else -> try {
-                            val combinedContainer = BugCensor.CensorContainer(
-                                original = formattedMessage,
-                                actions = censored.flatMap { it.actions }
-                            )
+                        else ->
+                            try {
+                                val combinedContainer = BugCensor.CensorContainer(
+                                    original = formattedMessage,
+                                    actions = censored.flatMap { it.actions }
+                                )
 
-                            combinedContainer.compile()?.censored ?: formattedMessage
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Censoring collision fail.", e)
-                            "<censor-error>Global combination: $e</censor-error"
-                        }
+                                combinedContainer.compile()?.censored ?: formattedMessage
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Censoring collision fail.", e)
+                                "<censor-error>Global combination: $e</censor-error"
+                            }
                     }
                     logWriter.write(toWrite)
                 }

@@ -170,7 +170,8 @@ class BugCensorTest : BaseTest() {
         BugCensor.CensorContainer("#abcdefg*")
             .censor("abc", "123")
             .censor("efg", "567")
-            .compile()!!.apply {
+            .compile()!!
+            .apply {
                 censored shouldBe "#123d567*"
                 ranges shouldBe listOf(1..4, 5..8)
             }
@@ -181,7 +182,8 @@ class BugCensorTest : BaseTest() {
         BugCensor.CensorContainer("#abcefg*")
             .censor("abc", "123")
             .censor("efg", "567")
-            .compile()!!.apply {
+            .compile()!!
+            .apply {
                 censored shouldBe "#123567*"
                 ranges shouldBe listOf(1..4, 4..7)
             }
@@ -192,7 +194,8 @@ class BugCensorTest : BaseTest() {
         BugCensor.CensorContainer("#abcdefg*")
             .censor("abcd", "1234")
             .censor("defg", "4567")
-            .compile()!!.apply {
+            .compile()!!
+            .apply {
                 censored shouldBe "#<censor-collision/>*"
                 ranges shouldBe listOf(1..8)
             }
