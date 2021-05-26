@@ -36,7 +36,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         val lastResult = riskLevelStorage
             .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .first()
-            .lastSuccessfullyCalculated
+            .lastCalculated
 
         type.settings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
