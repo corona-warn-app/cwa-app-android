@@ -58,6 +58,7 @@ interface ContactDiaryRepository {
     // Tests
     val testResults: Flow<List<ContactDiaryCoronaTestEntity>>
     suspend fun updateTests(tests: Map<CoronaTestGUID, CoronaTest>)
+    suspend fun deleteTests(tests: List<ContactDiaryCoronaTestEntity>)
 
     // Clean
     suspend fun clear()
