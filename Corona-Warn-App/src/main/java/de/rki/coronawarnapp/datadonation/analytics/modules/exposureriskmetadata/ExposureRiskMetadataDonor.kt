@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
-import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
@@ -56,7 +55,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
             .ewRiskLevelResult
 
         val riskLevelEWForMetadata = lastEWRiskResult.toMetadataRiskLevel()
-        val mostRecentDateAtEWRiskLevel = lastEWRiskResult.lastRiskEncounterAt?.seconds ?: -1
+        val mostRecentDateAtEWRiskLevel = lastEWRiskResult.mostRecentDateAtRiskState?.seconds ?: -1
 
         builder
             .setRiskLevel(riskLevelEWForMetadata)
@@ -108,13 +107,6 @@ class ExposureRiskMetadataDonor @Inject constructor(
         }
     }
 }
-
-private fun EwRiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
-    when (riskState) {
-        RiskState.LOW_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
-        RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH
-        else -> PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN
-    }
 
 private fun PtRiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
     when (riskState) {
