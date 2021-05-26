@@ -82,8 +82,12 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         viewModel.qrCodeValidationState.observe2(this) {
             if (QrCodeRegistrationStateProcessor.ValidationState.INVALID == it) {
-                showInvalidScanDialog()
+                DialogHelper.showDialog(createInvalidScanDialog())
             }
+        }
+
+        viewModel.registrationError.observe2(this) {
+            DialogHelper.showDialog(buildErrorDialog(it))
         }
         viewModel.showRedeemedTokenWarning.observe2(this) {
             val dialog = DialogHelper.DialogInstance(
@@ -128,10 +132,6 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 }
             }.run { doNavigate(this) }
         }
-
-        viewModel.registrationError.observe2(this) {
-            DialogHelper.showDialog(buildErrorDialog(it))
-        }
     }
 
     private fun startDecode() {
@@ -142,16 +142,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
-            is BadRequestException -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_qr_code_scan_invalid_dialog_headline,
-                R.string.submission_qr_code_scan_invalid_dialog_body,
-                R.string.submission_qr_code_scan_invalid_dialog_button_positive,
-                R.string.submission_qr_code_scan_invalid_dialog_button_negative,
-                true,
-                { startDecode() },
-                ::navigateToDispatchScreen
-            )
+            is BadRequestException -> createInvalidScanDialog()
             is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
@@ -177,20 +168,17 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
     )
 
-    private fun showInvalidScanDialog() {
-        val invalidScanDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_qr_code_scan_invalid_dialog_headline,
-            R.string.submission_qr_code_scan_invalid_dialog_body,
-            R.string.submission_qr_code_scan_invalid_dialog_button_positive,
-            R.string.submission_qr_code_scan_invalid_dialog_button_negative,
-            true,
-            ::startDecode,
-            ::navigateToDispatchScreen
-        )
-
-        DialogHelper.showDialog(invalidScanDialogInstance)
-    }
+    private fun createInvalidScanDialog() = DialogHelper.DialogInstance(
+        requireActivity(),
+        R.string.submission_qr_code_scan_invalid_dialog_headline,
+        R.string.submission_qr_code_scan_invalid_dialog_body,
+        R.string.submission_qr_code_scan_invalid_dialog_button_positive,
+        R.string.submission_qr_code_scan_invalid_dialog_button_negative,
+        true,
+        { startDecode() },
+        { viewModel.onBackPressed() },
+        { viewModel.onBackPressed() }
+    )
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

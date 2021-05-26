@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.qrcode.fullscreen
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -15,6 +16,7 @@ import timber.log.Timber
 
 class QrCodeFullScreenViewModel @AssistedInject constructor(
     @Assisted private val qrcodeText: String,
+    @Assisted private val correctionLevel: ErrorCorrectionLevel,
     private val qrCodeGenerator: QrCodeGenerator,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
@@ -29,7 +31,9 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
 
     private fun generateQrCode() = launch {
         try {
-            qrCodeBitmap.postValue(qrCodeGenerator.createQrCode(qrcodeText))
+            qrCodeBitmap.postValue(
+                qrCodeGenerator.createQrCode(input = qrcodeText, correctionLevel = correctionLevel)
+            )
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed")
         }
@@ -40,7 +44,8 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<QrCodeFullScreenViewModel> {
         fun create(
-            qrcodeText: String
+            qrcodeText: String,
+            correctionLevel: ErrorCorrectionLevel
         ): QrCodeFullScreenViewModel
     }
 }
