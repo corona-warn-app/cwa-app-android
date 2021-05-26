@@ -34,7 +34,9 @@ interface BugCensor {
 
             val isIntersecting = ranges.any { outter ->
                 ranges.any { inner ->
-                    outter != inner && (inner.contains(outter.first) || inner.contains(outter.last))
+                    outter != inner &&
+                        (inner.contains(outter.first) || inner.contains(outter.last)) &&
+                        (inner.last != outter.first && inner.first != outter.last)
                 }
             }
 

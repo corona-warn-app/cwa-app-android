@@ -355,7 +355,7 @@ class DebugLoggerTest : BaseIOTest() {
             val msg = arg<String>(0)
             var orig = BugCensor.CensorContainer(msg)
 
-            orig = orig.censor("ort", "thisReallyIsNotShortAnymore")
+            orig = orig.censor("ortBef", "thisReallyIsNotShortAnymore")
             orig = orig.censor("Anymore", "Nevermore")
             orig
         }
@@ -413,19 +413,20 @@ class DebugLoggerTest : BaseIOTest() {
 
     @Test
     fun `censoring collision without overlap`() = runBlockingTest {
-        val before = "StrawBerryrawCake" // Without timestamp
+        val before = "StrawBerryCakeWithCream" // Without timestamp
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensorContainer(msg).censor("Straw", "Pipe")
+            BugCensor.CensorContainer(msg)
+                .censor("Straw", "Strap")
+                .censor("With", "More")
 
         }
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            var orig = BugCensor.CensorContainer(msg)
-
-            orig = orig.censor("Cake", "Fruit")
-            orig
+            BugCensor.CensorContainer(msg)
+                .censor("Berry", "Barry")
+                .censor("Cream", "Sugar")
         }
 
         val instance = createInstance(scope = this).apply {
@@ -440,7 +441,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         runningLog.readLines()
             .last()
-            .substring(25) shouldBe "V/Test: PipeBerryFruit"
+            .substring(25) shouldBe "V/Test: StrapBarryCakeMoreSugar"
 
         instance.stop()
         advanceUntilIdle()

@@ -172,7 +172,18 @@ class BugCensorTest : BaseTest() {
             .censor("efg", "567")
             .compile()!!.apply {
                 censored shouldBe "#123d567*"
-                ranges shouldBe 1..8
+                ranges shouldBe listOf(1..4, 5..8)
+            }
+    }
+
+    @Test
+    fun `censoring disjoint - touching`() {
+        BugCensor.CensorContainer("#abcefg*")
+            .censor("abc", "123")
+            .censor("efg", "567")
+            .compile()!!.apply {
+                censored shouldBe "#123567*"
+                ranges shouldBe listOf(1..4, 4..7)
             }
     }
 
