@@ -179,30 +179,22 @@ class DebugLogger(
                         0 -> formattedMessage
                         1 -> censored.single().string
                         else -> {
-                            val minMin = censored.minOf { it.range!!.first }
-                            val maxMax = censored.maxOf { it.range!!.last }
                             try {
+                                // Lowest censoring range, within original msg bounds
+                                val minMin = censored
+                                    .minOf { it.range!!.first }
+                                    .coerceAtLeast(0)
+                                    .coerceAtMost(formattedMessage.length)
+
+                                // Highest censoring range, within original msg bounds
+                                val maxMax = censored.maxOf { it.range!!.last }
+                                    .coerceAtLeast(0)
+                                    .coerceAtMost(formattedMessage.length)
+
                                 formattedMessage.replaceRange(minMin, maxMax, CENSOR_COLLISION_PLACERHOLDER)
-                            } catch (exception: IndexOutOfBoundsException) {
-
-                                // For unknown reasons, we sometimes have a start index that is larger than the
-                                // length of formattedMessage here and the app crashes.
-                                // e.g. java.lang.IndexOutOfBoundsException: start 285, end 215, s.length() 215
-                                // Let's log the formattedMessage and censors in this case so that we can better
-                                // investigate why this happens.
-                                val errorMsg = StringBuilder().apply {
-                                    appendLine(exception.message)
-                                    appendLine("formattedMessage = $formattedMessage")
-                                    appendLine("Number of censors: ${censored.size}")
-                                    censored.forEachIndexed { index, censoredString ->
-                                        append("Censor#$index: censoredString: ${censoredString.string},")
-                                        appendLine("range: ${censoredString.range}")
-                                    }
-                                }.toString()
-
-                                Timber.tag(TAG).e(errorMsg)
-
-                                errorMsg
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Censoring collision fail.", e)
+                                "<censoring-collision-error-$e>"
                             }
                         }
                     }
