@@ -139,7 +139,7 @@ class SubmissionTaskTest : BaseTest() {
 
         coEvery { playbook.submit(any()) } just Runs
 
-        every { analyticsKeySubmissionCollector.reportSubmitted(any()) } just Runs
+        every { analyticsKeySubmissionCollector.reportSubmitted() } just Runs
         every { analyticsKeySubmissionCollector.reportSubmittedInBackground() } just Runs
 
         every { testResultAvailableNotificationService.cancelTestResultAvailableNotification() } just Runs
@@ -397,7 +397,7 @@ class SubmissionTaskTest : BaseTest() {
 
         createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(any()) }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted() }
         verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground() }
     }
 
@@ -416,7 +416,7 @@ class SubmissionTaskTest : BaseTest() {
 
         createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(false) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted() }
         verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground() }
     }
 }

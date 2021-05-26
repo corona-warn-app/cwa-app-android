@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
@@ -57,7 +56,7 @@ class TestResultDataCollectorTest : BaseTest() {
             testResultDataCollector.saveTestResultAnalyticsSettings(PCR_POSITIVE)
 
             verify(exactly = 0) {
-                testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any(), any())
+                testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
             }
         }
 
@@ -75,21 +74,11 @@ class TestResultDataCollectorTest : BaseTest() {
                     mockRiskLevelResult
                 )
             )
-            val mockPtRiskLevelResult = mockk<PtRiskLevelResult>().apply {
-                every { calculatedAt } returns Instant.now()
-                every { wasSuccessfullyCalculated } returns true
-            }
-            every { riskLevelStorage.latestPtRiskLevelResults } returns flowOf(
-                listOf(
-                    mockPtRiskLevelResult
-                )
-            )
-
-            every { testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any(), any()) } just Runs
+            every { testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any()) } just Runs
             testResultDataCollector.saveTestResultAnalyticsSettings(PCR_POSITIVE)
 
             verify(exactly = 1) {
-                testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any(), any())
+                testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
             }
         }
 

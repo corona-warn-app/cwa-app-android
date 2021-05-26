@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.TriStateBooleanOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -34,7 +32,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var ewRiskLevelResult: EwRiskLevelResult
-    @MockK lateinit var ptRiskLevelResult: PtRiskLevelResult
 
     private val now = Instant.now()
 
@@ -48,44 +45,27 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     fun `save test registered`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         every { ewRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
-        every { ptRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
         coEvery {
             riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult
         } returns flowOf(listOf(ewRiskLevelResult))
-        coEvery {
-            riskLevelStorage.latestPtRiskLevelResults
-        } returns flowOf(listOf(ptRiskLevelResult))
-        every { riskLevelSettings.lastChangeToHighEwRiskLevelTimestamp } returns now.minus(
-            Hours.hours(2).toStandardDuration()
-        )
-        every { riskLevelSettings.lastChangeToHighPtRiskLevelTimestamp } returns now.minus(
+        every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp } returns now.minus(
             Hours.hours(2).toStandardDuration()
         )
         val testRegisteredAt = mockFlowPreference(now.millis)
         coEvery { analyticsKeySubmissionStorage.testRegisteredAt } returns testRegisteredAt
         every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
         val riskLevelAtTestRegistration = mockFlowPreference(-1)
-        every { analyticsKeySubmissionStorage.ewRiskLevelAtTestRegistration } returns riskLevelAtTestRegistration
-        every { analyticsKeySubmissionStorage.ptRiskLevelAtTestRegistration } returns riskLevelAtTestRegistration
+        every { analyticsKeySubmissionStorage.riskLevelAtTestRegistration } returns riskLevelAtTestRegistration
         val hoursSinceHighRiskWarningAtTestRegistration = mockFlowPreference(-1)
-        every { analyticsKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration } returns
-            hoursSinceHighRiskWarningAtTestRegistration
-        every { analyticsKeySubmissionStorage.ptHoursSinceHighRiskWarningAtTestRegistration } returns
+        every { analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration } returns
             hoursSinceHighRiskWarningAtTestRegistration
         coEvery {
-            riskLevelSettings.lastChangeCheckedEwRiskLevelTimestamp
-        } returns now
-            .minus(Days.days(2).toStandardDuration()).toDateTime().toLocalDate()
-            .toDateTime(LocalTime(22, 0)).toInstant()
-        coEvery {
-            riskLevelSettings.lastChangeCheckedPtRiskLevelTimestamp
+            riskLevelSettings.lastChangeCheckedRiskLevelTimestamp
         } returns now
             .minus(Days.days(2).toStandardDuration()).toDateTime().toLocalDate()
             .toDateTime(LocalTime(22, 0)).toInstant()
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = mockFlowPreference(0)
-        every { analyticsKeySubmissionStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
-            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
-        every { analyticsKeySubmissionStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
+        every { analyticsKeySubmissionStorage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
             daysSinceMostRecentDateAtRiskLevelAtTestRegistration
         every { analyticsKeySubmissionStorage.clear() } just Runs
         runBlockingTest {
@@ -105,14 +85,11 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsKeySubmissionStorage.submitted } returns submittedFlow
         val submittedAtFlow = mockFlowPreference(now.millis)
         every { analyticsKeySubmissionStorage.submittedAt } returns submittedAtFlow
-        val submittedWithCheckinsFlow = mockFlowPreference(TriStateBooleanOuterClass.TriStateBoolean.TSB_FALSE)
-        every { analyticsKeySubmissionStorage.submittedWithCheckins } returns submittedWithCheckinsFlow
         runBlockingTest {
             val collector = createInstance()
-            collector.reportSubmitted(false)
+            collector.reportSubmitted()
             verify { submittedFlow.update(any()) }
             verify { submittedAtFlow.update(any()) }
-            verify { submittedWithCheckinsFlow.update(any()) }
         }
     }
 
@@ -220,9 +197,9 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
             val collector = createInstance()
             collector.reportTestRegistered()
             verify(exactly = 0) { analyticsKeySubmissionStorage.testRegisteredAt }
-            verify(exactly = 0) { analyticsKeySubmissionStorage.ewRiskLevelAtTestRegistration }
-            verify(exactly = 0) { analyticsKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration }
-            collector.reportSubmitted(false)
+            verify(exactly = 0) { analyticsKeySubmissionStorage.riskLevelAtTestRegistration }
+            verify(exactly = 0) { analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration }
+            collector.reportSubmitted()
             verify(exactly = 0) { analyticsKeySubmissionStorage.submitted }
             collector.reportSubmittedInBackground()
             verify(exactly = 0) { analyticsKeySubmissionStorage.submittedInBackground }
