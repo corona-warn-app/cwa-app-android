@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.errors.DuplicateCoronaTestException
 import de.rki.coronawarnapp.coronatest.errors.UnknownTestTypeException
@@ -39,6 +40,7 @@ class CoronaTestRepository @Inject constructor(
     private val storage: CoronaTestStorage,
     private val processors: Set<@JvmSuppressWildcards CoronaTestProcessor>,
     private val legacyMigration: PCRTestMigration,
+    private val contactDiaryRepository: ContactDiaryRepository
 ) {
 
     private val internalData: HotDataFlow<Map<CoronaTestGUID, CoronaTest>> = HotDataFlow(
@@ -62,6 +64,7 @@ class CoronaTestRepository @Inject constructor(
                 Timber.tag(TAG).v("CoronaTest data changed: %s", it)
                 storage.coronaTests = it.values.toSet()
                 legacyMigration.finishMigration()
+                contactDiaryRepository.updateTests(it)
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot CoronaTest data to storage.")

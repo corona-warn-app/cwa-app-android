@@ -4,6 +4,7 @@ import androidx.lifecycle.asLiveData
 import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
@@ -23,6 +24,7 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val coronaTestRepository: CoronaTestRepository,
     private val coronaTestQrCodeValidator: CoronaTestQrCodeValidator,
+    contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val errorEvents = SingleLiveEvent<Throwable>()
@@ -36,6 +38,12 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
         RATState(
             coronaTest = it
         )
+    }.asLiveData(context = dispatcherProvider.Default)
+
+    val testsInContactDiary = contactDiaryRepository.testResults.map {
+        it.foldIndexed(StringBuilder()) { id, buffer, item ->
+            buffer.append(id).append(":\n").append(item).append("\n")
+        }.toString()
     }.asLiveData(context = dispatcherProvider.Default)
 
     fun refreshPCRT() = launch {
