@@ -18,6 +18,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -62,11 +63,13 @@ class QrCodePosterViewModelTest : BaseTest() {
             every { locationUrl } returns "locationUrl"
         }
 
-        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
-            every { presenceTracing } returns mockk<PresenceTracingConfig>().apply {
-                every { qrCodeErrorCorrectionLevel } returns ErrorCorrectionLevel.M
+        coEvery { appConfigProvider.currentConfig } returns flowOf(
+            mockk<ConfigData>().apply {
+                every { presenceTracing } returns mockk<PresenceTracingConfig>().apply {
+                    every { qrCodeErrorCorrectionLevel } returns ErrorCorrectionLevel.M
+                }
             }
-        }
+        )
     }
 
     @Test

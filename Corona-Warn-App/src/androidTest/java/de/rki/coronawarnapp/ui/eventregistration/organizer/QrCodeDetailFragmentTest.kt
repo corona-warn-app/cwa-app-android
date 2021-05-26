@@ -22,6 +22,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import org.joda.time.DateTimeZone
 import org.junit.After
 import org.junit.Before
@@ -49,11 +50,13 @@ class QrCodeDetailFragmentTest : BaseUITest() {
 
         coEvery { traceLocationRepository.traceLocationForId(1) } returns TraceLocationData.traceLocationSameDate
         coEvery { traceLocationRepository.traceLocationForId(2) } returns TraceLocationData.traceLocationDifferentDate
-        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
-            every { presenceTracing } returns mockk<PresenceTracingConfig>().apply {
-                every { qrCodeErrorCorrectionLevel } returns ErrorCorrectionLevel.M
+        coEvery { appConfigProvider.currentConfig } returns flowOf(
+            mockk<ConfigData>().apply {
+                every { presenceTracing } returns mockk<PresenceTracingConfig>().apply {
+                    every { qrCodeErrorCorrectionLevel } returns ErrorCorrectionLevel.M
+                }
             }
-        }
+        )
 
         setupMockViewModel(
             object : QrCodeDetailViewModel.Factory {
