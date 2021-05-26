@@ -17,6 +17,8 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 import timber.log.Timber
 import java.lang.Exception
@@ -59,7 +61,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
     private fun createQrCode(traceLocation: TraceLocation) = launch(context = dispatcher.IO) {
         try {
             val input = traceLocation.locationUrl
-            val correctionLevel = appConfigProvider.getAppConfig().presenceTracing.qrCodeErrorCorrectionLevel
+            val correctionLevel = appConfigProvider.currentConfig.first().presenceTracing.qrCodeErrorCorrectionLevel
             Timber.d("input=$input")
             mutableUiState.postValue(
                 UiState(
@@ -99,7 +101,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
 
     fun openFullScreen() = launch {
         traceLocation?.let {
-            val correctionLevel = appConfigProvider.getAppConfig().presenceTracing.qrCodeErrorCorrectionLevel
+            val correctionLevel = appConfigProvider.currentConfig.first().presenceTracing.qrCodeErrorCorrectionLevel
             routeToScreen.postValue(
                 QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode(
                     it.locationUrl,

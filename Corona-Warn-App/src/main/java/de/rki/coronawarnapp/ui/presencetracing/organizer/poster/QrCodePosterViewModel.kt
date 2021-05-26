@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -82,7 +83,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
         try {
             val traceLocation = traceLocation()
             val template = posterTemplateProvider.template()
-            val correctionLevel = appConfigProvider.getAppConfig().presenceTracing.qrCodeErrorCorrectionLevel
+            val correctionLevel = appConfigProvider.currentConfig.first().presenceTracing.qrCodeErrorCorrectionLevel
             Timber.d("template=$template")
             val qrCode = qrCodeGenerator.createQrCode(
                 input = traceLocation.locationUrl,
