@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import org.joda.time.Instant
 
