@@ -26,6 +26,8 @@
 
     <!-- XTXT: Vaccination List title-->
     <string name="vaccination_list_title">"Електронно доказателство за ваксиниране"</string>
+    <!-- XTXT: Vaccination List complete vaccination subtitle-->
+    <string name="vaccination_list_complete_vaccination_subtitle">"Ваксинационна защита срещу SARS-CoV-2"</string>
     <!-- XTXT: Vaccination List top card subtitle-->
     <string name="vaccination_list_name_card_subtitle">"Дата на раждане %1$s"</string>
     <!-- XTXT: Vaccination List top card subtitle-->
